@@ -27,35 +27,36 @@ function ForgotPassword() {
   };
 
   return (
-    <div>
-       <Grid className='px-8'>
+    <div className='bg-hero-pattern bg-cover	bg-no-repeat	bg-center	'>
+       <Grid className='px-8 '>
            <div className='col-span-5'>
             <img src={forgot} className='h-screen object-contain py-5 w-full' alt='Logo '/>
               
            </div>
-           <div className='col-span-7 self-center'>
-            <div className='mx-auto max-w-lg'>
+           <div className='col-span-6 self-center'>
+            <div className='mx-auto max-w-md'>
             <img src={Logo} className='w-[224px]' alt='Logo '/>
-            <p className='text-4xl mb-4 mt-5 font-bold font-normal text-light-black'><span className='text-neutral-grey'> Forgot </span> Your Password?</p>
-             <p className='text-neutral-grey text-xl font-normal mb-8'>Please enter the <b> email address </b> you'd like your password reset information sent to </p>
-               <Input type='text' name='UserName' label='Email' placeholder='Enter' />
+            <p className='text-3xl mb-0 mt-4 font-bold text-light-black'><span className='text-neutral-grey'> Forgot </span> Your Password?</p>
+             <p className='text-neutral-grey text-xl font-medium mt-4 mb-5'>Please enter the <b> email address </b> you'd like your password reset information sent to </p>
+               <Input type='email' name='UserName' label='Email' placeholder='Enter' />
                <div>
-               <Button className='w-full h-[50px] text-lg font-normal'  onClick={() => {openModal(true);}}>Request Reset Password</Button>
+               <Button className='w-full h-[50px] text-lg font-semibold'  onClick={() => {openModal(true);}}>Request Reset Password</Button>
 
-               <p className='text-base mt-4'><Link to={'/login'} className='text-light-black'>Back to Login</Link> </p>
+               <p className='text-base font-medium mt-4'><Link to={'/'} className='text-base font-medium text-light-black'>Back to Login</Link> </p>
                </div>
             </div>
               </div>
+              <div className='col-span-1'></div>
        </Grid>
 
        {/* Modal Email Popop */}
        <Modal isOpen={isModalOpen} onClose={closeModal}>
       
-        <div className='text-center py-5'>
-          <img src={email} alt='email Image'/>
-          <p className='text-4xl text-neutral-grey text-center'>Check your <span className='text-light-black'> Email </span></p>
-          <p className='text-neutral-grey text-sm font-extralight mt-4'>We emailed a magic link to <span className='text-light-black'> jesicaahlberg184@gmail.com </span></p>
-          <Link to={'/login'} className='font-extralight text-base text-neutral-grey'>Click the link to Sign In</Link>
+        <div className='text-center py-3'>
+          <img src={email} alt='email Image' className='mx-auto'/>
+          <p className='text-3xl mb-0 mt-2 font-semibold text-neutral-grey'>Check your <span className='text-light-black'> Email </span></p>
+          <p className='text-neutral-grey text-base font-medium mt-4'>We emailed a <b> magic link </b> to <span className='text-light-black'> jesicaahlberg184@gmail.com </span></p>
+          <Link to={'/'} className='font-medium text-base text-neutral-grey'>Click the link to Sign In</Link>
         </div>
         
       </Modal>

@@ -5,11 +5,31 @@
 
 body {
   margin: 0;
-  font-family: 'Gilroy-Bold';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.font-light {
+  font-family: 'Gilroy-Light';
+  font-weight: 300;
+}
+.font-thin {
+  font-family: 'Gilroy-Thin';
+  font-weight: 100;
+}
+.font-medium {
+  font-family: 'Gilroy-Medium';
+  font-weight: 500;
+}
 
+.font-semibold {
+  font-family: 'Gilroy-Medium';
+  font-weight: 600;
+}
+
+.font-bold {
+  font-family: 'Gilroy-Bold';
+  font-weight: 700;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -28,4 +48,19 @@ code {
 @font-face {
   font-family: 'Gilroy-Light';
   src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-Light.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Gilroy-Thin';
+  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-Thin.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Gilroy-Regular';
+  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Gilroy-SemiBold';
+  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-SemiBold.ttf) format('truetype');
 }
