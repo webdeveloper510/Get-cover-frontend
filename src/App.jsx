@@ -6,13 +6,13 @@ import routes from './routes/routes';
 function App() {
   const routing = useRoutes(routes);
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/login");
-    } else {
-      navigate("/dashboard");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!localStorage.getItem("token")) {
+  //     navigate("/login");
+  //   } else {
+  //     navigate("/dashboard");
+  //   }
+  // }, []);
   return (
     <>
       <div>

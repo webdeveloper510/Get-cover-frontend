@@ -11,7 +11,12 @@ module.exports = {
       },
       backgroundColor : {
         'light-black' : '#333',
+      },
+      backgroundImage : {
+        'hero-pattern': "url('/src/assets/images/Bg.png')",
+
       }
+     
 
     },
   },
