@@ -18,32 +18,34 @@ function Login() {
 
 
   return (
-    <div>
+    <div className='relative'>
        <Grid className='px-8'>
-           <div className='col-span-6'>
-            <img src={Logi} className='h-screen' alt='Logo '/>
+           <div className='col-span-5'>
+            <img src={Logi} className='h-screen py-5 w-full object-contain' alt='Logo '/>
               
            </div>
-           <div className='col-span-6 pr-6'>
+           <div className='col-span-7 self-center'>
+            <div className='mx-auto max-w-lg'>
             <img src={Logo} className='w-[224px]' alt='Logo '/>
-            <p className='text-5xl mb-4 mt-5 font-bold text-light-black'><span className='text-neutral-grey'> Welcome to </span> GetCover</p>
+            <p className='text-4xl mb-4 mt-5 font-bold text-light-black'><span className='text-neutral-grey'> Welcome to </span> GetCover</p>
              <p className='text-neutral-grey text-xl mb-8'><b> Sign in </b> to your account</p>
              
                <Input type='text' name='UserName' label='Email' placeholder='Enter' />
                <Input type='password' name='UserName' label='Password' placeholder='Enter' />
-               <Grid className='my-4 p-3'>
+               <Grid className='my-2 p-3'>
                 <div className='col-span-6'>
                   <Checkbox name="remember" label='Remember me'/>
                 </div>
                 <div className='col-span-6 text-end'>
-                  <Link to={'/'} className='text-base text-neutral-grey'> Forgot my password? </Link> 
+                  <Link to={'/forgot'} className='text-base text-neutral-grey'> Forgot my password? </Link> 
                 </div>
                </Grid>
                <div>
-               <Button className='w-full h-[68px]' onClick={handleClick}>Sign in</Button>
+               <Button className='w-full h-[50px] text-xl' onClick={handleClick}>Sign in</Button>
 
                <p className='text-base text-neutral-grey mt-4'>Don’t  have an account? <Link to={'/'} className='text-light-black'>Register</Link> </p>
                </div>
+            </div>
               </div>
        </Grid>
     </div>

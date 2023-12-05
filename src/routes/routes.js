@@ -4,6 +4,7 @@ import Login from "../pages/auth/login";
 import Register from "../pages/auth/register";
 import Layout from "../layout/layout";
 import Dashboard from "../pages/dashboard";
+import ForgotPassword from "../pages/auth/forgotPassword";
 
 // const errorRoute = () => {
 //     if (!localStorage.getItem("token")) {
@@ -19,6 +20,7 @@ const routes = [
     path: "/",
     children: [
       { path: "/login", index: true, element: <Login /> },
+      { path: "/forgot", index: true, element: <ForgotPassword /> },
       { path: "/register", element: <Register /> },
       // { path: "*", element: <Navigate to={errorRoute()} /> },
     ],
