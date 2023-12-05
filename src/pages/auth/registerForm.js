@@ -83,7 +83,7 @@ function RegisterForm() {
                <div>
                <Button className='w-full h-[50px] text-xl font-semibold' onClick={handleClick}>Register</Button>
 
-               <p className='text-base text-neutral-grey font-medium mt-4'>Don’t  have an account? <Link to={'/login'} className='text-light-black ml-3 font-semibold'><b> Sign In </b></Link> </p>
+               <p className='text-base text-neutral-grey font-medium mt-4'>Don’t  have an account? <Link to={'/'} className='text-light-black ml-3 font-semibold'><b> Sign In </b></Link> </p>
                </div>
             </div>
               </div>

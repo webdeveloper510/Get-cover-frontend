@@ -71,7 +71,7 @@ function NewPassword() {
           <img src={NewPasswordEmail} alt='email Image' className='mx-auto'/>
           <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'>Password <span className='text-light-black'> Reset Successfully </span></p>
           <p className='text-neutral-grey text-base font-medium mt-4'>Your password has been changed. Now you can </p>
-          <Link to={'/login'} className='font-medium text-base text-neutral-grey'>  <b> login </b> with your new password.</Link>
+          <Link to={'/'} className='font-medium text-base text-neutral-grey'>  <b> login </b> with your new password.</Link>
         </div>
         
       </Modal>

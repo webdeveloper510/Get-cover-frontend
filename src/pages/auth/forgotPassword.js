@@ -42,7 +42,7 @@ function ForgotPassword() {
                <div>
                <Button className='w-full h-[50px] text-lg font-semibold'  onClick={() => {openModal(true);}}>Request Reset Password</Button>
 
-               <p className='text-base font-medium mt-4'><Link to={'/login'} className='text-base font-medium text-light-black'>Back to Login</Link> </p>
+               <p className='text-base font-medium mt-4'><Link to={'/'} className='text-base font-medium text-light-black'>Back to Login</Link> </p>
                </div>
             </div>
               </div>
@@ -56,7 +56,7 @@ function ForgotPassword() {
           <img src={email} alt='email Image' className='mx-auto'/>
           <p className='text-3xl mb-0 mt-2 font-semibold text-neutral-grey'>Check your <span className='text-light-black'> Email </span></p>
           <p className='text-neutral-grey text-base font-medium mt-4'>We emailed a <b> magic link </b> to <span className='text-light-black'> jesicaahlberg184@gmail.com </span></p>
-          <Link to={'/login'} className='font-medium text-base text-neutral-grey'>Click the link to Sign In</Link>
+          <Link to={'/'} className='font-medium text-base text-neutral-grey'>Click the link to Sign In</Link>
         </div>
         
       </Modal>
