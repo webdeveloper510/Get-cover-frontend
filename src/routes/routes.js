@@ -5,6 +5,7 @@ import Layout from "../layout/layout";
 import Dashboard from "../pages/dashboard";
 import ForgotPassword from "../pages/auth/forgotPassword";
 import NewPassword from "../pages/auth/newPassword";
+import RegisterForm from "../pages/auth/registerForm";
 
 const routes = [
   {
@@ -13,6 +14,7 @@ const routes = [
       { path: "/login", index: true, element: <Login /> },
       { path: "/forgot", index: true, element: <ForgotPassword /> },
       { path: "/new-password", index: true, element: <NewPassword /> },
+      { path: "/register-dealer", index: true, element: <RegisterForm/> },
       { path: "/register", element: <Register /> },
     ],
   },

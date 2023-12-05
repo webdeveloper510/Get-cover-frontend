@@ -38,7 +38,7 @@ function ForgotPassword() {
             <img src={Logo} className='w-[224px]' alt='Logo '/>
             <p className='text-3xl mb-0 mt-4 font-bold text-light-black'><span className='text-neutral-grey'> Forgot </span> Your Password?</p>
              <p className='text-neutral-grey text-xl font-medium mt-4 mb-5'>Please enter the <b> email address </b> you'd like your password reset information sent to </p>
-               <Input type='text' name='UserName' label='Email' placeholder='Enter' />
+               <Input type='email' name='UserName' label='Email' placeholder='Enter' />
                <div>
                <Button className='w-full h-[50px] text-lg font-semibold'  onClick={() => {openModal(true);}}>Request Reset Password</Button>
 
