@@ -16,6 +16,8 @@ import email from '../../assets/images/approval-image.png'
 function DealerRegister() {
     const [password, setPassword] = useState('');
     const [selectedValue, setSelectedValue] = useState('');
+    const [stateValue, setStateValue] = useState('');
+    const [countryValue, setCountryValue] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlePasswordChange = (e) => {
@@ -34,8 +36,28 @@ function DealerRegister() {
     setSelectedValue(e.target.value);
   };
 
+  const handleSelectChange1 = (e) => {
+    setStateValue(e.target.value);
+  };
+
+  const handleSelectChange2 = (e) => {
+    setCountryValue(e.target.value);
+  };
+
   const options = [
-    { label: 'Option 1', value: 'option1' },
+    { label: 'City', value: 'city' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+  ];
+
+  const state = [
+    { label: 'State', value: 'state' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+  ];
+
+  const country = [
+    { label: 'Country', value: 'country' },
     { label: 'Option 2', value: 'option2' },
     { label: 'Option 3', value: 'option3' },
   ];
@@ -77,10 +99,16 @@ function DealerRegister() {
                             onChange={handleSelectChange}/>
                     </div>
                     <div className='col-span-6'>
-                        <Input type='text' name='State' label='State' placeholder='Enter' />
+                    <Select label="State"
+                            options={state}
+                            selectedValue={stateValue}
+                            onChange={handleSelectChange1}/>
                     </div>
                     <div className='col-span-6'>
-                        <Input type='text' name='Country' label='Country' placeholder='Enter' />
+                    <Select label="Country"
+                            options={country}
+                            selectedValue={countryValue}
+                            onChange={handleSelectChange2}/>
                     </div>
                 </Grid>
               </form>
@@ -93,7 +121,7 @@ function DealerRegister() {
               </div>
               <div className='col-span-1'></div>
            <div className='col-span-5'>
-            <img src={Logi} className='py-4  h-full md:mx-auto' alt='Logo '/>
+            <img src={Logi} className='py-5  h-full md:mx-auto' alt='Logo '/>
            </div>
        </Grid>
        <Modal isOpen={isModalOpen} onClose={closeModal}>

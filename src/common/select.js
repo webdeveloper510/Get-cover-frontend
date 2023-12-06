@@ -14,7 +14,7 @@ const Select = ({ label, options, selectedValue, onChange }) => {
   return (
     <div className="relative my-3">
       <label
-        className={`absolute left-2 text-base text-gray-500 dark:text-gray-400 duration-300 transform origin-0 bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:-translate-y-4 ${
+        className={`absolute left-2 text-base text-gray-500 dark:text-gray-400 duration-300 transform origin-0 bg-[#f9f9f9] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:-translate-y-4 ${
           isFocused || selectedValue ? 'text-sm -translate-y-2 bg-white z-10' : 'text-lg top-1/2 -translate-y-1/2'
         } ${isFocused || selectedValue ? 'text-primary' : 'text-gray-500'}`}
         htmlFor={label}

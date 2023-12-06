@@ -25,7 +25,7 @@ function Register() {
              <p className='text-neutral-grey text-lg font-medium'>Register as</p>
              <p className='text-light-black font-semibold text-2xl mb-3'>Dealer</p>
              <div className='group-hover:block hidden'>
-              <Button className='!bg-[#cfcfcf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute'><Link to={'/register-dealer'}> <img src={RegisterButton} alt='Button Image' /> </Link></Button>
+              <Button className='!bg-[#dfdfdf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute'><Link to={'/register-dealer'}> <img src={RegisterButton} alt='Button Image' /> </Link></Button>
              </div>
           </div>
         </div>
@@ -34,7 +34,7 @@ function Register() {
              <p className='text-neutral-grey text-lg font-medium'>Register as</p>
              <p className='text-light-black font-semibold text-2xl mb-3'>Service Provider</p>
              <div className='group-hover:block hidden'>
-              <Button className='!bg-[#cfcfcf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute'><Link to={'/register-provider'}><img src={RegisterButton} alt='Button Image' /> </Link></Button>
+              <Button className='!bg-[#dfdfdf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute'><Link to={'/register-provider'}><img src={RegisterButton} alt='Button Image' /> </Link></Button>
              </div>
           </div>
         </div>
