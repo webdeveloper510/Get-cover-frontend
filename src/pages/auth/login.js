@@ -46,14 +46,14 @@ function Login() {
                </div>
                <Grid className='my-2 py-3'>
                 <div className='col-span-6'>
-                  <Checkbox name="remember" label='Remember me'/>
+                  {/* <Checkbox name="remember" label='Remember me'/> */}
                 </div>
                 <div className='col-span-6 text-end'>
                   <Link to={'/forgot'} className='text-base text-neutral-grey underline font-medium'> Forgot my password? </Link> 
                 </div>
                </Grid>
                <div>
-               <Button className='w-full h-[50px] text-xl font-semibold' onClick={handleClick}>Sign in</Button>
+               <Button className='w-full h-[50px] text-xl font-semibold'><Link to={'/dashboard'}> Sign in </Link></Button>
 
                <p className='text-base text-neutral-grey font-medium mt-4'>Don’t  have an account? <Link to={'/register'} className='text-light-black ml-3 font-semibold'><b> Register </b></Link> </p>
                </div>

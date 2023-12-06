@@ -11,11 +11,11 @@ function Layout() {
   // }, []);
 
   return (
-    <div className="w-full flex">
-      <div className="w-3/12 h-full	bg-gradient-to-r from-[#c850c0] to-[#4158d0] sidebar">
+    <div className="w-full flex bg-[#F6F5F1] p-3">
+      <div className="w-[320px] relative h-screen ">
         <SideBar/>
       </div>
-      <div className="w-9/12 h-full position-relative">
+      <div className="w-[calc(100%-10px)] h-full position-relative pl-3">
         <Outlet />
       </div>
     </div>

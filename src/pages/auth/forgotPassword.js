@@ -54,7 +54,7 @@ function ForgotPassword() {
           <img src={email} alt='email Image' className='mx-auto'/>
           <p className='text-3xl mb-0 mt-2 font-semibold text-neutral-grey'>Check your <span className='text-light-black'> Email </span></p>
           <p className='text-neutral-grey text-base font-medium mt-4'>We emailed a <b> magic link </b> to <span className='text-light-black'> jesicaahlberg184@gmail.com </span></p>
-          <Link to={'/'} className='font-medium text-base text-neutral-grey'>Click the link to Sign In</Link>
+          <Link to={'/'} className='font-semibold text-base text-light-black'>Click the link to Sign In</Link>
         </div>
         
       </Modal>
