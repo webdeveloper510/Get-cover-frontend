@@ -1,3 +1,9 @@
 .transforms {
     transform: translate(-50%, -6%);
 }
+
+.focused label,
+.react-select__control--is-focused label {
+  transform: translateY(-1.25rem) scale(0.75);
+  color: #4a90e2; /* Change the color to match your design */
+}

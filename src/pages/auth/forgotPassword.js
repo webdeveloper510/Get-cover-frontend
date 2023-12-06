@@ -15,9 +15,7 @@ import email from '../../assets/images/email.png'
 function ForgotPassword() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleClick = () => {
-    console.log('Button clicked!');
-  };
+  
   const openModal = () => {
     setIsModalOpen(true);
   };

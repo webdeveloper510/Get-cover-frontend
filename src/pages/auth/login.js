@@ -31,9 +31,9 @@ function Login() {
             <img src={Logi} className='py-5 lg:h-screen h-full md:mx-auto' alt='Logo '/>
            </div>
            <div className='col-span-6 self-center'>
-            <div className='mx-auto max-w-sm'>
+            <div className='mx-auto max-w-md'>
             <img src={Logo} className='w-[224px]' alt='Logo '/>
-            <p className='text-3xl mb-0 mt-4 font-bold text-light-black'><span className='text-neutral-grey'> Welcome to </span> GetCover</p>
+            <p className='text-3xl mb-3 mt-4 font-bold text-light-black'><span className='text-neutral-grey'> Welcome to </span> GetCover</p>
              <p className='text-neutral-grey text-xl font-medium mb-5'><span className='font-semibold'> Sign in </span> to your account</p>
                <Input type='email' name='UserName' label='Email' placeholder='Enter' />
                <div>

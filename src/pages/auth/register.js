@@ -10,9 +10,9 @@ import { Link } from 'react-router-dom'
 
 function Register() {
   return (
-    <div className='bg-hero-pattern p-4'>
-    <div className='bg-hero-register pt-1 rounded-[50px] mb-[70px]'>
-      <img src={Back} className='w-[40px] h-[40px] ms-4 mt-2' alt=' Back Image'/>
+    <div className='bg-hero-pattern bg-no-repeat bg-cover p-4'>
+    <div className='bg-hero-register bg-no-repeat bg-cover pt-1 rounded-[50px] mb-[70px]'>
+    <Link to={'/'}><img src={Back} className='w-[40px] h-[40px] ms-4 mt-2' alt=' Back Image'/> </Link>
       <img src={ImageRegister} className='mx-auto h-[50%]' alt='Register Image' />
       <div className='text-center'>
        <p className='text-3xl mb-0 mt-4 font-bold text-neutral-grey'>Choose your <span className='text-light-black'> User type </span> </p>
@@ -34,7 +34,7 @@ function Register() {
              <p className='text-neutral-grey text-lg font-medium'>Register as</p>
              <p className='text-light-black font-semibold text-2xl mb-3'>Service Provider</p>
              <div className='group-hover:block hidden'>
-              <Button className='!bg-[#cfcfcf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute'><Link to={'/register-dealer'}><img src={RegisterButton} alt='Button Image' /> </Link></Button>
+              <Button className='!bg-[#cfcfcf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute'><Link to={'/register-provider'}><img src={RegisterButton} alt='Button Image' /> </Link></Button>
              </div>
           </div>
         </div>
