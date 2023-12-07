@@ -18,7 +18,7 @@ function Register() {
     <Layout>
       <div className="bg-hero-pattern bg-no-repeat bg-cover p-4">
         <div className="bg-hero-register bg-no-repeat bg-cover pt-1 rounded-[50px] mb-[70px]">
-          <Link to={"/"}>
+          <Link to={"/"} className="absolute">
             <img
               src={Back}
               className="w-[40px] h-[40px] ms-4 mt-2"
@@ -27,7 +27,7 @@ function Register() {
           </Link>
           <img
             src={ImageRegister}
-            className="mx-auto h-[50%]"
+            className="mx-auto lg:w-[60%] xl:w-[95%] w-full md:w-1/2 "
             alt="Register Image"
           />
           <div className="text-center">
@@ -42,7 +42,7 @@ function Register() {
             <Grid className="">
               <div className="col-span-3"></div>
               <div className="col-span-3">
-                <div className="group drop-shadow-xl bg-white py-8 mb-[-40px] rounded-[30px] relative">
+                <div className="group drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  duration-300 hover:bg-[#fff] bg-[#F0F0F0] py-6 mb-[-40px] rounded-[30px] relative">
                   <p className="text-neutral-grey text-lg font-medium">
                     Register as
                   </p>
@@ -60,7 +60,7 @@ function Register() {
                 </div>
               </div>
               <div className="col-span-3">
-                <div className="group drop-shadow-xl bg-white py-8 mb-[-40px] rounded-[30px] relative">
+                <div className="group drop-shadow-xl hover:bg-[#fff] bg-[#F0F0F0] py-6 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duration-300 mb-[-40px] rounded-[30px] relative">
                   <p className="text-neutral-grey text-lg font-medium">
                     Register as
                   </p>

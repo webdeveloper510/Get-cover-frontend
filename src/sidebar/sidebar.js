@@ -3,51 +3,62 @@ import { Link } from "react-router-dom";
 
 // Project Imports
 import Logo from "../assets/images/dashboardLogo.png";
-import DashboardImage from "../assets/images/side-bar/Dashbaord.png";
+import DashboardImage from "../assets/images/side-bar/Dashboard.svg";
 import CustomerImage from "../assets/images/side-bar/Customer.svg";
 import DealerImage from "../assets/images/side-bar/Dealer.svg";
 import OrderImage from "../assets/images/side-bar/Order.svg";
 import ServicerImage from "../assets/images/side-bar/Servicer.svg";
-import LogoutImage from "../assets/images/side-bar/logout.png";
-import ProductImage from "../assets/images/side-bar/product.png";
+import ClaimImage from "../assets/images/side-bar/claim.svg";
+import PriceImage from "../assets/images/side-bar/Price.svg";
+import LogoutImage from "../assets/images/side-bar/logout-black.svg";
+import ProductImage from "../assets/images/side-bar/product.svg";
 import ReportImage from "../assets/images/side-bar/report.svg";
 import DropdownArrowImage from "../assets/images/side-bar/downarrow.svg"
+import ActiveDropdown from "../assets/images/side-bar/active-DropDown.svg"
+import Dropdown from "../assets/images/side-bar/DropdownFirst.svg"
+import Dropdown1 from "../assets/images/side-bar/dropdownsecond.svg"
+
+
 function SidebarItem({ item, active, expandedItem, onToggleExpand }) {
   const hasItems = item.items && item.items.length > 0;
 
   return (
-    <li className={`border-t-[#ffffff4f] ps-[19px] w-full rounded-ss-[30px] pt-1 border-t ${hasItems ? 'relative' : ''}`}>
+    <li className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t ${hasItems ? 'relative bg-[#2B2B2B] rounded-s-[30px]' : ''}`}>
       <Link
         to={item.url}
-        className={`flex cursor-pointer rounded-[25px] d-flex  p-3 ${
-          (active === item.url || active === item.name) ? "bg-[#FFF] text-[#000]" : "text-white"
+        className={`flex cursor-pointer d-flex ps-[19px] mb-[3px] p-3 ${
+          (active === item.url || active === item.name) ? "bg-[#FFF] text-[#000]" : "text-[#999999]"
         }`}
         onClick={() => hasItems && onToggleExpand(item.name)}
       >
         <img src={item.image} className="w-6 h-6" alt={item.image} />
-        <span className="self-center text-left w-full pl-6">
+        <span className="self-center text-left w-full text-base font-medium pl-6">
           {item.name}
         </span>
         {hasItems && (
           <img
             src={DropdownArrowImage}
-            className={`ml-auto w-4 h-4 transition-transform transform ${expandedItem === item.name ? 'rotate-180 dropdown-expanded' : 'dropdown-collapsed'}`}
+            className={`ml-auto w-3 h-3 mt-2 transition-transform transform ${expandedItem === item.name ? 'rotate-180 dropdown-expanded' : 'dropdown-collapsed'}`}
             alt="Dropdown Arrow"
           />
         )}
       </Link>
 
       {hasItems && (
-        <ul className={`ml-3 ${expandedItem === item.name ? 'block' : 'hidden'}`}>
+        <ul className={`${expandedItem === item.name ? 'block' : 'hidden'}`}>
           {item.items.map((subItem, subIndex) => (
-            <li key={subIndex}>
+            <li key={subIndex} className={`ps-[19px]`}>
               <Link
                 to={subItem.url}
-                className={`rounded-[25px] flex p-1 mb-3 mt-3 ${
-                  active === subItem.url ? "bg-[#FFF] text-[#000]" : "text-white"
+                className={`rounded-[25px] flex pt-3 ${
+                  active === subItem.url ? "bg-[#FFF] text-[#000]" : "text-[#999999]"
                 }`}
               >
-                <span className="self-center text-left w-full pl-12">
+                <img src={subItem.image} className={`bg-cover ${(subIndex == 0) ? 
+                "mt-[-17%]" : "mt-[-32%]" } `} alt={subItem.image} />
+                <span className={`self-center text-left text-sm font-medium w-full opacity-50 pl-3 pb-3 ${(subIndex == item.items.length - 1)
+              ? ""
+              : "border-b-2 border-[#474747]"}`}>
                   {subItem.name}
                 </span>
               </Link>
@@ -60,7 +71,7 @@ function SidebarItem({ item, active, expandedItem, onToggleExpand }) {
 }
 
 function SideBar() {
-  const [active, setActive] = useState("");
+  const [active, setActive] = useState(true);
   const [expandedItem, setExpandedItem] = useState(null);
 
   const handleToggleExpand = (itemName) => {
@@ -82,10 +93,12 @@ function SideBar() {
         {
           name: "Dealer List",
           url: "/dealer",
+          image : Dropdown,
         },
         {
           name: "Add Dealer",
           url: "/dealer",
+          image : Dropdown1,
         },
       ],
     },
@@ -106,8 +119,19 @@ function SideBar() {
     },
     {
       name: "Claim",
-      url: "/dashboard",
-      image : DashboardImage
+      image : ClaimImage,
+      items: [
+        {
+          name: "Claim Listing",
+          url: "/extensions",
+          image : Dropdown,
+        },
+        {
+          name: "Add Bulk Claim",
+          url: "/Queues",
+          image : Dropdown1,
+        }
+      ],
     },
     {
       name: "Reporting",
@@ -115,33 +139,41 @@ function SideBar() {
       image : ReportImage
     },
     {
-      name: "Product",
-      image: ProductImage,
+      name: "Price Book",
+      image: PriceImage,
       items: [
         {
-          name: "Extensions",
+          name: "Price Book",
           url: "/extensions",
+          image : Dropdown,
         },
         {
-          name: "Queues",
+          name: "Company Price Book",
           url: "/Queues",
+          image : Dropdown1,
         },
         {
-          name: "Routes",
+          name: "Dealer Book",
           url: "/Routes",
+          image : Dropdown1,
         },
       ],
+    },
+    {
+      name: "Product",
+      url: "/Product",
+      image : ReportImage
     },
   ];
 
   return (
-    <div className="fixed w-[260px] h-[96vh]">
-      <div className="bg-light-black h-full rounded-3xl relative pl-[38px]">
+    <div className="w-[260px] min-h-[96vh] xl:h-full">
+      <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[38px]">
         <img src={Logo} className="mx-auto py-4 pt-8 w-[180px] " alt="logo" />
         <hr className="opacity-20" />
-        <div className="shadow-sm min-h-[93vh] h-full">
-          <div className="mx-auto pt-8">
-            <ul>
+        <div className="shadow-sm h-full ">
+          <div className="mx-auto h-full mt-8">
+            <ul className="pb-5">
               {Lists.map((bar, index) => (
                 <SidebarItem
                   key={index}
@@ -151,10 +183,10 @@ function SideBar() {
                   onToggleExpand={handleToggleExpand}
                 />
               ))}
-              <li className="cursor-pointer absolute bottom-4 border-t-[#ffffff4f] ps-[19px] rounded-ss-[36px] pt-1 border-t w-full">
-                <div className=" p-3 flex">
-                  <img src={LogoutImage} className="w-6 h-6" alt={LogoutImage} />
-                  <span className="self-center text-left w-full pl-6 text-white ml-1">
+              <li className="cursor-pointer border-t-[#ffffff4f] mb-4 ps-[19px] rounded-s-[36px] border-t w-full bg-[#FFF] text-[#000]">
+                <div className=" p-2 flex">
+                  <img src={LogoutImage} className="w-6 h-6 text-black" alt={LogoutImage} />
+                  <span className="self-center font-semibold text-left w-full pl-6 text-[#1A1E24] ml-1">
                     Logout
                   </span>
                 </div>

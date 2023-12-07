@@ -12,7 +12,7 @@ function Layout() {
 
   return (
     <div className="w-full flex bg-[#F6F5F1] p-3">
-      <div className="w-[320px] relative h-screen ">
+      <div className="w-[320px] relative">
         <SideBar/>
       </div>
       <div className="w-[calc(100%-10px)] h-full position-relative pl-3">
