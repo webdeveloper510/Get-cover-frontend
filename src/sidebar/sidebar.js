@@ -134,11 +134,6 @@ function SideBar() {
       ],
     },
     {
-      name: "Reporting",
-      url: "/dashboard",
-      image : ReportImage
-    },
-    {
       name: "Price Book",
       image: PriceImage,
       items: [
@@ -160,16 +155,21 @@ function SideBar() {
       ],
     },
     {
+      name: "Reporting",
+      url: "/dashboard",
+      image : ReportImage
+    },
+    {
       name: "Product",
       url: "/Product",
-      image : ReportImage
+      image : ProductImage
     },
   ];
 
   return (
     <div className="w-[260px] min-h-[96vh] xl:h-full">
       <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[38px]">
-        <img src={Logo} className="mx-auto py-4 pt-8 w-[180px] " alt="logo" />
+        <img src={Logo} className="mx-auto py-4 pt-8 w-[160px] " alt="logo" />
         <hr className="opacity-20" />
         <div className="shadow-sm h-full ">
           <div className="mx-auto h-full mt-8">
