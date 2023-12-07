@@ -51,7 +51,7 @@ function Register() {
                   </p>
                   <div className="group-hover:block hidden">
                     <Button className="!bg-[#dfdfdf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute">
-                      <Link to={"/register-dealer"}>
+                      <Link to={"/registerDealer"}>
                         {" "}
                         <img src={RegisterButton} alt="Button Image" />{" "}
                       </Link>
@@ -69,7 +69,7 @@ function Register() {
                   </p>
                   <div className="group-hover:block hidden">
                     <Button className="!bg-[#dfdfdf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute">
-                      <Link to={"/register-provider"}>
+                      <Link to={"/registerProvider"}>
                         <img src={RegisterButton} alt="Button Image" />{" "}
                       </Link>
                     </Button>

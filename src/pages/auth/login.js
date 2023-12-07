@@ -3,10 +3,8 @@ import Grid from "../../common/grid";
 import Input from "../../common/input";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Checkbox from "../../common/checkbox";
 import { Link } from "react-router-dom";
 import Button from "../../common/button";
-import { LuEye, LuEyeOff } from "react-icons/lu";
 import Layout from "../../utils/layout";
 
 // Media imports
@@ -25,7 +23,7 @@ function Login() {
     document.title = "Get Cover | Login";
   }, []);
 
-  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,50}$/i;
 
   const formik = useFormik({
     initialValues: {
@@ -88,7 +86,9 @@ function Login() {
                   onChange={formik.handleChange}
                 />
                 {formik.touched.email && formik.errors.email && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">{formik.errors.email}</div>
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.email}
+                  </div>
                 )}
                 <div>
                   <PasswordInput
@@ -101,7 +101,9 @@ function Login() {
                     isPassword
                   />
                   {formik.touched.password && formik.errors.password && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">{formik.errors.password}</div>
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.password}
+                    </div>
                   )}
                 </div>
                 <Grid className="my-2 py-3">
