@@ -55,7 +55,7 @@ function NewPassword() {
                   onChange={(e) => handlePasswordChange(e)}
                   isPassword />
                <div>
-               <Button className='w-full h-[50px] text-lg font-semibold'  onClick={() => {openModal(true);}} >Reset Password</Button>
+               <Button className='w-full h-[50px] text-lg mt-3 font-semibold'  onClick={() => {openModal(true);}} >Reset Password</Button>
                </div>
             </div>
               </div>

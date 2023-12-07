@@ -38,7 +38,7 @@ function ForgotPassword() {
              <p className='text-neutral-grey text-xl font-medium mt-4 mb-5'>Please enter the <b> email address </b> you'd like your password reset information sent to </p>
                <Input type='email' name='UserName' label='Email' placeholder='Enter' />
                <div>
-               <Button className='w-full h-[50px] text-lg font-semibold'  onClick={() => {openModal(true);}}>Request Reset Password</Button>
+               <Button className='w-full mt-3 h-[50px] text-lg font-semibold'  onClick={() => {openModal(true);}}>Request Reset Password</Button>
 
                <p className='text-base font-medium mt-4'><Link to={'/'} className='text-base font-medium text-light-black'>Back to Login</Link> </p>
                </div>

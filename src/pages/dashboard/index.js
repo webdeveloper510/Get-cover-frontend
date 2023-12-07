@@ -1,29 +1,134 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Headbar from '../../common/headBar'
+import { Link } from 'react-router-dom'
+import Select from '../../common/select';
 import Grid from '../../common/grid';
+import Input from '../../common/input';
+
+// Media Include
+import BackImage from '../../assets/images/icons/backArrow.svg'
+import Button from '../../common/button';
+import RadioButton from '../../common/radio';
+
 function Dashboard() {
+  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedOption, setSelectedOption] = useState('option1');
+
+  const handleRadioChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+  const handleSelectChange = (e) => {
+    setSelectedValue(e.target.value);
+  };
+  const handleSelectChange1 = (e) => {
+    setSelectedCity(e.target.value);
+  };
+
+  const country = [
+    { label: 'Country', value: 'country' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+  ];
+  const city = [
+    { label: 'Country', value: 'country' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+  ];
+
   return (
-    <div className='my-8'>
-      <Grid >
-        <div className='col-span-4'></div>
-        <div className='col-span-4'></div>
-        <div className='col-span-4'>
-          <div className='border-2 border-[#D1D1D1] flex self-center'>
-            <div><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-              <path d="M9.66971 1.13162C5.64201 1.9824 2.54465 4.85239 1.31932 8.85676C1.03568 9.78695 1.00164 10.0365 1.00164 11.7494C0.990294 13.2468 1.03568 13.78 1.20586 14.4152C2.82829 20.4048 8.72802 23.8987 14.6051 22.3332C15.49 22.095 17.2599 21.2782 17.9747 20.7564L18.542 20.348L19.8086 21.5916C22.2139 23.9851 22.3047 24.0532 22.9854 23.9851C23.5981 23.9284 24.0973 23.2138 23.9838 22.5672C23.9384 22.3176 23.3031 21.6029 21.5445 19.8333L20.3119 18.5784L20.7204 18.0112C22.1499 16.0374 22.8874 13.122 22.6037 10.6491C22.1045 6.21365 19.0072 2.57228 14.6504 1.30177C13.5726 0.995493 10.8043 0.893398 9.66971 1.13162ZM13.5045 3.53651C15.2518 3.89951 16.7607 4.7503 17.9747 6.06618C18.8824 7.05309 19.3589 7.8585 19.8014 9.10632C20.2779 10.4903 20.3573 12.3847 20.0056 13.7913C19.6085 15.4248 18.9731 16.5138 17.7251 17.7617C16.8515 18.6465 16.4657 18.9414 15.6829 19.3271C13.3911 20.4615 10.7816 20.5749 8.5238 19.6334C5.24491 18.2494 3.13462 14.8803 3.35019 11.3524C3.67921 6.14559 8.43303 2.49288 13.5045 3.53651Z" fill="#333333" stroke="#F6F5F1" stroke-width="0.7" />
-            </svg></div>
-            <div><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-              <circle cx="20.5" cy="4.17139" r="3.5" fill="#FF4747" />
-              <path d="M8.69613 0.0187893C5.60642 0.0962467 3.4462 0.892342 2.14233 2.43289C1.14398 3.62058 0.584563 5.15683 0.382312 7.30413C0.304854 8.13035 0.304854 16.5474 0.382312 17.3737C0.68784 20.5968 1.84971 22.6107 4.02714 23.6951C4.97384 24.1641 6.17014 24.474 7.59881 24.6117C8.40351 24.6934 16.9067 24.6891 17.7329 24.6117C22.2771 24.177 24.4545 22.0125 24.9236 17.4812C24.9752 16.9476 25.0311 10.3723 24.9838 9.99364C24.8762 9.10718 23.7574 8.89632 23.3572 9.69242C23.3012 9.8043 23.2883 10.3293 23.2711 13.3932C23.2496 17.1327 23.2324 17.5157 23.043 18.4538C22.7762 19.8007 22.3244 20.7173 21.5713 21.4273C21.2013 21.7758 20.9861 21.9265 20.4998 22.1674C19.7769 22.5289 18.7915 22.7828 17.6683 22.8904C16.8034 22.9721 8.50678 22.9721 7.64184 22.8904C5.24925 22.6623 3.73882 21.8576 2.9126 20.3644C2.51671 19.6544 2.21979 18.5441 2.11221 17.3952C2.05626 16.7583 2.05626 7.91949 2.11221 7.28262C2.28003 5.48818 2.83515 4.09394 3.7087 3.27632C4.52631 2.51465 5.42568 2.13167 7.0609 1.85196C7.40946 1.79171 8.03773 1.7788 11.2996 1.75729C15.1165 1.73147 15.1294 1.73147 15.3016 1.6368C16.0503 1.2366 15.9169 0.186615 15.0993 0.0273952C14.9358 -0.0027256 9.87951 -0.0113335 8.69613 0.0187893Z" fill="#333333" />
-              <path d="M20.4454 0.0178976C19.503 0.0824461 18.7198 0.383671 17.9969 0.960302C16.977 1.77791 16.4004 2.97851 16.4004 4.28669C16.4004 7.3807 19.5159 9.45485 22.3646 8.26286C23.6126 7.74217 24.5851 6.58891 24.882 5.28934C25.0843 4.38136 24.9552 3.18937 24.5636 2.4234C24.1376 1.58427 23.4189 0.865632 22.5712 0.431006C22.2571 0.267485 21.5901 0.0781431 21.2372 0.0523233C21.0522 0.0394144 20.8413 0.0222015 20.7682 0.0135946C20.6993 0.00929165 20.553 0.00929165 20.4454 0.0178976ZM21.3491 1.81664C22.0634 2.00598 22.6788 2.51807 23.0058 3.19367C23.1952 3.58096 23.2468 3.83485 23.2468 4.31681C23.2468 5.05266 23.0273 5.59056 22.5153 6.10264C21.986 6.62764 21.4093 6.87292 20.6864 6.87292C19.9893 6.87292 19.3739 6.61473 18.8747 6.11986C17.5838 4.82889 18.0012 2.68589 19.6924 1.93283C19.8128 1.88119 19.985 1.82095 20.0796 1.79943C20.355 1.73918 21.0866 1.74779 21.3491 1.81664Z" fill="#333333" />
-              <path d="M6.56506 12.7104C6.25093 12.8739 6.07019 13.1579 6.07019 13.4806C6.07019 13.8808 6.3499 14.2251 6.7458 14.3198C6.96096 14.3671 12.6283 14.3671 12.8435 14.3155C13.0457 14.2724 13.1834 14.1734 13.3598 13.954C13.4803 13.8077 13.4932 13.7603 13.4932 13.4978C13.4932 13.2396 13.476 13.1837 13.3641 13.0159C13.291 12.9169 13.1533 12.7878 13.0629 12.7362L12.8908 12.6372L9.79247 12.6415C7.05132 12.6415 6.68125 12.6501 6.56506 12.7104Z" fill="#333333" />
-              <path d="M6.7501 17.2482C6.36281 17.3214 6.07019 17.6829 6.07019 18.0831C6.07019 18.4101 6.24662 18.6855 6.56506 18.8533L6.73719 18.948H12.0732H17.4092L17.6243 18.8404C18.3516 18.4746 18.1967 17.4031 17.392 17.2482C17.1252 17.1966 7.00829 17.1966 6.7501 17.2482Z" fill="#333333" />
-            </svg></div>
-            <div><svg xmlns="http://www.w3.org/2000/svg" width="26" height="27" viewBox="0 0 26 27" fill="none">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.53454 25.0971C9.02236 21.487 8.08842 20.9485 4.71599 22.3062C4.45829 22.4097 4.1733 22.3356 3.9966 22.1417C2.59157 20.6372 1.60479 18.9814 1.02717 16.9832C0.951443 16.7216 1.04771 16.4506 1.24877 16.292L1.24789 16.2905C4.10285 14.0454 4.09992 12.9549 1.24789 10.7095C1.021 10.5306 0.944986 10.2304 1.04008 9.97269C1.32185 9.01167 1.71398 8.10008 2.20209 7.25382C2.70604 6.3799 3.31331 5.57189 4.00746 4.84715C4.19854 4.64795 4.48618 4.59734 4.72627 4.69856C8.12863 6.10066 9.03528 5.42182 9.53454 1.90319C9.57445 1.62306 9.78666 1.41032 10.0485 1.35736C12.1036 0.899209 13.9143 0.860663 15.9756 1.36383C16.2409 1.42827 16.4282 1.64807 16.4646 1.90348L16.4655 1.90319C16.9776 5.51334 17.9116 6.05181 21.284 4.69414C21.5417 4.59057 21.8267 4.66472 22.0034 4.85863C23.4084 6.36313 24.3952 8.01887 24.9728 10.0171C25.0486 10.2787 24.9523 10.5497 24.7512 10.7083L24.7521 10.7095C21.8974 12.9546 21.8998 14.0451 24.7521 16.2905C24.979 16.4694 25.055 16.7696 24.9599 17.0273C24.6782 17.9883 24.286 18.8999 23.7979 19.7462C23.294 20.6201 22.6864 21.4281 21.9925 22.1528C21.8015 22.3521 21.5138 22.4027 21.2737 22.3014C17.8714 20.8993 16.9647 21.5782 16.4655 25.0968C16.4258 25.3769 16.2133 25.5897 15.9515 25.6426C13.8964 26.1008 12.0857 26.1393 10.0244 25.6362C9.75907 25.5717 9.57181 25.3519 9.53542 25.0965L9.53454 25.0971ZM13 8.51645C10.2545 8.51645 8.02883 10.7477 8.02883 13.5001C8.02883 17.9257 13.391 20.1558 16.5151 17.0241C19.6392 13.8921 17.4141 8.51645 13 8.51645ZM15.5961 10.8975C13.2891 8.58471 9.32879 10.2316 9.32879 13.5001C9.32879 16.7687 13.2891 18.4156 15.5961 16.1028C17.0296 14.6654 17.0296 12.3349 15.5961 10.8975ZM8.84978 20.7075C9.85564 21.2898 10.4221 22.5048 10.7505 24.4689C12.2298 24.7705 13.7699 24.7714 15.2495 24.4686C15.9069 20.5333 17.6213 19.5408 21.3486 20.937C22.3521 19.8056 23.1226 18.4759 23.6013 17.0326C20.5347 14.4953 20.535 12.5047 23.6013 9.96739C23.1226 8.52439 22.3521 7.19438 21.3486 6.06299C17.621 7.4595 15.9072 6.46641 15.2495 2.53112C13.7702 2.22981 12.2301 2.22863 10.7505 2.53141C10.0931 6.46641 8.3784 7.45921 4.65142 6.06299C3.64821 7.19438 2.87716 8.52439 2.39874 9.96739C5.46503 12.5047 5.46532 14.4953 2.39874 17.0326C2.87745 18.4753 3.64791 19.8059 4.65142 20.937C6.51051 20.2405 7.84334 20.1249 8.84978 20.7075Z" fill="#333333" stroke="#333333" stroke-width="0.3" />
-            </svg></div>
-          </div>
+    <div className='my-8 ml-3'>
+      <Headbar/>
+      <div className='flex'>
+        <div className='p-5 border-2 border-[#D1D1D1] rounded-xl'>
+          <img src={BackImage} alt='BackImage'/>
         </div>
-      </Grid>
+        <div className='pl-3'>
+          <p className='font-bold text-[38px] leading-9	'>Add New Customer</p>
+          <ul className='flex self-center'>
+            <li className='text-sm text-neutral-grey font-normal'><Link to={'/'}>Dealer </Link>  /  </li>
+            <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Add New Customer </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Form Start */}
+
+      <form className='mt-8'>
+        <Grid>
+        <div className='col-span-5'>
+          <Select label="Dealer Name *"
+            options={country}
+            selectedValue={selectedValue}
+            onChange={handleSelectChange}/>
+        </div>
+        </Grid>
+        <div className='bg-white p-4 drop-shadow-4xl border-[1px] border-[#D1D1D1] rounded-xl'>
+          <Grid>
+            <div className='col-span-5 border-e-[1px] border-[#D1D1D1] pr-3'>
+              <Input type='text' name='customerAccountName' label='Customer Account Name *' placeholder='Enter' />
+              <div className='flex my-3'>
+                <p className='text-neutral-grey'>Address</p>
+                <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
+              </div>
+              <Input type='text' name='customerStreetAddress' label='Customer Street Address *' placeholder='Enter' />
+
+              <Select label="City *"
+              options={city}
+              selectedValue={selectedCity}
+              onChange={handleSelectChange1}/>
+
+              <Select label="State *"
+              options={city}
+              selectedValue={selectedCity}
+              onChange={handleSelectChange1}/>
+
+              <Input type='text' name='zipcode' label='Zipcode *' placeholder='Enter' />
+
+            </div>
+            <div className='col-span-7'>
+              <p className='text-light-black text-lg mt-3 font-semibold'>Contact Information</p>
+              <p className='text-light-black flex text-base font-normal' >Do you want to create an account?       
+              <RadioButton
+                id="yes"
+                label="Yes"
+                value="yes"
+                checked={selectedOption === 'yes'}
+                onChange={handleRadioChange}
+              />
+
+              <RadioButton
+                id="no"
+                label="No"
+                value="no"
+                checked={selectedOption === 'no'}
+                onChange={handleRadioChange}
+              />
+
+</p>
+              <Grid>
+                <div className='col-span-6'>
+                    <Input type='text' name='fName' label='First Name *' placeholder='Enter' />
+                </div>
+                <div className='col-span-6'>
+                    <Input type='text' name='lName' label='Last Name *' placeholder='Enter' />
+                </div>
+                <div className='col-span-6'>
+                    <Input type='email' name='email' label='Email *' placeholder='Enter' />
+                </div>
+                <div className='col-span-6'>
+                    <Input type='text' name='phone' label='Phone*' placeholder='Enter' />
+                </div>
+                <div className='col-span-12'>
+                    <Input type='text' name='Position' label='Position*' placeholder='Enter' />
+                </div>
+              </Grid>
+            </div>
+          </Grid>
+        </div>
+
+        <Button className='mt-4' >Submit</Button>
+      </form>
     </div>
   )
 }
