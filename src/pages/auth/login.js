@@ -75,7 +75,7 @@ function Login() {
                   account
                 </p>
                 {error && (
-                  <p className="text-[red] text-sm">
+                  <p className="text-red-500 text-sm pl-2">
                     <span className="font-semibold"> Invalid Credentials </span>
                   </p>
                 )}
@@ -83,25 +83,25 @@ function Login() {
                   type="email"
                   name="email"
                   label="Email"
-                  placeholder="Enter Email"
+                  placeholder="Enter"
                   value={formik.values.email}
                   onChange={formik.handleChange}
                 />
                 {formik.touched.email && formik.errors.email && (
-                  <div className="text-red-500">{formik.errors.email}</div>
+                  <div className="text-red-500 text-sm pl-2 pt-2">{formik.errors.email}</div>
                 )}
                 <div>
                   <PasswordInput
                     type="password"
                     name="password"
                     label="Password"
-                    placeholder="Enter Password"
+                    placeholder="Enter"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     isPassword
                   />
                   {formik.touched.password && formik.errors.password && (
-                    <div className="text-red-500">{formik.errors.password}</div>
+                    <div className="text-red-500 text-sm pl-2 pt-2">{formik.errors.password}</div>
                   )}
                 </div>
                 <Grid className="my-2 py-3">

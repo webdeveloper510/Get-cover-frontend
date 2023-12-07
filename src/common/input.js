@@ -3,7 +3,7 @@ import React from "react";
 const Input = ({ type, placeholder, label, defaultValue, onChange, name }) => {
   return (
     <>
-      <div class="relative my-3">
+      <div class="relative mt-4">
         <input
           type={type}
           name={name}
