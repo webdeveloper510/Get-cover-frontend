@@ -10,6 +10,7 @@ const Input = ({
   name,
   minLength,
   maxLength,
+  required,
 }) => {
   const handleWheelCapture = (event) => {
     event.preventDefault();
@@ -28,6 +29,7 @@ const Input = ({
       event.preventDefault();
     }
   };
+
   useEffect(() => {
     const inputElement = document.getElementById(name);
     if (inputElement) {
@@ -42,9 +44,10 @@ const Input = ({
       }
     };
   }, [handleWheelCapture, name]);
+
   return (
     <>
-      <div className="relative mt-4">
+      <div className="relative">
         <input
           type={type}
           name={name}
@@ -60,13 +63,14 @@ const Input = ({
           onWheel={(e) => e.preventDefault()}
           onKeyDown={handleKeyDown}
           onWheelCapture={handleWheelCapture}
+          required={required}
         />
         <label
           htmlFor={name}
           className="absolute text-base text-light-black dark:text-gray-400 leading-6 duration-300 transform -translate-y-4 text-lg scale-75 top-1 z-10 origin-[0] bg-[#f9f9f9] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-light-black peer-focus:dark:text-light-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-2"
         >
           {" "}
-          {label}
+          {label} {required && <span className="text-red-500">*</span>}
         </label>
       </div>
     </>

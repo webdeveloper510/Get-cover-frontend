@@ -6,8 +6,8 @@ import Dashboard from "../pages/dashboard/index";
 import ForgotPassword from "../pages/auth/forgotPassword";
 import NewPassword from "../pages/auth/newPassword";
 import DealerRegister from "../pages/auth/dealerRegister";
-import ProviderRegister from "../pages/auth/providerRegister";
 import Dealer from "../pages/dashboard/dealer";
+import AddCustomer from "../pages/dashboard/addCustomer";
 
 const routes = [
   {
@@ -27,6 +27,7 @@ const routes = [
     children: [
       { path: "/dashboard", element: <Dashboard /> },
       { path: "/dealer", element: <Dealer /> },
+      { path: "/Add-Customer", element: <AddCustomer /> },
     ],
   },
 ];

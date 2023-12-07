@@ -107,7 +107,7 @@ function DealerRegister() {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <div className="relative bg-hero-pattern bg-cover	bg-no-repeat	bg-center	">
+      <div className="relative bg-hero-pattern bg-cover	bg-no-repeat bg-center">
         <Grid className="px-8">
           <div className="col-span-6 self-center">
             <div className="mx-auto max-w-md">
@@ -132,7 +132,7 @@ function DealerRegister() {
                       type="text"
                       name="name"
                       label="Account Name"
-                      placeholder="Enter Account Name"
+                      placeholder="Enter"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                     />
@@ -147,7 +147,7 @@ function DealerRegister() {
                       type="text"
                       name="email"
                       label="Email"
-                      placeholder="Enter Email"
+                      placeholder="Enter"
                       value={formik.values.email}
                       onChange={formik.handleChange}
                     />
@@ -162,7 +162,7 @@ function DealerRegister() {
                       type="text"
                       name="firstName"
                       label="First Name"
-                      placeholder="Enter First Name"
+                      placeholder="Enter"
                       value={formik.values.firstName}
                       onChange={formik.handleChange}
                     />
@@ -177,7 +177,7 @@ function DealerRegister() {
                       type="text"
                       name="lastName"
                       label="Last Name"
-                      placeholder="Enter Last Name"
+                      placeholder="Enter"
                       value={formik.values.lastName}
                       onChange={formik.handleChange}
                     />
@@ -192,7 +192,7 @@ function DealerRegister() {
                       type="number"
                       name="phoneNumber"
                       label="Mobile Number"
-                      placeholder="Enter Contact Number"
+                      placeholder="Enter"
                       value={formik.values.phoneNumber}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -214,7 +214,7 @@ function DealerRegister() {
                       type="password"
                       name="password"
                       label="Password"
-                      placeholder="Enter Password"
+                      placeholder="Enter"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       isPassword
@@ -230,7 +230,7 @@ function DealerRegister() {
                       type="text"
                       name="street"
                       label="Street Address"
-                      placeholder="Enter Street"
+                      placeholder="Enter"
                       value={formik.values.street}
                       onChange={formik.handleChange}
                     />
@@ -245,7 +245,7 @@ function DealerRegister() {
                       type="text"
                       name="city"
                       label="City"
-                      placeholder="Enter City"
+                      placeholder="Enter"
                       value={formik.values.city}
                       onChange={formik.handleChange}
                     />
@@ -259,7 +259,7 @@ function DealerRegister() {
                     <Select
                       label="State"
                       name="state"
-                      placeholder="Enter State"
+                      placeholder="Enter"
                       onChange={handleSelectChange}
                       options={state}
                       value={formik.values.state}
@@ -270,7 +270,7 @@ function DealerRegister() {
                       type="text"
                       name="country"
                       label="Country"
-                      placeholder="Enter Country"
+                      placeholder="Enter"
                       value={formik.values.country}
                       onChange={formik.handleChange}
                       defaultValue="USA"
@@ -328,9 +328,10 @@ function DealerRegister() {
               For some security reasons you <b> require an approval. </b> It
               will be executed{" "}
             </p>
-            <Link to={"/"} className="font-medium text-base text-neutral-grey">
+            <p className="font-medium text-base text-neutral-grey">
               as soon as the approver will validate the action.
-            </Link>
+            </p>
+            <Button className='w-auto mx-auto h-[50px] text-xl font-semibold'>  <Link to={'/'}> Login </Link></Button>
           </div>
         </Modal>
       </div>
