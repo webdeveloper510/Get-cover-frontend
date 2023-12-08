@@ -77,11 +77,12 @@ function Login() {
                     <span className="font-semibold"> Invalid Credentials </span>
                   </p>
                 )}
+                <div className="my-3">
                 <Input
                   type="email"
                   name="email"
                   label="Email"
-                  placeholder="Enter"
+                  placeholder="Enter Email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
                 />
@@ -90,12 +91,13 @@ function Login() {
                     {formik.errors.email}
                   </div>
                 )}
+                </div>
                 <div>
                   <PasswordInput
                     type="password"
                     name="password"
                     label="Password"
-                    placeholder="Enter"
+                    placeholder="Enter Password"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     isPassword
@@ -106,11 +108,8 @@ function Login() {
                     </div>
                   )}
                 </div>
-                <Grid className="my-2 py-3">
-                  <div className="col-span-6">
-                    {/* <Checkbox name="remember" label="Remember me" /> */}
-                  </div>
-                  <div className="col-span-6 text-end">
+                
+                  <div className="my-3 text-end">
                     <Link
                       to={"/forgot"}
                       className="text-base text-neutral-grey underline font-medium"
@@ -119,7 +118,6 @@ function Login() {
                       Forgot my password?{" "}
                     </Link>
                   </div>
-                </Grid>
                 <div>
                   <Button
                     type="submit"

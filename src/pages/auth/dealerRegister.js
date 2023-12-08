@@ -132,7 +132,7 @@ function DealerRegister() {
                       type="text"
                       name="name"
                       label="Account Name"
-                      placeholder="Enter"
+                      placeholder="Enter Account Name"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                     />
@@ -147,7 +147,7 @@ function DealerRegister() {
                       type="text"
                       name="email"
                       label="Email"
-                      placeholder="Enter"
+                      placeholder="Enter Email"
                       value={formik.values.email}
                       onChange={formik.handleChange}
                     />
@@ -162,7 +162,7 @@ function DealerRegister() {
                       type="text"
                       name="firstName"
                       label="First Name"
-                      placeholder="Enter"
+                      placeholder="Enter First Name"
                       value={formik.values.firstName}
                       onChange={formik.handleChange}
                     />
@@ -177,7 +177,7 @@ function DealerRegister() {
                       type="text"
                       name="lastName"
                       label="Last Name"
-                      placeholder="Enter"
+                      placeholder="Enter Last Name"
                       value={formik.values.lastName}
                       onChange={formik.handleChange}
                     />
@@ -192,7 +192,7 @@ function DealerRegister() {
                       type="number"
                       name="phoneNumber"
                       label="Mobile Number"
-                      placeholder="Enter"
+                      placeholder="Enter Mobile Number"
                       value={formik.values.phoneNumber}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -214,7 +214,7 @@ function DealerRegister() {
                       type="password"
                       name="password"
                       label="Password"
-                      placeholder="Enter"
+                      placeholder="Enter Password"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       isPassword
@@ -230,7 +230,7 @@ function DealerRegister() {
                       type="text"
                       name="street"
                       label="Street Address"
-                      placeholder="Enter"
+                      placeholder="Enter Street Address"
                       value={formik.values.street}
                       onChange={formik.handleChange}
                     />
@@ -245,7 +245,7 @@ function DealerRegister() {
                       type="text"
                       name="city"
                       label="City"
-                      placeholder="Enter"
+                      placeholder="Enter City"
                       value={formik.values.city}
                       onChange={formik.handleChange}
                     />
@@ -259,7 +259,7 @@ function DealerRegister() {
                     <Select
                       label="State"
                       name="state"
-                      placeholder="Enter"
+                      placeholder="Enter State"
                       onChange={handleSelectChange}
                       options={state}
                       value={formik.values.state}
@@ -270,7 +270,7 @@ function DealerRegister() {
                       type="text"
                       name="country"
                       label="Country"
-                      placeholder="Enter"
+                      placeholder="Enter Country"
                       value={formik.values.country}
                       onChange={formik.handleChange}
                       defaultValue="USA"

@@ -8,7 +8,7 @@ import NewPassword from "../pages/auth/newPassword";
 import DealerRegister from "../pages/auth/dealerRegister";
 import Dealer from "../pages/dashboard/dealer";
 import AddCustomer from "../pages/dashboard/addCustomer";
-
+import AddDealerBook from "../pages/dashboard/Price-Book/addDealerBook";
 const routes = [
   {
     path: "/",
@@ -28,6 +28,7 @@ const routes = [
       { path: "/dashboard", element: <Dashboard /> },
       { path: "/dealer", element: <Dealer /> },
       { path: "/Add-Customer", element: <AddCustomer /> },
+      { path: "/Add-Dealer-Book", element: <AddDealerBook /> },
     ],
   },
 ];

@@ -47,7 +47,7 @@ function Dealer() {
         <div className='pl-3'>
           <p className='font-semibold text-[38px] leading-9	'>Add New Dealer</p>
           <ul className='flex self-center'>
-            <li className='text-sm text-neutral-grey font-normal'><Link to={'/'}>Dealer </Link>  /  </li>
+            <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Dealer </Link>  /  </li>
             <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Add New Dealer </li>
           </ul>
         </div>
