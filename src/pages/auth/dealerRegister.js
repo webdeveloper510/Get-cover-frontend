@@ -109,7 +109,7 @@ function DealerRegister() {
     <form onSubmit={formik.handleSubmit}>
       <div className="relative bg-hero-pattern bg-cover	bg-no-repeat bg-center">
         <Grid className="px-8">
-          <div className="col-span-6 self-center">
+          <div className="col-span-7 self-center">
             <div className="mx-auto max-w-md">
               <img src={Logo} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-3 font-bold text-light-black">
@@ -126,7 +126,7 @@ function DealerRegister() {
                 </p>
               )}
               <form>
-                <Grid className="!gap-y-0">
+                <Grid className="">
                   <div className="col-span-6">
                     <Input
                       type="text"
@@ -285,17 +285,9 @@ function DealerRegister() {
                 </Grid>
               </form>
               <div>
-                {/* <Button
-                  className="w-full h-[50px] text-xl font-semibold"
-                  onClick={() => {
-                    openModal(true);
-                  }}
-                >
-                  Register
-                </Button> */}
                 <Button
                   type="submit"
-                  className="w-full h-[50px] text-xl font-semibold"
+                  className="w-full h-[50px] mt-3 text-xl font-semibold"
                 >
                   Register
                 </Button>
@@ -312,9 +304,8 @@ function DealerRegister() {
               </div>
             </div>
           </div>
-          <div className="col-span-1"></div>
           <div className="col-span-5">
-            <img src={Logi} className="py-5  h-full md:mx-auto" alt="Logo " />
+            <img src={Logi} className="py-5  h-screen md:mx-auto" alt="Logo " />
           </div>
         </Grid>
         <Modal isOpen={isModalOpen} onClose={closeModal}>

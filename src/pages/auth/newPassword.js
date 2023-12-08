@@ -47,7 +47,7 @@ function NewPassword() {
                   placeholder=""
                   onChange={(e) => handlePasswordChange(e)}
                   isPassword />
-
+                   <div className='my-3'></div>
                  <PasswordInput type="password"
                   name="password"
                   label="Confirm Password"

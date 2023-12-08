@@ -10,7 +10,7 @@ const PasswordInput = ({ type, placeholder, label, defaultValue, onChange, name,
 
   return (
     <>
-      <div className="relative mt-4">
+      <div className="relative">
         <input
           type={showPassword ? "text" : type}
           name={name}

@@ -23,7 +23,7 @@ function SidebarItem({ item, active, expandedItem, onToggleExpand }) {
   const hasItems = item.items && item.items.length > 0;
 
   return (
-    <li className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t ${hasItems ? 'relative bg-[#2B2B2B] rounded-s-[30px]' : ''}`}>
+    <li className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t-[0.5px] ${hasItems ? 'relative bg-[#2B2B2B] rounded-s-[30px]' : ''}`}>
       <Link
         to={item.url}
         className={`flex cursor-pointer d-flex ps-[19px] mb-[3px] p-3 ${
@@ -31,8 +31,8 @@ function SidebarItem({ item, active, expandedItem, onToggleExpand }) {
         }`}
         onClick={() => hasItems && onToggleExpand(item.name)}
       >
-        <img src={item.image} className="w-6 h-6" alt={item.image} />
-        <span className="self-center text-left w-full text-base font-medium pl-6">
+        <img src={item.image} className="w-[22px] h-[22px]" alt={item.image} />
+        <span className="self-center text-left w-full text-[14px] font-medium pl-[12px]">
           {item.name}
         </span>
         {hasItems && (
@@ -138,7 +138,7 @@ function SideBar() {
       image: PriceImage,
       items: [
         {
-          name: "Price Book",
+          name: "Dealer Book",
           url: "/extensions",
           image : Dropdown,
         },
@@ -148,8 +148,13 @@ function SideBar() {
           image : Dropdown1,
         },
         {
-          name: "Dealer Book",
-          url: "/Routes",
+          name: "Upload Dealer Price Book",
+          url: "/Queues",
+          image : Dropdown1,
+        },
+        {
+          name: "Category",
+          url: "/category",
           image : Dropdown1,
         },
       ],
@@ -168,7 +173,7 @@ function SideBar() {
 
   return (
     <div className="w-[260px] min-h-[96vh] xl:h-full">
-      <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[38px]">
+      <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[30px]">
         <img src={Logo} className="mx-auto py-4 pt-8 w-[160px] " alt="logo" />
         <hr className="opacity-20" />
         <div className="shadow-sm h-full ">

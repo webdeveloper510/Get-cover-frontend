@@ -15,7 +15,7 @@ function Headbar() {
         <div className='col-span-4'></div>
         <div className='col-span-3'></div>
         <div className='col-span-5'>
-          <Grid className='border-2 w-[420px] ms-auto border-[#D1D1D1] flex self-center py-3 px-4 rounded-xl'>
+          <Grid className='border-2 w-[420px] bg-white ms-auto border-[#D1D1D1] flex self-center py-3 px-4 rounded-xl'>
             <div className='col-span-6 flex self-center justify-around border-r-2 border-[#D1D1D1]'>
               <div>
                 <img src={SearchImage} className='cursor-pointer' alt="SearchImage" />
@@ -28,7 +28,7 @@ function Headbar() {
               </div>
             </div>
             <div className='col-span-6 self-center flex justify-around'>
-                <img src={ProfileImage} alt='ProfileImage'/>
+                {/* <img src={ProfileImage} alt='ProfileImage'/> */}
                 <p className='text-light-black font-semibold text-base self-center'>Veronica</p>
                 <img src={Down} className='cursor-pointer' alt='ProfileImage'/>
             </div>
