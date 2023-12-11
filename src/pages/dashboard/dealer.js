@@ -210,7 +210,7 @@ function Dealer() {
               </div>
               <Grid className='pr-4 pl-4'>
                 <div className='col-span-4'>
-                  <Select label="Business City *"
+                  <Select label="Business City "
                     options={city}
                     selectedValue={selectedCity}
                     onChange={handleSelectChange1} />

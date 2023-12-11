@@ -57,8 +57,9 @@ function AddCustomer() {
         <form className='mt-8'>
           <Grid>
           <div className='col-span-5'>
-            <Select label="Dealer Name *"
+            <Select label="Dealer Name"
               options={country}
+              required={true}
               selectedValue={selectedValue}
               onChange={handleSelectChange}/>
           </div>
@@ -80,19 +81,21 @@ function AddCustomer() {
                     <Input type='text' name='customerStreetAddress' label='Customer Street Address *' placeholder='Enter' />
                   </div>
                   <div className='col-span-12'>
-                    <Select label="City *"
+                    <Select label="City"
+                    required={true}
                     options={city}
                     selectedValue={selectedCity}
                     onChange={handleSelectChange1}/>
                   </div>
                   <div className='col-span-12'>
-                    <Select label="State *"
+                    <Select label="State"
                     options={city}
+                    required={true}
                     selectedValue={selectedCity}
                     onChange={handleSelectChange1}/>
                   </div>
                   <div className='col-span-12'>
-                    <Input type='text' name='zipcode' label='Zipcode *' placeholder='Enter' />
+                    <Input type='text' name='zipcode' label='Zipcode' required={true} placeholder='Enter' />
                   </div>
                 </Grid>
               </div>
@@ -114,23 +117,22 @@ function AddCustomer() {
                   checked={selectedOption === 'no'}
                   onChange={handleRadioChange}
                 />
-  
-  </p>
+                 </p>
                 <Grid>
                   <div className='col-span-6'>
-                      <Input type='text' name='fName' label='First Name *' placeholder='Enter' />
+                      <Input type='text' name='fName' required={true} label='First Name' placeholder='Enter' />
                   </div>
                   <div className='col-span-6'>
-                      <Input type='text' name='lName' label='Last Name *' placeholder='Enter' />
+                      <Input type='text' name='lName' label='Last Name' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-6'>
-                      <Input type='email' name='email' label='Email *' placeholder='Enter' />
+                      <Input type='email' name='email' label='Email' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-6'>
-                      <Input type='text' name='phone' label='Phone*' placeholder='Enter' />
+                      <Input type='text' name='phone' label='Phone' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-12'>
-                      <Input type='text' name='Position' label='Position*' placeholder='Enter' />
+                      <Input type='text' name='Position' label='Position' required={true} placeholder='Enter'/>
                   </div>
                 </Grid>
               </div>

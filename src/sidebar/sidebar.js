@@ -10,7 +10,7 @@ import OrderImage from "../assets/images/side-bar/Order.svg";
 import ServicerImage from "../assets/images/side-bar/Servicer.svg";
 import ClaimImage from "../assets/images/side-bar/claim.svg";
 import PriceImage from "../assets/images/side-bar/Price.svg";
-import LogoutImage from "../assets/images/side-bar/logout-black.svg";
+import LogoutImage from "../assets/images/side-bar/logout.png";
 import ProductImage from "../assets/images/side-bar/product.svg";
 import ReportImage from "../assets/images/side-bar/report.svg";
 import Actives from "../assets/images/side-bar/activess.svg";
@@ -156,7 +156,7 @@ function SideBar() {
       items: [
         {
           name: "Dealer List",
-          url: "#",
+          url: "/DealerList",
           image : Dropdown1,
         },
         {
@@ -203,12 +203,12 @@ function SideBar() {
       items: [
         {
           name: "Dealer Book",
-          url: "/add-Dealer-Book",
+          url: "/DealerList",
           image : Dropdown1,
         },
         {
           name: "Company Price Book",
-          url: "/add-Company-Price-Book",
+          url: "/CompanyPriceBook",
           image : Dropdown2,
         },
         {
@@ -218,7 +218,7 @@ function SideBar() {
         },
         {
           name: "Category",
-          url: "/add-Category",
+          url: "/category",
           image : Dropdown2,
         },
       ],
@@ -253,10 +253,10 @@ function SideBar() {
                   onLinkClick={handleLinkClick}
                 />
               ))}
-              <li className="cursor-pointer border-t-[#474747] mb-4 ps-[19px] rounded-s-[36px] border-t w-full bg-[#FFF] text-[#000]">
-                <div className="py-[22px] pe-3 ps-[19px] flex">
-                  <img src={LogoutImage} className="w-6 h-6 text-black" alt={LogoutImage} />
-                  <span className="self-center font-semibold text-left w-full pl-6 text-[#1A1E24] ml-1">
+              <li className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]">
+                <div className="py-[22px] pe-3 ps-[10px] flex">
+                  <img src={LogoutImage} className="w-[22px] h-[22px] text-black" alt={LogoutImage} />
+                  <span className="self-center  text-[14px] font-light text-left w-full pl-[12px] text-[#fff] ml-1">
                     Logout
                   </span>
                 </div>

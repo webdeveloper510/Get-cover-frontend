@@ -46,8 +46,8 @@ function AddDealerBook() {
       <div className='my-8 ml-3'>
         <Headbar/>
         <div className='flex'>
-          <div className='h-[60px] w-[60px] flex border-[1px] border-[#D1D1D1] rounded-[25px]'>
-            <img src={BackImage} className='m-auto my-auto self-center' alt='BackImage'/>
+          <div className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
+            <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
           </div>
           <div className='pl-3'>
             <p className='font-ExtraBold text-[38px] leading-9 mb-[3px]'>Add Dealer Book</p>
@@ -62,45 +62,48 @@ function AddDealerBook() {
         {/* Form Start */}
   
         <form className='mt-8'>
-          <div className='px-8 py-8 drop-shadow-4xl min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl'>
+          <div className='px-8 py-8 drop-shadow-4xl bg-white min-h-screen border-[1px] border-[#D1D1D1]  rounded-3xl'>
           <Grid>
                   <div className='col-span-4'>
-                       <Select label="Dealer Name *"
+                       <Select label="Dealer Name"
                         options={country}
-                        className="!bg-[#f7f7f7]"
+                        className="!bg-[#fff]"
+                        required={true}
                         selectedValue={selectedValue}
                         onChange={handleSelectChange}/>
                   </div>
                   <div className='col-span-4'>
-                      <Input type='text' name='lName' className="!bg-[#f7f7f7]" label='Product Category *' placeholder='Enter' />
+                      <Input type='text' name='lName' className="!bg-[#fff]" label='Product Category' placeholder='Enter' required={true} />
                   </div>
                   <div className='col-span-4'>
                   <Select label="Product Name *"
                         options={city}
-                        className="!bg-[#f7f7f7]"
+                        className="!bg-[#fff]"
                         selectedValue={selectedProduct}
                         onChange={handleSelectChange1}/>
                   </div>
                   <div className='col-span-4'>
-                      <Input type='text' name='phone' className="!bg-[#f7f7f7]" label='Wholesale Price ($) ' required={true} placeholder='Enter' />
+                      <Input type='text' name='phone' className="!bg-[#fff]" label='Wholesale Price ($) ' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-4'>
-                      <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Description ' required={true} placeholder='Enter' />
+                      <Input type='text' name='Position' className="!bg-[#fff]" label='Description ' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-4'>
-                  <Select label="Product Name *"
+                  <Select label="Product Name"
                         options={city}
-                        className="!bg-[#f7f7f7]"
+                        required={true}
+                        className="!bg-[#fff]"
                         selectedValue={selectedProduct}
                         onChange={handleSelectChange1}/>
                   </div>
                   <div className='col-span-4'>
-                      <Input type='text' name='Retail' className="!bg-[#f7f7f7]" label='Retail Price($) ' required={true} placeholder='Enter' />
+                      <Input type='text' name='Retail' className="!bg-[#fff]" label='Retail Price($) ' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-4'>
-                      <Select label="Status *"
+                      <Select label="Status"
                         options={city}
-                        className="!bg-[#f7f7f7]"
+                        required={true}
+                        className="!bg-[#fff]"
                         selectedValue={selectedProduct}
                         onChange={handleSelectChange1}/>
                   </div>

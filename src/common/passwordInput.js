@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 
-const PasswordInput = ({ type, placeholder, label, defaultValue, onChange, name, className, isPassword }) => {
+const PasswordInput = ({ type, placeholder, label, defaultValue, required, onChange, name, className, isPassword }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {
@@ -39,7 +39,7 @@ const PasswordInput = ({ type, placeholder, label, defaultValue, onChange, name,
           htmlFor={name}
           className={`absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75  ${className}`}
         >
-          {label}
+          {label}{required && <span className="text-red-500">*</span>}
         </label>
       </div>
     </>

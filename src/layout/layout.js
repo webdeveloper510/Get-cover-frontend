@@ -31,7 +31,7 @@ function Layout() {
   // }, []);
 
   return (
-    <div className={`w-full flex bg-[#F9F9F9]  p-7`}>
+    <div className={`w-full flex bg-[#F9F9F9] bg-cover  h-full p-7`}>
       <div className={`w-[320px] relative h-full max-h-screen`}>
         <SideBar/>
       </div>

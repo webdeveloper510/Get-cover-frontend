@@ -59,17 +59,17 @@ function UploadDealerBook() {
         {/* Form Start */}
   
         <form className='mt-8'>
-          <div className='px-8 py-8 drop-shadow-4xl min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl'>
+          <div className='px-8 py-8 drop-shadow-4xl bg-white min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl'>
           <Grid className=''>
                   <div className='col-span-6'>
                        <Select label="Dealer Name *"
                         options={country}
-                        className="!bg-[#f7f7f7]"
+                        className="!bg-[#fff]"
                         selectedValue={selectedValue}
                         onChange={handleSelectChange}/>
                   </div>
                   <div className='col-span-6'>
-                  <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Email Confirmations' required={true} placeholder='Enter' />
+                  <Input type='text' name='Position' className="!bg-[#fff]" label='Email Confirmations' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-12'>
                   <p className='text-light-black text-base mb-2 font-semibold'>Upload In Bulk</p>      
