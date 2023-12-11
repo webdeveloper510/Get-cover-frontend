@@ -46,8 +46,8 @@ function AddCategory() {
       <div className='my-8 ml-3'>
         <Headbar/>
         <div className='flex'>
-          <div className='h-[60px] w-[60px] flex border-[1px] border-[#D1D1D1] rounded-[25px]'>
-            <img src={BackImage} className='m-auto my-auto self-center' alt='BackImage'/>
+          <div className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
+            <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
           </div>
           <div className='pl-3'>
             <p className='font-ExtraBold text-[38px] leading-9 mb-[3px]'>Add New Category</p>
@@ -62,14 +62,14 @@ function AddCategory() {
         {/* Form Start */}
   
         <form className='mt-8'>
-          <div className='px-8 py-8 drop-shadow-4xl min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl'>
+          <div className='px-8 py-8 drop-shadow-4xl bg-white min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl'>
           <Grid>
                   <div className='col-span-12'>
-                      <Input type='text' name='lName' className="!bg-[#f7f7f7]" label='Category Name'  required ={true} placeholder='Enter' />
+                      <Input type='text' name='lName' className="!bg-[#fff]" label='Category Name'  required ={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-12'>
                     <div className='relative'>
-                     <label for="message" class="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75">Description *</label>
+                     <label for="message" class="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75">Description *</label>
                      <textarea id="message" rows="4" class="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 peer " placeholder="Type here..."></textarea>
                     </div>
                   </div>

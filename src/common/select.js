@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DropdownArrowImage from "../assets/images/icons/Drop.svg";
 
-const Select = ({ label, options, selectedValue, onChange, className,  name }) => {
+const Select = ({ label, options, selectedValue, onChange, className,required, className1,  name }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(!!selectedValue);
 
@@ -21,20 +21,7 @@ const Select = ({ label, options, selectedValue, onChange, className,  name }) =
 
   return (
     <div className="relative">
-      <label
-        className={`absolute left-2 text-base dark:text-gray-400 duration-300 transform origin-0 bg-[#f9f9f9] dark:bg-gray-900 px-2 
-        peer-focus:px-2 
-        peer-placeholder-shown:top-1/2 
-        peer-focus:top-2 
-        peer-focus:-translate-y-4 
- text-sm -translate-y-2 z-10
- ${
-          (isFocused || isFilled) ? "text-[#5D6E66]" : "text-[#5D6E66]"
-        }  ${className}`}
-        htmlFor={label}
-      >
-        {label}
-      </label>
+     
       <div className="select-container relative">
         <select
           id={label}
@@ -42,7 +29,7 @@ const Select = ({ label, options, selectedValue, onChange, className,  name }) =
           onChange={handleInputChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-gray-900 bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 peer"
+          className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-gray-900 bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} `}
         >
           <option value="">Select...</option>
           {options.map((option) => (
@@ -58,6 +45,14 @@ const Select = ({ label, options, selectedValue, onChange, className,  name }) =
             className="w-4 h-4"
           />
         </div>
+        <label
+        className={`absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${
+          (isFocused || isFilled) ? "text-[#5D6E66]" : "text-[#5D6E66]"
+        }  ${className}`}
+        htmlFor={label}
+      >
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
       </div>
     </div>
   );
