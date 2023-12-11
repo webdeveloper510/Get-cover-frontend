@@ -27,7 +27,7 @@ function Register() {
           </Link>
           <img
             src={ImageRegister}
-            className="mx-auto lg:w-[60%] xl:w-[95%] w-full md:w-1/2 "
+            className="mx-auto w-[60%]  "
             alt="Register Image"
           />
           <div className="text-center">

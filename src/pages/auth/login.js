@@ -3,7 +3,7 @@ import Grid from "../../common/grid";
 import Input from "../../common/input";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../common/button";
 import Layout from "../../utils/layout";
 
@@ -18,6 +18,7 @@ import { authlogin } from "../../services/authServices";
 function Login() {
   const [userDetails, setUserDetails] = useState();
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Get Cover | Login";
@@ -45,6 +46,8 @@ function Login() {
       } else {
         setError(false);
         setUserDetails(result.result);
+        localStorage.setItem("userDetails", result.result);
+        navigate("/dashboard");
       }
     },
   });
@@ -81,7 +84,7 @@ function Login() {
                   type="email"
                   name="email"
                   label="Email"
-                  placeholder="Enter"
+                  placeholder="Email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
                 />
@@ -95,7 +98,7 @@ function Login() {
                     type="password"
                     name="password"
                     label="Password"
-                    placeholder="Enter"
+                    placeholder="Password"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     isPassword
