@@ -81,19 +81,19 @@ function Login() {
                   </p>
                 )}
                 <div className="my-3">
-                <Input
-                  type="email"
-                  name="email"
-                  label=""
-                  placeholder="Email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                />
-                {formik.touched.email && formik.errors.email && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.email}
-                  </div>
-                )}
+                  <Input
+                    type="email"
+                    name="email"
+                    label="Email"
+                    placeholder="Email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                  />
+                  {formik.touched.email && formik.errors.email && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.email}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <PasswordInput
@@ -111,16 +111,16 @@ function Login() {
                     </div>
                   )}
                 </div>
-                
-                  <div className="my-3 text-end">
-                    <Link
-                      to={"/forgot"}
-                      className="text-base text-neutral-grey underline font-medium"
-                    >
-                      {" "}
-                      Forgot my password?{" "}
-                    </Link>
-                  </div>
+
+                <div className="my-3 text-end">
+                  <Link
+                    to={"/forgot"}
+                    className="text-base text-neutral-grey underline font-medium"
+                  >
+                    {" "}
+                    Forgot my password?{" "}
+                  </Link>
+                </div>
                 <div>
                   <Button
                     type="submit"

@@ -68,7 +68,7 @@ function DealerRegister() {
       firstName: Yup.string().required("FirstName Required"),
       lastName: Yup.string().required("LastName Required"),
       phoneNumber: Yup.string()
-        .required("Contact Required")
+        .required("Contact # Required")
         .min(10, "Must be at least 10 characters")
         .max(10, "Must be exactly 10 characters"),
     }),
