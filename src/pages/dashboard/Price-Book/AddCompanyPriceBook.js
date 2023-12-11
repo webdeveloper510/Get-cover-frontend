@@ -50,11 +50,11 @@ function AddCompanyPriceBook() {
             <img src={BackImage} className='m-auto my-auto self-center' alt='BackImage'/>
           </div>
           <div className='pl-3'>
-            <p className='font-ExtraBold text-[38px] leading-9'>Add Dealer Book</p>
+            <p className='font-ExtraBold text-[38px] leading-9 mb-[3px]'>Add Company Price Book</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Price Book </Link>  <span className='mx-2'> /</span>  </li>
-              <li className='text-sm text-neutral-grey font-Regular ml-1'><Link to={'/'} className='text-sm text-neutral-grey font-Regular'>Dealer Book </Link>  <span className='mx-2'> /</span>  </li>
-              <li className='text-sm text-neutral-grey font-semibold ml-1'> Add Dealer Book </li>
+              <li className='text-sm text-neutral-grey font-Regular ml-1'><Link to={'/'} className='text-sm text-neutral-grey font-Regular'>Company Price Book </Link>  <span className='mx-2'> /</span>  </li>
+              <li className='text-sm text-neutral-grey font-semibold ml-1'> Add Company Price Book </li>
             </ul>
           </div>
         </div>
@@ -63,41 +63,44 @@ function AddCompanyPriceBook() {
   
         <form className='mt-8'>
           <div className='px-8 py-8 drop-shadow-4xl min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl'>
-          <Grid>
-                  <div className='col-span-4'>
-                       <Select label="Dealer Name *"
+          <Grid className='!grid-cols-5'>
+                  <div className='col-span-1'>
+                       <Select label="Product Category *"
                         options={country}
                         className="!bg-[#f7f7f7]"
                         selectedValue={selectedValue}
                         onChange={handleSelectChange}/>
                   </div>
-                  <div className='col-span-4'>
-                      <Input type='text' name='lName' className="!bg-[#f7f7f7]" label='Product Category *' placeholder='Enter' />
+                  <div className='col-span-1'>
+                     <Select label="Product Name *"
+                        options={country}
+                        className="!bg-[#f7f7f7]"
+                        selectedValue={selectedValue}
+                        onChange={handleSelectChange}/>
                   </div>
-                  <div className='col-span-4'>
-                  <Select label="Product Name *"
+                  <div className='col-span-2'>
+                  <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Description ' required={true} placeholder='Enter' />
+                  </div>
+                  <div className='col-span-1'>
+                  <Select label="Terms *"
                         options={city}
                         className="!bg-[#f7f7f7]"
                         selectedValue={selectedProduct}
                         onChange={handleSelectChange1}/>
                   </div>
-                  <div className='col-span-4'>
-                      <Input type='text' name='phone' className="!bg-[#f7f7f7]" label='Wholesale Price ($) ' required={true} placeholder='Enter' />
+                  <div className='col-span-1'>
+                      <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Fronting fee ' required={true} placeholder='Enter' />
                   </div>
-                  <div className='col-span-4'>
-                      <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Description ' required={true} placeholder='Enter' />
+                  <div className='col-span-1'>
+                  <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Re-insurance fee ' required={true} placeholder='Enter' />
                   </div>
-                  <div className='col-span-4'>
-                  <Select label="Product Name *"
-                        options={city}
-                        className="!bg-[#f7f7f7]"
-                        selectedValue={selectedProduct}
-                        onChange={handleSelectChange1}/>
+                  <div className='col-span-1'>
+                      <Input type='text' name='Retail' className="!bg-[#f7f7f7] w-[110%]" label='Reserve for future claims' required={true} placeholder='Enter' />
                   </div>
-                  <div className='col-span-4'>
-                      <Input type='text' name='Retail' className="!bg-[#f7f7f7]" label='Retail Price($) ' required={true} placeholder='Enter' />
+                  <div className='col-span-1'>
+                      <Input type='text' name='Retail' className="!bg-[#f7f7f7]" label='Administration fee' required={true} placeholder='Enter' />
                   </div>
-                  <div className='col-span-4'>
+                  <div className='col-span-1'>
                       <Select label="Status *"
                         options={city}
                         className="!bg-[#f7f7f7]"
@@ -105,6 +108,7 @@ function AddCompanyPriceBook() {
                         onChange={handleSelectChange1}/>
                   </div>
                 </Grid>
+                <p className='mt-8 font-semibold text-lg'>Total Amount:  <span> $100 </span></p>
                 <Button className='mt-12 font-normal' onClick={() => {openModal(true);}}>Submit</Button>
           </div>
         </form>

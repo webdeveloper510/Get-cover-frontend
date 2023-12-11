@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 
 // media imports 
 import Dropbox from "../assets/images/icons/dropBox.svg"
-const FileDropdown = () => {
+const FileDropdown = ({className = '',}) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -20,7 +20,7 @@ const FileDropdown = () => {
     <div className="relative">
       <button
         onClick={handleDropdownClick}
-        className="bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10                w-full rounded-md focus:outline-none focus:border-blue-500"
+        className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 ${className}`}
       >
         {selectedFile ? selectedFile.name : (<>
         <img src={Dropbox} className='mx-auto mb-3' alt='Dropbox'/>

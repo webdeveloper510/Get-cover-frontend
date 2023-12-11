@@ -45,7 +45,7 @@ function Dealer() {
           <img src={BackImage} alt='BackImage'/>
         </div> */}
         <div className='pl-3'>
-          <p className='font-semibold text-[38px] leading-9	'>Add New Dealer</p>
+          <p className='font-semibold text-[38px] leading-9	mb-[3px]'>Add New Dealer</p>
           <ul className='flex self-center'>
             <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Dealer </Link>  /  </li>
             <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Add New Dealer </li>

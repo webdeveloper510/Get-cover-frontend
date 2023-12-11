@@ -168,12 +168,12 @@ function SideBar() {
     },
     {
       name: "Servicer",
-      url: "/dashboard",
+      url: "#",
       image : ServicerImage
     },
     {
       name: "Customer",
-      url: "/dashboard",
+      url: "#",
       image : CustomerImage
     },
     {
@@ -187,12 +187,12 @@ function SideBar() {
       items: [
         {
           name: "Claim Listing",
-          url: "/extensions",
+          url: "#",
           image : Dropdown1,
         },
         {
           name: "Add Bulk Claim",
-          url: "/Queues",
+          url: "#",
           image : Dropdown2,
         }
       ],
@@ -203,22 +203,22 @@ function SideBar() {
       items: [
         {
           name: "Dealer Book",
-          url: "/Add-Dealer-Book",
+          url: "/add-Dealer-Book",
           image : Dropdown1,
         },
         {
           name: "Company Price Book",
-          url: "/Add-Company-Price-Book",
+          url: "/add-Company-Price-Book",
           image : Dropdown2,
         },
         {
           name: "Upload Dealer Price Book",
-          url: "#",
+          url: "/upload-Dealer-Book",
           image : Dropdown2,
         },
         {
           name: "Category",
-          url: "#",
+          url: "/add-Category",
           image : Dropdown2,
         },
       ],

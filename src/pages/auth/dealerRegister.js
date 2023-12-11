@@ -310,7 +310,7 @@ function DealerRegister() {
         </Grid>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className="text-center py-3">
-            <img src={email} alt="email Image" className="mx-auto py-8" />
+            <img src={email} alt="email Image" className="mx-auto w-75 py-8" />
             <p className="text-3xl mb-0 mt-2 font-semibold text-neutral-grey">
               Please wait it will take time for{" "}
               <span className="text-light-black"> Approval </span>

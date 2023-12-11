@@ -12,7 +12,7 @@ import Modal from '../../../common/model';
 import Cross from '../../../assets/images/Cross.png'
 import AddDealer from '../../../assets/images/dealer-book.svg'
 
-function AddDealerBook() {
+function AddCategory() {
     const [selectedValue, setSelectedValue] = useState('');
     const [selectedProduct, setSelectedProduct] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,11 +50,11 @@ function AddDealerBook() {
             <img src={BackImage} className='m-auto my-auto self-center' alt='BackImage'/>
           </div>
           <div className='pl-3'>
-            <p className='font-ExtraBold text-[38px] leading-9 mb-[3px]'>Add Dealer Book</p>
+            <p className='font-ExtraBold text-[38px] leading-9 mb-[3px]'>Add New Category</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Price Book </Link>  <span className='mx-2'> /</span>  </li>
-              <li className='text-sm text-neutral-grey font-Regular ml-1'><Link to={'/'} className='text-sm text-neutral-grey font-Regular'>Dealer Book </Link>  <span className='mx-2'> /</span>  </li>
-              <li className='text-sm text-neutral-grey font-semibold ml-1'> Add Dealer Book </li>
+              <li className='text-sm text-neutral-grey font-Regular ml-1'><Link to={'/'} className='text-sm text-neutral-grey font-Regular'>Category </Link>  <span className='mx-2'> /</span>  </li>
+              <li className='text-sm text-neutral-grey font-semibold ml-1'> Add New Category </li>
             </ul>
           </div>
         </div>
@@ -64,45 +64,14 @@ function AddDealerBook() {
         <form className='mt-8'>
           <div className='px-8 py-8 drop-shadow-4xl min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl'>
           <Grid>
-                  <div className='col-span-4'>
-                       <Select label="Dealer Name *"
-                        options={country}
-                        className="!bg-[#f7f7f7]"
-                        selectedValue={selectedValue}
-                        onChange={handleSelectChange}/>
+                  <div className='col-span-12'>
+                      <Input type='text' name='lName' className="!bg-[#f7f7f7]" label='Category Name'  required ={true} placeholder='Enter' />
                   </div>
-                  <div className='col-span-4'>
-                      <Input type='text' name='lName' className="!bg-[#f7f7f7]" label='Product Category *' placeholder='Enter' />
-                  </div>
-                  <div className='col-span-4'>
-                  <Select label="Product Name *"
-                        options={city}
-                        className="!bg-[#f7f7f7]"
-                        selectedValue={selectedProduct}
-                        onChange={handleSelectChange1}/>
-                  </div>
-                  <div className='col-span-4'>
-                      <Input type='text' name='phone' className="!bg-[#f7f7f7]" label='Wholesale Price ($) ' required={true} placeholder='Enter' />
-                  </div>
-                  <div className='col-span-4'>
-                      <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Description ' required={true} placeholder='Enter' />
-                  </div>
-                  <div className='col-span-4'>
-                  <Select label="Product Name *"
-                        options={city}
-                        className="!bg-[#f7f7f7]"
-                        selectedValue={selectedProduct}
-                        onChange={handleSelectChange1}/>
-                  </div>
-                  <div className='col-span-4'>
-                      <Input type='text' name='Retail' className="!bg-[#f7f7f7]" label='Retail Price($) ' required={true} placeholder='Enter' />
-                  </div>
-                  <div className='col-span-4'>
-                      <Select label="Status *"
-                        options={city}
-                        className="!bg-[#f7f7f7]"
-                        selectedValue={selectedProduct}
-                        onChange={handleSelectChange1}/>
+                  <div className='col-span-12'>
+                    <div className='relative'>
+                     <label for="message" class="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75">Description *</label>
+                     <textarea id="message" rows="4" class="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 peer " placeholder="Type here..."></textarea>
+                    </div>
                   </div>
                 </Grid>
                 <Button className='mt-12 font-normal' onClick={() => {openModal(true);}}>Submit</Button>
@@ -117,7 +86,7 @@ function AddDealerBook() {
         <div className='text-center py-3'>
           <img src={AddDealer} alt='email Image' className='mx-auto'/>
           <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'>Summited  <span className='text-light-black'> Successfully </span></p>
-          <p className='text-neutral-grey text-base font-medium mt-2'><b> New Dealer Book </b>  will be added successfully. </p>
+          <p className='text-neutral-grey text-base font-medium mt-2'><b> New category </b>  will be added successfully. </p>
 
         </div>
         
@@ -126,4 +95,4 @@ function AddDealerBook() {
     )
   }
 
-export default AddDealerBook
+export default AddCategory
