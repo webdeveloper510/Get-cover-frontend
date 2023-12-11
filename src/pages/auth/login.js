@@ -82,7 +82,7 @@ function Login() {
                   type="email"
                   name="email"
                   label="Email"
-                  placeholder="Enter Email"
+                  placeholder="Email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
                 />
@@ -97,7 +97,7 @@ function Login() {
                     type="password"
                     name="password"
                     label="Password"
-                    placeholder="Enter Password"
+                    placeholder="Password"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     isPassword
