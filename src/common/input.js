@@ -60,7 +60,7 @@ const Input = ({
           maxLength={maxLength}
           pattern={type === "number" ? "[0-9]*" : undefined}
           className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${disabled ? 'text-[#5D6E66]' : 'text-light-black' }`}
-          placeholder={placeholder}
+          // placeholder={placeholder}
           onChange={onChange}
           disabled={disabled}
           onWheel={(e) => e.preventDefault()}
