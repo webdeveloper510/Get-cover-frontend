@@ -18,7 +18,7 @@ const routes = [
     children: [
       { path: "/", index: true, element: <Login /> },
       { path: "/forgot", index: true, element: <ForgotPassword /> },
-      { path: "/new-password", index: true, element: <NewPassword /> },
+      { path: "/newPassword", index: true, element: <NewPassword /> },
       { path: "/registerDealer", index: true, element: <DealerRegister /> },
       { path: "/registerProvider", index: true, element: <DealerRegister /> },
       { path: "/register", element: <Register /> },

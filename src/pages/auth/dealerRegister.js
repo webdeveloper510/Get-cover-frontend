@@ -49,7 +49,6 @@ function DealerRegister() {
       state: "",
       country: "USA",
       email: "",
-      password: "",
       firstName: "",
       lastName: "",
       phoneNumber: "",
@@ -65,7 +64,7 @@ function DealerRegister() {
       email: Yup.string()
         .matches(emailValidationRegex, "Invalid email address")
         .required("Email Required"),
-      password: Yup.string().required("Password Required"),
+      zip: Yup.string().required("Zip Required"),
       firstName: Yup.string().required("FirstName Required"),
       lastName: Yup.string().required("LastName Required"),
       phoneNumber: Yup.string()
@@ -187,7 +186,7 @@ function DealerRegister() {
                       </div>
                     )}
                   </div>
-                
+
                   <div className="col-span-6">
                     <Input
                       type="text"
@@ -227,6 +226,11 @@ function DealerRegister() {
                       options={state}
                       value={formik.values.state}
                     />
+                    {formik.touched.state && formik.errors.state && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.state}
+                      </div>
+                    )}
                   </div>
                   <div className="col-span-6">
                     <Input
@@ -237,7 +241,7 @@ function DealerRegister() {
                       value={formik.values.country}
                       onChange={formik.handleChange}
                       defaultValue="USA"
-                      readOnly 
+                      readOnly
                     />
                     {formik.touched.country && formik.errors.country && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
@@ -254,9 +258,9 @@ function DealerRegister() {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                     />
-                    {formik.touched.password && formik.errors.password && (
+                    {formik.touched.zip && formik.errors.zip && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.password}
+                        {formik.errors.zip}
                       </div>
                     )}
                   </div>
@@ -322,7 +326,10 @@ function DealerRegister() {
             <p className="font-medium text-base text-neutral-grey">
               as soon as the approver will validate the action.
             </p>
-            <Button className='w-auto mx-auto h-[50px] text-xl font-semibold'>  <Link to={'/'}> Login </Link></Button>
+            <Button className="w-auto mx-auto h-[50px] text-xl font-semibold">
+              {" "}
+              <Link to={"/"}> Login </Link>
+            </Button>
           </div>
         </Modal>
       </div>
