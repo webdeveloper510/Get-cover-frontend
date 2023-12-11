@@ -3,7 +3,7 @@ import { LuEye, LuEyeOff } from "react-icons/lu";
 
 const PasswordInput = ({
   type,
-  placeholder,
+  error,
   label,
   defaultValue,
   required,
