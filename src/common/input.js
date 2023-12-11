@@ -12,7 +12,7 @@ const Input = ({
   maxLength,
   required,
   className,
-  readOnly
+  disabled
 }) => {
   const handleWheelCapture = (event) => {
     event.preventDefault();
@@ -59,10 +59,10 @@ const Input = ({
           minLength={minLength}
           maxLength={maxLength}
           pattern={type === "number" ? "[0-9]*" : undefined}
-          className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 peer"
+          className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${disabled ? 'text-[#5D6E66]' : 'text-light-black' }`}
           placeholder={placeholder}
           onChange={onChange}
-          readOnly={readOnly}
+          disabled={disabled}
           onWheel={(e) => e.preventDefault()}
           onKeyDown={handleKeyDown}
           onWheelCapture={handleWheelCapture}

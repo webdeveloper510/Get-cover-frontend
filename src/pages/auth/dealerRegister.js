@@ -131,7 +131,7 @@ function DealerRegister() {
                       type="text"
                       name="name"
                       label="Account Name"
-                      placeholder=" Account Name"
+                      placeholder=""
                       value={formik.values.name}
                       onChange={formik.handleChange}
                     />
@@ -146,7 +146,7 @@ function DealerRegister() {
                       type="text"
                       name="email"
                       label="Email"
-                      placeholder=" Email"
+                      placeholder=""
                       value={formik.values.email}
                       onChange={formik.handleChange}
                     />
@@ -161,7 +161,7 @@ function DealerRegister() {
                       type="text"
                       name="firstName"
                       label="First Name"
-                      placeholder=" First Name"
+                      placeholder=""
                       value={formik.values.firstName}
                       onChange={formik.handleChange}
                     />
@@ -176,7 +176,7 @@ function DealerRegister() {
                       type="text"
                       name="lastName"
                       label="Last Name"
-                      placeholder=" Last Name"
+                      placeholder=""
                       value={formik.values.lastName}
                       onChange={formik.handleChange}
                     />
@@ -192,7 +192,7 @@ function DealerRegister() {
                       type="text"
                       name="street"
                       label="Street Address"
-                      placeholder=" Street Address"
+                      placeholder=""
                       value={formik.values.street}
                       onChange={formik.handleChange}
                     />
@@ -207,7 +207,7 @@ function DealerRegister() {
                       type="text"
                       name="city"
                       label="City"
-                      placeholder=" City"
+                      placeholder=" "
                       value={formik.values.city}
                       onChange={formik.handleChange}
                     />
@@ -221,7 +221,7 @@ function DealerRegister() {
                     <Select
                       label="State"
                       name="state"
-                      placeholder="State"
+                      placeholder=""
                       onChange={handleSelectChange}
                       options={state}
                       value={formik.values.state}
@@ -237,11 +237,11 @@ function DealerRegister() {
                       type="text"
                       name="country"
                       label="Country"
-                      placeholder=" Country"
+                      placeholder=""
                       value={formik.values.country}
                       onChange={formik.handleChange}
                       defaultValue="USA"
-                      readOnly
+                      disabled
                     />
                     {formik.touched.country && formik.errors.country && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
@@ -254,7 +254,7 @@ function DealerRegister() {
                       type="number"
                       name="zip"
                       label="Zip Code"
-                      placeholder=" Zip Code"
+                      placeholder=""
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                     />
@@ -269,7 +269,7 @@ function DealerRegister() {
                       type="number"
                       name="phoneNumber"
                       label="Mobile Number"
-                      placeholder=" Mobile Number"
+                      placeholder=""
                       value={formik.values.phoneNumber}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}

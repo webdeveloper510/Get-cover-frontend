@@ -84,7 +84,7 @@ function Login() {
                 <Input
                   type="email"
                   name="email"
-                  label="Email"
+                  label=""
                   placeholder="Email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
@@ -100,7 +100,7 @@ function Login() {
                     type="password"
                     name="password"
                     label="Password"
-                    placeholder="Password"
+                    placeholder=""
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     isPassword
