@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 
-const PasswordInput = ({ type, placeholder, label, defaultValue, onChange, name, isPassword }) => {
+const PasswordInput = ({ type, placeholder, label, defaultValue, onChange, name, className, isPassword }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {
@@ -10,7 +10,7 @@ const PasswordInput = ({ type, placeholder, label, defaultValue, onChange, name,
 
   return (
     <>
-      <div className="relative mt-4">
+      <div className="relative">
         <input
           type={showPassword ? "text" : type}
           name={name}
@@ -37,7 +37,7 @@ const PasswordInput = ({ type, placeholder, label, defaultValue, onChange, name,
         )}
         <label
           htmlFor={name}
-          className="absolute text-base text-light-black  dark:text-light-black duration-300 transform -translate-y-4 text-lg fo scale-75 top-2 z-10 origin-[0] bg-[#f9f9f9] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-light-black peer-focus:dark:text-light-black peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+          className={`absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75  ${className}`}
         >
           {label}
         </label>

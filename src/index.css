@@ -16,6 +16,12 @@ body {
   font-family: 'Gilroy-Thin';
   font-weight: 100;
 }
+
+.font-Regular {
+  font-family: 'Gilroy-Regular';
+  font-weight: 400;
+}
+
 .font-medium {
   font-family: 'Gilroy-Medium';
   font-weight: 500;
@@ -30,6 +36,12 @@ body {
   font-family: 'Gilroy-Bold';
   font-weight: 700;
 }
+
+.font-ExtraBold {
+  font-family: 'Gilroy-ExtraBold';
+  font-weight: 800;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -63,6 +75,11 @@ code {
 @font-face {
   font-family: 'Gilroy-SemiBold';
   src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-SemiBold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Gilroy-ExtraBold';
+  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-ExtraBold.ttf) format('truetype');
 }
 
 @layer utilities {

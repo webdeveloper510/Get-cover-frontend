@@ -44,14 +44,14 @@ function NewPassword() {
                  <PasswordInput type="password"
                   name="password"
                   label="New Password"
-                  placeholder=""
+                  placeholder="Enter New Password"
                   onChange={(e) => handlePasswordChange(e)}
                   isPassword />
-
+                   <div className='my-3'></div>
                  <PasswordInput type="password"
                   name="password"
                   label="Confirm Password"
-                  placeholder=""
+                  placeholder="Enter Confirm Password"
                   onChange={(e) => handlePasswordChange(e)}
                   isPassword />
                <div>

@@ -18,23 +18,23 @@ function Register() {
     <Layout>
       <div className="bg-hero-pattern bg-no-repeat bg-cover p-4">
         <div className="bg-hero-register bg-no-repeat bg-cover pt-1 rounded-[50px] mb-[70px]">
-          <Link to={"/"} className="absolute">
+          <Link to={"/"} className="absolute bg-[#f9f9f9] top-0 rounded-full p-[19px] left-0">
             <img
               src={Back}
-              className="w-[40px] h-[40px] ms-4 mt-2"
+              className="w-[40px] h-[40px]"
               alt=" Back Image"
             />{" "}
           </Link>
           <img
             src={ImageRegister}
-            className="mx-auto w-[60%]  "
+            className="mx-auto 2xl:w-full xl:w-[70%] w-full "
             alt="Register Image"
           />
           <div className="text-center">
-            <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey">
+            <p className="text-2xl mb-0 mt-3 font-bold text-neutral-grey">
               Choose your <span className="text-light-black"> User type </span>{" "}
             </p>
-            <p className="text-neutral-grey text-xl font-medium mb-5">
+            <p className="text-neutral-grey text-base font-medium mb-4">
               Below are the options you can choose from based <br /> on your{" "}
               <b> account type </b>.
             </p>
@@ -65,7 +65,7 @@ function Register() {
                     Register as
                   </p>
                   <p className="text-light-black font-semibold text-2xl mb-3">
-                    Service Provider
+                    Servicer
                   </p>
                   <div className="group-hover:block hidden">
                     <Button className="!bg-[#dfdfdf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute">

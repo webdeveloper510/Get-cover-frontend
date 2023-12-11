@@ -107,9 +107,9 @@ function DealerRegister() {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <div className="relative bg-hero-pattern bg-cover	bg-no-repeat	bg-center	">
+      <div className="relative bg-hero-pattern bg-cover	bg-no-repeat bg-center">
         <Grid className="px-8">
-          <div className="col-span-6 self-center">
+          <div className="col-span-7 self-center">
             <div className="mx-auto max-w-md">
               <img src={Logo} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-3 font-bold text-light-black">
@@ -121,18 +121,18 @@ function DealerRegister() {
                 <span className="font-semibold"> {userType} Account </span>{" "}
               </p>
               {error && (
-                <p className="text-red-500 text-sm pl-2">
+                <p className="text-red-500 text-sm pl-2 mb-4">
                   <span className="font-semibold"> {error} </span>
                 </p>
               )}
               <form>
-                <Grid className="!gap-y-0">
+                <Grid className="">
                   <div className="col-span-6">
                     <Input
                       type="text"
                       name="name"
                       label="Account Name"
-                      placeholder="Account Name"
+                      placeholder=" Account Name"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                     />
@@ -147,7 +147,7 @@ function DealerRegister() {
                       type="text"
                       name="email"
                       label="Email"
-                      placeholder="Email"
+                      placeholder=" Email"
                       value={formik.values.email}
                       onChange={formik.handleChange}
                     />
@@ -162,7 +162,7 @@ function DealerRegister() {
                       type="text"
                       name="firstName"
                       label="First Name"
-                      placeholder="First Name"
+                      placeholder=" First Name"
                       value={formik.values.firstName}
                       onChange={formik.handleChange}
                     />
@@ -177,7 +177,7 @@ function DealerRegister() {
                       type="text"
                       name="lastName"
                       label="Last Name"
-                      placeholder="Last Name"
+                      placeholder=" Last Name"
                       value={formik.values.lastName}
                       onChange={formik.handleChange}
                     />
@@ -187,50 +187,13 @@ function DealerRegister() {
                       </div>
                     )}
                   </div>
-                  <div className="col-span-6">
-                    <Input
-                      type="number"
-                      name="phoneNumber"
-                      label="Mobile Number"
-                      placeholder="Contact Number"
-                      value={formik.values.phoneNumber}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      onWheelCapture={(e) => {
-                        e.preventDefault();
-                      }}
-                      minLength={"10"}
-                      maxLength={"10"}
-                    />
-                    {(formik.touched.phoneNumber || formik.submitCount > 0) &&
-                      formik.errors.phoneNumber && (
-                        <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formik.errors.phoneNumber}
-                        </div>
-                      )}
-                  </div>
-                  <div className="col-span-6">
-                    <PasswordInput
-                      type="password"
-                      name="password"
-                      label="Password"
-                      placeholder=" Password"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      isPassword
-                    />
-                    {formik.touched.password && formik.errors.password && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.password}
-                      </div>
-                    )}
-                  </div>
+                
                   <div className="col-span-6">
                     <Input
                       type="text"
                       name="street"
                       label="Street Address"
-                      placeholder="Street"
+                      placeholder=" Street Address"
                       value={formik.values.street}
                       onChange={formik.handleChange}
                     />
@@ -270,11 +233,11 @@ function DealerRegister() {
                       type="text"
                       name="country"
                       label="Country"
-                      placeholder="Country"
+                      placeholder=" Country"
                       value={formik.values.country}
                       onChange={formik.handleChange}
                       defaultValue="USA"
-                      readOnly // Use readOnly instead of readonly
+                      readOnly 
                     />
                     {formik.touched.country && formik.errors.country && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
@@ -282,20 +245,49 @@ function DealerRegister() {
                       </div>
                     )}
                   </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="number"
+                      name="zip"
+                      label="Zip Code"
+                      placeholder=" Zip Code"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.password && formik.errors.password && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.password}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="number"
+                      name="phoneNumber"
+                      label="Mobile Number"
+                      placeholder=" Mobile Number"
+                      value={formik.values.phoneNumber}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      onWheelCapture={(e) => {
+                        e.preventDefault();
+                      }}
+                      minLength={"10"}
+                      maxLength={"10"}
+                    />
+                    {(formik.touched.phoneNumber || formik.submitCount > 0) &&
+                      formik.errors.phoneNumber && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.phoneNumber}
+                        </div>
+                      )}
+                  </div>
                 </Grid>
               </form>
               <div>
-                {/* <Button
-                  className="w-full h-[50px] text-xl font-semibold"
-                  onClick={() => {
-                    openModal(true);
-                  }}
-                >
-                  Register
-                </Button> */}
                 <Button
                   type="submit"
-                  className="w-full h-[50px] text-xl font-semibold"
+                  className="w-full h-[50px] mt-3 text-xl font-semibold"
                 >
                   Register
                 </Button>
@@ -312,9 +304,8 @@ function DealerRegister() {
               </div>
             </div>
           </div>
-          <div className="col-span-1"></div>
           <div className="col-span-5">
-            <img src={Logi} className="py-5  h-full md:mx-auto" alt="Logo " />
+            <img src={Logi} className="py-5  h-screen md:mx-auto" alt="Logo " />
           </div>
         </Grid>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -328,9 +319,10 @@ function DealerRegister() {
               For some security reasons you <b> require an approval. </b> It
               will be executed{" "}
             </p>
-            <Link to={"/"} className="font-medium text-base text-neutral-grey">
+            <p className="font-medium text-base text-neutral-grey">
               as soon as the approver will validate the action.
-            </Link>
+            </p>
+            <Button className='w-auto mx-auto h-[50px] text-xl font-semibold'>  <Link to={'/'}> Login </Link></Button>
           </div>
         </Modal>
       </div>
