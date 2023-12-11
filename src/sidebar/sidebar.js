@@ -24,12 +24,12 @@ import Dropdown2 from "../assets/images/side-bar/dropdown-2.svg"
 import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
 import ActiveDashboard from "../assets/images/side-bar/activeDashboard.svg"
 import ActiveReport from "../assets/images/side-bar/activeReporting.svg"
-import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
-import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
-import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
-import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
-import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
-import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
+// import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
+// import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
+// import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
+// import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
+// import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
+// import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
 
 
 
