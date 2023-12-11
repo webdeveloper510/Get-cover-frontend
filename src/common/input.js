@@ -12,6 +12,7 @@ const Input = ({
   maxLength,
   required,
   className,
+  readOnly
 }) => {
   const handleWheelCapture = (event) => {
     event.preventDefault();
@@ -61,6 +62,7 @@ const Input = ({
           className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 peer"
           placeholder={placeholder}
           onChange={onChange}
+          readOnly={readOnly}
           onWheel={(e) => e.preventDefault()}
           onKeyDown={handleKeyDown}
           onWheelCapture={handleWheelCapture}

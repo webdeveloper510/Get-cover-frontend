@@ -121,7 +121,7 @@ function DealerRegister() {
                 <span className="font-semibold"> {userType} Account </span>{" "}
               </p>
               {error && (
-                <p className="text-red-500 text-sm pl-2">
+                <p className="text-red-500 text-sm pl-2 mb-4">
                   <span className="font-semibold"> {error} </span>
                 </p>
               )}
@@ -132,7 +132,7 @@ function DealerRegister() {
                       type="text"
                       name="name"
                       label="Account Name"
-                      placeholder="Enter Account Name"
+                      placeholder=" Account Name"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                     />
@@ -147,7 +147,7 @@ function DealerRegister() {
                       type="text"
                       name="email"
                       label="Email"
-                      placeholder="Enter Email"
+                      placeholder=" Email"
                       value={formik.values.email}
                       onChange={formik.handleChange}
                     />
@@ -162,7 +162,7 @@ function DealerRegister() {
                       type="text"
                       name="firstName"
                       label="First Name"
-                      placeholder="Enter First Name"
+                      placeholder=" First Name"
                       value={formik.values.firstName}
                       onChange={formik.handleChange}
                     />
@@ -177,7 +177,7 @@ function DealerRegister() {
                       type="text"
                       name="lastName"
                       label="Last Name"
-                      placeholder="Enter Last Name"
+                      placeholder=" Last Name"
                       value={formik.values.lastName}
                       onChange={formik.handleChange}
                     />
@@ -187,12 +187,85 @@ function DealerRegister() {
                       </div>
                     )}
                   </div>
+                
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="street"
+                      label="Street Address"
+                      placeholder=" Street Address"
+                      value={formik.values.street}
+                      onChange={formik.handleChange}
+                    />
+                    {formik.touched.street && formik.errors.street && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.street}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="city"
+                      label="City"
+                      placeholder=" City"
+                      value={formik.values.city}
+                      onChange={formik.handleChange}
+                    />
+                    {formik.touched.city && formik.errors.city && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.city}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-6">
+                    <Select
+                      label="State"
+                      name="state"
+                      placeholder="State"
+                      onChange={handleSelectChange}
+                      options={state}
+                      value={formik.values.state}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="country"
+                      label="Country"
+                      placeholder=" Country"
+                      value={formik.values.country}
+                      onChange={formik.handleChange}
+                      defaultValue="USA"
+                      readOnly 
+                    />
+                    {formik.touched.country && formik.errors.country && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.country}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="number"
+                      name="zip"
+                      label="Zip Code"
+                      placeholder=" Zip Code"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.password && formik.errors.password && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.password}
+                      </div>
+                    )}
+                  </div>
                   <div className="col-span-6">
                     <Input
                       type="number"
                       name="phoneNumber"
                       label="Mobile Number"
-                      placeholder="Enter Mobile Number"
+                      placeholder=" Mobile Number"
                       value={formik.values.phoneNumber}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -208,79 +281,6 @@ function DealerRegister() {
                           {formik.errors.phoneNumber}
                         </div>
                       )}
-                  </div>
-                  <div className="col-span-6">
-                    <PasswordInput
-                      type="password"
-                      name="password"
-                      label="Password"
-                      placeholder="Enter Password"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      isPassword
-                    />
-                    {formik.touched.password && formik.errors.password && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.password}
-                      </div>
-                    )}
-                  </div>
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="street"
-                      label="Street Address"
-                      placeholder="Enter Street Address"
-                      value={formik.values.street}
-                      onChange={formik.handleChange}
-                    />
-                    {formik.touched.street && formik.errors.street && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.street}
-                      </div>
-                    )}
-                  </div>
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="city"
-                      label="City"
-                      placeholder="Enter City"
-                      value={formik.values.city}
-                      onChange={formik.handleChange}
-                    />
-                    {formik.touched.city && formik.errors.city && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.city}
-                      </div>
-                    )}
-                  </div>
-                  <div className="col-span-6">
-                    <Select
-                      label="State"
-                      name="state"
-                      placeholder="Enter State"
-                      onChange={handleSelectChange}
-                      options={state}
-                      value={formik.values.state}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="country"
-                      label="Country"
-                      placeholder="Enter Country"
-                      value={formik.values.country}
-                      onChange={formik.handleChange}
-                      defaultValue="USA"
-                      readOnly // Use readOnly instead of readonly
-                    />
-                    {formik.touched.country && formik.errors.country && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.country}
-                      </div>
-                    )}
                   </div>
                 </Grid>
               </form>

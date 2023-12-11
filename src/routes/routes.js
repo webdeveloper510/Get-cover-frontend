@@ -9,6 +9,7 @@ import DealerRegister from "../pages/auth/dealerRegister";
 import Dealer from "../pages/dashboard/dealer";
 import AddCustomer from "../pages/dashboard/addCustomer";
 import AddDealerBook from "../pages/dashboard/Price-Book/addDealerBook";
+import AddCompanyPriceBook from "../pages/dashboard/Price-Book/AddCompanyPriceBook";
 const routes = [
   {
     path: "/",
@@ -29,6 +30,7 @@ const routes = [
       { path: "/dealer", element: <Dealer /> },
       { path: "/Add-Customer", element: <AddCustomer /> },
       { path: "/Add-Dealer-Book", element: <AddDealerBook /> },
+      { path: "/Add-Company-Price-Book", element: <AddCompanyPriceBook /> },
     ],
   },
 ];

@@ -208,7 +208,7 @@ function SideBar() {
         },
         {
           name: "Company Price Book",
-          url: "#",
+          url: "/Add-Company-Price-Book",
           image : Dropdown2,
         },
         {
