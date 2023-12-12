@@ -24,12 +24,12 @@ import Dropdown2 from "../assets/images/side-bar/dropdown-2.svg"
 import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
 import ActiveDashboard from "../assets/images/side-bar/activeDashboard.svg"
 import ActiveReport from "../assets/images/side-bar/activeReporting.svg"
-// import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
-// import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
-// import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
-// import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
-// import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
-// import ActiveProduct from "../assets/images/side-bar/activeProduct.svg"
+import ActivePriceBook from "../assets/images/side-bar/activePrize.svg"
+import ActiveCustomer from "../assets/images/side-bar/activeCustomer.svg"
+import ActiveOrder from "../assets/images/side-bar/activeOrder.svg"
+import ActiveClaim from "../assets/images/side-bar/activeClaim.svg"
+import ActiveDealer from "../assets/images/side-bar/activeDealer.svg"
+import ActiveServicer from "../assets/images/side-bar/activeServicer.svg"
 
 
 
@@ -59,7 +59,9 @@ function SidebarItem({ item, active, expandedItem, onToggleExpand, onLinkClick }
           }
         }}
       >
-        <img src={item.image} className="w-[22px] h-[22px]" alt={item.image} />
+        {isActive ? (<img src={item.active} className="w-[22px] h-[22px]" alt={item.image} /> ) : (
+          <img src={item.image} className="w-[22px] h-[22px]" alt={item.image} />
+        ) }
         <span className={`self-center text-left w-full pl-[12px] ${
           isActive ? " text-[14px] font-semibold" : " text-[14px] font-Regular"
         }`}>
@@ -148,11 +150,13 @@ function SideBar() {
     {
       name: "Dashboard",
       url: "/dashboard",
-      image : DashboardImage
+      image : DashboardImage,
+      active : ActiveDashboard
     },
     {
       name: "Dealer",
       image: DealerImage,
+      active : ActiveDealer,
       items: [
         {
           name: "Dealer List",
@@ -169,21 +173,25 @@ function SideBar() {
     {
       name: "Servicer",
       url: "#",
-      image : ServicerImage
+      image : ServicerImage,
+      active : ActiveServicer,
     },
     {
       name: "Customer",
       url: "#",
-      image : CustomerImage
+      image : CustomerImage,
+      active : ActiveCustomer,
     },
     {
       name: "Order",
       url: "/dashboard",
+      active : ActiveOrder,
       image : OrderImage
     },
     {
       name: "Claim",
       image : ClaimImage,
+      active : ActiveClaim,
       items: [
         {
           name: "Claim Listing",
@@ -200,6 +208,7 @@ function SideBar() {
     {
       name: "Price Book",
       image: PriceImage,
+      active : ActivePriceBook,
       items: [
         {
           name: "Dealer Book",
@@ -226,11 +235,13 @@ function SideBar() {
     {
       name: "Reporting",
       url: "#",
-      image : ReportImage
+      image : ReportImage,
+      active : ActiveReport,
     },
     {
       name: "Product",
       url: "#",
+      active : ActiveProduct,
       image : ProductImage
     },
   ];
