@@ -12,9 +12,10 @@ import AddDealerBook from "../pages/dashboard/Price-Book/addDealerBook";
 import AddCompanyPriceBook from "../pages/dashboard/Price-Book/AddCompanyPriceBook";
 import UploadDealerBook from "../pages/dashboard/Price-Book/uploadDealerBook";
 import AddCategory from "../pages/dashboard/Price-Book/addCategory";
-import DealerList from "../pages/dashboard/Price-Book/dealerList";
+import DealerPriceList from "../pages/dashboard/Price-Book/dealerList";
 import CompanyPriceBook from "../pages/dashboard/Price-Book/companyPriceBook";
 import Category from "../pages/dashboard/Price-Book/category";
+import DealerList from "../pages/dashboard/Dealer/dealerList";
 
 const routes = [
   {
@@ -43,8 +44,9 @@ const routes = [
       { path: "/addCompanyPriceBook", element: <AddCompanyPriceBook /> },
       { path: "/uploadDealerBook", element: <UploadDealerBook /> },
       { path: "/addCategory", element: <AddCategory /> },
-      { path: "/dealerList", element: <DealerList /> },
+      { path: "/dealerPriceList", element: <DealerPriceList /> },
       { path: "/companyPriceBook", element: <CompanyPriceBook /> },
+      { path: "/dealerList", element: <DealerList /> },
       { path: "/category", element: <Category /> },
     ],
   },

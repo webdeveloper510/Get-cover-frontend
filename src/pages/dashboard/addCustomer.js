@@ -40,9 +40,9 @@ function AddCustomer() {
       <div className='my-8 ml-3'>
         <Headbar/>
         <div className='flex'>
-          <div className='p-5 border-2 border-[#D1D1D1] rounded-xl'>
-            <img src={BackImage} alt='BackImage'/>
-          </div>
+        <Link to={'/category'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
+            <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
+          </Link>
           <div className='pl-3'>
             <p className='font-bold text-[38px] leading-9 mb-[3px]'>Add New Customer</p>
             <ul className='flex self-center'>

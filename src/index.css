@@ -55,6 +55,11 @@ code {
   border-top: 1px solid #dbdbdb;
 }
 
+.sc-hHftZz.gBmxlM.rdt_TableBody {
+  font-size: 16px !important;
+  font-family: 'Gilroy-Light';
+}
+
 @font-face {
   font-family: 'Gilroy-Bold';
   src: local('Gilroy-Bold'), url(./assets/fonts/Gilroy-Bold.ttf) format('truetype');

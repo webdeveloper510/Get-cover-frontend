@@ -10,7 +10,7 @@ import Headbar from '../../../common/headBar';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import DataTable from "react-data-table-component";
-function Category() {
+function DealerList() {
   const [selectedAction, setSelectedAction] = useState(null);
 
   const handleActionChange = (action) => {
@@ -82,10 +82,10 @@ function Category() {
         <Headbar />
         <div className='flex'>
           <div className='pl-3'>
-            <p className='font-bold text-[38px] leading-9	mb-[3px]'>Category</p>
+            <p className='font-bold text-[38px] leading-9	mb-[3px]'>Dealer</p>
             <ul className='flex self-center'>
-              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Price Book </Link>  /  </li>
-              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Category </li>
+              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Dealer </Link>  /  </li>
+              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Dealer List </li>
             </ul>
           </div>
         </div>
@@ -94,13 +94,19 @@ function Category() {
         <div className='bg-white  border-[1px] border-[#D1D1D1] rounded-xl'>
           <Grid className='!p-[26px] !pb-0'>
             <div className='col-span-7 self-center'>
-              <p className='text-xl font-semibold'>Categories List</p>
+              <p className='text-xl font-semibold'>Dealers List</p>
             </div>
             <div className='col-span-5'>
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-                <Grid className='!grid-cols-6' >
-                  <div className='col-span-5 self-center'>
-                    <Input name='CategoryName' type='text' className1="!pt-2 !pb-1" label='Category Name' />
+                <Grid className='!grid-cols-7' >
+                  <div className='col-span-2 self-center'>
+                    <Input name='Name' type='text' className1="!pt-2 !pb-0" label='Name' />
+                  </div>
+                  <div className='col-span-2 self-center'>
+                    <Input name='Email' type='email' className1="!pt-2 !pb-0" label='Email' />
+                  </div>
+                  <div className='col-span-2 self-center'>
+                    <Input name='PhoneNo.' type='number' className1="!pt-2 !pb-0" label='Phone No.' />
                   </div>
                   <div className='col-span-1 self-center'>
                     <img src={Search} alt='Search' />
@@ -116,4 +122,4 @@ function Category() {
     </>
   )
 }
-export default Category
+export default DealerList
