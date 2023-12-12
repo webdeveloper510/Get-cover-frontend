@@ -130,9 +130,10 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="name"
-                      label="Account Name"
+                      label="Account Name*"
                       placeholder=""
                       value={formik.values.name}
+                      onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       error={formik.touched.name && formik.errors.name}
                     />
@@ -146,9 +147,10 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="email"
-                      label="Email"
+                      label="Email*"
                       placeholder=""
                       value={formik.values.email}
+                      onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       error={formik.touched.email && formik.errors.email}
                     />
@@ -162,9 +164,10 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="firstName"
-                      label="First Name"
+                      label="First Name*"
                       placeholder=""
                       value={formik.values.firstName}
+                      onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       error={
                         formik.touched.firstName && formik.errors.firstName
@@ -180,9 +183,10 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="lastName"
-                      label="Last Name"
+                      label="Last Name*"
                       placeholder=""
                       value={formik.values.lastName}
+                      onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       error={formik.touched.lastName && formik.errors.lastName}
                     />
@@ -197,10 +201,11 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="street"
-                      label="Street Address"
+                      label="Street Address*"
                       placeholder=""
                       value={formik.values.street}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       error={formik.touched.street && formik.errors.street}
                     />
                     {formik.touched.street && formik.errors.street && (
@@ -213,10 +218,11 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="city"
-                      label="City"
+                      label="City*"
                       placeholder=" "
                       value={formik.values.city}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       error={formik.touched.city && formik.errors.city}
                     />
                     {formik.touched.city && formik.errors.city && (
@@ -227,12 +233,13 @@ function DealerRegister() {
                   </div>
                   <div className="col-span-6">
                     <Select
-                      label="State"
+                      label="State*"
                       name="state"
                       placeholder=""
                       onChange={handleSelectChange}
                       options={state}
                       value={formik.values.state}
+                      onBlur={formik.handleBlur}
                       error={formik.touched.state && formik.errors.state}
                     />
                     {formik.touched.state && formik.errors.state && (
@@ -245,10 +252,11 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="country"
-                      label="Country"
+                      label="Country*"
                       placeholder=""
                       value={formik.values.country}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       defaultValue="USA"
                       error={formik.touched.country && formik.errors.country}
                       disabled
@@ -263,7 +271,7 @@ function DealerRegister() {
                     <Input
                       type="number"
                       name="zip"
-                      label="Zip Code"
+                      label="Zip Code*"
                       placeholder=""
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -279,7 +287,7 @@ function DealerRegister() {
                     <Input
                       type="number"
                       name="phoneNumber"
-                      label="Mobile Number"
+                      label="Mobile Number*"
                       placeholder=""
                       value={formik.values.phoneNumber}
                       onChange={formik.handleChange}

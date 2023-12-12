@@ -17,11 +17,7 @@ import { sendResetPasswordLink } from "../../services/authServices";
 
 function ForgotPassword() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [error, setError] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  const [error, setError] = useState();
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -40,11 +36,11 @@ function ForgotPassword() {
     onSubmit: async (values) => {
       console.log("Form values:", values);
       const result = await sendResetPasswordLink(values);
-      console.log(result.result);
+      console.log(result);
       if (result.code === 401) {
-        setError(true);
+        setError(result.message);
       } else {
-        setError(false);
+        setError("");
         setIsModalOpen(true);
       }
     },
@@ -72,11 +68,17 @@ function ForgotPassword() {
                 Please enter the <b> email address </b> you'd like your password
                 reset information sent to{" "}
               </p>
+              {error && (
+                <p className="text-red-500 text-sm pl-2 mb-4">
+                  <span className="font-semibold"> {error} </span>
+                </p>
+              )}
               <Input
                 type="email"
                 name="email"
                 label="Email"
                 placeholder="Email"
+                onBlur={formik.handleBlur}
                 value={formik.values.email}
                 onChange={formik.handleChange}
               />
