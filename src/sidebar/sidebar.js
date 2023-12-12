@@ -156,7 +156,7 @@ function SideBar() {
       items: [
         {
           name: "Dealer List",
-          url: "/DealerList",
+          url: "/dealerList",
           image : Dropdown1,
         },
         {
@@ -203,17 +203,17 @@ function SideBar() {
       items: [
         {
           name: "Dealer Book",
-          url: "/DealerList",
+          url: "/dealerList",
           image : Dropdown1,
         },
         {
           name: "Company Price Book",
-          url: "/CompanyPriceBook",
+          url: "/companyPriceBook",
           image : Dropdown2,
         },
         {
           name: "Upload Dealer Price Book",
-          url: "/upload-Dealer-Book",
+          url: "/uploadDealerBook",
           image : Dropdown2,
         },
         {

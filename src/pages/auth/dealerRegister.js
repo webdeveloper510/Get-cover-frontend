@@ -314,7 +314,7 @@ function DealerRegister() {
         </Grid>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className="text-center py-3">
-            <img src={email} alt="email Image" className="mx-auto w-75 py-8" />
+            <img src={email} alt="email Image" className="mx-auto w-1/2 py-8" />
             <p className="text-3xl mb-0 mt-2 font-semibold text-neutral-grey">
               Please wait it will take time for{" "}
               <span className="text-light-black"> Approval </span>
@@ -326,10 +326,7 @@ function DealerRegister() {
             <p className="font-medium text-base text-neutral-grey">
               as soon as the approver will validate the action.
             </p>
-            <Button className="w-auto mx-auto h-[50px] text-xl font-semibold">
-              {" "}
-              <Link to={"/"}> Login </Link>
-            </Button>
+            <Link to={'/'} className='font-semibold text-base text-light-black'>Click the link to Sign In</Link>
           </div>
         </Modal>
       </div>

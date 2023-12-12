@@ -34,7 +34,7 @@ function CompanyPriceBook() {
             </ul>
           </div>
         </div>
-        <Button  className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/add-Company-Price-Book'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 font-medium'>Add Company Price Book </span>  </Link></Button>
+        <Button  className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addCompanyPriceBook'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 font-medium'>Add Company Price Book </span>  </Link></Button>
 
         <div className='bg-white p-[26px] border-[1px] border-[#D1D1D1] rounded-xl'>
           <Grid>
