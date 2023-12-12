@@ -46,7 +46,7 @@ function Login() {
       } else {
         setError(false);
         setUserDetails(result.result);
-        localStorage.setItem("userDetails", result.result);
+        localStorage.setItem("userDetails", JSON.stringify(result.result) );
         navigate("/dashboard");
       }
     },

@@ -32,7 +32,7 @@ const PasswordInput = ({
           // placeholder={placeholder}
           onChange={onChange}
         />
-        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+
         {isPassword && (
           <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
             {showPassword ? (
@@ -56,6 +56,7 @@ const PasswordInput = ({
           {required && <span className="text-red-500">*</span>}
         </label>
       </div>
+      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </>
   );
 };

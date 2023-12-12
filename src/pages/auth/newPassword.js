@@ -75,7 +75,7 @@ function NewPassword() {
                 <b> punctuation marks </b>.
               </p>
               {error && (
-                <p className="text-red-500 text-sm pl-2">
+                <p className="text-red-500 text-sm pl-2 mb-3">
                   <span className="font-semibold"> {error} </span>
                 </p>
               )}

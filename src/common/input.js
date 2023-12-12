@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 const Input = ({
   type,
-  placeholder,
+  error,
   label,
   defaultValue,
   onChange,
@@ -13,8 +13,9 @@ const Input = ({
   required,
   className,
   className1,
-  disabled
+  disabled,
 }) => {
+  console.log(error);
   const handleWheelCapture = (event) => {
     event.preventDefault();
   };
@@ -60,7 +61,9 @@ const Input = ({
           minLength={minLength}
           maxLength={maxLength}
           pattern={type === "number" ? "[0-9]*" : undefined}
-          className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${disabled ? 'text-[#5D6E66]' : 'text-light-black' }`}
+          className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
+            error ? "border-[red]" : " border-gray-300 "
+          } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
           // placeholder={placeholder}
           onChange={onChange}
           disabled={disabled}
@@ -71,7 +74,7 @@ const Input = ({
         />
         <label
           htmlFor={name}
-          className={`absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${className}`}
+          className={`absolute text-base  leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${className}  `}
         >
           {" "}
           {label} {required && <span className="text-red-500">*</span>}

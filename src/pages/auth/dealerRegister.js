@@ -56,19 +56,19 @@ function DealerRegister() {
       role: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Account Name Required"),
-      street: Yup.string().required("Street Required"),
-      state: Yup.string().required("State Required"),
-      city: Yup.string().required("City Required"),
-      country: Yup.string().required("Country Required"),
+      name: Yup.string().required("Required"),
+      street: Yup.string().required("Required"),
+      state: Yup.string().required("Required"),
+      city: Yup.string().required("Required"),
+      country: Yup.string().required("Required"),
       email: Yup.string()
         .matches(emailValidationRegex, "Invalid email address")
-        .required("Email Required"),
-      zip: Yup.string().required("Zip Required"),
-      firstName: Yup.string().required("FirstName Required"),
-      lastName: Yup.string().required("LastName Required"),
+        .required("Required"),
+      zip: Yup.string().required("Required"),
+      firstName: Yup.string().required("Required"),
+      lastName: Yup.string().required("Required"),
       phoneNumber: Yup.string()
-        .required("Contact # Required")
+        .required("Contact# Required")
         .min(10, "Must be at least 10 characters")
         .max(10, "Must be exactly 10 characters"),
     }),
@@ -134,6 +134,7 @@ function DealerRegister() {
                       placeholder=""
                       value={formik.values.name}
                       onChange={formik.handleChange}
+                      error={formik.touched.name && formik.errors.name}
                     />
                     {formik.touched.name && formik.errors.name && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
@@ -149,6 +150,7 @@ function DealerRegister() {
                       placeholder=""
                       value={formik.values.email}
                       onChange={formik.handleChange}
+                      error={formik.touched.email && formik.errors.email}
                     />
                     {formik.touched.email && formik.errors.email && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
@@ -164,6 +166,9 @@ function DealerRegister() {
                       placeholder=""
                       value={formik.values.firstName}
                       onChange={formik.handleChange}
+                      error={
+                        formik.touched.firstName && formik.errors.firstName
+                      }
                     />
                     {formik.touched.firstName && formik.errors.firstName && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
@@ -179,6 +184,7 @@ function DealerRegister() {
                       placeholder=""
                       value={formik.values.lastName}
                       onChange={formik.handleChange}
+                      error={formik.touched.lastName && formik.errors.lastName}
                     />
                     {formik.touched.lastName && formik.errors.lastName && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
@@ -195,6 +201,7 @@ function DealerRegister() {
                       placeholder=""
                       value={formik.values.street}
                       onChange={formik.handleChange}
+                      error={formik.touched.street && formik.errors.street}
                     />
                     {formik.touched.street && formik.errors.street && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
@@ -210,6 +217,7 @@ function DealerRegister() {
                       placeholder=" "
                       value={formik.values.city}
                       onChange={formik.handleChange}
+                      error={formik.touched.city && formik.errors.city}
                     />
                     {formik.touched.city && formik.errors.city && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
@@ -225,6 +233,7 @@ function DealerRegister() {
                       onChange={handleSelectChange}
                       options={state}
                       value={formik.values.state}
+                      error={formik.touched.state && formik.errors.state}
                     />
                     {formik.touched.state && formik.errors.state && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
@@ -241,6 +250,7 @@ function DealerRegister() {
                       value={formik.values.country}
                       onChange={formik.handleChange}
                       defaultValue="USA"
+                      error={formik.touched.country && formik.errors.country}
                       disabled
                     />
                     {formik.touched.country && formik.errors.country && (
@@ -257,6 +267,7 @@ function DealerRegister() {
                       placeholder=""
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
+                      error={formik.touched.zip && formik.errors.zip}
                     />
                     {formik.touched.zip && formik.errors.zip && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
@@ -278,6 +289,9 @@ function DealerRegister() {
                       }}
                       minLength={"10"}
                       maxLength={"10"}
+                      error={
+                        formik.touched.phoneNumber && formik.errors.phoneNumber
+                      }
                     />
                     {(formik.touched.phoneNumber || formik.submitCount > 0) &&
                       formik.errors.phoneNumber && (
@@ -326,7 +340,9 @@ function DealerRegister() {
             <p className="font-medium text-base text-neutral-grey">
               as soon as the approver will validate the action.
             </p>
-            <Link to={'/'} className='font-semibold text-base text-light-black'>Click the link to Sign In</Link>
+            <Link to={"/"} className="font-semibold text-base text-light-black">
+              Click the link to Sign In
+            </Link>
           </div>
         </Modal>
       </div>
