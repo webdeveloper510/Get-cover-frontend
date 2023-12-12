@@ -47,6 +47,14 @@ code {
     monospace;
 }
 
+.sc-dlfmHC.cfvlby.rdt_TableHeadRow {
+  background: #F9F9F9;
+  margin-top: 16px;
+  font-family: 'Gilroy-Bold';
+  font-size: 14px;
+  border-top: 1px solid #dbdbdb;
+}
+
 @font-face {
   font-family: 'Gilroy-Bold';
   src: local('Gilroy-Bold'), url(./assets/fonts/Gilroy-Bold.ttf) format('truetype');

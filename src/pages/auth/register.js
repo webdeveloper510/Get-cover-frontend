@@ -16,7 +16,7 @@ function Register() {
 
   return (
     <Layout>
-      <div className="bg-hero-pattern bg-no-repeat bg-cover p-4">
+      <div className="bg-hero-pattern bg-no-repeat bg-cover h-full min-h-screen p-4">
         <div className="bg-hero-register bg-no-repeat bg-cover pt-1 rounded-[50px] mb-[70px]">
           <Link
             to={"/"}

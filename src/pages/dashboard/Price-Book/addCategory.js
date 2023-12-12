@@ -68,20 +68,20 @@ function AddCategory() {
                   </div>
                   <div className='col-span-12'>
                     <div className='relative'>
-                     <label for="message" class="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75">Description *</label>
-                     <textarea id="message" rows="4" class="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 peer " placeholder="Type here..."></textarea>
+                     <label for="message" className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75">Description *</label>
+                     <textarea id="message" rows="4" className=" resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 peer " placeholder="Type here..."></textarea>
                     </div>
                   </div>
                 </Grid>
-                <Button className='mt-12 font-normal' onClick={() => {openModal(true);}}>Submit</Button>
+                <Button className='mt-12 font-normal rounded-[25px]' onClick={() => {openModal(true);}}>Submit</Button>
           </div>
         </form>
 
           {/* Modal Email Popop */}
        <Modal isOpen={isModalOpen} onClose={closeModal}>
-       <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+       {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
-        </Button>
+        </Button> */}
         <div className='text-center py-3'>
           <img src={AddDealer} alt='email Image' className='mx-auto'/>
           <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'>Summited  <span className='text-light-black'> Successfully </span></p>
