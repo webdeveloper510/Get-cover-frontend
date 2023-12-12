@@ -59,7 +59,7 @@ const Select = ({
         <label
           className={`absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${
             isFocused || isFilled ? "text-[#5D6E66]" : "text-[#5D6E66]"
-          } ${className} ${error ? "text-[red]" : " text-[#5D6E66] "}`}
+          } `}
           htmlFor={label}
         >
           {label} {required && <span className="text-red-500">*</span>}

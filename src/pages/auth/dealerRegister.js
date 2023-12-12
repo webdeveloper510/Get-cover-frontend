@@ -136,6 +136,11 @@ function DealerRegister() {
                       onChange={formik.handleChange}
                       error={formik.touched.name && formik.errors.name}
                     />
+                    {formik.touched.name && formik.errors.name && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.name}
+                      </div>
+                    )}
                   </div>
                   <div className="col-span-6">
                     <Input
@@ -147,6 +152,11 @@ function DealerRegister() {
                       onChange={formik.handleChange}
                       error={formik.touched.email && formik.errors.email}
                     />
+                    {formik.touched.email && formik.errors.email && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.email}
+                      </div>
+                    )}
                   </div>
                   <div className="col-span-6">
                     <Input
@@ -160,6 +170,11 @@ function DealerRegister() {
                         formik.touched.firstName && formik.errors.firstName
                       }
                     />
+                    {formik.touched.firstName && formik.errors.firstName && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.firstName}
+                      </div>
+                    )}
                   </div>
                   <div className="col-span-6">
                     <Input
@@ -171,6 +186,11 @@ function DealerRegister() {
                       onChange={formik.handleChange}
                       error={formik.touched.lastName && formik.errors.lastName}
                     />
+                    {formik.touched.lastName && formik.errors.lastName && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.lastName}
+                      </div>
+                    )}
                   </div>
 
                   <div className="col-span-6">
@@ -183,6 +203,11 @@ function DealerRegister() {
                       onChange={formik.handleChange}
                       error={formik.touched.street && formik.errors.street}
                     />
+                    {formik.touched.street && formik.errors.street && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.street}
+                      </div>
+                    )}
                   </div>
                   <div className="col-span-6">
                     <Input
@@ -194,6 +219,11 @@ function DealerRegister() {
                       onChange={formik.handleChange}
                       error={formik.touched.city && formik.errors.city}
                     />
+                    {formik.touched.city && formik.errors.city && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.city}
+                      </div>
+                    )}
                   </div>
                   <div className="col-span-6">
                     <Select
@@ -205,6 +235,11 @@ function DealerRegister() {
                       value={formik.values.state}
                       error={formik.touched.state && formik.errors.state}
                     />
+                    {formik.touched.state && formik.errors.state && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.state}
+                      </div>
+                    )}
                   </div>
                   <div className="col-span-6">
                     <Input
@@ -218,6 +253,11 @@ function DealerRegister() {
                       error={formik.touched.country && formik.errors.country}
                       disabled
                     />
+                    {formik.touched.country && formik.errors.country && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.country}
+                      </div>
+                    )}
                   </div>
                   <div className="col-span-6">
                     <Input
@@ -229,6 +269,11 @@ function DealerRegister() {
                       onBlur={formik.handleBlur}
                       error={formik.touched.zip && formik.errors.zip}
                     />
+                    {formik.touched.zip && formik.errors.zip && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.zip}
+                      </div>
+                    )}
                   </div>
                   <div className="col-span-6">
                     <Input
@@ -248,6 +293,12 @@ function DealerRegister() {
                         formik.touched.phoneNumber && formik.errors.phoneNumber
                       }
                     />
+                    {(formik.touched.phoneNumber || formik.submitCount > 0) &&
+                      formik.errors.phoneNumber && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.phoneNumber}
+                        </div>
+                      )}
                   </div>
                 </Grid>
               </form>
