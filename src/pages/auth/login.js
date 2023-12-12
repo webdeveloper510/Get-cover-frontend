@@ -46,7 +46,7 @@ function Login() {
       } else {
         setError(false);
         setUserDetails(result.result);
-        localStorage.setItem("userDetails", JSON.stringify(result.result) );
+        localStorage.setItem("userDetails", JSON.stringify(result.result));
         navigate("/dashboard");
       }
     },
@@ -88,6 +88,7 @@ function Login() {
                     placeholder="Email"
                     value={formik.values.email}
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
                   {formik.touched.email && formik.errors.email && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
