@@ -9,7 +9,7 @@ import DealerRegister from "../pages/auth/dealerRegister";
 import Dealer from "../pages/dashboard/dealer";
 import AddCustomer from "../pages/dashboard/addCustomer";
 import AddDealerBook from "../pages/dashboard/Price-Book/addDealerBook";
-import AddCompanyPriceBook from "../pages/dashboard/Price-Book/addCompanyPriceBook";
+import AddCompanyPriceBook from "../pages/dashboard/Price-Book/AddCompanyPriceBook";
 import UploadDealerBook from "../pages/dashboard/Price-Book/uploadDealerBook";
 import AddCategory from "../pages/dashboard/Price-Book/addCategory";
 import DealerList from "../pages/dashboard/Price-Book/dealerList";
@@ -22,7 +22,11 @@ const routes = [
     children: [
       { path: "/", index: true, element: <Login /> },
       { path: "/forgot", index: true, element: <ForgotPassword /> },
-      { path: "/newPassword/:id", index: true, element: <NewPassword /> },
+      {
+        path: "/newPassword/:id/:token",
+        index: true,
+        element: <NewPassword />,
+      },
       { path: "/registerDealer", index: true, element: <DealerRegister /> },
       { path: "/registerProvider", index: true, element: <DealerRegister /> },
       { path: "/register", element: <Register /> },

@@ -39,3 +39,27 @@ export const authserviceProviderRegister = async (
     throw error;
   }
 };
+
+export const sendResetPasswordLink = async (resetPasswordLinkData) => {
+  try {
+    const response = await axios.post(
+      `${url}/user/sendLinkToEmail`,
+      resetPasswordLinkData
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const resetPassword = async (resetPasswordData, id, token) => {
+  try {
+    const response = await axios.post(
+      `${url}/user/resetPassword/${id}/${token}`,
+      resetPasswordData
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
