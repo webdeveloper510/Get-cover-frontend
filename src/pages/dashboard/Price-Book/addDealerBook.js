@@ -82,7 +82,7 @@ function AddDealerBook() {
                         onChange={handleSelectChange1}/>
                   </div>
                   <div className='col-span-4'>
-                      <Input type='text' name='phone' className="!bg-[#fff]" label='Wholesale Price ($) ' required={true} placeholder='Enter' />
+                      <Input type='number' name='phone' className="!bg-[#fff]" label='Wholesale Price ($) ' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-4'>
                       <Input type='text' name='Position' className="!bg-[#fff]" label='Description ' required={true} placeholder='Enter' />
@@ -96,7 +96,7 @@ function AddDealerBook() {
                         onChange={handleSelectChange1}/>
                   </div>
                   <div className='col-span-4'>
-                      <Input type='text' name='Retail' className="!bg-[#fff]" label='Retail Price($) ' required={true} placeholder='Enter' />
+                      <Input type='number' name='Retail' className="!bg-[#fff]" label='Retail Price($) ' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-4'>
                       <Select label="Status"

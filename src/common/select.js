@@ -57,7 +57,7 @@ const Select = ({
           />
         </div>
         <label
-          className={`absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${
+          className={`absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${className} ${
             isFocused || isFilled ? "text-[#5D6E66]" : "text-[#5D6E66]"
           } `}
           htmlFor={label}

@@ -56,7 +56,7 @@ function AddCustomer() {
   
         <form className='mt-8'>
           <Grid>
-          <div className='col-span-5'>
+          <div className='col-span-5 mb-3'>
             <Select label="Dealer Name"
               options={country}
               required={true}
@@ -68,8 +68,8 @@ function AddCustomer() {
             <Grid>
               <div className='col-span-5 border-e-[1px] border-[#D1D1D1] pr-3'>
                 <Grid>
-                  <div className='col-span-12'>
-                    <Input type='text' name='customerAccountName' label='Customer Account Name *' placeholder='Enter' />
+                  <div className='col-span-12 mt-2'>
+                    <Input type='text' name='customerAccountName' className='!bg-white' required={true} label='Customer Account Name' placeholder='Enter'  />
                   </div>
                   <div className='col-span-12'>
                     <div className='flex'>
@@ -78,30 +78,32 @@ function AddCustomer() {
                     </div>
                   </div>
                   <div className='col-span-12'>
-                    <Input type='text' name='customerStreetAddress' label='Customer Street Address *' placeholder='Enter' />
+                    <Input type='text' name='customerStreetAddress' className='!bg-white' required={true} label='Customer Street Address' placeholder='Enter' />
                   </div>
                   <div className='col-span-12'>
                     <Select label="City"
                     required={true}
                     options={city}
+                    className='!bg-white'
                     selectedValue={selectedCity}
                     onChange={handleSelectChange1}/>
                   </div>
                   <div className='col-span-12'>
                     <Select label="State"
                     options={city}
+                    className='!bg-white'
                     required={true}
                     selectedValue={selectedCity}
                     onChange={handleSelectChange1}/>
                   </div>
                   <div className='col-span-12'>
-                    <Input type='text' name='zipcode' label='Zipcode' required={true} placeholder='Enter' />
+                    <Input type='text' name='zipcode' className='!bg-white' label='Zipcode' required={true} placeholder='Enter' />
                   </div>
                 </Grid>
               </div>
               <div className='col-span-7'>
-                <p className='text-light-black text-lg mt-3 font-semibold'>Contact Information</p>
-                <p className='text-light-black flex text-base font-normal my-3' >Do you want to create an account?       
+                <p className='text-light-black text-lg font-semibold'>Contact Information</p>
+                <p className='text-light-black flex text-[14px]  font-semibold mt-3 mb-6' >Do you want to create an account?       
                 <RadioButton
                   id="yes"
                   label="Yes"
@@ -120,19 +122,19 @@ function AddCustomer() {
                  </p>
                 <Grid>
                   <div className='col-span-6'>
-                      <Input type='text' name='fName' required={true} label='First Name' placeholder='Enter' />
+                      <Input type='text' name='fName' className='!bg-white' required={true} label='First Name' placeholder='Enter' />
                   </div>
                   <div className='col-span-6'>
-                      <Input type='text' name='lName' label='Last Name' required={true} placeholder='Enter' />
+                      <Input type='text' name='lName' className='!bg-white' label='Last Name' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-6'>
-                      <Input type='email' name='email' label='Email' required={true} placeholder='Enter' />
+                      <Input type='email' name='email' className='!bg-white' label='Email' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-6'>
-                      <Input type='text' name='phone' label='Phone' required={true} placeholder='Enter' />
+                      <Input type='text' name='phone' className='!bg-white' label='Phone' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-12'>
-                      <Input type='text' name='Position' label='Position' required={true} placeholder='Enter'/>
+                      <Input type='text' name='Position' className='!bg-white' label='Position' required={true} placeholder='Enter'/>
                   </div>
                 </Grid>
               </div>

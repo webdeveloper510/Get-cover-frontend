@@ -18,6 +18,7 @@ import Down from "../assets/images/icons/Drop.svg";
 import DropdownArrowImage from "../assets/images/side-bar/downarrow.svg"
 import Dropdown1 from "../assets/images/side-bar/dropdownsecond.svg"
 import Dropdown2 from "../assets/images/side-bar/dropdown-2.svg"
+import ActiveDropdown from "../assets/images/side-bar/firstActive.svg"
 
 // Active Images icons 
 
@@ -107,12 +108,12 @@ function SidebarItem({ item, active, expandedItem, onToggleExpand, onLinkClick }
               >
                 {active === subItem.url ? (
                   <>
-                  <img src={Actives} className={` ${(subIndex == 0) ? 
-                    "mt-[-19%] h-[55px]" : "mt-[-35%]" } w-[24px] `} alt={subItem.image} />
+                  <img src={subItem.active} className={` ${(subIndex == 0) ? 
+                    "mt-[-4%] h-[55px]" : "mt-[-42%]" } w-[24px] `} alt={subItem.active} />
                   </>
                 ) : (
                   <> <img src={subItem.image} className={` ${(subIndex == 0) ? 
-                    "mt-[-19%]" : "mt-[-35%]" } w-[24px] `} alt={subItem.image} />
+                    "mt-[-19%]" : "mt-[-42%]" } w-[24px] `} alt={subItem.image} />
                     </>
                 ) }
                 
@@ -160,13 +161,15 @@ function SideBar() {
       items: [
         {
           name: "Dealer List",
-          url: "/dealerList",
+          url: "/addCustomer",
           image : Dropdown1,
+          active: ActiveDropdown,
         },
         {
           name: "Add Dealer",
           url: "/dealer",
           image : Dropdown2,
+          active: Actives,
         },
       ],
     },
@@ -184,7 +187,7 @@ function SideBar() {
     },
     {
       name: "Order",
-      url: "/dashboard",
+      url: "#",
       active : ActiveOrder,
       image : OrderImage
     },
@@ -197,11 +200,13 @@ function SideBar() {
           name: "Claim Listing",
           url: "#",
           image : Dropdown1,
+          active: ActiveDropdown,
         },
         {
           name: "Add Bulk Claim",
           url: "#",
           image : Dropdown2,
+          active: Actives,
         }
       ],
     },
@@ -214,21 +219,25 @@ function SideBar() {
           name: "Dealer Book",
           url: "/dealerList",
           image : Dropdown1,
+          active: ActiveDropdown,
         },
         {
           name: "Company Price Book",
           url: "/companyPriceBook",
           image : Dropdown2,
+          active: Actives,
         },
         {
           name: "Upload Dealer Price Book",
           url: "/uploadDealerBook",
           image : Dropdown2,
+          active: Actives,
         },
         {
           name: "Category",
           url: "/category",
           image : Dropdown2,
+          active: Actives,
         },
       ],
     },
