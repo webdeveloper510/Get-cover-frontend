@@ -46,9 +46,8 @@ function AddCompanyPriceBook() {
       <div className='my-8 ml-3'>
         <Headbar/>
         <div className='flex'>
-          <div className='h-[60px] w-[60px] flex border-[1px] bg-[#fff] border-[#D1D1D1] rounded-[25px]'>
-            <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
-          </div>
+        <Link to={'/companyPriceBook'} className='h-[60px] w-[60px] flex border-[1px] bg-[#fff] border-[#D1D1D1] rounded-[25px]'>
+          <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/> </Link>
           <div className='pl-3'>
             <p className='font-ExtraBold text-[38px] leading-9 mb-[3px]'>Add Company Price Book</p>
             <ul className='flex self-center'>
