@@ -18,16 +18,16 @@ function Register() {
     <Layout>
       <div className="bg-hero-pattern bg-no-repeat bg-cover p-4">
         <div className="bg-hero-register bg-no-repeat bg-cover pt-1 rounded-[50px] mb-[70px]">
-          <Link to={"/"} className="absolute bg-[#f9f9f9] top-0 rounded-full p-[19px] left-0">
-            <img
-              src={Back}
-              className="w-[40px] h-[40px]"
-              alt=" Back Image"
-            />{" "}
+          <Link
+            to={"/"}
+            className="absolute bg-[#f9f9f9] top-0 rounded-full p-[19px] left-0"
+          >
+            <img src={Back} className="w-[40px] h-[40px]" alt=" Back Image" />{" "}
           </Link>
+
           <img
             src={ImageRegister}
-            className="mx-auto 2xl:w-full xl:w-[70%] w-full "
+            className="mx-auto 2xl:w-full xl:w-[68%] w-full "
             alt="Register Image"
           />
           <div className="text-center">
