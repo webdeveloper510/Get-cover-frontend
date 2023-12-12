@@ -118,7 +118,7 @@ function SidebarItem({ item, active, expandedItem, onToggleExpand, onLinkClick }
                 
                 <span className={`self-center text-left text-[12px] font-medium w-full ${
                   active === subItem.url ? "opacity-1" : "opacity-50"
-                } pl-0 ml-[19px] p-[19px] pr-0 ${(subIndex == item.items.length - 1)
+                } pl-0 ml-[10px] p-[19px] pr-0 ${(subIndex == item.items.length - 1)
               ? ""
               : "border-b-2 border-[#474747]"}`}>
                   {subItem.name}
@@ -247,8 +247,8 @@ function SideBar() {
   ];
 
   return (
-    <div className="w-[260px] min-h-[96vh] xl:h-full mb-8">
-      <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[30px]">
+    <div className="xl:w-[210px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8">
+      <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[5px]">
         <img src={Logo} className="mx-auto py-12 w-[160px] " alt="logo" />
         <hr className=" border-[#474747] border-[1px]" />
         <div className="shadow-sm h-full ">
@@ -267,7 +267,7 @@ function SideBar() {
               <li className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]">
                 <div className="py-[22px] pe-3 ps-[10px] flex">
                   <img src={LogoutImage} className="w-[22px] h-[22px] text-black" alt={LogoutImage} />
-                  <span className="self-center  text-[14px] font-light text-left w-full pl-[12px] text-[#fff] ml-1">
+                  <span className="self-center  text-[14px] font-light text-left w-full pl-[12px] text-[#999999] ml-1">
                     Logout
                   </span>
                 </div>

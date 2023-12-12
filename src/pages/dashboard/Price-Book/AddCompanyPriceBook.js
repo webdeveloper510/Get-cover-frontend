@@ -72,12 +72,7 @@ function AddCompanyPriceBook() {
                         onChange={handleSelectChange}/>
                   </div>
                   <div className='col-span-1'>
-                     <Select label="Product Name"
-                     required={true}
-                        options={country}
-                        className="!bg-[#f7f7f7]"
-                        selectedValue={selectedValue}
-                        onChange={handleSelectChange}/>
+                  <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Product Name ' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-2'>
                   <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Description ' required={true} placeholder='Enter' />
@@ -91,16 +86,16 @@ function AddCompanyPriceBook() {
                         onChange={handleSelectChange1}/>
                   </div>
                   <div className='col-span-1'>
-                      <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Fronting fee ' required={true} placeholder='Enter' />
+                      <Input type='number' name='Position' className="!bg-[#f7f7f7]" label='Fronting fee ' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-1'>
-                  <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Re-insurance fee ' required={true} placeholder='Enter' />
+                  <Input type='number' name='Position' className="!bg-[#f7f7f7]" label='Re-insurance fee ' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-1'>
-                      <Input type='text' name='Retail' className="!bg-[#f7f7f7] w-[110%]" label='Reserve for future claims' required={true} placeholder='Enter' />
+                      <Input type='number' name='Retail' className="!bg-[#f7f7f7] w-[110%]" label='Reserve for future claims' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-1'>
-                      <Input type='text' name='Retail' className="!bg-[#f7f7f7]" label='Administration fee' required={true} placeholder='Enter' />
+                      <Input type='number' name='Retail' className="!bg-[#f7f7f7]" label='Administration fee' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-1'>
                       <Select label="Status"
@@ -112,15 +107,15 @@ function AddCompanyPriceBook() {
                   </div>
                 </Grid>
                 <p className='mt-8 font-semibold text-lg'>Total Amount:  <span> $100 </span></p>
-                <Button className='mt-12 font-normal' onClick={() => {openModal(true);}}>Submit</Button>
+                <Button className='mt-12 font-normal rounded-[25px]' onClick={() => {openModal(true);}}>Submit</Button>
           </div>
         </form>
 
           {/* Modal Email Popop */}
        <Modal isOpen={isModalOpen} onClose={closeModal}>
-       <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+       {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
-        </Button>
+        </Button> */}
         <div className='text-center py-3'>
           <img src={AddDealer} alt='email Image' className='mx-auto'/>
           <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'>Summited  <span className='text-light-black'> Successfully </span></p>
