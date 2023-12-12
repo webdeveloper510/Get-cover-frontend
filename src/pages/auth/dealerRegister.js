@@ -56,19 +56,19 @@ function DealerRegister() {
       role: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Account Name Required"),
-      street: Yup.string().required("Street Required"),
-      state: Yup.string().required("State Required"),
-      city: Yup.string().required("City Required"),
-      country: Yup.string().required("Country Required"),
+      name: Yup.string().required("Required"),
+      street: Yup.string().required("Required"),
+      state: Yup.string().required("Required"),
+      city: Yup.string().required("Required"),
+      country: Yup.string().required("Required"),
       email: Yup.string()
         .matches(emailValidationRegex, "Invalid email address")
-        .required("Email Required"),
-      zip: Yup.string().required("Zip Required"),
-      firstName: Yup.string().required("FirstName Required"),
-      lastName: Yup.string().required("LastName Required"),
+        .required("Required"),
+      zip: Yup.string().required("Required"),
+      firstName: Yup.string().required("Required"),
+      lastName: Yup.string().required("Required"),
       phoneNumber: Yup.string()
-        .required("Contact # Required")
+        .required("Contact# Required")
         .min(10, "Must be at least 10 characters")
         .max(10, "Must be exactly 10 characters"),
     }),
