@@ -56,21 +56,28 @@ function DealerRegister() {
       role: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Required"),
-      street: Yup.string().required("Required"),
+      name: Yup.string().required("Required")
+      .max(50, "Must be exactly 50 characters"),
+      street: Yup.string().required("Required")
+      .max(50, "Must be exactly 50 characters"),
       state: Yup.string().required("Required"),
       city: Yup.string().required("Required"),
       country: Yup.string().required("Required"),
       email: Yup.string()
         .matches(emailValidationRegex, "Invalid email address")
         .required("Required"),
-      zip: Yup.string().required("Required"),
-      firstName: Yup.string().required("Required"),
-      lastName: Yup.string().required("Required"),
+      zip: Yup.string().required("Required")
+      .min(5, "Must be at least 5 characters")
+      .max(6, "Must be exactly 6 characters"),
+      firstName: Yup.string().required("Required")
+      .max(30, "Must be exactly 30 characters"),
+      lastName: Yup.string().required("Required")
+      .max(30, "Must be exactly 30 characters"),
       phoneNumber: Yup.string()
         .required("Required")
         .min(10, "Must be at least 10 characters")
-        .max(10, "Must be exactly 10 characters"),
+        .max(10, "Must be exactly 10 characters")
+        .matches(/^[0-9]+$/, "Must contain only digits"),
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
@@ -132,6 +139,7 @@ function DealerRegister() {
                       name="name"
                       label="Account Name*"
                       placeholder=""
+                      maxLength={"50"}
                       value={formik.values.name}
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
@@ -166,6 +174,7 @@ function DealerRegister() {
                       name="firstName"
                       label="First Name*"
                       placeholder=""
+                      maxLength={"30"}
                       value={formik.values.firstName}
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
@@ -185,6 +194,7 @@ function DealerRegister() {
                       name="lastName"
                       label="Last Name*"
                       placeholder=""
+                      maxLength={"30"}
                       value={formik.values.lastName}
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
@@ -203,6 +213,7 @@ function DealerRegister() {
                       name="street"
                       label="Street Address*"
                       placeholder=""
+                      maxLength={"50"}
                       value={formik.values.street}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -275,6 +286,8 @@ function DealerRegister() {
                       placeholder=""
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
+                      minLength={"5"}
+                      maxLength={"6"}
                       error={formik.touched.zip && formik.errors.zip}
                     />
                     {formik.touched.zip && formik.errors.zip && (

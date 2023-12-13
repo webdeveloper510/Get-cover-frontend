@@ -51,8 +51,8 @@ function AddCompanyPriceBook() {
           <div className='pl-3'>
             <p className='font-ExtraBold text-[38px] leading-9 mb-[3px]'>Add Company Price Book</p>
             <ul className='flex self-center'>
-              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Price Book </Link>  <span className='mx-2'> /</span>  </li>
-              <li className='text-sm text-neutral-grey font-Regular ml-1'><Link to={'/'} className='text-sm text-neutral-grey font-Regular'>Company Price Book </Link>  <span className='mx-2'> /</span>  </li>
+              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/dashboard'}>Price Book </Link>  <span className='mx-2'> /</span>  </li>
+              <li className='text-sm text-neutral-grey font-Regular ml-1'><Link to={'/companyPriceBook'} className='text-sm text-neutral-grey font-Regular'>Company Price Book </Link>  <span className='mx-2'> /</span>  </li>
               <li className='text-sm text-neutral-grey font-semibold ml-1'> Add Company Price Book </li>
             </ul>
           </div>
@@ -118,7 +118,7 @@ function AddCompanyPriceBook() {
         </Button> */}
         <div className='text-center py-3'>
           <img src={AddDealer} alt='email Image' className='mx-auto'/>
-          <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'>Summited  <span className='text-light-black'> Successfully </span></p>
+          <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'>Submited  <span className='text-light-black'> Successfully </span></p>
           <p className='text-neutral-grey text-base font-medium mt-2'><b> Company Price Book </b> added successfully. </p>
         </div>
         

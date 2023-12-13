@@ -10,7 +10,7 @@ import OrderImage from "../assets/images/side-bar/Order.svg";
 import ServicerImage from "../assets/images/side-bar/Servicer.svg";
 import ClaimImage from "../assets/images/side-bar/claim.svg";
 import PriceImage from "../assets/images/side-bar/Price.svg";
-import LogoutImage from "../assets/images/side-bar/logout.png";
+import LogoutImage from "../assets/images/side-bar/Logout.svg";
 import ProductImage from "../assets/images/side-bar/product.svg";
 import ReportImage from "../assets/images/side-bar/report.svg";
 import Actives from "../assets/images/side-bar/activess.svg";
