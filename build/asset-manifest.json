@@ -1,7 +1,12 @@
 {
   "files": {
+<<<<<<< Updated upstream
     "main.css": "/static/css/main.54aeddf1.css",
     "main.js": "/static/js/main.da54c0c2.js",
+=======
+    "main.css": "/static/css/main.0a191a64.css",
+    "main.js": "/static/js/main.284de943.js",
+>>>>>>> Stashed changes
     "static/js/787.c7997b7d.chunk.js": "/static/js/787.c7997b7d.chunk.js",
     "static/media/Profile.svg": "/static/media/Profile.8f0377abeb3a80e98a53f65b6fd202c4.svg",
     "static/media/Gilroy-Thin.ttf": "/static/media/Gilroy-Thin.28f856b7c4b3d473e0d1.ttf",
@@ -55,6 +60,7 @@
     "static/media/backArrow.svg": "/static/media/backArrow.6a8e82d5654297abc979ab75c80e53e2.svg",
     "static/media/downarrow.svg": "/static/media/downarrow.17f9a5b82610549217f3ea5d1002043d.svg",
     "static/media/Drop.svg": "/static/media/Drop.4e59ffc91c1abe493e11059f0fb734b3.svg",
+<<<<<<< Updated upstream
     "main.54aeddf1.css.map": "/static/css/main.54aeddf1.css.map",
     "main.da54c0c2.js.map": "/static/js/main.da54c0c2.js.map",
     "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
@@ -62,5 +68,14 @@
   "entrypoints": [
     "static/css/main.54aeddf1.css",
     "static/js/main.da54c0c2.js"
+=======
+    "main.0a191a64.css.map": "/static/css/main.0a191a64.css.map",
+    "main.284de943.js.map": "/static/js/main.284de943.js.map",
+    "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0a191a64.css",
+    "static/js/main.284de943.js"
+>>>>>>> Stashed changes
   ]
 }
