@@ -133,6 +133,10 @@ const routes = [
         element: <PrivateRoute element={<AddCategory />} path="/addCategory" />,
       },
       {
+        path: "/editCategory/:id",
+        element: <PrivateRoute element={<AddCategory />} path="//editCategory/:id" />,
+      },
+      {
         path: "/dealerList",
         element: <PrivateRoute element={<DealerList />} path="/dealerList" />,
       },

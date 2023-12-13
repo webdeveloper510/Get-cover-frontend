@@ -18,13 +18,14 @@ function Category() {
   const [categoryList,setCategoryList] = useState([])
 
   useEffect( () => {
-    const result =  getCategoryList().then(res =>{
+   getCategoryList().then(res =>{
       setCategoryList(res.result)
       console.log(res.result)
     })
   },[])
-  const handleActionChange = (action) => {
-    console.log(`Selected action: ${action}`);
+
+  const handleActionChange = (action, row) => {
+    console.log(`Selected action: ${action} for Category ID: ${row._id}`);
   };
 
   const columns = [
@@ -64,15 +65,15 @@ function Category() {
       name: "Action",
       cell: (row) => (
         <div className="relative">
-          <div onClick={() => setSelectedAction((prev) => !prev)}>
-            <img src={ActiveIcon} alt='Active Icon' />
+          <div onClick={() => setSelectedAction(row.unique_key)}>
+            <img src={ActiveIcon} alt="Active Icon" />
           </div>
-          {selectedAction && (
+          {selectedAction === row.unique_key && (
             <div className="absolute z-[2] top-4 right-0 mt-2 bg-white border rounded shadow-md">
-              <div class="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
+              <div className="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
               <button
                 onClick={() => {
-                  handleActionChange('Edit');
+                  handleActionChange('Edit', row);
                   setSelectedAction(null);
                 }}
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
