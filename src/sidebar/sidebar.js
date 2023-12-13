@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Project Imports
 import Logo from "../assets/images/dashboardLogo.png";
@@ -183,7 +183,7 @@ function SidebarItem({
 function SideBar() {
   const [active, setActive] = useState(null);
   const [expandedItem, setExpandedItem] = useState(null);
-
+  const navigate = useNavigate();
   const handleToggleExpand = (itemName) => {
     setExpandedItem((prevExpandedItem) =>
       prevExpandedItem === itemName ? null : itemName
@@ -193,7 +193,10 @@ function SideBar() {
   const handleLinkClick = (url, dropdownItem) => {
     setActive(url === "#" ? dropdownItem : url);
   };
-
+  const handleLogOut = () => {
+    localStorage.clear();
+    navigate("/");
+  };
   const Lists = [
     {
       name: "Dashboard",
@@ -320,7 +323,10 @@ function SideBar() {
                   onLinkClick={handleLinkClick}
                 />
               ))}
-              <li className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]">
+              <li className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]"
+                  onClick={handleLogOut}
+              
+              >
                 <div className="py-[22px] pe-3 ps-[10px] flex">
                   <img
                     src={LogoutImage}

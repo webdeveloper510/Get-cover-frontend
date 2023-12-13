@@ -25,7 +25,9 @@ const routes = [
       {
         path: "/",
         index: true,
-        element: <PrivateRoute element={<Login />} exact path="/" />,
+        element: (
+          <PrivateRoute withoutLogin={1} element={<Login />} exact path="/" />
+        ),
       },
       {
         path: "/forgot",
@@ -81,7 +83,7 @@ const routes = [
             path="/register"
           />
         ),
-      }
+      },
     ],
   },
   {
@@ -100,9 +102,7 @@ const routes = [
       },
       {
         path: "/addCustomer",
-        element: (
-          <PrivateRoute element={<AddCustomer />} path="/addCustomer" />
-        ),
+        element: <PrivateRoute element={<AddCustomer />} path="/addCustomer" />,
       },
       {
         path: "/addDealerBook",
@@ -130,9 +130,7 @@ const routes = [
       },
       {
         path: "/addCategory",
-        element: (
-          <PrivateRoute element={<AddCategory />} path="/addCategory" />
-        ),
+        element: <PrivateRoute element={<AddCategory />} path="/addCategory" />,
       },
       {
         path: "/dealerList",
@@ -140,7 +138,9 @@ const routes = [
       },
       {
         path: "/dealerPriceList",
-        element: <PrivateRoute element={<DealerPriceList />} path="/dealerPriceList" />,
+        element: (
+          <PrivateRoute element={<DealerPriceList />} path="/dealerPriceList" />
+        ),
       },
       {
         path: "/category",
@@ -156,7 +156,7 @@ const routes = [
         ),
       },
     ],
-  }
+  },
 ];
 
 export default routes;

@@ -10,13 +10,12 @@ const PrivateRoute = ({ element, path, withoutLogin }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(element, "=========element");
   useEffect(() => {
     const checkAuthentication = async () => {
       const userToken = localStorage.getItem("userDetails");
       setIsLoggedIn(!!userToken);
       setLoading(false);
-      console.log(!userToken);
+      console.log(!!userToken, withoutLogin);
       if (!!userToken === false && withoutLogin) {
         navigate(path, { replace: true });
       } else if (withoutLogin && !!userToken === true) {

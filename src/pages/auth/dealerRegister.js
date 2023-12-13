@@ -86,7 +86,7 @@ function DealerRegister() {
           ? await authDealerRegister(values)
           : await authserviceProviderRegister(values);
       console.log(result.result);
-      if (result.code === 401) {
+      if (result.code !== 200) {
         setError(result.message);
       } else {
         setError("");
