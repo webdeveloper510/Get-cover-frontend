@@ -48,7 +48,7 @@ code {
 }
 
 .rdt_TableHeadRow {
-  background: #F9F9F9;
+  background: #F9F9F9 !important;
   margin-top: 16px;
   font-family: 'Gilroy-Bold';
   font-size: 14px;

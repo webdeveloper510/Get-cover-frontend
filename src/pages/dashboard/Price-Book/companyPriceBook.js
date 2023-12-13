@@ -6,6 +6,7 @@ import Button from '../../../common/button'
 import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
+import down from '../../../assets/images/icons/Drop.svg';
 import Headbar from '../../../common/headBar';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
@@ -14,7 +15,7 @@ import DataTable from "react-data-table-component";
 function CompanyPriceBook() {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedAction, setSelectedAction] = useState(null);
-
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const handleActionChange = (action) => {
     // Implement the logic for the selected action (e.g., edit or delete)
     console.log(`Selected action: ${action}`);
@@ -28,6 +29,11 @@ function CompanyPriceBook() {
     { label: 'Country', value: 'country' },
     { label: 'Option 2', value: 'option2' },
     { label: 'Option 3', value: 'option3' },
+  ];
+
+  const status = [
+    { label: 'Active', value: 'true' },
+    { label: 'Inactive', value: 'false' },
   ];
 
   const data = [
@@ -78,9 +84,18 @@ function CompanyPriceBook() {
     },
 
     {
-      name: "Status",
+      name: 'Status',
       selector: (row) => row.status,
       sortable: true,
+      cell: (row) => (
+        <div className="relative" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+          <span className='flex border-[1px] p-2 rounded-xl font-semibold w-full'><div className={` ${row.status === 'Active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} h-3 w-3 rounded-full mr-2 self-center`}></div>{row.status} <img src={down} className='self-center ml-3' alt='down'/></span>
+
+          <div className='bg-Dropdown bg-cover bg-no-repeat	'>
+             hello
+          </div>
+        </div>
+      ),
     },
     {
       name: "Action",

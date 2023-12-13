@@ -120,6 +120,7 @@ function AddCompanyPriceBook() {
           <img src={AddDealer} alt='email Image' className='mx-auto'/>
           <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'>Submited  <span className='text-light-black'> Successfully </span></p>
           <p className='text-neutral-grey text-base font-medium mt-2'><b> Company Price Book </b> added successfully. </p>
+          <p className='text-neutral-grey text-base font-medium mt-2'>Redirect to Company Price  Book Page In <span>5</span> Seconds </p>
         </div>
         
       </Modal>

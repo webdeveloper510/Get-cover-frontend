@@ -31,6 +31,7 @@ import ActiveOrder from "../assets/images/side-bar/activeOrder.svg";
 import ActiveClaim from "../assets/images/side-bar/activeClaim.svg";
 import ActiveDealer from "../assets/images/side-bar/activeDealer.svg";
 import ActiveServicer from "../assets/images/side-bar/activeServicer.svg";
+import ForthActive from "../assets/images/side-bar/fourthDropdown.svg";
 
 function SidebarItem({
   item,
@@ -49,7 +50,7 @@ function SidebarItem({
   return (
     <li
       className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t-[0.5px] ${
-        hasItems ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
+        hasItems && isActive ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
       }
       ${isActive ? "active" : ""}`}
     >
