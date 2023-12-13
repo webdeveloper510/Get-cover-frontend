@@ -10,37 +10,32 @@ import Headbar from '../../../common/headBar';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import DataTable from "react-data-table-component";
+import { useEffect } from 'react';
+import { getCategoryList } from '../../../services/priceBookService';
+
 function Category() {
   const [selectedAction, setSelectedAction] = useState(null);
+  const [categoryList,setCategoryList] = useState([])
 
+  useEffect( () => {
+    const result =  getCategoryList().then(res =>{
+      setCategoryList(res.result)
+      console.log(res.result)
+    })
+  },[])
   const handleActionChange = (action) => {
-    // Implement the logic for the selected action (e.g., edit or delete)
     console.log(`Selected action: ${action}`);
-    // You can replace the console.log statement with the actual logic you want to perform
   };
-  const data = [
-    {
-      Categoryid: 1,
-      Categoryname: "Category 1",
-      description: "Description for Category 1",
-      status: "Active",
-    },
-    {
-      Categoryid: 2,
-      Categoryname: "Category 2",
-      description: "Description for Category 2",
-      status: "Inactive",
-    },
-  ];
+
   const columns = [
     {
       name: "Category ID",
-      selector: (row) => row.Categoryid,
+      selector: (row) => row.unique_key,
       sortable: true,
     },
     {
       name: "Category Name",
-      selector: (row) => row.Categoryname,
+      selector: (row) => row.name,
       sortable: true,
     },
     {
@@ -52,13 +47,25 @@ function Category() {
       name: "Status",
       selector: (row) => row.status,
       sortable: true,
+      cell: (row) => (
+        <div className="relative">
+          <select
+            value={row.status ? "active" : "inactive"}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
+            className="text-sm border border-gray-300 rounded p-1"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      ),
     },
     {
       name: "Action",
       cell: (row) => (
         <div className="relative">
-         <div onClick={() => setSelectedAction((prev) => !prev)}>
-            <img src={ActiveIcon} alt='Active Icon'/>
+          <div onClick={() => setSelectedAction((prev) => !prev)}>
+            <img src={ActiveIcon} alt='Active Icon' />
           </div>
           {selectedAction && (
             <div className="absolute z-[2] top-4 right-0 mt-2 bg-white border rounded shadow-md">
@@ -78,6 +85,10 @@ function Category() {
       ),
     },
   ];
+  const handleStatusChange = (row, newStatus) => {
+
+    console.log(row._id, newStatus === "active" ? true : false);
+  };
   return (
     <>
       <div className='my-8 ml-3'>
@@ -112,7 +123,7 @@ function Category() {
               </div>
             </div>
           </Grid>
-          <DataTable columns={columns} data={data} pagination />
+          <DataTable columns={columns} data={categoryList} pagination />
         </div>
       </div>
     </>
