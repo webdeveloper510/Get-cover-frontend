@@ -55,6 +55,27 @@ code {
   border-top: 1px solid #dbdbdb;
 }
 
+.rdt_TableRow {
+  font-weight: 700  !important;
+  color: #727378 !important;
+}
+
+.rdt_Pagination {
+  position: absolute;
+  margin-top: 17px;
+  background: #333 !important;
+  color: #F6F5F1 !important;
+  border-radius: 17px;
+}
+
+.rdt_Pagination svg {
+  fill: white;
+}
+
+.sc-lmoLKH.lcunyj {
+  margin-right: auto;
+}
+
 .rdt_TableBody {
   font-size: 16px !important;
   font-family: 'Gilroy-Light';

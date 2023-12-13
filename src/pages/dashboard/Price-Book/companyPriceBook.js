@@ -88,9 +88,17 @@ function CompanyPriceBook() {
       selector: (row) => row.status,
       sortable: true,
       cell: (row) => (
-        <div className="relative" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-          <span className='flex border-[1px] p-2 cursor-pointer	 rounded-xl font-semibold w-full'><div className={` ${row.status === 'Active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} h-3 w-3 rounded-full mr-2 self-center`}></div>{row.status} <img src={down} className='self-center ml-3' alt='down'/></span>
-        </div>
+        <div className="relative">
+        <div className={` ${row.status === true ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-[10px]`}></div>
+        <select
+          value={row.Status === true ? "Active" : "Inactive"}
+          // onChange={(e) => handleStatusChange(row, e.target.value)}
+          className="text-sm border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+        >
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
       ),
     },
     {
@@ -120,7 +128,7 @@ function CompanyPriceBook() {
   ];
   return (
     <>
-      <div className='my-8 ml-3'>
+      <div className='my-8 ml-3 relative'>
         <Headbar />
         <div className='flex'>
           <div className='pl-3'>
@@ -142,19 +150,19 @@ function CompanyPriceBook() {
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-11' >
                   <div className='col-span-5 self-center'>
-                    <Input name='ProductName' type='text' className1="!pt-2 !pb-1" label='Product Name' />
+                    <Input name='ProductName' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1" label='Product Name' />
                   </div>
 
                   <div className='col-span-5 self-center'>
                     <Select label="Product Category"
                       options={country}
-                      className1="!pt-2 !pb-0"
-                      className="!bg-[#f7f7f7]"
+                      className1="!pt-2 !pb-1 !text-[13px]"
+                      className="!text-[14px] !bg-[#f7f7f7]"
                       selectedValue={selectedProduct}
                       onChange={handleSelectChange1} />
                   </div>
                   <div className='col-span-1 self-center'>
-                    <img src={Search} alt='Search' />
+                    <img src={Search} className='cursor-pointer	' alt='Search' />
                   </div>
                 </Grid>
 

@@ -100,11 +100,11 @@ function DealerPriceList() {
       sortable: true,
       cell: (row) => (
         <div className="relative" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-          <span className='flex border-[1px] p-2 rounded-xl font-semibold w-full'><div className={` ${row.status === 'Active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} h-3 w-3 rounded-full mr-2 self-center`}></div>{row.status} <img src={down} className='self-center ml-3' alt='down'/></span>
+          <span className='flex border-[1px] p-2 rounded-xl font-semibold w-full'><div className={` ${row.status === 'Active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} h-3 w-3 rounded-full mr-2 self-center`}></div>{row.Status} <img src={down} className='self-center ml-3' alt='down'/></span>
 
-          <div className='bg-Dropdown bg-cover bg-no-repeat	'>
+          {/* <div className='bg-Dropdown bg-cover bg-no-repeat	'>
              hello
-          </div>
+          </div> */}
         </div>
       ),
     },
@@ -136,7 +136,7 @@ function DealerPriceList() {
   ];
   return (
     <>
-      <div className='my-8 ml-3'>
+      <div className='my-8 ml-3 relative'>
         <Headbar />
         <div className='flex'>
           <div className='pl-3'>

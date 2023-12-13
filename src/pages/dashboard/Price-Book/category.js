@@ -128,7 +128,7 @@ function Category() {
 
   return (
     <>
-      <div className='my-8 ml-3'>
+      <div className='my-8 ml-3 relative'>
         <Headbar />
         <div className='flex'>
           <div className='pl-3'>
@@ -150,10 +150,10 @@ function Category() {
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-6' >
                   <div className='col-span-5 self-center'>
-                    <Input name='CategoryName' type='text' className1="!pt-2 !pb-1" label='Category Name' />
+                    <Input name='CategoryName' type='text'  className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1" label='Category Name' />
                   </div>
                   <div className='col-span-1 self-center'>
-                    <img src={Search} alt='Search' />
+                    <img src={Search} className='cursor-pointer	' alt='Search' />
                   </div>
                 </Grid>
 
