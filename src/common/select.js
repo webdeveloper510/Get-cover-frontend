@@ -25,8 +25,9 @@ const Select = ({
   };
 
   const handleInputChange = (e) => {
-    setIsFilled(!!e.target.value);
-    onChange(name, e.target.value);
+    const value = e?.target?.value || '';  
+    setIsFilled(!!value);
+    onChange && onChange(name, value); 
   };
 
   return (

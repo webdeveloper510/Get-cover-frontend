@@ -24,11 +24,11 @@ function AddCompanyPriceBook() {
     const closeModal = () => {
       setIsModalOpen(false);
     };
-    const handleSelectChange = (e) => {
-      setSelectedValue(e.target.value);
+    const handleSelectChange = (name , value) => {
+      setSelectedValue(value);
     };
-    const handleSelectChange1 = (e) => {
-      setSelectedProduct(e.target.value);
+    const handleSelectChange1 = (name, value) => {
+      setSelectedProduct(value);
     };
   
     const country = [

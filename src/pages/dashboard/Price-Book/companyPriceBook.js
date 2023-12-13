@@ -142,14 +142,14 @@ function CompanyPriceBook() {
             <img src={ActiveIcon} alt="Active Icon" />
           </div>
           {selectedAction === row.unique_key && (
-            <div className="absolute z-[2] w-[70px] top-4 right-0 mt-2 bg-white border rounded shadow-md">
-              <div className="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
+            <div className="absolute z-[2] w-[70px] drop-shadow-5xl	top-[1.7rem] right-0 mt-2 bg-white border rounded-lg shadow-md">
+              <div className="h-0 w-0 border-x-8 absolute top-[-14px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
               <button
                 onClick={() => {
                   handleActionChange('Edit', row);
                   setSelectedAction(null);
                 }}
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
+                className="block px-4 py-2 text-gray-800 rounded-lg  w-full text-left"
               >
                 Edit
               </button>
@@ -161,7 +161,7 @@ function CompanyPriceBook() {
   ];
   return (
     <>
-      <div className='my-8 ml-3'>
+      <div className='my-8 ml-3 relative'>
         <Headbar />
         <div className='flex'>
           <div className='pl-3'>
@@ -183,19 +183,19 @@ function CompanyPriceBook() {
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-11' >
                   <div className='col-span-5 self-center'>
-                    <Input name='ProductName' type='text' className1="!pt-2 !pb-1" label='Product Name' />
+                    <Input name='ProductName' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1" label='Product Name' />
                   </div>
 
                   <div className='col-span-5 self-center'>
                     <Select label="Product Category"
                       options={country}
-                      className1="!pt-2 !pb-0"
-                      className="!bg-[#f7f7f7]"
+                      className1="!pt-2 !pb-1 !text-[13px]"
+                      className="!text-[14px] !bg-[#f7f7f7]"
                       selectedValue={selectedProduct}
                       onChange={handleSelectChange1} />
                   </div>
                   <div className='col-span-1 self-center'>
-                    <img src={Search} alt='Search' />
+                    <img src={Search} className='cursor-pointer	' alt='Search' />
                   </div>
                 </Grid>
 
