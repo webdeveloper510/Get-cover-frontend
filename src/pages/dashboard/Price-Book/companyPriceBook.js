@@ -89,11 +89,11 @@ function CompanyPriceBook() {
       sortable: true,
       cell: (row) => (
         <div className="relative" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-          <span className='flex border-[1px] p-2 rounded-xl font-semibold w-full'><div className={` ${row.status === 'Active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} h-3 w-3 rounded-full mr-2 self-center`}></div>{row.status} <img src={down} className='self-center ml-3' alt='down'/></span>
+          <span className='flex border-[1px] p-2 cursor-pointer	 rounded-xl font-semibold w-full'><div className={` ${row.status === 'Active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} h-3 w-3 rounded-full mr-2 self-center`}></div>{row.status} <img src={down} className='self-center ml-3' alt='down'/></span>
 
-          <div className='bg-Dropdown bg-cover bg-no-repeat	'>
+          {/* <div className='bg-Dropdown bg-cover bg-no-repeat	'>
              hello
-          </div>
+          </div> */}
         </div>
       ),
     },
@@ -101,18 +101,18 @@ function CompanyPriceBook() {
       name: "Action",
       cell: (row) => (
         <div className="relative">
-          <div onClick={() => setSelectedAction((prev) => !prev)}>
-            <img src={ActiveIcon} alt='Active Icon'/>
+          <div onClick={() => setSelectedAction(row.unique_key)}>
+            <img src={ActiveIcon} alt="Active Icon" />
           </div>
-          {selectedAction && (
-            <div className="absolute z-[2] top-4 right-0 mt-2 bg-white border rounded shadow-md">
-              <div class="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
+          {selectedAction === row.unique_key && (
+            <div className="absolute z-[2] w-[70px] drop-shadow-5xl	top-[1.7rem] right-0 mt-2 bg-white border rounded-lg shadow-md">
+              <div className="h-0 w-0 border-x-8 absolute top-[-14px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
               <button
                 onClick={() => {
-                  handleActionChange('Edit');
+                  handleActionChange('Edit', row);
                   setSelectedAction(null);
                 }}
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
+                className="block px-4 py-2 text-gray-800 rounded-lg  w-full text-left"
               >
                 Edit
               </button>

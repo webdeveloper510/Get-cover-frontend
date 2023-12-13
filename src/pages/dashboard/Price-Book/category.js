@@ -15,7 +15,8 @@ import { getCategoryList } from '../../../services/priceBookService';
 
 function Category() {
   const [selectedAction, setSelectedAction] = useState(null);
-  const [categoryList,setCategoryList] = useState([])
+  const [categoryList,setCategoryList] = useState([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect( () => {
    getCategoryList().then(res =>{
@@ -26,6 +27,11 @@ function Category() {
 
   const handleActionChange = (action, row) => {
     console.log(`Selected action: ${action} for Category ID: ${row._id}`);
+  };
+
+  const toggleDropdown = (uniqueKey) => {
+    setIsDropdownOpen((prev) => (prev === uniqueKey ? !prev : true));
+    setSelectedAction(uniqueKey);
   };
 
   const columns = [
@@ -50,11 +56,11 @@ function Category() {
       sortable: true,
       cell: (row) => (
         <div className="relative">
-          <div className={` ${row.status === 'active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-1`}></div>
+          <div className={` ${row.status == 'active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-[10px]`}></div>
           <select
             value={row.status ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-sm border border-gray-300 rounded pl-4 py-2 pr-1 font-semibold rounded-xl"
+            className="text-sm border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -65,19 +71,20 @@ function Category() {
     {
       name: "Action",
       cell: (row) => (
-        <div className="relative">
+        <div className="relative" onClick={() => toggleDropdown(row.unique_key)}>
           <div onClick={() => setSelectedAction(row.unique_key)}>
-            <img src={ActiveIcon} alt="Active Icon" />
+            <img src={ActiveIcon} className='cursor-pointer	' alt="Active Icon" />
           </div>
-          {selectedAction === row.unique_key && (
-            <div className="absolute z-[2] w-[70px] top-4 right-0 mt-2 bg-white border rounded shadow-md">
-              <div className="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
+          {isDropdownOpen && selectedAction === row.unique_key && (
+            <div className="absolute z-[2] w-[70px] drop-shadow-5xl	top-[1.7rem] right-0 mt-2 bg-white border rounded-lg shadow-md">
+              <div className="h-0 w-0 border-x-8 absolute top-[-14px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
               <button
-                onClick={() => {
-                  handleActionChange('Edit', row);
-                  setSelectedAction(null);
-                }}
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
+               onClick={() => {
+                handleActionChange('Edit', row);
+                setIsDropdownOpen(false);
+                setSelectedAction(null);
+              }}
+                className="block px-4 py-2 text-gray-800 rounded-lg  w-full text-left"
               >
                 Edit
               </button>
