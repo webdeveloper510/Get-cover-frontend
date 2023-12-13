@@ -79,3 +79,27 @@ export const getCategoryList = async () => {
       throw error;
     }
   };
+
+  export const getTermList = async () => {
+    const headers = createHeaders();
+  
+    try {
+      const response = await axios.get(`${url}/user/getAllTerms`, { headers });
+  
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  export const addCompanyPricBook = async (companyPriceBookDetails) => {
+    const headers = createHeaders();
+  
+    try {
+      const response = await axios.post(`${url}/price/createPriceBook`, companyPriceBookDetails, { headers });
+  
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };

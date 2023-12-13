@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const Input = ({
   type,
   error,
   label,
-  defaultValue,
+  value,
   onChange,
   onBlur,
   name,
@@ -14,29 +14,39 @@ const Input = ({
   className,
   className1,
   disabled,
+  maxDecimalPlaces,
 }) => {
-  console.log(error);
+  const [inputValue, setInputValue] = useState(value || '');
+
   const handleWheelCapture = (event) => {
     event.preventDefault();
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Backspace") {
-      return;
-    }
-
-    if (type === "number" && (event.key === "e" || event.key === "E")) {
-      event.preventDefault();
-    }
-    // if (type === "number" && (event.key === "." || event.key === ".")) {
-    //   event.preventDefault();
-    // }
-
-    if (maxLength && event.target.value.length >= maxLength) {
-      event.preventDefault();
+  const handleInput = (event) => {
+    if (type === "number" && maxDecimalPlaces !== undefined) {
+      const inputValue = event.target.value;
+      const regex = new RegExp(`^-?\\d*\\.?\\d{0,${maxDecimalPlaces}}$`);
+      if (!regex.test(inputValue)) {
+        return;
+      }
+      setInputValue(inputValue);
+  
+      if (onChange) {
+        onChange({
+          target: {
+            name: event.target.name,
+            value: inputValue,
+          },
+        });
+      }
+    } else {
+      setInputValue(event.target.value);
+      if (onChange) {
+        onChange(event);
+      }
     }
   };
-
+  
   useEffect(() => {
     const inputElement = document.getElementById(name);
     if (inputElement) {
@@ -58,7 +68,7 @@ const Input = ({
         <input
           type={type}
           name={name}
-          defaultValue={defaultValue}
+          value={inputValue}
           id={name}
           onBlur={onBlur}
           minLength={minLength}
@@ -67,12 +77,9 @@ const Input = ({
           className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
             error ? "border-[red]" : " border-gray-300 "
           } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
-          // placeholder={placeholder}
-          onChange={onChange}
+          onChange={handleInput}
           disabled={disabled}
           onWheel={(e) => e.preventDefault()}
-          onKeyDown={handleKeyDown}
-          onWheelCapture={handleWheelCapture}
           required={required}
         />
         <label

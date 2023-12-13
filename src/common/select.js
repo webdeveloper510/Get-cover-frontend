@@ -18,7 +18,6 @@ const Select = ({
   const handleFocus = () => {
     setIsFocused(true);
   };
-  console.log(error);
   const handleBlur = () => {
     setIsFocused(false);
     setIsFilled(!!selectedValue);
