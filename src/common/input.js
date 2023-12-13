@@ -28,9 +28,9 @@ const Input = ({
     if (type === "number" && (event.key === "e" || event.key === "E")) {
       event.preventDefault();
     }
-    if (type === "number" && (event.key === "." || event.key === ".")) {
-      event.preventDefault();
-    }
+    // if (type === "number" && (event.key === "." || event.key === ".")) {
+    //   event.preventDefault();
+    // }
 
     if (maxLength && event.target.value.length >= maxLength) {
       event.preventDefault();

@@ -55,3 +55,27 @@ export const getCategoryList = async () => {
       throw error;
     }
   };
+
+  export const getCompanyPriceList =  async () => {
+    const headers = createHeaders();
+  
+    try {
+      const response = await axios.post(`${url}/price/priceBooks`,{}, { headers });
+  
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  export const editCompanyList = async (id,categoryListData) => {
+    const headers = createHeaders();
+  
+    try {
+      const response = await axios.put(`${url}/price/updatePriceBook/${id}`,categoryListData, { headers });
+  
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };

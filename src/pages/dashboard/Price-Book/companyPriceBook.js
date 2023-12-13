@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import Button from '../../../common/button'
@@ -12,19 +12,70 @@ import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import Select from '../../../common/select';
 import DataTable from "react-data-table-component";
+import { editCompanyList, getCompanyPriceList } from '../../../services/priceBookService';
+
 function CompanyPriceBook() {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedAction, setSelectedAction] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const handleActionChange = (action) => {
-    // Implement the logic for the selected action (e.g., edit or delete)
-    console.log(`Selected action: ${action}`);
-    // You can replace the console.log statement with the actual logic you want to perform
-  };
+  const [companyPriceList, setCompanyPriceList] = useState([])
+
+
   const handleSelectChange1 = (e) => {
     setSelectedProduct(e.target.value);
   };
 
+  useEffect (()=>{
+    getPriceBookListData()
+  },[])
+
+  const getPriceBookListData = async () => {
+    try {
+      const res = await getCompanyPriceList();
+      setCompanyPriceList(res.result);
+    } catch (error) {
+      console.error('Error fetching category list:', error);
+    }
+  };
+
+  const handleStatusChange = async (row, newStatus) => {
+    try {
+      const updatedCompanyPriceList = companyPriceList.map((category) => {
+        if (category._id === row._id) {
+          return { ...category, status: newStatus === 'active' ? true : false };
+        }
+        return category;
+      });
+
+      setCompanyPriceList(updatedCompanyPriceList);
+
+      const result = await editCompanyList(row._id, {
+        category: row.category._id,
+        reinsuranceFee: row.reinsuranceFee,
+        adminFee: row.adminFee,
+        reserveFutureFee: row.reserveFutureFee,
+        frontingFee: row.frontingFee,
+        description: row.description,
+        status: newStatus === 'active' ? true : false,
+      });
+
+       console.log(result);
+
+      if (result.code === 200 || result.code === 401) {
+        console.log('Status updated successfully');
+        getPriceBookListData();
+      } else {
+        getPriceBookListData();
+      }
+    }
+     catch (error) {
+      console.error('Error updating category status:', error);
+      getPriceBookListData();
+    }
+  };
+  const handleActionChange = (action, row) => {
+    console.log(`Selected action: ${action} for Category ID: ${row._id}`);
+  };
   const country = [
     { label: 'Country', value: 'country' },
     { label: 'Option 2', value: 'option2' },
@@ -36,64 +87,50 @@ function CompanyPriceBook() {
     { label: 'Inactive', value: 'false' },
   ];
 
-  const data = [
-    {
-      Categoryid: 1,
-      Categoryname: "Category 1",
-      description: "Product A",
-      productTerm: "12 months",
-      wholesaleCost: "$50.00",
-      status: "Active",
-    },
-    {
-      Categoryid: 2,
-      Categoryname: "Category 2",
-      description: "Product B",
-      productTerm: "6 months",
-      wholesaleCost: "$35.00",
-      status: "Inactive",
-    },
-    // Add more objects as needed
-  ];
+
 
   const columns = [
     {
       name: "Product ID",
-      selector: (row) => row.Categoryid,
+      selector: (row) => row.unique_key,
       sortable: true,
     },
     {
       name: "Product Category",
-      selector: (row) => row.Categoryname,
+      selector: (row) =>row.category.name, 
       sortable: true,
     },
     {
       name: "Product Name",
-      selector: (row) => row.description,
+      selector: (row) => row.name,
       sortable: true,
     },
     {
       name: "Product Term",
-      selector: (row) => row.description,
+      selector: (row) => row.term,
       sortable: true,
     },
     {
       name: "WholeSale Cost",
-      selector: (row) => row.description,
+      selector: (row) => row.frontingFee + row.reserveFutureFee + row.reinsuranceFee + row.adminFee,
       sortable: true,
     },
 
     {
-      name: 'Status',
+      name: "Status",
       selector: (row) => row.status,
       sortable: true,
       cell: (row) => (
-        <div className="relative" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-          <span className='flex border-[1px] p-2 rounded-xl font-semibold w-full'><div className={` ${row.status === 'Active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} h-3 w-3 rounded-full mr-2 self-center`}></div>{row.status} <img src={down} className='self-center ml-3' alt='down'/></span>
-
-          <div className='bg-Dropdown bg-cover bg-no-repeat	'>
-             hello
-          </div>
+        <div className="relative">
+          <div className={` ${row.status === true ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-1`}></div>
+          <select
+            value={row.status === true ? "active" : "inactive"}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
+            className="text-sm border border-gray-300 rounded pl-4 py-2 pr-1 font-semibold rounded-xl"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
         </div>
       ),
     },
@@ -101,15 +138,15 @@ function CompanyPriceBook() {
       name: "Action",
       cell: (row) => (
         <div className="relative">
-          <div onClick={() => setSelectedAction((prev) => !prev)}>
-            <img src={ActiveIcon} alt='Active Icon'/>
+          <div onClick={() => setSelectedAction(row.unique_key)}>
+            <img src={ActiveIcon} alt="Active Icon" />
           </div>
-          {selectedAction && (
-            <div className="absolute z-[2] top-4 right-0 mt-2 bg-white border rounded shadow-md">
-              <div class="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
+          {selectedAction === row.unique_key && (
+            <div className="absolute z-[2] w-[70px] top-4 right-0 mt-2 bg-white border rounded shadow-md">
+              <div className="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
               <button
                 onClick={() => {
-                  handleActionChange('Edit');
+                  handleActionChange('Edit', row);
                   setSelectedAction(null);
                 }}
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
@@ -167,7 +204,7 @@ function CompanyPriceBook() {
           </Grid>
 
           <div className="overflow-x-auto">
-            <DataTable columns={columns} data={data} pagination />
+            <DataTable columns={columns} data={companyPriceList} pagination />
           </div>
         </div>
       </div>
