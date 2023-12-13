@@ -17,12 +17,11 @@ import { editCompanyList, getCompanyPriceList } from '../../../services/priceBoo
 function CompanyPriceBook() {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedAction, setSelectedAction] = useState(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [companyPriceList, setCompanyPriceList] = useState([])
 
 
-  const handleSelectChange1 = (e) => {
-    setSelectedProduct(e.target.value);
+  const handleSelectChange1 = (name , value) => {
+    setSelectedProduct(value);
   };
 
   useEffect (()=>{
