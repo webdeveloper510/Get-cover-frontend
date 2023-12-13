@@ -102,10 +102,12 @@ function DealerPriceList() {
       name: "Action",
       cell: (row) => (
         <div className="relative">
-          <div onClick={() => setSelectedAction((prev) => !prev)}><img src={ActiveIcon} alt='Active Icon'/></div>
+          <div onClick={() => setSelectedAction((prev) => !prev)}>
+            <img src={ActiveIcon} alt='Active Icon'/>
+          </div>
           {selectedAction && (
             <div className="absolute z-[2] top-4 right-0 mt-2 bg-white border rounded shadow-md">
-              <div class="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
+              <div className="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
               <button
                 onClick={() => {
                   handleActionChange('Edit');
@@ -120,6 +122,7 @@ function DealerPriceList() {
         </div>
       ),
     },
+    
   ];
   return (
     <>

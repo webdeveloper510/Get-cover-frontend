@@ -16,55 +16,128 @@ import AddCategory from "../pages/dashboard/Price-Book/addCategory";
 import DealerPriceList from "../pages/dashboard/Price-Book/dealerList";
 import CompanyPriceBook from "../pages/dashboard/Price-Book/companyPriceBook";
 import Category from "../pages/dashboard/Price-Book/category";
-<<<<<<< HEAD
 import DealerList from "../pages/dashboard/Dealer/dealerList";
-=======
 import PrivateRoute from "./privateRoute";
->>>>>>> 2a801454c65753566535713d76e4276ba50561a8
 
 const routes = [
   {
     path: "/",
+    // children: [
+    //   {
+    //     path: "/",
+    //     index: true,
+    //     element: <PrivateRoute element={<Login />} exact path="/" />,
+    //   },
+    //   {
+    //     path: "/forgot",
+    //     index: true,
+    //     element: <PrivateRoute element={<ForgotPassword />} path="/forgot" />,
+    //   },
+    //   {
+    //     path: "/newPassword/:id/:token",
+    //     index: true,
+    //     element: (
+    //       <PrivateRoute
+    //         element={<NewPassword />}
+    //         path="/newPassword/:id/:token"
+    //       />
+    //     ),
+    //   },
+    //   {
+    //     path: "registerDealer",
+    //     index: true,
+    //     element: (
+    //       <PrivateRoute element={<DealerRegister />} path="/registerDealer" />
+    //     ),
+    //   },
+    //   {
+    //     path: "/register",
+    //     index: true,
+    //     element: <PrivateRoute element={<Register />} path="/register" />,
+    //   },
+    // ],
     children: [
-      {
-        path: "/",
-        index: true,
-        element: <PrivateRoute element={<Login />} exact path="/" />,
-      },
-      {
-        path: "/forgot",
-        index: true,
-        element: <PrivateRoute element={<ForgotPassword />} path="/forgot" />,
-      },
+      { path: "/", index: true, element: <Login /> },
+      { path: "/forgot", index: true, element: <ForgotPassword /> },
       {
         path: "/newPassword/:id/:token",
         index: true,
-        element: (
-          <PrivateRoute
-            element={<NewPassword />}
-            path="/newPassword/:id/:token"
-          />
-        ),
+        element: <NewPassword />,
       },
-      {
-        path: "registerDealer",
-        index: true,
-        element: (
-          <PrivateRoute element={<DealerRegister />} path="/registerDealer" />
-        ),
-      },
-      {
-        path: "/register",
-        index: true,
-        element: <PrivateRoute element={<Register />} path="/register" />,
-      },
+      { path: "/registerDealer", index: true, element: <DealerRegister /> },
+      { path: "/registerProvider", index: true, element: <DealerRegister /> },
+      { path: "/register", element: <Register /> },
     ],
   },
   {
     path: "/",
     element: <Layout />,
     children: [
-<<<<<<< HEAD
+      // {
+      //   path: "/dashboard",
+      //   element: <PrivateRoute element={<Dashboard />} path="/dashboard" />,
+      // },
+      // {
+      //   path: "/dealer",
+      //   element: <PrivateRoute element={<Dealer />} path="/dealer" />,
+      // },
+      // {
+      //   path: "/addCustomer",
+      //   element: (
+      //     <PrivateRoute element={<AddCustomer />} path="/addCustomer" />
+      //   ),
+      // },
+      // {
+      //   path: "/addDealerBook",
+      //   element: (
+      //     <PrivateRoute element={<AddDealerBook />} path="/addDealerBook" />
+      //   ),
+      // },
+      // {
+      //   path: "/addCompanyPriceBook",
+      //   element: (
+      //     <PrivateRoute
+      //       element={<AddCompanyPriceBook />}
+      //       path="/addCompanyPriceBook"
+      //     />
+      //   ),
+      // },
+      // {
+      //   path: "/uploadDealerBook",
+      //   element: (
+      //     <PrivateRoute
+      //       element={<UploadDealerBook />}
+      //       path="/uploadDealerBook"
+      //     />
+      //   ),
+      // },
+      // {
+      //   path: "/addCategory",
+      //   element: (
+      //     <PrivateRoute element={<AddCategory />} path="/addCategory" />
+      //   ),
+      // },
+      // {
+      //   path: "/dealerPriceList",
+      //   element: <PrivateRoute element={<DealerPriceList />} path="/dealerPriceList" />,
+      // },
+      // {
+      //   path: "/dealerList",
+      //   element: <PrivateRoute element={<DealerList />} path="/dealerList" />,
+      // },
+      // {
+      //   path: "/category",
+      //   element: <PrivateRoute element={<Category />} path="/category" />,
+      // },
+      // {
+      //   path: "/companyPriceBook",
+      //   element: (
+      //     <PrivateRoute
+      //       element={<CompanyPriceBook />}
+      //       path="/companyPriceBook"
+      //     />
+      //   ),
+      // },
       { path: "/dashboard", element: <Dashboard /> },
       { path: "/dealer", element: <Dealer /> },
       { path: "/addCustomer", element: <AddCustomer /> },
@@ -76,69 +149,6 @@ const routes = [
       { path: "/companyPriceBook", element: <CompanyPriceBook /> },
       { path: "/dealerList", element: <DealerList /> },
       { path: "/category", element: <Category /> },
-=======
-      {
-        path: "/dashboard",
-        element: <PrivateRoute element={<Dashboard />} path="/dashboard" />,
-      },
-      {
-        path: "/dealer",
-        element: <PrivateRoute element={<Dealer />} path="/dealer" />,
-      },
-      {
-        path: "/add-Customer",
-        element: (
-          <PrivateRoute element={<AddCustomer />} path="/add-Customer" />
-        ),
-      },
-      {
-        path: "/add-Dealer-Book",
-        element: (
-          <PrivateRoute element={<AddDealerBook />} path="/add-Dealer-Book" />
-        ),
-      },
-      {
-        path: "/add-Company-Price-Book",
-        element: (
-          <PrivateRoute
-            element={<AddCompanyPriceBook />}
-            path="/add-Company-Price-Book"
-          />
-        ),
-      },
-      {
-        path: "/upload-Dealer-Book",
-        element: (
-          <PrivateRoute
-            element={<UploadDealerBook />}
-            path="/upload-Dealer-Book"
-          />
-        ),
-      },
-      {
-        path: "/add-Category",
-        element: (
-          <PrivateRoute element={<AddCategory />} path="/add-Category" />
-        ),
-      },
-      {
-        path: "/DealerList",
-        element: <PrivateRoute element={<DealerList />} path="/DealerList" />,
-      },
-      {
-        path: "/category",
-        element: <PrivateRoute element={<Category />} path="/category" />,
-      },
-      {
-        path: "/CompanyPriceBook",
-        element: (
-          <PrivateRoute
-            element={<CompanyPriceBook />}
-            path="/CompanyPriceBook"
-          />
-        ),
-      },
->>>>>>> 2a801454c65753566535713d76e4276ba50561a8
     ],
   },
 ];
