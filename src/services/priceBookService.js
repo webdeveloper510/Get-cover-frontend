@@ -44,3 +44,14 @@ export const getCategoryList = async () => {
     }
   };
 
+  export const editCategoryList = async (id,categoryListData) => {
+    const headers = createHeaders();
+  
+    try {
+      const response = await axios.put(`${url}/price/updatePriceBookCategory/${id}`,categoryListData, { headers });
+  
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
