@@ -61,7 +61,7 @@ function AddCompanyPriceBook() {
         {/* Form Start */}
   
         <form className='mt-8'>
-          <div className='py-5 min-h-screen'>
+          <div className='py-5'>
           <Grid className='!grid-cols-5'>
                   <div className='col-span-1'>
                        <Select label="Product Category "
@@ -119,7 +119,7 @@ function AddCompanyPriceBook() {
         <div className='text-center py-3'>
           <img src={AddDealer} alt='email Image' className='mx-auto'/>
           <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'>Summited  <span className='text-light-black'> Successfully </span></p>
-          <p className='text-neutral-grey text-base font-medium mt-2'><b> Company Price Book </b>  will be added successfully. </p>
+          <p className='text-neutral-grey text-base font-medium mt-2'><b> Company Price Book </b> added successfully. </p>
         </div>
         
       </Modal>

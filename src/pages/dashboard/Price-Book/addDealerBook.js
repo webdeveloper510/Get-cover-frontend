@@ -61,7 +61,7 @@ function AddDealerBook() {
         {/* Form Start */}
   
         <form className='mt-8'>
-          <div className='px-8 py-8 drop-shadow-4xl bg-white min-h-screen border-[1px] border-[#D1D1D1]  rounded-3xl'>
+          <div className='px-8 py-8 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl'>
           <Grid>
                   <div className='col-span-4'>
                        <Select label="Dealer Name"
@@ -119,7 +119,7 @@ function AddDealerBook() {
         <div className='text-center py-3'>
           <img src={AddDealer} alt='email Image' className='mx-auto'/>
           <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'>Summited  <span className='text-light-black'> Successfully </span></p>
-          <p className='text-neutral-grey text-base font-medium mt-2'><b> New Dealer Book </b>  will be added successfully. </p>
+          <p className='text-neutral-grey text-base font-medium mt-2'><b> New Dealer Book </b> added successfully. </p>
 
         </div>
         
