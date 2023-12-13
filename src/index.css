@@ -47,7 +47,7 @@ code {
     monospace;
 }
 
-.sc-dlfmHC.cfvlby.rdt_TableHeadRow {
+.rdt_TableHeadRow {
   background: #F9F9F9;
   margin-top: 16px;
   font-family: 'Gilroy-Bold';
@@ -55,7 +55,7 @@ code {
   border-top: 1px solid #dbdbdb;
 }
 
-.sc-hHftZz.gBmxlM.rdt_TableBody {
+.rdt_TableBody {
   font-size: 16px !important;
   font-family: 'Gilroy-Light';
 }
