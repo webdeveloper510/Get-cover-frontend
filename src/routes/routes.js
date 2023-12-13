@@ -25,18 +25,27 @@ const routes = [
       {
         path: "/",
         index: true,
-        element: <PrivateRoute element={<Login />} exact path="/" />,
+        element: (
+          <PrivateRoute withoutLogin={1} element={<Login />} exact path="/" />
+        ),
       },
       {
         path: "/forgot",
         index: true,
-        element: <PrivateRoute element={<ForgotPassword />} path="/forgot" />,
+        element: (
+          <PrivateRoute
+            withoutLogin={1}
+            element={<ForgotPassword />}
+            path="/forgot"
+          />
+        ),
       },
       {
         path: "/newPassword/:id/:token",
         index: true,
         element: (
           <PrivateRoute
+            withoutLogin={1}
             element={<NewPassword />}
             path="/newPassword/:id/:token"
           />
@@ -46,13 +55,23 @@ const routes = [
         path: "registerDealer",
         index: true,
         element: (
-          <PrivateRoute element={<DealerRegister />} path="/registerDealer" />
+          <PrivateRoute
+            withoutLogin={1}
+            element={<DealerRegister />}
+            path="/registerDealer"
+          />
         ),
       },
       {
         path: "/register",
         index: true,
-        element: <PrivateRoute element={<Register />} path="/register" />,
+        element: (
+          <PrivateRoute
+            withoutLogin={1}
+            element={<Register />}
+            path="/register"
+          />
+        ),
       },
     ],
   },
@@ -62,7 +81,9 @@ const routes = [
     children: [
       {
         path: "/dashboard",
-        element: <PrivateRoute element={<Dashboard />} path="/dashboard" />,
+        element: (
+          <PrivateRoute element={<Dashboard />} exact path="/dashboard" />
+        ),
       },
       {
         path: "/dealer",
