@@ -24,7 +24,7 @@ const FileDropdown = ({className = '',}) => {
       >
         {selectedFile ? selectedFile.name : (<>
         <img src={Dropbox} className='mx-auto mb-3' alt='Dropbox'/>
-        <p className='text-[#5D6E66]'>Accepted file types: csv, Max. file size: 50 MB.</p>
+        <p className='text-[#5D6E66]'>Accepted file types: csv, xlsx, xls Max. file size: 50 MB.</p>
         </>)}
       </button>
 
