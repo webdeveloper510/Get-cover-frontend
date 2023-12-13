@@ -89,9 +89,9 @@ function DealerList() {
             </ul>
           </div>
         </div>
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addCategory'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-semibold'>Add Category </span>  </Link></Button>
+        {/* <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addCategory'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-semibold'>Add Category </span>  </Link></Button> */}
 
-        <div className='bg-white  border-[1px] border-[#D1D1D1] rounded-xl'>
+        <div className='bg-white mt-10 border-[1px] border-[#D1D1D1] rounded-xl'>
           <Grid className='!p-[26px] !pb-0'>
             <div className='col-span-7 self-center'>
               <p className='text-xl font-semibold'>Dealers List</p>

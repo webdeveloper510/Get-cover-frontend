@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Button from '../../../common/button'
 
-
+import ActiveIcon from '../../../assets/images/icons/ActionIcon.svg';
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import Headbar from '../../../common/headBar';
@@ -57,7 +57,9 @@ function Category() {
       name: "Action",
       cell: (row) => (
         <div className="relative">
-          <Button onClick={() => setSelectedAction((prev) => !prev)}>Actions</Button>
+         <div onClick={() => setSelectedAction((prev) => !prev)}>
+            <img src={ActiveIcon} alt='Active Icon'/>
+          </div>
           {selectedAction && (
             <div className="absolute z-[2] top-4 right-0 mt-2 bg-white border rounded shadow-md">
               <div class="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>

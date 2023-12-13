@@ -61,6 +61,17 @@ const routes = [
         ),
       },
       {
+        path: "registerProvider",
+        index: true,
+        element: (
+          <PrivateRoute
+            withoutLogin={1}
+            element={<DealerRegister />}
+            path="/registerProvider"
+          />
+        ),
+      },
+      {
         path: "/register",
         index: true,
         element: (
