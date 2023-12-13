@@ -6,7 +6,7 @@ import Button from '../../../common/button'
 
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
-import ActiveIcon from '../../../assets/images/icons/ActionIcon.svg';
+import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
 import Headbar from '../../../common/headBar';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
