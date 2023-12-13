@@ -11,18 +11,24 @@ import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import DataTable from "react-data-table-component";
 import { useEffect } from 'react';
-import { getCategoryList } from '../../../services/priceBookService';
+import { editCategoryList, getCategoryList } from '../../../services/priceBookService';
 
 function Category() {
   const [selectedAction, setSelectedAction] = useState(null);
-  const [categoryList,setCategoryList] = useState([])
+  const [categoryList, setCategoryList] = useState([])
 
-  useEffect( () => {
-   getCategoryList().then(res =>{
-      setCategoryList(res.result)
-      console.log(res.result)
-    })
-  },[])
+  useEffect(() => {
+    getCategoryListData()
+  }, [])
+
+  const getCategoryListData = async () => {
+    try {
+      const res = await getCategoryList();
+      setCategoryList(res.result);
+    } catch (error) {
+      console.error('Error fetching category list:', error);
+    }
+  };
 
   const handleActionChange = (action, row) => {
     console.log(`Selected action: ${action} for Category ID: ${row._id}`);
@@ -50,9 +56,9 @@ function Category() {
       sortable: true,
       cell: (row) => (
         <div className="relative">
-          <div className={` ${row.status === 'active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-1`}></div>
+          <div className={` ${row.status === true ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-1`}></div>
           <select
-            value={row.status ? "active" : "inactive"}
+            value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-sm border border-gray-300 rounded pl-4 py-2 pr-1 font-semibold rounded-xl"
           >
@@ -87,10 +93,39 @@ function Category() {
       ),
     },
   ];
-  const handleStatusChange = (row, newStatus) => {
 
-    console.log(row._id, newStatus === "active" ? true : false);
+  const handleStatusChange = async (row, newStatus) => {
+    try {
+      const updatedCategoryList = categoryList.map((category) => {
+        if (category._id === row._id) {
+          return { ...category, status: newStatus === 'active' ? true : false };
+        }
+        return category;
+      });
+
+      setCategoryList(updatedCategoryList);
+
+      const result = await editCategoryList(row._id, {
+        name: row.name,
+        description: row.description,
+        status: newStatus === 'active' ? true : false,
+      });
+
+      console.log(result);
+
+      if (result.code === 200 || result.code === 401) {
+        console.log('Status updated successfully');
+        getCategoryListData();
+      } else {
+        getCategoryListData();
+      }
+    } catch (error) {
+      console.error('Error updating category status:', error);
+      getCategoryListData();
+    }
   };
+
+
   return (
     <>
       <div className='my-8 ml-3'>
