@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import Button from '../../../common/button'
@@ -12,19 +12,70 @@ import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import Select from '../../../common/select';
 import DataTable from "react-data-table-component";
+import { editCompanyList, getCompanyPriceList } from '../../../services/priceBookService';
+
 function CompanyPriceBook() {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedAction, setSelectedAction] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const handleActionChange = (action) => {
-    // Implement the logic for the selected action (e.g., edit or delete)
-    console.log(`Selected action: ${action}`);
-    // You can replace the console.log statement with the actual logic you want to perform
-  };
-  const handleSelectChange1 = (name, value) => {
-    setSelectedProduct(value);
+  const [companyPriceList, setCompanyPriceList] = useState([])
+
+
+  const handleSelectChange1 = (e) => {
+    setSelectedProduct(e.target.value);
   };
 
+  useEffect (()=>{
+    getPriceBookListData()
+  },[])
+
+  const getPriceBookListData = async () => {
+    try {
+      const res = await getCompanyPriceList();
+      setCompanyPriceList(res.result);
+    } catch (error) {
+      console.error('Error fetching category list:', error);
+    }
+  };
+
+  const handleStatusChange = async (row, newStatus) => {
+    try {
+      const updatedCompanyPriceList = companyPriceList.map((category) => {
+        if (category._id === row._id) {
+          return { ...category, status: newStatus === 'active' ? true : false };
+        }
+        return category;
+      });
+
+      setCompanyPriceList(updatedCompanyPriceList);
+
+      const result = await editCompanyList(row._id, {
+        category: row.category._id,
+        reinsuranceFee: row.reinsuranceFee,
+        adminFee: row.adminFee,
+        reserveFutureFee: row.reserveFutureFee,
+        frontingFee: row.frontingFee,
+        description: row.description,
+        status: newStatus === 'active' ? true : false,
+      });
+
+       console.log(result);
+
+      if (result.code === 200 || result.code === 401) {
+        console.log('Status updated successfully');
+        getPriceBookListData();
+      } else {
+        getPriceBookListData();
+      }
+    }
+     catch (error) {
+      console.error('Error updating category status:', error);
+      getPriceBookListData();
+    }
+  };
+  const handleActionChange = (action, row) => {
+    console.log(`Selected action: ${action} for Category ID: ${row._id}`);
+  };
   const country = [
     { label: 'Country', value: 'country' },
     { label: 'Option 2', value: 'option2' },
@@ -36,69 +87,51 @@ function CompanyPriceBook() {
     { label: 'Inactive', value: 'false' },
   ];
 
-  const data = [
-    {
-      Categoryid: 1,
-      Categoryname: "Category 1",
-      description: "Product A",
-      productTerm: "12 months",
-      wholesaleCost: "$50.00",
-      status: "Active",
-    },
-    {
-      Categoryid: 2,
-      Categoryname: "Category 2",
-      description: "Product B",
-      productTerm: "6 months",
-      wholesaleCost: "$35.00",
-      status: "Inactive",
-    },
-    // Add more objects as needed
-  ];
+
 
   const columns = [
     {
       name: "Product ID",
-      selector: (row) => row.Categoryid,
+      selector: (row) => row.unique_key,
       sortable: true,
     },
     {
       name: "Product Category",
-      selector: (row) => row.Categoryname,
+      selector: (row) =>row.category.name, 
       sortable: true,
     },
     {
       name: "Product Name",
-      selector: (row) => row.description,
+      selector: (row) => row.name,
       sortable: true,
     },
     {
       name: "Product Term",
-      selector: (row) => row.description,
+      selector: (row) => row.term,
       sortable: true,
     },
     {
       name: "WholeSale Cost",
-      selector: (row) => row.description,
+      selector: (row) => row.frontingFee + row.reserveFutureFee + row.reinsuranceFee + row.adminFee,
       sortable: true,
     },
 
     {
-      name: 'Status',
+      name: "Status",
       selector: (row) => row.status,
       sortable: true,
       cell: (row) => (
         <div className="relative">
-        <div className={` ${row.status === true ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-[10px]`}></div>
-        <select
-          value={row.Status === true ? "Active" : "Inactive"}
-          // onChange={(e) => handleStatusChange(row, e.target.value)}
-          className="text-sm border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-        >
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
-      </div>
+          <div className={` ${row.status === true ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-1`}></div>
+          <select
+            value={row.status === true ? "active" : "inactive"}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
+            className="text-sm border border-gray-300 rounded pl-4 py-2 pr-1 font-semibold rounded-xl"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
       ),
     },
     {
@@ -171,7 +204,7 @@ function CompanyPriceBook() {
           </Grid>
 
           <div className="overflow-x-auto">
-            <DataTable columns={columns} data={data} pagination />
+            <DataTable columns={columns} data={companyPriceList} pagination />
           </div>
         </div>
       </div>
