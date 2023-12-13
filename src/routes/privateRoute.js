@@ -3,46 +3,39 @@ import React, { useState, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import Login from "../pages/auth/login";
+import Dashboard from "../pages/dashboard";
 
-const PrivateRoute = ({ element, path }) => {
+const PrivateRoute = ({ element, path, withoutLogin }) => {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
+  console.log(element, "=========element");
   useEffect(() => {
     const checkAuthentication = async () => {
       const userToken = localStorage.getItem("userDetails");
       setIsLoggedIn(!!userToken);
       setLoading(false);
-
-      if (!!userToken === false) {
+      console.log(!userToken);
+      if (!!userToken === false && withoutLogin) {
+        navigate(path, { replace: true });
+      } else if (withoutLogin && !!userToken === true) {
+        navigate("/dashboard", { replace: true });
+      } else if (!withoutLogin && !!userToken === false) {
         navigate("/", { replace: true });
+      } else {
+        navigate(path, { replace: true });
       }
     };
 
     checkAuthentication();
-  }, [navigate]);
+  }, [withoutLogin]);
 
   if (loading) {
     return null;
   }
 
-  if (isLoggedIn) {
-    return (
-      <Routes>
-        <Route path={path} element={<Navigate to="/dashboard" replace />} />
-      </Routes>
-    );
-  } else {
-    console.log("here");
-    // Return the Route component for users who are not logged in
-    return (
-      <Routes>
-        <Route path={path} element={<Login />} />
-      </Routes>
-    );
-  }
+  return <>{element}</>;
 };
 
 export default PrivateRoute;

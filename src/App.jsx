@@ -10,7 +10,7 @@ function App() {
   //   if (!localStorage.getItem("token")) {
   //     navigate("/login");
   //   } else {
-  //     navigate("/dashboard");
+  //     navigate("/dashboard/*");
   //   }
   // }, []);
   return (

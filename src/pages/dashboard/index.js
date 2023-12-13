@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Headbar from '../../common/headBar'
 import { Link } from 'react-router-dom'
 
 function Dashboard() {
+  useEffect(()=>{
+    console.log("yes")
+  })
   return (
     <>
      <div className='my-8 ml-3'>
