@@ -49,10 +49,11 @@ function Category() {
       sortable: true,
       cell: (row) => (
         <div className="relative">
+          <div className={` ${row.status === 'active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-1`}></div>
           <select
             value={row.status ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-sm border border-gray-300 rounded p-1"
+            className="text-sm border border-gray-300 rounded pl-4 py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -68,7 +69,7 @@ function Category() {
             <img src={ActiveIcon} alt='Active Icon' />
           </div>
           {selectedAction && (
-            <div className="absolute z-[2] top-4 right-0 mt-2 bg-white border rounded shadow-md">
+            <div className="absolute z-[2] w-[100px] top-6 -right-3 mt-2 bg-white border rounded shadow-md">
               <div class="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
               <button
                 onClick={() => {
