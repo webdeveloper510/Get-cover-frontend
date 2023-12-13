@@ -39,7 +39,7 @@ function NewPassword() {
       console.log("Form submitted with values:", values);
       const result = await resetPassword(values, id, token);
       console.log(result.message);
-      if (result.code === 401) {
+      if (result.code !== 200) {
         setError(result.message);
       } else {
         setError(result.message);
