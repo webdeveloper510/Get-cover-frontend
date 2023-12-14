@@ -78,7 +78,7 @@ function AddCategory() {
       </div>
       {error && (
                   <p className="text-red-500 text-sm pl-2">
-                    <span className="font-semibold"> {error} </span>
+                    <span className="font-semibold"> {} </span>
                   </p>
                 )}
       {/* Form Start */}
@@ -91,7 +91,8 @@ function AddCategory() {
                     type="text"
                     name="name"
                     label="Category Name"
-                    placeholder="name"
+                    placeholder=""
+                    required={true}
                     className="!bg-[#fff]"
                     value={formik.values.name}
                     onChange={formik.handleChange}

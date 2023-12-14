@@ -3,14 +3,14 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Button from '../../../common/button'
 
-
+import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import Headbar from '../../../common/headBar';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import DataTable from "react-data-table-component";
-function DealerList() {
+function NewDealerList() {
   const [selectedAction, setSelectedAction] = useState(null);
 
   const handleActionChange = (action) => {
@@ -20,53 +20,80 @@ function DealerList() {
   };
   const data = [
     {
-      Categoryid: 1,
-      Categoryname: "Category 1",
-      description: "Description for Category 1",
+      DealerName: "Dealer Name",
+      FirstName: "First ",
+      LastName: "Last",
+      Address: "Address",
+      Email: "Email ",
+      PhoneNo: "Phone No.",
       status: "Active",
     },
     {
-      Categoryid: 2,
-      Categoryname: "Category 2",
-      description: "Description for Category 2",
-      status: "Inactive",
-    },
+        DealerName: "Dealer Name 1",
+        FirstName: "First ",
+        LastName: "Last",
+        Address: "Address",
+        Email: "Email ",
+        PhoneNo: "Phone No.",
+        status: "Active",
+      },
+      {
+        DealerName: "Dealer Name 2",
+        FirstName: "First ",
+        LastName: "Last",
+        Address: "Address",
+        Email: "Email ",
+        PhoneNo: "Phone No.",
+        status: "Active",
+      },
   ];
   const columns = [
     {
-      name: "Category ID",
-      selector: (row) => row.Categoryid,
+      name: "Dealer Name",
+      selector: (row) => row.DealerName,
       sortable: true,
     },
     {
-      name: "Category Name",
-      selector: (row) => row.Categoryname,
+      name: "First Name",
+      selector: (row) => row.FirstName,
       sortable: true,
     },
     {
-      name: "Description",
-      selector: (row) => row.description,
+      name: "Last Name",
+      selector: (row) => row.LastName,
       sortable: true,
     },
     {
-      name: "Status",
-      selector: (row) => row.status,
+      name: "Address",
+      selector: (row) => row.Address,
       sortable: true,
     },
+    {
+        name: "Email",
+        selector: (row) => row.Email,
+        sortable: true,
+      },
+      {
+        name: "Phone No.",
+        selector: (row) => row.PhoneNo,
+        sortable: true,
+      },
     {
       name: "Action",
       cell: (row) => (
         <div className="relative">
-          <Button onClick={() => setSelectedAction((prev) => !prev)}>Actions</Button>
-          {selectedAction && (
-            <div className="absolute z-[2] top-4 right-0 mt-2 bg-white border rounded shadow-md">
-              <div class="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
+           <div onClick={() => setSelectedAction(row.unique_key)}>
+            <img src={ActiveIcon} alt="Active Icon" />
+          </div>
+             {selectedAction === row.unique_key && (
+            <div className="absolute z-[2] w-[70px] drop-shadow-5xl	top-[1.7rem] right-0 mt-2 bg-white border rounded-lg shadow-md">
+              <div className="h-0 w-0 border-x-8 absolute top-[-14px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
               <button
                 onClick={() => {
-                  handleActionChange('Edit');
+                  handleActionChange('Edit', row);
                   setSelectedAction(null);
                 }}
-                className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
+                className="block px-4 py-2 text-gray-800 rounded-lg  w-full text-left"
               >
                 Edit
               </button>
@@ -82,19 +109,18 @@ function DealerList() {
         <Headbar />
         <div className='flex'>
           <div className='pl-3'>
-            <p className='font-bold text-[38px] leading-9	mb-[3px]'>Dealer</p>
+            <p className='font-bold text-[38px] leading-9 mb-[3px]'>Dealer</p>
             <ul className='flex self-center'>
-              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Dealer </Link>  /  </li>
-              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Dealer List </li>
+              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/dashboard'}>Dealer </Link>  /  </li>
+              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> New Dealer Requests </li>
             </ul>
           </div>
         </div>
-        {/* <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addCategory'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-semibold'>Add Category </span>  </Link></Button> */}
 
         <div className='bg-white mt-10 border-[1px] border-[#D1D1D1] rounded-xl'>
           <Grid className='!p-[26px] !pb-0'>
             <div className='col-span-5 self-center'>
-              <p className='text-xl font-semibold'>Dealers List</p>
+              <p className='text-xl font-semibold'>Request List</p>
             </div>
             <div className='col-span-7'>
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
@@ -122,4 +148,4 @@ function DealerList() {
     </>
   )
 }
-export default DealerList
+export default NewDealerList

@@ -115,7 +115,7 @@ function DealerPriceList() {
           <div onClick={() => setSelectedAction((prev) => !prev)}>
             <img src={ActiveIcon} alt='Active Icon'/>
           </div>
-          {selectedAction && (
+          {/* {selectedAction && (
             <div className="absolute z-[2] top-4 right-0 mt-2 bg-white border rounded shadow-md">
               <div className="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
               <button
@@ -128,7 +128,7 @@ function DealerPriceList() {
                 Edit
               </button>
             </div>
-          )}
+          )} */}
         </div>
       ),
     },
@@ -150,7 +150,7 @@ function DealerPriceList() {
         <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addDealerBook'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-semibold'>Add Dealer Book </span>  </Link></Button>
 
         <div className='bg-white  border-[1px] border-[#D1D1D1] rounded-xl'>
-          <Grid className='!p-[26px] !pb-0'>
+          <Grid className='!px-[26px] !pt-[14px] !pb-0'>
             <div className='col-span-5 self-center'>
               <p className='text-xl font-semibold'>Dealer Price List</p>
             </div>
@@ -158,32 +158,31 @@ function DealerPriceList() {
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-9' >
                   <div className='col-span-2 self-center'>
-                    <Input name='Category' type='text' className1="!pt-2 !pb-1" label='Category' />
+                    <Input name='Category' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1" label='Category' />
                   </div>
                   <div className='col-span-2 self-center'>
-                    <Input name='Name' type='text' className1="!pt-2 !pb-1" label='Name' />
+                    <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1" label='Name' />
                   </div>
                   <div className='col-span-2 self-center'>
                     <Select label="Term"
                       options={country}
-                      className1="!pt-2 !pb-1"
-                      className="!bg-[#f7f7f7]"
+                      className1="!pt-2 !pb-1 !text-[13px]"
+                      className="!text-[14px] !bg-[#f7f7f7]"
                       selectedValue={selectedProduct}
                       onChange={handleSelectChange1} />
                   </div>
                   <div className='col-span-2 self-center'>
                     <Select label="Status"
                       options={country}
-                      className1="!pt-2 !pb-1"
-                      className="!bg-[#f7f7f7]"
+                      className1="!pt-2 !pb-1 !text-[13px]"
+                      className="!text-[14px] !bg-[#f7f7f7]"
                       selectedValue={selectedProduct}
                       onChange={handleSelectChange1} />
                   </div>
                   <div className='col-span-1 self-center'>
-                    <img src={Search} alt='Search' />
+                    <img src={Search}  className='cursor-pointer' alt='Search' />
                   </div>
                 </Grid>
-
               </div>
             </div>
           </Grid>

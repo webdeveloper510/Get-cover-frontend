@@ -222,6 +222,12 @@ function SideBar() {
           image: Dropdown2,
           active: Actives,
         },
+        {
+          name: "New Dealer Requests",
+          url: "/newDealerList",
+          image: Dropdown2,
+          active: Actives,
+        },
       ],
     },
     {

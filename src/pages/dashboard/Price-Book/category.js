@@ -75,7 +75,7 @@ function Category() {
           <div onClick={() => setSelectedAction(row.unique_key)}>
             <img src={ActiveIcon} className='cursor-pointer	' alt="Active Icon" />
           </div>
-          {selectedAction === row.unique_key && (
+          {/* {selectedAction === row.unique_key && (
             <div className="absolute z-[2] w-[70px] drop-shadow-5xl	top-[1.7rem] right-0 mt-2 bg-white border rounded-lg shadow-md">
               <div className="h-0 w-0 border-x-8 absolute top-[-14px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
               <button
@@ -88,7 +88,7 @@ function Category() {
                 Edit
               </button>
             </div>
-          )}
+          )} */}
         </div>
       ),
     },
@@ -142,7 +142,7 @@ function Category() {
         <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addCategory'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-semibold'>Add Category </span>  </Link></Button>
 
         <div className='bg-white  border-[1px] border-[#D1D1D1] rounded-xl '>
-          <Grid className='!p-[26px] !pb-0'>
+          <Grid className='!px-[26px] !pt-[14px] !pb-0'>
             <div className='col-span-7 self-center'>
               <p className='text-xl font-semibold'>Categories List</p>
             </div>
@@ -150,7 +150,7 @@ function Category() {
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-6' >
                   <div className='col-span-5 self-center'>
-                    <Input name='CategoryName' type='text'  className='!text-[14px] bg-white !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1 bg-white" label='' placeholder='Category Name' />
+                    <Input name='CategoryName' type='text'  className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1" label='Category Name' />
                   </div>
                   <div className='col-span-1 self-center'>
                     <img src={Search} className='cursor-pointer	' alt='Search' />

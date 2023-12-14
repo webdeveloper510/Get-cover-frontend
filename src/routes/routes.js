@@ -17,6 +17,7 @@ import CompanyPriceBook from "../pages/dashboard/Price-Book/companyPriceBook";
 import Category from "../pages/dashboard/Price-Book/category";
 import DealerList from "../pages/dashboard/Dealer/dealerList";
 import PrivateRoute from "./privateRoute";
+import NewDealerList from "../pages/dashboard/Dealer/newDealerList";
 
 const routes = [
   {
@@ -152,6 +153,15 @@ const routes = [
           <PrivateRoute
             element={<CompanyPriceBook />}
             path="/companyPriceBook"
+          />
+        ),
+      },
+      {
+        path: "/newDealerList",
+        element: (
+          <PrivateRoute
+            element={<NewDealerList />}
+            path="/newDealerList"
           />
         ),
       },

@@ -163,7 +163,7 @@ function CompanyPriceBook() {
           <div onClick={() => setSelectedAction(row.unique_key)}>
             <img src={ActiveIcon} alt="Active Icon" />
           </div>
-          {selectedAction === row.unique_key && (
+          {/* {selectedAction === row.unique_key && (
             <div className="absolute z-[2] w-[70px] drop-shadow-5xl	top-[1.7rem] right-0 mt-2 bg-white border rounded-lg shadow-md">
               <div className="h-0 w-0 border-x-8 absolute top-[-14px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
               <button
@@ -176,7 +176,7 @@ function CompanyPriceBook() {
                 Edit
               </button>
             </div>
-          )}
+          )} */}
         </div>
       ),
     },
@@ -197,7 +197,7 @@ function CompanyPriceBook() {
         <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addCompanyPriceBook'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-semibold'>Add Company Price Book </span>  </Link></Button>
 
         <div className='bg-white border-[1px] border-[#D1D1D1] rounded-xl'>
-          <Grid className='!p-[26px] !pb-0'>
+          <Grid className='!px-[26px] !pt-[14px] !pb-0'>
             <div className='col-span-5 self-center'>
               <p className='text-xl font-semibold'>Product Price List</p>
             </div>
