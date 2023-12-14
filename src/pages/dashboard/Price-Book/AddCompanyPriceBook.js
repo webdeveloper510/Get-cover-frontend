@@ -41,14 +41,14 @@ function AddCompanyPriceBook() {
       name: Yup.string().required('Required'),
       description: Yup.string().required('Required'),
       term: Yup.number().required('Required'),
-      frontingFee: Yup.number().required('Required'),
-      reinsuranceFee: Yup.number().required('Required'),
-      reserveFutureFee: Yup.number().required('Required'),
-      adminFee: Yup.number().required('Required'),
+      frontingFee: Yup.number().required('Required').min(0.1, 'Fronting fee cannot be negative'),
+      reinsuranceFee: Yup.number().required('Required').min(0.1, 'Re-insurance fee cannot be negative'),
+      reserveFutureFee: Yup.number().required('Required').min(0.1, 'ReserveFuture fee cannot be negative'),
+      adminFee: Yup.number().required('Required').min(0.1, 'Admin fee cannot be negative'),
       status: Yup.string().required('Rrequired'),
     }),
     onSubmit: async (values) => {
-       console.log("Form values:", values);
+      //  console.log("Form values:", values);
       const result = await addCompanyPricBook(values);
       console.log(result);
       if (result.code !== 200) {

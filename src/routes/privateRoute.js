@@ -15,7 +15,7 @@ const PrivateRoute = ({ element, path, withoutLogin }) => {
       const userToken = localStorage.getItem("userDetails");
       setIsLoggedIn(!!userToken);
       setLoading(false);
-      console.log(!!userToken, withoutLogin);
+      // console.log(!!userToken, withoutLogin);
       if (!!userToken === false && withoutLogin) {
         navigate(path, { replace: true });
       } else if (withoutLogin && !!userToken === true) {

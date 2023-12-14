@@ -113,7 +113,7 @@ function DealerPriceList() {
       cell: (row) => (
         <div className="relative">
           <div onClick={() => setSelectedAction((prev) => !prev)}>
-            <img src={ActiveIcon} alt='Active Icon'/>
+            <img src={ActiveIcon} className='w-[35px] cursor-pointer' alt='Active Icon'/>
           </div>
           {/* {selectedAction && (
             <div className="absolute z-[2] top-4 right-0 mt-2 bg-white border rounded shadow-md">

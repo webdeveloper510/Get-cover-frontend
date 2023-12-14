@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Button from '../../../common/button'
 
-
+import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import Headbar from '../../../common/headBar';
@@ -57,7 +57,9 @@ function DealerList() {
       name: "Action",
       cell: (row) => (
         <div className="relative">
-          <Button onClick={() => setSelectedAction((prev) => !prev)}>Actions</Button>
+           <div onClick={() => setSelectedAction(row.unique_key)}>
+            <img src={ActiveIcon} className='w-[35px] cursor-pointer' alt="Active Icon" />
+          </div>
           {selectedAction && (
             <div className="absolute z-[2] top-4 right-0 mt-2 bg-white border rounded shadow-md">
               <div class="h-0 w-0 border-x-8 absolute top-[-17px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
@@ -100,13 +102,13 @@ function DealerList() {
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-7' >
                   <div className='col-span-2 self-center'>
-                    <Input name='Name' type='text' className1="!pt-2 !pb-0" label='Name' />
+                    <Input name='Name' type='text' className1="!pt-1 !pb-1 placeholder-opacity-50 placeholder-[#1B1D21]" label='' placeholder='Name' />
                   </div>
                   <div className='col-span-2 self-center'>
-                    <Input name='Email' type='email' className1="!pt-2 !pb-0" label='Email' />
+                    <Input name='Email' type='email' className1="!pt-1 !pb-1 placeholder-opacity-50 placeholder-[#1B1D21]" label='' placeholder='Email' />
                   </div>
                   <div className='col-span-2 self-center'>
-                    <Input name='PhoneNo.' type='number' className1="!pt-2 !pb-0" label='Phone No.' />
+                    <Input name='PhoneNo.' type='number'className1="!pt-1 !pb-1 placeholder-opacity-50 placeholder-[#1B1D21]" label='' placeholder='Phone No.' />
                   </div>
                   <div className='col-span-1 self-center'>
                     <img src={Search} alt='Search' />

@@ -16,7 +16,6 @@ function NewDealerList() {
   const [list, setList] = useState(null);
 
   const handleActionChange = (action) => {
-    // Implement the logic for the selected action (e.g., edit or delete)
     console.log(`Selected action: ${action}`);
     // You can replace the console.log statement with the actual logic you want to perform
   };
@@ -103,7 +102,7 @@ function NewDealerList() {
       cell: (row) => (
         <div className="relative">
            <div onClick={() => setSelectedAction(row.unique_key)}>
-            <img src={ActiveIcon} alt="Active Icon" />
+            <img src={ActiveIcon} className='w-[35px] cursor-pointer' alt="Active Icon" />
           </div>
              {/* {selectedAction === row.unique_key && (
             <div className="absolute z-[2] w-[70px] drop-shadow-5xl	top-[1.7rem] right-0 mt-2 bg-white border rounded-lg shadow-md">
@@ -160,7 +159,7 @@ function NewDealerList() {
                     <Input name='PhoneNo.' type='number' className1="!pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21]"  label='' placeholder='Phone No.' />
                   </div>
                   <div className='col-span-1 self-center'>
-                    <img src={Search} alt='Search' />
+                    <img src={Search} className='cursor-pointer' alt='Search' />
                   </div>
                 </Grid>
 

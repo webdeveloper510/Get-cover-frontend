@@ -86,7 +86,7 @@ function Category() {
       cell: (row) => (
         <div className="relative">
           <div onClick={() => setSelectedAction(row.unique_key)}>
-            <img src={ActiveIcon} className='cursor-pointer	' alt="Active Icon" />
+            <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
           </div>
           {/* {selectedAction === row.unique_key && (
             <div className="absolute z-[2] w-[70px] drop-shadow-5xl	top-[1.7rem] right-0 mt-2 bg-white border rounded-lg shadow-md">

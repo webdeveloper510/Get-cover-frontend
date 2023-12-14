@@ -137,8 +137,6 @@ function CompanyPriceBook() {
       name: "WholeSale Cost",
       selector: (row) => {
         const totalCost = row.frontingFee + row.reserveFutureFee + row.reinsuranceFee + row.adminFee;
-        
-        // Format the totalCost in USD currency format
         const formattedCost = new Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD',
@@ -148,7 +146,6 @@ function CompanyPriceBook() {
       },
       sortable: true,
     },
-
     {
       name: "Status",
       selector: (row) => row.status,
@@ -159,8 +156,7 @@ function CompanyPriceBook() {
         <select
           value={row.status === true ? "active" : "inactive"}
           onChange={(e) => handleStatusChange(row, e.target.value)}
-          className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-        >
+          className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl">
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
         </select>
@@ -172,7 +168,7 @@ function CompanyPriceBook() {
       cell: (row) => (
         <div className="relative">
           <div onClick={() => setSelectedAction(row.unique_key)}>
-            <img src={ActiveIcon} alt="Active Icon" />
+            <img src={ActiveIcon} className='w-[35px] cursor-pointer' alt="Active Icon" />
           </div>
           {/* {selectedAction === row.unique_key && (
             <div className="absolute z-[2] w-[70px] drop-shadow-5xl	top-[1.7rem] right-0 mt-2 bg-white border rounded-lg shadow-md">

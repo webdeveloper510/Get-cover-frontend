@@ -32,7 +32,8 @@ import ActiveClaim from "../assets/images/side-bar/activeClaim.svg";
 import ActiveDealer from "../assets/images/side-bar/activeDealer.svg";
 import ActiveServicer from "../assets/images/side-bar/activeServicer.svg";
 import ForthActive from "../assets/images/side-bar/fourthDropdown.svg";
-import ThirdActive from "../assets/images/side-bar/longactive.svg";
+import SeacondActive from "../assets/images/side-bar/220Active.svg";
+import lastActive from "../assets/images/side-bar/250active.svg";
 
 function SidebarItem({
   item,
@@ -45,7 +46,7 @@ function SidebarItem({
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    console.log("expandedItem" , item.name  , item.url )
+    // console.log("expandedItem" , item.name  , item.url )
 
     if (item.name === "Price Book"){
       setIsActive(active === "Price Book" || expandedItem === "Price Book");
@@ -156,7 +157,7 @@ function SidebarItem({
                     <img
                       src={subItem.active}
                       className={` ${
-                        subIndex == 0 ? "mt-[-40%]" :subIndex == 1 ?"mt-[-42%]": subIndex == 2 ?"mt-[-95%]":"mt-[-95%]"
+                        subIndex == 0 ? "mt-[-40%]" :subIndex == 1 ?"mt-[-43%] h-[110px]": subIndex == 2 ?"mt-[-95%]":"mt-[-115%]"
                       } w-[24px] `}
                       alt={subItem.active}
                     />
@@ -195,7 +196,7 @@ function SidebarItem({
 }
 
 function SideBar() {
-  const [active, setActive] = useState(null);
+  const [active, setActive] = useState('/dashboard');
   const [expandedItem, setExpandedItem] = useState(null);
   const navigate = useNavigate();
   const handleToggleExpand = (itemName) => {
@@ -233,7 +234,7 @@ function SideBar() {
           name: "Add Dealer",
           url: "/dealer",
           image: Dropdown2,
-          active: Actives,
+          active: SeacondActive,
         },
         {
           name: "New Dealer Requests",
@@ -282,7 +283,7 @@ function SideBar() {
           name: "Add Bulk Claim",
           url: "#",
           image: Dropdown2,
-          active: Actives,
+          active: SeacondActive,
         },
       ],
     },
@@ -301,7 +302,7 @@ function SideBar() {
           name: "Company Price Book",
           url: "/companyPriceBook",
           image: Dropdown2,
-          active: Actives,
+          active: SeacondActive,
         },
         {
           name: "Upload Dealer Price Book",
@@ -313,7 +314,7 @@ function SideBar() {
           name: "Category",
           url: "/category",
           image: Dropdown2,
-          active: ThirdActive,
+          active: lastActive,
         },
       ],
     },
