@@ -85,7 +85,7 @@ function Login() {
                     type="email"
                     name="email"
                     label="Email"
-                    placeholder="Email"
+                    placeholder=""
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}

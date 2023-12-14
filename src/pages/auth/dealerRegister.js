@@ -137,7 +137,8 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="name"
-                      label="Account Name*"
+                      label="Account Name"
+                      required={true}
                       placeholder=""
                       maxLength={"50"}
                       value={formik.values.name}
@@ -155,8 +156,9 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="email"
-                      label="Email*"
+                      label="Email"
                       placeholder=""
+                      required={true}
                       value={formik.values.email}
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
@@ -172,7 +174,8 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="firstName"
-                      label="First Name*"
+                      label="First Name"
+                      required={true}
                       placeholder=""
                       maxLength={"30"}
                       value={formik.values.firstName}
@@ -192,7 +195,8 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="lastName"
-                      label="Last Name*"
+                      label="Last Name"
+                      required={true}
                       placeholder=""
                       maxLength={"30"}
                       value={formik.values.lastName}
@@ -211,7 +215,8 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="street"
-                      label="Street Address*"
+                      label="Street Address"
+                      required={true}
                       placeholder=""
                       maxLength={"50"}
                       value={formik.values.street}
@@ -229,8 +234,9 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="city"
-                      label="City*"
+                      label="City"
                       placeholder=" "
+                      required={true}
                       value={formik.values.city}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -244,9 +250,10 @@ function DealerRegister() {
                   </div>
                   <div className="col-span-6">
                     <Select
-                      label="State*"
+                      label="State"
                       name="state"
                       placeholder=""
+                      required={true}
                       onChange={handleSelectChange}
                       options={state}
                       value={formik.values.state}
@@ -263,7 +270,8 @@ function DealerRegister() {
                     <Input
                       type="text"
                       name="country"
-                      label="Country*"
+                      label="Country"
+                      required={true}
                       placeholder=""
                       value={formik.values.country}
                       onChange={formik.handleChange}
@@ -282,7 +290,8 @@ function DealerRegister() {
                     <Input
                       type="number"
                       name="zip"
-                      label="Zip Code*"
+                      label="Zip Code"
+                      required={true}
                       placeholder=""
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -300,7 +309,8 @@ function DealerRegister() {
                     <Input
                       type="number"
                       name="phoneNumber"
-                      label="Mobile Number*"
+                      label="Mobile Number"
+                      required={true}
                       placeholder=""
                       value={formik.values.phoneNumber}
                       onChange={formik.handleChange}

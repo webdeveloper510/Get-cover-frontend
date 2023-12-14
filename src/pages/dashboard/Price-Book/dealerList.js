@@ -23,8 +23,8 @@ function DealerPriceList() {
     console.log(`Selected action: ${action}`);
     // You can replace the console.log statement with the actual logic you want to perform
   };
-  const handleSelectChange1 = (e) => {
-    setSelectedProduct(e.target.value);
+  const handleSelectChange1 = (name, value) => {
+    setSelectedProduct(value);
   };
 
   const country = [

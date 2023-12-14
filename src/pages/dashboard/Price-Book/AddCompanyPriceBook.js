@@ -46,7 +46,7 @@ function AddCompanyPriceBook() {
       <div className='my-8 ml-3'>
         <Headbar/>
         <div className='flex'>
-        <Link to={'/companyPriceBook'} className='h-[60px] w-[60px] flex border-[1px] bg-[#fff] border-[#D1D1D1] rounded-[25px]'>
+        <Link to={'/companyPriceBook'} className='h-[60px] w-[60px] flex border-[1px] bg-[#fff] border-[#D1D1D1] rounded-[20px]'>
           <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/> </Link>
           <div className='pl-3'>
             <p className='font-ExtraBold text-[38px] leading-9 mb-[3px]'>Add Company Price Book</p>
@@ -61,47 +61,47 @@ function AddCompanyPriceBook() {
         {/* Form Start */}
   
         <form className='mt-8'>
-          <div className='py-5'>
+          <div className='px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
           <Grid className='!grid-cols-5'>
                   <div className='col-span-1'>
                        <Select label="Product Category "
                         options={country}
                         required={true}
-                        className="!bg-[#f7f7f7]"
+                        className="!bg-[#fff]"
                         selectedValue={selectedValue}
                         onChange={handleSelectChange}/>
                   </div>
                   <div className='col-span-1'>
-                  <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Product Name ' required={true} placeholder='Enter' />
+                  <Input type='text' name='Position' className="!bg-[#fff]" label='Product Name ' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-2'>
-                  <Input type='text' name='Position' className="!bg-[#f7f7f7]" label='Description ' required={true} placeholder='Enter' />
+                  <Input type='text' name='Position' className="!bg-[#fff]" label='Description ' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-1'>
                   <Select label="Terms"
                         options={city}
                         required={true}
-                        className="!bg-[#f7f7f7]"
+                        className="!bg-[#fff]"
                         selectedValue={selectedProduct}
                         onChange={handleSelectChange1}/>
                   </div>
                   <div className='col-span-1'>
-                      <Input type='number' name='Position' className="!bg-[#f7f7f7]" label='Fronting fee ' required={true} placeholder='Enter' />
+                      <Input type='number' name='Position' className="!bg-[#fff]" label='Fronting fee ' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-1'>
-                  <Input type='number' name='Position' className="!bg-[#f7f7f7]" label='Re-insurance fee ' required={true} placeholder='Enter' />
+                  <Input type='number' name='Position' className="!bg-[#fff]" label='Re-insurance fee ' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-1'>
-                      <Input type='number' name='Retail' className="!bg-[#f7f7f7] w-[110%]" label='Reserve for future claims' required={true} placeholder='Enter' />
+                      <Input type='number' name='Retail' className="!bg-[#fff] w-[110%]" label='Reserve for future claims' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-1'>
-                      <Input type='number' name='Retail' className="!bg-[#f7f7f7]" label='Administration fee' required={true} placeholder='Enter' />
+                      <Input type='number' name='Retail' className="!bg-[#fff]" label='Administration fee' required={true} placeholder='Enter' />
                   </div>
                   <div className='col-span-1'>
                       <Select label="Status"
                         options={city}
                         required={true}
-                        className="!bg-[#f7f7f7]"
+                        className="!bg-[#fff]"
                         selectedValue={selectedProduct}
                         onChange={handleSelectChange1}/>
                   </div>
