@@ -270,7 +270,7 @@ function AddCompanyPriceBook() {
               <Input
                 type='number'
                 name='reserveFutureFee'
-                className='!bg-[#fff] !px-0 w-full'
+                className='!bg-[#fff] !px-0 w-[200px]'
                 label='Reserve for future claims'
                 placeholder=''
                 onChange={formik.handleChange}
