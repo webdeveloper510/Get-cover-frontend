@@ -12,26 +12,49 @@ import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import Select from '../../../common/select';
 import DataTable from "react-data-table-component";
-import { editCompanyList, getCompanyPriceList } from '../../../services/priceBookService';
+import { editCompanyList, getCompanyPriceList , getCategoryList } from '../../../services/priceBookService';
 
 function CompanyPriceBook() {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedAction, setSelectedAction] = useState(null);
   const [companyPriceList, setCompanyPriceList] = useState([])
+  const [categoryList, setCategoryList] = useState([])
 
 
-  const handleSelectChange1 = (name , value) => {
+  const handleSelectChange1 = (label , value) => {
+    console.log(label, value , "selected")
     setSelectedProduct(value);
   };
 
   useEffect (()=>{
     getPriceBookListData()
+    getCategoryListData()
   },[])
 
   const getPriceBookListData = async () => {
     try {
       const res = await getCompanyPriceList();
       setCompanyPriceList(res.result);
+    } catch (error) {
+      console.error('Error fetching category list:', error);
+    }
+  };
+
+  
+
+  const getCategoryListData = async () => {
+    try {
+      const res = await getCategoryList();
+      console.log(res.result);
+      let arr = [];
+      res?.result?.length>0&& res?.result?.map((item)=>{
+        arr.push({label:item.name, value:item._id})
+      })
+
+      setCategoryList(arr);
+
+    
+      
     } catch (error) {
       console.error('Error fetching category list:', error);
     }
@@ -76,8 +99,8 @@ function CompanyPriceBook() {
     console.log(`Selected action: ${action} for Category ID: ${row._id}`);
   };
   const country = [
-    { label: 'Country', value: 'country' },
-    { label: 'Option 2', value: 'option2' },
+    { label: 'Country1', value: 'country' },
+    { label: 'Option 2', value: 'option21' },
     { label: 'Option 3', value: 'option3' },
   ];
 
@@ -187,7 +210,7 @@ function CompanyPriceBook() {
 
                   <div className='col-span-5 self-center'>
                     <Select label="Product Category"
-                      options={country}
+                      options={categoryList}
                       className1="!pt-2 !pb-1 !text-[13px]"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       selectedValue={selectedProduct}
