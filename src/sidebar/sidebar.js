@@ -32,6 +32,7 @@ import ActiveClaim from "../assets/images/side-bar/activeClaim.svg";
 import ActiveDealer from "../assets/images/side-bar/activeDealer.svg";
 import ActiveServicer from "../assets/images/side-bar/activeServicer.svg";
 import ForthActive from "../assets/images/side-bar/fourthDropdown.svg";
+import ThirdActive from "../assets/images/side-bar/longactive.svg";
 
 function SidebarItem({
   item,
@@ -155,7 +156,7 @@ function SidebarItem({
                     <img
                       src={subItem.active}
                       className={` ${
-                        subIndex == 0 ? "mt-[-4%] h-[55px]" : "mt-[-42%]"
+                        subIndex == 0 ? "mt-[-40%]" :subIndex == 1 ?"mt-[-42%]": subIndex == 2 ?"mt-[-95%]":"mt-[-95%]"
                       } w-[24px] `}
                       alt={subItem.active}
                     />
@@ -226,7 +227,7 @@ function SideBar() {
           name: "Dealer List",
           url: "/dealerList",
           image: Dropdown1,
-          active: ActiveDropdown,
+          active: Actives,
         },
         {
           name: "Add Dealer",
@@ -238,7 +239,7 @@ function SideBar() {
           name: "New Dealer Requests",
           url: "/newDealerList",
           image: Dropdown2,
-          active: Actives,
+          active: ForthActive,
         },
       ],
     },
@@ -294,7 +295,7 @@ function SideBar() {
           name: "Dealer Book",
           url: "/dealerPriceList",
           image: Dropdown1,
-          active: ActiveDropdown,
+          active: Actives,
         },
         {
           name: "Company Price Book",
@@ -306,13 +307,13 @@ function SideBar() {
           name: "Upload Dealer Price Book",
           url: "/uploadDealerBook",
           image: Dropdown2,
-          active: Actives,
+          active: ForthActive,
         },
         {
           name: "Category",
           url: "/category",
           image: Dropdown2,
-          active: Actives,
+          active: ThirdActive,
         },
       ],
     },

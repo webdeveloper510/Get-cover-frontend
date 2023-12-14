@@ -103,3 +103,17 @@ export const getCategoryList = async () => {
       throw error;
     }
   };
+
+  
+  export const getDealerList = async () => {
+    const headers = createHeaders();
+  
+    try {
+      const response = await axios.get(`${url}/admin/dealers`, { headers });
+  
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+

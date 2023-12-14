@@ -105,23 +105,7 @@ function Category() {
       ),
     },
   ];
-  const customStyles = {
-    rows: {
-        style: {
-          textAlign:"center" ,
-        },
-    },
-    headCells: {
-        style: {
-           textAlign:"center" ,
-        },
-    },
-    cells: {
-        style: {
-          textAlign:"center" ,
-        },
-    },
-};
+
 
 
   const handleStatusChange = async (row, newStatus) => {
