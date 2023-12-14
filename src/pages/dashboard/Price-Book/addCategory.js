@@ -29,8 +29,8 @@ function AddCategory() {
       status:true
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Category Name Required"),
-      description: Yup.string().required("Description Required"),
+      name: Yup.string().trim().required("Category Name Required"),
+      description: Yup.string().trim().required("Description Required"),
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
@@ -41,7 +41,7 @@ function AddCategory() {
       } else {
          setError(false);
          setIsModalOpen(true)
-         setTimer(5)
+         setTimer(3)
       }
     },
   });
