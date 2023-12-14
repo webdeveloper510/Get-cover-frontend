@@ -44,6 +44,18 @@ export const getCategoryList = async () => {
     }
   };
 
+  export const getCategoryListActiveData = async () => {
+    const headers = createHeaders();
+  console.log(headers)
+    try {
+      const response = await axios.get(`${url}/price/getAllActivePriceBook`,{headers});
+  
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
   export const editCategoryList = async (id,categoryListData) => {
     const headers = createHeaders();
   

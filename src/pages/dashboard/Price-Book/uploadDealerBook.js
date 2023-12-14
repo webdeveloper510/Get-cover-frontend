@@ -63,7 +63,7 @@ function UploadDealerBook() {
                 onChange={handleSelectChange} />
             </div>
             <div className='col-span-6'>
-              <Input type='text' name='Position' className="!bg-[#fff]" label='Email Confirmations' required={true} placeholder='Enter' />
+              <Input type='text' name='Position' className="!bg-[#fff]" label='Email Confirmations' required={true} placeholder='' />
             </div>
             <div className='col-span-12'>
               <p className='text-light-black text-base mb-2 font-semibold'>Upload In Bulk</p>

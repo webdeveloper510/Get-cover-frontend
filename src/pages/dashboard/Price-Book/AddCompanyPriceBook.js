@@ -13,7 +13,7 @@ import Button from '../../../common/button';
 import Modal from '../../../common/model';
 import Cross from '../../../assets/images/Cross.png'
 import AddDealer from '../../../assets/images/dealer-book.svg'
-import { addCompanyPricBook, getCategoryList, getTermList } from '../../../services/priceBookService';
+import { addCompanyPricBook, getCategoryListActiveData, getTermList } from '../../../services/priceBookService';
 
 function AddCompanyPriceBook() {
   const [error,setError] = useState('')
@@ -91,7 +91,7 @@ function AddCompanyPriceBook() {
   }, [isModalOpen, timer]);
 
   useEffect(() => {
-    getCategoryListData()
+    getCategoryListActiveData11()
     getTermListData()
   }, [])
 
@@ -108,10 +108,10 @@ function AddCompanyPriceBook() {
     }
   }
 
-  const getCategoryListData = async () => {
+  const getCategoryListActiveData11 = async () => {
     try {
-      const res = await getCategoryList();
-      console.log(res.result)
+      const res = await getCategoryListActiveData();
+      console.log("hello",res)
       setCategoryList(res.result.map((item) => ({
         label: item.name,
         value: item._id,
@@ -120,6 +120,8 @@ function AddCompanyPriceBook() {
       console.error('Error fetching category list:', error);
     }
   };
+
+
 
   const closeModal = () => {
     setIsModalOpen(false);

@@ -29,6 +29,7 @@ function CompanyPriceBook() {
   useEffect (()=>{
     getPriceBookListData()
     getCategoryListData()
+    window.scrollTo(0, 0);
   },[])
 
   const getPriceBookListData = async () => {
@@ -154,16 +155,16 @@ function CompanyPriceBook() {
       sortable: true,
       cell: (row) => (
         <div className="relative">
-          <div className={` ${row.status === true ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-1`}></div>
-          <select
-            value={row.status === true ? "active" : "inactive"}
-            onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-sm border border-gray-300 rounded pl-4 py-2 pr-1 font-semibold rounded-xl"
-          >
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-        </div>
+        <div className={` ${row.status === true ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}></div>
+        <select
+          value={row.status === true ? "active" : "inactive"}
+          onChange={(e) => handleStatusChange(row, e.target.value)}
+          className="text-[12px] border border-gray-300 text-[#727378] text-center rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+        >
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
       ),
     },
     {
@@ -215,12 +216,13 @@ function CompanyPriceBook() {
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-10' >
                   <div className='col-span-3 self-center'>
-                    <Input name='ProductName' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21]" label='Product Name' />
+                    <Input name='ProductName' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21]" label='' placeholder='Product Name' />
                   </div>
                  
                   <div className='col-span-3 self-center'>
-                    <Select label="Product Category"
+                    <Select label=""
                       options={categoryList}
+                      OptionName='Product Category'
                       color='text-[#1B1D21] opacity-50'
                       className1="!pt-1 !pb-1 !text-[13px]"
                       className="!text-[14px] !bg-[#f7f7f7]"
@@ -228,8 +230,9 @@ function CompanyPriceBook() {
                       onChange={handleSelectChange1} />
                   </div>
                   <div className='col-span-3 self-center'>
-                    <Select label="Status"
+                    <Select label=""
                       options={status}
+                      OptionName='Status'
                       color='text-[#1B1D21] opacity-50'
                       className1="!pt-1 !pb-1 !text-[13px]"
                       className="!text-[14px] !bg-[#f7f7f7]"

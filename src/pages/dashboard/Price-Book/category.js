@@ -23,6 +23,7 @@ function Category() {
 
   useEffect(() => {
     getCategoryListData()
+    window.scrollTo(0, 0);
   }, [])
 
 

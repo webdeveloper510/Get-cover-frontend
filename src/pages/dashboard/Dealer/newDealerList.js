@@ -105,7 +105,7 @@ function NewDealerList() {
            <div onClick={() => setSelectedAction(row.unique_key)}>
             <img src={ActiveIcon} alt="Active Icon" />
           </div>
-             {selectedAction === row.unique_key && (
+             {/* {selectedAction === row.unique_key && (
             <div className="absolute z-[2] w-[70px] drop-shadow-5xl	top-[1.7rem] right-0 mt-2 bg-white border rounded-lg shadow-md">
               <div className="h-0 w-0 border-x-8 absolute top-[-14px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
               <button
@@ -118,7 +118,7 @@ function NewDealerList() {
                 Edit
               </button>
             </div>
-          )}
+          )} */}
         </div>
       ),
     },
