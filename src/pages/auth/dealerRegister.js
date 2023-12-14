@@ -342,7 +342,7 @@ function DealerRegister() {
                 </Button>
 
                 <p className="text-base text-neutral-grey font-medium mt-4">
-                  Don’t have an account?{" "}
+                Already have an account?{" "}
                   <Link
                     to={"/"}
                     className="text-light-black ml-3 font-semibold"
