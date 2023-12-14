@@ -132,7 +132,7 @@ function AddCompanyPriceBook() {
 
   const status = [
     { label: 'Active', value: true },
-    { label: 'InActive', value: false },
+    { label: 'Inactive', value: false },
   ];
 
   return (
