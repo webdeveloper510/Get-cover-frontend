@@ -39,7 +39,6 @@ function SidebarItem({
   expandedItem,
   onToggleExpand,
   onLinkClick,
-  onDropdownClick,
 }) {
   const hasItems = item.items && item.items.length > 0;
   const [isActive, setIsActive] = useState(false);
@@ -64,7 +63,7 @@ function SidebarItem({
           onLinkClick(item.url); // Use onLinkClick here
           if (hasItems) {
             onToggleExpand(item.name);
-            onDropdownClick(item.url || item.name);
+            console.log(item.name);
           } else {
             console.log(`Link to ${item.url} clicked`);
           }
@@ -124,7 +123,7 @@ function SidebarItem({
       </Link>
 
       {hasItems && (
-        <ul className={`${expandedItem === item.name && isActive  ? "block" : "hidden"}`}>
+        <ul className={`${expandedItem === item.name ? "block" : "hidden"}`}>
           {item.items.map((subItem, subIndex) => (
             <li key={subIndex} className={`ps-[19px]`}>
               <Link
@@ -185,11 +184,6 @@ function SidebarItem({
 function SideBar() {
   const [active, setActive] = useState(null);
   const [expandedItem, setExpandedItem] = useState(null);
-  const [activeDropdown, setActiveDropdown] = useState(null);
-
-  const handleDropdownClick = (dropdownName) => {
-    setActiveDropdown(dropdownName);
-  };
   const navigate = useNavigate();
   const handleToggleExpand = (itemName) => {
     setExpandedItem((prevExpandedItem) =>
@@ -324,11 +318,10 @@ function SideBar() {
                 <SidebarItem
                   key={index}
                   item={bar}
-                  active={activeDropdown || active}
+                  active={active}
                   expandedItem={expandedItem}
                   onToggleExpand={handleToggleExpand}
                   onLinkClick={handleLinkClick}
-                  onDropdownClick={handleDropdownClick}
                 />
               ))}
               <li className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]"
