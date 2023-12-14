@@ -135,6 +135,8 @@ function AddCompanyPriceBook() {
     { label: 'InActive', value: false },
   ];
 
+  const defaultValue = formik.values.status ? false : true;
+
   return (
     <div className='my-8 ml-3'>
       <Headbar />
@@ -270,8 +272,8 @@ function AddCompanyPriceBook() {
               <Input
                 type='number'
                 name='reserveFutureFee'
-                className='!bg-[#fff]'
-                label='Reserve for future claims '
+                className='!bg-[#fff] !px-0'
+                label='Reserve for future claims'
                 placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -311,10 +313,11 @@ function AddCompanyPriceBook() {
                 onChange={handleSelectChange}
                 className='!bg-[#fff]'
                 options={status}
+                defaultValue={defaultValue}
                 value={formik.values.status}
                 onBlur={formik.handleBlur}
                 error={formik.touched.status && formik.errors.status}
-                defaultValue={status.find(option => option.value === true)}
+                // defaultValue={status.find(option => option.value === true)}
               />
               {formik.touched.status && formik.errors.status && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
