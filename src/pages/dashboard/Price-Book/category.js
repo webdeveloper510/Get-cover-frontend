@@ -12,15 +12,24 @@ import Input from '../../../common/input';
 import DataTable from "react-data-table-component";
 import { useEffect } from 'react';
 import { editCategoryList, getCategoryList } from '../../../services/priceBookService';
+import Select from '../../../common/select';
+
+
 
 function Category() {
   const [selectedAction, setSelectedAction] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState('');
   const [categoryList, setCategoryList] = useState([])
 
   useEffect(() => {
     getCategoryListData()
   }, [])
 
+
+  const handleSelectChange1 = (label , value) => {
+    console.log(label, value , "selected")
+    setSelectedProduct(value);
+  };
   const getCategoryListData = async () => {
     try {
       const res = await getCategoryList();
@@ -29,7 +38,10 @@ function Category() {
       console.error('Error fetching category list:', error);
     }
   };
-
+  const status = [
+    { label: 'Active', value: true },
+    { label: 'Inactive', value: false },
+  ];
   const handleActionChange = (action, row) => {
     console.log(`Selected action: ${action} for Category ID: ${row._id}`);
   };
@@ -56,11 +68,11 @@ function Category() {
       sortable: true,
       cell: (row) => (
         <div className="relative">
-          <div className={` ${row.status === true ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-[10px]`}></div>
+          <div className={` ${row.status === true ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}></div>
           <select
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-sm border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] text-center rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -93,6 +105,24 @@ function Category() {
       ),
     },
   ];
+  const customStyles = {
+    rows: {
+        style: {
+          textAlign:"center" ,
+        },
+    },
+    headCells: {
+        style: {
+           textAlign:"center" ,
+        },
+    },
+    cells: {
+        style: {
+          textAlign:"center" ,
+        },
+    },
+};
+
 
   const handleStatusChange = async (row, newStatus) => {
     try {
@@ -125,12 +155,13 @@ function Category() {
     }
   };
 
+  
 
   return (
     <>
-      <div className='my-8 ml-3 relative'>
+      <div className='my-8 ml-3'>
         <Headbar />
-        <div className='flex'>
+        <div className='flex mt-14'>
           <div className='pl-3'>
             <p className='font-bold text-[38px] leading-9	mb-[3px]'>Category</p>
             <ul className='flex self-center'>
@@ -143,14 +174,25 @@ function Category() {
 
         <div className='bg-white  border-[1px] border-[#D1D1D1] rounded-xl '>
           <Grid className='!px-[26px] !pt-[14px] !pb-0'>
-            <div className='col-span-7 self-center'>
+            <div className='col-span-5 self-center'>
               <p className='text-xl font-semibold'>Categories List</p>
             </div>
-            <div className='col-span-5'>
+            <div className='col-span-7'>
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-                <Grid className='!grid-cols-6' >
+                <Grid className='!grid-cols-11' >
                   <div className='col-span-5 self-center'>
-                    <Input name='CategoryName' type='text'  className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1" label='Category Name' />
+                    <Input name='CategoryName' type='text'placeholder="Category Name"
+                    className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21]" label='' />
+                  </div>
+                  <div className='col-span-5 self-center'>
+                    <Select label=""
+                    OptionName="Status"
+                      options={status}
+                      color='text-[#1B1D21] opacity-50'
+                      className1="!pt-1 !pb-1 !text-[13px]"
+                      className="!text-[14px] !bg-[#f7f7f7]"
+                      selectedValue={selectedProduct}
+                      onChange={handleSelectChange1} />
                   </div>
                   <div className='col-span-1 self-center'>
                     <img src={Search} className='cursor-pointer	' alt='Search' />

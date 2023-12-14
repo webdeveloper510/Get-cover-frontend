@@ -56,7 +56,7 @@ function AddCompanyPriceBook() {
       } else {
          setError(false);
          setIsModalOpen(true)
-         setTimer(5)
+         setTimer(3)
       }
     },
 
@@ -136,7 +136,7 @@ function AddCompanyPriceBook() {
   return (
     <div className='my-8 ml-3'>
       <Headbar />
-      <div className='flex'>
+      <div className='flex mt-14'>
         <Link to={'/companyPriceBook'} className='h-[60px] w-[60px] flex border-[1px] bg-[#fff] border-[#D1D1D1] rounded-[25px]'>
           <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage' /> </Link>
         <div className='pl-3'>
@@ -156,7 +156,7 @@ function AddCompanyPriceBook() {
                 )}
 
       <form className='mt-8' onSubmit={formik.handleSubmit}>
-        <div className='py-5'>
+        <div className='px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
           <Grid className='!grid-cols-5'>
             <div className='col-span-1'>
               <Select
@@ -164,7 +164,7 @@ function AddCompanyPriceBook() {
                 name="priceCatId"
                 placeholder=""
                 onChange={handleSelectChange}
-                className='!bg-[#f7f7f7]'
+                className='!bg-[#fff]'
                 options={categoryList}
                 value={formik.values.priceCatId}
                 onBlur={formik.handleBlur}
@@ -180,9 +180,9 @@ function AddCompanyPriceBook() {
               <Input
                 type='text'
                 name='name'
-                className='!bg-[#f7f7f7]'
+                className='!bg-[#fff]'
                 label='Product Name '
-                placeholder='Enter'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
@@ -197,9 +197,9 @@ function AddCompanyPriceBook() {
               <Input
                 type='text'
                 name='description'
-                className='!bg-[#f7f7f7]'
+                className='!bg-[#fff]'
                 label='Description '
-                placeholder='Enter'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.description}
@@ -216,7 +216,7 @@ function AddCompanyPriceBook() {
                 name="term"
                 placeholder=""
                 onChange={handleSelectChange}
-                className='!bg-[#f7f7f7]'
+                className='!bg-[#fff]'
                 options={termList}
                 value={formik.values.term}
                 onBlur={formik.handleBlur}
@@ -232,9 +232,9 @@ function AddCompanyPriceBook() {
               <Input
                 type='number'
                 name='frontingFee'
-                className='!bg-[#f7f7f7]'
+                className='!bg-[#fff]'
                 label='Fronting fee '
-                placeholder='Enter'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.frontingFee}
@@ -250,9 +250,9 @@ function AddCompanyPriceBook() {
               <Input
                 type='number'
                 name='reinsuranceFee'
-                className='!bg-[#f7f7f7]'
+                className='!bg-[#fff]'
                 label='Re-insurance fee '
-                placeholder='Enter'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.reinsuranceFee}
@@ -268,9 +268,9 @@ function AddCompanyPriceBook() {
               <Input
                 type='number'
                 name='reserveFutureFee'
-                className='!bg-[#f7f7f7]'
+                className='!bg-[#fff]'
                 label='Reserve for future claims '
-                placeholder='Enter'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.reserveFutureFee}
@@ -286,9 +286,9 @@ function AddCompanyPriceBook() {
               <Input
                 type='number'
                 name='adminFee'
-                className='!bg-[#f7f7f7]'
+                className='!bg-[#fff]'
                 label='Administration fee '
-                placeholder='Enter'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.adminFee}
@@ -307,11 +307,12 @@ function AddCompanyPriceBook() {
                 name="status"
                 placeholder=""
                 onChange={handleSelectChange}
-                className='!bg-[#f7f7f7]'
+                className='!bg-[#fff]'
                 options={status}
                 value={formik.values.status}
                 onBlur={formik.handleBlur}
                 error={formik.touched.status && formik.errors.status}
+                defaultValue={status.find(option => option.value === true)}
               />
               {formik.touched.status && formik.errors.status && (
                 <div className="text-red-500 text-sm pl-2 pt-2">

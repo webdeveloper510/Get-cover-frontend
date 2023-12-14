@@ -10,7 +10,7 @@ function Dashboard() {
     <>
      <div className='my-8 ml-3'>
         <Headbar/>
-        <div className='flex'>
+        <div className='flex mt-14'>
           <div className='pl-3'>
             <p className='font-bold text-[38px] leading-9	mb-[3px]'>Dashboard</p>
            

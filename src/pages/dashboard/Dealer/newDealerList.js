@@ -107,7 +107,7 @@ function NewDealerList() {
     <>
       <div className='my-8 ml-3'>
         <Headbar />
-        <div className='flex'>
+        <div className='flex mt-14'>
           <div className='pl-3'>
             <p className='font-bold text-[38px] leading-9 mb-[3px]'>Dealer</p>
             <ul className='flex self-center'>
@@ -126,13 +126,13 @@ function NewDealerList() {
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-7' >
                   <div className='col-span-2 self-center'>
-                    <Input name='Name' type='text' className1="!pt-2 !pb-0" label='Name' />
+                    <Input name='Name' type='text' className1="!pt-1 !pb-1" label='' placeholder='Name' />
                   </div>
                   <div className='col-span-2 self-center'>
-                    <Input name='Email' type='email' className1="!pt-2 !pb-0" label='Email' />
+                    <Input name='Email' type='email' className1="!pt-1 !pb-1" label='' placeholder='Email' />
                   </div>
                   <div className='col-span-2 self-center'>
-                    <Input name='PhoneNo.' type='number' className1="!pt-2 !pb-0" label='Phone No.' />
+                    <Input name='PhoneNo.' type='number' className1="!pt-1 !pb-1 text-base font-semibold"  label='' placeholder='Phone No.' />
                   </div>
                   <div className='col-span-1 self-center'>
                     <img src={Search} alt='Search' />

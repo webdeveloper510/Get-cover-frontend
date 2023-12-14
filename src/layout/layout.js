@@ -31,11 +31,11 @@ function Layout() {
   // }, []);
 
   return (
-    <div className={`w-full flex bg-[#F9F9F9] bg-cover  h-full p-7`}>
+    <div className={`w-full flex bg-[#F9F9F9] bg-cover  h-full p-7 overflow-x-hidden relative  w-full`}>
       <div className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full`}>
         <SideBar/>
       </div>
-      <div className="w-[calc(100%-10px)] h-full relative pl-3">
+      <div className="w-[calc(100%-10px)] h-full pl-3">
         <Outlet />
       </div>
     </div>
