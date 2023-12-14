@@ -44,11 +44,7 @@ const routes = [
         path: "/newPassword/:id/:token",
         index: true,
         element: (
-          <PrivateRoute
-            withoutLogin={1}
-            element={<NewPassword />}
-            path="/newPassword/:id/:token"
-          />
+          <NewPassword />
         ),
       },
       {
