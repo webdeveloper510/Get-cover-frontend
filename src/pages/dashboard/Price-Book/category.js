@@ -14,6 +14,8 @@ import { useEffect } from 'react';
 import { editCategoryList, getCategoryList } from '../../../services/priceBookService';
 import Select from '../../../common/select';
 
+
+
 function Category() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState('');
@@ -103,6 +105,24 @@ function Category() {
       ),
     },
   ];
+  const customStyles = {
+    rows: {
+        style: {
+          textAlign:"center" ,
+        },
+    },
+    headCells: {
+        style: {
+           textAlign:"center" ,
+        },
+    },
+    cells: {
+        style: {
+          textAlign:"center" ,
+        },
+    },
+};
+
 
   const handleStatusChange = async (row, newStatus) => {
     try {
@@ -135,6 +155,7 @@ function Category() {
     }
   };
 
+  
 
   return (
     <>
@@ -160,12 +181,15 @@ function Category() {
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-11' >
                   <div className='col-span-5 self-center'>
-                    <Input name='CategoryName' type='text'  className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1" label='Category Name' />
+                    <Input name='CategoryName' type='text'placeholder="Category Name"
+                    className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21]" label='' />
                   </div>
                   <div className='col-span-5 self-center'>
-                    <Select label="Status"
+                    <Select label=""
+                    OptionName="Status"
                       options={status}
-                      className1="!pt-2 !pb-1 !text-[13px]"
+                      color='text-[#1B1D21] opacity-50'
+                      className1="!pt-1 !pb-1 !text-[13px]"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       selectedValue={selectedProduct}
                       onChange={handleSelectChange1} />

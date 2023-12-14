@@ -182,7 +182,7 @@ function AddCompanyPriceBook() {
                 name='name'
                 className='!bg-[#fff]'
                 label='Product Name '
-                placeholder='Enter'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
@@ -199,7 +199,7 @@ function AddCompanyPriceBook() {
                 name='description'
                 className='!bg-[#fff]'
                 label='Description '
-                placeholder='Enter'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.description}
@@ -234,7 +234,7 @@ function AddCompanyPriceBook() {
                 name='frontingFee'
                 className='!bg-[#fff]'
                 label='Fronting fee '
-                placeholder='Enter'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.frontingFee}
@@ -252,7 +252,7 @@ function AddCompanyPriceBook() {
                 name='reinsuranceFee'
                 className='!bg-[#fff]'
                 label='Re-insurance fee '
-                placeholder='Enter'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.reinsuranceFee}
@@ -270,7 +270,7 @@ function AddCompanyPriceBook() {
                 name='reserveFutureFee'
                 className='!bg-[#fff]'
                 label='Reserve for future claims '
-                placeholder='Enter'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.reserveFutureFee}
@@ -288,7 +288,7 @@ function AddCompanyPriceBook() {
                 name='adminFee'
                 className='!bg-[#fff]'
                 label='Administration fee '
-                placeholder='Enter'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.adminFee}

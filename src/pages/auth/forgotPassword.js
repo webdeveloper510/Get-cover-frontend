@@ -77,7 +77,7 @@ function ForgotPassword() {
                 type="email"
                 name="email"
                 label="Email"
-                placeholder="Email"
+                placeholder=""
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
                 onChange={formik.handleChange}

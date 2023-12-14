@@ -10,6 +10,8 @@ const Select = ({
   required,
   className1,
   name,
+  OptionName,
+  color,
   error,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -42,7 +44,7 @@ const Select = ({
             error ? "border-[red]" : " border-gray-300 "
           }`}
         >
-          <option value="">Select...</option>
+          <option className={color} value="">Select {OptionName}</option>
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
