@@ -135,6 +135,8 @@ function AddCompanyPriceBook() {
     { label: 'Inactive', value: false },
   ];
 
+  const defaultValue = formik.values.status === '' ? false : true;
+
   return (
     <div className='my-8 ml-3'>
       <Headbar />
@@ -304,17 +306,17 @@ function AddCompanyPriceBook() {
               )}
             </div>
             <div className='col-span-1'>
-              <Select
+            <Select
                 label="Status*"
                 name="status"
                 placeholder=""
                 onChange={handleSelectChange}
-                className='!bg-[#fff]'
+                className='!bg-[#f7f7f7]'
                 options={status}
-                value={formik.values.status}
+                value={formik.values.status === '' ?   formik.setFieldValue('status', true) : formik.values.status}
                 onBlur={formik.handleBlur}
                 error={formik.touched.status && formik.errors.status}
-                defaultValue={status.find(option => option.value === true)}
+                defaultValue={defaultValue}
               />
               {formik.touched.status && formik.errors.status && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
