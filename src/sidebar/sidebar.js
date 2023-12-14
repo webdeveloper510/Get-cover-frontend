@@ -44,8 +44,20 @@ function SidebarItem({
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    setIsActive(active === item.url || active === item.name);
-  }, [active, item]);
+    console.log("expandedItem" , item.name  , item.url )
+
+    if (item.name === "Price Book"){
+      setIsActive(active === "Price Book" || expandedItem === "Price Book");
+    }else if (item.name === "Claim"){
+      setIsActive(active === "Claim" || expandedItem === "Claim");
+    }else if (item.name === "Dealer"){
+      setIsActive(active === "Dealer" || expandedItem === "Dealer");
+    }
+    else{
+      setIsActive(active === item.url || active === item.name || expandedItem === item.name);
+    }
+    
+  }, [active, expandedItem, item]);
 
   return (
     <li
@@ -249,6 +261,12 @@ function SideBar() {
       image: OrderImage,
     },
     {
+      name: "Product",
+      url: "#",
+      active: ActiveProduct,
+      image: ProductImage,
+    },
+    {
       name: "Claim",
       image: ClaimImage,
       active: ActiveClaim,
@@ -304,12 +322,7 @@ function SideBar() {
       image: ReportImage,
       active: ActiveReport,
     },
-    {
-      name: "Product",
-      url: "#",
-      active: ActiveProduct,
-      image: ProductImage,
-    },
+   
   ];
 
   return (

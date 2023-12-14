@@ -40,7 +40,7 @@ function UploadDealerBook() {
 
       <Headbar />
 
-      <div className='flex'>
+      <div className='flex mt-14'>
         <div className='pl-3'>
           <p className='font-ExtraBold text-[38px] leading-9 mb-[3px]'>Upload Dealer Book</p>
           <ul className='flex self-center'>

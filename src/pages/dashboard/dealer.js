@@ -40,7 +40,7 @@ function Dealer() {
   return (
     <div className="my-8 ml-3">
       <Headbar />
-      <div className="flex">
+      <div className="flex mt-14">
         {/* <div className='p-5 border-2 border-[#D1D1D1] rounded-xl'>
           <img src={BackImage} alt='BackImage'/>
         </div> */}

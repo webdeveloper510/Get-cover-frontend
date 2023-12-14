@@ -11,10 +11,10 @@ import Down from '../assets/images/icons/Drop.svg';
 function Headbar() {
   return (
     <div className=''>
-      <Grid >
+      <Grid className='absolute right-[-1%] top-[5%] '>
         <div className='col-span-4'></div>
         <div className='col-span-2'></div>
-        <div className='col-span-6 ml-auto'>
+        <div className='col-span-6 ml-auto '>
           <Grid className='border-2 w-[250px] bg-white ms-auto border-[#D1D1D1] flex self-center py-3 px-4 rounded-xl'>
             <div className='col-span-4 flex self-center justify-around border-r-2 border-[#D1D1D1]'>
               {/* <div>

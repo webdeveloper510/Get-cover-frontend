@@ -129,12 +129,22 @@ function CompanyPriceBook() {
     },
     {
       name: "Product Term",
-      selector: (row) => row.term,
+      selector: (row) => row.term + " Months",
       sortable: true,
     },
     {
       name: "WholeSale Cost",
-      selector: (row) => row.frontingFee + row.reserveFutureFee + row.reinsuranceFee + row.adminFee,
+      selector: (row) => {
+        const totalCost = row.frontingFee + row.reserveFutureFee + row.reinsuranceFee + row.adminFee;
+        
+        // Format the totalCost in USD currency format
+        const formattedCost = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(totalCost);
+    
+        return formattedCost;
+      },
       sortable: true,
     },
 
@@ -183,9 +193,9 @@ function CompanyPriceBook() {
   ];
   return (
     <>
-      <div className='my-8 ml-3 relative'>
+      <div className='my-8 ml-3'>
         <Headbar />
-        <div className='flex'>
+        <div className='flex mt-14'>
           <div className='pl-3'>
             <p className='font-bold text-[38px] leading-9	mb-[3px]'>Company Price Book</p>
             <ul className='flex self-center'>
@@ -203,14 +213,22 @@ function CompanyPriceBook() {
             </div>
             <div className='col-span-7'>
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-                <Grid className='!grid-cols-11' >
-                  <div className='col-span-5 self-center'>
+                <Grid className='!grid-cols-10' >
+                  <div className='col-span-3 self-center'>
                     <Input name='ProductName' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1" label='Product Name' />
                   </div>
-
-                  <div className='col-span-5 self-center'>
+                 
+                  <div className='col-span-3 self-center'>
                     <Select label="Product Category"
                       options={categoryList}
+                      className1="!pt-2 !pb-1 !text-[13px]"
+                      className="!text-[14px] !bg-[#f7f7f7]"
+                      selectedValue={selectedProduct}
+                      onChange={handleSelectChange1} />
+                  </div>
+                  <div className='col-span-3 self-center'>
+                    <Select label="Status"
+                      options={status}
                       className1="!pt-2 !pb-1 !text-[13px]"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       selectedValue={selectedProduct}
