@@ -12,7 +12,7 @@ function Dashboard() {
         <Headbar/>
         <div className='flex mt-14'>
           <div className='pl-3'>
-            <p className='font-bold text-[38px] leading-9	mb-[3px]'>Dashboard</p>
+            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Dashboard</p>
            
           </div>
         </div>

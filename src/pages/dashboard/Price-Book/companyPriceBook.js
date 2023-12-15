@@ -194,7 +194,7 @@ function CompanyPriceBook() {
         <Headbar />
         <div className='flex mt-14'>
           <div className='pl-3'>
-            <p className='font-bold text-[38px] leading-9	mb-[3px]'>Company Price Book</p>
+            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Company Price Book</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Price Book </Link>  /  </li>
               <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Company Price Book </li>
@@ -212,7 +212,7 @@ function CompanyPriceBook() {
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-10' >
                   <div className='col-span-3 self-center'>
-                    <Input name='ProductName' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21]" label='' placeholder='Product Name' />
+                    <Input name='ProductName' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !bg-[white] !pb-1 placeholder-[#1B1D21]" label='' placeholder='Product Name' />
                   </div>
                  
                   <div className='col-span-3 self-center'>
@@ -220,8 +220,8 @@ function CompanyPriceBook() {
                       options={categoryList}
                       OptionName='Product Category'
                       color='text-[#1B1D21] opacity-50'
-                      className1="!pt-1 !pb-1 !text-[13px]"
-                      className="!text-[14px] !bg-[#f7f7f7]"
+                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px]  !bg-[#f7f7f7]"
                       selectedValue={selectedProduct}
                       onChange={handleSelectChange1} />
                   </div>
@@ -230,7 +230,7 @@ function CompanyPriceBook() {
                       options={status}
                       OptionName='Status'
                       color='text-[#1B1D21] opacity-50'
-                      className1="!pt-1 !pb-1 !text-[13px]"
+                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       selectedValue={selectedProduct}
                       onChange={handleSelectChange1} />

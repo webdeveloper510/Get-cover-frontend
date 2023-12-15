@@ -44,7 +44,7 @@ function AddCustomer() {
             <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
           </Link>
           <div className='pl-3'>
-            <p className='font-bold text-[38px] leading-9 mb-[3px]'>Add New Customer</p>
+            <p className='font-bold text-[36px] leading-9 mb-[3px]'>Add New Customer</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Dealer </Link>  /  </li>
               <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Add New Customer </li>

@@ -148,7 +148,7 @@ function Category() {
         <Headbar />
         <div className='flex mt-14'>
           <div className='pl-3'>
-            <p className='font-bold text-[38px] leading-9	mb-[3px]'>Category</p>
+            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Category</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Price Book </Link>  /  </li>
               <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Category </li>
@@ -167,15 +167,15 @@ function Category() {
                 <Grid className='!grid-cols-11' >
                   <div className='col-span-5 self-center'>
                     <Input name='CategoryName' type='text'placeholder="Category Name"
-                    className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21]" label='' />
+                    className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' />
                   </div>
                   <div className='col-span-5 self-center'>
                     <Select label=""
                     OptionName="Status"
                       options={status}
                       color='text-[#1B1D21] opacity-50'
-                      className1="!pt-1 !pb-1 !text-[13px]"
-                      className="!text-[14px] !bg-[#f7f7f7]"
+                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px] !bg-[#f7f7f7] "
                       selectedValue={selectedProduct}
                       onChange={handleSelectChange1} />
                   </div>
