@@ -87,7 +87,7 @@ function ServicerList() {
   
           <div className='flex mt-14'>
             <div className='pl-3'>
-              <p className='font-bold text-[36px] leading-9	mb-[3px]'>Servicer</p>
+              <p className='font-semibold text-[36px] leading-9	mb-[3px]'>Servicer</p>
               <ul className='flex self-center'>
                 <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Servicer </Link> </li>
               </ul>

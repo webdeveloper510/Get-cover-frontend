@@ -68,7 +68,7 @@ function AddCategory() {
         <Link to={'/category'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[20px]'>
           <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage' /> </Link>
         <div className='pl-3'>
-          <p className='font-ExtraBold text-[36px] leading-9 mb-[3px]'>Add New Category</p>
+          <p className='font-semibold text-[36px] leading-9 mb-[3px]'>Add New Category</p>
           <ul className='flex self-center'>
             <li className='text-sm text-neutral-grey font-Regular'><Link to={'/dashboard'}>Price Book </Link>  <span className='mx-2'> /</span>  </li>
             <li className='text-sm text-neutral-grey font-Regular ml-1'><Link to={'/category'} className='text-sm text-neutral-grey font-Regular'>Category </Link>  <span className='mx-2'> /</span>  </li>

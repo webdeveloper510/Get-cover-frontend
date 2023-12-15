@@ -47,7 +47,7 @@ function Dealer() {
         </div> */}
         <div className="pl-3">
           <p className="font-semibold text-[36px] leading-9	mb-[3px]">
-            Add New Dealer
+            Dealer
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">

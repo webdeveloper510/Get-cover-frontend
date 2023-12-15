@@ -162,7 +162,7 @@ function DealerPriceList() {
         <Headbar />
         <div className='flex mt-14'>
           <div className='pl-3'>
-            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Dealer Book</p>
+            <p className='font-semibold text-[36px] leading-9	mb-[3px]'>Dealer Book</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Price Book </Link>  /  </li>
               <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Dealer Book </li>

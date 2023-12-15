@@ -261,6 +261,12 @@ function SideBar() {
           image: Dropdown2,
           active: SeacondActive,
         },
+        {
+          name: "New Servicer Requests",
+          url: "/requestList",
+          image: Dropdown2,
+          active: ForthActive,
+        },
       ],
     },
     {

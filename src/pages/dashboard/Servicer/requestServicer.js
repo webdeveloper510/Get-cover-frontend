@@ -14,7 +14,7 @@ import Input from '../../../common/input';
 import DataTable from "react-data-table-component";
 import { getDealerList } from '../../../services/priceBookService';
 import Modal from '../../../common/model';
-function NewDealerList() {
+function RequestServicer() {
   const [list, setList] = useState(null);
   const [selectedAction, setSelectedAction] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -161,10 +161,10 @@ function NewDealerList() {
         <Headbar />
         <div className='flex mt-14'>
           <div className='pl-3'>
-            <p className='font-semibold text-[36px] leading-9 mb-[3px]'>Dealer</p>
+            <p className='font-semibold text-[36px] leading-9 mb-[3px]'>Servicer</p>
             <ul className='flex self-center'>
-              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/dashboard'}>Dealer </Link>  /  </li>
-              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> New Dealer Requests </li>
+              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/servicerList'}>Servicer </Link>  /  </li>
+              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> New Servicer Requests </li>
             </ul>
           </div>
         </div>
@@ -238,4 +238,4 @@ function NewDealerList() {
     </>
   )
 }
-export default NewDealerList
+export default RequestServicer 

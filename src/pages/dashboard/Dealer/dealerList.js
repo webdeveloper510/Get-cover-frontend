@@ -86,7 +86,7 @@ function DealerList() {
 
         <div className='flex mt-14'>
           <div className='pl-3'>
-            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Dealer</p>
+            <p className='font-semibold text-[36px] leading-9	mb-[3px]'>Dealer</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Dealer </Link>  /  </li>
               <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Dealer List </li>
@@ -112,7 +112,7 @@ function DealerList() {
                     <Input name='PhoneNo.' type='number'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Phone No.' />
                   </div>
                   <div className='col-span-1 self-center'>
-                    <img src={Search} alt='Search' />
+                    <img src={Search} className='cursor-pointer	' alt='Search' />
                   </div>
                 </Grid>
 

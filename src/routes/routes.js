@@ -21,6 +21,7 @@ import NewDealerList from "../pages/dashboard/Dealer/newDealerList";
 import CustomerList from "../pages/dashboard/Customer/customerList";
 import AddServicer from "../pages/dashboard/Servicer/addServicer";
 import ServicerList from "../pages/dashboard/Servicer/servicerList";
+import RequestServicer from "../pages/dashboard/Servicer/requestServicer";
 
 const routes = [
   {
@@ -192,6 +193,15 @@ const routes = [
           <PrivateRoute
             element={<ServicerList />}
             path="/servicerList"
+          />
+        ),
+      },
+      {
+        path: "/requestList",
+        element: (
+          <PrivateRoute
+            element={<RequestServicer />}
+            path="/requestList"
           />
         ),
       },
