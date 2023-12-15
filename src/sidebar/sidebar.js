@@ -246,15 +246,41 @@ function SideBar() {
     },
     {
       name: "Servicer",
-      url: "#",
       image: ServicerImage,
       active: ActiveServicer,
+      items: [
+        {
+          name: "Servicer List",
+          url: "#",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Servicer",
+          url: "#",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
     },
     {
       name: "Customer",
-      url: "#",
       image: CustomerImage,
       active: ActiveCustomer,
+      items: [
+        {
+          name: "Customer List",
+          url: "/customerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Customer",
+          url: "/addCustomer",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
     },
     {
       name: "Order",
@@ -277,7 +303,7 @@ function SideBar() {
           name: "Claim Listing",
           url: "#",
           image: Dropdown1,
-          active: ActiveDropdown,
+          active: Actives,
         },
         {
           name: "Add Bulk Claim",

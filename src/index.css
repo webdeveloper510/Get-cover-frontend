@@ -140,7 +140,7 @@ code {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 /* Track */
@@ -150,11 +150,11 @@ code {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #000000;
+  background: #dfdfdf;
   border-radius: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #000;
+  background: #dfdfdf;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React , { useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import Button from '../../../common/button'
@@ -9,9 +9,8 @@ import Search from '../../../assets/images/icons/SearchIcon.svg';
 import Headbar from '../../../common/headBar';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
-import DataTable from "react-data-table-component";
-
-function DealerList() {
+import DataTable from "react-data-table-component"
+function CustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
 
   const handleActionChange = (action) => {
@@ -86,10 +85,9 @@ function DealerList() {
 
         <div className='flex mt-14'>
           <div className='pl-3'>
-            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Dealer</p>
+            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Customer</p>
             <ul className='flex self-center'>
-              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Dealer </Link>  /  </li>
-              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Dealer List </li>
+              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Customer </Link> </li>
             </ul>
           </div>
         </div>
@@ -97,7 +95,7 @@ function DealerList() {
         <div className='bg-white mt-10 border-[1px] border-[#D1D1D1] rounded-xl'>
           <Grid className='!p-[26px] !pt-[14px] !pb-0'>
             <div className='col-span-5 self-center'>
-              <p className='text-xl font-semibold'>Dealers List</p>
+              <p className='text-xl font-semibold'>Customers List</p>
             </div>
             <div className='col-span-7'>
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
@@ -129,4 +127,4 @@ function DealerList() {
   )
 }
 
-export default DealerList
+export default CustomerList

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import Button from '../../../common/button'
 
 import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
-import approved from '../../../assets/images/approved.png';
+import arrowImage from '../../../assets/images/dropdownArrow.png';
 import disapproved from '../../../assets/images/Disapproved.png';
 import request from '../../../assets/images/request.png';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
@@ -15,12 +15,19 @@ import DataTable from "react-data-table-component";
 import { getDealerList } from '../../../services/priceBookService';
 import Modal from '../../../common/model';
 function NewDealerList() {
-  const [selectedAction, setSelectedAction] = useState(null);
   const [list, setList] = useState(null);
+  const [selectedAction, setSelectedAction] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = (index) => {
+    setSelectedAction(index);
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   const handleActionChange = (action) => {
     console.log(`Selected action: ${action}`);
-    // You can replace the console.log statement with the actual logic you want to perform
+    // Implement logic for handling the action (e.g., approve/disapprove)
+    setIsDropdownOpen(false); // Close the dropdown after selecting an action
   };
   const data = [
     {
@@ -100,30 +107,27 @@ function NewDealerList() {
         selector: (row) => row.PhoneNo,
         sortable: true,
       },
-    {
-      name: "Action",
-      cell: (row) => (
-        <div className="relative">
-           <div onClick={() => setIsModalOpen(true)}>
-            <img src={ActiveIcon} className='w-[35px] cursor-pointer' alt="Active Icon" />
-          </div>
-             {/* {selectedAction === row.unique_key && (
-            <div className="absolute z-[2] w-[70px] drop-shadow-5xl	top-[1.7rem] right-0 mt-2 bg-white border rounded-lg shadow-md">
-              <div className="h-0 w-0 border-x-8 absolute top-[-14px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
-              <button
-                onClick={() => {
-                  handleActionChange('Edit', row);
-                  setSelectedAction(null);
-                }}
-                className="block px-4 py-2 text-gray-800 rounded-lg  w-full text-left"
-              >
-                Edit
-              </button>
+      {
+        name: "Action",
+        cell: (row, index) => (
+          <div className="relative">
+            <div onClick={() => toggleDropdown(index)}>
+              <img src={ActiveIcon} className='cursor-pointer w-[35px]' alt="Active Icon" />
             </div>
-          )} */}
-        </div>
-      ),
-    },
+            {isDropdownOpen && selectedAction === index && (
+              <div className={`absolute z-[2] w-[150px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${index % 10 === 9 ? 'bottom-[1rem]' : 'top-[1rem]'}`}>
+                <img src={arrowImage} className={`absolute object-contain right-[17%] w-[12px] ${index % 10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arrow'/>
+                <div className='text-center py-3 border-b border-[#E6E6E6] text-[#40BF73]' onClick={() => handleActionChange('Approve')}>
+                  Approve
+                </div>
+                <div className='text-center py-3 text-[#FF4747]' onClick={() => handleActionChange('Disapprove')}>
+                  Disapprove
+                </div>
+              </div>
+            )}
+          </div>
+        ),
+      },
   ];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -134,17 +138,6 @@ function NewDealerList() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const [isApprovedOpen, setIsApprovedOpen] = useState(false);
-
-  const openApproved = () => {
-    setIsApprovedOpen(true);
-    setIsModalOpen(false);
-  };
-
-  const closeApproved = () => {
-    setIsApprovedOpen(false);
   };
 
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
@@ -217,7 +210,7 @@ function NewDealerList() {
           <Grid className='my-5'>
             <div className='col-span-3'></div>
             <div className='col-span-3'>
-              <Button className='w-full !py-3' onClick={() => setIsApprovedOpen(true)}>Yes</Button>
+              <Button className='w-full !py-3'><Link to={'/dealer'}> Yes </Link></Button>
             </div>
             <div className='col-span-3'>
               <Button className='w-full !py-3 !bg-white border-[#D1D1D1] border !text-light-black' onClick={() => setIsDisapprovedOpen(true)}>No</Button>
@@ -229,18 +222,6 @@ function NewDealerList() {
         
       </Modal>
 
-      <Modal isOpen={isApprovedOpen} onClose={closeApproved}>
-       {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
-          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
-        </Button> */}
-        <div className='text-center py-3'>
-          <img src={approved} alt='email Image' className='mx-auto'/>
-          <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'><span className='text-light-black'> Approved </span></p>
-          <p className='text-neutral-grey text-base font-medium mt-2'>This request has been approved by you.</p>
-
-        </div>
-        
-      </Modal>
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
        {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />

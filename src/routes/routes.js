@@ -7,7 +7,7 @@ import ForgotPassword from "../pages/auth/forgotPassword";
 import NewPassword from "../pages/auth/newPassword";
 import DealerRegister from "../pages/auth/dealerRegister";
 import Dealer from "../pages/dashboard/dealer";
-import AddCustomer from "../pages/dashboard/addCustomer";
+import AddCustomer from "../pages/dashboard/Customer/addCustomer";
 import AddDealerBook from "../pages/dashboard/Price-Book/addDealerBook";
 import AddCompanyPriceBook from "../pages/dashboard/Price-Book/AddCompanyPriceBook";
 import UploadDealerBook from "../pages/dashboard/Price-Book/uploadDealerBook";
@@ -18,6 +18,9 @@ import Category from "../pages/dashboard/Price-Book/category";
 import DealerList from "../pages/dashboard/Dealer/dealerList";
 import PrivateRoute from "./privateRoute";
 import NewDealerList from "../pages/dashboard/Dealer/newDealerList";
+import CustomerList from "../pages/dashboard/Customer/customerList";
+import AddServicer from "../pages/dashboard/Servicer/addServicer";
+import ServicerList from "../pages/dashboard/Servicer/servicerList";
 
 const routes = [
   {
@@ -162,6 +165,33 @@ const routes = [
           <PrivateRoute
             element={<NewDealerList />}
             path="/newDealerList"
+          />
+        ),
+      },
+      {
+        path: "/customerList",
+        element: (
+          <PrivateRoute
+            element={<CustomerList />}
+            path="/customerList"
+          />
+        ),
+      },
+      {
+        path: "/addServicer",
+        element: (
+          <PrivateRoute
+            element={<AddServicer />}
+            path="/addServicer"
+          />
+        ),
+      },
+      {
+        path: "/servicerList",
+        element: (
+          <PrivateRoute
+            element={<ServicerList />}
+            path="/servicerList"
           />
         ),
       },

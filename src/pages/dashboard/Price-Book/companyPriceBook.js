@@ -6,7 +6,7 @@ import Button from '../../../common/button'
 import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
-import down from '../../../assets/images/icons/Drop.svg';
+import arrowImage from '../../../assets/images/dropdownArrow.png';
 import Headbar from '../../../common/headBar';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
@@ -165,27 +165,23 @@ function CompanyPriceBook() {
     },
     {
       name: "Action",
-      cell: (row) => (
-        <div className="relative">
+      cell: (row, index) => {
+        // console.log(index, index % 10 == 9)
+        return (
+          <div className="relative">
           <div onClick={() => setSelectedAction(row.unique_key)}>
-            <img src={ActiveIcon} className='w-[35px] cursor-pointer' alt="Active Icon" />
+            <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
           </div>
-          {/* {selectedAction === row.unique_key && (
-            <div className="absolute z-[2] w-[70px] drop-shadow-5xl	top-[1.7rem] right-0 mt-2 bg-white border rounded-lg shadow-md">
-              <div className="h-0 w-0 border-x-8 absolute top-[-14px] left-1/2 border-x-transparent border-b-[16px] border-b-white"></div>
-              <button
-                onClick={() => {
-                  handleActionChange('Edit', row);
-                  setSelectedAction(null);
-                }}
-                className="block px-4 py-2 text-gray-800 rounded-lg  w-full text-left"
-              >
-                Edit
-              </button>
+          {selectedAction === row.unique_key && (
+            <div className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${index%10 === 9 ? 'bottom-[1.3rem] ' : 'top-[1.3rem]'}`}>
+              <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/>
+                <div className='text-center py-3'>Edit</div>
             </div>
-          )} */}
+          )}
         </div>
-      ),
+        )
+      }
+      
     },
   ];
   return (
