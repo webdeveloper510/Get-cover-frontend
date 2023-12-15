@@ -41,7 +41,7 @@ function AddCustomer() {
       <div className='my-8 ml-3'>
         <Headbar/>
         <div className='flex'>
-        <Link to={'/category'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
+        <Link to={'/customerList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
             <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
           </Link>
           <div className='pl-3'>
@@ -105,7 +105,7 @@ function AddCustomer() {
               </div>
               <div className='col-span-8'>
                 <p className='text-light-black text-lg font-semibold'>Contact Information</p>
-                <p className='text-light-black flex text-[14px]  font-semibold mt-3 mb-6' >Do you want to create an account?       
+                <p className='text-light-black flex text-[12px]  font-semibold mt-3 mb-6' >Do you want to create an account?       
                 <RadioButton
                   id="yes"
                   label="Yes"
@@ -139,7 +139,7 @@ function AddCustomer() {
                       <Input type='text' name='Position' className='!bg-white' label='Position' required={true} placeholder=''/>
                   </div>
                   <div className='col-span-6'>
-                  <p className='text-light-black flex text-[14px]  font-semibold mt-3 mb-6' > Do you want to create an account?       
+                  <p className='text-light-black flex text-[12px]  font-semibold mt-3 mb-6' > Do you want to create an account?       
                 <RadioButton
                   id="yes"
                   label="Yes"
@@ -161,10 +161,10 @@ function AddCustomer() {
 
                 <div className='mt-8'>
                    <Grid>
-                    <div className='col-span-3'>
-                      <Button className='text-[10px] !font-light'>+  Add More Team Members</Button>
+                    <div className='col-span-4'>
+                      <Button className='text-sm !font-light w-full'>+  Add More Team Members</Button>
                     </div>
-                    <div className='col-span-9 self-center'>
+                    <div className='col-span-8 self-center'>
                       <hr/>
                     </div>
                    </Grid>

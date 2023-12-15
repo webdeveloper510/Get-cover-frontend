@@ -6,7 +6,7 @@ import Dashboard from "../pages/dashboard/index";
 import ForgotPassword from "../pages/auth/forgotPassword";
 import NewPassword from "../pages/auth/newPassword";
 import DealerRegister from "../pages/auth/dealerRegister";
-import Dealer from "../pages/dashboard/dealer";
+import Dealer from "../pages/dashboard/Dealer/dealer";
 import AddCustomer from "../pages/dashboard/Customer/addCustomer";
 import AddDealerBook from "../pages/dashboard/Price-Book/addDealerBook";
 import AddCompanyPriceBook from "../pages/dashboard/Price-Book/AddCompanyPriceBook";
