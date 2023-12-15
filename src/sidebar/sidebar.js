@@ -158,7 +158,7 @@ function SidebarItem({
                       src={subItem.active}
                       className={` ${
                         subIndex == 0 ? "mt-[-40%]" :subIndex == 1 ?"mt-[-43%] h-[110px]": subIndex == 2 ?"mt-[-95%]":"mt-[-115%]"
-                      } w-[24px] `}
+                      } w-[24px]`}
                       alt={subItem.active}
                     />
                   </>

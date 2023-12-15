@@ -17,7 +17,7 @@ import DataTable from "react-data-table-component";
 function DealerPriceList() {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedAction, setSelectedAction] = useState(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedTearm, setSelectedTearm] = useState(false);
   const handleActionChange = (action) => {
     // Implement the logic for the selected action (e.g., edit or delete)
     console.log(`Selected action: ${action}`);
@@ -27,10 +27,19 @@ function DealerPriceList() {
     setSelectedProduct(value);
   };
 
+  const handleSelectChange = (name, value) => {
+    setSelectedTearm(value);
+  };
+
   const country = [
     { label: 'Country', value: 'country' },
     { label: 'Option 2', value: 'option2' },
     { label: 'Option 3', value: 'option3' },
+  ];
+
+  const status = [
+    { label: 'Active', value: 'true' },
+    { label: 'Inactive', value: 'false' },
   ];
 
   const data = [
@@ -56,6 +65,8 @@ function DealerPriceList() {
     },
     // Add more objects as needed
   ];
+
+  
 
   const columns = [
     {
@@ -99,13 +110,26 @@ function DealerPriceList() {
       selector: (row) => row.status,
       sortable: true,
       cell: (row) => (
-        <div className="relative" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-          <span className='flex border-[1px] p-2 rounded-xl font-semibold w-full'><div className={` ${row.status === 'Active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} h-3 w-3 rounded-full mr-2 self-center`}></div>{row.Status} <img src={down} className='self-center ml-3' alt='down'/></span>
+       
 
-          {/* <div className='bg-Dropdown bg-cover bg-no-repeat	'>
-             hello
-          </div> */}
-        </div>
+        <div className="relative">
+        <div className={` ${row.status === true ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}></div>
+        <select
+          value={row.status === true ? "active" : "inactive"}
+          // onChange={(e) => handleStatusChange(row, e.target.value)}
+          className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl">
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+       // <div className="relative" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+        //   <span className='flex border-[1px] p-2 rounded-xl font-semibold w-full'><div className={` ${row.status === 'Active' ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} h-3 w-3 rounded-full mr-2 self-center`}></div>{row.Status} <img src={down} className='self-center ml-3' alt='down'/></span>
+
+          // <div className='bg-Dropdown bg-cover bg-no-repeat	'>
+          //    hello
+          // </div> 
+
+        // </div>
       ),
     },
     {
@@ -134,6 +158,8 @@ function DealerPriceList() {
     },
     
   ];
+
+  
   return (
     <>
       <div className='my-8 ml-3'>
@@ -158,26 +184,30 @@ function DealerPriceList() {
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-9' >
                   <div className='col-span-2 self-center'>
-                    <Input name='Category' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1" label='Category' />
+                    <Input name='Category' type='text'  className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21]" label='' placeholder='Category' />
                   </div>
                   <div className='col-span-2 self-center'>
-                    <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-2 !pb-1" label='Name' />
+                    <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21]" label='' placeholder='Name' />
                   </div>
                   <div className='col-span-2 self-center'>
-                    <Select label="Term"
+                    <Select label=""
                       options={country}
-                      className1="!pt-2 !pb-1 !text-[13px]"
+                      OptionName='Term'
+                      color='text-[#1B1D21] opacity-50'
+                      className1="!pt-1 !pb-1 !text-[13px]"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       selectedValue={selectedProduct}
                       onChange={handleSelectChange1} />
                   </div>
                   <div className='col-span-2 self-center'>
-                    <Select label="Status"
-                      options={country}
-                      className1="!pt-2 !pb-1 !text-[13px]"
+                    <Select label=""
+                      options={status}
+                      OptionName='Status'
+                      color='text-[#1B1D21] opacity-50'
+                      className1="!pt-1 !pb-1 !text-[13px]"
                       className="!text-[14px] !bg-[#f7f7f7]"
-                      selectedValue={selectedProduct}
-                      onChange={handleSelectChange1} />
+                      selectedValue={selectedTearm}
+                      onChange={handleSelectChange} />
                   </div>
                   <div className='col-span-1 self-center'>
                     <img src={Search}  className='cursor-pointer' alt='Search' />
