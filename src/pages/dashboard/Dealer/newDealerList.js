@@ -177,7 +177,7 @@ function NewDealerList() {
         </div>
 
         <div className='bg-white mt-10 border-[1px] border-[#D1D1D1] rounded-xl'>
-          <Grid className='!p-[26px] !pb-0'>
+          <Grid className='!p-[26px] !pt-[14px] !pb-0'>
             <div className='col-span-5 self-center'>
               <p className='text-xl font-semibold'>Request List</p>
             </div>
@@ -201,7 +201,9 @@ function NewDealerList() {
               </div>
             </div>
           </Grid>
-          <DataTable columns={columns} data={data} pagination />
+          <div className='mb-5'>
+           <DataTable columns={columns} data={data} pagination />
+          </div>
         </div>
 
         <Modal isOpen={isModalOpen} onClose={closeModal}>

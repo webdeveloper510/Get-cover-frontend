@@ -244,7 +244,7 @@ function CompanyPriceBook() {
             </div>
           </Grid>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto mb-5">
             <DataTable columns={columns} data={companyPriceList} pagination />
           </div>
         </div>

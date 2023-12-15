@@ -187,7 +187,9 @@ function Category() {
               </div>
             </div>
           </Grid>
+          <div className='mb-5'>
           <DataTable columns={columns} data={categoryList} pagination />
+          </div>
         </div>
       </div>
     </>

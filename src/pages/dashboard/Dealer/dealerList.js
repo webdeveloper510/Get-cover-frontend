@@ -94,7 +94,7 @@ function DealerList() {
         {/* <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addCategory'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-semibold'>Add Category </span>  </Link></Button> */}
 
         <div className='bg-white mt-10 border-[1px] border-[#D1D1D1] rounded-xl'>
-          <Grid className='!p-[26px] !pb-0'>
+          <Grid className='!p-[26px] !pt-[14px] !pb-0'>
             <div className='col-span-5 self-center'>
               <p className='text-xl font-semibold'>Dealers List</p>
             </div>
@@ -102,13 +102,13 @@ function DealerList() {
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-7' >
                   <div className='col-span-2 self-center'>
-                    <Input name='Name' type='text' className1="!pt-1 !pb-1 placeholder-opacity-50 placeholder-[#1B1D21]" label='' placeholder='Name' />
+                    <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Name' />
                   </div>
                   <div className='col-span-2 self-center'>
-                    <Input name='Email' type='email' className1="!pt-1 !pb-1 placeholder-opacity-50 placeholder-[#1B1D21]" label='' placeholder='Email' />
+                    <Input name='Email' type='email'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Email' />
                   </div>
                   <div className='col-span-2 self-center'>
-                    <Input name='PhoneNo.' type='number'className1="!pt-1 !pb-1 placeholder-opacity-50 placeholder-[#1B1D21]" label='' placeholder='Phone No.' />
+                    <Input name='PhoneNo.' type='number'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Phone No.' />
                   </div>
                   <div className='col-span-1 self-center'>
                     <img src={Search} alt='Search' />
@@ -118,7 +118,9 @@ function DealerList() {
               </div>
             </div>
           </Grid>
-          <DataTable columns={columns} data={data} pagination />
+          <div className='mb-5'>
+            <DataTable columns={columns} data={data} pagination />
+          </div>
         </div>
       </div>
     </>
