@@ -17,6 +17,8 @@ import {
   getCategoryList,
 } from "../../../services/priceBookService";
 import Select from "../../../common/select";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 function Category() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -33,9 +35,9 @@ function Category() {
     console.log(label, value, "selected");
     setSelectedProduct(value);
   };
-  const getCategoryListData = async () => {
+  const getCategoryListData = async (data) => {
     try {
-      const res = await getCategoryList();
+      const res = await getCategoryList(data);
       setCategoryList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
@@ -48,7 +50,20 @@ function Category() {
   const handleActionChange = (action, row) => {
     console.log(`Selected action: ${action} for Category ID: ${row._id}`);
   };
-
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      status: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string(),
+      status: Yup.string(),
+    }),
+    onSubmit: (values) => {
+      console.log("Form submitted with values:", values);
+      getCategoryListData(values);
+    },
+  });
   const columns = [
     {
       name: "Category ID",
@@ -90,7 +105,6 @@ function Category() {
     {
       name: "Action",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div onClick={() => setSelectedAction(row.unique_key)}>
@@ -146,7 +160,7 @@ function Category() {
 
       console.log(result);
 
-      if (result.code === 200 || result.code === 401) {
+      if (result.code === 200) {
         console.log("Status updated successfully");
         getCategoryListData();
       } else {
@@ -196,37 +210,45 @@ function Category() {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-5 self-center">
-                    <Input
-                      name="CategoryName"
-                      type="text"
-                      placeholder="Category Name"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                    />
-                  </div>
-                  <div className="col-span-5 self-center">
-                    <Select
-                      label=""
-                      OptionName="Status"
-                      options={status}
-                      color="text-[#1B1D21] opacity-50"
-                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                      className="!text-[14px] !bg-[#f7f7f7] "
-                      selectedValue={selectedProduct}
-                      onChange={handleSelectChange1}
-                    />
-                  </div>
-                  <div className="col-span-1 self-center ">
-                    <img
-                      src={Search}
-                      className="cursor-pointer	mx-auto"
-                      alt="Search"
-                    />
-                  </div>
-                </Grid>
+                <form onSubmit={formik.handleSubmit}>
+                  <Grid className="!grid-cols-11">
+                    <div className="col-span-5 self-center">
+                      <Input
+                        name="name"
+                        type="text"
+                        placeholder="Category Name"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        value={formik.values.categoryName}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-5 self-center">
+                      <Select
+                        label=""
+                        name="status"
+                        OptionName="Status"
+                        options={status}
+                        color="text-[#1B1D21] opacity-50"
+                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px] !bg-[#f7f7f7] "
+                        selectedValue={formik.values.status}
+                        onChange={formik.setFieldValue}
+                      />
+                    </div>
+                    <div className="col-span-1 self-center ">
+                      <button type="submit">
+                        <img
+                          src={Search}
+                          className="cursor-pointer	mx-auto"
+                          alt="Search"
+                        />
+                      </button>
+                    </div>
+                  </Grid>
+                </form>
               </div>
             </div>
           </Grid>

@@ -19,7 +19,9 @@ import dealer from "../../../assets/images/icons/dealerName.svg";
 
 import {
   addCompanyPricBook,
+  editCompanyList,
   getCategoryListActiveData,
+  getCompanyPriceBookById,
   getTermList,
 } from "../../../services/priceBookService";
 
@@ -30,9 +32,12 @@ function AddCompanyPriceBook() {
   const [categoryList, setCategoryList] = useState([]);
   const [termList, setTermList] = useState([]);
   const [totalAmount, setTotalAmount] = useState();
+  const [type, setType] = useState("");
   const { id } = useParams();
-  const navigate = useNavigate();
+  const [detailsById, setDetailsById] = useState();
 
+  const navigate = useNavigate();
+  console.log(id);
   const formik = useFormik({
     initialValues: {
       priceCatId: "",
@@ -65,7 +70,10 @@ function AddCompanyPriceBook() {
       status: Yup.string().required("Required"),
     }),
     onSubmit: async (values) => {
-      const result = await addCompanyPricBook(values);
+      console.log("Form values:", values);
+      const result = id
+        ? await editCompanyList(id, values)
+        : await addCompanyPricBook(values);
       console.log(result);
       if (result.code !== 200) {
         setError(result.message);
@@ -89,6 +97,45 @@ function AddCompanyPriceBook() {
   useEffect(() => {
     calculateTotal();
   }, [formik.values]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const getPriceBookDetailsById = async () => {
+      try {
+        if (id) {
+          setType("Edit");
+          const result = await getCompanyPriceBookById(id);
+          setDetailsById(result.result);
+          console.log(result.result);
+          if (isMounted) {
+            setDetailsById(result.result);
+            formik.setValues({
+              priceCatId: result.result.category._id,
+              name: result.result.name,
+              description: result.result.description,
+              term: result.result.term,
+              frontingFee: result.result.frontingFee,
+              reinsuranceFee: result.result.reinsuranceFee,
+              reserveFutureFee: result.result.reserveFutureFee,
+              adminFee: result.result.adminFee,
+              status: result.result.status,
+            });
+          }
+        } else {
+          setType("Add");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    getPriceBookDetailsById();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
 
   useEffect(() => {
     let intervalId;
@@ -168,7 +215,7 @@ function AddCompanyPriceBook() {
         </Link>
         <div className="pl-3">
           <p className="font-ExtraBold text-[36px] leading-9 mb-[3px]">
-            Add Company Price Book
+            {type} Company Price Book
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
@@ -186,7 +233,7 @@ function AddCompanyPriceBook() {
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-1">
               {" "}
-              Add Company Price Book{" "}
+              {type} Company Price Book{" "}
             </li>
           </ul>
         </div>
@@ -197,7 +244,72 @@ function AddCompanyPriceBook() {
           <span className="font-semibold"> {error} </span>
         </p>
       )}
-
+      {type == "Edit" && (
+        <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
+          <Grid className="mx-8 mx-auto ">
+            <div className="col-span-3 self-center border-r border-[#4e4e4e]">
+              <div className="flex">
+                <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                  <img src={category} className="w-6 h-6" alt="category" />
+                </div>
+                <div className="self-center">
+                  <p className="text-[#FFF] text-base font-medium leading-5	">
+                    Product Category
+                  </p>
+                  <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                    {detailsById?.category?.name}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-3 border-r border-[#4e4e4e]">
+              <div className="flex">
+                <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                  <img src={dealer} className="w-6 h-6" alt="dealer" />
+                </div>
+                <div className="self-center">
+                  <p className="text-[#FFF] text-base font-medium leading-5	">
+                    Product Name
+                  </p>
+                  <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                    {detailsById?.name}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-3 border-r border-[#4e4e4e]">
+              <div className="flex">
+                <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                  <img src={product} className="w-6 h-6" alt="product" />
+                </div>
+                <div className="self-center">
+                  <p className="text-[#FFF] text-base font-medium leading-5	">
+                    Description
+                  </p>
+                  <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                    {detailsById?.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-3">
+              <div className="flex">
+                <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                  <img src={terms} className="w-6 h-6" alt="terms" />
+                </div>
+                <div className="self-center">
+                  <p className="text-[#FFF] text-base font-medium leading-5">
+                    Terms
+                  </p>
+                  <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                    {detailsById?.term} MonThs
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Grid>
+        </div>
+      )}
       <form className="mt-8" onSubmit={formik.handleSubmit}>
         <div className="px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
           <Grid className="!grid-cols-5">
@@ -210,7 +322,13 @@ function AddCompanyPriceBook() {
                 required={true}
                 className="!bg-[#fff]"
                 options={categoryList}
-                value={formik.values.priceCatId}
+                value={
+                  (
+                    categoryList.find(
+                      (option) => option.value === formik.values.priceCatId
+                    ) || {}
+                  ).value || ""
+                }
                 onBlur={formik.handleBlur}
                 error={formik.touched.priceCatId && formik.errors.priceCatId}
               />
@@ -227,11 +345,11 @@ function AddCompanyPriceBook() {
                 name="name"
                 className="!bg-[#fff]"
                 label="Product Name "
-                required={true}
                 placeholder=""
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
+                disabled={type === "Edit"}
               />
               {formik.touched.name && formik.errors.name && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
@@ -244,7 +362,6 @@ function AddCompanyPriceBook() {
                 type="text"
                 name="description"
                 className="!bg-[#fff]"
-                required={true}
                 label="Description "
                 placeholder=""
                 onChange={formik.handleChange}
@@ -261,14 +378,24 @@ function AddCompanyPriceBook() {
               <Select
                 label="Terms"
                 name="term"
-                required={true}
                 placeholder=""
                 onChange={handleSelectChange}
                 className="!bg-[#fff]"
                 options={termList}
-                value={formik.values.term}
+                value={
+                  (
+                    termList.find(
+                      (option) =>
+                        option.value ===
+                        (formik.values.term
+                          ? formik.values.term.toString()
+                          : "")
+                    ) || {}
+                  ).value || ""
+                }
                 onBlur={formik.handleBlur}
                 error={formik.touched.term && formik.errors.term}
+                disabled={type === "Edit"}
               />
               {formik.touched.term && formik.errors.term && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
@@ -280,7 +407,6 @@ function AddCompanyPriceBook() {
               <Input
                 type="number"
                 name="frontingFee"
-                required={true}
                 className="!bg-[#fff]"
                 label="Fronting fee ($)"
                 placeholder=""
@@ -301,7 +427,6 @@ function AddCompanyPriceBook() {
                 name="reinsuranceFee"
                 className="!bg-[#fff]"
                 label="Re-insurance fee "
-                required={true}
                 placeholder=""
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -389,217 +514,6 @@ function AddCompanyPriceBook() {
         </div>
       </form>
 
-      {/* Edit Form  */}
-
-      <div>
-        <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
-          <Grid className="mx-8 mx-auto ">
-            <div className="col-span-3 self-center border-r border-[#4e4e4e]">
-              <div className="flex">
-                <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                  <img src={category} className="w-6 h-6" alt="category" />
-                </div>
-                <div className="self-center">
-                  <p className="text-[#FFF] text-base font-medium leading-5	">
-                    Product Category
-                  </p>
-                  <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                    Vehicle
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col-span-3 border-r border-[#4e4e4e]">
-              <div className="flex">
-                <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                  <img src={dealer} className="w-6 h-6" alt="dealer" />
-                </div>
-                <div className="self-center">
-                  <p className="text-[#FFF] text-base font-medium leading-5	">
-                    Product Name
-                  </p>
-                  <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                    Car
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col-span-3 border-r border-[#4e4e4e]">
-              <div className="flex">
-                <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                  <img src={product} className="w-6 h-6" alt="product" />
-                </div>
-                <div className="self-center">
-                  <p className="text-[#FFF] text-base font-medium leading-5	">
-                    Description
-                  </p>
-                  <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                    Four wheels drive
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col-span-3">
-              <div className="flex">
-                <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                  <img src={terms} className="w-6 h-6" alt="terms" />
-                </div>
-                <div className="self-center">
-                  <p className="text-[#FFF] text-base font-medium leading-5">
-                    Terms
-                  </p>
-                  <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                    84 Months
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Grid>
-        </div>
-        <Grid className="!grid-cols-4 mt-8">
-          <div className="col-span-1">
-            <Select
-              label="Product Category"
-              name="priceCatId"
-              placeholder=""
-              onChange={handleSelectChange}
-              required={true}
-              options={categoryList}
-              value={formik.values.priceCatId}
-              onBlur={formik.handleBlur}
-              error={formik.touched.priceCatId && formik.errors.priceCatId}
-            />
-
-            {formik.touched.priceCatId && formik.errors.priceCatId && (
-              <div className="text-red-500 text-sm pl-2 pt-2">
-                {formik.errors.priceCatId}
-              </div>
-            )}
-          </div>
-          <div className="col-span-2">
-            <Input
-              type="text"
-              name="description"
-              required={true}
-              label="Description "
-              placeholder=""
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.description}
-            />
-            {formik.touched.description && formik.errors.description && (
-              <div className="text-red-500 text-sm pl-2 pt-2">
-                {formik.errors.description}
-              </div>
-            )}
-          </div>
-          <div className="col-span-1">
-            <Select
-              label="Status"
-              name="status"
-              placeholder=""
-              required={true}
-              onChange={handleSelectChange}
-              options={status}
-              value={
-                formik.values.status === ""
-                  ? formik.setFieldValue("status", true)
-                  : formik.values.status
-              }
-              onBlur={formik.handleBlur}
-              error={formik.touched.status && formik.errors.status}
-              defaultValue={defaultValue}
-            />
-            {formik.touched.status && formik.errors.status && (
-              <div className="text-red-500 text-sm pl-2 pt-2">
-                {formik.errors.status}
-              </div>
-            )}
-          </div>
-          <div className="col-span-1">
-            <Input
-              type="number"
-              name="frontingFee"
-              required={true}
-              label="Fronting fee ($)"
-              placeholder=""
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.frontingFee}
-              maxDecimalPlaces={2}
-            />
-            {formik.touched.frontingFee && formik.errors.frontingFee && (
-              <div className="text-red-500 text-sm pl-2 pt-2">
-                {formik.errors.frontingFee}
-              </div>
-            )}
-          </div>
-          <div className="col-span-1">
-            <Input
-              type="number"
-              name="reinsuranceFee"
-              label="Re-insurance fee "
-              required={true}
-              placeholder=""
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.reinsuranceFee}
-              maxDecimalPlaces={2}
-            />
-            {formik.touched.reinsuranceFee && formik.errors.reinsuranceFee && (
-              <div className="text-red-500 text-sm pl-2 pt-2">
-                {formik.errors.reinsuranceFee}
-              </div>
-            )}
-          </div>
-          <div className="col-span-1">
-            <Input
-              type="number"
-              name="reserveFutureFee"
-              required={true}
-              className="!px-0 w-[200px]"
-              label="Reserve for future claims"
-              placeholder=""
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.reserveFutureFee}
-              maxDecimalPlaces={2}
-            />
-            {formik.touched.reserveFutureFee &&
-              formik.errors.reserveFutureFee && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.reserveFutureFee}
-                </div>
-              )}
-          </div>
-          <div className="col-span-1">
-            <Input
-              type="number"
-              name="adminFee"
-              required={true}
-              label="Administration fee "
-              placeholder=""
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.adminFee}
-              maxDecimalPlaces={2}
-            />
-
-            {formik.touched.adminFee && formik.errors.adminFee && (
-              <div className="text-red-500 text-sm pl-2 pt-2">
-                {formik.errors.adminFee}
-              </div>
-            )}
-          </div>
-        </Grid>
-        <div className="mt-8">
-          <Button className="mr-3 ">Update</Button>
-          <Button className="!bg-[transparent] !text-light-black">
-            Cancel
-          </Button>
-        </div>
-      </div>
-
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
@@ -607,7 +521,7 @@ function AddCompanyPriceBook() {
             Submitted <span className="text-light-black"> Successfully </span>
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            <b> Company Price Book </b> added successfully.{" "}
+            <b> Company Price Book </b> {type} successfully.{" "}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Company Price Book Page {timer} seconds.

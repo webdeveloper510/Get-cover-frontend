@@ -36,13 +36,13 @@ export const addCategory = async (categoryDetails) => {
   }
 };
 
-export const getCategoryList = async () => {
+export const getCategoryList = async (fitervalue) => {
   const headers = createHeaders();
 
   try {
     const response = await axios.post(
       `${url}/price/getPriceBookCategories`,
-      {},
+      { ...fitervalue },
       { headers }
     );
 
@@ -83,13 +83,13 @@ export const editCategoryList = async (id, categoryListData) => {
   }
 };
 
-export const getCompanyPriceList = async () => {
+export const getCompanyPriceList = async (filterData) => {
   const headers = createHeaders();
 
   try {
     const response = await axios.post(
       `${url}/price/priceBooks`,
-      {},
+      { ...filterData },
       { headers }
     );
 
@@ -101,7 +101,7 @@ export const getCompanyPriceList = async () => {
 
 export const editCompanyList = async (id, categoryListData) => {
   const headers = createHeaders();
-
+  delete categoryListData.term;
   try {
     const response = await axios.put(
       `${url}/price/updatePriceBook/${id}`,
@@ -163,6 +163,20 @@ export const getCategoryById = async (id) => {
       `${url}/price/getPriceBookCategoryById/${id}`,
       { headers }
     );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCompanyPriceBookById = async (id) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.get(`${url}/price/getPriceBookById/${id}`, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {
