@@ -185,7 +185,7 @@ function AddDealerBook() {
           </Grid>
           <div className='mt-8'>
             <Button className='mr-3 '>Update</Button>
-            <Button className='bg-[transparent] !text-light-black'>Cancel</Button>
+            <Button className='!bg-[transparent] !text-light-black'>Cancel</Button>
           </div>
         </div>
 

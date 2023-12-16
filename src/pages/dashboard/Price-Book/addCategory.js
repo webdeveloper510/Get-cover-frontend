@@ -12,12 +12,23 @@ import Button from '../../../common/button';
 import Modal from '../../../common/model';
 import AddDealer from '../../../assets/images/dealer-book.svg'
 import { addCategory } from '../../../services/priceBookService';
+import Select from '../../../common/select';
 
 function AddCategory() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error,setError] = useState('')
+  const [selectedProduct, setSelectedProduct] = useState('');
   const [timer, setTimer] = useState(5);
   const navigate = useNavigate();
+
+  const handleSelectChange1 = (label, value) => {
+    setSelectedProduct(value);
+  };
+
+  const status = [
+    { label: 'Active', value: true },
+    { label: 'Inactive', value: false },
+  ];
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -81,6 +92,7 @@ function AddCategory() {
                     <span className="font-semibold"> {} </span>
                   </p>
                 )}
+
       {/* Form Start */}
 
         <form className='mt-8'  onSubmit={formik.handleSubmit}>
@@ -104,6 +116,36 @@ function AddCategory() {
                     </div>
                   )}
             </div>
+            {/* Add Edit Category */}
+            <div className='col-span-6'>
+              <Input
+                    type="text"
+                    name="name"
+                    label="Category Name"
+                    placeholder=""
+                    required={true}
+                    className="!bg-[#fff]"
+                    // value={formik.values.name}
+                    // onChange={formik.handleChange}
+                    // onBlur={formik.handleBlur}
+                  />
+              {formik.touched.name && formik.errors.name && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.name}
+                    </div>
+                  )}
+            </div>
+            <div className='col-span-6'>
+               <Select label="Status"
+                    OptionName="Status"
+                      options={status}
+                      color='text-[#1B1D21] opacity-50'
+                      required={true}
+                      className=" !bg-[#fff] "
+                      selectedValue={selectedProduct}
+                      onChange={handleSelectChange1} />
+            </div>
+             {/* End Edit Category */}
   
             <div className='col-span-12'>
   <div className='relative'>
