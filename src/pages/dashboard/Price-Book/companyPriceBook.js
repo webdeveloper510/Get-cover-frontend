@@ -294,6 +294,9 @@ function CompanyPriceBook() {
                         className="!text-[14px]  !bg-[#f7f7f7]"
                         selectedValue={formik.values.category}
                         onChange={formik.setFieldValue}
+                        // onChange={(e) => {
+                        //   handleCategoryPage(e);
+                        // }}
                       />
                     </div>
                     <div className="col-span-3 self-center">

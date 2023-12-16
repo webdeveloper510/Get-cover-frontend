@@ -31,7 +31,7 @@ export const authserviceProviderRegister = async (
 ) => {
   try {
     const response = await axios.post(
-      `${url}/serviceProvider/register`,
+      `${url}/servicer/register`,
       serviceProviderRegisterData
     );
     return response.data;
