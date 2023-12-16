@@ -176,8 +176,8 @@ function Category() {
                       selectedValue={selectedProduct}
                       onChange={handleSelectChange1} />
                   </div>
-                  <div className='col-span-1 self-center'>
-                    <img src={Search} className='cursor-pointer	' alt='Search' />
+                  <div className='col-span-1 self-center '>
+                    <img src={Search} className='cursor-pointer	mx-auto' alt='Search' />
                   </div>
                 </Grid>
 

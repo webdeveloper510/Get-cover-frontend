@@ -187,7 +187,7 @@ function NewDealerList() {
                     <Input name='PhoneNo.' type='number' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Phone No.' />
                   </div>
                   <div className='col-span-1 self-center'>
-                    <img src={Search} className='cursor-pointer' alt='Search' />
+                    <img src={Search} className='cursor-pointer mx-auto' alt='Search' />
                   </div>
                 </Grid>
 

@@ -232,7 +232,7 @@ function CompanyPriceBook() {
                       onChange={handleSelectChange1} />
                   </div>
                   <div className='col-span-1 self-center'>
-                    <img src={Search} className='cursor-pointer	' alt='Search' />
+                    <img src={Search} className='cursor-pointer	mx-auto' alt='Search' />
                   </div>
                 </Grid>
 

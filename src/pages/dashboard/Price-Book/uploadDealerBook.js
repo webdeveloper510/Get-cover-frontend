@@ -25,8 +25,8 @@ function UploadDealerBook() {
     setIsModalOpen(false);
   };
 
-  const handleSelectChange = (e) => {
-    setSelectedValue(e.target.value);
+  const handleSelectChange = (label, value) => {
+    setSelectedValue(value);
   };
 
   const country = [

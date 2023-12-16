@@ -11,8 +11,12 @@ import * as Yup from "yup";
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import Button from '../../../common/button';
 import Modal from '../../../common/model';
-import Cross from '../../../assets/images/Cross.png'
 import AddDealer from '../../../assets/images/dealer-book.svg'
+import terms  from '../../../assets/images/icons/terms.svg';
+import product  from '../../../assets/images/icons/productName.svg';
+import category  from '../../../assets/images/icons/productCat.svg';
+import dealer  from '../../../assets/images/icons/dealerName.svg';
+
 import { addCompanyPricBook, getCategoryListActiveData, getTermList } from '../../../services/priceBookService';
 
 function AddCompanyPriceBook() {
@@ -23,6 +27,10 @@ function AddCompanyPriceBook() {
   const [termList, setTermList] = useState([])
   const [totalAmount, setTotalAmount] = useState();
   const navigate = useNavigate();
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const handleSelectChange1 = (label, value) => {
+    setSelectedProduct(value);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -45,7 +53,7 @@ function AddCompanyPriceBook() {
       reinsuranceFee: Yup.number().required('Required').min(0.1, 'Re-insurance fee cannot be negative'),
       reserveFutureFee: Yup.number().required('Required').min(0.1, 'ReserveFuture fee cannot be negative'),
       adminFee: Yup.number().required('Required').min(0.1, 'Admin fee cannot be negative'),
-      status: Yup.string().required('Rrequired'),
+      status: Yup.string().required('Required'),
     }),
     onSubmit: async (values) => {
       //  console.log("Form values:", values);
@@ -164,16 +172,18 @@ function AddCompanyPriceBook() {
           <Grid className='!grid-cols-5'>
             <div className='col-span-1'>
               <Select
-                label="Product Category*"
+                label="Product Category"
                 name="priceCatId"
                 placeholder=""
                 onChange={handleSelectChange}
+                required={true}
                 className='!bg-[#fff]'
                 options={categoryList}
                 value={formik.values.priceCatId}
                 onBlur={formik.handleBlur}
                 error={formik.touched.priceCatId && formik.errors.priceCatId}
               />
+              
               {formik.touched.priceCatId && formik.errors.priceCatId && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
                   {formik.errors.priceCatId}
@@ -186,6 +196,7 @@ function AddCompanyPriceBook() {
                 name='name'
                 className='!bg-[#fff]'
                 label='Product Name '
+                required={true}
                 placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -202,6 +213,7 @@ function AddCompanyPriceBook() {
                 type='text'
                 name='description'
                 className='!bg-[#fff]'
+                required={true}
                 label='Description '
                 placeholder=''
                 onChange={formik.handleChange}
@@ -216,8 +228,9 @@ function AddCompanyPriceBook() {
             </div>
             <div className='col-span-1'>
               <Select
-                label="Terms*"
+                label="Terms"
                 name="term"
+                required={true}
                 placeholder=""
                 onChange={handleSelectChange}
                 className='!bg-[#fff]'
@@ -236,8 +249,9 @@ function AddCompanyPriceBook() {
               <Input
                 type='number'
                 name='frontingFee'
+                required={true}
                 className='!bg-[#fff]'
-                label='Fronting fee '
+                label='Fronting fee ($)'
                 placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -256,6 +270,7 @@ function AddCompanyPriceBook() {
                 name='reinsuranceFee'
                 className='!bg-[#fff]'
                 label='Re-insurance fee '
+                required={true}
                 placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -272,6 +287,7 @@ function AddCompanyPriceBook() {
               <Input
                 type='number'
                 name='reserveFutureFee'
+                required={true}
                 className='!bg-[#fff] !px-0 w-[200px]'
                 label='Reserve for future claims'
                 placeholder=''
@@ -291,6 +307,7 @@ function AddCompanyPriceBook() {
                 type='number'
                 name='adminFee'
                 className='!bg-[#fff]'
+                required={true}
                 label='Administration fee '
                 placeholder=''
                 onChange={formik.handleChange}
@@ -307,11 +324,12 @@ function AddCompanyPriceBook() {
             </div>
             <div className='col-span-1'>
             <Select
-                label="Status*"
+                label="Status"
                 name="status"
                 placeholder=""
+                required={true}
                 onChange={handleSelectChange}
-                className='!bg-[#f7f7f7]'
+                className='!bg-[#fff]'
                 options={status}
                 value={formik.values.status === '' ?   formik.setFieldValue('status', true) : formik.values.status}
                 onBlur={formik.handleBlur}
@@ -329,6 +347,75 @@ function AddCompanyPriceBook() {
           <Button type='submit' className='mt-12 font-normal rounded-[25px]' >Submit</Button>
         </div>
       </form>
+
+  {/* Edit Form  */}
+        <div>
+          <div className='bg-Edit bg-cover px-4 mt-8 py-16 rounded-[30px]'>
+             <Grid className='mx-8 mx-auto '>
+              <div className='col-span-3 self-center border-r border-[#4e4e4e]'>
+                <div className='flex'>
+                  <div className='self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4'>
+                    <img src={category} className='w-6 h-6' alt='category'/>
+                  </div>
+                  <div className='self-center'>
+                    <p className='text-[#FFF] text-lg font-medium leading-5	'>Product Category</p>
+                    <p className='text-[#FFFFFF] opacity-50	font-medium'>Vehicle</p>
+                  </div>
+                </div>
+              </div>
+              <div className='col-span-3 border-r border-[#4e4e4e]'>
+              <div className='flex'>
+              <div className='self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4'>
+                    <img src={dealer} className='w-6 h-6' alt='dealer'/>
+                  </div>
+                  <div className='self-center'>
+                    <p className='text-[#FFF] text-lg font-medium leading-5	'>Product Name</p>
+                    <p className='text-[#FFFFFF] opacity-50	font-medium'>Car</p>
+                  </div>
+                </div>
+              </div>
+              <div className='col-span-3 border-r border-[#4e4e4e]'>
+              <div className='flex'>
+              <div className='self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4'>
+                    <img src={product} className='w-6 h-6' alt='product'/>
+                  </div>
+                  <div className='self-center'>
+                    <p className='text-[#FFF] text-lg font-medium leading-5	'>Description</p>
+                    <p className='text-[#FFFFFF] opacity-50	font-medium'>Four wheels drive</p>
+                  </div>
+                </div>
+              </div>
+              <div className='col-span-3'>
+              <div className='flex'>
+                  <div className='self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4'>
+                    <img src={terms} className='w-6 h-6' alt='terms'/>
+                  </div>
+                  <div className='self-center'>
+                    <p className='text-[#FFF] text-lg font-medium leading-5	'>Terms</p>
+                    <p className='text-[#FFFFFF] opacity-50	font-medium'>84 Months</p>
+                  </div>
+                </div>
+              </div>
+             </Grid>
+          </div>
+
+          <Grid className='mt-8'>
+            <div className='col-span-4'>
+                <Input type='number' name='Retail' label='Wholesale Price($) ' required={true} placeholder='' />
+            </div>
+            <div className='col-span-4'>
+                <Select label="Status"
+                  options={status}
+                  required={true}
+                  selectedValue={selectedProduct}
+                  onChange={handleSelectChange1}/>
+            </div>
+          </Grid>
+          <div className='mt-8'>
+            <Button className='mr-3 '>Update</Button>
+            <Button className='bg-[transparent] !text-light-black'>Cancel</Button>
+          </div>
+        </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className='text-center py-3'>
