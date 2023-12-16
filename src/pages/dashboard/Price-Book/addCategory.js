@@ -48,10 +48,6 @@ function AddCategory() {
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer, id]);
 
-  const handleSelectChange1 = (label, value) => {
-    setSelectedProduct(value);
-  };
-
   const status = [
     { label: "Active", value: true },
     { label: "Inactive", value: false },

@@ -114,7 +114,7 @@ function Category() {
                   alt="up arror"
                 />
                 <div
-                  className="text-center py-3"
+                  className="text-center py-3 cursor-pointer"
                   onClick={() => navigate(`/editCategory/${row._id}`)}
                 >
                   Edit
