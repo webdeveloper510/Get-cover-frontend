@@ -38,7 +38,7 @@ export const isApprovedOrDisapprovedStatus = async (dealerId, dealerStatus) => {
   console.log(headers);
   try {
     const response = await axios.put(
-      `${url}/admin/isApprovedOrDisapproved/${dealerId}`,
+      `${url}/admin/rejectDealer/${dealerId}`,
       dealerStatus,
       { headers }
     );
