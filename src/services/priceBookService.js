@@ -105,7 +105,10 @@ export const editCompanyList = async (id, categoryListData) => {
   try {
     const response = await axios.put(
       `${url}/price/updatePriceBook/${id}`,
-      categoryListData,
+      {
+        priceCatId: categoryListData.category,
+        status: categoryListData.status,
+      },
       { headers }
     );
 

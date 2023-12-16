@@ -97,7 +97,7 @@ function CompanyPriceBook() {
         reserveFutureFee: row.reserveFutureFee,
         frontingFee: row.frontingFee,
         description: row.description,
-        status: row.category.status === "active" ? true : false,
+        status: newStatus === "active" ? true : false,
       });
 
       console.log(result);
