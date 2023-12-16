@@ -67,11 +67,10 @@ function CompanyPriceBook() {
   const getCategoryListData = async () => {
     try {
       const res = await getCategoryList();
-      console.log(res.result);
       let arr = [];
       res?.result?.length > 0 &&
         res?.result?.map((item) => {
-          arr.push({ label: item.name, value: item._id });
+          arr.push({ label: item.name, value: item.name });
         });
 
       setCategoryList(arr);
@@ -80,6 +79,7 @@ function CompanyPriceBook() {
     }
   };
 
+  console.log(categoryList, "got");
   const handleStatusChange = async (row, newStatus) => {
     try {
       const updatedCompanyPriceList = companyPriceList.map((category) => {
@@ -273,7 +273,7 @@ function CompanyPriceBook() {
                       <Input
                         name="name"
                         type="text"
-                        placeholder="Category Name"
+                        placeholder="Product Name"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
@@ -294,9 +294,6 @@ function CompanyPriceBook() {
                         className="!text-[14px]  !bg-[#f7f7f7]"
                         selectedValue={formik.values.category}
                         onChange={formik.setFieldValue}
-                        // onChange={(e) => {
-                        //   handleCategoryPage(e);
-                        // }}
                       />
                     </div>
                     <div className="col-span-3 self-center">
