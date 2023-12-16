@@ -399,18 +399,137 @@ function AddCompanyPriceBook() {
               </div>
              </Grid>
           </div>
+          <Grid className='!grid-cols-4 mt-8'>
+            <div className='col-span-1'>
+              <Select
+                label="Product Category"
+                name="priceCatId"
+                placeholder=""
+                onChange={handleSelectChange}
+                required={true}
+                options={categoryList}
+                value={formik.values.priceCatId}
+                onBlur={formik.handleBlur}
+                error={formik.touched.priceCatId && formik.errors.priceCatId}
+              />
+              
+              {formik.touched.priceCatId && formik.errors.priceCatId && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.priceCatId}
+                </div>
+              )}
+            </div>
+            <div className='col-span-2'>
+              <Input
+                type='text'
+                name='description'
+                required={true}
+                label='Description '
+                placeholder=''
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.description}
+              />
+              {formik.touched.description && formik.errors.description && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.description}
+                </div>
+              )}
+            </div>
+            <div className='col-span-1'>
+            <Select
+                label="Status"
+                name="status"
+                placeholder=""
+                required={true}
+                onChange={handleSelectChange}
+                options={status}
+                value={formik.values.status === '' ?   formik.setFieldValue('status', true) : formik.values.status}
+                onBlur={formik.handleBlur}
+                error={formik.touched.status && formik.errors.status}
+                defaultValue={defaultValue}
+              />
+              {formik.touched.status && formik.errors.status && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.status}
+                </div>
+              )}
+            </div>
+            <div className='col-span-1'>
+              <Input
+                type='number'
+                name='frontingFee'
+                required={true}
+                label='Fronting fee ($)'
+                placeholder=''
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.frontingFee}
+                maxDecimalPlaces={2}
+              />
+              {formik.touched.frontingFee && formik.errors.frontingFee && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.frontingFee}
+                </div>
+              )}
+            </div>
+            <div className='col-span-1'>
+              <Input
+                type='number'
+                name='reinsuranceFee'
+                label='Re-insurance fee '
+                required={true}
+                placeholder=''
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.reinsuranceFee}
+                maxDecimalPlaces={2}
+              />
+              {formik.touched.reinsuranceFee && formik.errors.reinsuranceFee && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.reinsuranceFee}
+                </div>
+              )}
+            </div>
+            <div className='col-span-1'>
+              <Input
+                type='number'
+                name='reserveFutureFee'
+                required={true}
+                className='!px-0 w-[200px]'
+                label='Reserve for future claims'
+                placeholder=''
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.reserveFutureFee}
+                maxDecimalPlaces={2}
+              />
+              {formik.touched.reserveFutureFee && formik.errors.reserveFutureFee && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.reserveFutureFee}
+                </div>
+              )}
+            </div>
+            <div className='col-span-1'>
+              <Input
+                type='number'
+                name='adminFee'
+                required={true}
+                label='Administration fee '
+                placeholder=''
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.adminFee}
+                maxDecimalPlaces={2}
+              />
 
-          <Grid className='mt-8'>
-            <div className='col-span-4'>
-                <Input type='number' name='Retail' label='Wholesale Price($) ' required={true} placeholder='' />
+              {formik.touched.adminFee && formik.errors.adminFee && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.adminFee}
+                </div>
+              )}
             </div>
-            <div className='col-span-4'>
-                <Select label="Status"
-                  options={status}
-                  required={true}
-                  selectedValue={selectedProduct}
-                  onChange={handleSelectChange1}/>
-            </div>
+           
           </Grid>
           <div className='mt-8'>
             <Button className='mr-3 '>Update</Button>
