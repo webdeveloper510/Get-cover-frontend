@@ -121,7 +121,7 @@ function AddDealerBook() {
 
           {/* Edit Form  */}
         <div>
-          <div className='bg-Edit bg-cover px-4 mt-8 py-16 rounded-[30px]'>
+          <div className='bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]'>
              <Grid className='mx-8 mx-auto '>
               <div className='col-span-3 self-center border-r border-[#4e4e4e]'>
                 <div className='flex'>
@@ -129,8 +129,8 @@ function AddDealerBook() {
                     <img src={Wholesale} className='w-6 h-6' alt='Wholesale'/>
                   </div>
                   <div className='self-center'>
-                    <p className='text-[#FFF] text-lg font-medium leading-5	'>Wholesale Price($)</p>
-                    <p className='text-[#FFFFFF] opacity-50	font-medium'>121.86</p>
+                    <p className='text-[#FFF] text-base font-medium leading-5	'>Wholesale Price($)</p>
+                    <p className='text-[#FFFFFF] opacity-50 text-sm	font-medium'>121.86</p>
                   </div>
                 </div>
               </div>
@@ -140,8 +140,8 @@ function AddDealerBook() {
                     <img src={category} className='w-6 h-6' alt='category'/>
                   </div>
                   <div className='self-center'>
-                    <p className='text-[#FFF] text-lg font-medium leading-5	'>Product Category</p>
-                    <p className='text-[#FFFFFF] opacity-50	font-medium'>Appliance</p>
+                    <p className='text-[#FFF] text-base font-medium leading-5	'>Product Category</p>
+                    <p className='text-[#FFFFFF] opacity-50 text-sm	font-medium'>Appliance</p>
                   </div>
                 </div>
               </div>
@@ -151,8 +151,8 @@ function AddDealerBook() {
                     <img src={dealer} className='w-6 h-6' alt='dealer'/>
                   </div>
                   <div className='self-center'>
-                    <p className='text-[#FFF] text-lg font-medium leading-5	'>Dealer Name</p>
-                    <p className='text-[#FFFFFF] opacity-50	font-medium'>Ankush</p>
+                    <p className='text-[#FFF] text-base font-medium leading-5	'>Dealer Name</p>
+                    <p className='text-[#FFFFFF] opacity-50 text-sm	font-medium'>Ankush</p>
                   </div>
                 </div>
               </div>
