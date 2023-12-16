@@ -155,6 +155,7 @@ function CompanyPriceBook() {
         <div className={` ${row.status === true ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}></div>
         <select
           value={row.status === true ? "active" : "inactive"}
+          disabled={row.status === false ? true : false}
           onChange={(e) => handleStatusChange(row, e.target.value)}
           className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl">
           <option value="active">Active</option>
@@ -190,7 +191,7 @@ function CompanyPriceBook() {
         <Headbar />
         <div className='flex mt-14'>
           <div className='pl-3'>
-            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Company Price Book</p>
+            <p className='font-semibold text-[36px] leading-9	mb-[3px]'>Company Price Book</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Price Book </Link>  /  </li>
               <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Company Price Book </li>
@@ -232,7 +233,7 @@ function CompanyPriceBook() {
                       onChange={handleSelectChange1} />
                   </div>
                   <div className='col-span-1 self-center'>
-                    <img src={Search} className='cursor-pointer	' alt='Search' />
+                    <img src={Search} className='cursor-pointer	mx-auto' alt='Search' />
                   </div>
                 </Grid>
 

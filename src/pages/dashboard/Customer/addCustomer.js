@@ -8,13 +8,24 @@ import Input from '../../../common/input';
 // Media Include
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import DeleteImage from '../../../assets/images/icons/Delete.svg'
+import AddDealer from '../../../assets/images/dealer-book.svg'
 import Button from '../../../common/button';
 import RadioButton from '../../../common/radio';
+import Modal from '../../../common/model';
 
 function AddCustomer() {
     const [selectedValue, setSelectedValue] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedOption, setSelectedOption] = useState('option1');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+      setIsModalOpen(true);
+    };
+  
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
   
     const handleRadioChange = (event) => {
       setSelectedOption(event.target.value);
@@ -40,12 +51,12 @@ function AddCustomer() {
     return (
       <div className='my-8 ml-3'>
         <Headbar/>
-        <div className='flex'>
-        <Link to={'/category'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
+        <div className='flex mt-14'>
+        <Link to={'/customerList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
             <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
           </Link>
           <div className='pl-3'>
-            <p className='font-bold text-[36px] leading-9 mb-[3px]'>Add Customer</p>
+            <p className='font-semibold text-[36px] leading-9 mb-[3px]'>Add Customer</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Customer </Link>  /  </li>
               <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Add Customer </li>
@@ -105,7 +116,7 @@ function AddCustomer() {
               </div>
               <div className='col-span-8'>
                 <p className='text-light-black text-lg font-semibold'>Contact Information</p>
-                <p className='text-light-black flex text-[14px]  font-semibold mt-3 mb-6' >Do you want to create an account?       
+                <p className='text-light-black flex text-[12px]  font-semibold mt-3 mb-6' >Do you want to create an account?       
                 <RadioButton
                   id="yes"
                   label="Yes"
@@ -139,7 +150,7 @@ function AddCustomer() {
                       <Input type='text' name='Position' className='!bg-white' label='Position' required={true} placeholder=''/>
                   </div>
                   <div className='col-span-6'>
-                  <p className='text-light-black flex text-[14px]  font-semibold mt-3 mb-6' > Do you want to create an account?       
+                  <p className='text-light-black flex text-[12px]  font-semibold mt-3 mb-6' > Do you want to create an account?       
                 <RadioButton
                   id="yes"
                   label="Yes"
@@ -161,10 +172,10 @@ function AddCustomer() {
 
                 <div className='mt-8'>
                    <Grid>
-                    <div className='col-span-3'>
-                      <Button className='text-[10px] !font-light'>+  Add More Team Members</Button>
+                    <div className='col-span-4'>
+                      <Button className='text-sm !font-light w-full'>+  Add More Team Members</Button>
                     </div>
-                    <div className='col-span-9 self-center'>
+                    <div className='col-span-8 self-center'>
                       <hr/>
                     </div>
                    </Grid>
@@ -261,8 +272,21 @@ function AddCustomer() {
           </div>
         </div>
   
-          <Button className='mt-8' >Submit</Button>
+          <Button className='mt-8' onClick={() => {openModal(true);}} >Submit</Button>
         </form>
+
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className='text-center py-3'>
+          <img src={AddDealer} alt='email Image' className='mx-auto' />
+          <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'>Submitted <span className='text-light-black'> Successfully </span></p>
+          <p className='text-neutral-grey text-base font-medium mt-2'><b> New Dealer </b> added successfully. </p>
+          {/* <p className='text-neutral-grey text-base font-medium mt-2'>
+           Redirecting you on Category Page {timer} seconds.
+          </p> */}
+
+        </div>
+
+      </Modal>
       </div>
     )
   }

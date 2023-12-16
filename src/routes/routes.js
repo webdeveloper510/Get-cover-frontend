@@ -6,7 +6,7 @@ import Dashboard from "../pages/dashboard/index";
 import ForgotPassword from "../pages/auth/forgotPassword";
 import NewPassword from "../pages/auth/newPassword";
 import DealerRegister from "../pages/auth/dealerRegister";
-import Dealer from "../pages/dashboard/dealer";
+import Dealer from "../pages/dashboard/Dealer/dealer";
 import AddCustomer from "../pages/dashboard/Customer/addCustomer";
 import AddDealerBook from "../pages/dashboard/Price-Book/addDealerBook";
 import AddCompanyPriceBook from "../pages/dashboard/Price-Book/AddCompanyPriceBook";
@@ -21,6 +21,7 @@ import NewDealerList from "../pages/dashboard/Dealer/newDealerList";
 import CustomerList from "../pages/dashboard/Customer/customerList";
 import AddServicer from "../pages/dashboard/Servicer/addServicer";
 import ServicerList from "../pages/dashboard/Servicer/servicerList";
+import RequestServicer from "../pages/dashboard/Servicer/requestServicer";
 
 const routes = [
   {
@@ -181,6 +182,15 @@ const routes = [
         path: "/servicerList",
         element: (
           <PrivateRoute element={<ServicerList />} path="/servicerList" />
+        ),
+      },
+      {
+        path: "/requestList",
+        element: (
+          <PrivateRoute
+            element={<RequestServicer />}
+            path="/requestList"
+          />
         ),
       },
     ],

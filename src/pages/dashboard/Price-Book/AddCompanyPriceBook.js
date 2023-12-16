@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 // Media Include
+<<<<<<< HEAD
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Button from "../../../common/button";
 import Modal from "../../../common/model";
@@ -18,6 +19,18 @@ import {
   getCategoryListActiveData,
   getTermList,
 } from "../../../services/priceBookService";
+=======
+import BackImage from '../../../assets/images/icons/backArrow.svg'
+import Button from '../../../common/button';
+import Modal from '../../../common/model';
+import AddDealer from '../../../assets/images/dealer-book.svg'
+import terms  from '../../../assets/images/icons/terms.svg';
+import product  from '../../../assets/images/icons/productName.svg';
+import category  from '../../../assets/images/icons/productCat.svg';
+import dealer  from '../../../assets/images/icons/dealerName.svg';
+
+import { addCompanyPricBook, getCategoryListActiveData, getTermList } from '../../../services/priceBookService';
+>>>>>>> 7b32cabb7f1be8950d0536909baa9e6bc96b330a
 
 function AddCompanyPriceBook() {
   const [error, setError] = useState("");
@@ -28,6 +41,10 @@ function AddCompanyPriceBook() {
   const [totalAmount, setTotalAmount] = useState();
   const { id } = useParams();
   const navigate = useNavigate();
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const handleSelectChange1 = (label, value) => {
+    setSelectedProduct(value);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -58,7 +75,7 @@ function AddCompanyPriceBook() {
       adminFee: Yup.number()
         .required("Required")
         .min(0.1, "Admin fee cannot be negative"),
-      status: Yup.string().required("Rrequired"),
+      status: Yup.string().required("Required"),
     }),
     onSubmit: async (values) => {
       const result = await addCompanyPricBook(values);
@@ -199,16 +216,18 @@ function AddCompanyPriceBook() {
           <Grid className="!grid-cols-5">
             <div className="col-span-1">
               <Select
-                label="Product Category*"
+                label="Product Category"
                 name="priceCatId"
                 placeholder=""
                 onChange={handleSelectChange}
-                className="!bg-[#fff]"
+                required={true}
+                className='!bg-[#fff]'
                 options={categoryList}
                 value={formik.values.priceCatId}
                 onBlur={formik.handleBlur}
                 error={formik.touched.priceCatId && formik.errors.priceCatId}
               />
+              
               {formik.touched.priceCatId && formik.errors.priceCatId && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
                   {formik.errors.priceCatId}
@@ -217,11 +236,12 @@ function AddCompanyPriceBook() {
             </div>
             <div className="col-span-1">
               <Input
-                type="text"
-                name="name"
-                className="!bg-[#fff]"
-                label="Product Name "
-                placeholder=""
+                type='text'
+                name='name'
+                className='!bg-[#fff]'
+                label='Product Name '
+                required={true}
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
@@ -234,11 +254,12 @@ function AddCompanyPriceBook() {
             </div>
             <div className="col-span-2">
               <Input
-                type="text"
-                name="description"
-                className="!bg-[#fff]"
-                label="Description "
-                placeholder=""
+                type='text'
+                name='description'
+                className='!bg-[#fff]'
+                required={true}
+                label='Description '
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.description}
@@ -251,8 +272,9 @@ function AddCompanyPriceBook() {
             </div>
             <div className="col-span-1">
               <Select
-                label="Terms*"
+                label="Terms"
                 name="term"
+                required={true}
                 placeholder=""
                 onChange={handleSelectChange}
                 className="!bg-[#fff]"
@@ -269,11 +291,12 @@ function AddCompanyPriceBook() {
             </div>
             <div className="col-span-1">
               <Input
-                type="number"
-                name="frontingFee"
-                className="!bg-[#fff]"
-                label="Fronting fee "
-                placeholder=""
+                type='number'
+                name='frontingFee'
+                required={true}
+                className='!bg-[#fff]'
+                label='Fronting fee ($)'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.frontingFee}
@@ -287,11 +310,12 @@ function AddCompanyPriceBook() {
             </div>
             <div className="col-span-1">
               <Input
-                type="number"
-                name="reinsuranceFee"
-                className="!bg-[#fff]"
-                label="Re-insurance fee "
-                placeholder=""
+                type='number'
+                name='reinsuranceFee'
+                className='!bg-[#fff]'
+                label='Re-insurance fee '
+                required={true}
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.reinsuranceFee}
@@ -306,11 +330,12 @@ function AddCompanyPriceBook() {
             </div>
             <div className="col-span-1">
               <Input
-                type="number"
-                name="reserveFutureFee"
-                className="!bg-[#fff] !px-0 w-[200px]"
-                label="Reserve for future claims"
-                placeholder=""
+                type='number'
+                name='reserveFutureFee'
+                required={true}
+                className='!bg-[#fff] !px-0 w-[200px]'
+                label='Reserve for future claims'
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.reserveFutureFee}
@@ -325,11 +350,12 @@ function AddCompanyPriceBook() {
             </div>
             <div className="col-span-1">
               <Input
-                type="number"
-                name="adminFee"
-                className="!bg-[#fff]"
-                label="Administration fee "
-                placeholder=""
+                type='number'
+                name='adminFee'
+                className='!bg-[#fff]'
+                required={true}
+                label='Administration fee '
+                placeholder=''
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.adminFee}
@@ -342,13 +368,14 @@ function AddCompanyPriceBook() {
                 </div>
               )}
             </div>
-            <div className="col-span-1">
-              <Select
-                label="Status*"
+            <div className='col-span-1'>
+            <Select
+                label="Status"
                 name="status"
                 placeholder=""
+                required={true}
                 onChange={handleSelectChange}
-                className="!bg-[#f7f7f7]"
+                className='!bg-[#fff]'
                 options={status}
                 value={
                   formik.values.status === ""
@@ -374,6 +401,195 @@ function AddCompanyPriceBook() {
           </Button>
         </div>
       </form>
+
+  {/* Edit Form  */}
+
+        <div>
+          <div className='bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]'>
+             <Grid className='mx-8 mx-auto '>
+              <div className='col-span-3 self-center border-r border-[#4e4e4e]'>
+                <div className='flex'>
+                  <div className='self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4'>
+                    <img src={category} className='w-6 h-6' alt='category'/>
+                  </div>
+                  <div className='self-center'>
+                    <p className='text-[#FFF] text-base font-medium leading-5	'>Product Category</p>
+                    <p className='text-[#FFFFFF] opacity-50 text-sm	font-medium'>Vehicle</p>
+                  </div>
+                </div>
+              </div>
+              <div className='col-span-3 border-r border-[#4e4e4e]'>
+              <div className='flex'>
+              <div className='self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4'>
+                    <img src={dealer} className='w-6 h-6' alt='dealer'/>
+                  </div>
+                  <div className='self-center'>
+                    <p className='text-[#FFF] text-base font-medium leading-5	'>Product Name</p>
+                    <p className='text-[#FFFFFF] opacity-50 text-sm	font-medium'>Car</p>
+                  </div>
+                </div>
+              </div>
+              <div className='col-span-3 border-r border-[#4e4e4e]'>
+              <div className='flex'>
+              <div className='self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4'>
+                    <img src={product} className='w-6 h-6' alt='product'/>
+                  </div>
+                  <div className='self-center'>
+                    <p className='text-[#FFF] text-base font-medium leading-5	'>Description</p>
+                    <p className='text-[#FFFFFF] opacity-50 text-sm	font-medium'>Four wheels drive</p>
+                  </div>
+                </div>
+              </div>
+              <div className='col-span-3'>
+              <div className='flex'>
+                  <div className='self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4'>
+                    <img src={terms} className='w-6 h-6' alt='terms'/>
+                  </div>
+                  <div className='self-center'>
+                    <p className='text-[#FFF] text-base font-medium leading-5'>Terms</p>
+                    <p className='text-[#FFFFFF] opacity-50	text-sm font-medium'>84 Months</p>
+                  </div>
+                </div>
+              </div>
+             </Grid>
+          </div>
+          <Grid className='!grid-cols-4 mt-8'>
+            <div className='col-span-1'>
+              <Select
+                label="Product Category"
+                name="priceCatId"
+                placeholder=""
+                onChange={handleSelectChange}
+                required={true}
+                options={categoryList}
+                value={formik.values.priceCatId}
+                onBlur={formik.handleBlur}
+                error={formik.touched.priceCatId && formik.errors.priceCatId}
+              />
+              
+              {formik.touched.priceCatId && formik.errors.priceCatId && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.priceCatId}
+                </div>
+              )}
+            </div>
+            <div className='col-span-2'>
+              <Input
+                type='text'
+                name='description'
+                required={true}
+                label='Description '
+                placeholder=''
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.description}
+              />
+              {formik.touched.description && formik.errors.description && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.description}
+                </div>
+              )}
+            </div>
+            <div className='col-span-1'>
+            <Select
+                label="Status"
+                name="status"
+                placeholder=""
+                required={true}
+                onChange={handleSelectChange}
+                options={status}
+                value={formik.values.status === '' ?   formik.setFieldValue('status', true) : formik.values.status}
+                onBlur={formik.handleBlur}
+                error={formik.touched.status && formik.errors.status}
+                defaultValue={defaultValue}
+              />
+              {formik.touched.status && formik.errors.status && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.status}
+                </div>
+              )}
+            </div>
+            <div className='col-span-1'>
+              <Input
+                type='number'
+                name='frontingFee'
+                required={true}
+                label='Fronting fee ($)'
+                placeholder=''
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.frontingFee}
+                maxDecimalPlaces={2}
+              />
+              {formik.touched.frontingFee && formik.errors.frontingFee && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.frontingFee}
+                </div>
+              )}
+            </div>
+            <div className='col-span-1'>
+              <Input
+                type='number'
+                name='reinsuranceFee'
+                label='Re-insurance fee '
+                required={true}
+                placeholder=''
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.reinsuranceFee}
+                maxDecimalPlaces={2}
+              />
+              {formik.touched.reinsuranceFee && formik.errors.reinsuranceFee && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.reinsuranceFee}
+                </div>
+              )}
+            </div>
+            <div className='col-span-1'>
+              <Input
+                type='number'
+                name='reserveFutureFee'
+                required={true}
+                className='!px-0 w-[200px]'
+                label='Reserve for future claims'
+                placeholder=''
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.reserveFutureFee}
+                maxDecimalPlaces={2}
+              />
+              {formik.touched.reserveFutureFee && formik.errors.reserveFutureFee && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.reserveFutureFee}
+                </div>
+              )}
+            </div>
+            <div className='col-span-1'>
+              <Input
+                type='number'
+                name='adminFee'
+                required={true}
+                label='Administration fee '
+                placeholder=''
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.adminFee}
+                maxDecimalPlaces={2}
+              />
+
+              {formik.touched.adminFee && formik.errors.adminFee && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.adminFee}
+                </div>
+              )}
+            </div>
+           
+          </Grid>
+          <div className='mt-8'>
+            <Button className='mr-3 '>Update</Button>
+            <Button className='!bg-[transparent] !text-light-black'>Cancel</Button>
+          </div>
+        </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">

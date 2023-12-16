@@ -131,7 +131,9 @@ function DealerList() {
 
         <div className="flex mt-14">
           <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">Dealer</p>
+            <p className="font-semibold text-[36px] leading-9	mb-[3px]">
+              Dealer
+            </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
                 <Link to={"/"}>Dealer </Link> /{" "}
@@ -183,7 +185,11 @@ function DealerList() {
                     />
                   </div>
                   <div className="col-span-1 self-center">
-                    <img src={Search} alt="Search" />
+                    <img
+                      src={Search}
+                      className="cursor-pointer	mx-auto"
+                      alt="Search"
+                    />
                   </div>
                 </Grid>
               </div>

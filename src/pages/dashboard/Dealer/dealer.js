@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import Headbar from "../../common/headBar";
+import Headbar from "../../../common/headBar";
 import { Link } from "react-router-dom";
-import Select from "../../common/select";
-import Grid from "../../common/grid";
-import Input from "../../common/input";
+import Select from "../../../common/select";
+import Grid from "../../../common/grid";
+import Input from "../../../common/input";
 
 // Media Include
-import BackImage from "../../assets/images/icons/backArrow.svg";
-import Button from "../../common/button";
-import RadioButton from "../../common/radio";
-import FileDropdown from "../../common/fileDropbox";
+import BackImage from "../../../assets/images/icons/backArrow.svg";
+import DeleteImage from '../../../assets/images/icons/Delete.svg'
+import Button from "../../../common/button";
+import RadioButton from "../../../common/radio";
+import FileDropdown from "../../../common/fileDropbox";
 
 function Dealer() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -22,8 +23,8 @@ function Dealer() {
   const handleSelectChange = (e) => {
     setSelectedValue(e.target.value);
   };
-  const handleSelectChange1 = (e) => {
-    setSelectedCity(e.target.value);
+  const handleSelectChange1 = (name, value) => {
+    setSelectedCity(value);
   };
   console.log("here");
   const country = [
@@ -46,7 +47,7 @@ function Dealer() {
         </div> */}
         <div className="pl-3">
           <p className="font-semibold text-[36px] leading-9	mb-[3px]">
-            Add New Dealer
+            Dealer
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
@@ -66,7 +67,7 @@ function Dealer() {
         <div className="bg-white p-8 drop-shadow-4xl rounded-xl">
           <Grid>
             <div className="col-span-4 border-e-[1px] border-[#D1D1D1] pr-3">
-              <p className="text-light-black text-lg font-semibold">
+              <p className="text-light-black text-lg mb-3 font-semibold">
                 Create Dealer Account
               </p>
               <Grid>
@@ -75,8 +76,9 @@ function Dealer() {
                     type="text"
                     name="AccountName"
                     required={true}
+                    className='!bg-white'
                     label="Account Name"
-                    placeholder="Enter"
+                    placeholder=""
                   />
                 </div>
                 <div className="col-span-12">
@@ -89,14 +91,16 @@ function Dealer() {
                   <Input
                     type="text"
                     name="customerStreetAddress"
+                    className='!bg-white'
                     required={true}
                     label="Business Street Address"
-                    placeholder="Enter"
+                    placeholder=""
                   />
                 </div>
                 <div className="col-span-12">
                   <Select
                     label="Business City *"
+                    className='!bg-white'
                     options={city}
                     selectedValue={selectedCity}
                     onChange={handleSelectChange1}
@@ -106,6 +110,7 @@ function Dealer() {
                   <Select
                     label="Business State *"
                     options={city}
+                    className='!bg-white'
                     selectedValue={selectedCity}
                     onChange={handleSelectChange1}
                   />
@@ -114,81 +119,90 @@ function Dealer() {
                   <Input
                     type="text"
                     name="zipcode"
+                    className='!bg-white'
                     label="Business Zipcode "
                     required={true}
-                    placeholder="Enter"
+                    placeholder=""
                   />
                 </div>
               </Grid>
             </div>
             <div className="col-span-8">
-              <p className="text-light-black text-lg font-semibold">
+              <p className="text-light-black text-lg mb-3 font-semibold">
                 Dealer Contact Information
               </p>
-              <p className="text-light-black my-3 flex text-base font-normal">
-                Do you want to create an account?
-                <RadioButton
-                  id="yes"
-                  label="Yes"
-                  value="yes"
-                  checked={selectedOption === "yes"}
-                  onChange={handleRadioChange}
-                />
-                <RadioButton
-                  id="no"
-                  label="No"
-                  value="no"
-                  checked={selectedOption === "no"}
-                  onChange={handleRadioChange}
-                />
-              </p>
-              <Grid>
+             
+              <Grid className="mt-5">
                 <div className="col-span-6">
                   <Input
                     type="text"
                     name="fName"
                     label="First Name"
+                    className='!bg-white'
                     required={true}
-                    placeholder="Enter"
+                    placeholder=""
                   />
                 </div>
                 <div className="col-span-6">
                   <Input
                     type="text"
                     name="lName"
+                    className='!bg-white'
                     label="Last Name"
                     required={true}
-                    placeholder="Enter"
+                    placeholder=""
                   />
                 </div>
                 <div className="col-span-6">
                   <Input
                     type="email"
                     name="email"
+                    className='!bg-white'
                     label="Email"
                     required={true}
-                    placeholder="Enter"
+                    placeholder=""
                   />
                 </div>
                 <div className="col-span-6">
                   <Input
                     type="text"
+                    className='!bg-white'
                     name="phone"
                     label="Phone"
                     required={true}
-                    placeholder="Enter"
+                    placeholder=""
                   />
                 </div>
-                <div className="col-span-12">
+                <div className="col-span-6">
                   <Input
                     type="text"
                     name="Position"
+                    className='!bg-white'
                     label="Position"
-                    placeholder="Enter"
+                    placeholder=""
                   />
                 </div>
-                <div className="col-span-12">
-                  <p className="text-light-black flex text-base font-normal">
+                <div className="col-span-6">
+                  <p className="text-light-black flex text-[12px]  font-semibold mt-3 mb-6">
+                     Do you want to create an account?
+                    <RadioButton
+                      id="yes"
+                      label="Yes"
+                      value="yes"
+                      checked={selectedOption === "yes"}
+                      onChange={handleRadioChange}
+                    />
+                    <RadioButton
+                      id="no"
+                      label="No"
+                      value="no"
+                      checked={selectedOption === "no"}
+                      onChange={handleRadioChange}
+                    />
+                  </p>
+                </div>
+                <div className="col-span-12 mt-5">
+                  <p className="text-light-black flex text-[12px]  font-semibold mt-3 mb-6">
                     Does this Dealer's Customer will have separate account ?
                     <RadioButton
                       id="yes"
@@ -206,69 +220,112 @@ function Dealer() {
                     />
                   </p>
                 </div>
+                
               </Grid>
+
+              <div className='mt-8'>
+                   <Grid>
+                    <div className='col-span-4'>
+                      <Button className='text-sm !font-light w-full'>+  Add More Team Members</Button>
+                    </div>
+                    <div className='col-span-8 self-center'>
+                      <hr/>
+                    </div>
+                   </Grid>
+                </div>
             </div>
           </Grid>
         </div>
-
+        
         <div className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl">
-          <div className="bg-[#d7d4d4] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
-            <Button className="text-sm ">+ Add More</Button>
-          </div>
-          <p className="text-light-black text-lg mb-3 font-semibold">
-            Add Dealer’s Team Members
+          <p className="text-light-black text-lg mb-6 font-semibold">
+          Add Dealer’s Team Members
           </p>
           <div className="">
-            <Grid className="pr-16 pl-4">
-              <div className="col-span-4">
-                <Input
-                  type="text"
-                  name="customerAccountName"
-                  label="First Name"
-                  required={true}
-                  placeholder="Enter"
+            <Grid className="">
+              <div className='col-span-11'>
+                <Grid className='pr-12 pl-4'>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="customerAccountName"
+                    label="First Name"
+                    className='!bg-white'
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="customerStreetAddress"
+                    className='!bg-white'
+                    label="Last Name"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="customerAccountName"
+                    className='!bg-white'
+                    label="Email"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="customerStreetAddress"
+                    className='!bg-white'
+                    label="Phone"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="customerAccountName"
+                    className='!bg-white'
+                    label="Position"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <p className='text-light-black flex text-[12px]  font-semibold mt-3 mb-6' > Do you want to create an account?       
+                <RadioButton
+                  id="yes"
+                  label="Yes"
+                  value="yes"
+                  checked={selectedOption === 'yes'}
+                  onChange={handleRadioChange}
                 />
+  
+                <RadioButton
+                  id="no"
+                  label="No"
+                  value="no"
+                  checked={selectedOption === 'no'}
+                  onChange={handleRadioChange}
+                />
+                 </p>
+                  </div>
+                </Grid>
               </div>
-              <div className="col-span-4">
-                <Input
-                  type="text"
-                  name="customerStreetAddress"
-                  label="Last Name"
-                  required={true}
-                  placeholder="Enter"
-                />
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="text"
-                  name="customerAccountName"
-                  label="Email"
-                  required={true}
-                  placeholder="Enter"
-                />
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="text"
-                  name="customerStreetAddress"
-                  label="Phone"
-                  required={true}
-                  placeholder="Enter"
-                />
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="text"
-                  name="customerAccountName"
-                  label="Position"
-                  required={true}
-                  placeholder="Enter"
-                />
+              <div className='col-span-1'>
+                <div className='flex h-full bg-[#EBEBEB] justify-center'>
+                  <img src={DeleteImage} className='self-center cursor-pointer' alt='Delete Icon'/>
+                </div>
               </div>
             </Grid>
           </div>
         </div>
-        <div className="bg-white p-8 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
+
+        <div className="bg-[#fff] p-8 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
           <Grid>
             <div className="col-span-3">
               <p className="text-light-black text-lg mb-3 font-semibold">
@@ -296,17 +353,17 @@ function Dealer() {
               />
             </div>
           </Grid>
-          <div className="bg-white p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
+          <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
             <p className="text-light-black text-lg mb-5 font-semibold">
               Add Single Price Book
             </p>
-            <div className="bg-[#d7d4d4] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
-              <Button className="text-sm ">+ Add More</Button>
+            <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
+              <Button className="text-sm "> + Add More </Button>
             </div>
             <Grid className="pr-4 pl-4">
               <div className="col-span-4">
                 <Select
-                  label="Business City "
+                  label="Business City"
                   options={city}
                   selectedValue={selectedCity}
                   onChange={handleSelectChange1}
@@ -324,10 +381,9 @@ function Dealer() {
                 <Input
                   type="text"
                   name="wholesale"
-                  className="my-3"
                   label="Prize($)"
                   required={true}
-                  placeholder="Enter"
+                  placeholder=""
                 />
               </div>
               <div className="col-span-2">
@@ -344,7 +400,7 @@ function Dealer() {
                   name="description"
                   label="Description"
                   required={true}
-                  placeholder="Enter"
+                  placeholder=""
                 />
               </div>
               <div className="col-span-4">
@@ -353,7 +409,7 @@ function Dealer() {
                   name="description"
                   label="Retail Price($)"
                   required={true}
-                  placeholder="Enter"
+                  placeholder=""
                 />
               </div>
               <div className="col-span-4">
@@ -366,8 +422,8 @@ function Dealer() {
               </div>
             </Grid>
           </div>
-          <div className="bg-white p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
-            <p className="text-neutral-grey text-lg mb-5 font-semibold">
+          <div className="bg-[#f9f9f9] p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
+            <p className="text-[#717275] text-lg mb-5 font-semibold">
               Upload In Bulk
             </p>
             <FileDropdown />

@@ -48,6 +48,15 @@ function AddCategory() {
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer, id]);
 
+  const handleSelectChange1 = (label, value) => {
+    setSelectedProduct(value);
+  };
+
+  const status = [
+    { label: "Active", value: true },
+    { label: "Inactive", value: false },
+  ];
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -94,10 +103,10 @@ function AddCategory() {
     }
   }, [type, categoryDetails]);
 
-  const status = [
-    { label: "Active", value: true },
-    { label: "Inactive", value: false },
-  ];
+  // const status = [
+  //   { label: "Active", value: true },
+  //   { label: "Inactive", value: false },
+  // ];
 
   const getCategoryDetailsById = async (id) => {
     const result = await getCategoryById(id);

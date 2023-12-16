@@ -25,8 +25,8 @@ function UploadDealerBook() {
     setIsModalOpen(false);
   };
 
-  const handleSelectChange = (e) => {
-    setSelectedValue(e.target.value);
+  const handleSelectChange = (label, value) => {
+    setSelectedValue(value);
   };
 
   const country = [
@@ -42,7 +42,7 @@ function UploadDealerBook() {
 
       <div className='flex mt-14'>
         <div className='pl-3'>
-          <p className='font-ExtraBold text-[36px] leading-9 mb-[3px]'>Upload Dealer Book</p>
+          <p className='font-semibold text-[36px] leading-9 mb-[3px]'>Upload Dealer Book</p>
           <ul className='flex self-center'>
             <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Price Book </Link>  <span className='mx-2'> /</span></li>
             <li className='text-sm text-neutral-grey font-semibold ml-1'> Upload Dealer Book </li>

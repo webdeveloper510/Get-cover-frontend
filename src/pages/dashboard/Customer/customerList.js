@@ -5,19 +5,31 @@ import Button from '../../../common/button'
 
 import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
 import arrowImage from '../../../assets/images/dropdownArrow.png';
+import AddItem from '../../../assets/images/icons/addItem.svg';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import Headbar from '../../../common/headBar';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import DataTable from "react-data-table-component"
+import Select from '../../../common/select';
 function CustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState('');
 
+  const handleSelectChange1 = (label , value) => {
+    console.log(label, value , "selected")
+    setSelectedProduct(value);
+  };
   const handleActionChange = (action) => {
     // Implement the logic for the selected action (e.g., edit or delete)
     console.log(`Selected action: ${action}`);
     // You can replace the console.log statement with the actual logic you want to perform
   };
+
+  const status = [
+    { label: 'Active', value: true },
+    { label: 'Inactive', value: false },
+  ];
 
   const data = [
     {
@@ -85,21 +97,23 @@ function CustomerList() {
 
         <div className='flex mt-14'>
           <div className='pl-3'>
-            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Customer</p>
+            <p className='font-semibold text-[36px] leading-9	mb-[3px]'>Customer</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Customer </Link> </li>
             </ul>
           </div>
         </div>
+
+        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addCustomer'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-semibold'> Add New Customer </span>  </Link></Button>
   
-        <div className='bg-white mt-10 border-[1px] border-[#D1D1D1] rounded-xl'>
+        <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
           <Grid className='!p-[26px] !pt-[14px] !pb-0'>
             <div className='col-span-5 self-center'>
               <p className='text-xl font-semibold'>Customers List</p>
             </div>
             <div className='col-span-7'>
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-                <Grid className='!grid-cols-7' >
+                <Grid className='!grid-cols-9' >
                   <div className='col-span-2 self-center'>
                     <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Name' />
                   </div>
@@ -109,8 +123,19 @@ function CustomerList() {
                   <div className='col-span-2 self-center'>
                     <Input name='PhoneNo.' type='number'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Phone No.' />
                   </div>
+                  <div className='col-span-2 self-center'>
+                  <Select label=""
+                      options={status}
+                      OptionName='Dealer Name'
+                      color='text-[#1B1D21] opacity-50'
+                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px] !bg-[#f7f7f7]"
+                      selectedValue={selectedProduct}
+                      onChange={handleSelectChange1} />
+                  </div>
+                  
                   <div className='col-span-1 self-center'>
-                    <img src={Search} alt='Search' />
+                    <img src={Search} className='cursor-pointer	'  alt='Search' />
                   </div>
                 </Grid>
 

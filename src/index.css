@@ -158,3 +158,13 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #dfdfdf;
 }
+
+.rdt_TableCol_Sortable {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.rdt_TableCell {
+  display: flex !important;
+  justify-content: center !important;
+}

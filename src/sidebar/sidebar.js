@@ -251,15 +251,21 @@ function SideBar() {
       items: [
         {
           name: "Servicer List",
-          url: "#",
+          url: "/servicerList",
           image: Dropdown1,
           active: Actives,
         },
         {
           name: "Add Servicer",
-          url: "#",
+          url: "/addServicer",
           image: Dropdown2,
           active: SeacondActive,
+        },
+        {
+          name: "New Servicer Requests",
+          url: "/requestList",
+          image: Dropdown2,
+          active: ForthActive,
         },
       ],
     },

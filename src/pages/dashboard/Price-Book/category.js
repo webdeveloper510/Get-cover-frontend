@@ -164,7 +164,9 @@ function Category() {
         <Headbar />
         <div className="flex mt-14">
           <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">Category</p>
+            <p className="font-semibold text-[36px] leading-9	mb-[3px]">
+              Category
+            </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
                 <Link to={"/"}>Price Book </Link> /{" "}
@@ -217,8 +219,12 @@ function Category() {
                       onChange={handleSelectChange1}
                     />
                   </div>
-                  <div className="col-span-1 self-center">
-                    <img src={Search} className="cursor-pointer	" alt="Search" />
+                  <div className="col-span-1 self-center ">
+                    <img
+                      src={Search}
+                      className="cursor-pointer	mx-auto"
+                      alt="Search"
+                    />
                   </div>
                 </Grid>
               </div>
