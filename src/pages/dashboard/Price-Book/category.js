@@ -1,35 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-import { Link } from 'react-router-dom'
-import Button from '../../../common/button'
+import { Link, useNavigate } from "react-router-dom";
+import Button from "../../../common/button";
 
-import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
-import AddItem from '../../../assets/images/icons/addItem.svg';
-import arrowImage from '../../../assets/images/dropdownArrow.png';
-import Search from '../../../assets/images/icons/SearchIcon.svg';
-import Headbar from '../../../common/headBar';
-import Grid from '../../../common/grid';
-import Input from '../../../common/input';
+import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
+import AddItem from "../../../assets/images/icons/addItem.svg";
+import arrowImage from "../../../assets/images/dropdownArrow.png";
+import Search from "../../../assets/images/icons/SearchIcon.svg";
+import Headbar from "../../../common/headBar";
+import Grid from "../../../common/grid";
+import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
-import { useEffect } from 'react';
-import { editCategoryList, getCategoryList } from '../../../services/priceBookService';
-import Select from '../../../common/select';
-
-
+import { useEffect } from "react";
+import {
+  editCategoryList,
+  getCategoryList,
+} from "../../../services/priceBookService";
+import Select from "../../../common/select";
 
 function Category() {
   const [selectedAction, setSelectedAction] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState('');
-  const [categoryList, setCategoryList] = useState([])
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [categoryList, setCategoryList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getCategoryListData()
+    getCategoryListData();
     window.scrollTo(0, 0);
-  }, [])
+  }, []);
 
-
-  const handleSelectChange1 = (label , value) => {
-    console.log(label, value , "selected")
+  const handleSelectChange1 = (label, value) => {
+    console.log(label, value, "selected");
     setSelectedProduct(value);
   };
   const getCategoryListData = async () => {
@@ -37,12 +38,12 @@ function Category() {
       const res = await getCategoryList();
       setCategoryList(res.result);
     } catch (error) {
-      console.error('Error fetching category list:', error);
+      console.error("Error fetching category list:", error);
     }
   };
   const status = [
-    { label: 'Active', value: true },
-    { label: 'Inactive', value: false },
+    { label: "Active", value: true },
+    { label: "Inactive", value: false },
   ];
   const handleActionChange = (action, row) => {
     console.log(`Selected action: ${action} for Category ID: ${row._id}`);
@@ -70,7 +71,11 @@ function Category() {
       sortable: true,
       cell: (row) => (
         <div className="relative">
-          <div className={` ${row.status === true ? 'bg-[#6BD133]' : 'bg-[#FF4747]'} absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}></div>
+          <div
+            className={` ${
+              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+          ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
@@ -88,29 +93,45 @@ function Category() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-          <div onClick={() => setSelectedAction(row.unique_key)}>
-            <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
-          </div>
-          {selectedAction === row.unique_key && (
-            <div className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${index%10 === 9 ? 'bottom-[1.3rem] ' : 'top-[1.3rem]'}`}>
-              <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/>
-                <div className='text-center py-3'>Edit</div>
+            <div onClick={() => setSelectedAction(row.unique_key)}>
+              <img
+                src={ActiveIcon}
+                className="cursor-pointer	w-[35px]"
+                alt="Active Icon"
+              />
             </div>
-          )}
-        </div>
-        )
-      }
-      
+            {selectedAction === row.unique_key && (
+              <div
+                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${
+                  index % 10 === 9 ? "bottom-[1.3rem] " : "top-[1.3rem]"
+                }`}
+              >
+                <img
+                  src={arrowImage}
+                  className={`absolute  object-contain left-1/2 w-[12px] ${
+                    index % 10 === 9 ? "bottom-[-5px] rotate-180" : "top-[-5px]"
+                  } `}
+                  alt="up arror"
+                />
+                <div
+                  className="text-center py-3"
+                  onClick={() => navigate(`/editCategory/${row._id}`)}
+                >
+                  Edit
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      },
     },
   ];
-
-
 
   const handleStatusChange = async (row, newStatus) => {
     try {
       const updatedCategoryList = categoryList.map((category) => {
         if (category._id === row._id) {
-          return { ...category, status: newStatus === 'active' ? true : false };
+          return { ...category, status: newStatus === "active" ? true : false };
         }
         return category;
       });
@@ -120,76 +141,95 @@ function Category() {
       const result = await editCategoryList(row._id, {
         name: row.name,
         description: row.description,
-        status: newStatus === 'active' ? true : false,
+        status: newStatus === "active" ? true : false,
       });
 
       console.log(result);
 
       if (result.code === 200 || result.code === 401) {
-        console.log('Status updated successfully');
+        console.log("Status updated successfully");
         getCategoryListData();
       } else {
         getCategoryListData();
       }
     } catch (error) {
-      console.error('Error updating category status:', error);
+      console.error("Error updating category status:", error);
       getCategoryListData();
     }
   };
 
-  
-
   return (
     <>
-      <div className='my-8 ml-3'>
+      <div className="my-8 ml-3">
         <Headbar />
-        <div className='flex mt-14'>
-          <div className='pl-3'>
-            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Category</p>
-            <ul className='flex self-center'>
-              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Price Book </Link>  /  </li>
-              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Category </li>
+        <div className="flex mt-14">
+          <div className="pl-3">
+            <p className="font-bold text-[36px] leading-9	mb-[3px]">Category</p>
+            <ul className="flex self-center">
+              <li className="text-sm text-neutral-grey font-Regular">
+                <Link to={"/"}>Price Book </Link> /{" "}
+              </li>
+              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                {" "}
+                Category{" "}
+              </li>
             </ul>
           </div>
         </div>
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addCategory'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-semibold'>Add Category </span>  </Link></Button>
+        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+          {" "}
+          <Link to={"/addCategory"} className="flex">
+            {" "}
+            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+            <span className="text-black ml-3 text-[14px] font-semibold">
+              Add Category{" "}
+            </span>{" "}
+          </Link>
+        </Button>
 
-        <div className='bg-white  border-[1px] border-[#D1D1D1] rounded-xl '>
-          <Grid className='!px-[26px] !pt-[14px] !pb-0'>
-            <div className='col-span-5 self-center'>
-              <p className='text-xl font-semibold'>Categories List</p>
+        <div className="bg-white  border-[1px] border-[#D1D1D1] rounded-xl ">
+          <Grid className="!px-[26px] !pt-[14px] !pb-0">
+            <div className="col-span-5 self-center">
+              <p className="text-xl font-semibold">Categories List</p>
             </div>
-            <div className='col-span-7'>
-              <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-                <Grid className='!grid-cols-11' >
-                  <div className='col-span-5 self-center'>
-                    <Input name='CategoryName' type='text'placeholder="Category Name"
-                    className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' />
+            <div className="col-span-7">
+              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                <Grid className="!grid-cols-11">
+                  <div className="col-span-5 self-center">
+                    <Input
+                      name="CategoryName"
+                      type="text"
+                      placeholder="Category Name"
+                      className="!text-[14px] !bg-[#f7f7f7]"
+                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                      label=""
+                    />
                   </div>
-                  <div className='col-span-5 self-center'>
-                    <Select label=""
-                    OptionName="Status"
+                  <div className="col-span-5 self-center">
+                    <Select
+                      label=""
+                      OptionName="Status"
                       options={status}
-                      color='text-[#1B1D21] opacity-50'
+                      color="text-[#1B1D21] opacity-50"
                       className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                       className="!text-[14px] !bg-[#f7f7f7] "
                       selectedValue={selectedProduct}
-                      onChange={handleSelectChange1} />
+                      onChange={handleSelectChange1}
+                    />
                   </div>
-                  <div className='col-span-1 self-center'>
-                    <img src={Search} className='cursor-pointer	' alt='Search' />
+                  <div className="col-span-1 self-center">
+                    <img src={Search} className="cursor-pointer	" alt="Search" />
                   </div>
                 </Grid>
-
               </div>
             </div>
           </Grid>
-          <div className='mb-5'>
-          <DataTable columns={columns} data={categoryList} pagination />
+          <div className="mb-5">
+            <DataTable columns={columns} data={categoryList} pagination />
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }
-export default Category
+export default Category;

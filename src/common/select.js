@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DropdownArrowImage from "../assets/images/icons/Drop.svg";
 
 const Select = ({
@@ -14,10 +14,12 @@ const Select = ({
   color,
   error,
   defaultValue,
-
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(!!selectedValue);
+  const [localDefaultValue, setLocalDefaultValue] = useState(defaultValue);
+
+  console.log("defaultValue", defaultValue);
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -28,11 +30,13 @@ const Select = ({
   };
 
   const handleInputChange = (e) => {
-    const value = e?.target?.value || '';  
+    const value = e?.target?.value || "";
     setIsFilled(!!value);
-    onChange && onChange(name, value); 
+    onChange && onChange(name, value);
   };
-
+  useEffect(() => {
+    setLocalDefaultValue(defaultValue);
+  }, [defaultValue]);
   return (
     <div className="relative">
       <div className="select-container relative">
@@ -41,13 +45,15 @@ const Select = ({
           value={selectedValue}
           onChange={handleInputChange}
           onFocus={handleFocus}
-          defaultValue={defaultValue}
           onBlur={handleBlur}
           className={`block px-2.5 pb-2.5 pr-8 pt-4 w-full text-base font-semibold text-gray-900 bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1}  ${
             error ? "border-[red]" : " border-gray-300 "
           }`}
+          defaultValue={localDefaultValue}
         >
-          <option className={color} value="">Select {OptionName}</option>
+          <option className={color} value="">
+            Select {OptionName}
+          </option>
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}

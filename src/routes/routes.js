@@ -47,9 +47,7 @@ const routes = [
       {
         path: "/newPassword/:id/:token",
         index: true,
-        element: (
-          <NewPassword />
-        ),
+        element: <NewPassword />,
       },
       {
         path: "registerDealer",
@@ -120,6 +118,10 @@ const routes = [
         ),
       },
       {
+        path: "/editCompanyPriceBook/:id",
+        element: <AddCompanyPriceBook />,
+      },
+      {
         path: "/uploadDealerBook",
         element: (
           <PrivateRoute
@@ -134,7 +136,7 @@ const routes = [
       },
       {
         path: "/editCategory/:id",
-        element: <PrivateRoute element={<AddCategory />} path="//editCategory/:id" />,
+        element: <AddCategory />,
       },
       {
         path: "/dealerList",
@@ -162,37 +164,23 @@ const routes = [
       {
         path: "/newDealerList",
         element: (
-          <PrivateRoute
-            element={<NewDealerList />}
-            path="/newDealerList"
-          />
+          <PrivateRoute element={<NewDealerList />} path="/newDealerList" />
         ),
       },
       {
         path: "/customerList",
         element: (
-          <PrivateRoute
-            element={<CustomerList />}
-            path="/customerList"
-          />
+          <PrivateRoute element={<CustomerList />} path="/customerList" />
         ),
       },
       {
         path: "/addServicer",
-        element: (
-          <PrivateRoute
-            element={<AddServicer />}
-            path="/addServicer"
-          />
-        ),
+        element: <PrivateRoute element={<AddServicer />} path="/addServicer" />,
       },
       {
         path: "/servicerList",
         element: (
-          <PrivateRoute
-            element={<ServicerList />}
-            path="/servicerList"
-          />
+          <PrivateRoute element={<ServicerList />} path="/servicerList" />
         ),
       },
     ],

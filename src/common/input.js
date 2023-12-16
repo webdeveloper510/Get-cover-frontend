@@ -17,8 +17,8 @@ const Input = ({
   maxDecimalPlaces,
   placeholder,
 }) => {
-  const [inputValue, setInputValue] = useState(value || '');
-
+  const [inputValue, setInputValue] = useState(value);
+  // console.log(defaultValue);
   const handleWheelCapture = (event) => {
     event.preventDefault();
   };
@@ -31,7 +31,7 @@ const Input = ({
         return;
       }
       setInputValue(inputValue);
-  
+
       if (onChange) {
         onChange({
           target: {
@@ -47,7 +47,7 @@ const Input = ({
       }
     }
   };
-  
+
   useEffect(() => {
     const inputElement = document.getElementById(name);
     if (inputElement) {
@@ -69,7 +69,7 @@ const Input = ({
         <input
           type={type}
           name={name}
-          value={inputValue}
+          value={value}
           id={name}
           onBlur={onBlur}
           minLength={minLength}
