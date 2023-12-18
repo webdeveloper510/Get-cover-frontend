@@ -38,6 +38,7 @@ function Login() {
       password: Yup.string().required("Password Required"),
     }),
     onSubmit: async (values) => {
+      setError("");
       console.log("Form values:", values);
       const result = await authlogin(values);
       console.log(result);
@@ -87,9 +88,13 @@ function Login() {
                     label="Email"
                     placeholder=""
                     value={formik.values.email}
-                    onChange={formik.handleChange}
+                    onChange={(e) => {
+                      setError("");
+                      formik.handleChange(e); // Invoke handleChange with the event object
+                    }}
                     onBlur={formik.handleBlur}
                   />
+
                   {formik.touched.email && formik.errors.email && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
                       {formik.errors.email}
@@ -102,7 +107,10 @@ function Login() {
                     name="password"
                     label="Password"
                     placeholder=""
-                    onChange={formik.handleChange}
+                    onChange={(e) => {
+                      setError("");
+                      formik.handleChange(e);
+                    }}
                     onBlur={formik.handleBlur}
                     isPassword
                   />
