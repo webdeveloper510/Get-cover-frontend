@@ -24,9 +24,14 @@ const Input = ({
   };
 
   const handleInput = (event) => {
-    if (type === "number" && maxDecimalPlaces !== undefined) {
+    if (
+      type === "number" &&
+      maxDecimalPlaces !== undefined &&
+      maxLength !== undefined
+    ) {
       const inputValue = event.target.value;
-      const regex = new RegExp(`^-?\\d*\\.?\\d{0,${maxDecimalPlaces}}$`);
+      const regex = new RegExp(`^-?\\d{0,4}(\\.\\d{0,2})?$`);
+
       if (!regex.test(inputValue)) {
         return;
       }
@@ -82,7 +87,7 @@ const Input = ({
           disabled={disabled}
           placeholder={placeholder}
           onWheel={(e) => e.preventDefault()}
-          required={required}
+          // required={required}
         />
         <label
           htmlFor={name}

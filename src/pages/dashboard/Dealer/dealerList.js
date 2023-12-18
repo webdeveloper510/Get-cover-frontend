@@ -25,8 +25,8 @@ function DealerList() {
 
   const getDealerList = async () => {
     const result = await getDealersList();
-    console.log(result.result);
-    setDealerList(result.result);
+    console.log(result.data);
+    setDealerList(result.data);
   };
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = dealerList.length - index <= 2;
@@ -48,7 +48,7 @@ function DealerList() {
     },
     {
       name: "Dealer Name",
-      selector: (row) => row?.name,
+      selector: (row) => row?.dealerData.name,
       sortable: true,
     },
     {
@@ -189,20 +189,23 @@ function DealerList() {
                     />
                   </div>
                   <div className="col-span-2 self-center flex justify-center">
-                    <Button className='!p-0'>
-                    <img
-                      src={Search}
-                      className="cursor-pointer	mx-auto"
-                      alt="Search"
-                    />
+                    <Button className="!p-0">
+                      <img
+                        src={Search}
+                        className="cursor-pointer	mx-auto"
+                        alt="Search"
+                      />
                     </Button>
-                    <Button type="submit" className='!bg-transparent !ml-2 !p-0'>
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
-                        />
-                      </Button>
+                    <Button
+                      type="submit"
+                      className="!bg-transparent !ml-2 !p-0"
+                    >
+                      <img
+                        src={clearFilter}
+                        className="cursor-pointer	mx-auto"
+                        alt="clearFilter"
+                      />
+                    </Button>
                   </div>
                 </Grid>
               </div>

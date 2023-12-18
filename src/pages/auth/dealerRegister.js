@@ -56,23 +56,28 @@ function DealerRegister() {
       role: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Required")
-      .max(50, "Must be exactly 50 characters"),
-      street: Yup.string().required("Required")
-      .max(50, "Must be exactly 50 characters"),
+      name: Yup.string()
+        .required("Required")
+        .max(50, "Must be exactly 50 characters"),
+      street: Yup.string()
+        .required("Required")
+        .max(50, "Must be exactly 50 characters"),
       state: Yup.string().required("Required"),
       city: Yup.string().required("Required"),
       country: Yup.string().required("Required"),
       email: Yup.string()
         .matches(emailValidationRegex, "Invalid email address")
         .required("Required"),
-      zip: Yup.string().required("Required")
-      .min(5, "Must be at least 5 characters")
-      .max(6, "Must be exactly 6 characters"),
-      firstName: Yup.string().required("Required")
-      .max(30, "Must be exactly 30 characters"),
-      lastName: Yup.string().required("Required")
-      .max(30, "Must be exactly 30 characters"),
+      zip: Yup.string()
+        .required("Required")
+        .min(5, "Must be at least 5 characters")
+        .max(6, "Must be exactly 6 characters"),
+      firstName: Yup.string()
+        .required("Required")
+        .max(30, "Must be exactly 30 characters"),
+      lastName: Yup.string()
+        .required("Required")
+        .max(30, "Must be exactly 30 characters"),
       phoneNumber: Yup.string()
         .required("Required")
         .min(10, "Must be at least 10 characters")
@@ -237,6 +242,7 @@ function DealerRegister() {
                       label="City"
                       placeholder=" "
                       required={true}
+                      maxLength={"20"}
                       value={formik.values.city}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -342,7 +348,7 @@ function DealerRegister() {
                 </Button>
 
                 <p className="text-base text-neutral-grey font-medium mt-4">
-                Already have an account?{" "}
+                  Already have an account?{" "}
                   <Link
                     to={"/"}
                     className="text-light-black ml-3 font-semibold"

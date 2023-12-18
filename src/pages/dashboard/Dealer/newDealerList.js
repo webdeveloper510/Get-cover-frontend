@@ -47,8 +47,13 @@ function NewDealerList() {
 
   const dealerPendingList = async () => {
     const result = await getPendingDealersList();
-    console.log(result.result);
-    setPendingDealerList(result.result);
+    console.log(result.data);
+    setPendingDealerList(result.data);
+  };
+  const truncateText = (text, maxLength) => {
+    return text.length > maxLength
+      ? `${text.substring(0, maxLength)}...`
+      : text;
   };
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = pendingDealerList.length - index <= 2;
@@ -64,16 +69,33 @@ function NewDealerList() {
       name: "First Name",
       selector: (row) => row.firstName,
       sortable: true,
+      cell: (row) => (
+        <span title={row.firstName}>{truncateText(row.firstName, 20)}</span>
+      ),
     },
     {
       name: "Last Name",
       selector: (row) => row.lastName,
       sortable: true,
+      cell: (row) => (
+        <span title={row.lastName}>{truncateText(row.lastName, 20)}</span>
+      ),
     },
     {
       name: "Address",
-      selector: (row) => row.street + "," + row.city,
+      selector: (row) => row.dealerData.street + "," + row.dealerData.city,
       sortable: true,
+      cell: (row) => (
+        <span
+          title={`${truncateText(row.dealerData.street, 10)}, ${truncateText(
+            row.dealerData.city,
+            10
+          )}`}
+        >
+          {truncateText(row.dealerData.street, 10)},{" "}
+          {truncateText(row.dealerData.city, 10)}
+        </span>
+      ),
     },
     {
       name: "Email",
