@@ -79,7 +79,6 @@ function CompanyPriceBook() {
     }
   };
 
-  console.log(categoryList, "got");
   const handleStatusChange = async (row, newStatus) => {
     try {
       const updatedCompanyPriceList = companyPriceList.map((category) => {
@@ -98,7 +97,7 @@ function CompanyPriceBook() {
         reserveFutureFee: row.reserveFutureFee,
         frontingFee: row.frontingFee,
         description: row.description,
-        status: newStatus === "active" ? true : false,
+        status: row.category.status === "active" ? true : false,
       });
 
       console.log(result);
@@ -114,6 +113,7 @@ function CompanyPriceBook() {
       getPriceBookListData();
     }
   };
+
   const handleActionChange = (action, row) => {
     console.log(`Selected action: ${action} for Category ID: ${row._id}`);
   };
@@ -179,7 +179,7 @@ function CompanyPriceBook() {
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
-            disabled={row.status === false ? true : false}
+            disabled={row.category.status === false ? true : false}
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
