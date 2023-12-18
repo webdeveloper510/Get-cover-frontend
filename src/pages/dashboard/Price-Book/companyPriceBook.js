@@ -6,7 +6,7 @@ import Button from "../../../common/button";
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
-import arrowImage from "../../../assets/images/dropdownArrow.png";
+import shorting from "../../../assets/images/icons/shorting.svg";
 import Headbar from "../../../common/headBar";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Grid from "../../../common/grid";
@@ -120,11 +120,13 @@ function CompanyPriceBook() {
     console.log(formik.values);
     getPriceBookListData();
   };
+
   const truncateText = (text, maxLength) => {
     return text.length > maxLength
       ? `${text.substring(0, maxLength)}...`
       : text;
   };
+
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = companyPriceList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
@@ -144,16 +146,26 @@ function CompanyPriceBook() {
     { label: "Inactive", value: "false" },
   ];
 
+  const paginationOptions = {
+    rowsPerPageText: 'Rows per page:',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'All',
+  };
+
   const columns = [
     {
       name: "Product ID",
       selector: (row) => row.unique_key,
       sortable: true,
+    reorder: true
     },
     {
       name: "Product Category",
       selector: (row) => row.category.name,
       sortable: true,
+      minWidth: 'auto',  // Set a custom minimum width
+      maxWidth: '200px',  // Set a custom maximum width
       cell: (row) => (
         <span title={row.category.name}>
           {truncateText(row.category.name, 20)}
@@ -170,6 +182,8 @@ function CompanyPriceBook() {
       name: "Product Term",
       selector: (row) => row.term + " Months",
       sortable: true,
+      minWidth: 'auto', 
+      maxWidth: '170px', 
     },
     {
       name: "WholeSale Cost",
@@ -187,6 +201,8 @@ function CompanyPriceBook() {
         return formattedCost;
       },
       sortable: true,
+      minWidth: 'auto', 
+      maxWidth: '170px',
     },
     {
       name: "Status",
@@ -213,6 +229,8 @@ function CompanyPriceBook() {
     },
     {
       name: "Action",
+      right: true,
+      reorder: true,
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (
@@ -350,7 +368,8 @@ function CompanyPriceBook() {
             </Grid>
           </form>
           <div className="overflow-x-auto mb-5">
-            <DataTable columns={columns} data={companyPriceList} pagination />
+            <DataTable columns={columns} sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
+              </>} data={companyPriceList} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100, 200]}/>
           </div>
         </div>
       </div>

@@ -348,6 +348,7 @@ function AddCompanyPriceBook() {
                   className="!bg-[#fff]"
                   label="Product Name "
                   placeholder=""
+                  required={true}
                   maxLength={50}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -369,6 +370,7 @@ function AddCompanyPriceBook() {
                 label="Description "
                 maxLength={100}
                 placeholder=""
+                required={true}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.description}
@@ -387,6 +389,7 @@ function AddCompanyPriceBook() {
                 <Select
                   label="Terms"
                   name="term"
+                  required={true}
                   placeholder=""
                   onChange={handleSelectChange}
                   className="!bg-[#fff]"
@@ -441,6 +444,7 @@ function AddCompanyPriceBook() {
                 label="Re-insurance fee "
                 minLength={"1"}
                 maxLength={"4"}
+                required={true}
                 placeholder=""
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

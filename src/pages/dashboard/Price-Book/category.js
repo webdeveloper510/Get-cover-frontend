@@ -6,6 +6,7 @@ import Button from "../../../common/button";
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
+import shorting from "../../../assets/images/icons/shorting.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import Headbar from "../../../common/headBar";
 import Grid from "../../../common/grid";
@@ -41,7 +42,12 @@ function Category() {
     console.log(formik.values);
     getCategoryListData();
   };
-
+  const paginationOptions = {
+    rowsPerPageText: 'Rows per page:',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'All',
+  };
   const getCategoryListData = async (data) => {
     try {
       setLoading(true);
@@ -87,16 +93,21 @@ function Category() {
       getCategoryListData(values);
     },
   });
+
+  
   const columns = [
     {
       name: "Category ID",
       selector: (row) => row.unique_key,
       sortable: true,
+      reorder: true
     },
     {
       name: "Category Name",
       selector: (row) => row.name,
       sortable: true,
+      minWidth: '100px',  // Set a custom minimum width
+      maxWidth: '170px',  // Set a custom maximum width
       cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
     },
     {
@@ -161,6 +172,7 @@ function Category() {
       },
     },
   ];
+  
 
   const handleStatusChange = async (row, newStatus) => {
     try {
@@ -290,7 +302,8 @@ function Category() {
             {loading ? (
               <p>Loading</p>
             ) : (
-              <DataTable columns={columns} data={categoryList} pagination />
+              <DataTable columns={columns} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
+              </>} data={categoryList} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100, 200]} />
             )}
           </div>
         </div>
