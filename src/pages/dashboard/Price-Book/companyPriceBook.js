@@ -92,7 +92,7 @@ function CompanyPriceBook() {
       setCompanyPriceList(updatedCompanyPriceList);
 
       const result = await editCompanyList(row._id, {
-        category: row.category._id,
+        priceCatId: row.category._id,
         reinsuranceFee: row.reinsuranceFee,
         adminFee: row.adminFee,
         reserveFutureFee: row.reserveFutureFee,
@@ -115,6 +115,16 @@ function CompanyPriceBook() {
     }
   };
 
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    getPriceBookListData();
+  };
+  const truncateText = (text, maxLength) => {
+    return text.length > maxLength
+      ? `${text.substring(0, maxLength)}...`
+      : text;
+  };
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = companyPriceList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
@@ -146,11 +156,17 @@ function CompanyPriceBook() {
       sortable: true,
       minWidth: 'auto',  // Set a custom minimum width
       maxWidth: '170px',  // Set a custom maximum width
+      cell: (row) => (
+        <span title={row.category.name}>
+          {truncateText(row.category.name, 20)}
+        </span>
+      ),
     },
     {
       name: "Product Name",
       selector: (row) => row.name,
       sortable: true,
+      cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
     },
     {
       name: "Product Term",
@@ -220,13 +236,6 @@ function CompanyPriceBook() {
                   index
                 )}`}
               >
-                {/* <img
-                  src={arrowImage}
-                  className={`absolute  object-contain left-1/2 w-[12px] ${
-                    index % 10 === 9 ? "bottom-[-5px] rotate-180" : "top-[-5px]"
-                  } `}
-                  alt="up arror"
-                /> */}
                 <div
                   className="text-center py-1 cursor-pointer"
                   onClick={() => navigate(`/editCompanyPriceBook/${row._id}`)}
@@ -304,7 +313,7 @@ function CompanyPriceBook() {
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px]  !bg-[#f7f7f7]"
-                        selectedValue={formik.values.category}
+                        value={formik.values.category}
                         onChange={formik.setFieldValue}
                       />
                     </div>
@@ -317,7 +326,7 @@ function CompanyPriceBook() {
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px] !bg-[#f7f7f7]"
-                        selectedValue={formik.values.status}
+                        value={formik.values.status}
                         onChange={formik.setFieldValue}
                       />
                     </div>
@@ -329,7 +338,11 @@ function CompanyPriceBook() {
                           alt="Search"
                         />
                       </button>
-                      <Button type="submit" className='!bg-transparent !ml-2 !p-0'>
+                      <Button
+                        type="submit"
+                        className="!bg-transparent !ml-2 !p-0"
+                        onClick={handleFilterIconClick}
+                      >
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"

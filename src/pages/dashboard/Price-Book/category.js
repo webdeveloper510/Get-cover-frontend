@@ -36,6 +36,17 @@ function Category() {
     console.log(label, value, "selected");
     setSelectedProduct(value);
   };
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    // formik.resetForm({
+    //   values: {
+    //     name: "",
+    //     status: "",
+    //   },
+    // });
+    getCategoryListData();
+  };
 
   const getCategoryListData = async (data) => {
     try {
@@ -44,8 +55,8 @@ function Category() {
       setCategoryList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
-    }finally {
-      setLoading(false); 
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,6 +74,11 @@ function Category() {
     console.log(`Selected action: ${action} for Category ID: ${row._id}`);
   };
 
+  const truncateText = (text, maxLength) => {
+    return text.length > maxLength
+      ? `${text.substring(0, maxLength)}...`
+      : text;
+  };
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -91,11 +107,15 @@ function Category() {
       sortable: true,
       minWidth: '100px',  // Set a custom minimum width
       maxWidth: '170px',  // Set a custom maximum width
+      cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
     },
     {
       name: "Description",
       selector: (row) => row.description,
       sortable: true,
+      cell: (row) => (
+        <span title={row.description}>{truncateText(row.description, 30)}</span>
+      ),
     },
     {
       name: "Status",
@@ -122,7 +142,7 @@ function Category() {
     {
       name: "Action",
       cell: (row, index) => {
-        console.log('===>>',index)
+        console.log("===>>", index);
         return (
           <div className="relative">
             <div onClick={() => setSelectedAction(row.unique_key)}>
@@ -232,7 +252,7 @@ function Category() {
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        value={formik.values.categoryName}
+                        value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
@@ -246,20 +266,25 @@ function Category() {
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px] !bg-[#f7f7f7] "
-                        selectedValue={formik.values.status}
+                        value={formik.values.status}
                         onChange={formik.setFieldValue}
                       />
                     </div>
                     <div className="col-span-2 self-center flex ">
-                      
-                      <Button type="submit" className='!p-0 mr-2'>
+                      <Button type="submit" className="!p-0 mr-2">
                         <img
                           src={Search}
                           className="cursor-pointer	mx-auto "
                           alt="Search"
                         />
                       </Button>
-                      <Button type="submit" className='!bg-transparent !p-0'>
+                      <Button
+                        type="submit"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                        className="!bg-transparent !p-0"
+                      >
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"
@@ -273,7 +298,7 @@ function Category() {
             </div>
           </Grid>
           <div className="mb-5">
-          {loading ? (
+            {loading ? (
               <p>Loading</p>
             ) : (
               <DataTable columns={columns} defaultSortFieldId={1} data={categoryList} pagination />

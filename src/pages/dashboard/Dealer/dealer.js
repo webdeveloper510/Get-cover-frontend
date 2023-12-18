@@ -7,7 +7,7 @@ import Input from "../../../common/input";
 
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
-import DeleteImage from '../../../assets/images/icons/Delete.svg'
+import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import Button from "../../../common/button";
 import RadioButton from "../../../common/radio";
 import FileDropdown from "../../../common/fileDropbox";
@@ -46,9 +46,7 @@ function Dealer() {
           <img src={BackImage} alt='BackImage'/>
         </div> */}
         <div className="pl-3">
-          <p className="font-semibold text-[36px] leading-9	mb-[3px]">
-            Dealer
-          </p>
+          <p className="font-semibold text-[36px] leading-9	mb-[3px]">Dealer</p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
               <Link to={"/"}>Dealer </Link> /{" "}
@@ -76,7 +74,7 @@ function Dealer() {
                     type="text"
                     name="AccountName"
                     required={true}
-                    className='!bg-white'
+                    className="!bg-white"
                     label="Account Name"
                     placeholder=""
                   />
@@ -91,7 +89,7 @@ function Dealer() {
                   <Input
                     type="text"
                     name="customerStreetAddress"
-                    className='!bg-white'
+                    className="!bg-white"
                     required={true}
                     label="Business Street Address"
                     placeholder=""
@@ -100,7 +98,7 @@ function Dealer() {
                 <div className="col-span-12">
                   <Select
                     label="Business City *"
-                    className='!bg-white'
+                    className="!bg-white"
                     options={city}
                     selectedValue={selectedCity}
                     onChange={handleSelectChange1}
@@ -110,7 +108,7 @@ function Dealer() {
                   <Select
                     label="Business State *"
                     options={city}
-                    className='!bg-white'
+                    className="!bg-white"
                     selectedValue={selectedCity}
                     onChange={handleSelectChange1}
                   />
@@ -119,7 +117,7 @@ function Dealer() {
                   <Input
                     type="text"
                     name="zipcode"
-                    className='!bg-white'
+                    className="!bg-white"
                     label="Business Zipcode "
                     required={true}
                     placeholder=""
@@ -131,14 +129,14 @@ function Dealer() {
               <p className="text-light-black text-lg mb-3 font-semibold">
                 Dealer Contact Information
               </p>
-             
+
               <Grid className="mt-5">
                 <div className="col-span-6">
                   <Input
                     type="text"
                     name="fName"
                     label="First Name"
-                    className='!bg-white'
+                    className="!bg-white"
                     required={true}
                     placeholder=""
                   />
@@ -147,7 +145,7 @@ function Dealer() {
                   <Input
                     type="text"
                     name="lName"
-                    className='!bg-white'
+                    className="!bg-white"
                     label="Last Name"
                     required={true}
                     placeholder=""
@@ -157,7 +155,7 @@ function Dealer() {
                   <Input
                     type="email"
                     name="email"
-                    className='!bg-white'
+                    className="!bg-white"
                     label="Email"
                     required={true}
                     placeholder=""
@@ -166,7 +164,7 @@ function Dealer() {
                 <div className="col-span-6">
                   <Input
                     type="text"
-                    className='!bg-white'
+                    className="!bg-white"
                     name="phone"
                     label="Phone"
                     required={true}
@@ -177,14 +175,14 @@ function Dealer() {
                   <Input
                     type="text"
                     name="Position"
-                    className='!bg-white'
+                    className="!bg-white"
                     label="Position"
                     placeholder=""
                   />
                 </div>
                 <div className="col-span-6">
                   <p className="text-light-black flex text-[12px]  font-semibold mt-3 mb-6">
-                     Do you want to create an account?
+                    Do you want to create an account?
                     <RadioButton
                       id="yes"
                       label="Yes"
@@ -220,105 +218,111 @@ function Dealer() {
                     />
                   </p>
                 </div>
-                
               </Grid>
 
-              <div className='mt-8'>
-                   <Grid>
-                    <div className='col-span-4'>
-                      <Button className='text-sm !font-light w-full'>+  Add More Team Members</Button>
-                    </div>
-                    <div className='col-span-8 self-center'>
-                      <hr/>
-                    </div>
-                   </Grid>
-                </div>
-            </div>
-          </Grid>
-        </div>
-        
-        <div className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl">
-          <p className="text-light-black text-lg mb-6 font-semibold">
-          Add Dealer’s Team Members
-          </p>
-          <div className="">
-            <Grid className="">
-              <div className='col-span-11'>
-                <Grid className='pr-12 pl-4'>
-                <div className="col-span-4">
-                  <Input
-                    type="text"
-                    name="customerAccountName"
-                    label="First Name"
-                    className='!bg-white'
-                    required={true}
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    type="text"
-                    name="customerStreetAddress"
-                    className='!bg-white'
-                    label="Last Name"
-                    required={true}
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    type="text"
-                    name="customerAccountName"
-                    className='!bg-white'
-                    label="Email"
-                    required={true}
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    type="text"
-                    name="customerStreetAddress"
-                    className='!bg-white'
-                    label="Phone"
-                    required={true}
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    type="text"
-                    name="customerAccountName"
-                    className='!bg-white'
-                    label="Position"
-                    required={true}
-                    placeholder=""
-                  />
-                </div>
-                <div className='col-span-4'>
-                  <p className='text-light-black flex text-[12px]  font-semibold mt-3 mb-6' > Do you want to create an account?       
-                <RadioButton
-                  id="yes"
-                  label="Yes"
-                  value="yes"
-                  checked={selectedOption === 'yes'}
-                  onChange={handleRadioChange}
-                />
-  
-                <RadioButton
-                  id="no"
-                  label="No"
-                  value="no"
-                  checked={selectedOption === 'no'}
-                  onChange={handleRadioChange}
-                />
-                 </p>
+              <div className="mt-8">
+                <Grid>
+                  <div className="col-span-4">
+                    <Button className="text-sm !font-light w-full">
+                      + Add More Team Members
+                    </Button>
+                  </div>
+                  <div className="col-span-8 self-center">
+                    <hr />
                   </div>
                 </Grid>
               </div>
-              <div className='col-span-1'>
-                <div className='flex h-full bg-[#EBEBEB] justify-center'>
-                  <img src={DeleteImage} className='self-center cursor-pointer' alt='Delete Icon'/>
+            </div>
+          </Grid>
+        </div>
+
+        <div className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl">
+          <p className="text-light-black text-lg mb-6 font-semibold">
+            Add Dealer’s Team Members
+          </p>
+          <div className="">
+            <Grid className="">
+              <div className="col-span-11">
+                <Grid className="pr-12 pl-4">
+                  <div className="col-span-4">
+                    <Input
+                      type="text"
+                      name="customerAccountName"
+                      label="First Name"
+                      className="!bg-white"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-4">
+                    <Input
+                      type="text"
+                      name="customerStreetAddress"
+                      className="!bg-white"
+                      label="Last Name"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-4">
+                    <Input
+                      type="text"
+                      name="customerAccountName"
+                      className="!bg-white"
+                      label="Email"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-4">
+                    <Input
+                      type="text"
+                      name="customerStreetAddress"
+                      className="!bg-white"
+                      label="Phone"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-4">
+                    <Input
+                      type="text"
+                      name="customerAccountName"
+                      className="!bg-white"
+                      label="Position"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-4">
+                    <p className="text-light-black flex text-[12px]  font-semibold mt-3 mb-6">
+                      {" "}
+                      Do you want to create an account?
+                      <RadioButton
+                        id="yes"
+                        label="Yes"
+                        value="yes"
+                        checked={selectedOption === "yes"}
+                        onChange={handleRadioChange}
+                      />
+                      <RadioButton
+                        id="no"
+                        label="No"
+                        value="no"
+                        checked={selectedOption === "no"}
+                        onChange={handleRadioChange}
+                      />
+                    </p>
+                  </div>
+                </Grid>
+              </div>
+              <div className="col-span-1">
+                <div className="flex h-full bg-[#EBEBEB] justify-center">
+                  <img
+                    src={DeleteImage}
+                    className="self-center cursor-pointer"
+                    alt="Delete Icon"
+                  />
                 </div>
               </div>
             </Grid>

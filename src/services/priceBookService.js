@@ -102,12 +102,12 @@ export const getCompanyPriceList = async (filterData) => {
 export const editCompanyList = async (id, categoryListData) => {
   const headers = createHeaders();
   delete categoryListData.term;
+  console.log();
   try {
     const response = await axios.put(
       `${url}/price/updatePriceBook/${id}`,
       {
-        priceCatId: categoryListData.category,
-        status: categoryListData.status,
+        ...categoryListData,
       },
       { headers }
     );
