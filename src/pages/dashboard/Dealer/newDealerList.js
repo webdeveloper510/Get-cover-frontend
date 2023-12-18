@@ -126,18 +126,18 @@ function NewDealerList() {
           </div>
           {isDropdownOpen && selectedAction === index && (
             <div
-              className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              className={`absolute z-[2] w-[150px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}
             >
               <div
-                className="text-center py-3 border-b border-[#E6E6E6] text-[#40BF73] cursor-pointer"
+                className="text-center py-2 border-b border-[#E6E6E6] text-[#40BF73] cursor-pointer"
                 onClick={() => handleActionChange("Approved", row.accountId)}
               >
                 Approve
               </div>
               <div
-                className="text-center py-3 text-[#FF4747] cursor-pointer"
+                className="text-center py-2 text-[#FF4747] cursor-pointer"
                 onClick={() => handleActionChange("Rejected", row.accountId)}
               >
                 Disapprove
@@ -282,7 +282,7 @@ function NewDealerList() {
           <div className="text-center py-3">
             <img src={request} alt="email Image" className="mx-auto" />
             <p className="text-3xl mb-0 mt-4 font-semibold text-light-black">
-              Do you really want to {status}?
+              Do you really want to {status=="Approved" ? 'Approve' : 'Disapprove'}?
             </p>
 
             <Grid className="my-5">

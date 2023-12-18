@@ -221,7 +221,7 @@ function DealerList() {
             </div>
           </Grid>
           <div className="mb-5">
-            <DataTable columns={columns} data={dealerList} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100, 200]} />
+            <DataTable columns={columns} data={dealerList} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
           </div>
         </div>
       </div>

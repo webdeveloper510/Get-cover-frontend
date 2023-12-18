@@ -369,7 +369,7 @@ function CompanyPriceBook() {
           </form>
           <div className="overflow-x-auto mb-5">
             <DataTable columns={columns} sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
-              </>} data={companyPriceList} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100, 200]}/>
+              </>} data={companyPriceList} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100,]}/>
           </div>
         </div>
       </div>

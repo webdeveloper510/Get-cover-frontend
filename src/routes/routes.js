@@ -22,6 +22,7 @@ import CustomerList from "../pages/dashboard/Customer/customerList";
 import AddServicer from "../pages/dashboard/Servicer/addServicer";
 import ServicerList from "../pages/dashboard/Servicer/servicerList";
 import RequestServicer from "../pages/dashboard/Servicer/requestServicer";
+import Notification from "../pages/notification/notification";
 
 const routes = [
   {
@@ -80,6 +81,16 @@ const routes = [
             withoutLogin={1}
             element={<Register />}
             path="/register"
+          />
+        ),
+      },
+      {
+        path: "/notifications",
+        index: true,
+        element: (
+          <PrivateRoute
+            element={<Notification />}
+            path="/notifications"
           />
         ),
       },

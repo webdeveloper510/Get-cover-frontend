@@ -22,7 +22,7 @@ function Headbar({className=''}) {
                 <img src={SearchImage} className='cursor-pointer' alt="SearchImage" />
               </div> */}
               <div>
-               <Link to={'/notificarion'} ><img src={NotificationImage} className='cursor-pointer' alt="NotificationImage" /> </Link>
+               <Link to={'/notifications'} ><img src={NotificationImage} className='cursor-pointer' alt="NotificationImage" /> </Link>
               </div>
               {/* <div>
                 <img src={SettingImage} className='cursor-pointer' alt="SettingImage" />

@@ -304,7 +304,7 @@ function Category() {
               <p>Loading</p>
             ) : (
               <DataTable columns={columns} data={categoryList} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
-              </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100, 200]} />
+              </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
             )}
           </div>
         </div>
