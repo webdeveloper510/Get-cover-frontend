@@ -7,11 +7,12 @@ import SettingImage from '../assets/images/icons/Setting.svg';
 import NotificationImage from '../assets/images/icons/Notification.svg';
 import ProfileImage from '../assets/images/icons/Profile.svg';
 import Down from '../assets/images/icons/Drop.svg';
+import { Link } from 'react-router-dom';
 
-function Headbar() {
+function Headbar({className=''}) {
   return (
     <div className=''>
-      <Grid className='absolute right-[-1%] top-[5%] '>
+      <Grid className={`absolute right-[-1%] top-[5%]  ${className}`}>
         <div className='col-span-4'></div>
         <div className='col-span-2'></div>
         <div className='col-span-6 ml-auto '>
@@ -21,7 +22,7 @@ function Headbar() {
                 <img src={SearchImage} className='cursor-pointer' alt="SearchImage" />
               </div> */}
               <div>
-                <img src={NotificationImage} className='cursor-pointer' alt="NotificationImage" />
+               <Link to={'/notificarion'} ><img src={NotificationImage} className='cursor-pointer' alt="NotificationImage" /> </Link>
               </div>
               {/* <div>
                 <img src={SettingImage} className='cursor-pointer' alt="SettingImage" />

@@ -80,7 +80,7 @@ function UploadDealerBook() {
         <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button>
-        <div className='text-center py-3'>
+        <div className='text-center py-1'>
           <img src={AddDealer} alt='email Image' className='mx-auto' />
           <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'>Uploaded & Saved<span className='text-light-black'> Successfully </span></p>
           <p className='text-neutral-grey text-base font-medium mt-2'>You have successfully uploaded & saved the <br /> <b> Dealer Book </b> with the new data <br /> you have entered. </p>

@@ -239,11 +239,11 @@ function AddCategory() {
              Submitted <span className="text-light-black"> Successfully </span>
            </p>
           )}
-         {type == "Edit" ? (  <p className="text-neutral-grey text-base font-medium mt-2">
-         The <b> New Category </b> summited successfully.
-          </p> ):(<p className="text-neutral-grey text-base font-medium mt-2">
-          You have successfully updated the <b> Category </b> with the new data you have entered.
-          </p>)}
+         {type == "Edit" ? ( <p className="text-neutral-grey text-base font-medium mt-2">
+          You have successfully updated the <b> Category </b> with <br/> the new data you have entered.
+          </p> ):(  <p className="text-neutral-grey text-base font-medium mt-2">
+          The <b> New Category </b> summited successfully.
+           </p>)}
          
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Category Page {timer} seconds.
