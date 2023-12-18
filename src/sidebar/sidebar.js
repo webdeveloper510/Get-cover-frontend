@@ -90,7 +90,7 @@ function SidebarItem({
         {isActive ? (
           <img
             src={item.active}
-            className="w-[22px] h-[22px]"
+            className="w-[22px]  h-[22px]"
             alt={item.image}
           />
         ) : (
@@ -161,7 +161,7 @@ function SidebarItem({
                     <img
                       src={subItem.active}
                       className={` ${
-                        subIndex == 0 ? "mt-[-40%]" :subIndex == 1 ?"mt-[-43%] h-[110px]": subIndex == 2 ?"mt-[-95%]":"mt-[-115%]"
+                        subIndex == 0 ? "3xl:mt-[-32%] xl:mt-[-40%] mt-[-40%]" :subIndex == 1 ?"3xl:mt-[-50%%] xl:mt-[-43%] xl:h-[110px]": subIndex == 2 ?"mt-[-95%]":"mt-[-115%]"
                       } w-[24px]`}
                       alt={subItem.active}
                     />

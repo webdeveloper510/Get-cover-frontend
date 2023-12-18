@@ -413,7 +413,8 @@ function AddCompanyPriceBook() {
                 className="!bg-[#fff]"
                 label="Fronting fee ($)"
                 placeholder=""
-                maxLength={4}
+                minLength={"1"}
+                maxLength={"4"}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.frontingFee}
@@ -431,7 +432,8 @@ function AddCompanyPriceBook() {
                 name="reinsuranceFee"
                 className="!bg-[#fff]"
                 label="Re-insurance fee "
-                maxLength={4}
+                minLength={"1"}
+                maxLength={"4"}
                 placeholder=""
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -450,7 +452,8 @@ function AddCompanyPriceBook() {
                 type="number"
                 name="reserveFutureFee"
                 required={true}
-                maxLength={4}
+                minLength={"1"}
+                maxLength={"4"}
                 className="!bg-[#fff] !px-0 w-[200px]"
                 label="Reserve for future claims"
                 placeholder=""
@@ -472,7 +475,8 @@ function AddCompanyPriceBook() {
                 name="adminFee"
                 className="!bg-[#fff]"
                 required={true}
-                maxLength={4}
+                minLength={"1"}
+                maxLength={"4"}
                 label="Administration fee "
                 placeholder=""
                 onChange={formik.handleChange}
