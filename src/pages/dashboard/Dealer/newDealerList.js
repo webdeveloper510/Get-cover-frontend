@@ -114,7 +114,7 @@ function NewDealerList() {
               </div>
               <div
                 className="text-center py-3 text-[#FF4747] cursor-pointer"
-                onClick={() => handleActionChange("Disapproved", row.accountId)}
+                onClick={() => handleActionChange("Rejected", row.accountId)}
               >
                 Disapprove
               </div>
