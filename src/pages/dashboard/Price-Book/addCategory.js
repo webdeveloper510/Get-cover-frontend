@@ -232,12 +232,19 @@ function AddCategory() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            Submitted <span className="text-light-black"> Successfully </span>
-          </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            <b>{type} </b> added successfully.{" "}
-          </p>
+          {type == "Edit" ? ( <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          Updated <span className="text-light-black"> Successfully </span>
+          </p> ) : (
+             <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+             Submitted <span className="text-light-black"> Successfully </span>
+           </p>
+          )}
+         {type == "Edit" ? (  <p className="text-neutral-grey text-base font-medium mt-2">
+         The <b> New Category </b> summited successfully.
+          </p> ):(<p className="text-neutral-grey text-base font-medium mt-2">
+          You have successfully updated the <b> Category </b> with the new data you have entered.
+          </p>)}
+         
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Category Page {timer} seconds.
           </p>
