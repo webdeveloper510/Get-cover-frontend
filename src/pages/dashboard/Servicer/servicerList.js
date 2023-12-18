@@ -8,6 +8,7 @@ import arrowImage from '../../../assets/images/dropdownArrow.png';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Headbar from '../../../common/headBar';
+import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import DataTable from "react-data-table-component"
@@ -35,6 +36,13 @@ function ServicerList() {
         status: "Inactive",
       },
     ];
+
+    const paginationOptions = {
+      rowsPerPageText: 'Rows per page:',
+      rangeSeparatorText: 'of',
+      selectAllRowsItem: true,
+      selectAllRowsItemText: 'All',
+    };
   
     const columns = [
       {
@@ -122,7 +130,8 @@ function ServicerList() {
               </div>
             </Grid>
             <div className='mb-5'>
-              <DataTable columns={columns} data={data} pagination />
+              <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
+              </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100, 200]} />
             </div>
           </div>
   

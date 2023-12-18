@@ -12,6 +12,7 @@ import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import { getDealersList } from "../../../services/dealerServices";
+import shorting from "../../../assets/images/icons/shorting.svg";
 
 function DealerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -21,6 +22,13 @@ function DealerList() {
     // Implement the logic for the selected action (e.g., edit or delete)
     console.log(`Selected action: ${action}`);
     // You can replace the console.log statement with the actual logic you want to perform
+  };
+
+  const paginationOptions = {
+    rowsPerPageText: 'Rows per page:',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'All',
   };
 
   const getDealerList = async () => {
@@ -210,7 +218,7 @@ function DealerList() {
             </div>
           </Grid>
           <div className="mb-5">
-            <DataTable columns={columns} data={dealerList} pagination />
+            <DataTable columns={columns} data={dealerList} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100, 200]} />
           </div>
         </div>
       </div>

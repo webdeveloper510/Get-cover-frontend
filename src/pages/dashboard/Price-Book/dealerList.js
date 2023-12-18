@@ -8,6 +8,7 @@ import Search from "../../../assets/images/icons/SearchIcon.svg";
 import arrowImage from "../../../assets/images/dropdownArrow.png";
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import Headbar from "../../../common/headBar";
+import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
@@ -43,6 +44,13 @@ function DealerPriceList() {
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = data.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
+  };
+
+  const paginationOptions = {
+    rowsPerPageText: 'Rows per page:',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'All',
   };
 
   const data = [
@@ -270,7 +278,8 @@ function DealerPriceList() {
           </Grid>
 
           <div className="overflow-x-auto mb-5">
-            <DataTable columns={columns} data={data} pagination />
+            <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
+              </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100, 200]} />
           </div>
         </div>
       </div>

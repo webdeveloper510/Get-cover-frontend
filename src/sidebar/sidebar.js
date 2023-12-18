@@ -381,10 +381,7 @@ function SideBar() {
                   onLinkClick={handleLinkClick}
                 />
               ))}
-              <li className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]"
-                  onClick={handleLogOut}
-              
-              >
+              <li className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]" onClick={handleLogOut} >
                 <div className="py-[22px] pe-3 ps-[10px] flex">
                   <img
                     src={LogoutImage}

@@ -48,6 +48,7 @@ function Category() {
     // });
     getCategoryListData();
   };
+  
   const paginationOptions = {
     rowsPerPageText: 'Rows per page:',
     rangeSeparatorText: 'of',
@@ -308,8 +309,8 @@ function Category() {
             {loading ? (
               <p>Loading</p>
             ) : (
-              <DataTable columns={columns} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
-              </>} data={categoryList} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100, 200]} />
+              <DataTable columns={columns} data={categoryList} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
+              </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100, 200]} />
             )}
           </div>
         </div>
