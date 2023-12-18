@@ -248,7 +248,7 @@ function AddCompanyPriceBook() {
         <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
           <Grid className="mx-8 mx-auto ">
             <div className="col-span-3 self-center border-r border-[#4e4e4e]">
-              <div className="flex">
+              {/* <div className="flex">
                 <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
                   <img src={category} className="w-6 h-6" alt="category" />
                 </div>
@@ -260,7 +260,7 @@ function AddCompanyPriceBook() {
                     {detailsById?.category?.name}
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="col-span-3 border-r border-[#4e4e4e]">
               <div className="flex">
@@ -277,8 +277,23 @@ function AddCompanyPriceBook() {
                 </div>
               </div>
             </div>
-            <div className="col-span-3 border-r border-[#4e4e4e]">
-              <div className="flex">
+            <div className="col-span-3">
+              <div className="flex justify-center">
+                <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                  <img src={terms} className="w-6 h-6" alt="terms" />
+                </div>
+                <div className="self-center">
+                  <p className="text-[#FFF] text-base font-medium leading-5">
+                    Terms
+                  </p>
+                  <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                    {detailsById?.term} Months
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-3">
+              {/* <div className="flex">
                 <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
                   <img src={product} className="w-6 h-6" alt="product" />
                 </div>
@@ -290,29 +305,15 @@ function AddCompanyPriceBook() {
                     {detailsById?.description}
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
-            <div className="col-span-3">
-              <div className="flex">
-                <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                  <img src={terms} className="w-6 h-6" alt="terms" />
-                </div>
-                <div className="self-center">
-                  <p className="text-[#FFF] text-base font-medium leading-5">
-                    Terms
-                  </p>
-                  <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                    {detailsById?.term} MonThs
-                  </p>
-                </div>
-              </div>
-            </div>
+           
           </Grid>
         </div>
       )}
       <form className="mt-8" onSubmit={formik.handleSubmit}>
         <div className="px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
-          <Grid className="!grid-cols-5">
+        <Grid className={`  ${type == "Edit" ? ( '!grid-cols-4' ) : ('!grid-cols-5')} `}> 
             <div className="col-span-1">
               <Select
                 label="Product Category"
@@ -339,7 +340,7 @@ function AddCompanyPriceBook() {
                 </div>
               )}
             </div>
-            <div className="col-span-1">
+            {type == "Edit" ? ( <></> ) : ( <div className="col-span-1">
               <Input
                 type="text"
                 name="name"
@@ -356,7 +357,7 @@ function AddCompanyPriceBook() {
                   {formik.errors.name}
                 </div>
               )}
-            </div>
+            </div> ) }
             <div className="col-span-2">
               <Input
                 type="text"
@@ -374,7 +375,8 @@ function AddCompanyPriceBook() {
                 </div>
               )}
             </div>
-            <div className="col-span-1">
+
+            {type == "Edit" ? ( <></> ) : ( <div className="col-span-1">
               <Select
                 label="Terms"
                 name="term"
@@ -402,7 +404,8 @@ function AddCompanyPriceBook() {
                   {formik.errors.term}
                 </div>
               )}
-            </div>
+            </div> ) }
+
             <div className="col-span-1">
               <Input
                 type="number"
@@ -410,6 +413,7 @@ function AddCompanyPriceBook() {
                 className="!bg-[#fff]"
                 label="Fronting fee ($)"
                 placeholder=""
+                maxLength={4}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.frontingFee}
@@ -427,6 +431,7 @@ function AddCompanyPriceBook() {
                 name="reinsuranceFee"
                 className="!bg-[#fff]"
                 label="Re-insurance fee "
+                maxLength={4}
                 placeholder=""
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -445,6 +450,7 @@ function AddCompanyPriceBook() {
                 type="number"
                 name="reserveFutureFee"
                 required={true}
+                maxLength={4}
                 className="!bg-[#fff] !px-0 w-[200px]"
                 label="Reserve for future claims"
                 placeholder=""
@@ -466,6 +472,7 @@ function AddCompanyPriceBook() {
                 name="adminFee"
                 className="!bg-[#fff]"
                 required={true}
+                maxLength={4}
                 label="Administration fee "
                 placeholder=""
                 onChange={formik.handleChange}

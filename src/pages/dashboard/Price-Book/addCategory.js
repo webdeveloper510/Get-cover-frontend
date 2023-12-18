@@ -183,7 +183,7 @@ function AddCategory() {
                   name="status"
                   placeholder=""
                   onChange={handleSelectChange}
-                  className="!bg-[#f7f7f7]"
+                  className="!bg-[#fff]"
                   options={status}
                   value={formik.values.status}
                   onBlur={formik.handleBlur}

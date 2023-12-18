@@ -54,6 +54,10 @@ function SidebarItem({
       setIsActive(active === "Claim" || expandedItem === "Claim");
     }else if (item.name === "Dealer"){
       setIsActive(active === "Dealer" || expandedItem === "Dealer");
+    }else if (item.name === "Servicer"){
+      setIsActive(active === "Servicer" || expandedItem === "Servicer");
+    }else if (item.name === "Customer"){
+      setIsActive(active === "Customer" || expandedItem === "Customer");
     }
     else{
       setIsActive(active === item.url || active === item.name || expandedItem === item.name);
