@@ -8,6 +8,7 @@ import AddItem from "../../../assets/images/icons/addItem.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import arrowImage from "../../../assets/images/dropdownArrow.png";
 import Headbar from "../../../common/headBar";
+import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import Select from "../../../common/select";
@@ -221,7 +222,7 @@ function CompanyPriceBook() {
                   alt="up arror"
                 /> */}
                 <div
-                  className="text-center py-3 cursor-pointer"
+                  className="text-center py-1 cursor-pointer"
                   onClick={() => navigate(`/editCompanyPriceBook/${row._id}`)}
                 >
                   Edit
@@ -273,7 +274,7 @@ function CompanyPriceBook() {
               </div>
               <div className="col-span-7">
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-10">
+                  <Grid className="!grid-cols-11">
                     <div className="col-span-3 self-center">
                       <Input
                         name="name"
@@ -314,14 +315,21 @@ function CompanyPriceBook() {
                         onChange={formik.setFieldValue}
                       />
                     </div>
-                    <div className="col-span-1 self-center ">
+                    <div className="col-span-2 self-center flex">
                       <button type="submit">
                         <img
                           src={Search}
-                          className="cursor-pointer	mx-auto"
+                          className="cursor-pointer	mx-auto "
                           alt="Search"
                         />
                       </button>
+                      <Button type="submit" className='!bg-transparent !ml-2 !p-0'>
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
                     </div>
                   </Grid>
                 </div>

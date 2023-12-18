@@ -10,6 +10,7 @@ import Headbar from "../../../common/headBar";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
+import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import { getDealersList } from "../../../services/dealerServices";
 
 function DealerList() {
@@ -156,7 +157,7 @@ function DealerList() {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-7">
+                <Grid className="!grid-cols-8">
                   <div className="col-span-2 self-center">
                     <Input
                       name="Name"
@@ -187,12 +188,21 @@ function DealerList() {
                       placeholder="Phone No."
                     />
                   </div>
-                  <div className="col-span-1 self-center">
+                  <div className="col-span-2 self-center flex justify-center">
+                    <Button className='!p-0'>
                     <img
                       src={Search}
                       className="cursor-pointer	mx-auto"
                       alt="Search"
                     />
+                    </Button>
+                    <Button type="submit" className='!bg-transparent !ml-2 !p-0'>
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
                   </div>
                 </Grid>
               </div>

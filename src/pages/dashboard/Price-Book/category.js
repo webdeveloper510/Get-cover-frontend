@@ -5,7 +5,7 @@ import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
-import arrowImage from "../../../assets/images/dropdownArrow.png";
+import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import Headbar from "../../../common/headBar";
 import Grid from "../../../common/grid";
@@ -138,7 +138,7 @@ function Category() {
                   alt="up arror"
                 /> */}
                 <div
-                  className="text-center py-3 cursor-pointer"
+                  className="text-center py-1 cursor-pointer"
                   onClick={() => navigate(`/editCategory/${row._id}`)}
                 >
                   Edit
@@ -221,7 +221,7 @@ function Category() {
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-11">
+                  <Grid className="">
                     <div className="col-span-5 self-center">
                       <Input
                         name="name"
@@ -248,14 +248,22 @@ function Category() {
                         onChange={formik.setFieldValue}
                       />
                     </div>
-                    <div className="col-span-1 self-center ">
-                      <button type="submit">
+                    <div className="col-span-2 self-center flex ">
+                      
+                      <Button type="submit" className='!p-0 mr-2'>
                         <img
                           src={Search}
-                          className="cursor-pointer	mx-auto"
+                          className="cursor-pointer	mx-auto "
                           alt="Search"
                         />
-                      </button>
+                      </Button>
+                      <Button type="submit" className='!bg-transparent !p-0'>
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
                     </div>
                   </Grid>
                 </form>

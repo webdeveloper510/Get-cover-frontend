@@ -36,9 +36,9 @@ function Notification() {
                         </div>
                     </div>
                 </div>
-
+{/* Readed */}
                 <div className='border border-[#D9D9D9] rounded-[25px] mb-5 px-6 py-8 mr-4'>
-                    <p className='font-semibold text-lg'>New Registration: Finibus Bonorum et Malorum</p>
+                    <p className='font-Regular text-lg'>New Registration: Finibus Bonorum et Malorum</p>
                     <p className='mb-6 text-base text-[#999999] font-Regular'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface <br/> without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.</p>
                     <div className='flex'>
                         <div className='flex mr-10 font-Regular'>
@@ -51,6 +51,8 @@ function Notification() {
                         </div>
                     </div>
                 </div>
+
+                {/* End read  */}
                 <div className='border border-[#D9D9D9] rounded-[25px] mb-5 px-6 py-8 mr-4'>
                     <p className='font-semibold text-lg'>New Registration: Finibus Bonorum et Malorum</p>
                     <p className='mb-6 text-base text-[#999999] font-Regular'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface <br/> without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.</p>

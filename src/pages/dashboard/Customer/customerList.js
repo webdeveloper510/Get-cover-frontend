@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import Button from '../../../common/button'
 
 import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
-import arrowImage from '../../../assets/images/dropdownArrow.png';
+import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import Headbar from '../../../common/headBar';
@@ -92,7 +92,6 @@ function CustomerList() {
         </div>
         )
       }
-      
     },
   ];
 
@@ -120,7 +119,7 @@ function CustomerList() {
             </div>
             <div className='col-span-7'>
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-                <Grid className='!grid-cols-9' >
+                <Grid className='!grid-cols-10' >
                   <div className='col-span-2 self-center'>
                     <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Name' />
                   </div>
@@ -141,8 +140,15 @@ function CustomerList() {
                       onChange={handleSelectChange1} />
                   </div>
                   
-                  <div className='col-span-1 self-center'>
+                  <div className='col-span-2 self-center flex'>
                     <img src={Search} className='cursor-pointer	'  alt='Search' />
+                    <Button type="submit" className='!ml-2 !bg-transparent !p-0'>
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
                   </div>
                 </Grid>
 
