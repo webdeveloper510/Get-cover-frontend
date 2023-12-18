@@ -37,7 +37,7 @@ function ForgotPassword() {
       console.log("Form values:", values);
       const result = await sendResetPasswordLink(values);
       console.log(result);
-      if (result.code === 401) {
+      if (result.code !== 200) {
         setError(result.message);
       } else {
         setError("");

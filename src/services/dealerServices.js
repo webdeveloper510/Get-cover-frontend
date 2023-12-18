@@ -33,16 +33,16 @@ export const getPendingDealersList = async () => {
   }
 };
 
-export const isApprovedOrDisapprovedStatus = async (dealerId, dealerStatus) => {
+export const isApprovedOrDisapprovedStatus = async (data) => {
   const headers = createHeaders();
   console.log(headers);
   try {
     const response = await axios.put(
-      `${url}/admin/rejectDealer/${dealerId}`,
-      dealerStatus,
+      `${url}/admin/rejectDealer/${data.id}`,
+      data.status,
       { headers }
     );
-    console.log(response.data)
+    console.log(response.data);
     return response.data;
   } catch (error) {
     throw error;

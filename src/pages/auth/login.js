@@ -17,7 +17,7 @@ import { authlogin } from "../../services/authServices";
 
 function Login() {
   const [userDetails, setUserDetails] = useState();
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,11 +40,11 @@ function Login() {
     onSubmit: async (values) => {
       console.log("Form values:", values);
       const result = await authlogin(values);
-      console.log(result.result);
-      if (result.code === 401) {
-        setError(true);
+      console.log(result);
+      if (result.code !== 200) {
+        setError(result.message);
       } else {
-        setError(false);
+        setError("");
         setUserDetails(result.result);
         localStorage.setItem("userDetails", JSON.stringify(result.result));
         navigate("/dashboard");
@@ -77,7 +77,7 @@ function Login() {
                 </p>
                 {error && (
                   <p className="text-red-500 text-sm pl-2">
-                    <span className="font-semibold"> Invalid Credentials </span>
+                    <span className="font-semibold"> {error} </span>
                   </p>
                 )}
                 <div className="my-3">

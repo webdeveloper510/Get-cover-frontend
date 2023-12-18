@@ -21,16 +21,16 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 function CompanyPriceBook() {
-  const [selectedProduct, setSelectedProduct] = useState("");
+  // const [selectedProduct, setSelectedProduct] = useState("");
   const [selectedAction, setSelectedAction] = useState(null);
   const [companyPriceList, setCompanyPriceList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const navigate = useNavigate();
 
-  const handleSelectChange1 = (label, value) => {
-    console.log(label, value, "selected");
-    setSelectedProduct(value);
-  };
+  // const handleSelectChange1 = (label, value) => {
+  //   console.log(label, value, "selected");
+  //   setSelectedProduct(value);
+  // };
 
   const formik = useFormik({
     initialValues: {

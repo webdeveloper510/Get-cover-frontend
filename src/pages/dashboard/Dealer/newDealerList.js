@@ -30,19 +30,15 @@ function NewDealerList() {
   };
 
   const handleActionChange = async (action, id) => {
+    // setIsModalOpen(true);
+
     console.log(`Selected action: ${(action, id)}`);
     let data = {
+      id: id,
       status: action,
     };
-    const result = await isApprovedOrDisapprovedStatus(id, data);
-    console.log(result);
-    if (result.code === 200) {
-      dealerPendingList();
-    } else {
-      dealerPendingList();
-    }
-
-    setIsDropdownOpen(false);
+    setEditDetails(data);
+    approveApi();
   };
 
   useEffect(() => {
@@ -126,9 +122,28 @@ function NewDealerList() {
   ];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editDetails, setEditDetails] = useState({});
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const approveApi = async (status) => {
+    console.log(editDetails);
+    // setIsDisapprovedOpen(true)}
+    const result = await isApprovedOrDisapprovedStatus(editDetails);
+    console.log(result);
+    if (result.code === 200) {
+      dealerPendingList();
+      setIsModalOpen(true);
+      // setIsDisapprovedOpen(true);
+    } else {
+      dealerPendingList();
+      setIsModalOpen(false);
+      // setIsDisapprovedOpen(false);
+    }
+
+    setIsDropdownOpen(false);
   };
 
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
@@ -225,14 +240,18 @@ function NewDealerList() {
             <Grid className="my-5">
               <div className="col-span-3"></div>
               <div className="col-span-3">
-                <Button className="w-full !py-3">
-                  <Link to={"/dealer"}> Yes </Link>
+                <Button
+                  className="w-full !py-3"
+                  onClick={() => approveApi("true")}
+                >
+                  Yes
+                  {/* <Link to={"/dealer"} > Yes </Link> */}
                 </Button>
               </div>
               <div className="col-span-3">
                 <Button
                   className="w-full !py-3 !bg-white border-[#D1D1D1] border !text-light-black"
-                  onClick={() => setIsDisapprovedOpen(true)}
+                  onClick={() => approveApi("false")}
                 >
                   No
                 </Button>
