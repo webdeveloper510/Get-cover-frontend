@@ -218,6 +218,7 @@ function Dealer() {
                   <Input
                     type="text"
                     name="name"
+                    className='!bg-white'
                     label="Account Name"
                     required={true}
                     placeholder=""
@@ -264,6 +265,7 @@ function Dealer() {
                     type="text"
                     name="city"
                     label="Business City"
+                    className="!bg-white"
                     placeholder=" "
                     required={true}
                     maxLength={"20"}
@@ -283,6 +285,7 @@ function Dealer() {
                     label="Business State"
                     name="state"
                     placeholder=""
+                    className="!bg-white"
                     required={true}
                     onChange={handleSelectChange}
                     options={state}
@@ -331,6 +334,7 @@ function Dealer() {
                     label="First Name"
                     required={true}
                     placeholder=""
+                    className="!bg-white"
                     maxLength={"30"}
                     value={formik.values.firstName}
                     onBlur={formik.handleBlur}
@@ -348,6 +352,7 @@ function Dealer() {
                     type="text"
                     name="lastName"
                     label="Last Name"
+                    className="!bg-white"
                     required={true}
                     placeholder=""
                     maxLength={"30"}
@@ -368,6 +373,7 @@ function Dealer() {
                     name="email"
                     label="Email"
                     placeholder=""
+                    className="!bg-white"
                     required={true}
                     value={formik.values.email}
                     onBlur={() => checkEmailAvailability(formik.values.email)}
@@ -386,6 +392,7 @@ function Dealer() {
                     name="phoneNumber"
                     label="Phone"
                     required={true}
+                    className="!bg-white"
                     placeholder=""
                     value={formik.values.phoneNumber}
                     onChange={formik.handleChange}
@@ -502,6 +509,7 @@ function Dealer() {
                           name={`dealers[${index}].firstName`}
                           label="First Name"
                           required={true}
+                          className="!bg-white"
                           placeholder=""
                           maxLength={"30"}
                           value={formik.values.dealers[index].firstName}
@@ -561,6 +569,7 @@ function Dealer() {
                           name={`dealers[${index}].email`}
                           label="Email"
                           placeholder=""
+                          className="!bg-white"
                           required={true}
                           value={formik.values.dealers[index].email}
                           onBlur={formik.handleBlur}

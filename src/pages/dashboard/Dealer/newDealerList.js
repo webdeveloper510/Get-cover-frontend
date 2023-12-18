@@ -13,6 +13,7 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Modal from "../../../common/model";
+import shorting from "../../../assets/images/icons/shorting.svg";
 import {
   getPendingDealersList,
   isApprovedOrDisapprovedStatus,
@@ -45,6 +46,13 @@ function NewDealerList() {
     if (action) {
       openConfirmModal(id, action);
     }
+  };
+
+  const paginationOptions = {
+    rowsPerPageText: 'Rows per page:',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'All',
   };
 
   useEffect(() => {
@@ -271,7 +279,7 @@ function NewDealerList() {
             </div>
           </Grid>
           <div className="mb-5">
-            <DataTable columns={columns} data={pendingDealerList} pagination />
+            <DataTable columns={columns} data={pendingDealerList}  highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
           </div>
         </div>
 

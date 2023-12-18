@@ -34,6 +34,7 @@ import ActiveServicer from "../assets/images/side-bar/activeServicer.svg";
 import ForthActive from "../assets/images/side-bar/fourthDropdown.svg";
 import SeacondActive from "../assets/images/side-bar/220Active.svg";
 import lastActive from "../assets/images/side-bar/250active.svg";
+import { useLocation } from 'react-router-dom'
 
 function SidebarItem({
   item,
@@ -41,17 +42,22 @@ function SidebarItem({
   expandedItem,
   onToggleExpand,
   onLinkClick,
+  setExpandedItem,
 }) {
   const hasItems = item.items && item.items.length > 0;
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    // console.log("expandedItem" , item.name  , item.url )
-
     if (item.name === "Price Book") {
       setIsActive(active === "Price Book" || expandedItem === "Price Book");
+      if (active === "Dealer" || expandedItem === "Dealer") {
+        setExpandedItem("Dealer");
+      }
     } else if (item.name === "Claim") {
       setIsActive(active === "Claim" || expandedItem === "Claim");
+      if (active === "Dealer" || expandedItem === "Dealer") {
+        setExpandedItem("Dealer");
+      }
     } else if (item.name === "Dealer") {
       setIsActive(active === "Dealer" || expandedItem === "Dealer");
     } else if (item.name === "Servicer") {
@@ -65,14 +71,14 @@ function SidebarItem({
           expandedItem === item.name
       );
     }
-  }, [active, expandedItem, item]);
+  }, [active, expandedItem, item, setExpandedItem]);
+  console.log('=================>>>>>>>>>>>',active)
 
   return (
     <li
       className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t-[0.5px] ${
         hasItems && isActive ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
-      }
-      ${isActive ? "active" : ""}`}
+      } ${isActive ? "active" : ""}`}
     >
       <Link
         to={item.url}
@@ -83,7 +89,6 @@ function SidebarItem({
           onLinkClick(item.url); // Use onLinkClick here
           if (hasItems) {
             onToggleExpand(item.name);
-            console.log(item.name);
           } else {
             console.log(`Link to ${item.url} clicked`);
           }
@@ -143,7 +148,7 @@ function SidebarItem({
       </Link>
 
       {hasItems && (
-        <ul className={`${expandedItem === item.name ? "block" : "hidden"}`}>
+        <ul className={`${(isActive || expandedItem === item.name) ? "block" : "hidden"}`}>
           {item.items.map((subItem, subIndex) => (
             <li key={subIndex} className={`ps-[19px]`}>
               <Link
@@ -154,7 +159,7 @@ function SidebarItem({
                     : "text-[#999999]"
                 }`}
                 onClick={() => {
-                  onLinkClick(subItem.url, item.name); // Use onLinkClick for sub-items
+                  onLinkClick(subItem.url, item.name); 
                   console.log(`Sub-Item link to ${subItem.url} clicked`);
                 }}
               >
@@ -208,22 +213,27 @@ function SidebarItem({
 }
 
 function SideBar() {
-  const [active, setActive] = useState("/dashboard");
+  const location = useLocation();
+  const [active, setActive] = useState(location.pathname);
   const [expandedItem, setExpandedItem] = useState(null);
   const navigate = useNavigate();
-  const handleToggleExpand = (itemName) => {
-    setExpandedItem((prevExpandedItem) =>
-      prevExpandedItem === itemName ? null : itemName
-    );
-  };
 
   const handleLinkClick = (url, dropdownItem) => {
     setActive(url === "#" ? dropdownItem : url);
   };
+
+  const handleToggleExpand = (itemName) => {
+    setExpandedItem((prevExpandedItem) =>
+      prevExpandedItem === itemName ? null : itemName
+    );
+    console.log("Expanded Item:", itemName);
+  };
+
   const handleLogOut = () => {
     localStorage.clear();
     navigate("/");
   };
+
   const Lists = [
     {
       name: "Dashboard",
@@ -386,9 +396,10 @@ function SideBar() {
                   expandedItem={expandedItem}
                   onToggleExpand={handleToggleExpand}
                   onLinkClick={handleLinkClick}
+                  setExpandedItem={setExpandedItem} // Add this line
                 />
               ))}
-              <li className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]" onClick={handleLogOut} >
+              <li className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]" onClick={handleLogOut}>
                 <div className="py-[22px] pe-3 ps-[10px] flex">
                   <img
                     src={LogoutImage}
@@ -409,3 +420,4 @@ function SideBar() {
 }
 
 export default SideBar;
+
