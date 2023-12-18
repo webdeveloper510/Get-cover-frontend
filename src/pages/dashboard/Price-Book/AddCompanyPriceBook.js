@@ -13,8 +13,6 @@ import Button from "../../../common/button";
 import Modal from "../../../common/model";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import terms from "../../../assets/images/icons/terms.svg";
-import product from "../../../assets/images/icons/productName.svg";
-import category from "../../../assets/images/icons/productCat.svg";
 import dealer from "../../../assets/images/icons/dealerName.svg";
 
 import {
@@ -70,7 +68,6 @@ function AddCompanyPriceBook() {
       status: Yup.string().required("Required"),
     }),
     onSubmit: async (values) => {
-      console.log("Form values:", values);
       const result = id
         ? await editCompanyList(id, values)
         : await addCompanyPricBook(values);
@@ -112,7 +109,6 @@ function AddCompanyPriceBook() {
             setDetailsById(result.result);
             formik.setValues({
               priceCatId: result.result.category._id,
-              category_status: result.result.category.status,
               name: result.result.name,
               description: result.result.description,
               term: result.result.term,
@@ -352,6 +348,7 @@ function AddCompanyPriceBook() {
                   className="!bg-[#fff]"
                   label="Product Name "
                   placeholder=""
+                  maxLength={50}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.name}
@@ -370,6 +367,7 @@ function AddCompanyPriceBook() {
                 name="description"
                 className="!bg-[#fff]"
                 label="Description "
+                maxLength={100}
                 placeholder=""
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -515,9 +513,7 @@ function AddCompanyPriceBook() {
                     ? formik.setFieldValue("status", true)
                     : formik.values.status
                 }
-                disabled={
-                  formik.values.category_status === false ? true : false
-                }
+                disabled={formik.values.status === false ? true : false}
                 onBlur={formik.handleBlur}
                 error={formik.touched.status && formik.errors.status}
                 defaultValue={defaultValue}
@@ -551,11 +547,11 @@ function AddCompanyPriceBook() {
             </p>
           )}
           {type == "Edit" ? (
-             <p className="text-neutral-grey text-base font-medium mt-2">
-             You have successfully updated the <br/>
-             <b> Company Price Book </b> with the new data <br/> you have entered
-           </p>
-           
+            <p className="text-neutral-grey text-base font-medium mt-2">
+              You have successfully updated the <br />
+              <b> Company Price Book </b> with the new data <br /> you have
+              entered
+            </p>
           ) : (
             <p className="text-neutral-grey text-base font-medium mt-2">
               <b> Company Price Book </b> added successfully.{" "}

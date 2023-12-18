@@ -18,8 +18,8 @@ const Select = ({
   disabled,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [isFilled, setIsFilled] = useState(!!selectedValue);
-  const [localDefaultValue, setLocalDefaultValue] = useState(defaultValue);
+  const [isFilled, setIsFilled] = useState(!!value);
+  const [localDefaultValue, setLocalDefaultValue] = useState(value);
 
   console.log("defaultValue", disabled);
 
@@ -28,7 +28,7 @@ const Select = ({
   };
   const handleBlur = () => {
     setIsFocused(false);
-    setIsFilled(!!selectedValue);
+    setIsFilled(!!value);
   };
 
   const handleInputChange = (e) => {
@@ -37,8 +37,8 @@ const Select = ({
     onChange && onChange(name, value);
   };
   useEffect(() => {
-    setLocalDefaultValue(defaultValue);
-  }, [defaultValue]);
+    setLocalDefaultValue(value);
+  }, [value]);
   return (
     <div className="relative">
       <div className="select-container relative">

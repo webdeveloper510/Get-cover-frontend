@@ -169,6 +169,7 @@ function AddCategory() {
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                maxLength={50}
               />
               {formik.touched.name && formik.errors.name && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
@@ -212,6 +213,7 @@ function AddCategory() {
                   value={formik.values.description}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  maxLength={100}
                   className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                 ></textarea>
                 {formik.touched.description && formik.errors.description && (
@@ -232,19 +234,27 @@ function AddCategory() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
-          {type == "Edit" ? ( <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-          Updated <span className="text-light-black"> Successfully </span>
-          </p> ) : (
-             <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-             Submitted <span className="text-light-black"> Successfully </span>
-           </p>
-          )}
-         {type == "Edit" ? ( <p className="text-neutral-grey text-base font-medium mt-2">
-          You have successfully updated the <b> Category </b> with <br/> the new data you have entered.
-          </p> ):(  <p className="text-neutral-grey text-base font-medium mt-2">
-          The <b> New Category </b> summited successfully.
-           </p>)}
-         
+
+          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+            {type === "Edit" ? "Updated" : "Added"}{" "}
+            <span className="text-light-black"> Successfully </span>
+          </p>
+
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            {type === "Edit" ? (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: "You have Successfully Updated the <b> Category </b>",
+                }}
+              />
+            ) : (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: " <b> New Category </b> Added Successfully",
+                }}
+              />
+            )}
+          </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Category Page {timer} seconds.
           </p>
