@@ -11,7 +11,6 @@ import Headbar from '../../../common/headBar';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import DataTable from "react-data-table-component"
-import TableComponent from '../../../common/TableComponent';
 
 function ServicerList() {
     const [selectedAction, setSelectedAction] = useState(null);
@@ -21,90 +20,64 @@ function ServicerList() {
       console.log(`Selected action: ${action}`);
       // You can replace the console.log statement with the actual logic you want to perform
     };
+  
     const data = [
       {
-        id: 1,
-        name: "Item 1",
-        description: "Description for Item 1",
+        Categoryid: 1,
+        Categoryname: "Category 1",
+        description: "Description for Category 1",
         status: "Active",
       },
       {
-        id: 2,
-        name: "Item 2",
-        description: "Description for Item 2",
+        Categoryid: 2,
+        Categoryname: "Category 2",
+        description: "Description for Category 2",
         status: "Inactive",
-      },
-      {
-        id: 3,
-        name: "Item 3",
-        description: "Description for Item 3",
-        status: "Active",
-      },
-      {
-        id: 4,
-        name: "Item 1",
-        description: "Description for Item 1",
-        status: "Active",
-      },
-      {
-        id: 5,
-        name: "Item 2",
-        description: "Description for Item 2",
-        status: "Inactive",
-      },
-      {
-        id: 6,
-        name: "Item 3",
-        description: "Description for Item 3",
-        status: "Active",
-      },
-      {
-        id: 7,
-        name: "Item 1",
-        description: "Description for Item 1",
-        status: "Active",
-      },
-      {
-        id: 8,
-        name: "Item 2",
-        description: "Description for Item 2",
-        status: "Inactive",
-      },
-      {
-        id: 9,
-        name: "Item 3",
-        description: "Description for Item 3",
-        status: "Active",
-      },
-      {
-        id: 10,
-        name: "Item 1",
-        description: "Description for Item 1",
-        status: "Active",
-      },
-      {
-        id: 11,
-        name: "Item 2",
-        description: "Description for Item 2",
-        status: "Inactive",
-      },
-      {
-        id: 12,
-        name: "Item 3",
-        description: "Description for Item 3",
-        status: "Active",
       },
     ];
-
+  
     const columns = [
-      { key: "id", title: "ID" },
-      { key: "name", title: "Name" },
-      { key: "description", title: "Description" },
-      { key: "status", title: "Status" },
+      {
+        name: "Category ID",
+        selector: (row) => row.Categoryid,
+        sortable: true,
+      },
+      {
+        name: "Category Name",
+        selector: (row) => row.Categoryname,
+        sortable: true,
+      },
+      {
+        name: "Description",
+        selector: (row) => row.description,
+        sortable: true,
+      },
+      {
+        name: "Status",
+        selector: (row) => row.status,
+        sortable: true,
+      },
+      {
+        name: "Action",
+        cell: (row, index) => {
+          // console.log(index, index % 10 == 9)
+          return (
+            <div className="relative">
+            <div onClick={() => setSelectedAction(row.unique_key)}>
+              <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
+            </div>
+            {selectedAction === row.unique_key && (
+              <div className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${index%10 === 9 ? 'bottom-[1.3rem] ' : 'top-[1.3rem]'}`}>
+                <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/>
+                  <div className='text-center py-3'>Edit</div>
+              </div>
+            )}
+          </div>
+          )
+        }
+        
+      },
     ];
-  
-    const pageSize = 2; // Number of items per page
-  
   
     return (
       <>
@@ -148,13 +121,9 @@ function ServicerList() {
                 </div>
               </div>
             </Grid>
-            {/* <div className='mb-5'>
+            <div className='mb-5'>
               <DataTable columns={columns} data={data} pagination />
-            </div> */}
-            <div className="container mx-auto mt-8">
-              <TableComponent data={data} columns={columns} pageSize={pageSize} />
             </div>
-            
           </div>
   
         </div>

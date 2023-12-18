@@ -144,6 +144,8 @@ function CompanyPriceBook() {
       name: "Product Category",
       selector: (row) => row.category.name,
       sortable: true,
+      minWidth: 'auto',  // Set a custom minimum width
+      maxWidth: '170px',  // Set a custom maximum width
     },
     {
       name: "Product Name",
@@ -154,6 +156,8 @@ function CompanyPriceBook() {
       name: "Product Term",
       selector: (row) => row.term + " Months",
       sortable: true,
+      minWidth: 'auto',  // Set a custom minimum width
+      maxWidth: '170px',  // Set a custom maximum width
     },
     {
       name: "WholeSale Cost",
@@ -171,6 +175,8 @@ function CompanyPriceBook() {
         return formattedCost;
       },
       sortable: true,
+      minWidth: 'auto',  // Set a custom minimum width
+      maxWidth: '170px',  // Set a custom maximum width
     },
     {
       name: "Status",

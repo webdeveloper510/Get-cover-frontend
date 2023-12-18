@@ -99,6 +99,8 @@ function DealerPriceList() {
       name: "WholeSale Cost",
       selector: (row) => row.WholesaleCost,
       sortable: true,
+      minWidth: 'auto',  // Set a custom minimum width
+      maxWidth: '170px',  // Set a custom maximum width
     },
     {
       name: "Retail Cost",

@@ -77,6 +77,8 @@ function Category() {
       getCategoryListData(values);
     },
   });
+
+  
   const columns = [
     {
       name: "Category ID",
@@ -87,6 +89,8 @@ function Category() {
       name: "Category Name",
       selector: (row) => row.name,
       sortable: true,
+      minWidth: '100px',  // Set a custom minimum width
+      maxWidth: '170px',  // Set a custom maximum width
     },
     {
       name: "Description",
@@ -134,13 +138,6 @@ function Category() {
                   index
                 )}`}
               >
-                {/* <img
-                  src={arrowImage}
-                  className={`absolute  object-contain left-1/2 w-[12px] ${
-                    index % 10 === 9 ? "bottom-[-5px] rotate-180" : "top-[-5px]"
-                  } `}
-                  alt="up arror"
-                /> */}
                 <div
                   className="text-center py-1 cursor-pointer"
                   onClick={() => navigate(`/editCategory/${row._id}`)}
@@ -154,6 +151,7 @@ function Category() {
       },
     },
   ];
+  
 
   const handleStatusChange = async (row, newStatus) => {
     try {
@@ -278,7 +276,7 @@ function Category() {
           {loading ? (
               <p>Loading</p>
             ) : (
-              <DataTable columns={columns} data={categoryList} pagination />
+              <DataTable columns={columns} defaultSortFieldId={1} data={categoryList} pagination />
             )}
           </div>
         </div>
