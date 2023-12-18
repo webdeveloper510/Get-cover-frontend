@@ -112,6 +112,7 @@ function AddCompanyPriceBook() {
             setDetailsById(result.result);
             formik.setValues({
               priceCatId: result.result.category._id,
+              category_status: result.result.category.status,
               name: result.result.name,
               description: result.result.description,
               term: result.result.term,
@@ -307,13 +308,14 @@ function AddCompanyPriceBook() {
                 </div>
               </div> */}
             </div>
-           
           </Grid>
         </div>
       )}
       <form className="mt-8" onSubmit={formik.handleSubmit}>
         <div className="px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
-        <Grid className={`  ${type == "Edit" ? ( '!grid-cols-4' ) : ('!grid-cols-5')} `}> 
+          <Grid
+            className={`  ${type == "Edit" ? "!grid-cols-4" : "!grid-cols-5"} `}
+          >
             <div className="col-span-1">
               <Select
                 label="Product Category"
@@ -340,24 +342,28 @@ function AddCompanyPriceBook() {
                 </div>
               )}
             </div>
-            {type == "Edit" ? ( <></> ) : ( <div className="col-span-1">
-              <Input
-                type="text"
-                name="name"
-                className="!bg-[#fff]"
-                label="Product Name "
-                placeholder=""
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.name}
-                disabled={type === "Edit"}
-              />
-              {formik.touched.name && formik.errors.name && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.name}
-                </div>
-              )}
-            </div> ) }
+            {type == "Edit" ? (
+              <></>
+            ) : (
+              <div className="col-span-1">
+                <Input
+                  type="text"
+                  name="name"
+                  className="!bg-[#fff]"
+                  label="Product Name "
+                  placeholder=""
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.name}
+                  disabled={type === "Edit"}
+                />
+                {formik.touched.name && formik.errors.name && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.name}
+                  </div>
+                )}
+              </div>
+            )}
             <div className="col-span-2">
               <Input
                 type="text"
@@ -376,35 +382,39 @@ function AddCompanyPriceBook() {
               )}
             </div>
 
-            {type == "Edit" ? ( <></> ) : ( <div className="col-span-1">
-              <Select
-                label="Terms"
-                name="term"
-                placeholder=""
-                onChange={handleSelectChange}
-                className="!bg-[#fff]"
-                options={termList}
-                value={
-                  (
-                    termList.find(
-                      (option) =>
-                        option.value ===
-                        (formik.values.term
-                          ? formik.values.term.toString()
-                          : "")
-                    ) || {}
-                  ).value || ""
-                }
-                onBlur={formik.handleBlur}
-                error={formik.touched.term && formik.errors.term}
-                disabled={type === "Edit"}
-              />
-              {formik.touched.term && formik.errors.term && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.term}
-                </div>
-              )}
-            </div> ) }
+            {type == "Edit" ? (
+              <></>
+            ) : (
+              <div className="col-span-1">
+                <Select
+                  label="Terms"
+                  name="term"
+                  placeholder=""
+                  onChange={handleSelectChange}
+                  className="!bg-[#fff]"
+                  options={termList}
+                  value={
+                    (
+                      termList.find(
+                        (option) =>
+                          option.value ===
+                          (formik.values.term
+                            ? formik.values.term.toString()
+                            : "")
+                      ) || {}
+                    ).value || ""
+                  }
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.term && formik.errors.term}
+                  disabled={type === "Edit"}
+                />
+                {formik.touched.term && formik.errors.term && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.term}
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="col-span-1">
               <Input
@@ -505,6 +515,9 @@ function AddCompanyPriceBook() {
                     ? formik.setFieldValue("status", true)
                     : formik.values.status
                 }
+                disabled={
+                  formik.values.category_status === false ? true : false
+                }
                 onBlur={formik.handleBlur}
                 error={formik.touched.status && formik.errors.status}
                 defaultValue={defaultValue}
@@ -528,24 +541,28 @@ function AddCompanyPriceBook() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
-          {type == "Edit" ? ( <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-          Updated <span className="text-light-black"> Successfully </span>
-          </p> ) : (
-             <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-             Submitted <span className="text-light-black"> Successfully </span>
-           </p>
+          {type == "Edit" ? (
+            <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+              Updated <span className="text-light-black"> Successfully </span>
+            </p>
+          ) : (
+            <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+              Submitted <span className="text-light-black"> Successfully </span>
+            </p>
           )}
-         {type == "Edit" ? (  <p className="text-neutral-grey text-base font-medium mt-2">
-            <b> Company Price Book </b> added successfully.{" "}
-          </p> ):(<p className="text-neutral-grey text-base font-medium mt-2">
-                  You have successfully updated the
-                  <b> Company Price Book </b> with the new data
-                    you have entered 
-          </p>)}
+          {type == "Edit" ? (
+            <p className="text-neutral-grey text-base font-medium mt-2">
+              <b> Company Price Book </b> added successfully.{" "}
+            </p>
+          ) : (
+            <p className="text-neutral-grey text-base font-medium mt-2">
+              You have successfully updated the
+              <b> Company Price Book </b> with the new data you have entered
+            </p>
+          )}
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Company Price Book Page {timer} seconds.
           </p>
-         
         </div>
       </Modal>
     </div>
