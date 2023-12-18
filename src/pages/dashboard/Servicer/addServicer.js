@@ -19,11 +19,11 @@ function AddServicer() {
     const handleRadioChange = (event) => {
       setSelectedOption(event.target.value);
     };
-    const handleSelectChange = (e) => {
-      setSelectedValue(e.target.value);
+    const handleSelectChange = (label, value) => {
+      setSelectedValue(value);
     };
-    const handleSelectChange1 = (e) => {
-      setSelectedCity(e.target.value);
+    const handleSelectChange1 = (label, value) => {
+      setSelectedCity(value);
     };
   
     const country = [
