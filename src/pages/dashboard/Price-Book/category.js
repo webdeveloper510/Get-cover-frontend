@@ -105,6 +105,7 @@ function Category() {
     {
       name: "Action",
       cell: (row, index) => {
+        console.log('===>>',index)
         return (
           <div className="relative">
             <div onClick={() => setSelectedAction(row.unique_key)}>
