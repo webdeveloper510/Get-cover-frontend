@@ -24,6 +24,7 @@ function Category() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [categoryList, setCategoryList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,10 +39,13 @@ function Category() {
 
   const getCategoryListData = async (data) => {
     try {
+      setLoading(true);
       const res = await getCategoryList(data);
       setCategoryList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
+    }finally {
+      setLoading(false); 
     }
   };
 
@@ -271,7 +275,11 @@ function Category() {
             </div>
           </Grid>
           <div className="mb-5">
-            <DataTable columns={columns} data={categoryList} pagination />
+          {loading ? (
+              <p>Loading</p>
+            ) : (
+              <DataTable columns={columns} data={categoryList} pagination />
+            )}
           </div>
         </div>
       </div>

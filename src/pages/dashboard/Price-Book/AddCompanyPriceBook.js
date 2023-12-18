@@ -551,13 +551,14 @@ function AddCompanyPriceBook() {
             </p>
           )}
           {type == "Edit" ? (
-            <p className="text-neutral-grey text-base font-medium mt-2">
-              <b> Company Price Book </b> added successfully.{" "}
-            </p>
+             <p className="text-neutral-grey text-base font-medium mt-2">
+             You have successfully updated the <br/>
+             <b> Company Price Book </b> with the new data <br/> you have entered
+           </p>
+           
           ) : (
             <p className="text-neutral-grey text-base font-medium mt-2">
-              You have successfully updated the
-              <b> Company Price Book </b> with the new data you have entered
+              <b> Company Price Book </b> added successfully.{" "}
             </p>
           )}
           <p className="text-neutral-grey text-base font-medium mt-2">
