@@ -50,6 +50,7 @@ const TableComponent = ({ data, columns, defaultPageSize, availablePageSizes }) 
       </table>
 
       <div className="mt-4 flex justify-between">
+
       <div className="mb-3">
         <label className="mr-2">Items per page:</label>
         <select value={pageSize} onChange={handlePageSizeChange}>
@@ -60,7 +61,9 @@ const TableComponent = ({ data, columns, defaultPageSize, availablePageSizes }) 
           ))}
         </select>
       </div>
+
         <div className="flex items-center">
+
           <button
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
@@ -69,7 +72,6 @@ const TableComponent = ({ data, columns, defaultPageSize, availablePageSizes }) 
             Previous
           </button>
 
-          {/* Display page numbers */}
           {pageNumbers.map((number) => (
             <p
               key={number}
@@ -87,7 +89,9 @@ const TableComponent = ({ data, columns, defaultPageSize, availablePageSizes }) 
           >
             Next
           </button>
+
         </div>
+        
       </div>
     </div>
   );

@@ -102,7 +102,7 @@ function NewDealerList() {
           </div>
           {isDropdownOpen && selectedAction === index && (
             <div
-              className={`absolute z-[2] w-[150px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}
             >

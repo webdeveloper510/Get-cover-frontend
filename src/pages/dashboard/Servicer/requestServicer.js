@@ -115,7 +115,7 @@ function RequestServicer() {
               <img src={ActiveIcon} className='cursor-pointer w-[35px]' alt="Active Icon" />
             </div>
             {isDropdownOpen && selectedAction === index && (
-              <div className={`absolute z-[2] w-[150px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${index % 10 === 9 ? 'bottom-[1rem]' : 'top-[1rem]'}`}>
+              <div className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${index % 10 === 9 ? 'bottom-[1rem]' : 'top-[1rem]'}`}>
                 <img src={arrowImage} className={`absolute object-contain right-[17%] w-[12px] ${index % 10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arrow'/>
                 <div className='text-center py-3 border-b border-[#E6E6E6] text-[#40BF73]' onClick={() => handleActionChange('Approve')}>
                   Approve
@@ -203,7 +203,7 @@ function RequestServicer() {
        {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button> */}
-        <div className='text-center py-3'>
+        <div className='text-center py-1'>
           <img src={request} alt='email Image' className='mx-auto'/>
           <p className='text-3xl mb-0 mt-4 font-semibold text-light-black'>Do you really want to approve?</p>
           
@@ -226,7 +226,7 @@ function RequestServicer() {
        {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button> */}
-        <div className='text-center py-3'>
+        <div className='text-center py-1'>
           <img src={disapproved} alt='email Image' className='mx-auto'/>
           <p className='text-3xl mb-0 mt-4 font-semibold text-neutral-grey'> <span className='text-light-black'> Disapproved </span></p>
           <p className='text-neutral-grey text-base font-medium mt-2'>This request has been disapproved by you. </p>

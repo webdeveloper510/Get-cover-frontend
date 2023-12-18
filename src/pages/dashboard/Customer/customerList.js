@@ -31,6 +31,11 @@ function CustomerList() {
     { label: 'Inactive', value: false },
   ];
 
+  const calculateDropdownPosition = (index) => {
+    const isCloseToBottom = data.length - index <= 2;
+    return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
+  };
+
   const data = [
     {
       Categoryid: 1,
@@ -77,9 +82,11 @@ function CustomerList() {
             <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
           </div>
           {selectedAction === row.unique_key && (
-            <div className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${index%10 === 9 ? 'bottom-[1.3rem] ' : 'top-[1.3rem]'}`}>
-              <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/>
-                <div className='text-center py-3'>Edit</div>
+            <div className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              index
+            )}`}>
+              {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+                <div className='text-center py-1'>Edit</div>
             </div>
           )}
         </div>

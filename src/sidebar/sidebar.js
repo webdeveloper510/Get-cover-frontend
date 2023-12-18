@@ -299,7 +299,7 @@ function SideBar() {
       image: OrderImage,
     },
     {
-      name: "Product",
+      name: "Contract",
       url: "#",
       active: ActiveProduct,
       image: ProductImage,

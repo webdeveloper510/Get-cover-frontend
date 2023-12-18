@@ -127,7 +127,7 @@ function DealerRegister() {
        </Grid>
        <Modal isOpen={isModalOpen} onClose={closeModal}>
       
-        <div className='text-center py-3'>
+        <div className='text-center py-1'>
           <img src={email} alt='email Image' className='mx-auto py-3'/>
           <p className='text-3xl mb-0 mt-2 font-semibold text-neutral-grey'>Please wait it will take time for <span className='text-light-black'> Approval </span></p>
           <p className='text-neutral-grey text-base font-medium mt-4'>For some security reasons you <b> require an approval. </b> It will be executed </p>
