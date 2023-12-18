@@ -22,7 +22,6 @@ import CustomerList from "../pages/dashboard/Customer/customerList";
 import AddServicer from "../pages/dashboard/Servicer/addServicer";
 import ServicerList from "../pages/dashboard/Servicer/servicerList";
 import RequestServicer from "../pages/dashboard/Servicer/requestServicer";
-import Notification from "../pages/notification/notification";
 
 const routes = [
   {
@@ -84,16 +83,6 @@ const routes = [
           />
         ),
       },
-      {
-        path: "/notificarion",
-        index: true,
-        element: (
-          <PrivateRoute
-            element={<Notification />}
-            path="/notificarion"
-          />
-        ),
-      },
     ],
   },
   {
@@ -107,8 +96,8 @@ const routes = [
         ),
       },
       {
-        path: "/dealer",
-        element: <PrivateRoute element={<Dealer />} path="/dealer" />,
+        path: "/dealer/:id",
+        element: <Dealer />,
       },
       {
         path: "/addCustomer",
@@ -198,10 +187,7 @@ const routes = [
       {
         path: "/requestList",
         element: (
-          <PrivateRoute
-            element={<RequestServicer />}
-            path="/requestList"
-          />
+          <PrivateRoute element={<RequestServicer />} path="/requestList" />
         ),
       },
     ],
