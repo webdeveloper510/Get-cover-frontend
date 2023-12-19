@@ -11,7 +11,7 @@ import { Link, useLocation } from "react-router-dom";
 
 function Headbar({ className = "" }) {
   const location = useLocation();
-  console.log(location.pathname === "/notifications");
+  // console.log(location.pathname === "/notifications");
   return (
     <div className="">
       <Grid className={`absolute right-[-1%] top-[5%]  ${className}`}>

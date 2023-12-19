@@ -34,7 +34,7 @@ import ActiveServicer from "../assets/images/side-bar/activeServicer.svg";
 import ForthActive from "../assets/images/side-bar/fourthDropdown.svg";
 import SeacondActive from "../assets/images/side-bar/220Active.svg";
 import lastActive from "../assets/images/side-bar/250active.svg";
-import { useLocation } from 'react-router-dom'
+import { useLocation } from "react-router-dom";
 
 function SidebarItem({
   item,
@@ -72,7 +72,7 @@ function SidebarItem({
       );
     }
   }, [active, expandedItem, item, setExpandedItem]);
-  console.log('=================>>>>>>>>>>>',active)
+  // console.log('=================>>>>>>>>>>>',active)
 
   return (
     <li
@@ -148,7 +148,11 @@ function SidebarItem({
       </Link>
 
       {hasItems && (
-        <ul className={`${(isActive || expandedItem === item.name) ? "block" : "hidden"}`}>
+        <ul
+          className={`${
+            isActive || expandedItem === item.name ? "block" : "hidden"
+          }`}
+        >
           {item.items.map((subItem, subIndex) => (
             <li key={subIndex} className={`ps-[19px]`}>
               <Link
@@ -159,7 +163,7 @@ function SidebarItem({
                     : "text-[#999999]"
                 }`}
                 onClick={() => {
-                  onLinkClick(subItem.url, item.name); 
+                  onLinkClick(subItem.url, item.name);
                   console.log(`Sub-Item link to ${subItem.url} clicked`);
                 }}
               >
@@ -399,7 +403,10 @@ function SideBar() {
                   setExpandedItem={setExpandedItem} // Add this line
                 />
               ))}
-              <li className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]" onClick={handleLogOut}>
+              <li
+                className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]"
+                onClick={handleLogOut}
+              >
                 <div className="py-[22px] pe-3 ps-[10px] flex">
                   <img
                     src={LogoutImage}
@@ -420,4 +427,3 @@ function SideBar() {
 }
 
 export default SideBar;
-

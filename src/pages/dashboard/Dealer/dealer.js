@@ -218,7 +218,7 @@ function Dealer() {
           <img src={BackImage} alt='BackImage'/>
         </div> */}
         <div className="pl-3">
-          <p className="font-semibold text-[36px] leading-9	mb-[3px]">Dealer</p>
+          <p className="font-semibold text-[36px] leading-9 mb-[3px]">Dealer</p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
               <Link to={"/"}>Dealer </Link> /{" "}
@@ -518,201 +518,200 @@ function Dealer() {
         {formik.values.dealers.map((dealer, index) => (
           <div
             key={index}
-            className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl">
-              <p className="text-light-black text-lg mb-6 font-semibold">
-                Add Dealer’s Team Members
-              </p>
-              <div className="">
-                <Grid className="">
-                  <div className="col-span-11">
-                    <Grid className="pr-12 pl-4">
-                      <div className="col-span-4">
-                        <Input
-                          type="text"
-                          name={`dealers[${index}].firstName`}
-                          label="First Name"
-                          required={true}
-                          className="!bg-white"
-                          placeholder=""
-                          maxLength={"30"}
-                          value={formik.values.dealers[index].firstName}
-                          onBlur={formik.handleBlur}
-                          onChange={formik.handleChange}
-                          error={
-                            formik.touched.dealers &&
-                            formik.touched.dealers[index] &&
-                            formik.errors.dealers &&
-                            formik.errors.dealers[index] &&
-                            formik.errors.dealers[index].firstName
-                          }
-                        />
-                        {formik.touched.dealers &&
+            className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl"
+          >
+            <p className="text-light-black text-lg mb-6 font-semibold">
+              Add Dealer’s Team Members
+            </p>
+            <div className="">
+              <Grid className="">
+                <div className="col-span-11">
+                  <Grid className="pr-12 pl-4">
+                    <div className="col-span-4">
+                      <Input
+                        type="text"
+                        name={`dealers[${index}].firstName`}
+                        label="First Name"
+                        required={true}
+                        className="!bg-white"
+                        placeholder=""
+                        maxLength={"30"}
+                        value={formik.values.dealers[index].firstName}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        error={
+                          formik.touched.dealers &&
                           formik.touched.dealers[index] &&
                           formik.errors.dealers &&
                           formik.errors.dealers[index] &&
-                          formik.errors.dealers[index].firstName && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.dealers[index].firstName}
-                            </div>
-                          )}
-                      </div>
+                          formik.errors.dealers[index].firstName
+                        }
+                      />
+                      {formik.touched.dealers &&
+                        formik.touched.dealers[index] &&
+                        formik.errors.dealers &&
+                        formik.errors.dealers[index] &&
+                        formik.errors.dealers[index].firstName && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formik.errors.dealers[index].firstName}
+                          </div>
+                        )}
+                    </div>
 
-                      <div className="col-span-4">
-                        <Input
-                          type="text"
-                          name={`dealers[${index}].lastName`}
-                          className="!bg-white"
-                          label="Last Name"
-                          required={true}
-                          placeholder=""
-                          value={formik.values.dealers[index].lastName}
-                          onBlur={formik.handleBlur}
-                          onChange={formik.handleChange}
-                          error={
-                            formik.touched.dealers &&
-                            formik.touched.dealers[index] &&
-                            formik.errors.dealers &&
-                            formik.errors.dealers[index] &&
-                            formik.errors.dealers[index].lastName
-                          }
-                        />
-                        {formik.touched.dealers &&
+                    <div className="col-span-4">
+                      <Input
+                        type="text"
+                        name={`dealers[${index}].lastName`}
+                        className="!bg-white"
+                        label="Last Name"
+                        required={true}
+                        placeholder=""
+                        value={formik.values.dealers[index].lastName}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        error={
+                          formik.touched.dealers &&
                           formik.touched.dealers[index] &&
                           formik.errors.dealers &&
                           formik.errors.dealers[index] &&
-                          formik.errors.dealers[index].lastName && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.dealers[index].lastName}
-                            </div>
-                          )}
-                      </div>
-                      <div className="col-span-4">
-                        <Input
-                          type="text"
-                          name={`dealers[${index}].email`}
-                          label="Email"
-                          placeholder=""
-                          className="!bg-white"
-                          required={true}
-                          value={formik.values.dealers[index].email}
-                          onBlur={formik.handleBlur}
-                          onChange={formik.handleChange}
-                          error={
-                            formik.touched.dealers &&
-                            formik.touched.dealers[index] &&
-                            formik.errors.dealers &&
-                            formik.errors.dealers[index] &&
-                            formik.errors.dealers[index].email
-                          }
-                        />
-                        {formik.touched.dealers &&
+                          formik.errors.dealers[index].lastName
+                        }
+                      />
+                      {formik.touched.dealers &&
+                        formik.touched.dealers[index] &&
+                        formik.errors.dealers &&
+                        formik.errors.dealers[index] &&
+                        formik.errors.dealers[index].lastName && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formik.errors.dealers[index].lastName}
+                          </div>
+                        )}
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        type="text"
+                        name={`dealers[${index}].email`}
+                        label="Email"
+                        placeholder=""
+                        className="!bg-white"
+                        required={true}
+                        value={formik.values.dealers[index].email}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        error={
+                          formik.touched.dealers &&
                           formik.touched.dealers[index] &&
                           formik.errors.dealers &&
                           formik.errors.dealers[index] &&
-                          formik.errors.dealers[index].email && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.dealers[index].email}
-                            </div>
-                          )}
-                      </div>
-                      <div className="col-span-4">
-                        <Input
-                          type="text"
-                          name={`dealers[${index}].phoneNumber`}
-                          className="!bg-white"
-                          label="Phone"
-                          required={true}
-                          placeholder=""
-                          value={formik.values.dealers[index].phoneNumber}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          onWheelCapture={(e) => {
-                            e.preventDefault();
-                          }}
-                          minLength={"10"}
-                          maxLength={"10"}
-                          error={
-                            formik.touched.dealers &&
-                            formik.touched.dealers[index] &&
-                            formik.errors.dealers &&
-                            formik.errors.dealers[index] &&
-                            formik.errors.dealers[index].phoneNumber
-                          }
-                        />
-                        {formik.touched.dealers &&
+                          formik.errors.dealers[index].email
+                        }
+                      />
+                      {formik.touched.dealers &&
+                        formik.touched.dealers[index] &&
+                        formik.errors.dealers &&
+                        formik.errors.dealers[index] &&
+                        formik.errors.dealers[index].email && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formik.errors.dealers[index].email}
+                          </div>
+                        )}
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        type="text"
+                        name={`dealers[${index}].phoneNumber`}
+                        className="!bg-white"
+                        label="Phone"
+                        required={true}
+                        placeholder=""
+                        value={formik.values.dealers[index].phoneNumber}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
+                        minLength={"10"}
+                        maxLength={"10"}
+                        error={
+                          formik.touched.dealers &&
                           formik.touched.dealers[index] &&
                           formik.errors.dealers &&
                           formik.errors.dealers[index] &&
-                          formik.errors.dealers[index].phoneNumber && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.dealers[index].phoneNumber}
-                            </div>
-                          )}
-                      </div>
-                      <div className="col-span-4">
-                        <Input
-                          type="text"
-                          name={`dealers[${index}].position`}
-                          className="!bg-white"
-                          label="Position"
-                          required={true}
-                          placeholder=""
-                          value={formik.values.dealers[index].position}
-                          onBlur={formik.handleBlur}
-                          onChange={formik.handleChange}
-                        />
-                      </div>
-                      <div className="col-span-4">
-                        <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                          {" "}
-                          Do you want to create an account?
-                          <RadioButton
-                            id={`yes-${index}`}
-                            label="Yes"
-                            value="yes"
-                            checked={
-                              formik.values.dealers &&
-                              formik.values.dealers[index] &&
-                              formik.values.dealers[index].status === true
-                            }
-                            onChange={() =>
-                              handleRadioChangeDealers("yes", index)
-                            }
-                          />
-                          <RadioButton
-                            id={`no-${index}`}
-                            label="No"
-                            value="no"
-                            checked={
-                              formik.values.dealers &&
-                              formik.values.dealers[index] &&
-                              formik.values.dealers[index].status === false
-                            }
-                            onChange={() =>
-                              handleRadioChangeDealers("no", index)
-                            }
-                          />
-                        </p>
-                      </div>
-                    </Grid>
-                  </div>
-                  <div
-                    className="col-span-1"
-                    onClick={() => {
-                      handleDeleteDealers(index);
-                    }}
-                  >
-                    <div className="flex h-full bg-[#EBEBEB] justify-center">
-                      <img
-                        src={DeleteImage}
-                        className="self-center cursor-pointer"
-                        alt="Delete Icon"
+                          formik.errors.dealers[index].phoneNumber
+                        }
+                      />
+                      {formik.touched.dealers &&
+                        formik.touched.dealers[index] &&
+                        formik.errors.dealers &&
+                        formik.errors.dealers[index] &&
+                        formik.errors.dealers[index].phoneNumber && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formik.errors.dealers[index].phoneNumber}
+                          </div>
+                        )}
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        type="text"
+                        name={`dealers[${index}].position`}
+                        className="!bg-white"
+                        label="Position"
+                        required={true}
+                        placeholder=""
+                        value={formik.values.dealers[index].position}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
                       />
                     </div>
+                    <div className="col-span-4">
+                      <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                        {" "}
+                        Do you want to create an account?
+                        <RadioButton
+                          id={`yes-${index}`}
+                          label="Yes"
+                          value="yes"
+                          checked={
+                            formik.values.dealers &&
+                            formik.values.dealers[index] &&
+                            formik.values.dealers[index].status === true
+                          }
+                          onChange={() =>
+                            handleRadioChangeDealers("yes", index)
+                          }
+                        />
+                        <RadioButton
+                          id={`no-${index}`}
+                          label="No"
+                          value="no"
+                          checked={
+                            formik.values.dealers &&
+                            formik.values.dealers[index] &&
+                            formik.values.dealers[index].status === false
+                          }
+                          onChange={() => handleRadioChangeDealers("no", index)}
+                        />
+                      </p>
+                    </div>
+                  </Grid>
+                </div>
+                <div
+                  className="col-span-1"
+                  onClick={() => {
+                    handleDeleteDealers(index);
+                  }}
+                >
+                  <div className="flex h-full bg-[#EBEBEB] justify-center">
+                    <img
+                      src={DeleteImage}
+                      className="self-center cursor-pointer"
+                      alt="Delete Icon"
+                    />
                   </div>
-                </Grid>
-              </div>
+                </div>
+              </Grid>
             </div>
+          </div>
         ))}
 
         <div className="bg-[#fff] p-8 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
@@ -755,7 +754,7 @@ function Dealer() {
               </div>
               <Grid className="pr-4 pl-4">
                 <div className="col-span-4">
-                <Input
+                  <Input
                     type="number"
                     name="description"
                     label="Retail Price($)"
@@ -782,7 +781,7 @@ function Dealer() {
                   />
                 </div>
                 <div className="col-span-2">
-                <Input
+                  <Input
                     type="number"
                     name="description"
                     label="Retail Price($)"
@@ -809,7 +808,7 @@ function Dealer() {
                   />
                 </div>
                 <div className="col-span-4">
-                <Input
+                  <Input
                     type="number"
                     name="description"
                     label="Retail Price($)"
