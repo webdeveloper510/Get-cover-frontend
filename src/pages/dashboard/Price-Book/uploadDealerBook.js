@@ -16,12 +16,13 @@ import { getDealerList } from "../../../services/extraServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { WithContext as ReactTags } from "react-tag-input";
+import { uploadDealerBookInBulk } from "../../../services/priceBookService";
 
 function UploadDealerBook() {
   const [selectedValue, setSelectedValue] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeDealers, SetActiveDealers] = useState([]);
-  const [csvFile, setCSVFile] = useState(null);
+  const [error, setError] = useState("");
   const [tags, setTags] = useState([]);
 
   const openModal = () => {
@@ -90,7 +91,7 @@ function UploadDealerBook() {
     initialValues: {
       dealerId: "",
       email: [],
-      csvFile: null,
+      file: null,
     },
     validationSchema: Yup.object({
       dealerId: Yup.string().required("Dealer Name is required"),
@@ -101,30 +102,59 @@ function UploadDealerBook() {
             .required("Required")
         )
         .required("At least one email is required"),
-      csvFile: Yup.mixed().test("file", "CSV file is required", (value) => {
+      file: Yup.mixed().test("file", "CSV file is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
       }),
     }),
     onSubmit: async (values) => {
-      console.log("values", values);
-      try {
-        const formData = new FormData();
-        formData.append("dealerId", values.dealerId);
-        formData.append("email", JSON.stringify(values.email));
-        formData.append("csvFile", values.csvFile);
+      console.log("values", values.dealerId);
+      const formData = new FormData();
+      formData.append("dealerId", values.dealerId);
+      formData.append("email", JSON.stringify(values.email));
+      formData.append("file", values.file);
+      var data = { formData };
+      console.log(formData);
 
+      try {
         const errors = await formik.validateForm(values);
-        if (Object.keys(errors).length === 0) {
-          console.log("Form Data:", formData);
-          openModal();
-        } else {
-          console.log("Form validation failed:", errors);
+        const result = await uploadDealerBookInBulk(formData);
+        console.log(result.message);
+        setError(result.message);
+        if (result.code === 200) {
+          if (Object.keys(errors).length === 0) {
+            console.log("Form Data:", formData);
+            openModal();
+          } else {
+            console.log("Form validation failed:", errors);
+          }
         }
       } catch (error) {
         console.error("Error submitting form:", error);
       }
     },
   });
+
+  const downloadCSVTemplate = async () => {
+    try {
+      const response = await fetch(
+        "http://15.207.221.207:3002/uploads/1702980610722.csv"
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch CSV content");
+      }
+      const csvContent = await response.text();
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.setAttribute("download", "template.csv");
+      link.href = window.URL.createObjectURL(blob);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading CSV:", error);
+    }
+  };
 
   return (
     <div className="my-8 ml-3">
@@ -148,7 +178,11 @@ function UploadDealerBook() {
       </div>
 
       {/* Form Start */}
-
+      {error && (
+        <p className="text-red-500 text-sm pl-2">
+          <span className="font-semibold"> {error} </span>
+        </p>
+      )}
       <form className="mt-8" onSubmit={formik.handleSubmit}>
         <div className="px-8 py-8 drop-shadow-4xl bg-white min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl">
           <Grid className="">
@@ -202,17 +236,23 @@ function UploadDealerBook() {
                 accept={
                   ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                 }
-                onFileSelect={(file) => formik.setFieldValue("csvFile", file)}
+                onFileSelect={(file) => formik.setFieldValue("file", file)}
               />
-              {formik.touched.csvFile && formik.errors.csvFile && (
+              {formik.touched.file && formik.errors.file && (
                 <p className="text-red-500 text-[10px] mt-1 font-medium">
-                  {formik.errors.csvFile}
+                  {formik.errors.file}
                 </p>
               )}
               <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
                 Please click on file option and make a copy. Upload the list of
                 Product Name and Price using our provided Google Sheets
-                template, by <span className="underline">Clicking here </span>.
+                template, by{" "}
+                <span
+                  className="underline cursor-pointer"
+                  onClick={downloadCSVTemplate}
+                >
+                  Clicking here
+                </span>
                 The file must be saved with CSV Format.
               </p>
             </div>
