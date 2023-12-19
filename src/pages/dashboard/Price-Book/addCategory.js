@@ -213,7 +213,7 @@ function AddCategory() {
                   value={formik.values.description}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  maxLength={100}
+                  maxLength={150}
                   className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                 ></textarea>
                 {formik.touched.description && formik.errors.description && (

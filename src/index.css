@@ -211,11 +211,13 @@ span.tag-wrapper.ReactTags__tag button {
 }
 
 .rdt_TableCell div {
-  white-space: pre-wrap !important;
+  white-space: wrap !important;
+  text-align: center;
 }
 .rdt_TableCell span {
-  white-space: pre-wrap !important;
+  white-space: wrap !important;
   line-height: 10px;
+  text-align: center;
 }
 
 .ReactTags__tagInput {
