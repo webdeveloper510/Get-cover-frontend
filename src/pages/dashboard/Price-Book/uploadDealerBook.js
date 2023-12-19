@@ -35,7 +35,7 @@ function UploadDealerBook() {
   const handleSelectChange = (name, selectedValue) => {
     formik.setFieldValue(name, selectedValue);
   };
-
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const KeyCodes = {
     comma: 188,
     enter: 13,
@@ -45,10 +45,21 @@ function UploadDealerBook() {
     getDealerDetails();
   }, []);
   const handleDelete = (i) => {
-    setTags(tags.filter((tag, index) => index !== i));
+    const updatedTags = [...tags];
+    updatedTags.splice(i, 1);
+    setTags(updatedTags);
+    formik.setFieldValue(
+      "email",
+      updatedTags.map((tag) => tag.text)
+    );
   };
   const handleAddition = (tag) => {
-    setTags([...tags, tag]);
+    const updatedTags = [...tags, tag];
+    setTags(updatedTags);
+    formik.setFieldValue(
+      "email",
+      updatedTags.map((tag) => tag.text)
+    );
   };
   const handleDrag = (tag, currPos, newPos) => {
     const newTags = tags.slice();
@@ -78,12 +89,18 @@ function UploadDealerBook() {
   const formik = useFormik({
     initialValues: {
       dealerId: "",
-      email: "",
+      email: [],
       csvFile: null,
     },
     validationSchema: Yup.object({
       dealerId: Yup.string().required("Dealer Name is required"),
-      email: Yup.string().required("Email is required"),
+      email: Yup.array()
+        .of(
+          Yup.string()
+            .matches(emailValidationRegex, "Invalid email address")
+            .required("Required")
+        )
+        .required("At least one email is required"),
       csvFile: Yup.mixed().test("file", "CSV file is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
       }),
@@ -93,7 +110,7 @@ function UploadDealerBook() {
       try {
         const formData = new FormData();
         formData.append("dealerId", values.dealerId);
-        formData.append("email", values.email);
+        formData.append("email", JSON.stringify(values.email));
         formData.append("csvFile", values.csvFile);
 
         const errors = await formik.validateForm(values);
@@ -159,6 +176,7 @@ function UploadDealerBook() {
               <ReactTags
                 tags={tags}
                 delimiters={delimiters}
+                name="email"
                 handleDelete={handleDelete}
                 handleAddition={handleAddition}
                 handleDrag={handleDrag}
