@@ -15,12 +15,14 @@ import FileDropdown from "../../../common/fileDropbox";
 import { getDealerList } from "../../../services/extraServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { WithContext as ReactTags } from "react-tag-input";
 
 function UploadDealerBook() {
   const [selectedValue, setSelectedValue] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeDealers, SetActiveDealers] = useState([]);
   const [csvFile, setCSVFile] = useState(null);
+  const [tags, setTags] = useState([]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -34,14 +36,29 @@ function UploadDealerBook() {
     formik.setFieldValue(name, selectedValue);
   };
 
-  const country = [
-    { label: "Country", value: "country" },
-    { label: "Option 2", value: "option2" },
-    { label: "Option 3", value: "option3" },
-  ];
+  const KeyCodes = {
+    comma: 188,
+    enter: 13,
+  };
+  const delimiters = [KeyCodes.comma, KeyCodes.enter];
   useEffect(() => {
     getDealerDetails();
   }, []);
+  const handleDelete = (i) => {
+    setTags(tags.filter((tag, index) => index !== i));
+  };
+  const handleAddition = (tag) => {
+    setTags([...tags, tag]);
+  };
+  const handleDrag = (tag, currPos, newPos) => {
+    const newTags = tags.slice();
+
+    newTags.splice(currPos, 1);
+    newTags.splice(newPos, 0, tag);
+
+    // re-render
+    setTags(newTags);
+  };
 
   const getDealerDetails = async () => {
     const data = await getDealerList();
@@ -54,6 +71,10 @@ function UploadDealerBook() {
 
     SetActiveDealers(arr);
   };
+  const handleTagClick = (index) => {
+    console.log("The tag at index " + index + " was clicked");
+  };
+
   const formik = useFormik({
     initialValues: {
       dealerId: "",
@@ -135,18 +156,16 @@ function UploadDealerBook() {
               </div>
             </div>
             <div className="col-span-6">
-              <Input
-                type="text"
-                name="email"
-                className={`!bg-[#fff] ${
-                  formik.errors.email ? "border-red-500" : ""
-                }`}
-                label="Email Confirmations"
-                required={true}
-                placeholder=""
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
+              <ReactTags
+                tags={tags}
+                delimiters={delimiters}
+                handleDelete={handleDelete}
+                handleAddition={handleAddition}
+                handleDrag={handleDrag}
+                handleTagClick={handleTagClick}
+                inputFieldPosition="bottom"
+                autocomplete
+                editable
               />
               {formik.errors.email && (
                 <p className="text-red-500 text-[10px] mt-1 font-medium">
