@@ -52,14 +52,15 @@ const Select = ({
           }`}
           defaultValue={localDefaultValue}
         >
-          <option className={color} disabled  value="">
+          <option className={color} disabled value="">
             Select {OptionName}
           </option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
+          {options?.length != 0 &&
+            options?.map((option) => (
+              <option key={option?.value} value={option?.value}>
+                {option.label}
+              </option>
+            ))}
         </select>
         <div className="arrow-container absolute top-1/2 right-3 pointer-events-none transform -translate-y-1/2">
           <img

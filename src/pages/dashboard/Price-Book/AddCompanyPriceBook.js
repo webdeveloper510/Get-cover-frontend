@@ -72,16 +72,16 @@ function AddCompanyPriceBook() {
         let result;
 
         if (id) {
-          const matchingCategory = categoryList.find(
-            (checkState) => checkState.value === values.priceCatId
-          );
+          // const matchingCategory = categoryList.find(
+          //   (checkState) => checkState.value === values.priceCatId
+          // );
 
-          if (matchingCategory) {
-            result = await editCompanyList(id, values);
-          } else {
-            formik.setFieldValue("priceCatId", "");
-            return;
-          }
+          // if (matchingCategory) {
+          result = await editCompanyList(id, values);
+          // } else {
+          //   formik.setFieldValue("priceCatId", "");
+          //   return;
+          // }
         } else {
           result = await addCompanyPricBook(values);
         }
@@ -191,7 +191,7 @@ function AddCompanyPriceBook() {
 
   const getCategoryListActiveData11 = async () => {
     try {
-      const res = await getCategoryListActiveData();
+      const res = await getCategoryListActiveData(id);
       setCategoryList(
         res.result.map((item) => ({
           label: item.name,
@@ -220,7 +220,7 @@ function AddCompanyPriceBook() {
   return (
     <div className="my-8 ml-3">
       <Headbar />
-      <div className="flex mt-2">
+      <div className="flex mt-14">
         <Link
           to={"/companyPriceBook"}
           className="h-[60px] w-[60px] flex border-[1px] bg-[#fff] border-[#D1D1D1] rounded-[25px]"

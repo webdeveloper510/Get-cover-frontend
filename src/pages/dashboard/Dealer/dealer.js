@@ -8,7 +8,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 // Media Include
-import BackImage from "../../../assets/images/icons/backArrow.svg";
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import Button from "../../../common/button";
 import RadioButton from "../../../common/radio";
@@ -17,19 +16,19 @@ import { cityData } from "../../../stateCityJson";
 import {
   checkDealersEmailValidation,
   getDealersDetailsByid,
+  getProductListbyProductCategoryId,
   getTermList,
 } from "../../../services/dealerServices";
+import { getCategoryListActiveData } from "../../../services/priceBookService";
 
 function Dealer() {
-  const [selectedValue, setSelectedValue] = useState("");
-  const [selectedValue1, setSelectedValue1] = useState("");
-  const [selectedProduct, setSelectedProduct] = useState("");
+  const [productNameOptions, setProductNameOptions] = useState([]);
+  const [category, setCategoryList] = useState([]);
   const [termList, setTermList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [separateAccountOption, setSeparateAccountOption] = useState("yes");
   const [selectedOption, setSelectedOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
-  // const [getUserDetails, setGetUserDetails] = useState([]);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
     flag: "approved",
@@ -47,9 +46,8 @@ function Dealer() {
     dealers: [],
     priceBook: [
       {
-        name: "",
-        category: "",
-        productName: "",
+        priceBookId: "",
+        categoryId: "",
         wholesalePrice: "",
         terms: "",
         description: "",
@@ -62,41 +60,15 @@ function Dealer() {
   });
 
   const { id } = useParams();
-
-  const handleSelectChange1 = (label, value) => {
-    setSelectedValue1(value);
-  };
-
-  const handleSelectChange2 = (label, value) => {
-    setSelectedValue(value);
-  };
-
-  const handleChange = (label, value) => {
-    setSelectedProduct(value);
-  };
-
-  const country = [
-    { label: "Catagory", value: "catagory" },
-    { label: "Catagory 1", value: "catagory1" },
-    { label: "Catagory 2", value: "catagory2" },
-  ];
-
-  const productName = [
-    { label: "Product ", value: "Product" },
-    { label: "Product 1", value: "Product1" },
-    { label: "Product 2", value: "Product2" },
-  ];
-
   const status = [
-    { label: "Active", value: "active" },
-    { label: "Inactive", value: "inactive" },
+    { label: "Active", value: true },
+    { label: "Inactive", value: false },
   ];
 
   const handleAddPriceBook = () => {
     const priceBook = {
-      name: "",
-      category: "",
-      productName: "",
+      priceBookId: "",
+      categoryId: "",
       wholesalePrice: "",
       terms: "",
       description: "",
@@ -114,10 +86,11 @@ function Dealer() {
 
   useEffect(() => {
     getTermListData();
+    getProductList("");
     if (id != "null") {
       getDealersDetailsByid(id).then((res) => {
         // setGetUserDetails(res.result[0]);
-        console.log();
+        // console.log();
         setInitialFormValues({
           name: res.result[0].dealerData.name,
           flag: "approved",
@@ -135,9 +108,8 @@ function Dealer() {
           dealers: [],
           priceBook: [
             {
-              name: "",
-              category: "",
-              productName: "",
+              priceBookId: "",
+              categoryId: "",
               wholesalePrice: "",
               terms: "",
               description: "",
@@ -165,6 +137,16 @@ function Dealer() {
     } catch (error) {
       console.error("Error fetching category list:", error);
     }
+  };
+  const getProductList = async () => {
+    const result = await getCategoryListActiveData();
+    console.log(result.result);
+    setCategoryList(
+      result.result.map((item) => ({
+        label: item.name,
+        value: item._id,
+      }))
+    );
   };
 
   const handleRadioChange = (event) => {
@@ -196,7 +178,53 @@ function Dealer() {
     updatedDealers[index].status = value === "yes";
     formik.setFieldValue("dealers", updatedDealers);
   };
-  const handleSelectChange = (name, selectedValue) => {
+  const handleSelectChange = async (name, selectedValue) => {
+    if (name.includes("categoryId")) {
+      const match = name.match(/\[(\d+)\]/);
+      console.log(match[1]);
+      formik.setFieldValue(`priceBook[${match[1]}].priceBookId`, "");
+      if (match) {
+        const response = await getProductListbyProductCategoryId(selectedValue);
+        // console.log(`priceBook[${index].description`);
+        setProductNameOptions((prevOptions) => {
+          const newOptions = [...prevOptions];
+          newOptions[match[1]] = {
+            data: response.result.priceBooks.map((item) => ({
+              label: item.name,
+              value: item._id,
+              description: item.description,
+              term: item.term,
+              wholesalePrice:
+                item.frontingFee +
+                item.reserveFutureFee +
+                item.reinsuranceFee +
+                item.adminFee,
+              status: item.status,
+            })),
+          };
+          return newOptions;
+        });
+      }
+    }
+    if (name.includes("priceBookId")) {
+      const match = name.match(/\[(\d+)\]/);
+      const data = productNameOptions[match[1]].data.find((value) => {
+        return value.value === selectedValue;
+      });
+      formik.setFieldValue(
+        `priceBook[${match[1]}].description`,
+        data.description
+      );
+      formik.setFieldValue(
+        `priceBook[${match[1]}].wholesalePrice`,
+        data.wholesalePrice.toFixed(2)
+      );
+      formik.setFieldValue(`priceBook[${match[1]}].status`, data.status);
+      formik.setFieldValue(`priceBook[${match[1]}].terms`, data.term);
+      console.log(match[1], data);
+    }
+
+    console.log(name);
     formik.setFieldValue(name, selectedValue);
   };
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -243,28 +271,40 @@ function Dealer() {
         .min(10, "Must be at least 10 characters")
         .max(10, "Must be exactly 10 characters")
         .matches(/^[0-9]+$/, "Must contain only digits"),
-      dealers: Yup.array().of(
-        Yup.object().shape({
-          firstName: Yup.string()
-            .required("Required")
-            .max(30, "Must be exactly 30 characters"),
-          lastName: Yup.string()
-            .required("Required")
-            .max(30, "Must be exactly 30 characters"),
-          phoneNumber: Yup.string()
-            .required("Required")
-            .min(10, "Must be at least 10 characters")
-            .max(10, "Must be exactly 10 characters")
-            .matches(/^[0-9]+$/, "Must contain only digits"),
-          email: Yup.string()
-            .matches(emailValidationRegex, "Invalid email address")
-            .required("Required"),
+      dealers: Yup.array().when("dealers", {
+        is: (dealers) => dealers && dealers.length > 0,
+        then: Yup.array().of(
+          Yup.object().shape({
+            firstName: Yup.string()
+              .required("Required")
+              .max(30, "Must be exactly 30 characters"),
+            lastName: Yup.string()
+              .required("Required")
+              .max(30, "Must be exactly 30 characters"),
+            phoneNumber: Yup.string()
+              .required("Required")
+              .min(10, "Must be at least 10 characters")
+              .max(10, "Must be exactly 10 characters")
+              .matches(/^[0-9]+$/, "Must contain only digits"),
+            email: Yup.string()
+              .matches(emailValidationRegex, "Invalid email address")
+              .required("Required"),
 
+            status: Yup.boolean().required("Required"),
+          })
+        ),
+      }),
+      priceBook: Yup.array().of(
+        Yup.object().shape({
+          priceBookId: Yup.string().required("Required"),
+          categoryId: Yup.string().required("Required"),
+          retailPrice: Yup.string().required("Required"),
           status: Yup.boolean().required("Required"),
         })
       ),
     }),
     onSubmit: (values) => {
+      console.log("Form submitted with values:", values);
       values.isAccountCreate = createAccountOption === "yes";
       values.customerAccountCreated = separateAccountOption === "yes";
       console.log("Form submitted with values:", values);
@@ -852,63 +892,114 @@ function Dealer() {
                     <Grid className="">
                       <div className="col-span-4">
                         <Select
-                          label="Product Category "
-                          options={country}
+                          name={`priceBook[${index}].categoryId`}
+                          label="Product Category"
+                          options={category}
                           required={true}
-                          selectedValue={selectedValue1}
-                          onChange={handleSelectChange1}
+                          className="!bg-white"
+                          placeholder=""
+                          maxLength={"30"}
+                          value={formik.values.priceBook[index].categoryId}
+                          onBlur={formik.handleBlur}
+                          onChange={handleSelectChange}
+                          index={index}
+                          error={
+                            formik.touched.priceBook &&
+                            formik.touched.priceBook[index] &&
+                            formik.errors.priceBook &&
+                            formik.errors.priceBook[index] &&
+                            formik.errors.priceBook[index].categoryId
+                          }
                         />
+                        {formik.touched.priceBook &&
+                          formik.touched.priceBook[index] &&
+                          formik.errors.priceBook &&
+                          formik.errors.priceBook[index] &&
+                          formik.errors.priceBook[index].categoryId && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.priceBook[index].categoryId}
+                            </div>
+                          )}
                       </div>
+
                       <div className="col-span-4">
                         <Select
+                          name={`priceBook[${index}].priceBookId`}
                           label="Product Name"
-                          options={productName}
+                          options={productNameOptions[index]?.data}
                           required={true}
-                          selectedValue={selectedProduct}
-                          onChange={handleChange}
+                          className="!bg-white"
+                          placeholder=""
+                          value={formik.values?.priceBook[index].priceBookId}
+                          onBlur={formik.handleBlur}
+                          onChange={handleSelectChange}
+                          index={index}
+                          error={
+                            formik.touched.priceBook &&
+                            formik.touched.priceBook[index] &&
+                            formik.errors.priceBook &&
+                            formik.errors.priceBook[index] &&
+                            formik.errors.priceBook[index].priceBookId
+                          }
                         />
+                        {formik.touched.priceBook &&
+                          formik.touched.priceBook[index] &&
+                          formik.errors.priceBook &&
+                          formik.errors.priceBook[index] &&
+                          formik.errors.priceBook[index].priceBookId && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.priceBook[index].priceBookId}
+                            </div>
+                          )}
                       </div>
 
                       <div className="col-span-4">
                         <Input
-                          type="number"
-                          name="wholesale"
-                          label="Wholesale Prize($)"
+                          type="text"
+                          name={`priceBook[${index}].wholesalePrice`}
+                          className="!bg-white"
+                          label="Wholesale Price($)"
                           required={true}
                           placeholder=""
+                          value={formik.values.priceBook[index].wholesalePrice}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          disabled={true}
+                          onWheelCapture={(e) => {
+                            e.preventDefault();
+                          }}
                         />
                       </div>
 
                       <div className="col-span-4">
                         <Input
                           type="text"
-                          name="description"
+                          name={`priceBook[${index}].description`}
+                          className="!bg-white"
                           label="Description"
                           required={true}
                           placeholder=""
+                          value={formik.values.priceBook[index].description}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          disabled={true}
+                          onWheelCapture={(e) => {
+                            e.preventDefault();
+                          }}
                         />
                       </div>
 
                       <div className="col-span-2">
                         <Select
                           label="Terms"
-                          name="term"
+                          name={`priceBook[${index}].terms`}
                           required={true}
                           placeholder=""
                           onChange={handleSelectChange}
                           className="!bg-[#f9f9f9]"
                           options={termList}
-                          value={
-                            (
-                              termList.find(
-                                (option) =>
-                                  option.value ===
-                                  (formik.values.term
-                                    ? formik.values.term.toString()
-                                    : "")
-                              ) || {}
-                            ).value || ""
-                          }
+                          disabled={true}
+                          value={formik.values.priceBook[index].terms}
                           onBlur={formik.handleBlur}
                           error={formik.touched.term && formik.errors.term}
                         />
@@ -921,20 +1012,64 @@ function Dealer() {
                       <div className="col-span-4">
                         <Input
                           type="number"
-                          name="retailprice"
-                          label="Retail Price($)"
+                          name={`priceBook[${index}].retailPrice`}
+                          className="!bg-white"
+                          label="Retail Price"
+                          maxLength={"10"}
+                          maxDecimalPlaces={2}
                           required={true}
                           placeholder=""
+                          value={formik.values.priceBook[index].retailPrice}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          onWheelCapture={(e) => {
+                            e.preventDefault();
+                          }}
+                          error={
+                            formik.touched.priceBook &&
+                            formik.touched.priceBook[index] &&
+                            formik.errors.priceBook &&
+                            formik.errors.priceBook[index] &&
+                            formik.errors.priceBook[index].retailPrice
+                          }
                         />
+                        {formik.touched.priceBook &&
+                          formik.touched.priceBook[index] &&
+                          formik.errors.priceBook &&
+                          formik.errors.priceBook[index] &&
+                          formik.errors.priceBook[index].retailPrice && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.priceBook[index].retailPrice}
+                            </div>
+                          )}
                       </div>
                       <div className="col-span-2">
                         <Select
+                          name={`priceBook[${index}].status`}
                           label="Status"
                           options={status}
                           required={true}
-                          selectedValue={selectedValue}
-                          onChange={handleSelectChange2}
+                          className="!bg-white"
+                          value={formik.values.priceBook[index].status}
+                          onBlur={formik.handleBlur}
+                          onChange={handleSelectChange}
+                          error={
+                            formik.touched.priceBook &&
+                            formik.touched.priceBook[index] &&
+                            formik.errors.priceBook &&
+                            formik.errors.priceBook[index] &&
+                            formik.errors.priceBook[index].status
+                          }
                         />
+                        {formik.touched.priceBook &&
+                          formik.touched.priceBook[index] &&
+                          formik.errors.priceBook &&
+                          formik.errors.priceBook[index] &&
+                          formik.errors.priceBook[index].status && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.priceBook[index].status}
+                            </div>
+                          )}
                       </div>
                       {index > 0 && (
                         <div

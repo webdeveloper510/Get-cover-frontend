@@ -45,7 +45,6 @@ export const getTermList = async () => {
   }
 };
 
-
 export const isApprovedOrDisapprovedStatus = async (data) => {
   console.log(data);
   const headers = createHeaders();
@@ -102,6 +101,22 @@ export const checkDealersEmailValidation = async (email) => {
       {
         email: email,
       },
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getProductListbyProductCategoryId = async (categoryId) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.get(
+      `${url}/price/getPriceBookByCategoryId/${categoryId}`,
       {
         headers,
       }
