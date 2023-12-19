@@ -68,7 +68,6 @@ code {
   background: #333 !important;
   color: #F6F5F1 !important;
   border-radius: 17px;
-  width: 78% !important;
 }
 
 .rdt_Pagination svg {
@@ -215,7 +214,6 @@ span.tag-wrapper.ReactTags__tag button {
 }
 .rdt_TableCell span {
   white-space: normal !important;
-  line-height: 10px;
   flex-wrap: wrap;
 }
 

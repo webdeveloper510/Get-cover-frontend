@@ -194,7 +194,7 @@ function RequestServicer() {
               </div>
             </div>
           </Grid>
-          <div className='mb-5'>
+          <div className='mb-5 relative'>
            <DataTable columns={columns} data={data} pagination />
           </div>
         </div>

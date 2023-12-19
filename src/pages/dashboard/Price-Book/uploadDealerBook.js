@@ -186,8 +186,8 @@ function UploadDealerBook() {
       <form className="mt-8" onSubmit={formik.handleSubmit}>
         <div className="px-8 py-8 drop-shadow-4xl bg-white min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl">
           <Grid className="">
-            <div className="col-span-6">
-              <div className="col-span-6">
+            <div className="col-span-12">
+              <div className="col-span-12">
                 <Select
                   label="Dealer Name*"
                   name="dealerId"
@@ -206,7 +206,7 @@ function UploadDealerBook() {
                 )}
               </div>
             </div>
-            <div className="col-span-6">
+            {/* <div className="col-span-6">
               <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
                 <ReactTags
                   tags={tags}
@@ -236,13 +236,13 @@ function UploadDealerBook() {
                       ? formik.errors.email.map((error, index) => (
                           <span key={index}>
                             {index > 0 && ' '} {/* Add space if not the first element */}
-                            {error}
+                            {/* {error}
                           </span>
                         ))
                       : formik.errors.email)}
                 </p>
               )}
-            </div>
+            </div> */} 
             <div className="col-span-12">
               <p className="text-light-black text-base mb-2 font-semibold">
                 Upload In Bulk
@@ -269,7 +269,7 @@ function UploadDealerBook() {
                 >
                   Clicking here
                 </span>
-                The file must be saved with CSV , XLS and XLSX Format.
+                The file must be saved with csv , xls and xlsx Format.
               </p>
             </div>
           </Grid>

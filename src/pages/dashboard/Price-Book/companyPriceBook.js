@@ -187,6 +187,8 @@ function CompanyPriceBook() {
       name: "Description",
       selector: (row) => row.description,
       sortable: true,
+      minWidth: 'auto', 
+      maxWidth: '300px',
       cell: (row) => <span title={row.description}>{truncateText(row.description, 20)}</span>,
     },
     {
@@ -379,7 +381,7 @@ function CompanyPriceBook() {
               </div>
             </Grid>
           </form>
-          <div className="overflow-x-auto mb-5">
+          <div className="relative mb-5">
           {loading ? (
               <div className="bg-[#f1f2f3] py-5">
                 <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />

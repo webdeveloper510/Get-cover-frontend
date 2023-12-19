@@ -102,21 +102,24 @@ function Category() {
       name: "ID",
       selector: (row) => row.unique_key,
       sortable: true,
-      reorder: true
+      minWidth: 'auto', 
+      maxWidth: '90px',
     },
     {
       name: "Name",
       selector: (row) => row.name,
       sortable: true,
-      // cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
+      cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
+      minWidth: 'auto', 
+      maxWidth: '200px',
     },
     {
       name: "Description",
       selector: (row) => row.description,
       sortable: true,
-      // cell: (row) => (
-      //   <span title={row.description}>{truncateText(row.description, 30)}</span>
-      // ),
+      cell: (row) => (
+        <span title={row.description}>{truncateText(row.description, 30)}</span>
+      ),
     },
     {
       name: "Status",
@@ -300,7 +303,7 @@ function Category() {
               </div>
             </div>
           </Grid>
-          <div className="mb-5">
+          <div className="mb-5 relative">
             {loading ? (
               <div className="bg-[#f1f2f3] py-5">
                 <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
