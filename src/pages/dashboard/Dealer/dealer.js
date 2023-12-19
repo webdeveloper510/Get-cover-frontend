@@ -518,12 +518,7 @@ function Dealer() {
         {formik.values.dealers.map((dealer, index) => (
           <div
             key={index}
-            className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl"
-          >
-            <p className="text-light-black text-lg mb-6 font-semibold">
-              Add Dealer’s Team Members
-            </p>
-            <div className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl">
+            className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl">
               <p className="text-light-black text-lg mb-6 font-semibold">
                 Add Dealer’s Team Members
               </p>
@@ -718,19 +713,18 @@ function Dealer() {
                 </Grid>
               </div>
             </div>
-          </div>
         ))}
 
         <div className="bg-[#fff] p-8 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
           <Grid>
-            <div className="col-span-3">
+            <div className="col-span-2">
               <p className="text-light-black text-lg mb-3 font-semibold">
                 {selectedOption === "yes"
                   ? "Add  Price Book"
                   : "Upload Price Book"}{" "}
               </p>
             </div>
-            <div className="col-span-4 self-center">
+            <div className="col-span-5 self-center">
               <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
             </div>
             <div className="col-span-5 flex">
