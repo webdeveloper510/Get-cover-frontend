@@ -231,7 +231,15 @@ function UploadDealerBook() {
               </div>
               {formik.errors.email && (
                 <p className="text-red-500 text-[10px] mt-1 font-medium">
-                  {formik.errors.email}
+                 {formik.errors.email &&
+    (Array.isArray(formik.errors.email)
+      ? formik.errors.email.map((error, index) => (
+          <span key={index}>
+            {index > 0 && ' '} {/* Add space if not the first element */}
+            {error}
+          </span>
+        ))
+      : formik.errors.email)}
                 </p>
               )}
             </div>
