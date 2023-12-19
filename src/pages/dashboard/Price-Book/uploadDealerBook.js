@@ -156,6 +156,7 @@ function UploadDealerBook() {
               </div>
             </div>
             <div className="col-span-6">
+              <div  className='block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer'>
               <ReactTags
                 tags={tags}
                 delimiters={delimiters}
@@ -167,6 +168,7 @@ function UploadDealerBook() {
                 autocomplete
                 editable
               />
+              </div>
               {formik.errors.email && (
                 <p className="text-red-500 text-[10px] mt-1 font-medium">
                   {formik.errors.email}
