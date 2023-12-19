@@ -3,7 +3,7 @@ import Grid from "./grid";
 
 // media Import
 import SearchImage from "../assets/images/icons/search.svg";
-import SettingImage from "../assets/images/icons/Setting.svg";
+import Nonotification from "../assets/images/icons/readed-noti.svg";
 import NotificationImage from "../assets/images/icons/Notification.svg";
 import ProfileImage from "../assets/images/icons/Profile.svg";
 import Down from "../assets/images/icons/Drop.svg";
@@ -26,7 +26,7 @@ function Headbar({ className = "" }) {
               <div>
                 <Link to={"/notifications"}>
                   <img
-                    src={NotificationImage}
+                    src={Nonotification}
                     className="cursor-pointer"
                     alt="NotificationImage"
                   />{" "}

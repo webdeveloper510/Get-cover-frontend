@@ -13,6 +13,7 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import Select from "../../../common/select";
 import DataTable from "react-data-table-component";
+import Loader from "../../../assets/images/Loader.gif";
 import {
   editCompanyList,
   getCompanyPriceList,
@@ -27,7 +28,7 @@ function CompanyPriceBook() {
   const [companyPriceList, setCompanyPriceList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   // const handleSelectChange1 = (label, value) => {
   //   console.log(label, value, "selected");
   //   setSelectedProduct(value);
@@ -58,10 +59,13 @@ function CompanyPriceBook() {
 
   const getPriceBookListData = async (data) => {
     try {
+      setLoading(true);
       const res = await getCompanyPriceList(data);
       setCompanyPriceList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -368,8 +372,14 @@ function CompanyPriceBook() {
             </Grid>
           </form>
           <div className="overflow-x-auto mb-5">
+          {loading ? (
+              <div className="bg-[#f1f2f3] py-5">
+                <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
+                </div>
+            ) : (
             <DataTable columns={columns} sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
               </>} data={companyPriceList} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100,]}/>
+            )}
           </div>
         </div>
       </div>
