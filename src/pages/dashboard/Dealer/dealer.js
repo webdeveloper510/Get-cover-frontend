@@ -218,6 +218,7 @@ function Dealer() {
                   <Input
                     type="text"
                     name="name"
+                    className='!bg-white'
                     label="Account Name"
                     required={true}
                     placeholder=""
