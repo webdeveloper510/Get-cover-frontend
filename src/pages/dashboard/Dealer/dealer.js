@@ -218,7 +218,7 @@ function Dealer() {
           <img src={BackImage} alt='BackImage'/>
         </div> */}
         <div className="pl-3">
-          <p className="font-semibold text-[36px] leading-9	mb-[3px]">Dealer</p>
+          <p className="font-semibold text-[36px] leading-9 mb-[3px]">Dealer</p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
               <Link to={"/"}>Dealer </Link> /{" "}
@@ -716,14 +716,14 @@ function Dealer() {
 
         <div className="bg-[#fff] p-8 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
           <Grid>
-            <div className="col-span-3">
+            <div className="col-span-2">
               <p className="text-light-black text-lg mb-3 font-semibold">
                 {selectedOption === "yes"
                   ? "Add  Price Book"
                   : "Upload Price Book"}{" "}
               </p>
             </div>
-            <div className="col-span-4 self-center">
+            <div className="col-span-5 self-center">
               <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
             </div>
             <div className="col-span-5 flex">
@@ -754,7 +754,7 @@ function Dealer() {
               </div>
               <Grid className="pr-4 pl-4">
                 <div className="col-span-4">
-                <Input
+                  <Input
                     type="number"
                     name="description"
                     label="Retail Price($)"
@@ -781,7 +781,7 @@ function Dealer() {
                   />
                 </div>
                 <div className="col-span-2">
-                <Input
+                  <Input
                     type="number"
                     name="description"
                     label="Retail Price($)"
@@ -808,7 +808,7 @@ function Dealer() {
                   />
                 </div>
                 <div className="col-span-4">
-                <Input
+                  <Input
                     type="number"
                     name="description"
                     label="Retail Price($)"

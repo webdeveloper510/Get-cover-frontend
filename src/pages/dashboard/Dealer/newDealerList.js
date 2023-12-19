@@ -246,8 +246,8 @@ function NewDealerList() {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-7">
-                  <div className="col-span-2 self-center">
+                <Grid className="!grid-cols-11">
+                  <div className="col-span-3 self-center">
                     <Input
                       name="Name"
                       type="text"
@@ -257,7 +257,7 @@ function NewDealerList() {
                       placeholder="Name"
                     />
                   </div>
-                  <div className="col-span-2 self-center">
+                  <div className="col-span-3 self-center">
                     <Input
                       name="Email"
                       type="email"
@@ -267,7 +267,7 @@ function NewDealerList() {
                       placeholder="Email"
                     />
                   </div>
-                  <div className="col-span-2 self-center">
+                  <div className="col-span-3 self-center">
                     <Input
                       name="PhoneNo."
                       type="number"
@@ -277,7 +277,7 @@ function NewDealerList() {
                       placeholder="Phone No."
                     />
                   </div>
-                  <div className="col-span-1 self-center flex">
+                  <div className="col-span-2 self-center flex">
                     <Button className="!p-0">
                       <img
                         src={Search}
