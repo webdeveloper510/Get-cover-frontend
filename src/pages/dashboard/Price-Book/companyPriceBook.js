@@ -163,8 +163,7 @@ function CompanyPriceBook() {
       selector: (row) => row.unique_key,
       sortable: true,
     reorder: true,
-    minWidth: 'auto', 
-    maxWidth: '100px', 
+   
     },
     {
       name: "Product Category",
@@ -186,11 +185,11 @@ function CompanyPriceBook() {
       cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
     },
     {
-      name: "Product Term",
+      name: " Term",
       selector: (row) => row.term + " Months",
       sortable: true,
       minWidth: 'auto', 
-      maxWidth: '170px', 
+      maxWidth: '100px', 
     },
     {
       name: "WholeSale Cost",

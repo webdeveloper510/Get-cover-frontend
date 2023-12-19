@@ -90,8 +90,8 @@ function NewDealerList() {
       sortable: true,
     },
     {
-      name: "First Name",
-      selector: (row) => row.firstName + row.lastName,
+      name: "Full Name",
+      selector: (row) => row.firstName + ' ' + row.lastName,
       sortable: true,
     },
     {
