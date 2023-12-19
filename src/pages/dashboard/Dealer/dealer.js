@@ -25,8 +25,8 @@ function Dealer() {
   const [selectedValue1, setSelectedValue1] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("");
   const [termList, setTermList] = useState([]);
-  const [createAccountOption, setCreateAccountOption] = useState("no");
-  const [separateAccountOption, setSeparateAccountOption] = useState("no");
+  const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [separateAccountOption, setSeparateAccountOption] = useState("yes");
   const [selectedOption, setSelectedOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   // const [getUserDetails, setGetUserDetails] = useState([]);
