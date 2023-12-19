@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import Button from "../../../common/button";
@@ -14,11 +14,14 @@ import Input from "../../../common/input";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Select from "../../../common/select";
 import DataTable from "react-data-table-component";
+import { getDealerPriceBook } from "../../../services/dealerServices";
 
 function DealerPriceList() {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedTearm, setSelectedTearm] = useState(false);
+  const [dealerPriceBook, setDealerPriceBook] = useState([]);
+
   const handleActionChange = (action) => {
     console.log(`Selected action: ${action}`);
   };
@@ -30,6 +33,15 @@ function DealerPriceList() {
     setSelectedTearm(value);
   };
 
+  useEffect(() => {
+    getDealerList();
+  }, []);
+
+  const getDealerList = async () => {
+    const result = await getDealerPriceBook();
+    setDealerPriceBook(result.result);
+    console.log(result.result);
+  };
   const country = [
     { label: "Country", value: "country" },
     { label: "Option 2", value: "option2" },
@@ -47,15 +59,14 @@ function DealerPriceList() {
   };
 
   const paginationOptions = {
-    rowsPerPageText: 'Rows per page:',
-    rangeSeparatorText: 'of',
+    rowsPerPageText: "Rows per page:",
+    rangeSeparatorText: "of",
     selectAllRowsItem: true,
-    selectAllRowsItemText: 'All',
+    selectAllRowsItemText: "All",
   };
 
   const data = [
     {
-      ProductID: 1,
       DealerName: "Dealer 1",
       ProductName: "Product A",
       ProductCategory: "Category 1",
@@ -65,7 +76,6 @@ function DealerPriceList() {
       Status: "Active",
     },
     {
-      ProductID: 2,
       DealerName: "Dealer 2",
       ProductName: "Product B",
       ProductCategory: "Category 2",
@@ -80,39 +90,43 @@ function DealerPriceList() {
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.ProductID,
+      selector: (row, index) => index + 1,
       sortable: true,
     },
     {
       name: "Dealer Name",
-      selector: (row) => row.DealerName,
+      selector: (row) => row.dealer[0].name,
       sortable: true,
     },
-    // {
-    //   name: "Product Name",
-    //   selector: (row) => row.ProductName,
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Product Category",
-    //   selector: (row) => row.ProductCategory,
-    //   sortable: true,
-    // },
+    {
+      name: "Product Name",
+      selector: (row) => row.priceBooks[0].name,
+      sortable: true,
+    },
+    {
+      name: "Product Category",
+      selector: (row) => row.priceBooks[0].category[0].name,
+      sortable: true,
+    },
     {
       name: "Term",
-      selector: (row) => row.Term,
+      selector: (row) => row.priceBooks[0].term + " Months",
       sortable: true,
     },
     {
       name: "WholeSale Cost",
-      selector: (row) => row.WholesaleCost,
+      selector: (row) =>
+        row.priceBooks[0].adminFee +
+        row.priceBooks[0].frontingFee +
+        row.priceBooks[0].reinsuranceFee +
+        row.priceBooks[0].reserveFutureFee,
       sortable: true,
-      minWidth: 'auto',  // Set a custom minimum width
-      maxWidth: '170px',  // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "170px",
     },
     {
       name: "Retail Cost",
-      selector: (row) => row.RetailCost,
+      selector: (row) => row.retailPrice,
       sortable: true,
     },
 
@@ -156,7 +170,7 @@ function DealerPriceList() {
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
-            >
+              >
                 <img
                   src={arrowImage}
                   className={`absolute  object-contain left-1/2 w-[12px] ${
@@ -218,7 +232,7 @@ function DealerPriceList() {
                       type="text"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                       label=""
+                      label=""
                       placeholder="Category"
                     />
                   </div>
@@ -257,20 +271,23 @@ function DealerPriceList() {
                     />
                   </div>
                   <div className="col-span-2 self-center">
-                    <Button type='submit' className='!p-0'>
-                    <img
-                      src={Search}
-                      className="cursor-pointer mx-auto"
-                      alt="Search"
-                    />
+                    <Button type="submit" className="!p-0">
+                      <img
+                        src={Search}
+                        className="cursor-pointer mx-auto"
+                        alt="Search"
+                      />
                     </Button>
-                     <Button type="submit" className='!ml-2 !bg-transparent !p-0'>
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
-                        />
-                      </Button>
+                    <Button
+                      type="submit"
+                      className="!ml-2 !bg-transparent !p-0"
+                    >
+                      <img
+                        src={clearFilter}
+                        className="cursor-pointer	mx-auto"
+                        alt="clearFilter"
+                      />
+                    </Button>
                   </div>
                 </Grid>
               </div>
@@ -278,8 +295,21 @@ function DealerPriceList() {
           </Grid>
 
           <div className="mb-5 relative">
-            <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
-              </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
+            <DataTable
+              columns={columns}
+              data={dealerPriceBook}
+              highlightOnHover
+              sortIcon={
+                <>
+                  {" "}
+                  <img src={shorting} className="ml-2" alt="shorting" />
+                </>
+              }
+              pagination
+              paginationPerPage={10}
+              paginationComponentOptions={paginationOptions}
+              paginationRowsPerPageOptions={[10, 20, 50, 100]}
+            />
           </div>
         </div>
       </div>

@@ -127,3 +127,17 @@ export const getProductListbyProductCategoryId = async (categoryId) => {
     throw error;
   }
 };
+
+export const getDealerPriceBook = async (categoryId) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.get(`${url}/dealer/dealerPriceBooks`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

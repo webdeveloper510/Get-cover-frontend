@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Headbar from "../../../common/headBar";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
@@ -24,7 +24,7 @@ function UploadDealerBook() {
   const [activeDealers, SetActiveDealers] = useState([]);
   const [error, setError] = useState("");
   const [tags, setTags] = useState([]);
-
+  const navigate = useNavigate();
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -123,6 +123,7 @@ function UploadDealerBook() {
         if (result.code === 200) {
           if (Object.keys(errors).length === 0) {
             console.log("Form Data:", formData);
+            navigate("/dealerPriceList");
             openModal();
           } else {
             console.log("Form validation failed:", errors);
@@ -135,25 +136,10 @@ function UploadDealerBook() {
   });
 
   const downloadCSVTemplate = async () => {
-    try {
-      const response = await fetch(
-        "http://15.207.221.207:3002/uploads/1702980610722.csv"
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch CSV content");
-      }
-      const csvContent = await response.text();
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      link.setAttribute("download", "template.csv");
-      link.href = window.URL.createObjectURL(blob);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error("Error downloading CSV:", error);
-    }
+    window.open(
+      "https://docs.google.com/spreadsheets/d/1CAsu13q4T9i7dGpzVRvE9KYmt2xM0JNGeswKtRONnG0/edit?usp=sharing",
+      "_blank"
+    );
   };
 
   return (
@@ -236,13 +222,13 @@ function UploadDealerBook() {
                       ? formik.errors.email.map((error, index) => (
                           <span key={index}>
                             {index > 0 && ' '} {/* Add space if not the first element */}
-                            {/* {error}
+            {/* {error}
                           </span>
                         ))
                       : formik.errors.email)}
                 </p>
               )}
-            </div> */} 
+            </div> */}
             <div className="col-span-12">
               <p className="text-light-black text-base mb-2 font-semibold">
                 Upload In Bulk
