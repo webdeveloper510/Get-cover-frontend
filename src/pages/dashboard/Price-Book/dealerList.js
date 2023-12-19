@@ -243,7 +243,7 @@ function DealerPriceList() {
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
-                      placeholder="Name"
+                      placeholder="Dealer Name"
                     />
                   </div>
                   <div className="col-span-2 self-center">
@@ -270,22 +270,12 @@ function DealerPriceList() {
                       onChange={handleSelectChange}
                     />
                   </div>
-                  <div className="col-span-2 self-center">
+                  <div className="col-span-2 self-center justify-center flex">
                     <Button type="submit" className="!p-0">
                       <img
                         src={Search}
                         className="cursor-pointer mx-auto"
                         alt="Search"
-                      />
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="!ml-2 !bg-transparent !p-0"
-                    >
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
                       />
                     </Button>
                   </div>
