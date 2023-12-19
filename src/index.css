@@ -210,8 +210,12 @@ span.tag-wrapper.ReactTags__tag button {
   padding-left: 6px;
 }
 
-.jJhCqB div:first-child {
+.rdt_TableCell div {
   white-space: pre-wrap !important;
+}
+.rdt_TableCell span {
+  white-space: pre-wrap !important;
+  line-height: 10px;
 }
 
 .ReactTags__tagInput {
