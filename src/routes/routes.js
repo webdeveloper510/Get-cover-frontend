@@ -85,12 +85,12 @@ const routes = [
         ),
       },
       {
-        path: "/notificarion",
+        path: "/notifications",
         index: true,
         element: (
           <PrivateRoute
             element={<Notification />}
-            path="/notificarion"
+            path="/notifications"
           />
         ),
       },
