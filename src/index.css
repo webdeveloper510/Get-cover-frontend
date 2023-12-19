@@ -142,6 +142,43 @@ code {
   }
 }
 
+.ReactTags__tags.react-tags-wrapper {
+  display: flex;
+  width: 100%;
+  overflow: scroll;
+}
+
+/* width */
+.react-tags-wrapper::-webkit-scrollbar {
+  width: 0px;
+}
+
+span.tag-wrapper.ReactTags__tag {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.ReactTags__selected {
+  display: flex;
+}
+
+span.tag-wrapper.ReactTags__tag {
+  background: #ededed;
+  margin-right: 4px;
+  padding: 0px 5px;
+}
+
+span.tag-wrapper.ReactTags__tag button {
+  margin-left: 7px;
+  border-left: 1px solid white;
+  padding-left: 6px;
+}
+
+.ReactTags__tagInput, input.ReactTags__tagInputField {
+  width: 100%;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }
