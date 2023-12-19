@@ -19,12 +19,8 @@ function DealerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [dealerList, setDealerList] = useState([]);
   const [loading, setLoading] = useState(false);
-  
-  const handleActionChange = (action) => {
-    // Implement the logic for the selected action (e.g., edit or delete)
-    console.log(`Selected action: ${action}`);
-    // You can replace the console.log statement with the actual logic you want to perform
-  };
+
+
 
   const paginationOptions = {
     rowsPerPageText: 'Rows per page:',

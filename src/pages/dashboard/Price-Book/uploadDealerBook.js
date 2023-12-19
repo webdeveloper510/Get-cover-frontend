@@ -58,6 +58,7 @@ function UploadDealerBook() {
     initialValues: {
       dealerId: "",
       email: "",
+      csvFile: null,
     },
     validationSchema: Yup.object({
       dealerId: Yup.string().required("Dealer Name is required"),
@@ -67,11 +68,12 @@ function UploadDealerBook() {
       }),
     }),
     onSubmit: async (values) => {
+      console.log("values", values);
       try {
         const formData = new FormData();
         formData.append("dealerId", values.dealerId);
         formData.append("email", values.email);
-        formData.append("csvFile", csvFile);
+        formData.append("csvFile", values.csvFile);
 
         const errors = await formik.validateForm(values);
         if (Object.keys(errors).length === 0) {
@@ -156,24 +158,22 @@ function UploadDealerBook() {
               <p className="text-light-black text-base mb-2 font-semibold">
                 Upload In Bulk
               </p>
-              <input
-                type="file"
-                name="csvFile"
-                onChange={(e) => setCSVFile(e.target.files[0])}
-                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                className={`!bg-[#fff] ${
-                  formik.errors.csvFile ? "border-red-500" : ""
-                }`}
+              <FileDropdown
+                className="!bg-transparent"
+                accept={
+                  ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                }
+                onFileSelect={(file) => formik.setFieldValue("csvFile", file)}
               />
-              {formik.errors.csvFile && (
+              {formik.touched.csvFile && formik.errors.csvFile && (
                 <p className="text-red-500 text-[10px] mt-1 font-medium">
                   {formik.errors.csvFile}
                 </p>
               )}
-              <p className="text-[10px] mt-1 text-[#5D6E66] font-medium">
+              <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
                 Please click on file option and make a copy. Upload the list of
                 Product Name and Price using our provided Google Sheets
-                template, by<span className="underline">Clicking here </span>.
+                template, by <span className="underline">Clicking here </span>.
                 The file must be saved with CSV Format.
               </p>
             </div>

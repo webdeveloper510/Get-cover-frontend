@@ -754,12 +754,13 @@ function Dealer() {
               </div>
               <Grid className="pr-4 pl-4">
                 <div className="col-span-4">
-                  {/* <Select
-                  label="Business City *"
-                  options={city}
-                  selectedValue={selectedCity}
-                  onChange={handleSelectChange1}
-                /> */}
+                <Input
+                    type="number"
+                    name="description"
+                    label="Retail Price($)"
+                    required={true}
+                    placeholder=""
+                  />
                 </div>
                 <div className="col-span-4">
                   <Input
@@ -780,12 +781,13 @@ function Dealer() {
                   />
                 </div>
                 <div className="col-span-2">
-                  {/* <Select
-                  label="Term *"
-                  options={city}
-                  selectedValue={selectedCity}
-                  onChange={handleSelectChange1}
-                /> */}
+                <Input
+                    type="number"
+                    name="description"
+                    label="Retail Price($)"
+                    required={true}
+                    placeholder=""
+                  />
                 </div>
                 <div className="col-span-4">
                   <Input
@@ -806,12 +808,13 @@ function Dealer() {
                   />
                 </div>
                 <div className="col-span-4">
-                  {/* <Select
-                  label="Status *"
-                  options={city}
-                  selectedValue={selectedCity}
-                  onChange={handleSelectChange1}
-                /> */}
+                <Input
+                    type="number"
+                    name="description"
+                    label="Retail Price($)"
+                    required={true}
+                    placeholder=""
+                  />
                 </div>
               </Grid>
             </div>
@@ -821,7 +824,7 @@ function Dealer() {
                 Upload In Bulk
               </p>
               <FileDropdown />
-              <p className="text-[10px] mt-1 text-[#5D6E66] font-medium">
+              <p className="text-[11px] mt-1 text-[#5D6E66] font-medium">
                 Please click on file option and make a copy. Upload the list of
                 Product Name and Price using our provided Google Sheets
                 template, by <span className="underline">Clicking here </span>.
