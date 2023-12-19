@@ -107,8 +107,8 @@ const routes = [
         ),
       },
       {
-        path: "/dealer",
-        element: <PrivateRoute element={<Dealer />} path="/dealer" />,
+        path: "/dealer/:id",
+        element: <Dealer />,
       },
       {
         path: "/addCustomer",
@@ -198,10 +198,7 @@ const routes = [
       {
         path: "/requestList",
         element: (
-          <PrivateRoute
-            element={<RequestServicer />}
-            path="/requestList"
-          />
+          <PrivateRoute element={<RequestServicer />} path="/requestList" />
         ),
       },
     ],

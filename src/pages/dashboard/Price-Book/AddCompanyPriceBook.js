@@ -424,9 +424,7 @@ function AddCompanyPriceBook() {
                 className="!bg-[#fff]"
                 label="Fronting fee ($)"
                 placeholder=""
-                required={true}
-                minLength={"1"}
-                maxLength={"4"}
+                maxLength={4}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.frontingFee}

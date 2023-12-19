@@ -40,12 +40,6 @@ function Category() {
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
-    // formik.resetForm({
-    //   values: {
-    //     name: "",
-    //     status: "",
-    //   },
-    // });
     getCategoryListData();
   };
   

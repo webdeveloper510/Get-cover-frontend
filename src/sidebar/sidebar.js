@@ -48,21 +48,23 @@ function SidebarItem({
   useEffect(() => {
     // console.log("expandedItem" , item.name  , item.url )
 
-    if (item.name === "Price Book"){
+    if (item.name === "Price Book") {
       setIsActive(active === "Price Book" || expandedItem === "Price Book");
-    }else if (item.name === "Claim"){
+    } else if (item.name === "Claim") {
       setIsActive(active === "Claim" || expandedItem === "Claim");
-    }else if (item.name === "Dealer"){
+    } else if (item.name === "Dealer") {
       setIsActive(active === "Dealer" || expandedItem === "Dealer");
-    }else if (item.name === "Servicer"){
+    } else if (item.name === "Servicer") {
       setIsActive(active === "Servicer" || expandedItem === "Servicer");
-    }else if (item.name === "Customer"){
+    } else if (item.name === "Customer") {
       setIsActive(active === "Customer" || expandedItem === "Customer");
+    } else {
+      setIsActive(
+        active === item.url ||
+          active === item.name ||
+          expandedItem === item.name
+      );
     }
-    else{
-      setIsActive(active === item.url || active === item.name || expandedItem === item.name);
-    }
-    
   }, [active, expandedItem, item]);
 
   return (
@@ -161,7 +163,13 @@ function SidebarItem({
                     <img
                       src={subItem.active}
                       className={` ${
-                        subIndex == 0 ? "3xl:mt-[-32%] xl:mt-[-40%] mt-[-40%]" :subIndex == 1 ?"3xl:mt-[-50%%] xl:mt-[-43%] xl:h-[110px]": subIndex == 2 ?"mt-[-95%]":"mt-[-115%]"
+                        subIndex == 0
+                          ? "3xl:mt-[-32%] xl:mt-[-40%] mt-[-40%]"
+                          : subIndex == 1
+                          ? "3xl:mt-[-50%%] xl:mt-[-43%] xl:h-[110px]"
+                          : subIndex == 2
+                          ? "mt-[-95%]"
+                          : "mt-[-115%]"
                       } w-[24px]`}
                       alt={subItem.active}
                     />
@@ -200,7 +208,7 @@ function SidebarItem({
 }
 
 function SideBar() {
-  const [active, setActive] = useState('/dashboard');
+  const [active, setActive] = useState("/dashboard");
   const [expandedItem, setExpandedItem] = useState(null);
   const navigate = useNavigate();
   const handleToggleExpand = (itemName) => {
@@ -236,7 +244,7 @@ function SideBar() {
         },
         {
           name: "Add Dealer",
-          url: "/dealer",
+          url: "/dealer/null",
           image: Dropdown2,
           active: SeacondActive,
         },
@@ -360,7 +368,6 @@ function SideBar() {
       image: ReportImage,
       active: ActiveReport,
     },
-   
   ];
 
   return (

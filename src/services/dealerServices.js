@@ -34,12 +34,15 @@ export const getPendingDealersList = async () => {
 };
 
 export const isApprovedOrDisapprovedStatus = async (data) => {
+  console.log(data);
   const headers = createHeaders();
   console.log(headers);
   try {
     const response = await axios.put(
       `${url}/admin/rejectDealer/${data.id}`,
-      data.status,
+      {
+        status: data.action,
+      },
       { headers }
     );
     console.log(response.data);
@@ -56,6 +59,40 @@ export const getDealersList = async () => {
     const response = await axios.get(`${url}/admin/dealers`, {
       headers,
     });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getDealersDetailsByid = async (id) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.get(`${url}/getDealerById/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const checkDealersEmailValidation = async (email) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/user/checkEmail`,
+      {
+        email: email,
+      },
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {

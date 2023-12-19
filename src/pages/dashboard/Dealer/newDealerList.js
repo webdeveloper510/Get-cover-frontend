@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -19,10 +19,16 @@ import {
 } from "../../../services/dealerServices";
 
 function NewDealerList() {
-  const [list, setList] = useState(null);
+  const [approvalDetails, setApprovalDetails] = useState({
+    id: null,
+    action: null,
+  });
+
   const [selectedAction, setSelectedAction] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [pendingDealerList, setPendingDealerList] = useState([]);
+  const [timer, setTimer] = useState(3);
+  const navigate = useNavigate();
 
   const toggleDropdown = (index) => {
     setSelectedAction(index);
@@ -31,14 +37,14 @@ function NewDealerList() {
 
   const handleActionChange = async (action, id) => {
     // setIsModalOpen(true);
+    console.log(action);
 
     console.log(`Selected action: ${(action, id)}`);
-    let data = {
-      id: id,
-      status: action,
-    };
-    setEditDetails(data);
-    approveApi();
+
+    // setEditDetails(data);
+    if (action) {
+      openConfirmModal(id, action);
+    }
   };
 
   useEffect(() => {
@@ -47,8 +53,13 @@ function NewDealerList() {
 
   const dealerPendingList = async () => {
     const result = await getPendingDealersList();
-    console.log(result.result);
-    setPendingDealerList(result.result);
+    console.log(result.data);
+    setPendingDealerList(result.data);
+  };
+  const truncateText = (text, maxLength) => {
+    return text.length > maxLength
+      ? `${text.substring(0, maxLength)}...`
+      : text;
   };
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = pendingDealerList.length - index <= 2;
@@ -57,23 +68,40 @@ function NewDealerList() {
   const columns = [
     {
       name: "Account Name",
-      selector: (row) => row.name,
+      selector: (row) => row.dealerData.name,
       sortable: true,
     },
     {
       name: "First Name",
       selector: (row) => row.firstName,
       sortable: true,
+      cell: (row) => (
+        <span title={row.firstName}>{truncateText(row.firstName, 20)}</span>
+      ),
     },
     {
       name: "Last Name",
       selector: (row) => row.lastName,
       sortable: true,
+      cell: (row) => (
+        <span title={row.lastName}>{truncateText(row.lastName, 20)}</span>
+      ),
     },
     {
       name: "Address",
-      selector: (row) => row.street + "," + row.city,
+      selector: (row) => row.dealerData.street + "," + row.dealerData.city,
       sortable: true,
+      cell: (row) => (
+        <span
+          title={`${truncateText(row.dealerData.street, 10)}, ${truncateText(
+            row.dealerData.city,
+            10
+          )}`}
+        >
+          {truncateText(row.dealerData.street, 10)},{" "}
+          {truncateText(row.dealerData.city, 10)}
+        </span>
+      ),
     },
     {
       name: "Email",
@@ -98,18 +126,18 @@ function NewDealerList() {
           </div>
           {isDropdownOpen && selectedAction === index && (
             <div
-              className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              className={`absolute z-[2] w-[150px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}
             >
               <div
-                className="text-center py-3 border-b border-[#E6E6E6] text-[#40BF73] cursor-pointer"
+                className="text-center py-2 border-b border-[#E6E6E6] text-[#40BF73] cursor-pointer"
                 onClick={() => handleActionChange("Approved", row.accountId)}
               >
                 Approve
               </div>
               <div
-                className="text-center py-3 text-[#FF4747] cursor-pointer"
+                className="text-center py-2 text-[#FF4747] cursor-pointer"
                 onClick={() => handleActionChange("Rejected", row.accountId)}
               >
                 Disapprove
@@ -122,28 +150,37 @@ function NewDealerList() {
   ];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editDetails, setEditDetails] = useState({});
+  const [status, setStatus] = useState("");
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const openConfirmModal = async (id, action) => {
+    setIsModalOpen(true);
+    setApprovalDetails({ id, action });
+    setStatus(action);
+  };
+  const approveApi = async () => {
+    const { id, action } = approvalDetails;
+    console.log(id, action);
 
-  const approveApi = async (status) => {
-    console.log(editDetails);
-    // setIsDisapprovedOpen(true)}
-    const result = await isApprovedOrDisapprovedStatus(editDetails);
-    console.log(result);
-    if (result.code === 200) {
-      dealerPendingList();
-      setIsModalOpen(true);
-      // setIsDisapprovedOpen(true);
-    } else {
-      dealerPendingList();
+    if (action === "Rejected") {
+      console.log("yes");
+      const result = await isApprovedOrDisapprovedStatus(approvalDetails);
+      console.log(result);
+      if (result.code === 200) {
+        dealerPendingList();
+        setIsModalOpen(false);
+        setIsDisapprovedOpen(true);
+      } else {
+        dealerPendingList();
+        setIsModalOpen(false);
+        setIsDisapprovedOpen(false);
+      }
+    } else if (action === "Approved") {
       setIsModalOpen(false);
-      // setIsDisapprovedOpen(false);
+      navigate(`/dealer/${id}`);
     }
-
-    setIsDropdownOpen(false);
   };
 
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
@@ -151,7 +188,18 @@ function NewDealerList() {
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
-
+  useEffect(() => {
+    let intervalId;
+    if (isDisapprovedOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    if (timer === 0) {
+      closeDisapproved();
+    }
+    return () => clearInterval(intervalId);
+  }, [isDisapprovedOpen, timer]);
   return (
     <>
       <div className="my-8 ml-3">
@@ -234,24 +282,20 @@ function NewDealerList() {
           <div className="text-center py-3">
             <img src={request} alt="email Image" className="mx-auto" />
             <p className="text-3xl mb-0 mt-4 font-semibold text-light-black">
-              Do you really want to approve?
+              Do you really want to {status=="Approved" ? 'Approve' : 'Disapprove'}?
             </p>
 
             <Grid className="my-5">
               <div className="col-span-3"></div>
               <div className="col-span-3">
-                <Button
-                  className="w-full !py-3"
-                  onClick={() => approveApi("true")}
-                >
+                <Button className="w-full !py-3" onClick={() => approveApi()}>
                   Yes
-                  {/* <Link to={"/dealer"} > Yes </Link> */}
                 </Button>
               </div>
               <div className="col-span-3">
                 <Button
                   className="w-full !py-3 !bg-white border-[#D1D1D1] border !text-light-black"
-                  onClick={() => approveApi("false")}
+                  onClick={() => setIsModalOpen(false)}
                 >
                   No
                 </Button>
@@ -273,6 +317,9 @@ function NewDealerList() {
             </p>
             <p className="text-neutral-grey text-base font-medium mt-2">
               This request has been disapproved by you.{" "}
+            </p>
+            <p className="text-neutral-grey text-base font-medium mt-2">
+              Redirecting you to the Dealer Request Page in {timer} seconds.
             </p>
           </div>
         </Modal>
