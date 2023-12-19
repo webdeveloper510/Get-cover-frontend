@@ -27,7 +27,7 @@ function Notification() {
   const updateNotification = async () => {
     updateNotifications().then((res) => {
       console.log(res);
-      getNotificationsData();
+      // getNotificationsData();
     });
   };
 
