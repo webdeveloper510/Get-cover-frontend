@@ -30,7 +30,7 @@ const Input = ({
       maxLength !== undefined
     ) {
       const inputValue = event.target.value;
-      const regex = new RegExp(`^-?\\d{0,4}(\\.\\d{0,2})?$`);
+      const regex = new RegExp(`^-?\\d{0,10}(\\.\\d{0,2})?$`);
 
       if (!regex.test(inputValue)) {
         return;

@@ -88,7 +88,9 @@ function AddCompanyPriceBook() {
     const adminFee = parseFloat(formik.values.adminFee) || 0;
 
     const total = frontingFee + reinsuranceFee + reserveFutureFee + adminFee;
-    setTotalAmount(total);
+    const roundedTotal = total.toFixed(2);
+    console.log(roundedTotal);
+    setTotalAmount(roundedTotal);
   };
 
   useEffect(() => {
@@ -195,7 +197,16 @@ function AddCompanyPriceBook() {
   ];
 
   const defaultValue = formik.values.status === "" ? false : true;
-
+  const selectedCategory = categoryList.find(
+    (option) => option.value === formik.values.priceCatId
+  );
+  useEffect(() => {
+    if (!selectedCategory) {
+      console.log("here");
+      formik.setFieldValue("priceCatId", "");
+    }
+  }, [selectedCategory]);
+  console.log(!selectedCategory);
   return (
     <div className="my-8 ml-3">
       <Headbar />
@@ -321,13 +332,7 @@ function AddCompanyPriceBook() {
                 required={true}
                 className="!bg-[#fff]"
                 options={categoryList}
-                value={
-                  (
-                    categoryList.find(
-                      (option) => option.value === formik.values.priceCatId
-                    ) || {}
-                  ).value || ""
-                }
+                value={(selectedCategory || {}).value || ""}
                 onBlur={formik.handleBlur}
                 error={formik.touched.priceCatId && formik.errors.priceCatId}
               />
@@ -424,7 +429,7 @@ function AddCompanyPriceBook() {
                 className="!bg-[#fff]"
                 label="Fronting fee ($)"
                 placeholder=""
-                maxLength={4}
+                maxLength={"10"}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.frontingFee}
@@ -443,7 +448,7 @@ function AddCompanyPriceBook() {
                 className="!bg-[#fff]"
                 label="Re-insurance fee "
                 minLength={"1"}
-                maxLength={"4"}
+                maxLength={"10"}
                 required={true}
                 placeholder=""
                 onChange={formik.handleChange}
@@ -464,7 +469,7 @@ function AddCompanyPriceBook() {
                 name="reserveFutureFee"
                 required={true}
                 minLength={"1"}
-                maxLength={"4"}
+                maxLength={"10"}
                 className="!bg-[#fff] !px-0 w-[200px]"
                 label="Reserve for future claims"
                 placeholder=""
@@ -487,7 +492,7 @@ function AddCompanyPriceBook() {
                 className="!bg-[#fff]"
                 required={true}
                 minLength={"1"}
-                maxLength={"4"}
+                maxLength={"10"}
                 label="Administration fee "
                 placeholder=""
                 onChange={formik.handleChange}
@@ -516,7 +521,7 @@ function AddCompanyPriceBook() {
                     ? formik.setFieldValue("status", true)
                     : formik.values.status
                 }
-                disabled={formik.values.status === false ? true : false}
+                // disabled={formik.values.status === false ? true : false}
                 onBlur={formik.handleBlur}
                 error={formik.touched.status && formik.errors.status}
                 defaultValue={defaultValue}

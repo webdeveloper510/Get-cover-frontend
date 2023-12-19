@@ -68,7 +68,7 @@ export const getDealersList = async () => {
 
 export const getDealersDetailsByid = async (id) => {
   const headers = createHeaders();
-  console.log(headers);
+
   try {
     const response = await axios.get(`${url}/dealer/getDealerById/${id}`, {
       headers,

@@ -150,7 +150,7 @@ function AddCategory() {
       </div>
       {error && (
         <p className="text-red-500 text-sm pl-2">
-          <span className="font-semibold"> {} </span>
+          <span className="font-semibold"> {error} </span>
         </p>
       )}
       {/* Form Start */}

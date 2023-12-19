@@ -186,3 +186,28 @@ export const getCompanyPriceBookById = async (id) => {
     throw error;
   }
 };
+
+export const uploadDealerBookInBulk = async (data) => {
+  const accessToken = getAccessToken(); // Assuming getAccessToken returns the access token
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+
+  if (accessToken) {
+    headers["x-access-token"] = accessToken;
+  }
+
+  try {
+    const response = await axios.post(
+      `${url}/dealer/uploadsDealerPriceBook`,
+      data, // Assuming `data` is FormData or a structure that Axios can handle for form data
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
