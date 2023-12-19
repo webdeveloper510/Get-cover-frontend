@@ -5,6 +5,7 @@ import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import arrowImage from "../../../assets/images/dropdownArrow.png";
+import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import disapproved from "../../../assets/images/Disapproved.png";
 import request from "../../../assets/images/request.png";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
@@ -14,6 +15,7 @@ import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Modal from "../../../common/model";
 import shorting from "../../../assets/images/icons/shorting.svg";
+import Loader from "../../../assets/images/Loader.gif";
 import {
   getPendingDealersList,
   isApprovedOrDisapprovedStatus,
@@ -24,7 +26,7 @@ function NewDealerList() {
     id: null,
     action: null,
   });
-
+  const [loading, setLoading] = useState(false);
   const [selectedAction, setSelectedAction] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [pendingDealerList, setPendingDealerList] = useState([]);
@@ -60,9 +62,13 @@ function NewDealerList() {
   }, []);
 
   const dealerPendingList = async () => {
+    setLoading(true);
+
     const result = await getPendingDealersList();
     console.log(result.data);
     setPendingDealerList(result.data);
+    setLoading(false);
+
   };
   const truncateText = (text, maxLength) => {
     return text.length > maxLength
@@ -267,19 +273,38 @@ function NewDealerList() {
                       placeholder="Phone No."
                     />
                   </div>
-                  <div className="col-span-1 self-center">
-                    <img
-                      src={Search}
-                      className="cursor-pointer mx-auto"
-                      alt="Search"
-                    />
+                  <div className="col-span-1 self-center flex">
+                  <Button className="!p-0">
+                      <img
+                        src={Search}
+                        className="cursor-pointer	mx-auto"
+                        alt="Search"
+                      />
+                    </Button>
+                    <Button
+                      type="submit"
+                      className="!bg-transparent !ml-2 !p-0"
+                    >
+                      <img
+                        src={clearFilter}
+                        className="cursor-pointer	mx-auto"
+                        alt="clearFilter"
+                      />
+                    </Button>
                   </div>
                 </Grid>
               </div>
             </div>
           </Grid>
           <div className="mb-5">
+          {loading ? (
+              <div className="bg-[#f1f2f3] py-5">
+                <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
+                </div>
+            ) : (
+
             <DataTable columns={columns} data={pendingDealerList}  highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
+            ) }
           </div>
         </div>
 

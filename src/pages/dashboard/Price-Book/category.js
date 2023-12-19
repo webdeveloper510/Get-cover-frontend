@@ -5,6 +5,7 @@ import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
+import Loader from "../../../assets/images/Loader.gif";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
@@ -301,7 +302,9 @@ function Category() {
           </Grid>
           <div className="mb-5">
             {loading ? (
-              <p>Loading</p>
+              <div className="bg-[#f1f2f3] py-5">
+                <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
+                </div>
             ) : (
               <DataTable columns={columns} data={categoryList} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
               </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />

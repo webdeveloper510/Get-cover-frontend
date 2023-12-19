@@ -81,7 +81,7 @@ function Notification() {
             </div>
           ))
         ) : (
-          <p>No Notification</p>
+          <p className="py-8 text-xl text-center font-semibold">No Notification Yet</p>
         )}
       </div>
     </div>

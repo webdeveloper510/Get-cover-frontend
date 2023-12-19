@@ -13,11 +13,13 @@ import DataTable from "react-data-table-component";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import { getDealersList } from "../../../services/dealerServices";
 import shorting from "../../../assets/images/icons/shorting.svg";
+import Loader from "../../../assets/images/Loader.gif";
 
 function DealerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [dealerList, setDealerList] = useState([]);
-
+  const [loading, setLoading] = useState(false);
+  
   const handleActionChange = (action) => {
     // Implement the logic for the selected action (e.g., edit or delete)
     console.log(`Selected action: ${action}`);
@@ -32,9 +34,11 @@ function DealerList() {
   };
 
   const getDealerList = async () => {
+    setLoading(true);
     const result = await getDealersList();
     console.log(result.data);
     setDealerList(result.data);
+    setLoading(false);
   };
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = dealerList.length - index <= 2;
@@ -166,8 +170,8 @@ function DealerList() {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-8">
-                  <div className="col-span-2 self-center">
+                <Grid className="!grid-cols-11">
+                  <div className="col-span-3 self-center">
                     <Input
                       name="Name"
                       type="text"
@@ -177,7 +181,7 @@ function DealerList() {
                       placeholder="Name"
                     />
                   </div>
-                  <div className="col-span-2 self-center">
+                  <div className="col-span-3 self-center">
                     <Input
                       name="Email"
                       type="email"
@@ -187,7 +191,7 @@ function DealerList() {
                       placeholder="Email"
                     />
                   </div>
-                  <div className="col-span-2 self-center">
+                  <div className="col-span-3 self-center">
                     <Input
                       name="PhoneNo."
                       type="number"
@@ -220,8 +224,14 @@ function DealerList() {
               </div>
             </div>
           </Grid>
-          <div className="mb-5">
+          <div className="mb-5">{loading ? (
+              <div className="bg-[#f1f2f3] py-5">
+                <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
+                </div>
+            ) : (
+
             <DataTable columns={columns} data={dealerList} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
+            )}
           </div>
         </div>
       </div>
