@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-const RadioButton = ({ id, label, value, checked, onChange }) => {
+const RadioButton = ({ id, label, value, checked, onChange, disabled }) => {
   return (
     <div className="flex items-center px-3">
       <input
@@ -9,9 +9,12 @@ const RadioButton = ({ id, label, value, checked, onChange }) => {
         value={value}
         checked={checked}
         onChange={onChange}
+        disabled={disabled}
         className="mr-1 accent-teal-900	"
       />
-      <label htmlFor={id} className='text-[12px] font-semibold'>{label}</label>
+      <label htmlFor={id} className="text-[12px] font-semibold">
+        {label}
+      </label>
     </div>
   );
 };

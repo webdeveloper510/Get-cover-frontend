@@ -42,11 +42,55 @@ function Dealer() {
     position: "",
     createdBy: "Super admin",
     dealers: [],
-    priceBook: [{ businessCity: "", term: "" }],
+    priceBook: [
+      {
+        name: "",
+        category: "",
+        productName: "",
+        wholesalePrice: "",
+        terms: "",
+        description: "",
+        retailPrice: "",
+        status: "",
+      },
+    ],
     isAccountCreate: false,
     customerAccountCreated: false,
   });
+  // const handleAddMore = () => {
+  //   setForms((prevForms) => [
+  //     ...prevForms,
+  //     {
+  //       name: "",
+  //       category: "",
+  //       productName: "",
+  //       wholesalePrice: "",
+  //       terms: "",
+  //       description: "",
+  //       retailPrice: "",
+  //       status: "",
+  //     },
+  //   ]);
+  // };
+  const handleAddPriceBook = () => {
+    const priceBook = {
+      name: "",
+      category: "",
+      productName: "",
+      wholesalePrice: "",
+      terms: "",
+      description: "",
+      retailPrice: "",
+      status: "",
+    };
 
+    formik.setFieldValue("priceBook", [...formik.values.priceBook, priceBook]);
+  };
+  const handleDeletePriceBook = (index) => {
+    const updatedPriceBook = [...formik.values.priceBook];
+    updatedPriceBook.splice(index, 1);
+    formik.setFieldValue("dealers", updatedPriceBook);
+  };
   const { id } = useParams();
 
   console.log("id", id);
@@ -71,7 +115,18 @@ function Dealer() {
           position: res.result[0].position,
           createdBy: "Super admin",
           dealers: [],
-          priceBook: [{ description: "", term: "" }],
+          priceBook: [
+            {
+              name: "",
+              category: "",
+              productName: "",
+              wholesalePrice: "",
+              terms: "",
+              description: "",
+              retailPrice: "",
+              status: "",
+            },
+          ],
           isAccountCreate: false,
           customerAccountCreated: false,
         });
@@ -399,7 +454,7 @@ function Dealer() {
                   <Input
                     type="text"
                     name="email"
-                    label="Email"  
+                    label="Email"
                     placeholder=""
                     className="!bg-white"
                     required={true}
@@ -482,6 +537,7 @@ function Dealer() {
                       label="Yes"
                       value="yes"
                       checked={separateAccountOption === "yes"}
+                      disabled={createAccountOption === "no"}
                       onChange={handleSeparateAccountRadioChange}
                     />
                     <RadioButton
@@ -671,6 +727,7 @@ function Dealer() {
                           id={`yes-${index}`}
                           label="Yes"
                           value="yes"
+                          disabled={createAccountOption === "no"}
                           checked={
                             formik.values.dealers &&
                             formik.values.dealers[index] &&
@@ -750,73 +807,78 @@ function Dealer() {
                 Add Single Price Book
               </p>
               <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
-                <Button className="text-sm "> + Add More </Button>
+                <Button className="text-sm " onClick={handleAddPriceBook}>
+                  {" "}
+                  + Add More{" "}
+                </Button>
               </div>
-              <Grid className="pr-4 pl-4">
-                <div className="col-span-4">
-                  <Input
-                    type="number"
-                    name="description"
-                    label="Retail Price($)"
-                    required={true}
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    type="text"
-                    name="city"
-                    label="city"
-                    required={true}
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-2">
-                  <Input
-                    type="text"
-                    name="wholesale"
-                    label="Prize($)"
-                    required={true}
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-2">
-                  <Input
-                    type="number"
-                    name="description"
-                    label="Retail Price($)"
-                    required={true}
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    type="text"
-                    name="description"
-                    label="Description"
-                    required={true}
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    type="number"
-                    name="description"
-                    label="Retail Price($)"
-                    required={true}
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    type="number"
-                    name="description"
-                    label="Retail Price($)"
-                    required={true}
-                    placeholder=""
-                  />
-                </div>
-              </Grid>
+              {formik.values.priceBook.map((dealer, index) => (
+                <Grid className="pr-4 pl-4">
+                  <div className="col-span-4">
+                    <Input
+                      type="number"
+                      name="name"
+                      label="Product Category "
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-4">
+                    <Input
+                      type="text"
+                      name="city"
+                      label="Product Name"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Input
+                      type="text"
+                      name="wholesale"
+                      label="Wholesale Prize($)"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Input
+                      type="number"
+                      name="term"
+                      label="Terms"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-4">
+                    <Input
+                      type="text"
+                      name="description"
+                      label="Description"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-4">
+                    <Input
+                      type="number"
+                      name="retailprice"
+                      label="Retail Price($)"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-4">
+                    <Input
+                      type="number"
+                      name="status"
+                      label="Status"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                </Grid>
+              ))}
             </div>
           ) : (
             <div className="bg-[#f9f9f9] p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">

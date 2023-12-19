@@ -68,16 +68,35 @@ function AddCompanyPriceBook() {
       status: Yup.string().required("Required"),
     }),
     onSubmit: async (values) => {
-      const result = id
-        ? await editCompanyList(id, values)
-        : await addCompanyPricBook(values);
-      console.log(result);
-      if (result.code !== 200) {
-        setError(result.message);
-      } else {
-        setError(false);
-        setIsModalOpen(true);
-        setTimer(3);
+      try {
+        let result;
+
+        if (id) {
+          const matchingCategory = categoryList.find(
+            (checkState) => checkState.value === values.priceCatId
+          );
+
+          if (matchingCategory) {
+            result = await editCompanyList(id, values);
+          } else {
+            formik.setFieldValue("priceCatId", "");
+            return;
+          }
+        } else {
+          result = await addCompanyPricBook(values);
+        }
+
+        console.log(result);
+
+        if (result.code !== 200) {
+          setError(result.message);
+        } else {
+          setError(false);
+          setIsModalOpen(true);
+          setTimer(3);
+        }
+      } catch (error) {
+        console.error("Error:", error);
       }
     },
   });
@@ -88,11 +107,14 @@ function AddCompanyPriceBook() {
     const adminFee = parseFloat(formik.values.adminFee) || 0;
 
     const total = frontingFee + reinsuranceFee + reserveFutureFee + adminFee;
+
     const roundedTotal = total.toFixed(2);
-    console.log(roundedTotal);
     setTotalAmount(roundedTotal);
   };
-
+  useEffect(() => {
+    getCategoryListActiveData11();
+    getTermListData();
+  }, []);
   useEffect(() => {
     calculateTotal();
   }, [formik.values]);
@@ -101,12 +123,14 @@ function AddCompanyPriceBook() {
     let isMounted = true;
 
     const getPriceBookDetailsById = async () => {
+      const data = await getCategoryListActiveData11();
+      console.log(data);
+
       try {
         if (id) {
           setType("Edit");
           const result = await getCompanyPriceBookById(id);
           setDetailsById(result.result);
-          console.log(result.result);
           if (isMounted) {
             setDetailsById(result.result);
             formik.setValues({
@@ -150,11 +174,6 @@ function AddCompanyPriceBook() {
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
 
-  useEffect(() => {
-    getCategoryListActiveData11();
-    getTermListData();
-  }, []);
-
   const getTermListData = async () => {
     try {
       const res = await getTermList();
@@ -197,16 +216,7 @@ function AddCompanyPriceBook() {
   ];
 
   const defaultValue = formik.values.status === "" ? false : true;
-  const selectedCategory = categoryList.find(
-    (option) => option.value === formik.values.priceCatId
-  );
-  useEffect(() => {
-    if (!selectedCategory) {
-      console.log("here");
-      formik.setFieldValue("priceCatId", "");
-    }
-  }, [selectedCategory]);
-  console.log(!selectedCategory);
+
   return (
     <div className="my-8 ml-3">
       <Headbar />
@@ -332,7 +342,13 @@ function AddCompanyPriceBook() {
                 required={true}
                 className="!bg-[#fff]"
                 options={categoryList}
-                value={(selectedCategory || {}).value || ""}
+                value={
+                  (
+                    categoryList.find(
+                      (option) => option.value === formik.values.priceCatId
+                    ) || {}
+                  ).value || ""
+                }
                 onBlur={formik.handleBlur}
                 error={formik.touched.priceCatId && formik.errors.priceCatId}
               />
