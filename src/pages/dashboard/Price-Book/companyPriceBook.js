@@ -238,7 +238,6 @@ function CompanyPriceBook() {
       minWidth: 'auto', 
       maxWidth: '90px',
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div onClick={() => setSelectedAction(row.unique_key)}>
@@ -302,10 +301,10 @@ function CompanyPriceBook() {
         <div className="bg-white border-[1px] border-[#D1D1D1] rounded-xl">
           <form onSubmit={formik.handleSubmit}>
             <Grid className="!px-[26px] !pt-[14px] !pb-0">
-              <div className="col-span-5 self-center">
+              <div className="col-span-4 self-center">
                 <p className="text-xl font-semibold">Product Price List</p>
               </div>
-              <div className="col-span-7">
+              <div className="col-span-8">
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!grid-cols-11">
                     <div className="col-span-3 self-center">
@@ -327,7 +326,7 @@ function CompanyPriceBook() {
                         name="category"
                         label=""
                         options={categoryList}
-                        OptionName="Product Category"
+                        OptionName="Category"
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px]  !bg-[#f7f7f7]"
@@ -348,7 +347,7 @@ function CompanyPriceBook() {
                         onChange={formik.setFieldValue}
                       />
                     </div>
-                    <div className="col-span-2 self-center flex">
+                    <div className="col-span-2 self-center flex justify-center">
                       <button type="submit">
                         <img
                           src={Search}

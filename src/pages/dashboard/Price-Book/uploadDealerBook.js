@@ -173,7 +173,7 @@ function UploadDealerBook() {
               </div>
             </div>
             <div className="col-span-6">
-              <div  className='block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer'>
+              <div  className='block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative'>
               <ReactTags
                 tags={tags}
                 delimiters={delimiters}
@@ -185,7 +185,15 @@ function UploadDealerBook() {
                 inputFieldPosition="bottom"
                 autocomplete
                 editable
+                placeholder=""
               />
+               <label
+          htmlFor="email"
+          className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-1 left-2 px-1 -translate-y-4 scale-75 bg-[#fff] text-[#5D6E66] "
+        >
+         Email Confirmations 
+          <span className="text-red-500">*</span>
+        </label>
               </div>
               {formik.errors.email && (
                 <p className="text-red-500 text-[10px] mt-1 font-medium">
