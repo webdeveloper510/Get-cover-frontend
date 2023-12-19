@@ -36,3 +36,20 @@ export const getNotifications = async () => {
     throw error;
   }
 };
+export const getDealerList = async () => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.get(
+      `${url}/dealer/dealers
+          `,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
