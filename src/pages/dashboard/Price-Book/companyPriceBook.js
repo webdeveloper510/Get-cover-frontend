@@ -29,6 +29,7 @@ function CompanyPriceBook() {
   const [categoryList, setCategoryList] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   // const handleSelectChange1 = (label, value) => {
   //   console.log(label, value, "selected");
   //   setSelectedProduct(value);
@@ -61,6 +62,8 @@ function CompanyPriceBook() {
     try {
       setLoading(true);
       const res = await getCompanyPriceList(data);
+      setError(res.message);
+      console.log(res);
       setCompanyPriceList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
@@ -151,10 +154,10 @@ function CompanyPriceBook() {
   ];
 
   const paginationOptions = {
-    rowsPerPageText: 'Rows per page:',
-    rangeSeparatorText: 'of',
+    rowsPerPageText: "Rows per page:",
+    rangeSeparatorText: "of",
     selectAllRowsItem: true,
-    selectAllRowsItemText: 'All',
+    selectAllRowsItemText: "All",
   };
 
   const columns = [
@@ -162,15 +165,15 @@ function CompanyPriceBook() {
       name: "ID",
       selector: (row) => row.unique_key,
       sortable: true,
-      minWidth: 'auto', 
-      maxWidth: '80px',
+      minWidth: "auto",
+      maxWidth: "80px",
     },
     {
       name: "Category",
       selector: (row) => row.category.name,
       sortable: true,
-      minWidth: 'auto', 
-      maxWidth: '300px', 
+      minWidth: "auto",
+      maxWidth: "300px",
       // cell: (row) => (
       //   <span title={row.category.name}>
       //     {truncateText(row.category.name, 20)}
@@ -187,16 +190,18 @@ function CompanyPriceBook() {
       name: "Description",
       selector: (row) => row.description,
       sortable: true,
-      minWidth: 'auto', 
-      maxWidth: '300px',
-      cell: (row) => <span title={row.description}>{truncateText(row.description, 20)}</span>,
+      minWidth: "auto",
+      maxWidth: "300px",
+      cell: (row) => (
+        <span title={row.description}>{truncateText(row.description, 20)}</span>
+      ),
     },
     {
       name: " Term",
       selector: (row) => row.term + " Months",
       sortable: true,
-      minWidth: 'auto', 
-      maxWidth: '100px', 
+      minWidth: "auto",
+      maxWidth: "100px",
     },
     {
       name: "WholeSale Cost",
@@ -214,8 +219,8 @@ function CompanyPriceBook() {
         return formattedCost;
       },
       sortable: true,
-      minWidth: 'auto', 
-      maxWidth: '170px',
+      minWidth: "auto",
+      maxWidth: "170px",
     },
     {
       name: "Status",
@@ -244,8 +249,8 @@ function CompanyPriceBook() {
       name: "Action",
       right: true,
       reorder: true,
-      minWidth: 'auto', 
-      maxWidth: '90px',
+      minWidth: "auto",
+      maxWidth: "90px",
       cell: (row, index) => {
         return (
           <div className="relative">
@@ -280,6 +285,7 @@ function CompanyPriceBook() {
     <>
       <div className="my-8 ml-3">
         <Headbar />
+
         <div className="flex mt-2">
           <div className="pl-3">
             <p className="font-semibold text-[36px] leading-9	mb-[3px]">
@@ -296,6 +302,11 @@ function CompanyPriceBook() {
             </ul>
           </div>
         </div>
+        {error && (
+          <p className="text-red-500 text-sm pl-2">
+            <span className="font-semibold"> {error} </span>
+          </p>
+        )}
         <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
           {" "}
           <Link to={"/addCompanyPriceBook"} className="flex">
@@ -382,13 +393,29 @@ function CompanyPriceBook() {
             </Grid>
           </form>
           <div className="relative mb-5">
-          {loading ? (
+            {loading ? (
               <div className="bg-[#f1f2f3] py-5">
-                <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
-                </div>
+                <img
+                  src={Loader}
+                  className="mx-auto bg-transparent"
+                  alt="Loader"
+                />
+              </div>
             ) : (
-            <DataTable columns={columns} sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
-              </>} data={companyPriceList} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100,]}/>
+              <DataTable
+                columns={columns}
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />
+                  </>
+                }
+                data={companyPriceList}
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              />
             )}
           </div>
         </div>

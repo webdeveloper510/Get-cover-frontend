@@ -55,16 +55,16 @@ function AddCompanyPriceBook() {
       term: Yup.number().required("Required"),
       frontingFee: Yup.number()
         .required("Required")
-        .min(0.1, "Fronting fee cannot be negative"),
+        .min(0, "Fronting fee cannot be negative"),
       reinsuranceFee: Yup.number()
         .required("Required")
-        .min(0.1, "Re-insurance fee cannot be negative"),
+        .min(0, "Re-insurance fee cannot be negative"),
       reserveFutureFee: Yup.number()
         .required("Required")
-        .min(0.1, "ReserveFuture fee cannot be negative"),
+        .min(0, "ReserveFuture fee cannot be negative"),
       adminFee: Yup.number()
         .required("Required")
-        .min(0.1, "Admin fee cannot be negative"),
+        .min(0, "Admin fee cannot be negative"),
       status: Yup.string().required("Required"),
     }),
     onSubmit: async (values) => {
@@ -440,7 +440,7 @@ function AddCompanyPriceBook() {
 
             <div className="col-span-1">
               <Input
-                type="number"
+                type="tel"
                 name="frontingFee"
                 className="!bg-[#fff]"
                 label="Fronting fee ($)"
@@ -459,7 +459,7 @@ function AddCompanyPriceBook() {
             </div>
             <div className="col-span-1">
               <Input
-                type="number"
+                type="tel"
                 name="reinsuranceFee"
                 className="!bg-[#fff]"
                 label="Re-insurance fee "
@@ -481,7 +481,7 @@ function AddCompanyPriceBook() {
             </div>
             <div className="col-span-1">
               <Input
-                type="number"
+                type="tel"
                 name="reserveFutureFee"
                 required={true}
                 minLength={"1"}
@@ -503,7 +503,7 @@ function AddCompanyPriceBook() {
             </div>
             <div className="col-span-1">
               <Input
-                type="number"
+                type="tel"
                 name="adminFee"
                 className="!bg-[#fff]"
                 required={true}

@@ -45,6 +45,27 @@ const Input = ({
           },
         });
       }
+    } else if (
+      type === "tel" &&
+      maxDecimalPlaces !== undefined &&
+      maxLength !== undefined
+    ) {
+      const inputValue = event.target.value;
+      const regex = new RegExp(`^-?\\d{0,7}(\\.\\d{0,2})?$`);
+
+      if (!regex.test(inputValue)) {
+        return;
+      }
+      setInputValue(inputValue);
+
+      if (onChange) {
+        onChange({
+          target: {
+            name: event.target.name,
+            value: inputValue,
+          },
+        });
+      }
     } else {
       setInputValue(event.target.value);
       if (onChange) {
