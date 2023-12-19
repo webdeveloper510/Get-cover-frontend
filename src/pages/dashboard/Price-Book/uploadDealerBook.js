@@ -53,7 +53,7 @@ function UploadDealerBook() {
       {/* Form Start */}
 
       <form className='mt-8'>
-        <div className='px-8 py-8 drop-shadow-4xl bg-white min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl'>
+        <div className='px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
           <Grid className=''>
             <div className='col-span-6'>
               <Select label="Dealer Name *"
@@ -68,7 +68,7 @@ function UploadDealerBook() {
             <div className='col-span-12'>
               <p className='text-light-black text-base mb-2 font-semibold'>Upload In Bulk</p>
               <FileDropdown className="!bg-transparent" />
-              <p className='text-[10px] mt-1 text-[#5D6E66] font-medium'>Please click on file option and make a copy. Upload the list of Product Name and Price using our provided Google Sheets template, by<span className='underline'>Clicking here </span>. The file must be saved with CSV Format.</p>
+              <p className='text-[12px] mt-1 text-[#5D6E66] font-medium'>Please click on file option and make a copy. Upload the list of Product Name and Price using our provided Google Sheets template, by <span className='underline'>Clicking here </span>. The file must be saved with CSV Format.</p>
             </div>
           </Grid>
           <Button className='mt-12 font-normal rounded-[25px]' onClick={() => { openModal(true); }}>Submit</Button>
