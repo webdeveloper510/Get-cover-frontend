@@ -108,8 +108,6 @@ function Category() {
       name: "Category Name",
       selector: (row) => row.name,
       sortable: true,
-      // minWidth: '100px',  // Set a custom minimum width
-      // maxWidth: '170px',  // Set a custom maximum width
       cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
     },
     {

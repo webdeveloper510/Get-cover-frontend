@@ -145,7 +145,40 @@ code {
 .ReactTags__tags.react-tags-wrapper {
   display: flex;
   width: 100%;
-  overflow: scroll;
+  flex-wrap: wrap;
+}
+
+.ReactTags__tagInput, input.ReactTags__tagInputField:focus {
+
+&::-webkit-input-placeholder {
+
+color: transparent;
+
+-webkit-transition: color 0.2s ease;
+
+transition: color 0.2s ease;
+
+}
+
+&:-moz-placeholder { /* Firefox 18- */
+
+color: transparent;
+
+-webkit-transition: color 0.2s ease;
+
+transition: color 0.2s ease;
+
+}
+
+&:-ms-input-placeholder {
+
+color: transparent;
+
+-webkit-transition: color 0.2s ease;
+
+transition: color 0.2s ease;
+
+}
 }
 
 /* width */
@@ -161,22 +194,41 @@ span.tag-wrapper.ReactTags__tag {
 
 .ReactTags__selected {
   display: flex;
+  flex-wrap: wrap;
 }
 
 span.tag-wrapper.ReactTags__tag {
-  background: #ededed;
+  background: #F0F0F0;
   margin-right: 4px;
+  border-radius: 5px;
   padding: 0px 5px;
+  margin-bottom: 5px;
 }
 
 span.tag-wrapper.ReactTags__tag button {
   margin-left: 7px;
-  border-left: 1px solid white;
   padding-left: 6px;
 }
 
-.ReactTags__tagInput, input.ReactTags__tagInputField {
+.rdt_TableCell div {
+  white-space: pre-wrap !important;
+}
+.rdt_TableCell span {
+  white-space: pre-wrap !important;
+  line-height: 10px;
+}
+
+.ReactTags__tagInput {
+  width: 50%;
+}
+input.ReactTags__tagInputField {
   width: 100%;
+}
+input:focus,
+textarea:focus,
+select:focus,
+a:focus {
+  outline: none;
 }
 
 ::-webkit-scrollbar {
