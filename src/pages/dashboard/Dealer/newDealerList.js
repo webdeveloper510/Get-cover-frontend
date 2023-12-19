@@ -49,10 +49,10 @@ function NewDealerList() {
   };
 
   const paginationOptions = {
-    rowsPerPageText: 'Rows per page:',
-    rangeSeparatorText: 'of',
+    rowsPerPageText: "Rows per page:",
+    rangeSeparatorText: "of",
     selectAllRowsItem: true,
-    selectAllRowsItemText: 'All',
+    selectAllRowsItemText: "All",
   };
 
   useEffect(() => {
@@ -74,6 +74,11 @@ function NewDealerList() {
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
   const columns = [
+    {
+      name: "Dealer id",
+      selector: (row) => row.dealerData.unique_key,
+      sortable: true,
+    },
     {
       name: "Account Name",
       selector: (row) => row.dealerData.name,
@@ -279,7 +284,21 @@ function NewDealerList() {
             </div>
           </Grid>
           <div className="mb-5">
-            <DataTable columns={columns} data={pendingDealerList}  highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
+            <DataTable
+              columns={columns}
+              data={pendingDealerList}
+              highlightOnHover
+              sortIcon={
+                <>
+                  {" "}
+                  <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                </>
+              }
+              pagination
+              paginationPerPage={10}
+              paginationComponentOptions={paginationOptions}
+              paginationRowsPerPageOptions={[10, 20, 50, 100]}
+            />
           </div>
         </div>
 
@@ -290,7 +309,8 @@ function NewDealerList() {
           <div className="text-center py-3">
             <img src={request} alt="email Image" className="mx-auto" />
             <p className="text-3xl mb-0 mt-4 font-semibold text-light-black">
-              Do you really want to {status=="Approved" ? 'Approve' : 'Disapprove'}?
+              Do you really want to{" "}
+              {status == "Approved" ? "Approve" : "Disapprove"}?
             </p>
 
             <Grid className="my-5">

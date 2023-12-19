@@ -24,17 +24,58 @@ function Dealer() {
   const [selectedCity, setSelectedCity] = useState("");
   const [createAccountOption, setCreateAccountOption] = useState("no");
   const [separateAccountOption, setSeparateAccountOption] = useState("no");
-  const [selectedOption, setSelectedOption] = useState();
+  const [selectedOption, setSelectedOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
+  // const [getUserDetails, setGetUserDetails] = useState([]);
+  const [initialFormValues, setInitialFormValues] = useState({
+    name: "",
+    flag: "approved",
+    street: "",
+    zip: "",
+    state: "",
+    country: "USA",
+    email: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    city: "",
+    position: "",
+    createdBy: "Super admin",
+    dealers: [],
+    priceBook: [{ businessCity: "", term: "" }],
+    isAccountCreate: false,
+    customerAccountCreated: false,
+  });
+
   const { id } = useParams();
 
   console.log("id", id);
 
   useEffect(() => {
-    if (id) {
-      // getDealersDetailsByid(id).then((res) => {
-      //   console.log(res);
-      // });
+    if (id != "null") {
+      getDealersDetailsByid(id).then((res) => {
+        // setGetUserDetails(res.result[0]);
+        console.log();
+        setInitialFormValues({
+          name: res.result[0].dealerData.name,
+          flag: "approved",
+          street: res.result[0].dealerData.street,
+          zip: res.result[0].dealerData.zip,
+          state: res.result[0].dealerData.state,
+          country: "USA",
+          email: res.result[0].email,
+          firstName: res.result[0].firstName,
+          lastName: res.result[0].lastName,
+          phoneNumber: res.result[0].phoneNumber,
+          city: res.result[0].dealerData.city,
+          position: res.result[0].position,
+          createdBy: "Super admin",
+          dealers: [],
+          priceBook: [{ description: "", term: "" }],
+          isAccountCreate: false,
+          customerAccountCreated: false,
+        });
+      });
     }
   }, []);
   const handleRadioChange = (event) => {
@@ -58,7 +99,9 @@ function Dealer() {
   const handleSeparateAccountRadioChange = (event) => {
     setSeparateAccountOption(event.target.value);
   };
-
+  const handleRadioChangeforBulk = (event) => {
+    setSelectedOption(event.target.value);
+  };
   const handleRadioChangeDealers = (value, index) => {
     const updatedDealers = [...formik.values.dealers];
     updatedDealers[index].status = value === "yes";
@@ -69,24 +112,8 @@ function Dealer() {
   };
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      flag: "approved",
-      street: "",
-      zip: "",
-      state: "",
-      country: "USA",
-      email: "",
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      city: "",
-      position: "",
-      createdBy: "Super admin",
-      dealers: [],
-      isAccountCreate: false,
-      customerAccountCreated: false,
-    },
+    initialValues: initialFormValues,
+    enableReinitialize: true,
     validationSchema: Yup.object({
       name: Yup.string()
         .required("Required")
@@ -99,18 +126,18 @@ function Dealer() {
       country: Yup.string().required("Required"),
       email: Yup.string()
         .matches(emailValidationRegex, "Invalid email address")
-        .required("Required")
-        .test(
-          "email-availability",
-          "Email is already in use",
-          async (value) => {
-            const response = await checkDealersEmailValidation(value);
-            console.log(response.status);
-            const isEmailAvailable = response.status === 200; // Adjust this condition based on your API's logic
-            setIsEmailAvailable(isEmailAvailable);
-            return isEmailAvailable; // Return the result to indicate email availability
-          }
-        ),
+        .required("Required"),
+      // .test(
+      //   "email-availability",
+      //   "Email is already in use",
+      //   async (value) => {
+      //     const response = await checkDealersEmailValidation(value);
+      //     console.log(response.status);
+      //     const isEmailAvailable = response.status === 200;
+      //     setIsEmailAvailable(isEmailAvailable);
+      //     return isEmailAvailable;
+      //   }
+      // ),
 
       zip: Yup.string()
         .required("Required")
@@ -218,7 +245,7 @@ function Dealer() {
                   <Input
                     type="text"
                     name="name"
-                    className='!bg-white'
+                    className="!bg-white"
                     label="Account Name"
                     required={true}
                     placeholder=""
@@ -307,6 +334,7 @@ function Dealer() {
                     className="!bg-white"
                     required={true}
                     placeholder=""
+                    value={formik.values.zip}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     minLength={"5"}
@@ -376,7 +404,7 @@ function Dealer() {
                     className="!bg-white"
                     required={true}
                     value={formik.values.email}
-                    onBlur={() => checkEmailAvailability(formik.values.email)}
+                    onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     error={formik.touched.email && formik.errors.email}
                   />
@@ -693,11 +721,13 @@ function Dealer() {
           </div>
         ))}
 
-        {/* <div className="bg-[#fff] p-8 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
+        <div className="bg-[#fff] p-8 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
           <Grid>
             <div className="col-span-3">
               <p className="text-light-black text-lg mb-3 font-semibold">
-                Add / Upload Price Book
+                {selectedOption === "yes"
+                  ? "Add  Price Book"
+                  : "Upload Price Book"}{" "}
               </p>
             </div>
             <div className="col-span-4 self-center">
@@ -709,100 +739,104 @@ function Dealer() {
                 label="Add Single Price Book"
                 value="yes"
                 checked={selectedOption === "yes"}
-                onChange={handleRadioChange}
+                onChange={handleRadioChangeforBulk}
               />
-
               <RadioButton
                 id="no"
                 label="Upload In Bulk"
                 value="no"
                 checked={selectedOption === "no"}
-                onChange={handleRadioChange}
+                onChange={handleRadioChangeforBulk}
               />
             </div>
           </Grid>
-          <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
-            <p className="text-light-black text-lg mb-5 font-semibold">
-              Add Single Price Book
-            </p>
-            <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
-              <Button className="text-sm "> + Add More </Button>
-            </div>
-            <Grid className="pr-4 pl-4">
-              <div className="col-span-4">
-                <Select
-                  label="Business City"
-                  options={city}
-                  selectedValue={selectedCity}
-                  onChange={handleSelectChange1}
-                />
+
+          {selectedOption === "yes" ? (
+            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+              <p className="text-light-black text-lg mb-5 font-semibold">
+                Add Single Price Book
+              </p>
+              <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
+                <Button className="text-sm "> + Add More </Button>
               </div>
-              <div className="col-span-4">
-                <Select
+              <Grid className="pr-4 pl-4">
+                <div className="col-span-4">
+                  {/* <Select
                   label="Business City *"
                   options={city}
                   selectedValue={selectedCity}
                   onChange={handleSelectChange1}
-                />
-              </div>
-              <div className="col-span-2">
-                <Input
-                  type="text"
-                  name="wholesale"
-                  label="Prize($)"
-                  required={true}
-                  placeholder=""
-                />
-              </div>
-              <div className="col-span-2">
-                <Select
+                /> */}
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="city"
+                    label="city"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className="col-span-2">
+                  <Input
+                    type="text"
+                    name="wholesale"
+                    label="Prize($)"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className="col-span-2">
+                  {/* <Select
                   label="Term *"
                   options={city}
                   selectedValue={selectedCity}
                   onChange={handleSelectChange1}
-                />
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="text"
-                  name="description"
-                  label="Description"
-                  required={true}
-                  placeholder=""
-                />
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="number"
-                  name="description"
-                  label="Retail Price($)"
-                  required={true}
-                  placeholder=""
-                />
-              </div>
-              <div className="col-span-4">
-                <Select
+                /> */}
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="description"
+                    label="Description"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="number"
+                    name="description"
+                    label="Retail Price($)"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className="col-span-4">
+                  {/* <Select
                   label="Status *"
                   options={city}
                   selectedValue={selectedCity}
                   onChange={handleSelectChange1}
-                />
-              </div>
-            </Grid>
-          </div>
-          <div className="bg-[#f9f9f9] p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
-            <p className="text-[#717275] text-lg mb-5 font-semibold">
-              Upload In Bulk
-            </p>
-            <FileDropdown />
-            <p className="text-[10px] mt-1 text-[#5D6E66] font-medium">
-              Please click on file option and make a copy. Upload the list of
-              Product Name and Price using our provided Google Sheets template,
-              by <span className="underline">Clicking here </span>. The file
-              must be saved with CSV Format.
-            </p>
-          </div>
-        </div> */}
+                /> */}
+                </div>
+              </Grid>
+            </div>
+          ) : (
+            <div className="bg-[#f9f9f9] p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
+              <p className="text-[#717275] text-lg mb-5 font-semibold">
+                Upload In Bulk
+              </p>
+              <FileDropdown />
+              <p className="text-[10px] mt-1 text-[#5D6E66] font-medium">
+                Please click on file option and make a copy. Upload the list of
+                Product Name and Price using our provided Google Sheets
+                template, by <span className="underline">Clicking here </span>.
+                The file must be saved with CSV Format.
+              </p>
+            </div>
+          )}
+        </div>
         <Button type="submit" className="mt-4">
           Submit
         </Button>
