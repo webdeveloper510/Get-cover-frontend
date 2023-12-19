@@ -21,8 +21,6 @@ const Select = ({
   const [isFilled, setIsFilled] = useState(!!value);
   const [localDefaultValue, setLocalDefaultValue] = useState(value);
 
-  console.log("defaultValue", disabled);
-
   const handleFocus = () => {
     setIsFocused(true);
   };
@@ -54,7 +52,7 @@ const Select = ({
           }`}
           defaultValue={localDefaultValue}
         >
-          <option className={color} value="">
+          <option className={color} disabled  value="">
             Select {OptionName}
           </option>
           {options.map((option) => (
