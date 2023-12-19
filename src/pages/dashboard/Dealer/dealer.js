@@ -399,7 +399,7 @@ function Dealer() {
                   <Input
                     type="text"
                     name="email"
-                    label="Email"
+                    label="Email"  
                     placeholder=""
                     className="!bg-white"
                     required={true}
@@ -724,10 +724,10 @@ function Dealer() {
                   : "Upload Price Book"}{" "}
               </p>
             </div>
-            <div className="col-span-5 self-center">
+            <div className="col-span-6 self-center">
               <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
             </div>
-            <div className="col-span-5 flex">
+            <div className="col-span-4 flex justify-end">
               <RadioButton
                 id="yes"
                 label="Add Single Price Book"

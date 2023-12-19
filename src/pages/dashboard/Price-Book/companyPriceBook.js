@@ -235,6 +235,8 @@ function CompanyPriceBook() {
       name: "Action",
       right: true,
       reorder: true,
+      minWidth: 'auto', 
+      maxWidth: '90px',
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (

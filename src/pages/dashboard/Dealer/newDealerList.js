@@ -93,33 +93,16 @@ function NewDealerList() {
       name: "First Name",
       selector: (row) => row.firstName,
       sortable: true,
-      cell: (row) => (
-        <span title={row.firstName}>{truncateText(row.firstName, 20)}</span>
-      ),
     },
     {
       name: "Last Name",
       selector: (row) => row.lastName,
       sortable: true,
-      cell: (row) => (
-        <span title={row.lastName}>{truncateText(row.lastName, 20)}</span>
-      ),
     },
     {
       name: "Address",
       selector: (row) => row.dealerData.street + "," + row.dealerData.city,
       sortable: true,
-      cell: (row) => (
-        <span
-          title={`${truncateText(row.dealerData.street, 10)}, ${truncateText(
-            row.dealerData.city,
-            10
-          )}`}
-        >
-          {truncateText(row.dealerData.street, 10)},{" "}
-          {truncateText(row.dealerData.city, 10)}
-        </span>
-      ),
     },
     {
       name: "Email",
@@ -133,6 +116,8 @@ function NewDealerList() {
     },
     {
       name: "Action",
+      minWidth: 'auto', 
+      maxWidth: '90px',
       cell: (row, index) => (
         <div className="relative">
           <div onClick={() => toggleDropdown(index)}>

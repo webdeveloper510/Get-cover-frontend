@@ -9,9 +9,9 @@ const RadioButton = ({ id, label, value, checked, onChange }) => {
         value={value}
         checked={checked}
         onChange={onChange}
-        className="mr-2 accent-teal-900	"
+        className="mr-1 accent-teal-900	"
       />
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id} className='text-[12px] font-semibold'>{label}</label>
     </div>
   );
 };

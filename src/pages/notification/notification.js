@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Headbar from "../../common/headBar";
 import BackImage from "../../assets/images/icons/backArrow.svg";
 import date from "../../assets/images/icons/date.svg";
+import Loader from "../../assets/images/Loader.gif";
 import time from "../../assets/images/icons/time.svg";
 import { Link } from "react-router-dom";
 
@@ -9,15 +10,19 @@ import { getNotifications } from "../../services/extraServices";
 
 function Notification() {
   const [notificationList, setNotificationList] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
+      setLoading(true);
     getNotifications().then((response) => {
       setNotificationList(response.result.notification);
       console.log(response.result.notification);
+      setLoading(false);
+
     });
   }, []);
   return (
-    <div className="my-8 ml-3 relative overflow-x-hidden">
-      <Headbar className="!top-0" />
+    <div className="py-8 pl-3 relative overflow-x-hidden bg-[#F9F9F9]">
+      <Headbar />
       <div className="flex">
         <Link
           to={"/dashboard"}
@@ -46,43 +51,51 @@ function Notification() {
       </div>
 
       <div className="mt-8">
-        {notificationList.length !== 0 ? (
-          notificationList.map((data, key) => (
-            <div
-              key={key}
-              className="border border-[#D9D9D9] rounded-[25px] mb-5 px-6 py-8 mr-4"
-            >
-              <p className="font-semibold text-lg">
-                {data?.notificationData.title}
-              </p>
-              <p className="mb-6 text-base text-[#999999] font-Regular">
-                {data?.notificationData.description}
-              </p>
-              <div className="flex">
-                <div className="flex mr-10 font-Regular">
-                  <img src={date} className="mr-2" alt="date" />
-                  <p>
-                    <b> Date : </b>{" "}
-                    {new Date(
-                      data.notificationData.createdAt
-                    ).toLocaleDateString()}
-                  </p>
+      {loading ? (
+              <div className="bg-[#f1f2f3] py-5 h-screen flex w-full fixed top-0 ">
+                <img src={Loader} className="mx-auto bg-transparent self-center" alt="Loader" />
                 </div>
-                <div className="flex font-Regular">
-                  <img src={time} className="mr-2" alt="Time" />
-                  <p>
-                    <b> Time : </b>{" "}
-                    {new Date(
-                      data.notificationData.createdAt
-                    ).toLocaleTimeString()}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="py-8 text-xl text-center font-semibold">No Notification Yet</p>
-        )}
+            ) : (
+            <>
+                {notificationList.length !== 0 ? (
+                notificationList.map((data, key) => (
+                    <div
+                    key={key}
+                    className="border border-[#D9D9D9] rounded-[25px] mb-5 px-6 py-8 mr-4"
+                    >
+                    <p className="font-semibold text-lg">
+                        {data?.notificationData.title}
+                    </p>
+                    <p className="mb-6 text-base text-[#999999] font-Regular">
+                        {data?.notificationData.description}
+                    </p>
+                    <div className="flex">
+                        <div className="flex mr-10 font-Regular">
+                        <img src={date} className="mr-2" alt="date" />
+                        <p>
+                            <b> Date : </b>{" "}
+                            {new Date(
+                            data.notificationData.createdAt
+                            ).toLocaleDateString()}
+                        </p>
+                        </div>
+                        <div className="flex font-Regular">
+                        <img src={time} className="mr-2" alt="Time" />
+                        <p>
+                            <b> Time : </b>{" "}
+                            {new Date(
+                            data.notificationData.createdAt
+                            ).toLocaleTimeString()}
+                        </p>
+                        </div>
+                    </div>
+                    </div>
+                ))
+                ) : (
+                <p className="py-8 text-xl text-center font-semibold">No Notification Yet</p>
+                )}
+            </>
+            )}
       </div>
     </div>
   );
