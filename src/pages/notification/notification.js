@@ -41,7 +41,7 @@ function Notification() {
   };
   return (
     <div className="py-8 pl-3 relative overflow-x-hidden bg-[#F9F9F9]">
-      <Headbar className="!top-[2%]" />
+      <Headbar/>
       <div className="flex">
         <Link
           to={"/dashboard"}

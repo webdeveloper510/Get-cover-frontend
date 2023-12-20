@@ -51,7 +51,7 @@ function AddCustomer() {
     return (
       <div className='my-8 ml-3'>
         <Headbar/>
-        <div className='flex mt-14'>
+        <div className='flex mt-2'>
         <Link to={'/customerList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
             <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
           </Link>

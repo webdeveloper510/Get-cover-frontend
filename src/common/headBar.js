@@ -14,7 +14,7 @@ function Headbar({ className = "" }) {
   // console.log(location.pathname === "/notifications");
   return (
     <div className="">
-      <Grid className={`absolute right-[-1%] top-[5%]  ${className}`}>
+      <Grid className={`absolute right-[-1%] top-[24px]  ${className}`}>
         <div className="col-span-4"></div>
         <div className="col-span-2"></div>
         <div className="col-span-6 ml-auto ">

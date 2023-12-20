@@ -112,7 +112,7 @@ function AddCategory() {
   return (
     <div className="my-8 ml-3">
       <Headbar />
-      <div className="flex mt-14">
+      <div className="flex mt-2">
         <Link
           to={"/category"}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[20px]"

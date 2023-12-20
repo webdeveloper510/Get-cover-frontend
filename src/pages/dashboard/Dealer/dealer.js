@@ -302,17 +302,17 @@ function Dealer() {
   return (
     <div className="my-8 ml-3">
       <Headbar />
-      <div className="flex mt-14">
+      <div className="flex mt-2">
         {/* <div className='p-5 border-2 border-[#D1D1D1] rounded-xl'>
           <img src={BackImage} alt='BackImage'/>
         </div> */}
         <div className="pl-3">
           <p className="font-semibold text-[36px] leading-9 mb-[3px]">Dealer</p>
           <ul className="flex self-center">
-            <li className="text-sm text-light-black font-Regular">
+            <li className="text-sm text-neutral-grey font-Regular">
               <Link to={"/"}>Dealer </Link> /{" "}
             </li>
-            <li className="text-sm text-light-black font-semibold ml-2 pt-[1px]">
+            <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
               Add New Dealer{" "}
             </li>
@@ -967,7 +967,7 @@ function Dealer() {
                 Please click on file option and make a copy. Upload the list of
                 Product Name and Price using our provided Google Sheets
                 template, by <span className="underline">Clicking here </span>.
-                The file must be saved with CSV Format.
+                The file must be saved with CSV , XLS and XLSX Format.
               </p>
             </div>
           )}
