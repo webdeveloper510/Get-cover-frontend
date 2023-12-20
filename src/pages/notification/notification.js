@@ -20,8 +20,7 @@ function Notification() {
     getNotificationsData();
     const timeoutId = setTimeout(() => {
       updateNotification();
-      console.log("This runs once after 3 seconds");
-    }, 30000);
+    }, 3000);
 
     return () => clearTimeout(timeoutId);
   }, []);
@@ -41,7 +40,7 @@ function Notification() {
   };
   return (
     <div className="py-8 pl-3 relative overflow-x-hidden bg-[#F9F9F9]">
-      <Headbar/>
+      <Headbar />
       <div className="flex">
         <Link
           to={"/dashboard"}
@@ -88,10 +87,22 @@ function Notification() {
                   onClick={() => navigate("/newDealerList")}
                   style={{ cursor: "pointer" }}
                 >
-                  <p className={`${data.notificationData.status !== true ? ('font-semibold text-lg') : ('font-Regular text-lg') } `}>
+                  <p
+                    className={`${
+                      data.notificationData.status !== true
+                        ? "font-semibold text-lg"
+                        : "font-Regular text-lg"
+                    } `}
+                  >
                     {data?.notificationData.title}: {data?.name}
                   </p>
-                  <p className={`${data.notificationData.status !== true ? ('mb-6 text-base text-[#999999] font-semibold') : ('mb-6 text-base text-[#999999] font-Regular') }  `}>
+                  <p
+                    className={`${
+                      data.notificationData.status !== true
+                        ? "mb-6 text-base text-[#999999] font-semibold"
+                        : "mb-6 text-base text-[#999999] font-Regular"
+                    }  `}
+                  >
                     {data?.notificationData.description}
                   </p>
                   <div className="flex">
