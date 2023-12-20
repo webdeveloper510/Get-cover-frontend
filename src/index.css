@@ -253,7 +253,7 @@ a:focus {
 .rdt_TableHeadRow .rdt_TableCol_Sortable {
   display: flex !important;
   justify-content: left!important;
-  padding-left: 15px;
+  /* padding-left: 15px; */
 }
 
 .rdt_TableCell {
