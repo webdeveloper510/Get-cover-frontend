@@ -214,7 +214,6 @@ span.tag-wrapper.ReactTags__tag button {
 }
 .rdt_TableCell span {
   white-space: normal !important;
-  line-height: 10px;
   flex-wrap: wrap;
 }
 
