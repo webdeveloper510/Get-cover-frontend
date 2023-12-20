@@ -41,7 +41,7 @@ function Notification() {
   };
   return (
     <div className="py-8 pl-3 relative overflow-x-hidden bg-[#F9F9F9]">
-      <Headbar />
+      <Headbar className="!top-[2%]" />
       <div className="flex">
         <Link
           to={"/dashboard"}
@@ -84,14 +84,14 @@ function Notification() {
               notificationList.map((data, key) => (
                 <div
                   key={key}
-                  className="border border-[#D9D9D9] rounded-[25px] mb-5 px-6 py-8 mr-4"
+                  className="border border-[#D9D9D9] rounded-[25px] my-3 px-6 py-8 mr-4"
                   onClick={() => navigate("/newDealerList")}
                   style={{ cursor: "pointer" }}
                 >
-                  <p className="font-semibold text-lg">
-                    {data?.notificationData.title} {data?.name}
+                  <p className={`${data.notificationData.status !== true ? ('font-semibold text-lg') : ('font-Regular text-lg') } `}>
+                    {data?.notificationData.title}: {data?.name}
                   </p>
-                  <p className="mb-6 text-base text-[#999999] font-Regular">
+                  <p className={`${data.notificationData.status !== true ? ('mb-6 text-base text-[#999999] font-semibold') : ('mb-6 text-base text-[#999999] font-Regular') }  `}>
                     {data?.notificationData.description}
                   </p>
                   <div className="flex">

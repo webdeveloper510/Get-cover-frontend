@@ -250,7 +250,7 @@ a:focus {
   background: #dfdfdf;
 }
 
-.rdt_TableCol_Sortable {
+.rdt_TableHeadRow .rdt_TableCol_Sortable {
   display: flex !important;
   justify-content: left!important;
   padding-left: 15px;
