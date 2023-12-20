@@ -259,7 +259,7 @@ function NewDealerList() {
                       placeholder="Phone No."
                     />
                   </div>
-                  <div className="col-span-2 self-center flex">
+                  <div className="col-span-2 self-center flex justify-center">
                     <Button className="!p-0">
                       <img
                         src={Search}

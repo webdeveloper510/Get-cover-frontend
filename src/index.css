@@ -210,11 +210,13 @@ span.tag-wrapper.ReactTags__tag button {
 }
 
 .rdt_TableCell div {
-  white-space: wrap !important;
+  white-space: normal !important;  
+    flex-wrap: wrap;
 }
 .rdt_TableCell span {
-  white-space: wrap !important;
+  white-space: normal !important;
   line-height: 10px;
+  flex-wrap: wrap;
 }
 
 .ReactTags__tagInput {
@@ -261,4 +263,5 @@ a:focus {
   justify-content: left!important;
   padding-top: 10px;
   padding-bottom: 10px;
+  flex-wrap: wrap;
 }
