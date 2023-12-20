@@ -837,17 +837,33 @@ function Dealer() {
 
           {selectedOption === "yes" ? (
             <>
+                  {formik.values.priceBook.map((dealer, index) => (
               <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
                 <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
-                  <Button
+                {index == 0 ? (<Button
                     className="text-sm !font-light"
                     onClick={handleAddPriceBook}
                   >
                     {" "}
                     + Add More{" "}
-                  </Button>
+                  </Button>) : (
+                        <div
+                          className=""
+                          onClick={() => {
+                            handleDeletePriceBook(index);
+                          }}
+                        >
+                          <div className="flex h-full mx-3  justify-center">
+                            <img
+                              src={DeleteImage}
+                              className="self-center cursor-pointer"
+                              alt="Delete Icon"
+                            />
+                          </div>
+                        </div>
+                      )}
+                  
                 </div>
-                {formik.values.priceBook.map((dealer, index) => (
                   <div className="bg-[#f9f9f9] p-4 relative mt-5 rounded-xl">
                     <Grid className="">
                       <div className="col-span-4">
@@ -936,26 +952,11 @@ function Dealer() {
                           onChange={handleSelectChange2}
                         />
                       </div>
-                      {index > 0 && (
-                        <div
-                          className="col-span-1"
-                          onClick={() => {
-                            handleDeletePriceBook(index);
-                          }}
-                        >
-                          <div className="flex h-full mx-3 bg-[#EBEBEB] justify-center">
-                            <img
-                              src={DeleteImage}
-                              className="self-center cursor-pointer"
-                              alt="Delete Icon"
-                            />
-                          </div>
-                        </div>
-                      )}
+                     
                     </Grid>
                   </div>
-                ))}
               </div>
+                ))}
             </>
           ) : (
             <div className="bg-[#f9f9f9] p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">

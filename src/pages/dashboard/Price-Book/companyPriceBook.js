@@ -187,6 +187,8 @@ function CompanyPriceBook() {
       name: "Description",
       selector: (row) => row.description,
       sortable: true,
+      minWidth: 'auto', 
+      maxWidth: '300px',
       cell: (row) => <span title={row.description}>{truncateText(row.description, 20)}</span>,
     },
     {

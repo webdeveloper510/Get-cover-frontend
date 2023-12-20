@@ -23,6 +23,7 @@ import AddServicer from "../pages/dashboard/Servicer/addServicer";
 import ServicerList from "../pages/dashboard/Servicer/servicerList";
 import RequestServicer from "../pages/dashboard/Servicer/requestServicer";
 import Notification from "../pages/notification/notification";
+import DealerDetails from "../pages/dashboard/Dealer/dealerDetails";
 
 const routes = [
   {
@@ -91,6 +92,16 @@ const routes = [
           <PrivateRoute
             element={<Notification />}
             path="/notifications"
+          />
+        ),
+      },
+      {
+        path: "/dealerDetails",
+        index: true,
+        element: (
+          <PrivateRoute
+            element={<DealerDetails />}
+            path="/dealerDetails"
           />
         ),
       },
