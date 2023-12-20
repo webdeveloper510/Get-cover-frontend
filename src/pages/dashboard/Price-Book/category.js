@@ -102,13 +102,16 @@ function Category() {
       name: "ID",
       selector: (row) => row.unique_key,
       sortable: true,
-      reorder: true
+      minWidth: 'auto', 
+      maxWidth: '90px',
     },
     {
       name: "Name",
       selector: (row) => row.name,
       sortable: true,
       cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
+      minWidth: 'auto', 
+      maxWidth: '200px',
     },
     {
       name: "Description",
@@ -300,7 +303,7 @@ function Category() {
               </div>
             </div>
           </Grid>
-          <div className="mb-5">
+          <div className="mb-5 relative">
             {loading ? (
               <div className="bg-[#f1f2f3] py-5">
                 <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />

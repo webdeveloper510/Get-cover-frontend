@@ -379,7 +379,7 @@ function CompanyPriceBook() {
               </div>
             </Grid>
           </form>
-          <div className="overflow-x-auto mb-5">
+          <div className="relative mb-5">
           {loading ? (
               <div className="bg-[#f1f2f3] py-5">
                 <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />

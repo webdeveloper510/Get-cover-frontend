@@ -282,7 +282,7 @@ function NewDealerList() {
               </div>
             </div>
           </Grid>
-          <div className="mb-5">
+          <div className="mb-5 relative">
             {loading ? (
               <div className="bg-[#f1f2f3] py-5">
                 <img
