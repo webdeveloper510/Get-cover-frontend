@@ -108,15 +108,15 @@ function Category() {
       name: "Name",
       selector: (row) => row.name,
       sortable: true,
-      // cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
+      cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
     },
     {
       name: "Description",
       selector: (row) => row.description,
       sortable: true,
-      // cell: (row) => (
-      //   <span title={row.description}>{truncateText(row.description, 30)}</span>
-      // ),
+      cell: (row) => (
+        <span title={row.description}>{truncateText(row.description, 30)}</span>
+      ),
     },
     {
       name: "Status",
