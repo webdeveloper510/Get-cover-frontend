@@ -868,7 +868,7 @@ function Dealer() {
               </div>
               {formik.values.priceBook.map((dealer, index) => (
                  <div className="bg-[#f9f9f9] p-4 relative mt-5 rounded-xl">
-                <Grid className="pr-4 pl-4">
+                <Grid className="">
                   <div className="col-span-4">
                   <Select label="Product Category "
                       options={country}
@@ -884,6 +884,27 @@ function Dealer() {
                       onChange={handleChange}/>                   
                      
                   </div>
+                 
+                  <div className="col-span-4">
+                  <Input
+                      type="number"
+                      name="wholesale"
+                      label="Wholesale Prize($)"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+
+                  <div className="col-span-4">
+                    <Input
+                      type="text"
+                      name="description"
+                      label="Description"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                 
                   <div className="col-span-2">
                   <Select
                     label="Terms"
@@ -914,33 +935,6 @@ function Dealer() {
                     </div>
                   )}
                   </div>
-                  <div className="col-span-2">
-                  <Select label="Status"
-                      options={status}
-                      required={true}
-                      selectedValue={selectedValue}
-                      onChange={handleSelectChange2}/>
-                    
-                  </div>
-                 
-                  <div className="col-span-4">
-                    <Input
-                      type="text"
-                      name="description"
-                      label="Description"
-                      required={true}
-                      placeholder=""
-                    />
-                  </div>
-                  <div className="col-span-4">
-                  <Input
-                      type="text"
-                      name="wholesale"
-                      label="Wholesale Prize($)"
-                      required={true}
-                      placeholder=""
-                    />
-                  </div>
                   <div className="col-span-4">
                     <Input
                       type="number"
@@ -950,6 +944,15 @@ function Dealer() {
                       placeholder=""
                     />
                   </div>
+                  <div className="col-span-2">
+                  <Select label="Status"
+                      options={status}
+                      required={true}
+                      selectedValue={selectedValue}
+                      onChange={handleSelectChange2}/>
+                    
+                  </div>
+              
                 
                 </Grid>
                 </div>
@@ -979,7 +982,25 @@ function Dealer() {
                       onChange={handleChange}/>
                      
                   </div>
-                 
+                  <div className="col-span-4">
+                  <Input
+                      type="number"
+                      name="wholesale"
+                      label="Wholesale Prize($)"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  
+                  <div className="col-span-4">
+                    <Input
+                      type="text"
+                      name="description"
+                      label="Description"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
                   <div className="col-span-2">
                   <Select
                     label="Terms"
@@ -1010,32 +1031,6 @@ function Dealer() {
                     </div>
                   )}
                   </div>
-                  <div className="col-span-2">
-                    <Select label="Status"
-                        options={status}
-                        required={true}
-                        selectedValue={selectedValue}
-                        onChange={handleSelectChange2}/>
-                    
-                  </div>
-                  <div className="col-span-4">
-                    <Input
-                      type="text"
-                      name="description"
-                      label="Description"
-                      required={true}
-                      placeholder=""
-                    />
-                  </div>
-                  <div className="col-span-4">
-                  <Input
-                      type="text"
-                      name="wholesale"
-                      label="Wholesale Prize($)"
-                      required={true}
-                      placeholder=""
-                    />
-                  </div>
                   <div className="col-span-4">
                     <Input
                       type="number"
@@ -1045,6 +1040,15 @@ function Dealer() {
                       placeholder=""
                     />
                   </div>
+                  <div className="col-span-2">
+                    <Select label="Status"
+                        options={status}
+                        required={true}
+                        selectedValue={selectedValue}
+                        onChange={handleSelectChange2}/>
+                    
+                  </div>
+                
                 
                 </Grid>
                   </div>
