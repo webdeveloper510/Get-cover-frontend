@@ -51,7 +51,7 @@ function DealerList() {
   const columns = [
     {
       name: "Dealer ID",
-      selector: (row) => row.accountId,
+      selector: (row, index) => index+1,
       sortable: true,
     },
     {

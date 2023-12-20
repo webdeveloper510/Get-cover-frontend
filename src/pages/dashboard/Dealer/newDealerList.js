@@ -103,6 +103,8 @@ function NewDealerList() {
       name: "Email",
       selector: (row) => row.email,
       sortable: true,
+      minWidth: 'auto', 
+      maxWidth: '200px',
     },
     {
       name: "Phone No.",

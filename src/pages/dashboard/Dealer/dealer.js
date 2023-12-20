@@ -17,11 +17,13 @@ import { cityData } from "../../../stateCityJson";
 import {
   checkDealersEmailValidation,
   getDealersDetailsByid,
+  getTermList,
 } from "../../../services/dealerServices";
 
 function Dealer() {
   const [selectedValue, setSelectedValue] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedValue1, setSelectedValue1] = useState("");
+  const [termList, setTermList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("no");
   const [separateAccountOption, setSeparateAccountOption] = useState("no");
   const [selectedOption, setSelectedOption] = useState("yes");
@@ -72,6 +74,28 @@ function Dealer() {
   //     },
   //   ]);
   // };
+
+  const handleSelectChange1 = (label, value) => {
+    setSelectedValue1(value);
+  };
+
+  const handleSelectChange2 = (label, value) => {
+    setSelectedValue(value);
+  };
+
+  const country = [
+    { label: 'Catagory', value: 'catagory' },
+    { label: 'Catagory 1', value: 'catagory1' },
+    { label: 'Catagory 2', value: 'catagory2' },
+  ];
+
+  const status = [
+    { label: 'Active', value: 'active' },
+    { label: 'Inactive', value: 'inactive' },
+  ];
+
+
+
   const handleAddPriceBook = () => {
     const priceBook = {
       name: "",
@@ -96,6 +120,7 @@ function Dealer() {
   console.log("id", id);
 
   useEffect(() => {
+    getTermListData();
     if (id != "null") {
       getDealersDetailsByid(id).then((res) => {
         // setGetUserDetails(res.result[0]);
@@ -133,6 +158,22 @@ function Dealer() {
       });
     }
   }, []);
+
+  const getTermListData = async () => {
+    try {
+      const res = await getTermList();
+      console.log(res.result.terms);
+      setTermList(
+        res.result.terms.map((item) => ({
+          label: item.terms + " Months",
+          value: item.terms,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
+  
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     setCreateAccountOption(selectedValue);
@@ -802,26 +843,26 @@ function Dealer() {
           </Grid>
 
           {selectedOption === "yes" ? (
-            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+            <>
+              <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
               <p className="text-light-black text-lg mb-5 font-semibold">
                 Add Single Price Book
               </p>
               <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
-                <Button className="text-sm " onClick={handleAddPriceBook}>
+                <Button className="text-sm !font-light" onClick={handleAddPriceBook}>
                   {" "}
                   + Add More{" "}
                 </Button>
               </div>
               {formik.values.priceBook.map((dealer, index) => (
+                 <div className="bg-[#f9f9f9] p-4 relative mt-5 rounded-xl">
                 <Grid className="pr-4 pl-4">
                   <div className="col-span-4">
-                    <Input
-                      type="number"
-                      name="name"
-                      label="Product Category "
+                  <Select label="Product Category "
+                      options={country}
                       required={true}
-                      placeholder=""
-                    />
+                      selectedValue={selectedValue1}
+                      onChange={handleSelectChange1}/>
                   </div>
                   <div className="col-span-4">
                     <Input
@@ -833,28 +874,57 @@ function Dealer() {
                     />
                   </div>
                   <div className="col-span-2">
-                    <Input
-                      type="text"
-                      name="wholesale"
-                      label="Wholesale Prize($)"
+                  <Select label="Status"
+                      options={status}
                       required={true}
-                      placeholder=""
-                    />
+                      selectedValue={selectedValue}
+                      onChange={handleSelectChange2}/>
+                    
                   </div>
                   <div className="col-span-2">
-                    <Input
-                      type="number"
-                      name="term"
-                      label="Terms"
-                      required={true}
-                      placeholder=""
-                    />
+                  <Select
+                    label="Terms"
+                    name="term"
+                    required={true}
+                    placeholder=""
+                    onChange={handleSelectChange}
+                    className="!bg-[#f9f9f9]"
+                    options={termList}
+                    value={
+                      (
+                        termList.find(
+                          (option) =>
+                            option.value ===
+                            (formik.values.term
+                              ? formik.values.term.toString()
+                              : "")
+                        ) || {}
+                      ).value || ""
+                    }
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.term && formik.errors.term}
+                  
+                  />
+                  {formik.touched.term && formik.errors.term && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.term}
+                    </div>
+                  )}
                   </div>
                   <div className="col-span-4">
                     <Input
                       type="text"
                       name="description"
                       label="Description"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-4">
+                  <Input
+                      type="text"
+                      name="wholesale"
+                      label="Wholesale Prize($)"
                       required={true}
                       placeholder=""
                     />
@@ -868,18 +938,118 @@ function Dealer() {
                       placeholder=""
                     />
                   </div>
+                
+                </Grid>
+                </div>
+              ))}
+            </div>
+
+               <div className="bg-[#f9f9f9] p-4 relative mt-5 rounded-xl">
+                 <p className="text-light-black text-lg mb-5 font-semibold">
+                   Add Single Price Book
+                 </p>
+                 <Grid>
+                  <div className="col-span-11">
+                  <Grid className="pr-4 pl-4">
+                  <div className="col-span-4">
+                  <Select label="Product Category "
+                      options={country}
+                      OptionName='Category'
+                      required={true}
+                      selectedValue={selectedValue1}
+                      onChange={handleSelectChange1}/>
+                  </div>
                   <div className="col-span-4">
                     <Input
-                      type="number"
-                      name="status"
-                      label="Status"
+                      type="text"
+                      name="city"
+                      label="Product Name"
                       required={true}
                       placeholder=""
                     />
                   </div>
+                  <div className="col-span-2">
+                  <Select label="Status"
+                      options={status}
+                      required={true}
+                      selectedValue={selectedValue}
+                      onChange={handleSelectChange2}/>
+                    
+                  </div>
+                  <div className="col-span-2">
+                  <Select
+                    label="Terms"
+                    name="term"
+                    required={true}
+                    placeholder=""
+                    onChange={handleSelectChange}
+                    className="!bg-[#f9f9f9]"
+                    options={termList}
+                    value={
+                      (
+                        termList.find(
+                          (option) =>
+                            option.value ===
+                            (formik.values.term
+                              ? formik.values.term.toString()
+                              : "")
+                        ) || {}
+                      ).value || ""
+                    }
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.term && formik.errors.term}
+                  
+                  />
+                  {formik.touched.term && formik.errors.term && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.term}
+                    </div>
+                  )}
+                  </div>
+                  <div className="col-span-4">
+                    <Input
+                      type="text"
+                      name="description"
+                      label="Description"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-4">
+                  <Input
+                      type="text"
+                      name="wholesale"
+                      label="Wholesale Prize($)"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-4">
+                    <Input
+                      type="number"
+                      name="retailprice"
+                      label="Retail Price($)"
+                      required={true}
+                      placeholder=""
+                    />
+                  </div>
+                
                 </Grid>
-              ))}
-            </div>
+                  </div>
+                  <div className="col-span-1">
+                  <div className="flex h-full bg-[#EBEBEB] justify-center">
+                    <img
+                      src={DeleteImage}
+                      className="self-center cursor-pointer"
+                      alt="Delete Icon"
+                    />
+                  </div>
+                  </div>
+                 </Grid>
+                
+                </div>
+            </>
+          
           ) : (
             <div className="bg-[#f9f9f9] p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
               <p className="text-[#717275] text-lg mb-5 font-semibold">

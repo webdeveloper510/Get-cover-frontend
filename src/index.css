@@ -188,7 +188,6 @@ transition: color 0.2s ease;
 
 span.tag-wrapper.ReactTags__tag {
   display: flex;
-  align-items: center;
   flex-wrap: nowrap;
 }
 
@@ -212,12 +211,10 @@ span.tag-wrapper.ReactTags__tag button {
 
 .rdt_TableCell div {
   white-space: wrap !important;
-  text-align: center;
 }
 .rdt_TableCell span {
   white-space: wrap !important;
   line-height: 10px;
-  text-align: center;
 }
 
 .ReactTags__tagInput {
@@ -255,10 +252,13 @@ a:focus {
 
 .rdt_TableCol_Sortable {
   display: flex !important;
-  justify-content: center !important;
+  justify-content: left!important;
+  padding-left: 15px;
 }
 
 .rdt_TableCell {
   display: flex !important;
-  justify-content: center !important;
+  justify-content: left!important;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

@@ -33,6 +33,19 @@ export const getPendingDealersList = async () => {
   }
 };
 
+export const getTermList = async () => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.get(`${url}/user/getAllTerms`, { headers });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 export const isApprovedOrDisapprovedStatus = async (data) => {
   console.log(data);
   const headers = createHeaders();
