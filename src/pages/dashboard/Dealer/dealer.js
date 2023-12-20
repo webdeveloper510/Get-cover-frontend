@@ -838,9 +838,6 @@ function Dealer() {
           {selectedOption === "yes" ? (
             <>
               <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
-                <p className="text-light-black text-lg mb-5 font-semibold">
-                  Add Single Price Book
-                </p>
                 <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
                   <Button
                     className="text-sm !font-light"

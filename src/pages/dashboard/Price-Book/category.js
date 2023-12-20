@@ -99,13 +99,13 @@ function Category() {
   
   const columns = [
     {
-      name: "Category ID",
+      name: "ID",
       selector: (row) => row.unique_key,
       sortable: true,
       reorder: true
     },
     {
-      name: "Category Name",
+      name: "Name",
       selector: (row) => row.name,
       sortable: true,
       // cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,

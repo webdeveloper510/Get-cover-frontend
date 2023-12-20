@@ -159,19 +159,18 @@ function CompanyPriceBook() {
 
   const columns = [
     {
-      name: "Product ID",
+      name: "ID",
       selector: (row) => row.unique_key,
       sortable: true,
-    reorder: true,
-   
+      minWidth: 'auto', 
+      maxWidth: '80px',
     },
     {
-      name: "Product Category",
+      name: "Category",
       selector: (row) => row.category.name,
       sortable: true,
-      innerWidth:'300px',
-      minWidth: 'auto',  // Set a custom minimum width
-      maxWidth: '300px',  // Set a custom maximum width
+      minWidth: 'auto', 
+      maxWidth: '300px', 
       cell: (row) => (
         <span title={row.category.name}>
           {truncateText(row.category.name, 20)}
@@ -179,10 +178,16 @@ function CompanyPriceBook() {
       ),
     },
     {
-      name: "Product Name",
+      name: "Name",
       selector: (row) => row.name,
       sortable: true,
       cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
+    },
+    {
+      name: "Description",
+      selector: (row) => row.description,
+      sortable: true,
+      cell: (row) => <span title={row.description}>{truncateText(row.description, 20)}</span>,
     },
     {
       name: " Term",
