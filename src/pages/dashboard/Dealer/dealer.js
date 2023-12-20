@@ -23,6 +23,7 @@ import {
 function Dealer() {
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedValue1, setSelectedValue1] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState("");
   const [termList, setTermList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("no");
   const [separateAccountOption, setSeparateAccountOption] = useState("no");
@@ -83,10 +84,21 @@ function Dealer() {
     setSelectedValue(value);
   };
 
+  const handleChange = (label, value) => {
+    setSelectedProduct(value);
+  };
+
+
   const country = [
     { label: 'Catagory', value: 'catagory' },
     { label: 'Catagory 1', value: 'catagory1' },
     { label: 'Catagory 2', value: 'catagory2' },
+  ];
+
+  const productName = [
+    { label: 'Product ', value: 'Product' },
+    { label: 'Product 1', value: 'Product1' },
+    { label: 'Product 2', value: 'Product2' },
   ];
 
   const status = [
@@ -865,21 +877,12 @@ function Dealer() {
                       onChange={handleSelectChange1}/>
                   </div>
                   <div className="col-span-4">
-                    <Input
-                      type="text"
-                      name="city"
-                      label="Product Name"
+                  <Select label="Product Name"
+                      options={productName}
                       required={true}
-                      placeholder=""
-                    />
-                  </div>
-                  <div className="col-span-2">
-                  <Select label="Status"
-                      options={status}
-                      required={true}
-                      selectedValue={selectedValue}
-                      onChange={handleSelectChange2}/>
-                    
+                      selectedValue={selectedProduct}
+                      onChange={handleChange}/>                   
+                     
                   </div>
                   <div className="col-span-2">
                   <Select
@@ -911,6 +914,15 @@ function Dealer() {
                     </div>
                   )}
                   </div>
+                  <div className="col-span-2">
+                  <Select label="Status"
+                      options={status}
+                      required={true}
+                      selectedValue={selectedValue}
+                      onChange={handleSelectChange2}/>
+                    
+                  </div>
+                 
                   <div className="col-span-4">
                     <Input
                       type="text"
@@ -960,22 +972,14 @@ function Dealer() {
                       onChange={handleSelectChange1}/>
                   </div>
                   <div className="col-span-4">
-                    <Input
-                      type="text"
-                      name="city"
-                      label="Product Name"
+                  <Select label="Product Name"
+                      options={productName}
                       required={true}
-                      placeholder=""
-                    />
+                      selectedValue={selectedProduct}
+                      onChange={handleChange}/>
+                     
                   </div>
-                  <div className="col-span-2">
-                  <Select label="Status"
-                      options={status}
-                      required={true}
-                      selectedValue={selectedValue}
-                      onChange={handleSelectChange2}/>
-                    
-                  </div>
+                 
                   <div className="col-span-2">
                   <Select
                     label="Terms"
@@ -1005,6 +1009,14 @@ function Dealer() {
                       {formik.errors.term}
                     </div>
                   )}
+                  </div>
+                  <div className="col-span-2">
+                    <Select label="Status"
+                        options={status}
+                        required={true}
+                        selectedValue={selectedValue}
+                        onChange={handleSelectChange2}/>
+                    
                   </div>
                   <div className="col-span-4">
                     <Input
