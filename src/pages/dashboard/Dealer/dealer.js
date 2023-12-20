@@ -582,7 +582,7 @@ function Dealer() {
                     />
                   </p>
                 </div>
-                <div className="col-span-12 mt-5">
+                <div className="col-span-12 mt-3">
                   <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
                     Does this Dealer's Customer will have a separate account?
                     <RadioButton
