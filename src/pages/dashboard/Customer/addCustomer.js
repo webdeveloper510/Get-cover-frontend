@@ -30,13 +30,13 @@ function AddCustomer() {
     const handleRadioChange = (event) => {
       setSelectedOption(event.target.value);
     };
-    const handleSelectChange = (e) => {
-      setSelectedValue(e.target.value);
-    };
     const handleSelectChange1 = (e) => {
       setSelectedCity(e.target.value);
     };
-  
+    
+    const handleSelectChange = (e) => {
+      setSelectedValue(e.target.value);
+    };
     const country = [
       { label: 'Country', value: 'country' },
       { label: 'Option 2', value: 'option2' },

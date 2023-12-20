@@ -604,7 +604,7 @@ function Dealer() {
                 </div>
               </Grid>
 
-              <div className="mt-8">
+              <div className="mt-14">
                 <Grid>
                   <div className="col-span-4">
                     <Button
@@ -811,7 +811,7 @@ function Dealer() {
                     handleDeleteDealers(index);
                   }}
                 >
-                  <div className="flex h-full bg-[#EBEBEB] justify-center">
+                  <div className="flex mx-3 h-full bg-[#EBEBEB] justify-center">
                     <img
                       src={DeleteImage}
                       className="self-center cursor-pointer"
@@ -1049,7 +1049,7 @@ function Dealer() {
                 </Grid>
                   </div>
                   <div className="col-span-1">
-                  <div className="flex h-full bg-[#EBEBEB] justify-center">
+                  <div className="flex h-full mx-3 bg-[#EBEBEB] justify-center">
                     <img
                       src={DeleteImage}
                       className="self-center cursor-pointer"
