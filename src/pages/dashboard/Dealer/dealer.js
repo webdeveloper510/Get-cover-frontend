@@ -970,7 +970,7 @@ function Dealer() {
                 Please click on file option and make a copy. Upload the list of
                 Product Name and Price using our provided Google Sheets
                 template, by <span className="underline">Clicking here </span>.
-                The file must be saved with CSV Format.
+                The file must be saved with csv, xls and xlsx Format.
               </p>
             </div>
           )}
