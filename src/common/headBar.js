@@ -40,7 +40,7 @@ function Headbar({ className = "" }) {
                     className="cursor-pointer mt-[-2%] "
                     alt="NotificationImage"
                   />{" "}
-                  <p className="text-[9px] right-0 -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[2px] text-center border-2 border-[#333333]">9</p>
+                  <p className="text-[9px] right-[-8px] -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[2px] text-center border-2 border-[#333333]">9</p>
                 </Link>
               </div>
               {/* <div>
