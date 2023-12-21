@@ -31,8 +31,8 @@ function Layout() {
   // }, []);
 
   return (
-    <div className={`w-full flex bg-[#F9F9F9] bg-cover  h-full p-4 overflow-x-hidden relative  w-full`}>
-      <div className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full`}>
+    <div className={`w-full flex bg-[#F9F9F9] bg-cover  h-full p-4 pl-0 overflow-x-hidden relative  w-full`}>
+      <div className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full `}>
         <SideBar/>
       </div>
       <div className="w-[calc(100%-10px)] h-full min-h-[94vh] pl-3">

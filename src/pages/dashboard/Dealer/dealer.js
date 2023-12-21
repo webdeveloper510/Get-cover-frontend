@@ -874,17 +874,32 @@ function Dealer() {
 
           {selectedOption === "yes" ? (
             <>
+            {formik.values.priceBook.map((dealer, index) => (
               <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
                 <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
-                  <Button
+                {index == 0 ? ( <Button
                     className="text-sm !font-light"
                     onClick={handleAddPriceBook}
                   >
                     {" "}
                     + Add More{" "}
-                  </Button>
+                  </Button>) : (
+                        <div
+                          onClick={() => {
+                            handleDeletePriceBook(index);
+                          }}
+                        >
+                          <div className="flex h-full mx-3 bg-[#fff] justify-center">
+                            <img
+                              src={DeleteImage}
+                              className="self-center cursor-pointer"
+                              alt="Delete Icon"
+                            />
+                          </div>
+                        </div>
+                      ) }
+                 
                 </div>
-                {formik.values.priceBook.map((dealer, index) => (
                   <div className="bg-[#f9f9f9] p-4 relative mt-5 rounded-xl">
                     <Grid className="">
                       <div className="col-span-4">
@@ -893,7 +908,7 @@ function Dealer() {
                           label="Product Category"
                           options={category}
                           required={true}
-                          className="!bg-white"
+                          className="!bg-[#f9f9f9]"
                           placeholder=""
                           maxLength={"30"}
                           value={formik.values.priceBook[index].categoryId}
@@ -925,7 +940,7 @@ function Dealer() {
                           label="Product Name"
                           options={productNameOptions[index]?.data}
                           required={true}
-                          className="!bg-white"
+                          className="!bg-[#f9f9f9]"
                           placeholder=""
                           value={formik.values?.priceBook[index].priceBookId}
                           onBlur={formik.handleBlur}
@@ -954,7 +969,7 @@ function Dealer() {
                         <Input
                           type="text"
                           name={`priceBook[${index}].wholesalePrice`}
-                          className="!bg-white"
+                          className="!bg-[#f9f9f9]"
                           label="Wholesale Price($)"
                           required={true}
                           placeholder=""
@@ -968,11 +983,11 @@ function Dealer() {
                         />
                       </div>
 
-                      <div className="col-span-4">
+                      <div className="col-span-12">
                         <Input
                           type="text"
                           name={`priceBook[${index}].description`}
-                          className="!bg-white"
+                          className="!bg-[#f9f9f9]"
                           label="Description"
                           required={true}
                           placeholder=""
@@ -986,7 +1001,7 @@ function Dealer() {
                         />
                       </div>
 
-                      <div className="col-span-2">
+                      <div className="col-span-4">
                         <Select
                           label="Terms"
                           name={`priceBook[${index}].terms`}
@@ -1010,7 +1025,7 @@ function Dealer() {
                         <Input
                           type="number"
                           name={`priceBook[${index}].retailPrice`}
-                          className="!bg-white"
+                          className="!bg-[#f9f9f9]"
                           label="Retail Price"
                           maxLength={"10"}
                           maxDecimalPlaces={2}
@@ -1040,13 +1055,13 @@ function Dealer() {
                             </div>
                           )}
                       </div>
-                      <div className="col-span-2">
+                      <div className="col-span-4">
                         <Select
                           name={`priceBook[${index}].status`}
                           label="Status"
                           options={status}
                           required={true}
-                          className="!bg-white"
+                          className="!bg-[#f9f9f9]"
                           value={formik.values.priceBook[index].status}
                           onBlur={formik.handleBlur}
                           onChange={handleSelectChange}
@@ -1068,26 +1083,11 @@ function Dealer() {
                             </div>
                           )}
                       </div>
-                      {index > 0 && (
-                        <div
-                          className="col-span-1"
-                          onClick={() => {
-                            handleDeletePriceBook(index);
-                          }}
-                        >
-                          <div className="flex h-full mx-3 bg-[#EBEBEB] justify-center">
-                            <img
-                              src={DeleteImage}
-                              className="self-center cursor-pointer"
-                              alt="Delete Icon"
-                            />
-                          </div>
-                        </div>
-                      )}
+                     
                     </Grid>
                   </div>
-                ))}
               </div>
+                ))}
             </>
           ) : (
             <div className="bg-[#f9f9f9] p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">

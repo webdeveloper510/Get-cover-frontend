@@ -76,7 +76,7 @@ function SidebarItem({
 
   return (
     <li
-      className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t-[0.5px] ${
+      className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
         hasItems && isActive ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
       } ${isActive ? "active" : ""}`}
     >
@@ -154,7 +154,7 @@ function SidebarItem({
           }`}
         >
           {item.items.map((subItem, subIndex) => (
-            <li key={subIndex} className={`ps-[19px]`}>
+            <li key={subIndex} className={`ps-[14px]`}>
               <Link
                 to={subItem.url}
                 className={`rounded-[25px] flex ${
@@ -385,11 +385,11 @@ function SideBar() {
   ];
 
   return (
-    <div className="xl:w-[210px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto">
+    <div className="xl:w-[210px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed  pl-2">
       <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[5px]">
         <img src={Logo} className="mx-auto py-6 w-[160px] " alt="logo" />
         <hr className=" border-[#474747] border-[1px]" />
-        <div className="shadow-sm h-full ">
+        <div className="shadow-sm max-h-[85vh] overflow-y-auto">
           <div className="mx-auto h-full mt-6">
             <ul className="pb-5">
               {Lists.map((bar, index) => (
