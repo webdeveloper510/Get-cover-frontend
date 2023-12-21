@@ -117,7 +117,7 @@ function DealerList() {
             </div>
             {selectedAction === row.unique_key && (
               <div
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-0 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -128,7 +128,7 @@ function DealerList() {
                   } `}
                   alt="up arror"
                 /> */}
-                <Link to={'/dealerDetails'} className="text-center py-3">View</Link>
+                <Link to={'/dealerDetails'} className="text-center p-3">View</Link>
               </div>
             )}
           </div>
