@@ -55,16 +55,17 @@ function Headbar({ className = "" }) {
               <div className="self-center relative" onClick={toggleDropdown}>
                 <img src={Down} className={`cursor-pointer ${isDropdownOpen == false  ? '' : 'rotate-180'}`} alt="ProfileImage" />
                 </div>
-                {isDropdownOpen && (
-                    <div className="absolute  bg-white ml-3 mt-6">
+              
+            </div>
+          </Grid>
+          {isDropdownOpen && (
+                    <div className="absolute right-[3%]">
                       {/* Your dropdown content goes here */}
                       <ul>
-                        <li className="text-light-black bg-white drop-shadow-5xl rounded-lg p-3 cursor-pointer font-semibold flex text-base"  onClick={handleLogOut}> <img src={Logout} className="mr-2" alt="Logout"/>Logout</li>
+                        <li className="text-light-black mt-1 mr-1 bg-white drop-shadow-5xl rounded-lg p-2 cursor-pointer font-semibold flex text-base jutify-center mx-auto"  onClick={handleLogOut}> <img src={Logout} className="mr-3"  alt="Logout"/> <p>Logout</p></li>
                       </ul>
                     </div>
                   )}
-            </div>
-          </Grid>
         </div>
       </Grid>
     </div>

@@ -171,11 +171,11 @@ function CompanyPriceBook() {
       sortable: true,
       minWidth: 'auto', 
       maxWidth: '300px', 
-      cell: (row) => (
-        <span title={row.category.name}>
-          {truncateText(row.category.name, 20)}
-        </span>
-      ),
+      // cell: (row) => (
+      //   <span title={row.category.name}>
+      //     {truncateText(row.category.name, 20)}
+      //   </span>
+      // ),
     },
     {
       name: "Name",

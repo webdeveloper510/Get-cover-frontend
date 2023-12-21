@@ -79,7 +79,7 @@ function DealerPriceList() {
 
   const columns = [
     {
-      name: "Product ID",
+      name: "ID",
       selector: (row) => row.ProductID,
       sortable: true,
     },
