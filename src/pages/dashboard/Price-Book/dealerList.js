@@ -92,6 +92,8 @@ function DealerPriceList() {
       name: "ID",
       selector: (row, index) => index + 1,
       sortable: true,
+      minWidth: "auto",
+      maxWidth: "70px",
     },
     {
       name: "Dealer Name",
@@ -112,6 +114,8 @@ function DealerPriceList() {
       name: "Term",
       selector: (row) => row.priceBooks[0].term + " Months",
       sortable: true,
+      minWidth: "auto",
+      maxWidth: "150px",
     },
     {
       name: "WholeSale Cost",
@@ -154,6 +158,8 @@ function DealerPriceList() {
     },
     {
       name: "Action",
+      minWidth: "auto",
+      maxWidth: "70px",
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (
@@ -223,7 +229,7 @@ function DealerPriceList() {
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Dealer Price List</p>
             </div>
-            <div className="col-span-7">
+            {/* <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <Grid className="!grid-cols-10">
                   <div className="col-span-2 self-center">
@@ -281,7 +287,7 @@ function DealerPriceList() {
                   </div>
                 </Grid>
               </div>
-            </div>
+            </div> */}
           </Grid>
 
           <div className="mb-5 relative">
