@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 // media Import
 import Logout from "../assets/images/side-bar/logout-black.svg";
 import Nonotification from "../assets/images/icons/readed-noti.svg";
-import NotificationImage from "../assets/images/icons/notificationIcon.svg";
+import NotificationImage from "../assets/images/icons/Notification-icon.svg";
 import ProfileImage from "../assets/images/icons/Profile.svg";
 import Down from "../assets/images/icons/Drop.svg";
 
@@ -40,7 +40,7 @@ function Headbar({ className = "" }) {
                     className="cursor-pointer mt-[-2%] "
                     alt="NotificationImage"
                   />{" "}
-                  <p className="text-[10px] right-[6px] top-0 text-white absolute">9</p>
+                  <p className="text-[9px] right-0 -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[2px] text-center border-2 border-[#333333]">9</p>
                 </Link>
               </div>
               {/* <div>

@@ -119,7 +119,7 @@ function DealerPriceList() {
     },
     {
       name: "WholeSale Cost",
-      selector: (row) =>
+      selector: (row) => '$' +
         row.priceBooks[0].adminFee +
         row.priceBooks[0].frontingFee +
         row.priceBooks[0].reinsuranceFee +

@@ -385,7 +385,7 @@ function SideBar() {
   ];
 
   return (
-    <div className="xl:w-[210px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-4">
+    <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
       <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[5px]">
         <img src={Logo} className="mx-auto py-6 w-[160px] " alt="logo" />
         <hr className=" border-[#474747] border-[1px]" />
