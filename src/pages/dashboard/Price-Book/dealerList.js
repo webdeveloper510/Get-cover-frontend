@@ -164,26 +164,26 @@ function DealerPriceList() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(row.unique_key)}>
+            <div onClick={() => setSelectedAction(index)}>
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.unique_key && (
+            {selectedAction === index && (
               <div
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
-                <img
+                {/* <img
                   src={arrowImage}
                   className={`absolute  object-contain left-1/2 w-[12px] ${
                     index % 10 === 9 ? "bottom-[-5px] rotate-180" : "top-[-5px]"
                   } `}
                   alt="up arror"
-                />
+                /> */}
                 <div className="text-center py-3">Edit</div>
               </div>
             )}
