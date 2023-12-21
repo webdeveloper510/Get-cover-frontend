@@ -302,6 +302,25 @@ function Dealer() {
     }),
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
+      const newObject = {
+        email: formik.values.email,
+        firstName: formik.values.firstName,
+        lastName: formik.values.lastName,
+        phoneNumber: formik.values.phoneNumber,
+        isPrimary: true,
+        position: formik.values.position,
+        status: true,
+      };
+      delete (formik.values.email,
+      formik.values.firstName,
+      formik.values.lastName,
+      formik.values.phoneNumber,
+      formik.values.isPrimary,
+      formik.values.position);
+      formik.setValues({
+        ...formik.values,
+        dealer: [newObject, ...formik.values.dealer],
+      });
       values.isAccountCreate = createAccountOption === "yes";
       values.customerAccountCreated = separateAccountOption === "yes";
       console.log("Form submitted with values:", values);
@@ -874,32 +893,33 @@ function Dealer() {
 
           {selectedOption === "yes" ? (
             <>
-            {formik.values.priceBook.map((dealer, index) => (
-              <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
-                <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
-                {index == 0 ? ( <Button
-                    className="text-sm !font-light"
-                    onClick={handleAddPriceBook}
-                  >
-                    {" "}
-                    + Add More{" "}
-                  </Button>) : (
-                        <div
-                          onClick={() => {
-                            handleDeletePriceBook(index);
-                          }}
-                        >
-                          <div className="flex h-full mx-3 bg-[#fff] justify-center">
-                            <img
-                              src={DeleteImage}
-                              className="self-center cursor-pointer"
-                              alt="Delete Icon"
-                            />
-                          </div>
+              {formik.values.priceBook.map((dealer, index) => (
+                <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+                  <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
+                    {index == 0 ? (
+                      <Button
+                        className="text-sm !font-light"
+                        onClick={handleAddPriceBook}
+                      >
+                        {" "}
+                        + Add More{" "}
+                      </Button>
+                    ) : (
+                      <div
+                        onClick={() => {
+                          handleDeletePriceBook(index);
+                        }}
+                      >
+                        <div className="flex h-full mx-3 bg-[#fff] justify-center">
+                          <img
+                            src={DeleteImage}
+                            className="self-center cursor-pointer"
+                            alt="Delete Icon"
+                          />
                         </div>
-                      ) }
-                 
-                </div>
+                      </div>
+                    )}
+                  </div>
                   <div className="bg-[#f9f9f9] p-4 relative mt-5 rounded-xl">
                     <Grid className="">
                       <div className="col-span-4">
@@ -1083,11 +1103,10 @@ function Dealer() {
                             </div>
                           )}
                       </div>
-                     
                     </Grid>
                   </div>
-              </div>
-                ))}
+                </div>
+              ))}
             </>
           ) : (
             <div className="bg-[#f9f9f9] p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
