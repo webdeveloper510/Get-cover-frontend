@@ -300,8 +300,15 @@ function Dealer() {
         })
       ),
     }),
-    onSubmit: (values) => {
-      console.log("Form submitted with values:", values);
+    onSubmit: async (values) => {
+      const isEmailValid = !formik.errors.email;
+      const isEmailAvailable = isEmailValid
+        ? await checkEmailAvailability(formik.values.email)
+        : false;
+
+      if (!isEmailAvailable) {
+        return;
+      }
       const newObject = {
         email: formik.values.email,
         firstName: formik.values.firstName,
@@ -311,19 +318,15 @@ function Dealer() {
         position: formik.values.position,
         status: true,
       };
-      delete (formik.values.email,
-      formik.values.firstName,
-      formik.values.lastName,
-      formik.values.phoneNumber,
-      formik.values.isPrimary,
-      formik.values.position);
-      formik.setValues({
+      const newValues = {
         ...formik.values,
-        dealer: [newObject, ...formik.values.dealer],
-      });
+        dealers: [newObject, ...formik.values.dealers],
+      };
+      // formik.setValues(newValues);
       values.isAccountCreate = createAccountOption === "yes";
       values.customerAccountCreated = separateAccountOption === "yes";
-      console.log("Form submitted with values:", values);
+      console.log("Form submitted with values:", newValues);
+      // console.log("Form submitted with values:", newValues);
     },
   });
 
@@ -351,7 +354,16 @@ function Dealer() {
     if (emailValidationRegex.test(email) != false) {
       const result = await checkDealersEmailValidation(email);
       console.log(result);
-      setIsEmailAvailable(false);
+      if (result.code === 200) {
+        setIsEmailAvailable(true);
+        formik.setFieldError("email", "");
+      } else if (
+        result.code === 401 &&
+        result.message === "Email is already exist!"
+      ) {
+        setIsEmailAvailable(false);
+        return false;
+      }
     }
   };
   const state = cityData;
@@ -549,13 +561,33 @@ function Dealer() {
                     className="!bg-white"
                     required={true}
                     value={formik.values.email}
-                    onBlur={formik.handleBlur}
+                    onBlur={async () => {
+                      formik.handleBlur("email");
+
+                      const isEmailValid = !formik.errors.email;
+                      const isEmailAvailablechecking = isEmailValid
+                        ? await checkEmailAvailability(formik.values.email)
+                        : false;
+                    }}
                     onChange={formik.handleChange}
-                    error={formik.touched.email && formik.errors.email}
+                    error={
+                      (formik.touched.email && formik.errors.email) ||
+                      (formik.touched.email &&
+                        !isEmailAvailable &&
+                        "Email is already in use")
+                    }
                   />
-                  {formik.touched.email && formik.errors.email && (
+                  {formik.touched.email && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.email}
+                      {formik.errors.email &&
+                        !isEmailAvailable &&
+                        "Email is already in use"}
+                      {formik.errors.email &&
+                        isEmailAvailable &&
+                        formik.errors.email}
+                      {!formik.errors.email &&
+                        !isEmailAvailable &&
+                        "Email is already in use"}
                     </div>
                   )}
                 </div>
