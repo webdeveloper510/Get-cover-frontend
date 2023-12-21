@@ -149,7 +149,7 @@ export const getDealerList = async () => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.get(`${url}/admin/dealers`, { headers });
+    const response = await axios.get(`${url}/admin/approveDealers`, { headers });
 
     return response.data;
   } catch (error) {

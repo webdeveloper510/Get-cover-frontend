@@ -109,7 +109,7 @@ function Category() {
       name: "Name",
       selector: (row) => row.name,
       sortable: true,
-      cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
+      // cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
       minWidth: 'auto', 
       maxWidth: '200px',
     },
@@ -235,7 +235,7 @@ function Category() {
           <Link to={"/addCategory"} className="flex">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-semibold">
+            <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
               Add Category{" "}
             </span>{" "}
           </Link>

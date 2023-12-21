@@ -109,7 +109,7 @@ function DealerList() {
         return (
           <div className="relative">
             <div onClick={() => setSelectedAction(row.unique_key)}>
-              <img
+             <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
                 alt="Active Icon"
@@ -128,7 +128,7 @@ function DealerList() {
                   } `}
                   alt="up arror"
                 /> */}
-                <div className="text-center py-3">View</div>
+                <Link to={'/dealerDetails'} className="text-center py-3">View</Link>
               </div>
             )}
           </div>

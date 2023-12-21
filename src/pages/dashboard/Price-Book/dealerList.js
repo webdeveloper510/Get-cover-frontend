@@ -198,7 +198,7 @@ function DealerPriceList() {
           <Link to={"/addDealerBook"} className="flex">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-semibold">
+            <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
               Add Dealer Book{" "}
             </span>{" "}
           </Link>
