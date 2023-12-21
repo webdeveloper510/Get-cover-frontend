@@ -115,7 +115,7 @@ function DealerPriceList() {
       selector: (row) => row.priceBooks[0].term + " Months",
       sortable: true,
       minWidth: "auto",
-      maxWidth: "150px",
+      maxWidth: "120px",
     },
     {
       name: "WholeSale Cost",
@@ -126,7 +126,7 @@ function DealerPriceList() {
         row.priceBooks[0].reserveFutureFee,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "170px",
+      maxWidth: "120px",
     },
     {
       name: "Retail Cost",
@@ -159,7 +159,7 @@ function DealerPriceList() {
     {
       name: "Action",
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "90px",
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (
