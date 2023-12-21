@@ -52,7 +52,7 @@ const Select = ({
           }`}
           defaultValue={localDefaultValue}
         >
-          <option className={color} disabled value="">
+          <option className={` ${!value ? 'first-option' : ''} ${color}`} disabled value="">
             Select {OptionName}
           </option>
           {options?.length != 0 &&

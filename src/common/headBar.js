@@ -62,7 +62,7 @@ function Headbar({ className = "" }) {
                     <div className="absolute right-[3%]">
                       {/* Your dropdown content goes here */}
                       <ul>
-                        <li className="text-light-black mt-1 mr-1 bg-white drop-shadow-5xl rounded-lg p-2 cursor-pointer font-semibold flex text-base jutify-center mx-auto"  onClick={handleLogOut}> <img src={Logout} className="mr-3"  alt="Logout"/> <p>Logout</p></li>
+                        <li className="text-light-black mt-1 mr-1 bg-white drop-shadow-5xl rounded-lg p-2 cursor-pointer text-[14px] font-Regular flex text-base jutify-center mx-auto"  onClick={handleLogOut}> <img src={Logout} className="mr-3"  alt="Logout"/> <p>Logout</p></li>
                       </ul>
                     </div>
                   )}
