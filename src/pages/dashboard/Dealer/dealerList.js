@@ -50,12 +50,12 @@ function DealerList() {
 
   const columns = [
     {
-      name: "Dealer ID",
+      name: "ID",
       selector: (row) => row?.dealerData.unique_key,
       sortable: true,
     },
     {
-      name: "Dealer Name",
+      name: "Name",
       selector: (row) => row?.dealerData.name,
       sortable: true,
     },

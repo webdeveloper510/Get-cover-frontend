@@ -80,9 +80,11 @@ function NewDealerList() {
   };
   const columns = [
     {
-      name: "Dealer id",
+      name: "ID",
       selector: (row) => row.dealerData.unique_key,
       sortable: true,
+      minWidth: 'auto', 
+      maxWidth: '90px',
     },
     {
       name: "Account Name",
@@ -98,6 +100,8 @@ function NewDealerList() {
       name: "Address",
       selector: (row) => row.dealerData.street + "," + row.dealerData.city,
       sortable: true,
+      minWidth: 'auto', 
+      maxWidth: '250px',
     },
     {
       name: "Email",
