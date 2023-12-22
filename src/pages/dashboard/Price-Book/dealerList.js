@@ -97,22 +97,22 @@ function DealerPriceList() {
     },
     {
       name: "Dealer Name",
-      selector: (row) => row.dealer[0].name,
+      selector: (row) => row.dealer[0]?.name,
       sortable: true,
     },
     {
       name: "Product Name",
-      selector: (row) => row.priceBooks[0].name,
+      selector: (row) => row.priceBooks[0]?.name,
       sortable: true,
     },
     {
       name: "Product Category",
-      selector: (row) => row.priceBooks[0].category[0].name,
+      selector: (row) => row.priceBooks[0]?.category[0]?.name,
       sortable: true,
     },
     {
       name: "Term",
-      selector: (row) => row.priceBooks[0].term + " Months",
+      selector: (row) => row.priceBooks[0]?.term + " Months",
       sortable: true,
       minWidth: "auto",
       maxWidth: "120px",
@@ -121,10 +121,10 @@ function DealerPriceList() {
       name: "WholeSale Cost",
       selector: (row) =>
         "$" +
-        row.priceBooks[0].adminFee +
-        row.priceBooks[0].frontingFee +
-        row.priceBooks[0].reinsuranceFee +
-        row.priceBooks[0].reserveFutureFee,
+        row.priceBooks[0]?.adminFee +
+        row.priceBooks[0]?.frontingFee +
+        row.priceBooks[0]?.reinsuranceFee +
+        row.priceBooks[0]?.reserveFutureFee,
       sortable: true,
       minWidth: "auto",
       maxWidth: "120px",

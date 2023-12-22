@@ -14,15 +14,20 @@ import product from "../../../assets/images/icons/productName.svg";
 import category from "../../../assets/images/icons/productCat.svg";
 import dealer from "../../../assets/images/icons/dealerName.svg";
 import AddDealer from "../../../assets/images/dealer-book.svg";
-import { getDealersList } from "../../../services/dealerServices";
+import {
+  getDealersList,
+  getProductListbyProductCategoryId,
+} from "../../../services/dealerServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { getCategoryListActiveData } from "../../../services/priceBookService";
 
 function AddDealerBook() {
-  const [selectedValue, setSelectedValue] = useState("");
+  const [productNameOptions, setProductNameOptions] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeDealerList, setActiveDealerList] = useState([]);
+  const [category, setCategoryList] = useState([]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -40,13 +45,56 @@ function AddDealerBook() {
   };
   useEffect(() => {
     dealerList();
+    getProductList();
   }, []);
+  const getProductList = async () => {
+    const result = await getCategoryListActiveData();
+    console.log(result.result);
+    setCategoryList(
+      result.result.map((item) => ({
+        label: item.name,
+        value: item._id,
+      }))
+    );
+  };
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const handleSelectChange = (name, value) => {
+  const handleSelectChange = async (name, value) => {
     console.log(name, value);
-    setSelectedValue(name, value);
+    formik.setFieldValue(name, value);
+    if (name === "categoryId") {
+      formik.setFieldValue(`priceBook`, "");
+      formik.setFieldValue("wholesalePrice", "");
+      formik.setFieldValue("description", "");
+      formik.setFieldValue("term", "");
+      const response = await getProductListbyProductCategoryId(value);
+      console.log(response.result.priceBooks);
+      setProductNameOptions(() => {
+        return response.result.priceBooks.map((item) => ({
+          label: item.name,
+          value: item._id,
+          description: item.description,
+          term: item.term,
+          wholesalePrice:
+            item.frontingFee +
+            item.reserveFutureFee +
+            item.reinsuranceFee +
+            item.adminFee,
+          status: item.status,
+        }));
+      });
+    }
+    if (name === "priceBook") {
+      const data = productNameOptions.find((list) => {
+        return list.value === value;
+      });
+      console.log("data", data);
+      formik.setFieldValue("wholesalePrice", data.wholesalePrice.toFixed(2));
+      formik.setFieldValue("description", data.description);
+      formik.setFieldValue("term", data.term + " Months");
+    }
+    console.log(productNameOptions);
   };
   const handleSelectChange1 = (label, value) => {
     setSelectedProduct(value);
@@ -57,12 +105,19 @@ function AddDealerBook() {
       retailPrice: "",
       priceBook: "",
       dealerId: "",
+      description: "",
       status: true,
+      categoryId: "",
+      wholesalePrice: "",
+      term: "",
     },
     validationSchema: Yup.object({
-      retailPrice: Yup.number().required("Required"),
+      retailPrice: Yup.number()
+        .required("Required")
+        .min(0, "Retail Price cannot be negative"),
       priceBook: Yup.string().trim().required("Required"),
       dealerId: Yup.string().trim().required("Required"),
+      categoryId: Yup.string().trim().required("Required"),
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
@@ -161,63 +216,119 @@ function AddDealerBook() {
               )}
             </div>
             <div className="col-span-4">
-              <Input
-                type="text"
-                name="lName"
-                className="!bg-[#fff]"
+              <Select
+                name="categoryId"
                 label="Product Category"
-                placeholder=""
+                options={category}
                 required={true}
+                className="!bg-[#f9f9f9]"
+                placeholder=""
+                maxLength={"30"}
+                value={formik.values.categoryId}
+                onBlur={formik.handleBlur}
+                onChange={handleSelectChange}
+                error={formik.touched.categoryId && formik.errors.categoryId}
               />
+              {formik.touched.categoryId && formik.errors.categoryId && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.categoryId}
+                </div>
+              )}
             </div>
             <div className="col-span-4">
               <Select
-                label="Product Name *"
-                options={city}
-                className="!bg-[#fff]"
-                selectedValue={selectedProduct}
-                onChange={handleSelectChange1}
+                name="priceBook"
+                label="Product Name"
+                options={productNameOptions}
+                required={true}
+                className="!bg-[#f9f9f9]"
+                placeholder=""
+                value={formik.values.priceBook}
+                onBlur={formik.handleBlur}
+                onChange={handleSelectChange}
+                error={formik.touched.priceBook && formik.errors.priceBook}
               />
+              {formik.touched.priceBook && formik.errors.priceBook && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.priceBook}
+                </div>
+              )}
             </div>
             <div className="col-span-4">
               <Input
-                type="number"
-                name="phone"
-                className="!bg-[#fff]"
-                label="Wholesale Price ($) "
+                type="text"
+                name="wholesalePrice"
+                className="!bg-[#f9f9f9]"
+                label="Wholesale Price($)"
                 required={true}
                 placeholder=""
+                value={formik.values.wholesalePrice}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={true}
+                onWheelCapture={(e) => {
+                  e.preventDefault();
+                }}
+              />
+            </div>
+
+            <div className="col-span-4">
+              <Input
+                type="text"
+                name="description"
+                className="!bg-[#f9f9f9]"
+                label="Description"
+                required={true}
+                placeholder=""
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={true}
+                onWheelCapture={(e) => {
+                  e.preventDefault();
+                }}
               />
             </div>
             <div className="col-span-4">
               <Input
                 type="text"
-                name="Position"
-                className="!bg-[#fff]"
-                label="Description "
+                name="term"
+                className="!bg-[#f9f9f9]"
+                label="Term"
                 required={true}
                 placeholder=""
-              />
-            </div>
-            <div className="col-span-4">
-              <Select
-                label="Product Name"
-                options={city}
-                required={true}
-                className="!bg-[#fff]"
-                selectedValue={selectedProduct}
-                onChange={handleSelectChange1}
+                value={formik.values.term}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={true}
+                onWheelCapture={(e) => {
+                  e.preventDefault();
+                }}
               />
             </div>
             <div className="col-span-4">
               <Input
-                type="number"
-                name="Retail"
+                type="tel"
+                name="retailPrice"
                 className="!bg-[#fff]"
-                label="Retail Price($) "
-                required={true}
+                label="Retail Price ($)"
                 placeholder=""
+                required={true}
+                maxLength={"10"}
+                onChange={formik.handleChange}
+                onBlur={(e) => {
+                  const formattedValue = parseFloat(e.target.value).toFixed(2);
+                  formik.handleBlur(e);
+                  formik.setFieldValue("retailPrice", formattedValue);
+                }}
+                value={formik.values.frontingFee}
+                maxDecimalPlaces={2}
               />
+              {formik.touched.retailPrice && formik.errors.retailPrice && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.retailPrice}
+                </div>
+              )}
             </div>
             <div className="col-span-4">
               <Select
