@@ -1078,7 +1078,7 @@ function Dealer() {
                           type="number"
                           name={`priceBook[${index}].retailPrice`}
                           className="!bg-[#f9f9f9]"
-                          label="Retail Price"
+                          label="Retail Price($)"
                           maxLength={"10"}
                           maxDecimalPlaces={2}
                           required={true}

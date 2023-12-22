@@ -83,7 +83,8 @@ function AddDealerBook() {
                       <Input type='text' name='lName' className="!bg-[#fff]" label='Product Category' placeholder='' required={true} />
                   </div>
                   <div className='col-span-4'>
-                  <Select label="Product Name *"
+                  <Select label="Product Name "
+                  required={true}
                         options={city}
                         className="!bg-[#fff]"
                         selectedValue={selectedProduct}

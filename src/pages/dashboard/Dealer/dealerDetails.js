@@ -29,13 +29,26 @@ import OrderList from "./Dealer-Details/order";
 import ContractList from "./Dealer-Details/contract";
 import ClaimList from "./Dealer-Details/claim";
 import ServicerList from "./Dealer-Details/servicer";
+import UserList from "./Dealer-Details/user";
+import PriceBookList from "./Dealer-Details/priceBook";
+import CustomerList from "./Dealer-Details/customer";
 
 function DealerDetails() {
+  const [activeTab, setActiveTab] = useState('tab1'); // Set the initial active tab
+
   const tabs = [
-    { id: 'tab1', label: 'Tab 1', content: <div>Content for Tab 1</div> },
-    { id: 'tab2', label: 'Tab 2', content: <div>Content for Tab 2</div> },
-    { id: 'tab3', label: 'Tab 3', content: <div>Content for Tab 3</div> },
+    { id: 'tab1', label: 'Orders', icons: Order, Activeicons: OrderActive, content: <OrderList /> },
+    { id: 'tab2', label: 'Contracts', icons:Contract, Activeicons: ContractsActive, content: <ContractList /> },
+    { id: 'tab3', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
+    { id: 'tab4', label: 'Servicer', icons: Servicer, Activeicons: ServicerActive, content: <ServicerList /> },
+    { id: 'tab5', label: 'Customers', icons: Customer, Activeicons: CustomerActive, content: <CustomerList /> },
+    { id: 'tab6', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
+    { id: 'tab7', label: 'PriceBook', icons: PriceBook, Activeicons: PriceBookActive, content: <PriceBookList /> },
   ];
+
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId);
+  };
   return (
 
     <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
@@ -150,69 +163,26 @@ function DealerDetails() {
             <div className="col-span-10">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                  <Grid className="!grid-cols-7 !gap-1">
-                    <div className="col-span-1">
-                      <Button className="flex self-center !px-2 !py-1 w-full rounded-xl border-[1px] border-[#D1D1D1]">
-                        <img src={OrderActive} className="self-center pr-1 py-1 border-[#474747] border-r-[1px]" alt="AddItem" />{" "}
-                        <span className="text-white  text-[14px] ml-1 py-1 font-Regular">
-                          Orders
+                  {tabs.map((tab) => (
+                    <div className="col-span-1" key={tab.id}>
+                      <Button
+                        className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${activeTab === tab.id ? 'bg-[#2A2A2A] text-white' : 'bg-white text-black'}`}
+                        onClick={() => handleTabClick(tab.id)}
+                      >
+                        <img src={activeTab === tab.id ? tab.Activeicons : tab.icons} className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]" alt={tab.label} />
+                        <span className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? 'text-white' : 'text-black'}`}>
+                          {tab.label}
                         </span>
                       </Button>
                     </div>
-                    <div className="col-span-1">
-                      <Button className="!bg-white flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1]">
-                        <img src={Contract} className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]" alt="Contract" />{" "}
-                        <span className="text-black  text-[14px] ml-1 py-1 font-Regular">
-                        Contracts
-                        </span>
-                      </Button>
-                    </div>
-                    <div className="col-span-1">
-                      <Button className="!bg-white flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1]">
-                        <img src={Claim} className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]" alt="Claim" />{" "}
-                        <span className="text-black  text-[14px] ml-1 py-1 font-Regular">
-                        Claims
-                        </span>
-                      </Button>
-                    </div>
-                    <div className="col-span-1">
-                      <Button className="!bg-white flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1]">
-                        <img src={Servicer} className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]" alt="Servicer" />{" "}
-                        <span className="text-black  text-[14px] ml-1 py-1 font-Regular">
-                        Servicer
-                        </span>
-                      </Button>
-                    </div>
-                    <div className="col-span-1">
-                      <Button className="!bg-white flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1]">
-                        <img src={Customer} className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]" alt="Customer" />{" "}
-                        <span className="text-black  text-[14px] ml-1 py-1 font-Regular">
-                        Customers
-                        </span>
-                      </Button>
-                    </div>
-                    <div className="col-span-1">
-                      <Button className="!bg-white flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1]">
-                        <img src={User} className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]" alt="User" />{" "}
-                        <span className="text-black  text-[14px] ml-1 py-1 font-Regular">
-                        Users
-                        </span>
-                      </Button>
-                    </div>
-                    <div className="col-span-1">
-                      <Button className="!bg-white flex self-center w-full !px-2 !py-1 rounded-xl  border-[1px] border-[#D1D1D1]">
-                        <img src={PriceBook} className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]" alt="Price Book" />{" "}
-                        <span className="text-black  text-[14px] ml-1 py-1 font-Regular">
-                        PriceBook
-                        </span>
-                      </Button>
-                    </div>
-                 </Grid>
+                  ))}
+                </Grid>
               </div>
             </div>
             <div className="col-span-2">
-                <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
                   {" "}
-                  <Link to={"/addCategory"} className="flex">
+                  <Link to={"/addCategory"} className="flex self-center">
                     {" "}
                     <img src={AddItem} className="self-center" alt="AddItem" />{" "}
                     <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
@@ -223,11 +193,12 @@ function DealerDetails() {
             </div>
           </Grid>
 
-          <OrderList/>
-          <div className="py-6"></div>
-          <ContractList/>
-          <ClaimList/>
-          <ServicerList />
+          {tabs.map((tab) => (
+            <div key={tab.id} className={`${activeTab !== tab.id ? 'hidden' : ''}`}>
+              {tab.content}
+            </div>
+          ))}
+
         </div>
       </Grid>
 
