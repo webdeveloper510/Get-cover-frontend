@@ -62,7 +62,11 @@ function CompanyPriceBook() {
     try {
       setLoading(true);
       const res = await getCompanyPriceList(data);
-      setError(res.message);
+      if (res.code != 200) {
+        setError(res.message);
+      } else {
+        setError("");
+      }
       console.log(res);
       setCompanyPriceList(res.result);
     } catch (error) {

@@ -33,6 +33,7 @@ function AddCompanyPriceBook() {
   const [type, setType] = useState("");
   const { id } = useParams();
   const [detailsById, setDetailsById] = useState();
+  const [active, setinActive] = useState(false);
 
   const navigate = useNavigate();
   console.log(id);
@@ -48,6 +49,7 @@ function AddCompanyPriceBook() {
       adminFee: "",
       status: "",
     },
+    //  disabled={active}
     validationSchema: Yup.object({
       priceCatId: Yup.string().required("Required"),
       name: Yup.string().required("Required"),
@@ -177,7 +179,6 @@ function AddCompanyPriceBook() {
   const getTermListData = async () => {
     try {
       const res = await getTermList();
-      console.log(res.result.terms);
       setTermList(
         res.result.terms.map((item) => ({
           label: item.terms + " Months",
@@ -192,10 +193,15 @@ function AddCompanyPriceBook() {
   const getCategoryListActiveData11 = async () => {
     try {
       const res = await getCategoryListActiveData(id);
+      console.log(res.result);
+      if (res.result[0].status) {
+        setinActive(res.result[0].status);
+      }
       setCategoryList(
         res.result.map((item) => ({
           label: item.name,
           value: item._id,
+          status: item.status,
         }))
       );
     } catch (error) {
@@ -207,6 +213,15 @@ function AddCompanyPriceBook() {
     setIsModalOpen(false);
   };
   const handleSelectChange = (name, selectedValue) => {
+    if (name === "priceCatId") {
+      const data = categoryList.find((value) => {
+        if (value.status == false) {
+          formik.setFieldValue("status", value.status);
+        }
+        return value.value === selectedValue;
+      });
+      setinActive(data.status);
+    }
     formik.setFieldValue(name, selectedValue);
   };
 
@@ -537,7 +552,7 @@ function AddCompanyPriceBook() {
                     ? formik.setFieldValue("status", true)
                     : formik.values.status
                 }
-                // disabled={formik.values.status === false ? true : false}
+                disabled={active === false ? true : false}
                 onBlur={formik.handleBlur}
                 error={formik.touched.status && formik.errors.status}
                 defaultValue={defaultValue}

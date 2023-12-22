@@ -300,11 +300,33 @@ function Dealer() {
         })
       ),
     }),
-    onSubmit: (values) => {
-      console.log("Form submitted with values:", values);
+    onSubmit: async (values) => {
+      const isEmailValid = !formik.errors.email;
+      const isEmailAvailable = isEmailValid
+        ? await checkEmailAvailability(formik.values.email)
+        : false;
+
+      if (!isEmailAvailable) {
+        return;
+      }
+      const newObject = {
+        email: formik.values.email,
+        firstName: formik.values.firstName,
+        lastName: formik.values.lastName,
+        phoneNumber: formik.values.phoneNumber,
+        isPrimary: true,
+        position: formik.values.position,
+        status: true,
+      };
+      const newValues = {
+        ...formik.values,
+        dealers: [newObject, ...formik.values.dealers],
+      };
+      // formik.setValues(newValues);
       values.isAccountCreate = createAccountOption === "yes";
       values.customerAccountCreated = separateAccountOption === "yes";
-      console.log("Form submitted with values:", values);
+      console.log("Form submitted with values:", newValues);
+      // console.log("Form submitted with values:", newValues);
     },
   });
 
@@ -332,7 +354,16 @@ function Dealer() {
     if (emailValidationRegex.test(email) != false) {
       const result = await checkDealersEmailValidation(email);
       console.log(result);
-      setIsEmailAvailable(false);
+      if (result.code === 200) {
+        setIsEmailAvailable(true);
+        formik.setFieldError("email", "");
+      } else if (
+        result.code === 401 &&
+        result.message === "Email is already exist!"
+      ) {
+        setIsEmailAvailable(false);
+        return false;
+      }
     }
   };
   const state = cityData;
@@ -530,13 +561,33 @@ function Dealer() {
                     className="!bg-white"
                     required={true}
                     value={formik.values.email}
-                    onBlur={formik.handleBlur}
+                    onBlur={async () => {
+                      formik.handleBlur("email");
+
+                      const isEmailValid = !formik.errors.email;
+                      const isEmailAvailablechecking = isEmailValid
+                        ? await checkEmailAvailability(formik.values.email)
+                        : false;
+                    }}
                     onChange={formik.handleChange}
-                    error={formik.touched.email && formik.errors.email}
+                    error={
+                      (formik.touched.email && formik.errors.email) ||
+                      (formik.touched.email &&
+                        !isEmailAvailable &&
+                        "Email is already in use")
+                    }
                   />
-                  {formik.touched.email && formik.errors.email && (
+                  {formik.touched.email && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.email}
+                      {formik.errors.email &&
+                        !isEmailAvailable &&
+                        "Email is already in use"}
+                      {formik.errors.email &&
+                        isEmailAvailable &&
+                        formik.errors.email}
+                      {!formik.errors.email &&
+                        !isEmailAvailable &&
+                        "Email is already in use"}
                     </div>
                   )}
                 </div>
@@ -874,32 +925,33 @@ function Dealer() {
 
           {selectedOption === "yes" ? (
             <>
-            {formik.values.priceBook.map((dealer, index) => (
-              <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
-                <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
-                {index == 0 ? ( <Button
-                    className="text-sm !font-light"
-                    onClick={handleAddPriceBook}
-                  >
-                    {" "}
-                    + Add More{" "}
-                  </Button>) : (
-                        <div
-                          onClick={() => {
-                            handleDeletePriceBook(index);
-                          }}
-                        >
-                          <div className="flex h-full mx-3 bg-[#fff] justify-center">
-                            <img
-                              src={DeleteImage}
-                              className="self-center cursor-pointer"
-                              alt="Delete Icon"
-                            />
-                          </div>
+              {formik.values.priceBook.map((dealer, index) => (
+                <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+                  <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
+                    {index == 0 ? (
+                      <Button
+                        className="text-sm !font-light"
+                        onClick={handleAddPriceBook}
+                      >
+                        {" "}
+                        + Add More{" "}
+                      </Button>
+                    ) : (
+                      <div
+                        onClick={() => {
+                          handleDeletePriceBook(index);
+                        }}
+                      >
+                        <div className="flex h-full mx-3 bg-[#fff] justify-center">
+                          <img
+                            src={DeleteImage}
+                            className="self-center cursor-pointer"
+                            alt="Delete Icon"
+                          />
                         </div>
-                      ) }
-                 
-                </div>
+                      </div>
+                    )}
+                  </div>
                   <div className="bg-[#f9f9f9] p-4 relative mt-5 rounded-xl">
                     <Grid className="">
                       <div className="col-span-4">
@@ -1083,11 +1135,10 @@ function Dealer() {
                             </div>
                           )}
                       </div>
-                     
                     </Grid>
                   </div>
-              </div>
-                ))}
+                </div>
+              ))}
             </>
           ) : (
             <div className="bg-[#f9f9f9] p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">

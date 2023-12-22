@@ -90,7 +90,7 @@ function Login() {
                     value={formik.values.email}
                     onChange={(e) => {
                       setError("");
-                      formik.handleChange(e); // Invoke handleChange with the event object
+                      formik.handleChange(e);
                     }}
                     onBlur={formik.handleBlur}
                   />
