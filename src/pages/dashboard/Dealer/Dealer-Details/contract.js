@@ -20,54 +20,45 @@ function ContractList() {
   return (
     <>
       <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
-        <Grid className='!p-[26px] !pt-[14px] !pb-0'>
-          <div className='col-span-5 self-center'>
-            <p className='text-xl font-semibold'>Contracts List</p>
-          </div>
-          <div className='col-span-7'>
-            <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-              <Grid className='!grid-cols-11' >
-                <div className='col-span-3 self-center'>
-                  <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Contract ID' />
-                </div>
-                <div className='col-span-3 self-center'>
-                  <Input name='Email' type='email' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Claim' />
-                </div>
-                <div className='col-span-3 self-center'>
-                  <Input name='PhoneNo.' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Servicer Name' />
-                </div>
-                <div className='col-span-2 self-center flex justify-center'>
-                  <Button
-                    type="submit" className='!p-0 mr-2'>
-                    <img src={Search} className='cursor-pointer ' alt='Search' />
-                  </Button>
-                  <div className="relative">
+      <Grid className='!p-[26px] !pt-[14px] !pb-0'>
+              <div className='col-span-5 self-center'>
+                <p className='text-xl font-semibold'>Contracts List</p>
+              </div>
+              <div className='col-span-7'>
+                <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
+                  <Grid className='!grid-cols-11' >
+                    <div className='col-span-3 self-center'>
+                      <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Order ID' />
+                    </div>
+                    <div className='col-span-3 self-center'>
+                      <Input name='Email' type='email'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Dealer Order no.' />
+                    </div>
+                    <div className='col-span-3 self-center'>
+                      <Input name='PhoneNo.' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Customer Name' />
+                    </div>
+                    <div className='col-span-2 self-center flex justify-center'>
                     <Button
-                      type="submit"
-                      className="!bg-transparent !p-0"
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
-                      />
-                    </Button>
-                    {showTooltip && (
-                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 p-2 bg-gray-800 text-white rounded-md">
-                        Clear Filter
-                      </div>
-                    )}
-                  </div>
+                        type="submit" className='!p-0 mr-2'>
+                          <img src={Search} className='cursor-pointer ' alt='Search' />
+                          </Button>
+                      <Button
+                        type="submit"
+                        className="!bg-transparent !p-0"
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                  </Grid>
+  
                 </div>
-              </Grid>
+              </div>
+            </Grid>
 
-            </div>
-          </div>
-        </Grid>
-
-        <div className=' px-3 mt-5'>
+        <div className='px-3 mt-5'>
           <div>
             <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>

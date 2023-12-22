@@ -97,7 +97,7 @@ function UserList() {
   
     return (
       <>
-        <div className='my-8 ml-3'>    
+        <div className='my-8'>    
           <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
             <Grid className='!p-[26px] !pt-[14px] !pb-0'>
               <div className='col-span-5 self-center'>

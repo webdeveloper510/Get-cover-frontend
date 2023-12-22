@@ -42,12 +42,9 @@ function ClaimList() {
                     type="submit" className='!p-0 mr-2'>
                     <img src={Search} className='cursor-pointer ' alt='Search' />
                   </Button>
-                  <div className="relative">
                     <Button
                       type="submit"
                       className="!bg-transparent !p-0"
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
                     >
                       <img
                         src={clearFilter}
@@ -55,12 +52,6 @@ function ClaimList() {
                         alt="clearFilter"
                       />
                     </Button>
-                    {showTooltip && (
-                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 p-2 bg-gray-800 text-white rounded-md">
-                        Clear Filter
-                      </div>
-                    )}
-                  </div>
                 </div>
               </Grid>
 
