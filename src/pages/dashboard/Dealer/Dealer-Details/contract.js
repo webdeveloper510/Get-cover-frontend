@@ -19,6 +19,7 @@ function ContractList() {
   };
   return (
     <>
+    <div className='my-8'>
       <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
       <Grid className='!p-[26px] !pt-[14px] !pb-0'>
               <div className='col-span-5 self-center'>
@@ -58,7 +59,7 @@ function ContractList() {
               </div>
             </Grid>
 
-        <div className='px-3 mt-5'>
+        <div className='px-3 my-8'>
           <div>
             <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
@@ -238,6 +239,7 @@ function ContractList() {
           </div>
         </div>
       </div>
+    </div>
     </>
   )
 }
