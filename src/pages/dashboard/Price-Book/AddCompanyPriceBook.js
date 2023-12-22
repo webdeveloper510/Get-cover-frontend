@@ -462,7 +462,11 @@ function AddCompanyPriceBook() {
                 placeholder=""
                 maxLength={"10"}
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                onBlur={(e) => {
+                  const formattedValue = parseFloat(e.target.value).toFixed(2);
+                  formik.handleBlur(e);
+                  formik.setFieldValue("frontingFee", formattedValue);
+                }}
                 value={formik.values.frontingFee}
                 maxDecimalPlaces={2}
               />
@@ -483,7 +487,11 @@ function AddCompanyPriceBook() {
                 required={true}
                 placeholder=""
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                onBlur={(e) => {
+                  const formattedValue = parseFloat(e.target.value).toFixed(2);
+                  formik.handleBlur(e);
+                  formik.setFieldValue("reinsuranceFee", formattedValue);
+                }}
                 value={formik.values.reinsuranceFee}
                 maxDecimalPlaces={2}
               />
@@ -505,7 +513,11 @@ function AddCompanyPriceBook() {
                 label="Reserve for future claims"
                 placeholder=""
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                onBlur={(e) => {
+                  const formattedValue = parseFloat(e.target.value).toFixed(2);
+                  formik.handleBlur(e);
+                  formik.setFieldValue("reserveFutureFee", formattedValue);
+                }}
                 value={formik.values.reserveFutureFee}
                 maxDecimalPlaces={2}
               />
@@ -527,7 +539,11 @@ function AddCompanyPriceBook() {
                 label="Administration fee "
                 placeholder=""
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                onBlur={(e) => {
+                  const formattedValue = parseFloat(e.target.value).toFixed(2);
+                  formik.handleBlur(e);
+                  formik.setFieldValue("adminFee", formattedValue);
+                }}
                 value={formik.values.adminFee}
                 maxDecimalPlaces={2}
               />

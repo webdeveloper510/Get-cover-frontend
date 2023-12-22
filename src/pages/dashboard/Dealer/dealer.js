@@ -14,12 +14,14 @@ import RadioButton from "../../../common/radio";
 import FileDropdown from "../../../common/fileDropbox";
 import { cityData } from "../../../stateCityJson";
 import {
+  addNewOrApproveDealer,
   checkDealersEmailValidation,
   getDealersDetailsByid,
   getProductListbyProductCategoryId,
   getTermList,
 } from "../../../services/dealerServices";
 import { getCategoryListActiveData } from "../../../services/priceBookService";
+import { validateDealerData } from "../../../services/dealerServices";
 
 function Dealer() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -29,9 +31,9 @@ function Dealer() {
   const [separateAccountOption, setSeparateAccountOption] = useState("yes");
   const [selectedOption, setSelectedOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
+  const [nextStep, setNextStep] = useState(true);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
-    flag: "approved",
     street: "",
     zip: "",
     state: "",
@@ -43,6 +45,8 @@ function Dealer() {
     city: "",
     position: "",
     createdBy: "Super admin",
+    role: "dealer",
+    savePriceBookType: selectedOption,
     dealers: [],
     priceBook: [
       {
@@ -64,6 +68,12 @@ function Dealer() {
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
+  const downloadCSVTemplate = async () => {
+    window.open(
+      "https://docs.google.com/spreadsheets/d/1CAsu13q4T9i7dGpzVRvE9KYmt2xM0JNGeswKtRONnG0/edit?usp=sharing",
+      "_blank"
+    );
+  };
 
   const handleAddPriceBook = () => {
     const priceBook = {
@@ -93,7 +103,6 @@ function Dealer() {
         // console.log();
         setInitialFormValues({
           name: res.result[0].dealerData.name,
-          flag: "approved",
           street: res.result[0].dealerData.street,
           zip: res.result[0].dealerData.zip,
           state: res.result[0].dealerData.state,
@@ -105,7 +114,9 @@ function Dealer() {
           city: res.result[0].dealerData.city,
           position: res.result[0].position,
           createdBy: "Super admin",
+          role: "dealer",
           dealers: [],
+          savePriceBookType: selectedOption,
           priceBook: [
             {
               priceBookId: "",
@@ -244,18 +255,6 @@ function Dealer() {
       email: Yup.string()
         .matches(emailValidationRegex, "Invalid email address")
         .required("Required"),
-      // .test(
-      //   "email-availability",
-      //   "Email is already in use",
-      //   async (value) => {
-      //     const response = await checkDealersEmailValidation(value);
-      //     console.log(response.status);
-      //     const isEmailAvailable = response.status === 200;
-      //     setIsEmailAvailable(isEmailAvailable);
-      //     return isEmailAvailable;
-      //   }
-      // ),
-
       zip: Yup.string()
         .required("Required")
         .min(5, "Must be at least 5 characters")
@@ -291,24 +290,60 @@ function Dealer() {
           status: Yup.boolean().required("Required"),
         })
       ),
-      priceBook: Yup.array().of(
-        Yup.object().shape({
-          priceBookId: Yup.string().required("Required"),
-          categoryId: Yup.string().required("Required"),
-          retailPrice: Yup.string().required("Required"),
-          status: Yup.boolean().required("Required"),
-        })
-      ),
+      priceBook:
+        selectedOption === "no"
+          ? Yup.array().notRequired()
+          : Yup.array().of(
+              Yup.object().shape({
+                priceBookId: Yup.string().required("Required"),
+                categoryId: Yup.string().required("Required"),
+                retailPrice: Yup.string().required("Required"),
+                status: Yup.boolean().required("Required"),
+              })
+            ),
     }),
     onSubmit: async (values) => {
       const isEmailValid = !formik.errors.email;
-      const isEmailAvailable = isEmailValid
+      values.priceBook =
+        selectedOption === "no"
+          ? [
+              {
+                priceBookId: "",
+                categoryId: "",
+                wholesalePrice: "",
+                terms: "",
+                description: "",
+                retailPrice: "",
+                status: "",
+              },
+            ]
+          : formik.errors.priceBook || values.priceBook;
+      const isEmailAvailable1 = isEmailValid
         ? await checkEmailAvailability(formik.values.email)
         : false;
 
+      console.log(formik);
       if (!isEmailAvailable) {
         return;
       }
+      if (formik.values.dealers.length > 0) {
+        console.log(formik.values.dealers.length);
+        let emailValues = [];
+        for (let i = 0; i < formik.values.dealers.length; i++) {
+          const result = await checkDealerEmailAndSetError(
+            formik.values.dealers[i].email,
+            formik,
+            `dealers[${i}].email`
+          );
+          emailValues.push(result);
+        }
+
+        console.log(emailValues);
+        if (emailValues.some((value) => value === false)) {
+          return;
+        }
+      }
+
       const newObject = {
         email: formik.values.email,
         firstName: formik.values.firstName,
@@ -325,11 +360,51 @@ function Dealer() {
       // formik.setValues(newValues);
       values.isAccountCreate = createAccountOption === "yes";
       values.customerAccountCreated = separateAccountOption === "yes";
-      console.log("Form submitted with values:", newValues);
+      const result =
+        id !== null
+          ? await validateDealerData({ ...newValues, dealerId: id })
+          : await validateDealerData(newValues);
+      console.log(result);
+      if (result.code == 200) {
+        console.log("here");
+        const result =
+          id !== undefined
+            ? await addNewOrApproveDealer({ ...newValues, dealerId: id })
+            : await addNewOrApproveDealer(newValues);
+        console.log(result);
+      } else {
+        if (result.message == "Dealer name already exists") {
+          formik.setFieldError("name", "Name Already Used");
+        }
+        alert(result.message);
+      }
+      // console.log("Form submitted with values:", newValues);
       // console.log("Form submitted with values:", newValues);
     },
   });
-
+  const checkDealerEmailAndSetError = async (email, formik, fieldPath) => {
+    if (emailValidationRegex.test(email)) {
+      try {
+        const result = await checkDealersEmailValidation(email);
+        console.log(result);
+        if (result.code === 200) {
+          formik.setFieldError(fieldPath, "");
+          return true;
+        } else if (
+          result.code === 401 &&
+          result.message === "Email is already exist!"
+        ) {
+          formik.setFieldError(fieldPath, "Email is already in use");
+          return false;
+        }
+      } catch (error) {
+        console.error("Error checking dealer email availability:", error);
+      }
+    } else {
+      formik.setFieldError(fieldPath, "Invalid email address");
+    }
+    return false;
+  };
   const handleAddTeamMember = () => {
     const dealers = {
       firstName: "",
@@ -774,7 +849,9 @@ function Dealer() {
                         className="!bg-white"
                         required={true}
                         value={formik.values.dealers[index].email}
-                        onBlur={formik.handleBlur}
+                        onBlur={async () => {
+                          formik.handleBlur(`dealers[${index}].email`);
+                        }}
                         onChange={formik.handleChange}
                         error={
                           formik.touched.dealers &&
@@ -1085,7 +1162,16 @@ function Dealer() {
                           placeholder=""
                           value={formik.values.priceBook[index].retailPrice}
                           onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
+                          onBlur={(e) => {
+                            const formattedValue = parseFloat(
+                              e.target.value
+                            ).toFixed(2);
+                            formik.handleBlur(e);
+                            formik.setFieldValue(
+                              `priceBook[${index}].retailPrice`,
+                              formattedValue
+                            );
+                          }}
                           onWheelCapture={(e) => {
                             e.preventDefault();
                           }}
@@ -1145,11 +1231,28 @@ function Dealer() {
               <p className="text-[#717275] text-lg mb-5 font-semibold">
                 Upload In Bulk
               </p>
-              <FileDropdown />
+              <FileDropdown
+                className="!bg-transparent"
+                accept={
+                  ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                }
+                onFileSelect={(file) => formik.setFieldValue("file", file)}
+              />
+              {formik.touched.file && formik.errors.file && (
+                <p className="text-red-500 text-[10px] mt-1 font-medium">
+                  {formik.errors.file}
+                </p>
+              )}
               <p className="text-[11px] mt-1 text-[#5D6E66] font-medium">
                 Please click on file option and make a copy. Upload the list of
                 Product Name and Price using our provided Google Sheets
-                template, by <span className="underline">Clicking here </span>.
+                template, by{" "}
+                <span
+                  className="underline cursor-pointer"
+                  onClick={downloadCSVTemplate}
+                >
+                  Clicking here
+                </span>
                 The file must be saved with csv , xls and xlsx Format.
               </p>
             </div>

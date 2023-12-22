@@ -141,3 +141,30 @@ export const getDealerPriceBook = async (categoryId) => {
     throw error;
   }
 };
+
+export const addNewOrApproveDealer = async (data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(`${url}/admin/createDealer`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const validateDealerData = async (data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(`${url}/admin/validateData`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
