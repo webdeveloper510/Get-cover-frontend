@@ -306,11 +306,11 @@ function CompanyPriceBook() {
             </ul>
           </div>
         </div>
-        {error && (
+        {/* {error && (
           <p className="text-red-500 text-sm pl-2">
             <span className="font-semibold"> {error} </span>
           </p>
-        )}
+        )} */}
         <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
           {" "}
           <Link to={"/addCompanyPriceBook"} className="flex">
