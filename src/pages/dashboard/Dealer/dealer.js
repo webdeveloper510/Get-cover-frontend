@@ -13,6 +13,7 @@ import Button from "../../../common/button";
 import RadioButton from "../../../common/radio";
 import FileDropdown from "../../../common/fileDropbox";
 import { cityData } from "../../../stateCityJson";
+import AddDealer from "../../../assets/images/dealer-book.svg";
 import {
   addNewOrApproveDealer,
   checkDealersEmailValidation,
@@ -22,6 +23,7 @@ import {
 } from "../../../services/dealerServices";
 import { getCategoryListActiveData } from "../../../services/priceBookService";
 import { validateDealerData } from "../../../services/dealerServices";
+import Modal from "../../../common/model";
 
 function Dealer() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -32,6 +34,7 @@ function Dealer() {
   const [selectedOption, setSelectedOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [nextStep, setNextStep] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
     street: "",
@@ -68,6 +71,10 @@ function Dealer() {
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleAddPriceBook = () => {
     const priceBook = {
@@ -125,6 +132,7 @@ function Dealer() {
           isAccountCreate: false,
           customerAccountCreated: false,
         });
+        setIsModalOpen(true);
       });
     }
   }, []);
@@ -1264,6 +1272,26 @@ function Dealer() {
           Submit
         </Button>
       </form>
+
+
+          {/* Modal Email Popop */}
+          <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="text-center py-3">
+          <img src={AddDealer} alt="email Image" className="mx-auto" />
+
+          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          Summited 
+            <span className="text-light-black"> Successfully </span>
+          </p>
+
+          <p className="text-neutral-grey text-base font-medium mt-2">
+         <b> New Dealer </b>  added successfully.
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting you on Category Page 3 seconds.
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }
