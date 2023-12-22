@@ -322,8 +322,7 @@ function NewDealerList() {
           <div className="text-center py-3">
             <img src={request} alt="email Image" className="mx-auto" />
             <p className="text-3xl mb-0 mt-4 font-semibold text-light-black">
-              {status == "Approved" ? 'Are you sure you want to continue'
- : " Do you really want to Disapprove"} ?
+              {status == "Approved" ? 'Are you sure you want to continue' : " Do you really want to Disapprove"} ?
             </p>
 
             <Grid className="my-5">

@@ -441,6 +441,14 @@ function Dealer() {
       }
     }
   };
+
+  const downloadCSVTemplate = async () => {
+    window.open(
+      "https://docs.google.com/spreadsheets/d/1CAsu13q4T9i7dGpzVRvE9KYmt2xM0JNGeswKtRONnG0/edit?usp=sharing",
+      "_blank"
+    );
+  };
+
   const state = cityData;
   return (
     <div className="my-8 ml-3">
@@ -1155,7 +1163,7 @@ function Dealer() {
                           type="number"
                           name={`priceBook[${index}].retailPrice`}
                           className="!bg-[#f9f9f9]"
-                          label="Retail Price"
+                          label="Retail Price($)"
                           maxLength={"10"}
                           maxDecimalPlaces={2}
                           required={true}
@@ -1246,6 +1254,7 @@ function Dealer() {
               <p className="text-[11px] mt-1 text-[#5D6E66] font-medium">
                 Please click on file option and make a copy. Upload the list of
                 Product Name and Price using our provided Google Sheets
+<<<<<<< HEAD
                 template, by{" "}
                 <span
                   className="underline cursor-pointer"
@@ -1253,6 +1262,12 @@ function Dealer() {
                 >
                   Clicking here
                 </span>
+=======
+                template, by  <span
+                  className="underline cursor-pointer"
+                  onClick={downloadCSVTemplate}
+                >Clicking here </span>.
+>>>>>>> 464a92df7801d5bb3b323ea97152bc5408ef0774
                 The file must be saved with csv , xls and xlsx Format.
               </p>
             </div>

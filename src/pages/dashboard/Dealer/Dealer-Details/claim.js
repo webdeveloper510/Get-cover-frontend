@@ -8,16 +8,20 @@ import Search from '../../../../assets/images/icons/SearchIcon.svg';
 import Edit from '../../../../assets/images/Dealer/EditIcon.svg';
 import chat from '../../../../assets/images/Dealer/chatIcon.svg';
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
+import Select from '../../../../common/select';
 function ClaimList() {
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
 
-  const handleMouseEnter = () => {
-    setShowTooltip(true);
+  const handleSelectChange = (label, value) => {
+    setSelectedValue(value);
   };
 
-  const handleMouseLeave = () => {
-    setShowTooltip(false);
-  };
+  const options = [
+    { label: 'City', value: 'city' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+  ];
+
   return (
     <>
       <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
@@ -42,12 +46,9 @@ function ClaimList() {
                     type="submit" className='!p-0 mr-2'>
                     <img src={Search} className='cursor-pointer ' alt='Search' />
                   </Button>
-                  <div className="relative">
                     <Button
                       type="submit"
                       className="!bg-transparent !p-0"
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
                     >
                       <img
                         src={clearFilter}
@@ -55,12 +56,6 @@ function ClaimList() {
                         alt="clearFilter"
                       />
                     </Button>
-                    {showTooltip && (
-                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 p-2 bg-gray-800 text-white rounded-md">
-                        Clear Filter
-                      </div>
-                    )}
-                  </div>
                 </div>
               </Grid>
 
@@ -138,13 +133,28 @@ function ClaimList() {
                   <p className='text-[#333333] text-sm font-Regular'>Claim Cost :  <span className='font-semibold'> $18.00  </span></p>
                 </div>
                 <div className='col-span-3 self-center'>
-                  <p className='text-[#1B1D21] text-sm font-Regular'>Customer Status <span className='text-[#8d8e90]'>(Updated on: 16 Dec 2024)</span></p>
+                  <p className='text-[#1B1D21] text-[11px] font-Regular'>Customer Status <span className='text-[#8d8e90]'>(Updated on: 16 Dec 2024)</span></p>
+                  <Select label=""
+                            options={options}
+                            className1='!py-1'
+                            selectedValue={selectedValue}
+                            onChange={handleSelectChange}/>
                 </div>
                 <div className='col-span-3 self-center'>
-                <p className='text-[#1B1D21] text-sm font-Regular'>Claim Status <span className='text-[#8d8e90]'>(Updated on: 16 Dec 2024)</span></p>
+                <p className='text-[#1B1D21] text-[11px] font-Regular'>Claim Status <span className='text-[#8d8e90]'>(Updated on: 16 Dec 2024)</span></p>
+                <Select label=""
+                            options={options}
+                            className1='!py-1'
+                            selectedValue={selectedValue}
+                            onChange={handleSelectChange}/>
                 </div>
                 <div className='col-span-3 self-center'>
-                <p className='text-[#1B1D21] text-sm font-Regular'>Repair Status <span className='text-[#8d8e90]'>(Updated on: 16 Dec 2024)</span></p>
+                <p className='text-[#1B1D21] text-[11px] font-Regular'>Repair Status <span className='text-[#8d8e90]'>(Updated on: 16 Dec 2024)</span></p>
+                <Select label=""
+                            options={options}
+                            className1='!py-1'
+                            selectedValue={selectedValue}
+                            onChange={handleSelectChange}/>
                 </div>
                 </Grid>
                
