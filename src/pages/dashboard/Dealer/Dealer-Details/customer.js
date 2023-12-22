@@ -14,7 +14,7 @@ import Grid from '../../../../common/grid';
 import Input from '../../../../common/input';
 import DataTable from "react-data-table-component"
 
-function OrderList() {
+function CustomerList() {
     const [selectedAction, setSelectedAction] = useState(null);
 
     const handleActionChange = (action) => {
@@ -54,27 +54,27 @@ function OrderList() {
         maxWidth: '70px',  // Set a custom maximum width
       },
       {
-        name: "Dealer Order no.",
+        name: "Name",
         selector: (row) => row.Categoryname,
         sortable: true,
       },
       {
-        name: "Customer Name",
+        name: "Email",
         selector: (row) => row.description,
         sortable: true,
       },
       {
-        name: "Servicer Name",
+        name: "Phone No.",
         selector: (row) => row.description,
         sortable: true,
       },
       {
-        name: "No. of Products",
+        name: "Number of Claims",
         selector: (row) => row.description,
         sortable: true,
       },
       {
-        name: "Order Value",
+        name: "Total Claims Value",
         selector: (row) => row.status,
         sortable: true,
       },
@@ -113,7 +113,7 @@ function OrderList() {
           <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
             <Grid className='!p-[26px] !pt-[14px] !pb-0'>
               <div className='col-span-5 self-center'>
-                <p className='text-xl font-semibold'>Orders List</p>
+                <p className='text-xl font-semibold'>Servicer List</p>
               </div>
               <div className='col-span-7'>
                 <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
@@ -158,5 +158,4 @@ function OrderList() {
       </>
     )
   }
-
-export default OrderList
+export default CustomerList

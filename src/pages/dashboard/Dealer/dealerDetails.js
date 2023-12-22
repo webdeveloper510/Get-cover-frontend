@@ -26,6 +26,9 @@ import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
 import email from "../../../assets/images/icons/Email.svg";
 import phone from "../../../assets/images/icons/PhoneNumber.svg";
 import OrderList from "./Dealer-Details/order";
+import ContractList from "./Dealer-Details/contract";
+import ClaimList from "./Dealer-Details/claim";
+import ServicerList from "./Dealer-Details/servicer";
 
 function DealerDetails() {
   const tabs = [
@@ -221,6 +224,10 @@ function DealerDetails() {
           </Grid>
 
           <OrderList/>
+          <div className="py-6"></div>
+          <ContractList/>
+          <ClaimList/>
+          <ServicerList />
         </div>
       </Grid>
 
