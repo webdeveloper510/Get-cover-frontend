@@ -166,7 +166,7 @@ function DealerDetails() {
                   {tabs.map((tab) => (
                     <div className="col-span-1" key={tab.id}>
                       <Button
-                        className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${activeTab === tab.id ? 'bg-[#2A2A2A] text-white' : 'bg-white text-black'}`}
+                        className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${activeTab === tab.id ? '!bg-[#2A2A2A] !text-white' : '!bg-[#F9F9F9] !text-black'}`}
                         onClick={() => handleTabClick(tab.id)}
                       >
                         <img src={activeTab === tab.id ? tab.Activeicons : tab.icons} className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]" alt={tab.label} />
