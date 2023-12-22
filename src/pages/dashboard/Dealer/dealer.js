@@ -68,12 +68,6 @@ function Dealer() {
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
-  const downloadCSVTemplate = async () => {
-    window.open(
-      "https://docs.google.com/spreadsheets/d/1CAsu13q4T9i7dGpzVRvE9KYmt2xM0JNGeswKtRONnG0/edit?usp=sharing",
-      "_blank"
-    );
-  };
 
   const handleAddPriceBook = () => {
     const priceBook = {
@@ -1254,21 +1248,14 @@ function Dealer() {
               <p className="text-[11px] mt-1 text-[#5D6E66] font-medium">
                 Please click on file option and make a copy. Upload the list of
                 Product Name and Price using our provided Google Sheets
-<<<<<<< HEAD
                 template, by{" "}
                 <span
                   className="underline cursor-pointer"
                   onClick={downloadCSVTemplate}
                 >
-                  Clicking here
+                  Clicking here{" "}
                 </span>
-=======
-                template, by  <span
-                  className="underline cursor-pointer"
-                  onClick={downloadCSVTemplate}
-                >Clicking here </span>.
->>>>>>> 464a92df7801d5bb3b323ea97152bc5408ef0774
-                The file must be saved with csv , xls and xlsx Format.
+                . The file must be saved with csv , xls and xlsx Format.
               </p>
             </div>
           )}
