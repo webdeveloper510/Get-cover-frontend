@@ -32,9 +32,32 @@ import ServicerList from "./Dealer-Details/servicer";
 import UserList from "./Dealer-Details/user";
 import PriceBookList from "./Dealer-Details/priceBook";
 import CustomerList from "./Dealer-Details/customer";
+import Modal from "../../../common/model";
+import Input from "../../../common/input";
+import Select from "../../../common/select";
 
 function DealerDetails() {
   const [activeTab, setActiveTab] = useState('tab1'); // Set the initial active tab
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState("");
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleSelectChange1 = (label, value) => {
+    setSelectedProduct(value);
+  };
+
+  const city = [
+    { label: "Country", value: "country" },
+    { label: "Option 2", value: "option2" },
+    { label: "Option 3", value: "option3" },
+  ];
 
   const tabs = [
     { id: 'tab1', label: 'Orders', icons: Order, Activeicons: OrderActive, content: <OrderList /> },
@@ -94,7 +117,7 @@ function DealerDetails() {
                     <p className="text-2xl text-white font-semibold">Edward26wilson</p>
                 </div>
                 <div className="col-span-3 text-end">
-                    <Button className='border !border-[#535456] !font-Regular'>Edit</Button>
+                    <Button className='border !border-[#535456] !text-sm !font-Regular'  onClick={openModal}>Edit</Button>
                 </div>
             </Grid>
             <div className="flex my-4">
@@ -201,7 +224,71 @@ function DealerDetails() {
 
         </div>
       </Grid>
-
+  {/* Modal Email Popop */}
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="text-center p-8">
+         <p className="text-3xl font-semibold mb-4">Edit Dealer Details</p>
+           <Grid>
+            <div className="col-span-12">
+              <Input
+               name='accountName'
+               className="!bg-[#fff]"
+               type='text'
+               label='Account Name'
+              />
+            </div>
+            <div className="col-span-12">
+              <Input
+               name='streetAddress'
+               className="!bg-[#fff]"
+               type='text'
+               label='Street Address'
+              />
+            </div>
+            <div className="col-span-6">
+              <Input
+               name='zipCode'
+               type='number'
+               className="!bg-[#fff]"
+               label='Zip Code'
+              />
+            </div>
+            <div className="col-span-6">
+            <Select
+              label="City"
+              options={city}
+              className="!bg-[#fff]"
+              selectedValue={selectedProduct}
+              onChange={handleSelectChange1}
+            />
+            </div>
+            <div className="col-span-6">
+            <Select
+              label="State"
+              options={city}
+              className="!bg-[#fff]"
+              selectedValue={selectedProduct}
+              onChange={handleSelectChange1}
+            />
+            </div>
+            <div className="col-span-6">
+            <Select
+              label="Country"
+              options={city}
+              className="!bg-[#fff]"
+              selectedValue={selectedProduct}
+              onChange={handleSelectChange1}
+            />
+            </div>
+            <div className="col-span-4">
+             <Button className='border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular' onClick={closeModal} >Cancel</Button>
+            </div>
+            <div className="col-span-8">
+            <Button className='w-full' >Submit</Button>
+            </div>
+           </Grid>
+        </div>
+      </Modal>
     </div>
 
   );

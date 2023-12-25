@@ -140,11 +140,7 @@ function AddDealerBook() {
     { label: "Option 2", value: "option2" },
     { label: "Option 3", value: "option3" },
   ];
-  const city = [
-    { label: "Country", value: "country" },
-    { label: "Option 2", value: "option2" },
-    { label: "Option 3", value: "option3" },
-  ];
+
 
   const status = [
     { label: "Active", value: true },
@@ -202,7 +198,7 @@ function AddDealerBook() {
                 label="Dealer Name"
                 options={activeDealerList}
                 required={true}
-                className="!bg-[#f9f9f9]"
+                className="!bg-[#fff]"
                 placeholder=""
                 value={formik.values.dealerId}
                 onBlur={formik.handleBlur}
@@ -221,7 +217,7 @@ function AddDealerBook() {
                 label="Product Category"
                 options={category}
                 required={true}
-                className="!bg-[#f9f9f9]"
+                className="!bg-[#fff]"
                 placeholder=""
                 maxLength={"30"}
                 value={formik.values.categoryId}
@@ -241,7 +237,7 @@ function AddDealerBook() {
                 label="Product Name"
                 options={productNameOptions}
                 required={true}
-                className="!bg-[#f9f9f9]"
+                className="!bg-[#fff]"
                 placeholder=""
                 value={formik.values.priceBook}
                 onBlur={formik.handleBlur}
@@ -258,8 +254,8 @@ function AddDealerBook() {
               <Input
                 type="text"
                 name="wholesalePrice"
-                className="!bg-[#f9f9f9]"
-                label="Wholesale Price($)"
+                className="!bg-[#fff]"
+                label="Wholesale Price ($)"
                 required={true}
                 placeholder=""
                 value={formik.values.wholesalePrice}
@@ -276,7 +272,7 @@ function AddDealerBook() {
               <Input
                 type="text"
                 name="description"
-                className="!bg-[#f9f9f9]"
+                className="!bg-[#fff]"
                 label="Description"
                 required={true}
                 placeholder=""
@@ -293,7 +289,7 @@ function AddDealerBook() {
               <Input
                 type="text"
                 name="term"
-                className="!bg-[#f9f9f9]"
+                className="!bg-[#fff]"
                 label="Term"
                 required={true}
                 placeholder=""
