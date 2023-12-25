@@ -1039,7 +1039,7 @@ function Dealer() {
                       </div>
                     )}
                   </div>
-                  <div className="bg-[#f9f9f9] p-4 relative mt-5 rounded-xl">
+                  <div className="bg-[#f9f9f9] p-4 relative mt-9 rounded-xl">
                     <Grid className="">
                       <div className="col-span-4">
                         <Select

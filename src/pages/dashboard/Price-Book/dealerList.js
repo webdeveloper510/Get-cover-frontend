@@ -5,7 +5,7 @@ import Button from "../../../common/button";
 
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
-import arrowImage from "../../../assets/images/dropdownArrow.png";
+// import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
@@ -230,7 +230,7 @@ function DealerPriceList() {
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Dealer Price List</p>
             </div>
-            {/* <div className="col-span-7">
+            <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <Grid className="!grid-cols-10">
                   <div className="col-span-2 self-center">
@@ -281,14 +281,27 @@ function DealerPriceList() {
                     <Button type="submit" className="!p-0">
                       <img
                         src={Search}
-                        className="cursor-pointer mx-auto"
+                        className="cursor-pointer  mx-auto"
                         alt="Search"
                       />
                     </Button>
+                    <Button
+                        type="submit"
+                        // onClick={() => {
+                        //   handleFilterIconClick();
+                        // }}
+                        className="!bg-transparent !p-0"
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer ml-2	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
                   </div>
                 </Grid>
               </div>
-            </div> */}
+            </div>
           </Grid>
 
           <div className="mb-5 relative">
