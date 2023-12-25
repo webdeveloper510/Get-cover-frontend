@@ -105,7 +105,7 @@ function DealerDetails() {
                 </div>
             </div>
             <div className="flex w-full my-4">
-              <p className="text-sm mr-3 text-[#999999] font-Regular">PRIMARY CONTACT DETAILS</p>
+              <p className="text-[10px] mr-3 text-[#999999] font-Regular">PRIMARY CONTACT DETAILS</p>
               <hr className="self-center border-[#999999] w-[50%]"/>
             </div>
             <div className="flex mb-4">
