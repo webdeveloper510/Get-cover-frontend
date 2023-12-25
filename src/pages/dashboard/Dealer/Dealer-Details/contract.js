@@ -59,7 +59,7 @@ function ContractList() {
               </div>
             </Grid>
 
-        <div className='px-3 my-8'>
+        <div className='px-3 mt-5'>
           <div>
             <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>

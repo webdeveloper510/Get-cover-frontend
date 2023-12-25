@@ -24,7 +24,7 @@ function ClaimList() {
 
   return (
     <>
-      <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
+      <div className='bg-white my-8 border-[1px] border-[#D1D1D1] rounded-xl'>
         <Grid className='!p-[26px] !pt-[14px] !pb-0'>
           <div className='col-span-5 self-center'>
             <p className='text-xl font-semibold'>Claims List</p>
