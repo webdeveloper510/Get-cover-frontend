@@ -136,7 +136,7 @@ function UserList() {
                 </div>
               </div>
             </Grid>
-            <div className='mb-5 relative'>
+            <div className='mb-5 relative dealer-detail'>
               <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
               </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
             </div>

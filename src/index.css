@@ -9,6 +9,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.dealer-detail .rdt_TableCol ,.dealer-detail .rdt_TableBody .rdt_TableCell{
+  font-size: 11px !important;
+}
+
 .font-light {
   font-family: 'Gilroy-Light';
   font-weight: 300;
