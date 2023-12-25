@@ -89,20 +89,14 @@ const routes = [
         path: "/notifications",
         index: true,
         element: (
-          <PrivateRoute
-            element={<Notification />}
-            path="/notifications"
-          />
+          <PrivateRoute element={<Notification />} path="/notifications" />
         ),
       },
       {
         path: "/dealerDetails",
         index: true,
         element: (
-          <PrivateRoute
-            element={<DealerDetails />}
-            path="/dealerDetails"
-          />
+          <PrivateRoute element={<DealerDetails />} path="/dealerDetails" />
         ),
       },
     ],
@@ -130,6 +124,10 @@ const routes = [
         element: (
           <PrivateRoute element={<AddDealerBook />} path="/addDealerBook" />
         ),
+      },
+      {
+        path: "/editDealerBook/:id",
+        element: <AddDealerBook />,
       },
       {
         path: "/addCompanyPriceBook",
