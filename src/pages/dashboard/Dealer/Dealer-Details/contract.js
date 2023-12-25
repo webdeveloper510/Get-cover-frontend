@@ -9,14 +9,6 @@ import Edit from '../../../../assets/images/Dealer/EditIcon.svg';
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 function ContractList() {
   const [showTooltip, setShowTooltip] = useState(false);
-
-  const handleMouseEnter = () => {
-    setShowTooltip(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowTooltip(false);
-  };
   return (
     <>
     <div className='my-8'>
@@ -59,7 +51,7 @@ function ContractList() {
               </div>
             </Grid>
 
-        <div className='px-3 my-8'>
+        <div className='px-3 mt-5'>
           <div>
             <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
