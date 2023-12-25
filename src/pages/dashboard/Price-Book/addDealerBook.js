@@ -321,7 +321,7 @@ function AddDealerBook() {
                   formik.handleBlur(e);
                   formik.setFieldValue("retailPrice", formattedValue);
                 }}
-                value={formik.values.frontingFee}
+                value={formik.values.retailPrice}
                 maxDecimalPlaces={2}
               />
               {formik.touched.retailPrice && formik.errors.retailPrice && (
