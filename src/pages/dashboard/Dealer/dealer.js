@@ -67,6 +67,7 @@ function Dealer() {
   });
 
   const { id } = useParams();
+
   const status = [
     { label: "Active", value: true },
     { label: "Inactive", value: false },
@@ -89,6 +90,7 @@ function Dealer() {
 
     formik.setFieldValue("priceBook", [...formik.values.priceBook, priceBook]);
   };
+
   const handleDeletePriceBook = (index) => {
     const updatedPriceBook = [...formik.values.priceBook];
     updatedPriceBook.splice(index, 1);
@@ -151,6 +153,7 @@ function Dealer() {
       console.error("Error fetching category list:", error);
     }
   };
+
   const getProductList = async () => {
     const result = await getCategoryListActiveData();
     console.log(result.result);
@@ -183,14 +186,17 @@ function Dealer() {
   const handleSeparateAccountRadioChange = (event) => {
     setSeparateAccountOption(event.target.value);
   };
+
   const handleRadioChangeforBulk = (event) => {
     setSelectedOption(event.target.value);
   };
+
   const handleRadioChangeDealers = (value, index) => {
     const updatedDealers = [...formik.values.dealers];
     updatedDealers[index].status = value === "yes";
     formik.setFieldValue("dealers", updatedDealers);
   };
+
   const handleSelectChange = async (name, selectedValue) => {
     if (name.includes("categoryId")) {
       const match = name.match(/\[(\d+)\]/);
@@ -240,6 +246,7 @@ function Dealer() {
     console.log(name);
     formik.setFieldValue(name, selectedValue);
   };
+
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const formik = useFormik({
     initialValues: initialFormValues,
@@ -384,6 +391,7 @@ function Dealer() {
       // console.log("Form submitted with values:", newValues);
     },
   });
+
   const checkDealerEmailAndSetError = async (email, formik, fieldPath) => {
     if (emailValidationRegex.test(email)) {
       try {
@@ -407,6 +415,7 @@ function Dealer() {
     }
     return false;
   };
+
   const handleAddTeamMember = () => {
     const dealers = {
       firstName: "",
@@ -420,6 +429,7 @@ function Dealer() {
 
     formik.setFieldValue("dealers", [...formik.values.dealers, dealers]);
   };
+
   const handleDeleteDealers = (index) => {
     const updatedDealers = [...formik.values.dealers];
     updatedDealers.splice(index, 1);
@@ -454,11 +464,10 @@ function Dealer() {
   const state = cityData;
   return (
     <div className="my-8 ml-3">
+
       <Headbar />
+
       <div className="flex mt-2">
-        {/* <div className='p-5 border-2 border-[#D1D1D1] rounded-xl'>
-          <img src={BackImage} alt='BackImage'/>
-        </div> */}
         <div className="pl-3">
           <p className="font-semibold text-[36px] leading-9 mb-[3px]">Dealer</p>
           <ul className="flex self-center">
@@ -1273,9 +1282,9 @@ function Dealer() {
         </Button>
       </form>
 
+      {/* Modal Email Popop */}
 
-          {/* Modal Email Popop */}
-          <Modal isOpen={isModalOpen} onClose={closeModal}>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
@@ -1292,8 +1301,10 @@ function Dealer() {
           </p>
         </div>
       </Modal>
+
     </div>
   );
+
 }
 
 export default Dealer;
