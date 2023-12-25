@@ -11,7 +11,7 @@ import Button from "../../../common/button";
 import Modal from "../../../common/model";
 import Wholesale from "../../../assets/images/icons/wholePrice.svg";
 import product from "../../../assets/images/icons/productName.svg";
-import category from "../../../assets/images/icons/productCat.svg";
+import category1 from "../../../assets/images/icons/productCat.svg";
 import dealer from "../../../assets/images/icons/dealerName.svg";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import {
@@ -172,7 +172,7 @@ function AddDealerBook() {
             </li>
             <li className="text-sm text-neutral-grey font-Regular ml-1">
               <Link
-                to={"/dealerList"}
+                to={"/dealerPriceList"}
                 className="text-sm text-neutral-grey font-Regular"
               >
                 Dealer Book{" "}
@@ -365,7 +365,7 @@ function AddDealerBook() {
             <div className="col-span-3 border-r border-[#4e4e4e]">
               <div className="flex">
                 <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                  <img src={category} className="w-6 h-6" alt="category" />
+                  <img src={category1} className="w-6 h-6" alt="category" />
                 </div>
                 <div className="self-center">
                   <p className="text-[#FFF] text-base font-medium leading-5	">

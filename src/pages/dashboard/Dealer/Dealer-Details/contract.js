@@ -9,14 +9,6 @@ import Edit from '../../../../assets/images/Dealer/EditIcon.svg';
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 function ContractList() {
   const [showTooltip, setShowTooltip] = useState(false);
-
-  const handleMouseEnter = () => {
-    setShowTooltip(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowTooltip(false);
-  };
   return (
     <>
     <div className='my-8'>
