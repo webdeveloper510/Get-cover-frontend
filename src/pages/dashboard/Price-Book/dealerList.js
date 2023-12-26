@@ -55,43 +55,19 @@ function DealerPriceList() {
   ];
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = data.length - index <= 2;
+    const isCloseToBottom = 10 - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
-    selectAllRowsItem: true,
-    selectAllRowsItemText: "All",
   };
 
   const editScreen = (row) => {
     navigte(`/editDealerBook/${row._id}`);
     console.log(row);
   };
-
-  const data = [
-    {
-      DealerName: "Dealer 1",
-      ProductName: "Product A",
-      ProductCategory: "Category 1",
-      Term: "12 months",
-      WholesaleCost: "$50.00",
-      RetailCost: "$70.00",
-      Status: "Active",
-    },
-    {
-      DealerName: "Dealer 2",
-      ProductName: "Product B",
-      ProductCategory: "Category 2",
-      Term: "6 months",
-      WholesaleCost: "$35.00",
-      RetailCost: "$45.00",
-      Status: "Inactive",
-    },
-    // Add more objects as needed
-  ];
 
   const columns = [
     {
@@ -115,6 +91,7 @@ function DealerPriceList() {
       name: "Product Category",
       selector: (row) => row.priceBooks[0]?.category[0]?.name,
       sortable: true,
+      minWidth: "180px",
     },
     {
       name: "Term",
@@ -127,8 +104,7 @@ function DealerPriceList() {
       name: "WholeSale Cost",
       selector: (row) => "$" + row?.wholesalePrice?.toFixed(2),
       sortable: true,
-      minWidth: "auto",
-      maxWidth: "150px",
+      minWidth: "150px",
     },
     {
       name: "Retail Cost",
@@ -140,6 +116,7 @@ function DealerPriceList() {
       name: "Status",
       selector: (row) => row.status,
       sortable: true,
+      
       cell: (row) => (
         <div className="relative">
           <div
@@ -161,7 +138,7 @@ function DealerPriceList() {
     {
       name: "Action",
       minWidth: "auto",
-      maxWidth: "90px",
+      maxWidth: "80px",
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (
@@ -317,7 +294,6 @@ function DealerPriceList() {
               highlightOnHover
               sortIcon={
                 <>
-                  {" "}
                   <img src={shorting} className="ml-2" alt="shorting" />
                 </>
               }

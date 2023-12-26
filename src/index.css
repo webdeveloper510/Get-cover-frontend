@@ -65,6 +65,7 @@ code {
   background: #F9F9F9 !important;
   margin-top: 16px;
   /* font-family: 'Gilroy-Bold'; */
+  font-weight: 600;
   font-size: 14px;
   border-top: 1px solid #dbdbdb;
 }
@@ -91,7 +92,6 @@ code {
 
 .rdt_TableBody {
   font-size: 16px !important;
-  /* font-family: 'Gilroy-Light'; */
 }
 
 /* @font-face {

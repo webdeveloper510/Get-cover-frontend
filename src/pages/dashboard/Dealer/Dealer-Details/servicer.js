@@ -41,8 +41,6 @@ function ServicerList() {
     const paginationOptions = {
       rowsPerPageText: 'Rows per page:',
       rangeSeparatorText: 'of',
-      selectAllRowsItem: true,
-      selectAllRowsItemText: 'All',
     };
 
     const calculateDropdownPosition = (index) => {

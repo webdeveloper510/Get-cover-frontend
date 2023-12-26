@@ -41,8 +41,6 @@ function PriceBookList() {
     const paginationOptions = {
       rowsPerPageText: 'Rows per page:',
       rangeSeparatorText: 'of',
-      selectAllRowsItem: true,
-      selectAllRowsItemText: 'All',
     };
   
     const columns = [

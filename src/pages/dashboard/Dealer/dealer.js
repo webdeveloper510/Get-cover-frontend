@@ -10,6 +10,7 @@ import * as Yup from "yup";
 // Media Include
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import disapprove from "../../../assets/images/Disapproved.png";
+import Cross from "../../../assets/images/Cross.png";
 import Button from "../../../common/button";
 import RadioButton from "../../../common/radio";
 import FileDropdown from "../../../common/fileDropbox";
@@ -549,7 +550,7 @@ function Dealer() {
                 </div>
                 <div className="col-span-12">
                   <div className="flex">
-                    <p className="text-neutral-grey">ADDRESS</p>
+                    <p className="text-neutral-grey text-sm">ADDRESS</p>
                     <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
                   </div>
                 </div>
@@ -1320,6 +1321,11 @@ function Dealer() {
       {/* Modal Email Popop */}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
+      {message === "New Dealer Created Successfully" ? ( <></> ) : (  <>  
+        <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+            </Button> </>
+      ) }
         <div className="text-center py-3">
           {message === "New Dealer Created Successfully" ? (
             <>

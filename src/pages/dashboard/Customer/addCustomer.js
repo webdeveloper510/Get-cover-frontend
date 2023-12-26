@@ -86,7 +86,7 @@ function AddCustomer() {
                   </div>
                   <div className='col-span-12'>
                     <div className='flex'>
-                      <p className='text-neutral-grey'>Address</p>
+                      <p className='text-neutral-grey text-sm'>ADDRESS</p>
                       <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
                     </div>
                   </div>
@@ -115,24 +115,8 @@ function AddCustomer() {
                 </Grid>
               </div>
               <div className='col-span-8'>
-                <p className='text-light-black text-lg font-semibold'>Contact Information</p>
-                <p className='text-light-black flex text-[12px]  font-semibold mt-3 mb-6' >Do you want to create an account?       
-                <RadioButton
-                  id="yes"
-                  label="Yes"
-                  value="yes"
-                  checked={selectedOption === 'yes'}
-                  onChange={handleRadioChange}
-                />
-  
-                <RadioButton
-                  id="no"
-                  label="No"
-                  value="no"
-                  checked={selectedOption === 'no'}
-                  onChange={handleRadioChange}
-                />
-                 </p>
+                <p className='text-light-black text-lg font-semibold mb-4'>Contact Information</p>
+              
                 <Grid>
                   <div className='col-span-6'>
                       <Input type='text' name='fName' className='!bg-white' required={true} label='First Name' placeholder='' />
@@ -147,10 +131,10 @@ function AddCustomer() {
                       <Input type='text' name='phone' className='!bg-white' label='Phone' required={true} placeholder='' />
                   </div>
                   <div className='col-span-6'>
-                      <Input type='text' name='Position' className='!bg-white' label='Position' required={true} placeholder=''/>
+                      <Input type='text' name='Position' className='!bg-white' label='Position' placeholder=''/>
                   </div>
-                  <div className='col-span-6'>
-                  <p className='text-light-black flex text-[12px]  font-semibold mt-3 mb-6' > Do you want to create an account?       
+                  <div className='col-span-6 self-center'>
+                  <p className='text-light-black flex text-[13px]  font-bold self-center' > Do you want to create an account?       
                 <RadioButton
                   id="yes"
                   label="Yes"
@@ -170,7 +154,7 @@ function AddCustomer() {
                   </div>
                 </Grid>
 
-                <div className='mt-8'>
+                <div className='mt-32'>
                    <Grid>
                     <div className='col-span-4'>
                       <Button className='text-sm !font-light w-full'>+  Add More Team Members</Button>
@@ -263,7 +247,7 @@ function AddCustomer() {
                   </div>
                 </Grid>
               </div>
-              <div className='col-span-1'>
+              <div className='col-span-1 px-3'>
                 <div className='flex h-full bg-[#EBEBEB] justify-center'>
                   <img src={DeleteImage} className='self-center cursor-pointer' alt='Delete Icon'/>
                 </div>

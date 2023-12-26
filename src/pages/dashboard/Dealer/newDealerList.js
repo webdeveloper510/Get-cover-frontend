@@ -53,8 +53,6 @@ function NewDealerList() {
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
-    selectAllRowsItem: true,
-    selectAllRowsItemText: "All",
   };
 
   useEffect(() => {
@@ -100,15 +98,13 @@ function NewDealerList() {
       name: "Address",
       selector: (row) => row.dealerData.street + "," + row.dealerData.city,
       sortable: true,
-      minWidth: 'auto', 
-      maxWidth: '250px',
+      minWidth: '220px', 
     },
     {
       name: "Email",
       selector: (row) => row.email,
       sortable: true,
-      minWidth: 'auto', 
-      maxWidth: '200px',
+      minWidth: '220px', 
     },
     {
       name: "Phone No.",
