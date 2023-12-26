@@ -114,7 +114,7 @@ function DealerDetails() {
             <Grid>
                 <div className="col-span-9">
                     <p className="text-sm text-neutral-grey font-Regular">Account Name</p>
-                    <p className="text-xl text-white font-Regular">Edward26wilson</p>
+                    <p className="text-xl text-white font-semibold !font-[500]">Edward26wilson</p>
                 </div>
                 <div className="col-span-3 text-end">
                     <Button className='border !border-[#535456] !text-sm !font-Regular'  onClick={openModal}>Edit</Button>
@@ -124,7 +124,7 @@ function DealerDetails() {
                 <img src={address} className="mr-3 bg-[#383838] rounded-[14px] my-auto" alt="Address"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular mt-3">Address</p>
-                    <p className="text-base text-white font-Regular leading-5">1515 Holcombe Blvd, Houston, TX 77030, USA</p>
+                    <p className="text-base text-white font-semibold !font-[500] leading-5">1515 Holcombe Blvd, Houston, TX 77030, USA</p>
                 </div>
             </div>
             <div className="flex w-full my-4">
@@ -135,45 +135,45 @@ function DealerDetails() {
                 <img src={name} className="mr-3 bg-[#383838] rounded-[14px]" alt="Name"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                    <p className="text-base text-white font-Regular">Edward Wilson</p>
+                    <p className="text-base text-white font-semibold !font-[500]">Edward Wilson</p>
                 </div>
             </div>
             <div className="flex mb-4">
                 <img src={email} className="mr-3 bg-[#383838] rounded-[14px]" alt="email"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular">Email</p>
-                    <p className="text-base text-white font-Regular">26edward26@gmail.com</p>
+                    <p className="text-base text-white font-semibold !font-[500]">26edward26@gmail.com</p>
                 </div>
             </div>
             <div className="flex mb-4">
                 <img src={phone}  className="mr-3 bg-[#383838] rounded-[14px]" alt="name"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular">Phone Number</p>
-                    <p className="text-base text-white font-Regular">+1 (869) 985-6741</p>
+                    <p className="text-base text-white font-semibold !font-[500]">+1 (869) 985-6741</p>
                 </div>
             </div>
             <Grid className="mt-5">
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                   <p className="text-white text-lg font-Regular">6,359</p>
-                   <p className="text-[#999999] text-sm font-Regular">Total Number of Orders</p>
+                   <p className="text-white text-lg font-semibold !font-[500]">6,359</p>
+                   <p className="text-[#999999] text-sm font-Regular ">Total Number of Orders</p>
                 </div>
               </div>
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                   <p className="text-white text-lg font-Regular">$96,859.00</p>
+                   <p className="text-white text-lg font-semibold !font-[500]">$96,859.00</p>
                    <p className="text-[#999999] text-sm font-Regular">Total Value of Orders</p>
                 </div>
               </div>
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                   <p className="text-white text-lg font-Regular">3,843</p>
+                   <p className="text-white text-lg font-semibold !font-[500]">3,843</p>
                    <p className="text-[#999999] text-sm font-Regular">Total number of Sales</p>
                 </div>
               </div>
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                   <p className="text-white text-lg font-Regular">$35,859.00</p>
+                   <p className="text-white text-lg font-semibold !font-[500]">$35,859.00</p>
                    <p className="text-[#999999] text-sm font-Regular">Total Value of Claims</p>
                 </div>
               </div>

@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 body {
-  font-family:  'Gilroy', sans-serif;;
+  font-family:  'Gilroy', sans-serif;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
