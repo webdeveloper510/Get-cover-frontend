@@ -142,7 +142,7 @@ function AddDealerBook() {
     }
     console.log(productNameOptions);
   };
-  console.log(priceBookById?.status);
+
   const formik = useFormik({
     initialValues: {
       retailPrice: "",
@@ -163,19 +163,19 @@ function AddDealerBook() {
       dealerId: Yup.string().trim().required("Required"),
       categoryId: Yup.string().trim().required("Required"),
       status: Yup.boolean().required("Required"),
-      brokerFee: Yup.number().required("Required"),
     }),
     onSubmit: async (values) => {
+      console.log(values);
       values.brokerFee = (values.retailPrice - values.wholesalePrice).toFixed(
         2
       );
-      console.log(values);
+
       const result = id
         ? await editDealerPriceBook(id, values)
         : await addDealerPriceBook(values);
 
       console.log("Form values:", values);
-      // const result = await addDealerPriceBook(values);
+
       console.log(result);
       if (result.code !== 200) {
         setError(result.message);
