@@ -62,8 +62,6 @@ function DealerPriceList() {
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
-    selectAllRowsItem: true,
-    selectAllRowsItemText: "All",
   };
 
   const editScreen = (row) => {
@@ -115,6 +113,7 @@ function DealerPriceList() {
       name: "Product Category",
       selector: (row) => row.priceBooks[0]?.category[0]?.name,
       sortable: true,
+      minWidth: "180px",
     },
     {
       name: "Term",
@@ -132,8 +131,7 @@ function DealerPriceList() {
         row.priceBooks[0]?.reinsuranceFee +
         row.priceBooks[0]?.reserveFutureFee,
       sortable: true,
-      minWidth: "auto",
-      maxWidth: "150px",
+      minWidth: "150px",
     },
     {
       name: "Retail Cost",
@@ -145,6 +143,7 @@ function DealerPriceList() {
       name: "Status",
       selector: (row) => row.status,
       sortable: true,
+      
       cell: (row) => (
         <div className="relative">
           <div
@@ -166,7 +165,7 @@ function DealerPriceList() {
     {
       name: "Action",
       minWidth: "auto",
-      maxWidth: "90px",
+      maxWidth: "80px",
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (

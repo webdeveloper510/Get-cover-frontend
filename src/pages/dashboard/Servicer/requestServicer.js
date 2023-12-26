@@ -8,6 +8,7 @@ import arrowImage from '../../../assets/images/dropdownArrow.png';
 import disapproved from '../../../assets/images/Disapproved.png';
 import request from '../../../assets/images/request.png';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
+import shorting from "../../../assets/images/icons/shorting.svg";
 import Headbar from '../../../common/headBar';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
@@ -29,33 +30,36 @@ function RequestServicer() {
     // Implement logic for handling the action (e.g., approve/disapprove)
     setIsDropdownOpen(false); // Close the dropdown after selecting an action
   };
+
+  const paginationOptions = {
+    rowsPerPageText: "Rows per page:",
+    rangeSeparatorText: "of",
+  };
+
   const data = [
     {
-      DealerName: "Dealer Name",
+      DealerName: "Edward26wilson",
       FirstName: "First ",
       LastName: "Last",
-      Address: "Address",
-      Email: "Email ",
-      PhoneNo: "Phone No.",
-      status: "Active",
+      Address: "2025 M Street, NW, Washington, DC, 20036.",
+      Email: "edward0987@gmail.com ",
+      PhoneNo: "(090) 413-1172",
     },
     {
-        DealerName: "Dealer Name 1",
-        FirstName: "First ",
-        LastName: "Last",
-        Address: "Address",
-        Email: "Email ",
-        PhoneNo: "Phone No.",
-        status: "Active",
+      DealerName: "Edward26wilson",
+      FirstName: "First ",
+      LastName: "Last",
+      Address: "2025 M Street, NW, Washington, DC, 20036.",
+      Email: "edward0987@gmail.com ",
+      PhoneNo: "(090) 413-1172",
       },
       {
-        DealerName: "Dealer Name 2",
-        FirstName: "First ",
-        LastName: "Last",
-        Address: "Address",
-        Email: "Email ",
-        PhoneNo: "Phone No.",
-        status: "Active",
+        DealerName: "Edward26wilson1",
+      FirstName: "First1 ",
+      LastName: "Last1",
+      Address: "2025 M Street, NW, Washington, DC, 20036.",
+      Email: "edward0987@gmail.com ",
+      PhoneNo: "(090) 413-1172",
       },
   ];
 
@@ -76,9 +80,15 @@ function RequestServicer() {
       console.error('Error fetching dealer list:', error);
     }
   };
+
+  const calculateDropdownPosition = (index) => {
+    const isCloseToBottom = data.length - index <= 2;
+    return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
+  };
+
   const columns = [
     {
-      name: "Dealer Name",
+      name: "Account Name",
       selector: (row) => row.DealerName,
       sortable: true,
     },
@@ -96,11 +106,13 @@ function RequestServicer() {
       name: "Address",
       selector: (row) => row.Address,
       sortable: true,
+      minWidth: "250px",
     },
     {
         name: "Email",
         selector: (row) => row.Email,
         sortable: true,
+        minWidth: "200px",
       },
       {
         name: "Phone No.",
@@ -109,18 +121,21 @@ function RequestServicer() {
       },
       {
         name: "Action",
+        minWidth: "auto",
+        maxWidth: "80px",
         cell: (row, index) => (
           <div className="relative">
             <div onClick={() => toggleDropdown(index)}>
               <img src={ActiveIcon} className='cursor-pointer w-[35px]' alt="Active Icon" />
             </div>
             {isDropdownOpen && selectedAction === index && (
-              <div className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${index % 10 === 9 ? 'bottom-[1rem]' : 'top-[1rem]'}`}>
-                <img src={arrowImage} className={`absolute object-contain right-[17%] w-[12px] ${index % 10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arrow'/>
-                <div className='text-center py-3 border-b border-[#E6E6E6] text-[#40BF73]' onClick={() => handleActionChange('Approve')}>
+              <div className={`absolute z-[2] w-[150px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                index
+              )}`}>
+                <div className='text-center py-3 border-b cursor-pointer border-[#E6E6E6] text-[#40BF73]' onClick={() => handleActionChange('Approve')}>
                   Approve
                 </div>
-                <div className='text-center py-3 text-[#FF4747]' onClick={() => handleActionChange('Disapprove')}>
+                <div className='text-center py-3 text-[#FF4747] cursor-pointer' onClick={() => handleActionChange('Disapprove')}>
                   Disapprove
                 </div>
               </div>
@@ -195,7 +210,17 @@ function RequestServicer() {
             </div>
           </Grid>
           <div className='mb-5 relative'>
-           <DataTable columns={columns} data={data} pagination />
+           <DataTable columns={columns} data={data} highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                  </>
+                }
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]} />
           </div>
         </div>
 

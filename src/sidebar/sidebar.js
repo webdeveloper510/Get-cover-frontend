@@ -72,13 +72,13 @@ function SidebarItem({
       );
     }
   }, [active, expandedItem, item, setExpandedItem]);
-  // console.log('=================>>>>>>>>>>>',active)
+  console.log('=================>>>>>>>>>>>',expandedItem)
 
   return (
     <li
       className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
         hasItems && isActive ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
-      } ${isActive ? "active" : ""}`}
+      } ${expandedItem == item.name ? "active" : ""}`}
     >
       <Link
         to={item.url}
@@ -219,7 +219,7 @@ function SidebarItem({
 function SideBar() {
   const location = useLocation();
   const [active, setActive] = useState(location.pathname);
-  const [expandedItem, setExpandedItem] = useState(null);
+  const [expandedItem, setExpandedItem] = useState(active);
   const navigate = useNavigate();
 
   const handleLinkClick = (url, dropdownItem) => {

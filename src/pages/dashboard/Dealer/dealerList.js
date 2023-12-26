@@ -25,8 +25,6 @@ function DealerList() {
   const paginationOptions = {
     rowsPerPageText: 'Rows per page:',
     rangeSeparatorText: 'of',
-    selectAllRowsItem: true,
-    selectAllRowsItemText: 'All',
   };
 
   const getDealerList = async () => {
@@ -53,6 +51,8 @@ function DealerList() {
       name: "ID",
       selector: (row) => row?.dealerData.unique_key,
       sortable: true,
+      minWidth: 'auto', 
+      maxWidth: '70px',
     },
     {
       name: "Name",
@@ -63,6 +63,7 @@ function DealerList() {
       name: "Email",
       selector: (row) => row?.email,
       sortable: true,
+      minWidth: '220px'
     },
     {
       name: "Phone No",
@@ -104,6 +105,8 @@ function DealerList() {
     },
     {
       name: "Action",
+      minWidth: 'auto', 
+      maxWidth: '90px',
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (

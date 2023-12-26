@@ -56,19 +56,11 @@ function AddServicer() {
         {/* Form Start */}
   
         <form className='mt-8'>
-          <Grid>
-          <div className='col-span-5 mb-3'>
-            <Select label="Dealer Name"
-              options={country}
-              required={true}
-              selectedValue={selectedValue}
-              onChange={handleSelectChange}/>
-          </div>
-          </Grid>
+          
           <div className='bg-white p-4 drop-shadow-4xl border-[1px] border-[#D1D1D1] rounded-xl'>
             <Grid>
               <div className='col-span-4 border-e-[1px] border-[#D1D1D1] pr-3'>
-              <p className='text-light-black text-lg font-semibold'>Create Account</p>
+              <p className='text-light-black text-lg font-bold'>Create Account</p>
                 <Grid>
                   <div className='col-span-12 mt-4'>
                     <Input type='text' name='servicerAccountName' className='!bg-white' required={true} label='Servicer Account Name' placeholder=''  />
@@ -104,8 +96,8 @@ function AddServicer() {
                 </Grid>
               </div>
               <div className='col-span-8'>
-                <p className='text-light-black text-lg font-semibold'>Contact Information</p>
-                <p className='text-light-black flex text-[12px]  font-semibold mt-3 mb-6' >Do you want to create an account?       
+                <p className='text-light-black text-lg font-bold mb-4'>Contact Information</p>
+                {/* <p className='text-light-black flex text-[12px]  font-semibold mt-3 mb-6' >Do you want to create an account?       
                 <RadioButton
                   id="yes"
                   label="Yes"
@@ -121,7 +113,7 @@ function AddServicer() {
                   checked={selectedOption === 'no'}
                   onChange={handleRadioChange}
                 />
-                 </p>
+                 </p> */}
                 <Grid>
                   <div className='col-span-6'>
                       <Input type='text' name='fName' className='!bg-white' required={true} label='First Name' placeholder='' />
@@ -136,10 +128,10 @@ function AddServicer() {
                       <Input type='text' name='phone' className='!bg-white' label='Phone' required={true} placeholder='' />
                   </div>
                   <div className='col-span-6'>
-                      <Input type='text' name='Position' className='!bg-white' label='Position' required={true} placeholder=''/>
+                    <Input type='text' name='Position' className='!bg-white' label='Position' placeholder=''/>
                   </div>
-                  <div className='col-span-6'>
-                  <p className='text-light-black flex text-[12px]  font-semibold mt-3 mb-6' > Do you want to create an account?       
+                  <div className='col-span-6 self-center'>
+                  <p className='text-light-black flex text-[13px]  font-semibold self-center' > Do you want to create an account?       
                 <RadioButton
                   id="yes"
                   label="Yes"
@@ -159,9 +151,9 @@ function AddServicer() {
                   </div>
                 </Grid>
 
-                <div className='mt-8'>
+                <div className='mt-32'>
                    <Grid>
-                    <div className='col-span-4'>
+                    <div className='col-span-4 self-center'>
                       <Button className='text-sm !font-light w-full'>+  Add More Team Members</Button>
                     </div>
                     <div className='col-span-8 self-center'>
@@ -175,7 +167,7 @@ function AddServicer() {
 
           <div className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl">
           <p className="text-light-black text-lg mb-6 font-semibold">
-          Add Dealer’s Team Members
+          Add Servicer's Team Members
           </p>
           <div className="">
             <Grid className="">
@@ -231,8 +223,8 @@ function AddServicer() {
                     placeholder=""
                   />
                 </div>
-                <div className='col-span-4'>
-                  <p className='text-light-black flex text-[12px]  font-semibold mt-3 mb-6' > Do you want to create an account?       
+                <div className='col-span-4 self-center'>
+                  <p className='text-light-black flex text-[10px]  font-semibold self-center' > Do you want to create an account?       
                 <RadioButton
                   id="yes"
                   label="Yes"
@@ -252,7 +244,7 @@ function AddServicer() {
                   </div>
                 </Grid>
               </div>
-              <div className='col-span-1'>
+              <div className='col-span-1 px-3'>
                 <div className='flex h-full bg-[#EBEBEB] justify-center'>
                   <img src={DeleteImage} className='self-center cursor-pointer' alt='Delete Icon'/>
                 </div>

@@ -514,7 +514,7 @@ function Dealer() {
                 </div>
                 <div className="col-span-12">
                   <div className="flex">
-                    <p className="text-neutral-grey">ADDRESS</p>
+                    <p className="text-neutral-grey text-sm">ADDRESS</p>
                     <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
                   </div>
                 </div>

@@ -47,8 +47,6 @@ function Category() {
   const paginationOptions = {
     rowsPerPageText: 'Rows per page:',
     rangeSeparatorText: 'of',
-    selectAllRowsItem: true,
-    selectAllRowsItemText: 'All',
   };
   const getCategoryListData = async (data) => {
     try {
@@ -110,13 +108,13 @@ function Category() {
       selector: (row) => row.name,
       sortable: true,
       // cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
-      minWidth: 'auto', 
-      maxWidth: '200px',
+      minWidth: '200px', 
     },
     {
       name: "Description",
       selector: (row) => row.description,
       sortable: true,
+      minWidth: "350px",
       cell: (row) => (
         <span title={row.description}>{truncateText(row.description, 30)}</span>
       ),
