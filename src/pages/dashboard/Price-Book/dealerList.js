@@ -132,12 +132,12 @@ function DealerPriceList() {
         row.priceBooks[0]?.reserveFutureFee,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "120px",
+      maxWidth: "150px",
     },
     {
       name: "Retail Cost",
-      selector: (row) => row.retailPrice,
-      sortable: true,
+      selector: (row) =>  "$" + row.retailPrice,
+      sortable: true, 
     },
 
     {
