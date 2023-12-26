@@ -102,19 +102,14 @@ function DealerPriceList() {
     },
     {
       name: "WholeSale Cost",
-      selector: (row) =>
-        "$" +
-        row.priceBooks[0]?.adminFee +
-        row.priceBooks[0]?.frontingFee +
-        row.priceBooks[0]?.reinsuranceFee +
-        row.priceBooks[0]?.reserveFutureFee,
+      selector: (row) => "$" + row?.wholesalePrice?.toFixed(2),
       sortable: true,
       minWidth: "150px",
     },
     {
       name: "Retail Cost",
-      selector: (row) =>  "$" + row.retailPrice,
-      sortable: true, 
+      selector: (row) => "$" + row?.retailPrice?.toFixed(2),
+      sortable: true,
     },
 
     {
