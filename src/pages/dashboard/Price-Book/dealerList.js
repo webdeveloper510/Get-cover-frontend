@@ -70,6 +70,7 @@ function DealerPriceList() {
     navigte(`/editDealerBook/${row._id}`);
     console.log(row);
   };
+
   const data = [
     {
       DealerName: "Dealer 1",
@@ -296,18 +297,18 @@ function DealerPriceList() {
                       />
                     </Button>
                     <Button
-                        type="submit"
-                        // onClick={() => {
-                        //   handleFilterIconClick();
-                        // }}
-                        className="!bg-transparent !p-0"
-                      >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer ml-2	mx-auto"
-                          alt="clearFilter"
-                        />
-                      </Button>
+                      type="submit"
+                      // onClick={() => {
+                      //   handleFilterIconClick();
+                      // }}
+                      className="!bg-transparent !p-0"
+                    >
+                      <img
+                        src={clearFilter}
+                        className="cursor-pointer ml-2	mx-auto"
+                        alt="clearFilter"
+                      />
+                    </Button>
                   </div>
                 </Grid>
               </div>
