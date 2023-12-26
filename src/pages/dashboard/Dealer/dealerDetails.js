@@ -95,10 +95,10 @@ function DealerDetails() {
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Dealer  / </Link> /{" "}
+              <Link to={"/"}>Dealer  /  </Link> {" "}
             </li>
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>  Dealer List   / </Link> /{" "}
+              <Link to={"/"}>   Dealer List   / </Link> {" "}
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
@@ -114,7 +114,7 @@ function DealerDetails() {
             <Grid>
                 <div className="col-span-9">
                     <p className="text-sm text-neutral-grey font-Regular">Account Name</p>
-                    <p className="text-2xl text-white font-semibold">Edward26wilson</p>
+                    <p className="text-xl text-white font-semibold">Edward26wilson</p>
                 </div>
                 <div className="col-span-3 text-end">
                     <Button className='border !border-[#535456] !text-sm !font-Regular'  onClick={openModal}>Edit</Button>
@@ -124,7 +124,7 @@ function DealerDetails() {
                 <img src={address} className="mr-3 bg-[#D1D9E24D] rounded-[14px] my-auto" alt="Address"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular mt-3">Address</p>
-                    <p className="text-lg text-white font-semibold leading-5">1515 Holcombe Blvd, Houston, TX 77030, USA</p>
+                    <p className="text-base text-white font-semibold leading-5">1515 Holcombe Blvd, Houston, TX 77030, USA</p>
                 </div>
             </div>
             <div className="flex w-full my-4">
@@ -135,21 +135,21 @@ function DealerDetails() {
                 <img src={name} className="mr-3 bg-[#D1D9E24D] rounded-[14px]" alt="Name"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                    <p className="text-lg text-white font-semibold">Edward Wilson</p>
+                    <p className="text-base text-white font-semibold">Edward Wilson</p>
                 </div>
             </div>
             <div className="flex mb-4">
                 <img src={email} className="mr-3 bg-[#D1D9E24D] rounded-[14px]" alt="email"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular">Email</p>
-                    <p className="text-lg text-white font-semibold">26edward26@gmail.com</p>
+                    <p className="text-base text-white font-semibold">26edward26@gmail.com</p>
                 </div>
             </div>
             <div className="flex mb-4">
                 <img src={phone}  className="mr-3 bg-[#D1D9E24D] rounded-[14px]" alt="name"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular">Phone Number</p>
-                    <p className="text-lg text-white font-semibold">+1 (869) 985-6741</p>
+                    <p className="text-base text-white font-semibold">+1 (869) 985-6741</p>
                 </div>
             </div>
             <Grid className="mt-5">
@@ -205,7 +205,7 @@ function DealerDetails() {
             <div className="col-span-2">
                 <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
                   {" "}
-                  <Link to={"/addCategory"} className="flex self-center">
+                  <Link to={"#"} className="flex self-center">
                     {" "}
                     <img src={AddItem} className="self-center" alt="AddItem" />{" "}
                     <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">

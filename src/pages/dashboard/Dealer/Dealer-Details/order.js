@@ -91,10 +91,10 @@ function OrderList() {
           // console.log(index, index % 10 == 9)
           return (
             <div className="relative">
-            <div onClick={() => setSelectedAction(row.unique_key)}>
+            <div onClick={() => setSelectedAction(row.Categoryid)}>
               <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
             </div>
-            {selectedAction === row.unique_key && (
+            {selectedAction === row.Categoryid && (
               <div className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${index%10 === 9 ? 'bottom-[1.3rem] ' : 'top-[1.3rem]'}`}>
                 <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/>
                   <div className='text-center py-3'>Edit</div>

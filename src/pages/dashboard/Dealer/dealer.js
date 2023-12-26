@@ -134,7 +134,7 @@ function Dealer() {
           isAccountCreate: false,
           customerAccountCreated: false,
         });
-        setIsModalOpen(true);
+        // setIsModalOpen(true);
       });
     }
   }, []);
@@ -1283,13 +1283,13 @@ function Dealer() {
       </form>
 
       {/* Modal Email Popop */}
-
+{/* 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-          Summited 
+          Submitted 
             <span className="text-light-black"> Successfully </span>
           </p>
 
@@ -1300,7 +1300,7 @@ function Dealer() {
             Redirecting you on Category Page 3 seconds.
           </p>
         </div>
-      </Modal>
+      </Modal> */}
 
     </div>
   );
