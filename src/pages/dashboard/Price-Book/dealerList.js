@@ -125,14 +125,14 @@ function DealerPriceList() {
     },
     {
       name: "WholeSale Cost",
-      selector: (row) => "$" + row.wholesalePrice.toFixed(2),
+      selector: (row) => "$" + row?.wholesalePrice?.toFixed(2),
       sortable: true,
       minWidth: "auto",
       maxWidth: "150px",
     },
     {
       name: "Retail Cost",
-      selector: (row) => "$" + row.retailPrice,
+      selector: (row) => "$" + row?.retailPrice?.toFixed(2),
       sortable: true,
     },
 
