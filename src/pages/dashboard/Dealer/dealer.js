@@ -1283,7 +1283,7 @@ function Dealer() {
       </form>
 
       {/* Modal Email Popop */}
-
+{/* 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
@@ -1300,7 +1300,7 @@ function Dealer() {
             Redirecting you on Category Page 3 seconds.
           </p>
         </div>
-      </Modal>
+      </Modal> */}
 
     </div>
   );
