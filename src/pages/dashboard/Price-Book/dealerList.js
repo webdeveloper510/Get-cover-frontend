@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
 
 import AddItem from "../../../assets/images/icons/addItem.svg";
@@ -21,6 +21,7 @@ function DealerPriceList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedTearm, setSelectedTearm] = useState(false);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
+  const navigte = useNavigate();
 
   const handleActionChange = (action) => {
     console.log(`Selected action: ${action}`);
@@ -65,6 +66,10 @@ function DealerPriceList() {
     selectAllRowsItemText: "All",
   };
 
+  const editScreen = (row) => {
+    navigte(`/editDealerBook/${row._id}`);
+    console.log(row);
+  };
   const data = [
     {
       DealerName: "Dealer 1",
@@ -185,7 +190,12 @@ function DealerPriceList() {
                   } `}
                   alt="up arror"
                 /> */}
-                <div className="text-center py-3">Edit</div>
+                <div
+                  className="text-center py-3"
+                  onClick={() => editScreen(row)}
+                >
+                  Edit
+                </div>
               </div>
             )}
           </div>

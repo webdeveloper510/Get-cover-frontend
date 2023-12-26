@@ -168,3 +168,55 @@ export const validateDealerData = async (data) => {
     throw error;
   }
 };
+
+export const addDealerPriceBook = async (data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/dealer/createDealerPriceBook`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getDealerPricebookDetailById = async (id) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.get(
+      `${url}/dealer/getDealerPriceBookById/${id}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editDealerPriceBook = async (id, data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.put(
+      `${url}/dealer/updateDealerPriceBook/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

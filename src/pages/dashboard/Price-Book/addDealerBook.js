@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Headbar from "../../../common/headBar";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
@@ -15,6 +15,9 @@ import category1 from "../../../assets/images/icons/productCat.svg";
 import dealer from "../../../assets/images/icons/dealerName.svg";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import {
+  addDealerPriceBook,
+  editDealerPriceBook,
+  getDealerPricebookDetailById,
   getDealersList,
   getProductListbyProductCategoryId,
 } from "../../../services/dealerServices";
@@ -24,13 +27,37 @@ import { getCategoryListActiveData } from "../../../services/priceBookService";
 
 function AddDealerBook() {
   const [productNameOptions, setProductNameOptions] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeDealerList, setActiveDealerList] = useState([]);
   const [category, setCategoryList] = useState([]);
+  const [error, setError] = useState("");
+  const [timer, setTimer] = useState(3);
+  const [type, setType] = useState("");
+  const [priceBookById, setPriceBookById] = useState({});
+  const navigate = useNavigate();
+  const { id } = useParams();
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const dealerDetailById = async (id) => {
+    const result = await getDealerPricebookDetailById(id);
+    formik.setFieldValue("status", result.result[0].status);
+    const data = result.result[0];
+    console.log(data);
+
+    setPriceBookById(data);
+    formik.setFieldValue(
+      "retailPrice",
+      result.result[0].retailPrice.toFixed(2)
+    );
+    formik.setFieldValue("priceBook", result?.result[0]?.priceBook);
+    formik.setFieldValue("description", result?.result[0]?.description);
+    formik.setFieldValue("term", result?.result[0]?.term);
+    formik.setFieldValue("brokerFee", result?.result[0]?.brokerFee);
+    formik.setFieldValue("wholesalePrice", result?.result[0]?.wholesalePrice);
+    formik.setFieldValue(
+      "categoryId",
+      result?.result[0]?.priceBooks?.category[0]?._id
+    );
+    formik.setFieldValue("dealerId", result?.result[0]?.dealerId);
   };
 
   const dealerList = async () => {
@@ -38,18 +65,37 @@ function AddDealerBook() {
     console.log(result.data);
     let arr = [];
     result.data.map((data) => {
-      console.log(data.dealerData);
+      // console.log(data.dealerData);
       arr.push({ label: data.dealerData.name, value: data.dealerData._id });
     });
     setActiveDealerList(arr);
   };
   useEffect(() => {
+    let intervalId;
+    // console.log("navigate", id);
+    if (id) {
+      dealerDetailById(id);
+      setType("Edit");
+    } else {
+      setType("Add");
+    }
     dealerList();
     getProductList();
-  }, []);
+    if (isModalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    if (timer === 0) {
+      closeModal();
+      navigate("/dealerPriceList");
+    }
+    return () => clearInterval(intervalId);
+  }, [isModalOpen, timer, id]);
+
   const getProductList = async () => {
     const result = await getCategoryListActiveData();
-    console.log(result.result);
+    // console.log(result.result);
     setCategoryList(
       result.result.map((item) => ({
         label: item.name,
@@ -61,7 +107,7 @@ function AddDealerBook() {
     setIsModalOpen(false);
   };
   const handleSelectChange = async (name, value) => {
-    console.log(name, value);
+    // console.log(name, value);
     formik.setFieldValue(name, value);
     if (name === "categoryId") {
       formik.setFieldValue(`priceBook`, "");
@@ -69,7 +115,7 @@ function AddDealerBook() {
       formik.setFieldValue("description", "");
       formik.setFieldValue("term", "");
       const response = await getProductListbyProductCategoryId(value);
-      console.log(response.result.priceBooks);
+      console.log(response);
       setProductNameOptions(() => {
         return response.result.priceBooks.map((item) => ({
           label: item.name,
@@ -96,20 +142,18 @@ function AddDealerBook() {
     }
     console.log(productNameOptions);
   };
-  const handleSelectChange1 = (label, value) => {
-    setSelectedProduct(value);
-  };
-
+  console.log(priceBookById?.status);
   const formik = useFormik({
     initialValues: {
       retailPrice: "",
       priceBook: "",
       dealerId: "",
       description: "",
-      status: true,
+      status: priceBookById?.status !== undefined ? priceBookById.status : true,
       categoryId: "",
       wholesalePrice: "",
       term: "",
+      brokerFee: "",
     },
     validationSchema: Yup.object({
       retailPrice: Yup.number()
@@ -119,29 +163,29 @@ function AddDealerBook() {
       dealerId: Yup.string().trim().required("Required"),
       categoryId: Yup.string().trim().required("Required"),
       status: Yup.boolean().required("Required"),
+      brokerFee: Yup.number().required("Required"),
     }),
     onSubmit: async (values) => {
+      values.brokerFee = (values.retailPrice - values.wholesalePrice).toFixed(
+        2
+      );
+      console.log(values);
+      const result = id
+        ? await editDealerPriceBook(id, values)
+        : await addDealerPriceBook(values);
+
       console.log("Form values:", values);
-      // const result = id
-      //   ? await editCategoryList(id, values)
-      //   : await addCategory(values);
-      // console.log(result);
-      // if (result.code !== 200) {
-      //   setError(result.message);
-      // } else {
-      //   setError(false);
-      //   setIsModalOpen(true);
-      //   setTimer(3);
-      // }
+      // const result = await addDealerPriceBook(values);
+      console.log(result);
+      if (result.code !== 200) {
+        setError(result.message);
+      } else {
+        setError(false);
+        setIsModalOpen(true);
+        setTimer(3);
+      }
     },
   });
-  const country = [
-    { label: "Country", value: "country" },
-    { label: "Option 2", value: "option2" },
-    { label: "Option 3", value: "option3" },
-  ];
-
-
   const status = [
     { label: "Active", value: true },
     { label: "Inactive", value: false },
@@ -152,7 +196,7 @@ function AddDealerBook() {
       <Headbar />
       <div className="flex">
         <Link
-          to={"/dealerList"}
+          to={"/dealerPriceList"}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[20px]"
         >
           <img
@@ -163,7 +207,7 @@ function AddDealerBook() {
         </Link>
         <div className="pl-3">
           <p className="font-semibold text-[36px] leading-9 mb-[3px]">
-            Add Dealer Book
+            {type} Dealer Book
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
@@ -181,170 +225,19 @@ function AddDealerBook() {
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-1">
               {" "}
-              Add Dealer Book{" "}
+              {type} Dealer Book{" "}
             </li>
           </ul>
         </div>
       </div>
 
       {/* Form Start */}
-
-      <form className="mt-8" onSubmit={formik.handleSubmit}>
-        <div className="px-8 py-8 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
-          <Grid>
-            <div className="col-span-4">
-              <Select
-                name="dealerId"
-                label="Dealer Name"
-                options={activeDealerList}
-                required={true}
-                className="!bg-[#fff]"
-                placeholder=""
-                value={formik.values.dealerId}
-                onBlur={formik.handleBlur}
-                onChange={handleSelectChange}
-                error={formik.touched.dealerId && formik.errors.dealerId}
-              />
-              {formik.touched.dealerId && formik.errors.dealerId && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.dealerId}
-                </div>
-              )}
-            </div>
-            <div className="col-span-4">
-              <Select
-                name="categoryId"
-                label="Product Category"
-                options={category}
-                required={true}
-                className="!bg-[#fff]"
-                placeholder=""
-                maxLength={"30"}
-                value={formik.values.categoryId}
-                onBlur={formik.handleBlur}
-                onChange={handleSelectChange}
-                error={formik.touched.categoryId && formik.errors.categoryId}
-              />
-              {formik.touched.categoryId && formik.errors.categoryId && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.categoryId}
-                </div>
-              )}
-            </div>
-            <div className="col-span-4">
-              <Select
-                name="priceBook"
-                label="Product Name"
-                options={productNameOptions}
-                required={true}
-                className="!bg-[#fff]"
-                placeholder=""
-                value={formik.values.priceBook}
-                onBlur={formik.handleBlur}
-                onChange={handleSelectChange}
-                error={formik.touched.priceBook && formik.errors.priceBook}
-              />
-              {formik.touched.priceBook && formik.errors.priceBook && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.priceBook}
-                </div>
-              )}
-            </div>
-            <div className="col-span-4">
-              <Input
-                type="text"
-                name="wholesalePrice"
-                className="!bg-[#fff]"
-                label="Wholesale Price ($)"
-                required={true}
-                placeholder=""
-                value={formik.values.wholesalePrice}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                disabled={true}
-                onWheelCapture={(e) => {
-                  e.preventDefault();
-                }}
-              />
-            </div>
-
-            <div className="col-span-4">
-              <Input
-                type="text"
-                name="description"
-                className="!bg-[#fff]"
-                label="Description"
-                required={true}
-                placeholder=""
-                value={formik.values.description}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                disabled={true}
-                onWheelCapture={(e) => {
-                  e.preventDefault();
-                }}
-              />
-            </div>
-            <div className="col-span-4">
-              <Input
-                type="text"
-                name="term"
-                className="!bg-[#fff]"
-                label="Term"
-                required={true}
-                placeholder=""
-                value={formik.values.term}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                disabled={true}
-                onWheelCapture={(e) => {
-                  e.preventDefault();
-                }}
-              />
-            </div>
-            <div className="col-span-4">
-              <Input
-                type="tel"
-                name="retailPrice"
-                className="!bg-[#fff]"
-                label="Retail Price ($)"
-                placeholder=""
-                required={true}
-                maxLength={"10"}
-                onChange={formik.handleChange}
-                onBlur={(e) => {
-                  const formattedValue = parseFloat(e.target.value).toFixed(2);
-                  formik.handleBlur(e);
-                  formik.setFieldValue("retailPrice", formattedValue);
-                }}
-                value={formik.values.retailPrice}
-                maxDecimalPlaces={2}
-              />
-              {formik.touched.retailPrice && formik.errors.retailPrice && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.retailPrice}
-                </div>
-              )}
-            </div>
-            <div className="col-span-4">
-              <Select
-                label="Status"
-                options={status}
-                required={true}
-                className="!bg-[#fff]"
-                selectedValue={selectedProduct}
-                onChange={handleSelectChange1}
-              />
-            </div>
-          </Grid>
-          <Button type="submit" className="mt-12 font-normal rounded-[25px]">
-            Submit
-          </Button>
-        </div>
-      </form>
-
-      {/* Edit Form  */}
-      <div>
+      {error && (
+        <p className="text-red-500 text-sm pl-2">
+          <span className="font-semibold"> {error} </span>
+        </p>
+      )}
+      {type === "Edit" && (
         <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
           <Grid className="mx-8 mx-auto ">
             <div className="col-span-3 self-center border-r border-[#4e4e4e]">
@@ -357,7 +250,7 @@ function AddDealerBook() {
                     Wholesale Price($)
                   </p>
                   <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                    121.86
+                    {priceBookById?.wholesalePrice}
                   </p>
                 </div>
               </div>
@@ -372,7 +265,7 @@ function AddDealerBook() {
                     Product Category
                   </p>
                   <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                    Appliance
+                    {priceBookById?.priceBooks?.category[0]?.name}
                   </p>
                 </div>
               </div>
@@ -387,7 +280,7 @@ function AddDealerBook() {
                     Dealer Name
                   </p>
                   <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                    Ankush
+                    {priceBookById?.dealer?.name}
                   </p>
                 </div>
               </div>
@@ -402,42 +295,202 @@ function AddDealerBook() {
                     Product Name
                   </p>
                   <p className="text-[#FFFFFF] opacity-50	font-medium">
-                    MC-100662
+                    {priceBookById?.priceBooks?.name}
                   </p>
                 </div>
               </div>
             </div>
           </Grid>
         </div>
+      )}
+      <form className="mt-8" onSubmit={formik.handleSubmit}>
+        <div className="px-8 py-8 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+          <Grid>
+            {type !== "Edit" && (
+              <>
+                <div className="col-span-4">
+                  <Select
+                    name="dealerId"
+                    label="Dealer Name"
+                    options={activeDealerList}
+                    required={true}
+                    className="!bg-[#f9f9f9]"
+                    placeholder=""
+                    value={formik.values.dealerId}
+                    onBlur={formik.handleBlur}
+                    onChange={handleSelectChange}
+                    error={formik.touched.dealerId && formik.errors.dealerId}
+                  />
+                  {formik.touched.dealerId && formik.errors.dealerId && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.dealerId}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-4">
+                  <Select
+                    name="categoryId"
+                    label="Product Category"
+                    options={category}
+                    required={true}
+                    className="!bg-[#f9f9f9]"
+                    placeholder=""
+                    maxLength={"30"}
+                    value={formik.values.categoryId}
+                    onBlur={formik.handleBlur}
+                    onChange={handleSelectChange}
+                    error={
+                      formik.touched.categoryId && formik.errors.categoryId
+                    }
+                  />
+                  {formik.touched.categoryId && formik.errors.categoryId && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.categoryId}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-4">
+                  <Select
+                    name="priceBook"
+                    label="Product Name"
+                    options={productNameOptions}
+                    required={true}
+                    className="!bg-[#f9f9f9]"
+                    placeholder=""
+                    value={formik.values.priceBook}
+                    onBlur={formik.handleBlur}
+                    onChange={handleSelectChange}
+                    error={formik.touched.priceBook && formik.errors.priceBook}
+                  />
+                  {formik.touched.priceBook && formik.errors.priceBook && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.priceBook}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="wholesalePrice"
+                    className="!bg-[#f9f9f9]"
+                    label="Wholesale Price($)"
+                    required={true}
+                    placeholder=""
+                    value={formik.values.wholesalePrice}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    disabled={true}
+                    onWheelCapture={(e) => {
+                      e.preventDefault();
+                    }}
+                  />
+                </div>
 
-        <Grid className="mt-8">
-          <div className="col-span-4">
-            <Input
-              type="number"
-              name="Retail"
-              label="Retail Price($) "
-              required={true}
-              placeholder=""
-            />
-          </div>
-          <div className="col-span-4">
-            <Select
-              label="Status"
-              options={status}
-              required={true}
-              // className="!bg-[#fff]"
-              selectedValue={selectedProduct}
-              onChange={handleSelectChange1}
-            />
-          </div>
-        </Grid>
-        <div className="mt-8">
-          <Button className="mr-3 ">Update</Button>
-          <Button className="!bg-[transparent] !text-light-black">
-            Cancel
-          </Button>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="description"
+                    className="!bg-[#f9f9f9]"
+                    label="Description"
+                    required={true}
+                    placeholder=""
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    disabled={true}
+                    onWheelCapture={(e) => {
+                      e.preventDefault();
+                    }}
+                  />
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="term"
+                    className="!bg-[#f9f9f9]"
+                    label="Term"
+                    required={true}
+                    placeholder=""
+                    value={formik.values.term}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    disabled={true}
+                    onWheelCapture={(e) => {
+                      e.preventDefault();
+                    }}
+                  />
+                </div>
+              </>
+            )}
+
+            <div className="col-span-4">
+              <Input
+                type="tel"
+                name="retailPrice"
+                className="!bg-[#fff]"
+                label="Retail Price ($)"
+                placeholder=""
+                required={true}
+                maxLength={"10"}
+                onChange={formik.handleChange}
+                onBlur={(e) => {
+                  const inputValue = e.target.value.trim();
+                  const formattedValue =
+                    inputValue !== "" ? parseFloat(inputValue).toFixed(2) : "";
+                  formik.handleBlur(e);
+                  formik.setFieldValue("retailPrice", formattedValue);
+                }}
+                value={formik.values.retailPrice}
+                maxDecimalPlaces={2}
+              />
+              {formik.touched.retailPrice && formik.errors.retailPrice && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.retailPrice}
+                </div>
+              )}
+            </div>
+            <div className="col-span-4">
+              <Select
+                label="Status*"
+                name="status"
+                placeholder=""
+                onChange={handleSelectChange}
+                className="!bg-[#fff]"
+                options={status}
+                value={formik.values.status}
+                onBlur={formik.handleBlur}
+                error={formik.touched.status && formik.errors.status}
+              />
+              {formik.touched.status && formik.errors.status && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.status}
+                </div>
+              )}
+            </div>
+          </Grid>
+          {type !== "Edit" && (
+            <Button type="submit" className="mt-12 font-normal rounded-[25px]">
+              Submit
+            </Button>
+          )}
+          {type === "Edit" && (
+            <div className="mt-8">
+              <Button
+                type="submit"
+                className="mt-12 font-normal rounded-[25px]"
+              >
+                Update
+              </Button>
+              <Button
+                className="!bg-[transparent] !text-light-black"
+                onClick={() => navigate("/dealerPriceList")}
+              >
+                Cancel
+              </Button>
+            </div>
+          )}
         </div>
-      </div>
+      </form>
 
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
