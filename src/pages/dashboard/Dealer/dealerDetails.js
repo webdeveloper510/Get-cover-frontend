@@ -6,8 +6,8 @@ import Button from "../../../common/button";
 
 // Media Import 
 import BackImage from "../../../assets/images/icons/backArrow.svg";
-import address from "../../../assets/images/icons/address.svg";
-import name from "../../../assets/images/icons/Name.svg";
+import address from "../../../assets/images/Dealer/Address.svg";
+import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
 import ContractsActive from "../../../assets/images/Dealer/Contract-active.svg";
@@ -23,8 +23,8 @@ import Servicer from "../../../assets/images/Dealer/Servicer.svg";
 import Customer from "../../../assets/images/Dealer/Customers.svg";
 import User from "../../../assets/images/Dealer/Users.svg";
 import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
-import email from "../../../assets/images/icons/Email.svg";
-import phone from "../../../assets/images/icons/PhoneNumber.svg";
+import email from "../../../assets/images/Dealer/Email.svg";
+import phone from "../../../assets/images/Dealer/Phone.svg";
 import OrderList from "./Dealer-Details/order";
 import ContractList from "./Dealer-Details/contract";
 import ClaimList from "./Dealer-Details/claim";
@@ -114,17 +114,17 @@ function DealerDetails() {
             <Grid>
                 <div className="col-span-9">
                     <p className="text-sm text-neutral-grey font-Regular">Account Name</p>
-                    <p className="text-xl text-white font-semibold">Edward26wilson</p>
+                    <p className="text-xl text-white font-Regular">Edward26wilson</p>
                 </div>
                 <div className="col-span-3 text-end">
                     <Button className='border !border-[#535456] !text-sm !font-Regular'  onClick={openModal}>Edit</Button>
                 </div>
             </Grid>
             <div className="flex my-4">
-                <img src={address} className="mr-3 bg-[#D1D9E24D] rounded-[14px] my-auto" alt="Address"/>
+                <img src={address} className="mr-3 bg-[#383838] rounded-[14px] my-auto" alt="Address"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular mt-3">Address</p>
-                    <p className="text-base text-white font-semibold leading-5">1515 Holcombe Blvd, Houston, TX 77030, USA</p>
+                    <p className="text-base text-white font-Regular leading-5">1515 Holcombe Blvd, Houston, TX 77030, USA</p>
                 </div>
             </div>
             <div className="flex w-full my-4">
@@ -132,48 +132,48 @@ function DealerDetails() {
               <hr className="self-center border-[#999999] w-[50%]"/>
             </div>
             <div className="flex mb-4">
-                <img src={name} className="mr-3 bg-[#D1D9E24D] rounded-[14px]" alt="Name"/>
+                <img src={name} className="mr-3 bg-[#383838] rounded-[14px]" alt="Name"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                    <p className="text-base text-white font-semibold">Edward Wilson</p>
+                    <p className="text-base text-white font-Regular">Edward Wilson</p>
                 </div>
             </div>
             <div className="flex mb-4">
-                <img src={email} className="mr-3 bg-[#D1D9E24D] rounded-[14px]" alt="email"/>
+                <img src={email} className="mr-3 bg-[#383838] rounded-[14px]" alt="email"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular">Email</p>
-                    <p className="text-base text-white font-semibold">26edward26@gmail.com</p>
+                    <p className="text-base text-white font-Regular">26edward26@gmail.com</p>
                 </div>
             </div>
             <div className="flex mb-4">
-                <img src={phone}  className="mr-3 bg-[#D1D9E24D] rounded-[14px]" alt="name"/>
+                <img src={phone}  className="mr-3 bg-[#383838] rounded-[14px]" alt="name"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular">Phone Number</p>
-                    <p className="text-base text-white font-semibold">+1 (869) 985-6741</p>
+                    <p className="text-base text-white font-Regular">+1 (869) 985-6741</p>
                 </div>
             </div>
             <Grid className="mt-5">
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                   <p className="text-white text-lg font-semibold">6,359</p>
+                   <p className="text-white text-lg font-Regular">6,359</p>
                    <p className="text-[#999999] text-sm font-Regular">Total Number of Orders</p>
                 </div>
               </div>
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                   <p className="text-white text-lg font-semibold">$96,859.00</p>
+                   <p className="text-white text-lg font-Regular">$96,859.00</p>
                    <p className="text-[#999999] text-sm font-Regular">Total Value of Orders</p>
                 </div>
               </div>
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                   <p className="text-white text-lg font-semibold">3,843</p>
+                   <p className="text-white text-lg font-Regular">3,843</p>
                    <p className="text-[#999999] text-sm font-Regular">Total number of Sales</p>
                 </div>
               </div>
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                   <p className="text-white text-lg font-semibold">$35,859.00</p>
+                   <p className="text-white text-lg font-Regular">$35,859.00</p>
                    <p className="text-[#999999] text-sm font-Regular">Total Value of Claims</p>
                 </div>
               </div>
