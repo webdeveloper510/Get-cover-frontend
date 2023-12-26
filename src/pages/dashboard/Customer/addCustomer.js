@@ -30,12 +30,12 @@ function AddCustomer() {
     const handleRadioChange = (event) => {
       setSelectedOption(event.target.value);
     };
-    const handleSelectChange1 = (e) => {
-      setSelectedCity(e.target.value);
+    const handleSelectChange1 = (label, value) => {
+      setSelectedCity(value);
     };
     
-    const handleSelectChange = (e) => {
-      setSelectedValue(e.target.value);
+    const handleSelectChange = (label, value) => {
+      setSelectedValue(value);
     };
     const country = [
       { label: 'Country', value: 'country' },
@@ -56,7 +56,7 @@ function AddCustomer() {
             <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
           </Link>
           <div className='pl-3'>
-            <p className='font-semibold text-[36px] leading-9 mb-[3px]'>Add Customer</p>
+            <p className='font-bold text-[36px] leading-9 mb-[3px]'>Add Customer</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Customer </Link>  /  </li>
               <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Add Customer </li>
@@ -68,7 +68,7 @@ function AddCustomer() {
   
         <form className='mt-8'>
           <Grid>
-          <div className='col-span-5 mb-3'>
+          <div className='col-span-4 mb-3'>
             <Select label="Dealer Name"
               options={country}
               required={true}

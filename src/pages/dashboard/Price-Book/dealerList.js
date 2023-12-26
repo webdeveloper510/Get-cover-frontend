@@ -188,7 +188,7 @@ function DealerPriceList() {
         <Headbar />
         <div className="flex mt-2">
           <div className="pl-3">
-            <p className="font-semibold text-[36px] leading-9	mb-[3px]">
+            <p className="font-bold text-[36px] leading-9	mb-[3px]">
               Dealer Book
             </p>
             <ul className="flex self-center">
@@ -207,7 +207,7 @@ function DealerPriceList() {
           <Link to={"/addDealerBook"} className="flex">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
+            <span className="text-black ml-3 text-[14px] font-Regular">
               Add Dealer Book{" "}
             </span>{" "}
           </Link>

@@ -135,14 +135,14 @@ function CustomerList() {
 
         <div className='flex mt-2'>
           <div className='pl-3'>
-            <p className='font-semibold text-[36px] leading-9	mb-[3px]'>Customer</p>
+            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Customer</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Customer </Link> </li>
             </ul>
           </div>
         </div>
 
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addCustomer'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-semibold'> Add New Customer </span>  </Link></Button>
+        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addCustomer'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-Regular'> Add New Customer </span>  </Link></Button>
   
         <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
           <Grid className='!p-[26px] !pt-[14px] !pb-0'>

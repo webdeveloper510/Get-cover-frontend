@@ -124,7 +124,7 @@ function AddCategory() {
           />{" "}
         </Link>
         <div className="pl-3">
-          <p className="font-ExtraBold text-[36px] leading-9 mb-[3px]">
+          <p className="font-bold text-[36px] leading-9 mb-[3px]">
             {type} Category
           </p>
           <ul className="flex self-center">
