@@ -47,22 +47,30 @@ function CustomerList() {
     {
       Categoryid: 1,
       Categoryname: "Category 1",
-      description: "Description for Category 1",
-      status: "Active",
+      Email: "abcd@gmail.com",
+      Phoneno:"(095)413-1172",
+      Dealername: "Active",
+      order:"12",
+      orderValue:"$123.00"
     },
     {
       Categoryid: 2,
-      Categoryname: "Category 2",
-      description: "Description for Category 2",
-      status: "Inactive",
+      Categoryname: "Category 1",
+      Email: "abcd@gmail.com",
+      Phoneno:"(095)413-1172",
+      Dealername: "Active",
+      order:"12",
+      orderValue:"$123.00"
     },
   ];
 
   const columns = [
     {
-      name: "Category ID",
+      name: "ID",
       selector: (row) => row.Categoryid,
       sortable: true,
+      minWidth:'auto',
+      maxWidth:'70px'
     },
     {
       name: "Category Name",
@@ -70,25 +78,42 @@ function CustomerList() {
       sortable: true,
     },
     {
-      name: "Description",
-      selector: (row) => row.description,
+      name: "Email",
+      selector: (row) => row.Email,
       sortable: true,
     },
     {
-      name: "Status",
-      selector: (row) => row.status,
+      name: "Phone No.",
+      selector: (row) => row.Phoneno,
+      sortable: true,
+    },
+    {
+      name: "Dealer Name",
+      selector: (row) => row.Dealername,
+      sortable: true,
+    },
+    {
+      name: "Orders",
+      selector: (row) => row.order,
+      sortable: true,
+    },
+    {
+      name: "Order Value",
+      selector: (row) => row.orderValue,
       sortable: true,
     },
     {
       name: "Action",
+      minWidth:'auto',
+      maxWidth:'90px',
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-          <div onClick={() => setSelectedAction(row.unique_key)}>
+          <div onClick={() => setSelectedAction(row.Categoryid)}>
             <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
           </div>
-          {selectedAction === row.unique_key && (
+          {selectedAction === row.Categoryid && (
             <div className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
               index
             )}`}>
