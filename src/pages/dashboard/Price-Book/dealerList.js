@@ -192,7 +192,7 @@ function DealerPriceList() {
                   alt="up arror"
                 /> */}
                 <div
-                  className="text-center py-3"
+                  className="text-center py-3 cursor-pointer"
                   onClick={() => editScreen(row)}
                 >
                   Edit
