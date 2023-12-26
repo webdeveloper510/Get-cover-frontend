@@ -12,24 +12,24 @@ body {
 
 .dealer-detail .rdt_TableCol {
 font-size: 11px !important;
-  font-family: 'Gilroy-Bold' !important;
+  /* font-family: 'Gilroy-Bold' !important; */
 }
 .dealer-detail .rdt_TableBody .rdt_TableCell{
   font-size: 11px !important;
-  font-family: 'Gilroy-Regular' !important;
+  /* font-family: 'Gilroy-Regular' !important; */
 }
-.font-light {
+/* .font-light {
   font-family: 'Gilroy-Light';
   font-weight: 300;
 }
 .font-thin {
   font-family: 'Gilroy-Thin';
   font-weight: 100;
-}
+} */
 .dYHiBl {
   padding:0px !important;
 }
-.font-Regular {
+/* .font-Regular {
   font-family: 'Gilroy-Regular';
   font-weight: 400;
 }
@@ -52,7 +52,7 @@ font-size: 11px !important;
 .font-ExtraBold {
   font-family: 'Gilroy-ExtraBold';
   font-weight: 800;
-}
+} */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -62,7 +62,7 @@ code {
 .rdt_TableHeadRow {
   background: #F9F9F9 !important;
   margin-top: 16px;
-  font-family: 'Gilroy-Bold';
+  /* font-family: 'Gilroy-Bold'; */
   font-size: 14px;
   border-top: 1px solid #dbdbdb;
 }
@@ -89,10 +89,10 @@ code {
 
 .rdt_TableBody {
   font-size: 16px !important;
-  font-family: 'Gilroy-Light';
+  /* font-family: 'Gilroy-Light'; */
 }
 
-@font-face {
+/* @font-face {
   font-family: 'Gilroy-Bold';
   src: local('Gilroy-Bold'), url(./assets/fonts/Gilroy-Bold.ttf) format('truetype');
 }
@@ -125,7 +125,7 @@ code {
 @font-face {
   font-family: 'Gilroy-ExtraBold';
   src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-ExtraBold.ttf) format('truetype');
-}
+} */
 
 @layer utilities {
   @variants responsive {
