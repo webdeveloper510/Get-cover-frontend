@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -9,6 +9,7 @@ import * as Yup from "yup";
 
 // Media Include
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
+import disapprove from "../../../assets/images/Disapproved.png";
 import Button from "../../../common/button";
 import RadioButton from "../../../common/radio";
 import FileDropdown from "../../../common/fileDropbox";
@@ -33,8 +34,9 @@ function Dealer() {
   const [separateAccountOption, setSeparateAccountOption] = useState("yes");
   const [selectedOption, setSelectedOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
-  const [nextStep, setNextStep] = useState(true);
+  const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [timer, setTimer] = useState(3);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
     street: "",
@@ -64,8 +66,10 @@ function Dealer() {
     ],
     isAccountCreate: false,
     customerAccountCreated: false,
+    file: "",
   });
 
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const status = [
@@ -97,6 +101,19 @@ function Dealer() {
     formik.setFieldValue("priceBook", updatedPriceBook);
   };
 
+  useEffect(() => {
+    let intervalId;
+    if (isModalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    if (timer === 0 && message === "New Dealer Created Successfully") {
+      closeModal();
+      navigate("/dealerList");
+    }
+    return () => clearInterval(intervalId);
+  }, [isModalOpen, timer, id]);
   useEffect(() => {
     getTermListData();
     getProductList("");
@@ -131,6 +148,7 @@ function Dealer() {
               status: "",
             },
           ],
+          file: "",
           isAccountCreate: false,
           customerAccountCreated: false,
         });
@@ -188,6 +206,8 @@ function Dealer() {
   };
 
   const handleRadioChangeforBulk = (event) => {
+    console.log(event.target.value);
+    formik.setFieldValue("savePriceBookType", event.target.value);
     setSelectedOption(event.target.value);
   };
 
@@ -310,6 +330,10 @@ function Dealer() {
                 status: Yup.boolean().required("Required"),
               })
             ),
+      file:
+        selectedOption === "yes"
+          ? Yup.string().notRequired()
+          : Yup.string().required("File is required"),
     }),
     onSubmit: async (values) => {
       const isEmailValid = !formik.errors.email;
@@ -352,43 +376,55 @@ function Dealer() {
           return;
         }
       }
-
       const newObject = {
-        email: formik.values.email,
-        firstName: formik.values.firstName,
-        lastName: formik.values.lastName,
-        phoneNumber: formik.values.phoneNumber,
+        email: values.email,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phoneNumber: values.phoneNumber,
         isPrimary: true,
-        position: formik.values.position,
+        position: values.position,
         status: true,
       };
+
       const newValues = {
-        ...formik.values,
-        dealers: [newObject, ...formik.values.dealers],
+        ...values,
+        dealers: [newObject, ...values.dealers],
       };
-      // formik.setValues(newValues);
+
+      const formData = new FormData();
+      Object.entries(newValues).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          value.forEach((item, index) => {
+            Object.entries(item).forEach(([subKey, subValue]) => {
+              formData.append(`${key}[${index}][${subKey}]`, subValue);
+            });
+          });
+        } else {
+          formData.append(key, value);
+        }
+      });
       values.isAccountCreate = createAccountOption === "yes";
       values.customerAccountCreated = separateAccountOption === "yes";
-      const result =
-        id !== null
-          ? await validateDealerData({ ...newValues, dealerId: id })
-          : await validateDealerData(newValues);
-      console.log(result);
-      if (result.code == 200) {
-        console.log("here");
-        const result =
-          id !== undefined
-            ? await addNewOrApproveDealer({ ...newValues, dealerId: id })
-            : await addNewOrApproveDealer(newValues);
-        console.log(result);
-      } else {
-        if (result.message == "Dealer name already exists") {
-          formik.setFieldError("name", "Name Already Used");
-        }
-        alert(result.message);
+
+      if (id !== undefined) {
+        formData.append("dealerId", id);
       }
-      // console.log("Form submitted with values:", newValues);
-      // console.log("Form submitted with values:", newValues);
+
+      const result = await addNewOrApproveDealer(formData);
+      console.log(result);
+
+      if (result.message === "Successfully Created") {
+        setIsModalOpen(true);
+        setMessage("New Dealer Created Successfully");
+        // navigate("/dealerList");
+      } else if (result.message == "Dealer name already exists") {
+        formik.setFieldError("name", "Name Already Used");
+        setMessage("Some Errors Please Check Form Validations ");
+        setIsModalOpen(true);
+      } else {
+        setIsModalOpen(true);
+        setMessage(result.message);
+      }
     },
   });
 
@@ -464,7 +500,6 @@ function Dealer() {
   const state = cityData;
   return (
     <div className="my-8 ml-3">
-
       <Headbar />
 
       <div className="flex mt-2">
@@ -1283,28 +1318,36 @@ function Dealer() {
       </form>
 
       {/* Modal Email Popop */}
-{/* 
+
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
-          <img src={AddDealer} alt="email Image" className="mx-auto" />
-
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-          Submitted 
-            <span className="text-light-black"> Successfully </span>
-          </p>
+          {message === "New Dealer Created Successfully" ? (
+            <>
+              <img src={AddDealer} alt="email Image" className="mx-auto" />
+              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                Submitted
+                <span className="text-light-black"> Successfully </span>
+              </p>
+            </>
+          ) : (
+            <>
+              <img src={disapprove} alt="email Image" className="mx-auto" />
+              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                Error
+              </p>
+            </>
+          )}
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-         <b> New Dealer </b>  added successfully.
+            {message}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            Redirecting you on Category Page 3 seconds.
+            Redirecting you on Category Page {timer} seconds.
           </p>
         </div>
-      </Modal> */}
-
+      </Modal>
     </div>
   );
-
 }
 
 export default Dealer;
