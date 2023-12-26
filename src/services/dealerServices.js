@@ -143,7 +143,14 @@ export const getDealerPriceBook = async (categoryId) => {
 };
 
 export const addNewOrApproveDealer = async (data) => {
-  const headers = createHeaders();
+  const accessToken = getAccessToken();
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+
+  if (accessToken) {
+    headers["x-access-token"] = accessToken;
+  }
   console.log(headers);
   try {
     const response = await axios.post(`${url}/admin/createDealer`, data, {
