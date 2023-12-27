@@ -79,24 +79,24 @@ function OrderList() {
       minWidth:'150px',
     },
     {
-      name: "Dealer Name",
+      name: "Dealer",
       selector: (row) => row.Email,
       sortable: true,
     },
     {
-      name: "Customer Name",
+      name: "Customer",
       selector: (row) => row.Phoneno,
       sortable: true,
       minWidth:'150px',
     },
     {
-      name: "Servicer Name",
+      name: "Servicer",
       selector: (row) => row.Dealername,
       sortable: true,
       minWidth:'130px',
     },
     {
-      name: "No. of Products",
+      name: "# Products",
       selector: (row) => row.order,
       sortable: true,
       minWidth:'150px',
@@ -129,7 +129,7 @@ function OrderList() {
             </div>
           ),
         sortable: true,
-      },
+    },
     {
       name: "Action",
       minWidth:'auto',

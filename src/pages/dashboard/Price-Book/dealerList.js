@@ -118,6 +118,7 @@ function DealerPriceList() {
       name: "Name",
       selector: (row) => row.dealer[0]?.name,
       sortable: true,
+      minWidth: "100px",
     },
     {
       name: "Product Name",
@@ -126,10 +127,10 @@ function DealerPriceList() {
       minWidth: "150px",
     },
     {
-      name: "Product Category",
+      name: "Category",
       selector: (row) => row.priceBooks[0]?.category[0]?.name,
       sortable: true,
-      minWidth: "180px",
+      minWidth: "120px",
     },
     {
       name: "Term",
@@ -138,15 +139,16 @@ function DealerPriceList() {
       minWidth: "90px",
     },
     {
-      name: "WholeSale Cost",
+      name: "Wholesale Cost",
       selector: (row) => "$" + row?.wholesalePrice?.toFixed(2),
       sortable: true,
-      minWidth: "150px",
+      minWidth: "160px",
     },
     {
       name: "Retail Cost",
       selector: (row) => "$" + row?.retailPrice?.toFixed(2),
       sortable: true,
+      minWidth: "120px",
     },
 
     {
