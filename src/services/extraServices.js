@@ -36,12 +36,12 @@ export const getNotifications = async () => {
     throw error;
   }
 };
-export const updateNotifications = async () => {
+export const updateNotifications = async (type) => {
   const headers = createHeaders();
   console.log(headers);
   try {
     const response = await axios.get(
-      `${url}/user/notificationStatusUpdate
+      `${url}/user/notificationStatusUpdate/${type}
        `,
       {
         headers,
