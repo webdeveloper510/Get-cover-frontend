@@ -262,7 +262,7 @@ function AddDealerBook() {
                     Wholesale Price($)
                   </p>
                   <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                  $ {priceBookById?.wholesalePrice?.toFixed(2)}
+                    $ {priceBookById?.wholesalePrice?.toFixed(2)}
                   </p>
                 </div>
               </div>
@@ -528,15 +528,31 @@ function AddDealerBook() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-1">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            Submitted <span className="text-light-black"> Successfully </span>
-          </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            <b> New Dealer Book </b> added successfully.{" "}
-          </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            Redirecting you on Dealer Page {timer} seconds.
-          </p>
+          <>
+            {type === "Edit" ? (
+              <>
+                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                  Submitted{" "}
+                  <span className="text-light-black"> Successfully </span>
+                </p>
+                <p className="text-neutral-grey text-base font-medium mt-2">
+                  <b> New Dealer Book </b> added successfully.{" "}
+                </p>
+                <p> Redirecting you on Dealer Book Page {timer} seconds.</p>
+              </>
+            ) : (
+              <>
+                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                  Updated{" "}
+                  <span className="text-light-black"> Successfully </span>
+                </p>
+                <p className="text-neutral-grey text-base font-medium mt-2">
+                  <b> New Dealer Book </b> updated successfully.{" "}
+                </p>
+                <p> Redirecting you on Dealer Book Page {timer} seconds.</p>
+              </>
+            )}
+          </>
         </div>
       </Modal>
     </div>

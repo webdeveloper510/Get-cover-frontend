@@ -378,7 +378,7 @@ function CompanyPriceBook() {
                         />
                       </button>
                       <Button
-                        type="submit"
+                        type="button"
                         className="!bg-transparent !ml-2 !p-0"
                         onClick={handleFilterIconClick}
                       >
