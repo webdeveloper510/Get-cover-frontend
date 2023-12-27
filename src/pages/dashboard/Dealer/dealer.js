@@ -567,8 +567,8 @@ function Dealer() {
 
       {/* Form Start */}
       {loading ? (
-        <div className="bg-[#f1f2f3] py-5">
-          <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
+        <div className="bg-[#f1f2f3] h-screen flex py-5">
+          <img src={Loader} className="mx-auto bg-transparent self-center" alt="Loader" />
         </div>
       ) : (
         <form className="mt-8" onSubmit={formik.handleSubmit}>
