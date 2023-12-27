@@ -37,7 +37,7 @@ function Dealer() {
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [timer, setTimer] = useState(3);
+  const [timer, setTimer] = useState(5);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
     street: "",
@@ -101,62 +101,96 @@ function Dealer() {
     updatedPriceBook.splice(index, 1);
     formik.setFieldValue("priceBook", updatedPriceBook);
   };
-
   useEffect(() => {
     let intervalId;
+    if (id === undefined) {
+      setInitialFormValues({
+        name: "",
+        street: "",
+        zip: "",
+        state: "",
+        country: "USA",
+        email: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        city: "",
+        position: "",
+        createdBy: "Super admin",
+        role: "dealer",
+        savePriceBookType: selectedOption,
+        dealers: [],
+        priceBook: [
+          {
+            priceBookId: "",
+            categoryId: "",
+            wholesalePrice: "",
+            terms: "",
+            description: "",
+            retailPrice: "",
+            status: "",
+          },
+        ],
+        isAccountCreate: false,
+        customerAccountCreated: false,
+        file: "",
+      });
+    }
+
     if (isModalOpen && timer > 0) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
     }
+
     if (timer === 0 && message === "New Dealer Created Successfully") {
       closeModal();
       navigate("/dealerList");
     }
-    return () => clearInterval(intervalId);
-  }, [isModalOpen, timer, id]);
-  useEffect(() => {
+
     getTermListData();
     getProductList("");
-    if (id != "null") {
+
+    if (id != undefined) {
       getDealersDetailsByid(id).then((res) => {
-        // setGetUserDetails(res.result[0]);
-        // console.log();
-        setInitialFormValues({
-          name: res.result[0].dealerData.name,
-          street: res.result[0].dealerData.street,
-          zip: res.result[0].dealerData.zip,
-          state: res.result[0].dealerData.state,
-          country: "USA",
-          email: res.result[0].email,
-          firstName: res.result[0].firstName,
-          lastName: res.result[0].lastName,
-          phoneNumber: res.result[0].phoneNumber,
-          city: res.result[0].dealerData.city,
-          position: res.result[0].position,
-          createdBy: "Super admin",
-          role: "dealer",
-          dealers: [],
-          savePriceBookType: selectedOption,
-          priceBook: [
-            {
-              priceBookId: "",
-              categoryId: "",
-              wholesalePrice: "",
-              terms: "",
-              description: "",
-              retailPrice: "",
-              status: "",
-            },
-          ],
-          file: "",
-          isAccountCreate: false,
-          customerAccountCreated: false,
-        });
-        // setIsModalOpen(true);
+        if (res?.result) {
+          setInitialFormValues({
+            name: res?.result[0]?.dealerData?.name,
+            street: res?.result[0]?.dealerData?.street,
+            zip: res?.result[0]?.dealerData?.zip,
+            state: res?.result[0]?.dealerData?.state,
+            country: "USA",
+            email: res?.result[0]?.email,
+            firstName: res?.result[0]?.firstName,
+            lastName: res?.result[0]?.lastName,
+            phoneNumber: res?.result[0]?.phoneNumber,
+            city: res?.result[0]?.dealerData?.city,
+            position: res?.result[0]?.position,
+            createdBy: "Super admin",
+            role: "dealer",
+            dealers: [],
+            savePriceBookType: selectedOption,
+            priceBook: [
+              {
+                priceBookId: "",
+                categoryId: "",
+                wholesalePrice: "",
+                terms: "",
+                description: "",
+                retailPrice: "",
+                status: "",
+              },
+            ],
+            file: "",
+            isAccountCreate: false,
+            customerAccountCreated: false,
+          });
+        }
       });
     }
-  }, []);
+
+    return () => clearInterval(intervalId);
+  }, [isModalOpen, timer, id]);
 
   const getTermListData = async () => {
     try {
@@ -1321,11 +1355,21 @@ function Dealer() {
       {/* Modal Email Popop */}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-      {message === "New Dealer Created Successfully" ? ( <></> ) : (  <>  
-        <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
-              <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
-            </Button> </>
-      ) }
+        {message === "New Dealer Created Successfully" ? (
+          <></>
+        ) : (
+          <>
+            <Button
+              onClick={closeModal}
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+            >
+              <img
+                src={Cross}
+                className="w-full h-full text-black rounded-full p-0"
+              />
+            </Button>{" "}
+          </>
+        )}
         <div className="text-center py-3">
           {message === "New Dealer Created Successfully" ? (
             <>
@@ -1334,6 +1378,12 @@ function Dealer() {
                 Submitted
                 <span className="text-light-black"> Successfully </span>
               </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                {message}
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                Redirecting you on Dealer Page {timer} seconds.
+              </p>
             </>
           ) : (
             <>
@@ -1341,15 +1391,11 @@ function Dealer() {
               <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
                 Error
               </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                {message}
+              </p>
             </>
           )}
-
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            {message}
-          </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            Redirecting you on Category Page {timer} seconds.
-          </p>
         </div>
       </Modal>
     </div>

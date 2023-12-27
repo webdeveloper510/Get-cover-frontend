@@ -112,7 +112,7 @@ const routes = [
         ),
       },
       {
-        path: "/dealer/:id",
+        path: "/dealer/:id?",
         element: <Dealer />,
       },
       {
