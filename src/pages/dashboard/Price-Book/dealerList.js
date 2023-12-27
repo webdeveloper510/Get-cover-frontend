@@ -11,6 +11,7 @@ import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
+import Loader from "../../../assets/images/Loader.gif";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Select from "../../../common/select";
 import DataTable from "react-data-table-component";
@@ -21,6 +22,7 @@ function DealerPriceList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedTearm, setSelectedTearm] = useState(false);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigte = useNavigate();
 
   const handleActionChange = (action) => {
@@ -39,9 +41,11 @@ function DealerPriceList() {
   }, []);
 
   const getDealerList = async () => {
+    setLoading(true);
     const result = await getDealerPriceBook();
     setDealerPriceBook(result.result);
     console.log(result.result);
+    setLoading(false);
   };
   const country = [
     { label: "Country", value: "country" },
@@ -211,9 +215,9 @@ function DealerPriceList() {
         <div className="bg-white  border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
-              <p className="text-xl font-semibold">Dealer Price List</p>
+              <p className="text-xl font-semibold py-4">Dealer Price List</p>
             </div>
-            <div className="col-span-7">
+            {/* <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <Grid className="!grid-cols-10">
                   <div className="col-span-2 self-center">
@@ -284,10 +288,15 @@ function DealerPriceList() {
                   </div>
                 </Grid>
               </div>
-            </div>
+            </div> */}
           </Grid>
 
           <div className="mb-5 relative">
+          {loading ? (
+              <div className="bg-[#f1f2f3] py-5">
+                <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
+                </div>
+            ) : (
             <DataTable
               columns={columns}
               data={dealerPriceBook}
@@ -301,7 +310,7 @@ function DealerPriceList() {
               paginationPerPage={10}
               paginationComponentOptions={paginationOptions}
               paginationRowsPerPageOptions={[10, 20, 50, 100]}
-            />
+            />)}
           </div>
         </div>
       </div>

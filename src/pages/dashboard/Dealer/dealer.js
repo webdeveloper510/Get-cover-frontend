@@ -26,6 +26,7 @@ import {
 import { getCategoryListActiveData } from "../../../services/priceBookService";
 import { validateDealerData } from "../../../services/dealerServices";
 import Modal from "../../../common/model";
+import Loader from "../../../assets/images/Loader.gif";
 
 function Dealer() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -34,6 +35,7 @@ function Dealer() {
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [separateAccountOption, setSeparateAccountOption] = useState("yes");
   const [selectedOption, setSelectedOption] = useState("yes");
+  const [loading, setLoading] = useState(false);
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -119,6 +121,7 @@ function Dealer() {
     getTermListData();
     getProductList("");
     if (id != "null") {
+      setLoading(true);
       getDealersDetailsByid(id).then((res) => {
         // setGetUserDetails(res.result[0]);
         // console.log();
@@ -155,6 +158,7 @@ function Dealer() {
         });
         // setIsModalOpen(true);
       });
+      setLoading(false);
     }
   }, []);
 
@@ -519,6 +523,11 @@ function Dealer() {
       </div>
 
       {/* Form Start */}
+      {loading ? (
+              <div className="bg-[#f1f2f3] py-5">
+                <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
+                </div>
+            ) : (
 
       <form className="mt-8" onSubmit={formik.handleSubmit}>
         <div className="bg-white p-8 drop-shadow-4xl rounded-xl">
@@ -928,7 +937,7 @@ function Dealer() {
                     </div>
                     <div className="col-span-4">
                       <Input
-                        type="text"
+                        type="number"
                         name={`dealers[${index}].phoneNumber`}
                         className="!bg-white"
                         label="Phone"
@@ -1317,6 +1326,7 @@ function Dealer() {
           Submit
         </Button>
       </form>
+            )}
 
       {/* Modal Email Popop */}
 

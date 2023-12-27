@@ -142,7 +142,7 @@ function Login() {
                     Don’t have an account?{" "}
                     <Link
                       to={"/register"}
-                      className="text-light-black ml-3 font-semibold"
+                      className="text-light-black ml-3"
                     >
                       <b> Register </b>
                     </Link>{" "}
