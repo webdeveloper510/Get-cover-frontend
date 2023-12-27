@@ -510,12 +510,7 @@ function AddDealerBook() {
               >
                 Update
               </Button>
-              <Button
-                className="!bg-[transparent] !text-light-black"
-                onClick={() => navigate("/dealerPriceList")}
-              >
-                Cancel
-              </Button>
+            
             </div>
           )}
         </div>
