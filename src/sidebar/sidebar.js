@@ -64,6 +64,8 @@ function SidebarItem({
       setIsActive(active === "Servicer" || expandedItem === "Servicer");
     } else if (item.name === "Customer") {
       setIsActive(active === "Customer" || expandedItem === "Customer");
+    } else if (item.name === "Order") {
+      setIsActive(active === "Order" || expandedItem === "Order");
     } else {
       setIsActive(
         active === item.url ||
@@ -316,9 +318,22 @@ function SideBar() {
     },
     {
       name: "Order",
-      url: "#",
-      active: ActiveOrder,
       image: OrderImage,
+      active: ActiveOrder,
+      items: [
+        {
+          name: "Order List",
+          url: "/orderList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Order",
+          url: "/addOrder",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
     },
     {
       name: "Contract",

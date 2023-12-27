@@ -39,7 +39,7 @@ function RequestServicer() {
   const data = [
     {
       DealerName: "Edward26wilson",
-      FirstName: "First ",
+      FirstName: "Edward name wilson  ",
       LastName: "Last",
       Address: "2025 M Street, NW, Washington, DC, 20036.",
       Email: "edward0987@gmail.com ",
@@ -91,15 +91,11 @@ function RequestServicer() {
       name: "Account Name",
       selector: (row) => row.DealerName,
       sortable: true,
+      minWidth: "200px",
     },
     {
-      name: "First Name",
+      name: "Name",
       selector: (row) => row.FirstName,
-      sortable: true,
-    },
-    {
-      name: "Last Name",
-      selector: (row) => row.LastName,
       sortable: true,
     },
     {

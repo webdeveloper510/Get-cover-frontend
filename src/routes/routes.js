@@ -24,6 +24,8 @@ import ServicerList from "../pages/dashboard/Servicer/servicerList";
 import RequestServicer from "../pages/dashboard/Servicer/requestServicer";
 import Notification from "../pages/notification/notification";
 import DealerDetails from "../pages/dashboard/Dealer/dealerDetails";
+import AddOrder from "../pages/dashboard/Order/addOrder";
+import OrderList from "../pages/dashboard/Order/orderList";
 
 const routes = [
   {
@@ -208,6 +210,18 @@ const routes = [
         path: "/requestList",
         element: (
           <PrivateRoute element={<RequestServicer />} path="/requestList" />
+        ),
+      },
+      {
+        path: "/addOrder",
+        element: (
+          <PrivateRoute element={<AddOrder />} path="/addOrder" />
+        ),
+      },
+      {
+        path: "/orderList",
+        element: (
+          <PrivateRoute element={<OrderList />} path="/orderList" />
         ),
       },
     ],

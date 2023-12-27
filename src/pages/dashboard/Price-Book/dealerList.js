@@ -78,7 +78,7 @@ function DealerPriceList() {
       maxWidth: "70px",
     },
     {
-      name: "Dealer Name",
+      name: "Name",
       selector: (row) => row.dealer[0]?.name,
       sortable: true,
     },
@@ -86,6 +86,7 @@ function DealerPriceList() {
       name: "Product Name",
       selector: (row) => row.priceBooks[0]?.name,
       sortable: true,
+      minWidth: "150px",
     },
     {
       name: "Product Category",
@@ -97,8 +98,7 @@ function DealerPriceList() {
       name: "Term",
       selector: (row) => row.priceBooks[0]?.term + " Months",
       sortable: true,
-      minWidth: "auto",
-      maxWidth: "120px",
+      minWidth: "90px",
     },
     {
       name: "WholeSale Cost",
