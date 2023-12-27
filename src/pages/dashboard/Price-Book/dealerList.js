@@ -90,13 +90,13 @@ function DealerPriceList() {
       name: "Product Name",
       selector: (row) => row.priceBooks[0]?.name,
       sortable: true,
-      minWidth: "150px",
+      minWidth: "130px",
     },
     {
-      name: "Product Category",
+      name: "Category",
       selector: (row) => row.priceBooks[0]?.category[0]?.name,
       sortable: true,
-      minWidth: "180px",
+      minWidth: "120px",
     },
     {
       name: "Term",
