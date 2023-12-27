@@ -38,7 +38,7 @@ function Notification() {
     });
   };
   return (
-    <div className="py-8 pl-3 relative overflow-x-hidden bg-[#F9F9F9]">
+    <div className="py-8 pl-3 relative overflow-x-hidden min-h-screen bg-[#F9F9F9]">
       <Headbar />
       <div className="flex">
         <Link

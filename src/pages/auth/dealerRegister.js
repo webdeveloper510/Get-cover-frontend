@@ -352,8 +352,7 @@ function DealerRegister() {
                   <Link
                     to={"/"}
                     className="text-light-black ml-3 font-semibold"
-                  >
-                    <b> Sign In </b>
+                  > Sign In 
                   </Link>{" "}
                 </p>
               </div>

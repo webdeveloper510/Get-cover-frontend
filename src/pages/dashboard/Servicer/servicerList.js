@@ -116,7 +116,7 @@ function ServicerList() {
             {selectedAction === row.unique_key && (
               <div className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${index%10 === 9 ? 'bottom-[1.3rem] ' : 'top-[1.3rem]'}`}>
                 <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/>
-                  <div className='text-center py-3'>Edit</div>
+                  <div className='text-center cursor-pointer py-3'>View</div>
               </div>
             )}
           </div>
