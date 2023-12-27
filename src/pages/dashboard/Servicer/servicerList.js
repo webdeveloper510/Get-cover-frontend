@@ -71,16 +71,20 @@ function ServicerList() {
         sortable: true,
       },
       {
-        name: "Number of Claims",
+        name: "No. of Claims",
         selector: (row) => row.NumberofClaims,
         sortable: true,
         minWidth: "150px",
       },
       {
-        name: "Total Claims Value",
+        name: "Total Claims",
         selector: (row) => row.TotalClaimsValue,
         sortable: true,
         minWidth: "150px",
+        style: {
+          whiteSpace: "normal",
+          lineHeight: "1.2",
+        },
       },
       {
         name: "Status",
