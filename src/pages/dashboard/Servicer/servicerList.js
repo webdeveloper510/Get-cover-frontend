@@ -24,16 +24,20 @@ function ServicerList() {
   
     const data = [
       {
-        Categoryid: 1,
-        Categoryname: "Category 1",
-        description: "Description for Category 1",
-        status: "Active",
+        Categoryid: 1586,
+        Servicername: "Ankush Grover",
+        Email: "48groverankush48@gmail.com",
+        Phoneno: "(090) 413-1172",
+        NumberofClaims: "1526",
+        TotalClaimsValue: "$1396.00",
       },
       {
-        Categoryid: 2,
-        Categoryname: "Category 2",
-        description: "Description for Category 2",
-        status: "Inactive",
+        Categoryid: 1523,
+        Servicername: "Ankush Grover12",
+        Email: "groankush48@gmail.com",
+        Phoneno: "(090) 413-1234",
+        NumberofClaims: "1523",
+        TotalClaimsValue: "$596.00",
       },
     ];
 
@@ -44,27 +48,64 @@ function ServicerList() {
   
     const columns = [
       {
-        name: "Category ID",
+        name: "ID",
         selector: (row) => row.Categoryid,
         sortable: true,
+        minWidth: "auto",
+        maxWidth: "80px",
       },
       {
-        name: "Category Name",
-        selector: (row) => row.Categoryname,
+        name: "Servicer Name",
+        selector: (row) => row.Servicername,
         sortable: true,
       },
       {
-        name: "Description",
-        selector: (row) => row.description,
+        name: "Email",
+        selector: (row) => row.Email,
         sortable: true,
+        minWidth: "150px",
+      },
+      {
+        name: "Phone No.",
+        selector: (row) => row.Phoneno,
+        sortable: true,
+      },
+      {
+        name: "No. of Claims",
+        selector: (row) => row.NumberofClaims,
+        sortable: true,
+        minWidth: "150px",
+      },
+      {
+        name: "Total Claims",
+        selector: (row) => row.TotalClaimsValue,
+        sortable: true,
+        minWidth: "150px",
       },
       {
         name: "Status",
-        selector: (row) => row.status,
+        cell: (row) => (
+          <div className="relative">
+            <div
+              className={` ${
+                row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            ></div>
+            <select
+              value={row.status === true ? "active" : "inactive"}
+              // onChange={(e) => handleStatusChange(row, e.target.value)}
+              className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"> 
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        ),
         sortable: true,
       },
       {
         name: "Action",
+        minWidth: "auto",
+        maxWidth: "80px",
         cell: (row, index) => {
           // console.log(index, index % 10 == 9)
           return (
@@ -93,7 +134,7 @@ function ServicerList() {
   
           <div className='flex mt-2'>
             <div className='pl-3'>
-              <p className='font-semibold text-[36px] leading-9	mb-[3px]'>Servicer</p>
+              <p className='font-bold text-[36px] leading-9	mb-[3px]'>Servicer</p>
               <ul className='flex self-center'>
                 <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Servicer </Link> </li>
               </ul>

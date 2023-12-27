@@ -148,7 +148,7 @@ function UploadDealerBook() {
 
       <div className="flex mt-2">
         <div className="pl-3">
-          <p className="font-semibold text-[36px] leading-9 mb-[3px]">
+          <p className="font-bold text-[36px] leading-9 mb-[3px]">
             Upload Dealer Book
           </p>
           <ul className="flex self-center">

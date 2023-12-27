@@ -39,7 +39,7 @@ function RequestServicer() {
   const data = [
     {
       DealerName: "Edward26wilson",
-      FirstName: "First ",
+      FirstName: "Edward name wilson  ",
       LastName: "Last",
       Address: "2025 M Street, NW, Washington, DC, 20036.",
       Email: "edward0987@gmail.com ",
@@ -91,15 +91,11 @@ function RequestServicer() {
       name: "Account Name",
       selector: (row) => row.DealerName,
       sortable: true,
+      minWidth: "200px",
     },
     {
-      name: "First Name",
+      name: "Name",
       selector: (row) => row.FirstName,
-      sortable: true,
-    },
-    {
-      name: "Last Name",
-      selector: (row) => row.LastName,
       sortable: true,
     },
     {
@@ -176,7 +172,7 @@ function RequestServicer() {
         <Headbar />
         <div className='flex mt-2'>
           <div className='pl-3'>
-            <p className='font-semibold text-[36px] leading-9 mb-[3px]'>Servicer</p>
+            <p className='font-bold text-[36px] leading-9 mb-[3px]'>Servicer</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/servicerList'}>Servicer </Link>  /  </li>
               <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> New Servicer Requests </li>

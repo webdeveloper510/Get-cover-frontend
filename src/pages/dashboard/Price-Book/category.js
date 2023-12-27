@@ -61,7 +61,7 @@ function Category() {
   };
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = categoryList.length - index <= 2;
+    const isCloseToBottom = 10 - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -115,9 +115,9 @@ function Category() {
       selector: (row) => row.description,
       sortable: true,
       minWidth: "350px",
-      cell: (row) => (
-        <span title={row.description}>{truncateText(row.description, 30)}</span>
-      ),
+      // cell: (row) => (
+      //   <span title={row.description}>{truncateText(row.description, 30)}</span>
+      // ),
     },
     {
       name: "Status",
@@ -214,7 +214,7 @@ function Category() {
         <Headbar />
         <div className="flex mt-2">
           <div className="pl-3">
-            <p className="font-semibold text-[36px] leading-9	mb-[3px]">
+            <p className="font-bold text-[36px] leading-9	mb-[3px]">
               Category
             </p>
             <ul className="flex self-center">
@@ -233,7 +233,7 @@ function Category() {
           <Link to={"/addCategory"} className="flex">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
+            <span className="text-black ml-3 text-[14px] font-Regular">
               Add Category{" "}
             </span>{" "}
           </Link>

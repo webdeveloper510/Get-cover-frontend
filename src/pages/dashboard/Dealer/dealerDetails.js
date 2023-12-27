@@ -90,7 +90,7 @@ function DealerDetails() {
           />
         </Link>
         <div className="pl-3">
-          <p className="font-semibold text-[36px] leading-9 mb-[3px]">
+          <p className="font-bold text-[36px] leading-9 mb-[3px]">
           Dealer Details
           </p>
           <ul className="flex self-center">

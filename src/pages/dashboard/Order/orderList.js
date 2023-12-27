@@ -13,7 +13,7 @@ import Input from '../../../common/input';
 import DataTable from "react-data-table-component"
 import Select from '../../../common/select';
 
-function CustomerList() {
+function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState('');
 
@@ -73,29 +73,33 @@ function CustomerList() {
       maxWidth:'70px'
     },
     {
-      name: "Category Name",
+      name: "Dealer Order no.",
       selector: (row) => row.Categoryname,
       sortable: true,
+      minWidth:'150px',
     },
     {
-      name: "Email",
+      name: "Dealer Name",
       selector: (row) => row.Email,
       sortable: true,
     },
     {
-      name: "Phone No.",
+      name: "Customer Name",
       selector: (row) => row.Phoneno,
       sortable: true,
+      minWidth:'150px',
     },
     {
-      name: "Dealer Name",
+      name: "Servicer Name",
       selector: (row) => row.Dealername,
       sortable: true,
+      minWidth:'130px',
     },
     {
-      name: "Orders",
+      name: "No. of Products",
       selector: (row) => row.order,
       sortable: true,
+      minWidth:'150px',
     },
     {
       name: "Order Value",
@@ -103,9 +107,33 @@ function CustomerList() {
       sortable: true,
     },
     {
+        name: "Status",
+        cell: (row) => (
+            <div className="relative">
+              <div
+                className={` ${
+                  row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+                } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+              ></div>
+              <select
+                value={row.status === true ? "active" : "inactive"}
+                // onChange={(e) => handleStatusChange(row, e.target.value)}
+                className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+              >
+                <option value="active">Active</option>
+                <option value="waiting">Waiting</option>
+                <option value="expired">Expired</option>
+                <option value="canceled">Canceled</option>
+                <option value="refunded">Refunded</option>
+              </select>
+            </div>
+          ),
+        sortable: true,
+      },
+    {
       name: "Action",
       minWidth:'auto',
-      maxWidth:'90px',
+      maxWidth:'80px',
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (
@@ -135,33 +163,31 @@ function CustomerList() {
 
         <div className='flex mt-2'>
           <div className='pl-3'>
-            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Customer</p>
+            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Order</p>
             <ul className='flex self-center'>
-              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Customer </Link> </li>
+              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Order </Link>  /  </li>
+              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Order List </li>
             </ul>
           </div>
         </div>
 
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addCustomer'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-Regular'> Add New Customer </span>  </Link></Button>
+        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addOrder'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-Regular'> Add New Order </span>  </Link></Button>
   
         <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
           <Grid className='!p-[26px] !pt-[14px] !pb-0'>
             <div className='col-span-5 self-center'>
-              <p className='text-xl font-semibold'>Customers List</p>
+              <p className='text-xl font-semibold'>Order List</p>
             </div>
             <div className='col-span-7'>
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-                <Grid className='!grid-cols-10' >
-                  <div className='col-span-2 self-center'>
-                    <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Name' />
+                <Grid className='!grid-cols-11' >
+                  <div className='col-span-3 self-center'>
+                    <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Order ID' />
                   </div>
-                  <div className='col-span-2 self-center'>
-                    <Input name='Email' type='email'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Email' />
+                  <div className='col-span-3 self-center'>
+                    <Input name='orderNo' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Dealer Order No.' />
                   </div>
-                  <div className='col-span-2 self-center'>
-                    <Input name='PhoneNo.' type='number'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Phone No.' />
-                  </div>
-                  <div className='col-span-2 self-center'>
+                  <div className='col-span-3 self-center'>
                   <Select label=""
                       options={status}
                       OptionName='Dealer Name'
@@ -197,4 +223,4 @@ function CustomerList() {
   )
 }
 
-export default CustomerList
+export default OrderList
