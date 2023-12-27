@@ -129,7 +129,7 @@ function OrderList() {
             </div>
           ),
         sortable: true,
-      },
+    },
     {
       name: "Action",
       minWidth:'auto',
