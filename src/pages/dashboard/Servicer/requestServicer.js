@@ -128,7 +128,7 @@ function RequestServicer() {
               <div className={`absolute z-[2] w-[150px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}>
-                <div className='text-center py-3 border-b cursor-pointer border-[#E6E6E6] text-[#40BF73]' onClick={() => handleActionChange('Approve')}>
+                <div className='text-center py-3 border-b cursor-pointer border-[#E6E6E6] text-[#40BF73]' onClick={() => openModal()}>
                   Approve
                 </div>
                 <div className='text-center py-3 text-[#FF4747] cursor-pointer' onClick={() => handleActionChange('Disapprove')}>

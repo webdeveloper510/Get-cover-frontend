@@ -42,7 +42,10 @@ function OrderList() {
       rowsPerPageText: 'Rows per page:',
       rangeSeparatorText: 'of',
     };
-  
+    const calculateDropdownPosition = (index) => {
+      const isCloseToBottom = data.length - index <= 2;
+      return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
+    };
     const columns = [
       {
         name: "ID",
@@ -83,8 +86,8 @@ function OrderList() {
       },
       {
         name: "Action",
-        minWidth: 'auto',  // Set a custom minimum width
-        maxWidth: '90px',  // Set a custom maximum width
+        minWidth: 'auto', 
+        maxWidth: '90px', 
         cell: (row, index) => {
           // console.log(index, index % 10 == 9)
           return (
@@ -93,8 +96,9 @@ function OrderList() {
               <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
             </div>
             {selectedAction === row.Categoryid && (
-              <div className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${index%10 === 9 ? 'bottom-[1.3rem] ' : 'top-[1.3rem]'}`}>
-                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+              <div className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                index
+              )}`}>
                   <div className='text-center pt-3 pb-1 cursor-pointer'>Edit</div>
                   <div className='text-center pb-3 pt-2 border-t cursor-pointer'>View</div>
               </div>

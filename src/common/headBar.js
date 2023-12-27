@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "./grid";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 // media Import
@@ -7,9 +7,13 @@ import Nonotification from "../assets/images/icons/readed-noti.svg";
 import NotificationImage from "../assets/images/icons/Notification-icon.svg";
 import ProfileImage from "../assets/images/icons/Profile.svg";
 import Down from "../assets/images/icons/Drop.svg";
-
+import {
+  getNotifications,
+  updateNotifications,
+} from "../services/extraServices";
 function Headbar({ className = "" }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [notificationList, setNotificationList] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
   const toggleDropdown = () => {
@@ -21,6 +25,16 @@ function Headbar({ className = "" }) {
     navigate("/");
   };
 
+  const getNotificationsData = () => {
+    getNotifications().then((response) => {
+      setNotificationList(response.result.notification);
+      console.log(response.result.notification);
+    });
+  };
+
+  useEffect(() => {
+    getNotificationsData();
+  }, []);
 
   return (
     <div className="">
@@ -40,7 +54,7 @@ function Headbar({ className = "" }) {
                     className="cursor-pointer mt-[-2%] "
                     alt="NotificationImage"
                   />{" "}
-                  <p className="text-[9px] right-[-8px] -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[2px] text-center border-2 border-[#333333]">9</p>
+                  <p className="text-[9px] right-[-8px] -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[2px] text-center border-2 border-[#333333]">{notificationList.length}</p>
                 </Link>
               </div>
               {/* <div>

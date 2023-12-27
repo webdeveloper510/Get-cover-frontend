@@ -6,7 +6,7 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import Loader from "../../../assets/images/Loader.gif";
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Button from "../../../common/button";
@@ -34,7 +34,7 @@ function AddCompanyPriceBook() {
   const { id } = useParams();
   const [detailsById, setDetailsById] = useState();
   const [active, setinActive] = useState(false);
-
+  const [loader ,setLoader]=useState(false)
   const navigate = useNavigate();
   console.log(id);
   const formik = useFormik({
@@ -71,6 +71,7 @@ function AddCompanyPriceBook() {
     }),
     onSubmit: async (values) => {
       try {
+        setLoader(true)
         let result;
 
         if (id) {
@@ -93,6 +94,7 @@ function AddCompanyPriceBook() {
         if (result.code !== 200) {
           setError(result.message);
         } else {
+          setLoader(false)
           setError(false);
           setIsModalOpen(true);
           setTimer(3);
@@ -127,7 +129,7 @@ function AddCompanyPriceBook() {
     const getPriceBookDetailsById = async () => {
       const data = await getCategoryListActiveData11();
       console.log(data);
-
+      setLoader(true)
       try {
         if (id) {
           setType("Edit");
@@ -150,6 +152,7 @@ function AddCompanyPriceBook() {
         } else {
           setType("Add");
         }
+        setLoader(true)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -235,6 +238,8 @@ function AddCompanyPriceBook() {
   return (
     <div className="my-8 ml-3">
       <Headbar />
+
+
       <div className="flex mt-14">
         <Link
           to={"/companyPriceBook"}
@@ -271,7 +276,12 @@ function AddCompanyPriceBook() {
           </ul>
         </div>
       </div>
-
+      {loader==false ? (
+      <div className="h-screen bg-[#f1f2f3] flex py-5">
+      <img src={Loader} className="mx-auto bg-transparent self-center" alt="Loader" />
+      </div>
+     ) : (
+      <>
       {error && (
         <p className="text-red-500 text-sm pl-2">
           <span className="font-semibold"> {error} </span>
@@ -589,6 +599,9 @@ function AddCompanyPriceBook() {
           </Button>
         </div>
       </form>
+      </>
+     )}
+
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
