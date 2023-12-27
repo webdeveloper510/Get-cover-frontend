@@ -61,7 +61,7 @@ function Category() {
   };
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = categoryList.length - index <= 2;
+    const isCloseToBottom = 10 - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -115,9 +115,9 @@ function Category() {
       selector: (row) => row.description,
       sortable: true,
       minWidth: "350px",
-      cell: (row) => (
-        <span title={row.description}>{truncateText(row.description, 30)}</span>
-      ),
+      // cell: (row) => (
+      //   <span title={row.description}>{truncateText(row.description, 30)}</span>
+      // ),
     },
     {
       name: "Status",

@@ -81,10 +81,6 @@ function ServicerList() {
         selector: (row) => row.TotalClaimsValue,
         sortable: true,
         minWidth: "150px",
-        style: {
-          whiteSpace: "normal",
-          lineHeight: "1.2",
-        },
       },
       {
         name: "Status",
