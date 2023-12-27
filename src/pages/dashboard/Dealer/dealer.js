@@ -104,6 +104,7 @@ function Dealer() {
     setIsModalOpen(false);
   };
   useEffect(() => {
+    setLoading(true);
     let intervalId;
     if (id === undefined) {
       setInitialFormValues({
@@ -154,7 +155,7 @@ function Dealer() {
     getProductList("");
 
     if (id != undefined) {
-      setLoading(true);
+     
       getDealersDetailsByid(id).then((res) => {
         if (res?.result) {
           setInitialFormValues({
@@ -190,13 +191,14 @@ function Dealer() {
           });
         }
       });
-      setLoading(false);
     }
-
+    
+    setLoading(false);
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer, id]);
 
   const getTermListData = async () => {
+    setLoading(true);
     try {
       const res = await getTermList();
       console.log(res.result.terms);
@@ -206,6 +208,7 @@ function Dealer() {
           value: item.terms,
         }))
       );
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching category list:", error);
     }
@@ -375,6 +378,7 @@ function Dealer() {
           : Yup.string().required("File is required"),
     }),
     onSubmit: async (values) => {
+      setLoading(true);
       const isEmailValid = !formik.errors.email;
       values.priceBook =
         selectedOption === "no"
@@ -452,6 +456,7 @@ function Dealer() {
       console.log(result);
 
       if (result.message === "Successfully Created") {
+        setLoading(false);
         setError("done");
         setIsModalOpen(true);
         setMessage("New Dealer Created Successfully");

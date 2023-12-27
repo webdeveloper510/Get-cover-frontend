@@ -252,7 +252,7 @@ function DealerPriceList() {
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold py-4">Dealer Price List</p>
             </div>
-            {/* <div className="col-span-7">
+            <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <Grid className="!grid-cols-10">
                   <div className="col-span-2 self-center">
@@ -278,7 +278,7 @@ function DealerPriceList() {
                   <div className="col-span-2 self-center">
                     <Select
                       label=""
-                      options={country}
+                      options={status}
                       OptionName="Term"
                       color="text-[#1B1D21] opacity-50"
                       className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
@@ -323,7 +323,7 @@ function DealerPriceList() {
                   </div>
                 </Grid>
               </div>
-            </div> */}
+            </div>
           </Grid>
 
           <div className="mb-5 relative">

@@ -16,12 +16,6 @@ import DataTable from "react-data-table-component"
 
 function CustomerList() {
     const [selectedAction, setSelectedAction] = useState(null);
-
-    const handleActionChange = (action) => {
-      // Implement the logic for the selected action (e.g., edit or delete)
-      console.log(`Selected action: ${action}`);
-      // You can replace the console.log statement with the actual logic you want to perform
-    };
   
     const data = [
       {
