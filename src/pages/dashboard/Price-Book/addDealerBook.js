@@ -533,7 +533,7 @@ function AddDealerBook() {
                 <p className="text-neutral-grey text-base font-medium mt-2">
                   <b> New Dealer Book </b> added successfully.{" "}
                 </p>
-                <p> Redirecting you on Dealer Book Page {timer} seconds.</p>
+                <p className="text-neutral-grey text-base font-medium mt-2"> Redirecting you on Dealer Book Page {timer} seconds.</p>
               </>
             ) : (
               <>
