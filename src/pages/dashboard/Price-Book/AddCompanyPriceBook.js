@@ -140,10 +140,10 @@ function AddCompanyPriceBook() {
               name: result.result.name,
               description: result.result.description,
               term: result.result.term,
-              frontingFee: result.result.frontingFee,
-              reinsuranceFee: result.result.reinsuranceFee,
-              reserveFutureFee: result.result.reserveFutureFee,
-              adminFee: result.result.adminFee,
+              frontingFee: result?.result?.frontingFee?.toFixed(2),
+              reinsuranceFee: result?.result?.reinsuranceFee?.toFixed(2),
+              reserveFutureFee: result?.result?.reserveFutureFee?.toFixed(2),
+              adminFee: result?.result?.adminFee?.toFixed(2),
               status: result.result.status,
             });
           }
@@ -603,17 +603,25 @@ function AddCompanyPriceBook() {
             </p>
           )}
           {type == "Edit" ? (
-            <p className="text-neutral-grey text-base font-medium mt-2">
-             You have Successfully Updated the 
-              <b> Company Price Book </b></p>
+            <>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                You have Successfully Updated the
+                <b> Company Price Book </b>
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                Redirecting you on Company Price Book Page {timer} seconds.
+              </p>
+            </>
           ) : (
-            <p className="text-neutral-grey text-base font-medium mt-2">
-              <b> Company Price Book </b> added successfully.{" "}
-            </p>
+            <>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                <b> Company Price Book </b> added successfully.{" "}
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                Redirecting you on Company Price Book Page {timer} seconds.
+              </p>
+            </>
           )}
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            Redirecting you on Company Price Book Page {timer} seconds.
-          </p>
         </div>
       </Modal>
     </div>

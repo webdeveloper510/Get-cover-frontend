@@ -15,7 +15,10 @@ import Loader from "../../../assets/images/Loader.gif";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Select from "../../../common/select";
 import DataTable from "react-data-table-component";
-import { getDealerPriceBook } from "../../../services/dealerServices";
+import {
+  editDealerPriceBook,
+  getDealerPriceBook,
+} from "../../../services/dealerServices";
 
 function DealerPriceList() {
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -47,11 +50,41 @@ function DealerPriceList() {
     console.log(result.result);
     setLoading(false);
   };
-  const country = [
-    { label: "Country", value: "country" },
-    { label: "Option 2", value: "option2" },
-    { label: "Option 3", value: "option3" },
-  ];
+  const handleStatusChange = async (row, newStatus) => {
+    try {
+      const updatedCompanyPriceList = dealerPriceBook.map((category) => {
+        if (category._id === row._id) {
+          return { ...category, status: newStatus === "active" };
+        }
+        return category;
+      });
+
+      setDealerPriceBook(updatedCompanyPriceList);
+      console.log(row);
+      const result = await editDealerPriceBook(row._id, {
+        retailPrice: row?.retailPrice?.toFixed(2),
+        priceBook: row?.priceBook,
+        dealerId: row?.dealerId,
+
+        status: newStatus === "active" ? true : false,
+        categoryId: row?.priceBooks[0]?.category[0]?._id,
+        wholesalePrice: row?.wholesalePrice,
+        term: row?.priceBooks[0]?.term,
+        brokerFee: row?.brokerFee,
+      });
+
+      console.log(result);
+
+      // if (result.code === 200 || result.code === 401) {
+      //   console.log("Status updated successfully");
+      //   getDealerList();
+      // } else {
+      //   getDealerList();
+      // }
+    } catch (error) {
+      console.error("Error in handleStatusChange:", error);
+    }
+  };
 
   const status = [
     { label: "Active", value: "true" },
@@ -120,7 +153,7 @@ function DealerPriceList() {
       name: "Status",
       selector: (row) => row.status,
       sortable: true,
-      
+
       cell: (row) => (
         <div className="relative">
           <div
@@ -130,7 +163,7 @@ function DealerPriceList() {
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
-            // onChange={(e) => handleStatusChange(row, e.target.value)}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
@@ -292,25 +325,30 @@ function DealerPriceList() {
           </Grid>
 
           <div className="mb-5 relative">
-          {loading ? (
+            {loading ? (
               <div className="bg-[#f1f2f3] py-5">
-                <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
-                </div>
+                <img
+                  src={Loader}
+                  className="mx-auto bg-transparent"
+                  alt="Loader"
+                />
+              </div>
             ) : (
-            <DataTable
-              columns={columns}
-              data={dealerPriceBook}
-              highlightOnHover
-              sortIcon={
-                <>
-                  <img src={shorting} className="ml-2" alt="shorting" />
-                </>
-              }
-              pagination
-              paginationPerPage={10}
-              paginationComponentOptions={paginationOptions}
-              paginationRowsPerPageOptions={[10, 20, 50, 100]}
-            />)}
+              <DataTable
+                columns={columns}
+                data={dealerPriceBook}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    <img src={shorting} className="ml-2" alt="shorting" />
+                  </>
+                }
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              />
+            )}
           </div>
         </div>
       </div>

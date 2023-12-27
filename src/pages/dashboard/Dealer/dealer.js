@@ -394,7 +394,6 @@ function Dealer() {
         ? await checkEmailAvailability(formik.values.email)
         : false;
 
-      console.log(formik);
       if (!isEmailAvailable) {
         return;
       }
@@ -480,6 +479,8 @@ function Dealer() {
           result.message === "Email is already exist!"
         ) {
           formik.setFieldError(fieldPath, "Email is already in use");
+          setMessage("Some Errors Please Check Form Validations ");
+          setIsModalOpen(true);
           return false;
         }
       } catch (error) {
@@ -492,13 +493,14 @@ function Dealer() {
   };
 
   const handleAddTeamMember = () => {
+    console.log("createAccountOption", createAccountOption);
     const dealers = {
       firstName: "",
       lastName: "",
       email: "",
       phoneNumber: "",
       position: "",
-      status: false,
+      status: createAccountOption === "yes" ? true : false,
       isPrimary: false,
     };
 
@@ -524,6 +526,7 @@ function Dealer() {
         result.message === "Email is already exist!"
       ) {
         setIsEmailAvailable(false);
+
         return false;
       }
     }
@@ -558,503 +561,569 @@ function Dealer() {
 
       {/* Form Start */}
       {loading ? (
-              <div className="bg-[#f1f2f3] py-5">
-                <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
-                </div>
-            ) : (
-              <form className="mt-8" onSubmit={formik.handleSubmit}>
-                <div className="bg-white p-8 drop-shadow-4xl rounded-xl">
-                  <Grid>
-                    <div className="col-span-4 border-e-[1px] border-[#D1D1D1] pr-3">
-                      <p className="text-light-black text-lg mb-3 font-semibold">
-                        Create Dealer Account
-                      </p>
-                      <Grid>
-                        <div className="col-span-12 mt-4">
-                          <Input
-                            type="text"
-                            name="name"
-                            className="!bg-white"
-                            label="Account Name"
-                            required={true}
-                            placeholder=""
-                            maxLength={"50"}
-                            value={formik.values.name}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            error={formik.touched.name && formik.errors.name}
-                          />
-                          {formik.touched.name && formik.errors.name && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.name}
-                            </div>
-                          )}
-                        </div>
-                        <div className="col-span-12">
-                          <div className="flex">
-                            <p className="text-neutral-grey text-sm">ADDRESS</p>
-                            <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
-                          </div>
-                        </div>
-                        <div className="col-span-12">
-                          <Input
-                            type="text"
-                            name="street"
-                            label="Business Street Address"
-                            className="!bg-white"
-                            required={true}
-                            placeholder=""
-                            maxLength={"50"}
-                            value={formik.values.street}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.street && formik.errors.street}
-                          />
-                          {formik.touched.street && formik.errors.street && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.street}
-                            </div>
-                          )}
-                        </div>
-                        <div className="col-span-12">
-                          <Input
-                            type="text"
-                            name="city"
-                            label="Business City"
-                            className="!bg-white"
-                            placeholder=" "
-                            required={true}
-                            maxLength={"20"}
-                            value={formik.values.city}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.city && formik.errors.city}
-                          />
-                          {formik.touched.city && formik.errors.city && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.city}
-                            </div>
-                          )}
-                        </div>
-                        <div className="col-span-12">
-                          <Select
-                            label="Business State"
-                            name="state"
-                            placeholder=""
-                            className="!bg-white"
-                            required={true}
-                            onChange={handleSelectChange}
-                            options={state}
-                            value={formik.values.state}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.state && formik.errors.state}
-                          />
-                          {formik.touched.state && formik.errors.state && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.state}
-                            </div>
-                          )}
-                        </div>
-                        <div className="col-span-12">
-                          <Input
-                            type="number"
-                            name="zip"
-                            label="Business Zipcode"
-                            className="!bg-white"
-                            required={true}
-                            placeholder=""
-                            value={formik.values.zip}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            minLength={"5"}
-                            maxLength={"6"}
-                            error={formik.touched.zip && formik.errors.zip}
-                          />
-                          {formik.touched.zip && formik.errors.zip && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.zip}
-                            </div>
-                          )}
-                        </div>
-                      </Grid>
-                    </div>
-                    <div className="col-span-8">
-                      <p className="text-light-black text-lg mb-3 font-semibold">
-                        Dealer Contact Information
-                      </p>
-
-                      <Grid className="mt-5">
-                        <div className="col-span-6">
-                          <Input
-                            type="text"
-                            name="firstName"
-                            label="First Name"
-                            required={true}
-                            placeholder=""
-                            className="!bg-white"
-                            maxLength={"30"}
-                            value={formik.values.firstName}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            error={formik.touched.firstName && formik.errors.firstName}
-                          />
-                          {formik.touched.firstName && formik.errors.firstName && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.firstName}
-                            </div>
-                          )}
-                        </div>
-                        <div className="col-span-6">
-                          <Input
-                            type="text"
-                            name="lastName"
-                            label="Last Name"
-                            className="!bg-white"
-                            required={true}
-                            placeholder=""
-                            maxLength={"30"}
-                            value={formik.values.lastName}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            error={formik.touched.lastName && formik.errors.lastName}
-                          />
-                          {formik.touched.lastName && formik.errors.lastName && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.lastName}
-                            </div>
-                          )}
-                        </div>
-                        <div className="col-span-6">
-                          <Input
-                            type="text"
-                            name="email"
-                            label="Email"
-                            placeholder=""
-                            className="!bg-white"
-                            required={true}
-                            value={formik.values.email}
-                            onBlur={async () => {
-                              formik.handleBlur("email");
-
-                              const isEmailValid = !formik.errors.email;
-                              const isEmailAvailablechecking = isEmailValid
-                                ? await checkEmailAvailability(formik.values.email)
-                                : false;
-                            }}
-                            onChange={formik.handleChange}
-                            error={
-                              (formik.touched.email && formik.errors.email) ||
-                              (formik.touched.email &&
-                                !isEmailAvailable &&
-                                "Email is already in use")
-                            }
-                          />
-                          {formik.touched.email && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.email &&
-                                !isEmailAvailable &&
-                                "Email is already in use"}
-                              {formik.errors.email &&
-                                isEmailAvailable &&
-                                formik.errors.email}
-                              {!formik.errors.email &&
-                                !isEmailAvailable &&
-                                "Email is already in use"}
-                            </div>
-                          )}
-                        </div>
-                        <div className="col-span-6">
-                          <Input
-                            type="number"
-                            name="phoneNumber"
-                            label="Phone"
-                            required={true}
-                            className="!bg-white"
-                            placeholder=""
-                            value={formik.values.phoneNumber}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
-                            }}
-                            minLength={"10"}
-                            maxLength={"10"}
-                            error={
-                              formik.touched.phoneNumber && formik.errors.phoneNumber
-                            }
-                          />
-                          {(formik.touched.phoneNumber || formik.submitCount > 0) &&
-                            formik.errors.phoneNumber && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formik.errors.phoneNumber}
-                              </div>
-                            )}
-                        </div>
-                        <div className="col-span-6">
-                          <Input
-                            type="text"
-                            name="position"
-                            label="Position"
-                            className="!bg-white"
-                            placeholder=""
-                            maxLength={"50"}
-                            value={formik.values.position}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            error={formik.touched.position && formik.errors.position}
-                          />
-                        </div>
-                        <div className="col-span-6">
-                          <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                            Do you want to create an account?
-                            <RadioButton
-                              id="yes-create-account"
-                              label="Yes"
-                              value="yes"
-                              checked={createAccountOption === "yes"}
-                              onChange={handleRadioChange}
-                            />
-                            <RadioButton
-                              id="no-create-account"
-                              label="No"
-                              value="no"
-                              checked={createAccountOption === "no"}
-                              onChange={handleRadioChange}
-                            />
-                          </p>
-                        </div>
-                        <div className="col-span-12 mt-3">
-                          <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                            Does this Dealer's Customer will have a separate account?
-                            <RadioButton
-                              id="yes-separate-account"
-                              label="Yes"
-                              value="yes"
-                              checked={separateAccountOption === "yes"}
-                              disabled={createAccountOption === "no"}
-                              onChange={handleSeparateAccountRadioChange}
-                            />
-                            <RadioButton
-                              id="no-separate-account"
-                              label="No"
-                              value="no"
-                              checked={separateAccountOption === "no"}
-                              onChange={handleSeparateAccountRadioChange}
-                            />
-                          </p>
-                        </div>
-                      </Grid>
-
-                      <div className="mt-14">
-                        <Grid>
-                          <div className="col-span-4">
-                            <Button
-                              type="button"
-                              className="text-sm !font-light w-full"
-                              onClick={handleAddTeamMember}
-                            >
-                              + Add More Team Members
-                            </Button>
-                          </div>
-                          <div className="col-span-8 self-center">
-                            <hr />
-                          </div>
-                        </Grid>
+        <div className="bg-[#f1f2f3] py-5">
+          <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
+        </div>
+      ) : (
+        <form className="mt-8" onSubmit={formik.handleSubmit}>
+          <div className="bg-white p-8 drop-shadow-4xl rounded-xl">
+            <Grid>
+              <div className="col-span-4 border-e-[1px] border-[#D1D1D1] pr-3">
+                <p className="text-light-black text-lg mb-3 font-semibold">
+                  Create Dealer Account
+                </p>
+                <Grid>
+                  <div className="col-span-12 mt-4">
+                    <Input
+                      type="text"
+                      name="name"
+                      className="!bg-white"
+                      label="Account Name"
+                      required={true}
+                      placeholder=""
+                      maxLength={"50"}
+                      value={formik.values.name}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={formik.touched.name && formik.errors.name}
+                    />
+                    {formik.touched.name && formik.errors.name && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.name}
                       </div>
+                    )}
+                  </div>
+                  <div className="col-span-12">
+                    <div className="flex">
+                      <p className="text-neutral-grey text-sm">ADDRESS</p>
+                      <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
+                    </div>
+                  </div>
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name="street"
+                      label="Business Street Address"
+                      className="!bg-white"
+                      required={true}
+                      placeholder=""
+                      maxLength={"50"}
+                      value={formik.values.street}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.street && formik.errors.street}
+                    />
+                    {formik.touched.street && formik.errors.street && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.street}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name="city"
+                      label="Business City"
+                      className="!bg-white"
+                      placeholder=" "
+                      required={true}
+                      maxLength={"20"}
+                      value={formik.values.city}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.city && formik.errors.city}
+                    />
+                    {formik.touched.city && formik.errors.city && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.city}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-12">
+                    <Select
+                      label="Business State"
+                      name="state"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      onChange={handleSelectChange}
+                      options={state}
+                      value={formik.values.state}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.state && formik.errors.state}
+                    />
+                    {formik.touched.state && formik.errors.state && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.state}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-12">
+                    <Input
+                      type="number"
+                      name="zip"
+                      label="Business Zipcode"
+                      className="!bg-white"
+                      required={true}
+                      placeholder=""
+                      value={formik.values.zip}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      minLength={"5"}
+                      maxLength={"6"}
+                      error={formik.touched.zip && formik.errors.zip}
+                    />
+                    {formik.touched.zip && formik.errors.zip && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.zip}
+                      </div>
+                    )}
+                  </div>
+                </Grid>
+              </div>
+              <div className="col-span-8">
+                <p className="text-light-black text-lg mb-3 font-semibold">
+                  Dealer Contact Information
+                </p>
+
+                <Grid className="mt-5">
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="firstName"
+                      label="First Name"
+                      required={true}
+                      placeholder=""
+                      className="!bg-white"
+                      maxLength={"30"}
+                      value={formik.values.firstName}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.firstName && formik.errors.firstName
+                      }
+                    />
+                    {formik.touched.firstName && formik.errors.firstName && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.firstName}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="lastName"
+                      label="Last Name"
+                      className="!bg-white"
+                      required={true}
+                      placeholder=""
+                      maxLength={"30"}
+                      value={formik.values.lastName}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={formik.touched.lastName && formik.errors.lastName}
+                    />
+                    {formik.touched.lastName && formik.errors.lastName && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.lastName}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="email"
+                      label="Email"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      value={formik.values.email}
+                      onBlur={async () => {
+                        formik.handleBlur("email");
+
+                        const isEmailValid = !formik.errors.email;
+                        const isEmailAvailablechecking = isEmailValid
+                          ? await checkEmailAvailability(formik.values.email)
+                          : false;
+                      }}
+                      onChange={formik.handleChange}
+                      error={
+                        (formik.touched.email && formik.errors.email) ||
+                        (formik.touched.email &&
+                          !isEmailAvailable &&
+                          "Email is already in use")
+                      }
+                    />
+                    {formik.touched.email && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.email &&
+                          !isEmailAvailable &&
+                          "Email is already in use"}
+                        {formik.errors.email &&
+                          isEmailAvailable &&
+                          formik.errors.email}
+                        {!formik.errors.email &&
+                          !isEmailAvailable &&
+                          "Email is already in use"}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="number"
+                      name="phoneNumber"
+                      label="Phone"
+                      required={true}
+                      className="!bg-white"
+                      placeholder=""
+                      value={formik.values.phoneNumber}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      onWheelCapture={(e) => {
+                        e.preventDefault();
+                      }}
+                      minLength={"10"}
+                      maxLength={"10"}
+                      error={
+                        formik.touched.phoneNumber && formik.errors.phoneNumber
+                      }
+                    />
+                    {(formik.touched.phoneNumber || formik.submitCount > 0) &&
+                      formik.errors.phoneNumber && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.phoneNumber}
+                        </div>
+                      )}
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="position"
+                      label="Position"
+                      className="!bg-white"
+                      placeholder=""
+                      maxLength={"50"}
+                      value={formik.values.position}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={formik.touched.position && formik.errors.position}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                      Do you want to create an account?
+                      <RadioButton
+                        id="yes-create-account"
+                        label="Yes"
+                        value="yes"
+                        checked={createAccountOption === "yes"}
+                        onChange={handleRadioChange}
+                      />
+                      <RadioButton
+                        id="no-create-account"
+                        label="No"
+                        value="no"
+                        checked={createAccountOption === "no"}
+                        onChange={handleRadioChange}
+                      />
+                    </p>
+                  </div>
+                  <div className="col-span-12 mt-3">
+                    <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                      Does this Dealer's Customer will have a separate account?
+                      <RadioButton
+                        id="yes-separate-account"
+                        label="Yes"
+                        value="yes"
+                        checked={separateAccountOption === "yes"}
+                        disabled={createAccountOption === "no"}
+                        onChange={handleSeparateAccountRadioChange}
+                      />
+                      <RadioButton
+                        id="no-separate-account"
+                        label="No"
+                        value="no"
+                        checked={separateAccountOption === "no"}
+                        onChange={handleSeparateAccountRadioChange}
+                      />
+                    </p>
+                  </div>
+                </Grid>
+
+                <div className="mt-14">
+                  <Grid>
+                    <div className="col-span-4">
+                      <Button
+                        type="button"
+                        className="text-sm !font-light w-full"
+                        onClick={handleAddTeamMember}
+                      >
+                        + Add More Team Members
+                      </Button>
+                    </div>
+                    <div className="col-span-8 self-center">
+                      <hr />
                     </div>
                   </Grid>
                 </div>
+              </div>
+            </Grid>
+          </div>
 
-                {formik.values.dealers.map((dealer, index) => (
+          {formik.values.dealers.map((dealer, index) => (
+            <div
+              key={index}
+              className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl"
+            >
+              <p className="text-light-black text-lg mb-6 font-semibold">
+                Add Dealer’s Team Members
+              </p>
+              <div className="">
+                <Grid className="">
+                  <div className="col-span-11">
+                    <Grid className="pr-12 pl-4">
+                      <div className="col-span-4">
+                        <Input
+                          type="text"
+                          name={`dealers[${index}].firstName`}
+                          label="First Name"
+                          required={true}
+                          className="!bg-white"
+                          placeholder=""
+                          maxLength={"30"}
+                          value={formik.values.dealers[index].firstName}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          error={
+                            formik.touched.dealers &&
+                            formik.touched.dealers[index] &&
+                            formik.errors.dealers &&
+                            formik.errors.dealers[index] &&
+                            formik.errors.dealers[index].firstName
+                          }
+                        />
+                        {formik.touched.dealers &&
+                          formik.touched.dealers[index] &&
+                          formik.errors.dealers &&
+                          formik.errors.dealers[index] &&
+                          formik.errors.dealers[index].firstName && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.dealers[index].firstName}
+                            </div>
+                          )}
+                      </div>
+
+                      <div className="col-span-4">
+                        <Input
+                          type="text"
+                          name={`dealers[${index}].lastName`}
+                          className="!bg-white"
+                          label="Last Name"
+                          required={true}
+                          placeholder=""
+                          value={formik.values.dealers[index].lastName}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          error={
+                            formik.touched.dealers &&
+                            formik.touched.dealers[index] &&
+                            formik.errors.dealers &&
+                            formik.errors.dealers[index] &&
+                            formik.errors.dealers[index].lastName
+                          }
+                        />
+                        {formik.touched.dealers &&
+                          formik.touched.dealers[index] &&
+                          formik.errors.dealers &&
+                          formik.errors.dealers[index] &&
+                          formik.errors.dealers[index].lastName && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.dealers[index].lastName}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-span-4">
+                        <Input
+                          type="text"
+                          name={`dealers[${index}].email`}
+                          label="Email"
+                          placeholder=""
+                          className="!bg-white"
+                          required={true}
+                          value={formik.values.dealers[index].email}
+                          onBlur={async () => {
+                            formik.handleBlur(`dealers[${index}].email`);
+                          }}
+                          onChange={formik.handleChange}
+                          error={
+                            formik.touched.dealers &&
+                            formik.touched.dealers[index] &&
+                            formik.errors.dealers &&
+                            formik.errors.dealers[index] &&
+                            formik.errors.dealers[index].email
+                          }
+                        />
+                        {formik.touched.dealers &&
+                          formik.touched.dealers[index] &&
+                          formik.errors.dealers &&
+                          formik.errors.dealers[index] &&
+                          formik.errors.dealers[index].email && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.dealers[index].email}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-span-4">
+                        <Input
+                          type="number"
+                          name={`dealers[${index}].phoneNumber`}
+                          className="!bg-white"
+                          label="Phone"
+                          required={true}
+                          placeholder=""
+                          value={formik.values.dealers[index].phoneNumber}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          onWheelCapture={(e) => {
+                            e.preventDefault();
+                          }}
+                          minLength={"10"}
+                          maxLength={"10"}
+                          error={
+                            formik.touched.dealers &&
+                            formik.touched.dealers[index] &&
+                            formik.errors.dealers &&
+                            formik.errors.dealers[index] &&
+                            formik.errors.dealers[index].phoneNumber
+                          }
+                        />
+                        {formik.touched.dealers &&
+                          formik.touched.dealers[index] &&
+                          formik.errors.dealers &&
+                          formik.errors.dealers[index] &&
+                          formik.errors.dealers[index].phoneNumber && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.dealers[index].phoneNumber}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-span-4">
+                        <Input
+                          type="text"
+                          name={`dealers[${index}].position`}
+                          className="!bg-white"
+                          label="Position"
+                          required={true}
+                          placeholder=""
+                          value={formik.values.dealers[index].position}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                        />
+                      </div>
+                      <div className="col-span-4">
+                        <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                          {" "}
+                          Do you want to create an account?
+                          <RadioButton
+                            id={`yes-${index}`}
+                            label="Yes"
+                            value="yes"
+                            disabled={createAccountOption === "no"}
+                            checked={
+                              formik.values.dealers &&
+                              formik.values.dealers[index] &&
+                              formik.values.dealers[index].status === true
+                            }
+                            onChange={() =>
+                              handleRadioChangeDealers("yes", index)
+                            }
+                          />
+                          <RadioButton
+                            id={`no-${index}`}
+                            label="No"
+                            value="no"
+                            checked={
+                              formik.values.dealers &&
+                              formik.values.dealers[index] &&
+                              formik.values.dealers[index].status === false
+                            }
+                            onChange={() =>
+                              handleRadioChangeDealers("no", index)
+                            }
+                          />
+                        </p>
+                      </div>
+                    </Grid>
+                  </div>
                   <div
-                    key={index}
-                    className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl"
+                    className="col-span-1"
+                    onClick={() => {
+                      handleDeleteDealers(index);
+                    }}
                   >
-                    <p className="text-light-black text-lg mb-6 font-semibold">
-                      Add Dealer’s Team Members
-                    </p>
-                    <div className="">
-                      <Grid className="">
-                        <div className="col-span-11">
-                          <Grid className="pr-12 pl-4">
-                            <div className="col-span-4">
-                              <Input
-                                type="text"
-                                name={`dealers[${index}].firstName`}
-                                label="First Name"
-                                required={true}
-                                className="!bg-white"
-                                placeholder=""
-                                maxLength={"30"}
-                                value={formik.values.dealers[index].firstName}
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
-                                error={
-                                  formik.touched.dealers &&
-                                  formik.touched.dealers[index] &&
-                                  formik.errors.dealers &&
-                                  formik.errors.dealers[index] &&
-                                  formik.errors.dealers[index].firstName
-                                }
-                              />
-                              {formik.touched.dealers &&
-                                formik.touched.dealers[index] &&
-                                formik.errors.dealers &&
-                                formik.errors.dealers[index] &&
-                                formik.errors.dealers[index].firstName && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {formik.errors.dealers[index].firstName}
-                                  </div>
-                                )}
-                            </div>
+                    <div className="flex mx-3 h-full bg-[#EBEBEB] justify-center">
+                      <img
+                        src={DeleteImage}
+                        className="self-center cursor-pointer"
+                        alt="Delete Icon"
+                      />
+                    </div>
+                  </div>
+                </Grid>
+              </div>
+            </div>
+          ))}
 
-                            <div className="col-span-4">
-                              <Input
-                                type="text"
-                                name={`dealers[${index}].lastName`}
-                                className="!bg-white"
-                                label="Last Name"
-                                required={true}
-                                placeholder=""
-                                value={formik.values.dealers[index].lastName}
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
-                                error={
-                                  formik.touched.dealers &&
-                                  formik.touched.dealers[index] &&
-                                  formik.errors.dealers &&
-                                  formik.errors.dealers[index] &&
-                                  formik.errors.dealers[index].lastName
-                                }
-                              />
-                              {formik.touched.dealers &&
-                                formik.touched.dealers[index] &&
-                                formik.errors.dealers &&
-                                formik.errors.dealers[index] &&
-                                formik.errors.dealers[index].lastName && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {formik.errors.dealers[index].lastName}
-                                  </div>
-                                )}
-                            </div>
-                            <div className="col-span-4">
-                              <Input
-                                type="text"
-                                name={`dealers[${index}].email`}
-                                label="Email"
-                                placeholder=""
-                                className="!bg-white"
-                                required={true}
-                                value={formik.values.dealers[index].email}
-                                onBlur={async () => {
-                                  formik.handleBlur(`dealers[${index}].email`);
-                                }}
-                                onChange={formik.handleChange}
-                                error={
-                                  formik.touched.dealers &&
-                                  formik.touched.dealers[index] &&
-                                  formik.errors.dealers &&
-                                  formik.errors.dealers[index] &&
-                                  formik.errors.dealers[index].email
-                                }
-                              />
-                              {formik.touched.dealers &&
-                                formik.touched.dealers[index] &&
-                                formik.errors.dealers &&
-                                formik.errors.dealers[index] &&
-                                formik.errors.dealers[index].email && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {formik.errors.dealers[index].email}
-                                  </div>
-                                )}
-                            </div>
-                            <div className="col-span-4">
-                              <Input
-                                type="number"
-                                name={`dealers[${index}].phoneNumber`}
-                                className="!bg-white"
-                                label="Phone"
-                                required={true}
-                                placeholder=""
-                                value={formik.values.dealers[index].phoneNumber}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                onWheelCapture={(e) => {
-                                  e.preventDefault();
-                                }}
-                                minLength={"10"}
-                                maxLength={"10"}
-                                error={
-                                  formik.touched.dealers &&
-                                  formik.touched.dealers[index] &&
-                                  formik.errors.dealers &&
-                                  formik.errors.dealers[index] &&
-                                  formik.errors.dealers[index].phoneNumber
-                                }
-                              />
-                              {formik.touched.dealers &&
-                                formik.touched.dealers[index] &&
-                                formik.errors.dealers &&
-                                formik.errors.dealers[index] &&
-                                formik.errors.dealers[index].phoneNumber && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {formik.errors.dealers[index].phoneNumber}
-                                  </div>
-                                )}
-                            </div>
-                            <div className="col-span-4">
-                              <Input
-                                type="text"
-                                name={`dealers[${index}].position`}
-                                className="!bg-white"
-                                label="Position"
-                                required={true}
-                                placeholder=""
-                                value={formik.values.dealers[index].position}
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
-                              />
-                            </div>
-                            <div className="col-span-4">
-                              <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                                {" "}
-                                Do you want to create an account?
-                                <RadioButton
-                                  id={`yes-${index}`}
-                                  label="Yes"
-                                  value="yes"
-                                  disabled={createAccountOption === "no"}
-                                  checked={
-                                    formik.values.dealers &&
-                                    formik.values.dealers[index] &&
-                                    formik.values.dealers[index].status === true
-                                  }
-                                  onChange={() =>
-                                    handleRadioChangeDealers("yes", index)
-                                  }
-                                />
-                                <RadioButton
-                                  id={`no-${index}`}
-                                  label="No"
-                                  value="no"
-                                  checked={
-                                    formik.values.dealers &&
-                                    formik.values.dealers[index] &&
-                                    formik.values.dealers[index].status === false
-                                  }
-                                  onChange={() => handleRadioChangeDealers("no", index)}
-                                />
-                              </p>
-                            </div>
-                          </Grid>
-                        </div>
+          <div className="bg-[#fff] p-8 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
+            <Grid>
+              <div className="col-span-2">
+                <p className="text-light-black text-lg mb-3 font-semibold">
+                  {selectedOption === "yes"
+                    ? "Add  Price Book"
+                    : "Upload Price Book"}{" "}
+                </p>
+              </div>
+              <div className="col-span-6 self-center">
+                <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
+              </div>
+              <div className="col-span-4 flex justify-end">
+                <RadioButton
+                  id="yes"
+                  label="Add Single Price Book"
+                  value="yes"
+                  checked={selectedOption === "yes"}
+                  onChange={handleRadioChangeforBulk}
+                />
+                <RadioButton
+                  id="no"
+                  label="Upload In Bulk"
+                  value="no"
+                  checked={selectedOption === "no"}
+                  onChange={handleRadioChangeforBulk}
+                />
+              </div>
+            </Grid>
+
+            {selectedOption === "yes" ? (
+              <>
+                {formik.values.priceBook.map((dealer, index) => (
+                  <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+                    <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
+                      {index == 0 ? (
+                        <Button
+                          className="text-sm !font-light"
+                          onClick={handleAddPriceBook}
+                        >
+                          {" "}
+                          + Add More{" "}
+                        </Button>
+                      ) : (
                         <div
-                          className="col-span-1"
                           onClick={() => {
-                            handleDeleteDealers(index);
+                            handleDeletePriceBook(index);
                           }}
                         >
-                          <div className="flex mx-3 h-full bg-[#EBEBEB] justify-center">
+                          <div className="flex h-full mx-3 bg-[#fff] justify-center">
                             <img
                               src={DeleteImage}
                               className="self-center cursor-pointer"
@@ -1062,304 +1131,244 @@ function Dealer() {
                             />
                           </div>
                         </div>
+                      )}
+                    </div>
+                    <div className="bg-[#f9f9f9] p-4 relative mt-9 rounded-xl">
+                      <Grid className="">
+                        <div className="col-span-4">
+                          <Select
+                            name={`priceBook[${index}].categoryId`}
+                            label="Product Category"
+                            options={category}
+                            required={true}
+                            className="!bg-[#f9f9f9]"
+                            placeholder=""
+                            maxLength={"30"}
+                            value={formik.values.priceBook[index].categoryId}
+                            onBlur={formik.handleBlur}
+                            onChange={handleSelectChange}
+                            index={index}
+                            error={
+                              formik.touched.priceBook &&
+                              formik.touched.priceBook[index] &&
+                              formik.errors.priceBook &&
+                              formik.errors.priceBook[index] &&
+                              formik.errors.priceBook[index].categoryId
+                            }
+                          />
+                          {formik.touched.priceBook &&
+                            formik.touched.priceBook[index] &&
+                            formik.errors.priceBook &&
+                            formik.errors.priceBook[index] &&
+                            formik.errors.priceBook[index].categoryId && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formik.errors.priceBook[index].categoryId}
+                              </div>
+                            )}
+                        </div>
+
+                        <div className="col-span-4">
+                          <Select
+                            name={`priceBook[${index}].priceBookId`}
+                            label="Product Name"
+                            options={productNameOptions[index]?.data}
+                            required={true}
+                            className="!bg-[#f9f9f9]"
+                            placeholder=""
+                            value={formik.values?.priceBook[index].priceBookId}
+                            onBlur={formik.handleBlur}
+                            onChange={handleSelectChange}
+                            index={index}
+                            error={
+                              formik.touched.priceBook &&
+                              formik.touched.priceBook[index] &&
+                              formik.errors.priceBook &&
+                              formik.errors.priceBook[index] &&
+                              formik.errors.priceBook[index].priceBookId
+                            }
+                          />
+                          {formik.touched.priceBook &&
+                            formik.touched.priceBook[index] &&
+                            formik.errors.priceBook &&
+                            formik.errors.priceBook[index] &&
+                            formik.errors.priceBook[index].priceBookId && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formik.errors.priceBook[index].priceBookId}
+                              </div>
+                            )}
+                        </div>
+
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            name={`priceBook[${index}].wholesalePrice`}
+                            className="!bg-[#f9f9f9]"
+                            label="Wholesale Price($)"
+                            required={true}
+                            placeholder=""
+                            value={
+                              formik.values.priceBook[index].wholesalePrice
+                            }
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+
+                        <div className="col-span-12">
+                          <Input
+                            type="text"
+                            name={`priceBook[${index}].description`}
+                            className="!bg-[#f9f9f9]"
+                            label="Description"
+                            required={true}
+                            placeholder=""
+                            value={formik.values.priceBook[index].description}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+
+                        <div className="col-span-4">
+                          <Select
+                            label="Terms"
+                            name={`priceBook[${index}].terms`}
+                            required={true}
+                            placeholder=""
+                            onChange={handleSelectChange}
+                            className="!bg-[#f9f9f9]"
+                            options={termList}
+                            disabled={true}
+                            value={formik.values.priceBook[index].terms}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.term && formik.errors.term}
+                          />
+                          {formik.touched.term && formik.errors.term && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.term}
+                            </div>
+                          )}
+                        </div>
+                        <div className="col-span-4">
+                          <Input
+                            type="number"
+                            name={`priceBook[${index}].retailPrice`}
+                            className="!bg-[#f9f9f9]"
+                            label="Retail Price($)"
+                            maxLength={"10"}
+                            maxDecimalPlaces={2}
+                            required={true}
+                            placeholder=""
+                            value={formik.values.priceBook[index].retailPrice}
+                            onChange={formik.handleChange}
+                            onBlur={(e) => {
+                              const formattedValue = parseFloat(
+                                e.target.value
+                              ).toFixed(2);
+                              formik.handleBlur(e);
+                              formik.setFieldValue(
+                                `priceBook[${index}].retailPrice`,
+                                formattedValue
+                              );
+                            }}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                            error={
+                              formik.touched.priceBook &&
+                              formik.touched.priceBook[index] &&
+                              formik.errors.priceBook &&
+                              formik.errors.priceBook[index] &&
+                              formik.errors.priceBook[index].retailPrice
+                            }
+                          />
+                          {formik.touched.priceBook &&
+                            formik.touched.priceBook[index] &&
+                            formik.errors.priceBook &&
+                            formik.errors.priceBook[index] &&
+                            formik.errors.priceBook[index].retailPrice && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formik.errors.priceBook[index].retailPrice}
+                              </div>
+                            )}
+                        </div>
+                        <div className="col-span-4">
+                          <Select
+                            name={`priceBook[${index}].status`}
+                            label="Status"
+                            options={status}
+                            required={true}
+                            className="!bg-[#f9f9f9]"
+                            value={formik.values.priceBook[index].status}
+                            onBlur={formik.handleBlur}
+                            onChange={handleSelectChange}
+                            error={
+                              formik.touched.priceBook &&
+                              formik.touched.priceBook[index] &&
+                              formik.errors.priceBook &&
+                              formik.errors.priceBook[index] &&
+                              formik.errors.priceBook[index].status
+                            }
+                          />
+                          {formik.touched.priceBook &&
+                            formik.touched.priceBook[index] &&
+                            formik.errors.priceBook &&
+                            formik.errors.priceBook[index] &&
+                            formik.errors.priceBook[index].status && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formik.errors.priceBook[index].status}
+                              </div>
+                            )}
+                        </div>
                       </Grid>
                     </div>
                   </div>
                 ))}
-
-                <div className="bg-[#fff] p-8 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
-                  <Grid>
-                    <div className="col-span-2">
-                      <p className="text-light-black text-lg mb-3 font-semibold">
-                        {selectedOption === "yes"
-                          ? "Add  Price Book"
-                          : "Upload Price Book"}{" "}
-                      </p>
-                    </div>
-                    <div className="col-span-6 self-center">
-                      <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
-                    </div>
-                    <div className="col-span-4 flex justify-end">
-                      <RadioButton
-                        id="yes"
-                        label="Add Single Price Book"
-                        value="yes"
-                        checked={selectedOption === "yes"}
-                        onChange={handleRadioChangeforBulk}
-                      />
-                      <RadioButton
-                        id="no"
-                        label="Upload In Bulk"
-                        value="no"
-                        checked={selectedOption === "no"}
-                        onChange={handleRadioChangeforBulk}
-                      />
-                    </div>
-                  </Grid>
-
-                  {selectedOption === "yes" ? (
-                    <>
-                      {formik.values.priceBook.map((dealer, index) => (
-                        <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
-                          <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
-                            {index == 0 ? (
-                              <Button
-                                className="text-sm !font-light"
-                                onClick={handleAddPriceBook}
-                              >
-                                {" "}
-                                + Add More{" "}
-                              </Button>
-                            ) : (
-                              <div
-                                onClick={() => {
-                                  handleDeletePriceBook(index);
-                                }}
-                              >
-                                <div className="flex h-full mx-3 bg-[#fff] justify-center">
-                                  <img
-                                    src={DeleteImage}
-                                    className="self-center cursor-pointer"
-                                    alt="Delete Icon"
-                                  />
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                          <div className="bg-[#f9f9f9] p-4 relative mt-9 rounded-xl">
-                            <Grid className="">
-                              <div className="col-span-4">
-                                <Select
-                                  name={`priceBook[${index}].categoryId`}
-                                  label="Product Category"
-                                  options={category}
-                                  required={true}
-                                  className="!bg-[#f9f9f9]"
-                                  placeholder=""
-                                  maxLength={"30"}
-                                  value={formik.values.priceBook[index].categoryId}
-                                  onBlur={formik.handleBlur}
-                                  onChange={handleSelectChange}
-                                  index={index}
-                                  error={
-                                    formik.touched.priceBook &&
-                                    formik.touched.priceBook[index] &&
-                                    formik.errors.priceBook &&
-                                    formik.errors.priceBook[index] &&
-                                    formik.errors.priceBook[index].categoryId
-                                  }
-                                />
-                                {formik.touched.priceBook &&
-                                  formik.touched.priceBook[index] &&
-                                  formik.errors.priceBook &&
-                                  formik.errors.priceBook[index] &&
-                                  formik.errors.priceBook[index].categoryId && (
-                                    <div className="text-red-500 text-sm pl-2 pt-2">
-                                      {formik.errors.priceBook[index].categoryId}
-                                    </div>
-                                  )}
-                              </div>
-
-                              <div className="col-span-4">
-                                <Select
-                                  name={`priceBook[${index}].priceBookId`}
-                                  label="Product Name"
-                                  options={productNameOptions[index]?.data}
-                                  required={true}
-                                  className="!bg-[#f9f9f9]"
-                                  placeholder=""
-                                  value={formik.values?.priceBook[index].priceBookId}
-                                  onBlur={formik.handleBlur}
-                                  onChange={handleSelectChange}
-                                  index={index}
-                                  error={
-                                    formik.touched.priceBook &&
-                                    formik.touched.priceBook[index] &&
-                                    formik.errors.priceBook &&
-                                    formik.errors.priceBook[index] &&
-                                    formik.errors.priceBook[index].priceBookId
-                                  }
-                                />
-                                {formik.touched.priceBook &&
-                                  formik.touched.priceBook[index] &&
-                                  formik.errors.priceBook &&
-                                  formik.errors.priceBook[index] &&
-                                  formik.errors.priceBook[index].priceBookId && (
-                                    <div className="text-red-500 text-sm pl-2 pt-2">
-                                      {formik.errors.priceBook[index].priceBookId}
-                                    </div>
-                                  )}
-                              </div>
-
-                              <div className="col-span-4">
-                                <Input
-                                  type="text"
-                                  name={`priceBook[${index}].wholesalePrice`}
-                                  className="!bg-[#f9f9f9]"
-                                  label="Wholesale Price($)"
-                                  required={true}
-                                  placeholder=""
-                                  value={formik.values.priceBook[index].wholesalePrice}
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  disabled={true}
-                                  onWheelCapture={(e) => {
-                                    e.preventDefault();
-                                  }}
-                                />
-                              </div>
-
-                              <div className="col-span-12">
-                                <Input
-                                  type="text"
-                                  name={`priceBook[${index}].description`}
-                                  className="!bg-[#f9f9f9]"
-                                  label="Description"
-                                  required={true}
-                                  placeholder=""
-                                  value={formik.values.priceBook[index].description}
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  disabled={true}
-                                  onWheelCapture={(e) => {
-                                    e.preventDefault();
-                                  }}
-                                />
-                              </div>
-
-                              <div className="col-span-4">
-                                <Select
-                                  label="Terms"
-                                  name={`priceBook[${index}].terms`}
-                                  required={true}
-                                  placeholder=""
-                                  onChange={handleSelectChange}
-                                  className="!bg-[#f9f9f9]"
-                                  options={termList}
-                                  disabled={true}
-                                  value={formik.values.priceBook[index].terms}
-                                  onBlur={formik.handleBlur}
-                                  error={formik.touched.term && formik.errors.term}
-                                />
-                                {formik.touched.term && formik.errors.term && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {formik.errors.term}
-                                  </div>
-                                )}
-                              </div>
-                              <div className="col-span-4">
-                                <Input
-                                  type="number"
-                                  name={`priceBook[${index}].retailPrice`}
-                                  className="!bg-[#f9f9f9]"
-                                  label="Retail Price($)"
-                                  maxLength={"10"}
-                                  maxDecimalPlaces={2}
-                                  required={true}
-                                  placeholder=""
-                                  value={formik.values.priceBook[index].retailPrice}
-                                  onChange={formik.handleChange}
-                                  onBlur={(e) => {
-                                    const formattedValue = parseFloat(
-                                      e.target.value
-                                    ).toFixed(2);
-                                    formik.handleBlur(e);
-                                    formik.setFieldValue(
-                                      `priceBook[${index}].retailPrice`,
-                                      formattedValue
-                                    );
-                                  }}
-                                  onWheelCapture={(e) => {
-                                    e.preventDefault();
-                                  }}
-                                  error={
-                                    formik.touched.priceBook &&
-                                    formik.touched.priceBook[index] &&
-                                    formik.errors.priceBook &&
-                                    formik.errors.priceBook[index] &&
-                                    formik.errors.priceBook[index].retailPrice
-                                  }
-                                />
-                                {formik.touched.priceBook &&
-                                  formik.touched.priceBook[index] &&
-                                  formik.errors.priceBook &&
-                                  formik.errors.priceBook[index] &&
-                                  formik.errors.priceBook[index].retailPrice && (
-                                    <div className="text-red-500 text-sm pl-2 pt-2">
-                                      {formik.errors.priceBook[index].retailPrice}
-                                    </div>
-                                  )}
-                              </div>
-                              <div className="col-span-4">
-                                <Select
-                                  name={`priceBook[${index}].status`}
-                                  label="Status"
-                                  options={status}
-                                  required={true}
-                                  className="!bg-[#f9f9f9]"
-                                  value={formik.values.priceBook[index].status}
-                                  onBlur={formik.handleBlur}
-                                  onChange={handleSelectChange}
-                                  error={
-                                    formik.touched.priceBook &&
-                                    formik.touched.priceBook[index] &&
-                                    formik.errors.priceBook &&
-                                    formik.errors.priceBook[index] &&
-                                    formik.errors.priceBook[index].status
-                                  }
-                                />
-                                {formik.touched.priceBook &&
-                                  formik.touched.priceBook[index] &&
-                                  formik.errors.priceBook &&
-                                  formik.errors.priceBook[index] &&
-                                  formik.errors.priceBook[index].status && (
-                                    <div className="text-red-500 text-sm pl-2 pt-2">
-                                      {formik.errors.priceBook[index].status}
-                                    </div>
-                                  )}
-                              </div>
-                            </Grid>
-                          </div>
-                        </div>
-                      ))}
-                    </>
-                  ) : (
-                    <div className="bg-[#f9f9f9] p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
-                      <p className="text-[#717275] text-lg mb-5 font-semibold">
-                        Upload In Bulk
-                      </p>
-                      <FileDropdown
-                        className="!bg-transparent"
-                        accept={
-                          ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                        }
-                        onFileSelect={(file) => formik.setFieldValue("file", file)}
-                      />
-                      {formik.touched.file && formik.errors.file && (
-                        <p className="text-red-500 text-[10px] mt-1 font-medium">
-                          {formik.errors.file}
-                        </p>
-                      )}
-                      <p className="text-[11px] mt-1 text-[#5D6E66] font-medium">
-                        Please click on file option and make a copy. Upload the list of
-                        Product Name and Price using our provided Google Sheets
-                        template, by{" "}
-                        <span
-                          className="underline cursor-pointer"
-                          onClick={downloadCSVTemplate}
-                        >
-                          Clicking here{" "}
-                        </span>
-                        . The file must be saved with csv , xls and xlsx Format.
-                      </p>
-                    </div>
-                  )}
-                </div>
-                <Button type="submit" className="mt-4">
-                  Submit
-                </Button>
-              </form>
+              </>
+            ) : (
+              <div className="bg-[#f9f9f9] p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
+                <p className="text-[#717275] text-lg mb-5 font-semibold">
+                  Upload In Bulk
+                </p>
+                <FileDropdown
+                  className="!bg-transparent"
+                  accept={
+                    ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                  }
+                  onFileSelect={(file) => formik.setFieldValue("file", file)}
+                />
+                {formik.touched.file && formik.errors.file && (
+                  <p className="text-red-500 text-[10px] mt-1 font-medium">
+                    {formik.errors.file}
+                  </p>
+                )}
+                <p className="text-[11px] mt-1 text-[#5D6E66] font-medium">
+                  Please click on file option and make a copy. Upload the list
+                  of Product Name and Price using our provided Google Sheets
+                  template, by{" "}
+                  <span
+                    className="underline cursor-pointer"
+                    onClick={downloadCSVTemplate}
+                  >
+                    Clicking here{" "}
+                  </span>
+                  . The file must be saved with csv , xls and xlsx Format.
+                </p>
+              </div>
             )}
+          </div>
+          <Button type="submit" className="mt-4">
+            Submit
+          </Button>
+        </form>
+      )}
 
       {/* Modal Email Popop */}
 
