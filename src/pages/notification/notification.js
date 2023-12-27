@@ -18,16 +18,15 @@ function Notification() {
   useEffect(() => {
     setLoading(true);
     getNotificationsData();
-    const timeoutId = setTimeout(() => {
-      updateNotification();
-    }, 3000);
-
-    return () => clearTimeout(timeoutId);
   }, []);
-  const updateNotification = async () => {
-    updateNotifications().then((res) => {
-      console.log(res);
-      // getNotificationsData();
+  const updateNotification = async (type) => {
+    console.log(type);
+    updateNotifications(type).then((res) => {
+      if (res) {
+        type === "dealer"
+          ? navigate("/newDealerList")
+          : navigate("/requestList");
+      }
     });
   };
 
@@ -84,7 +83,9 @@ function Notification() {
                 <div
                   key={key}
                   className="border border-[#D9D9D9] rounded-[25px] my-3 px-6 py-8 mr-4"
-                  onClick={() => navigate("/newDealerList")}
+                  onClick={() =>
+                    updateNotification(data?.notificationData?.flag)
+                  }
                   style={{ cursor: "pointer" }}
                 >
                   <p
