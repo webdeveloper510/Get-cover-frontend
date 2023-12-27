@@ -71,17 +71,17 @@ function AddOrder() {
                 <p className='border border-black rounded-full mx-auto w-[26px]'>1</p>
                 <p className='text-sm font-bold'>Order Details</p>
             </div>
-            <hr/>
+            <hr className='w-[150px] border-black mt-3'/>
             <div className='text-center'>
                 <p className='border border-black rounded-full mx-auto w-[26px]'>2</p>
                 <p className='text-sm font-bold'>Dealer Order Details</p>
             </div>
-            <hr/>
+            <hr className='w-[150px] border-black mt-3'/>
             <div className='text-center'>
                 <p className='border border-black rounded-full mx-auto w-[26px]'>3</p>
                 <p className='text-sm font-bold'>Add Product</p>
             </div>
-            <hr/>
+            <hr className='w-[150px] border-black mt-3'/>
             <div className='text-center'>
                 <p className='border border-black rounded-full mx-auto w-[26px]'>4</p>
                 <p className='text-sm font-bold'>Order Details</p>
