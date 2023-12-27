@@ -39,6 +39,7 @@ function Dealer() {
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [error, setError] = useState("start");
   const [timer, setTimer] = useState(5);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
@@ -80,10 +81,6 @@ function Dealer() {
     { label: "Inactive", value: false },
   ];
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   const handleAddPriceBook = () => {
     const priceBook = {
       priceBookId: "",
@@ -102,6 +99,9 @@ function Dealer() {
     const updatedPriceBook = [...formik.values.priceBook];
     updatedPriceBook.splice(index, 1);
     formik.setFieldValue("priceBook", updatedPriceBook);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
   useEffect(() => {
     let intervalId;
@@ -452,6 +452,7 @@ function Dealer() {
       console.log(result);
 
       if (result.message === "Successfully Created") {
+        setError("done");
         setIsModalOpen(true);
         setMessage("New Dealer Created Successfully");
         // navigate("/dealerList");
@@ -1013,7 +1014,6 @@ function Dealer() {
                           name={`dealers[${index}].position`}
                           className="!bg-white"
                           label="Position"
-                          required={true}
                           placeholder=""
                           value={formik.values.dealers[index].position}
                           onBlur={formik.handleBlur}
