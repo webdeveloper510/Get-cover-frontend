@@ -74,7 +74,7 @@ function SidebarItem({
       );
     }
   }, [active, expandedItem, item, setExpandedItem]);
-  console.log('=================>>>>>>>>>>>',expandedItem)
+  console.log("=================>>>>>>>>>>>", expandedItem);
 
   return (
     <li
@@ -260,7 +260,7 @@ function SideBar() {
         },
         {
           name: "Add Dealer",
-          url: "/dealer/null",
+          url: "/dealer",
           image: Dropdown2,
           active: SeacondActive,
         },
