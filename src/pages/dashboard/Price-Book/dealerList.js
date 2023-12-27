@@ -59,7 +59,7 @@ function DealerPriceList() {
   ];
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = 10 - index <= 2;
+    const isCloseToBottom = dealerPriceBook.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 

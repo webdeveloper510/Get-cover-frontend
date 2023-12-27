@@ -17,11 +17,13 @@ import {
   getCategoryById,
 } from "../../../services/priceBookService";
 import Select from "../../../common/select";
+import Loader from "../../../assets/images/Loader.gif";
 
 function AddCategory() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("");
   const [type, setType] = useState("");
+  const [loader , setLoader]=useState(false);
   const [timer, setTimer] = useState(5);
   const [categoryDetails, setCategoryDetails] = useState({});
   const navigate = useNavigate();
@@ -69,6 +71,7 @@ function AddCategory() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
+      setLoader(true);
       const result = id
         ? await editCategoryList(id, values)
         : await addCategory(values);
@@ -76,6 +79,7 @@ function AddCategory() {
       if (result.code !== 200) {
         setError(result.message);
       } else {
+        setLoader(false)
         setError(false);
         setIsModalOpen(true);
         setTimer(3);
@@ -105,9 +109,11 @@ function AddCategory() {
   // ];
 
   const getCategoryDetailsById = async (id) => {
+    setLoader(true)
     const result = await getCategoryById(id);
     setCategoryDetails(result.result);
     console.log(categoryDetails);
+    setLoader(false)
   };
   return (
     <div className="my-8 ml-3">
@@ -154,7 +160,11 @@ function AddCategory() {
         </p>
       )}
       {/* Form Start */}
-
+      {loader==true ? (
+      <div className="h-screen bg-[#f1f2f3] flex py-5">
+      <img src={Loader} className="mx-auto bg-transparent self-center" alt="Loader" />
+      </div>
+     ) : (
       <form className="mt-8" onSubmit={formik.handleSubmit}>
         <div className="px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
           <Grid>
@@ -229,6 +239,7 @@ function AddCategory() {
           </Button>
         </div>
       </form>
+     )}
 
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>

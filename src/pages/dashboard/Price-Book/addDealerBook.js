@@ -4,6 +4,7 @@ import Headbar from "../../../common/headBar";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
+import Loader from "../../../assets/images/Loader.gif";
 
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
@@ -33,11 +34,13 @@ function AddDealerBook() {
   const [error, setError] = useState("");
   const [timer, setTimer] = useState(3);
   const [type, setType] = useState("");
+  const [loader ,setLoader]=useState(false)
   const [priceBookById, setPriceBookById] = useState({});
   const navigate = useNavigate();
   const { id } = useParams();
 
   const dealerDetailById = async (id) => {
+    setLoader(true)
     const result = await getDealerPricebookDetailById(id);
     formik.setFieldValue("status", result.result[0].status);
     const data = result.result[0];
@@ -58,6 +61,7 @@ function AddDealerBook() {
       result?.result[0]?.priceBooks?.category[0]?._id
     );
     formik.setFieldValue("dealerId", result?.result[0]?.dealerId);
+    setLoader(false)
   };
 
   const dealerList = async () => {
@@ -165,6 +169,7 @@ function AddDealerBook() {
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
+     setLoader(true)
       console.log(values);
       values.brokerFee = (values.retailPrice - values.wholesalePrice).toFixed(
         2
@@ -180,6 +185,7 @@ function AddDealerBook() {
       if (result.code !== 200) {
         setError(result.message);
       } else {
+        setLoader(false)
         setError(false);
         setIsModalOpen(true);
         setTimer(3);
@@ -194,7 +200,13 @@ function AddDealerBook() {
   return (
     <div className="my-8 ml-3">
       <Headbar />
-      <div className="flex">
+     {loader==true ? (
+      <div className="h-screen bg-[#f1f2f3] flex py-5">
+      <img src={Loader} className="mx-auto bg-transparent self-center" alt="Loader" />
+      </div>
+     ) : (
+      <>
+        <div className="flex">
         <Link
           to={"/dealerPriceList"}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[20px]"
@@ -300,6 +312,23 @@ function AddDealerBook() {
                 </div>
               </div>
             </div>
+            <div className="col-span-2"></div>
+            <div className="col-span-8">
+              <div className="flex">
+                <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                  <img src={product} className="w-6 h-6" alt="product" />
+                </div>
+                <div className="self-center">
+                  <p className="text-[#FFF] text-lg font-medium leading-5	">
+                  Description
+                  </p>
+                  <p className="text-[#FFFFFF] opacity-50	font-medium">
+                    {priceBookById?.priceBooks?.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-2"></div>
           </Grid>
         </div>
       )}
@@ -492,6 +521,9 @@ function AddDealerBook() {
         </div>
       </form>
 
+      </>
+     )}
+    
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-1">
@@ -501,6 +533,9 @@ function AddDealerBook() {
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             <b> New Dealer Book </b> added successfully.{" "}
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting you on Dealer Page {timer} seconds.
           </p>
         </div>
       </Modal>
