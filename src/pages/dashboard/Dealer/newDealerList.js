@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
@@ -33,7 +33,6 @@ function NewDealerList() {
   const [pendingDealerList, setPendingDealerList] = useState([]);
   const [timer, setTimer] = useState(3);
   const navigate = useNavigate();
-  const dropdownRef = useRef(null);
 
   const toggleDropdown = (index) => {
     setSelectedAction(index);
@@ -154,21 +153,10 @@ function NewDealerList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [status, setStatus] = useState("");
 
-  const handleClickOutside = (event) => {
-    console.log("here");
-    setIsDropdownOpen(false);
-  };
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
   const closeModal = () => {
     setIsModalOpen(false);
   };
   const openConfirmModal = async (id, action) => {
-    setIsDropdownOpen(false);
     setIsModalOpen(true);
     setApprovalDetails({ id, action });
     setStatus(action);
