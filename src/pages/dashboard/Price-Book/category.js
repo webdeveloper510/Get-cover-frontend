@@ -5,7 +5,6 @@ import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
-import Loader from "../../../assets/images/Loader.gif";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
