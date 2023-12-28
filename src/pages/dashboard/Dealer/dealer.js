@@ -1119,7 +1119,7 @@ function Dealer() {
               <>
                 {formik.values.priceBook.map((dealer, index) => (
                   <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
-                    <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-4">
+                    <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
                       {index == 0 ? (
                         <Button
                           className="text-sm !font-light"
@@ -1144,7 +1144,7 @@ function Dealer() {
                         </div>
                       )}
                     </div>
-                    <div className="bg-[#f9f9f9] p-4 relative mt-9 rounded-xl">
+                    <div className=" p-4 pl-0 relative rounded-xl">
                       <Grid className="">
                         <div className="col-span-4">
                           <Select
@@ -1209,7 +1209,7 @@ function Dealer() {
                             )}
                         </div>
 
-                        <div className="col-span-4">
+                        <div className="col-span-3">
                           <Input
                             type="text"
                             name={`priceBook[${index}].wholesalePrice`}
