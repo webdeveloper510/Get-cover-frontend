@@ -185,6 +185,7 @@ function AddDealerBook() {
 
       console.log(result);
       if (result.code !== 200) {
+        setLoader(false);
         setError(result.message);
       } else {
         setLoader(false);

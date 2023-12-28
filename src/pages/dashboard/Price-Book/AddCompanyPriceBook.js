@@ -93,6 +93,7 @@ function AddCompanyPriceBook() {
         console.log(result);
 
         if (result.code !== 200) {
+          setLoader(false);
           setError(result.message);
         } else {
           setLoader(false);
@@ -279,10 +280,10 @@ function AddCompanyPriceBook() {
       </div>
       {loader == false ? (
         <div className=" h-screen w-full flex py-5">
-        <div className="self-center mx-auto">
-          <RotateLoader color="#333" />
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
         </div>
-         </div>
       ) : (
         <>
           {error && (

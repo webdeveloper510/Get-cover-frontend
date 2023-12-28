@@ -156,7 +156,6 @@ function Dealer() {
     getProductList("");
 
     if (id != undefined) {
-     
       getDealersDetailsByid(id).then((res) => {
         if (res?.result) {
           setInitialFormValues({
@@ -193,7 +192,7 @@ function Dealer() {
         }
       });
     }
-    
+
     setLoading(false);
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer, id]);
@@ -400,6 +399,7 @@ function Dealer() {
         : false;
 
       if (!isEmailAvailable) {
+        setLoading(false);
         return;
       }
       if (formik.values.dealers.length > 0) {
@@ -416,6 +416,7 @@ function Dealer() {
 
         console.log(emailValues);
         if (emailValues.some((value) => value === false)) {
+          setLoading(false);
           return;
         }
       }
@@ -463,10 +464,12 @@ function Dealer() {
         setMessage("New Dealer Created Successfully");
         // navigate("/dealerList");
       } else if (result.message == "Dealer name already exists") {
+        setLoading(false);
         formik.setFieldError("name", "Name Already Used");
         setMessage("Some Errors Please Check Form Validations ");
         setIsModalOpen(true);
       } else {
+        setLoading(false);
         setIsModalOpen(true);
         setMessage(result.message);
       }
@@ -568,14 +571,13 @@ function Dealer() {
 
       {/* Form Start */}
       {loading ? (
-         <div className=" fixed top-0 h-screen bg-[#cfcfcf8f] left-0 w-full flex py-5">
-         <div className="self-center mx-auto">
-           <RotateLoader color="#333" />
-         </div>
-      </div>
+        <div className=" fixed top-0 h-screen bg-[#cfcfcf8f] left-0 w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div>
       ) : (
         <form className="mt-8" onSubmit={formik.handleSubmit}>
-          
           <div className="bg-white p-8 drop-shadow-4xl rounded-xl">
             <Grid>
               <div className="col-span-4 border-e-[1px] border-[#D1D1D1] pr-3">

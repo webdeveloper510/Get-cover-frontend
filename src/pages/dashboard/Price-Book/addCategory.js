@@ -83,6 +83,7 @@ function AddCategory() {
         : await addCategory(values);
       console.log(result);
       if (result.code !== 200) {
+        setLoader(false);
         setError(result.message);
       } else {
         setLoader(false);
@@ -166,11 +167,11 @@ function AddCategory() {
       )}
       {/* Form Start */}
       {loader == true ? (
-         <div className=" h-screen w-full flex py-5">
+        <div className=" h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#333" />
           </div>
-         </div>
+        </div>
       ) : (
         <form className="mt-8" onSubmit={formik.handleSubmit}>
           <div className="px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
