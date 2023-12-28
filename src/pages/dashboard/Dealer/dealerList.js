@@ -21,11 +21,9 @@ function DealerList() {
   const [dealerList, setDealerList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-
-
   const paginationOptions = {
-    rowsPerPageText: 'Rows per page:',
-    rangeSeparatorText: 'of',
+    rowsPerPageText: "Rows per page:",
+    rangeSeparatorText: "of",
   };
 
   const getDealerList = async () => {
@@ -52,8 +50,8 @@ function DealerList() {
       name: "ID",
       selector: (row) => row?.dealerData.unique_key,
       sortable: true,
-      minWidth: 'auto', 
-      maxWidth: '70px',
+      minWidth: "auto",
+      maxWidth: "70px",
     },
     {
       name: "Name",
@@ -64,7 +62,7 @@ function DealerList() {
       name: "Email",
       selector: (row) => row?.email,
       sortable: true,
-      minWidth: '220px'
+      minWidth: "220px",
     },
     {
       name: "Phone No",
@@ -78,10 +76,10 @@ function DealerList() {
     },
     {
       name: "Order Values",
-      selector: (row) => '$0.00',
+      selector: (row) => "$0.00",
       sortable: true,
-      minWidth: 'auto',  // Set a custom minimum width
-      maxWidth: '170px',  // Set a custom maximum width
+      minWidth: "auto", // Set a custom minimum width
+      maxWidth: "170px", // Set a custom maximum width
     },
     {
       name: "Status",
@@ -97,7 +95,8 @@ function DealerList() {
           <select
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"> 
+            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+          >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
           </select>
@@ -106,14 +105,14 @@ function DealerList() {
     },
     {
       name: "Action",
-      minWidth: 'auto', 
-      maxWidth: '90px',
+      minWidth: "auto",
+      maxWidth: "90px",
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div onClick={() => setSelectedAction(row.dealerData.unique_key)}>
-             <img
+              <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
                 alt="Active Icon"
@@ -132,7 +131,9 @@ function DealerList() {
                   } `}
                   alt="up arror"
                 /> */}
-                <Link to={'/dealerDetails'} className="text-center p-3">View</Link>
+                <Link to={"/dealerDetails"} className="text-center p-3">
+                  View
+                </Link>
               </div>
             )}
           </div>
@@ -148,9 +149,7 @@ function DealerList() {
 
         <div className="flex mt-2">
           <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">
-              Dealer
-            </p>
+            <p className="font-bold text-[36px] leading-9	mb-[3px]">Dealer</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
                 <Link to={"/"}>Dealer </Link> /{" "}
@@ -168,72 +167,31 @@ function DealerList() {
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Dealers List</p>
             </div>
-            <div className="col-span-7">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Name"
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Email"
-                      type="email"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Email"
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="PhoneNo."
-                      type="number"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Phone No."
-                    />
-                  </div>
-                  <div className="col-span-2 self-center flex justify-center">
-                    <Button className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer	mx-auto"
-                        alt="Search"
-                      />
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="!bg-transparent !ml-2 !p-0"
-                    >
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
-                      />
-                    </Button>
-                  </div>
-                </Grid>
-              </div>
-            </div>
+        */}
           </Grid>
           <div className="mb-5 relative">
             {loading ? (
               <div className=" h-[400px] w-full flex py-5">
-              <div className="self-center mx-auto">
-              <RotateLoader color="#333" />
-               </div>
-             </div>
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
             ) : (
-
-            <DataTable columns={columns} data={dealerList} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
+              <DataTable
+                columns={columns}
+                data={dealerList}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                  </>
+                }
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              />
             )}
           </div>
         </div>
