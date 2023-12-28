@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
@@ -33,6 +33,7 @@ function NewDealerList() {
   const [pendingDealerList, setPendingDealerList] = useState([]);
   const [timer, setTimer] = useState(3);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
   const toggleDropdown = (index) => {
     setSelectedAction(index);
@@ -82,8 +83,8 @@ function NewDealerList() {
       name: "ID",
       selector: (row) => row.dealerData.unique_key,
       sortable: true,
-      minWidth: 'auto', 
-      maxWidth: '90px',
+      minWidth: "auto",
+      maxWidth: "90px",
     },
     {
       name: "Account Name",
@@ -92,20 +93,20 @@ function NewDealerList() {
     },
     {
       name: "Name",
-      selector: (row) => row.firstName + ' ' + row.lastName,
+      selector: (row) => row.firstName + " " + row.lastName,
       sortable: true,
     },
     {
       name: "Address",
       selector: (row) => row.dealerData.street + "," + row.dealerData.city,
       sortable: true,
-      minWidth: '220px', 
+      minWidth: "220px",
     },
     {
       name: "Email",
       selector: (row) => row.email,
       sortable: true,
-      minWidth: '220px', 
+      minWidth: "220px",
     },
     {
       name: "Phone No.",
@@ -114,8 +115,8 @@ function NewDealerList() {
     },
     {
       name: "Action",
-      minWidth: 'auto', 
-      maxWidth: '90px',
+      minWidth: "auto",
+      maxWidth: "90px",
       cell: (row, index) => (
         <div className="relative">
           <div onClick={() => toggleDropdown(index)}>
@@ -153,10 +154,21 @@ function NewDealerList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [status, setStatus] = useState("");
 
+  const handleClickOutside = (event) => {
+    console.log("here");
+    setIsDropdownOpen(false);
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   const closeModal = () => {
     setIsModalOpen(false);
   };
   const openConfirmModal = async (id, action) => {
+    setIsDropdownOpen(false);
     setIsModalOpen(true);
     setApprovalDetails({ id, action });
     setStatus(action);
@@ -207,9 +219,7 @@ function NewDealerList() {
         <Headbar />
         <div className="flex mt-2">
           <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9 mb-[3px]">
-              Dealer
-            </p>
+            <p className="font-bold text-[36px] leading-9 mb-[3px]">Dealer</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
                 <Link to={"/dashboard"}>Dealer </Link> /{" "}
@@ -317,7 +327,10 @@ function NewDealerList() {
           <div className="text-center py-3">
             <img src={request} alt="email Image" className="mx-auto" />
             <p className="text-3xl mb-0 mt-4 font-semibold text-light-black">
-              {status == "Approved" ? 'Are you sure you want to continue' : " Do you really want to Disapprove"} ?
+              {status == "Approved"
+                ? "Are you sure you want to continue"
+                : " Do you really want to Disapprove"}{" "}
+              ?
             </p>
 
             <Grid className="my-5">
