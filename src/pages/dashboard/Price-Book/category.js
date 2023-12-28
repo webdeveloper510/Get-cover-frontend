@@ -43,10 +43,10 @@ function Category() {
     console.log(formik.values);
     getCategoryListData();
   };
-  
+
   const paginationOptions = {
-    rowsPerPageText: 'Rows per page:',
-    rangeSeparatorText: 'of',
+    rowsPerPageText: "Rows per page:",
+    rangeSeparatorText: "of",
   };
   const getCategoryListData = async (data) => {
     try {
@@ -94,21 +94,20 @@ function Category() {
     },
   });
 
-  
   const columns = [
     {
       name: "ID",
       selector: (row) => row.unique_key,
       sortable: true,
-      minWidth: 'auto', 
-      maxWidth: '90px',
+      minWidth: "auto",
+      maxWidth: "90px",
     },
     {
       name: "Name",
       selector: (row) => row.name,
       sortable: true,
       // cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
-      minWidth: '200px', 
+      minWidth: "200px",
     },
     {
       name: "Description",
@@ -143,8 +142,8 @@ function Category() {
     },
     {
       name: "Action",
-      minWidth: 'auto', 
-      maxWidth: '90px',
+      minWidth: "auto",
+      maxWidth: "90px",
       cell: (row, index) => {
         // console.log("===>>", index);
         return (
@@ -175,7 +174,6 @@ function Category() {
       },
     },
   ];
-  
 
   const handleStatusChange = async (row, newStatus) => {
     try {
@@ -198,13 +196,13 @@ function Category() {
 
       if (result.code === 200) {
         console.log("Status updated successfully");
-        getCategoryListData();
+        // getCategoryListData();
       } else {
-        getCategoryListData();
+        // getCategoryListData();
       }
     } catch (error) {
       console.error("Error updating category status:", error);
-      getCategoryListData();
+      // getCategoryListData();
     }
   };
 
@@ -214,9 +212,7 @@ function Category() {
         <Headbar />
         <div className="flex mt-2">
           <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">
-              Category
-            </p>
+            <p className="font-bold text-[36px] leading-9	mb-[3px]">Category</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
                 <Link to={"/"}>Price Book </Link> /{" "}
@@ -228,15 +224,16 @@ function Category() {
             </ul>
           </div>
         </div>
-        <Link to={"/addCategory"} className=" w-[180px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+        <Link
+          to={"/addCategory"}
+          className=" w-[180px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+        >
           {" "}
-          
-            {" "}
-            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-Regular">
-              Add Category{" "}
-            </span>{" "}
-          </Link>
+          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+          <span className="text-black ml-3 text-[14px] font-Regular">
+            Add Category{" "}
+          </span>{" "}
+        </Link>
 
         <div className="bg-white  border-[1px] border-[#D1D1D1] rounded-xl ">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">
@@ -303,11 +300,28 @@ function Category() {
           <div className="mb-5 relative">
             {loading ? (
               <div className="bg-[#f1f2f3] py-5">
-                <img src={Loader} className="mx-auto bg-transparent" alt="Loader" />
-                </div>
+                <img
+                  src={Loader}
+                  className="mx-auto bg-transparent"
+                  alt="Loader"
+                />
+              </div>
             ) : (
-              <DataTable columns={columns} data={categoryList} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
-              </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
+              <DataTable
+                columns={columns}
+                data={categoryList}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />
+                  </>
+                }
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              />
             )}
           </div>
         </div>

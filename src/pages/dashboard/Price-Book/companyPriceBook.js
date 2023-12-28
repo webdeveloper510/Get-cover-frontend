@@ -116,13 +116,13 @@ function CompanyPriceBook() {
 
       if (result.code === 200 || result.code === 401) {
         console.log("Status updated successfully");
-        getPriceBookListData();
+        // getPriceBookListData();
       } else {
-        getPriceBookListData();
+        // getPriceBookListData();
       }
     } catch (error) {
       console.error("Error updating category status:", error);
-      getPriceBookListData();
+      // getPriceBookListData();
     }
   };
 
@@ -142,15 +142,6 @@ function CompanyPriceBook() {
     const isCloseToBottom = companyPriceList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
-
-  const handleActionChange = (action, row) => {
-    console.log(`Selected action: ${action} for Category ID: ${row._id}`);
-  };
-  const country = [
-    { label: "Country1", value: "country" },
-    { label: "Option 2", value: "option21" },
-    { label: "Option 3", value: "option3" },
-  ];
 
   const status = [
     { label: "Active", value: "true" },

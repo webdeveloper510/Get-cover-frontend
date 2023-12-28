@@ -23,32 +23,37 @@ function AddCategory() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("");
   const [type, setType] = useState("");
-  const [loader , setLoader]=useState(false);
+  const [loader, setLoader] = useState(false);
   const [timer, setTimer] = useState(5);
   const [categoryDetails, setCategoryDetails] = useState({});
   const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
-    let intervalId;
-    console.log("navigate", id);
     if (id) {
       setType("Edit");
       getCategoryDetailsById(id);
     } else {
       setType("Add New");
     }
+  }, [id]);
+
+  useEffect(() => {
+    let intervalId;
     if (isModalOpen && timer > 0) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
     }
+
     if (timer === 0) {
       closeModal();
       navigate("/category");
     }
-    return () => clearInterval(intervalId);
-  }, [isModalOpen, timer, id]);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isModalOpen, timer]);
 
   const status = [
     { label: "Active", value: true },
@@ -79,7 +84,7 @@ function AddCategory() {
       if (result.code !== 200) {
         setError(result.message);
       } else {
-        setLoader(false)
+        setLoader(false);
         setError(false);
         setIsModalOpen(true);
         setTimer(3);
@@ -109,11 +114,10 @@ function AddCategory() {
   // ];
 
   const getCategoryDetailsById = async (id) => {
-    setLoader(true)
+    setLoader(true);
     const result = await getCategoryById(id);
     setCategoryDetails(result.result);
-    console.log(categoryDetails);
-    setLoader(false)
+    setLoader(false);
   };
   return (
     <div className="my-8 ml-3">
@@ -160,86 +164,90 @@ function AddCategory() {
         </p>
       )}
       {/* Form Start */}
-      {loader==true ? (
-      <div className="h-screen bg-[#f1f2f3] flex py-5">
-      <img src={Loader} className="mx-auto bg-transparent self-center" alt="Loader" />
-      </div>
-     ) : (
-      <form className="mt-8" onSubmit={formik.handleSubmit}>
-        <div className="px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
-          <Grid>
-            <div className="col-span-12">
-              <Input
-                type="text"
-                name="name"
-                label="Category Name"
-                placeholder=""
-                required={true}
-                className="!bg-[#fff]"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                maxLength={50}
-              />
-              {formik.touched.name && formik.errors.name && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.name}
-                </div>
-              )}
-            </div>
-            {Object.keys(categoryDetails).length > 0 && (
+      {loader == true ? (
+        <div className="h-screen bg-[#f1f2f3] flex py-5">
+          <img
+            src={Loader}
+            className="mx-auto bg-transparent self-center"
+            alt="Loader"
+          />
+        </div>
+      ) : (
+        <form className="mt-8" onSubmit={formik.handleSubmit}>
+          <div className="px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+            <Grid>
               <div className="col-span-12">
-                <Select
-                  label="Status*"
-                  name="status"
+                <Input
+                  type="text"
+                  name="name"
+                  label="Category Name"
                   placeholder=""
-                  onChange={handleSelectChange}
+                  required={true}
                   className="!bg-[#fff]"
-                  options={status}
-                  value={formik.values.status}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.status && formik.errors.status}
-                  defaultValue={defaultValue}
-                />
-                {formik.touched.status && formik.errors.status && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.status}
-                  </div>
-                )}
-              </div>
-            )}
-            <div className="col-span-12">
-              <div className="relative">
-                <label
-                  htmlFor="description"
-                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                >
-                  Description <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="description"
-                  rows="4"
-                  name="description"
-                  value={formik.values.description}
+                  value={formik.values.name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  maxLength={150}
-                  className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                ></textarea>
-                {formik.touched.description && formik.errors.description && (
+                  maxLength={50}
+                />
+                {formik.touched.name && formik.errors.name && (
                   <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.description}
+                    {formik.errors.name}
                   </div>
                 )}
               </div>
-            </div>
-          </Grid>
-          <Button type="submit" className="mt-12 font-normal rounded-[25px]">
-            Submit
-          </Button>
-        </div>
-      </form>
-     )}
+              {Object.keys(categoryDetails).length > 0 && (
+                <div className="col-span-12">
+                  <Select
+                    label="Status*"
+                    name="status"
+                    placeholder=""
+                    onChange={handleSelectChange}
+                    className="!bg-[#fff]"
+                    options={status}
+                    value={formik.values.status}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.status && formik.errors.status}
+                    defaultValue={defaultValue}
+                  />
+                  {formik.touched.status && formik.errors.status && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.status}
+                    </div>
+                  )}
+                </div>
+              )}
+              <div className="col-span-12">
+                <div className="relative">
+                  <label
+                    htmlFor="description"
+                    className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  >
+                    Description <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    id="description"
+                    rows="4"
+                    name="description"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    maxLength={150}
+                    className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                  ></textarea>
+                  {formik.touched.description && formik.errors.description && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.description}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </Grid>
+            <Button type="submit" className="mt-12 font-normal rounded-[25px]">
+              Submit
+            </Button>
+          </div>
+        </form>
+      )}
 
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
