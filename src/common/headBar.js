@@ -62,7 +62,7 @@ function Headbar({ className = "" }) {
                     className="cursor-pointer mt-[-2%] "
                     alt="NotificationImage"
                   />{" "}
-                  <p className="text-[11px] right-[-8px] font-semibold -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[0px] text-center border-2 border-[#333333]">{lengthofNotifications}</p>
+                  <p className="text-[11px] right-[-8px] font-semibold -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[0px] text-center border-2 border-[#333333]">{lengthofNotifications > 9 ? '9+' : lengthofNotifications}</p>
                 </Link>
               </div>
               {/* <div>
