@@ -125,7 +125,7 @@ function RequestServicer() {
               <img src={ActiveIcon} className='cursor-pointer w-[35px]' alt="Active Icon" />
             </div>
             {isDropdownOpen && selectedAction === index && (
-              <div className={`absolute z-[2] w-[150px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              <div  className={`absolute z-[2] w-[150px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}>
                 <div className='text-center py-3 border-b cursor-pointer border-[#E6E6E6] text-[#40BF73]' onClick={() => openModal()}>
