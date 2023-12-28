@@ -185,6 +185,7 @@ function AddDealerBook() {
 
       console.log(result);
       if (result.code !== 200) {
+        setLoader(false);
         setError(result.message);
       } else {
         setLoader(false);
@@ -546,11 +547,11 @@ function AddDealerBook() {
             {type === "Edit" ? (
               <>
                 <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-                  Submitted{" "}
+                  Updated{" "}
                   <span className="text-light-black"> Successfully </span>
                 </p>
                 <p className="text-neutral-grey text-base font-medium mt-2">
-                  <b> New Dealer Book </b> added successfully.{" "}
+                  <b> Dealer Book </b> Updated successfully.{" "}
                 </p>
                 <p className="text-neutral-grey text-base font-medium mt-2">
                   {" "}
@@ -560,11 +561,11 @@ function AddDealerBook() {
             ) : (
               <>
                 <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-                  Updated{" "}
+                  Submitted{" "}
                   <span className="text-light-black"> Successfully </span>
                 </p>
                 <p className="text-neutral-grey text-base font-medium mt-2">
-                  <b> New Dealer Book </b> updated successfully.{" "}
+                  <b> New Dealer Book </b> added successfully.{" "}
                 </p>
                 <p className="text-neutral-grey text-base font-medium mt-2">
                   {" "}
