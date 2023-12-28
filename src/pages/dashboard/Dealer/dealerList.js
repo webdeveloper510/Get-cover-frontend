@@ -227,9 +227,9 @@ function DealerList() {
           <div className="mb-5 relative">
             {loading ? (
               <div className=" h-[400px] w-full flex py-5">
-              <div className="self-center mx-auto">
-              <RotateLoader color="#333" />
-               </div>
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
              </div>
             ) : (
 

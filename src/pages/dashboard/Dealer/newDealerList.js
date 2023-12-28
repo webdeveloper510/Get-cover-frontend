@@ -20,6 +20,7 @@ import {
   getPendingDealersList,
   isApprovedOrDisapprovedStatus,
 } from "../../../services/dealerServices";
+import { RotateLoader } from "react-spinners";
 
 function NewDealerList() {
   const [approvalDetails, setApprovalDetails] = useState({
@@ -284,12 +285,10 @@ function NewDealerList() {
           </Grid>
           <div className="mb-5 relative">
             {loading ? (
-              <div className="bg-[#f1f2f3] py-5">
-                <img
-                  src={Loader}
-                  className="mx-auto bg-transparent"
-                  alt="Loader"
-                />
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
               </div>
             ) : (
               <DataTable

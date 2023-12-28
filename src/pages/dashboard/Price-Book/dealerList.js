@@ -19,6 +19,7 @@ import {
   editDealerPriceBook,
   getDealerPriceBook,
 } from "../../../services/dealerServices";
+import { RotateLoader } from "react-spinners";
 
 function DealerPriceList() {
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -328,12 +329,10 @@ function DealerPriceList() {
 
           <div className="mb-5 relative">
             {loading ? (
-              <div className="bg-[#f1f2f3] py-5">
-                <img
-                  src={Loader}
-                  className="mx-auto bg-transparent"
-                  alt="Loader"
-                />
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
               </div>
             ) : (
               <DataTable

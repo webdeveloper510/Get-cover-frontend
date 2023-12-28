@@ -10,6 +10,7 @@ import {
   getNotifications,
   updateNotifications,
 } from "../../services/extraServices";
+import { RotateLoader } from "react-spinners";
 
 function Notification() {
   const [notificationList, setNotificationList] = useState([]);
@@ -69,13 +70,11 @@ function Notification() {
 
       <div className="mt-8">
         {loading ? (
-          <div className="bg-[#f1f2f3] py-5 h-screen flex w-full fixed top-0 ">
-            <img
-              src={Loader}
-              className="mx-auto bg-transparent self-center"
-              alt="Loader"
-            />
+          <div className=" fixed top-0 h-screen bg-[#cfcfcf8f] left-0 w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
           </div>
+       </div>
         ) : (
           <>
             {notificationList.length !== 0 ? (

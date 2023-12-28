@@ -25,6 +25,7 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getCategoryListActiveData } from "../../../services/priceBookService";
+import { RotateLoader } from "react-spinners";
 
 function AddDealerBook() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -201,8 +202,10 @@ function AddDealerBook() {
     <div className="my-8 ml-3">
       <Headbar />
      {loader==true ? (
-      <div className="h-screen bg-[#f1f2f3] flex py-5">
-      <img src={Loader} className="mx-auto bg-transparent self-center" alt="Loader" />
+      <div className=" h-screen w-full flex py-5">
+      <div className="self-center mx-auto">
+        <RotateLoader color="#333" />
+      </div>
       </div>
      ) : (
       <>
