@@ -34,7 +34,7 @@ function AddCompanyPriceBook() {
   const { id } = useParams();
   const [detailsById, setDetailsById] = useState();
   const [active, setinActive] = useState(false);
-  const [loader ,setLoader]=useState(false)
+  const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   console.log(id);
   const formik = useFormik({
@@ -71,7 +71,7 @@ function AddCompanyPriceBook() {
     }),
     onSubmit: async (values) => {
       try {
-        setLoader(true)
+        setLoader(true);
         let result;
 
         if (id) {
@@ -94,7 +94,7 @@ function AddCompanyPriceBook() {
         if (result.code !== 200) {
           setError(result.message);
         } else {
-          setLoader(false)
+          setLoader(false);
           setError(false);
           setIsModalOpen(true);
           setTimer(3);
@@ -129,7 +129,7 @@ function AddCompanyPriceBook() {
     const getPriceBookDetailsById = async () => {
       const data = await getCategoryListActiveData11();
       console.log(data);
-      setLoader(true)
+      setLoader(true);
       try {
         if (id) {
           setType("Edit");
@@ -152,7 +152,7 @@ function AddCompanyPriceBook() {
         } else {
           setType("Add");
         }
-        setLoader(true)
+        setLoader(true);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -182,6 +182,7 @@ function AddCompanyPriceBook() {
   const getTermListData = async () => {
     try {
       const res = await getTermList();
+      console.log(res);
       setTermList(
         res.result.terms.map((item) => ({
           label: item.terms + " Months",
@@ -239,7 +240,6 @@ function AddCompanyPriceBook() {
     <div className="my-8 ml-3">
       <Headbar />
 
-
       <div className="flex mt-14">
         <Link
           to={"/companyPriceBook"}
@@ -276,22 +276,26 @@ function AddCompanyPriceBook() {
           </ul>
         </div>
       </div>
-      {loader==false ? (
-      <div className="h-screen bg-[#f1f2f3] flex py-5">
-      <img src={Loader} className="mx-auto bg-transparent self-center" alt="Loader" />
-      </div>
-     ) : (
-      <>
-      {error && (
-        <p className="text-red-500 text-sm pl-2">
-          <span className="font-semibold"> {error} </span>
-        </p>
-      )}
-      {type == "Edit" && (
-        <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
-          <Grid className="mx-8 mx-auto ">
-            <div className="col-span-3 self-center border-r border-[#4e4e4e]">
-              {/* <div className="flex">
+      {loader == false ? (
+        <div className="h-screen bg-[#f1f2f3] flex py-5">
+          <img
+            src={Loader}
+            className="mx-auto bg-transparent self-center"
+            alt="Loader"
+          />
+        </div>
+      ) : (
+        <>
+          {error && (
+            <p className="text-red-500 text-sm pl-2">
+              <span className="font-semibold"> {error} </span>
+            </p>
+          )}
+          {type == "Edit" && (
+            <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
+              <Grid className="mx-8 mx-auto ">
+                <div className="col-span-3 self-center border-r border-[#4e4e4e]">
+                  {/* <div className="flex">
                 <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
                   <img src={category} className="w-6 h-6" alt="category" />
                 </div>
@@ -304,39 +308,39 @@ function AddCompanyPriceBook() {
                   </p>
                 </div>
               </div> */}
-            </div>
-            <div className="col-span-3 border-r border-[#4e4e4e]">
-              <div className="flex">
-                <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                  <img src={dealer} className="w-6 h-6" alt="dealer" />
                 </div>
-                <div className="self-center">
-                  <p className="text-[#FFF] text-base font-medium leading-5	">
-                    Product Name
-                  </p>
-                  <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                    {detailsById?.name}
-                  </p>
+                <div className="col-span-3 border-r border-[#4e4e4e]">
+                  <div className="flex">
+                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                      <img src={dealer} className="w-6 h-6" alt="dealer" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                        Product Name
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {detailsById?.name}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="col-span-3">
-              <div className="flex justify-center">
-                <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                  <img src={terms} className="w-6 h-6" alt="terms" />
+                <div className="col-span-3">
+                  <div className="flex justify-center">
+                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                      <img src={terms} className="w-6 h-6" alt="terms" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5">
+                        Terms
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                        {detailsById?.term} Months
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="self-center">
-                  <p className="text-[#FFF] text-base font-medium leading-5">
-                    Terms
-                  </p>
-                  <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                    {detailsById?.term} Months
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col-span-3">
-              {/* <div className="flex">
+                <div className="col-span-3">
+                  {/* <div className="flex">
                 <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
                   <img src={product} className="w-6 h-6" alt="product" />
                 </div>
@@ -349,259 +353,273 @@ function AddCompanyPriceBook() {
                   </p>
                 </div>
               </div> */}
+                </div>
+              </Grid>
             </div>
-          </Grid>
-        </div>
+          )}
+          <form className="mt-8" onSubmit={formik.handleSubmit}>
+            <div className="px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+              <Grid
+                className={`  ${
+                  type == "Edit" ? "!grid-cols-4" : "!grid-cols-5"
+                } `}
+              >
+                <div className="col-span-1">
+                  <Select
+                    label="Product Category"
+                    name="priceCatId"
+                    placeholder=""
+                    onChange={handleSelectChange}
+                    required={true}
+                    className="!bg-[#fff]"
+                    options={categoryList}
+                    value={
+                      (
+                        categoryList.find(
+                          (option) => option.value === formik.values.priceCatId
+                        ) || {}
+                      ).value || ""
+                    }
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.priceCatId && formik.errors.priceCatId
+                    }
+                  />
+
+                  {formik.touched.priceCatId && formik.errors.priceCatId && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.priceCatId}
+                    </div>
+                  )}
+                </div>
+                {type == "Edit" ? (
+                  <></>
+                ) : (
+                  <div className="col-span-1">
+                    <Input
+                      type="text"
+                      name="name"
+                      className="!bg-[#fff]"
+                      label="Product Name "
+                      placeholder=""
+                      required={true}
+                      maxLength={50}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.name}
+                      disabled={type === "Edit"}
+                    />
+                    {formik.touched.name && formik.errors.name && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.name}
+                      </div>
+                    )}
+                  </div>
+                )}
+                <div className="col-span-2">
+                  <Input
+                    type="text"
+                    name="description"
+                    className="!bg-[#fff]"
+                    label="Description "
+                    maxLength={100}
+                    placeholder=""
+                    required={true}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.description}
+                  />
+                  {formik.touched.description && formik.errors.description && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.description}
+                    </div>
+                  )}
+                </div>
+
+                {type == "Edit" ? (
+                  <></>
+                ) : (
+                  <div className="col-span-1">
+                    <Select
+                      label="Terms"
+                      name="term"
+                      required={true}
+                      placeholder=""
+                      onChange={handleSelectChange}
+                      className="!bg-[#fff]"
+                      options={termList}
+                      value={
+                        (
+                          termList.find(
+                            (option) =>
+                              option.value ==
+                              (formik.values.term
+                                ? formik.values.term.toString()
+                                : "")
+                          ) || {}
+                        ).value || ""
+                      }
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.term && formik.errors.term}
+                      disabled={type === "Edit"}
+                    />
+                    {formik.touched.term && formik.errors.term && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.term}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="col-span-1">
+                  <Input
+                    type="tel"
+                    name="frontingFee"
+                    className="!bg-[#fff]"
+                    label="Fronting fee ($)"
+                    placeholder=""
+                    required={true}
+                    maxLength={"10"}
+                    onChange={formik.handleChange}
+                    onBlur={(e) => {
+                      const formattedValue = parseFloat(e.target.value).toFixed(
+                        2
+                      );
+                      formik.handleBlur(e);
+                      formik.setFieldValue("frontingFee", formattedValue);
+                    }}
+                    value={formik.values.frontingFee}
+                    maxDecimalPlaces={2}
+                  />
+                  {formik.touched.frontingFee && formik.errors.frontingFee && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.frontingFee}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-1">
+                  <Input
+                    type="tel"
+                    name="reinsuranceFee"
+                    className="!bg-[#fff]"
+                    label="Re-insurance fee ($)"
+                    minLength={"1"}
+                    maxLength={"10"}
+                    required={true}
+                    placeholder=""
+                    onChange={formik.handleChange}
+                    onBlur={(e) => {
+                      const formattedValue = parseFloat(e.target.value).toFixed(
+                        2
+                      );
+                      formik.handleBlur(e);
+                      formik.setFieldValue("reinsuranceFee", formattedValue);
+                    }}
+                    value={formik.values.reinsuranceFee}
+                    maxDecimalPlaces={2}
+                  />
+                  {formik.touched.reinsuranceFee &&
+                    formik.errors.reinsuranceFee && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.reinsuranceFee}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-1">
+                  <Input
+                    type="tel"
+                    name="reserveFutureFee"
+                    required={true}
+                    minLength={"1"}
+                    maxLength={"10"}
+                    className="!bg-[#fff] !px-0 w-[220px]"
+                    label="Reserve for future claims ($)"
+                    placeholder=""
+                    onChange={formik.handleChange}
+                    onBlur={(e) => {
+                      const formattedValue = parseFloat(e.target.value).toFixed(
+                        2
+                      );
+                      formik.handleBlur(e);
+                      formik.setFieldValue("reserveFutureFee", formattedValue);
+                    }}
+                    value={formik.values.reserveFutureFee}
+                    maxDecimalPlaces={2}
+                  />
+                  {formik.touched.reserveFutureFee &&
+                    formik.errors.reserveFutureFee && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.reserveFutureFee}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-1">
+                  <Input
+                    type="tel"
+                    name="adminFee"
+                    className="!bg-[#fff]"
+                    required={true}
+                    minLength={"1"}
+                    maxLength={"10"}
+                    label="Administration fee ($)"
+                    placeholder=""
+                    onChange={formik.handleChange}
+                    onBlur={(e) => {
+                      const formattedValue = parseFloat(e.target.value).toFixed(
+                        2
+                      );
+                      formik.handleBlur(e);
+                      formik.setFieldValue("adminFee", formattedValue);
+                    }}
+                    value={formik.values.adminFee}
+                    maxDecimalPlaces={2}
+                  />
+
+                  {formik.touched.adminFee && formik.errors.adminFee && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.adminFee}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-1">
+                  <Select
+                    label="Status"
+                    name="status"
+                    placeholder=""
+                    required={true}
+                    onChange={handleSelectChange}
+                    className="!bg-[#fff]"
+                    options={status}
+                    value={
+                      formik.values.status === ""
+                        ? formik.setFieldValue("status", true)
+                        : formik.values.status
+                    }
+                    disabled={active === false ? true : false}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.status && formik.errors.status}
+                    defaultValue={defaultValue}
+                  />
+                  {formik.touched.status && formik.errors.status && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.status}
+                    </div>
+                  )}
+                </div>
+              </Grid>
+              <p className="mt-8 font-semibold text-lg">
+                Total Amount: <span> ${totalAmount}</span>
+              </p>
+              <Button
+                type="submit"
+                className="mt-12 font-normal rounded-[25px]"
+              >
+                Submit
+              </Button>
+            </div>
+          </form>
+        </>
       )}
-      <form className="mt-8" onSubmit={formik.handleSubmit}>
-        <div className="px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
-          <Grid
-            className={`  ${type == "Edit" ? "!grid-cols-4" : "!grid-cols-5"} `}
-          >
-            <div className="col-span-1">
-              <Select
-                label="Product Category"
-                name="priceCatId"
-                placeholder=""
-                onChange={handleSelectChange}
-                required={true}
-                className="!bg-[#fff]"
-                options={categoryList}
-                value={
-                  (
-                    categoryList.find(
-                      (option) => option.value === formik.values.priceCatId
-                    ) || {}
-                  ).value || ""
-                }
-                onBlur={formik.handleBlur}
-                error={formik.touched.priceCatId && formik.errors.priceCatId}
-              />
-
-              {formik.touched.priceCatId && formik.errors.priceCatId && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.priceCatId}
-                </div>
-              )}
-            </div>
-            {type == "Edit" ? (
-              <></>
-            ) : (
-              <div className="col-span-1">
-                <Input
-                  type="text"
-                  name="name"
-                  className="!bg-[#fff]"
-                  label="Product Name "
-                  placeholder=""
-                  required={true}
-                  maxLength={50}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.name}
-                  disabled={type === "Edit"}
-                />
-                {formik.touched.name && formik.errors.name && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.name}
-                  </div>
-                )}
-              </div>
-            )}
-            <div className="col-span-2">
-              <Input
-                type="text"
-                name="description"
-                className="!bg-[#fff]"
-                label="Description "
-                maxLength={100}
-                placeholder=""
-                required={true}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.description}
-              />
-              {formik.touched.description && formik.errors.description && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.description}
-                </div>
-              )}
-            </div>
-
-            {type == "Edit" ? (
-              <></>
-            ) : (
-              <div className="col-span-1">
-                <Select
-                  label="Terms"
-                  name="term"
-                  required={true}
-                  placeholder=""
-                  onChange={handleSelectChange}
-                  className="!bg-[#fff]"
-                  options={termList}
-                  value={
-                    (
-                      termList.find(
-                        (option) =>
-                          option.value ===
-                          (formik.values.term
-                            ? formik.values.term.toString()
-                            : "")
-                      ) || {}
-                    ).value || ""
-                  }
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.term && formik.errors.term}
-                  disabled={type === "Edit"}
-                />
-                {formik.touched.term && formik.errors.term && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.term}
-                  </div>
-                )}
-              </div>
-            )}
-
-            <div className="col-span-1">
-              <Input
-                type="tel"
-                name="frontingFee"
-                className="!bg-[#fff]"
-                label="Fronting fee ($)"
-                placeholder=""
-                required={true}
-                maxLength={"10"}
-                onChange={formik.handleChange}
-                onBlur={(e) => {
-                  const formattedValue = parseFloat(e.target.value).toFixed(2);
-                  formik.handleBlur(e);
-                  formik.setFieldValue("frontingFee", formattedValue);
-                }}
-                value={formik.values.frontingFee}
-                maxDecimalPlaces={2}
-              />
-              {formik.touched.frontingFee && formik.errors.frontingFee && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.frontingFee}
-                </div>
-              )}
-            </div>
-            <div className="col-span-1">
-              <Input
-                type="tel"
-                name="reinsuranceFee"
-                className="!bg-[#fff]"
-                label="Re-insurance fee ($)"
-                minLength={"1"}
-                maxLength={"10"}
-                required={true}
-                placeholder=""
-                onChange={formik.handleChange}
-                onBlur={(e) => {
-                  const formattedValue = parseFloat(e.target.value).toFixed(2);
-                  formik.handleBlur(e);
-                  formik.setFieldValue("reinsuranceFee", formattedValue);
-                }}
-                value={formik.values.reinsuranceFee}
-                maxDecimalPlaces={2}
-              />
-              {formik.touched.reinsuranceFee &&
-                formik.errors.reinsuranceFee && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.reinsuranceFee}
-                  </div>
-                )}
-            </div>
-            <div className="col-span-1">
-              <Input
-                type="tel"
-                name="reserveFutureFee"
-                required={true}
-                minLength={"1"}
-                maxLength={"10"}
-                className="!bg-[#fff] !px-0 w-[220px]"
-                label="Reserve for future claims ($)"
-                placeholder=""
-                onChange={formik.handleChange}
-                onBlur={(e) => {
-                  const formattedValue = parseFloat(e.target.value).toFixed(2);
-                  formik.handleBlur(e);
-                  formik.setFieldValue("reserveFutureFee", formattedValue);
-                }}
-                value={formik.values.reserveFutureFee}
-                maxDecimalPlaces={2}
-              />
-              {formik.touched.reserveFutureFee &&
-                formik.errors.reserveFutureFee && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.reserveFutureFee}
-                  </div>
-                )}
-            </div>
-            <div className="col-span-1">
-              <Input
-                type="tel"
-                name="adminFee"
-                className="!bg-[#fff]"
-                required={true}
-                minLength={"1"}
-                maxLength={"10"}
-                label="Administration fee ($)"
-                placeholder=""
-                onChange={formik.handleChange}
-                onBlur={(e) => {
-                  const formattedValue = parseFloat(e.target.value).toFixed(2);
-                  formik.handleBlur(e);
-                  formik.setFieldValue("adminFee", formattedValue);
-                }}
-                value={formik.values.adminFee}
-                maxDecimalPlaces={2}
-              />
-
-              {formik.touched.adminFee && formik.errors.adminFee && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.adminFee}
-                </div>
-              )}
-            </div>
-            <div className="col-span-1">
-              <Select
-                label="Status"
-                name="status"
-                placeholder=""
-                required={true}
-                onChange={handleSelectChange}
-                className="!bg-[#fff]"
-                options={status}
-                value={
-                  formik.values.status === ""
-                    ? formik.setFieldValue("status", true)
-                    : formik.values.status
-                }
-                disabled={active === false ? true : false}
-                onBlur={formik.handleBlur}
-                error={formik.touched.status && formik.errors.status}
-                defaultValue={defaultValue}
-              />
-              {formik.touched.status && formik.errors.status && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.status}
-                </div>
-              )}
-            </div>
-          </Grid>
-          <p className="mt-8 font-semibold text-lg">
-            Total Amount: <span> ${totalAmount}</span>
-          </p>
-          <Button type="submit" className="mt-12 font-normal rounded-[25px]">
-            Submit
-          </Button>
-        </div>
-      </form>
-      </>
-     )}
-
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
