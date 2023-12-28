@@ -257,7 +257,7 @@ function DealerPriceList() {
               <p className="text-xl font-semibold py-4">Dealer Price List</p>
             </div>
             <div className="col-span-7">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              {/* <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <Grid className="!grid-cols-10">
                   <div className="col-span-2 self-center">
                     <Input
@@ -326,7 +326,7 @@ function DealerPriceList() {
                     </Button>
                   </div>
                 </Grid>
-              </div>
+              </div> */}
             </div>
           </Grid>
 
