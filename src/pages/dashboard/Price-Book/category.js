@@ -228,16 +228,15 @@ function Category() {
             </ul>
           </div>
         </div>
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+        <Link to={"/addCategory"} className=" w-[180px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
           {" "}
-          <Link to={"/addCategory"} className="flex">
+          
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
             <span className="text-black ml-3 text-[14px] font-Regular">
               Add Category{" "}
             </span>{" "}
           </Link>
-        </Button>
 
         <div className="bg-white  border-[1px] border-[#D1D1D1] rounded-xl ">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">
