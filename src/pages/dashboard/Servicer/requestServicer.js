@@ -131,7 +131,7 @@ function RequestServicer() {
                 <div className='text-center py-3 border-b cursor-pointer border-[#E6E6E6] text-[#40BF73]' onClick={() => openModal()}>
                   Approve
                 </div>
-                <div className='text-center py-3 text-[#FF4747] cursor-pointer' onClick={() => handleActionChange('Disapprove')}>
+                <div className='text-center py-3 text-[#FF4747] cursor-pointer' onClick={() => setIsDisapprovedOpen(true)}>
                   Disapprove
                 </div>
               </div>
@@ -234,7 +234,7 @@ function RequestServicer() {
               <Button className='w-full !py-3'><Link to={'/dealer'}> Yes </Link></Button>
             </div>
             <div className='col-span-3'>
-              <Button className='w-full !py-3 !bg-white border-[#D1D1D1] border !text-light-black' onClick={() => setIsDisapprovedOpen(true)}>No</Button>
+              <Button className='w-full !py-3 !bg-white border-[#D1D1D1] border !text-light-black'onClick={closeModal}>No</Button>
             </div>
             <div className='col-span-3'></div>
           </Grid>
