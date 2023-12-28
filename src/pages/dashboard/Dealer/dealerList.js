@@ -167,7 +167,7 @@ function DealerList() {
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Dealers List</p>
             </div>
-        */}
+       
           </Grid>
           <div className="mb-5 relative">
             {loading ? (
@@ -175,7 +175,7 @@ function DealerList() {
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
-              </div>
+             </div>
             ) : (
               <DataTable
                 columns={columns}

@@ -18,6 +18,7 @@ import {
 } from "../../../services/priceBookService";
 import Select from "../../../common/select";
 import Loader from "../../../assets/images/Loader.gif";
+import { RotateLoader } from "react-spinners";
 
 function AddCategory() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -165,13 +166,11 @@ function AddCategory() {
       )}
       {/* Form Start */}
       {loader == true ? (
-        <div className="h-screen bg-[#f1f2f3] flex py-5">
-          <img
-            src={Loader}
-            className="mx-auto bg-transparent self-center"
-            alt="Loader"
-          />
-        </div>
+         <div className=" h-screen w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+         </div>
       ) : (
         <form className="mt-8" onSubmit={formik.handleSubmit}>
           <div className="px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">

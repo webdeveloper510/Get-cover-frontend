@@ -301,9 +301,9 @@ function Category() {
           </Grid>
           <div className="mb-5 relative">
             {loading ? (
-              <div className="bg-[#f1f2f3] h-[400px] w-full flex py-5">
-               <div className="self-center mx-auto">
-               <RotateLoader color="#36d7b7" />
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
                 </div>
               </div>
             ) : (

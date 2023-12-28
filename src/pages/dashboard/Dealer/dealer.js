@@ -27,6 +27,7 @@ import { getCategoryListActiveData } from "../../../services/priceBookService";
 import { validateDealerData } from "../../../services/dealerServices";
 import Modal from "../../../common/model";
 import Loader from "../../../assets/images/Loader.gif";
+import { RotateLoader } from "react-spinners";
 
 function Dealer() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -567,11 +568,14 @@ function Dealer() {
 
       {/* Form Start */}
       {loading ? (
-        <div className="bg-[#f1f2f3] h-screen flex py-5">
-          <img src={Loader} className="mx-auto bg-transparent self-center" alt="Loader" />
-        </div>
+         <div className=" fixed top-0 h-screen bg-[#cfcfcf8f] left-0 w-full flex py-5">
+         <div className="self-center mx-auto">
+           <RotateLoader color="#333" />
+         </div>
+      </div>
       ) : (
         <form className="mt-8" onSubmit={formik.handleSubmit}>
+          
           <div className="bg-white p-8 drop-shadow-4xl rounded-xl">
             <Grid>
               <div className="col-span-4 border-e-[1px] border-[#D1D1D1] pr-3">

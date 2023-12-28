@@ -21,6 +21,7 @@ import {
 } from "../../../services/priceBookService";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { RotateLoader } from "react-spinners";
 
 function CompanyPriceBook() {
   // const [selectedProduct, setSelectedProduct] = useState("");
@@ -387,13 +388,11 @@ function CompanyPriceBook() {
           </form>
           <div className="relative mb-5">
             {loading ? (
-              <div className="bg-[#f1f2f3] py-5">
-                <img
-                  src={Loader}
-                  className="mx-auto bg-transparent"
-                  alt="Loader"
-                />
-              </div>
+               <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+               </div>
             ) : (
               <DataTable
                 columns={columns}

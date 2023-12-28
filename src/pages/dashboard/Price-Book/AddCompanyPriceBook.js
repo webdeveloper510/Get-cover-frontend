@@ -22,6 +22,7 @@ import {
   getCompanyPriceBookById,
   getTermList,
 } from "../../../services/priceBookService";
+import { RotateLoader } from "react-spinners";
 
 function AddCompanyPriceBook() {
   const [error, setError] = useState("");
@@ -277,13 +278,11 @@ function AddCompanyPriceBook() {
         </div>
       </div>
       {loader == false ? (
-        <div className="h-screen bg-[#f1f2f3] flex py-5">
-          <img
-            src={Loader}
-            className="mx-auto bg-transparent self-center"
-            alt="Loader"
-          />
+        <div className=" h-screen w-full flex py-5">
+        <div className="self-center mx-auto">
+          <RotateLoader color="#333" />
         </div>
+         </div>
       ) : (
         <>
           {error && (
