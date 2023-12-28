@@ -73,10 +73,10 @@ function OrderList() {
       maxWidth:'70px'
     },
     {
-      name: "Dealer Order no.",
+      name: "Dealer Order #",
       selector: (row) => row.Categoryname,
       sortable: true,
-      minWidth:'150px',
+      minWidth:'180px',
     },
     {
       name: "Dealer",
