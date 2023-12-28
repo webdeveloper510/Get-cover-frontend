@@ -197,8 +197,8 @@ const routes = [
         ),
       },
       {
-        path: "/addServicer",
-        element: <PrivateRoute element={<AddServicer />} path="/addServicer" />,
+        path: "/addServicer/:id?",
+        element: <AddServicer />,
       },
       {
         path: "/servicerList",
@@ -214,15 +214,11 @@ const routes = [
       },
       {
         path: "/addOrder",
-        element: (
-          <PrivateRoute element={<AddOrder />} path="/addOrder" />
-        ),
+        element: <PrivateRoute element={<AddOrder />} path="/addOrder" />,
       },
       {
         path: "/orderList",
-        element: (
-          <PrivateRoute element={<OrderList />} path="/orderList" />
-        ),
+        element: <PrivateRoute element={<OrderList />} path="/orderList" />,
       },
     ],
   },
