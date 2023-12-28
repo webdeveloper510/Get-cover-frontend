@@ -76,8 +76,6 @@ function AddDealerBook() {
     setActiveDealerList(arr);
   };
   useEffect(() => {
-    let intervalId;
-    // console.log("navigate", id);
     if (id) {
       dealerDetailById(id);
       setType("Edit");
@@ -86,6 +84,10 @@ function AddDealerBook() {
     }
     dealerList();
     getProductList();
+  }, []);
+
+  useEffect(() => {
+    let intervalId;
     if (isModalOpen && timer > 0) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
@@ -96,7 +98,7 @@ function AddDealerBook() {
       navigate("/dealerPriceList");
     }
     return () => clearInterval(intervalId);
-  }, [isModalOpen, timer, id]);
+  }, [isModalOpen, timer]);
 
   const getProductList = async () => {
     const result = await getCategoryListActiveData();
@@ -112,7 +114,6 @@ function AddDealerBook() {
     setIsModalOpen(false);
   };
   const handleSelectChange = async (name, value) => {
-    // console.log(name, value);
     formik.setFieldValue(name, value);
     if (name === "categoryId") {
       formik.setFieldValue(`priceBook`, "");
