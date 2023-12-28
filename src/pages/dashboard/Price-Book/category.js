@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
@@ -30,16 +30,11 @@ function Category() {
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const dropdownRef = useRef(null);
   useEffect(() => {
     getCategoryListData();
     window.scrollTo(0, 0);
   }, []);
-
-  const handleSelectChange1 = (label, value) => {
-    console.log(label, value, "selected");
-    setSelectedProduct(value);
-  };
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
@@ -71,16 +66,6 @@ function Category() {
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
-
-  const handleActionChange = (action, row) => {
-    console.log(`Selected action: ${action} for Category ID: ${row._id}`);
-  };
-
-  const truncateText = (text, maxLength) => {
-    return text.length > maxLength
-      ? `${text.substring(0, maxLength)}...`
-      : text;
-  };
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -95,6 +80,22 @@ function Category() {
       getCategoryListData(values);
     },
   });
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        // Close the dropdown if the click is outside of it
+        setSelectedAction(null);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Cleanup the event listener on component unmount
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const columns = [
     {
@@ -158,7 +159,7 @@ function Category() {
               />
             </div>
             {selectedAction === row.unique_key && (
-              <div
+              <div ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}

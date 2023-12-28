@@ -1,4 +1,4 @@
-import React , { useState } from 'react'
+import React , { useEffect, useRef, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import Button from '../../../common/button'
@@ -16,12 +16,7 @@ import DataTable from "react-data-table-component"
 
 function ServicerList() {
     const [selectedAction, setSelectedAction] = useState(null);
-
-    const handleActionChange = (action) => {
-      // Implement the logic for the selected action (e.g., edit or delete)
-      console.log(`Selected action: ${action}`);
-      // You can replace the console.log statement with the actual logic you want to perform
-    };
+    const dropdownRef = useRef(null);
   
     const data = [
       {
@@ -120,7 +115,7 @@ function ServicerList() {
               <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
             </div>
             {selectedAction === row.Categoryid && (
-              <div className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              <div ref={dropdownRef} className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}>
                   <div className='text-center cursor-pointer py-1'>View</div>
@@ -132,6 +127,22 @@ function ServicerList() {
         
       },
     ];
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          // Close the dropdown if the click is outside of it
+          setSelectedAction(null);
+        }
+      };
+  
+      document.addEventListener("click", handleClickOutside);
+  
+      return () => {
+        // Cleanup the event listener on component unmount
+        document.removeEventListener("click", handleClickOutside);
+      };
+    }, []);
   
     return (
       <>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
@@ -31,10 +31,7 @@ function CompanyPriceBook() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  // const handleSelectChange1 = (label, value) => {
-  //   console.log(label, value, "selected");
-  //   setSelectedProduct(value);
-  // };
+  const dropdownRef = useRef(null);
 
   const formik = useFormik({
     initialValues: {
@@ -256,7 +253,7 @@ function CompanyPriceBook() {
               />
             </div>
             {selectedAction === row.unique_key && (
-              <div
+              <div ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
@@ -274,6 +271,22 @@ function CompanyPriceBook() {
       },
     },
   ];
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        // Close the dropdown if the click is outside of it
+        setSelectedAction(null);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Cleanup the event listener on component unmount
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>

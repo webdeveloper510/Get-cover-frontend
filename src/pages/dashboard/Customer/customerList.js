@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -16,16 +16,12 @@ import Select from "../../../common/select";
 function CustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
-
+  const navigate = useNavigate();
   const handleSelectChange1 = (label, value) => {
     console.log(label, value, "selected");
     setSelectedProduct(value);
   };
-  const handleActionChange = (action) => {
-    // Implement the logic for the selected action (e.g., edit or delete)
-    console.log(`Selected action: ${action}`);
-    // You can replace the console.log statement with the actual logic you want to perform
-  };
+  const dropdownRef = useRef(null);
 
   const status = [
     { label: "Active", value: true },
@@ -117,13 +113,15 @@ function CustomerList() {
               />
             </div>
             {selectedAction === row.Categoryid && (
-              <div
+              <div ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                <div className="text-center py-1">Edit</div>
+                <div className="text-center cursor-pointer py-1"  onClick={() => { 
+                navigate(`/addCustomer`);
+              }}>View</div>
               </div>
             )}
           </div>
@@ -131,7 +129,22 @@ function CustomerList() {
       },
     },
   ];
+ 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        // Close the dropdown if the click is outside of it
+        setSelectedAction(null);
+      }
+    };
 
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Cleanup the event listener on component unmount
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   return (
     <>
       <div className="my-8 ml-3">
