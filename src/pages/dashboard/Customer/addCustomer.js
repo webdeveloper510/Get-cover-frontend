@@ -581,7 +581,7 @@ function AddCustomer() {
         {formik.values.members.map((dealer, index) => (
           <div className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl">
             <p className="text-light-black text-lg mb-6 font-semibold">
-              Add Servicer's Team Members
+              Add Team Members
             </p>
             <div className="">
               <Grid className="">
