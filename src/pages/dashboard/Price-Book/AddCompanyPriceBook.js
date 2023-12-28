@@ -473,7 +473,7 @@ function AddCompanyPriceBook() {
 
                 <div className="col-span-1">
                   <Input
-                    type="tel"
+                    type="number"
                     name="frontingFee"
                     className="!bg-[#fff]"
                     label="Fronting fee ($)"
