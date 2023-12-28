@@ -14,6 +14,7 @@ import {
 function Headbar({ className = "" }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [notificationList, setNotificationList] = useState([]);
+  // const [ToChecklengthFalse, setToChecklengthFalse] = useState([])
   const location = useLocation();
   const navigate = useNavigate();
   const toggleDropdown = () => {
@@ -26,12 +27,19 @@ function Headbar({ className = "" }) {
   };
 
   const getNotificationsData = () => {
+    let ArrayData = []
     getNotifications().then((response) => {
       setNotificationList(response.result.notification);
-      console.log(response.result.notification);
+      response.result.notification.map((data)=>{
+        if (!data.notificationData.status){
+          ArrayData.push(data)
+        }
+      })
+      // setToChecklengthFalse(ArrayData)
+      localStorage.setItem('lengthofNotifications', ArrayData.length)
     });
   };
-
+  const lengthofNotifications = localStorage.getItem("lengthofNotifications")
   useEffect(() => {
     getNotificationsData();
   }, []);
@@ -54,7 +62,7 @@ function Headbar({ className = "" }) {
                     className="cursor-pointer mt-[-2%] "
                     alt="NotificationImage"
                   />{" "}
-                  <p className="text-[9px] right-[-8px] -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[2px] text-center border-2 border-[#333333]">{notificationList.length}</p>
+                  <p className="text-[11px] right-[-8px] font-semibold -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[0px] text-center border-2 border-[#333333]">{lengthofNotifications}</p>
                 </Link>
               </div>
               {/* <div>

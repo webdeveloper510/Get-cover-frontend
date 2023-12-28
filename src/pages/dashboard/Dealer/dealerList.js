@@ -71,13 +71,13 @@ function DealerList() {
       sortable: true,
     },
     {
-      name: "Orders",
-      selector: (row) => row.Orders,
+      name: "# of Orders",
+      selector: (row) => 0,
       sortable: true,
     },
     {
       name: "Order Values",
-      selector: (row) => row?.Orders,
+      selector: (row) => '$0.00',
       sortable: true,
       minWidth: 'auto',  // Set a custom minimum width
       maxWidth: '170px',  // Set a custom maximum width
