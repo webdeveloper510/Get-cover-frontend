@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
@@ -33,24 +33,32 @@ function NewDealerList() {
   const [pendingDealerList, setPendingDealerList] = useState([]);
   const [timer, setTimer] = useState(3);
   const navigate = useNavigate();
-
+  const dropdownRef = useRef(null);
   const toggleDropdown = (index) => {
     setSelectedAction(index);
     setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleActionChange = async (action, id) => {
-    // setIsModalOpen(true);
     console.log(action);
-
     console.log(`Selected action: ${(action, id)}`);
-
-    // setEditDetails(data);
     if (action) {
       openConfirmModal(id, action);
+      setIsDropdownOpen(false);
     }
   };
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsDropdownOpen(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
