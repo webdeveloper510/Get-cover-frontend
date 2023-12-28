@@ -109,7 +109,7 @@ function CustomerList() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(row.Categoryid)}>
+            <div onClick={() =>  setSelectedAction(selectedAction === row.Categoryid ? null : row.Categoryid)}>
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
@@ -148,9 +148,7 @@ function CustomerList() {
           </div>
         </div>
 
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-          {" "}
-          <Link to={"/addCustomer"} className="flex">
+          <Link to={"/addCustomer"} className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
             <span className="text-black ml-3 text-[14px] font-Regular">
@@ -158,7 +156,6 @@ function CustomerList() {
               Add New Customer{" "}
             </span>{" "}
           </Link>
-        </Button>
 
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">

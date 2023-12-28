@@ -138,7 +138,7 @@ function OrderList() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-          <div onClick={() => setSelectedAction(row.Categoryid)}>
+          <div onClick={() => setSelectedAction(selectedAction === row.Categoryid ? null : row.Categoryid)}>
             <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
           </div>
           {selectedAction === row.Categoryid && (

@@ -150,7 +150,7 @@ function Category() {
         // console.log("===>>", index);
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(row.unique_key)}>
+            <div onClick={() => setSelectedAction(selectedAction === row.unique_key ? null : row.unique_key)}>
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"

@@ -107,6 +107,8 @@ function DealerPriceList() {
     console.log(row);
   };
 
+
+
   const columns = [
     {
       name: "ID",
@@ -186,7 +188,7 @@ function DealerPriceList() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(index)}>
+            <div onClick={() => setSelectedAction(selectedAction === index ? null : index)}>
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
@@ -240,16 +242,13 @@ function DealerPriceList() {
             </ul>
           </div>
         </div>
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-          {" "}
-          <Link to={"/addDealerBook"} className="flex">
+          <Link to={"/addDealerBook"} className=" w-[230px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
             <span className="text-black ml-3 text-[14px] font-Regular">
               Add Dealer Book{" "}
             </span>{" "}
           </Link>
-        </Button>
 
         <div className="bg-white  border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">

@@ -248,7 +248,7 @@ function CompanyPriceBook() {
       cell: (row, index) => {
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(row.unique_key)}>
+            <div onClick={() => setSelectedAction(selectedAction === row.unique_key ? null : row.unique_key)}>
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
@@ -301,16 +301,14 @@ function CompanyPriceBook() {
             <span className="font-semibold"> {error} </span>
           </p>
         )} */}
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-          {" "}
-          <Link to={"/addCompanyPriceBook"} className="flex">
+
+          <Link to={"/addCompanyPriceBook"} className=" w-[230px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
             <span className="text-black ml-3 text-[14px] font-Regular">
               Add Company Price Book{" "}
             </span>{" "}
           </Link>
-        </Button>
 
         <div className="bg-white border-[1px] border-[#D1D1D1] rounded-xl">
           <form onSubmit={formik.handleSubmit}>

@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
-import arrowImage from "../../../assets/images/dropdownArrow.png";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import disapproved from "../../../assets/images/Disapproved.png";
 import request from "../../../assets/images/request.png";
@@ -15,7 +14,6 @@ import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Modal from "../../../common/model";
 import shorting from "../../../assets/images/icons/shorting.svg";
-import Loader from "../../../assets/images/Loader.gif";
 import {
   getPendingDealersList,
   isApprovedOrDisapprovedStatus,
