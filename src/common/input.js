@@ -74,20 +74,20 @@ const Input = ({
     }
   };
 
-  useEffect(() => {
-    const inputElement = document.getElementById(name);
-    if (inputElement) {
-      inputElement.addEventListener("wheel", handleWheelCapture, {
-        passive: false,
-      });
-    }
+  // useEffect(() => {
+  //   const inputElement = document.getElementById(name);
+  //   if (inputElement) {
+  //     inputElement.addEventListener("wheel", handleWheelCapture, {
+  //       passive: false,
+  //     });
+  //   }
 
-    return () => {
-      if (inputElement) {
-        inputElement.removeEventListener("wheel", handleWheelCapture);
-      }
-    };
-  }, [handleWheelCapture, name]);
+  //   return () => {
+  //     if (inputElement) {
+  //       inputElement.removeEventListener("wheel", handleWheelCapture);
+  //     }
+  //   };
+  // }, [handleWheelCapture, name]);
 
   return (
     <>
