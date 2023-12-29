@@ -6,37 +6,26 @@ import Button from "../../../common/button";
 
 // Media Import 
 import BackImage from "../../../assets/images/icons/backArrow.svg";
+import Bank from "../../../assets/images/icons/bankIcon.svg";
 import address from "../../../assets/images/Dealer/Address.svg";
 import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
-import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
-import ContractsActive from "../../../assets/images/Dealer/Contract-active.svg";
+import DealerActive from "../../../assets/images/icons/dealerDetails.svg";
 import ClaimActive from "../../../assets/images/Dealer/Claim-active.svg";
-import ServicerActive from "../../../assets/images/Dealer/Servicer-active.svg";
-import CustomerActive from "../../../assets/images/Dealer/Customer-active.svg";
 import UserActive from "../../../assets/images/Dealer/User-active.svg";
-import PriceBookActive from "../../../assets/images/Dealer/PriceBook-active.svg";
-import Order from "../../../assets/images/Dealer/Orders.svg";
-import Contract from "../../../assets/images/Dealer/Contract.svg";
+import Dealer from "../../../assets/images/icons/dealer.svg";
 import Claim from "../../../assets/images/Dealer/Claim.svg";
-import Servicer from "../../../assets/images/Dealer/Servicer.svg";
-import Customer from "../../../assets/images/Dealer/Customers.svg";
 import User from "../../../assets/images/Dealer/Users.svg";
-import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
-import OrderList from "./Dealer-Details/order";
-import ContractList from "./Dealer-Details/contract";
-import ClaimList from "./Dealer-Details/claim";
-import ServicerList from "./Dealer-Details/servicer";
-import UserList from "./Dealer-Details/user";
-import PriceBookList from "./Dealer-Details/priceBook";
-import CustomerList from "./Dealer-Details/customer";
+import ClaimList from "../Dealer/Dealer-Details/claim";
+import UserList from "../Dealer/Dealer-Details/user";
 import Modal from "../../../common/model";
 import Input from "../../../common/input";
 import Select from "../../../common/select";
+import DealerDetailList from "../Dealer/Dealer-Details/dealer";
 
-function DealerDetails() {
+function ServicerDetails() {
   const [activeTab, setActiveTab] = useState('tab1'); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -60,13 +49,9 @@ function DealerDetails() {
   ];
 
   const tabs = [
-    { id: 'tab1', label: 'Orders', icons: Order, Activeicons: OrderActive, content: <OrderList /> },
-    { id: 'tab2', label: 'Contracts', icons:Contract, Activeicons: ContractsActive, content: <ContractList /> },
-    { id: 'tab3', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
-    { id: 'tab4', label: 'Servicer', icons: Servicer, Activeicons: ServicerActive, content: <ServicerList /> },
-    { id: 'tab5', label: 'Customers', icons: Customer, Activeicons: CustomerActive, content: <CustomerList /> },
-    { id: 'tab6', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
-    { id: 'tab7', label: 'PriceBook', icons: PriceBook, Activeicons: PriceBookActive, content: <PriceBookList /> },
+    { id: 'tab1', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
+    { id: 'tab2', label: 'Dealer', icons:Dealer, Activeicons: DealerActive, content: <DealerDetailList /> },
+    { id: 'tab3', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
   ];
 
   const handleTabClick = (tabId) => {
@@ -91,18 +76,18 @@ function DealerDetails() {
         </Link>
         <div className="pl-3">
           <p className="font-bold text-[36px] leading-9 mb-[3px]">
-          Dealer Details
+          Servicer Details
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Dealer  /  </Link> {" "}
+              <Link to={"/"}>Servicer  /  </Link> {" "}
             </li>
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>   Dealer List   / </Link> {" "}
+              <Link to={"/"}>   Servicer List   / </Link> {" "}
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
-              Dealer Detail (Price Book) 
+             Servicer Details (Users) 
             </li>
           </ul>
         </div>
@@ -125,6 +110,32 @@ function DealerDetails() {
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular mt-3">Address</p>
                     <p className="text-base text-white font-semibold leading-5">1515 Holcombe Blvd, Houston, TX 77030, USA</p>
+                </div>
+            </div>
+            <div className="flex my-4">
+                <img src={Bank} className="mr-3 bg-[#383838] rounded-[14px] self-start mt-3" alt="Bank"/>
+                <div>
+                    <p className="text-sm text-neutral-grey font-Regular mt-3">Bank Details</p>
+                    <div className="bg-[#383838] border border-[#D1D9E24D] rounded-lg px-2.5 py-2 mt-1">
+                        <Grid className="!gap-1">
+                            <div className="col-span-6">
+                                <p className="text-[10px] text-neutral-grey font-Regular">Bank Name:</p>
+                                <p className="text-sm text-white font-semibold leading-5">XYZ Bank</p>
+                            </div>
+                            <div className="col-span-6">
+                                <p className="text-[10px] text-neutral-grey font-Regular">Account Number:</p>
+                                <p className="text-sm text-white font-semibold leading-5">987654321</p>
+                            </div>
+                            <div className="col-span-6">
+                                <p className="text-[10px] text-neutral-grey font-Regular">ABA Routing Number:</p>
+                                <p className="text-sm text-white font-semibold leading-5">123456789</p>
+                            </div>
+                            <div className="col-span-6">
+                                <p className="text-[10px] text-neutral-grey font-Regular">Account Holder:</p>
+                                <p className="text-sm text-white font-semibold leading-5">John Doe</p>
+                            </div>
+                        </Grid>
+                    </div>
                 </div>
             </div>
             <div className="flex w-full my-4">
@@ -155,18 +166,6 @@ function DealerDetails() {
             <Grid className="mt-5">
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                   <p className="text-white text-lg font-semibold ">6,359</p>
-                   <p className="text-[#999999] text-sm font-Regular ">Total Number of Orders</p>
-                </div>
-              </div>
-              <div className="col-span-6 ">
-                <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                   <p className="text-white text-lg  !font-[600]">$96,859.00</p>
-                   <p className="text-[#999999] text-sm font-Regular">Total Value of Orders</p>
-                </div>
-              </div>
-              <div className="col-span-6 ">
-                <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                    <p className="text-white text-lg !font-[600]">3,843</p>
                    <p className="text-[#999999] text-sm font-Regular">Total number of Claims</p>
                 </div>
@@ -184,7 +183,7 @@ function DealerDetails() {
         <div className="col-span-3">
           <Grid className="!mt-5">
             <div className="col-span-10">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                  <Grid className="!grid-cols-7 !gap-1">
                   {tabs.map((tab) => (
                     <div className="col-span-1" key={tab.id}>
@@ -209,7 +208,7 @@ function DealerDetails() {
                     {" "}
                     <img src={AddItem} className="self-center" alt="AddItem" />{" "}
                     <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
-                    Add Order
+                    Add Dealer
                     </span>{" "}
                   </Link>
                 </Button>
@@ -226,10 +225,10 @@ function DealerDetails() {
       </Grid>
   {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="text-center p-8">
-         <p className="text-3xl font-semibold mb-4">Edit Dealer Details</p>
+        <div className="text-center px-8 py-4">
+         <p className="text-3xl font-bold mb-8">Edit Servicer Details</p>
            <Grid>
-            <div className="col-span-12">
+            <div className="col-span-6">
               <Input
                name='accountName'
                className="!bg-[#fff]"
@@ -237,7 +236,7 @@ function DealerDetails() {
                label='Account Name'
               />
             </div>
-            <div className="col-span-12">
+            <div className="col-span-6">
               <Input
                name='streetAddress'
                className="!bg-[#fff]"
@@ -279,6 +278,44 @@ function DealerDetails() {
               selectedValue={selectedProduct}
               onChange={handleSelectChange1}
             />
+            </div> 
+            <div className="col-span-12">
+            <div className="flex w-full my-2">
+              <p className="text-sm mr-3 text-[#999999] font-Regular">BANK DETAILS</p>
+              <hr className="self-center border-[#999999] w-[80%]"/>
+            </div>
+            </div>
+            <div className="col-span-6">
+              <Input
+               name='bankName'
+               type='text'
+               className="!bg-[#fff]"
+               label='Bank Name'
+              />
+            </div>
+            <div className="col-span-6">
+              <Input
+               name='routingNumber'
+               type='number'
+               className="!bg-[#fff]"
+               label='ABA Routing Number'
+              />
+            </div>
+            <div className="col-span-6">
+              <Input
+               name='accountNumber'
+               type='number'
+               className="!bg-[#fff]"
+               label='Account Number'
+              />
+            </div>
+            <div className="col-span-6">
+              <Input
+               name='accountHolder'
+               type='text'
+               className="!bg-[#fff]"
+               label='Account Holder'
+              />
             </div>
             <div className="col-span-4">
              <Button className='border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular' onClick={closeModal} >Cancel</Button>
@@ -294,4 +331,4 @@ function DealerDetails() {
   );
 }
 
-export default DealerDetails;
+export default ServicerDetails;
