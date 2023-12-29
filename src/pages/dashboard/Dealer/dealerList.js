@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import Button from "../../../common/button";
@@ -22,7 +22,6 @@ function DealerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [dealerList, setDealerList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const dropdownRef = useRef(null);
 
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
@@ -145,7 +144,7 @@ function DealerList() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(selectedAction === row.dealerData.unique_key ? null : row.dealerData.unique_key)}>
+            <div onClick={() => setSelectedAction(row.dealerData.unique_key)}>
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
@@ -153,7 +152,7 @@ function DealerList() {
               />
             </div>
             {selectedAction === row.dealerData.unique_key && (
-              <div ref={dropdownRef}
+              <div
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
@@ -165,7 +164,10 @@ function DealerList() {
                   } `}
                   alt="up arror"
                 /> */}
-                <Link className="text-center p-3" to={`/dealerDetails/${row.dealerData._id}`}>
+                <Link
+                  to={`/dealerDetails/${row?.dealerData._id}`}
+                  className="text-center p-3"
+                >
                   View
                 </Link>
               </div>
@@ -175,22 +177,6 @@ function DealerList() {
       },
     },
   ];
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        // Close the dropdown if the click is outside of it
-        setSelectedAction(null);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      // Cleanup the event listener on component unmount
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
 
   return (
     <>

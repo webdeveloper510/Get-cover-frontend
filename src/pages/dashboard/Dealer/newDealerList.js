@@ -29,6 +29,7 @@ function NewDealerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [pendingDealerList, setPendingDealerList] = useState([]);
+  const [selectedDropdownIndex, setSelectedDropdownIndex] = useState(null);
   const [timer, setTimer] = useState(3);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -42,12 +43,15 @@ function NewDealerList() {
     console.log(`Selected action: ${(action, id)}`);
     if (action) {
       openConfirmModal(id, action);
-      setIsDropdownOpen(false);
+      // setIsDropdownOpen(false);
     }
   };
 
   const handleClickOutside = (event) => {
-    setIsDropdownOpen(false);
+    if (!event.target.closest(".dropdown-container")) {
+      setIsDropdownOpen(false);
+      setSelectedDropdownIndex(null);
+    }
   };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -72,11 +76,7 @@ function NewDealerList() {
     setPendingDealerList(result.data);
     setLoading(false);
   };
-  const truncateText = (text, maxLength) => {
-    return text.length > maxLength
-      ? `${text.substring(0, maxLength)}...`
-      : text;
-  };
+
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = pendingDealerList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
@@ -121,7 +121,7 @@ function NewDealerList() {
       minWidth: "auto",
       maxWidth: "90px",
       cell: (row, index) => (
-        <div className="relative">
+        <div className="relative dropdown-container">
           <div onClick={() => toggleDropdown(index)}>
             <img
               src={ActiveIcon}
