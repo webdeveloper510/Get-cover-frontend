@@ -12,14 +12,23 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Select from "../../../common/select";
+import { getCustomerList } from "../../../services/customerServices";
 
 function CustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
+  const [customerList, setCustomerList] = useState([]);
+
   const navigate = useNavigate();
   const handleSelectChange1 = (label, value) => {
     console.log(label, value, "selected");
     setSelectedProduct(value);
+  };
+
+  const getCustomer = async () => {
+    const result = await getCustomerList();
+    console.log(result.result);
+    setCustomerList(result.result);
   };
   const dropdownRef = useRef(null);
 
@@ -29,7 +38,7 @@ function CustomerList() {
   ];
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = data.length - index <= 2;
+    const isCloseToBottom = customerList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -38,48 +47,29 @@ function CustomerList() {
     rangeSeparatorText: "of",
   };
 
-  const data = [
-    {
-      Categoryid: 1,
-      Categoryname: "Category 1",
-      Email: "abcd@gmail.com",
-      Phoneno: "(095)413-1172",
-      Dealername: "Active",
-      order: "12",
-      orderValue: "$123.00",
-    },
-    {
-      Categoryid: 2,
-      Categoryname: "Category 1",
-      Email: "abcd@gmail.com",
-      Phoneno: "(095)413-1172",
-      Dealername: "Active",
-      order: "12",
-      orderValue: "$123.00",
-    },
-  ];
-
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.Categoryid,
+      selector: (row) => {
+        console.log(row);
+      },
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
     },
     {
-      name: "Category Name",
-      selector: (row) => row.Categoryname,
+      name: "Name",
+      selector: (row) => row.customerData.username,
       sortable: true,
     },
     {
       name: "Email",
-      selector: (row) => row.Email,
+      selector: (row) => row.email,
       sortable: true,
     },
     {
       name: "Phone No.",
-      selector: (row) => row.Phoneno,
+      selector: (row) => row.phoneNumber,
       sortable: true,
     },
     {
@@ -89,12 +79,12 @@ function CustomerList() {
     },
     {
       name: "Orders",
-      selector: (row) => row.order,
+      selector: (row) => 0,
       sortable: true,
     },
     {
       name: "Order Value",
-      selector: (row) => row.orderValue,
+      selector: (row) => "$ 0.00",
       sortable: true,
     },
     {
@@ -143,9 +133,9 @@ function CustomerList() {
   ];
 
   useEffect(() => {
+    getCustomer();
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        // Close the dropdown if the click is outside of it
         setSelectedAction(null);
       }
     };
@@ -256,7 +246,7 @@ function CustomerList() {
           <div className="mb-5 relative">
             <DataTable
               columns={columns}
-              data={data}
+              data={customerList}
               highlightOnHover
               sortIcon={
                 <>

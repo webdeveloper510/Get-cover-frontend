@@ -31,3 +31,15 @@ export const addNewCustomer = async (data) => {
     throw error;
   }
 };
+export const getCustomerList = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/customer/customer`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

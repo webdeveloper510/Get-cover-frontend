@@ -97,7 +97,7 @@ function SidebarItem({
           isActive ? "bg-[#FFF] text-[#000] rounded-s-[30px]" : "text-[#999999]"
         }`}
         onClick={() => {
-          onLinkClick(item.url); // Use onLinkClick here
+          onLinkClick(item.url); 
           if (hasItems) {
             onToggleExpand(item.name);
           } else {
