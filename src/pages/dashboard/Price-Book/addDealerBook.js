@@ -162,9 +162,9 @@ function AddDealerBook() {
       brokerFee: "",
     },
     validationSchema: Yup.object({
-      retailPrice: Yup.number()
+      retailPrice: Yup.number().typeError('Required')
         .required("Required")
-        .min(0, "Retail Price cannot be negative"),
+        .nullable(),
       priceBook: Yup.string().trim().required("Required"),
       dealerId: Yup.string().trim().required("Required"),
       categoryId: Yup.string().trim().required("Required"),
@@ -466,7 +466,7 @@ function AddDealerBook() {
 
                 <div className="col-span-4">
                   <Input
-                    type="tel"
+                    type="number"
                     name="retailPrice"
                     className="!bg-[#fff]"
                     label="Retail Price ($)"
@@ -494,7 +494,8 @@ function AddDealerBook() {
                 </div>
                 <div className="col-span-4">
                   <Select
-                    label="Status*"
+                    label="Status"
+                    required={true}
                     name="status"
                     placeholder=""
                     onChange={handleSelectChange}
