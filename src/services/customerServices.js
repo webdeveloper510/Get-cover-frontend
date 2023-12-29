@@ -19,19 +19,15 @@ const createHeaders = () => {
   }
 };
 
-// export const addNewCustomer = async (data) => {
-//   const headers = createHeaders();
-//   try {
-//     const response = await axios.post(
-//       `${url}/servicer/createServiceProvider`,
-//       data,
-//       {
-//         headers,
-//       }
-//     );
+export const addNewCustomer = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/customer/createCustomer`, data, {
+      headers,
+    });
 
-//     return response.data;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

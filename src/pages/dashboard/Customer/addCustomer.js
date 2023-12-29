@@ -14,17 +14,20 @@ import RadioButton from "../../../common/radio";
 import Modal from "../../../common/model";
 import { cityData } from "../../../stateCityJson";
 import { useFormik } from "formik";
+import disapprove from "../../../assets/images/Disapproved.png";
 import * as Yup from "yup";
 import {
   checkDealersEmailValidation,
   getDealersList,
 } from "../../../services/dealerServices";
+import { addNewCustomer } from "../../../services/customerServices";
+import Cross from "../../../assets/images/Cross.png";
 
 function AddCustomer() {
-  const [selectedValue, setSelectedValue] = useState("");
-  const [selectedOption, setSelectedOption] = useState("option1");
+  const [timer, setTimer] = useState(5);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCity, setSelectedCity] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [dealerList, setDealerList] = useState([]);
@@ -80,6 +83,27 @@ function AddCustomer() {
   useEffect(() => {
     getDealerListData();
   }, []);
+  useEffect(() => {
+    setLoading(true);
+    let intervalId;
+    if (isModalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0 && message === "Servicer Created Successfully") {
+      console.log("here");
+      closeModal();
+    }
+
+    setLoading(false);
+
+    // Cleanup function
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isModalOpen, timer, closeModal, message]);
   const handleAddTeamMember = () => {
     const members = {
       firstName: "",
@@ -111,16 +135,7 @@ function AddCustomer() {
       }
     }
   };
-  const country = [
-    { label: "Country", value: "country" },
-    { label: "Option 2", value: "option2" },
-    { label: "Option 3", value: "option3" },
-  ];
-  const city = [
-    { label: "Country", value: "country" },
-    { label: "Option 2", value: "option2" },
-    { label: "Option 3", value: "option3" },
-  ];
+
   const handleDeleteMembers = (index) => {
     const updatedMembers = [...formik.values.members];
     updatedMembers.splice(index, 1);
@@ -259,8 +274,26 @@ function AddCustomer() {
         members: [newObject, ...values.members],
       };
       console.log(newValues);
-      // const result = await addNewOrApproveDealer(formData);
-      // console.log(result);
+      const result = await addNewCustomer(newValues);
+      console.log(result.message);
+      if (result.message == "Customer created successfully") {
+        setMessage("Servicer Created Successfully");
+        setLoading(false);
+        setIsModalOpen(true);
+
+        // navigate("/servicerList");
+      } else if (
+        result.message == "Servicer already exist with this account name"
+      ) {
+        setLoading(false);
+        formik.setFieldError("accountName", "Name Already Used");
+        setMessage("Some Errors Please Check Form Validations ");
+        setIsModalOpen(true);
+      } else {
+        setLoading(false);
+        setIsModalOpen(true);
+        setMessage(result.message);
+      }
     },
   });
   const getDealerListData = async () => {
@@ -823,17 +856,47 @@ function AddCustomer() {
       </form>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="text-center py-1">
-          <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            Submitted <span className="text-light-black"> Successfully </span>
-          </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            <b> New Dealer </b> added successfully.{" "}
-          </p>
-          {/* <p className='text-neutral-grey text-base font-medium mt-2'>
-           Redirecting you on Category Page {timer} seconds.
-          </p> */}
+        {message === "Servicer Created Successfully" ? (
+          <></>
+        ) : (
+          <>
+            <Button
+              onClick={closeModal}
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+            >
+              <img
+                src={Cross}
+                className="w-full h-full text-black rounded-full p-0"
+              />
+            </Button>{" "}
+          </>
+        )}
+        <div className="text-center py-3">
+          {message === "Servicer Created Successfully" ? (
+            <>
+              <img src={AddDealer} alt="email Image" className="mx-auto" />
+              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                Submitted
+                <span className="text-light-black"> Successfully </span>
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                {message}
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                Redirecting you on Dealer Page {timer} seconds.
+              </p>
+            </>
+          ) : (
+            <>
+              <img src={disapprove} alt="email Image" className="mx-auto" />
+              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                Error
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                {message}
+              </p>
+            </>
+          )}
         </div>
       </Modal>
     </div>
