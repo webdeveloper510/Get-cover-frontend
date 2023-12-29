@@ -18,3 +18,85 @@ const createHeaders = () => {
     };
   }
 };
+
+export const addNewServicer = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/servicer/createServiceProvider`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addNewServicerRequest = async (status) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/servicer/servicers/${status}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const isApprovedOrDisapprovedStatus = async (data) => {
+  console.log(data);
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.delete(
+      `${url}/servicer/rejectServicer/${data.id}`,
+      { headers }
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getServicerDetailsByid = async (id) => {
+  const headers = createHeaders();
+  console.log(id);
+
+  try {
+    const response = await axios.get(
+      `${url}/servicer/getServiceProviderById/${id.id}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const approveServicer = async (id, value) => {
+  const headers = createHeaders();
+  console.log(id);
+
+  try {
+    const response = await axios.put(
+      `${url}/servicer/approveServicer/${id}`,
+      value,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

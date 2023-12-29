@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Link } from "react-router-dom";
 import Button from "../../../common/button";
@@ -22,6 +22,7 @@ function DealerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [dealerList, setDealerList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const dropdownRef = useRef(null);
 
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
@@ -41,7 +42,20 @@ function DealerList() {
   };
   useEffect(() => {
     getDealerList();
-  }, []);
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          // Close the dropdown if the click is outside of it
+          setSelectedAction(null);
+        }
+      };
+  
+      document.addEventListener("click", handleClickOutside);
+  
+      return () => {
+        // Cleanup the event listener on component unmount
+        document.removeEventListener("click", handleClickOutside);
+      };
+    }, []);
 
   const handleStatusChange = async (row, newStatus) => {
     console.log(row, newStatus);
@@ -152,7 +166,7 @@ function DealerList() {
               />
             </div>
             {selectedAction === row.dealerData.unique_key && (
-              <div
+              <div ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}

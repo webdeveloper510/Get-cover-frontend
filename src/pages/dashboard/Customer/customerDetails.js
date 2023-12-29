@@ -6,37 +6,30 @@ import Button from "../../../common/button";
 
 // Media Import 
 import BackImage from "../../../assets/images/icons/backArrow.svg";
+import DealerIcons from "../../../assets/images/icons/DealerIcons.svg";
+import DealerList from "../../../assets/images/icons/dealerList.svg";
 import address from "../../../assets/images/Dealer/Address.svg";
 import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
-import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
-import Order from "../../../assets/images/Dealer/Orders.svg";
-import ContractsActive from "../../../assets/images/Dealer/Contract-active.svg";
+import DealerActive from "../../../assets/images/icons/dealerDetails.svg";
 import ClaimActive from "../../../assets/images/Dealer/Claim-active.svg";
-import ServicerActive from "../../../assets/images/Dealer/Servicer-active.svg";
-import CustomerActive from "../../../assets/images/Dealer/Customer-active.svg";
 import UserActive from "../../../assets/images/Dealer/User-active.svg";
-import PriceBookActive from "../../../assets/images/Dealer/PriceBook-active.svg";
-import Contract from "../../../assets/images/Dealer/Contract.svg";
+import Dealer from "../../../assets/images/icons/dealer.svg";
 import Claim from "../../../assets/images/Dealer/Claim.svg";
-import Servicer from "../../../assets/images/Dealer/Servicer.svg";
-import Customer from "../../../assets/images/Dealer/Customers.svg";
 import User from "../../../assets/images/Dealer/Users.svg";
-import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
-import OrderList from "./Dealer-Details/order";
-import ContractList from "./Dealer-Details/contract";
-import ClaimList from "./Dealer-Details/claim";
-import ServicerList from "./Dealer-Details/servicer";
-import UserList from "./Dealer-Details/user";
-import PriceBookList from "./Dealer-Details/priceBook";
-import CustomerList from "./Dealer-Details/customer";
+import ClaimList from "../Dealer/Dealer-Details/claim";
+import UserList from "../Dealer/Dealer-Details/user";
 import Modal from "../../../common/model";
 import Input from "../../../common/input";
+import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
+import Order from "../../../assets/images/Dealer/Orders.svg";
 import Select from "../../../common/select";
+import DealerDetailList from "../Dealer/Dealer-Details/dealer";
+import OrderList from "../Dealer/Dealer-Details/order";
 
-function DealerDetails() {
+function CustomerDetails() {
   const [activeTab, setActiveTab] = useState('tab1'); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -60,13 +53,10 @@ function DealerDetails() {
   ];
 
   const tabs = [
-    { id: 'tab1', label: 'Orders', icons: Order, Activeicons: OrderActive, content: <OrderList /> },
-    { id: 'tab2', label: 'Contracts', icons:Contract, Activeicons: ContractsActive, content: <ContractList /> },
-    { id: 'tab3', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
-    { id: 'tab4', label: 'Servicer', icons: Servicer, Activeicons: ServicerActive, content: <ServicerList /> },
-    { id: 'tab5', label: 'Customers', icons: Customer, Activeicons: CustomerActive, content: <CustomerList /> },
-    { id: 'tab6', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
-    { id: 'tab7', label: 'PriceBook', icons: PriceBook, Activeicons: PriceBookActive, content: <PriceBookList /> },
+    { id: 'tab1', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
+    { id: 'tab2', label: 'Order', icons: Order, Activeicons: OrderActive, content: <OrderList /> },
+    { id: 'tab3', label: 'Dealer', icons:Dealer, Activeicons: DealerActive, content: <DealerDetailList /> },
+    { id: 'tab4', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
   ];
 
   const handleTabClick = (tabId) => {
@@ -91,18 +81,18 @@ function DealerDetails() {
         </Link>
         <div className="pl-3">
           <p className="font-bold text-[36px] leading-9 mb-[3px]">
-          Dealer Details
+          Customer Details
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Dealer  /  </Link> {" "}
+              <Link to={"/"}>Customer  /  </Link> {" "}
             </li>
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>   Dealer List   / </Link> {" "}
+              <Link to={"/"}>   Customer List   / </Link> {" "}
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
-              Dealer Detail (Price Book) 
+              Customer Details (Users) 
             </li>
           </ul>
         </div>
@@ -132,6 +122,17 @@ function DealerDetails() {
               <hr className="self-center border-[#999999] w-[50%]"/>
             </div>
             <div className="flex mb-4">
+                <div className="relative">
+                    <img src={DealerIcons} className="mr-3 bg-[#383838] rounded-[14px]" alt="DealerIcons"/>
+                    <Link to={'/dealerDetails/:id'}> <img src={DealerList} className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2" alt="DealerList" /> </Link>
+
+                </div>
+                <div>
+                    <p className="text-sm text-neutral-grey font-Regular">Dealer Name</p>
+                    <p className="text-base text-white font-semibold ">Edward Wilson</p>
+                </div>
+            </div>
+            <div className="flex mb-4">
                 <img src={name} className="mr-3 bg-[#383838] rounded-[14px]" alt="Name"/>
                 <div>
                     <p className="text-sm text-neutral-grey font-Regular">Name</p>
@@ -155,13 +156,13 @@ function DealerDetails() {
             <Grid className="mt-5">
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                   <p className="text-white text-lg font-semibold ">6,359</p>
-                   <p className="text-[#999999] text-sm font-Regular ">Total Number of Orders</p>
+                   <p className="text-white text-lg !font-[600]">3,843</p>
+                   <p className="text-[#999999] text-sm font-Regular">Total number of Orders</p>
                 </div>
               </div>
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                   <p className="text-white text-lg  !font-[600]">$96,859.00</p>
+                   <p className="text-white text-lg  !font-[600]">$35,859.00</p>
                    <p className="text-[#999999] text-sm font-Regular">Total Value of Orders</p>
                 </div>
               </div>
@@ -184,7 +185,7 @@ function DealerDetails() {
         <div className="col-span-3">
           <Grid className="!mt-5">
             <div className="col-span-10">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                  <Grid className="!grid-cols-7 !gap-1">
                   {tabs.map((tab) => (
                     <div className="col-span-1" key={tab.id}>
@@ -209,7 +210,7 @@ function DealerDetails() {
                     {" "}
                     <img src={AddItem} className="self-center" alt="AddItem" />{" "}
                     <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
-                    Add Order
+                    Add Dealer
                     </span>{" "}
                   </Link>
                 </Button>
@@ -226,8 +227,8 @@ function DealerDetails() {
       </Grid>
   {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="text-center p-8">
-         <p className="text-3xl font-semibold mb-4">Edit Dealer Details</p>
+        <div className="text-center px-8 py-4">
+         <p className="text-3xl font-bold mb-8">Edit Customer Details</p>
            <Grid>
             <div className="col-span-12">
               <Input
@@ -293,5 +294,4 @@ function DealerDetails() {
 
   );
 }
-
-export default DealerDetails;
+export default CustomerDetails

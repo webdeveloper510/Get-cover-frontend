@@ -82,14 +82,8 @@ function SidebarItem({
           expandedItem === item.name
       );
     }
-  }, [
-    active,
-    expandedItem,
-    item,
-    setExpandedItem,
-    locationGet.pathname,
-    setIsActive,
-  ]);
+  }, [active, expandedItem, item, setExpandedItem,  locationGet.pathname, setIsActive]);
+  // console.log(isActive)
 
   return (
     <li
@@ -306,7 +300,7 @@ function SideBar() {
         },
         {
           name: "New Servicer Requests",
-          url: "/requestList",
+          url: "/servicerRequestList",
           image: Dropdown2,
           active: ForthActive,
         },

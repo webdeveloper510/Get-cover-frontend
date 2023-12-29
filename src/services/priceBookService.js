@@ -149,7 +149,9 @@ export const getDealerList = async () => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.get(`${url}/admin/approveDealers`, { headers });
+    const response = await axios.post(`${url}/admin/approveDealers`, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {

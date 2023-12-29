@@ -57,16 +57,24 @@ function AddCompanyPriceBook() {
       description: Yup.string().required("Required"),
       term: Yup.number().required("Required"),
       frontingFee: Yup.number()
-        .required("Required")
-        .min(0, "Fronting fee cannot be negative"),
+      .typeError('Required')
+      .required("Required")
+      .min(0, "Fronting Fee fee cannot be negative")
+      .nullable(),
       reinsuranceFee: Yup.number()
-        .required("Required")
-        .min(0, "Re-insurance fee cannot be negative"),
+      .typeError('Required')
+      .required("Required")
+      .nullable()
+      .min(0, "Re-insurance fee cannot be negative"),
       reserveFutureFee: Yup.number()
-        .required("Required")
+      .typeError('Required')
+      .required("Required")
+      .nullable()
         .min(0, "ReserveFuture fee cannot be negative"),
       adminFee: Yup.number()
-        .required("Required")
+      .typeError('Required')
+      .required("Required")
+      .nullable()
         .min(0, "Admin fee cannot be negative"),
       status: Yup.string().required("Required"),
     }),
@@ -499,7 +507,7 @@ function AddCompanyPriceBook() {
                 </div>
                 <div className="col-span-1">
                   <Input
-                    type="tel"
+                    type="number"
                     name="reinsuranceFee"
                     className="!bg-[#fff]"
                     label="Re-insurance fee ($)"
@@ -527,7 +535,7 @@ function AddCompanyPriceBook() {
                 </div>
                 <div className="col-span-1">
                   <Input
-                    type="tel"
+                    type="number"
                     name="reserveFutureFee"
                     required={true}
                     minLength={"1"}
@@ -555,7 +563,7 @@ function AddCompanyPriceBook() {
                 </div>
                 <div className="col-span-1">
                   <Input
-                    type="tel"
+                    type="number"
                     name="adminFee"
                     className="!bg-[#fff]"
                     required={true}

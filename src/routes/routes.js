@@ -26,6 +26,8 @@ import Notification from "../pages/notification/notification";
 import DealerDetails from "../pages/dashboard/Dealer/dealerDetails";
 import AddOrder from "../pages/dashboard/Order/addOrder";
 import OrderList from "../pages/dashboard/Order/orderList";
+import ServicerDetails from "../pages/dashboard/Servicer/servicerDetails";
+import CustomerDetails from "../pages/dashboard/Customer/customerDetails";
 
 const routes = [
   {
@@ -95,10 +97,17 @@ const routes = [
         ),
       },
       {
-        path: "/dealerDetails",
+        path: "/servicerDetails",
         index: true,
         element: (
-          <PrivateRoute element={<DealerDetails />} path="/dealerDetails" />
+          <PrivateRoute element={<ServicerDetails />} />
+        ),
+      },
+      {
+        path: "/customerDetails",
+        index: true,
+        element: (
+          <PrivateRoute element={<CustomerDetails />} />
         ),
       },
     ],
@@ -114,8 +123,14 @@ const routes = [
         ),
       },
       {
+        path: "/dealerDetails/:id",
+        index: true,
+        element: <PrivateRoute element={<DealerDetails />} />,
+      },
+     
+      {
         path: "/dealer/:id?",
-        element: <Dealer />,
+        element: <PrivateRoute element={<Dealer />} />,
       },
       {
         path: "/addCustomer",
@@ -205,7 +220,7 @@ const routes = [
       },
       {
         path: "/addServicer/:id?",
-        element: <AddServicer />,
+        element: <PrivateRoute element={<AddServicer />} />,
       },
       {
         path: "/servicerList",
@@ -214,9 +229,12 @@ const routes = [
         ),
       },
       {
-        path: "/requestList",
+        path: "/servicerRequestList",
         element: (
-          <PrivateRoute element={<RequestServicer />} path="/requestList" />
+          <PrivateRoute
+            element={<RequestServicer />}
+            path="/servicerRequestList"
+          />
         ),
       },
       {

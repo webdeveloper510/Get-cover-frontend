@@ -315,25 +315,33 @@ function Dealer() {
     enableReinitialize: true,
     validationSchema: Yup.object({
       name: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(50, "Must be exactly 50 characters"),
       street: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(50, "Must be exactly 50 characters"),
-      state: Yup.string().required("Required"),
-      city: Yup.string().required("Required"),
+      state: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      city: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
       country: Yup.string().required("Required"),
       email: Yup.string()
         .matches(emailValidationRegex, "Invalid email address")
         .required("Required"),
       zip: Yup.string()
         .required("Required")
-        .min(5, "Must be at least 5 characters")
-        .max(6, "Must be exactly 6 characters"),
+        .min(5, " Zip code must be 5-6 characters ")
+        .max(6, " Zip code must be 6 characters "),
       firstName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
       lastName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
       phoneNumber: Yup.string()
@@ -344,9 +352,11 @@ function Dealer() {
       dealers: Yup.array().of(
         Yup.object().shape({
           firstName: Yup.string()
+            .transform((originalValue) => originalValue.trim())
             .required("Required")
             .max(30, "Must be exactly 30 characters"),
           lastName: Yup.string()
+            .transform((originalValue) => originalValue.trim())
             .required("Required")
             .max(30, "Must be exactly 30 characters"),
           phoneNumber: Yup.string()
@@ -368,7 +378,10 @@ function Dealer() {
               Yup.object().shape({
                 priceBookId: Yup.string().required("Required"),
                 categoryId: Yup.string().required("Required"),
-                retailPrice: Yup.string().required("Required"),
+                retailPrice: Yup.number()
+                  .typeError("Required")
+                  .required("Required")
+                  .nullable(),
                 status: Yup.boolean().required("Required"),
               })
             ),

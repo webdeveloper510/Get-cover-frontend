@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
-import arrowImage from "../../../assets/images/dropdownArrow.png";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import disapproved from "../../../assets/images/Disapproved.png";
 import request from "../../../assets/images/request.png";
@@ -15,7 +14,6 @@ import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Modal from "../../../common/model";
 import shorting from "../../../assets/images/icons/shorting.svg";
-import Loader from "../../../assets/images/Loader.gif";
 import {
   getPendingDealersList,
   isApprovedOrDisapprovedStatus,
@@ -31,6 +29,7 @@ function NewDealerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [pendingDealerList, setPendingDealerList] = useState([]);
+  const [selectedDropdownIndex, setSelectedDropdownIndex] = useState(null);
   const [timer, setTimer] = useState(3);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -44,7 +43,7 @@ function NewDealerList() {
     console.log(`Selected action: ${(action, id)}`);
     if (action) {
       openConfirmModal(id, action);
-      setIsDropdownOpen(false);
+      // setIsDropdownOpen(false);
     }
   };
 
@@ -74,11 +73,7 @@ function NewDealerList() {
     setPendingDealerList(result.data);
     setLoading(false);
   };
-  const truncateText = (text, maxLength) => {
-    return text.length > maxLength
-      ? `${text.substring(0, maxLength)}...`
-      : text;
-  };
+
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = pendingDealerList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
@@ -123,7 +118,7 @@ function NewDealerList() {
       minWidth: "auto",
       maxWidth: "90px",
       cell: (row, index) => (
-        <div className="relative">
+        <div className="relative dropdown-container">
           <div onClick={() => toggleDropdown(index)}>
             <img
               src={ActiveIcon}
@@ -315,9 +310,6 @@ function NewDealerList() {
         </div>
 
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
-          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
-        </Button> */}
           <div className="text-center py-3">
             <img src={request} alt="email Image" className="mx-auto" />
             <p className="text-3xl mb-0 mt-4 font-semibold text-light-black">

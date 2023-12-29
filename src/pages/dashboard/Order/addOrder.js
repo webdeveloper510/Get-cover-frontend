@@ -52,14 +52,14 @@ function AddOrder() {
       <div className='my-8 ml-3'>
         <Headbar/>
         <div className='flex mt-2'>
-        <Link to={'/customerList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
+        <Link to={'/orderList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
             <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
           </Link>
           <div className='pl-3'>
             <p className='font-bold text-[36px] leading-9 mb-[3px]'>Add Order</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Order </Link>  /  </li>
-              <li className='text-sm text-neutral-grey font-Regular'> Add Order </li>
+              <li className='text-sm text-neutral-grey font-Regular'> Add Order / </li>
               <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'>  Order Details </li>
             </ul>
           </div>
@@ -86,6 +86,143 @@ function AddOrder() {
                 <p className='border border-black rounded-full mx-auto w-[26px]'>4</p>
                 <p className='text-sm font-bold'>Order Details</p>
             </div>
+          </div>
+           {/* First Step  */}
+          <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
+            <p className='text-2xl font-bold mb-4'>Order Details</p>
+            <Grid>
+              <div className='col-span-6'>
+                <Grid>
+                  <div className='col-span-6'>
+                    <Select 
+                     label="Dealer Name"
+                     name="dealerName"
+                     placeholder=""
+                     className="!bg-white"
+                     required={true}
+                     options={country}
+                    />
+                  </div>
+                  <div className='col-span-6'>
+                  <Select 
+                     label="Servicer Name"
+                     name="servicerName"
+                     placeholder=""
+                     className="!bg-white"
+                     required={true}
+                     options={city}
+                    />
+                  </div>
+                  <div className='col-span-12'>
+                  <Select 
+                     label="Customer Name"
+                     name="customerName"
+                     placeholder=""
+                     className="!bg-white"
+                     required={true}
+                     options={country}
+                    />
+                  </div>
+                </Grid>
+              </div>
+              <div className='col-span-6 self-end justify-end flex'>
+                <Button>Next</Button>
+              </div>
+            </Grid>
+          </div>
+          {/* Second Step  */}
+          <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
+            <p className='text-2xl font-bold mb-4'>Dealer Order Details</p>
+            <Grid>
+              <div className='col-span-6'>
+                <Grid>
+                  <div className='col-span-12'>
+                    <Select 
+                     label="Dealer Purchase Order"
+                     name="dealerPurchaseOrder"
+                     placeholder=""
+                     className="!bg-white"
+                     required={true}
+                     options={country}
+                    />
+                  </div>
+                  <div className='col-span-6'>
+                  <Select 
+                     label="Service Coverage"
+                     name="servicerCoverage"
+                     placeholder=""
+                     className="!bg-white"
+                     required={true}
+                     options={city}
+                    />
+                  </div>
+                  <div className='col-span-6'>
+                  <Select 
+                     label="Coverage Type"
+                     name="customerType"
+                     placeholder=""
+                     className="!bg-white"
+                     required={true}
+                     options={country}
+                    />
+                  </div>
+                </Grid>
+              </div>
+              <div className='col-span-6 self-end justify-end flex'>
+                <Button className='!bg-white !text-black'>Previous</Button>
+                <Button>Next</Button>
+              </div>
+            </Grid>
+          </div>
+          {/* third Step  */}
+          <div>
+            <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
+              <p className='text-2xl font-bold mb-4'>Add Product</p>
+              <div className='absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 '>
+              <Button>+ Add More Product</Button>
+              </div>
+              <Grid>
+                <div className='col-span-8'>
+                  <Grid>
+                    <div className='col-span-12'>
+                      <Select 
+                      label="Dealer Purchase Order"
+                      name="dealerPurchaseOrder"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      options={country}
+                      />
+                    </div>
+                    <div className='col-span-6'>
+                    <Select 
+                      label="Service Coverage"
+                      name="servicerCoverage"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      options={city}
+                      />
+                    </div>
+                    <div className='col-span-6'>
+                    <Select 
+                      label="Coverage Type"
+                      name="customerType"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      options={country}
+                      />
+                    </div>
+                  </Grid>
+                </div>
+                <div className='col-span-4 self-end justify-end flex'>
+                  
+                </div>
+              </Grid>
+            </div>
+            <Button className='!bg-white !text-black'>Previous</Button>
+            <Button>Next</Button>
           </div>
       </div>
     )

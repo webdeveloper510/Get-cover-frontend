@@ -25,6 +25,7 @@ function AddCategory() {
   const [error, setError] = useState("");
   const [type, setType] = useState("");
   const [loader, setLoader] = useState(false);
+  
   const [timer, setTimer] = useState(5);
   const [categoryDetails, setCategoryDetails] = useState({});
   const navigate = useNavigate();
