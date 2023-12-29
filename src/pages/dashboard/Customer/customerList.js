@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -16,16 +16,12 @@ import Select from "../../../common/select";
 function CustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
-
+  const navigate = useNavigate();
   const handleSelectChange1 = (label, value) => {
     console.log(label, value, "selected");
     setSelectedProduct(value);
   };
-  const handleActionChange = (action) => {
-    // Implement the logic for the selected action (e.g., edit or delete)
-    console.log(`Selected action: ${action}`);
-    // You can replace the console.log statement with the actual logic you want to perform
-  };
+  const dropdownRef = useRef(null);
 
   const status = [
     { label: "Active", value: true },
@@ -109,7 +105,7 @@ function CustomerList() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(row.Categoryid)}>
+            <div onClick={() =>  setSelectedAction(selectedAction === row.Categoryid ? null : row.Categoryid)}>
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
@@ -117,13 +113,15 @@ function CustomerList() {
               />
             </div>
             {selectedAction === row.Categoryid && (
-              <div
+              <div ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                <div className="text-center py-1">Edit</div>
+                <div className="text-center cursor-pointer py-1"  onClick={() => { 
+                navigate(`/addCustomer`);
+              }}>View</div>
               </div>
             )}
           </div>
@@ -131,7 +129,22 @@ function CustomerList() {
       },
     },
   ];
+ 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        // Close the dropdown if the click is outside of it
+        setSelectedAction(null);
+      }
+    };
 
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Cleanup the event listener on component unmount
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   return (
     <>
       <div className="my-8 ml-3">
@@ -148,9 +161,7 @@ function CustomerList() {
           </div>
         </div>
 
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-          {" "}
-          <Link to={"/addCustomer"} className="flex">
+          <Link to={"/addCustomer"} className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
             <span className="text-black ml-3 text-[14px] font-Regular">
@@ -158,7 +169,6 @@ function CustomerList() {
               Add New Customer{" "}
             </span>{" "}
           </Link>
-        </Button>
 
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">

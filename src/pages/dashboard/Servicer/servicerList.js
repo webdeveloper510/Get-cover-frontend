@@ -1,10 +1,11 @@
-import React , { useState } from 'react'
+import React , { useEffect, useRef, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import Button from '../../../common/button'
 
 import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
 import arrowImage from '../../../assets/images/dropdownArrow.png';
+import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Headbar from '../../../common/headBar';
@@ -15,12 +16,7 @@ import DataTable from "react-data-table-component"
 
 function ServicerList() {
     const [selectedAction, setSelectedAction] = useState(null);
-
-    const handleActionChange = (action) => {
-      // Implement the logic for the selected action (e.g., edit or delete)
-      console.log(`Selected action: ${action}`);
-      // You can replace the console.log statement with the actual logic you want to perform
-    };
+    const dropdownRef = useRef(null);
   
     const data = [
       {
@@ -115,14 +111,13 @@ function ServicerList() {
           // console.log(index, index % 10 == 9)
           return (
             <div className="relative">
-            <div onClick={() => setSelectedAction(row.Categoryid)}>
+            <div onClick={() =>  setSelectedAction(selectedAction === row.Categoryid ? null : row.Categoryid)}>
               <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
             </div>
             {selectedAction === row.Categoryid && (
-              <div className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              <div ref={dropdownRef} className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}>
-                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                   <div className='text-center cursor-pointer py-1'>View</div>
               </div>
             )}
@@ -132,6 +127,22 @@ function ServicerList() {
         
       },
     ];
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          // Close the dropdown if the click is outside of it
+          setSelectedAction(null);
+        }
+      };
+  
+      document.addEventListener("click", handleClickOutside);
+  
+      return () => {
+        // Cleanup the event listener on component unmount
+        document.removeEventListener("click", handleClickOutside);
+      };
+    }, []);
   
     return (
       <>
@@ -148,7 +159,7 @@ function ServicerList() {
             </div>
           </div>
 
-          <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addServicer'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-semibold'>Add New Servicer </span>  </Link></Button>
+           <Link to={'/addServicer'} className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-semibold'>Add New Servicer </span>  </Link>
     
           <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
             <Grid className='!p-[26px] !pt-[14px] !pb-0'>
@@ -157,18 +168,28 @@ function ServicerList() {
               </div>
               <div className='col-span-7'>
                 <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-                  <Grid className='!grid-cols-7' >
-                    <div className='col-span-2 self-center'>
+                  <Grid className='!grid-cols-11' >
+                    <div className='col-span-3 self-center'>
                       <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Name' />
                     </div>
-                    <div className='col-span-2 self-center'>
+                    <div className='col-span-3 self-center'>
                       <Input name='Email' type='email'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Email' />
                     </div>
-                    <div className='col-span-2 self-center'>
+                    <div className='col-span-3 self-center'>
                       <Input name='PhoneNo.' type='number'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Phone' />
                     </div>
-                    <div className='col-span-1 self-center'>
+                    <div className='col-span-2 self-center flex'>
                       <img src={Search} className='cursor-pointer' alt='Search' />
+                      <Button
+                      type="submit"
+                      className="!ml-2 !bg-transparent !p-0"
+                    >
+                      <img
+                        src={clearFilter}
+                        className="cursor-pointer	mx-auto"
+                        alt="clearFilter"
+                      />
+                    </Button>
                     </div>
                   </Grid>
   

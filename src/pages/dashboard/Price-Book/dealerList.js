@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
@@ -28,17 +28,7 @@ function DealerPriceList() {
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigte = useNavigate();
-
-  const handleActionChange = (action) => {
-    console.log(`Selected action: ${action}`);
-  };
-  const handleSelectChange1 = (name, value) => {
-    setSelectedProduct(value);
-  };
-
-  const handleSelectChange = (name, value) => {
-    setSelectedTearm(value);
-  };
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     getDealerList();
@@ -106,6 +96,8 @@ function DealerPriceList() {
     navigte(`/editDealerBook/${row._id}`);
     console.log(row);
   };
+
+
 
   const columns = [
     {
@@ -186,7 +178,7 @@ function DealerPriceList() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(index)}>
+            <div onClick={() => setSelectedAction(selectedAction === index ? null : index)}>
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
@@ -194,18 +186,11 @@ function DealerPriceList() {
               />
             </div>
             {selectedAction === index && (
-              <div
+              <div ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
-                {/* <img
-                  src={arrowImage}
-                  className={`absolute  object-contain left-1/2 w-[12px] ${
-                    index % 10 === 9 ? "bottom-[-5px] rotate-180" : "top-[-5px]"
-                  } `}
-                  alt="up arror"
-                /> */}
                 <div
                   className="text-center py-3 cursor-pointer"
                   onClick={() => editScreen(row)}
@@ -219,6 +204,22 @@ function DealerPriceList() {
       },
     },
   ];
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        // Close the dropdown if the click is outside of it
+        setSelectedAction(null);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Cleanup the event listener on component unmount
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -240,16 +241,13 @@ function DealerPriceList() {
             </ul>
           </div>
         </div>
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-          {" "}
-          <Link to={"/addDealerBook"} className="flex">
+          <Link to={"/addDealerBook"} className=" w-[230px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
             <span className="text-black ml-3 text-[14px] font-Regular">
               Add Dealer Book{" "}
             </span>{" "}
           </Link>
-        </Button>
 
         <div className="bg-white  border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">

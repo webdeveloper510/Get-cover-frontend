@@ -316,26 +316,30 @@ function Dealer() {
     validationSchema: Yup.object({
       name: Yup.string()
         .required("Required")
-        .max(50, "Must be exactly 50 characters"),
+        .max(50, "Must be exactly 50 characters")
+        .matches(/^[^\s].*[^\s]$/, 'Spaces are only allowed between words'),
       street: Yup.string()
         .required("Required")
-        .max(50, "Must be exactly 50 characters"),
-      state: Yup.string().required("Required"),
-      city: Yup.string().required("Required"),
+        .max(50, "Must be exactly 50 characters")
+        .matches(/^[^\s].*[^\s]$/, 'Spaces are only allowed between words'),
+      state: Yup.string().required("Required").matches(/^[^\s].*[^\s]$/, 'Spaces are only allowed between words'),
+      city: Yup.string().required("Required").matches(/^[^\s].*[^\s]$/, 'Spaces are only allowed between words'),
       country: Yup.string().required("Required"),
       email: Yup.string()
         .matches(emailValidationRegex, "Invalid email address")
         .required("Required"),
       zip: Yup.string()
         .required("Required")
-        .min(5, "Must be at least 5 characters")
-        .max(6, "Must be exactly 6 characters"),
+        .min(5, " Zip code must be 5-6 characters ")
+        .max(6, " Zip code must be 6 characters "),
       firstName: Yup.string()
         .required("Required")
-        .max(30, "Must be exactly 30 characters"),
+        .max(30, "Must be exactly 30 characters")
+        .matches(/^[^\s].*[^\s]$/, 'Spaces are only allowed between words'),
       lastName: Yup.string()
         .required("Required")
-        .max(30, "Must be exactly 30 characters"),
+        .max(30, "Must be exactly 30 characters")
+        .matches(/^[^\s].*[^\s]$/, 'Spaces are only allowed between words'),
       phoneNumber: Yup.string()
         .required("Required")
         .min(10, "Must be at least 10 characters")
@@ -345,10 +349,10 @@ function Dealer() {
         Yup.object().shape({
           firstName: Yup.string()
             .required("Required")
-            .max(30, "Must be exactly 30 characters"),
+            .max(30, "Must be exactly 30 characters").matches(/^[^\s].*[^\s]$/, 'Spaces are only allowed between words'),
           lastName: Yup.string()
             .required("Required")
-            .max(30, "Must be exactly 30 characters"),
+            .max(30, "Must be exactly 30 characters").matches(/^[^\s].*[^\s]$/, 'Spaces are only allowed between words'),
           phoneNumber: Yup.string()
             .required("Required")
             .min(10, "Must be at least 10 characters")
@@ -368,7 +372,9 @@ function Dealer() {
               Yup.object().shape({
                 priceBookId: Yup.string().required("Required"),
                 categoryId: Yup.string().required("Required"),
-                retailPrice: Yup.string().required("Required"),
+                retailPrice: Yup.number() .typeError('Required')
+                .required("Required")
+                .nullable(),
                 status: Yup.boolean().required("Required"),
               })
             ),

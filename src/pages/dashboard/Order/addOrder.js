@@ -52,14 +52,14 @@ function AddOrder() {
       <div className='my-8 ml-3'>
         <Headbar/>
         <div className='flex mt-2'>
-        <Link to={'/customerList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
+        <Link to={'/orderList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
             <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
           </Link>
           <div className='pl-3'>
             <p className='font-bold text-[36px] leading-9 mb-[3px]'>Add Order</p>
             <ul className='flex self-center'>
               <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Order </Link>  /  </li>
-              <li className='text-sm text-neutral-grey font-Regular'> Add Order </li>
+              <li className='text-sm text-neutral-grey font-Regular'> Add Order / </li>
               <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'>  Order Details </li>
             </ul>
           </div>
