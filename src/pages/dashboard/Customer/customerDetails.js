@@ -6,7 +6,8 @@ import Button from "../../../common/button";
 
 // Media Import 
 import BackImage from "../../../assets/images/icons/backArrow.svg";
-import Bank from "../../../assets/images/icons/bankIcon.svg";
+import DealerIcons from "../../../assets/images/icons/DealerIcons.svg";
+import DealerList from "../../../assets/images/icons/dealerList.svg";
 import address from "../../../assets/images/Dealer/Address.svg";
 import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
@@ -22,10 +23,13 @@ import ClaimList from "../Dealer/Dealer-Details/claim";
 import UserList from "../Dealer/Dealer-Details/user";
 import Modal from "../../../common/model";
 import Input from "../../../common/input";
+import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
+import Order from "../../../assets/images/Dealer/Orders.svg";
 import Select from "../../../common/select";
 import DealerDetailList from "../Dealer/Dealer-Details/dealer";
+import OrderList from "../Dealer/Dealer-Details/order";
 
-function ServicerDetails() {
+function CustomerDetails() {
   const [activeTab, setActiveTab] = useState('tab1'); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -50,8 +54,9 @@ function ServicerDetails() {
 
   const tabs = [
     { id: 'tab1', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
-    { id: 'tab2', label: 'Dealer', icons:Dealer, Activeicons: DealerActive, content: <DealerDetailList /> },
-    { id: 'tab3', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
+    { id: 'tab2', label: 'Order', icons: Order, Activeicons: OrderActive, content: <OrderList /> },
+    { id: 'tab3', label: 'Dealer', icons:Dealer, Activeicons: DealerActive, content: <DealerDetailList /> },
+    { id: 'tab4', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
   ];
 
   const handleTabClick = (tabId) => {
@@ -76,18 +81,18 @@ function ServicerDetails() {
         </Link>
         <div className="pl-3">
           <p className="font-bold text-[36px] leading-9 mb-[3px]">
-          Servicer Details
+          Customer Details
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Servicer  /  </Link> {" "}
+              <Link to={"/"}>Customer  /  </Link> {" "}
             </li>
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>   Servicer List   / </Link> {" "}
+              <Link to={"/"}>   Customer List   / </Link> {" "}
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
-             Servicer Details (Users) 
+              Customer Details (Users) 
             </li>
           </ul>
         </div>
@@ -112,35 +117,20 @@ function ServicerDetails() {
                     <p className="text-base text-white font-semibold leading-5">1515 Holcombe Blvd, Houston, TX 77030, USA</p>
                 </div>
             </div>
-            <div className="flex my-4">
-                <img src={Bank} className="mr-3 bg-[#383838] rounded-[14px] self-start mt-3" alt="Bank"/>
-                <div>
-                    <p className="text-sm text-neutral-grey font-Regular mt-3">Bank Details</p>
-                    <div className="bg-[#383838] border border-[#D1D9E24D] rounded-lg px-2.5 py-2 mt-1">
-                        <Grid className="!gap-1">
-                            <div className="col-span-6">
-                                <p className="text-[10px] text-neutral-grey font-Regular">Bank Name:</p>
-                                <p className="text-sm text-white font-semibold leading-5">XYZ Bank</p>
-                            </div>
-                            <div className="col-span-6">
-                                <p className="text-[10px] text-neutral-grey font-Regular">Account Number:</p>
-                                <p className="text-sm text-white font-semibold leading-5">987654321</p>
-                            </div>
-                            <div className="col-span-6">
-                                <p className="text-[10px] text-neutral-grey font-Regular">ABA Routing Number:</p>
-                                <p className="text-sm text-white font-semibold leading-5">123456789</p>
-                            </div>
-                            <div className="col-span-6">
-                                <p className="text-[10px] text-neutral-grey font-Regular">Account Holder:</p>
-                                <p className="text-sm text-white font-semibold leading-5">John Doe</p>
-                            </div>
-                        </Grid>
-                    </div>
-                </div>
-            </div>
             <div className="flex w-full my-4">
               <p className="text-[10px] mr-3 text-[#999999] font-Regular">PRIMARY CONTACT DETAILS</p>
               <hr className="self-center border-[#999999] w-[50%]"/>
+            </div>
+            <div className="flex mb-4">
+                <div className="relative">
+                    <img src={DealerIcons} className="mr-3 bg-[#383838] rounded-[14px]" alt="DealerIcons"/>
+                    <img src={DealerList} className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-4 -right-2" alt="DealerList"/>
+
+                </div>
+                <div>
+                    <p className="text-sm text-neutral-grey font-Regular">Dealer Name</p>
+                    <p className="text-base text-white font-semibold ">Edward Wilson</p>
+                </div>
             </div>
             <div className="flex mb-4">
                 <img src={name} className="mr-3 bg-[#383838] rounded-[14px]" alt="Name"/>
@@ -164,6 +154,18 @@ function ServicerDetails() {
                 </div>
             </div>
             <Grid className="mt-5">
+              <div className="col-span-6 ">
+                <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
+                   <p className="text-white text-lg !font-[600]">3,843</p>
+                   <p className="text-[#999999] text-sm font-Regular">Total number of Orders</p>
+                </div>
+              </div>
+              <div className="col-span-6 ">
+                <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
+                   <p className="text-white text-lg  !font-[600]">$35,859.00</p>
+                   <p className="text-[#999999] text-sm font-Regular">Total Value of Orders</p>
+                </div>
+              </div>
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                    <p className="text-white text-lg !font-[600]">3,843</p>
@@ -330,5 +332,4 @@ function ServicerDetails() {
 
   );
 }
-
-export default ServicerDetails;
+export default CustomerDetails

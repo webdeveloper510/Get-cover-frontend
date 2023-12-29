@@ -120,7 +120,7 @@ function CustomerList() {
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div className="text-center cursor-pointer py-1"  onClick={() => { 
-                navigate(`/addCustomer`);
+                navigate(`/customerDetails`);
               }}>View</div>
               </div>
             )}

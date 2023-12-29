@@ -168,7 +168,7 @@ function DealerDetails() {
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                    <p className="text-white text-lg !font-[600]">3,843</p>
-                   <p className="text-[#999999] text-sm font-Regular">Total number of Sales</p>
+                   <p className="text-[#999999] text-sm font-Regular">Total number of Claims</p>
                 </div>
               </div>
               <div className="col-span-6 ">
