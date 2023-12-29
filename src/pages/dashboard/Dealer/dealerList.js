@@ -14,6 +14,8 @@ import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.sv
 import { getDealersList } from "../../../services/dealerServices";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Loader from "../../../assets/images/Loader.gif";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 
 function DealerList() {
@@ -44,6 +46,37 @@ function DealerList() {
   const handleStatusChange = async (row, newStatus) => {
     console.log(row, newStatus);
   };
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phoneNumber: "",
+      // status: categoryDetails.status ? categoryDetails.status : true,
+    },
+    validationSchema: Yup.object({
+      name: Yup.string(),
+      email: Yup.string().email("Invalid email format"),
+      phoneNumber: Yup.number(),
+    }),
+    onSubmit: async (values) => {
+      console.log("Form values:", values);
+      // setLoader(true);
+      // const result = id
+      //   ? await editCategoryList(id, values)
+      //   : await addCategory(values);
+      // console.log(result);
+      // if (result.code !== 200) {
+      //   setLoader(false);
+      //   setError(result.message);
+      // } else {
+      //   setLoader(false);
+      //   setError(false);
+      //   setIsModalOpen(true);
+      //   setTimer(3);
+      // }
+    },
+  });
 
   const columns = [
     {
@@ -131,7 +164,10 @@ function DealerList() {
                   } `}
                   alt="up arror"
                 /> */}
-                <Link to={"/dealerDetails"} className="text-center p-3">
+                <Link
+                  to={`/dealerDetails/${row?.dealerData._id}`}
+                  className="text-center p-3"
+                >
                   View
                 </Link>
               </div>
@@ -167,7 +203,76 @@ function DealerList() {
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Dealers List</p>
             </div>
-       
+            <div className="col-span-7">
+              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                <form onSubmit={formik.handleSubmit}>
+                  <Grid className="!grid-cols-11">
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="name"
+                        type="text"
+                        placeholder="Name"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <div className="col-span-3 self-center">
+                        <Input
+                          name="email"
+                          type="email"
+                          placeholder="Email"
+                          className="!text-[14px] !bg-[#f7f7f7]"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                          label=""
+                          value={formik.values.email}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                        />
+                        {/* {formik.touched.email && formik.errors.email && (
+                          <div className="text-red-500">
+                            {formik.errors.email}
+                          </div>
+                        )} */}
+                      </div>
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="phoneNumber"
+                        type="number"
+                        placeholder="Phone No."
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        value={formik.values.phoneNumber}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center flex justify-center">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer	mx-auto"
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button className="!bg-transparent !ml-2 !p-0">
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
+              </div>
+            </div>
           </Grid>
           <div className="mb-5 relative">
             {loading ? (
@@ -175,7 +280,7 @@ function DealerList() {
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
-             </div>
+              </div>
             ) : (
               <DataTable
                 columns={columns}
