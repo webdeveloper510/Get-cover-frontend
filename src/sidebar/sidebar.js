@@ -42,24 +42,21 @@ function SidebarItem({
   onToggleExpand,
   onLinkClick,
   setExpandedItem,
-})
-
-{
+}) {
   const hasItems = item.items && item.items.length > 0;
   const [isActive, setIsActive] = useState(false);
   const locationGet = useLocation();
   useEffect(() => {
     const CheckItemsActive = item?.items;
-    if (CheckItemsActive){
+    if (CheckItemsActive) {
       CheckItemsActive.map((element, k) => {
-        if (locationGet.pathname === element.url){
-          console.log(active)
-          setIsActive(active == element.url)
+        if (locationGet.pathname === element.url) {
+          console.log(active);
+          setIsActive(active == element.url);
         }
       });
     }
     if (item.name === "Price Book") {
-
       setIsActive(active === "Price Book" || expandedItem === "Price Book");
       if (active === "Dealer" || expandedItem === "Dealer") {
         setExpandedItem("Dealer");
@@ -85,8 +82,14 @@ function SidebarItem({
           expandedItem === item.name
       );
     }
-  }, [active, expandedItem, item, setExpandedItem,  locationGet.pathname, setIsActive]);
-  console.log(isActive)
+  }, [
+    active,
+    expandedItem,
+    item,
+    setExpandedItem,
+    locationGet.pathname,
+    setIsActive,
+  ]);
 
   return (
     <li
