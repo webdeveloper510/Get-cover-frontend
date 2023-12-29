@@ -124,7 +124,7 @@ function CustomerDetails() {
             <div className="flex mb-4">
                 <div className="relative">
                     <img src={DealerIcons} className="mr-3 bg-[#383838] rounded-[14px]" alt="DealerIcons"/>
-                    <img src={DealerList} className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-4 -right-2" alt="DealerList"/>
+                    <Link to={'/dealerDetails/:id'}> <img src={DealerList} className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2" alt="DealerList" /> </Link>
 
                 </div>
                 <div>
@@ -228,9 +228,9 @@ function CustomerDetails() {
   {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center px-8 py-4">
-         <p className="text-3xl font-bold mb-8">Edit Servicer Details</p>
+         <p className="text-3xl font-bold mb-8">Edit Customer Details</p>
            <Grid>
-            <div className="col-span-6">
+            <div className="col-span-12">
               <Input
                name='accountName'
                className="!bg-[#fff]"
@@ -238,7 +238,7 @@ function CustomerDetails() {
                label='Account Name'
               />
             </div>
-            <div className="col-span-6">
+            <div className="col-span-12">
               <Input
                name='streetAddress'
                className="!bg-[#fff]"
@@ -280,44 +280,6 @@ function CustomerDetails() {
               selectedValue={selectedProduct}
               onChange={handleSelectChange1}
             />
-            </div> 
-            <div className="col-span-12">
-            <div className="flex w-full my-2">
-              <p className="text-sm mr-3 text-[#999999] font-Regular">BANK DETAILS</p>
-              <hr className="self-center border-[#999999] w-[80%]"/>
-            </div>
-            </div>
-            <div className="col-span-6">
-              <Input
-               name='bankName'
-               type='text'
-               className="!bg-[#fff]"
-               label='Bank Name'
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-               name='routingNumber'
-               type='number'
-               className="!bg-[#fff]"
-               label='ABA Routing Number'
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-               name='accountNumber'
-               type='number'
-               className="!bg-[#fff]"
-               label='Account Number'
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-               name='accountHolder'
-               type='text'
-               className="!bg-[#fff]"
-               label='Account Holder'
-              />
             </div>
             <div className="col-span-4">
              <Button className='border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular' onClick={closeModal} >Cancel</Button>

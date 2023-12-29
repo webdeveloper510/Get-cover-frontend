@@ -87,8 +87,9 @@ function AddOrder() {
                 <p className='text-sm font-bold'>Order Details</p>
             </div>
           </div>
-
-          <div className=''>
+           {/* First Step  */}
+          <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
+            <p className='text-2xl font-bold mb-4'>Order Details</p>
             <Grid>
               <div className='col-span-6'>
                 <Grid>
@@ -124,8 +125,104 @@ function AddOrder() {
                   </div>
                 </Grid>
               </div>
-              <div className='col-span-6'></div>
+              <div className='col-span-6 self-end justify-end flex'>
+                <Button>Next</Button>
+              </div>
             </Grid>
+          </div>
+          {/* Second Step  */}
+          <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
+            <p className='text-2xl font-bold mb-4'>Dealer Order Details</p>
+            <Grid>
+              <div className='col-span-6'>
+                <Grid>
+                  <div className='col-span-12'>
+                    <Select 
+                     label="Dealer Purchase Order"
+                     name="dealerPurchaseOrder"
+                     placeholder=""
+                     className="!bg-white"
+                     required={true}
+                     options={country}
+                    />
+                  </div>
+                  <div className='col-span-6'>
+                  <Select 
+                     label="Service Coverage"
+                     name="servicerCoverage"
+                     placeholder=""
+                     className="!bg-white"
+                     required={true}
+                     options={city}
+                    />
+                  </div>
+                  <div className='col-span-6'>
+                  <Select 
+                     label="Coverage Type"
+                     name="customerType"
+                     placeholder=""
+                     className="!bg-white"
+                     required={true}
+                     options={country}
+                    />
+                  </div>
+                </Grid>
+              </div>
+              <div className='col-span-6 self-end justify-end flex'>
+                <Button className='!bg-white !text-black'>Previous</Button>
+                <Button>Next</Button>
+              </div>
+            </Grid>
+          </div>
+          {/* third Step  */}
+          <div>
+            <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
+              <p className='text-2xl font-bold mb-4'>Add Product</p>
+              <div className='absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 '>
+              <Button>+ Add More Product</Button>
+              </div>
+              <Grid>
+                <div className='col-span-8'>
+                  <Grid>
+                    <div className='col-span-12'>
+                      <Select 
+                      label="Dealer Purchase Order"
+                      name="dealerPurchaseOrder"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      options={country}
+                      />
+                    </div>
+                    <div className='col-span-6'>
+                    <Select 
+                      label="Service Coverage"
+                      name="servicerCoverage"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      options={city}
+                      />
+                    </div>
+                    <div className='col-span-6'>
+                    <Select 
+                      label="Coverage Type"
+                      name="customerType"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      options={country}
+                      />
+                    </div>
+                  </Grid>
+                </div>
+                <div className='col-span-4 self-end justify-end flex'>
+                  
+                </div>
+              </Grid>
+            </div>
+            <Button className='!bg-white !text-black'>Previous</Button>
+            <Button>Next</Button>
           </div>
       </div>
     )
