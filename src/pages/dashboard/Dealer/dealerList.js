@@ -165,14 +165,7 @@ function DealerList() {
                   } `}
                   alt="up arror"
                 /> */}
-<<<<<<< HEAD
-                <Link
-                  to={`/dealerDetails/${row?.dealerData._id}`}
-                  className="text-center p-3"
-                >
-=======
                 <Link className="text-center p-3" to={`/dealerDetails/${row.dealerData._id}`}>
->>>>>>> 38e4be0a6e597c181d766f26ae6688e9a5318660
                   View
                 </Link>
               </div>
