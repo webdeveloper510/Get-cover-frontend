@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -14,14 +14,28 @@ import { cityData } from "../../../stateCityJson";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { checkDealersEmailValidation } from "../../../services/dealerServices";
+import {
+  addNewServicer,
+  approveServicer,
+  getServicerDetailsByid,
+} from "../../../services/servicerServices";
+import AddDealer from "../../../assets/images/dealer-book.svg";
+import disapprove from "../../../assets/images/Disapproved.png";
+import Modal from "../../../common/model";
+import Cross from "../../../assets/images/Cross.png";
 
 function AddServicer() {
   const [selectedCity, setSelectedCity] = useState("");
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(5);
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const id = useParams();
+  const navigate = useNavigate();
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
-    dealerName: "",
     status: true,
     street: "",
     city: "",
@@ -35,10 +49,84 @@ function AddServicer() {
     position: "",
     members: [],
   });
+  const closeModal = () => {
+    setIsModalOpen(false);
+    console.log(message);
+    if (message === "Servicer Created Successfully") {
+      navigate("/servicerList");
+    }
+  };
+  useEffect(() => {
+    setLoading(true);
+    let intervalId;
+    if (isModalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
 
-  // useEffect(()=>{
+    if (timer === 0 && message === "Servicer Created Successfully") {
+      console.log("here");
+      closeModal();
+    }
 
-  // })
+    setLoading(false);
+
+    // Cleanup function
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isModalOpen, timer, closeModal, message]);
+
+  useEffect(() => {
+    if (id === undefined || (id.id !== undefined && id.id === "")) {
+      setInitialFormValues({
+        oldName: "",
+        oldEmail: "",
+        accountName: "",
+        status: true,
+        street: "",
+        city: "",
+        zip: "",
+        state: "",
+        country: "USA",
+        lastName: "",
+        firstName: "",
+        email: "",
+        phoneNumber: "",
+        position: "",
+        members: [],
+      });
+    }
+    if (id && id.id !== undefined && id.id !== "") {
+      getServicerDetailsByid(id).then((res) => {
+        console.log(res.message);
+        if (res?.message) {
+          setCreateAccountOption(
+            res?.message?.meta?.status === true ? "yes" : "no"
+          );
+          setInitialFormValues({
+            accountName: res.message.meta.name,
+            oldName: res.message.meta.name,
+            oldEmail: res?.message?.email,
+            status: res.message.meta.status,
+            street: res?.message?.meta.street,
+            city: res?.message?.meta.city,
+            zip: res?.message?.meta.zip,
+            state: res?.message?.meta?.state,
+            country: "USA",
+            lastName: res?.message?.lastName,
+            firstName: res?.message?.firstName,
+            email: res?.message?.email,
+            phoneNumber: res?.message?.phoneNumber,
+            position: res?.message?.position,
+            members: [],
+          });
+        }
+      });
+    }
+  }, [id]);
+
   const handleRadioChangeDealers = (value, index) => {
     const updatedMembers = [...formik.values.members];
     updatedMembers[index].status = value === "yes";
@@ -120,7 +208,7 @@ function AddServicer() {
           return false;
         }
       } catch (error) {
-        console.error("Error checking dealer email availability:", error);
+        console.error("Error checking Servicer email availability:", error);
       }
     } else {
       formik.setFieldError(fieldPath, "Invalid email address");
@@ -132,13 +220,19 @@ function AddServicer() {
     enableReinitialize: true,
     validationSchema: Yup.object({
       accountName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(500, "Must be exactly 50 characters"),
       street: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(50, "Must be exactly 50 characters"),
-      state: Yup.string().required("Required"),
-      city: Yup.string().required("Required"),
+      state: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      city: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
       country: Yup.string().required("Required"),
       email: Yup.string()
         .matches(emailValidationRegex, "Invalid email address")
@@ -148,9 +242,11 @@ function AddServicer() {
         .min(5, "Must be at least 5 characters")
         .max(6, "Must be exactly 6 characters"),
       firstName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
       lastName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
       phoneNumber: Yup.string()
@@ -161,9 +257,11 @@ function AddServicer() {
       members: Yup.array().of(
         Yup.object().shape({
           firstName: Yup.string()
+            .transform((originalValue) => originalValue.trim())
             .required("Required")
             .max(30, "Must be exactly 30 characters"),
           lastName: Yup.string()
+            .transform((originalValue) => originalValue.trim())
             .required("Required")
             .max(30, "Must be exactly 30 characters"),
           phoneNumber: Yup.string()
@@ -190,13 +288,13 @@ function AddServicer() {
         return;
       }
       if (formik.values.members.length > 0) {
-        console.log(formik.values.dealers.length);
+        console.log(formik.values.members.length);
         let emailValues = [];
-        for (let i = 0; i < formik.values.dealers.length; i++) {
+        for (let i = 0; i < formik.values.members.length; i++) {
           const result = await checkDealerEmailAndSetError(
-            formik.values.dealers[i].email,
+            formik.values.members[i].email,
             formik,
-            `dealers[${i}].email`
+            `members[${i}].email`
           );
           emailValues.push(result);
         }
@@ -218,11 +316,31 @@ function AddServicer() {
 
       const newValues = {
         ...values,
-        dealers: [newObject, ...values.dealers],
+        members: [newObject, ...values.members],
       };
+      const result = id
+        ? await approveServicer(id.id, newValues)
+        : await addNewServicer(newValues);
+      // const result = await addNewServicer(newValues);
+      console.log(result);
+      if (result.message == "Customer created successfully") {
+        setMessage("Servicer Created Successfully");
+        setLoading(false);
+        setIsModalOpen(true);
 
-      // const result = await addNewOrApproveDealer(formData);
-      // console.log(result);
+        // navigate("/servicerList");
+      } else if (
+        result.message == "Servicer already exist with this account name"
+      ) {
+        setLoading(false);
+        formik.setFieldError("accountName", "Name Already Used");
+        setMessage("Some Errors Please Check Form Validations ");
+        setIsModalOpen(true);
+      } else {
+        setLoading(false);
+        setIsModalOpen(true);
+        setMessage(result.message);
+      }
     },
   });
   return (
@@ -624,7 +742,7 @@ function AddServicer() {
                         required={true}
                         value={formik.values.members[index].email}
                         onBlur={async () => {
-                          formik.handleBlur(`dealers[${index}].email`);
+                          formik.handleBlur(`members[${index}].email`);
                         }}
                         onChange={formik.handleChange}
                         error={
@@ -748,6 +866,50 @@ function AddServicer() {
           Submit
         </Button>
       </form>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        {message === "Servicer Created Successfully" ? (
+          <></>
+        ) : (
+          <>
+            <Button
+              onClick={closeModal}
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+            >
+              <img
+                src={Cross}
+                className="w-full h-full text-black rounded-full p-0"
+              />
+            </Button>{" "}
+          </>
+        )}
+        <div className="text-center py-3">
+          {message === "Servicer Created Successfully" ? (
+            <>
+              <img src={AddDealer} alt="email Image" className="mx-auto" />
+              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                Submitted
+                <span className="text-light-black"> Successfully </span>
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                {message}
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                Redirecting you on Dealer Page {timer} seconds.
+              </p>
+            </>
+          ) : (
+            <>
+              <img src={disapprove} alt="email Image" className="mx-auto" />
+              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                Error
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                {message}
+              </p>
+            </>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 }

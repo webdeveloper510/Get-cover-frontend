@@ -313,9 +313,6 @@ function NewDealerList() {
         </div>
 
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
-          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
-        </Button> */}
           <div className="text-center py-3">
             <img src={request} alt="email Image" className="mx-auto" />
             <p className="text-3xl mb-0 mt-4 font-semibold text-light-black">
