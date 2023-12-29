@@ -26,6 +26,7 @@ import Notification from "../pages/notification/notification";
 import DealerDetails from "../pages/dashboard/Dealer/dealerDetails";
 import AddOrder from "../pages/dashboard/Order/addOrder";
 import OrderList from "../pages/dashboard/Order/orderList";
+import ServicerDetails from "../pages/dashboard/Servicer/servicerDetails";
 
 const routes = [
   {
@@ -111,6 +112,13 @@ const routes = [
         index: true,
         element: (
           <PrivateRoute element={<DealerDetails />} />
+        ),
+      },
+      {
+        path: "/servicerDetails/",
+        index: true,
+        element: (
+          <PrivateRoute element={<ServicerDetails />} />
         ),
       },
       {

@@ -118,7 +118,8 @@ function ServicerList() {
               <div ref={dropdownRef} className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}>
-                  <div className='text-center cursor-pointer py-1'>View</div>
+                   <Link
+                  to={`/servicerDetails`} className='text-center cursor-pointer py-1'>View</Link>
               </div>
             )}
           </div>
