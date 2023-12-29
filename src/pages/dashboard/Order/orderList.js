@@ -12,6 +12,7 @@ import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import DataTable from "react-data-table-component"
 import Select from '../../../common/select';
+import { RotateLoader } from 'react-spinners';
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -21,11 +22,7 @@ function OrderList() {
     console.log(label, value , "selected")
     setSelectedProduct(value);
   };
-  const handleActionChange = (action) => {
-    // Implement the logic for the selected action (e.g., edit or delete)
-    console.log(`Selected action: ${action}`);
-    // You can replace the console.log statement with the actual logic you want to perform
-  };
+  const [loading, setLoading] = useState(false);
 
   const status = [
     { label: 'Active', value: true },
@@ -96,7 +93,7 @@ function OrderList() {
       minWidth:'130px',
     },
     {
-      name: "# Products",
+      name: "# of Products",
       selector: (row) => row.order,
       sortable: true,
       minWidth:'150px',
@@ -105,6 +102,7 @@ function OrderList() {
       name: "Order Value",
       selector: (row) => row.orderValue,
       sortable: true,
+      minWidth:'150px',
     },
     {
         name: "Status",
@@ -214,7 +212,15 @@ function OrderList() {
             </div>
           </Grid>
           <div className='mb-5 relative'>
+          {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
             <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
+            )}
           </div>
         </div>
 

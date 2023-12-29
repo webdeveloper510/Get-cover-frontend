@@ -19,6 +19,7 @@ import {
   addNewServicerRequest,
   isApprovedOrDisapprovedStatus,
 } from "../../../services/servicerServices";
+import { RotateLoader } from "react-spinners";
 function RequestServicer() {
   const [list, setList] = useState([]);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -29,6 +30,7 @@ function RequestServicer() {
     id: null,
     action: null,
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const toggleDropdown = (index) => {
     setSelectedAction(index);
@@ -54,9 +56,11 @@ function RequestServicer() {
   };
 
   const getRequestServicerList = async () => {
+    setLoading(true)
     const result = await addNewServicerRequest("Pending");
     setList(result.data);
     console.log(result.data);
+    setLoading(false)
   };
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = list?.length - index <= 2;
@@ -261,6 +265,13 @@ function RequestServicer() {
             </div>
           </Grid>
           <div className="mb-5 relative">
+          {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
             <DataTable
               columns={columns}
               data={list}
@@ -276,6 +287,7 @@ function RequestServicer() {
               paginationComponentOptions={paginationOptions}
               paginationRowsPerPageOptions={[10, 20, 50, 100]}
             />
+            )}
           </div>
         </div>
         <Modal isOpen={isModalOpen} onClose={closeModal}>

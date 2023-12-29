@@ -1,4 +1,4 @@
-import React , { useState } from 'react'
+import React , { useEffect, useRef, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import Button from '../../../../common/button'
@@ -16,7 +16,11 @@ import DataTable from "react-data-table-component"
 
 function CustomerList() {
     const [selectedAction, setSelectedAction] = useState(null);
-  
+    const dropdownRef = useRef(null);
+    const calculateDropdownPosition = (index) => {
+      const isCloseToBottom = data.length - index <= 2;
+      return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
+    };
     const data = [
       {
         Categoryid: 1,
@@ -61,17 +65,12 @@ function CustomerList() {
         sortable: true,
       },
       {
-        name: "Number of Claims",
+        name: "Orders",
         selector: (row) => row.description,
         sortable: true,
       },
       {
-        name: "Total Claims Value",
-        selector: (row) => row.status,
-        sortable: true,
-      },
-      {
-        name: "Status",
+        name: "Order Value",
         selector: (row) => row.status,
         sortable: true,
       },
@@ -83,12 +82,12 @@ function CustomerList() {
           // console.log(index, index % 10 == 9)
           return (
             <div className="relative">
-            <div onClick={() => setSelectedAction(row.unique_key)}>
+            <div onClick={() => setSelectedAction(selectedAction === row.Categoryid ? null : row.Categoryid)}>
               <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
             </div>
-            {selectedAction === row.unique_key && (
-              <div className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${index%10 === 9 ? 'bottom-[1.3rem] ' : 'top-[1.3rem]'}`}>
-                <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/>
+            {selectedAction === row.Categoryid && (
+              <div  ref={dropdownRef} className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(index)}`}>
+                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                   <div className='text-center py-3'>Edit</div>
               </div>
             )}
@@ -99,6 +98,22 @@ function CustomerList() {
       },
     ];
   
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          // Close the dropdown if the click is outside of it
+          setSelectedAction(null);
+        }
+      };
+  
+      document.addEventListener("click", handleClickOutside);
+  
+      return () => {
+        // Cleanup the event listener on component unmount
+        document.removeEventListener("click", handleClickOutside);
+      };
+    }, []);
+
     return (
       <>
         <div className='my-8'>    

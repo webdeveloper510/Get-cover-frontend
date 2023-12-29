@@ -17,7 +17,7 @@ import DataTable from "react-data-table-component"
 function OrderList() {
     const [selectedAction, setSelectedAction] = useState(null);
 
-    const handleActionChange = (action) => {
+    const handleStatusChange = (action) => {
       // Implement the logic for the selected action (e.g., edit or delete)
       console.log(`Selected action: ${action}`);
       // You can replace the console.log statement with the actual logic you want to perform
@@ -42,10 +42,12 @@ function OrderList() {
       rowsPerPageText: 'Rows per page:',
       rangeSeparatorText: 'of',
     };
+
     const calculateDropdownPosition = (index) => {
       const isCloseToBottom = data.length - index <= 2;
       return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
     };
+
     const columns = [
       {
         name: "ID",
@@ -55,7 +57,7 @@ function OrderList() {
         maxWidth: '70px',  // Set a custom maximum width
       },
       {
-        name: "Dealer Order no.",
+        name: "Dealer Order #",
         selector: (row) => row.Categoryname,
         sortable: true,
       },
@@ -70,7 +72,7 @@ function OrderList() {
         sortable: true,
       },
       {
-        name: "No. of Products",
+        name: "# of Products",
         selector: (row) => row.description,
         sortable: true,
       },
@@ -79,10 +81,30 @@ function OrderList() {
         selector: (row) => row.status,
         sortable: true,
       },
-      {
+       {
         name: "Status",
         selector: (row) => row.status,
         sortable: true,
+        cell: (row) => (
+          <div className="relative">
+            <div
+              className={` ${
+                row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            ></div>
+            <select
+              value={row.status === true ? "active" : "inactive"}
+              onChange={(e) => handleStatusChange(row, e.target.value)}
+              className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            >
+             <option value="active">Active</option>
+                <option value="waiting">Waiting</option>
+                <option value="expired">Expired</option>
+                <option value="canceled">Canceled</option>
+                <option value="refunded">Refunded</option>
+            </select>
+          </div>
+        ),
       },
       {
         name: "Action",
@@ -96,10 +118,10 @@ function OrderList() {
               <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
             </div>
             {selectedAction === row.Categoryid && (
-              <div className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              <div className={`absolute z-[2] w-[70px] drop-shadow-5xl px-3 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}>
-                  <div className='text-center pt-3 pb-1 cursor-pointer'>Edit</div>
+                  <div className='text-center pt-3 pb-1 cursor-pointer border-b-[1px]'>Edit</div>
                   <div className='text-center pb-3 pt-2 border-t cursor-pointer'>View</div>
               </div>
             )}
