@@ -132,7 +132,7 @@ function DealerList() {
                   } `}
                   alt="up arror"
                 /> */}
-                <Link to={"/dealerDetails"} className="text-center p-3">
+                <Link className="text-center p-3" to={`/dealerDetails/${row.dealerData._id}`}>
                   View
                 </Link>
               </div>

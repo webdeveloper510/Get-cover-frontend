@@ -86,7 +86,7 @@ function SidebarItem({
       );
     }
   }, [active, expandedItem, item, setExpandedItem,  locationGet.pathname, setIsActive]);
-  console.log(isActive)
+  // console.log(isActive)
 
   return (
     <li

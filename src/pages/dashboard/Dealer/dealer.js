@@ -328,8 +328,8 @@ function Dealer() {
         .required("Required"),
       zip: Yup.string()
         .required("Required")
-        .min(5, "Must be at least 5 characters")
-        .max(6, "Must be exactly 6 characters"),
+        .min(5, " Zip code must be 5-6 characters ")
+        .max(6, " Zip code must be 6 characters "),
       firstName: Yup.string()
         .required("Required")
         .max(30, "Must be exactly 30 characters"),

@@ -47,9 +47,9 @@ function NewDealerList() {
   };
 
   const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+
       setIsDropdownOpen(false);
-    }
+    
   };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);

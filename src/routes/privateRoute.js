@@ -32,8 +32,10 @@ const PrivateRoute = ({ element, path, withoutLogin }) => {
   if (loading) {
     return null;
   }
+  console.log(path)
 
-  return <>{element}</>;
+  return <>
+  {element}</>;
 };
 
 export default PrivateRoute;

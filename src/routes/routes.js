@@ -94,13 +94,6 @@ const routes = [
           <PrivateRoute element={<Notification />} path="/notifications" />
         ),
       },
-      {
-        path: "/dealerDetails",
-        index: true,
-        element: (
-          <PrivateRoute element={<DealerDetails />} path="/dealerDetails" />
-        ),
-      },
     ],
   },
   {
@@ -111,6 +104,13 @@ const routes = [
         path: "/dashboard",
         element: (
           <PrivateRoute element={<Dashboard />} exact path="/dashboard" />
+        ),
+      },
+      {
+        path: "/dealerDetails/:id",
+        index: true,
+        element: (
+          <PrivateRoute element={<DealerDetails />} />
         ),
       },
       {

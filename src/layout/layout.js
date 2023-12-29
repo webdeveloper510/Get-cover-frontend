@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router";
+import { Outlet, useNavigate, useLocation, useParams } from "react-router";
 import SideBar from "../sidebar/sidebar";
 
 function Layout() {
@@ -15,6 +15,10 @@ function Layout() {
     setIsSidebarSticky(scrollY > scrollThreshold);
   };
 
+  const Location = useLocation()
+  const {id} = useParams()
+  const checkUrl = Location.pathname+'/'+id
+  console.log(checkUrl, "yes, Got here")
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
@@ -32,9 +36,11 @@ function Layout() {
 
   return (
     <div className={`w-full flex bg-[#F9F9F9] bg-cover  h-full p-4 pl-0 overflow-x-hidden relative  w-full`}>
+      {Location.pathname !== "/dealerDetails/"+id? 
       <div className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full `}>
         <SideBar/>
       </div>
+        : <></>}
       <div className="w-[calc(100%-10px)] h-full min-h-[94vh] pl-3">
         <Outlet />
       </div>
