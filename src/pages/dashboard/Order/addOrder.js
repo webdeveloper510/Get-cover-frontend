@@ -87,6 +87,46 @@ function AddOrder() {
                 <p className='text-sm font-bold'>Order Details</p>
             </div>
           </div>
+
+          <div className=''>
+            <Grid>
+              <div className='col-span-6'>
+                <Grid>
+                  <div className='col-span-6'>
+                    <Select 
+                     label="Dealer Name"
+                     name="dealerName"
+                     placeholder=""
+                     className="!bg-white"
+                     required={true}
+                     options={country}
+                    />
+                  </div>
+                  <div className='col-span-6'>
+                  <Select 
+                     label="Servicer Name"
+                     name="servicerName"
+                     placeholder=""
+                     className="!bg-white"
+                     required={true}
+                     options={city}
+                    />
+                  </div>
+                  <div className='col-span-12'>
+                  <Select 
+                     label="Customer Name"
+                     name="customerName"
+                     placeholder=""
+                     className="!bg-white"
+                     required={true}
+                     options={country}
+                    />
+                  </div>
+                </Grid>
+              </div>
+              <div className='col-span-6'></div>
+            </Grid>
+          </div>
       </div>
     )
   }
