@@ -105,7 +105,13 @@ function CustomerList() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div onClick={() =>  setSelectedAction(selectedAction === row.Categoryid ? null : row.Categoryid)}>
+            <div
+              onClick={() =>
+                setSelectedAction(
+                  selectedAction === row.Categoryid ? null : row.Categoryid
+                )
+              }
+            >
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
@@ -113,15 +119,21 @@ function CustomerList() {
               />
             </div>
             {selectedAction === row.Categoryid && (
-              <div ref={dropdownRef}
+              <div
+                ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                <div className="text-center cursor-pointer py-1"  onClick={() => { 
-                navigate(`/addCustomer`);
-              }}>View</div>
+                <div
+                  className="text-center cursor-pointer py-1"
+                  onClick={() => {
+                    navigate(`/addCustomer`);
+                  }}
+                >
+                  View
+                </div>
               </div>
             )}
           </div>
@@ -129,7 +141,7 @@ function CustomerList() {
       },
     },
   ];
- 
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -161,14 +173,17 @@ function CustomerList() {
           </div>
         </div>
 
-          <Link to={"/addCustomer"} className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+        <Link
+          to={"/addCustomer"}
+          className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+        >
+          {" "}
+          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+          <span className="text-black ml-3 text-[14px] font-Regular">
             {" "}
-            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-Regular">
-              {" "}
-              Add New Customer{" "}
-            </span>{" "}
-          </Link>
+            Add New Customer{" "}
+          </span>{" "}
+        </Link>
 
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">

@@ -109,13 +109,11 @@ const routes = [
       {
         path: "/dealerDetails/:id",
         index: true,
-        element: (
-          <PrivateRoute element={<DealerDetails />} />
-        ),
+        element: <PrivateRoute element={<DealerDetails />} />,
       },
       {
         path: "/dealer/:id?",
-        element: <Dealer />,
+        element: <PrivateRoute element={<Dealer />} />,
       },
       {
         path: "/addCustomer",
@@ -198,7 +196,7 @@ const routes = [
       },
       {
         path: "/addServicer/:id?",
-        element: <AddServicer />,
+        element: <PrivateRoute element={<AddServicer />} />,
       },
       {
         path: "/servicerList",
@@ -207,9 +205,12 @@ const routes = [
         ),
       },
       {
-        path: "/requestList",
+        path: "/servicerRequestList",
         element: (
-          <PrivateRoute element={<RequestServicer />} path="/requestList" />
+          <PrivateRoute
+            element={<RequestServicer />}
+            path="/servicerRequestList"
+          />
         ),
       },
       {

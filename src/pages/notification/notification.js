@@ -26,7 +26,7 @@ function Notification() {
       if (res) {
         type === "dealer"
           ? navigate("/newDealerList")
-          : navigate("/requestList");
+          : navigate("/servicerRequestList");
       }
     });
   };
@@ -71,10 +71,10 @@ function Notification() {
       <div className="mt-8">
         {loading ? (
           <div className=" fixed top-0 h-screen bg-[#cfcfcf8f] left-0 w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#333" />
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
           </div>
-       </div>
         ) : (
           <>
             {notificationList.length !== 0 ? (

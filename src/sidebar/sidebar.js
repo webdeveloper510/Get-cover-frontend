@@ -303,7 +303,7 @@ function SideBar() {
         },
         {
           name: "New Servicer Requests",
-          url: "/requestList",
+          url: "/servicerRequestList",
           image: Dropdown2,
           active: ForthActive,
         },

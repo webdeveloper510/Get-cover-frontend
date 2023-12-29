@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Headbar from "../../../common/headBar";
 import { Link } from "react-router-dom";
 import Select from "../../../common/select";
@@ -15,7 +15,10 @@ import Modal from "../../../common/model";
 import { cityData } from "../../../stateCityJson";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { checkDealersEmailValidation } from "../../../services/dealerServices";
+import {
+  checkDealersEmailValidation,
+  getDealersList,
+} from "../../../services/dealerServices";
 
 function AddCustomer() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -24,9 +27,10 @@ function AddCustomer() {
   const [selectedCity, setSelectedCity] = useState("");
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
+  const [dealerList, setDealerList] = useState([]);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
-    dealerName: "",
+    dealerId: "",
     status: true,
     street: "",
     city: "",
@@ -73,7 +77,9 @@ function AddCustomer() {
     }
   };
   const state = cityData;
-
+  useEffect(() => {
+    getDealerListData();
+  }, []);
   const handleAddTeamMember = () => {
     const members = {
       firstName: "",
@@ -148,18 +154,25 @@ function AddCustomer() {
     }
     return false;
   };
+
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
+      dealerId: Yup.string().required("Required"),
       accountName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(500, "Must be exactly 50 characters"),
       street: Yup.string()
         .required("Required")
         .max(50, "Must be exactly 50 characters"),
-      state: Yup.string().required("Required"),
-      city: Yup.string().required("Required"),
+      state: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      city: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
       country: Yup.string().required("Required"),
       email: Yup.string()
         .matches(emailValidationRegex, "Invalid email address")
@@ -169,9 +182,11 @@ function AddCustomer() {
         .min(5, "Must be at least 5 characters")
         .max(6, "Must be exactly 6 characters"),
       firstName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
       lastName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
       phoneNumber: Yup.string()
@@ -182,9 +197,11 @@ function AddCustomer() {
       members: Yup.array().of(
         Yup.object().shape({
           firstName: Yup.string()
+            .transform((originalValue) => originalValue.trim())
             .required("Required")
             .max(30, "Must be exactly 30 characters"),
           lastName: Yup.string()
+            .transform((originalValue) => originalValue.trim())
             .required("Required")
             .max(30, "Must be exactly 30 characters"),
           phoneNumber: Yup.string()
@@ -211,13 +228,13 @@ function AddCustomer() {
         return;
       }
       if (formik.values.members.length > 0) {
-        console.log(formik.values.dealers.length);
+        console.log(formik.values.members.length);
         let emailValues = [];
-        for (let i = 0; i < formik.values.dealers.length; i++) {
+        for (let i = 0; i < formik.values.members.length; i++) {
           const result = await checkDealerEmailAndSetError(
-            formik.values.dealers[i].email,
+            formik.values.members[i].email,
             formik,
-            `dealers[${i}].email`
+            `members[${i}].email`
           );
           emailValues.push(result);
         }
@@ -239,13 +256,26 @@ function AddCustomer() {
 
       const newValues = {
         ...values,
-        dealers: [newObject, ...values.dealers],
+        members: [newObject, ...values.members],
       };
-
+      console.log(newValues);
       // const result = await addNewOrApproveDealer(formData);
       // console.log(result);
     },
   });
+  const getDealerListData = async () => {
+    const result = await getDealersList();
+    console.log(result.data);
+    let arr = [];
+    result?.data?.map((res) => {
+      console.log(res.name);
+      arr.push({
+        label: res.dealerData.name,
+        value: res.dealerData._id,
+      });
+    });
+    setDealerList(arr);
+  };
   return (
     <div className="my-8 ml-3">
       <Headbar />
@@ -282,11 +312,21 @@ function AddCustomer() {
           <div className="col-span-4 mb-3">
             <Select
               label="Dealer Name"
-              options={country}
+              name="dealerId"
+              placeholder=""
+              className="!bg-white"
               required={true}
-              selectedValue={selectedValue}
               onChange={handleSelectChange}
+              options={dealerList}
+              value={formik.values.dealerId}
+              onBlur={formik.handleBlur}
+              error={formik.touched.dealerId && formik.errors.dealerId}
             />
+            {formik.touched.dealerId && formik.errors.dealerId && (
+              <div className="text-red-500 text-sm pl-2 pt-2">
+                {formik.errors.dealerId}
+              </div>
+            )}
           </div>
         </Grid>
         <div className="bg-white p-4 drop-shadow-4xl border-[1px] border-[#D1D1D1] rounded-xl">
@@ -302,7 +342,7 @@ function AddCustomer() {
                       type="text"
                       name="accountName"
                       className="!bg-white"
-                      label="Servicer Account Name"
+                      label="Customer Account Name"
                       required={true}
                       placeholder=""
                       maxLength={"500"}
@@ -331,7 +371,7 @@ function AddCustomer() {
                   <Input
                     type="text"
                     name="street"
-                    label="Servicer Street Address"
+                    label="Customer Street Address"
                     className="!bg-white"
                     required={true}
                     placeholder=""
@@ -351,7 +391,7 @@ function AddCustomer() {
                   <Input
                     type="text"
                     name="city"
-                    label="Servicer City"
+                    label="Customer City"
                     className="!bg-white"
                     placeholder=" "
                     required={true}
@@ -369,7 +409,7 @@ function AddCustomer() {
                 </div>
                 <div className="col-span-12">
                   <Select
-                    label="Servicer State"
+                    label="Customer State"
                     name="state"
                     placeholder=""
                     className="!bg-white"
@@ -390,7 +430,7 @@ function AddCustomer() {
                   <Input
                     type="number"
                     name="zip"
-                    label="Servicer Zipcode"
+                    label="Customer Zipcode"
                     className="!bg-white"
                     required={true}
                     placeholder=""
@@ -657,7 +697,7 @@ function AddCustomer() {
                         required={true}
                         value={formik.values.members[index].email}
                         onBlur={async () => {
-                          formik.handleBlur(`dealers[${index}].email`);
+                          formik.handleBlur(`members[${index}].email`);
                         }}
                         onChange={formik.handleChange}
                         error={
