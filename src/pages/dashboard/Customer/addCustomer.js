@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -31,9 +31,10 @@ function AddCustomer() {
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [dealerList, setDealerList] = useState([]);
+  const navigate = useNavigate();
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
-    dealerId: "",
+    dealerName: "",
     status: true,
     street: "",
     city: "",
@@ -174,14 +175,14 @@ function AddCustomer() {
     initialValues: initialFormValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
-      dealerId: Yup.string().required("Required"),
+      dealerName: Yup.string().required("Required"),
       accountName: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required")
-        .max(500, "Must be exactly 50 characters"),
+        .max(500, "Must be exactly 500 characters"),
       street: Yup.string()
         .required("Required")
-        .max(50, "Must be exactly 50 characters"),
+        .max(500, "Must be exactly 500 characters"),
       state: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required"),
@@ -234,6 +235,7 @@ function AddCustomer() {
     }),
 
     onSubmit: async (values) => {
+      console.log(values);
       const isEmailValid = !formik.errors.email;
       const isEmailAvailable1 = isEmailValid
         ? await checkEmailAvailability(formik.values.email)
@@ -277,11 +279,11 @@ function AddCustomer() {
       const result = await addNewCustomer(newValues);
       console.log(result.message);
       if (result.message == "Customer created successfully") {
-        setMessage("Servicer Created Successfully");
+        setMessage("Customer Created Successfully");
         setLoading(false);
         setIsModalOpen(true);
 
-        // navigate("/servicerList");
+        navigate("/customerList");
       } else if (
         result.message == "Servicer already exist with this account name"
       ) {
@@ -345,19 +347,19 @@ function AddCustomer() {
           <div className="col-span-4 mb-3">
             <Select
               label="Dealer Name"
-              name="dealerId"
+              name="dealerName"
               placeholder=""
               // className="!bg-white"
               required={true}
               onChange={handleSelectChange}
               options={dealerList}
-              value={formik.values.dealerId}
+              value={formik.values.dealerName}
               onBlur={formik.handleBlur}
-              error={formik.touched.dealerId && formik.errors.dealerId}
+              error={formik.touched.dealerName && formik.errors.dealerName}
             />
-            {formik.touched.dealerId && formik.errors.dealerId && (
+            {formik.touched.dealerName && formik.errors.dealerName && (
               <div className="text-red-500 text-sm pl-2 pt-2">
-                {formik.errors.dealerId}
+                {formik.errors.dealerName}
               </div>
             )}
           </div>
@@ -856,7 +858,7 @@ function AddCustomer() {
       </form>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {message === "Servicer Created Successfully" ? (
+        {message === "Customer Created Successfully" ? (
           <></>
         ) : (
           <>
@@ -872,7 +874,7 @@ function AddCustomer() {
           </>
         )}
         <div className="text-center py-3">
-          {message === "Servicer Created Successfully" ? (
+          {message === "Customer Created Successfully" ? (
             <>
               <img src={AddDealer} alt="email Image" className="mx-auto" />
               <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
@@ -883,7 +885,7 @@ function AddCustomer() {
                 {message}
               </p>
               <p className="text-neutral-grey text-base font-medium mt-2">
-                Redirecting you on Dealer Page {timer} seconds.
+                Redirecting you on Customer Page {timer} seconds.
               </p>
             </>
           ) : (

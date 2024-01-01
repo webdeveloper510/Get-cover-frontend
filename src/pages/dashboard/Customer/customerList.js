@@ -12,14 +12,26 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Select from "../../../common/select";
+import { getCustomerList } from "../../../services/customerServices";
+import { RotateLoader } from "react-spinners";
 
 function CustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
+  const [customerList, setCustomerList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleSelectChange1 = (label, value) => {
     console.log(label, value, "selected");
     setSelectedProduct(value);
+  };
+
+  const getCustomer = async () => {
+    setLoading(true);
+    const result = await getCustomerList();
+    console.log(result.result);
+    setCustomerList(result.result);
+    setLoading(false);
   };
   const dropdownRef = useRef(null);
 
@@ -28,58 +40,39 @@ function CustomerList() {
     { label: "Inactive", value: false },
   ];
 
-
+  const calculateDropdownPosition = (index) => {
+    const isCloseToBottom = customerList.length - index <= 2;
+    return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
+  };
 
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
   };
 
-  const data = [
-    {
-      Categoryid: 1,
-      Categoryname: "Category 1",
-      Email: "abcd@gmail.com",
-      Phoneno: "(095)413-1172",
-      Dealername: "Active",
-      order: "12",
-      orderValue: "$123.00",
-    },
-    {
-      Categoryid: 2,
-      Categoryname: "Category 1",
-      Email: "abcd@gmail.com",
-      Phoneno: "(095)413-1172",
-      Dealername: "Active",
-      order: "12",
-      orderValue: "$123.00",
-    },
-  ];
-  const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = data.length - index <= 2;
-    return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
-  };
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.Categoryid,
+      selector: (row) => {
+        console.log(row);
+      },
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
     },
     {
       name: "Name",
-      selector: (row) => row.Categoryname,
+      selector: (row) => row.customerData.username,
       sortable: true,
     },
     {
       name: "Email",
-      selector: (row) => row.Email,
+      selector: (row) => row.email,
       sortable: true,
     },
     {
       name: "Phone No.",
-      selector: (row) => row.Phoneno,
+      selector: (row) => row.phoneNumber,
       sortable: true,
     },
     {
@@ -89,12 +82,12 @@ function CustomerList() {
     },
     {
       name: "Orders",
-      selector: (row) => row.order,
+      selector: (row) => 0,
       sortable: true,
     },
     {
       name: "Order Value",
-      selector: (row) => row.orderValue,
+      selector: (row) => "$ 0.00",
       sortable: true,
     },
     {
@@ -143,9 +136,9 @@ function CustomerList() {
   ];
 
   useEffect(() => {
+    getCustomer();
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        // Close the dropdown if the click is outside of it
         setSelectedAction(null);
       }
     };
@@ -254,21 +247,29 @@ function CustomerList() {
             </div>
           </Grid>
           <div className="mb-5 relative">
-            <DataTable
-              columns={columns}
-              data={data}
-              highlightOnHover
-              sortIcon={
-                <>
-                  {" "}
-                  <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                </>
-              }
-              pagination
-              paginationPerPage={10}
-              paginationComponentOptions={paginationOptions}
-              paginationRowsPerPageOptions={[10, 20, 50, 100]}
-            />
+            {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
+              <DataTable
+                columns={columns}
+                data={customerList}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                  </>
+                }
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              />
+            )}
           </div>
         </div>
       </div>

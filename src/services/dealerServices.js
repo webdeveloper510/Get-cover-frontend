@@ -231,3 +231,17 @@ export const editDealerPriceBook = async (id, data) => {
     throw error;
   }
 };
+
+export const editDealerData = async (data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.put(`${url}/dealer/updateDealerMeta`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
