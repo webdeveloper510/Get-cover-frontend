@@ -42,6 +42,7 @@ import {
   getDealersDetailsByid,
 } from "../../../services/dealerServices";
 import { cityData } from "../../../stateCityJson";
+import { RotateLoader } from "react-spinners";
 
 function DealerDetails() {
   const [activeTab, setActiveTab] = useState("tab1"); // Set the initial active tab
@@ -119,6 +120,7 @@ function DealerDetails() {
 
     onSubmit: async (values) => {
       console.log(values);
+      setLoading(true);
       const result = await editDealerData(values);
       console.log(result.code);
       if (result.code == 200) {
@@ -141,11 +143,6 @@ function DealerDetails() {
       // }
     },
   });
-  const city = [
-    { label: "Country", value: "country" },
-    { label: "Option 2", value: "option2" },
-    { label: "Option 3", value: "option3" },
-  ];
 
   const tabs = [
     {
@@ -204,6 +201,13 @@ function DealerDetails() {
   };
   return (
     <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
+      {loading && (
+        <div className=" fixed z-[99] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#fff" />
+          </div>
+        </div>
+      )}
       <Headbar />
 
       <div className="flex">

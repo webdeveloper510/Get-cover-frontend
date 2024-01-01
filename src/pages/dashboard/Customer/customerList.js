@@ -13,12 +13,13 @@ import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Select from "../../../common/select";
 import { getCustomerList } from "../../../services/customerServices";
+import { RotateLoader } from "react-spinners";
 
 function CustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [customerList, setCustomerList] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleSelectChange1 = (label, value) => {
     console.log(label, value, "selected");
@@ -26,9 +27,11 @@ function CustomerList() {
   };
 
   const getCustomer = async () => {
+    setLoading(true);
     const result = await getCustomerList();
     console.log(result.result);
     setCustomerList(result.result);
+    setLoading(false);
   };
   const dropdownRef = useRef(null);
 
@@ -244,21 +247,29 @@ function CustomerList() {
             </div>
           </Grid>
           <div className="mb-5 relative">
-            <DataTable
-              columns={columns}
-              data={customerList}
-              highlightOnHover
-              sortIcon={
-                <>
-                  {" "}
-                  <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                </>
-              }
-              pagination
-              paginationPerPage={10}
-              paginationComponentOptions={paginationOptions}
-              paginationRowsPerPageOptions={[10, 20, 50, 100]}
-            />
+            {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
+              <DataTable
+                columns={columns}
+                data={customerList}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                  </>
+                }
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              />
+            )}
           </div>
         </div>
       </div>
