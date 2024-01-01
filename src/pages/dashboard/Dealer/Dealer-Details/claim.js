@@ -5,8 +5,9 @@ import Input from '../../../../common/input'
 
 // Media Includes 
 import Search from '../../../../assets/images/icons/SearchIcon.svg';
-import Edit from '../../../../assets/images/Dealer/EditIcon.svg';
-import chat from '../../../../assets/images/Dealer/chatIcon.svg';
+import Edit from '../../../../assets/images/icons/editIcon.svg';
+import Delete from '../../../../assets/images/icons/deleteIcons.svg';
+import chat from '../../../../assets/images/icons/chatIcon.svg';
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Select from '../../../../common/select';
 function ClaimList() {
@@ -26,12 +27,12 @@ function ClaimList() {
     <>
       <div className='bg-white my-8 border-[1px] border-[#D1D1D1] rounded-xl'>
         <Grid className='!p-[26px] !pt-[14px] !pb-0'>
-          <div className='col-span-5 self-center'>
+          <div className='col-span-2 self-center'>
             <p className='text-xl font-semibold'>Claims List</p>
           </div>
           <div className='col-span-7'>
             <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-              <Grid className='!grid-cols-11' >
+              <Grid className='' >
                 <div className='col-span-3 self-center'>
                   <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Contract ID' />
                 </div>
@@ -39,9 +40,18 @@ function ClaimList() {
                   <Input name='Email' type='email' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Claim' />
                 </div>
                 <div className='col-span-3 self-center'>
-                  <Input name='PhoneNo.' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Servicer Name' />
+                  <Input name='PhoneNo.' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Customer Status' />
                 </div>
-                <div className='col-span-2 self-center flex justify-center'>
+                <div className='col-span-3 self-center'>
+                  <Input name='PhoneNo.' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Repair Status' />
+                </div>
+               
+              </Grid>
+
+            </div>
+
+          </div>
+          <div className='col-span-3 self-center flex justify-center'>
                   <Button
                     type="submit" className='!p-0 mr-2'>
                     <img src={Search} className='cursor-pointer ' alt='Search' />
@@ -56,28 +66,34 @@ function ClaimList() {
                         alt="clearFilter"
                       />
                     </Button>
+                    <Button
+                    type="submit" className='!p-0 ml-2 !font-normal !rounded-xl !px-2 !text-sm'>
+                    Advance Search
+                  </Button>
                 </div>
-              </Grid>
-
-            </div>
-          </div>
         </Grid>
 
         <div className=' px-3 mt-5'>
           <div>
-            <Grid className='bg-[#333333] !gap-2 rounded-t-xl'>
-              <div className='col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
-                <p className='text-white py-2 font-Regular'>Claim :  <b> 861910 </b></p>
+            <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
+              <div className='col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5'>
+                <p className='font-semibold leading-5 text-lg'> 861910  </p>
+                <p className='text-[#A3A3A3]'>Claim ID</p>
               </div>
-              <div className='col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
-                <p className='text-white py-2 font-Regular'>Contract ID :  <b> DFDSS1ghdf  </b></p>
+              <div className='col-span-3 self-center border-[#474747] border-r p-5'>
+              <p className='font-semibold leading-5 text-lg'> DFDSS1ghdf  </p>
+                <p className='text-[#A3A3A3]'>Contract ID</p>
               </div>
-              <div className='col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
-                <p className='text-white py-2 font-Regular'>Diagnosis : <b> sdaf </b></p>
+              <div className='col-span-3 self-center border-[#474747] border-r p-5'>
+              <p className='font-semibold leading-5 text-lg'> 12 Dec 2023  </p>
+                <p className='text-[#A3A3A3]'>Loss Date</p>
               </div>
-              <div className='col-span-3 self-center justify-end flex'>
-                <img src={chat} className='ml-auto mr-2' alt='chat' />
+              <div className='col-span-3 self-center justify-center flex relative'>
+                <img src={chat} className=' mr-2' alt='chat' />
                 <img src={Edit} className=' mr-2' alt='edit' />
+                <div className='absolute -top-3.5 right-0'>
+                  <img src={Delete} alt="Delete"/>
+                </div>
               </div>
             </Grid>
 

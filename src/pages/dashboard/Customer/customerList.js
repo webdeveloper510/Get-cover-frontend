@@ -129,7 +129,7 @@ function CustomerList() {
                 <div
                   className="text-center cursor-pointer py-1"
                   onClick={() => {
-                    navigate(`/addCustomer`);
+                    navigate(`/customerDetails`);
                   }}
                 >
                   View

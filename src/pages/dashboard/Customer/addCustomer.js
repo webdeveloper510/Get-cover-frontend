@@ -347,7 +347,7 @@ function AddCustomer() {
               label="Dealer Name"
               name="dealerId"
               placeholder=""
-              className="!bg-white"
+              // className="!bg-white"
               required={true}
               onChange={handleSelectChange}
               options={dealerList}
