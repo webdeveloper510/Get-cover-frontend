@@ -96,7 +96,7 @@ function OrderList() {
       minWidth:'130px',
     },
     {
-      name: "# Products",
+      name: "# of Products",
       selector: (row) => row.order,
       sortable: true,
       minWidth:'120px',
