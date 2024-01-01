@@ -99,7 +99,7 @@ function OrderList() {
       name: "# of Products",
       selector: (row) => row.order,
       sortable: true,
-      minWidth:'120px',
+      minWidth:'150px',
     },
     {
       name: "Order Value",
