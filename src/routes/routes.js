@@ -137,6 +137,13 @@ const routes = [
         element: <PrivateRoute element={<AddCustomer />} path="/addCustomer" />,
       },
       {
+        path: "/dealerDetails/:id",
+        index: true,
+        element: (
+          <PrivateRoute element={<DealerDetails />} path="/dealerDetails/:id" />
+        ),
+      },
+      {
         path: "/addDealerBook",
         element: (
           <PrivateRoute element={<AddDealerBook />} path="/addDealerBook" />
