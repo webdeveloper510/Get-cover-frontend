@@ -1,4 +1,4 @@
-import React , { useState } from 'react'
+import React , { useEffect, useRef, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import Button from '../../../../common/button'
@@ -16,7 +16,7 @@ import DataTable from "react-data-table-component"
 
 function PriceBookList() {
     const [selectedAction, setSelectedAction] = useState(null);
-
+    const dropdownRef = useRef(null);
     const calculateDropdownPosition = (index) => {
       const isCloseToBottom = data.length - index <= 2;
       return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
@@ -109,7 +109,7 @@ function PriceBookList() {
               <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
             </div>
             {selectedAction === row.Categoryid && (
-              <div className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(index)}`}>
+              <div ref={dropdownRef} className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(index)}`}>
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                   <div className='text-center py-3'>Edit</div>
               </div>
@@ -120,6 +120,22 @@ function PriceBookList() {
         
       },
     ];
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          // Close the dropdown if the click is outside of it
+          setSelectedAction(null);
+        }
+      };
+  
+      document.addEventListener("click", handleClickOutside);
+  
+      return () => {
+        // Cleanup the event listener on component unmount
+        document.removeEventListener("click", handleClickOutside);
+      };
+    }, []);
   
     return (
       <>

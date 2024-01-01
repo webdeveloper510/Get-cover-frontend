@@ -14,12 +14,13 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import { addNewServicerRequest } from "../../../services/servicerServices";
+import { RotateLoader } from "react-spinners";
 
 function ServicerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [servicerList, setServicerList] = useState([]);
   const dropdownRef = useRef(null);
-
+  const [loading, setLoading] = useState(false);
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = servicerList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
@@ -34,9 +35,11 @@ function ServicerList() {
   }, []);
 
   const getServicerList = async () => {
+    setLoading(true)
     const result = await addNewServicerRequest("Approved");
     setServicerList(result.data);
     console.log(result.data);
+    setLoading(false)
   };
   const columns = [
     {
@@ -231,6 +234,13 @@ function ServicerList() {
             </div>
           </Grid>
           <div className="mb-5 relative">
+          {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
             <DataTable
               columns={columns}
               data={servicerList}
@@ -246,6 +256,7 @@ function ServicerList() {
               paginationComponentOptions={paginationOptions}
               paginationRowsPerPageOptions={[10, 20, 50, 100]}
             />
+            )}
           </div>
         </div>
       </div>

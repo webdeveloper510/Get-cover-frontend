@@ -1,4 +1,4 @@
-import React , { useState } from 'react'
+import React , { useEffect, useRef, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import Button from '../../../../common/button'
@@ -13,15 +13,12 @@ import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from '../../../../common/grid';
 import Input from '../../../../common/input';
 import DataTable from "react-data-table-component"
+import { RotateLoader } from 'react-spinners';
 
 function UserList() {
     const [selectedAction, setSelectedAction] = useState(null);
-
-    const handleActionChange = (action) => {
-      // Implement the logic for the selected action (e.g., edit or delete)
-      console.log(`Selected action: ${action}`);
-      // You can replace the console.log statement with the actual logic you want to perform
-    };
+    const dropdownRef = useRef(null);
+    const [loading, setLoading] = useState(false);
   
     const data = [
       {
@@ -62,6 +59,21 @@ function UserList() {
       },
     ];
 
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          // Close the dropdown if the click is outside of it
+          setSelectedAction(null);
+        }
+      };
+  
+      document.addEventListener("click", handleClickOutside);
+  
+      return () => {
+        // Cleanup the event listener on component unmount
+        document.removeEventListener("click", handleClickOutside);
+      };
+    }, []);
     
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = data.length - index <= 2;
@@ -128,7 +140,7 @@ function UserList() {
               <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
             </div>
             {selectedAction === row.Categoryname && (
-              <div className={`absolute z-[9999] w-[120px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              <div ref={dropdownRef} className={`absolute z-[9999] w-[120px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}>
                   <div className='text-center py-2 cursor-pointer border-b'>Make Primary</div>
@@ -185,8 +197,16 @@ function UserList() {
               </div>
             </Grid>
             <div className='mb-5 relative dealer-detail'>
+            {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
               <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
               </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
+            )}
             </div>
           </div>
   
