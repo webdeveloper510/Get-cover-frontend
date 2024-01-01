@@ -99,12 +99,13 @@ function OrderList() {
       name: "# Products",
       selector: (row) => row.order,
       sortable: true,
-      minWidth:'150px',
+      minWidth:'120px',
     },
     {
       name: "Order Value",
       selector: (row) => row.orderValue,
       sortable: true,
+      minWidth:'150px',
     },
     {
         name: "Status",
