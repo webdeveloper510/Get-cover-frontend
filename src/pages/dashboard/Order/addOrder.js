@@ -7,11 +7,9 @@ import Input from '../../../common/input';
 
 // Media Include
 import BackImage from '../../../assets/images/icons/backArrow.svg'
-import DeleteImage from '../../../assets/images/icons/Delete.svg'
-import AddDealer from '../../../assets/images/dealer-book.svg'
+import Dropbox from "../../../assets/images/icons/dropBox.svg";
+import Delete from "../../../assets/images/icons/DeleteIcon.svg";
 import Button from '../../../common/button';
-import RadioButton from '../../../common/radio';
-import Modal from '../../../common/model';
 
 function AddOrder() {
     const [selectedValue, setSelectedValue] = useState('');
@@ -175,19 +173,19 @@ function AddOrder() {
             </Grid>
           </div>
           {/* third Step  */}
-          <div>
+          <div className='mb-3'>
             <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
               <p className='text-2xl font-bold mb-4'>Add Product</p>
               <div className='absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 '>
               <Button>+ Add More Product</Button>
               </div>
               <Grid>
-                <div className='col-span-8'>
+                <div className='col-span-8 border-r pr-5'>
                   <Grid>
-                    <div className='col-span-12'>
+                    <div className='col-span-6'>
                       <Select 
-                      label="Dealer Purchase Order"
-                      name="dealerPurchaseOrder"
+                      label="Product Category"
+                      name="productCategory"
                       placeholder=""
                       className="!bg-white"
                       required={true}
@@ -196,34 +194,316 @@ function AddOrder() {
                     </div>
                     <div className='col-span-6'>
                     <Select 
-                      label="Service Coverage"
-                      name="servicerCoverage"
+                      label="Product Name"
+                      name="productName"
                       placeholder=""
                       className="!bg-white"
                       required={true}
                       options={city}
                       />
                     </div>
-                    <div className='col-span-6'>
+                    <div className='col-span-12'>
                     <Select 
-                      label="Coverage Type"
-                      name="customerType"
+                      label="Product Description"
+                      name="productDescription"
                       placeholder=""
                       className="!bg-white"
                       required={true}
                       options={country}
                       />
                     </div>
+                    <div className='col-span-3'>
+                    <Select 
+                      label="Term"
+                      name="term"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      options={city}
+                      />
+                    </div>
+                    <div className='col-span-3'>
+                    <Input
+                      type="number"
+                      name="unitPrice"
+                      className="!bg-white"
+                      label="Unit Price"
+                      required={true}
+                      placeholder=""
+                      />
+                    </div>
+                    <div className='col-span-3'>
+                    <Input
+                      type="number"
+                      name="productNumber"
+                      className="!bg-white"
+                      label="# of Products"
+                      required={true}
+                      placeholder=""
+                      />
+                    </div>
+                    <div className='col-span-3'>
+                    <Input
+                      type="number"
+                      name="price"
+                      className="!bg-white"
+                      label="Price "
+                      required={true}
+                      placeholder=""
+                      />
+                    </div>
+                    <div className='col-span-12'>
+                    <div className="relative">
+                  <label
+                    htmlFor="description"
+                    className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  >
+                    Note
+                  </label>
+                    <textarea
+                    id="note"
+                    rows="4"
+                    name="Note"
+                    maxLength={150}
+                    className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                  ></textarea>
+                    </div>
+                    </div>
                   </Grid>
                 </div>
-                <div className='col-span-4 self-end justify-end flex'>
-                  
+                <div className='col-span-4'>
+                  <div className='border border-dashed w-full h-full relative flex'>
+                  <label
+                    htmlFor="description"
+                    className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  >
+                    Upload File
+                  </label>
+                  <div className='self-center text-center'>
+                      <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
+                      <p className="text-[#5D6E66] text-sm">
+                      Accepted file types: csv, xls, xlsx Max. file size: 50 MB.
+                      </p>
+                  </div>
+                    </div>
+                </div>
+              </Grid>
+            </div>
+           {/* Next Open  */}
+            <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
+              <p className='text-2xl font-bold mb-4'>Add Product</p>
+              <div className='absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 '>
+                <img src={Delete} className='cursor-pointer' />
+              </div>
+              <Grid>
+                <div className='col-span-8 border-r pr-5'>
+                  <Grid>
+                    <div className='col-span-6'>
+                      <Select 
+                      label="Product Category"
+                      name="productCategory"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      options={country}
+                      />
+                    </div>
+                    <div className='col-span-6'>
+                    <Select 
+                      label="Product Name"
+                      name="productName"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      options={city}
+                      />
+                    </div>
+                    <div className='col-span-12'>
+                    <Select 
+                      label="Product Description"
+                      name="productDescription"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      options={country}
+                      />
+                    </div>
+                    <div className='col-span-3'>
+                    <Select 
+                      label="Term"
+                      name="term"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      options={city}
+                      />
+                    </div>
+                    <div className='col-span-3'>
+                    <Input
+                      type="number"
+                      name="unitPrice"
+                      className="!bg-white"
+                      label="Unit Price"
+                      required={true}
+                      placeholder=""
+                      />
+                    </div>
+                    <div className='col-span-3'>
+                    <Input
+                      type="number"
+                      name="productNumber"
+                      className="!bg-white"
+                      label="# of Products"
+                      required={true}
+                      placeholder=""
+                      />
+                    </div>
+                    <div className='col-span-3'>
+                    <Input
+                      type="number"
+                      name="price"
+                      className="!bg-white"
+                      label="Price "
+                      required={true}
+                      placeholder=""
+                      />
+                    </div>
+                    <div className='col-span-12'>
+                    <div className="relative">
+                  <label
+                    htmlFor="description"
+                    className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  >
+                    Note
+                  </label>
+                    <textarea
+                    id="note"
+                    rows="4"
+                    name="Note"
+                    maxLength={150}
+                    className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                  ></textarea>
+                    </div>
+                    </div>
+                  </Grid>
+                </div>
+                <div className='col-span-4'>
+                  <div className='border border-dashed w-full h-full relative flex'>
+                  <label
+                    htmlFor="description"
+                    className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  >
+                    Upload File
+                  </label>
+                  <div className='self-center text-center'>
+                      <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
+                      <p className="text-[#5D6E66] text-sm">
+                      Accepted file types: csv, xls, xlsx Max. file size: 50 MB.
+                      </p>
+                  </div>
+                    </div>
                 </div>
               </Grid>
             </div>
             <Button className='!bg-white !text-black'>Previous</Button>
             <Button>Next</Button>
           </div>
+
+          {/* Forth Step  */}
+
+          <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
+            <Grid>
+              <div className='col-span-6'>
+                <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Order Details</p>
+                <Grid className='bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 '>
+                  <div className='col-span-4 py-4 border-r'>
+                    <p className='text-[12px]'>Dealer Name</p>
+                    <p className='font-bold text-sm'>Edward Wilson</p>
+                  </div>
+                  <div className='col-span-4 py-4 border-r'>
+                     <p className='text-[12px]'>Servicer Name</p>
+                     <p className='font-bold text-sm'>Jameson Wills</p>
+                  </div>
+                  <div className='col-span-4 py-4'>
+                     <p className='text-[12px]'>Customer Name</p>
+                     <p className='font-bold text-sm'>Ankush Grover</p>
+                  </div>
+                </Grid>
+              </div>
+              <div className='col-span-6'>
+                <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Dealer Order Details</p>
+                <Grid className='bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 '>
+                  <div className='col-span-4 py-4 border-r'>
+                    <p className='text-[12px]'>Dealer Purchase Order</p>
+                    <p className='font-bold text-sm'>123456789009876</p>
+                  </div>
+                  <div className='col-span-4 py-4 border-r'>
+                     <p className='text-[12px]'>Service Coverage</p>
+                     <p className='font-bold text-sm'>Parts</p>
+                  </div>
+                  <div className='col-span-4 py-4'>
+                     <p className='text-[12px]'>Coverage Type</p>
+                     <p className='font-bold text-sm'>Breakdown (BD)</p>
+                  </div>
+                </Grid>
+              </div>
+              <div className='col-span-8'>
+                <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Product Details</p>
+                <div className='bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl '>
+                  <Grid className='border-b px-4'>
+                  <div className='col-span-4 py-4 border-r'>
+                    <p className='text-[12px]'>Product Category</p>
+                    <p className='font-bold text-sm'>Electronic Gadget</p>
+                  </div>
+                  <div className='col-span-4 py-4 border-r'>
+                     <p className='text-[12px]'>Product Name</p>
+                     <p className='font-bold text-sm'>Laptop</p>
+                  </div>
+                  <div className='col-span-4 py-4'>
+                     <p className='text-[12px]'>Product Description</p>
+                     <p className='font-bold text-sm'>Laptops are designed to be portable computers.</p>
+                  </div>
+                  </Grid>
+                  <Grid className='border-b px-4'>
+                  <div className='col-span-3 py-4 border-r'>
+                    <p className='text-[12px]'>Term</p>
+                    <p className='font-bold text-sm'>18 Months</p>
+                  </div>
+                  <div className='col-span-3 py-4 border-r'>
+                     <p className='text-[12px]'>Unit Price</p>
+                     <p className='font-bold text-sm'>$20.00</p>
+                  </div>
+                  <div className='col-span-3 py-4 border-r'>
+                     <p className='text-[12px]'># of Products</p>
+                     <p className='font-bold text-sm'>2</p>
+                  </div>
+                  <div className='col-span-3 py-4'>
+                     <p className='text-[12px]'>Price</p>
+                     <p className='font-bold text-sm'>$100.00</p>
+                  </div>
+                  </Grid>
+                  <Grid className=' px-4'>
+                  <div className='col-span-12 py-4'>
+                     <p className='text-[12px]'>Note</p>
+                     <p className='font-bold text-sm'>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+                  </div>
+                  </Grid>
+                </div>
+              </div>
+              <div className='col-span-4'>
+              <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Uploaded  Data</p>
+              <div className='border border-dashed w-full h-[83%] relative flex'>
+                  <div className='self-center text-center'>
+                      <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
+                      <p className="text-[#5D6E66] text-sm">
+                      Accepted file types: csv, xls, xlsx Max. file size: 50 MB.
+                      </p>
+                  </div>
+                    </div>
+              </div>
+            </Grid>
+          </div>
+          
       </div>
     )
   }
