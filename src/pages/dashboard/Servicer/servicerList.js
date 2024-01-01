@@ -106,7 +106,7 @@ function ServicerList() {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.Categoryid ? null : row.Categoryid
+                  selectedAction === row.servicerData.unique_key ? null : row.servicerData.unique_key
                 )
               }
             >
@@ -116,7 +116,7 @@ function ServicerList() {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.Categoryid && (
+            {selectedAction === row.servicerData.unique_key && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(

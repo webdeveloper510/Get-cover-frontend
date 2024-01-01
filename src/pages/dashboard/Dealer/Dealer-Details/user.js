@@ -36,7 +36,37 @@ function UserList() {
         description: "Description for Category 2",
         status: "Inactive",
       },
+      {
+        Categoryid: 2,
+        Categoryname: "Category 3",
+        description: "Description for Category 2",
+        status: "Inactive",
+      },
+      {
+        Categoryid: 2,
+        Categoryname: "Category 4",
+        description: "Description for Category 2",
+        status: "Inactive",
+      },
+      {
+        Categoryid: 2,
+        Categoryname: "Category 5",
+        description: "Description for Category 2",
+        status: "Inactive",
+      },
+      {
+        Categoryid: 2,
+        Categoryname: "Category 6",
+        description: "Description for Category 2",
+        status: "Inactive",
+      },
     ];
+
+    
+  const calculateDropdownPosition = (index) => {
+    const isCloseToBottom = data.length - index <= 2;
+    return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
+  };
 
     const paginationOptions = {
       rowsPerPageText: 'Rows per page:',
@@ -68,6 +98,23 @@ function UserList() {
         name: "Status",
         selector: (row) => row.status,
         sortable: true,
+        cell: (row) => (
+          <div className="relative">
+            <div
+              className={` ${
+                row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            ></div>
+            <select
+              value={row.status === true ? "active" : "inactive"}
+              // onChange={(e) => handleStatusChange(row, e.target.value)}
+              className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        ),
       },
       {
         name: "Action",
@@ -77,13 +124,16 @@ function UserList() {
           // console.log(index, index % 10 == 9)
           return (
             <div className="relative">
-            <div onClick={() => setSelectedAction(row.unique_key)}>
+            <div onClick={() => setSelectedAction( selectedAction === row.Categoryname ? null : row.Categoryname)}>
               <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
             </div>
-            {selectedAction === row.unique_key && (
-              <div className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${index%10 === 9 ? 'bottom-[1.3rem] ' : 'top-[1.3rem]'}`}>
-                <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/>
-                  <div className='text-center py-3'>Edit</div>
+            {selectedAction === row.Categoryname && (
+              <div className={`absolute z-[9999] w-[120px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                index
+              )}`}>
+                  <div className='text-center py-2 cursor-pointer border-b'>Make Primary</div>
+                  <div className='text-center py-2 cursor-pointer border-b'>Edit</div>
+                  <div className='text-center text-red-500 py-2 cursor-pointer'>Delete</div>
               </div>
             )}
           </div>

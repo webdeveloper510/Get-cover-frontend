@@ -28,10 +28,7 @@ function CustomerList() {
     { label: "Inactive", value: false },
   ];
 
-  const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = data.length - index <= 2;
-    return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
-  };
+
 
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
@@ -58,7 +55,10 @@ function CustomerList() {
       orderValue: "$123.00",
     },
   ];
-
+  const calculateDropdownPosition = (index) => {
+    const isCloseToBottom = data.length - index <= 2;
+    return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
+  };
   const columns = [
     {
       name: "ID",
@@ -68,7 +68,7 @@ function CustomerList() {
       maxWidth: "70px",
     },
     {
-      name: "Category Name",
+      name: "Name",
       selector: (row) => row.Categoryname,
       sortable: true,
     },

@@ -61,17 +61,12 @@ function CustomerList() {
         sortable: true,
       },
       {
-        name: "Number of Claims",
+        name: "Orders",
         selector: (row) => row.description,
         sortable: true,
       },
       {
-        name: "Total Claims Value",
-        selector: (row) => row.status,
-        sortable: true,
-      },
-      {
-        name: "Status",
+        name: "Order Value",
         selector: (row) => row.status,
         sortable: true,
       },

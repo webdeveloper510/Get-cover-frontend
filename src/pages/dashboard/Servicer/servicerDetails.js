@@ -14,6 +14,8 @@ import DealerActive from "../../../assets/images/icons/dealerDetails.svg";
 import ClaimActive from "../../../assets/images/Dealer/Claim-active.svg";
 import UserActive from "../../../assets/images/Dealer/User-active.svg";
 import Dealer from "../../../assets/images/icons/dealer.svg";
+import Unpaid from "../../../assets/images/icons/Unpaid.svg";
+import UnpaidActive from "../../../assets/images/icons/unpaidActive.svg";
 import Claim from "../../../assets/images/Dealer/Claim.svg";
 import User from "../../../assets/images/Dealer/Users.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
@@ -52,6 +54,7 @@ function ServicerDetails() {
     { id: 'tab1', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
     { id: 'tab2', label: 'Dealer', icons:Dealer, Activeicons: DealerActive, content: <DealerDetailList /> },
     { id: 'tab3', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
+    { id: 'tab4', label: 'Unpaid Claims', icons: Unpaid, Activeicons: UnpaidActive, content: <UserList /> },
   ];
 
   const handleTabClick = (tabId) => {
@@ -182,9 +185,9 @@ function ServicerDetails() {
         </div>
         <div className="col-span-3">
           <Grid className="!mt-5">
-            <div className="col-span-10">
+            <div className="col-span-8">
               <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                 <Grid className="!grid-cols-7 !gap-1">
+                 <Grid className="!grid-cols-4 !gap-1">
                   {tabs.map((tab) => (
                     <div className="col-span-1" key={tab.id}>
                       <Button
@@ -201,7 +204,7 @@ function ServicerDetails() {
                 </Grid>
               </div>
             </div>
-            <div className="col-span-2">
+            <div className="col-span-4">
                 <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
                   {" "}
                   <Link to={"#"} className="flex self-center">
