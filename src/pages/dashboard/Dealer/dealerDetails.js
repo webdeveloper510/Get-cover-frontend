@@ -208,6 +208,12 @@ function DealerDetails() {
 
   ];
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center">
+      <p>No records found.</p>
+    </div>
+  );
+
   const tabs = [
     {
       id: "Orders",
@@ -264,14 +270,15 @@ function DealerDetails() {
     setActiveTab(tabId);
   };
   return (
-    <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
+    <>
       {loading && (
-        <div className=" fixed z-[99] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
+        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#fff" />
           </div>
         </div>
       )}
+    <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
       <Headbar />
 
       <div className="flex">
@@ -640,7 +647,7 @@ function DealerDetails() {
             </p>
            <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
            <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
-              </>}  />
+              </>}   noDataComponent={<CustomNoDataComponent />} />
            </div>
             <Grid className="drop-shadow-5xl">
             <div className="col-span-4">
@@ -661,6 +668,7 @@ function DealerDetails() {
         </div>
       </Modal>
     </div>
+    </>
   );
 }
 
