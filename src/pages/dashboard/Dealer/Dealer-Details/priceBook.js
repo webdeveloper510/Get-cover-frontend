@@ -49,13 +49,6 @@ function PriceBookList(props) {
       });
 
       console.log(result);
-
-      // if (result.code === 200 || result.code === 401) {
-      //   console.log("Status updated successfully");
-      //   getDealerList();
-      // } else {
-      //   getDealerList();
-      // }
     } catch (error) {
       console.error("Error in handleStatusChange:", error);
     }
