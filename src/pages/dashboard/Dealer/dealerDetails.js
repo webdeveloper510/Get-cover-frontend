@@ -647,7 +647,7 @@ function DealerDetails() {
                           <Button
                             type="button"
                             className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                            onClick={closeModal}
+                            onClick={closeModal1}
                           >
                             Cancel
                           </Button>
