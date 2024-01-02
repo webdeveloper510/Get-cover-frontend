@@ -14,6 +14,7 @@ import DataTable from "react-data-table-component";
 import { RotateLoader } from "react-spinners";
 import Modal from "../../../../common/model";
 import { getUserListByDealerId } from "../../../../services/userServices";
+import Select from "../../../../common/select";
 
 function UserList(props) {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -57,6 +58,14 @@ function UserList(props) {
   };
   const openModal1 = () => {
     setIsModalOpen1(true);
+  };
+
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const closeModal2 = () => {
+    setIsModalOpen2(false);
+  };
+  const openModal2 = () => {
+    setIsModalOpen2(true);
   };
 
     useEffect(() => {
@@ -160,7 +169,7 @@ function UserList(props) {
                 index
               )}`}>
                   <div className='text-center py-2 cursor-pointer border-b' onClick={() => openModal()}>Make Primary</div>
-                  <div className='text-center py-2 cursor-pointer border-b'>Edit</div>
+                  <div className='text-center py-2 cursor-pointer border-b' onClick={() => openModal2()}>Edit</div>
                   <div className='text-center text-red-500 py-2 cursor-pointer' onClick={() => openModal1()}>Delete</div>
               </div>
             )}
@@ -168,6 +177,11 @@ function UserList(props) {
         );
       },
     },
+  ];
+
+  const state = [
+    { label: 'Active', value: 'active' },
+    { label: 'Inactive', value: 'inactive' },
   ];
 
   return (
@@ -263,7 +277,7 @@ function UserList(props) {
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className="text-center py-3">
             <img src={Primary} alt="email Image" className="mx-auto" />
-            <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
               It's set to Primary
             </p>
             <p className="text-neutral-grey text-base font-medium mt-4">
@@ -272,8 +286,8 @@ function UserList(props) {
         </div>
       </Modal>
 
-            {/* Modal Primary Popop */}
-            <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+            {/* Modal Delete Popop */}
+      <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={assign} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
@@ -284,6 +298,72 @@ function UserList(props) {
             <Button >Yes</Button>
             <Button className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular" onClick={() => closeModal1()}>No</Button>
             <div className='col-span-1'></div>
+           </Grid>
+        </div>
+      </Modal>
+
+          {/* Modal Edit Popop */}
+          <Modal isOpen={isModalOpen2} onClose={closeModal2}>
+        <div className=" py-3">
+          <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+             Edit User
+          </p>
+          <Grid className="px-8">
+            <div className="col-span-6">
+            <Input
+                      type="text"
+                      name="fname"
+                      label="First Name"
+                      className="!bg-white"
+                      required={true}
+                      placeholder="" />
+            </div>
+            <div className="col-span-6">
+            <Input
+                      type="text"
+                      name="lname"
+                      label="Last Name"
+                      className="!bg-white"
+                      required={true}
+                      placeholder="" />
+            </div>
+            <div className="col-span-6">
+            <Input
+                      type="text"
+                      name="position"
+                      label="Position"
+                      className="!bg-white"
+                      required={true}
+                      placeholder="" />
+            </div>
+            <div className="col-span-6">
+            <Input
+                      type="number"
+                      name="phoneNumber"
+                      label="Phone Number"
+                      className="!bg-white"
+                      required={true}
+                      placeholder="" />
+            </div>
+            <div className="col-span-6">
+            <Select
+                      label="State"
+                      name="state"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      options={state} />
+            </div>
+
+          </Grid>
+           <Grid className='!grid-cols-5 my-5  px-8'>
+            <div className="col-span-2">
+            <Button className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular" onClick={()=> closeModal2()} >Cancel</Button>
+            </div>
+           
+            <div className='col-span-3'>
+            <Button className="w-full">Submit</Button>
+            </div>
            </Grid>
         </div>
       </Modal>
