@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../../../../common/button";
 
-<<<<<<< HEAD
 import { Link } from 'react-router-dom'
 import Button from '../../../../common/button'
 
@@ -10,10 +9,6 @@ import arrowImage from '../../../../assets/images/dropdownArrow.png';
 import Primary from '../../../../assets/images/SetPrimary.png';
 import assign from '../../../../assets/images/Unassign.png';
 import Search from '../../../../assets/images/icons/SearchIcon.svg';
-=======
-import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
-import Search from "../../../../assets/images/icons/SearchIcon.svg";
->>>>>>> 164e19f811440e0a736fad79bc25e05a85b9a780
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Primary from "../../../../assets/images/SetPrimary.png";
 import shorting from "../../../../assets/images/icons/shorting.svg";
