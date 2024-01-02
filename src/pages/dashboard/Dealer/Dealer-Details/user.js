@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "../../../../common/button";
 
 import ActiveIcon from '../../../../assets/images/icons/iconAction.svg';
-import arrowImage from '../../../../assets/images/dropdownArrow.png';
+import star from '../../../../assets/images/icons/star.svg';
 import Primary from '../../../../assets/images/SetPrimary.png';
 import assign from '../../../../assets/images/Unassign.png';
 import Search from '../../../../assets/images/icons/SearchIcon.svg';
@@ -58,44 +58,6 @@ function UserList(props) {
   const openModal1 = () => {
     setIsModalOpen1(true);
   };
-    const data = [
-      {
-        Categoryid: 1,
-        Categoryname: "Category 1",
-        description: "Description for Category 1",
-        status: "Active",
-      },
-      {
-        Categoryid: 2,
-        Categoryname: "Category 2",
-        description: "Description for Category 2",
-        status: "Inactive",
-      },
-      {
-        Categoryid: 2,
-        Categoryname: "Category 3",
-        description: "Description for Category 2",
-        status: "Inactive",
-      },
-      {
-        Categoryid: 2,
-        Categoryname: "Category 4",
-        description: "Description for Category 2",
-        status: "Inactive",
-      },
-      {
-        Categoryid: 2,
-        Categoryname: "Category 5",
-        description: "Description for Category 2",
-        status: "Inactive",
-      },
-      {
-        Categoryid: 2,
-        Categoryname: "Category 6",
-        description: "Description for Category 2",
-        status: "Inactive",
-      },
-    ];
 
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -125,9 +87,15 @@ function UserList(props) {
 
   const columns = [
     {
-      name: "Name",
-      selector: (row) => row.firstName + " " + row.lastName,
+      name: 'Name',
+      selector: 'name',
       sortable: true,
+      cell: (row) => (
+        <div className="flex relative">
+          <img src={star} alt='' className="absolute -left-3" />
+          <span className="self-center ml-3">{row.firstName} {row.lastName}</span>
+        </div>
+      ),
     },
     {
       name: "Email Address",
