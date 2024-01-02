@@ -92,8 +92,8 @@ function UserList(props) {
       sortable: true,
       cell: (row) => (
         <div className="flex relative">
-          <img src={star} alt='' className="absolute -left-3" />
-          <span className="self-center ml-3">{row.firstName} {row.lastName}</span>
+          <img src={star} alt='' className="absolute -left-3 top-0" />
+          <span className="self-center pt-2 ml-3">{row.firstName} {row.lastName}</span>
         </div>
       ),
     },
