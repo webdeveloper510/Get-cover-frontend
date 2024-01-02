@@ -8,13 +8,12 @@ import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
-<<<<<<< HEAD
-import { getDealerPriceBookByDealerId } from "../../../../services/dealerServices";
+import {
+  editDealerPriceBook,
+  getDealerPriceBookByDealerId,
+} from "../../../../services/dealerServices";
 import { useNavigate } from "react-router-dom";
 
-=======
-import { getDealerPriceBookByDealerId, editDealerPriceBook } from "../../../../services/dealerServices";
->>>>>>> d4af485099b92e7a8e0bcb7dcc76b065dfade3f7
 function PriceBookList(props) {
   console.log(props.id);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
@@ -148,7 +147,6 @@ function PriceBookList(props) {
                 )}`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-<<<<<<< HEAD
                 <div
                   className="text-center py-3"
                   onClick={() => {
@@ -157,9 +155,6 @@ function PriceBookList(props) {
                 >
                   Edit
                 </div>
-=======
-                <div className="text-center py-3 cursor-pointer">Edit</div>
->>>>>>> d4af485099b92e7a8e0bcb7dcc76b065dfade3f7
               </div>
             )}
           </div>

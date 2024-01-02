@@ -91,11 +91,7 @@ function CustomerList(props) {
                 )}`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-<<<<<<< HEAD
                 <div className="text-center py-3 cursor-pointer">View</div>
-=======
-                  <div className='text-center py-3 cursor-pointer'>View</div>
->>>>>>> d4af485099b92e7a8e0bcb7dcc76b065dfade3f7
               </div>
             )}
           </div>
