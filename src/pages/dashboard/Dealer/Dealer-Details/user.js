@@ -1,16 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../../../../common/button";
 
-import { Link } from 'react-router-dom'
-import Button from '../../../../common/button'
-
 import ActiveIcon from '../../../../assets/images/icons/iconAction.svg';
 import arrowImage from '../../../../assets/images/dropdownArrow.png';
 import Primary from '../../../../assets/images/SetPrimary.png';
 import assign from '../../../../assets/images/Unassign.png';
 import Search from '../../../../assets/images/icons/SearchIcon.svg';
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import Primary from "../../../../assets/images/SetPrimary.png";
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
