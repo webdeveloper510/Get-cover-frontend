@@ -91,7 +91,7 @@ function PriceBookList(props) {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.Categoryid ? null : row.Categoryid
+                  selectedAction === row.unique_key ? null : row.unique_key
                 )
               }
             >
@@ -101,7 +101,7 @@ function PriceBookList(props) {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.Categoryid && (
+            {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(

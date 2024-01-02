@@ -177,7 +177,7 @@ function UserList(props) {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.Categoryname ? null : row.Categoryname
+                  selectedAction === row.email ? null : row.email
                 )
               }
             >
@@ -187,7 +187,7 @@ function UserList(props) {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.Categoryname && (
+            {selectedAction === row.email && (
               <div ref={dropdownRef} className={`absolute z-[9999] w-[120px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}>
