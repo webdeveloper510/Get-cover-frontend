@@ -43,3 +43,19 @@ export const getCustomerList = async (data) => {
     throw error;
   }
 };
+
+export const getCustomerListByDealerId = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/customer/getDealerCustomers/${id}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -53,9 +53,7 @@ function CustomerList() {
   const columns = [
     {
       name: "ID",
-      selector: (row) => {
-        console.log(row);
-      },
+      selector: (row) => row.customerData.unique_key,
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
@@ -77,7 +75,7 @@ function CustomerList() {
     },
     {
       name: "Dealer Name",
-      selector: (row) => row.Dealername,
+      selector: (row) => row.customerData.dealerName,
       sortable: true,
     },
     {
