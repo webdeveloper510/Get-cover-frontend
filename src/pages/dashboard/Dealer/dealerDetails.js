@@ -45,7 +45,7 @@ import { cityData } from "../../../stateCityJson";
 import { RotateLoader } from "react-spinners";
 
 function DealerDetails() {
-  const [activeTab, setActiveTab] = useState("tab1"); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dealerDetails, setDealerDetails] = useState([]);
   const [message, setMessage] = useState("");
@@ -146,53 +146,53 @@ function DealerDetails() {
 
   const tabs = [
     {
-      id: "tab1",
+      id: "Orders",
       label: "Orders",
       icons: Order,
       Activeicons: OrderActive,
       content: <OrderList />,
     },
     {
-      id: "tab2",
+      id: "Contracts",
       label: "Contracts",
       icons: Contract,
       Activeicons: ContractsActive,
       content: <ContractList />,
     },
     {
-      id: "tab3",
+      id: "Claims",
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
       content: <ClaimList />,
     },
     {
-      id: "tab4",
+      id: "Servicer",
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
       content: <ServicerList />,
     },
     {
-      id: "tab5",
+      id: "Customers",
       label: "Customers",
       icons: Customer,
       Activeicons: CustomerActive,
       content: <CustomerList />,
     },
     {
-      id: "tab6",
+      id: "Users",
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: <UserList />,
+      content: <UserList id={id.id} />,
     },
     {
-      id: "tab7",
+      id: "PriceBook",
       label: "PriceBook",
       icons: PriceBook,
       Activeicons: PriceBookActive,
-      content: <PriceBookList />,
+      content: <PriceBookList id={id.id} />,
     },
   ];
 
@@ -234,7 +234,7 @@ function DealerDetails() {
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
-              Dealer Detail (Price Book)
+              Dealer Detail ({activeTab})
             </li>
           </ul>
         </div>
