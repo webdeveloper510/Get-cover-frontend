@@ -27,7 +27,7 @@ import { getUserListByDealerId } from "../../../../services/userServices";
 function UserList(props) {
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
-  const [openModal, isModalOpen] = useState(false);
+  const [isModalOpen, SetIsModalOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const [loading, setLoading] = useState(false);
@@ -57,9 +57,8 @@ function UserList(props) {
   const closeModal = () => {
     isModalOpen(false);
   };
-<<<<<<< HEAD
   const openModal = () => {
-    setIsModalOpen(true);
+    SetIsModalOpen(true);
   };
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const closeModal1 = () => {
@@ -123,8 +122,6 @@ function UserList(props) {
       };
     }, []);
     
-=======
->>>>>>> 164e19f811440e0a736fad79bc25e05a85b9a780
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = userList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
