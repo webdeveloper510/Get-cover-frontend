@@ -5,7 +5,7 @@ import Button from '../../../../common/button'
 
 import ActiveIcon from '../../../../assets/images/icons/iconAction.svg';
 import arrowImage from '../../../../assets/images/dropdownArrow.png';
-import AddItem from '../../../../assets/images/icons/addItem.svg';
+import Primary from '../../../../assets/images/SetPrimary.png';
 import Search from '../../../../assets/images/icons/SearchIcon.svg';
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Headbar from '../../../../common/headBar';
@@ -14,12 +14,19 @@ import Grid from '../../../../common/grid';
 import Input from '../../../../common/input';
 import DataTable from "react-data-table-component"
 import { RotateLoader } from 'react-spinners';
+import Modal from '../../../../common/model';
 
 function UserList() {
     const [selectedAction, setSelectedAction] = useState(null);
     const dropdownRef = useRef(null);
     const [loading, setLoading] = useState(false);
-  
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
     const data = [
       {
         Categoryid: 1,
@@ -143,7 +150,7 @@ function UserList() {
               <div ref={dropdownRef} className={`absolute z-[9999] w-[120px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}>
-                  <div className='text-center py-2 cursor-pointer border-b'>Make Primary</div>
+                  <div className='text-center py-2 cursor-pointer border-b' onClick={() => openModal()}>Make Primary</div>
                   <div className='text-center py-2 cursor-pointer border-b'>Edit</div>
                   <div className='text-center text-red-500 py-2 cursor-pointer'>Delete</div>
               </div>
@@ -211,6 +218,19 @@ function UserList() {
           </div>
   
         </div>
+
+          {/* Modal Primary Popop */}
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          It's set to Primary
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+              We have successfully made this primary
+          </p>
+        </div>
+      </Modal>
       </>
     )
   }
