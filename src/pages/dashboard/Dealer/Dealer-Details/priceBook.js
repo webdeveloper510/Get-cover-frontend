@@ -8,11 +8,16 @@ import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
+<<<<<<< HEAD
 import { getDealerPriceBookByDealerId } from "../../../../services/dealerServices";
 import { useNavigate } from "react-router-dom";
 
+=======
+import { getDealerPriceBookByDealerId, editDealerPriceBook } from "../../../../services/dealerServices";
+>>>>>>> d4af485099b92e7a8e0bcb7dcc76b065dfade3f7
 function PriceBookList(props) {
   console.log(props.id);
+  const [dealerPriceBook, setDealerPriceBook] = useState([]);
   const [selectedAction, setSelectedAction] = useState(null);
   const [priceBookList, setPriceBookList] = useState([]);
   const dropdownRef = useRef(null);
@@ -25,6 +30,35 @@ function PriceBookList(props) {
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
+  };
+
+  const handleStatusChange = async (row, newStatus) => {
+    try {
+      const updatedCompanyPriceList = dealerPriceBook.map((category) => {
+        if (category._id === row._id) {
+          return { ...category, status: newStatus === "active" };
+        }
+        return category;
+      });
+
+      setDealerPriceBook(updatedCompanyPriceList);
+      console.log(row);
+      const result = await editDealerPriceBook(row._id, {
+        retailPrice: row?.retailPrice?.toFixed(2),
+        priceBook: row?.priceBook,
+        dealerId: row?.dealerId,
+
+        status: newStatus === "active" ? true : false,
+        categoryId: row?.priceBooks[0]?.category[0]?._id,
+        wholesalePrice: row?.wholesalePrice,
+        term: row?.priceBooks[0]?.term,
+        brokerFee: row?.brokerFee,
+      });
+
+      console.log(result);
+    } catch (error) {
+      console.error("Error in handleStatusChange:", error);
+    }
   };
 
   const columns = [
@@ -73,7 +107,10 @@ function PriceBookList(props) {
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
-            // onChange={(e) => handleStatusChange(row, e.target.value)}
+            disabled={
+              row.priceBooks[0]?.category[0]?.status === false ? true : false
+            }
+            onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
@@ -111,6 +148,7 @@ function PriceBookList(props) {
                 )}`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+<<<<<<< HEAD
                 <div
                   className="text-center py-3"
                   onClick={() => {
@@ -119,6 +157,9 @@ function PriceBookList(props) {
                 >
                   Edit
                 </div>
+=======
+                <div className="text-center py-3 cursor-pointer">Edit</div>
+>>>>>>> d4af485099b92e7a8e0bcb7dcc76b065dfade3f7
               </div>
             )}
           </div>

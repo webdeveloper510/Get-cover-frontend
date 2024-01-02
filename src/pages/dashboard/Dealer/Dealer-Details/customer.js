@@ -91,7 +91,11 @@ function CustomerList(props) {
                 )}`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+<<<<<<< HEAD
                 <div className="text-center py-3 cursor-pointer">View</div>
+=======
+                  <div className='text-center py-3 cursor-pointer'>View</div>
+>>>>>>> d4af485099b92e7a8e0bcb7dcc76b065dfade3f7
               </div>
             )}
           </div>
@@ -109,7 +113,6 @@ function CustomerList(props) {
     getCustomerList();
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        // Close the dropdown if the click is outside of it
         setSelectedAction(null);
       }
     };
@@ -117,7 +120,6 @@ function CustomerList(props) {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
