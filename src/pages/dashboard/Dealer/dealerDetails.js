@@ -33,6 +33,7 @@ import UserList from "./Dealer-Details/user";
 import PriceBookList from "./Dealer-Details/priceBook";
 import CustomerList from "./Dealer-Details/customer";
 import Modal from "../../../common/model";
+import shorting from "../../../assets/images/icons/shorting.svg";
 import Input from "../../../common/input";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
@@ -43,10 +44,12 @@ import {
 } from "../../../services/dealerServices";
 import { cityData } from "../../../stateCityJson";
 import { RotateLoader } from "react-spinners";
+import DataTable from "react-data-table-component";
 
 function DealerDetails() {
   const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [dealerDetails, setDealerDetails] = useState([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -65,6 +68,12 @@ function DealerDetails() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+  const openModal1 = () => {
+    setIsModalOpen1(true);
+  };
+  const closeModal1 = () => {
+    setIsModalOpen1(false);
   };
 
   useEffect(() => {
@@ -129,20 +138,75 @@ function DealerDetails() {
         setLoading(false);
         setIsModalOpen(false);
       }
-      // else if (
-      //   result.message == "Servicer already exist with this account name"
-      // ) {
-      //   setLoading(false);
-      //   formik.setFieldError("accountName", "Name Already Used");
-      //   setMessage("Some Errors Please Check Form Validations ");
-      //   setIsModalOpen(true);
-      // } else {
-      //   setLoading(false);
-      //   setIsModalOpen(true);
-      //   setMessage(result.message);
-      // }
     },
   });
+
+  const columns = [
+    {
+      name: "Dealer ID",
+      selector: (row) => row.id,
+      sortable: true,
+      minWidth:'33%',
+      center: true,
+    },
+    {
+      name: "Dealer Name",
+      selector: (row) => row.Servicername,
+      sortable: true,
+      minWidth:'50%',
+      center: true,
+    },
+    {
+      name: "Action",
+      center: true,
+      minWidth:'12%', 
+      cell: (row, index) => {
+        // console.log(index, index % 10 == 9)
+        return (
+         <div>
+          <input type="checkbox" className="accent-gray-600	"/>
+         </div>
+        )
+      }
+      
+    },
+  ];
+
+  const data = [
+    {
+      id: 1899,
+      Servicername: "Ankush Grover",
+    },
+    {
+      id: 1900,
+      Servicername: "Ankush Grover",
+    },
+    {
+      id: 1901,
+      Servicername: "Ankush Grover",
+    },
+    {
+      id: 1902,
+      Servicername: "Ankush Grover",
+    },
+    {
+      id: 1903,
+      Servicername: "Ankush Grover",
+    }, 
+     {
+      id: 1904,
+      Servicername: "Ankush Grover",
+    },
+    {
+      id: 1905,
+      Servicername: "Ankush Grover",
+    },
+    {
+      id: 1906,
+      Servicername: "Ankush Grover",
+    },
+
+  ];
 
   const tabs = [
     {
@@ -407,7 +471,7 @@ function DealerDetails() {
                     className="self-center"
                     alt="AddItem"
                   />{" "}
-                  <span className="text-black ml-2 text-[12px] font-Regular !font-[700]">
+                  <span className="text-black ml-2 text-[12px] font-Regular !font-[700]" onClick={()=> openModal1()}>
                     Add {activeTab}
                   </span>{" "}
                 </Link>
@@ -564,6 +628,20 @@ function DealerDetails() {
               </div>
             </Grid>
           </form>
+        </div>
+      </Modal>
+
+        {/* Modal Primary Popop */}
+        <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+          <div className="text-center py-3">
+           
+            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            Assign  Servicer
+            </p>
+           <div className="my-4">
+           <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
+              </>}  />
+           </div>
         </div>
       </Modal>
     </div>

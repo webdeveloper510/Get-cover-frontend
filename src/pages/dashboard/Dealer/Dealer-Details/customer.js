@@ -88,7 +88,7 @@ function CustomerList() {
             {selectedAction === row.Categoryid && (
               <div  ref={dropdownRef} className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(index)}`}>
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                  <div className='text-center py-3'>Edit</div>
+                  <div className='text-center py-3 cursor-pointer'>View</div>
               </div>
             )}
           </div>
