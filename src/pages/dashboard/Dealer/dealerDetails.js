@@ -242,7 +242,7 @@ function DealerDetails() {
       label: "Customers",
       icons: Customer,
       Activeicons: CustomerActive,
-      content: <CustomerList />,
+      content: <CustomerList id={id.id} />,
     },
     {
       id: "Users",
