@@ -13,6 +13,7 @@ import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from '../../../../common/grid';
 import Input from '../../../../common/input';
 import DataTable from "react-data-table-component"
+import Modal from '../../../../common/model';
 
 function ServicerList() {
     const [selectedAction, setSelectedAction] = useState(null);
@@ -178,6 +179,19 @@ function ServicerList() {
           </div>
   
         </div>
+
+           {/* Modal Primary Popop
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          It's set to Primary
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+              We have successfully made this primary
+          </p>
+        </div>
+      </Modal> */}
       </>
     )
   }

@@ -6,6 +6,7 @@ import Button from '../../../../common/button'
 import ActiveIcon from '../../../../assets/images/icons/iconAction.svg';
 import arrowImage from '../../../../assets/images/dropdownArrow.png';
 import Primary from '../../../../assets/images/SetPrimary.png';
+import assign from '../../../../assets/images/Unassign.png';
 import Search from '../../../../assets/images/icons/SearchIcon.svg';
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Headbar from '../../../../common/headBar';
@@ -26,6 +27,13 @@ function UserList() {
   };
   const openModal = () => {
     setIsModalOpen(true);
+  };
+  const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const closeModal1 = () => {
+    setIsModalOpen1(false);
+  };
+  const openModal1 = () => {
+    setIsModalOpen1(true);
   };
     const data = [
       {
@@ -152,7 +160,7 @@ function UserList() {
               )}`}>
                   <div className='text-center py-2 cursor-pointer border-b' onClick={() => openModal()}>Make Primary</div>
                   <div className='text-center py-2 cursor-pointer border-b'>Edit</div>
-                  <div className='text-center text-red-500 py-2 cursor-pointer'>Delete</div>
+                  <div className='text-center text-red-500 py-2 cursor-pointer' onClick={() => openModal1()}>Delete</div>
               </div>
             )}
           </div>
@@ -229,6 +237,22 @@ function UserList() {
           <p className="text-neutral-grey text-base font-medium mt-4">
               We have successfully made this primary
           </p>
+        </div>
+      </Modal>
+
+            {/* Modal Primary Popop */}
+            <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+        <div className="text-center py-3">
+          <img src={assign} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          Would you like to delete it?
+          </p>
+           <Grid className='!grid-cols-4 my-5 '>
+            <div className='col-span-1'></div>
+            <Button >Yes</Button>
+            <Button className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular" onClick={() => closeModal1()}>No</Button>
+            <div className='col-span-1'></div>
+           </Grid>
         </div>
       </Modal>
       </>
