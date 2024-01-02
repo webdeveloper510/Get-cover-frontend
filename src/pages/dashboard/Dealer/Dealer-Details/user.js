@@ -125,7 +125,10 @@ function UserList(props) {
                   index
                 )}`}
               >
-                <div className="text-center py-2 cursor-pointer border-b">
+                <div
+                  className="text-center py-2 cursor-pointer border-b"
+                  onClick={() => openModal()}
+                >
                   Make Primary
                 </div>
                 <div className="text-center py-2 cursor-pointer border-b">
@@ -229,6 +232,19 @@ function UserList(props) {
             )}
           </div>
         </div>
+
+        {/* Modal Primary Popop */}
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          <div className="text-center py-3">
+            <img src={Primary} alt="email Image" className="mx-auto" />
+            <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+              It's set to Primary
+            </p>
+            <p className="text-neutral-grey text-base font-medium mt-4">
+              We have successfully made this primary
+            </p>
+          </div>
+        </Modal>
       </div>
     </>
   );
