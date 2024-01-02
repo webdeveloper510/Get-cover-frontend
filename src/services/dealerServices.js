@@ -245,3 +245,19 @@ export const editDealerData = async (data) => {
     throw error;
   }
 };
+export const getDealerPriceBookByDealerId = async (id) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.get(
+      `${url}/dealer/getDealerPriceBookByDealerId/${id}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
