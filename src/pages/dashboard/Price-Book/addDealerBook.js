@@ -162,7 +162,8 @@ function AddDealerBook() {
       brokerFee: "",
     },
     validationSchema: Yup.object({
-      retailPrice: Yup.number().typeError('Required')
+      retailPrice: Yup.number()
+        .typeError("Required")
         .required("Required")
         .nullable(),
       priceBook: Yup.string().trim().required("Required"),
@@ -286,7 +287,7 @@ function AddDealerBook() {
                         Product Category
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                        {priceBookById?.priceBooks?.category[0]?.name}
+                        {priceBookById?.priceBooks?.category?.name}
                       </p>
                     </div>
                   </div>

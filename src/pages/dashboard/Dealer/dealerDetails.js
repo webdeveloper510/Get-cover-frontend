@@ -408,7 +408,7 @@ function DealerDetails() {
                     alt="AddItem"
                   />{" "}
                   <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
-                    Add Order
+                    Add {activeTab}
                   </span>{" "}
                 </Link>
               </Button>
