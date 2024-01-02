@@ -31,3 +31,59 @@ export const getUserListByDealerId = async (id) => {
     throw error;
   }
 };
+
+export const changePrimaryByUserId = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/customer/changePrimaryUser/${id}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteUserByUserId = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.delete(`${url}/user/deleteUser/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const userDetailsById = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/user/getUserById/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const updateUserDetailsById = async (data) => {
+  let id = data.id;
+  delete data.id;
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(`${url}/user/updateUserData/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -38,8 +38,8 @@ function AddDealerBook() {
   const [loader, setLoader] = useState(false);
   const [priceBookById, setPriceBookById] = useState({});
   const navigate = useNavigate();
-  const { id } = useParams();
-
+  const { id, dealerIdValue } = useParams();
+  console.log(dealerIdValue);
   const dealerDetailById = async (id) => {
     setLoader(true);
     const result = await getDealerPricebookDetailById(id);
@@ -79,6 +79,8 @@ function AddDealerBook() {
     if (id) {
       dealerDetailById(id);
       setType("Edit");
+    } else if (dealerIdValue) {
+      formik.setFieldValue("dealerId", dealerIdValue);
     } else {
       setType("Add");
     }
@@ -95,7 +97,7 @@ function AddDealerBook() {
     }
     if (timer === 0) {
       closeModal();
-      navigate("/dealerPriceList");
+      handleLinkClick();
     }
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
@@ -110,18 +112,28 @@ function AddDealerBook() {
       }))
     );
   };
+  const handleLinkClick = () => {
+    if (dealerIdValue !== undefined) {
+      console.log("Navigating to /dealerDetails/" + dealerIdValue);
+      navigate(`/dealerDetails/${dealerIdValue}`);
+    } else {
+      navigate("/dealerPriceList");
+    }
+  };
   const closeModal = () => {
     setIsModalOpen(false);
   };
   const handleSelectChange = async (name, value) => {
-    formik.setFieldValue(name, value);
+    setError("");
     if (name === "categoryId") {
-      formik.setFieldValue(`priceBook`, "");
-      formik.setFieldValue("wholesalePrice", "");
-      formik.setFieldValue("description", "");
-      formik.setFieldValue("term", "");
+      formik.setValues({
+        ...formik.values,
+        priceBook: "",
+        wholesalePrice: "",
+        description: "",
+        term: "",
+      });
       const response = await getProductListbyProductCategoryId(value);
-      console.log(response);
       setProductNameOptions(() => {
         return response.result.priceBooks.map((item) => ({
           label: item.name,
@@ -137,16 +149,20 @@ function AddDealerBook() {
         }));
       });
     }
+
     if (name === "priceBook") {
-      const data = productNameOptions.find((list) => {
-        return list.value === value;
-      });
-      console.log("data", data);
-      formik.setFieldValue("wholesalePrice", data.wholesalePrice.toFixed(2));
-      formik.setFieldValue("description", data.description);
-      formik.setFieldValue("term", data.term + " Months");
+      const selectedProduct = productNameOptions.find(
+        (item) => item.value === value
+      );
+      formik.setFieldValue(
+        "wholesalePrice",
+        selectedProduct.wholesalePrice.toFixed(2)
+      );
+      formik.setFieldValue("description", selectedProduct.description);
+      formik.setFieldValue("term", selectedProduct.term + " Months");
     }
-    console.log(productNameOptions);
+
+    formik.setFieldValue(name, value);
   };
 
   const formik = useFormik({
@@ -213,8 +229,8 @@ function AddDealerBook() {
       ) : (
         <>
           <div className="flex">
-            <Link
-              to={"/dealerPriceList"}
+            <div
+              onClick={handleLinkClick}
               className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[20px]"
             >
               <img
@@ -222,7 +238,7 @@ function AddDealerBook() {
                 className="m-auto my-auto self-center bg-white"
                 alt="BackImage"
               />
-            </Link>
+            </div>
             <div className="pl-3">
               <p className="font-bold text-[36px] leading-9 mb-[3px]">
                 {type} Dealer Book
@@ -287,7 +303,7 @@ function AddDealerBook() {
                         Product Category
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                        {priceBookById?.priceBooks?.category?.name}
+                        {priceBookById?.priceBooks?.category[0]?.name}
                       </p>
                     </div>
                   </div>

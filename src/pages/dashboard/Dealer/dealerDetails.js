@@ -50,6 +50,7 @@ function DealerDetails() {
   const [dealerDetails, setDealerDetails] = useState([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerId: "",
@@ -198,6 +199,17 @@ function DealerDetails() {
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
+  };
+  const routeToPage = (data) => {
+    console.log(data, id.id);
+    switch (data) {
+      case "PriceBook":
+        navigate(`/addDealerBook/${id.id}`);
+        break;
+
+      default:
+        console.log("Invalid data, no navigation");
+    }
   };
   return (
     <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
@@ -398,19 +410,17 @@ function DealerDetails() {
               </div>
             </div>
             <div className="col-span-2">
-              <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+              <Button
+                className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+                onClick={() => {
+                  routeToPage(activeTab);
+                }}
+              >
                 {" "}
-                <Link to={"#"} className="flex self-center">
-                  {" "}
-                  <img
-                    src={AddItem}
-                    className="self-center"
-                    alt="AddItem"
-                  />{" "}
-                  <span className="text-black ml-2 text-[12px] font-Regular !font-[700]">
-                    Add {activeTab}
-                  </span>{" "}
-                </Link>
+                <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+                <span className="text-black ml-2 text-[12px] font-Regular !font-[700]">
+                  Add {activeTab}
+                </span>{" "}
               </Button>
             </div>
           </Grid>

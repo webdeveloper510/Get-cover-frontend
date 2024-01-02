@@ -9,12 +9,14 @@ import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
 import { getDealerPriceBookByDealerId } from "../../../../services/dealerServices";
+import { useNavigate } from "react-router-dom";
 
 function PriceBookList(props) {
   console.log(props.id);
   const [selectedAction, setSelectedAction] = useState(null);
   const [priceBookList, setPriceBookList] = useState([]);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = priceBookList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
@@ -109,7 +111,14 @@ function PriceBookList(props) {
                 )}`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                <div className="text-center py-3">Edit</div>
+                <div
+                  className="text-center py-3"
+                  onClick={() => {
+                    navigate(`/editCompanyPriceBook/${row.priceBooks._id}`);
+                  }}
+                >
+                  Edit
+                </div>
               </div>
             )}
           </div>

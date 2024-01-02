@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../../../../common/button";
 
-import ActiveIcon from '../../../../assets/images/icons/iconAction.svg';
-import star from '../../../../assets/images/icons/star.svg';
-import Primary from '../../../../assets/images/SetPrimary.png';
-import assign from '../../../../assets/images/Unassign.png';
-import Search from '../../../../assets/images/icons/SearchIcon.svg';
+import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
+import star from "../../../../assets/images/icons/star.svg";
+import Primary from "../../../../assets/images/SetPrimary.png";
+import assign from "../../../../assets/images/Unassign.png";
+import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
@@ -13,14 +13,32 @@ import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
 import { RotateLoader } from "react-spinners";
 import Modal from "../../../../common/model";
-import { getUserListByDealerId } from "../../../../services/userServices";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import {
+  changePrimaryByUserId,
+  deleteUserByUserId,
+  getUserListByDealerId,
+  userDetailsById,
+  updateUserDetailsById,
+} from "../../../../services/userServices";
 import Select from "../../../../common/select";
 
 function UserList(props) {
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
   const [isModalOpen, SetIsModalOpen] = useState(false);
+  const [isprimary, SetIsprimary] = useState(false);
   const dropdownRef = useRef(null);
+
+  const [initialFormValues, setInitialFormValues] = useState({
+    lastName: "",
+    firstName: "",
+    phoneNumber: "",
+    position: "",
+    status: true,
+    id: "",
+  });
 
   const [loading, setLoading] = useState(false);
 
@@ -45,21 +63,30 @@ function UserList(props) {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
+  let deleteValue = "";
   const closeModal = () => {
     isModalOpen(false);
   };
   const openModal = () => {
     SetIsModalOpen(true);
+    getUserList();
   };
   const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const handleSelectChange = async (name, value) => {
+    formik.setFieldValue(name, value);
+  };
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
-  const openModal1 = () => {
+  const openModal1 = (id) => {
+    console.log(id);
+    deleteValue = id;
     setIsModalOpen1(true);
   };
-
+  const status = [
+    { label: "Active", value: true },
+    { label: "Inactive", value: false },
+  ];
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const closeModal2 = () => {
     setIsModalOpen2(false);
@@ -67,23 +94,58 @@ function UserList(props) {
   const openModal2 = () => {
     setIsModalOpen2(true);
   };
+  const formik = useFormik({
+    initialValues: initialFormValues,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .required("Required")
+        .max(30, "Must be exactly 30 characters"),
+      lastName: Yup.string()
+        .required("Required")
+        .max(30, "Must be exactly 30 characters"),
+      phoneNumber: Yup.string()
+        .required("Required")
+        .min(10, "Must be at least 10 characters")
+        .max(10, "Must be exactly 10 characters")
+        .matches(/^[0-9]+$/, "Must contain only digits"),
+      status: Yup.boolean().required("Required"),
+    }),
+    onSubmit: async (values) => {
+      console.log("Form values:", values);
+      // setLoader(true);
+      const result = await updateUserDetailsById(values);
+      console.log(result);
+      if (result.code == 200) {
+        // setLoader(false);
+        // setError(result.message);
+        getUserList();
+      }
+      // else {
+      // setLoader(false);
+      // setError(false);
+      // setIsModalOpen(true);
+      // setTimer(3);
+      // }
+      closeModal2();
+    },
+  });
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        // Close the dropdown if the click is outside of it
+        setSelectedAction(null);
+      }
+    };
 
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-          // Close the dropdown if the click is outside of it
-          setSelectedAction(null);
-        }
-      };
-  
-      document.addEventListener("click", handleClickOutside);
-  
-      return () => {
-        // Cleanup the event listener on component unmount
-        document.removeEventListener("click", handleClickOutside);
-      };
-    }, []);
-    
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Cleanup the event listener on component unmount
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = userList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
@@ -94,15 +156,52 @@ function UserList(props) {
     rangeSeparatorText: "of",
   };
 
+  const deleteUser = async () => {
+    const result = await deleteUserByUserId(deleteValue);
+    console.log(result);
+    if (result.result.code === 200) {
+      getUserList();
+      closeModal1();
+    }
+  };
+  const editUser = async (id) => {
+    console.log(id);
+    const result = await userDetailsById(id);
+    console.log(result.result);
+    SetIsprimary(result.result.isPrimary);
+    setInitialFormValues({
+      id: id,
+      lastName: result?.result?.lastName,
+      firstName: result?.result?.firstName,
+      phoneNumber: result?.result?.phoneNumber,
+      position: result?.result?.position,
+      status: result?.result?.status,
+    });
+
+    openModal2();
+  };
+
+  const makeUserPrimary = async (row) => {
+    console.log(row._id);
+    const result = await changePrimaryByUserId(row._id);
+    console.log(result);
+    if (result.code === 200) {
+      openModal();
+    }
+  };
   const columns = [
     {
-      name: 'Name',
-      selector: 'name',
+      name: "Name",
+      selector: "name",
       sortable: true,
       cell: (row) => (
         <div className="flex relative">
-          <img src={star} alt='' className="absolute -left-3 top-0" />
-          <span className="self-center pt-2 ml-3">{row.firstName} {row.lastName}</span>
+          {row.isPrimary && (
+            <img src={star} alt="" className="absolute -left-3 top-0" />
+          )}
+          <span className="self-center pt-2 ml-3">
+            {row.firstName} {row.lastName}
+          </span>
         </div>
       ),
     },
@@ -133,6 +232,7 @@ function UserList(props) {
             } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
+            disabled={row.isPrimary === true ? true : false}
             value={row.status === true ? "active" : "inactive"}
             // onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
@@ -165,23 +265,41 @@ function UserList(props) {
               />
             </div>
             {selectedAction === row.email && (
-              <div ref={dropdownRef} className={`absolute z-[9999] w-[120px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                index
-              )}`}>
-                  <div className='text-center py-2 cursor-pointer border-b' onClick={() => openModal()}>Make Primary</div>
-                  <div className='text-center py-2 cursor-pointer border-b' onClick={() => openModal2()}>Edit</div>
-                  <div className='text-center text-red-500 py-2 cursor-pointer' onClick={() => openModal1()}>Delete</div>
+              <div
+                ref={dropdownRef}
+                className={`absolute z-[9999] w-[120px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  index
+                )}`}
+              >
+                {!row.isPrimary && row.status && (
+                  <div
+                    className="text-center py-2 cursor-pointer border-b"
+                    onClick={() => makeUserPrimary(row)}
+                  >
+                    Make Primary
+                  </div>
+                )}
+
+                <div
+                  className="text-center py-2 cursor-pointer border-b"
+                  onClick={() => editUser(row._id)}
+                >
+                  Edit
+                </div>
+                {!row.isPrimary && (
+                  <div
+                    className="text-center text-red-500 py-2 cursor-pointer"
+                    onClick={() => openModal1(row._id)}
+                  >
+                    Delete
+                  </div>
+                )}
               </div>
             )}
           </div>
         );
       },
     },
-  ];
-
-  const state = [
-    { label: 'Active', value: 'active' },
-    { label: 'Inactive', value: 'inactive' },
   ];
 
   return (
@@ -271,104 +389,181 @@ function UserList(props) {
             )}
           </div>
         </div>
-        </div>
+      </div>
 
-        {/* Modal Primary Popop */}
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <div className="text-center py-3">
-            <img src={Primary} alt="email Image" className="mx-auto" />
-            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-              It's set to Primary
-            </p>
-            <p className="text-neutral-grey text-base font-medium mt-4">
-              We have successfully made this primary
+      {/* Modal Primary Popop */}
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            It's set to Primary
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+            We have successfully made this primary
           </p>
         </div>
       </Modal>
 
-            {/* Modal Delete Popop */}
+      {/* Modal Delete Popop */}
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={assign} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
-          Would you like to delete it?
+            Would you like to delete it?
           </p>
-           <Grid className='!grid-cols-4 my-5 '>
-            <div className='col-span-1'></div>
-            <Button >Yes</Button>
-            <Button className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular" onClick={() => closeModal1()}>No</Button>
-            <div className='col-span-1'></div>
-           </Grid>
+          <Grid className="!grid-cols-4 my-5 ">
+            <div className="col-span-1"></div>
+            <Button
+              onClick={() => {
+                deleteUser();
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              onClick={() => closeModal1()}
+            >
+              No
+            </Button>
+            <div className="col-span-1"></div>
+          </Grid>
         </div>
       </Modal>
 
-          {/* Modal Edit Popop */}
-          <Modal isOpen={isModalOpen2} onClose={closeModal2}>
+      {/* Modal Edit Popop */}
+      <Modal isOpen={isModalOpen2} onClose={closeModal2}>
         <div className=" py-3">
           <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
-             Edit User
+            Edit User
           </p>
-          <Grid className="px-8">
-            <div className="col-span-6">
-            <Input
-                      type="text"
-                      name="fname"
-                      label="First Name"
-                      className="!bg-white"
-                      required={true}
-                      placeholder="" />
-            </div>
-            <div className="col-span-6">
-            <Input
-                      type="text"
-                      name="lname"
-                      label="Last Name"
-                      className="!bg-white"
-                      required={true}
-                      placeholder="" />
-            </div>
-            <div className="col-span-6">
-            <Input
-                      type="text"
-                      name="position"
-                      label="Position"
-                      className="!bg-white"
-                      required={true}
-                      placeholder="" />
-            </div>
-            <div className="col-span-6">
-            <Input
-                      type="number"
-                      name="phoneNumber"
-                      label="Phone Number"
-                      className="!bg-white"
-                      required={true}
-                      placeholder="" />
-            </div>
-            <div className="col-span-6">
-            <Select
-                      label="State"
-                      name="state"
-                      placeholder=""
-                      className="!bg-white"
-                      required={true}
-                      options={state} />
-            </div>
+          <form className="mt-8" onSubmit={formik.handleSubmit}>
+            <Grid className="px-8">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="firstName"
+                  label="First Name"
+                  required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={formik.values.firstName}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={formik.touched.firstName && formik.errors.firstName}
+                />
+                {formik.touched.firstName && formik.errors.firstName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.firstName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="lastName"
+                  label="Last Name"
+                  required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={formik.values.lastName}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={formik.touched.lastName && formik.errors.lastName}
+                />
+                {formik.touched.lastName && formik.errors.lastName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.lastName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="position"
+                  label="Position"
+                  required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={formik.values.position}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={formik.touched.position && formik.errors.position}
+                />
+                {/* {formik.touched.position && formik.errors.position && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.position}
+                </div>
+              )} */}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="number"
+                  name="phoneNumber"
+                  label="Mobile Number"
+                  required={true}
+                  placeholder=""
+                  value={formik.values.phoneNumber}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  onWheelCapture={(e) => {
+                    e.preventDefault();
+                  }}
+                  minLength={"10"}
+                  maxLength={"10"}
+                  error={
+                    formik.touched.phoneNumber && formik.errors.phoneNumber
+                  }
+                />
+                {(formik.touched.phoneNumber || formik.submitCount > 0) &&
+                  formik.errors.phoneNumber && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.phoneNumber}
+                    </div>
+                  )}
+              </div>
+              <div className="col-span-6">
+                <Select
+                  label="Status"
+                  required={true}
+                  name="status"
+                  placeholder=""
+                  onChange={handleSelectChange}
+                  disabled={isprimary}
+                  className="!bg-[#fff]"
+                  options={status}
+                  value={formik.values.status}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.status && formik.errors.status}
+                />
+                {formik.touched.status && formik.errors.status && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.status}
+                  </div>
+                )}
+              </div>
+            </Grid>
+            <Grid className="!grid-cols-5 my-5  px-8">
+              <div className="col-span-2">
+                <Button
+                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={() => closeModal2()}
+                >
+                  Cancel
+                </Button>
+              </div>
 
-          </Grid>
-           <Grid className='!grid-cols-5 my-5  px-8'>
-            <div className="col-span-2">
-            <Button className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular" onClick={()=> closeModal2()} >Cancel</Button>
-            </div>
-           
-            <div className='col-span-3'>
-            <Button className="w-full">Submit</Button>
-            </div>
-           </Grid>
+              <div className="col-span-3">
+                <Button type="submit" className="w-full">
+                  Submit
+                </Button>
+              </div>
+            </Grid>
+          </form>
         </div>
       </Modal>
-      </>
-    )
-  }
+    </>
+  );
+}
 
 export default UserList;
