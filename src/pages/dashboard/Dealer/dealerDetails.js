@@ -638,10 +638,26 @@ function DealerDetails() {
             <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
             Assign  Servicer
             </p>
-           <div className="my-4">
+           <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
            <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
               </>}  />
            </div>
+            <Grid className="drop-shadow-5xl">
+            <div className="col-span-4">
+                          <Button
+                            type="button"
+                            className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                            onClick={closeModal}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                        <div className="col-span-8">
+                          <Button type="submit" className="w-full">
+                            Submit
+                          </Button>
+                        </div>
+            </Grid>
         </div>
       </Modal>
     </div>
