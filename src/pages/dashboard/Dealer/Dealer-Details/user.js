@@ -1,25 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
-
-import { Link } from "react-router-dom";
 import Button from "../../../../common/button";
 
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
-import arrowImage from "../../../../assets/images/dropdownArrow.png";
-import AddItem from "../../../../assets/images/icons/addItem.svg";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import Headbar from "../../../../common/headBar";
+import Primary from "../../../../assets/images/SetPrimary.png";
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
 import { RotateLoader } from "react-spinners";
+import Modal from "../../../../common/model";
 import { getUserListByDealerId } from "../../../../services/userServices";
 
 function UserList(props) {
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
+  const [openModal, isModalOpen] = useState(false);
   const dropdownRef = useRef(null);
+
   const [loading, setLoading] = useState(false);
 
   const getUserList = async () => {
@@ -44,6 +43,9 @@ function UserList(props) {
     };
   }, []);
 
+  const closeModal = () => {
+    isModalOpen(false);
+  };
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = userList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
