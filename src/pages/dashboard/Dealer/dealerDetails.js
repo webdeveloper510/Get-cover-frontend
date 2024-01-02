@@ -407,7 +407,7 @@ function DealerDetails() {
                     className="self-center"
                     alt="AddItem"
                   />{" "}
-                  <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
+                  <span className="text-black ml-2 text-[12px] font-Regular !font-[700]">
                     Add {activeTab}
                   </span>{" "}
                 </Link>

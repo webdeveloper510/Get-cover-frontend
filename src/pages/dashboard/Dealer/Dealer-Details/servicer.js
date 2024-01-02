@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import Button from '../../../../common/button'
 
 import ActiveIcon from '../../../../assets/images/icons/iconAction.svg';
-import arrowImage from '../../../../assets/images/dropdownArrow.png';
+import Primary from '../../../../assets/images/SetPrimary.png';
+import unassign from '../../../../assets/images/Unassign.png';
 import AddItem from '../../../../assets/images/icons/addItem.svg';
 import Search from '../../../../assets/images/icons/SearchIcon.svg';
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
@@ -17,7 +18,13 @@ import Modal from '../../../../common/model';
 
 function ServicerList() {
     const [selectedAction, setSelectedAction] = useState(null);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
+    const openModal = () => {
+      setIsModalOpen(true);
+    };
     const handleStatusChange = (action) => {
       // Implement the logic for the selected action (e.g., edit or delete)
       console.log(`Selected action: ${action}`);
@@ -120,9 +127,9 @@ function ServicerList() {
                   index
                 )}`}>
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                  <div className='text-center pt-3'>Edit</div>
-                  <div className='text-center py-3'>Unassigned</div>
-              </div>
+                  <div className='text-center pt-3'>View</div>
+                  <div className='text-center py-3 cursor-pointer' onClick={()=> openModal()}>Unassigned</div>
+              </div>          
             )}
           </div>
           )
@@ -180,18 +187,21 @@ function ServicerList() {
   
         </div>
 
-           {/* Modal Primary Popop
+           {/* Would you like to Unassigned it? */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
-          <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
-          It's set to Primary
+          <img src={unassign} alt="email Image" className="mx-auto my-4" />
+          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          Would you like to Unassigned it? 
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
-              We have successfully made this primary
-          </p>
+          <Grid className='!grid-cols-4 my-5 '>
+            <div className='col-span-1'></div>
+            <Button >Yes</Button>
+            <Button className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular" onClick={() => closeModal()}>No</Button>
+            <div className='col-span-1'></div>
+           </Grid>
         </div>
-      </Modal> */}
+      </Modal>
       </>
     )
   }
