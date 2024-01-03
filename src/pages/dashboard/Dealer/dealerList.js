@@ -316,7 +316,7 @@ function DealerList() {
                           alt="Search"
                         />
                       </Button>
-                      <Button className="!bg-transparent !ml-2 !p-0">
+                      <Button className="!bg-transparent !p-0">
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"

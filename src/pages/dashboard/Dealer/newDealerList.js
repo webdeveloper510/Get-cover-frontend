@@ -275,7 +275,7 @@ function NewDealerList() {
                     </Button>
                     <Button
                       type="submit"
-                      className="!bg-transparent !ml-2 !p-0"
+                      className="!bg-transparent !p-0"
                     >
                       <img
                         src={clearFilter}

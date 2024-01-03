@@ -388,7 +388,7 @@ function CompanyPriceBook() {
                       </button>
                       <Button
                         type="button"
-                        className="!bg-transparent !ml-2 !p-0"
+                        className="!bg-transparent !p-0"
                         onClick={handleFilterIconClick}
                       >
                         <img

@@ -416,7 +416,7 @@ function DealerPriceList() {
                     >
                       <img
                         src={clearFilter}
-                        className="cursor-pointer ml-2	mx-auto"
+                        className="cursor-pointer	mx-auto"
                         alt="clearFilter"
                       />
                     </Button>
