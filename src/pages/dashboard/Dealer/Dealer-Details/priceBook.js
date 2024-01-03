@@ -11,8 +11,10 @@ import DataTable from "react-data-table-component";
 import {
   editDealerPriceBook,
   getDealerPriceBookByDealerId,
+  getFilterPriceBookByDealer
 } from "../../../../services/dealerServices";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
 
 function PriceBookList(props) {
   console.log(props.id);
@@ -201,6 +203,10 @@ function PriceBookList(props) {
     };
   }, []);
 
+  const formik = useFormik({
+    
+  })
+
   return (
     <>
       <div className="my-8">
@@ -211,6 +217,7 @@ function PriceBookList(props) {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              <form onSubmit={formik.handleSubmit}>
                 <Grid className="!grid-cols-11">
                   <div className="col-span-3 self-center">
                     <Input
@@ -259,6 +266,7 @@ function PriceBookList(props) {
                     </Button>
                   </div>
                 </Grid>
+              </form>
               </div>
             </div>
           </Grid>

@@ -14,11 +14,15 @@ import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
 import { getCustomerListByDealerId } from "../../../../services/customerServices";
-
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { RotateLoader } from "react-spinners";
 function CustomerList(props) {
   const [selectedAction, setSelectedAction] = useState(null);
   const [customerList, setCustomerList] = useState([]);
   const dropdownRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = customerList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
@@ -114,7 +118,7 @@ function CustomerList(props) {
   );
 
   const getCustomerList = async () => {
-    const result = await getCustomerListByDealerId(props.id);
+    const result = await getCustomerListByDealerId(props.id, {});
     setCustomerList(result.result);
     console.log(result.result);
   };
@@ -133,6 +137,57 @@ function CustomerList(props) {
     };
   }, []);
 
+  const [DealserValue, setDealerValue] = useState(null)
+
+
+  const filterDealerCustomer = async (data) =>{
+    try {
+      setLoading(true);
+      const res = await getCustomerListByDealerId(props.id, data);
+      console.log(res.result)
+      setCustomerList(res.result)
+    }catch(error){
+      console.error("Error fetching category list:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    getCustomerList();
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+    },
+    validationSchema: Yup.object({
+      firstName: Yup.string(),
+      lastName: Yup.string(),
+      email: Yup.string().email("Invalid email format"),
+      phoneNumber: Yup.number(),
+    }),
+    onSubmit: async (values) => {
+      console.log(values)
+      const newVarSet = DealserValue?.split(' ')
+      if (newVarSet?.length === 2){
+        formik.setFieldValue('firstName' , newVarSet[0] )
+        formik.setFieldValue('lastName' , newVarSet[1] )
+      }
+      try {
+        await filterDealerCustomer(values);
+      } catch (error) {
+        console.error("Error filtering customer list:", error);
+      }
+    },
+  })
+
+
   return (
     <>
       <div className="my-8">
@@ -143,35 +198,44 @@ function CustomerList(props) {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              <form onSubmit={formik.handleSubmit}>
                 <Grid className="!grid-cols-11">
                   <div className="col-span-3 self-center">
                     <Input
-                      name="Name"
+                      name="name"
                       type="text"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
-                      placeholder="Order ID"
+                      placeholder="Dealer Name"
+                      // value={formik.values.firstName + " " + formik.values.lastName}
+                      onChange={(e)=>{setDealerValue(e.target.value)}}
                     />
                   </div>
                   <div className="col-span-3 self-center">
                     <Input
-                      name="Email"
+                      name="email"
                       type="email"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
-                      placeholder="Dealer Order no."
+                      placeholder="Dealer Email"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                   <div className="col-span-3 self-center">
                     <Input
-                      name="PhoneNo."
-                      type="text"
+                      name="phoneNumber"
+                      type="number"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
-                      placeholder="Customer Name"
+                      placeholder="Phone"
+                      value={formik.values.phoneNumber}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                   <div className="col-span-2 self-center flex justify-center">
@@ -182,7 +246,12 @@ function CustomerList(props) {
                         alt="Search"
                       />
                     </Button>
-                    <Button type="submit" className="!bg-transparent !p-0">
+                    <Button
+                    type="submit"
+                    onClick={() => {
+                      handleFilterIconClick();
+                    }} 
+                    className="!bg-transparent !p-0">
                       <img
                         src={clearFilter}
                         className="cursor-pointer	mx-auto"
@@ -191,10 +260,18 @@ function CustomerList(props) {
                     </Button>
                   </div>
                 </Grid>
+              </form>
               </div>
             </div>
           </Grid>
           <div className="mb-5 relative dealer-detail">
+          {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
             <DataTable
               columns={columns}
               data={customerList}
@@ -211,6 +288,7 @@ function CustomerList(props) {
               paginationComponentOptions={paginationOptions}
               paginationRowsPerPageOptions={[10, 20, 50, 100]}
             />
+            )}
           </div>
         </div>
       </div>

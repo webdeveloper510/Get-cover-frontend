@@ -276,6 +276,25 @@ export const getDealerPriceBookByDealerId = async (id) => {
   }
 };
 
+
+export const getFilterPriceBookByDealer = async (data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/dealer/getAllPriceBooksByFilter/`,data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 export const filterGetPriceBookDetails = async (data) => {
   const headers = createHeaders();
   try {

@@ -61,12 +61,16 @@ export const getFilterCustomerList = async (data) => {
   }
 };
 
-export const getCustomerListByDealerId = async (id) => {
+export const getCustomerListByDealerId = async (id, data) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
+<<<<<<< Updated upstream
       `${url}/customer/getDealerCustomers/${id}`,
       {},
+=======
+      `${url}/customer/getDealerCustomers/${id}`,data,
+>>>>>>> Stashed changes
       {
         headers,
       }
