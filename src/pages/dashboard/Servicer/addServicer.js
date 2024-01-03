@@ -48,6 +48,7 @@ function AddServicer() {
     phoneNumber: "",
     position: "",
     members: [],
+    flag: "create",
   });
   const closeModal = () => {
     setIsModalOpen(false);
@@ -96,6 +97,7 @@ function AddServicer() {
         phoneNumber: "",
         position: "",
         members: [],
+        flag: "create",
       });
     }
     if (id && id.id !== undefined && id.id !== "") {
@@ -121,6 +123,7 @@ function AddServicer() {
             phoneNumber: res?.message?.phoneNumber,
             position: res?.message?.position,
             members: [],
+            flag: "approve",
           });
         }
       });
@@ -326,7 +329,7 @@ function AddServicer() {
         : await addNewServicer(newValues);
       // const result = await addNewServicer(newValues);
       console.log(result);
-      if (result.message == "Customer created successfully") {
+      if (result.code == 200) {
         setMessage("Servicer Created Successfully");
         setLoading(false);
         setIsModalOpen(true);

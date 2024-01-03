@@ -94,6 +94,7 @@ function CompanyPriceBook() {
   };
 
   const handleStatusChange = async (row, newStatus) => {
+    console.log(row);
     try {
       setCompanyPriceList((prevDealerPriceBook) => {
         return prevDealerPriceBook.map((category) => {
@@ -107,15 +108,9 @@ function CompanyPriceBook() {
         });
       });
 
-      const result = await editDealerPriceBook(row._id, {
-        retailPrice: row?.retailPrice?.toFixed(2),
-        priceBook: row?.priceBook,
-        dealerId: row?.dealerId,
+      const result = await editCompanyList(row._id, {
         status: newStatus === "active" ? true : false,
-        categoryId: row?.priceBooks[0]?.category[0]?._id,
-        wholesalePrice: row?.wholesalePrice,
-        term: row?.priceBooks[0]?.term,
-        brokerFee: row?.brokerFee,
+        priceCatId: row?.category?._id,
       });
 
       console.log(result);

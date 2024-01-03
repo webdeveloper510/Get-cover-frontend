@@ -59,7 +59,7 @@ function AddCompanyPriceBook() {
       frontingFee: Yup.number()
         .typeError("Required")
         .required("Required")
-        .min(0, "Fronting Fee fee cannot be negative")
+        .min(0, "Fronting fee cannot be negative")
         .nullable(),
       reinsuranceFee: Yup.number()
         .typeError("Required")
@@ -134,7 +134,7 @@ function AddCompanyPriceBook() {
           setError(false);
           setIsModalOpen(true);
           setTimer(3);
-        } 
+        }
       } catch (error) {
         setLoader(true);
         setError(error);

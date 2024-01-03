@@ -57,9 +57,9 @@ function Notification() {
             Notifications
           </p>
           <ul className="flex self-center">
-            <li className="text-sm text-neutral-grey font-Regular">
+            {/* <li className="text-sm text-neutral-grey font-Regular">
               <Link to={"/"}>Servicer </Link> /{" "}
-            </li>
+            </li> */}
             <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
               Notifications{" "}
