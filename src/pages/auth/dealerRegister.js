@@ -57,15 +57,18 @@ function DealerRegister() {
     },
     validationSchema: Yup.object({
       name: Yup.string()
+      .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(50, "Must be exactly 50 characters"),
       street: Yup.string()
+      .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(50, "Must be exactly 50 characters"),
-      state: Yup.string().required("Required"),
-      city: Yup.string().required("Required"),
+      state: Yup.string().required("Required") ,
+      city: Yup.string().required("Required") .transform((originalValue) => originalValue.trim()),
       country: Yup.string().required("Required"),
       email: Yup.string()
+      .transform((originalValue) => originalValue.trim())
         .matches(emailValidationRegex, "Invalid email address")
         .required("Required"),
       zip: Yup.string()
@@ -73,9 +76,11 @@ function DealerRegister() {
         .min(5, "Must be at least 5 characters")
         .max(6, "Must be exactly 6 characters"),
       firstName: Yup.string()
+      .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
       lastName: Yup.string()
+      .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
       phoneNumber: Yup.string()

@@ -472,6 +472,7 @@ function UserList(props) {
                   name="firstName"
                   label="First Name"
                   required={true}
+                  className="!bg-[#fff]"
                   placeholder=""
                   maxLength={"30"}
                   value={formik.values.firstName}
@@ -492,6 +493,7 @@ function UserList(props) {
                   label="Last Name"
                   required={true}
                   placeholder=""
+                  className="!bg-[#fff]"
                   maxLength={"30"}
                   value={formik.values.lastName}
                   onBlur={formik.handleBlur}
@@ -509,6 +511,7 @@ function UserList(props) {
                   type="text"
                   name="position"
                   label="Position"
+                  className="!bg-[#fff]"
                   required={true}
                   placeholder=""
                   maxLength={"30"}
@@ -529,6 +532,7 @@ function UserList(props) {
                   name="phoneNumber"
                   label="Mobile Number"
                   required={true}
+                  className="!bg-[#fff]"
                   placeholder=""
                   value={formik.values.phoneNumber}
                   onChange={formik.handleChange}

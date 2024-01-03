@@ -743,6 +743,7 @@ function DealerDetails() {
                   type="text"
                   name="fName"
                   label="First Name"
+                  className="!bg-[#fff]"
                   required={true}
                   placeholder=""/>
                 </div>
@@ -750,6 +751,7 @@ function DealerDetails() {
                 <Input
                   type="text"
                   name="lName"
+                  className="!bg-[#fff]"
                   label="Last Name"
                   required={true}
                   placeholder=""/>
@@ -758,6 +760,7 @@ function DealerDetails() {
                 <Input
                   type="email"
                   name="email"
+                  className="!bg-[#fff]"
                   label="Email"
                   required={true}
                   placeholder=""/>
@@ -767,6 +770,7 @@ function DealerDetails() {
                   type="number"
                   name="phone"
                   label="Phone Number"
+                  className="!bg-[#fff]"
                   required={true}
                   placeholder=""/>
                 </div>
@@ -774,6 +778,7 @@ function DealerDetails() {
                 <Input
                   type="text"
                   name="position"
+                  className="!bg-[#fff]"
                   label="Position"
                   required={true}
                   placeholder=""/>
@@ -785,14 +790,11 @@ function DealerDetails() {
                         id="yes-create-account"
                         label="Yes"
                         value="yes"
-                        // checked={createAccountOption === "yes"}
-                        // onChange={handleRadioChange}
                       />
                       <RadioButton
                         id="no-create-account"
                         label="No"
                         value="no"
-                       
                       />
                     </p>
                 </div>
