@@ -484,8 +484,9 @@ function DealerDetails() {
                 </div>
               </div>
               <div className="col-span-2">
+                <div className="flex">
                 <Button
-                  className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+                  className=" self-center mt-3 !bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
                   onClick={() => {
                     routeToPage(activeTab);
                   }}
@@ -503,6 +504,7 @@ function DealerDetails() {
                     </span>{" "}
                   </Link>
                 </Button>
+                </div>
               </div>
             </Grid>
 

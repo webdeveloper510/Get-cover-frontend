@@ -28,9 +28,10 @@ import Order from "../../../assets/images/Dealer/Orders.svg";
 import Select from "../../../common/select";
 import DealerDetailList from "../Dealer/Dealer-Details/dealer";
 import OrderList from "../Dealer/Dealer-Details/order";
+import ContractList from "../Dealer/Dealer-Details/contract";
 
 function CustomerDetails() {
-  const [activeTab, setActiveTab] = useState('Claims'); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState('Order'); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
 
@@ -53,9 +54,9 @@ function CustomerDetails() {
   ];
 
   const tabs = [
-    { id: 'Claims', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
     { id: 'Order', label: 'Order', icons: Order, Activeicons: OrderActive, content: <OrderList /> },
-    { id: 'Dealer', label: 'Dealer', icons:Dealer, Activeicons: DealerActive, content: <DealerDetailList /> },
+    { id: 'Contracts', label: 'Contracts', icons:Dealer, Activeicons: DealerActive, content: <ContractList /> },
+    { id: 'Claims', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
     { id: 'Users', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
   ];
 
