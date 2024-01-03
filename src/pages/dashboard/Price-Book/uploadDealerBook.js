@@ -17,10 +17,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { WithContext as ReactTags } from "react-tag-input";
 import { uploadDealerBookInBulk } from "../../../services/priceBookService";
+import { RotateLoader } from "react-spinners";
 
 function UploadDealerBook() {
   const [selectedValue, setSelectedValue] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [activeDealers, SetActiveDealers] = useState([]);
   const [error, setError] = useState("");
   const [tags, setTags] = useState([]);
@@ -107,6 +109,7 @@ function UploadDealerBook() {
       }),
     }),
     onSubmit: async (values) => {
+      setLoader(true);
       console.log("values", values.dealerId);
       const formData = new FormData();
       formData.append("dealerId", values.dealerId);
@@ -124,14 +127,20 @@ function UploadDealerBook() {
           if (Object.keys(errors).length === 0) {
             console.log("Form Data:", formData);
             navigate("/dealerPriceList");
+            setLoader(false);
             openModal();
           } else {
+            setLoader(false);
+
             console.log("Form validation failed:", errors);
           }
         }
       } catch (error) {
+        setLoader(false);
+
         console.error("Error submitting form:", error);
       }
+      setLoader(false);
     },
   });
 
@@ -145,8 +154,15 @@ function UploadDealerBook() {
   return (
     <div className="my-8 ml-3">
       <Headbar />
-
-      <div className="flex mt-2">
+      {loader == true ? (
+        <div className=" h-screen w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div>
+      ) : (
+        <>
+             <div className="flex mt-2">
         <div className="pl-3">
           <p className="font-bold text-[36px] leading-9 mb-[3px]">
             Upload Dealer Book
@@ -266,30 +282,34 @@ function UploadDealerBook() {
       </form>
 
       {/* Modal Email Popop */}
+    
+      </>
+      )}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {/* <Button
-          onClick={closeModal}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
-        >
-          <img
-            src={Cross}
-            className="w-full h-full text-black rounded-full p-0"
-          />
-        </Button> */}
-        <div className="text-center py-1">
-          <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            Uploaded & Saved
-            <span className="text-light-black"> Successfully </span>
-          </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            You have successfully uploaded & saved the <br />{" "}
-            <b> Dealer Book </b> with the new data <br /> you have entered.{" "}
-          </p>
-        </div>
-      </Modal>
+      {/* <Button
+        onClick={closeModal}
+        className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+      >
+        <img
+          src={Cross}
+          className="w-full h-full text-black rounded-full p-0"
+        />
+      </Button> */}
+      <div className="text-center py-1">
+        <img src={AddDealer} alt="email Image" className="mx-auto" />
+        <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          Uploaded & Saved
+          <span className="text-light-black"> Successfully </span>
+        </p>
+        <p className="text-neutral-grey text-base font-medium mt-2">
+          You have successfully uploaded & saved the <br />{" "}
+          <b> Dealer Book </b> with the new data <br /> you have entered.{" "}
+        </p>
+      </div>
+    </Modal>
     </div>
   );
+  
 }
 
 export default UploadDealerBook;

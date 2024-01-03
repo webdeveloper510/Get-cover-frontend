@@ -285,6 +285,7 @@ function AddServicer() {
         : false;
 
       if (!isEmailAvailable) {
+        setLoading(false);
         return;
       }
       if (formik.values.members.length > 0) {
@@ -301,6 +302,7 @@ function AddServicer() {
 
         // console.log(emailValues);
         if (emailValues.some((value) => value === false)) {
+          setLoading(false);
           return;
         }
       }
