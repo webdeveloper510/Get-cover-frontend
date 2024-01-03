@@ -19,11 +19,20 @@ import Modal from '../../../../common/model';
 function ServicerList() {
     const [selectedAction, setSelectedAction] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen1, setIsModalOpen1] = useState(false);
     const closeModal = () => {
       setIsModalOpen(false);
     };
     const openModal = () => {
       setIsModalOpen(true);
+    };
+
+    const closeModal1 = () => {
+      setIsModalOpen1(false);
+    };
+    const openModal1 = () => {
+      setIsModalOpen1(true);
+      setIsModalOpen(false);
     };
     const handleStatusChange = (action) => {
       // Implement the logic for the selected action (e.g., edit or delete)
@@ -80,7 +89,7 @@ function ServicerList() {
         sortable: true,
       },
       {
-        name: "Number of Claims",
+        name: "# of Claims",
         selector: (row) => row.description,
         sortable: true,
       },
@@ -196,10 +205,20 @@ function ServicerList() {
           </p>
           <Grid className='!grid-cols-4 my-5 '>
             <div className='col-span-1'></div>
-            <Button >Yes</Button>
+            <Button onClick={()=> openModal1()}>Yes</Button>
             <Button className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular" onClick={() => closeModal()}>No</Button>
             <div className='col-span-1'></div>
            </Grid>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto my-4" />
+          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          Unassigned Successfully
+          </p>
+          <p className='text-neutral-grey text-base font-medium mt-2'>You have successfully Unassigned</p>
         </div>
       </Modal>
       </>

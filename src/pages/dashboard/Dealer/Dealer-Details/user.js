@@ -4,6 +4,7 @@ import Button from "../../../../common/button";
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
 import star from "../../../../assets/images/icons/star.svg";
 import Primary from "../../../../assets/images/SetPrimary.png";
+import deleteUser from "../../../../assets/images/deleteUser.svg";
 import assign from "../../../../assets/images/Unassign.png";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
@@ -93,6 +94,14 @@ function UserList(props) {
   };
   const openModal2 = () => {
     setIsModalOpen2(true);
+  };
+
+  const [isModalOpen12, setIsModalOpen12] = useState(false);
+  const closeModal12 = () => {
+    setIsModalOpen12(false);
+  };
+  const openModal12 = () => {
+    setIsModalOpen12(true);
   };
   const formik = useFormik({
     initialValues: initialFormValues,
@@ -428,6 +437,17 @@ function UserList(props) {
             </Button>
             <div className="col-span-1"></div>
           </Grid>
+        </div>
+      </Modal>
+
+        {/* Modal Delete Msg Popop */}
+        <Modal isOpen={isModalOpen12} onClose={closeModal12}>
+        <div className="text-center py-3">
+          <img src={deleteUser} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          Deleted Successfully
+          </p>
+          <p className='text-neutral-grey text-base font-medium mt-2'>You have successfully delete this user.</p>
         </div>
       </Modal>
 
