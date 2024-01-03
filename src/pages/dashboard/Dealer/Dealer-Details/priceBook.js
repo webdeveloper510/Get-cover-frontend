@@ -32,7 +32,9 @@ function PriceBookList(props) {
   };
 
   const routeToEditPage = (value) => {
-    navigate(`/editCompanyPriceBook/${value.priceBooks._id}/${props.id}}`);
+    localStorage.setItem("menu", "PriceBook");
+    console.log(value);
+    navigate(`/editDealerBook/${value._id}/${props.id}`);
   };
 
   const CustomNoDataComponent = () => (
