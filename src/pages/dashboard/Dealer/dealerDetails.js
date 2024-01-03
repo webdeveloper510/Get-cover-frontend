@@ -47,7 +47,11 @@ import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
 
 function DealerDetails() {
-  const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
+  const getInitialActiveTab = () => {
+    const storedTab = localStorage.getItem("menu");
+    return storedTab ? storedTab : "Orders";
+  };
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [dealerDetails, setDealerDetails] = useState([]);
@@ -80,9 +84,13 @@ function DealerDetails() {
   useEffect(() => {
     dealerData();
   }, [id.id]);
+  useEffect(() => {
+    localStorage.setItem("menu", activeTab);
+  }, [activeTab]);
 
   const dealerData = async () => {
-    const result = await getDealersDetailsByid(id.id);
+    console.log(id);
+    const result = await getDealersDetailsByid(id?.id);
     setDealerDetails(result.result[0]);
     console.log(result.result[0].dealerData);
     setInitialFormValues({
@@ -272,9 +280,11 @@ function DealerDetails() {
     console.log(data, id.id);
     switch (data) {
       case "PriceBook":
+        localStorage.setItem("menu", "PriceBook");
         navigate(`/addDealerBook/${id.id}`);
         break;
       case "Customers":
+        localStorage.setItem("menu", "Customers");
         navigate(`/addCustomer/${id.id}`);
         break;
       default:
@@ -294,16 +304,18 @@ function DealerDetails() {
         <Headbar />
 
         <div className="flex">
-          <Link
-            to={"/dashboard"}
-            className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
-          >
-            <img
-              src={BackImage}
-              className="m-auto my-auto self-center bg-white"
-              alt="BackImage"
-            />
-          </Link>
+          <div onClick={() => localStorage.removeItem("menu")}>
+            <Link
+              to={"/dashboard"}
+              className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+            >
+              <img
+                src={BackImage}
+                className="m-auto my-auto self-center bg-white"
+                alt="BackImage"
+              />
+            </Link>
+          </div>
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
               Dealer Details

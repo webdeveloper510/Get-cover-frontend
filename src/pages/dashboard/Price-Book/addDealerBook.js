@@ -43,6 +43,7 @@ function AddDealerBook() {
   const dealerDetailById = async (id) => {
     setLoader(true);
     const result = await getDealerPricebookDetailById(id);
+    console.log(result);
     formik.setFieldValue("status", result.result[0].status);
     const data = result.result[0];
     console.log(data);
