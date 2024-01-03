@@ -97,7 +97,7 @@ function ServicerList() {
       name: "Total Claims Value",
       selector: (row) => 0,
       sortable: true,
-      minWidth: "150px",
+      minWidth: "180px",
     },
     {
       name: "Status",

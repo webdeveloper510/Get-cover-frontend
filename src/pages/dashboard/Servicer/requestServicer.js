@@ -137,18 +137,18 @@ function RequestServicer() {
           </div>
           {isDropdownOpen && selectedAction === index && (
             <div
-              className={`absolute z-[2] w-[150px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              className={`absolute z-[2] w-[130px] drop-shadow-5xl -right-3 mt-2 p-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}
             >
               <div
-                className="text-center py-3 border-b cursor-pointer border-[#E6E6E6] text-[#40BF73]"
+                className="text-center py-2 border-b cursor-pointer border-[#E6E6E6] text-[12px] text-[#40BF73]"
                 onClick={() => handleActionChange("Approved", row.accountId)}
               >
                 Approve
               </div>
               <div
-                className="text-center py-3 text-[#FF4747] cursor-pointer"
+                className="text-center py-2 text-[#FF4747] text-[12px] cursor-pointer"
                 onClick={() => handleActionChange("Rejected", row.accountId)}
               >
                 Disapprove
