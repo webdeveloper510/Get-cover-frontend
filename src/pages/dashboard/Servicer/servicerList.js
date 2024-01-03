@@ -15,6 +15,8 @@ import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import { addNewServicerRequest } from "../../../services/servicerServices";
 import { RotateLoader } from "react-spinners";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 function ServicerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -41,6 +43,26 @@ function ServicerList() {
     console.log(result.data);
     setLoading(false)
   };
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phoneNumber: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string(),
+      email: Yup.string().email("Invalid email format"),
+      phoneNumber: Yup.number(),
+    }),
+    onSubmit: async (values) => {
+      console.log("Form values:", values);
+    }
+  })
+  
+
+
+
   const columns = [
     {
       name: "ID",
@@ -185,51 +207,64 @@ function ServicerList() {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Name"
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Email"
-                      type="email"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Email"
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="PhoneNo."
-                      type="number"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Phone"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center flex">
-                    <img src={Search} className="cursor-pointer" alt="Search" />
-                    <Button
-                      type="submit"
-                      className="!ml-2 !bg-transparent !p-0"
-                    >
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                <form onSubmit={formik.handleSubmit}>
+                  <Grid className="!grid-cols-11">
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="name"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Name"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
                       />
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="email"
+                        type="email"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="phoneNumber"
+                        type="number"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Phone"
+                        value={formik.values.phoneNumber}
+                        onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center flex justify-center">
+                    <Button type="submit" className="!p-0">
+                      <img src={Search} className="cursor-pointer" alt="Search" />
                     </Button>
-                  </div>
-                </Grid>
+                      <Button
+                        type="submit"
+                        className="!ml-2 !bg-transparent !p-0"
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
               </div>
             </div>
           </Grid>

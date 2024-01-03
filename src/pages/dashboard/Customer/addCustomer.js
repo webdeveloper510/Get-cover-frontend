@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -32,6 +32,8 @@ function AddCustomer() {
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [dealerList, setDealerList] = useState([]);
   const navigate = useNavigate();
+  const { dealerValueId } = useParams();
+  console.log(dealerValueId);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerName: "",
@@ -283,7 +285,11 @@ function AddCustomer() {
         setLoading(false);
         setIsModalOpen(true);
 
-        navigate("/customerList");
+        if (dealerValueId !== undefined) {
+          navigate(`/dealerDetails/${dealerValueId}`);
+        } else {
+          navigate("/customerList");
+        }
       } else if (
         result.message == "Servicer already exist with this account name"
       ) {
@@ -298,7 +304,17 @@ function AddCustomer() {
       }
     },
   });
+  const handleLinkClick = () => {
+    if (dealerValueId !== undefined) {
+      navigate(`/dealerDetails/${dealerValueId}`);
+    } else {
+      navigate("/customerList");
+    }
+  };
   const getDealerListData = async () => {
+    if (dealerValueId !== undefined) {
+      formik.setFieldValue("dealerName", dealerValueId);
+    }
     const result = await getDealersList();
     console.log(result.data);
     let arr = [];
@@ -315,8 +331,8 @@ function AddCustomer() {
     <div className="my-8 ml-3">
       <Headbar />
       <div className="flex mt-2">
-        <Link
-          to={"/customerList"}
+        <div
+          onClick={handleLinkClick}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
         >
           <img
@@ -324,7 +340,7 @@ function AddCustomer() {
             className="m-auto my-auto self-center bg-white"
             alt="BackImage"
           />
-        </Link>
+        </div>
         <div className="pl-3">
           <p className="font-bold text-[36px] leading-9 mb-[3px]">
             Add Customer

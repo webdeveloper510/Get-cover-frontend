@@ -17,6 +17,9 @@ import Loader from "../../../assets/images/Loader.gif";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
+import axios from "axios";
+
+const url = process.env.REACT_APP_API_KEY || "fallback_value";
 
 function DealerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -61,6 +64,22 @@ function DealerList() {
     console.log(row, newStatus);
   };
 
+  const getAccessToken = () => {
+    const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+    return userDetails ? userDetails.token : null;
+  };
+  
+  const createHeaders = () => {
+    const accessToken = getAccessToken();
+  
+    if (accessToken) {
+      return {
+        "x-access-token": accessToken,
+        "Content-Type": "application/json",
+      };
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -89,6 +108,22 @@ function DealerList() {
       //   setIsModalOpen(true);
       //   setTimer(3);
       // }
+      const headers = createHeaders();
+      try {
+        const response = await axios.post(
+          `${url}/admin/approveDealers`,
+          {name : values.name, email : values.email, phoneNumber : values.phoneNumber},
+          {
+            headers,
+          }
+        );
+        console.log(response)
+        // return response.data;
+        // setDealerList(response.data);
+
+      } catch (error) {
+        throw error;
+      }      
     },
   });
 

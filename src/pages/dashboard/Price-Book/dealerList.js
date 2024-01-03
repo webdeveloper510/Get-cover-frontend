@@ -20,18 +20,26 @@ import {
   getDealerPriceBook,
 } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { getTermList } from "../../../services/dealerServices";
+import axios from "axios";
+const url = process.env.REACT_APP_API_KEY || "fallback_value";
 
 function DealerPriceList() {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedTearm, setSelectedTearm] = useState(false);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
+  const [termList, setTermList] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const navigte = useNavigate();
   const dropdownRef = useRef(null);
 
   useEffect(() => {
     getDealerList();
+    getTermListData();
   }, []);
 
   const getDealerList = async () => {
@@ -97,6 +105,81 @@ function DealerPriceList() {
     console.log(row);
   };
 
+  const getTermListData = async () => {
+    setLoading(true);
+    try {
+      const res = await getTermList();
+      console.log(res.result.terms, "==============");
+      setTermList(
+        res.result.terms.map((item) => ({
+          label: item.terms + " Months",
+          value: item.terms,
+        }))
+      );
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
+
+  const handleSelectChange =(name,selectedValue )=>{
+    formik.setFieldValue(name, selectedValue) 
+    }
+  
+
+  const getAccessToken = () => {
+    const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+    return userDetails ? userDetails.token : null;
+  };
+  
+  const createHeaders = () => {
+    const accessToken = getAccessToken();
+  
+    if (accessToken) {
+      return {
+        "x-access-token": accessToken,
+        "Content-Type": "application/json",
+      };
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      Category: "",
+      name: "",
+      term: "",
+      status: "",
+    },
+    validationSchema: Yup.object({
+      Category: Yup.string(),
+      name: Yup.string(),
+      term: Yup.number(),
+      status: Yup.boolean(),
+    }),
+    onSubmit: async (values) => {
+      
+      const headers = createHeaders();
+      try {
+        const response =  await axios.post(
+          `${url}/dealer/getAllDealerPriceBooksByFilter`,
+          {name : values.name, category : values.Category, term : values.term, status : values.status},
+          {
+            headers,
+          }
+        );
+        console.log(response)
+        // return response.data;
+        // setDealerList(response.data);
+  
+      } catch (error) {
+        throw error;
+      }   
+    },
+  })
+
+
+   
+  
 
 
   const columns = [
@@ -254,8 +337,9 @@ function DealerPriceList() {
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold py-4">Dealer Price List</p>
             </div>
-            {/* <div className="col-span-7">
+           <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                <form onSubmit={formik.handleSubmit}>
                 <Grid className="!grid-cols-10">
                   <div className="col-span-2 self-center">
                     <Input
@@ -265,39 +349,47 @@ function DealerPriceList() {
                       className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
                       placeholder="Category"
+                      value={formik.values.Category}
+                      onChange={formik.handleChange}
                     />
                   </div>
                   <div className="col-span-2 self-center">
                     <Input
-                      name="Name"
+                      name="name"
                       type="text"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
+                      onChange={formik.handleChange}
+                      value={formik.values.name}
                       placeholder="Dealer Name"
                     />
                   </div>
                   <div className="col-span-2 self-center">
                     <Select
+                      name="term"
                       label=""
-                      options={status}
+                      options={termList}
                       OptionName="Term"
                       color="text-[#1B1D21] opacity-50"
                       className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                       className="!text-[14px] !bg-[#f7f7f7]"
-                      selectedValue={selectedProduct}
-                      onChange={handleSelectChange1}
+                      selectedValue={selectedTearm}
+                      value={formik.values.term}
+                      onChange={handleSelectChange}
                     />
                   </div>
                   <div className="col-span-2 self-center">
                     <Select
+                      name="status"
                       label=""
                       options={status}
                       OptionName="Status"
                       color="text-[#1B1D21] opacity-50"
                       className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                       className="!text-[14px] !bg-[#f7f7f7]"
-                      selectedValue={selectedTearm}
+                      selectedValue={selectedProduct}
+                      value={formik.values.status}
                       onChange={handleSelectChange}
                     />
                   </div>
@@ -324,8 +416,9 @@ function DealerPriceList() {
                     </Button>
                   </div>
                 </Grid>
+                </form>
               </div>
-            </div> */}
+            </div> 
           </Grid>
 
           <div className="mb-5 relative">
