@@ -200,6 +200,7 @@ function DealerDetails() {
     }),
 
     onSubmit: async (values, { setFieldError }) => {
+      localStorage.setItem("menu", "Users");
       console.log(values);
       setLoading(true);
       const result = await addUserByDealerId(values);
@@ -209,7 +210,7 @@ function DealerDetails() {
         setMessage("Dealer updated Successfully");
         setLoading(false);
         closeUserModal();
-        // window.location.reload();
+        window.location.reload();
         // setIsModalOpen(false);
       } else {
         console.log(result);

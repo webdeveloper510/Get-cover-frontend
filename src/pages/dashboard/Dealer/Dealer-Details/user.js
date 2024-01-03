@@ -72,6 +72,7 @@ function UserList(props) {
     SetIsModalOpen(true);
     getUserList();
   };
+
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
@@ -102,6 +103,31 @@ function UserList(props) {
   };
   const openModal12 = () => {
     setIsModalOpen12(true);
+  };
+  const handleStatusChange = async (row, newStatus) => {
+    console.log(row);
+    try {
+      setUserList((userData) => {
+        return userData.map((user) => {
+          if (user._id === row._id) {
+            return {
+              ...user,
+              status: newStatus === "active" ? true : false,
+            };
+          }
+          return user;
+        });
+      });
+
+      const result = await updateUserDetailsById({
+        id: row._id,
+        status: newStatus === "active" ? true : false,
+      });
+
+      console.log(result);
+    } catch (error) {
+      console.error("Error in handleStatusChange:", error);
+    }
   };
   const formik = useFormik({
     initialValues: initialFormValues,
@@ -203,32 +229,34 @@ function UserList(props) {
     try {
       setLoading(true);
       const res = await getUserListByDealerId(props.id, data);
-      setUserList(res.result)
-    }catch(error){
+      setUserList(res.result);
+    } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleFilterIconClick =()=>{
+  const handleFilterIconClick = () => {
     formikUSerFilter.resetForm();
     console.log(formikUSerFilter.values);
     getUserList();
-  }
+  };
   const formikUSerFilter = useFormik({
-    initialValues : {
-      firstName : "",
-      email : "",
-      phone : "",
-    },validationSchema : Yup.object({
-      firstName : Yup.string(),
-      email : Yup.string().email(),
-      phone : Yup.number(),
-    }),onSubmit: async (values) =>{
+    initialValues: {
+      firstName: "",
+      email: "",
+      phone: "",
+    },
+    validationSchema: Yup.object({
+      firstName: Yup.string(),
+      email: Yup.string().email(),
+      phone: Yup.number(),
+    }),
+    onSubmit: async (values) => {
       filterUserDetails(values);
-    }
-  })
+    },
+  });
   const columns = [
     {
       name: "Name",
@@ -274,7 +302,7 @@ function UserList(props) {
           <select
             disabled={row.isPrimary === true ? true : false}
             value={row.status === true ? "active" : "inactive"}
-            // onChange={(e) => handleStatusChange(row, e.target.value)}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
@@ -358,69 +386,71 @@ function UserList(props) {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-              <form className="mt-8" onSubmit={formikUSerFilter.handleSubmit}>
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="firstName"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="First Name"
-                      value={formikUSerFilter.values.firstName}
-                      onBlur={formikUSerFilter.handleBlur}
-                      onChange={formikUSerFilter.handleChange}
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="email"
-                      type="email"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Email"
-                      value={formikUSerFilter.values.email}
-                      onBlur={formikUSerFilter.handleBlur}
-                      onChange={formikUSerFilter.handleChange}
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="phone"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Phone "
-                      value={formikUSerFilter.values.phone}
-                      onBlur={formikUSerFilter.handleBlur}
-                      onChange={formikUSerFilter.handleChange}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer "
-                        alt="Search"
+                <form className="mt-8" onSubmit={formikUSerFilter.handleSubmit}>
+                  <Grid className="!grid-cols-11">
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="firstName"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="First Name"
+                        value={formikUSerFilter.values.firstName}
+                        onBlur={formikUSerFilter.handleBlur}
+                        onChange={formikUSerFilter.handleChange}
                       />
-                    </Button>
-                    <Button
-                    type="submit"
-                    onClick={() => {
-                      handleFilterIconClick();}}
-                    className="!bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="email"
+                        type="email"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Email"
+                        value={formikUSerFilter.values.email}
+                        onBlur={formikUSerFilter.handleBlur}
+                        onChange={formikUSerFilter.handleChange}
                       />
-                    </Button>
-                  </div>
-                </Grid>
-              </form>
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="phone"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Phone "
+                        value={formikUSerFilter.values.phone}
+                        onBlur={formikUSerFilter.handleBlur}
+                        onChange={formikUSerFilter.handleChange}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center flex justify-center">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer "
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button
+                        type="submit"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                        className="!bg-transparent !p-0"
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
               </div>
             </div>
           </Grid>
@@ -493,14 +523,16 @@ function UserList(props) {
         </div>
       </Modal>
 
-        {/* Modal Delete Msg Popop */}
-        <Modal isOpen={isModalOpen12} onClose={closeModal12}>
+      {/* Modal Delete Msg Popop */}
+      <Modal isOpen={isModalOpen12} onClose={closeModal12}>
         <div className="text-center py-3">
           <img src={deleteUser} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
-          Deleted Successfully
+            Deleted Successfully
           </p>
-          <p className='text-neutral-grey text-base font-medium mt-2'>You have successfully delete this user.</p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            You have successfully delete this user.
+          </p>
         </div>
       </Modal>
 

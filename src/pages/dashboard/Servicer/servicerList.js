@@ -13,7 +13,10 @@ import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
-import { addNewServicerRequest } from "../../../services/servicerServices";
+import {
+  addNewServicerRequest,
+  changeServicerStatus,
+} from "../../../services/servicerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -37,13 +40,36 @@ function ServicerList() {
   }, []);
 
   const getServicerList = async () => {
-    setLoading(true)
+    setLoading(true);
     const result = await addNewServicerRequest("Approved");
     setServicerList(result.data);
     console.log(result.data);
-    setLoading(false)
+    setLoading(false);
   };
 
+  const handleStatusChange = async (row, newStatus) => {
+    console.log("row", row);
+    try {
+      setServicerList((servicerData) => {
+        return servicerData.map((data) => {
+          if (data.accountId === row.accountId) {
+            return {
+              ...data,
+              status: newStatus === "active" ? true : false,
+            };
+          }
+          return data;
+        });
+      });
+      const result = await changeServicerStatus(row.accountId, {
+        status: newStatus === "active" ? true : false,
+        userId: row._id,
+      });
+      console.log(result);
+    } catch (error) {
+      console.error("Error in handleStatusChange:", error);
+    }
+  };
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -57,8 +83,8 @@ function ServicerList() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-    }
-  })
+    },
+  });
 
   const columns = [
     {
@@ -107,6 +133,7 @@ function ServicerList() {
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
@@ -127,7 +154,9 @@ function ServicerList() {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.servicerData.unique_key ? null : row.servicerData.unique_key
+                  selectedAction === row.servicerData.unique_key
+                    ? null
+                    : row.servicerData.unique_key
                 )
               }
             >
@@ -248,13 +277,14 @@ function ServicerList() {
                       />
                     </div>
                     <div className="col-span-2 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img src={Search} className="cursor-pointer" alt="Search" />
-                    </Button>
-                      <Button
-                        type="submit"
-                        className=" !bg-transparent !p-0"
-                      >
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer"
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button type="submit" className=" !bg-transparent !p-0">
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"
@@ -268,29 +298,29 @@ function ServicerList() {
             </div>
           </Grid>
           <div className="mb-5 relative">
-          {loading ? (
+            {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
               </div>
             ) : (
-            <DataTable
-              columns={columns}
-              data={servicerList}
-              highlightOnHover
-              sortIcon={
-                <>
-                  {" "}
-                  <img src={shorting} className="ml-2" alt="shorting" />
-                </>
-              }
-              pagination
-              paginationPerPage={10}
-              paginationComponentOptions={paginationOptions}
-              paginationRowsPerPageOptions={[10, 20, 50, 100]}
-              noDataComponent={<CustomNoDataComponent />}
-            />
+              <DataTable
+                columns={columns}
+                data={servicerList}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />
+                  </>
+                }
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                noDataComponent={<CustomNoDataComponent />}
+              />
             )}
           </div>
         </div>

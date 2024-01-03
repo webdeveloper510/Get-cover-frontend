@@ -100,3 +100,21 @@ export const approveServicer = async (id, value) => {
     throw error;
   }
 };
+
+export const changeServicerStatus = async (id, data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.put(
+      `${url}/servicer/editServicerDetail/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
