@@ -56,7 +56,11 @@ function NewDealerList() {
   );
 
   const handleClickOutside = (event) => {
-    setIsDropdownOpen(false);
+    const dropdownContainer = document.querySelector(".dropdown-container");
+
+    if (dropdownContainer && !dropdownContainer.contains(event.target)) {
+      setIsDropdownOpen(false);
+    }
   };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -88,7 +92,7 @@ function NewDealerList() {
   };
 
   const formik = useFormik({
-    initialValues : {
+    initialValues: {
       name: "",
       email: "",
       phoneNumber: "",
@@ -100,10 +104,8 @@ function NewDealerList() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-    }
-  })
-
-
+    },
+  });
 
   const columns = [
     {
@@ -158,6 +160,7 @@ function NewDealerList() {
               className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 p-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}
+              onClick={(e) => e.stopPropagation()} // Prevent event propagation
             >
               <div
                 className="text-center py-2 border-b text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer"
@@ -255,67 +258,64 @@ function NewDealerList() {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-              <form onSubmit={formik.handleSubmit}>                
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Name"
-                      value={formik.values.name}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="email"
-                      type="email"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Email"
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="phoneNumber"
-                      type="number"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Phone No."
-                      value={formik.values.phoneNumber}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer	mx-auto"
-                        alt="Search"
+                <form onSubmit={formik.handleSubmit}>
+                  <Grid className="!grid-cols-11">
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="name"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Name"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="!bg-transparent !p-0"
-                    >
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="email"
+                        type="email"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
-                    </Button>
-                  </div>
-                </Grid>
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="phoneNumber"
+                        type="number"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Phone No."
+                        value={formik.values.phoneNumber}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center flex justify-center">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer	mx-auto"
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button type="submit" className="!bg-transparent !p-0">
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                  </Grid>
                 </form>
               </div>
             </div>
