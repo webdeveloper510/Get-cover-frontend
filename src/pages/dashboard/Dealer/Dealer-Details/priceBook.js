@@ -30,7 +30,9 @@ function PriceBookList(props) {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
   };
-
+  const routeToEditPage = (value) => {
+    navigate(`/editCompanyPriceBook/${value.priceBooks._id}/${props.id}}`);
+  };
   const handleStatusChange = async (row, newStatus) => {
     try {
       const updatedCompanyPriceList = dealerPriceBook.map((category) => {
@@ -150,7 +152,7 @@ function PriceBookList(props) {
                 <div
                   className="text-center py-3"
                   onClick={() => {
-                    navigate(`/editCompanyPriceBook/${row.priceBooks._id}`);
+                    routeToEditPage(row);
                   }}
                 >
                   Edit
