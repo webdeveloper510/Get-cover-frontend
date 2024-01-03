@@ -47,6 +47,12 @@ function NewDealerList() {
     }
   };
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
   const handleClickOutside = (event) => {
     setIsDropdownOpen(false);
   };
@@ -301,6 +307,7 @@ function NewDealerList() {
                   </>
                 }
                 pagination
+                noDataComponent={<CustomNoDataComponent />}
                 paginationPerPage={10}
                 paginationComponentOptions={paginationOptions}
                 paginationRowsPerPageOptions={[10, 20, 50, 100]}

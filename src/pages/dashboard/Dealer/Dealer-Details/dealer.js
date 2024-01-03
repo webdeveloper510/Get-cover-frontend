@@ -22,7 +22,12 @@ function DealerDetailList() {
       console.log(`Selected action: ${action}`);
       // You can replace the console.log statement with the actual logic you want to perform
     };
-  
+    const CustomNoDataComponent = () => (
+      <div className="text-center my-5">
+        <p>No records found.</p>
+      </div>
+    );
+
     const data = [
       {
         Categoryid: 1,
@@ -153,7 +158,7 @@ function DealerDetailList() {
             </Grid>
             <div className='mb-5 relative dealer-detail'>
               <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
-              </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
+              </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} noDataComponent={<CustomNoDataComponent />} />
             </div>
           </div>
   

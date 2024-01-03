@@ -157,6 +157,12 @@ function ServicerList() {
     },
   ];
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -290,6 +296,7 @@ function ServicerList() {
               paginationPerPage={10}
               paginationComponentOptions={paginationOptions}
               paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              noDataComponent={<CustomNoDataComponent />}
             />
             )}
           </div>

@@ -40,6 +40,12 @@ function OrderList() {
     rangeSeparatorText: 'of',
   };
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
   const data = [
     {
       Categoryid: 1,
@@ -219,7 +225,7 @@ function OrderList() {
                 </div>
               </div>
             ) : (
-            <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
+            <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} noDataComponent={<CustomNoDataComponent />} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
             )}
           </div>
         </div>

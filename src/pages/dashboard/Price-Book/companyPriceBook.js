@@ -288,6 +288,12 @@ function CompanyPriceBook() {
     };
   }, []);
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
   return (
     <>
       <div className="my-8 ml-3">
@@ -418,6 +424,7 @@ function CompanyPriceBook() {
                 paginationPerPage={10}
                 paginationComponentOptions={paginationOptions}
                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                noDataComponent={<CustomNoDataComponent />}
               />
             )}
           </div>

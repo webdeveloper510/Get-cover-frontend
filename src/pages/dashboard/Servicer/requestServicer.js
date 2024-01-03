@@ -179,6 +179,12 @@ function RequestServicer() {
     setIsModalOpen(false);
   };
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
   const approveApi = async () => {
     const { id, action } = approvalDetails;
     console.log(id, action);
@@ -320,6 +326,7 @@ function RequestServicer() {
               paginationPerPage={10}
               paginationComponentOptions={paginationOptions}
               paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              noDataComponent={<CustomNoDataComponent />}
             />
             )}
           </div>

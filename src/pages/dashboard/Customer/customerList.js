@@ -50,6 +50,12 @@ function CustomerList() {
     rangeSeparatorText: "of",
   };
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
   const columns = [
     {
       name: "ID",
@@ -262,6 +268,7 @@ function CustomerList() {
                     <img src={shorting} className="ml-2" alt="shorting" />{" "}
                   </>
                 }
+                noDataComponent={<CustomNoDataComponent />}
                 pagination
                 paginationPerPage={10}
                 paginationComponentOptions={paginationOptions}
