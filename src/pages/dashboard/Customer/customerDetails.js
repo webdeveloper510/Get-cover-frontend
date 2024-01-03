@@ -30,7 +30,7 @@ import DealerDetailList from "../Dealer/Dealer-Details/dealer";
 import OrderList from "../Dealer/Dealer-Details/order";
 
 function CustomerDetails() {
-  const [activeTab, setActiveTab] = useState('tab1'); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState('Claims'); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
 
@@ -53,10 +53,10 @@ function CustomerDetails() {
   ];
 
   const tabs = [
-    { id: 'tab1', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
-    { id: 'tab2', label: 'Order', icons: Order, Activeicons: OrderActive, content: <OrderList /> },
-    { id: 'tab3', label: 'Dealer', icons:Dealer, Activeicons: DealerActive, content: <DealerDetailList /> },
-    { id: 'tab4', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
+    { id: 'Claims', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
+    { id: 'Order', label: 'Order', icons: Order, Activeicons: OrderActive, content: <OrderList /> },
+    { id: 'Dealer', label: 'Dealer', icons:Dealer, Activeicons: DealerActive, content: <DealerDetailList /> },
+    { id: 'Users', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
   ];
 
   const handleTabClick = (tabId) => {
@@ -92,7 +92,7 @@ function CustomerDetails() {
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
-              Customer Details (Users) 
+              Customer Details ({activeTab}) 
             </li>
           </ul>
         </div>
@@ -124,7 +124,7 @@ function CustomerDetails() {
             <div className="flex mb-4">
                 <div className="relative">
                     <img src={DealerIcons} className="mr-3 bg-[#383838] rounded-[14px]" alt="DealerIcons"/>
-                    <Link to={'/dealerDetails/:id'}> <img src={DealerList} className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2" alt="DealerList" /> </Link>
+                    <Link to={'/dealerDetails/659242c1b4ec0df067e57f51'}> <img src={DealerList} className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2" alt="DealerList" /> </Link>
 
                 </div>
                 <div>
@@ -210,7 +210,7 @@ function CustomerDetails() {
                     {" "}
                     <img src={AddItem} className="self-center" alt="AddItem" />{" "}
                     <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
-                    Add Dealer
+                    Add {activeTab}
                     </span>{" "}
                   </Link>
                 </Button>

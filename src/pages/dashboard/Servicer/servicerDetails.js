@@ -28,7 +28,7 @@ import Select from "../../../common/select";
 import DealerDetailList from "../Dealer/Dealer-Details/dealer";
 
 function ServicerDetails() {
-  const [activeTab, setActiveTab] = useState('tab1'); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState('Claims'); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
 
@@ -51,10 +51,10 @@ function ServicerDetails() {
   ];
 
   const tabs = [
-    { id: 'tab1', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
-    { id: 'tab2', label: 'Dealer', icons:Dealer, Activeicons: DealerActive, content: <DealerDetailList /> },
-    { id: 'tab3', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
-    { id: 'tab4', label: 'Unpaid Claims', icons: Unpaid, Activeicons: UnpaidActive, content: <UserList /> },
+    { id: 'Claims', label: 'Claims', icons: Claim, Activeicons: ClaimActive, content: <ClaimList /> },
+    { id: 'Dealer', label: 'Dealer', icons:Dealer, Activeicons: DealerActive, content: <DealerDetailList /> },
+    { id: 'Users', label: 'Users', icons: User, Activeicons: UserActive, content: <UserList /> },
+    { id: 'Unpaid Claims', label: 'Unpaid Claims', icons: Unpaid, Activeicons: UnpaidActive, content: <UserList /> },
   ];
 
   const handleTabClick = (tabId) => {
@@ -90,7 +90,7 @@ function ServicerDetails() {
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
-             Servicer Details (Users) 
+             Servicer Details ({activeTab}) 
             </li>
           </ul>
         </div>
@@ -211,7 +211,7 @@ function ServicerDetails() {
                     {" "}
                     <img src={AddItem} className="self-center" alt="AddItem" />{" "}
                     <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
-                    Add Dealer
+                    Add {activeTab}
                     </span>{" "}
                   </Link>
                 </Button>
