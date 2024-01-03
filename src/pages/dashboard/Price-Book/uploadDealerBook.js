@@ -26,6 +26,7 @@ function UploadDealerBook() {
   const [activeDealers, SetActiveDealers] = useState([]);
   const [error, setError] = useState("");
   const [tags, setTags] = useState([]);
+  const [timer, setTimer] = useState(5);
   const navigate = useNavigate();
   const openModal = () => {
     setIsModalOpen(true);
@@ -38,6 +39,22 @@ function UploadDealerBook() {
   const handleSelectChange = (name, selectedValue) => {
     formik.setFieldValue(name, selectedValue);
   };
+  useEffect(() => {
+    let intervalId;
+    if (isModalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      closeModal();
+      navigate("/dealerPriceList");
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isModalOpen, timer]);
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const KeyCodes = {
     comma: 188,
@@ -126,9 +143,10 @@ function UploadDealerBook() {
         if (result.code === 200) {
           if (Object.keys(errors).length === 0) {
             console.log("Form Data:", formData);
-            navigate("/dealerPriceList");
+            // navigate("/dealerPriceList");
             setLoader(false);
             openModal();
+            setTimer(3);
           } else {
             setLoader(false);
 
@@ -162,53 +180,54 @@ function UploadDealerBook() {
         </div>
       ) : (
         <>
-             <div className="flex mt-2">
-        <div className="pl-3">
-          <p className="font-bold text-[36px] leading-9 mb-[3px]">
-            Upload Dealer Book
-          </p>
-          <ul className="flex self-center">
-            <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Price Book </Link> <span className="mx-2"> /</span>
-            </li>
-            <li className="text-sm text-neutral-grey font-semibold ml-1">
-              {" "}
-              Upload Dealer Book{" "}
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Form Start */}
-      {error && (
-        <p className="text-red-500 text-sm pl-2">
-          <span className="font-semibold"> {error} </span>
-        </p>
-      )}
-      <form className="mt-8" onSubmit={formik.handleSubmit}>
-        <div className="px-8 py-8 drop-shadow-4xl bg-white min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl">
-          <Grid className="">
-            <div className="col-span-12">
-              <div className="col-span-12">
-                <Select
-                  label="Dealer Name*"
-                  name="dealerId"
-                  placeholder=""
-                  onChange={handleSelectChange}
-                  className="!bg-[#fff]"
-                  options={activeDealers}
-                  value={formik.values.dealerId}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.dealerId && formik.errors.dealerId}
-                />
-                {formik.touched.dealerId && formik.errors.dealerId && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.dealerId}
-                  </div>
-                )}
-              </div>
+          <div className="flex mt-2">
+            <div className="pl-3">
+              <p className="font-bold text-[36px] leading-9 mb-[3px]">
+                Upload Dealer Book
+              </p>
+              <ul className="flex self-center">
+                <li className="text-sm text-neutral-grey font-Regular">
+                  <Link to={"/"}>Price Book </Link>{" "}
+                  <span className="mx-2"> /</span>
+                </li>
+                <li className="text-sm text-neutral-grey font-semibold ml-1">
+                  {" "}
+                  Upload Dealer Book{" "}
+                </li>
+              </ul>
             </div>
-            {/* <div className="col-span-6">
+          </div>
+
+          {/* Form Start */}
+          {error && (
+            <p className="text-red-500 text-sm pl-2">
+              <span className="font-semibold"> {error} </span>
+            </p>
+          )}
+          <form className="mt-8" onSubmit={formik.handleSubmit}>
+            <div className="px-8 py-8 drop-shadow-4xl bg-white min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl">
+              <Grid className="">
+                <div className="col-span-12">
+                  <div className="col-span-12">
+                    <Select
+                      label="Dealer Name*"
+                      name="dealerId"
+                      placeholder=""
+                      onChange={handleSelectChange}
+                      className="!bg-[#fff]"
+                      options={activeDealers}
+                      value={formik.values.dealerId}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.dealerId && formik.errors.dealerId}
+                    />
+                    {formik.touched.dealerId && formik.errors.dealerId && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.dealerId}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                {/* <div className="col-span-6">
               <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
                 <ReactTags
                   tags={tags}
@@ -238,55 +257,57 @@ function UploadDealerBook() {
                       ? formik.errors.email.map((error, index) => (
                           <span key={index}>
                             {index > 0 && ' '} {/* Add space if not the first element */}
-            {/* {error}
+                {/* {error}
                           </span>
                         ))
                       : formik.errors.email)}
                 </p>
               )}
             </div> */}
-            <div className="col-span-12">
-              <p className="text-light-black text-base mb-2 font-semibold">
-                Upload In Bulk
-              </p>
-              <FileDropdown
-                className="!bg-transparent"
-                accept={
-                  ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                }
-                onFileSelect={(file) => formik.setFieldValue("file", file)}
-              />
-              {formik.touched.file && formik.errors.file && (
-                <p className="text-red-500 text-[10px] mt-1 font-medium">
-                  {formik.errors.file}
-                </p>
-              )}
-              <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
-                Please click on file option and make a copy. Upload the list of
-                Product Name and Price using our provided Google Sheets
-                template, by{" "}
-                <span
-                  className="underline cursor-pointer"
-                  onClick={downloadCSVTemplate}
-                >
-                  Clicking here
-                </span>
-                The file must be saved with csv , xls and xlsx Format.
-              </p>
+                <div className="col-span-12">
+                  <p className="text-light-black text-base mb-2 font-semibold">
+                    Upload In Bulk
+                  </p>
+                  <FileDropdown
+                    className="!bg-transparent"
+                    accept={
+                      ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    }
+                    onFileSelect={(file) => formik.setFieldValue("file", file)}
+                  />
+                  {formik.touched.file && formik.errors.file && (
+                    <p className="text-red-500 text-[10px] mt-1 font-medium">
+                      {formik.errors.file}
+                    </p>
+                  )}
+                  <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                    Please click on file option and make a copy. Upload the list
+                    of Product Name and Price using our provided Google Sheets
+                    template, by{" "}
+                    <span
+                      className="underline cursor-pointer"
+                      onClick={downloadCSVTemplate}
+                    >
+                      Clicking here
+                    </span>
+                    The file must be saved with csv , xls and xlsx Format.
+                  </p>
+                </div>
+              </Grid>
+              <Button
+                type="submit"
+                className="mt-12 font-normal rounded-[25px]"
+              >
+                Submit
+              </Button>
             </div>
-          </Grid>
-          <Button type="submit" className="mt-12 font-normal rounded-[25px]">
-            Submit
-          </Button>
-        </div>
-      </form>
+          </form>
 
-      {/* Modal Email Popop */}
-    
-      </>
+          {/* Modal Email Popop */}
+        </>
       )}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-      {/* <Button
+        {/* <Button
         onClick={closeModal}
         className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
       >
@@ -295,21 +316,23 @@ function UploadDealerBook() {
           className="w-full h-full text-black rounded-full p-0"
         />
       </Button> */}
-      <div className="text-center py-1">
-        <img src={AddDealer} alt="email Image" className="mx-auto" />
-        <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-          Uploaded & Saved
-          <span className="text-light-black"> Successfully </span>
-        </p>
-        <p className="text-neutral-grey text-base font-medium mt-2">
-          You have successfully uploaded & saved the <br />{" "}
-          <b> Dealer Book </b> with the new data <br /> you have entered.{" "}
-        </p>
-      </div>
-    </Modal>
+        <div className="text-center py-1">
+          <img src={AddDealer} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+            Uploaded & Saved
+            <span className="text-light-black"> Successfully </span>
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            You have successfully uploaded & saved the <br />{" "}
+            <b> Dealer Book </b> with the new data <br /> you have entered.{" "}
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting you on Dealer Price List {timer} seconds.
+          </p>
+        </div>
+      </Modal>
     </div>
   );
-  
 }
 
 export default UploadDealerBook;
