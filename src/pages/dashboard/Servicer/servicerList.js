@@ -40,7 +40,7 @@ function ServicerList() {
   }, []);
 
   const getServicerList = async () => {
-    setLoading(true)
+    setLoading(true);
     const result = await addNewServicerRequest("Approved", {});
     setServicerList(result.data);
     console.log(result.data);
@@ -74,18 +74,18 @@ function ServicerList() {
     initialValues: {
       name: "",
       email: "",
-      phoneNumber: "",
+      phone: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
       email: Yup.string().email("Invalid email format"),
-      phoneNumber: Yup.number(),
+      phone: Yup.number(),
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
       filterServicerRequest(values);
-    }
-  })
+    },
+  });
 
   const filterServicerRequest = async (data) => {
     try {
@@ -98,7 +98,7 @@ function ServicerList() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const handleFilterIconClick = () => {
     formik.resetForm();
@@ -263,7 +263,10 @@ function ServicerList() {
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        placeholder="Name"that
+                        placeholder="Name"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
                     </div>
                     <div className="col-span-3 self-center">
@@ -276,21 +279,31 @@ function ServicerList() {
                         placeholder="Email"
                         value={formik.values.email}
                         onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}that
+                        onBlur={formik.handleBlur}
+                        that
+                      />
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="phone"
                         type="number"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
                         placeholder="Phone"
-                        value={formik.values.phoneNumber}
+                        value={formik.values.phone}
                         onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
+                        onBlur={formik.handleBlur}
                       />
                     </div>
                     <div className="col-span-2 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img src={Search} className="cursor-pointer" alt="Search" />
-                    </Button>
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer"
+                          alt="Search"
+                        />
+                      </Button>
                       <Button
                         type="submit"
                         onClick={() => {
