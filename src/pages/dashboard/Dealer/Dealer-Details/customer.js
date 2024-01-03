@@ -107,6 +107,12 @@ function CustomerList(props) {
     },
   ];
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
   const getCustomerList = async () => {
     const result = await getCustomerListByDealerId(props.id);
     setCustomerList(result.result);
@@ -199,6 +205,7 @@ function CustomerList(props) {
                   <img src={shorting} className="ml-2" alt="shorting" />
                 </>
               }
+              noDataComponent={<CustomNoDataComponent />}
               pagination
               paginationPerPage={10}
               paginationComponentOptions={paginationOptions}

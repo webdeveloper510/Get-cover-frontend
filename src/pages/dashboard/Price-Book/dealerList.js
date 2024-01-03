@@ -42,6 +42,12 @@ function DealerPriceList() {
     getTermListData();
   }, []);
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
   const getDealerList = async () => {
     setLoading(true);
     const result = await getDealerPriceBook();
@@ -442,6 +448,7 @@ function DealerPriceList() {
                 paginationPerPage={10}
                 paginationComponentOptions={paginationOptions}
                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                noDataComponent={<CustomNoDataComponent />}
               />
             )}
           </div>

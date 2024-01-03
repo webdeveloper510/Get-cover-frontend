@@ -45,6 +45,7 @@ import {
 import { cityData } from "../../../stateCityJson";
 import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
+import RadioButton from "../../../common/radio";
 
 function DealerDetails() {
   const getInitialActiveTab = () => {
@@ -675,6 +676,7 @@ function DealerDetails() {
             <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
               Assign Servicer
             </p>
+            <form>
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
               <DataTable
                 columns={columns}
@@ -705,9 +707,130 @@ function DealerDetails() {
                 </Button>
               </div>
             </Grid>
-          </div>
-        </Modal>
-      </div>
+          </form>
+        </div>
+      </Modal>
+
+        {/* Modal Primary Popop */}
+        <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+          <div className="text-center py-3">
+           
+            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            Assign  Servicer
+            </p>
+           <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
+           <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
+              </>}   noDataComponent={<CustomNoDataComponent />} />
+           </div>
+            <Grid className="drop-shadow-5xl">
+            <div className="col-span-4">
+                          <Button
+                            type="button"
+                            className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                            onClick={closeModal1}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                        <div className="col-span-8">
+                          <Button type="submit" className="w-full">
+                            Submit
+                          </Button>
+                        </div>
+            </Grid>
+        </div>
+      </Modal>
+
+        {/* Modal Add User Popop */}
+        <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+          <div className="text-center py-3">
+           
+            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            Add New User
+            </p>
+            <form>
+              <Grid className="px-8">
+                <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="fName"
+                  label="First Name"
+                  className="!bg-[#fff]"
+                  required={true}
+                  placeholder=""/>
+                </div>
+                <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="lName"
+                  className="!bg-[#fff]"
+                  label="Last Name"
+                  required={true}
+                  placeholder=""/>
+                </div>
+                <div className="col-span-6">
+                <Input
+                  type="email"
+                  name="email"
+                  className="!bg-[#fff]"
+                  label="Email"
+                  required={true}
+                  placeholder=""/>
+                </div>
+                <div className="col-span-6">
+                <Input
+                  type="number"
+                  name="phone"
+                  label="Phone Number"
+                  className="!bg-[#fff]"
+                  required={true}
+                  placeholder=""/>
+                </div>
+                <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="position"
+                  className="!bg-[#fff]"
+                  label="Position"
+                  required={true}
+                  placeholder=""/>
+                </div>
+                <div className="col-span-6">
+                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                      Do you want to create an account?
+                      <RadioButton
+                        id="yes-create-account"
+                        label="Yes"
+                        value="yes"
+                      />
+                      <RadioButton
+                        id="no-create-account"
+                        label="No"
+                        value="no"
+                      />
+                    </p>
+                </div>
+              </Grid>
+              <Grid className="drop-shadow-5xl">
+            <div className="col-span-4">
+                          <Button
+                            type="button"
+                            className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                            onClick={closeModal1}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                        <div className="col-span-8">
+                          <Button type="submit" className="w-full">
+                            Submit
+                          </Button>
+                        </div>
+            </Grid>
+            </form>
+        </div>
+      </Modal>
+    </div>
     </>
   );
 }

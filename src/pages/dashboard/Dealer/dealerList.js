@@ -127,6 +127,12 @@ function DealerList() {
     },
   });
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
   const columns = [
     {
       name: "ID",
@@ -341,6 +347,7 @@ function DealerList() {
                     <img src={shorting} className="ml-2" alt="shorting" />{" "}
                   </>
                 }
+                noDataComponent={<CustomNoDataComponent />}
                 pagination
                 paginationPerPage={10}
                 paginationComponentOptions={paginationOptions}

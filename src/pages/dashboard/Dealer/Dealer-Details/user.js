@@ -311,6 +311,12 @@ function UserList(props) {
     },
   ];
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
   return (
     <>
       <div className="my-8">
@@ -390,6 +396,7 @@ function UserList(props) {
                     <img src={shorting} className="ml-2" alt="shorting" />
                   </>
                 }
+                noDataComponent={<CustomNoDataComponent />}
                 pagination
                 paginationPerPage={10}
                 paginationComponentOptions={paginationOptions}
@@ -465,6 +472,7 @@ function UserList(props) {
                   name="firstName"
                   label="First Name"
                   required={true}
+                  className="!bg-[#fff]"
                   placeholder=""
                   maxLength={"30"}
                   value={formik.values.firstName}
@@ -485,6 +493,7 @@ function UserList(props) {
                   label="Last Name"
                   required={true}
                   placeholder=""
+                  className="!bg-[#fff]"
                   maxLength={"30"}
                   value={formik.values.lastName}
                   onBlur={formik.handleBlur}
@@ -502,6 +511,7 @@ function UserList(props) {
                   type="text"
                   name="position"
                   label="Position"
+                  className="!bg-[#fff]"
                   required={true}
                   placeholder=""
                   maxLength={"30"}
@@ -522,6 +532,7 @@ function UserList(props) {
                   name="phoneNumber"
                   label="Mobile Number"
                   required={true}
+                  className="!bg-[#fff]"
                   placeholder=""
                   value={formik.values.phoneNumber}
                   onChange={formik.handleChange}

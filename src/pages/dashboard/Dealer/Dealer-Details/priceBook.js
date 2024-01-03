@@ -30,11 +30,19 @@ function PriceBookList(props) {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
   };
+
   const routeToEditPage = (value) => {
     localStorage.setItem("menu", "PriceBook");
     console.log(value);
     navigate(`/editDealerBook/${value._id}/${props.id}`);
   };
+
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
   const handleStatusChange = async (row, newStatus) => {
     try {
       const updatedCompanyPriceList = dealerPriceBook.map((category) => {
@@ -172,6 +180,7 @@ function PriceBookList(props) {
     setPriceBookList(result.result);
     console.log(result.result);
   };
+
   useEffect(() => {
     priceBookData();
     const handleClickOutside = (event) => {
@@ -261,6 +270,7 @@ function PriceBookList(props) {
                   <img src={shorting} className="ml-2" alt="shorting" />
                 </>
               }
+              noDataComponent={<CustomNoDataComponent />}
               pagination
               paginationPerPage={10}
               paginationComponentOptions={paginationOptions}
