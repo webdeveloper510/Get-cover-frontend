@@ -87,3 +87,15 @@ export const updateUserDetailsById = async (data) => {
     throw error;
   }
 };
+export const addUserByDealerId = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/dealer/addDealerUser`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

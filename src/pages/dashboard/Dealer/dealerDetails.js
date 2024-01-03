@@ -35,7 +35,7 @@ import CustomerList from "./Dealer-Details/customer";
 import Modal from "../../../common/model";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Input from "../../../common/input";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import Select from "../../../common/select";
 import {
@@ -46,19 +46,32 @@ import { cityData } from "../../../stateCityJson";
 import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
 import RadioButton from "../../../common/radio";
+import { addUserByDealerId } from "../../../services/userServices";
 
 function DealerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("menu");
     return storedTab ? storedTab : "Orders";
   };
+  const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [dealerDetails, setDealerDetails] = useState([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [initialUserFormValues, setInitialUserFormValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    position: "",
+    status: "yes",
+    dealerId: id.id,
+  });
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerId: "",
@@ -69,11 +82,16 @@ function DealerDetails() {
     country: "USA",
     oldName: "",
   });
-  const id = useParams();
+
   const state = cityData;
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+  const handleRadioChange = (event) => {
+    const selectedValue = event.target.value;
+    userValues.setFieldValue("status", selectedValue);
+    setCreateAccountOption(selectedValue);
   };
   const openModal1 = () => {
     setIsModalOpen1(true);
@@ -81,7 +99,12 @@ function DealerDetails() {
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
-
+  const closeUserModal = () => {
+    setIsUserModalOpen(false);
+  };
+  const openUserModal = () => {
+    setIsUserModalOpen(true);
+  };
   useEffect(() => {
     dealerData();
   }, [id.id]);
@@ -108,6 +131,7 @@ function DealerDetails() {
   const openModal = () => {
     setIsModalOpen(true);
   };
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
@@ -151,6 +175,45 @@ function DealerDetails() {
     },
   });
 
+  const userValues = useFormik({
+    initialValues: initialUserFormValues,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(500, "Must be exactly 500 characters"),
+      lastName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(500, "Must be exactly 500 characters"),
+      phoneNumber: Yup.string()
+        .required("Required")
+        .min(10, "Must be at least 10 characters")
+        .max(10, "Must be exactly 10 characters")
+        .matches(/^[0-9]+$/, "Must contain only digits"),
+      email: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .matches(emailValidationRegex, "Invalid email address")
+        .required("Required"),
+    }),
+
+    onSubmit: async (values) => {
+      console.log(values);
+      setLoading(true);
+      const result = await addUserByDealerId(values);
+      console.log(result.code);
+      if (result.code == 200) {
+        dealerData();
+        setMessage("Dealer updated Successfully");
+        setLoading(false);
+        // setIsModalOpen(false);
+      } else {
+        console.log(result);
+        setLoading(false);
+      }
+    },
+  });
   const columns = [
     {
       name: "Dealer ID",
@@ -288,6 +351,10 @@ function DealerDetails() {
         localStorage.setItem("menu", "Customers");
         navigate(`/addCustomer/${id.id}`);
         break;
+      case "Users":
+        openUserModal();
+        break;
+
       default:
         console.log("Invalid data, no navigation");
     }
@@ -677,6 +744,46 @@ function DealerDetails() {
               Assign Servicer
             </p>
             <form>
+              <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
+                <DataTable
+                  columns={columns}
+                  data={data}
+                  highlightOnHover
+                  sortIcon={
+                    <>
+                      {" "}
+                      <img src={shorting} className="ml-2" alt="shorting" />
+                    </>
+                  }
+                  noDataComponent={<CustomNoDataComponent />}
+                />
+              </div>
+              <Grid className="drop-shadow-5xl">
+                <div className="col-span-4">
+                  <Button
+                    type="button"
+                    className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    onClick={closeModal1}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <div className="col-span-8">
+                  <Button type="submit" className="w-full">
+                    Submit
+                  </Button>
+                </div>
+              </Grid>
+            </form>
+          </div>
+        </Modal>
+
+        {/* Modal Primary Popop */}
+        <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+          <div className="text-center py-3">
+            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+              Assign Servicer
+            </p>
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
               <DataTable
                 columns={columns}
@@ -707,130 +814,165 @@ function DealerDetails() {
                 </Button>
               </div>
             </Grid>
-          </form>
-        </div>
-      </Modal>
-
-        {/* Modal Primary Popop */}
-        <Modal isOpen={isModalOpen1} onClose={closeModal1}>
-          <div className="text-center py-3">
-           
-            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-            Assign  Servicer
-            </p>
-           <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
-           <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/>
-              </>}   noDataComponent={<CustomNoDataComponent />} />
-           </div>
-            <Grid className="drop-shadow-5xl">
-            <div className="col-span-4">
-                          <Button
-                            type="button"
-                            className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                            onClick={closeModal1}
-                          >
-                            Cancel
-                          </Button>
-                        </div>
-                        <div className="col-span-8">
-                          <Button type="submit" className="w-full">
-                            Submit
-                          </Button>
-                        </div>
-            </Grid>
-        </div>
-      </Modal>
+          </div>
+        </Modal>
 
         {/* Modal Add User Popop */}
-        <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+        <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
           <div className="text-center py-3">
-           
             <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-            Add New User
+              Add New User
             </p>
-            <form>
+            <form onSubmit={userValues.handleSubmit}>
               <Grid className="px-8">
                 <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="fName"
-                  label="First Name"
-                  className="!bg-[#fff]"
-                  required={true}
-                  placeholder=""/>
+                  <Input
+                    type="text"
+                    name="firstName"
+                    label="First Name"
+                    required={true}
+                    placeholder=""
+                    className="!bg-white"
+                    maxLength={"30"}
+                    value={userValues.values.firstName}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={
+                      userValues.touched.firstName &&
+                      userValues.errors.firstName
+                    }
+                  />
+                  {userValues.touched.firstName &&
+                    userValues.errors.firstName && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {userValues.errors.firstName}
+                      </div>
+                    )}
                 </div>
                 <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="lName"
-                  className="!bg-[#fff]"
-                  label="Last Name"
-                  required={true}
-                  placeholder=""/>
+                  <Input
+                    type="text"
+                    name="lastName"
+                    label="Last Name"
+                    required={true}
+                    placeholder=""
+                    className="!bg-white"
+                    maxLength={"30"}
+                    value={userValues.values.lastName}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={
+                      userValues.touched.lastName && userValues.errors.lastName
+                    }
+                  />
+                  {userValues.touched.lastName &&
+                    userValues.errors.lastName && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {userValues.errors.lastName}
+                      </div>
+                    )}
                 </div>
                 <div className="col-span-6">
-                <Input
-                  type="email"
-                  name="email"
-                  className="!bg-[#fff]"
-                  label="Email"
-                  required={true}
-                  placeholder=""/>
+                  <Input
+                    type="text"
+                    name="email"
+                    label="Email"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                    value={userValues.values.email}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={userValues.touched.email && userValues.errors.email}
+                  />
+                  {userValues.touched.email && userValues.errors.email && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {userValues.errors.email}
+                    </div>
+                  )}
                 </div>
                 <div className="col-span-6">
-                <Input
-                  type="number"
-                  name="phone"
-                  label="Phone Number"
-                  className="!bg-[#fff]"
-                  required={true}
-                  placeholder=""/>
+                  <Input
+                    type="number"
+                    name="phoneNumber"
+                    label="Phone"
+                    required={true}
+                    className="!bg-white"
+                    placeholder=""
+                    value={userValues.values.phoneNumber}
+                    onChange={userValues.handleChange}
+                    onBlur={userValues.handleBlur}
+                    minLength={"10"}
+                    maxLength={"10"}
+                    error={
+                      userValues.touched.phoneNumber &&
+                      userValues.errors.phoneNumber
+                    }
+                  />
+                  {(userValues.touched.phoneNumber ||
+                    userValues.submitCount > 0) &&
+                    userValues.errors.phoneNumber && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {userValues.errors.phoneNumber}
+                      </div>
+                    )}
                 </div>
                 <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="position"
-                  className="!bg-[#fff]"
-                  label="Position"
-                  required={true}
-                  placeholder=""/>
+                  <Input
+                    type="text"
+                    name="position"
+                    label="Position"
+                    className="!bg-white"
+                    placeholder=""
+                    maxLength={"50"}
+                    value={userValues.values.position}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={
+                      userValues.touched.position && userValues.errors.position
+                    }
+                  />
                 </div>
                 <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                      Do you want to create an account?
-                      <RadioButton
-                        id="yes-create-account"
-                        label="Yes"
-                        value="yes"
-                      />
-                      <RadioButton
-                        id="no-create-account"
-                        label="No"
-                        value="no"
-                      />
-                    </p>
+                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                    Do you want to create an account?
+                    <RadioButton
+                      id="yes-create-account"
+                      label="Yes"
+                      value="yes"
+                      checked={createAccountOption === "yes"}
+                      onChange={handleRadioChange}
+                    />
+                    <RadioButton
+                      id="no-create-account"
+                      label="No"
+                      value="no"
+                      checked={createAccountOption === "no"}
+                      onChange={handleRadioChange}
+                    />
+                  </p>
                 </div>
               </Grid>
               <Grid className="drop-shadow-5xl">
-            <div className="col-span-4">
-                          <Button
-                            type="button"
-                            className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                            onClick={closeModal1}
-                          >
-                            Cancel
-                          </Button>
-                        </div>
-                        <div className="col-span-8">
-                          <Button type="submit" className="w-full">
-                            Submit
-                          </Button>
-                        </div>
-            </Grid>
+                <div className="col-span-4">
+                  <Button
+                    type="button"
+                    className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    onClick={closeUserModal}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <div className="col-span-8">
+                  <Button type="submit" className="w-full">
+                    Submit
+                  </Button>
+                </div>
+              </Grid>
             </form>
-        </div>
-      </Modal>
-    </div>
+          </div>
+        </Modal>
+      </div>
     </>
   );
 }
