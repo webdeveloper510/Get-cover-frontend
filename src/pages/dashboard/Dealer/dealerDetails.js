@@ -49,12 +49,16 @@ import RadioButton from "../../../common/radio";
 import { addUserByDealerId } from "../../../services/userServices";
 
 function DealerDetails() {
+<<<<<<< Updated upstream
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("menu");
     return storedTab ? storedTab : "Orders";
   };
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
+=======
+  const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
+>>>>>>> Stashed changes
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -380,6 +384,7 @@ function DealerDetails() {
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
 
+<<<<<<< Updated upstream
         <div className="flex">
           <div onClick={() => localStorage.removeItem("menu")}>
             <Link
@@ -410,6 +415,35 @@ function DealerDetails() {
               </li>
             </ul>
           </div>
+=======
+      <div className="flex">
+        <Link
+          to={"/dashboard"}
+          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+        >
+          <img
+            src={BackImage}
+            className="m-auto my-auto self-center bg-white"
+            alt="BackImage"
+          />
+        </Link>
+        <div className="pl-3">
+          <p className="font-bold text-[36px] leading-9 mb-[3px]">
+            Dealer Details
+          </p>
+          <ul className="flex self-center">
+            <li className="text-sm text-neutral-grey font-Regular">
+              <Link to={"/"}>Dealer / </Link>{" "}
+            </li>
+            <li className="text-sm text-neutral-grey font-Regular">
+              <Link to={"/"}> Dealer List / </Link>{" "}
+            </li>
+            <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              {" "}
+              Dealer Detail ({activeTab})
+            </li>
+          </ul>
+>>>>>>> Stashed changes
         </div>
 
         <Grid className="!grid-cols-4">
@@ -593,6 +627,162 @@ function DealerDetails() {
                 </Button>
               </div>
             </Grid>
+<<<<<<< Updated upstream
+=======
+            <div className="flex my-4">
+              <img
+                src={address}
+                className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                alt="Address"
+              />
+              <div>
+                <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  Address
+                </p>
+                <p className="text-base text-white font-semibold leading-5">
+                  {dealerDetails?.dealerData?.street},{" "}
+                  {dealerDetails?.dealerData?.city},{" "}
+                  {dealerDetails?.dealerData?.state}{" "}
+                  {dealerDetails?.dealerData?.zip}, USA
+                </p>
+              </div>
+            </div>
+            <div className="flex w-full my-4">
+              <p className="text-[10px] mr-3 text-[#999999] font-Regular">
+                PRIMARY CONTACT DETAILS
+              </p>
+              <hr className="self-center border-[#999999] w-[50%]" />
+            </div>
+            <div className="flex mb-4">
+              <img
+                src={name}
+                className="mr-3 bg-[#383838] rounded-[14px]"
+                alt="Name"
+              />
+              <div>
+                <p className="text-sm text-neutral-grey font-Regular">Name</p>
+                <p className="text-base text-white font-semibold ">
+                  {dealerDetails?.firstName} {dealerDetails?.lastName}
+                </p>
+              </div>
+            </div>
+            <div className="flex mb-4">
+              <img
+                src={email}
+                className="mr-3 bg-[#383838] rounded-[14px]"
+                alt="email"
+              />
+              <div>
+                <p className="text-sm text-neutral-grey font-Regular">Email</p>
+                <p className="text-base text-white font-semibold ">
+                  {dealerDetails?.email}
+                </p>
+              </div>
+            </div>
+            <div className="flex mb-4">
+              <img
+                src={phone}
+                className="mr-3 bg-[#383838] rounded-[14px]"
+                alt="name"
+              />
+              <div>
+                <p className="text-sm text-neutral-grey font-Regular">
+                  Phone Number
+                </p>
+                <p className="text-base text-white font-semibold ">
+                  +1 {dealerDetails?.phoneNumber}
+                </p>
+              </div>
+            </div>
+            <Grid className="mt-5">
+              <div className="col-span-6 ">
+                <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
+                  <p className="text-white text-lg font-semibold ">0</p>
+                  <p className="text-[#999999] text-sm font-Regular ">
+                    Total Number of Orders
+                  </p>
+                </div>
+              </div>
+              <div className="col-span-6 ">
+                <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
+                  <p className="text-white text-lg  !font-[600]">$0.00</p>
+                  <p className="text-[#999999] text-sm font-Regular">
+                    Total Value of Orders
+                  </p>
+                </div>
+              </div>
+              <div className="col-span-6 ">
+                <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
+                  <p className="text-white text-lg !font-[600]">0</p>
+                  <p className="text-[#999999] text-sm font-Regular">
+                    Total number of Claims
+                  </p>
+                </div>
+              </div>
+              <div className="col-span-6 ">
+                <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
+                  <p className="text-white text-lg  !font-[600]">$0.00</p>
+                  <p className="text-[#999999] text-sm font-Regular">
+                    Total Value of Claims
+                  </p>
+                </div>
+              </div>
+            </Grid>
+          </div>
+        </div>
+        <div className="col-span-3">
+          <Grid className="!mt-5">
+            <div className="col-span-10">
+              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                <Grid className="!grid-cols-7 !gap-1">
+                  {tabs.map((tab) => (
+                    <div className="col-span-1" key={tab.id}>
+                      <Button
+                        className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                          activeTab === tab.id
+                            ? "!bg-[#2A2A2A] !text-white"
+                            : "!bg-[#F9F9F9] !text-black"
+                        }`}
+                        onClick={() => handleTabClick(tab.id)}
+                      >
+                        <img
+                          src={
+                            activeTab === tab.id ? tab.Activeicons : tab.icons
+                          }
+                          className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
+                          alt={tab.label}
+                        />
+                        <span
+                          className={`ml-1 py-1 text-sm font-Regular ${
+                            activeTab === tab.id ? "text-white" : "text-black"
+                          }`}
+                        >
+                          {tab.label}
+                        </span>
+                      </Button>
+                    </div>
+                  ))}
+                </Grid>
+              </div>
+            </div>
+            <div className="col-span-2">
+              <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                {" "}
+                <Link to={"#"} className="flex self-center">
+                  {" "}
+                  <img
+                    src={AddItem}
+                    className="self-center"
+                    alt="AddItem"
+                  />{" "}
+                  <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
+                    Add {activeTab}
+                  </span>{" "}
+                </Link>
+              </Button>
+            </div>
+          </Grid>
+>>>>>>> Stashed changes
 
             {tabs.map((tab) => (
               <div

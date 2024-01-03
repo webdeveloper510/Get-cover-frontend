@@ -4,10 +4,15 @@ import Button from "../../../../common/button";
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
+<<<<<<< Updated upstream
 import {
   editDealerPriceBook,
   getDealerPriceBookByDealerId,
@@ -25,6 +30,17 @@ function PriceBookList(props) {
   const navigate = useNavigate();
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = priceBookList.length - index <= 2;
+=======
+import { getPriceBookByDealerId } from "../../../../services/priceBookService";
+
+function PriceBookList(props) {
+  console.log(props.id);
+  const [selectedAction, setSelectedAction] = useState(null);
+  const [priceBook, setPriceBook] = useState([]);
+  const dropdownRef = useRef(null);
+  const calculateDropdownPosition = (index) => {
+    const isCloseToBottom = priceBook.length - index <= 2;
+>>>>>>> Stashed changes
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -33,6 +49,7 @@ function PriceBookList(props) {
     rangeSeparatorText: "of",
   };
 
+<<<<<<< Updated upstream
   const routeToEditPage = (value) => {
     localStorage.setItem("menu", "PriceBook");
     console.log(value);
@@ -76,6 +93,8 @@ function PriceBookList(props) {
     }
   };
 
+=======
+>>>>>>> Stashed changes
   const columns = [
     {
       name: "ID",
@@ -91,7 +110,11 @@ function PriceBookList(props) {
     },
     {
       name: "Category",
+<<<<<<< Updated upstream
       selector: (row) => row?.priceBooks?.category[0]?.name,
+=======
+      selector: (row) => row?.priceBooks?.category[0].name,
+>>>>>>> Stashed changes
       sortable: true,
     },
     {
@@ -106,7 +129,11 @@ function PriceBookList(props) {
     },
     {
       name: "Retail Cost",
+<<<<<<< Updated upstream
       selector: (row) => "$  " + row.retailPrice.toFixed(2),
+=======
+      selector: (row) => "$ " + row.retailPrice.toFixed(2),
+>>>>>>> Stashed changes
       sortable: true,
     },
     {
@@ -122,10 +149,14 @@ function PriceBookList(props) {
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
+<<<<<<< Updated upstream
             disabled={
               row.priceBooks[0]?.category[0]?.status === false ? true : false
             }
             onChange={(e) => handleStatusChange(row, e.target.value)}
+=======
+            // onChange={(e) => handleStatusChange(row, e.target.value)}
+>>>>>>> Stashed changes
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
@@ -134,7 +165,10 @@ function PriceBookList(props) {
         </div>
       ),
     },
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     {
       name: "Action",
       minWidth: "auto", // Set a custom minimum width
@@ -146,7 +180,11 @@ function PriceBookList(props) {
             <div
               onClick={() =>
                 setSelectedAction(
+<<<<<<< Updated upstream
                   selectedAction === row.unique_key ? null : row.unique_key
+=======
+                  selectedAction === row.Categoryid ? null : row.Categoryid
+>>>>>>> Stashed changes
                 )
               }
             >
@@ -156,7 +194,11 @@ function PriceBookList(props) {
                 alt="Active Icon"
               />
             </div>
+<<<<<<< Updated upstream
             {selectedAction === row.unique_key && (
+=======
+            {selectedAction === row.Categoryid && (
+>>>>>>> Stashed changes
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
@@ -164,6 +206,7 @@ function PriceBookList(props) {
                 )}`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+<<<<<<< Updated upstream
                 <div
                   className="text-center py-3"
                   onClick={() => {
@@ -172,6 +215,9 @@ function PriceBookList(props) {
                 >
                   Edit
                 </div>
+=======
+                <div className="text-center py-3">Edit</div>
+>>>>>>> Stashed changes
               </div>
             )}
           </div>
@@ -179,6 +225,7 @@ function PriceBookList(props) {
       },
     },
   ];
+<<<<<<< Updated upstream
 
   const priceBookData = async () => {
     const result = await getDealerPriceBookByDealerId(props.id);
@@ -195,6 +242,22 @@ function PriceBookList(props) {
       }
     };
 
+=======
+  const priceBookData = async () => {
+    const result = await getPriceBookByDealerId(props.id);
+    setPriceBook(result.result);
+    console.log(result.result);
+  };
+  useEffect(() => {
+    priceBookData();
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        // Close the dropdown if the click is outside of it
+        setSelectedAction(null);
+      }
+    };
+
+>>>>>>> Stashed changes
     document.addEventListener("click", handleClickOutside);
 
     return () => {
@@ -203,10 +266,13 @@ function PriceBookList(props) {
     };
   }, []);
 
+<<<<<<< Updated upstream
   const formik = useFormik({
     
   })
 
+=======
+>>>>>>> Stashed changes
   return (
     <>
       <div className="my-8">
@@ -217,7 +283,10 @@ function PriceBookList(props) {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+<<<<<<< Updated upstream
               <form onSubmit={formik.handleSubmit}>
+=======
+>>>>>>> Stashed changes
                 <Grid className="!grid-cols-11">
                   <div className="col-span-3 self-center">
                     <Input
@@ -250,7 +319,11 @@ function PriceBookList(props) {
                     />
                   </div>
                   <div className="col-span-2 self-center flex justify-center">
+<<<<<<< Updated upstream
                     <Button type="submit" className="!p-0">
+=======
+                    <Button type="submit" className="!p-0 mr-2">
+>>>>>>> Stashed changes
                       <img
                         src={Search}
                         className="cursor-pointer "
@@ -266,14 +339,21 @@ function PriceBookList(props) {
                     </Button>
                   </div>
                 </Grid>
+<<<<<<< Updated upstream
               </form>
+=======
+>>>>>>> Stashed changes
               </div>
             </div>
           </Grid>
           <div className="mb-5 relative dealer-detail">
             <DataTable
               columns={columns}
+<<<<<<< Updated upstream
               data={priceBookList}
+=======
+              data={priceBook}
+>>>>>>> Stashed changes
               highlightOnHover
               sortIcon={
                 <>
@@ -281,7 +361,10 @@ function PriceBookList(props) {
                   <img src={shorting} className="ml-2" alt="shorting" />
                 </>
               }
+<<<<<<< Updated upstream
               noDataComponent={<CustomNoDataComponent />}
+=======
+>>>>>>> Stashed changes
               pagination
               paginationPerPage={10}
               paginationComponentOptions={paginationOptions}

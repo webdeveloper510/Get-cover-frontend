@@ -57,52 +57,78 @@ function AddCompanyPriceBook() {
       description: Yup.string().required("Required"),
       term: Yup.number().required("Required"),
       frontingFee: Yup.number()
-      .typeError('Required')
-      .required("Required")
-      .min(0, "Fronting Fee fee cannot be negative")
-      .nullable(),
+        .typeError("Required")
+        .required("Required")
+        .min(0, "Fronting Fee fee cannot be negative")
+        .nullable(),
       reinsuranceFee: Yup.number()
-      .typeError('Required')
-      .required("Required")
-      .nullable()
-      .min(0, "Re-insurance fee cannot be negative"),
+        .typeError("Required")
+        .required("Required")
+        .nullable()
+        .min(0, "Re-insurance fee cannot be negative"),
       reserveFutureFee: Yup.number()
-      .typeError('Required')
-      .required("Required")
-      .nullable()
+        .typeError("Required")
+        .required("Required")
+        .nullable()
         .min(0, "ReserveFuture fee cannot be negative"),
       adminFee: Yup.number()
-      .typeError('Required')
-      .required("Required")
-      .nullable()
+        .typeError("Required")
+        .required("Required")
+        .nullable()
         .min(0, "Admin fee cannot be negative"),
       status: Yup.string().required("Required"),
     }),
+    // onSubmit: async (values) => {
+    //   try {
+    //     setLoader(true);
+    //     let result;
+
+    //     if (id) {
+    //       // const matchingCategory = categoryList.find(
+    //       //   (checkState) => checkState.value === values.priceCatId
+    //       // );
+
+    //       // if (matchingCategory) {
+    //       result = await editCompanyList(id, values);
+    //       // } else {
+    //       //   formik.setFieldValue("priceCatId", "");
+    //       //   return;
+    //       // }
+    //     } else {
+    //       result = await addCompanyPricBook(values);
+    //     }
+
+    //     console.log(result);
+    //     setLoader(false);
+    //     if (result.code !== 200) {
+    //       setLoader(false);
+    //       setError(result.message);
+    //     } else {
+    //       setLoader(false);
+    //       setError(false);
+    //       setIsModalOpen(true);
+    //       setTimer(3);
+    //     }
+    //   } catch (error) {
+    //     setError(false);
+    //     console.error("Error:", error);
+    //   }
+    // },
     onSubmit: async (values) => {
       try {
         setLoader(false);
         let result;
 
         if (id) {
-          // const matchingCategory = categoryList.find(
-          //   (checkState) => checkState.value === values.priceCatId
-          // );
-
-          // if (matchingCategory) {
           result = await editCompanyList(id, values);
-          // } else {
-          //   formik.setFieldValue("priceCatId", "");
-          //   return;
-          // }
         } else {
           result = await addCompanyPricBook(values);
         }
 
-        console.log(result);
-
         if (result.code !== 200) {
           setLoader(true);
           setError(result.message);
+          setLoader(false);
         } else {
           setLoader(true);
           setError(false);
@@ -113,7 +139,10 @@ function AddCompanyPriceBook() {
         setLoader(true);
         setError(error);
         console.error("Error:", error);
+      } finally {
+        setLoader(false);
       }
+      setLoader(false);
     },
   });
   const calculateTotal = () => {
@@ -139,9 +168,10 @@ function AddCompanyPriceBook() {
     let isMounted = true;
 
     const getPriceBookDetailsById = async () => {
+      setLoader(true);
       const data = await getCategoryListActiveData11();
       console.log(data);
-      setLoader(true);
+
       try {
         if (id) {
           setType("Edit");
@@ -160,12 +190,15 @@ function AddCompanyPriceBook() {
               adminFee: result?.result?.adminFee?.toFixed(2),
               status: result.result.status,
             });
+            setLoader(false);
           }
         } else {
+          setLoader(false);
           setType("Add");
         }
-        setLoader(true);
+        // setLoader(false);
       } catch (error) {
+        setLoader(false);
         console.error("Error fetching data:", error);
       }
     };
@@ -288,7 +321,7 @@ function AddCompanyPriceBook() {
           </ul>
         </div>
       </div>
-      {loader == false ? (
+      {loader !== false ? (
         <div className=" h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#333" />

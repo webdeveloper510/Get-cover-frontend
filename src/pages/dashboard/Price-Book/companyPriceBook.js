@@ -63,12 +63,15 @@ function CompanyPriceBook() {
       const res = await getCompanyPriceList(data);
       if (res.code != 200) {
         setError(res.message);
+        setLoading(false);
       } else {
+        setLoading(false);
         setError("");
       }
       console.log(res);
       setCompanyPriceList(res.result);
     } catch (error) {
+      setLoading(false);
       console.error("Error fetching category list:", error);
     } finally {
       setLoading(false);

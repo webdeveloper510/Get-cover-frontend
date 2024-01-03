@@ -188,6 +188,23 @@ export const getCompanyPriceBookById = async (id) => {
   }
 };
 
+export const getPriceBookByDealerId = async (id) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.get(
+      `${url}/dealer/getDealerPriceBookByDealerId/${id}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const uploadDealerBookInBulk = async (data) => {
   const accessToken = getAccessToken(); // Assuming getAccessToken returns the access token
   const headers = {
