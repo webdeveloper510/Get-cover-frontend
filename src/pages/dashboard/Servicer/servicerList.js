@@ -94,7 +94,7 @@ function ServicerList() {
       minWidth: "150px",
     },
     {
-      name: "Total Claims",
+      name: "Total Claims Value",
       selector: (row) => 0,
       sortable: true,
       minWidth: "150px",

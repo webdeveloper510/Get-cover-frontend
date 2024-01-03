@@ -745,7 +745,7 @@ function DealerDetails() {
         <Modal isOpen={isModalOpen1} onClose={closeModal1}>
           <div className="text-center py-3">
            
-            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            <p className="text-3xl mb-5 mt-2 font-bold text-light-black">
             Add New User
             </p>
             <form>
