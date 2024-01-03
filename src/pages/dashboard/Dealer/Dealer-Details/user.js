@@ -44,7 +44,7 @@ function UserList(props) {
   const [loading, setLoading] = useState(false);
 
   const getUserList = async () => {
-    const result = await getUserListByDealerId(props.id);
+    const result = await getUserListByDealerId(props.id, {});
     console.log(result.result);
     setUserList(result.result);
   };
@@ -198,6 +198,37 @@ function UserList(props) {
       openModal();
     }
   };
+
+  const filterUserDetails = async (data) => {
+    try {
+      setLoading(true);
+      const res = await getUserListByDealerId(props.id, data);
+      setUserList(res.result)
+    }catch(error){
+      console.error("Error fetching category list:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFilterIconClick =()=>{
+    formikUSerFilter.resetForm();
+    console.log(formikUSerFilter.values);
+    getUserList();
+  }
+  const formikUSerFilter = useFormik({
+    initialValues : {
+      firstName : "",
+      email : "",
+      phone : "",
+    },validationSchema : Yup.object({
+      firstName : Yup.string(),
+      email : Yup.string().email(),
+      phone : Yup.number(),
+    }),onSubmit: async (values) =>{
+      filterUserDetails(values);
+    }
+  })
   const columns = [
     {
       name: "Name",
@@ -327,35 +358,45 @@ function UserList(props) {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              <form className="mt-8" onSubmit={formikUSerFilter.handleSubmit}>
                 <Grid className="!grid-cols-11">
                   <div className="col-span-3 self-center">
                     <Input
-                      name="Name"
+                      name="firstName"
                       type="text"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
                       placeholder="First Name"
+                      value={formikUSerFilter.values.firstName}
+                      onBlur={formikUSerFilter.handleBlur}
+                      onChange={formikUSerFilter.handleChange}
                     />
                   </div>
                   <div className="col-span-3 self-center">
                     <Input
-                      name="Email"
+                      name="email"
                       type="email"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
                       placeholder="Email"
+                      value={formikUSerFilter.values.email}
+                      onBlur={formikUSerFilter.handleBlur}
+                      onChange={formikUSerFilter.handleChange}
                     />
                   </div>
                   <div className="col-span-3 self-center">
                     <Input
-                      name="PhoneNo."
+                      name="phone"
                       type="text"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
                       placeholder="Phone "
+                      value={formikUSerFilter.values.phone}
+                      onBlur={formikUSerFilter.handleBlur}
+                      onChange={formikUSerFilter.handleChange}
                     />
                   </div>
                   <div className="col-span-2 self-center flex justify-center">
@@ -366,7 +407,11 @@ function UserList(props) {
                         alt="Search"
                       />
                     </Button>
-                    <Button type="submit" className="!bg-transparent !p-0">
+                    <Button
+                    type="submit"
+                    onClick={() => {
+                      handleFilterIconClick();}}
+                    className="!bg-transparent !p-0">
                       <img
                         src={clearFilter}
                         className="cursor-pointer	mx-auto"
@@ -375,6 +420,7 @@ function UserList(props) {
                     </Button>
                   </div>
                 </Grid>
+              </form>
               </div>
             </div>
           </Grid>

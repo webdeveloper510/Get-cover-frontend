@@ -19,10 +19,10 @@ const createHeaders = () => {
   }
 };
 
-export const getUserListByDealerId = async (id) => {
+export const getUserListByDealerId = async (id, data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.get(`${url}/dealer/getUserByDealerId/${id}`, {
+    const response = await axios.post(`${url}/dealer/getUserByDealerId/${id}`,data, {
       headers,
     });
 

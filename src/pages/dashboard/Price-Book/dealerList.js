@@ -149,13 +149,13 @@ function DealerPriceList() {
 
   const formik = useFormik({
     initialValues: {
-      Category: "",
+      category: "",
       name: "",
       term: "",
       status: "",
     },
     validationSchema: Yup.object({
-      Category: Yup.string(),
+      category: Yup.string(),
       name: Yup.string(),
       term: Yup.number(),
       status: Yup.boolean(),
@@ -332,13 +332,13 @@ function DealerPriceList() {
                 <Grid className="!grid-cols-10">
                   <div className="col-span-2 self-center">
                     <Input
-                      name="Category"
+                      name="category"
                       type="text"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
                       placeholder="Category"
-                      value={formik.values.Category}
+                      value={formik.values.category}
                       onChange={formik.handleChange}
                     />
                   </div>
