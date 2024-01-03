@@ -64,21 +64,27 @@ function DealerList() {
     console.log(row, newStatus);
   };
 
-  const getAccessToken = () => {
-    const userDetails = JSON.parse(localStorage.getItem("userDetails"));
-    return userDetails ? userDetails.token : null;
+
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    getDealerList();
   };
+
   
-  const createHeaders = () => {
-    const accessToken = getAccessToken();
-  
-    if (accessToken) {
-      return {
-        "x-access-token": accessToken,
-        "Content-Type": "application/json",
-      };
+  const filterDealerListGet = async (data) =>{
+    try {
+      setLoading(true);
+      const res = await getDealersList(data);
+      console.log(res.data)
+      setDealerList(res.data)
+    }catch(error){
+      console.error("Error fetching category list:", error);
+    } finally {
+      setLoading(false);
     }
-  };
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -94,36 +100,7 @@ function DealerList() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      // setLoader(true);
-      // const result = id
-      //   ? await editCategoryList(id, values)
-      //   : await addCategory(values);
-      // console.log(result);
-      // if (result.code !== 200) {
-      //   setLoader(false);
-      //   setError(result.message);
-      // } else {
-      //   setLoader(false);
-      //   setError(false);
-      //   setIsModalOpen(true);
-      //   setTimer(3);
-      // }
-      const headers = createHeaders();
-      try {
-        const response = await axios.post(
-          `${url}/admin/approveDealers`,
-          {name : values.name, email : values.email, phoneNumber : values.phoneNumber},
-          {
-            headers,
-          }
-        );
-        console.log(response)
-        // return response.data;
-        // setDealerList(response.data);
-
-      } catch (error) {
-        throw error;
-      }      
+      filterDealerListGet(values)
     },
   });
 
@@ -316,7 +293,12 @@ function DealerList() {
                           alt="Search"
                         />
                       </Button>
-                      <Button className="!bg-transparent !ml-2 !p-0">
+
+                      <Button type="submit"
+                      onClick={() => {
+                        handleFilterIconClick();
+                      }} className="!bg-transparent  !p-0">
+
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"

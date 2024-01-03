@@ -19,6 +19,8 @@ import {
   isApprovedOrDisapprovedStatus,
 } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 function NewDealerList() {
   const [approvalDetails, setApprovalDetails] = useState({
@@ -84,6 +86,25 @@ function NewDealerList() {
     const isCloseToBottom = pendingDealerList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
+
+  const formik = useFormik({
+    initialValues : {
+      name: "",
+      email: "",
+      phoneNumber: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string(),
+      email: Yup.string().email("Invalid email format"),
+      phoneNumber: Yup.number(),
+    }),
+    onSubmit: async (values) => {
+      console.log("Form values:", values);
+    }
+  })
+
+
+
   const columns = [
     {
       name: "ID",
@@ -134,18 +155,18 @@ function NewDealerList() {
           </div>
           {isDropdownOpen && selectedAction === index && (
             <div
-              className={`absolute z-[2] w-[150px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 p-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}
             >
               <div
-                className="text-center py-2 border-b border-[#E6E6E6] text-[#40BF73] cursor-pointer"
+                className="text-center py-2 border-b text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer"
                 onClick={() => handleActionChange("Approved", row.accountId)}
               >
                 Approve
               </div>
               <div
-                className="text-center py-2 text-[#FF4747] cursor-pointer"
+                className="text-center py-2 text-[#FF4747] text-[12px] cursor-pointer"
                 onClick={() => handleActionChange("Rejected", row.accountId)}
               >
                 Disapprove
@@ -234,39 +255,49 @@ function NewDealerList() {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              <form onSubmit={formik.handleSubmit}>                
                 <Grid className="!grid-cols-11">
                   <div className="col-span-3 self-center">
                     <Input
-                      name="Name"
+                      name="name"
                       type="text"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
                       placeholder="Name"
+                      value={formik.values.name}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                   <div className="col-span-3 self-center">
                     <Input
-                      name="Email"
+                      name="email"
                       type="email"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
                       placeholder="Email"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                   <div className="col-span-3 self-center">
                     <Input
-                      name="PhoneNo."
+                      name="phoneNumber"
                       type="number"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
                       placeholder="Phone No."
+                      value={formik.values.phoneNumber}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                   <div className="col-span-2 self-center flex justify-center">
-                    <Button className="!p-0">
+                    <Button type="submit" className="!p-0">
                       <img
                         src={Search}
                         className="cursor-pointer	mx-auto"
@@ -275,7 +306,7 @@ function NewDealerList() {
                     </Button>
                     <Button
                       type="submit"
-                      className="!bg-transparent !ml-2 !p-0"
+                      className="!bg-transparent !p-0"
                     >
                       <img
                         src={clearFilter}
@@ -285,6 +316,7 @@ function NewDealerList() {
                     </Button>
                   </div>
                 </Grid>
+                </form>
               </div>
             </div>
           </Grid>

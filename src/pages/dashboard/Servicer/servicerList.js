@@ -94,10 +94,10 @@ function ServicerList() {
       minWidth: "150px",
     },
     {
-      name: "Total Claims",
-      selector: (row) => 0,
+      name: "Total Claims Value",
+      selector: (row) => "$0.00",
       sortable: true,
-      minWidth: "150px",
+      minWidth: "180px",
     },
     {
       name: "Status",
@@ -260,7 +260,7 @@ function ServicerList() {
                     </Button>
                       <Button
                         type="submit"
-                        className="!ml-2 !bg-transparent !p-0"
+                        className=" !bg-transparent !p-0"
                       >
                         <img
                           src={clearFilter}

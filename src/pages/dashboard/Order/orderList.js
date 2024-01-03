@@ -204,7 +204,7 @@ function OrderList() {
                   
                   <div className='col-span-2 self-center flex'>
                     <img src={Search} className='cursor-pointer	'  alt='Search' />
-                    <Button type="submit" className='!ml-2 !bg-transparent !p-0'>
+                    <Button type="submit" className=' !bg-transparent !p-0'>
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"

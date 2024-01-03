@@ -820,8 +820,9 @@ function DealerDetails() {
         {/* Modal Add User Popop */}
         <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
           <div className="text-center py-3">
-            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-              Add New User
+           
+            <p className="text-3xl mb-5 mt-2 font-bold text-light-black">
+            Add New User
             </p>
             <form onSubmit={userValues.handleSubmit}>
               <Grid className="px-8">

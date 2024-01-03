@@ -34,7 +34,20 @@ export const addNewCustomer = async (data) => {
 export const getCustomerList = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.get(`${url}/customer/customer`, {
+    const response = await axios.post(`${url}/customer/customer`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getFilterCustomerList = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/customer/customer`,data, {
       headers,
     });
 

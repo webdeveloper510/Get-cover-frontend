@@ -12,18 +12,22 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Select from "../../../common/select";
-import { getCustomerList } from "../../../services/customerServices";
+import { getCustomerList, getFilterCustomerList } from "../../../services/customerServices";
+import { getDealersList } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
-
+import { useFormik } from "formik";
+import * as Yup from "yup"
+// Declare the base URL of the API
 function CustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [customerList, setCustomerList] = useState([]);
+  const [dealerList, setDealerList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const handleSelectChange1 = (label, value) => {
-    console.log(label, value, "selected");
+  const handleSelectChange1 = (name, value) => {
     setSelectedProduct(value);
+    formik.setFieldValue(name, value);
   };
 
   const getCustomer = async () => {
@@ -35,10 +39,6 @@ function CustomerList() {
   };
   const dropdownRef = useRef(null);
 
-  const status = [
-    { label: "Active", value: true },
-    { label: "Inactive", value: false },
-  ];
 
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = customerList.length - index <= 2;
@@ -49,6 +49,37 @@ function CustomerList() {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
   };
+  const getDealerList = async () => {
+    let DealerArray = []
+    setLoading(true);
+    const result = await getDealersList();
+    console.log(result, "jjjjj");
+    const Dealer= result.data.map((data)=>{
+      const datadealer = {label:data.dealerData.name, value:data._id}
+      DealerArray.push(datadealer)
+    })
+    setDealerList(DealerArray);
+    setLoading(false);
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phoneNumber: "",
+      dealername: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string(),
+      email: Yup.string().email("Invalid email format"),
+      phoneNumber: Yup.number(),
+      dealername: Yup.string(),
+    }),
+    onSubmit: async (values) => {
+      console.log("Form values:", values);
+      getFilteredCustomerList(values)
+    }
+});
 
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
@@ -141,6 +172,7 @@ function CustomerList() {
 
   useEffect(() => {
     getCustomer();
+    getDealerList();
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSelectedAction(null);
@@ -154,7 +186,28 @@ function CustomerList() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    getCustomerList();
+  };
+
+  const getFilteredCustomerList = async (data) =>{
+    try {
+      setLoading(true);
+      const res = await getFilterCustomerList(data);
+      console.log(res.data)
+      setCustomerList(res.data)
+    }catch(error){
+      console.error("Error fetching category list:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
   return (
+
     <>
       <div className="my-8 ml-3">
         <Headbar />
@@ -189,54 +242,70 @@ function CustomerList() {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              <form onSubmit={formik.handleSubmit}>
                 <Grid className="!grid-cols-10">
                   <div className="col-span-2 self-center">
                     <Input
-                      name="Name"
+                      name="name"
                       type="text"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
                       placeholder="Name"
+                      value={formik.values.name}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                   <div className="col-span-2 self-center">
                     <Input
-                      name="Email"
+                      name="email"
                       type="email"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
                       placeholder="Email"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                   <div className="col-span-2 self-center">
                     <Input
-                      name="PhoneNo."
+                      name="phoneNumber"
                       type="number"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
                       placeholder="Phone No."
+                      value={formik.values.phoneNumber}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                   <div className="col-span-2 self-center">
                     <Select
                       label=""
-                      options={status}
+                      name="dealername"
+                      options={dealerList}
                       OptionName="Dealer Name"
                       color="text-[#1B1D21] opacity-50"
                       className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                       className="!text-[14px] !bg-[#f7f7f7]"
-                      selectedValue={selectedProduct}
+                      value={formik.values.dealername}
                       onChange={handleSelectChange1}
                     />
                   </div>
 
                   <div className="col-span-2 self-center flex">
+                  <Button type="submit" className="!p-0">
                     <img src={Search} className="cursor-pointer	" alt="Search" />
+                  </Button>
                     <Button
                       type="submit"
+                      onClick={() => {
+                        handleFilterIconClick();
+                      }}
                       className="!ml-2 !bg-transparent !p-0"
                     >
                       <img
@@ -247,6 +316,7 @@ function CustomerList() {
                     </Button>
                   </div>
                 </Grid>
+              </form>
               </div>
             </div>
           </Grid>
