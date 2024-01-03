@@ -71,6 +71,7 @@ function DealerDetails() {
     position: "",
     status: "yes",
     dealerId: id.id,
+    isPrimary: false,
   });
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
@@ -198,7 +199,7 @@ function DealerDetails() {
         .required("Required"),
     }),
 
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setFieldError }) => {
       console.log(values);
       setLoading(true);
       const result = await addUserByDealerId(values);
@@ -207,9 +208,16 @@ function DealerDetails() {
         dealerData();
         setMessage("Dealer updated Successfully");
         setLoading(false);
+        closeUserModal();
+        // window.location.reload();
         // setIsModalOpen(false);
       } else {
         console.log(result);
+        console.log("here");
+        if (result.code === 401) {
+          console.log("here12");
+          setFieldError("email", "Email already in use");
+        }
         setLoading(false);
       }
     },
@@ -819,10 +827,9 @@ function DealerDetails() {
 
         {/* Modal Add User Popop */}
         <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
-          <div className=" py-3">
-           
-            <p className="text-3xl text-center mb-5 mt-2 font-bold text-light-black">
-            Add New User
+          <div className="text-center py-3">
+            <p className="text-3xl mb-5 mt-2 font-bold text-light-black">
+              Add New User
             </p>
             <form onSubmit={userValues.handleSubmit}>
               <Grid className="px-8">

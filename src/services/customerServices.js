@@ -34,9 +34,13 @@ export const addNewCustomer = async (data) => {
 export const getCustomerList = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(`${url}/customer/customer`, {},{
-      headers,
-    });
+    const response = await axios.post(
+      `${url}/customer/customer`,
+      {},
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -47,7 +51,7 @@ export const getCustomerList = async (data) => {
 export const getFilterCustomerList = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(`${url}/customer/customer`,data, {
+    const response = await axios.post(`${url}/customer/customer`, data, {
       headers,
     });
 
@@ -61,7 +65,8 @@ export const getCustomerListByDealerId = async (id) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
-      `${url}/customer/getDealerCustomers/${id}`,{},
+      `${url}/customer/getDealerCustomers/${id}`,
+      {},
       {
         headers,
       }

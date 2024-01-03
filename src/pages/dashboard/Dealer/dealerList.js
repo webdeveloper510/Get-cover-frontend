@@ -11,7 +11,10 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import { getDealersList } from "../../../services/dealerServices";
+import {
+  changeDealerStatus,
+  getDealersList,
+} from "../../../services/dealerServices";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Loader from "../../../assets/images/Loader.gif";
 import { useFormik } from "formik";
@@ -32,6 +35,31 @@ function DealerList() {
     rangeSeparatorText: "of",
   };
 
+  const handleStatusChange = async (row, newStatus) => {
+    // console.log("row", row);
+    try {
+      setDealerList((dealerData) => {
+        return dealerData.map((data) => {
+          console.log(data);
+          if (data.accountId === row.accountId) {
+            return {
+              ...data,
+              status: newStatus === "active" ? true : false,
+            };
+          }
+          return data;
+        });
+      });
+
+      const result = await changeDealerStatus(row.accountId, {
+        status: newStatus === "active" ? true : false,
+      });
+
+      console.log(result);
+    } catch (error) {
+      console.error("Error in handleStatusChange:", error);
+    }
+  };
   const getDealerList = async () => {
     setLoading(true);
     const result = await getDealersList();
@@ -45,26 +73,20 @@ function DealerList() {
   };
   useEffect(() => {
     getDealerList();
-      const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-          // Close the dropdown if the click is outside of it
-          setSelectedAction(null);
-        }
-      };
-  
-      document.addEventListener("click", handleClickOutside);
-  
-      return () => {
-        // Cleanup the event listener on component unmount
-        document.removeEventListener("click", handleClickOutside);
-      };
-    }, []);
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        // Close the dropdown if the click is outside of it
+        setSelectedAction(null);
+      }
+    };
 
-  const handleStatusChange = async (row, newStatus) => {
-    console.log(row, newStatus);
-  };
+    document.addEventListener("click", handleClickOutside);
 
-
+    return () => {
+      // Cleanup the event listener on component unmount
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const handleFilterIconClick = () => {
     formik.resetForm();
@@ -72,19 +94,18 @@ function DealerList() {
     getDealerList();
   };
 
-  
-  const filterDealerListGet = async (data) =>{
+  const filterDealerListGet = async (data) => {
     try {
       setLoading(true);
       const res = await getDealersList(data);
-      console.log(res.data)
-      setDealerList(res.data)
-    }catch(error){
+      console.log(res.data);
+      setDealerList(res.data);
+    } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -100,7 +121,7 @@ function DealerList() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      filterDealerListGet(values)
+      filterDealerListGet(values);
     },
   });
 
@@ -184,7 +205,8 @@ function DealerList() {
               />
             </div>
             {selectedAction === row.dealerData.unique_key && (
-              <div ref={dropdownRef}
+              <div
+                ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
@@ -294,11 +316,13 @@ function DealerList() {
                         />
                       </Button>
 
-                      <Button type="submit"
-                      onClick={() => {
-                        handleFilterIconClick();
-                      }} className="!bg-transparent  !p-0">
-
+                      <Button
+                        type="submit"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                        className="!bg-transparent  !p-0"
+                      >
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"

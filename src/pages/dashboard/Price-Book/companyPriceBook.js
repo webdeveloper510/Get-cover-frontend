@@ -22,6 +22,7 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
+import { editDealerPriceBook } from "../../../services/dealerServices";
 
 function CompanyPriceBook() {
   // const [selectedProduct, setSelectedProduct] = useState("");
@@ -91,39 +92,34 @@ function CompanyPriceBook() {
 
   const handleStatusChange = async (row, newStatus) => {
     try {
-      const updatedCompanyPriceList = companyPriceList.map((category) => {
-        if (category._id === row._id) {
-          return { ...category, status: newStatus === "active" ? true : false };
-        }
-        return category;
+      setCompanyPriceList((prevDealerPriceBook) => {
+        return prevDealerPriceBook.map((category) => {
+          if (category._id === row._id) {
+            return {
+              ...category,
+              status: newStatus === "active" ? true : false,
+            };
+          }
+          return category;
+        });
       });
 
-      setCompanyPriceList(updatedCompanyPriceList);
-
-      const result = await editCompanyList(row._id, {
-        priceCatId: row.category._id,
-        reinsuranceFee: row.reinsuranceFee,
-        adminFee: row.adminFee,
-        reserveFutureFee: row.reserveFutureFee,
-        frontingFee: row.frontingFee,
-        description: row.description,
+      const result = await editDealerPriceBook(row._id, {
+        retailPrice: row?.retailPrice?.toFixed(2),
+        priceBook: row?.priceBook,
+        dealerId: row?.dealerId,
         status: newStatus === "active" ? true : false,
+        categoryId: row?.priceBooks[0]?.category[0]?._id,
+        wholesalePrice: row?.wholesalePrice,
+        term: row?.priceBooks[0]?.term,
+        brokerFee: row?.brokerFee,
       });
 
       console.log(result);
-
-      if (result.code === 200 || result.code === 401) {
-        console.log("Status updated successfully");
-        // getPriceBookListData();
-      } else {
-        // getPriceBookListData();
-      }
     } catch (error) {
-      console.error("Error updating category status:", error);
-      // getPriceBookListData();
+      console.error("Error in handleStatusChange:", error);
     }
   };
-
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
@@ -245,7 +241,13 @@ function CompanyPriceBook() {
       cell: (row, index) => {
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(selectedAction === row.unique_key ? null : row.unique_key)}>
+            <div
+              onClick={() =>
+                setSelectedAction(
+                  selectedAction === row.unique_key ? null : row.unique_key
+                )
+              }
+            >
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
@@ -253,7 +255,8 @@ function CompanyPriceBook() {
               />
             </div>
             {selectedAction === row.unique_key && (
-              <div ref={dropdownRef}
+              <div
+                ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
@@ -321,13 +324,16 @@ function CompanyPriceBook() {
           </p>
         )} */}
 
-          <Link to={"/addCompanyPriceBook"} className=" w-[230px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-            {" "}
-            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-Regular">
-              Add Company Price Book{" "}
-            </span>{" "}
-          </Link>
+        <Link
+          to={"/addCompanyPriceBook"}
+          className=" w-[230px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+        >
+          {" "}
+          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+          <span className="text-black ml-3 text-[14px] font-Regular">
+            Add Company Price Book{" "}
+          </span>{" "}
+        </Link>
 
         <div className="bg-white border-[1px] border-[#D1D1D1] rounded-xl">
           <form onSubmit={formik.handleSubmit}>
@@ -405,11 +411,11 @@ function CompanyPriceBook() {
           </form>
           <div className="relative mb-5">
             {loading ? (
-               <div className=" h-[400px] w-full flex py-5">
+              <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
-               </div>
+              </div>
             ) : (
               <DataTable
                 columns={columns}

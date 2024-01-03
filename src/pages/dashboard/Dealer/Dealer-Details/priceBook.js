@@ -45,20 +45,22 @@ function PriceBookList(props) {
 
   const handleStatusChange = async (row, newStatus) => {
     try {
-      const updatedCompanyPriceList = dealerPriceBook.map((category) => {
-        if (category._id === row._id) {
-          return { ...category, status: newStatus === "active" };
-        }
-        return category;
+      setPriceBookList((prevDealerPriceBook) => {
+        return prevDealerPriceBook.map((category) => {
+          if (category._id === row._id) {
+            return {
+              ...category,
+              status: newStatus === "active" ? true : false,
+            };
+          }
+          return category;
+        });
       });
 
-      setDealerPriceBook(updatedCompanyPriceList);
-      console.log(row);
       const result = await editDealerPriceBook(row._id, {
         retailPrice: row?.retailPrice?.toFixed(2),
         priceBook: row?.priceBook,
         dealerId: row?.dealerId,
-
         status: newStatus === "active" ? true : false,
         categoryId: row?.priceBooks[0]?.category[0]?._id,
         wholesalePrice: row?.wholesalePrice,
@@ -130,6 +132,7 @@ function PriceBookList(props) {
         </div>
       ),
     },
+
     {
       name: "Action",
       minWidth: "auto", // Set a custom minimum width

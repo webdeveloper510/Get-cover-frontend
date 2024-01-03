@@ -318,7 +318,8 @@ function AddServicer() {
         ...values,
         members: [newObject, ...values.members],
       };
-      const result = id
+      console.log(id.isValid);
+      const result = id.isValid
         ? await approveServicer(id.id, newValues)
         : await addNewServicer(newValues);
       // const result = await addNewServicer(newValues);

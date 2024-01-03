@@ -367,6 +367,7 @@ function AddDealerBook() {
                         name="dealerId"
                         label="Dealer Name"
                         options={activeDealerList}
+                        disabled={dealerIdValue != undefined ? true : false}
                         required={true}
                         className="!bg-[#fff]"
                         placeholder=""

@@ -65,17 +65,13 @@ export const isApprovedOrDisapprovedStatus = async (data) => {
 };
 
 export const getDealersList = async (data) => {
-  console.log(data)
+  console.log(data);
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.post(
-      `${url}/admin/approveDealers`,
-      data,
-      {
-        headers,
-      }
-    );
+    const response = await axios.post(`${url}/admin/approveDealers`, data, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {
@@ -232,6 +228,23 @@ export const editDealerPriceBook = async (id, data) => {
     throw error;
   }
 };
+export const changeDealerStatus = async (id, data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.put(
+      `${url}/dealer/changeDealerStatus/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const editDealerData = async (data) => {
   const headers = createHeaders();
@@ -263,21 +276,18 @@ export const getDealerPriceBookByDealerId = async (id) => {
   }
 };
 
-
 export const filterGetPriceBookDetails = async (data) => {
-
-    
-const headers = createHeaders();
-try {
-  const response =  await axios.post(
-    `${url}/dealer/getAllDealerPriceBooksByFilter`,
-    data,
-    {
-      headers,
-    }
-  );
-  return response.data;
-} catch (error) {
-  throw error;
-}   
-} ;
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealer/getAllDealerPriceBooksByFilter`,
+      data,
+      {
+        headers,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
