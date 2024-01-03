@@ -18,6 +18,7 @@ import DataTable from "react-data-table-component";
 import {
   editDealerPriceBook,
   getDealerPriceBook,
+  filterGetPriceBookDetails
 } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
@@ -40,13 +41,34 @@ function DealerPriceList() {
   useEffect(() => {
     getDealerList();
     getTermListData();
+    filterDataGetPriceBook();
   }, []);
+
 
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
       <p>No records found.</p>
     </div>
   );
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    getDealerList();
+  };
+
+  const filterDataGetPriceBook = async (data)=>{
+    try {
+      setLoading(true);
+      const res = await filterGetPriceBookDetails(data);
+      setDealerPriceBook(res.result)
+    }catch(error){
+      console.error("Error fetching category list:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
 
   const getDealerList = async () => {
     setLoading(true);
@@ -78,22 +100,14 @@ function DealerPriceList() {
         brokerFee: row?.brokerFee,
       });
 
-      console.log(result);
-
-      // if (result.code === 200 || result.code === 401) {
-      //   console.log("Status updated successfully");
-      //   getDealerList();
-      // } else {
-      //   getDealerList();
-      // }
     } catch (error) {
       console.error("Error in handleStatusChange:", error);
     }
   };
 
   const status = [
-    { label: "Active", value: "true" },
-    { label: "Inactive", value: "false" },
+    { label: "Active", value: true },
+    { label: "Inactive", value: false },
   ];
 
   const calculateDropdownPosition = (index) => {
@@ -133,22 +147,6 @@ function DealerPriceList() {
     }
   
 
-  const getAccessToken = () => {
-    const userDetails = JSON.parse(localStorage.getItem("userDetails"));
-    return userDetails ? userDetails.token : null;
-  };
-  
-  const createHeaders = () => {
-    const accessToken = getAccessToken();
-  
-    if (accessToken) {
-      return {
-        "x-access-token": accessToken,
-        "Content-Type": "application/json",
-      };
-    }
-  };
-
   const formik = useFormik({
     initialValues: {
       Category: "",
@@ -162,24 +160,9 @@ function DealerPriceList() {
       term: Yup.number(),
       status: Yup.boolean(),
     }),
-    onSubmit: async (values) => {
-      
-      const headers = createHeaders();
-      try {
-        const response =  await axios.post(
-          `${url}/dealer/getAllDealerPriceBooksByFilter`,
-          {name : values.name, category : values.Category, term : values.term, status : values.status},
-          {
-            headers,
-          }
-        );
-        console.log(response)
-        // return response.data;
-        // setDealerList(response.data);
-  
-      } catch (error) {
-        throw error;
-      }   
+    onSubmit: (values) => {
+      console.log(values)
+      filterDataGetPriceBook(values)
     },
   })
 
@@ -409,9 +392,9 @@ function DealerPriceList() {
                     </Button>
                     <Button
                       type="submit"
-                      // onClick={() => {
-                      //   handleFilterIconClick();
-                      // }}
+                      onClick={() => {
+                        handleFilterIconClick();
+                      }}
                       className="!bg-transparent !p-0"
                     >
                       <img
