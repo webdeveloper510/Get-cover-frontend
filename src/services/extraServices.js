@@ -57,7 +57,7 @@ export const getDealerList = async () => {
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `${url}/dealer/dealers
           `,
       {
