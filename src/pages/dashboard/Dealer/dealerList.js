@@ -71,14 +71,14 @@ function DealerList() {
     const isCloseToBottom = dealerList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      // Close the dropdown if the click is outside of it
+      setSelectedAction(null);
+    }
+  };
   useEffect(() => {
     getDealerList();
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        // Close the dropdown if the click is outside of it
-        setSelectedAction(null);
-      }
-    };
 
     document.addEventListener("click", handleClickOutside);
 
@@ -116,7 +116,7 @@ function DealerList() {
     },
     validationSchema: Yup.object({
       name: Yup.string(),
-      email: Yup.string().email("Invalid email format"),
+      email: Yup.string(),
       phoneNumber: Yup.number(),
     }),
     onSubmit: async (values) => {
@@ -278,7 +278,7 @@ function DealerList() {
                       <div className="col-span-3 self-center">
                         <Input
                           name="email"
-                          type="email"
+                          type="text"
                           placeholder="Email"
                           className="!text-[14px] !bg-[#f7f7f7]"
                           className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
@@ -297,13 +297,24 @@ function DealerList() {
                     <div className="col-span-3 self-center">
                       <Input
                         name="phoneNumber"
-                        type="number"
+                        type="tel"
                         placeholder="Phone No."
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
                         value={formik.values.phoneNumber}
-                        onChange={formik.handleChange}
+                        onChange={(e) => {
+                          const sanitizedValue = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                          formik.handleChange({
+                            target: {
+                              name: "phoneNumber",
+                              value: sanitizedValue,
+                            },
+                          });
+                        }}
                         onBlur={formik.handleBlur}
                       />
                     </div>

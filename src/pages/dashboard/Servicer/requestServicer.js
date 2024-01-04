@@ -21,7 +21,7 @@ import {
 } from "../../../services/servicerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
-import * as Yup from "yup"
+import * as Yup from "yup";
 
 function RequestServicer() {
   const [list, setList] = useState([]);
@@ -59,17 +59,16 @@ function RequestServicer() {
   };
 
   const getRequestServicerList = async () => {
-    setLoading(true)
+    setLoading(true);
     const result = await addNewServicerRequest("Pending");
     setList(result.data);
     console.log(result.data);
-    setLoading(false)
+    setLoading(false);
   };
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = list?.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
-
 
   const formik = useFormik({
     initialValues: {
@@ -79,15 +78,14 @@ function RequestServicer() {
     },
     validationSchema: Yup.object({
       name: Yup.string(),
-      email: Yup.string().email("Invalid email format"),
+      email: Yup.string(),
       phoneNumber: Yup.number(),
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
       filterServicerRequest(values);
-
-    }
-  })
+    },
+  });
   const filterServicerRequest = async (data) => {
     try {
       setLoading(true);
@@ -99,7 +97,7 @@ function RequestServicer() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const handleFilterIconClick = () => {
     formik.resetForm();
@@ -262,94 +260,110 @@ function RequestServicer() {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-              <form onSubmit={formik.handleSubmit}>
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Name"
-                      value={formik.values.name}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="email"
-                      type="email"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Email"
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="phoneNumber"
-                      type="number"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Phone No."
-                      value={formik.values.phoneNumber}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center flex">
-                  <Button type="submit" className="!p-0">
-                    <img src={Search} className="cursor-pointer" alt="Search" />
-                  </Button>
-                    <Button
-                      type="submit"
-                      onClick={() => {
-                        handleFilterIconClick();
-                      }}
-                      className="!bg-transparent !p-0"
-                    >
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                <form onSubmit={formik.handleSubmit}>
+                  <Grid className="!grid-cols-11">
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="name"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Name"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
-                    </Button>
-                  </div>
-                </Grid>
-              </form>
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="email"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Email"
+                        value={formik.values.email}
+                        onChange={(e) => {
+                          const sanitizedValue = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                          console.log(sanitizedValue);
+                          formik.handleChange({
+                            target: {
+                              name: "phoneNumber",
+                              value: sanitizedValue,
+                            },
+                          });
+                        }}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="phoneNumber"
+                        type="number"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Phone No."
+                        value={formik.values.phoneNumber}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center flex">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer"
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button
+                        type="submit"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                        className="!bg-transparent !p-0"
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
               </div>
             </div>
           </Grid>
           <div className="mb-5 relative">
-          {loading ? (
+            {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
               </div>
             ) : (
-            <DataTable
-              columns={columns}
-              data={list}
-              highlightOnHover
-              sortIcon={
-                <>
-                  {" "}
-                  <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                </>
-              }
-              pagination
-              paginationPerPage={10}
-              paginationComponentOptions={paginationOptions}
-              paginationRowsPerPageOptions={[10, 20, 50, 100]}
-              noDataComponent={<CustomNoDataComponent />}
-            />
+              <DataTable
+                columns={columns}
+                data={list}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                  </>
+                }
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                noDataComponent={<CustomNoDataComponent />}
+              />
             )}
           </div>
         </div>

@@ -35,9 +35,12 @@ function NewDealerList() {
   const [timer, setTimer] = useState(3);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
-  const toggleDropdown = (index) => {
+  const toggleDropdown = (index, event) => {
     setSelectedAction(index);
     setIsDropdownOpen(!isDropdownOpen);
+    if (event) {
+      handleClickOutside(event, index);
+    }
   };
 
   const handleActionChange = async (action, id) => {
@@ -55,19 +58,29 @@ function NewDealerList() {
     </div>
   );
 
-  const handleClickOutside = (event) => {
-    const dropdownContainer = document.querySelector(".dropdown-container");
+  const handleClickOutside = (event, index) => {
+    console.log(index);
+    const dropdownContainer = document.querySelector(
+      `.dropdown-container-${index}`
+    );
+    console.log(dropdownContainer);
 
     if (dropdownContainer && !dropdownContainer.contains(event.target)) {
       setIsDropdownOpen(false);
     }
   };
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    const handleOutsideClick = (event) => {
+      handleClickOutside(event, selectedAction);
     };
-  }, []);
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [selectedAction]);
+
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
@@ -99,16 +112,16 @@ function NewDealerList() {
     },
     validationSchema: Yup.object({
       name: Yup.string(),
-      email: Yup.string().email("Invalid email format"),
+      email: Yup.string(),
       phoneNumber: Yup.number(),
     }),
     onSubmit: async (values) => {
       console.log("Forsssm values:", values);
-      filterPendingDealersList(values)
+      filterPendingDealersList(values);
     },
   });
 
-  const filterPendingDealersList = async (data) =>{
+  const filterPendingDealersList = async (data) => {
     try {
       setLoading(true);
       const res = await getPendingDealersList(data);
@@ -118,7 +131,7 @@ function NewDealerList() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const handleFilterIconClick = () => {
     formik.resetForm();
@@ -166,8 +179,8 @@ function NewDealerList() {
       minWidth: "auto",
       maxWidth: "90px",
       cell: (row, index) => (
-        <div className="relative dropdown-container">
-          <div onClick={() => toggleDropdown(index)}>
+        <div className={`relative dropdown-container-${index}`}>
+          <div onClick={(e) => toggleDropdown(index, e)}>
             <img
               src={ActiveIcon}
               className="cursor-pointer w-[35px]"
@@ -179,7 +192,7 @@ function NewDealerList() {
               className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 p-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}
-              onClick={(e) => e.stopPropagation()} // Prevent event propagation
+              onClick={(e) => e.stopPropagation()}
             >
               <div
                 className="text-center py-2 border-b text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer"
@@ -295,7 +308,7 @@ function NewDealerList() {
                     <div className="col-span-3 self-center">
                       <Input
                         name="email"
-                        type="email"
+                        type="text"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
@@ -308,13 +321,25 @@ function NewDealerList() {
                     <div className="col-span-3 self-center">
                       <Input
                         name="phoneNumber"
-                        type="number"
+                        type="tel"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
                         placeholder="Phone No."
                         value={formik.values.phoneNumber}
-                        onChange={formik.handleChange}
+                        onChange={(e) => {
+                          const sanitizedValue = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                          console.log(sanitizedValue);
+                          formik.handleChange({
+                            target: {
+                              name: "phoneNumber",
+                              value: sanitizedValue,
+                            },
+                          });
+                        }}
                         onBlur={formik.handleBlur}
                       />
                     </div>
@@ -327,11 +352,12 @@ function NewDealerList() {
                         />
                       </Button>
                       <Button
-                      type="submit"
-                      onClick={() => {
-                        handleFilterIconClick();
-                      }}
-                      className="!bg-transparent !p-0">
+                        type="submit"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                        className="!bg-transparent !p-0"
+                      >
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"

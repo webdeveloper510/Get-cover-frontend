@@ -15,10 +15,10 @@ function Layout() {
     setIsSidebarSticky(scrollY > scrollThreshold);
   };
 
-  const Location = useLocation()
-  const {id} = useParams()
-  const checkUrl = Location.pathname+'/'+id
-  console.log(checkUrl, "yes, Got here")
+  const Location = useLocation();
+  const { id, customerId } = useParams();
+  const checkUrl = Location.pathname + "/" + id;
+  console.log(checkUrl, "yes, Got here");
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
@@ -35,13 +35,32 @@ function Layout() {
   // }, []);
 
   return (
-    <div className={`w-full flex bg-[#F9F9F9] bg-cover  h-full ${Location.pathname !== "/dealerDetails/"+id? ('p-4') : ('p-0')}  pl-0 overflow-x-hidden relative  w-full`}>
-      {Location.pathname !== "/dealerDetails/"+id? 
-      <div className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full `}>
-        <SideBar/>
-      </div>
-        : <></>}
-      <div className={`${Location.pathname !== "/dealerDetails/"+id? ('w-[calc(100%-10px)]  pl-3') : ('w-[100%]')} h-full min-h-[94vh]`}>
+    <div
+      className={`w-full flex bg-[#F9F9F9] bg-cover h-full ${
+        Location.pathname !== "/dealerDetails/" + id &&
+        Location.pathname !== "/customerDetails/" + customerId
+          ? "p-4"
+          : "p-0"
+      } pl-0 overflow-x-hidden relative w-full`}
+    >
+      {Location.pathname !== "/dealerDetails/" + id &&
+      Location.pathname !== "/customerDetails/" + customerId ? (
+        <div
+          className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full `}
+        >
+          <SideBar />
+        </div>
+      ) : (
+        <></>
+      )}
+      <div
+        className={`${
+          Location.pathname !== "/dealerDetails/" + id &&
+          Location.pathname !== "/customerDetails/" + customerId
+            ? "w-[calc(100%-10px)] pl-3"
+            : "w-[100%]"
+        } h-full min-h-[94vh]`}
+      >
         <Outlet />
       </div>
     </div>
