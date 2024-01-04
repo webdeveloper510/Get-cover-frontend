@@ -328,7 +328,7 @@ function UserList(props) {
     },
     {
       name: "Position",
-      selector: (row) => (row.position !== "" ? row.position : "N/A"),
+      selector: (row) => row.position,
       sortable: true,
     },
     {
