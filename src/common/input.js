@@ -107,7 +107,12 @@ const Input = ({
           onChange={handleInput}
           disabled={disabled}
           placeholder={placeholder}
-          onWheel={(e) => e.preventDefault()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              // Optionally, you can add additional logic here if needed
+            }
+          }}
           // required={required}
         />
         <label

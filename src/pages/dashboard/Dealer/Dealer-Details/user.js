@@ -417,14 +417,26 @@ function UserList(props) {
                     <div className="col-span-3 self-center">
                       <Input
                         name="phone"
-                        type="text"
+                        type="tel"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
                         placeholder="Phone "
                         value={formikUSerFilter.values.phone}
                         onBlur={formikUSerFilter.handleBlur}
-                        onChange={formikUSerFilter.handleChange}
+                        onChange={(e) => {
+                          const sanitizedValue = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                          console.log(sanitizedValue);
+                          formik.handleChange({
+                            target: {
+                              name: "phone",
+                              value: sanitizedValue,
+                            },
+                          });
+                        }}
                       />
                     </div>
                     <div className="col-span-2 self-center flex justify-center">
@@ -606,14 +618,26 @@ function UserList(props) {
               </div>
               <div className="col-span-6">
                 <Input
-                  type="number"
+                  type="tel"
                   name="phoneNumber"
                   label="Mobile Number"
                   required={true}
                   className="!bg-[#fff]"
                   placeholder=""
                   value={formik.values.phoneNumber}
-                  onChange={formik.handleChange}
+                  onChange={(e) => {
+                    const sanitizedValue = e.target.value.replace(
+                      /[^0-9]/g,
+                      ""
+                    );
+                    console.log(sanitizedValue);
+                    formik.handleChange({
+                      target: {
+                        name: "phoneNumber",
+                        value: sanitizedValue,
+                      },
+                    });
+                  }}
                   onBlur={formik.handleBlur}
                   onWheelCapture={(e) => {
                     e.preventDefault();

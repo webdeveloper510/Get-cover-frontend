@@ -283,7 +283,20 @@ function RequestServicer() {
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
                         placeholder="Email"
+                        onChange={formik.handleChange}
                         value={formik.values.email}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="phoneNumber"
+                        type="tel"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Phone No."
+                        value={formik.values.phoneNumber}
                         onChange={(e) => {
                           const sanitizedValue = e.target.value.replace(
                             /[^0-9]/g,
@@ -297,19 +310,6 @@ function RequestServicer() {
                             },
                           });
                         }}
-                        onBlur={formik.handleBlur}
-                      />
-                    </div>
-                    <div className="col-span-3 self-center">
-                      <Input
-                        name="phoneNumber"
-                        type="number"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder="Phone No."
-                        value={formik.values.phoneNumber}
-                        onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
                     </div>

@@ -591,14 +591,26 @@ function AddCustomer() {
                 </div>
                 <div className="col-span-6">
                   <Input
-                    type="number"
+                    type="tel"
                     name="phoneNumber"
                     label="Phone"
                     required={true}
                     className="!bg-white"
                     placeholder=""
                     value={formik.values.phoneNumber}
-                    onChange={formik.handleChange}
+                    onChange={(e) => {
+                      const sanitizedValue = e.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
+                      console.log(sanitizedValue);
+                      formik.handleChange({
+                        target: {
+                          name: "phoneNumber",
+                          value: sanitizedValue,
+                        },
+                      });
+                    }}
                     onBlur={formik.handleBlur}
                     onWheelCapture={(e) => {
                       e.preventDefault();
@@ -774,7 +786,7 @@ function AddCustomer() {
                     </div>
                     <div className="col-span-4">
                       <Input
-                        type="number"
+                        type="tel"
                         name={`members[${index}].phoneNumber`}
                         className="!bg-white"
                         label="Phone"

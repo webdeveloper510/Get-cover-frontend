@@ -57,18 +57,20 @@ function DealerRegister() {
     },
     validationSchema: Yup.object({
       name: Yup.string()
-      .transform((originalValue) => originalValue.trim())
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(50, "Must be exactly 50 characters"),
       street: Yup.string()
-      .transform((originalValue) => originalValue.trim())
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(50, "Must be exactly 50 characters"),
-      state: Yup.string().required("Required") ,
-      city: Yup.string().required("Required") .transform((originalValue) => originalValue.trim()),
+      state: Yup.string().required("Required"),
+      city: Yup.string()
+        .required("Required")
+        .transform((originalValue) => originalValue.trim()),
       country: Yup.string().required("Required"),
       email: Yup.string()
-      .transform((originalValue) => originalValue.trim())
+        .transform((originalValue) => originalValue.trim())
         .matches(emailValidationRegex, "Invalid email address")
         .required("Required"),
       zip: Yup.string()
@@ -76,11 +78,11 @@ function DealerRegister() {
         .min(5, "Must be at least 5 characters")
         .max(6, "Must be exactly 6 characters"),
       firstName: Yup.string()
-      .transform((originalValue) => originalValue.trim())
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
       lastName: Yup.string()
-      .transform((originalValue) => originalValue.trim())
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
       phoneNumber: Yup.string()
@@ -318,13 +320,25 @@ function DealerRegister() {
                   </div>
                   <div className="col-span-6">
                     <Input
-                      type="number"
+                      type="tel"
                       name="phoneNumber"
                       label="Mobile Number"
                       required={true}
                       placeholder=""
                       value={formik.values.phoneNumber}
-                      onChange={formik.handleChange}
+                      onChange={(e) => {
+                        const sanitizedValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ""
+                        );
+                        console.log(sanitizedValue);
+                        formik.handleChange({
+                          target: {
+                            name: "phoneNumber",
+                            value: sanitizedValue,
+                          },
+                        });
+                      }}
                       onBlur={formik.handleBlur}
                       onWheelCapture={(e) => {
                         e.preventDefault();
@@ -357,7 +371,9 @@ function DealerRegister() {
                   <Link
                     to={"/"}
                     className="text-light-black ml-3 font-semibold"
-                  > Sign In 
+                  >
+                    {" "}
+                    Sign In
                   </Link>{" "}
                 </p>
               </div>

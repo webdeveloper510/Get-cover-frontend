@@ -300,7 +300,7 @@ function ServicerList() {
                           console.log(sanitizedValue);
                           formik.handleChange({
                             target: {
-                              name: "phoneNumber",
+                              name: "phone",
                               value: sanitizedValue,
                             },
                           });

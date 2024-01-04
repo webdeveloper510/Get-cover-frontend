@@ -897,14 +897,26 @@ function DealerDetails() {
               </div>
               <div className="col-span-6">
                 <Input
-                  type="number"
+                  type="tel"
                   name="phoneNumber"
                   label="Phone"
                   required={true}
                   className="!bg-white"
                   placeholder=""
                   value={userValues.values.phoneNumber}
-                  onChange={userValues.handleChange}
+                  onChange={(e) => {
+                    const sanitizedValue = e.target.value.replace(
+                      /[^0-9]/g,
+                      ""
+                    );
+                    console.log(sanitizedValue);
+                    formik.handleChange({
+                      target: {
+                        name: "phoneNumber",
+                        value: sanitizedValue,
+                      },
+                    });
+                  }}
                   onBlur={userValues.handleBlur}
                   minLength={"10"}
                   maxLength={"10"}

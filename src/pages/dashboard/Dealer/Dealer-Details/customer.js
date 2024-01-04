@@ -137,21 +137,20 @@ function CustomerList(props) {
     };
   }, []);
 
-  const [DealserValue, setDealerValue] = useState(null)
+  const [DealserValue, setDealerValue] = useState(null);
 
-
-  const filterDealerCustomer = async (data) =>{
+  const filterDealerCustomer = async (data) => {
     try {
       setLoading(true);
       const res = await getCustomerListByDealerId(props.id, data);
-      console.log(res.result)
-      setCustomerList(res.result)
-    }catch(error){
+      console.log(res.result);
+      setCustomerList(res.result);
+    } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const handleFilterIconClick = () => {
     formik.resetForm();
@@ -173,11 +172,11 @@ function CustomerList(props) {
       phoneNumber: Yup.number(),
     }),
     onSubmit: async (values) => {
-      console.log(values)
-      const newVarSet = DealserValue?.split(' ')
-      if (newVarSet?.length === 2){
-        formik.setFieldValue('firstName' , newVarSet[0] )
-        formik.setFieldValue('lastName' , newVarSet[1] )
+      console.log(values);
+      const newVarSet = DealserValue?.split(" ");
+      if (newVarSet?.length === 2) {
+        formik.setFieldValue("firstName", newVarSet[0]);
+        formik.setFieldValue("lastName", newVarSet[1]);
       }
       try {
         await filterDealerCustomer(values);
@@ -185,8 +184,7 @@ function CustomerList(props) {
         console.error("Error filtering customer list:", error);
       }
     },
-  })
-
+  });
 
   return (
     <>
@@ -198,96 +196,111 @@ function CustomerList(props) {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-              <form onSubmit={formik.handleSubmit}>
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Dealer Name"
-                      // value={formik.values.firstName + " " + formik.values.lastName}
-                      onChange={(e)=>{setDealerValue(e.target.value)}}
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="email"
-                      type="email"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Dealer Email"
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="phoneNumber"
-                      type="number"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Phone"
-                      value={formik.values.phoneNumber}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer "
-                        alt="Search"
+                <form onSubmit={formik.handleSubmit}>
+                  <Grid className="!grid-cols-11">
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="name"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Dealer Name"
+                        // value={formik.values.firstName + " " + formik.values.lastName}
+                        onChange={(e) => {
+                          setDealerValue(e.target.value);
+                        }}
                       />
-                    </Button>
-                    <Button
-                    type="submit"
-                    onClick={() => {
-                      handleFilterIconClick();
-                    }} 
-                    className="!bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="email"
+                        type="email"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Dealer Email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
-                    </Button>
-                  </div>
-                </Grid>
-              </form>
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="phoneNumber"
+                        type="tel"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Phone"
+                        value={formik.values.phoneNumber}
+                        onChange={(e) => {
+                          const sanitizedValue = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                          console.log(sanitizedValue);
+                          formik.handleChange({
+                            target: {
+                              name: "phoneNumber",
+                              value: sanitizedValue,
+                            },
+                          });
+                        }}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center flex justify-center">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer "
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button
+                        type="submit"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                        className="!bg-transparent !p-0"
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
               </div>
             </div>
           </Grid>
           <div className="mb-5 relative dealer-detail">
-          {loading ? (
+            {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
               </div>
             ) : (
-            <DataTable
-              columns={columns}
-              data={customerList}
-              highlightOnHover
-              sortIcon={
-                <>
-                  {" "}
-                  <img src={shorting} className="ml-2" alt="shorting" />
-                </>
-              }
-              noDataComponent={<CustomNoDataComponent />}
-              pagination
-              paginationPerPage={10}
-              paginationComponentOptions={paginationOptions}
-              paginationRowsPerPageOptions={[10, 20, 50, 100]}
-            />
+              <DataTable
+                columns={columns}
+                data={customerList}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />
+                  </>
+                }
+                noDataComponent={<CustomNoDataComponent />}
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              />
             )}
           </div>
         </div>
