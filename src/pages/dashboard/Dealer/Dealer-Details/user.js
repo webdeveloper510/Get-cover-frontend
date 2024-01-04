@@ -25,8 +25,10 @@ import {
 } from "../../../../services/userServices";
 import Select from "../../../../common/select";
 import { getCustomerUsersById } from "../../../../services/customerServices";
+import { useMyContext } from "../../../../context/context";
 
 function UserList(props) {
+  const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
   const [isModalOpen, SetIsModalOpen] = useState(false);
@@ -47,7 +49,7 @@ function UserList(props) {
     status: true,
     id: "",
   });
-  console.log(props);
+  // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
 
   const getUserList = async () => {
@@ -261,6 +263,7 @@ function UserList(props) {
     if (result.code === 200) {
       SetPrimaryText("It's set to Primary");
       SetSecondaryText("We have successfully made this primary");
+      toggleFlag();
       openModal();
     }
   };

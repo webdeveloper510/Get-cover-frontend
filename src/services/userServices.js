@@ -22,9 +22,13 @@ const createHeaders = () => {
 export const getUserListByDealerId = async (id, data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(`${url}/dealer/getUserByDealerId/${id}`,data, {
-      headers,
-    });
+    const response = await axios.post(
+      `${url}/dealer/getUserByDealerId/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -93,6 +97,22 @@ export const addUserByDealerId = async (data) => {
     const response = await axios.post(`${url}/dealer/addDealerUser`, data, {
       headers,
     });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const addUserToCustomer = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/customer/addCustomerUser`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {

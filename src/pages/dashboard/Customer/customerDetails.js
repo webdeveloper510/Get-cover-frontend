@@ -36,8 +36,12 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { cityData } from "../../../stateCityJson";
-import { getUserListByDealerId } from "../../../services/userServices";
+import {
+  addUserToCustomer,
+  getUserListByDealerId,
+} from "../../../services/userServices";
 import RadioButton from "../../../common/radio";
+import { MyContextProvider, useMyContext } from "../../../context/context";
 
 function CustomerDetails() {
   const [activeTab, setActiveTab] = useState("Order"); // Set the initial active tab
@@ -72,6 +76,7 @@ function CustomerDetails() {
     customerId: customerId,
     isPrimary: false,
   });
+  const { flag } = useMyContext();
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
   const state = cityData;
@@ -119,8 +124,7 @@ function CustomerDetails() {
       localStorage.setItem("menu", "Users");
       console.log(values);
       setLoading(true);
-      const result = {};
-      // await addUserByDealerId(values);
+      const result = await addUserToCustomer(values);
       console.log(result.code);
       if (result.code == 200) {
         getUserList();
@@ -196,7 +200,7 @@ function CustomerDetails() {
   };
   useEffect(() => {
     customerDetails();
-  }, [customerId]);
+  }, [customerId, flag]);
   const routeToPage = (data) => {
     // console.log(data, id.id);
     switch (data) {

@@ -51,6 +51,7 @@ import {
   getUserListByDealerId,
 } from "../../../services/userServices";
 import Primary from "../../.././assets/images/SetPrimary.png";
+import { MyContextProvider, useMyContext } from "../../../context/context";
 
 function DealerDetails() {
   const getInitialActiveTab = () => {
@@ -82,6 +83,8 @@ function DealerDetails() {
     dealerId: id.id,
     isPrimary: false,
   });
+  const { flag, toggleFlag } = useMyContext();
+  console.log("here", flag);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerId: "",
@@ -142,15 +145,16 @@ function DealerDetails() {
   const closeUserModal = () => {
     setIsUserModalOpen(false);
   };
-  const openUserModal = () => {
-    setIsUserModalOpen(true);
-  };
+
   useEffect(() => {
     dealerData();
-  }, [id.id]);
+  }, [id.id, flag]);
   useEffect(() => {
     localStorage.setItem("menu", activeTab);
   }, [activeTab]);
+  // useEffect(() => {
+  //   dealerData();
+  // }, [flag]);
 
   const dealerData = async () => {
     console.log(id);
@@ -271,6 +275,10 @@ function DealerDetails() {
       }
     },
   });
+  const openUserModal = () => {
+    userValues.resetForm();
+    setIsUserModalOpen(true);
+  };
   const columns = [
     {
       name: "Dealer ID",
