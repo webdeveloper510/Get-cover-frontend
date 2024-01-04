@@ -169,7 +169,6 @@ function CompanyPriceBook() {
       name: "Name",
       selector: (row) => row.name,
       sortable: true,
-      cell: (row) => <span title={row.name}>{truncateText(row.name, 20)}</span>,
     },
     {
       name: "Description",
@@ -177,9 +176,6 @@ function CompanyPriceBook() {
       sortable: true,
       minWidth: "auto",
       maxWidth: "300px",
-      cell: (row) => (
-        <span title={row.description}>{truncateText(row.description, 20)}</span>
-      ),
     },
     {
       name: " Term",
