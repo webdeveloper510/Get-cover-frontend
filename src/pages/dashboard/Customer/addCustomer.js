@@ -58,6 +58,7 @@ function AddCustomer() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
   const handleRadioChangeDealers = (value, index) => {
     const updatedMembers = [...formik.values.members];
@@ -95,7 +96,7 @@ function AddCustomer() {
       }, 1000);
     }
 
-    if (timer === 0) {
+    if (timer === 0 && message === "Customer Created Successfully") {
       console.log("here");
       closeModal();
       if (dealerValueId !== undefined) {
@@ -150,8 +151,6 @@ function AddCustomer() {
     formik.setFieldValue("members", updatedMembers);
   };
 
-  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-
   const checkDealerEmailAndSetError = async (email, formik, fieldPath) => {
     if (emailValidationRegex.test(email)) {
       try {
@@ -160,6 +159,10 @@ function AddCustomer() {
         if (result.code === 200) {
           formik.setFieldError(fieldPath, "");
           return true;
+        } else if (
+          result.message === "Customer already exist with this account name"
+        ) {
+          formik.setFieldError("accountName", "Already Exist");
         } else if (
           result.code === 401 &&
           result.message === "Email is already exist!"

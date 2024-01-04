@@ -430,7 +430,7 @@ function UserList(props) {
                             ""
                           );
                           console.log(sanitizedValue);
-                          formik.handleChange({
+                          formikUSerFilter.handleChange({
                             target: {
                               name: "phone",
                               value: sanitizedValue,

@@ -70,13 +70,13 @@ function CustomerList() {
       name: "",
       email: "",
       phone: "",
-      dealername: "",
+      dealerName: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
       email: Yup.string(),
       phone: Yup.number(),
-      dealername: Yup.string(),
+      dealerName: Yup.string(),
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
@@ -301,13 +301,13 @@ function CustomerList() {
                     <div className="col-span-2 self-center">
                       <Select
                         label=""
-                        name="dealername"
+                        name="dealerName"
                         options={dealerList}
                         OptionName="Dealer Name"
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px] !bg-[#f7f7f7]"
-                        value={formik.values.dealername}
+                        value={formik.values.dealerName}
                         onChange={handleSelectChange1}
                       />
                     </div>
