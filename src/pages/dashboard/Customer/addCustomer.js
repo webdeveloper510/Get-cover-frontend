@@ -24,7 +24,7 @@ import { addNewCustomer } from "../../../services/customerServices";
 import Cross from "../../../assets/images/Cross.png";
 
 function AddCustomer() {
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(3);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -95,9 +95,14 @@ function AddCustomer() {
       }, 1000);
     }
 
-    if (timer === 0 && message === "Servicer Created Successfully") {
+    if (timer === 0) {
       console.log("here");
       closeModal();
+      if (dealerValueId !== undefined) {
+        navigate(`/dealerDetails/${dealerValueId}`);
+      } else {
+        navigate("/customerList");
+      }
     }
 
     setLoading(false);
@@ -282,16 +287,10 @@ function AddCustomer() {
       console.log(newValues);
       const result = await addNewCustomer(newValues);
       console.log(result.message);
-      if (result.message == "Customer created successfully") {
+      if (result.code == 200) {
         setMessage("Customer Created Successfully");
         setLoading(false);
         setIsModalOpen(true);
-
-        if (dealerValueId !== undefined) {
-          navigate(`/dealerDetails/${dealerValueId}`);
-        } else {
-          navigate("/customerList");
-        }
       } else if (
         result.message == "Servicer already exist with this account name"
       ) {
@@ -793,7 +792,19 @@ function AddCustomer() {
                         required={true}
                         placeholder=""
                         value={formik.values.members[index].phoneNumber}
-                        onChange={formik.handleChange}
+                        onChange={(e) => {
+                          const sanitizedValue = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                          console.log(sanitizedValue);
+                          formik.handleChange({
+                            target: {
+                              name: `members[${index}].phoneNumber`,
+                              value: sanitizedValue,
+                            },
+                          });
+                        }}
                         onBlur={formik.handleBlur}
                         onWheelCapture={(e) => {
                           e.preventDefault();

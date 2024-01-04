@@ -138,7 +138,9 @@ function CustomerList() {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.Categoryid ? null : row.Categoryid
+                  selectedAction === row.customerData.unique_key
+                    ? null
+                    : row.customerData.unique_key
                 )
               }
             >
@@ -148,7 +150,7 @@ function CustomerList() {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.Categoryid && (
+            {selectedAction === row.customerData.unique_key && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
@@ -192,7 +194,7 @@ function CustomerList() {
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
-    getCustomerList();
+    getCustomer();
   };
 
   const getFilteredCustomerList = async (data) => {
@@ -318,7 +320,7 @@ function CustomerList() {
                         />
                       </Button>
                       <Button
-                        type="submit"
+                        type="button"
                         onClick={() => {
                           handleFilterIconClick();
                         }}
