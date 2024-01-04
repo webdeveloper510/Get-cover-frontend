@@ -97,7 +97,7 @@ const routes = [
         ),
       },
       {
-        path: "/servicerDetails",
+        path: "/servicerDetails/:servicerId",
         index: true,
         element: <PrivateRoute element={<ServicerDetails />} />,
       },

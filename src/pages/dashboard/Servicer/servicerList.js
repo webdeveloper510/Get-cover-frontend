@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -26,6 +26,7 @@ function ServicerList() {
   const [servicerList, setServicerList] = useState([]);
   const dropdownRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = servicerList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
@@ -192,7 +193,14 @@ function ServicerList() {
                   index
                 )}`}
               >
-                <div className="text-center cursor-pointer py-1">View</div>
+                <div
+                  className="text-center cursor-pointer py-1"
+                  onClick={() => {
+                    navigate(`/servicerDetails/${row.accountId}`);
+                  }}
+                >
+                  View
+                </div>
               </div>
             )}
           </div>

@@ -217,7 +217,7 @@ export const uploadDealerBookInBulk = async (data) => {
 
   try {
     const response = await axios.post(
-      `${url}/dealer/uploadsDealerPriceBook`,
+      `${url}/dealer/uploadDealerPriceBook`,
       data, // Assuming `data` is FormData or a structure that Axios can handle for form data
       {
         headers,
