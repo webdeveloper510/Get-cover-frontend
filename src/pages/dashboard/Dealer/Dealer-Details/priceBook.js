@@ -11,7 +11,7 @@ import DataTable from "react-data-table-component";
 import {
   editDealerPriceBook,
   getDealerPriceBookByDealerId,
-  getFilterPriceBookByDealer
+  getFilterPriceBookByDealer,
 } from "../../../../services/dealerServices";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -139,23 +139,16 @@ function PriceBookList(props) {
       minWidth: "auto", // Set a custom minimum width
       maxWidth: "70px", // Set a custom maximum width
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div
-              onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.unique_key ? null : row.unique_key
-                )
-              }
-            >
+            <div onClick={() => setSelectedAction(row.unique_key)}>
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.Categoryid && (
+            {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
@@ -202,9 +195,7 @@ function PriceBookList(props) {
     };
   }, []);
 
-  const formik = useFormik({
-    
-  })
+  const formik = useFormik({});
 
   return (
     <>
@@ -216,56 +207,56 @@ function PriceBookList(props) {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-              <form onSubmit={formik.handleSubmit}>
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Order ID"
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Email"
-                      type="email"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Dealer Order no."
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="PhoneNo."
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Customer Name"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer "
-                        alt="Search"
+                <form onSubmit={formik.handleSubmit}>
+                  <Grid className="!grid-cols-11">
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="Name"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Order ID"
                       />
-                    </Button>
-                    <Button type="submit" className="!bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="Email"
+                        type="email"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Dealer Order no."
                       />
-                    </Button>
-                  </div>
-                </Grid>
-              </form>
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="PhoneNo."
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Customer Name"
+                      />
+                    </div>
+                    <div className="col-span-2 self-center flex justify-center">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer "
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button type="submit" className="!bg-transparent !p-0">
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
               </div>
             </div>
           </Grid>

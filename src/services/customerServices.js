@@ -65,7 +65,70 @@ export const getCustomerListByDealerId = async (id, data) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
-      `${url}/customer/getDealerCustomers/${id}`,data,
+      `${url}/customer/getDealerCustomers/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUserListByCustomerId = async (data, id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/customer/getCustomerUsers/${id}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getCustomerDetailsById = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/customer/getCustomerById/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateCustomerDetailsById = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(
+      `${url}/customer/editCustomer/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCustomerUsersById = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/customer/getCustomerUsers/${id}`,
+      data,
       {
         headers,
       }

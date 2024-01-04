@@ -4,7 +4,7 @@ import Button from "../../../../common/button";
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
 import star from "../../../../assets/images/icons/star.svg";
 import Primary from "../../../../assets/images/SetPrimary.png";
-import deleteUser from "../../../../assets/images/deleteUser.svg";
+import deleteUser10 from "../../../../assets/images/deleteUser.svg";
 import assign from "../../../../assets/images/Unassign.png";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
@@ -24,14 +24,21 @@ import {
   updateUserDetailsById,
 } from "../../../../services/userServices";
 import Select from "../../../../common/select";
+import { getCustomerUsersById } from "../../../../services/customerServices";
 
 function UserList(props) {
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
+
+  const [primaryText, SetPrimaryText] = useState("");
+  const [secondaryText, SetSecondaryText] = useState("");
+  const [timer, setTimer] = useState(5);
   const dropdownRef = useRef(null);
 
+  const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({
     lastName: "",
     firstName: "",
@@ -40,22 +47,29 @@ function UserList(props) {
     status: true,
     id: "",
   });
-
+  console.log(props);
   const [loading, setLoading] = useState(false);
 
   const getUserList = async () => {
-    const result = await getUserListByDealerId(props.id, {});
-    console.log(result.result);
-    setUserList(result.result);
+    console.log(props.flag);
+    if (props.flag == "customer") {
+      const result = await getCustomerUsersById(props.id, {});
+      console.log(result.result);
+      setUserList(result.result);
+    } else {
+      const result = await getUserListByDealerId(props.id, {});
+      console.log(result.result);
+      setUserList(result.result);
+    }
+  };
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      // Close the dropdown if the click is outside of it
+      setSelectedAction(null);
+    }
   };
   useEffect(() => {
     getUserList();
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        // Close the dropdown if the click is outside of it
-        setSelectedAction(null);
-      }
-    };
 
     document.addEventListener("click", handleClickOutside);
 
@@ -64,10 +78,46 @@ function UserList(props) {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  let deleteValue = "";
+
+  useEffect(() => {
+    if (props?.data?.length !== 0) {
+      getUserList();
+    }
+  }, [props?.data]);
+  useEffect(() => {
+    setLoading(true);
+    let intervalId;
+
+    if ((isModalOpen || (isModalOpen12 && timer > 0)) && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      closeModal1();
+      setSelectedAction(null);
+      closeModal();
+      closeModal12();
+      getUserList();
+    }
+
+    if (!isModalOpen && !isModalOpen12) {
+      clearInterval(intervalId);
+      setTimer(3);
+    }
+
+    setLoading(false);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isModalOpen, isModalOpen12, timer]);
+
   const closeModal = () => {
-    isModalOpen(false);
+    SetIsModalOpen(false);
   };
+
   const openModal = () => {
     SetIsModalOpen(true);
     getUserList();
@@ -81,8 +131,7 @@ function UserList(props) {
     setIsModalOpen1(false);
   };
   const openModal1 = (id) => {
-    console.log(id);
-    deleteValue = id;
+    setDeleteId(id);
     setIsModalOpen1(true);
   };
   const status = [
@@ -97,7 +146,6 @@ function UserList(props) {
     setIsModalOpen2(true);
   };
 
-  const [isModalOpen12, setIsModalOpen12] = useState(false);
   const closeModal12 = () => {
     setIsModalOpen12(false);
   };
@@ -152,34 +200,23 @@ function UserList(props) {
       const result = await updateUserDetailsById(values);
       console.log(result);
       if (result.code == 200) {
+        SetPrimaryText("User Edited Successfully ");
+        SetSecondaryText("user edited successfully ");
+        openModal();
+        // setIsModalOpen3(true);
         // setLoader(false);
         // setError(result.message);
+        setTimer(3);
         getUserList();
+      } else {
+        setLoading(false);
+        // setError(false);
+        // setIsModalOpen(true);
+        // setTimer(3);
       }
-      // else {
-      // setLoader(false);
-      // setError(false);
-      // setIsModalOpen(true);
-      // setTimer(3);
-      // }
       closeModal2();
     },
   });
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        // Close the dropdown if the click is outside of it
-        setSelectedAction(null);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      // Cleanup the event listener on component unmount
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
 
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = userList.length - index <= 2;
@@ -192,11 +229,12 @@ function UserList(props) {
   };
 
   const deleteUser = async () => {
-    const result = await deleteUserByUserId(deleteValue);
+    const result = await deleteUserByUserId(deleteId);
     console.log(result);
-    if (result.result.code === 200) {
+    if (result.code === 200) {
       getUserList();
-      closeModal1();
+      setIsModalOpen12(true);
+      // closeModal1();
     }
   };
   const editUser = async (id) => {
@@ -221,6 +259,8 @@ function UserList(props) {
     const result = await changePrimaryByUserId(row._id);
     console.log(result);
     if (result.code === 200) {
+      SetPrimaryText("It's set to Primary");
+      SetSecondaryText("We have successfully made this primary");
       openModal();
     }
   };
@@ -421,7 +461,7 @@ function UserList(props) {
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        placeholder="Phone "
+                        placeholder="Phone"
                         value={formikUSerFilter.values.phone}
                         onBlur={formikUSerFilter.handleBlur}
                         onChange={(e) => {
@@ -500,10 +540,11 @@ function UserList(props) {
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-            It's set to Primary
+            {primaryText}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-4">
-            We have successfully made this primary
+            {secondaryText} <br />
+            Redirecting Back to UserList {timer}
           </p>
         </div>
       </Modal>
@@ -538,7 +579,7 @@ function UserList(props) {
       {/* Modal Delete Msg Popop */}
       <Modal isOpen={isModalOpen12} onClose={closeModal12}>
         <div className="text-center py-3">
-          <img src={deleteUser} alt="email Image" className="mx-auto" />
+          <img src={deleteUser10} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
             Deleted Successfully
           </p>

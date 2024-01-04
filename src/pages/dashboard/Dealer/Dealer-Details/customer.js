@@ -71,7 +71,7 @@ function CustomerList(props) {
       minWidth: "auto", // Set a custom minimum width
       maxWidth: "70px", // Set a custom maximum width
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
+        console.log(row);
         return (
           <div className="relative">
             <div
@@ -101,7 +101,9 @@ function CustomerList(props) {
                   }}
                   className="text-center py-3 cursor-pointer"
                 >
-                  <Link to={"/customerDetails"}> View </Link>
+                  <Link to={`/customerDetails/${row.customerData._id}`}>
+                    View{" "}
+                  </Link>
                 </div>
               </div>
             )}

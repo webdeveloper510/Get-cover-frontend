@@ -218,7 +218,7 @@ const routes = [
         ),
       },
       {
-        path: "/customerDetails/:customerId?",
+        path: "/customerDetails/:customerId",
         index: true,
         element: <PrivateRoute element={<CustomerDetails />} />,
       },

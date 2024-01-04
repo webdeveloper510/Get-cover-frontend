@@ -46,7 +46,11 @@ import { cityData } from "../../../stateCityJson";
 import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
 import RadioButton from "../../../common/radio";
-import { addUserByDealerId } from "../../../services/userServices";
+import {
+  addUserByDealerId,
+  getUserListByDealerId,
+} from "../../../services/userServices";
+import Primary from "../../.././assets/images/SetPrimary.png";
 
 function DealerDetails() {
   const getInitialActiveTab = () => {
@@ -58,9 +62,14 @@ function DealerDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [refreshList, setRefreshUserList] = useState([]);
   const [dealerDetails, setDealerDetails] = useState([]);
+  const [firstMessage, setFirstMessage] = useState("");
+  const [secondMessage, setSecondMessage] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(3);
   const navigate = useNavigate();
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [initialUserFormValues, setInitialUserFormValues] = useState({
@@ -89,13 +98,43 @@ function DealerDetails() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const closeModal10 = () => {
+    setModalOpen(false);
+  };
+  useEffect(() => {
+    setLoading(true);
+    let intervalId;
+
+    if (modalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      closeModal10();
+    }
+
+    if (!modalOpen) {
+      clearInterval(intervalId);
+      setTimer(3);
+    }
+
+    setLoading(false);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [modalOpen, timer]);
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     userValues.setFieldValue("status", selectedValue);
     setCreateAccountOption(selectedValue);
   };
-  const openModal1 = () => {
-    setIsModalOpen1(true);
+  const getUserList = async () => {
+    const result = await getUserListByDealerId(id.id, {});
+    console.log(result.result, "----------");
+    setRefreshUserList(result.result);
   };
   const closeModal1 = () => {
     setIsModalOpen1(false);
@@ -166,12 +205,17 @@ function DealerDetails() {
       console.log(values);
       setLoading(true);
       const result = await editDealerData(values);
+
       console.log(result.code);
       if (result.code == 200) {
-        dealerData();
-        setMessage("Dealer updated Successfully");
         setLoading(false);
+        setModalOpen(true);
+        dealerData();
         setIsModalOpen(false);
+        setFirstMessage("Edited Successfully");
+        setSecondMessage("Dealer edited Successfully");
+
+        setMessage("Dealer updated Successfully");
       }
     },
   });
@@ -206,11 +250,15 @@ function DealerDetails() {
       const result = await addUserByDealerId(values);
       console.log(result.code);
       if (result.code == 200) {
+        getUserList();
         dealerData();
+        setModalOpen(true);
+        setFirstMessage("New User Added Successfully");
+        setSecondMessage("New User Added Successfully");
         setMessage("Dealer updated Successfully");
         setLoading(false);
         closeUserModal();
-        window.location.reload();
+        // window.location.reload();
         // setIsModalOpen(false);
       } else {
         console.log(result);
@@ -335,7 +383,7 @@ function DealerDetails() {
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: <UserList id={id.id} />,
+      content: <UserList flag={"dealer"} id={id.id} data={refreshList} />,
     },
     {
       id: "PriceBook",
@@ -910,7 +958,7 @@ function DealerDetails() {
                       ""
                     );
                     console.log(sanitizedValue);
-                    formik.handleChange({
+                    userValues.handleChange({
                       target: {
                         name: "phoneNumber",
                         value: sanitizedValue,
@@ -986,6 +1034,18 @@ function DealerDetails() {
               </div>
             </Grid>
           </form>
+        </div>
+      </Modal>
+
+      <Modal isOpen={modalOpen} onClose={closeModal10}>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            {firstMessage}
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+            {secondMessage} {""} <br /> Redirecting Back to Detail page {timer}
+          </p>
         </div>
       </Modal>
     </>
