@@ -201,8 +201,8 @@ function CustomerList() {
     try {
       setLoading(true);
       const res = await getFilterCustomerList(data);
-      console.log(res.data);
-      setCustomerList(res.data);
+      console.log(res.result);
+      setCustomerList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
