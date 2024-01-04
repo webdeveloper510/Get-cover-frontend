@@ -41,6 +41,7 @@ import {
   getUserListByDealerId,
 } from "../../../services/userServices";
 import RadioButton from "../../../common/radio";
+import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
 
 function CustomerDetails() {
@@ -55,6 +56,7 @@ function CustomerDetails() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [timer, setTimer] = useState(3);
   const { customerId } = useParams();
   const [initialFormValues, setInitialFormValues] = useState({
     username: "",
@@ -85,9 +87,36 @@ function CustomerDetails() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  useEffect(() => {
+    setLoading(true);
+    let intervalId;
 
+    if (modalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      closeModal10();
+    }
+
+    if (!modalOpen) {
+      clearInterval(intervalId);
+      setTimer(3);
+    }
+
+    setLoading(false);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [modalOpen, timer]);
   const openModal = () => {
     setIsModalOpen(true);
+  };
+  const closeModal10 = () => {
+    setModalOpen(false);
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
@@ -826,6 +855,18 @@ function CustomerDetails() {
                 </div>
               </Grid>
             </form>
+          </div>
+        </Modal>
+        <Modal isOpen={modalOpen} onClose={closeModal10}>
+          <div className="text-center py-3">
+            <img src={Primary} alt="email Image" className="mx-auto" />
+            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+              {firstMessage}
+            </p>
+            <p className="text-neutral-grey text-base font-medium mt-4">
+              {secondMessage} {""} <br /> Redirecting Back to Detail page{" "}
+              {timer}
+            </p>
           </div>
         </Modal>
       </div>

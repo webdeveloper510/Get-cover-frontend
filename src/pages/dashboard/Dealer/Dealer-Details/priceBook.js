@@ -113,6 +113,7 @@ function PriceBookList(props) {
       name: "Status",
       selector: (row) => row.status,
       sortable: true,
+
       cell: (row) => (
         <div className="relative">
           <div
@@ -123,7 +124,7 @@ function PriceBookList(props) {
           <select
             value={row.status === true ? "active" : "inactive"}
             disabled={
-              row.priceBooks[0]?.category[0]?.status === false ? true : false
+              row.priceBooks.category[0].status === false ? true : false
             }
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
@@ -222,7 +223,7 @@ function PriceBookList(props) {
                     <div className="col-span-3 self-center">
                       <Input
                         name="Email"
-                        type="email"
+                        type="text"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""

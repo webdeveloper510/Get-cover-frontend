@@ -26,6 +26,7 @@ import {
 import Select from "../../../../common/select";
 import { getCustomerUsersById } from "../../../../services/customerServices";
 import { useMyContext } from "../../../../context/context";
+import { getServicerUsersById } from "../../../../services/servicerServices";
 
 function UserList(props) {
   const { toggleFlag } = useMyContext();
@@ -56,6 +57,10 @@ function UserList(props) {
     console.log(props.flag);
     if (props.flag == "customer") {
       const result = await getCustomerUsersById(props.id, {});
+      console.log(result.result);
+      setUserList(result.result);
+    } else if (props.flag == "servicer") {
+      const result = await getServicerUsersById(props.id, {});
       console.log(result.result);
       setUserList(result.result);
     } else {
@@ -293,7 +298,7 @@ function UserList(props) {
     },
     validationSchema: Yup.object({
       firstName: Yup.string(),
-      email: Yup.string().email(),
+      email: Yup.string(),
       phone: Yup.number(),
     }),
     onSubmit: async (values) => {
@@ -447,7 +452,7 @@ function UserList(props) {
                     <div className="col-span-3 self-center">
                       <Input
                         name="email"
-                        type="email"
+                        type="text"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""

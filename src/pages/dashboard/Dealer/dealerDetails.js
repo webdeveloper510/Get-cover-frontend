@@ -142,6 +142,9 @@ function DealerDetails() {
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
+  const modalOpen1 = () => {
+    setIsModalOpen1(true);
+  };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
   };
@@ -224,6 +227,21 @@ function DealerDetails() {
     },
   });
 
+  const servicerForm = useFormik({
+    initialValues: {
+      selectedItems: [],
+    },
+
+    onSubmit: (values) => {
+      console.log(values);
+      const selectedData = data.filter((item) =>
+        values.selectedItems.includes(item.id)
+      );
+      console.log("Selected Data: ", selectedData);
+      closeModal1()
+    },
+  });
+
   const userValues = useFormik({
     initialValues: initialUserFormValues,
     enableReinitialize: true,
@@ -299,10 +317,26 @@ function DealerDetails() {
       center: true,
       minWidth: "12%",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div>
-            <input type="checkbox" className="accent-gray-600	" />
+            <input
+              type="checkbox"
+              className="accent-gray-600"
+              onChange={(e) => {
+                const selectedItems = [...servicerForm.values.selectedItems];
+                const itemId = data[index].id;
+                if (e.target.checked) {
+                  selectedItems.push(itemId);
+                } else {
+                  const indexToRemove = selectedItems.indexOf(itemId);
+                  if (indexToRemove !== -1) {
+                    selectedItems.splice(indexToRemove, 1);
+                  }
+                }
+
+                servicerForm.setFieldValue("selectedItems", selectedItems);
+              }}
+            />
           </div>
         );
       },
@@ -418,6 +452,9 @@ function DealerDetails() {
         break;
       case "Users":
         openUserModal();
+        break;
+      case "Servicer":
+        modalOpen1();
         break;
 
       default:
@@ -800,12 +837,14 @@ function DealerDetails() {
       </Modal>
 
       {/* Modal Primary Popop */}
+
+      {/* Modal Primary Popop */}
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
-        <div className="text-center py-3">
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-            Assign Servicer
-          </p>
-          <form>
+        <form onSubmit={servicerForm.handleSubmit}>
+          <div className="text-center py-3">
+            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+              Assign Servicer
+            </p>
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
               <DataTable
                 columns={columns}
@@ -836,47 +875,8 @@ function DealerDetails() {
                 </Button>
               </div>
             </Grid>
-          </form>
-        </div>
-      </Modal>
-
-      {/* Modal Primary Popop */}
-      <Modal isOpen={isModalOpen1} onClose={closeModal1}>
-        <div className="text-center py-3">
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-            Assign Servicer
-          </p>
-          <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
-            <DataTable
-              columns={columns}
-              data={data}
-              highlightOnHover
-              sortIcon={
-                <>
-                  {" "}
-                  <img src={shorting} className="ml-2" alt="shorting" />
-                </>
-              }
-              noDataComponent={<CustomNoDataComponent />}
-            />
           </div>
-          <Grid className="drop-shadow-5xl">
-            <div className="col-span-4">
-              <Button
-                type="button"
-                className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                onClick={closeModal1}
-              >
-                Cancel
-              </Button>
-            </div>
-            <div className="col-span-8">
-              <Button type="submit" className="w-full">
-                Submit
-              </Button>
-            </div>
-          </Grid>
-        </div>
+        </form>
       </Modal>
 
       {/* Modal Add User Popop */}

@@ -39,9 +39,13 @@ export const addNewServicer = async (data) => {
 export const addNewServicerRequest = async (status, data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(`${url}/servicer/servicers/${status}`, data,{
-      headers,
-    });
+    const response = await axios.post(
+      `${url}/servicer/servicers/${status}`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -107,6 +111,39 @@ export const changeServicerStatus = async (id, data) => {
   try {
     const response = await axios.put(
       `${url}/servicer/editServicerDetail/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getServicerUsersById = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/servicer/getSerivicerUsers/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const addUserByServicerId = async (data, id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/servicer/addServicerUser/${id}`,
       data,
       {
         headers,

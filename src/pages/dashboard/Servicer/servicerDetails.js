@@ -26,25 +26,107 @@ import Modal from "../../../common/model";
 import Input from "../../../common/input";
 import Select from "../../../common/select";
 import DealerDetailList from "../Dealer/Dealer-Details/dealer";
+import { getUserListByDealerId } from "../../../services/userServices";
+import RadioButton from "../../../common/radio";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { addUserByServicerId } from "../../../services/servicerServices";
+import { RotateLoader } from "react-spinners";
+import Primary from "../../.././assets/images/SetPrimary.png";
 
 function ServicerDetails() {
   const [activeTab, setActiveTab] = useState("Claims"); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
+  const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [refreshList, setRefreshUserList] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
   const { servicerId } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [firstMessage, setFirstMessage] = useState("");
+  const [secondMessage, setSecondMessage] = useState("");
+  const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [timer, setTimer] = useState(3);
+  const [initialUserFormValues, setInitialUserFormValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    position: "",
+    status: "yes",
+    servicerId: servicerId,
+    isPrimary: false,
+  });
+  // const { flag } = useMyContext();
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  const routeToPage = (data) => {
+    // console.log(data, id.id);
+    switch (data) {
+      case "Users":
+        openUserModal();
+        break;
 
+      default:
+        console.log("Invalid data, no navigation");
+    }
+  };
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  useEffect(() => {
+    setLoading(true);
+    let intervalId;
 
+    if (modalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      closeModal10();
+    }
+
+    if (!modalOpen) {
+      clearInterval(intervalId);
+      setTimer(3);
+    }
+
+    setLoading(false);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [modalOpen, timer]);
+  const openUserModal = () => {
+    setIsUserModalOpen(true);
+  };
+  const closeModal10 = () => {
+    setModalOpen(false);
+  };
   const openModal = () => {
     setIsModalOpen(true);
   };
-
+  const closeModal1 = () => {
+    setIsModalOpen1(false);
+  };
+  const closeUserModal = () => {
+    setIsUserModalOpen(false);
+  };
+  const getUserList = async () => {
+    const result = await getUserListByDealerId(servicerId, {});
+    console.log(result.result, "----------");
+    setRefreshUserList(result.result);
+  };
   const handleSelectChange1 = (label, value) => {
     setSelectedProduct(value);
   };
-
+  const handleRadioChange = (event) => {
+    const selectedValue = event.target.value;
+    userValues.setFieldValue("status", selectedValue);
+    setCreateAccountOption(selectedValue);
+  };
   const city = [
     { label: "Country", value: "country" },
     { label: "Option 2", value: "option2" },
@@ -71,7 +153,9 @@ function ServicerDetails() {
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: <UserList />,
+      content: (
+        <UserList flag={"servicer"} id={servicerId} data={refreshList} />
+      ),
     },
     {
       id: "Unpaid Claims",
@@ -81,12 +165,69 @@ function ServicerDetails() {
       content: <UserList />,
     },
   ];
+  const userValues = useFormik({
+    initialValues: initialUserFormValues,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(500, "Must be exactly 500 characters"),
+      lastName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(500, "Must be exactly 500 characters"),
+      phoneNumber: Yup.string()
+        .required("Required")
+        .min(10, "Must be at least 10 characters")
+        .max(10, "Must be exactly 10 characters")
+        .matches(/^[0-9]+$/, "Must contain only digits"),
+      email: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .matches(emailValidationRegex, "Invalid email address")
+        .required("Required"),
+    }),
 
+    onSubmit: async (values, { setFieldError }) => {
+      localStorage.setItem("menu", "Users");
+      console.log(values);
+      setLoading(true);
+      const result = await addUserByServicerId(values, servicerId);
+      console.log(result.code);
+      if (result.code == 200) {
+        getUserList();
+        // dealerData();
+        setModalOpen(true);
+        setFirstMessage("New User Added Successfully");
+        setSecondMessage("New User Added Successfully");
+        // setMessage("Dealer updated Successfully");
+        setLoading(false);
+        closeUserModal();
+        // window.location.reload();
+        // setIsModalOpen(false);
+      } else {
+        console.log(result);
+        console.log("here");
+        if (result.code === 401) {
+          console.log("here12");
+          setFieldError("email", "Email already in use");
+        }
+        setLoading(false);
+      }
+    },
+  });
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
   return (
     <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
+      {loading && (
+        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#fff" />
+          </div>
+        </div>
+      )}
       <Headbar />
 
       <div className="flex">
@@ -308,7 +449,10 @@ function ServicerDetails() {
             <div className="col-span-4">
               <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
                 {" "}
-                <Link to={"#"} className="flex self-center">
+                <div
+                  className="col-span-2"
+                  onClick={() => routeToPage(activeTab)}
+                >
                   {" "}
                   <img
                     src={AddItem}
@@ -318,7 +462,7 @@ function ServicerDetails() {
                   <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
                     Add {activeTab}
                   </span>{" "}
-                </Link>
+                </div>
               </Button>
             </div>
           </Grid>
@@ -333,6 +477,171 @@ function ServicerDetails() {
           ))}
         </div>
       </Grid>
+      {/* user popup */}
+      <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
+        <div className="text-center py-3">
+          <p className="text-3xl mb-5 mt-2 font-bold text-light-black">
+            Add New User
+          </p>
+          <form onSubmit={userValues.handleSubmit}>
+            <Grid className="px-8">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="firstName"
+                  label="First Name"
+                  required={true}
+                  placeholder=""
+                  className="!bg-white"
+                  maxLength={"30"}
+                  value={userValues.values.firstName}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={
+                    userValues.touched.firstName && userValues.errors.firstName
+                  }
+                />
+                {userValues.touched.firstName &&
+                  userValues.errors.firstName && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {userValues.errors.firstName}
+                    </div>
+                  )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="lastName"
+                  label="Last Name"
+                  required={true}
+                  placeholder=""
+                  className="!bg-white"
+                  maxLength={"30"}
+                  value={userValues.values.lastName}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={
+                    userValues.touched.lastName && userValues.errors.lastName
+                  }
+                />
+                {userValues.touched.lastName && userValues.errors.lastName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {userValues.errors.lastName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="email"
+                  label="Email"
+                  placeholder=""
+                  className="!bg-white"
+                  required={true}
+                  value={userValues.values.email}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.email && userValues.errors.email}
+                />
+                {userValues.touched.email && userValues.errors.email && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {userValues.errors.email}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="tel"
+                  name="phoneNumber"
+                  label="Phone"
+                  required={true}
+                  className="!bg-white"
+                  placeholder=""
+                  value={userValues.values.phoneNumber}
+                  onChange={(e) => {
+                    const sanitizedValue = e.target.value.replace(
+                      /[^0-9]/g,
+                      ""
+                    );
+                    console.log(sanitizedValue);
+                    userValues.handleChange({
+                      target: {
+                        name: "phoneNumber",
+                        value: sanitizedValue,
+                      },
+                    });
+                  }}
+                  onBlur={userValues.handleBlur}
+                  minLength={"10"}
+                  maxLength={"10"}
+                  error={
+                    userValues.touched.phoneNumber &&
+                    userValues.errors.phoneNumber
+                  }
+                />
+                {(userValues.touched.phoneNumber ||
+                  userValues.submitCount > 0) &&
+                  userValues.errors.phoneNumber && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {userValues.errors.phoneNumber}
+                    </div>
+                  )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="position"
+                  label="Position"
+                  className="!bg-white"
+                  placeholder=""
+                  maxLength={"50"}
+                  value={userValues.values.position}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={
+                    userValues.touched.position && userValues.errors.position
+                  }
+                />
+              </div>
+              <div className="col-span-6">
+                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  Do you want to create an account?
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value="yes"
+                    checked={createAccountOption === "yes"}
+                    onChange={handleRadioChange}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value="no"
+                    checked={createAccountOption === "no"}
+                    onChange={handleRadioChange}
+                  />
+                </p>
+              </div>
+            </Grid>
+            <Grid className="drop-shadow-5xl">
+              <div className="col-span-4">
+                <Button
+                  type="button"
+                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={closeUserModal}
+                >
+                  Cancel
+                </Button>
+              </div>
+              <div className="col-span-8">
+                <Button type="submit" className="w-full">
+                  Submit
+                </Button>
+              </div>
+            </Grid>
+          </form>
+        </div>
+      </Modal>
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center px-8 py-4">
@@ -441,6 +750,17 @@ function ServicerDetails() {
               <Button className="w-full">Submit</Button>
             </div>
           </Grid>
+        </div>
+      </Modal>
+      <Modal isOpen={modalOpen} onClose={closeModal10}>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            {firstMessage}
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+            {secondMessage} {""} <br /> Redirecting Back to Detail page {timer}
+          </p>
         </div>
       </Modal>
     </div>
