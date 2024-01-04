@@ -80,7 +80,7 @@ function NewDealerList() {
   const dealerPendingList = async () => {
     setLoading(true);
 
-    const result = await getPendingDealersList();
+    const result = await getPendingDealersList({});
     console.log(result.data);
     setPendingDealerList(result.data);
     setLoading(false);
@@ -103,9 +103,28 @@ function NewDealerList() {
       phoneNumber: Yup.number(),
     }),
     onSubmit: async (values) => {
-      console.log("Form values:", values);
+      console.log("Forsssm values:", values);
+      filterPendingDealersList(values)
     },
   });
+
+  const filterPendingDealersList = async (data) =>{
+    try {
+      setLoading(true);
+      const res = await getPendingDealersList(data);
+      setPendingDealerList(res.data);
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    dealerPendingList();
+  };
 
   const columns = [
     {
@@ -307,7 +326,12 @@ function NewDealerList() {
                           alt="Search"
                         />
                       </Button>
-                      <Button type="submit" className="!bg-transparent !p-0">
+                      <Button
+                      type="submit"
+                      onClick={() => {
+                        handleFilterIconClick();
+                      }}
+                      className="!bg-transparent !p-0">
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"

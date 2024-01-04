@@ -84,9 +84,28 @@ function RequestServicer() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
+      filterServicerRequest(values);
+
     }
   })
-  
+  const filterServicerRequest = async (data) => {
+    try {
+      setLoading(true);
+      const res = await addNewServicerRequest("Pending", data);
+      console.log(res.data);
+      setList(res.data);
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    getRequestServicerList();
+  };
 
   const columns = [
     {
@@ -290,6 +309,9 @@ function RequestServicer() {
                   </Button>
                     <Button
                       type="submit"
+                      onClick={() => {
+                        handleFilterIconClick();
+                      }}
                       className="!bg-transparent !p-0"
                     >
                       <img

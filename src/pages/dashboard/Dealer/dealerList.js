@@ -62,7 +62,7 @@ function DealerList() {
   };
   const getDealerList = async () => {
     setLoading(true);
-    const result = await getDealersList();
+    const result = await getDealersList({});
     console.log(result.data);
     setDealerList(result.data);
     setLoading(false);

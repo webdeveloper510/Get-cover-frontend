@@ -36,10 +36,10 @@ export const addNewServicer = async (data) => {
   }
 };
 
-export const addNewServicerRequest = async (status) => {
+export const addNewServicerRequest = async (status, data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.get(`${url}/servicer/servicers/${status}`, {
+    const response = await axios.post(`${url}/servicer/servicers/${status}`, data,{
       headers,
     });
 

@@ -80,7 +80,7 @@ function AddCompanyPriceBook() {
     }),
     onSubmit: async (values) => {
       try {
-        setLoader(true);
+        setLoader(false);
         let result;
 
         if (id) {
@@ -101,15 +101,17 @@ function AddCompanyPriceBook() {
         console.log(result);
 
         if (result.code !== 200) {
-          setLoader(false);
+          setLoader(true);
           setError(result.message);
         } else {
-          setLoader(false);
+          setLoader(true);
           setError(false);
           setIsModalOpen(true);
           setTimer(3);
-        }
+        } 
       } catch (error) {
+        setLoader(true);
+        setError(error);
         console.error("Error:", error);
       }
     },

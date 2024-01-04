@@ -19,11 +19,11 @@ const createHeaders = () => {
   }
 };
 
-export const getPendingDealersList = async () => {
+export const getPendingDealersList = async (data) => {
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.get(`${url}/admin/pendingDealers`, {
+    const response = await axios.post(`${url}/admin/pendingDealers`,data ,{
       headers,
     });
 

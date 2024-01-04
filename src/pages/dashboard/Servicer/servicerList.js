@@ -40,8 +40,8 @@ function ServicerList() {
   }, []);
 
   const getServicerList = async () => {
-    setLoading(true);
-    const result = await addNewServicerRequest("Approved");
+    setLoading(true)
+    const result = await addNewServicerRequest("Approved", {});
     setServicerList(result.data);
     console.log(result.data);
     setLoading(false);
@@ -83,9 +83,28 @@ function ServicerList() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-    },
-  });
+      filterServicerRequest(values);
+    }
+  })
 
+  const filterServicerRequest = async (data) => {
+    try {
+      setLoading(true);
+      const res = await addNewServicerRequest("Approved", data);
+      console.log(res.data);
+      setServicerList(res.data);
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    getServicerList();
+  };
   const columns = [
     {
       name: "ID",
@@ -244,10 +263,7 @@ function ServicerList() {
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        placeholder="Name"
-                        value={formik.values.name}
-                        onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
+                        placeholder="Name"that
                       />
                     </div>
                     <div className="col-span-3 self-center">
@@ -260,12 +276,7 @@ function ServicerList() {
                         placeholder="Email"
                         value={formik.values.email}
                         onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
-                      />
-                    </div>
-                    <div className="col-span-3 self-center">
-                      <Input
-                        name="phoneNumber"
+                        // onBlur={formik.handleBlur}that
                         type="number"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
@@ -277,14 +288,16 @@ function ServicerList() {
                       />
                     </div>
                     <div className="col-span-2 self-center flex justify-center">
-                      <Button type="submit" className="!p-0">
-                        <img
-                          src={Search}
-                          className="cursor-pointer"
-                          alt="Search"
-                        />
-                      </Button>
-                      <Button type="submit" className=" !bg-transparent !p-0">
+                    <Button type="submit" className="!p-0">
+                      <img src={Search} className="cursor-pointer" alt="Search" />
+                    </Button>
+                      <Button
+                        type="submit"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                        className=" !bg-transparent !p-0"
+                      >
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"

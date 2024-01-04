@@ -65,8 +65,7 @@ export const getCustomerListByDealerId = async (id, data) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
-      `${url}/customer/getDealerCustomers/${id}`,
-      data,
+      `${url}/customer/getDealerCustomers/${id}`,data,
       {
         headers,
       }
