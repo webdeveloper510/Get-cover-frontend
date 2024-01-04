@@ -69,13 +69,13 @@ function CustomerList() {
     initialValues: {
       name: "",
       email: "",
-      phoneNumber: "",
+      phone: "",
       dealername: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
       email: Yup.string(),
-      phoneNumber: Yup.number(),
+      phone: Yup.number(),
       dealername: Yup.string(),
     }),
     onSubmit: async (values) => {
@@ -275,13 +275,13 @@ function CustomerList() {
                     </div>
                     <div className="col-span-2 self-center">
                       <Input
-                        name="phoneNumber"
+                        name="phone"
                         type="tel"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
                         placeholder="Phone No."
-                        value={formik.values.phoneNumber}
+                        value={formik.values.phone}
                         onChange={(e) => {
                           const sanitizedValue = e.target.value.replace(
                             /[^0-9]/g,
@@ -290,7 +290,7 @@ function CustomerList() {
                           console.log(sanitizedValue);
                           formik.handleChange({
                             target: {
-                              name: "phoneNumber",
+                              name: "phone",
                               value: sanitizedValue,
                             },
                           });
