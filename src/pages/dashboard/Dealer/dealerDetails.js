@@ -213,7 +213,7 @@ function DealerDetails() {
       setLoading(true);
       const result = await editDealerData(values);
 
-      console.log(result.code);
+      console.log(result);
       if (result.code == 200) {
         setLoading(false);
         setModalOpen(true);
@@ -223,6 +223,9 @@ function DealerDetails() {
         setSecondMessage("Dealer edited Successfully");
 
         setMessage("Dealer updated Successfully");
+      } else if (result.message == "Account name is not available") {
+        setLoading(false);
+        formik.setFieldError("accountName", "Name Already Used");
       }
     },
   });
@@ -238,7 +241,7 @@ function DealerDetails() {
         values.selectedItems.includes(item.id)
       );
       console.log("Selected Data: ", selectedData);
-      closeModal1()
+      closeModal1();
     },
   });
 
