@@ -29,6 +29,7 @@ function CustomerList() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleSelectChange1 = (name, value) => {
+    console.log(value);
     setSelectedProduct(value);
     formik.setFieldValue(name, value);
   };
