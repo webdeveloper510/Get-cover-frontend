@@ -316,7 +316,7 @@ function DealerDetails() {
         setMessage("Dealer updated Successfully");
         setLoading(false);
         closeUserModal();
-        // window.location.reload();
+        window.location.reload();
         // setIsModalOpen(false);
       } else {
         console.log(result);

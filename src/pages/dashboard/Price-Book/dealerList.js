@@ -18,7 +18,7 @@ import DataTable from "react-data-table-component";
 import {
   editDealerPriceBook,
   getDealerPriceBook,
-  filterGetPriceBookDetails
+  filterGetPriceBookDetails,
 } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
@@ -44,7 +44,6 @@ function DealerPriceList() {
     filterDataGetPriceBook();
   }, []);
 
-
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
       <p>No records found.</p>
@@ -57,18 +56,17 @@ function DealerPriceList() {
     getDealerList();
   };
 
-  const filterDataGetPriceBook = async (data)=>{
+  const filterDataGetPriceBook = async (data) => {
     try {
       setLoading(true);
       const res = await filterGetPriceBookDetails(data);
-      setDealerPriceBook(res.result)
-    }catch(error){
+      setDealerPriceBook(res.result);
+    } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
       setLoading(false);
     }
-  }
-
+  };
 
   const getDealerList = async () => {
     setLoading(true);
@@ -99,7 +97,6 @@ function DealerPriceList() {
         term: row?.priceBooks[0]?.term,
         brokerFee: row?.brokerFee,
       });
-
     } catch (error) {
       console.error("Error in handleStatusChange:", error);
     }
@@ -142,10 +139,9 @@ function DealerPriceList() {
     }
   };
 
-  const handleSelectChange =(name,selectedValue )=>{
-    formik.setFieldValue(name, selectedValue) 
-    }
-  
+  const handleSelectChange = (name, selectedValue) => {
+    formik.setFieldValue(name, selectedValue);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -161,15 +157,10 @@ function DealerPriceList() {
       status: Yup.boolean(),
     }),
     onSubmit: (values) => {
-      console.log(values)
-      filterDataGetPriceBook(values)
+      console.log(values);
+      filterDataGetPriceBook(values);
     },
-  })
-
-
-   
-  
-
+  });
 
   const columns = [
     {
@@ -230,9 +221,7 @@ function DealerPriceList() {
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
-            disabled={
-              row.priceBooks[0]?.category[0]?.status === false ? true : false
-            }
+            disabled={row.priceBooks[0]?.status === false ? true : false}
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
@@ -250,7 +239,11 @@ function DealerPriceList() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(selectedAction === index ? null : index)}>
+            <div
+              onClick={() =>
+                setSelectedAction(selectedAction === index ? null : index)
+              }
+            >
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
@@ -258,7 +251,8 @@ function DealerPriceList() {
               />
             </div>
             {selectedAction === index && (
-              <div ref={dropdownRef}
+              <div
+                ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
@@ -313,101 +307,104 @@ function DealerPriceList() {
             </ul>
           </div>
         </div>
-          <Link to={"/addDealerBook"} className=" w-[230px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-            {" "}
-            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-Regular">
-              Add Dealer Book{" "}
-            </span>{" "}
-          </Link>
+        <Link
+          to={"/addDealerBook"}
+          className=" w-[230px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+        >
+          {" "}
+          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+          <span className="text-black ml-3 text-[14px] font-Regular">
+            Add Dealer Book{" "}
+          </span>{" "}
+        </Link>
 
         <div className="bg-white  border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold py-4">Dealer Price List</p>
             </div>
-           <div className="col-span-7">
+            <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                <Grid className="!grid-cols-10">
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="category"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Category"
-                      value={formik.values.category}
-                      onChange={formik.handleChange}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      onChange={formik.handleChange}
-                      value={formik.values.name}
-                      placeholder="Dealer Name"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Select
-                      name="term"
-                      label=""
-                      options={termList}
-                      OptionName="Term"
-                      color="text-[#1B1D21] opacity-50"
-                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      selectedValue={selectedTearm}
-                      value={formik.values.term}
-                      onChange={handleSelectChange}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Select
-                      name="status"
-                      label=""
-                      options={status}
-                      OptionName="Status"
-                      color="text-[#1B1D21] opacity-50"
-                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      selectedValue={selectedProduct}
-                      value={formik.values.status}
-                      onChange={handleSelectChange}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center justify-center flex">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer  mx-auto"
-                        alt="Search"
+                  <Grid className="!grid-cols-10">
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="category"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Category"
+                        value={formik.values.category}
+                        onChange={formik.handleChange}
                       />
-                    </Button>
-                    <Button
-                      type="submit"
-                      onClick={() => {
-                        handleFilterIconClick();
-                      }}
-                      className="!bg-transparent !p-0"
-                    >
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="name"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        onChange={formik.handleChange}
+                        value={formik.values.name}
+                        placeholder="Dealer Name"
                       />
-                    </Button>
-                  </div>
-                </Grid>
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Select
+                        name="term"
+                        label=""
+                        options={termList}
+                        OptionName="Term"
+                        color="text-[#1B1D21] opacity-50"
+                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        selectedValue={selectedTearm}
+                        value={formik.values.term}
+                        onChange={handleSelectChange}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Select
+                        name="status"
+                        label=""
+                        options={status}
+                        OptionName="Status"
+                        color="text-[#1B1D21] opacity-50"
+                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        selectedValue={selectedProduct}
+                        value={formik.values.status}
+                        onChange={handleSelectChange}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center justify-center flex">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer  mx-auto"
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button
+                        type="submit"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                        className="!bg-transparent !p-0"
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                  </Grid>
                 </form>
               </div>
-            </div> 
+            </div>
           </Grid>
 
           <div className="mb-5 relative">

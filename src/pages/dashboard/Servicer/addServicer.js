@@ -178,8 +178,6 @@ function AddServicer() {
         setIsEmailAvailable(true);
         formik.setFieldError("email", "");
       } else if (result.code === 401) {
-        setIsEmailAvailable(false);
-
         return false;
       }
     }
@@ -278,14 +276,7 @@ function AddServicer() {
 
     onSubmit: async (values) => {
       const isEmailValid = !formik.errors.email;
-      const isEmailAvailable1 = isEmailValid
-        ? await checkEmailAvailability(formik.values.email)
-        : false;
 
-      if (!isEmailAvailable) {
-        setLoading(false);
-        return;
-      }
       if (formik.values.members.length > 0) {
         console.log(formik.values.members.length);
         let emailValues = [];
@@ -330,10 +321,9 @@ function AddServicer() {
         setIsModalOpen(true);
 
         // navigate("/servicerList");
-      } else if (
-        result.message == "Primary user already exist with this email "
-      ) {
-        console.log("here");
+      } else if (result.message == "Primary user email already exist") {
+        setIsModalOpen(true);
+        setMessage(result.message);
         formik.setFieldError("email", "Email Already Used");
       } else if (
         result.message == "Servicer already exist with this account name"
@@ -561,14 +551,7 @@ function AddServicer() {
                       className="!bg-white"
                       required={true}
                       value={formik.values.email}
-                      onBlur={async () => {
-                        formik.handleBlur("email");
-
-                        const isEmailValid = !formik.errors.email;
-                        const isEmailAvailablechecking = isEmailValid
-                          ? await checkEmailAvailability(formik.values.email)
-                          : false;
-                      }}
+                      onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       error={
                         (formik.touched.email && formik.errors.email) ||
