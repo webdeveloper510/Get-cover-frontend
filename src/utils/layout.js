@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // Extract relevant information for the meta description
+    
     const parser = new DOMParser();
     const doc = parser.parseFromString(pageContent, "text/html");
 

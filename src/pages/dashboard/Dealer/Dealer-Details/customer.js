@@ -4,11 +4,8 @@ import { Link } from "react-router-dom";
 import Button from "../../../../common/button";
 
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
-import arrowImage from "../../../../assets/images/dropdownArrow.png";
-import AddItem from "../../../../assets/images/icons/addItem.svg";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import Headbar from "../../../../common/headBar";
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
@@ -77,7 +74,9 @@ function CustomerList(props) {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.customerData.unique_key ? null : row.customerData.unique_key
+                  selectedAction === row.customerData.unique_key
+                    ? null
+                    : row.customerData.unique_key
                 )
               }
             >

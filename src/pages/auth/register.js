@@ -10,9 +10,9 @@ import { Link } from "react-router-dom";
 import Layout from "../../utils/layout";
 
 function Register() {
-  useEffect(() => {
-    document.title = "Get Cover | Register";
-  }, []);
+  // useEffect(() => {
+  //   document.title = "Get Cover | Register";
+  // }, []);
 
   return (
     <Layout>

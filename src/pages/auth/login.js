@@ -20,9 +20,9 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    document.title = "Get Cover | Login";
-  }, []);
+  // useEffect(() => {
+  //   document.title = "Get Cover | Login";
+  // }, []);
 
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,50}$/i;
 
@@ -140,10 +140,7 @@ function Login() {
 
                   <p className="text-base text-neutral-grey font-medium mt-4">
                     Don’t have an account?{" "}
-                    <Link
-                      to={"/register"}
-                      className="text-light-black ml-3"
-                    >
+                    <Link to={"/register"} className="text-light-black ml-3">
                       <b> Register </b>
                     </Link>{" "}
                   </p>
