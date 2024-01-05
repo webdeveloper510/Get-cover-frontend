@@ -256,11 +256,11 @@ function ServicerDetails() {
     formik.setFieldValue(name, value);
   };
   const getDealerList = async () => {
-    setLoading(true);
+    // setLoading(true);
     const result = await getDealerListByServicerId(servicerId);
     setDealerList(result.result);
     console.log(result.result);
-    setLoading(false);
+    // setLoading(false);
   };
   useEffect(() => {
     servicerDetail();
@@ -290,8 +290,8 @@ function ServicerDetails() {
         setLoading(false);
         setFlagValue(true);
         setModalOpen(true);
-        setFirstMessage("Servicer Updated Successfully");
-        setSecondMessage("Servicer Updated Successfully");
+        setFirstMessage("Dealer Assigned Successfully");
+        setSecondMessage("Dealer Assigned Successfully");
         getDealerList();
         setTimer(3);
         closeModal1();
@@ -346,7 +346,7 @@ function ServicerDetails() {
     }),
 
     onSubmit: async (values, { setFieldError }) => {
-      localStorage.setItem("menu", "Users");
+      localStorage.setItem("servicer", "Users");
       console.log(values);
       setLoading(true);
       const result = await addUserByServicerId(values, servicerId);
@@ -427,6 +427,7 @@ function ServicerDetails() {
   });
   const navigate = useNavigate();
   const handleGOBack = () => {
+    localStorage.removeItem("servicer");
     navigate(-1);
   };
   const serviceData = async () => {

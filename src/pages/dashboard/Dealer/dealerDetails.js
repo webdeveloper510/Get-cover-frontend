@@ -157,11 +157,9 @@ function DealerDetails() {
     userValues.resetForm();
   };
   const getServicerList = async () => {
-    setLoading(true);
     const result = await getServicerListForDealer(id.id);
     setServicerList(result.result);
     console.log(result.result);
-    setLoading(false);
   };
   useEffect(() => {
     dealerData();

@@ -45,7 +45,11 @@ import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
 
 function CustomerDetails() {
-  const [activeTab, setActiveTab] = useState("Order"); // Set the initial active tab
+  const getInitialActiveTab = () => {
+    const storedTab = localStorage.getItem("customer");
+    return storedTab ? storedTab : "Order";
+  };
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
@@ -152,7 +156,7 @@ function CustomerDetails() {
     }),
 
     onSubmit: async (values, { setFieldError }) => {
-      localStorage.setItem("menu", "Users");
+      localStorage.setItem("customer", "Users");
       console.log(values);
       setLoading(true);
       const result = await addUserToCustomer(values);
@@ -244,6 +248,7 @@ function CustomerDetails() {
     // console.log(data, id.id);
     switch (data) {
       case "Users":
+        localStorage.getItem("Users");
         openUserModal();
         break;
 
@@ -267,6 +272,9 @@ function CustomerDetails() {
       country: "USA",
     });
   };
+  useEffect(() => {
+    localStorage.setItem("customer", activeTab);
+  }, [activeTab]);
   const tabs = [
     {
       id: "Order",
@@ -305,6 +313,7 @@ function CustomerDetails() {
   };
   const navigate = useNavigate();
   const handleGOBack = () => {
+    localStorage.removeItem("customer");
     navigate(-1);
   };
   return (
