@@ -42,6 +42,7 @@ function Dealer() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("start");
   const [timer, setTimer] = useState(3);
+  const [fileError, setFileError] = useState(null);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
     street: "",
@@ -142,17 +143,6 @@ function Dealer() {
         file: "",
       });
     }
-    let intervalId;
-    if (isModalOpen && timer > 0) {
-      intervalId = setInterval(() => {
-        setTimer((prevTimer) => prevTimer - 1);
-      }, 1000);
-    }
-
-    if (timer === 0 && message === "New Dealer Created Successfully") {
-      closeModal();
-      navigate("/dealerList");
-    }
 
     getTermListData();
     getProductList("");
@@ -198,8 +188,21 @@ function Dealer() {
     }
 
     setLoading(false);
+  }, [id]);
+  useEffect(() => {
+    let intervalId;
+    if (isModalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0 && message === "New Dealer Created Successfully") {
+      closeModal();
+      navigate("/dealerList");
+    }
     return () => clearInterval(intervalId);
-  }, [isModalOpen, timer, id]);
+  }, [isModalOpen, timer]);
 
   const getTermListData = async () => {
     setLoading(true);
@@ -493,17 +496,27 @@ function Dealer() {
         setError("done");
         setIsModalOpen(true);
         setMessage("New Dealer Created Successfully");
+        setTimer(3);
         // navigate("/dealerList");
-      } else if (result.message == "Dealer name already exists") {
+      } else if (result.message === "Dealer name already exists") {
         setLoading(false);
         formik.setFieldError("name", "Name Already Used");
         setMessage("Some Errors Please Check Form Validations ");
         setIsModalOpen(true);
-      } else if (result.message == "Primary user email already exist") {
+      } else if (result.message === "Primary user email already exist") {
         setLoading(false);
         formik.setFieldError("email", "Email Already Used");
         setMessage("Some Errors Please Check Form Validations ");
         setIsModalOpen(true);
+      } else if (result.message === "Invalid priceBook field") {
+        if (result.message === "Invalid priceBook field") {
+          setFileError("Invalid PriceBook File");
+          setLoading(false);
+          setIsModalOpen(true);
+          setMessage("Invalid PriceBook File");
+        } else {
+          setFileError(null);
+        }
       } else {
         setLoading(false);
         setIsModalOpen(true);
@@ -1402,9 +1415,14 @@ function Dealer() {
                   }
                   onFileSelect={(file) => formik.setFieldValue("file", file)}
                 />
-                {formik.touched.file && formik.errors.file && (
+                {/* {formik.touched.file && formik.errors.file && (
                   <p className="text-red-500 text-[10px] mt-1 font-medium">
                     {formik.errors.file}
+                  </p>
+                )} */}
+                {formik.touched.file && fileError && (
+                  <p className="text-red-500 text-[10px] mt-1 font-medium">
+                    {fileError}
                   </p>
                 )}
                 <p className="text-[11px] mt-1 text-[#5D6E66] font-medium">

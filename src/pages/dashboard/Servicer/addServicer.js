@@ -306,9 +306,7 @@ function AddServicer() {
         setLoading(false);
         setTimer(3);
         // navigate("/servicerList");
-      } else if (
-        result.message == "Primary user already exist with this email "
-      ) {
+      } else if (result.message == "User already exist with this email ") {
         setIsModalOpen(true);
         setMessage(result.message);
         formik.setFieldError("email", "Email Already Used");
