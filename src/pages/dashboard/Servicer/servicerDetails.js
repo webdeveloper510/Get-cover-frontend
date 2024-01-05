@@ -45,7 +45,11 @@ import { cityData } from "../../../stateCityJson";
 import shorting from "../../../assets/images/icons/shorting.svg";
 
 function ServicerDetails() {
-  const [activeTab, setActiveTab] = useState("Claims"); // Set the initial active tab
+  const getInitialActiveTab = () => {
+    const storedTab = localStorage.getItem("servicer");
+    return storedTab ? storedTab : "Claims";
+  };
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -94,9 +98,11 @@ function ServicerDetails() {
     switch (data) {
       case "Users":
         openUserModal();
+        localStorage.setItem("servicer", "Users");
         break;
       case "Dealer":
         modalOpen1();
+        localStorage.setItem("servicer", "Dealer");
         break;
       default:
         console.log("Invalid data, no navigation");
@@ -106,6 +112,10 @@ function ServicerDetails() {
     setIsModalOpen(false);
     formik.resetForm();
   };
+  useEffect(() => {
+    localStorage.setItem("servicer", activeTab);
+  }, [activeTab]);
+
   useEffect(() => {
     setLoading(true);
     let intervalId;

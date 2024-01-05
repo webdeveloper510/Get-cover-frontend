@@ -473,9 +473,13 @@ function Dealer() {
           formData.append(key, value);
         }
       });
-
       values.customerAccountCreated =
         separateAccountOption === "yes" ? true : false;
+      if (createAccountOption === "yes" || createAccountOption === "no") {
+        values.isAccountCreate = createAccountOption === "yes" ? true : false;
+      } else {
+        values.isAccountCreate = createAccountOption;
+      }
 
       if (id !== undefined) {
         formData.append("dealerId", id);
@@ -484,12 +488,11 @@ function Dealer() {
       const result = await addNewOrApproveDealer(formData);
       console.log(result);
 
-      if (result.code === 200) {
+      if (result.message === "Successfully Created") {
         setLoading(false);
         setError("done");
         setIsModalOpen(true);
         setMessage("New Dealer Created Successfully");
-        setTimer(3);
         // navigate("/dealerList");
       } else if (result.message == "Dealer name already exists") {
         setLoading(false);
