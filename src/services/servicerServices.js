@@ -171,3 +171,86 @@ export const getServicerListByDealerId = async (id, data) => {
     throw error;
   }
 };
+export const getServicerListForDealer = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/dealer/getServicersList/${id}`,
+
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getServicerDetailsByServicerId = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/servicer/getServiceProviderById/${id}`,
+
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const createRelationWithServicer = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/servicer/createRelationWithDealer/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getDealerListByServicerId = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/servicer/getDealerList/${id}`,
+
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getServicerDealers = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/servicer/getServicerDealers/${id}`,
+      data,
+
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

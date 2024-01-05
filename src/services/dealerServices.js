@@ -309,3 +309,44 @@ export const filterGetPriceBookDetails = async (data) => {
     throw error;
   }
 };
+
+export const unAssignedServicerForUser = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/dealer/unAssignServ`, data, {
+      headers,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const createRelationWithDealer = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealer/createRelationWithServicer/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const unAssignedServicerForDealer = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/dealer/unAssignServicer`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

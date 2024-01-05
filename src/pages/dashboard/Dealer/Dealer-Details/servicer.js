@@ -23,32 +23,82 @@ import {
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { unAssignedServicerForDealer } from "../../../../services/dealerServices";
 
 function ServicerList(props) {
   const [selectedAction, setSelectedAction] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [timer, setTimer] = useState(3);
   const [servicerData, setServicerData] = useState([]);
+  const [rowValue, setRowValue] = useState({});
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const openModal = () => {
+  const openModal = (row) => {
+    setRowValue(row);
     setIsModalOpen(true);
   };
 
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
-  const openModal1 = () => {
+  useEffect(() => {
+    setLoading(true);
+    let intervalId;
+
+    if (isModalOpen1 && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      closeModal1();
+    }
+
+    if (!isModalOpen1) {
+      clearInterval(intervalId);
+      setTimer(3);
+    }
+
+    setLoading(false);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isModalOpen1, timer]);
+  const openModal1 = async () => {
+    setLoading(true);
+    console.log(rowValue);
+    let bodyValue = {
+      dealerId: props.id,
+      servicerId: rowValue.servicerData._id,
+    };
+    const data = await unAssignedServicerForDealer(bodyValue);
+    console.log(data);
+    if (data) {
+      setIsModalOpen(false);
+      setLoading(false);
+      getServicerList();
+    } else {
+      setIsModalOpen(false);
+      setLoading(false);
+      getServicerList();
+    }
     setIsModalOpen1(true);
-    setIsModalOpen(false);
   };
   useEffect(() => {
     getServicerList();
   }, []);
+  useEffect(() => {
+    if (props.flag) {
+      getServicerList();
+    }
+  }, [props?.flag]);
 
   const getServicerList = async () => {
     setLoading(true);
@@ -240,7 +290,7 @@ function ServicerList(props) {
                 </div>
                 <div
                   className="text-center py-3 cursor-pointer"
-                  onClick={() => openModal()}
+                  onClick={() => openModal(row)}
                 >
                   Unassigned
                 </div>

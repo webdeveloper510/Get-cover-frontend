@@ -29,10 +29,20 @@ import DealerDetailList from "../Dealer/Dealer-Details/dealer";
 import { getUserListByDealerId } from "../../../services/userServices";
 import RadioButton from "../../../common/radio";
 import { useFormik } from "formik";
+import DataTable from "react-data-table-component";
+import { MyContextProvider, useMyContext } from "../../../context/context";
 import * as Yup from "yup";
-import { addUserByServicerId } from "../../../services/servicerServices";
+import {
+  addUserByServicerId,
+  changeServicerStatus,
+  createRelationWithServicer,
+  getDealerListByServicerId,
+  getServicerDetailsByServicerId,
+} from "../../../services/servicerServices";
 import { RotateLoader } from "react-spinners";
 import Primary from "../../.././assets/images/SetPrimary.png";
+import { cityData } from "../../../stateCityJson";
+import shorting from "../../../assets/images/icons/shorting.svg";
 
 function ServicerDetails() {
   const [activeTab, setActiveTab] = useState("Claims"); // Set the initial active tab
@@ -46,8 +56,12 @@ function ServicerDetails() {
   const [loading, setLoading] = useState(false);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
+  const [servicerDetails, setServicerDetails] = useState({});
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [timer, setTimer] = useState(3);
+  const { flag, toggleFlag } = useMyContext();
+  const [dealerList, setDealerList] = useState([]);
+  const [flagValue, setFlagValue] = useState(false);
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -58,15 +72,32 @@ function ServicerDetails() {
     servicerId: servicerId,
     isPrimary: false,
   });
+  const [initialFormValues, setInitialFormValues] = useState({
+    name: "",
+    dealerId: "",
+    street: "",
+    city: "",
+    zip: "",
+    state: "",
+    country: "USA",
+    oldName: "",
+  });
+  const state = cityData;
   // const { flag } = useMyContext();
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  const modalOpen1 = () => {
+    servicerDetail();
+    setIsModalOpen1(true);
+  };
   const routeToPage = (data) => {
     // console.log(data, id.id);
     switch (data) {
       case "Users":
         openUserModal();
         break;
-
+      case "Dealer":
+        modalOpen1();
+        break;
       default:
         console.log("Invalid data, no navigation");
     }
@@ -127,12 +158,56 @@ function ServicerDetails() {
     userValues.setFieldValue("status", selectedValue);
     setCreateAccountOption(selectedValue);
   };
-  const city = [
-    { label: "Country", value: "country" },
-    { label: "Option 2", value: "option2" },
-    { label: "Option 3", value: "option3" },
-  ];
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center">
+      <p>No records found.</p>
+    </div>
+  );
+  const columns = [
+    {
+      name: "Servicer ID",
+      selector: (row) => row.unique_key,
+      sortable: true,
+      minWidth: "33%",
+      center: true,
+    },
+    {
+      name: "Servicer Name",
+      selector: (row) => row.name,
+      sortable: true,
+      minWidth: "50%",
+      center: true,
+    },
+    {
+      name: "Action",
+      center: true,
+      minWidth: "12%",
+      cell: (row, index) => {
+        return (
+          <div>
+            <input
+              type="checkbox"
+              className="accent-gray-600"
+              checked={row.check}
+              onChange={(e) => {
+                const checked = e.target.checked;
+                const itemId = dealerList[index]._id;
+                dealerList[index].check = checked;
+                const selectedItems = checked
+                  ? [...dealerForm.values.selectedItems, itemId]
+                  : dealerForm.values.selectedItems.filter(
+                      (id) => id !== itemId
+                    );
+
+                dealerForm.setFieldValue("selectedItems", selectedItems);
+              }}
+            />
+          </div>
+        );
+      },
+    },
+  ];
   const tabs = [
     {
       id: "Claims",
@@ -146,7 +221,7 @@ function ServicerDetails() {
       label: "Dealer",
       icons: Dealer,
       Activeicons: DealerActive,
-      content: <DealerDetailList />,
+      content: <DealerDetailList id={servicerId} flag={flagValue} />,
     },
     {
       id: "Users",
@@ -165,6 +240,73 @@ function ServicerDetails() {
       content: <UserList />,
     },
   ];
+  const handleSelectChange = async (name, value) => {
+    formik.setFieldValue(name, value);
+  };
+  const getDealerList = async () => {
+    const result = await getDealerListByServicerId(servicerId);
+    setDealerList(result.result);
+    console.log(result.result);
+  };
+  useEffect(() => {
+    servicerDetail();
+    getDealerList();
+  }, [servicerId, flag]);
+
+  const dealerForm = useFormik({
+    initialValues: {
+      selectedItems: [],
+    },
+
+    onSubmit: async (values) => {
+      setFlagValue(false);
+      setLoading(true);
+      const selectedData = dealerList.map((item) => ({
+        _id: item._id,
+        status: values.selectedItems.includes(item._id) || item.check,
+      }));
+
+      console.log("Selected Data: ", selectedData);
+
+      const result = await createRelationWithServicer(servicerId, {
+        dealers: selectedData,
+      });
+      console.log(result);
+      if (result.code === 200) {
+        setLoading(false);
+        setFlagValue(true);
+        setModalOpen(true);
+        setFirstMessage("Servicer Updated Successfully");
+        setSecondMessage("Servicer Updated Successfully");
+        getDealerList();
+        closeModal1();
+      } else {
+        setLoading(false);
+        getDealerList();
+        closeModal1();
+      }
+
+      closeModal1();
+      dealerForm.resetForm();
+    },
+  });
+  const servicerDetail = async () => {
+    setLoading(true);
+    const res = await getServicerDetailsByServicerId(servicerId);
+    setServicerDetails(res.message);
+    console.log(res.message);
+    setInitialFormValues({
+      name: res?.message?.meta?.name,
+      oldName: res?.message?.meta?.name,
+      servicerId: servicerId,
+      street: res?.message?.meta?.street,
+      city: res?.message?.meta?.city,
+      zip: res?.message?.meta?.zip,
+      state: res?.message?.meta?.state,
+      country: "USA",
+    });
+    setLoading(false);
+  };
   const userValues = useFormik({
     initialValues: initialUserFormValues,
     enableReinitialize: true,
@@ -219,6 +361,57 @@ function ServicerDetails() {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
+  const formik = useFormik({
+    initialValues: initialFormValues,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      // dealerId: Yup.string().required("Required"),
+      name: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(500, "Must be exactly 500 characters"),
+      street: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(500, "Must be exactly 500 characters"),
+      state: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      city: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      country: Yup.string().required("Required"),
+      zip: Yup.string()
+        .required("Required")
+        .min(5, "Must be at least 5 characters")
+        .max(6, "Must be exactly 6 characters"),
+    }),
+
+    onSubmit: async (values) => {
+      console.log(values);
+      setLoading(true);
+      const result = await changeServicerStatus(servicerId, values);
+
+      console.log(result);
+      if (result.code == 200) {
+        setLoading(false);
+        setModalOpen(true);
+        servicerDetail();
+        setIsModalOpen(false);
+        setFirstMessage("Edited Successfully");
+        setSecondMessage("Servicer edited Successfully");
+
+        // setMessage("Dealer updated Successfully");
+      } else if (result.message == "Account name is not available") {
+        setLoading(false);
+        formik.setFieldError("name", "Name Already Used");
+      }
+    },
+  });
+
+  const serviceData = async () => {
+    // const result =await
+  };
   return (
     <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
       {loading && (
@@ -269,7 +462,7 @@ function ServicerDetails() {
                   Account Name
                 </p>
                 <p className="text-xl text-white font-semibold">
-                  Edward26wilson
+                  {servicerDetails?.meta?.name}
                 </p>
               </div>
               <div className="col-span-3 text-end">
@@ -292,11 +485,13 @@ function ServicerDetails() {
                   Address
                 </p>
                 <p className="text-base text-white font-semibold leading-5">
-                  1515 Holcombe Blvd, Houston, TX 77030, USA
+                  {servicerDetails?.meta?.street}, {servicerDetails?.meta?.city}
+                  , {servicerDetails?.meta?.state} {servicerDetails?.meta?.zip},
+                  USA
                 </p>
               </div>
             </div>
-            <div className="flex my-4">
+            {/* <div className="flex my-4">
               <img
                 src={Bank}
                 className="mr-3 bg-[#383838] rounded-[14px] self-start mt-3"
@@ -343,7 +538,7 @@ function ServicerDetails() {
                   </Grid>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="flex w-full my-4">
               <p className="text-[10px] mr-3 text-[#999999] font-Regular">
                 PRIMARY CONTACT DETAILS
@@ -359,7 +554,7 @@ function ServicerDetails() {
               <div>
                 <p className="text-sm text-neutral-grey font-Regular">Name</p>
                 <p className="text-base text-white font-semibold ">
-                  Edward Wilson
+                  {servicerDetails?.firstName} {servicerDetails?.lastName}
                 </p>
               </div>
             </div>
@@ -372,7 +567,7 @@ function ServicerDetails() {
               <div>
                 <p className="text-sm text-neutral-grey font-Regular">Email</p>
                 <p className="text-base text-white font-semibold ">
-                  26edward26@gmail.com
+                  {servicerDetails?.email}
                 </p>
               </div>
             </div>
@@ -387,14 +582,14 @@ function ServicerDetails() {
                   Phone Number
                 </p>
                 <p className="text-base text-white font-semibold ">
-                  +1 (869) 985-6741
+                  +1 {servicerDetails?.phoneNumber}
                 </p>
               </div>
             </div>
             <Grid className="mt-5">
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                  <p className="text-white text-lg !font-[600]">3,843</p>
+                  <p className="text-white text-lg !font-[600]">0</p>
                   <p className="text-[#999999] text-sm font-Regular">
                     Total number of Claims
                   </p>
@@ -402,7 +597,7 @@ function ServicerDetails() {
               </div>
               <div className="col-span-6 ">
                 <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                  <p className="text-white text-lg  !font-[600]">$35,859.00</p>
+                  <p className="text-white text-lg  !font-[600]">$0.00</p>
                   <p className="text-[#999999] text-sm font-Regular">
                     Total Value of Claims
                   </p>
@@ -447,18 +642,15 @@ function ServicerDetails() {
               </div>
             </div>
             <div className="col-span-4">
-              <Button  onClick={() => routeToPage(activeTab)} className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+              <Button
+                onClick={() => routeToPage(activeTab)}
+                className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+              >
                 {" "}
-              
-                  {" "}
-                  <img
-                    src={AddItem}
-                    className="self-center"
-                    alt="AddItem"
-                  />{" "}
-                  <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
-                    Add {activeTab}
-                  </span>{" "}
+                <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+                <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
+                  Add {activeTab}
+                </span>{" "}
               </Button>
             </div>
           </Grid>
@@ -638,63 +830,8 @@ function ServicerDetails() {
           </form>
         </div>
       </Modal>
-      {/* Modal Email Popop */}
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="text-center px-8 py-4">
-          <p className="text-3xl font-bold mb-8">Edit Servicer Details</p>
-          <Grid>
-            <div className="col-span-6">
-              <Input
-                name="accountName"
-                className="!bg-[#fff]"
-                type="text"
-                label="Account Name"
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                name="streetAddress"
-                className="!bg-[#fff]"
-                type="text"
-                label="Street Address"
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                name="zipCode"
-                type="number"
-                className="!bg-[#fff]"
-                label="Zip Code"
-              />
-            </div>
-            <div className="col-span-6">
-              <Select
-                label="City"
-                options={city}
-                className="!bg-[#fff]"
-                selectedValue={selectedProduct}
-                onChange={handleSelectChange1}
-              />
-            </div>
-            <div className="col-span-6">
-              <Select
-                label="State"
-                options={city}
-                className="!bg-[#fff]"
-                selectedValue={selectedProduct}
-                onChange={handleSelectChange1}
-              />
-            </div>
-            <div className="col-span-6">
-              <Select
-                label="Country"
-                options={city}
-                className="!bg-[#fff]"
-                selectedValue={selectedProduct}
-                onChange={handleSelectChange1}
-              />
-            </div>
-            <div className="col-span-12">
+
+      {/* <div className="col-span-12">
               <div className="flex w-full my-2">
                 <p className="text-sm mr-3 text-[#999999] font-Regular">
                   BANK DETAILS
@@ -733,20 +870,185 @@ function ServicerDetails() {
                 className="!bg-[#fff]"
                 label="Account Holder"
               />
-            </div>
-            <div className="col-span-4">
-              <Button
-                className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                onClick={closeModal}
-              >
-                Cancel
-              </Button>
-            </div>
-            <div className="col-span-8">
-              <Button className="w-full">Submit</Button>
-            </div>
-          </Grid>
+            </div> */}
+      {/* Modal Email Popop */}
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="text-center px-8 py-4">
+          <p className="text-3xl font-bold mb-8">Edit Servicer Details</p>
+          <form className="mt-8" onSubmit={formik.handleSubmit}>
+            <Grid>
+              <div className="col-span-12">
+                <Input
+                  type="text"
+                  name="name"
+                  className="!bg-white"
+                  label="Account Name"
+                  required={true}
+                  placeholder=""
+                  maxLength={"500"}
+                  value={formik.values.name}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={formik.touched.name && formik.errors.name}
+                />
+                {formik.touched.name && formik.errors.name && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.name}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-12">
+                <Input
+                  type="text"
+                  name="street"
+                  className="!bg-white"
+                  label="Street Address"
+                  required={true}
+                  placeholder=""
+                  maxLength={"500"}
+                  value={formik.values.street}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={formik.touched.street && formik.errors.street}
+                />
+                {formik.touched.street && formik.errors.street && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.street}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="number"
+                  name="zip"
+                  label="Zip Code"
+                  className="!bg-white"
+                  required={true}
+                  placeholder=""
+                  value={formik.values.zip}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  minLength={"5"}
+                  maxLength={"6"}
+                  error={formik.touched.zip && formik.errors.zip}
+                />
+                {formik.touched.zip && formik.errors.zip && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.zip}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="city"
+                  label="City"
+                  className="!bg-white"
+                  placeholder=" "
+                  required={true}
+                  maxLength={"20"}
+                  value={formik.values.city}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.city && formik.errors.city}
+                />
+                {formik.touched.city && formik.errors.city && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.city}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Select
+                  label="State"
+                  name="state"
+                  placeholder=""
+                  className="!bg-white"
+                  required={true}
+                  onChange={handleSelectChange}
+                  options={state}
+                  value={formik.values.state}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.state && formik.errors.state}
+                />
+                {formik.touched.state && formik.errors.state && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.state}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="country"
+                  label="Country"
+                  required={true}
+                  placeholder=""
+                  value={formik.values.country}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  defaultValue="USA"
+                  error={formik.touched.country && formik.errors.country}
+                  disabled
+                />
+              </div>
+              <div className="col-span-4">
+                <Button
+                  type="button"
+                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={closeModal}
+                >
+                  Cancel
+                </Button>
+              </div>
+              <div className="col-span-8">
+                <Button type="submit" className="w-full">
+                  Submit
+                </Button>
+              </div>
+            </Grid>
+          </form>
         </div>
+      </Modal>
+      {/* Modal Primary Popop */}
+      <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+        <form onSubmit={dealerForm.handleSubmit}>
+          <div className="text-center py-3">
+            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+              Assign Dealer
+            </p>
+            <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
+              <DataTable
+                columns={columns}
+                data={dealerList}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />
+                  </>
+                }
+                noDataComponent={<CustomNoDataComponent />}
+              />
+            </div>
+            <Grid className="drop-shadow-5xl">
+              <div className="col-span-4">
+                <Button
+                  type="button"
+                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={closeModal1}
+                >
+                  Cancel
+                </Button>
+              </div>
+              <div className="col-span-8">
+                <Button type="submit" className="w-full">
+                  Submit
+                </Button>
+              </div>
+            </Grid>
+          </div>
+        </form>
       </Modal>
       <Modal isOpen={modalOpen} onClose={closeModal10}>
         <div className="text-center py-3">

@@ -39,6 +39,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Select from "../../../common/select";
 import {
+  createRelationWithDealer,
   editDealerData,
   getDealersDetailsByid,
 } from "../../../services/dealerServices";
@@ -52,7 +53,7 @@ import {
 } from "../../../services/userServices";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
-import { addNewServicerRequest } from "../../../services/servicerServices";
+import { getServicerListForDealer } from "../../../services/servicerServices";
 
 function DealerDetails() {
   const getInitialActiveTab = () => {
@@ -73,7 +74,9 @@ function DealerDetails() {
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(3);
   const [servicerList, setServicerList] = useState([]);
+  const [flagValue, setFlagValue] = useState(false);
   const navigate = useNavigate();
+  const { servicerId } = useParams();
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
@@ -145,15 +148,16 @@ function DealerDetails() {
     setIsModalOpen1(false);
   };
   const modalOpen1 = () => {
+    getServicerList();
     setIsModalOpen1(true);
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
   };
   const getServicerList = async () => {
-    const result = await addNewServicerRequest("Approved");
-    setServicerList(result.data);
-    console.log(result.data);
+    const result = await getServicerListForDealer(id.id);
+    setServicerList(result.result);
+    console.log(result.result);
   };
   useEffect(() => {
     dealerData();
@@ -162,9 +166,6 @@ function DealerDetails() {
   useEffect(() => {
     localStorage.setItem("menu", activeTab);
   }, [activeTab]);
-  // useEffect(() => {
-  //   dealerData();
-  // }, [flag]);
 
   const dealerData = async () => {
     console.log(id);
@@ -200,6 +201,7 @@ function DealerDetails() {
         .required("Required")
         .max(500, "Must be exactly 500 characters"),
       street: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(500, "Must be exactly 500 characters"),
       state: Yup.string()
@@ -242,14 +244,36 @@ function DealerDetails() {
       selectedItems: [],
     },
 
-    onSubmit: (values) => {
-      console.log(values);
-      const selectedData = servicerList.filter((item) =>
-        values.selectedItems.includes(item.accountId)
-      );
-      servicerForm.resetForm();
+    onSubmit: async (values) => {
+      setFlagValue(false);
+      setLoading(true);
+      const selectedData = servicerList.map((item) => ({
+        _id: item._id,
+        status: values.selectedItems.includes(item._id) || item.check,
+      }));
+
       console.log("Selected Data: ", selectedData);
+
+      const result = await createRelationWithDealer(id.id, {
+        servicers: selectedData,
+      });
+      console.log(result);
+      if (result.code === 200) {
+        setLoading(false);
+        setFlagValue(true);
+        setModalOpen(true);
+        setFirstMessage("Servicer Updated Successfully");
+        setSecondMessage("Servicer Updated Successfully");
+        getServicerList();
+        closeModal1();
+      } else {
+        setLoading(false);
+        getServicerList();
+        closeModal1();
+      }
+
       closeModal1();
+      servicerForm.resetForm();
     },
   });
 
@@ -311,14 +335,14 @@ function DealerDetails() {
   const columns = [
     {
       name: "Servicer ID",
-      selector: (row) => row.servicerData.unique_key,
+      selector: (row) => row.unique_key,
       sortable: true,
       minWidth: "33%",
       center: true,
     },
     {
       name: "Servicer Name",
-      selector: (row) => row.servicerData.name,
+      selector: (row) => row.name,
       sortable: true,
       minWidth: "50%",
       center: true,
@@ -333,18 +357,16 @@ function DealerDetails() {
             <input
               type="checkbox"
               className="accent-gray-600"
+              checked={row.check}
               onChange={(e) => {
-                const selectedItems = [...servicerForm.values.selectedItems];
-
-                const itemId = servicerList[index].accountId;
-                if (e.target.checked) {
-                  selectedItems.push(itemId);
-                } else {
-                  const indexToRemove = selectedItems.indexOf(itemId);
-                  if (indexToRemove !== -1) {
-                    selectedItems.splice(indexToRemove, 1);
-                  }
-                }
+                const checked = e.target.checked;
+                const itemId = servicerList[index]._id;
+                servicerList[index].check = checked;
+                const selectedItems = checked
+                  ? [...servicerForm.values.selectedItems, itemId]
+                  : servicerForm.values.selectedItems.filter(
+                      (id) => id !== itemId
+                    );
 
                 servicerForm.setFieldValue("selectedItems", selectedItems);
               }}
@@ -388,7 +410,7 @@ function DealerDetails() {
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: <ServicerList id={id.id} />,
+      content: <ServicerList id={id.id} flag={flagValue} />,
     },
     {
       id: "Customers",

@@ -26,7 +26,7 @@ function UploadDealerBook() {
   const [activeDealers, SetActiveDealers] = useState([]);
   const [error, setError] = useState("");
   const [tags, setTags] = useState([]);
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(3);
   const navigate = useNavigate();
   const openModal = () => {
     setIsModalOpen(true);

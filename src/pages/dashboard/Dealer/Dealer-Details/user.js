@@ -38,7 +38,7 @@ function UserList(props) {
 
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
 
   const [isModalOpen12, setIsModalOpen12] = useState(false);

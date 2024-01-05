@@ -196,6 +196,7 @@ function CustomerDetails() {
         .required("Required")
         .max(500, "Must be exactly 500 characters"),
       street: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(500, "Must be exactly 500 characters"),
       state: Yup.string()
