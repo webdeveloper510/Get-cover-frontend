@@ -267,7 +267,7 @@ function UserList(props) {
     console.log(result);
     if (result.code === 200) {
       SetPrimaryText("It's set to Primary");
-      SetSecondaryText("We have successfully made this primary");
+      SetSecondaryText("We have successfully made this user primary");
       toggleFlag();
       openModal();
     }
@@ -552,7 +552,7 @@ function UserList(props) {
           </p>
           <p className="text-neutral-grey text-base font-medium mt-4">
             {secondaryText} <br />
-            Redirecting Back to UserList {timer}
+            Redirecting Back to User List {timer}
           </p>
         </div>
       </Modal>

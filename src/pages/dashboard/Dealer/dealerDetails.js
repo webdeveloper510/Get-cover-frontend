@@ -52,6 +52,7 @@ import {
 } from "../../../services/userServices";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
+import { addNewServicerRequest } from "../../../services/servicerServices";
 
 function DealerDetails() {
   const getInitialActiveTab = () => {
@@ -71,6 +72,7 @@ function DealerDetails() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(3);
+  const [servicerList, setServicerList] = useState([]);
   const navigate = useNavigate();
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [initialUserFormValues, setInitialUserFormValues] = useState({
@@ -148,9 +150,14 @@ function DealerDetails() {
   const closeUserModal = () => {
     setIsUserModalOpen(false);
   };
-
+  const getServicerList = async () => {
+    const result = await addNewServicerRequest("Approved");
+    setServicerList(result.data);
+    console.log(result.data);
+  };
   useEffect(() => {
     dealerData();
+    getServicerList();
   }, [id.id, flag]);
   useEffect(() => {
     localStorage.setItem("menu", activeTab);
@@ -237,9 +244,10 @@ function DealerDetails() {
 
     onSubmit: (values) => {
       console.log(values);
-      const selectedData = data.filter((item) =>
-        values.selectedItems.includes(item.id)
+      const selectedData = servicerList.filter((item) =>
+        values.selectedItems.includes(item.accountId)
       );
+      servicerForm.resetForm();
       console.log("Selected Data: ", selectedData);
       closeModal1();
     },
@@ -302,15 +310,15 @@ function DealerDetails() {
   };
   const columns = [
     {
-      name: "Dealer ID",
-      selector: (row) => row.id,
+      name: "Servicer ID",
+      selector: (row) => row.servicerData.unique_key,
       sortable: true,
       minWidth: "33%",
       center: true,
     },
     {
-      name: "Dealer Name",
-      selector: (row) => row.Servicername,
+      name: "Servicer Name",
+      selector: (row) => row.servicerData.name,
       sortable: true,
       minWidth: "50%",
       center: true,
@@ -327,7 +335,8 @@ function DealerDetails() {
               className="accent-gray-600"
               onChange={(e) => {
                 const selectedItems = [...servicerForm.values.selectedItems];
-                const itemId = data[index].id;
+
+                const itemId = servicerList[index].accountId;
                 if (e.target.checked) {
                   selectedItems.push(itemId);
                 } else {
@@ -343,41 +352,6 @@ function DealerDetails() {
           </div>
         );
       },
-    },
-  ];
-
-  const data = [
-    {
-      id: 1899,
-      Servicername: "Ankush Grover",
-    },
-    {
-      id: 1900,
-      Servicername: "Ankush Grover",
-    },
-    {
-      id: 1901,
-      Servicername: "Ankush Grover",
-    },
-    {
-      id: 1902,
-      Servicername: "Ankush Grover",
-    },
-    {
-      id: 1903,
-      Servicername: "Ankush Grover",
-    },
-    {
-      id: 1904,
-      Servicername: "Ankush Grover",
-    },
-    {
-      id: 1905,
-      Servicername: "Ankush Grover",
-    },
-    {
-      id: 1906,
-      Servicername: "Ankush Grover",
     },
   ];
 
@@ -414,7 +388,7 @@ function DealerDetails() {
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: <ServicerList />,
+      content: <ServicerList id={id.id} />,
     },
     {
       id: "Customers",
@@ -851,7 +825,7 @@ function DealerDetails() {
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
               <DataTable
                 columns={columns}
-                data={data}
+                data={servicerList}
                 highlightOnHover
                 sortIcon={
                   <>

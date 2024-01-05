@@ -555,10 +555,7 @@ function Dealer() {
       if (result.code === 200) {
         setIsEmailAvailable(true);
         formik.setFieldError("email", "");
-      } else if (
-        result.code === 401 &&
-        result.message === "Email is already exist!"
-      ) {
+      } else if (result.code === 401) {
         setIsEmailAvailable(false);
 
         return false;

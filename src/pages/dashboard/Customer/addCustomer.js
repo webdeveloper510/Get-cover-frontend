@@ -136,12 +136,13 @@ function AddCustomer() {
         formik.setFieldError("email", "");
       } else if (result.code === 401) {
         setIsEmailAvailable(false);
+        // setMessage("Some Errors Please Check Form Validations ");
+        // setIsModalOpen(true);
 
         return false;
       }
     }
   };
-
   const handleDeleteMembers = (index) => {
     const updatedMembers = [...formik.values.members];
     updatedMembers.splice(index, 1);
@@ -185,6 +186,7 @@ function AddCustomer() {
         .required("Required")
         .max(500, "Must be exactly 500 characters"),
       street: Yup.string()
+        .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(500, "Must be exactly 500 characters"),
       state: Yup.string()
@@ -249,6 +251,7 @@ function AddCustomer() {
         setLoading(false);
         return;
       }
+
       if (formik.values.members.length > 0) {
         console.log(formik.values.members.length);
         let emailValues = [];
@@ -289,7 +292,7 @@ function AddCustomer() {
         setLoading(false);
         setIsModalOpen(true);
       } else if (
-        result.message == "Servicer already exist with this account name"
+        result.message == "Customer already exist with this account name"
       ) {
         setLoading(false);
         formik.setFieldError("accountName", "Name Already Used");
@@ -585,6 +588,7 @@ function AddCustomer() {
                     )}
                   </div>
                 </div>
+
                 <div className="col-span-6">
                   <Input
                     type="tel"

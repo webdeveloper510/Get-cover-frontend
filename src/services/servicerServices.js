@@ -155,3 +155,19 @@ export const addUserByServicerId = async (data, id) => {
     throw error;
   }
 };
+export const getServicerListByDealerId = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealer/getDealerServicers/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

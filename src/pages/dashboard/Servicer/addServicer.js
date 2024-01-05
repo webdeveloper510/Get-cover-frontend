@@ -169,24 +169,21 @@ function AddServicer() {
 
     formik.setFieldValue("members", [...formik.values.members, members]);
   };
-  // const checkEmailAvailability = async (email) => {
-  //   console.log(emailValidationRegex.test(email));
-  //   if (emailValidationRegex.test(email) != false) {
-  //     const result = await checkDealersEmailValidation(email);
-  //     console.log(result);
-  //     if (result.code === 200) {
-  //       setIsEmailAvailable(true);
-  //       formik.setFieldError("email", "");
-  //     } else if (
-  //       result.code === 401 &&
-  //       result.message === "Email is already exist!"
-  //     ) {
-  //       setIsEmailAvailable(false);
+  const checkEmailAvailability = async (email) => {
+    console.log(emailValidationRegex.test(email));
+    if (emailValidationRegex.test(email) != false) {
+      const result = await checkDealersEmailValidation(email);
+      console.log(result);
+      if (result.code === 200) {
+        setIsEmailAvailable(true);
+        formik.setFieldError("email", "");
+      } else if (result.code === 401) {
+        setIsEmailAvailable(false);
 
-  //       return false;
-  //     }
-  //   }
-  // };
+        return false;
+      }
+    }
+  };
   const handleDeleteMembers = (index) => {
     const updatedMembers = [...formik.values.members];
     updatedMembers.splice(index, 1);
@@ -281,14 +278,14 @@ function AddServicer() {
 
     onSubmit: async (values) => {
       const isEmailValid = !formik.errors.email;
-      // const isEmailAvailable1 = isEmailValid
-      //   ? await checkEmailAvailability(formik.values.email)
-      //   : false;
+      const isEmailAvailable1 = isEmailValid
+        ? await checkEmailAvailability(formik.values.email)
+        : false;
 
-      // if (!isEmailAvailable) {
-      //   setLoading(false);
-      //   return;
-      // }
+      if (!isEmailAvailable) {
+        setLoading(false);
+        return;
+      }
       if (formik.values.members.length > 0) {
         console.log(formik.values.members.length);
         let emailValues = [];
@@ -564,7 +561,14 @@ function AddServicer() {
                       className="!bg-white"
                       required={true}
                       value={formik.values.email}
-                      onBlur={formik.handleBlur}
+                      onBlur={async () => {
+                        formik.handleBlur("email");
+
+                        const isEmailValid = !formik.errors.email;
+                        const isEmailAvailablechecking = isEmailValid
+                          ? await checkEmailAvailability(formik.values.email)
+                          : false;
+                      }}
                       onChange={formik.handleChange}
                       error={
                         (formik.touched.email && formik.errors.email) ||

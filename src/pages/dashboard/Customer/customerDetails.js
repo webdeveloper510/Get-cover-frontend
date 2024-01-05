@@ -218,12 +218,16 @@ function CustomerDetails() {
       console.log(result);
       if (result.code == 200) {
         customerDetails();
+        setModalOpen(true);
+        setFirstMessage("User Data Updated Successfully");
+        setSecondMessage("User Data Updated Successfully");
         setMessage("Dealer updated Successfully");
         setLoading(false);
         setIsModalOpen(false);
+      } else {
+        setLoading(false);
+        formik.setFieldError("accountName", "Name Already Used");
       }
-      //   setLoading(false);
-      // formik.setFieldError("accountName", "Name Already Used");
     },
   });
   const openUserModal = () => {
