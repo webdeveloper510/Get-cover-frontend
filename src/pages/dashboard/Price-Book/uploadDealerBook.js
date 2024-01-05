@@ -95,8 +95,12 @@ function UploadDealerBook() {
     const data = await getDealerList();
     console.log(data.data);
     let arr = [];
-    data?.data?.length > 0 &&
-      data?.data?.map((item) => {
+    const filteredDealers = data.data.filter(
+      (data) => data.dealerData.accountStatus === true
+    );
+    console.log(filteredDealers);
+    filteredDealers?.length > 0 &&
+      filteredDealers?.map((item) => {
         arr.push({ label: item.dealerData.name, value: item.accountId });
       });
 
