@@ -67,14 +67,22 @@ function AddDealerBook() {
   };
 
   const dealerList = async () => {
-    const result = await getDealersList();
-    console.log(result.data);
-    let arr = [];
-    result.data.map((data) => {
-      // console.log(data.dealerData);
-      arr.push({ label: data.dealerData.name, value: data.dealerData._id });
-    });
-    setActiveDealerList(arr);
+    try {
+      const result = await getDealersList();
+      console.log(result.data);
+      const filteredDealers = result.data.filter(
+        (data) => data.dealerData.accountStatus === true
+      );
+
+      let arr = filteredDealers.map((data) => ({
+        label: data.dealerData.name,
+        value: data.dealerData._id,
+      }));
+
+      setActiveDealerList(arr);
+    } catch (error) {
+      console.error("Error fetching dealer list:", error);
+    }
   };
   useEffect(() => {
     if (id) {
@@ -217,9 +225,9 @@ function AddDealerBook() {
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
-  const handleGOBack =()=>{
-    navigate(-1)
-  }
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   return (
     <div className="my-8 ml-3">
       <Headbar />
@@ -361,16 +369,15 @@ function AddDealerBook() {
           )}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
-
-            {error ? (
-        <p className="text-red-500 text-sm pl-2 my-3">
-          <span className="font-semibold"> {error} </span>
-        </p>
-      ) : (
-        <p className="text-red-500 text-sm pl-2 my-3 opacity-0	">
-        <span className="font-semibold"> error </span>
-      </p>
-      )}
+              {error ? (
+                <p className="text-red-500 text-sm pl-2 my-3">
+                  <span className="font-semibold"> {error} </span>
+                </p>
+              ) : (
+                <p className="text-red-500 text-sm pl-2 my-3 opacity-0	">
+                  <span className="font-semibold"> error </span>
+                </p>
+              )}
               <Grid>
                 {type !== "Edit" && (
                   <>

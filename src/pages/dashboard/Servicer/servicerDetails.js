@@ -167,7 +167,7 @@ function ServicerDetails() {
   };
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
-    userValues.setFieldValue("status", selectedValue);
+    userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
 
@@ -178,14 +178,14 @@ function ServicerDetails() {
   );
   const columns = [
     {
-      name: "Servicer ID",
+      name: "Dealer ID",
       selector: (row) => row.unique_key,
       sortable: true,
       minWidth: "33%",
       center: true,
     },
     {
-      name: "Servicer Name",
+      name: "Dealer Name",
       selector: (row) => row.name,
       sortable: true,
       minWidth: "50%",
@@ -349,6 +349,9 @@ function ServicerDetails() {
       localStorage.setItem("servicer", "Users");
       console.log(values);
       setLoading(true);
+      if (values.status === "yes" ) {
+        values.status = true;
+      }
       const result = await addUserByServicerId(values, servicerId);
       console.log(result.code);
       if (result.code == 200) {

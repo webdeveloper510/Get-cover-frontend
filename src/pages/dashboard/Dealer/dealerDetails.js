@@ -138,7 +138,7 @@ function DealerDetails() {
   }, [modalOpen, timer]);
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
-    userValues.setFieldValue("status", selectedValue);
+    userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
   const getUserList = async () => {
@@ -307,6 +307,9 @@ function DealerDetails() {
     onSubmit: async (values, { setFieldError }) => {
       localStorage.setItem("menu", "Users");
       console.log(values);
+      if (values.status === "yes") {
+        values.status = true;
+      }
       setLoading(true);
       const result = await addUserByDealerId(values);
       console.log(result.code);

@@ -254,3 +254,21 @@ export const getServicerDealers = async (id, data) => {
     throw error;
   }
 };
+
+export const updateServicerStatus = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(
+      `${url}/servicer/updateStatus/${id}`,
+      data,
+
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

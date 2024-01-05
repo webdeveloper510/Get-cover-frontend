@@ -16,6 +16,7 @@ import DataTable from "react-data-table-component";
 import {
   addNewServicerRequest,
   changeServicerStatus,
+  updateServicerStatus,
 } from "../../../services/servicerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
@@ -65,7 +66,7 @@ function ServicerList() {
           return data;
         });
       });
-      const result = await changeServicerStatus(row.accountId, {
+      const result = await updateServicerStatus(row.accountId, {
         status: newStatus === "active" ? true : false,
         userId: row._id,
       });

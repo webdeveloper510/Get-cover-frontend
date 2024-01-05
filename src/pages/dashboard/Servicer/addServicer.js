@@ -133,25 +133,28 @@ function AddServicer() {
 
   const handleRadioChangeDealers = (value, index) => {
     const updatedMembers = [...formik.values.members];
-    updatedMembers[index].status = value === "yes";
+    updatedMembers[index].status = value === "yes" ? true : false;
     formik.setFieldValue("members", updatedMembers);
   };
 
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
   };
+
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     setCreateAccountOption(selectedValue);
 
     if (selectedValue === "no") {
-      const updatedMembers = formik.values.members.map((service) => ({
+      const updateServicer = formik.values.members.map((service) => ({
         ...service,
         status: false,
       }));
 
-      formik.setFieldValue("members", updatedMembers);
+      formik.setFieldValue("members", updateServicer);
       formik.setFieldValue("status", false);
+    } else {
+      formik.setFieldValue("status", true);
     }
   };
   const state = cityData;
@@ -819,7 +822,7 @@ function AddServicer() {
                           id={`yes-${index}`}
                           label="Yes"
                           value="yes"
-                          disabled={createAccountOption === "no"}
+                          disabled={formik.values.status === false}
                           checked={
                             formik.values.members &&
                             formik.values.members[index] &&
@@ -833,7 +836,7 @@ function AddServicer() {
                           id={`no-${index}`}
                           label="No"
                           value="no"
-                          disabled={createAccountOption === "no"}
+                          disabled={formik.values.status === false}
                           checked={
                             formik.values.members &&
                             formik.values.members[index] &&

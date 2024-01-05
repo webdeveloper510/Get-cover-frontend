@@ -158,6 +158,9 @@ function CustomerDetails() {
     onSubmit: async (values, { setFieldError }) => {
       localStorage.setItem("customer", "Users");
       console.log(values);
+      if (values.status === "yes") {
+        values.status = true;
+      }
       setLoading(true);
       const result = await addUserToCustomer(values);
       console.log(result.code);
@@ -186,7 +189,7 @@ function CustomerDetails() {
   });
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
-    userValues.setFieldValue("status", selectedValue);
+    userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
 
