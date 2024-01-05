@@ -323,68 +323,20 @@ function DealerPriceList() {
             <div className="col-span-4 self-center">
               <p className="text-xl font-semibold py-4">Dealer Price List</p>
             </div>
-           <div className="col-span-8">
+            <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                <Grid className="!grid-cols-9">
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="category"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Category"
-                      value={formik.values.category}
-                      onChange={formik.handleChange}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      onChange={formik.handleChange}
-                      value={formik.values.name}
-                      placeholder="Dealer Name"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Select
-                      name="term"
-                      label=""
-                      options={termList}
-                      OptionName="Term"
-                      color="text-[#1B1D21] opacity-50"
-                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      selectedValue={selectedTearm}
-                      value={formik.values.term}
-                      onChange={handleSelectChange}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Select
-                      name="status"
-                      label=""
-                      options={status}
-                      OptionName="Status"
-                      color="text-[#1B1D21] opacity-50"
-                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      selectedValue={selectedProduct}
-                      value={formik.values.status}
-                      onChange={handleSelectChange}
-                    />
-                  </div>
-                  <div className="col-span-1 self-center justify-center flex">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer  mx-auto"
-                        alt="Search"
+                  <Grid className="!grid-cols-10">
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="category"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Category"
+                        value={formik.values.category}
+                        onChange={formik.handleChange}
                       />
                     </div>
                     <div className="col-span-2 self-center">

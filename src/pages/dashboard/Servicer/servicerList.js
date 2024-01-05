@@ -42,11 +42,7 @@ function ServicerList() {
 
   const getServicerList = async () => {
     setLoading(true);
-<<<<<<< Updated upstream
     const result = await addNewServicerRequest("Approved", {});
-=======
-    const result = await addNewServicerRequest("Approved");
->>>>>>> Stashed changes
     setServicerList(result.data);
     console.log(result.data);
     setLoading(false);
@@ -88,10 +84,7 @@ function ServicerList() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-<<<<<<< Updated upstream
       filterServicerRequest(values);
-=======
->>>>>>> Stashed changes
     },
   });
 
@@ -331,7 +324,6 @@ function ServicerList() {
                           alt="Search"
                         />
                       </Button>
-<<<<<<< Updated upstream
                       <Button
                         type="submit"
                         onClick={() => {
@@ -339,9 +331,6 @@ function ServicerList() {
                         }}
                         className=" !bg-transparent !p-0"
                       >
-=======
-                      <Button type="submit" className=" !bg-transparent !p-0">
->>>>>>> Stashed changes
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"
