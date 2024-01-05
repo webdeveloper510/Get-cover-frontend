@@ -596,7 +596,7 @@ function UserList(props) {
             Deleted Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            You have successfully delete this user.
+            You have successfully deleted this user.
           </p>
         </div>
       </Modal>

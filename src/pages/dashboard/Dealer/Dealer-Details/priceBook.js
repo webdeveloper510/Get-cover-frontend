@@ -17,6 +17,7 @@ import { getCategoryList } from "../../../../services/priceBookService";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import Select from "../../../../common/select";
+import { RotateLoader } from "react-spinners";
 import * as Yup from "yup";
 function PriceBookList(props) {
   console.log(props.id);
@@ -220,28 +221,27 @@ function PriceBookList(props) {
     };
   }, []);
 
-
-  const filterDealerPriceBook = async (values)=>{
-      values.dealerId = props.id
-      try {
-        setLoading(true);
-        const res = await getFilterPriceBookByDealer(values);
-        if (res.code != 200) {
-          setError(res.message);
-          setLoading(false);
-        } else {
-          setLoading(false);
-          setError("");
-        }
-        console.log(res);
-        setPriceBookList(res.result);
-      } catch (error) {
+  const filterDealerPriceBook = async (values) => {
+    values.dealerId = props.id;
+    try {
+      setLoading(true);
+      const res = await getFilterPriceBookByDealer(values);
+      if (res.code != 200) {
+        setError(res.message);
         setLoading(false);
-        console.error("Error fetching category list:", error);
-      } finally {
+      } else {
         setLoading(false);
+        setError("");
       }
-  }
+      console.log(res);
+      setPriceBookList(res.result);
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching category list:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -273,7 +273,7 @@ function PriceBookList(props) {
             </div>
             <div className="col-span-8">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-              <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={formik.handleSubmit}>
                   <Grid className="!grid-cols-11">
                     <div className="col-span-3 self-center">
                       <Input
@@ -335,28 +335,36 @@ function PriceBookList(props) {
                         />
                       </Button>
                     </div>
-                  </Grid>     
-          </form>
+                  </Grid>
+                </form>
               </div>
             </div>
           </Grid>
           <div className="mb-5 relative dealer-detail">
-            <DataTable
-              columns={columns}
-              data={priceBookList}
-              highlightOnHover
-              sortIcon={
-                <>
-                  {" "}
-                  <img src={shorting} className="ml-2" alt="shorting" />
-                </>
-              }
-              noDataComponent={<CustomNoDataComponent />}
-              pagination
-              paginationPerPage={10}
-              paginationComponentOptions={paginationOptions}
-              paginationRowsPerPageOptions={[10, 20, 50, 100]}
-            />
+            {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
+              <DataTable
+                columns={columns}
+                data={priceBookList}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />
+                  </>
+                }
+                noDataComponent={<CustomNoDataComponent />}
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              />
+            )}
           </div>
         </div>
       </div>

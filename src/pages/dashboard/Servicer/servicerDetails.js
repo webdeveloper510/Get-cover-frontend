@@ -86,7 +86,7 @@ function ServicerDetails() {
   // const { flag } = useMyContext();
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const modalOpen1 = () => {
-    servicerDetail();
+    getDealerList();
     setIsModalOpen1(true);
   };
   const routeToPage = (data) => {
@@ -246,9 +246,11 @@ function ServicerDetails() {
     formik.setFieldValue(name, value);
   };
   const getDealerList = async () => {
+    setLoading(true);
     const result = await getDealerListByServicerId(servicerId);
     setDealerList(result.result);
     console.log(result.result);
+    setLoading(false);
   };
   useEffect(() => {
     servicerDetail();
@@ -294,7 +296,7 @@ function ServicerDetails() {
     },
   });
   const servicerDetail = async () => {
-    setLoading(true);
+    // setLoading(true);
     const res = await getServicerDetailsByServicerId(servicerId);
     setServicerDetails(res.message);
     console.log(res.message);
@@ -308,7 +310,7 @@ function ServicerDetails() {
       state: res?.message?.meta?.state,
       country: "USA",
     });
-    setLoading(false);
+    // setLoading(false);
   };
   const userValues = useFormik({
     initialValues: initialUserFormValues,
@@ -407,7 +409,7 @@ function ServicerDetails() {
         setSecondMessage("Servicer edited Successfully");
 
         // setMessage("Dealer updated Successfully");
-      } else if (result.message == "Account name is not available") {
+      } else if (result.message == "Servicer already exist with this name") {
         setLoading(false);
         formik.setFieldError("name", "Name Already Used");
       }
