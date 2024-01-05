@@ -41,7 +41,7 @@ function Dealer() {
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("start");
-  const [timer, setTimer] = useState(4);
+  const [timer, setTimer] = useState(3);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
     street: "",

@@ -26,7 +26,7 @@ import { RotateLoader } from "react-spinners";
 
 function AddCompanyPriceBook() {
   const [error, setError] = useState("");
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(3);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
   const [termList, setTermList] = useState([]);
@@ -280,9 +280,9 @@ function AddCompanyPriceBook() {
   ];
 
   const defaultValue = formik.values.status === "" ? false : true;
-  const handleGOBack =()=>{
-    navigate(-1)
-  }
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   return (
     <div className="my-8 ml-3">
       <Headbar />
@@ -403,17 +403,16 @@ function AddCompanyPriceBook() {
             </div>
           )}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-          <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
-
-{error ? (
-<p className="text-red-500 text-sm pl-2 my-3">
-<span className="font-semibold"> {error} </span>
-</p>
-) : (
-<p className="text-red-500 text-sm pl-2 my-3 opacity-0	">
-<span className="font-semibold"> error </span>
-</p>
-)}
+            <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+              {error ? (
+                <p className="text-red-500 text-sm pl-2 my-3">
+                  <span className="font-semibold"> {error} </span>
+                </p>
+              ) : (
+                <p className="text-red-500 text-sm pl-2 my-3 opacity-0	">
+                  <span className="font-semibold"> error </span>
+                </p>
+              )}
 
               <Grid
                 className={`  ${
