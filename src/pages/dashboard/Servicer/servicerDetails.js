@@ -691,8 +691,8 @@ function ServicerDetails() {
       </Grid>
       {/* user popup */}
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
-        <div className="text-center py-3">
-          <p className="text-3xl mb-5 mt-2 font-bold text-light-black">
+        <div className="py-3">
+          <p className="text-center  text-3xl mb-5 mt-2 font-bold text-light-black">
             Add New User
           </p>
           <form onSubmit={userValues.handleSubmit}>
@@ -835,7 +835,7 @@ function ServicerDetails() {
                 </p>
               </div>
             </Grid>
-            <Grid className="drop-shadow-5xl">
+            <Grid className="drop-shadow-5xl px-8">
               <div className="col-span-4">
                 <Button
                   type="button"
