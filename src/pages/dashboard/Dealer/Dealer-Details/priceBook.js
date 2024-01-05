@@ -29,7 +29,7 @@ function PriceBookList(props) {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = priceBookList.length - index <= 2;
+    const isCloseToBottom = priceBookList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
   const status = [

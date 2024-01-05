@@ -28,7 +28,7 @@ function ServicerList() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = servicerList.length - index <= 2;
+    const isCloseToBottom = servicerList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 

@@ -44,7 +44,7 @@ function OrderList() {
     };
 
     const calculateDropdownPosition = (index) => {
-      const isCloseToBottom = data.length - index <= 2;
+      const isCloseToBottom = data.length - index <= 10000;
       return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
     };
 

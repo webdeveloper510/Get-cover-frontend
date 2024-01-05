@@ -57,7 +57,7 @@ function Category() {
   };
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = categoryList.length - index <= 2;
+    const isCloseToBottom = categoryList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 

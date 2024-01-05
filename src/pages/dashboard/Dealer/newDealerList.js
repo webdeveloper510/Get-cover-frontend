@@ -100,7 +100,7 @@ function NewDealerList() {
   };
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = pendingDealerList.length - index <= 2;
+    const isCloseToBottom = pendingDealerList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 

@@ -44,7 +44,7 @@ function CustomerList() {
   const dropdownRef = useRef(null);
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = customerList.length - index <= 2;
+    const isCloseToBottom = customerList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 

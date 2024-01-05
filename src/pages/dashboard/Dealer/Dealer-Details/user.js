@@ -228,7 +228,7 @@ function UserList(props) {
   });
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = userList.length - index <= 2;
+    const isCloseToBottom = userList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
