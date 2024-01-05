@@ -34,6 +34,7 @@ function UserList(props) {
   const [userList, setUserList] = useState([]);
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
+  const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
 
   const [primaryText, SetPrimaryText] = useState("");
@@ -61,7 +62,8 @@ function UserList(props) {
       setUserList(result.result);
     } else if (props.flag == "servicer") {
       const result = await getServicerUsersById(props.id, {});
-      console.log(result.result);
+      console.log(result);
+      setServiceStatus(result.servicerStatus);
       setUserList(result.result);
     } else {
       const result = await getUserListByDealerId(props.id, {});
@@ -350,7 +352,7 @@ function UserList(props) {
             } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
-            disabled={row.isPrimary === true ? true : false}
+            disabled={row.isPrimary || !servicerStatus}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
