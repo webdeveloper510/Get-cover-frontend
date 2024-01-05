@@ -34,6 +34,7 @@ function UserList(props) {
   const [userList, setUserList] = useState([]);
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
+  const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
 
@@ -68,6 +69,7 @@ function UserList(props) {
     } else {
       const result = await getUserListByDealerId(props.id, {});
       console.log(result.result);
+      setServiceStatus(result.dealerStatus);
       setUserList(result.result);
     }
   };
@@ -253,6 +255,7 @@ function UserList(props) {
     const result = await userDetailsById(id);
     console.log(result.result);
     SetIsprimary(result.result.isPrimary);
+    setMainStatus(result.mainStatus);
     setInitialFormValues({
       id: id,
       lastName: result?.result?.lastName,
@@ -717,7 +720,7 @@ function UserList(props) {
                   name="status"
                   placeholder=""
                   onChange={handleSelectChange}
-                  disabled={isprimary}
+                  disabled={isprimary || !mainStatus}
                   className="!bg-[#fff]"
                   options={status}
                   value={formik.values.status}
