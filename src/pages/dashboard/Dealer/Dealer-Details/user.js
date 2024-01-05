@@ -385,7 +385,7 @@ function UserList(props) {
             {selectedAction === row.email && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[9999] w-[120px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[9999] ${!row.isPrimary ? ('w-[120px]'): ('w-[80px]')} drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -653,7 +653,7 @@ function UserList(props) {
                   name="position"
                   label="Position"
                   className="!bg-[#fff]"
-                  required={true}
+                  // required={true}
                   placeholder=""
                   maxLength={"30"}
                   value={formik.values.position}
