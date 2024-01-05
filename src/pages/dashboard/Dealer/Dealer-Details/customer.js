@@ -174,11 +174,6 @@ function CustomerList(props) {
     }),
     onSubmit: async (values) => {
       console.log(values);
-      const newVarSet = DealserValue?.split(" ");
-      if (newVarSet?.length === 2) {
-        formik.setFieldValue("firstName", newVarSet[0]);
-        formik.setFieldValue("lastName", newVarSet[1]);
-      }
       try {
         await filterDealerCustomer(values);
       } catch (error) {
@@ -201,16 +196,15 @@ function CustomerList(props) {
                   <Grid className="!grid-cols-11">
                     <div className="col-span-3 self-center">
                       <Input
-                        name="name"
+                        name="firstName"
                         type="text"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        placeholder="Dealer Name"
-                        // value={formik.values.firstName + " " + formik.values.lastName}
-                        onChange={(e) => {
-                          setDealerValue(e.target.value);
-                        }}
+                        placeholder="Name"
+                        value={formik.values.firstName}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
                     </div>
                     <div className="col-span-3 self-center">
@@ -220,7 +214,7 @@ function CustomerList(props) {
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        placeholder="Dealer Email"
+                        placeholder="Email"
                         value={formik.values.email}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}

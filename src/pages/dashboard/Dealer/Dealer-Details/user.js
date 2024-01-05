@@ -385,7 +385,9 @@ function UserList(props) {
             {selectedAction === row.email && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[9999] ${!row.isPrimary ? ('w-[120px]'): ('w-[80px]')} drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[9999] ${
+                  !row.isPrimary ? "w-[120px]" : "w-[80px]"
+                } drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -454,7 +456,7 @@ function UserList(props) {
                     <div className="col-span-3 self-center">
                       <Input
                         name="email"
-                        type="email"
+                        type="text"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""

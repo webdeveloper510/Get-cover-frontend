@@ -244,10 +244,13 @@ function Dealer() {
       formik.setFieldValue("dealers", updatedDealers);
       formik.setFieldValue("isAccountCreate", false);
       formik.setFieldValue("customerAccountCreated", false);
+    } else {
+      formik.setFieldValue("isAccountCreate", true);
     }
   };
 
   const handleSeparateAccountRadioChange = (event) => {
+    console.log(event.target.value);
     setSeparateAccountOption(event.target.value);
   };
 
@@ -259,7 +262,7 @@ function Dealer() {
 
   const handleRadioChangeDealers = (value, index) => {
     const updatedDealers = [...formik.values.dealers];
-    updatedDealers[index].status = value === "yes";
+    updatedDealers[index].status = value === "yes" ? true : false;
     formik.setFieldValue("dealers", updatedDealers);
   };
 
@@ -470,8 +473,9 @@ function Dealer() {
           formData.append(key, value);
         }
       });
-      values.isAccountCreate = createAccountOption === "yes";
-      values.customerAccountCreated = separateAccountOption === "yes";
+
+      values.customerAccountCreated =
+        separateAccountOption === "yes" ? true : false;
 
       if (id !== undefined) {
         formData.append("dealerId", id);
@@ -480,11 +484,12 @@ function Dealer() {
       const result = await addNewOrApproveDealer(formData);
       console.log(result);
 
-      if (result.message === "Successfully Created") {
+      if (result.code === 200) {
         setLoading(false);
         setError("done");
         setIsModalOpen(true);
         setMessage("New Dealer Created Successfully");
+        setTimer(3);
         // navigate("/dealerList");
       } else if (result.message == "Dealer name already exists") {
         setLoading(false);

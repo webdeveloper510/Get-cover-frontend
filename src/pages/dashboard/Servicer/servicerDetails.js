@@ -281,6 +281,7 @@ function ServicerDetails() {
         setFirstMessage("Servicer Updated Successfully");
         setSecondMessage("Servicer Updated Successfully");
         getDealerList();
+        setTimer(3);
         closeModal1();
       } else {
         setLoading(false);
@@ -347,6 +348,7 @@ function ServicerDetails() {
         // setMessage("Dealer updated Successfully");
         setLoading(false);
         closeUserModal();
+        setTimer(3);
         // window.location.reload();
         // setIsModalOpen(false);
       } else {
@@ -400,6 +402,7 @@ function ServicerDetails() {
         setModalOpen(true);
         servicerDetail();
         setIsModalOpen(false);
+        setTimer(3);
         setFirstMessage("Edited Successfully");
         setSecondMessage("Servicer edited Successfully");
 
@@ -410,10 +413,10 @@ function ServicerDetails() {
       }
     },
   });
-  const navigate = useNavigate()
-  const handleGOBack =()=>{
-    navigate(-1)
-  }
+  const navigate = useNavigate();
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   const serviceData = async () => {
     // const result =await
   };

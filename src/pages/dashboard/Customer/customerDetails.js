@@ -166,7 +166,7 @@ function CustomerDetails() {
         setMessage("Dealer updated Successfully");
         setLoading(false);
         closeUserModal();
-
+        setTimer(3);
         // window.location.reload();
         // setIsModalOpen(false);
       } else {
@@ -303,10 +303,10 @@ function CustomerDetails() {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
-  const navigate = useNavigate()
-  const handleGOBack =()=>{
-    navigate(-1)
-  }
+  const navigate = useNavigate();
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   return (
     <>
       {loading && (

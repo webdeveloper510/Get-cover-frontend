@@ -304,7 +304,7 @@ function AddServicer() {
         setMessage("Servicer Created Successfully");
         setIsModalOpen(true);
         setLoading(false);
-
+        setTimer(3);
         // navigate("/servicerList");
       } else if (
         result.message == "Primary user already exist with this email "
@@ -757,7 +757,7 @@ function AddServicer() {
                     </div>
                     <div className="col-span-4">
                       <Input
-                        type="number"
+                        type="tel"
                         name={`members[${index}].phoneNumber`}
                         className="!bg-white"
                         label="Phone"
