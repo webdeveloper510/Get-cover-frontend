@@ -301,7 +301,7 @@ function AddServicer() {
       // const result = await addNewServicer(newValues);
       console.log(result);
       if (result.code === 200) {
-        setMessage(result.message);
+        setMessage("Servicer Created Successfully");
         setIsModalOpen(true);
         setLoading(false);
 
@@ -566,6 +566,7 @@ function AddServicer() {
                     name="phoneNumber"
                     label="Phone"
                     required={true}
+                    value={formik.values.phoneNumber}
                     className="!bg-white"
                     placeholder=""
                     onChange={(e) => {
