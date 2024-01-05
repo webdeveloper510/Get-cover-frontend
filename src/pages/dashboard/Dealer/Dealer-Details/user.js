@@ -148,6 +148,7 @@ function UserList(props) {
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const closeModal2 = () => {
     setIsModalOpen2(false);
+    formik.resetForm();
   };
   const openModal2 = () => {
     setIsModalOpen2(true);

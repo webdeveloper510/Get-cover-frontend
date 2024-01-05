@@ -105,6 +105,7 @@ function DealerDetails() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    formik.resetForm();
   };
   const closeModal10 = () => {
     setModalOpen(false);
@@ -141,7 +142,6 @@ function DealerDetails() {
   };
   const getUserList = async () => {
     const result = await getUserListByDealerId(id.id, {});
-    console.log(result.result, "----------");
     setRefreshUserList(result.result);
   };
   const closeModal1 = () => {
@@ -153,6 +153,7 @@ function DealerDetails() {
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
+    userValues.resetForm();
   };
   const getServicerList = async () => {
     const result = await getServicerListForDealer(id.id);

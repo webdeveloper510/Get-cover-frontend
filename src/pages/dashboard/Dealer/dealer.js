@@ -72,6 +72,8 @@ function Dealer() {
     isAccountCreate: false,
     customerAccountCreated: false,
     file: "",
+    oldName: "",
+    oldEmail: "",
   });
 
   const navigate = useNavigate();
@@ -170,6 +172,8 @@ function Dealer() {
             phoneNumber: res?.result[0]?.phoneNumber,
             city: res?.result[0]?.dealerData?.city,
             position: res?.result[0]?.position,
+            oldName: res?.result[0]?.dealerData?.name,
+            oldEmail: res?.result[0]?.email,
             createdBy: "Super admin",
             role: "dealer",
             dealers: [],

@@ -120,6 +120,7 @@ function CustomerDetails() {
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
+    userValues.resetForm();
   };
   const getUserList = async () => {
     const result = await getUserListByDealerId(customerId, {});
@@ -164,6 +165,7 @@ function CustomerDetails() {
         setMessage("Dealer updated Successfully");
         setLoading(false);
         closeUserModal();
+
         // window.location.reload();
         // setIsModalOpen(false);
       } else {
@@ -227,7 +229,7 @@ function CustomerDetails() {
         setIsModalOpen(false);
       } else {
         setLoading(false);
-        formik.setFieldError("accountName", "Name Already Used");
+        formik.setFieldError("username", "Name Already Used");
       }
     },
   });
@@ -255,7 +257,7 @@ function CustomerDetails() {
     console.log(result.result);
     setInitialFormValues({
       username: result?.result?.meta?.username,
-      // oldName: result?.result[0]?.dealerData?.name,
+      oldName: result?.result?.meta?.username,
       // dealerId: id.id,
       street: result?.result?.meta?.street,
       city: result?.result?.meta?.city,

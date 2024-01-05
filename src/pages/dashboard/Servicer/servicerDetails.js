@@ -104,6 +104,7 @@ function ServicerDetails() {
   };
   const closeModal = () => {
     setIsModalOpen(false);
+    formik.resetForm();
   };
   useEffect(() => {
     setLoading(true);
@@ -144,6 +145,7 @@ function ServicerDetails() {
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
+    userValues.resetForm();
   };
   const getUserList = async () => {
     const result = await getUserListByDealerId(servicerId, {});
