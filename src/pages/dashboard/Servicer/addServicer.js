@@ -169,19 +169,6 @@ function AddServicer() {
 
     formik.setFieldValue("members", [...formik.values.members, members]);
   };
-  const checkEmailAvailability = async (email) => {
-    console.log(emailValidationRegex.test(email));
-    if (emailValidationRegex.test(email) != false) {
-      const result = await checkDealersEmailValidation(email);
-      console.log(result);
-      if (result.code === 200) {
-        setIsEmailAvailable(true);
-        formik.setFieldError("email", "");
-      } else if (result.code === 401) {
-        return false;
-      }
-    }
-  };
   const handleDeleteMembers = (index) => {
     const updatedMembers = [...formik.values.members];
     updatedMembers.splice(index, 1);
@@ -275,8 +262,6 @@ function AddServicer() {
     }),
 
     onSubmit: async (values) => {
-      const isEmailValid = !formik.errors.email;
-
       if (formik.values.members.length > 0) {
         console.log(formik.values.members.length);
         let emailValues = [];
@@ -315,13 +300,15 @@ function AddServicer() {
         : await addNewServicer(newValues);
       // const result = await addNewServicer(newValues);
       console.log(result);
-      if (result.code == 200) {
-        setMessage("Servicer Created Successfully");
-        setLoading(false);
+      if (result.code === 200) {
+        setMessage(result.message);
         setIsModalOpen(true);
+        setLoading(false);
 
         // navigate("/servicerList");
-      } else if (result.message == "Primary user email already exist") {
+      } else if (
+        result.message == "Primary user already exist with this email "
+      ) {
         setIsModalOpen(true);
         setMessage(result.message);
         formik.setFieldError("email", "Email Already Used");
@@ -333,15 +320,16 @@ function AddServicer() {
         setMessage("Some Errors Please Check Form Validations ");
         setIsModalOpen(true);
       } else {
-        setLoading(false);
         setIsModalOpen(true);
-        setMessage(result.message);
+        setLoading(false);
+
+        // setMessage(result.message);
       }
     },
   });
-  const handleGOBack =()=>{
-    navigate(-1)
-  }
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   return (
     <div className="my-8 ml-3">
       <Headbar />
