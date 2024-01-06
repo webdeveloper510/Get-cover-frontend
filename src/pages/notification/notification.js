@@ -60,7 +60,7 @@ function Notification() {
             {/* <li className="text-sm text-neutral-grey font-Regular">
               <Link to={"/"}>Servicer </Link> /{" "}
             </li> */}
-            <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+            <li className="text-sm text-neutral-grey font-semibold pt-[1px]">
               {" "}
               Notifications{" "}
             </li>

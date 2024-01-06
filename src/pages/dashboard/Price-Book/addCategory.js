@@ -161,11 +161,7 @@ function AddCategory() {
           </ul>
         </div>
       </div>
-      {error && (
-        <p className="text-red-500 text-sm pl-2">
-          <span className="font-semibold"> {error} </span>
-        </p>
-      )}
+     
       {/* Form Start */}
       {loader == true ? (
         <div className=" h-screen w-full flex py-5">
@@ -175,7 +171,17 @@ function AddCategory() {
         </div>
       ) : (
         <form className="mt-8" onSubmit={formik.handleSubmit}>
-          <div className="px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+           <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+
+{error ? (
+<p className="text-red-500 text-sm pl-2 my-3">
+<span className="font-semibold"> {error} </span>
+</p>
+) : (
+<p className="text-red-500 text-sm pl-2 my-3 opacity-0	">
+<span className="font-semibold"> error </span>
+</p>
+)}
             <Grid>
               <div className="col-span-12">
                 <Input

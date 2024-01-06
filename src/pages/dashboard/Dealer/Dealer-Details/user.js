@@ -434,7 +434,7 @@ function UserList(props) {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <form className="mt-8" onSubmit={formikUSerFilter.handleSubmit}>
+                <form className="" onSubmit={formikUSerFilter.handleSubmit}>
                   <Grid className="!grid-cols-11">
                     <div className="col-span-3 self-center">
                       <Input

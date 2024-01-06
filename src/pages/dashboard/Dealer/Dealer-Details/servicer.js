@@ -142,7 +142,7 @@ function ServicerList() {
                   index
                 )}`}>
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                  <div className='text-center pt-3'><Link to={'/servicerDetails'}> View </Link></div>
+                  <div className='text-center pt-3'><Link to={`/servicerDetails/asdewr`}> View </Link></div>
                   <div className='text-center py-3 cursor-pointer' onClick={()=> openModal()}>Unassigned</div>
               </div>          
             )}

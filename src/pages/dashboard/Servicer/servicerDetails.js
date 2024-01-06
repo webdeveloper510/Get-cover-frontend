@@ -447,22 +447,18 @@ function ServicerDetails() {
               </div>
             </div>
             <div className="col-span-4">
-              <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+              <Button  onClick={() => routeToPage(activeTab)} className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
                 {" "}
-                <div
-                  className="col-span-2"
-                  onClick={() => routeToPage(activeTab)}
-                >
+              
                   {" "}
                   <img
                     src={AddItem}
                     className="self-center"
                     alt="AddItem"
                   />{" "}
-                  <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
+                  <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
                     Add {activeTab}
                   </span>{" "}
-                </div>
               </Button>
             </div>
           </Grid>

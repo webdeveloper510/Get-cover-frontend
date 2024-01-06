@@ -267,11 +267,11 @@ function AddDealerBook() {
           </div>
 
           {/* Form Start */}
-          {error && (
+          {/* {error && (
             <p className="text-red-500 text-sm pl-2">
               <span className="font-semibold"> {error} </span>
             </p>
-          )}
+          )} */}
           {type === "Edit" && (
             <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
               <Grid className="mx-8 mx-auto ">
@@ -358,7 +358,17 @@ function AddDealerBook() {
             </div>
           )}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 py-8 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+            <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+
+            {error ? (
+        <p className="text-red-500 text-sm pl-2 my-3">
+          <span className="font-semibold"> {error} </span>
+        </p>
+      ) : (
+        <p className="text-red-500 text-sm pl-2 my-3 opacity-0	">
+        <span className="font-semibold"> error </span>
+      </p>
+      )}
               <Grid>
                 {type !== "Edit" && (
                   <>

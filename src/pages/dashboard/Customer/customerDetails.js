@@ -521,10 +521,7 @@ function CustomerDetails() {
                 </div>
               </div>
               <div className="col-span-2">
-                <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-                  {" "}
-                  <div
-                    className="col-span-2"
+                <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
                     onClick={() => routeToPage(activeTab)}
                   >
                     {" "}
@@ -533,10 +530,9 @@ function CustomerDetails() {
                       className="self-center"
                       alt="AddItem"
                     />{" "}
-                    <span className="text-black ml-3 text-[14px] font-Regular !font-[700]">
+                    <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
                       Add {activeTab}
                     </span>{" "}
-                  </div>
                 </Button>
               </div>
             </Grid>
