@@ -23,7 +23,7 @@ export const getPendingDealersList = async (data) => {
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.post(`${url}/admin/pendingDealers`,data ,{
+    const response = await axios.post(`${url}/admin/pendingDealers`, data, {
       headers,
     });
 
@@ -98,7 +98,7 @@ export const checkDealersEmailValidation = async (email) => {
   console.log(headers);
   try {
     const response = await axios.post(
-      `${url}/user/checkEmail`,
+      `${url}/user/checkEmailForSingle`,
       {
         email: email,
       },
@@ -276,13 +276,13 @@ export const getDealerPriceBookByDealerId = async (id) => {
   }
 };
 
-
 export const getFilterPriceBookByDealer = async (data) => {
   const headers = createHeaders();
   console.log(headers);
   try {
     const response = await axios.post(
-      `${url}/dealer/getAllPriceBooksByFilter/`,data,
+      `${url}/dealer/getAllPriceBooksByFilter/`,
+      data,
       {
         headers,
       }
@@ -293,7 +293,6 @@ export const getFilterPriceBookByDealer = async (data) => {
     throw error;
   }
 };
-
 
 export const filterGetPriceBookDetails = async (data) => {
   const headers = createHeaders();

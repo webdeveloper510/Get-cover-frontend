@@ -433,6 +433,20 @@ function Dealer() {
           return;
         }
       }
+      console.log(values.priceBook);
+      var valueArr = values.priceBook.map(function (item) {
+        return item.categoryId;
+      });
+      var isDuplicate = valueArr.some(function (item, idx) {
+        return valueArr.indexOf(item) != idx;
+      });
+      if (isDuplicate) {
+        setLoading(false);
+        setMessage("PriceBook Exist with Same Name ");
+        setIsModalOpen(true);
+        return;
+      }
+
       const newObject = {
         email: values.email,
         firstName: values.firstName,
@@ -497,10 +511,7 @@ function Dealer() {
         if (result.code === 200) {
           formik.setFieldError(fieldPath, "");
           return true;
-        } else if (
-          result.code === 401 &&
-          result.message === "Email is already exist!"
-        ) {
+        } else if (result.code === 401) {
           formik.setFieldError(fieldPath, "Email is already in use");
           setMessage("Some Errors Please Check Form Validations ");
           setIsModalOpen(true);

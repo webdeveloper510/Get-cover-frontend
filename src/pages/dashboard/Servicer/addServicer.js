@@ -202,13 +202,10 @@ function AddServicer() {
         if (result.code === 200) {
           formik.setFieldError(fieldPath, "");
           return true;
-        } else if (
-          result.code === 401 &&
-          result.message === "Email is already exist!"
-        ) {
+        } else if (result.code === 401) {
           formik.setFieldError(fieldPath, "Email is already in use");
-          // setMessage("Some Errors Please Check Form Validations ");
-          // setIsModalOpen(true);
+          setMessage("Some Errors Please Check Form Validations ");
+          setIsModalOpen(true);
           return false;
         }
       } catch (error) {

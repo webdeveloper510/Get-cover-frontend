@@ -134,10 +134,7 @@ function AddCustomer() {
       if (result.code === 200) {
         setIsEmailAvailable(true);
         formik.setFieldError("email", "");
-      } else if (
-        result.code === 401 &&
-        result.message === "Email is already exist!"
-      ) {
+      } else if (result.code === 401) {
         setIsEmailAvailable(false);
 
         return false;
@@ -163,13 +160,10 @@ function AddCustomer() {
           result.message === "Customer already exist with this account name"
         ) {
           formik.setFieldError("accountName", "Already Exist");
-        } else if (
-          result.code === 401 &&
-          result.message === "Email is already exist!"
-        ) {
+        } else if (result.code === 401) {
           formik.setFieldError(fieldPath, "Email is already in use");
-          // setMessage("Some Errors Please Check Form Validations ");
-          // setIsModalOpen(true);
+          setMessage("Some Errors Please Check Form Validations ");
+          setIsModalOpen(true);
           return false;
         }
       } catch (error) {
