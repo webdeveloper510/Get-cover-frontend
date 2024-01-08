@@ -243,10 +243,10 @@ function CustomerList() {
 
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-5 self-center">
+            <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Customers List</p>
             </div>
-            <div className="col-span-7">
+            <div className="col-span-9">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
                   <Grid className="!grid-cols-10">
@@ -301,7 +301,7 @@ function CustomerList() {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-                    <div className="col-span-2 self-center">
+                    <div className="col-span-3 self-center">
                       <Select
                         label=""
                         name="dealerName"
@@ -315,7 +315,7 @@ function CustomerList() {
                       />
                     </div>
 
-                    <div className="col-span-2 self-center flex">
+                    <div className="col-span-1 self-center flex">
                       <Button type="submit" className="!p-0">
                         <img
                           src={Search}
