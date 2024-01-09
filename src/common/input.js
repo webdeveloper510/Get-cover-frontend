@@ -1,12 +1,128 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const Input = ({ type, placeholder, label, defaultValue, onChange, name }) => {
+const Input = ({
+  type,
+  error,
+  label,
+  value,
+  onChange,
+  onBlur,
+  name,
+  minLength,
+  maxLength,
+  required,
+  className,
+  className1,
+  disabled,
+  maxDecimalPlaces,
+  placeholder,
+}) => {
+  const [inputValue, setInputValue] = useState(value);
+  // console.log(defaultValue);
+  const handleWheelCapture = (event) => {
+    event.preventDefault();
+  };
+
+  const handleInput = (event) => {
+    if (
+      type === "number" &&
+      maxDecimalPlaces !== undefined &&
+      maxLength !== undefined
+    ) {
+      const inputValue = event.target.value;
+      const regex = new RegExp(`^-?\\d{0,10}(\\.\\d{0,2})?$`);
+
+      if (!regex.test(inputValue)) {
+        return;
+      }
+      setInputValue(inputValue);
+
+      if (onChange) {
+        onChange({
+          target: {
+            name: event.target.name,
+            value: inputValue,
+          },
+        });
+      }
+    } else if (
+      type === "tel" &&
+      maxDecimalPlaces !== undefined &&
+      maxLength !== undefined
+    ) {
+      const inputValue = event.target.value;
+      const regex = new RegExp(`^-?\\d{0,7}(\\.\\d{0,2})?$`);
+
+      if (!regex.test(inputValue)) {
+        return;
+      }
+      setInputValue(inputValue);
+
+      if (onChange) {
+        onChange({
+          target: {
+            name: event.target.name,
+            value: inputValue,
+          },
+        });
+      }
+    } else {
+      setInputValue(event.target.value);
+      if (onChange) {
+        onChange(event);
+      }
+    }
+  };
+
+  // useEffect(() => {
+  //   const inputElement = document.getElementById(name);
+  //   if (inputElement) {
+  //     inputElement.addEventListener("wheel", handleWheelCapture, {
+  //       passive: false,
+  //     });
+  //   }
+
+  //   return () => {
+  //     if (inputElement) {
+  //       inputElement.removeEventListener("wheel", handleWheelCapture);
+  //     }
+  //   };
+  // }, [handleWheelCapture, name]);
+
   return (
     <>
-        <div class="relative my-3">
-            <input type={type} name={name} defaultValue={defaultValue} id={name} className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-gray-900 bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 peer" placeholder={placeholder} />
-            <label for="floating_outlined" className="absolute text-base text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 text-lg scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"> {label}</label>
-        </div>
+      <div className="relative">
+        <input
+          type={type}
+          name={name}
+          value={value}
+          id={name}
+          onBlur={onBlur}
+          minLength={minLength}
+          maxLength={maxLength}
+          pattern={type === "number" ? "[0-9]*" : undefined}
+          className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
+            error ? "border-[red]" : " border-gray-300 "
+          } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
+          onChange={handleInput}
+          disabled={disabled}
+          placeholder={placeholder}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              // Optionally, you can add additional logic here if needed
+            }
+          }}
+          // required={required}
+        />
+        <label
+          htmlFor={name}
+          className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${className}  `}
+        >
+          {" "}
+          {label} {required && <span className="text-red-500">*</span>}
+        </label>
+      </div>
     </>
   );
 };
