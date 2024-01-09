@@ -16,7 +16,6 @@ import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
 import Modal from "../../../../common/model";
 import {
-  addNewServicerRequest,
   changeServicerStatus,
   getServicerListByDealerId,
 } from "../../../../services/servicerServices";
@@ -142,7 +141,7 @@ function ServicerList(props) {
   const filterServicerRequest = async (data) => {
     try {
       setLoading(true);
-      const res = await addNewServicerRequest("Approved", data);
+      const res = await getServicerListByDealerId(props.id, data);
       console.log(res.data);
       setServicerData(res.data);
     } catch (error) {

@@ -13,21 +13,29 @@ import {
   getDealerPriceBookByDealerId,
   getFilterPriceBookByDealer,
 } from "../../../../services/dealerServices";
+import { getCategoryList } from "../../../../services/priceBookService";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-
+import Select from "../../../../common/select";
+import * as Yup from "yup";
 function PriceBookList(props) {
   console.log(props.id);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
   const [selectedAction, setSelectedAction] = useState(null);
   const [priceBookList, setPriceBookList] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = priceBookList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
-
+  const status = [
+    { label: "Active", value: "true" },
+    { label: "Inactive", value: "false" },
+  ];
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
@@ -179,8 +187,24 @@ function PriceBookList(props) {
     console.log(result.result);
   };
 
+  const getCategoryListData = async () => {
+    try {
+      const res = await getCategoryList();
+      let arr = [];
+      res?.result?.length > 0 &&
+        res?.result?.map((item) => {
+          arr.push({ label: item.name, value: item.name });
+        });
+
+      setCategoryList(arr);
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
+
   useEffect(() => {
     priceBookData();
+    getCategoryListData();
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         // Close the dropdown if the click is outside of it
@@ -196,8 +220,49 @@ function PriceBookList(props) {
     };
   }, []);
 
-  const formik = useFormik({});
 
+  const filterDealerPriceBook = async (values)=>{
+      values.dealerId = props.id
+      try {
+        setLoading(true);
+        const res = await getFilterPriceBookByDealer(values);
+        if (res.code != 200) {
+          setError(res.message);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          setError("");
+        }
+        console.log(res);
+        setPriceBookList(res.result);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching category list:", error);
+      } finally {
+        setLoading(false);
+      }
+  }
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      status: "",
+      category: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string(),
+      status: Yup.boolean(),
+      category: Yup.string(),
+    }),
+    onSubmit: (values) => {
+      console.log("Form submitted with values:", values);
+      filterDealerPriceBook(values);
+    },
+  });
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    priceBookData();
+  };
   return (
     <>
       <div className="my-8">
@@ -208,47 +273,67 @@ function PriceBookList(props) {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <form onSubmit={formik.handleSubmit}>
+              <form onSubmit={formik.handleSubmit}>
+            <Grid className="!px-[26px] !pt-[14px] !pb-0">
+              <div className="col-span-4 self-center">
+                <p className="text-xl font-semibold">Product Price List</p>
+              </div>
+              <div className="col-span-8">
+                <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!grid-cols-11">
                     <div className="col-span-3 self-center">
                       <Input
-                        name="Name"
+                        name="name"
                         type="text"
+                        placeholder="Product Name"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        placeholder="Order ID"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+
+                    <div className="col-span-3 self-center">
+                      <Select
+                        name="category"
+                        label=""
+                        options={categoryList}
+                        OptionName="Category"
+                        color="text-[#1B1D21] opacity-50"
+                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px]  !bg-[#f7f7f7]"
+                        value={formik.values.category}
+                        onChange={formik.setFieldValue}
                       />
                     </div>
                     <div className="col-span-3 self-center">
-                      <Input
-                        name="Email"
-                        type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                      <Select
+                        name="status"
                         label=""
-                        placeholder="Dealer Order no."
-                      />
-                    </div>
-                    <div className="col-span-3 self-center">
-                      <Input
-                        name="PhoneNo."
-                        type="text"
+                        options={status}
+                        OptionName="Status"
+                        color="text-[#1B1D21] opacity-50"
+                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder="Customer Name"
+                        value={formik.values.status}
+                        onChange={formik.setFieldValue}
                       />
                     </div>
                     <div className="col-span-2 self-center flex justify-center">
-                      <Button type="submit" className="!p-0">
+                      <button type="submit">
                         <img
                           src={Search}
-                          className="cursor-pointer "
+                          className="cursor-pointer	mx-auto "
                           alt="Search"
                         />
-                      </Button>
-                      <Button type="submit" className="!bg-transparent !p-0">
+                      </button>
+                      <Button
+                        type="button"
+                        className="!bg-transparent !p-0"
+                        onClick={handleFilterIconClick}
+                      >
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"
@@ -257,7 +342,10 @@ function PriceBookList(props) {
                       </Button>
                     </div>
                   </Grid>
-                </form>
+                </div>
+              </div>
+            </Grid>
+          </form>
               </div>
             </div>
           </Grid>
