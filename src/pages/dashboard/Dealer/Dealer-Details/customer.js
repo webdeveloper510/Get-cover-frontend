@@ -77,7 +77,7 @@ function CustomerList(props) {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.Categoryid ? null : row.Categoryid
+                  selectedAction === row.customerData.unique_key ? null : row.customerData.unique_key
                 )
               }
             >
@@ -87,7 +87,7 @@ function CustomerList(props) {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.Categoryid && (
+            {selectedAction === row.customerData.unique_key && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(

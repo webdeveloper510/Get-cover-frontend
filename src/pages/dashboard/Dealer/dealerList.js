@@ -68,7 +68,7 @@ function DealerList() {
     setLoading(false);
   };
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = dealerList.length - index <= 2;
+    const isCloseToBottom = 1 - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
   const handleClickOutside = (event) => {
