@@ -66,7 +66,7 @@ function RequestServicer() {
     setLoading(false);
   };
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = list?.length - index <= 2;
+    const isCloseToBottom = list?.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 

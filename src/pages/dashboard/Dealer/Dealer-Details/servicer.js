@@ -152,7 +152,7 @@ function ServicerList(props) {
     }
   };
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = servicerData.length - index <= 2;
+    const isCloseToBottom = servicerData.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
   const handleStatusChange = async (row, newStatus) => {

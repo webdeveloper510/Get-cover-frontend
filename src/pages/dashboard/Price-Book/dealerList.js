@@ -111,7 +111,7 @@ function DealerPriceList() {
   ];
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = dealerPriceBook.length - index <= 2;
+    const isCloseToBottom = dealerPriceBook.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 

@@ -131,7 +131,7 @@ function CompanyPriceBook() {
   };
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = companyPriceList.length - index <= 2;
+    const isCloseToBottom = companyPriceList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
