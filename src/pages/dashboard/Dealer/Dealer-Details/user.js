@@ -211,6 +211,7 @@ function UserList(props) {
         SetPrimaryText("User Edited Successfully ");
         SetSecondaryText("user edited successfully ");
         openModal();
+        toggleFlag();
         // setIsModalOpen3(true);
         // setLoader(false);
         // setError(result.message);
