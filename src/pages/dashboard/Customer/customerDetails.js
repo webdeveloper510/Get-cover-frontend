@@ -86,6 +86,7 @@ function CustomerDetails() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    formik.resetForm();
   };
   useEffect(() => {
     setLoading(true);
