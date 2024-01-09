@@ -41,7 +41,7 @@ function Dealer() {
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("start");
-  const [timer, setTimer] = useState(3);
+  const [timer, setTimer] = useState(4);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
     street: "",
@@ -108,7 +108,7 @@ function Dealer() {
   };
   useEffect(() => {
     setLoading(true);
-    let intervalId;
+
     if (id === undefined) {
       setInitialFormValues({
         name: "",
@@ -142,7 +142,7 @@ function Dealer() {
         file: "",
       });
     }
-
+    let intervalId;
     if (isModalOpen && timer > 0) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
@@ -431,7 +431,7 @@ function Dealer() {
       }
       console.log(values.priceBook);
       var valueArr = values.priceBook.map(function (item) {
-        return item.categoryId;
+        return item.priceBookId;
       });
       var isDuplicate = valueArr.some(function (item, idx) {
         return valueArr.indexOf(item) != idx;
