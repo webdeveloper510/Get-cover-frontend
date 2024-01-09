@@ -122,6 +122,9 @@ function AddCategory() {
     setCategoryDetails(result.result);
     setLoader(false);
   };
+  const handleGOBack =()=>{
+    navigate(-1)
+  }
   return (
     <div className="my-8 ml-3">
       <Headbar />
@@ -142,7 +145,7 @@ function AddCategory() {
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/dashboard"}>Price Book </Link>{" "}
+              <Link onClick={handleGOBack}>Price Book </Link>{" "}
               <span className="mx-2"> /</span>{" "}
             </li>
             <li className="text-sm text-neutral-grey font-Regular ml-1">

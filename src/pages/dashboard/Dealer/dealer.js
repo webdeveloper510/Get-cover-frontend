@@ -396,7 +396,6 @@ function Dealer() {
     }),
     onSubmit: async (values) => {
       setLoading(true);
-      const isEmailValid = !formik.errors.email;
       values.priceBook =
         selectedOption === "no"
           ? [
@@ -411,14 +410,7 @@ function Dealer() {
               },
             ]
           : formik.errors.priceBook || values.priceBook;
-      const isEmailAvailable1 = isEmailValid
-        ? await checkEmailAvailability(formik.values.email)
-        : false;
 
-      if (!isEmailAvailable) {
-        setLoading(false);
-        return;
-      }
       if (formik.values.dealers.length > 0) {
         console.log(formik.values.dealers.length);
         let emailValues = [];
@@ -499,6 +491,11 @@ function Dealer() {
         formik.setFieldError("name", "Name Already Used");
         setMessage("Some Errors Please Check Form Validations ");
         setIsModalOpen(true);
+      } else if (result.message == "Primary user email already exist") {
+        setLoading(false);
+        formik.setFieldError("email", "Email Already Used");
+        setMessage("Some Errors Please Check Form Validations ");
+        setIsModalOpen(true);
       } else {
         setLoading(false);
         setIsModalOpen(true);
@@ -551,21 +548,21 @@ function Dealer() {
     formik.setFieldValue("dealers", updatedDealers);
   };
 
-  const checkEmailAvailability = async (email) => {
-    console.log(emailValidationRegex.test(email));
-    if (emailValidationRegex.test(email) != false) {
-      const result = await checkDealersEmailValidation(email);
-      console.log(result);
-      if (result.code === 200) {
-        setIsEmailAvailable(true);
-        formik.setFieldError("email", "");
-      } else if (result.code === 401) {
-        setIsEmailAvailable(false);
+  // const checkEmailAvailability = async (email) => {
+  //   console.log(emailValidationRegex.test(email));
+  //   if (emailValidationRegex.test(email) != false) {
+  //     const result = await checkDealersEmailValidation(email);
+  //     console.log(result);
+  //     if (result.code === 200) {
+  //       setIsEmailAvailable(true);
+  //       formik.setFieldError("email", "");
+  //     } else if (result.code === 401) {
+  //       setIsEmailAvailable(false);
 
-        return false;
-      }
-    }
-  };
+  //       return false;
+  //     }
+  //   }
+  // };
 
   const downloadCSVTemplate = async () => {
     window.open(
@@ -775,14 +772,7 @@ function Dealer() {
                       className="!bg-white"
                       required={true}
                       value={formik.values.email}
-                      onBlur={async () => {
-                        formik.handleBlur("email");
-
-                        const isEmailValid = !formik.errors.email;
-                        const isEmailAvailablechecking = isEmailValid
-                          ? await checkEmailAvailability(formik.values.email)
-                          : false;
-                      }}
+                      onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       error={
                         (formik.touched.email && formik.errors.email) ||

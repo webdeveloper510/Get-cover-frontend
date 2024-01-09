@@ -303,6 +303,10 @@ function CustomerDetails() {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
+  const navigate = useNavigate()
+  const handleGOBack =()=>{
+    navigate(-1)
+  }
   return (
     <>
       {loading && (
@@ -317,7 +321,7 @@ function CustomerDetails() {
 
         <div className="flex">
           <Link
-            to={"/dashboard"}
+            onClick={handleGOBack}
             className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
           >
             <img
@@ -332,10 +336,10 @@ function CustomerDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Customer / </Link>{" "}
+                <Link onClick={handleGOBack}>Customer / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}> Customer List / </Link>{" "}
+                <Link onClick={handleGOBack}> Customer List / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}

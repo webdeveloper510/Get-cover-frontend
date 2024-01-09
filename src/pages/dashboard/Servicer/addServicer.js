@@ -169,21 +169,6 @@ function AddServicer() {
 
     formik.setFieldValue("members", [...formik.values.members, members]);
   };
-  const checkEmailAvailability = async (email) => {
-    console.log(emailValidationRegex.test(email));
-    if (emailValidationRegex.test(email) != false) {
-      const result = await checkDealersEmailValidation(email);
-      console.log(result);
-      if (result.code === 200) {
-        setIsEmailAvailable(true);
-        formik.setFieldError("email", "");
-      } else if (result.code === 401) {
-        setIsEmailAvailable(false);
-
-        return false;
-      }
-    }
-  };
   const handleDeleteMembers = (index) => {
     const updatedMembers = [...formik.values.members];
     updatedMembers.splice(index, 1);
@@ -277,15 +262,6 @@ function AddServicer() {
     }),
 
     onSubmit: async (values) => {
-      const isEmailValid = !formik.errors.email;
-      const isEmailAvailable1 = isEmailValid
-        ? await checkEmailAvailability(formik.values.email)
-        : false;
-
-      if (!isEmailAvailable) {
-        setLoading(false);
-        return;
-      }
       if (formik.values.members.length > 0) {
         console.log(formik.values.members.length);
         let emailValues = [];
@@ -324,16 +300,17 @@ function AddServicer() {
         : await addNewServicer(newValues);
       // const result = await addNewServicer(newValues);
       console.log(result);
-      if (result.code == 200) {
+      if (result.code === 200) {
         setMessage("Servicer Created Successfully");
-        setLoading(false);
         setIsModalOpen(true);
+        setLoading(false);
 
         // navigate("/servicerList");
       } else if (
         result.message == "Primary user already exist with this email "
       ) {
-        console.log("here");
+        setIsModalOpen(true);
+        setMessage(result.message);
         formik.setFieldError("email", "Email Already Used");
       } else if (
         result.message == "Servicer already exist with this account name"
@@ -343,18 +320,22 @@ function AddServicer() {
         setMessage("Some Errors Please Check Form Validations ");
         setIsModalOpen(true);
       } else {
-        setLoading(false);
         setIsModalOpen(true);
-        setMessage(result.message);
+        setLoading(false);
+
+        // setMessage(result.message);
       }
     },
   });
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   return (
     <div className="my-8 ml-3">
       <Headbar />
       <div className="flex mt-2">
         <Link
-          to={"/servicerList"}
+          onClick={handleGOBack}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
         >
           <img
@@ -561,14 +542,7 @@ function AddServicer() {
                       className="!bg-white"
                       required={true}
                       value={formik.values.email}
-                      onBlur={async () => {
-                        formik.handleBlur("email");
-
-                        const isEmailValid = !formik.errors.email;
-                        const isEmailAvailablechecking = isEmailValid
-                          ? await checkEmailAvailability(formik.values.email)
-                          : false;
-                      }}
+                      onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       error={
                         (formik.touched.email && formik.errors.email) ||
@@ -592,6 +566,7 @@ function AddServicer() {
                     name="phoneNumber"
                     label="Phone"
                     required={true}
+                    value={formik.values.phoneNumber}
                     className="!bg-white"
                     placeholder=""
                     onChange={(e) => {

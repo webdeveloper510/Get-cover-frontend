@@ -18,7 +18,7 @@ function Layout() {
   const Location = useLocation();
   const { id, customerId } = useParams();
   const checkUrl = Location.pathname + "/" + id;
-  console.log(checkUrl, "yes, Got here");
+  console.log(checkUrl, "yes, Got here----------------");
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
