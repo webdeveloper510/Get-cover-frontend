@@ -246,7 +246,9 @@ function NewDealerList() {
       navigate(`/dealer/${id}`);
     }
   };
-
+  const handleGOBack =()=>{
+    navigate(-1)
+  }
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
 
   const closeDisapproved = () => {
@@ -273,7 +275,7 @@ function NewDealerList() {
             <p className="font-bold text-[36px] leading-9 mb-[3px]">Dealer</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/dashboard"}>Dealer </Link> /{" "}
+                <Link onClick={handleGOBack}>Dealer </Link> /{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}

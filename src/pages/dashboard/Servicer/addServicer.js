@@ -349,12 +349,15 @@ function AddServicer() {
       }
     },
   });
+  const handleGOBack =()=>{
+    navigate(-1)
+  }
   return (
     <div className="my-8 ml-3">
       <Headbar />
       <div className="flex mt-2">
         <Link
-          to={"/servicerList"}
+          onClick={handleGOBack}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
         >
           <img

@@ -88,8 +88,8 @@ function DealerDetails() {
     dealerId: id.id,
     isPrimary: false,
   });
-  const { flag, toggleFlag } = useMyContext();
-  console.log("here", flag);
+  const { flag, toggleFlag, lastLocation, LastLocationContext } = useMyContext();
+  console.log("here", flag, lastLocation, "==");
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerId: "",
@@ -383,7 +383,9 @@ function DealerDetails() {
       <p>No records found.</p>
     </div>
   );
-
+  const handleGOBack =()=>{
+    navigate(-1)
+  }
   const tabs = [
     {
       id: "Orders",
@@ -475,8 +477,7 @@ function DealerDetails() {
 
         <div className="flex">
           <div onClick={() => localStorage.removeItem("menu")}>
-            <Link
-              to={"/dashboard"}
+            <Link onClick={handleGOBack}
               className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
             >
               <img

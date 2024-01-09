@@ -410,7 +410,10 @@ function ServicerDetails() {
       }
     },
   });
-
+  const navigate = useNavigate()
+  const handleGOBack =()=>{
+    navigate(-1)
+  }
   const serviceData = async () => {
     // const result =await
   };
@@ -427,7 +430,7 @@ function ServicerDetails() {
 
       <div className="flex">
         <Link
-          to={"/dashboard"}
+          onClick={handleGOBack}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
         >
           <img
@@ -442,10 +445,10 @@ function ServicerDetails() {
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Servicer / </Link>{" "}
+              <Link onClick={handleGOBack}>Servicer / </Link>{" "}
             </li>
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}> Servicer List / </Link>{" "}
+              <Link onClick={handleGOBack}> Servicer List / </Link>{" "}
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
