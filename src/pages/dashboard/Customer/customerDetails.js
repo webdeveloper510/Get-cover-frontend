@@ -560,8 +560,8 @@ function CustomerDetails() {
         </Grid>
 
         <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
-          <div className="text-center py-3">
-            <p className="text-3xl mb-5 mt-2 font-bold text-light-black">
+          <div className=" py-3">
+            <p className=" text-centertext-3xl mb-5 mt-2 font-bold text-light-black">
               Add New User
             </p>
             <form onSubmit={userValues.handleSubmit}>
@@ -706,7 +706,7 @@ function CustomerDetails() {
                   </p>
                 </div>
               </Grid>
-              <Grid className="drop-shadow-5xl">
+              <Grid className="px-8 drop-shadow-5xl">
                 <div className="col-span-4">
                   <Button
                     type="button"
