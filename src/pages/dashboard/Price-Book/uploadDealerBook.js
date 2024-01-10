@@ -205,7 +205,7 @@ function UploadDealerBook() {
             </p>
           )}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 py-8 drop-shadow-4xl bg-white min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl">
+            <div className="px-8 py-8 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-xl">
               <Grid className="">
                 <div className="col-span-12">
                   <div className="col-span-12">
