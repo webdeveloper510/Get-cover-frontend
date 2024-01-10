@@ -565,7 +565,7 @@ function CustomerDetails() {
 
         <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
           <div className=" py-3">
-            <p className=" text-centertext-3xl mb-5 mt-2 font-bold text-light-black">
+            <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
               Add New User
             </p>
             <form onSubmit={userValues.handleSubmit}>
