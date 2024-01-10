@@ -538,10 +538,15 @@ function AddDealerBook() {
                     placeholder=""
                     onChange={handleSelectChange}
                     disabled={
+                      priceBookById.dealer?.accountStatus === false ||
+                      priceBookById.priceBooks?.status === false ||
                       priceBookById?.priceBooks?.category[0]?.status === false
-                        ? true
-                        : false
                     }
+                    // disabled={
+                    //   priceBookById?.priceBooks?.category[0]?.status === false
+                    //     ? true
+                    //     : false
+                    // }
                     className="!bg-[#fff]"
                     options={status}
                     value={formik.values.status}

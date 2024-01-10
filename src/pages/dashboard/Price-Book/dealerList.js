@@ -221,7 +221,11 @@ function DealerPriceList() {
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
-            disabled={row.priceBooks[0]?.status === false ? true : false}
+            disabled={
+              row.dealer[0]?.accountStatus === false ||
+              row.priceBooks[0]?.status === false ||
+              row.priceBooks[0]?.category[0]?.status === false
+            }
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
