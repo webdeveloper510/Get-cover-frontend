@@ -385,7 +385,9 @@ function UserList(props) {
             {selectedAction === row.email && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[9999] ${!row.isPrimary ? ('w-[120px]'): ('w-[80px]')} drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[9999] ${
+                  !row.isPrimary ? "w-[120px]" : "w-[80px]"
+                } drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -594,7 +596,7 @@ function UserList(props) {
             Deleted Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            You have successfully delete this user.
+            You have successfully deleted this user.
           </p>
         </div>
       </Modal>

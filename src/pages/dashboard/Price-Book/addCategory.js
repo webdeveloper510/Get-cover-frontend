@@ -25,8 +25,8 @@ function AddCategory() {
   const [error, setError] = useState("");
   const [type, setType] = useState("");
   const [loader, setLoader] = useState(false);
-  
-  const [timer, setTimer] = useState(5);
+
+  const [timer, setTimer] = useState(3);
   const [categoryDetails, setCategoryDetails] = useState({});
   const navigate = useNavigate();
   const { id } = useParams();
@@ -122,9 +122,9 @@ function AddCategory() {
     setCategoryDetails(result.result);
     setLoader(false);
   };
-  const handleGOBack =()=>{
-    navigate(-1)
-  }
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   return (
     <div className="my-8 ml-3">
       <Headbar />
@@ -164,7 +164,7 @@ function AddCategory() {
           </ul>
         </div>
       </div>
-     
+
       {/* Form Start */}
       {loader == true ? (
         <div className=" h-screen w-full flex py-5">
@@ -174,17 +174,16 @@ function AddCategory() {
         </div>
       ) : (
         <form className="mt-8" onSubmit={formik.handleSubmit}>
-           <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
-
-{error ? (
-<p className="text-red-500 text-sm pl-2 my-3">
-<span className="font-semibold"> {error} </span>
-</p>
-) : (
-<p className="text-red-500 text-sm pl-2 my-3 opacity-0	">
-<span className="font-semibold"> error </span>
-</p>
-)}
+          <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+            {error ? (
+              <p className="text-red-500 text-sm pl-2 my-3">
+                <span className="font-semibold"> {error} </span>
+              </p>
+            ) : (
+              <p className="text-red-500 text-sm pl-2 my-3 opacity-0	">
+                <span className="font-semibold"> error </span>
+              </p>
+            )}
             <Grid>
               <div className="col-span-12">
                 <Input

@@ -88,7 +88,8 @@ function DealerDetails() {
     dealerId: id.id,
     isPrimary: false,
   });
-  const { flag, toggleFlag, lastLocation, LastLocationContext } = useMyContext();
+  const { flag, toggleFlag, lastLocation, LastLocationContext } =
+    useMyContext();
   console.log("here", flag, lastLocation, "==");
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
@@ -231,6 +232,7 @@ function DealerDetails() {
         setIsModalOpen(false);
         setFirstMessage("Edited Successfully");
         setSecondMessage("Dealer edited Successfully");
+        setTimer(3);
 
         setMessage("Dealer updated Successfully");
       } else if (result.message == "Account name is not available") {
@@ -267,6 +269,7 @@ function DealerDetails() {
         setSecondMessage("Servicer Updated Successfully");
         getServicerList();
         closeModal1();
+        setTimer(3);
       } else {
         setLoading(false);
         getServicerList();
@@ -316,7 +319,8 @@ function DealerDetails() {
         setMessage("Dealer updated Successfully");
         setLoading(false);
         closeUserModal();
-        window.location.reload();
+        setTimer(3);
+        // window.location.reload();
         // setIsModalOpen(false);
       } else {
         console.log(result);
@@ -383,9 +387,9 @@ function DealerDetails() {
       <p>No records found.</p>
     </div>
   );
-  const handleGOBack =()=>{
-    navigate(-1)
-  }
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   const tabs = [
     {
       id: "Orders",
@@ -477,7 +481,8 @@ function DealerDetails() {
 
         <div className="flex">
           <div onClick={() => localStorage.removeItem("menu")}>
-            <Link onClick={handleGOBack}
+            <Link
+              onClick={handleGOBack}
               className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
             >
               <img

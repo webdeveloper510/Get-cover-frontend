@@ -44,7 +44,10 @@ function DealerList() {
           if (data.accountId === row.accountId) {
             return {
               ...data,
-              status: newStatus === "active" ? true : false,
+              dealerData: {
+                ...data.dealerData,
+                accountStatus: newStatus === "active" ? true : false,
+              },
             };
           }
           return data;
@@ -68,7 +71,7 @@ function DealerList() {
     setLoading(false);
   };
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = dealerList.length - index <= 10000 ;
+    const isCloseToBottom = dealerList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
   const handleClickOutside = (event) => {
@@ -169,17 +172,21 @@ function DealerList() {
     },
     {
       name: "Status",
-      selector: (row) => row.status,
+      selector: (row) => row.dealerData.accountStatus,
       sortable: true,
       cell: (row) => (
         <div className="relative">
           <div
             className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              row.dealerData.accountStatus === true
+                ? "bg-[#6BD133]"
+                : "bg-[#FF4747]"
             } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
-            value={row.status === true ? "active" : "inactive"}
+            value={
+              row.dealerData.accountStatus === true ? "active" : "inactive"
+            }
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >

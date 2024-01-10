@@ -45,7 +45,11 @@ import { cityData } from "../../../stateCityJson";
 import shorting from "../../../assets/images/icons/shorting.svg";
 
 function ServicerDetails() {
-  const [activeTab, setActiveTab] = useState("Claims"); // Set the initial active tab
+  const getInitialActiveTab = () => {
+    const storedTab = localStorage.getItem("servicer");
+    return storedTab ? storedTab : "Claims";
+  };
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -86,7 +90,7 @@ function ServicerDetails() {
   // const { flag } = useMyContext();
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const modalOpen1 = () => {
-    servicerDetail();
+    getDealerList();
     setIsModalOpen1(true);
   };
   const routeToPage = (data) => {
@@ -94,9 +98,11 @@ function ServicerDetails() {
     switch (data) {
       case "Users":
         openUserModal();
+        localStorage.setItem("servicer", "Users");
         break;
       case "Dealer":
         modalOpen1();
+        localStorage.setItem("servicer", "Dealer");
         break;
       default:
         console.log("Invalid data, no navigation");
@@ -106,6 +112,10 @@ function ServicerDetails() {
     setIsModalOpen(false);
     formik.resetForm();
   };
+  useEffect(() => {
+    localStorage.setItem("servicer", activeTab);
+  }, [activeTab]);
+
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -246,9 +256,11 @@ function ServicerDetails() {
     formik.setFieldValue(name, value);
   };
   const getDealerList = async () => {
+    // setLoading(true);
     const result = await getDealerListByServicerId(servicerId);
     setDealerList(result.result);
     console.log(result.result);
+    // setLoading(false);
   };
   useEffect(() => {
     servicerDetail();
@@ -278,9 +290,10 @@ function ServicerDetails() {
         setLoading(false);
         setFlagValue(true);
         setModalOpen(true);
-        setFirstMessage("Servicer Updated Successfully");
-        setSecondMessage("Servicer Updated Successfully");
+        setFirstMessage("Dealer Assigned Successfully");
+        setSecondMessage("Dealer Assigned Successfully");
         getDealerList();
+        setTimer(3);
         closeModal1();
       } else {
         setLoading(false);
@@ -293,7 +306,7 @@ function ServicerDetails() {
     },
   });
   const servicerDetail = async () => {
-    setLoading(true);
+    // setLoading(true);
     const res = await getServicerDetailsByServicerId(servicerId);
     setServicerDetails(res.message);
     console.log(res.message);
@@ -307,7 +320,7 @@ function ServicerDetails() {
       state: res?.message?.meta?.state,
       country: "USA",
     });
-    setLoading(false);
+    // setLoading(false);
   };
   const userValues = useFormik({
     initialValues: initialUserFormValues,
@@ -333,7 +346,7 @@ function ServicerDetails() {
     }),
 
     onSubmit: async (values, { setFieldError }) => {
-      localStorage.setItem("menu", "Users");
+      localStorage.setItem("servicer", "Users");
       console.log(values);
       setLoading(true);
       const result = await addUserByServicerId(values, servicerId);
@@ -347,6 +360,7 @@ function ServicerDetails() {
         // setMessage("Dealer updated Successfully");
         setLoading(false);
         closeUserModal();
+        setTimer(3);
         // window.location.reload();
         // setIsModalOpen(false);
       } else {
@@ -400,20 +414,22 @@ function ServicerDetails() {
         setModalOpen(true);
         servicerDetail();
         setIsModalOpen(false);
+        setTimer(3);
         setFirstMessage("Edited Successfully");
         setSecondMessage("Servicer edited Successfully");
 
         // setMessage("Dealer updated Successfully");
-      } else if (result.message == "Account name is not available") {
+      } else if (result.message == "Servicer already exist with this name") {
         setLoading(false);
         formik.setFieldError("name", "Name Already Used");
       }
     },
   });
-  const navigate = useNavigate()
-  const handleGOBack =()=>{
-    navigate(-1)
-  }
+  const navigate = useNavigate();
+  const handleGOBack = () => {
+    localStorage.removeItem("servicer");
+    navigate(-1);
+  };
   const serviceData = async () => {
     // const result =await
   };

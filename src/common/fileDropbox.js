@@ -6,23 +6,16 @@ const FileDropdown = ({ className = "", accept, onFileSelect }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
 
-  // const handleFileSelect = (event) => {
-  //   const file = event.target.files[0];
-  //   setSelectedFile(file);
-  // };
-
   const handleDropdownClick = () => {
-    // Trigger click event on the file input when dropdown is clicked
     fileInputRef.current.click();
   };
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-
-    // Pass the selected file back to the parent component
     if (onFileSelect) {
       onFileSelect(file);
     }
+    event.target.value = null;
   };
   return (
     <div className="relative">

@@ -103,6 +103,7 @@ function DealerRegister() {
       } else {
         setError("");
         openModal();
+        
       }
     },
   });

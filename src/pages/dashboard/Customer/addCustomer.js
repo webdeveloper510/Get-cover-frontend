@@ -97,22 +97,19 @@ function AddCustomer() {
     }
 
     if (timer === 0 && message === "Customer Created Successfully") {
-      console.log("here");
       closeModal();
-      if (dealerValueId !== undefined) {
-        navigate(`/dealerDetails/${dealerValueId}`);
+      if (dealerValueId) {
+        navigate(-1);
       } else {
         navigate("/customerList");
       }
     }
-
     setLoading(false);
-
-    // Cleanup function
     return () => {
       clearInterval(intervalId);
     };
   }, [isModalOpen, timer, closeModal, message]);
+
   const handleAddTeamMember = () => {
     const members = {
       firstName: "",
@@ -243,15 +240,6 @@ function AddCustomer() {
     onSubmit: async (values) => {
       console.log(values);
       const isEmailValid = !formik.errors.email;
-      const isEmailAvailable1 = isEmailValid
-        ? await checkEmailAvailability(formik.values.email)
-        : false;
-
-      if (!isEmailAvailable) {
-        setLoading(false);
-        return;
-      }
-
       if (formik.values.members.length > 0) {
         console.log(formik.values.members.length);
         let emailValues = [];
@@ -291,11 +279,17 @@ function AddCustomer() {
         setMessage("Customer Created Successfully");
         setLoading(false);
         setIsModalOpen(true);
+        setTimer(3);
       } else if (
         result.message == "Customer already exist with this account name"
       ) {
         setLoading(false);
         formik.setFieldError("accountName", "Name Already Used");
+        setMessage("Some Errors Please Check Form Validations ");
+        setIsModalOpen(true);
+      } else if (result.message == "Primary user email already exist") {
+        setLoading(false);
+        formik.setFieldError("email", "Email Already Used");
         setMessage("Some Errors Please Check Form Validations ");
         setIsModalOpen(true);
       } else {
@@ -563,14 +557,7 @@ function AddCustomer() {
                       className="!bg-white"
                       required={true}
                       value={formik.values.email}
-                      onBlur={async () => {
-                        formik.handleBlur("email");
-
-                        const isEmailValid = !formik.errors.email;
-                        const isEmailAvailablechecking = isEmailValid
-                          ? await checkEmailAvailability(formik.values.email)
-                          : false;
-                      }}
+                      onBlur={formik.handleBlu}
                       onChange={formik.handleChange}
                       error={
                         (formik.touched.email && formik.errors.email) ||
