@@ -313,7 +313,10 @@ function AddCustomer() {
     const result = await getDealersList();
     console.log(result.data);
     let arr = [];
-    result?.data?.map((res) => {
+    const filteredDealers = result.data.filter(
+      (data) => data.dealerData.accountStatus === true
+    );
+    filteredDealers?.map((res) => {
       console.log(res.name);
       arr.push({
         label: res.dealerData.name,
