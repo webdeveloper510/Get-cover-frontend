@@ -405,11 +405,11 @@ function AddCompanyPriceBook() {
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
               {error ? (
-                <p className="text-red-500 text-sm pl-2 my-3">
+                <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
                   <span className="font-semibold"> {error} </span>
                 </p>
               ) : (
-                <p className="text-red-500 text-sm pl-2 my-3 opacity-0	">
+                <p className="text-red-500 text-sm pl-2 mt-3 mb-5 opacity-0	">
                   <span className="font-semibold"> error </span>
                 </p>
               )}
