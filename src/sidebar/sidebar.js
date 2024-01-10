@@ -82,7 +82,14 @@ function SidebarItem({
           expandedItem === item.name
       );
     }
-  }, [active, expandedItem, item, setExpandedItem,  locationGet.pathname, setIsActive]);
+  }, [
+    active,
+    expandedItem,
+    item,
+    setExpandedItem,
+    locationGet.pathname,
+    setIsActive,
+  ]);
   // console.log(isActive)
 
   return (
@@ -97,7 +104,7 @@ function SidebarItem({
           isActive ? "bg-[#FFF] text-[#000] rounded-s-[30px]" : "text-[#999999]"
         }`}
         onClick={() => {
-          onLinkClick(item.url); 
+          onLinkClick(item.url);
           if (hasItems) {
             onToggleExpand(item.name);
           } else {
@@ -400,11 +407,18 @@ function SideBar() {
         },
       ],
     },
+
     {
       name: "Reporting",
       url: "#",
       image: ReportImage,
       active: ActiveReport,
+    },
+    {
+      name: "Manage Account",
+      url: "#",
+      image: DashboardImage,
+      active: ActiveDashboard,
     },
   ];
 

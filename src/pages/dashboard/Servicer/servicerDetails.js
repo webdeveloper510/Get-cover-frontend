@@ -47,7 +47,7 @@ import shorting from "../../../assets/images/icons/shorting.svg";
 function ServicerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("servicer");
-    return storedTab ? storedTab : "Claims";
+    return storedTab ? storedTab : "Dealer";
   };
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -306,7 +306,7 @@ function ServicerDetails() {
     },
   });
   const servicerDetail = async () => {
-    // setLoading(true);
+    setLoading(true);
     const res = await getServicerDetailsByServicerId(servicerId);
     setServicerDetails(res.message);
     console.log(res.message);
@@ -320,7 +320,7 @@ function ServicerDetails() {
       state: res?.message?.meta?.state,
       country: "USA",
     });
-    // setLoading(false);
+    setLoading(false);
   };
   const userValues = useFormik({
     initialValues: initialUserFormValues,
@@ -349,23 +349,19 @@ function ServicerDetails() {
       localStorage.setItem("servicer", "Users");
       console.log(values);
       setLoading(true);
-      if (values.status === "yes" ) {
+      if (values.status === "yes") {
         values.status = true;
       }
       const result = await addUserByServicerId(values, servicerId);
       console.log(result.code);
       if (result.code == 200) {
         getUserList();
-        // dealerData();
-        setModalOpen(true);
-        setFirstMessage("New User Added Successfully");
-        setSecondMessage("New User Added Successfully");
-        // setMessage("Dealer updated Successfully");
         setLoading(false);
         closeUserModal();
         setTimer(3);
-        // window.location.reload();
-        // setIsModalOpen(false);
+        setModalOpen(true);
+        setFirstMessage("New User Added Successfully");
+        setSecondMessage("New User Added Successfully");
       } else {
         console.log(result);
         console.log("here");
@@ -425,6 +421,9 @@ function ServicerDetails() {
       } else if (result.message == "Servicer already exist with this name") {
         setLoading(false);
         formik.setFieldError("name", "Name Already Used");
+      } else {
+        setLoading(false);
+        setTimer(3);
       }
     },
   });
@@ -437,7 +436,7 @@ function ServicerDetails() {
     // const result =await
   };
   return (
-    <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
+    <>
       {loading && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
@@ -445,77 +444,79 @@ function ServicerDetails() {
           </div>
         </div>
       )}
-      <Headbar />
+      <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
+        <Headbar />
 
-      <div className="flex">
-        <Link
-          onClick={handleGOBack}
-          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
-        >
-          <img
-            src={BackImage}
-            className="m-auto my-auto self-center bg-white"
-            alt="BackImage"
-          />
-        </Link>
-        <div className="pl-3">
-          <p className="font-bold text-[36px] leading-9 mb-[3px]">
-            Servicer Details
-          </p>
-          <ul className="flex self-center">
-            <li className="text-sm text-neutral-grey font-Regular">
-              <Link onClick={handleGOBack}>Servicer / </Link>{" "}
-            </li>
-            <li className="text-sm text-neutral-grey font-Regular">
-              <Link onClick={handleGOBack}> Servicer List / </Link>{" "}
-            </li>
-            <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-              {" "}
-              Servicer Details ({activeTab})
-            </li>
-          </ul>
+        <div className="flex">
+          <Link
+            onClick={handleGOBack}
+            className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+          >
+            <img
+              src={BackImage}
+              className="m-auto my-auto self-center bg-white"
+              alt="BackImage"
+            />
+          </Link>
+          <div className="pl-3">
+            <p className="font-bold text-[36px] leading-9 mb-[3px]">
+              Servicer Details
+            </p>
+            <ul className="flex self-center">
+              <li className="text-sm text-neutral-grey font-Regular">
+                <Link onClick={handleGOBack}>Servicer / </Link>{" "}
+              </li>
+              <li className="text-sm text-neutral-grey font-Regular">
+                <Link onClick={handleGOBack}> Servicer List / </Link>{" "}
+              </li>
+              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                {" "}
+                Servicer Details ({activeTab})
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
 
-      <Grid className="!grid-cols-4">
-        <div className="col-span-1">
-          <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
-            <Grid>
-              <div className="col-span-9">
-                <p className="text-sm text-neutral-grey font-Regular">
-                  Account Name
-                </p>
-                <p className="text-xl text-white font-semibold">
-                  {servicerDetails?.meta?.name}
-                </p>
+        <Grid className="!grid-cols-4">
+          <div className="col-span-1">
+            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
+              <Grid>
+                <div className="col-span-9">
+                  <p className="text-sm text-neutral-grey font-Regular">
+                    Account Name
+                  </p>
+                  <p className="text-xl text-white font-semibold">
+                    {servicerDetails?.meta?.name}
+                  </p>
+                </div>
+                <div className="col-span-3 text-end">
+                  <Button
+                    className="border !border-[#535456] !text-sm !font-Regular"
+                    onClick={openModal}
+                  >
+                    Edit
+                  </Button>
+                </div>
+              </Grid>
+              <div className="flex my-4">
+                <img
+                  src={address}
+                  className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                  alt="Address"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                    Address
+                  </p>
+                  <p className="text-base text-white font-semibold leading-5">
+                    {servicerDetails?.meta?.street},{" "}
+                    {servicerDetails?.meta?.city},{" "}
+                    {servicerDetails?.meta?.state} {servicerDetails?.meta?.zip},
+                    USA
+                  </p>
+                </div>
               </div>
-              <div className="col-span-3 text-end">
-                <Button
-                  className="border !border-[#535456] !text-sm !font-Regular"
-                  onClick={openModal}
-                >
-                  Edit
-                </Button>
-              </div>
-            </Grid>
-            <div className="flex my-4">
-              <img
-                src={address}
-                className="mr-3 bg-[#383838] rounded-[14px] my-auto"
-                alt="Address"
-              />
-              <div>
-                <p className="text-sm text-neutral-grey font-Regular mt-3">
-                  Address
-                </p>
-                <p className="text-base text-white font-semibold leading-5">
-                  {servicerDetails?.meta?.street}, {servicerDetails?.meta?.city}
-                  , {servicerDetails?.meta?.state} {servicerDetails?.meta?.zip},
-                  USA
-                </p>
-              </div>
-            </div>
-            {/* <div className="flex my-4">
+              {/* <div className="flex my-4">
               <img
                 src={Bank}
                 className="mr-3 bg-[#383838] rounded-[14px] self-start mt-3"
@@ -563,299 +564,307 @@ function ServicerDetails() {
                 </div>
               </div>
             </div> */}
-            <div className="flex w-full my-4">
-              <p className="text-[10px] mr-3 text-[#999999] font-Regular">
-                PRIMARY CONTACT DETAILS
-              </p>
-              <hr className="self-center border-[#999999] w-[50%]" />
-            </div>
-            <div className="flex mb-4">
-              <img
-                src={name}
-                className="mr-3 bg-[#383838] rounded-[14px]"
-                alt="Name"
-              />
-              <div>
-                <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                <p className="text-base text-white font-semibold ">
-                  {servicerDetails?.firstName} {servicerDetails?.lastName}
+              <div className="flex w-full my-4">
+                <p className="text-[10px] mr-3 text-[#999999] font-Regular">
+                  PRIMARY CONTACT DETAILS
                 </p>
+                <hr className="self-center border-[#999999] w-[50%]" />
               </div>
-            </div>
-            <div className="flex mb-4">
-              <img
-                src={email}
-                className="mr-3 bg-[#383838] rounded-[14px]"
-                alt="email"
-              />
-              <div>
-                <p className="text-sm text-neutral-grey font-Regular">Email</p>
-                <p className="text-base text-white font-semibold ">
-                  {servicerDetails?.email}
-                </p>
-              </div>
-            </div>
-            <div className="flex mb-4">
-              <img
-                src={phone}
-                className="mr-3 bg-[#383838] rounded-[14px]"
-                alt="name"
-              />
-              <div>
-                <p className="text-sm text-neutral-grey font-Regular">
-                  Phone Number
-                </p>
-                <p className="text-base text-white font-semibold ">
-                  +1 {servicerDetails?.phoneNumber}
-                </p>
-              </div>
-            </div>
-            <Grid className="mt-5">
-              <div className="col-span-6 ">
-                <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                  <p className="text-white text-lg !font-[600]">0</p>
-                  <p className="text-[#999999] text-sm font-Regular">
-                    Total number of Claims
+              <div className="flex mb-4">
+                <img
+                  src={name}
+                  className="mr-3 bg-[#383838] rounded-[14px]"
+                  alt="Name"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular">Name</p>
+                  <p className="text-base text-white font-semibold ">
+                    {servicerDetails?.firstName} {servicerDetails?.lastName}
                   </p>
                 </div>
               </div>
-              <div className="col-span-6 ">
-                <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                  <p className="text-white text-lg  !font-[600]">$0.00</p>
-                  <p className="text-[#999999] text-sm font-Regular">
-                    Total Value of Claims
+              <div className="flex mb-4">
+                <img
+                  src={email}
+                  className="mr-3 bg-[#383838] rounded-[14px]"
+                  alt="email"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular">
+                    Email
+                  </p>
+                  <p className="text-base text-white font-semibold ">
+                    {servicerDetails?.email}
                   </p>
                 </div>
               </div>
-            </Grid>
+              <div className="flex mb-4">
+                <img
+                  src={phone}
+                  className="mr-3 bg-[#383838] rounded-[14px]"
+                  alt="name"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular">
+                    Phone Number
+                  </p>
+                  <p className="text-base text-white font-semibold ">
+                    +1 {servicerDetails?.phoneNumber}
+                  </p>
+                </div>
+              </div>
+              <Grid className="mt-5">
+                <div className="col-span-6 ">
+                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
+                    <p className="text-white text-lg !font-[600]">0</p>
+                    <p className="text-[#999999] text-sm font-Regular">
+                      Total number of Claims
+                    </p>
+                  </div>
+                </div>
+                <div className="col-span-6 ">
+                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
+                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-[#999999] text-sm font-Regular">
+                      Total Value of Claims
+                    </p>
+                  </div>
+                </div>
+              </Grid>
+            </div>
           </div>
-        </div>
-        <div className="col-span-3">
-          <Grid className="!mt-5">
-            <div className="col-span-8">
-              <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-4 !gap-1">
-                  {tabs.map((tab) => (
-                    <div className="col-span-1" key={tab.id}>
-                      <Button
-                        className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
-                          activeTab === tab.id
-                            ? "!bg-[#2A2A2A] !text-white"
-                            : "!bg-[#F9F9F9] !text-black"
-                        }`}
-                        onClick={() => handleTabClick(tab.id)}
-                      >
-                        <img
-                          src={
-                            activeTab === tab.id ? tab.Activeicons : tab.icons
-                          }
-                          className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
-                          alt={tab.label}
-                        />
-                        <span
-                          className={`ml-1 py-1 text-sm font-Regular ${
-                            activeTab === tab.id ? "text-white" : "text-black"
+          <div className="col-span-3">
+            <Grid className="!mt-5">
+              <div className="col-span-8">
+                <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                  <Grid className="!grid-cols-4 !gap-1">
+                    {tabs.map((tab) => (
+                      <div className="col-span-1" key={tab.id}>
+                        <Button
+                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                            activeTab === tab.id
+                              ? "!bg-[#2A2A2A] !text-white"
+                              : "!bg-[#F9F9F9] !text-black"
                           }`}
+                          onClick={() => handleTabClick(tab.id)}
                         >
-                          {tab.label}
-                        </span>
-                      </Button>
-                    </div>
-                  ))}
-                </Grid>
+                          <img
+                            src={
+                              activeTab === tab.id ? tab.Activeicons : tab.icons
+                            }
+                            className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
+                            alt={tab.label}
+                          />
+                          <span
+                            className={`ml-1 py-1 text-sm font-Regular ${
+                              activeTab === tab.id ? "text-white" : "text-black"
+                            }`}
+                          >
+                            {tab.label}
+                          </span>
+                        </Button>
+                      </div>
+                    ))}
+                  </Grid>
+                </div>
               </div>
-            </div>
-            <div className="col-span-4">
-              <Button
-                onClick={() => routeToPage(activeTab)}
-                className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-              >
-                {" "}
-                <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-                <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
-                  Add {activeTab}
-                </span>{" "}
-              </Button>
-            </div>
-          </Grid>
-
-          {tabs.map((tab) => (
-            <div
-              key={tab.id}
-              className={`${activeTab !== tab.id ? "hidden" : ""}`}
-            >
-              {tab.content}
-            </div>
-          ))}
-        </div>
-      </Grid>
-      {/* user popup */}
-      <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
-        <div className="py-3">
-          <p className="text-center  text-3xl mb-5 mt-2 font-bold text-light-black">
-            Add New User
-          </p>
-          <form onSubmit={userValues.handleSubmit}>
-            <Grid className="px-8">
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="firstName"
-                  label="First Name"
-                  required={true}
-                  placeholder=""
-                  className="!bg-white"
-                  maxLength={"30"}
-                  value={userValues.values.firstName}
-                  onBlur={userValues.handleBlur}
-                  onChange={userValues.handleChange}
-                  error={
-                    userValues.touched.firstName && userValues.errors.firstName
-                  }
-                />
-                {userValues.touched.firstName &&
-                  userValues.errors.firstName && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {userValues.errors.firstName}
-                    </div>
-                  )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="lastName"
-                  label="Last Name"
-                  required={true}
-                  placeholder=""
-                  className="!bg-white"
-                  maxLength={"30"}
-                  value={userValues.values.lastName}
-                  onBlur={userValues.handleBlur}
-                  onChange={userValues.handleChange}
-                  error={
-                    userValues.touched.lastName && userValues.errors.lastName
-                  }
-                />
-                {userValues.touched.lastName && userValues.errors.lastName && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {userValues.errors.lastName}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="email"
-                  label="Email"
-                  placeholder=""
-                  className="!bg-white"
-                  required={true}
-                  value={userValues.values.email}
-                  onBlur={userValues.handleBlur}
-                  onChange={userValues.handleChange}
-                  error={userValues.touched.email && userValues.errors.email}
-                />
-                {userValues.touched.email && userValues.errors.email && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {userValues.errors.email}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="tel"
-                  name="phoneNumber"
-                  label="Phone"
-                  required={true}
-                  className="!bg-white"
-                  placeholder=""
-                  value={userValues.values.phoneNumber}
-                  onChange={(e) => {
-                    const sanitizedValue = e.target.value.replace(
-                      /[^0-9]/g,
-                      ""
-                    );
-                    console.log(sanitizedValue);
-                    userValues.handleChange({
-                      target: {
-                        name: "phoneNumber",
-                        value: sanitizedValue,
-                      },
-                    });
-                  }}
-                  onBlur={userValues.handleBlur}
-                  minLength={"10"}
-                  maxLength={"10"}
-                  error={
-                    userValues.touched.phoneNumber &&
-                    userValues.errors.phoneNumber
-                  }
-                />
-                {(userValues.touched.phoneNumber ||
-                  userValues.submitCount > 0) &&
-                  userValues.errors.phoneNumber && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {userValues.errors.phoneNumber}
-                    </div>
-                  )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="position"
-                  label="Position"
-                  className="!bg-white"
-                  placeholder=""
-                  maxLength={"50"}
-                  value={userValues.values.position}
-                  onBlur={userValues.handleBlur}
-                  onChange={userValues.handleChange}
-                  error={
-                    userValues.touched.position && userValues.errors.position
-                  }
-                />
-              </div>
-              <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                  Do you want to create an account?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value="yes"
-                    checked={createAccountOption === "yes"}
-                    onChange={handleRadioChange}
-                  />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value="no"
-                    checked={createAccountOption === "no"}
-                    onChange={handleRadioChange}
-                  />
-                </p>
-              </div>
-            </Grid>
-            <Grid className="drop-shadow-5xl px-8">
               <div className="col-span-4">
                 <Button
-                  type="button"
-                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                  onClick={closeUserModal}
+                  onClick={() => routeToPage(activeTab)}
+                  className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
                 >
-                  Cancel
-                </Button>
-              </div>
-              <div className="col-span-8">
-                <Button type="submit" className="w-full">
-                  Submit
+                  {" "}
+                  <img
+                    src={AddItem}
+                    className="self-center"
+                    alt="AddItem"
+                  />{" "}
+                  <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
+                    Add {activeTab}
+                  </span>{" "}
                 </Button>
               </div>
             </Grid>
-          </form>
-        </div>
-      </Modal>
 
-      {/* <div className="col-span-12">
+            {tabs.map((tab) => (
+              <div
+                key={tab.id}
+                className={`${activeTab !== tab.id ? "hidden" : ""}`}
+              >
+                {tab.content}
+              </div>
+            ))}
+          </div>
+        </Grid>
+        {/* user popup */}
+        <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
+          <div className="py-3">
+            <p className="text-center  text-3xl mb-5 mt-2 font-bold text-light-black">
+              Add New User
+            </p>
+            <form onSubmit={userValues.handleSubmit}>
+              <Grid className="px-8">
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="firstName"
+                    label="First Name"
+                    required={true}
+                    placeholder=""
+                    className="!bg-white"
+                    maxLength={"30"}
+                    value={userValues.values.firstName}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={
+                      userValues.touched.firstName &&
+                      userValues.errors.firstName
+                    }
+                  />
+                  {userValues.touched.firstName &&
+                    userValues.errors.firstName && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {userValues.errors.firstName}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="lastName"
+                    label="Last Name"
+                    required={true}
+                    placeholder=""
+                    className="!bg-white"
+                    maxLength={"30"}
+                    value={userValues.values.lastName}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={
+                      userValues.touched.lastName && userValues.errors.lastName
+                    }
+                  />
+                  {userValues.touched.lastName &&
+                    userValues.errors.lastName && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {userValues.errors.lastName}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="email"
+                    label="Email"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                    value={userValues.values.email}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={userValues.touched.email && userValues.errors.email}
+                  />
+                  {userValues.touched.email && userValues.errors.email && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {userValues.errors.email}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="tel"
+                    name="phoneNumber"
+                    label="Phone"
+                    required={true}
+                    className="!bg-white"
+                    placeholder=""
+                    value={userValues.values.phoneNumber}
+                    onChange={(e) => {
+                      const sanitizedValue = e.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
+                      console.log(sanitizedValue);
+                      userValues.handleChange({
+                        target: {
+                          name: "phoneNumber",
+                          value: sanitizedValue,
+                        },
+                      });
+                    }}
+                    onBlur={userValues.handleBlur}
+                    minLength={"10"}
+                    maxLength={"10"}
+                    error={
+                      userValues.touched.phoneNumber &&
+                      userValues.errors.phoneNumber
+                    }
+                  />
+                  {(userValues.touched.phoneNumber ||
+                    userValues.submitCount > 0) &&
+                    userValues.errors.phoneNumber && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {userValues.errors.phoneNumber}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="position"
+                    label="Position"
+                    className="!bg-white"
+                    placeholder=""
+                    maxLength={"50"}
+                    value={userValues.values.position}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={
+                      userValues.touched.position && userValues.errors.position
+                    }
+                  />
+                </div>
+                <div className="col-span-6">
+                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                    Do you want to create an account?
+                    <RadioButton
+                      id="yes-create-account"
+                      label="Yes"
+                      value="yes"
+                      checked={createAccountOption === "yes"}
+                      onChange={handleRadioChange}
+                    />
+                    <RadioButton
+                      id="no-create-account"
+                      label="No"
+                      value="no"
+                      checked={createAccountOption === "no"}
+                      onChange={handleRadioChange}
+                    />
+                  </p>
+                </div>
+              </Grid>
+              <Grid className="drop-shadow-5xl px-8">
+                <div className="col-span-4">
+                  <Button
+                    type="button"
+                    className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    onClick={closeUserModal}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <div className="col-span-8">
+                  <Button type="submit" className="w-full">
+                    Submit
+                  </Button>
+                </div>
+              </Grid>
+            </form>
+          </div>
+        </Modal>
+
+        {/* <div className="col-span-12">
               <div className="flex w-full my-2">
                 <p className="text-sm mr-3 text-[#999999] font-Regular">
                   BANK DETAILS
@@ -895,197 +904,199 @@ function ServicerDetails() {
                 label="Account Holder"
               />
             </div> */}
-      {/* Modal Email Popop */}
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="text-center px-8 py-4">
-          <p className="text-3xl font-bold mb-8">Edit Servicer Details</p>
-          <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <Grid>
-              <div className="col-span-12">
-                <Input
-                  type="text"
-                  name="name"
-                  className="!bg-white"
-                  label="Account Name"
-                  required={true}
-                  placeholder=""
-                  maxLength={"500"}
-                  value={formik.values.name}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.name && formik.errors.name}
-                />
-                {formik.touched.name && formik.errors.name && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.name}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-12">
-                <Input
-                  type="text"
-                  name="street"
-                  className="!bg-white"
-                  label="Street Address"
-                  required={true}
-                  placeholder=""
-                  maxLength={"500"}
-                  value={formik.values.street}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.street && formik.errors.street}
-                />
-                {formik.touched.street && formik.errors.street && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.street}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="number"
-                  name="zip"
-                  label="Zip Code"
-                  className="!bg-white"
-                  required={true}
-                  placeholder=""
-                  value={formik.values.zip}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  minLength={"5"}
-                  maxLength={"6"}
-                  error={formik.touched.zip && formik.errors.zip}
-                />
-                {formik.touched.zip && formik.errors.zip && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.zip}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="city"
-                  label="City"
-                  className="!bg-white"
-                  placeholder=" "
-                  required={true}
-                  maxLength={"20"}
-                  value={formik.values.city}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.city && formik.errors.city}
-                />
-                {formik.touched.city && formik.errors.city && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.city}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Select
-                  label="State"
-                  name="state"
-                  placeholder=""
-                  className="!bg-white"
-                  required={true}
-                  onChange={handleSelectChange}
-                  options={state}
-                  value={formik.values.state}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.state && formik.errors.state}
-                />
-                {formik.touched.state && formik.errors.state && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.state}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="country"
-                  label="Country"
-                  required={true}
-                  placeholder=""
-                  value={formik.values.country}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  defaultValue="USA"
-                  error={formik.touched.country && formik.errors.country}
-                  disabled
-                />
-              </div>
-              <div className="col-span-4">
-                <Button
-                  type="button"
-                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                  onClick={closeModal}
-                >
-                  Cancel
-                </Button>
-              </div>
-              <div className="col-span-8">
-                <Button type="submit" className="w-full">
-                  Submit
-                </Button>
-              </div>
-            </Grid>
-          </form>
-        </div>
-      </Modal>
-      {/* Modal Primary Popop */}
-      <Modal isOpen={isModalOpen1} onClose={closeModal1}>
-        <form onSubmit={dealerForm.handleSubmit}>
-          <div className="text-center py-3">
-            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-              Assign Dealer
-            </p>
-            <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
-              <DataTable
-                columns={columns}
-                data={dealerList}
-                highlightOnHover
-                sortIcon={
-                  <>
-                    {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
-                  </>
-                }
-                noDataComponent={<CustomNoDataComponent />}
-              />
-            </div>
-            <Grid className="drop-shadow-5xl">
-              <div className="col-span-4">
-                <Button
-                  type="button"
-                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                  onClick={closeModal1}
-                >
-                  Cancel
-                </Button>
-              </div>
-              <div className="col-span-8">
-                <Button type="submit" className="w-full">
-                  Submit
-                </Button>
-              </div>
-            </Grid>
+        {/* Modal Email Popop */}
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          <div className="text-center px-8 py-4">
+            <p className="text-3xl font-bold mb-8">Edit Servicer Details</p>
+            <form className="mt-8" onSubmit={formik.handleSubmit}>
+              <Grid>
+                <div className="col-span-12">
+                  <Input
+                    type="text"
+                    name="name"
+                    className="!bg-white"
+                    label="Account Name"
+                    required={true}
+                    placeholder=""
+                    maxLength={"500"}
+                    value={formik.values.name}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    error={formik.touched.name && formik.errors.name}
+                  />
+                  {formik.touched.name && formik.errors.name && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.name}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-12">
+                  <Input
+                    type="text"
+                    name="street"
+                    className="!bg-white"
+                    label="Street Address"
+                    required={true}
+                    placeholder=""
+                    maxLength={"500"}
+                    value={formik.values.street}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    error={formik.touched.street && formik.errors.street}
+                  />
+                  {formik.touched.street && formik.errors.street && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.street}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="number"
+                    name="zip"
+                    label="Zip Code"
+                    className="!bg-white"
+                    required={true}
+                    placeholder=""
+                    value={formik.values.zip}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    minLength={"5"}
+                    maxLength={"6"}
+                    error={formik.touched.zip && formik.errors.zip}
+                  />
+                  {formik.touched.zip && formik.errors.zip && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.zip}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="city"
+                    label="City"
+                    className="!bg-white"
+                    placeholder=" "
+                    required={true}
+                    maxLength={"20"}
+                    value={formik.values.city}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.city && formik.errors.city}
+                  />
+                  {formik.touched.city && formik.errors.city && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.city}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-6">
+                  <Select
+                    label="State"
+                    name="state"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                    onChange={handleSelectChange}
+                    options={state}
+                    value={formik.values.state}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.state && formik.errors.state}
+                  />
+                  {formik.touched.state && formik.errors.state && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.state}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="country"
+                    label="Country"
+                    required={true}
+                    placeholder=""
+                    value={formik.values.country}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    defaultValue="USA"
+                    error={formik.touched.country && formik.errors.country}
+                    disabled
+                  />
+                </div>
+                <div className="col-span-4">
+                  <Button
+                    type="button"
+                    className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    onClick={closeModal}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <div className="col-span-8">
+                  <Button type="submit" className="w-full">
+                    Submit
+                  </Button>
+                </div>
+              </Grid>
+            </form>
           </div>
-        </form>
-      </Modal>
-      <Modal isOpen={modalOpen} onClose={closeModal10}>
-        <div className="text-center py-3">
-          <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-            {firstMessage}
-          </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
-            {secondMessage} {""} <br /> Redirecting Back to Detail page {timer}
-          </p>
-        </div>
-      </Modal>
-    </div>
+        </Modal>
+        {/* Modal Primary Popop */}
+        <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+          <form onSubmit={dealerForm.handleSubmit}>
+            <div className="text-center py-3">
+              <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+                Assign Dealer
+              </p>
+              <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
+                <DataTable
+                  columns={columns}
+                  data={dealerList}
+                  highlightOnHover
+                  sortIcon={
+                    <>
+                      {" "}
+                      <img src={shorting} className="ml-2" alt="shorting" />
+                    </>
+                  }
+                  noDataComponent={<CustomNoDataComponent />}
+                />
+              </div>
+              <Grid className="drop-shadow-5xl">
+                <div className="col-span-4">
+                  <Button
+                    type="button"
+                    className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    onClick={closeModal1}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <div className="col-span-8">
+                  <Button type="submit" className="w-full">
+                    Submit
+                  </Button>
+                </div>
+              </Grid>
+            </div>
+          </form>
+        </Modal>
+        <Modal isOpen={modalOpen} onClose={closeModal10}>
+          <div className="text-center py-3">
+            <img src={Primary} alt="email Image" className="mx-auto" />
+            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+              {firstMessage}
+            </p>
+            <p className="text-neutral-grey text-base font-medium mt-4">
+              {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
+              {timer} Seconds
+            </p>
+          </div>
+        </Modal>
+      </div>
+    </>
   );
 }
 

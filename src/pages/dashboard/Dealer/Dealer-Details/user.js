@@ -208,16 +208,17 @@ function UserList(props) {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      // setLoader(true);
+      setLoading(true);
       const result = await updateUserDetailsById(values);
       console.log(result);
       if (result.code == 200) {
+        setLoading(false);
         SetPrimaryText("User Edited Successfully ");
         SetSecondaryText("user edited successfully ");
         openModal();
         toggleFlag();
         // setIsModalOpen3(true);
-        // setLoader(false);
+
         // setError(result.message);
         setTimer(3);
         getUserList();
@@ -561,7 +562,7 @@ function UserList(props) {
           </p>
           <p className="text-neutral-grey text-base font-medium mt-4">
             {secondaryText} <br />
-            Redirecting Back to User List {timer}
+            Redirecting Back to User List in {timer} Seconds
           </p>
         </div>
       </Modal>
@@ -602,6 +603,9 @@ function UserList(props) {
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             You have successfully deleted this user.
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting Back to User List in {timer} seconds
           </p>
         </div>
       </Modal>

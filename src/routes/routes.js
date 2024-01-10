@@ -174,7 +174,7 @@ const routes = [
       },
       {
         path: "/dealerList",
-        element: <PrivateRoute element={<DealerList />} path="/dealerList" />,
+        element: <PrivateRoute element={<DealerList />} />,
       },
       {
         path: "/dealerPriceList",

@@ -29,17 +29,31 @@ function RequestServicer() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [status, setStatus] = useState("");
   const [timer, setTimer] = useState(3);
+
   const [approvalDetails, setApprovalDetails] = useState({
     id: null,
     action: null,
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const toggleDropdown = (index) => {
+  const toggleDropdown = (index, event) => {
     setSelectedAction(index);
     setIsDropdownOpen(!isDropdownOpen);
+    if (event) {
+      handleClickOutside(event, index);
+    }
   };
+  const handleClickOutside = (event, index) => {
+    console.log(index);
+    const dropdownContainer = document.querySelector(
+      `.dropdown-container-${index}`
+    );
+    console.log(dropdownContainer);
 
+    if (dropdownContainer && !dropdownContainer.contains(event.target)) {
+      setIsDropdownOpen(false);
+    }
+  };
   const handleActionChange = async (action, id) => {
     console.log(action);
     console.log(`Selected action: ${(action, id)}`);
@@ -144,8 +158,8 @@ function RequestServicer() {
       minWidth: "auto",
       maxWidth: "80px",
       cell: (row, index) => (
-        <div className="relative">
-          <div onClick={() => toggleDropdown(index)}>
+        <div className={`relative dropdown-container-${index}`}>
+          <div onClick={(e) => toggleDropdown(index, e)}>
             <img
               src={ActiveIcon}
               className="cursor-pointer w-[35px]"
@@ -233,7 +247,17 @@ function RequestServicer() {
   useEffect(() => {
     getRequestServicerList();
   }, []);
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      handleClickOutside(event, selectedAction);
+    };
 
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [selectedAction]);
   return (
     <>
       <div className="my-8 ml-3">

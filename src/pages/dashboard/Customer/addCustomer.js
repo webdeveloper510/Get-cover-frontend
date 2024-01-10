@@ -99,7 +99,7 @@ function AddCustomer() {
     if (timer === 0 && message === "Customer Created Successfully") {
       closeModal();
       if (dealerValueId) {
-        navigate(-1);
+        navigate(`/dealerDetails/${dealerValueId}`);
       } else {
         navigate("/customerList");
       }

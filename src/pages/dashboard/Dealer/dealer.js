@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Headbar from "../../../common/headBar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
@@ -26,7 +26,7 @@ import {
 import { getCategoryListActiveData } from "../../../services/priceBookService";
 import { validateDealerData } from "../../../services/dealerServices";
 import Modal from "../../../common/model";
-import Loader from "../../../assets/images/Loader.gif";
+import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import { RotateLoader } from "react-spinners";
 
 function Dealer() {
@@ -43,6 +43,8 @@ function Dealer() {
   const [error, setError] = useState("start");
   const [timer, setTimer] = useState(3);
   const [fileError, setFileError] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
     street: "",
@@ -79,7 +81,9 @@ function Dealer() {
 
   const navigate = useNavigate();
   const { id } = useParams();
-
+  const handleDropdownClick = () => {
+    fileInputRef.current.click();
+  };
   const status = [
     { label: "Active", value: true },
     { label: "Inactive", value: false },
@@ -108,6 +112,7 @@ function Dealer() {
     setIsModalOpen(false);
   };
   useEffect(() => {
+    console.log("here1");
     setLoading(true);
 
     if (id === undefined) {
@@ -199,6 +204,7 @@ function Dealer() {
 
     if (timer === 0 && message === "New Dealer Created Successfully") {
       closeModal();
+      console.log("here113");
       navigate("/dealerList");
     }
     return () => clearInterval(intervalId);
@@ -259,10 +265,21 @@ function Dealer() {
 
   const handleRadioChangeforBulk = (event) => {
     console.log(event.target.value);
+    if (event.target.value === "no") {
+      formik.setFieldValue("file", "");
+      setSelectedFile(null);
+    }
     formik.setFieldValue("savePriceBookType", event.target.value);
     setSelectedOption(event.target.value);
   };
 
+  const handleFileSelect = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    formik.setFieldValue("file", file);
+    setFileError(null);
+    event.target.value = null;
+  };
   const handleRadioChangeDealers = (value, index) => {
     const updatedDealers = [...formik.values.dealers];
     updatedDealers[index].status = value === "yes" ? true : false;
@@ -416,6 +433,8 @@ function Dealer() {
               },
             ]
           : formik.errors.priceBook || values.priceBook;
+      values.file =
+        selectedOption === "yes" ? "" : formik.errors.file || values.file;
 
       if (formik.values.dealers.length > 0) {
         console.log(formik.values.dealers.length);
@@ -509,11 +528,18 @@ function Dealer() {
         setMessage("Some Errors Please Check Form Validations ");
         setIsModalOpen(true);
       } else if (result.message === "Invalid priceBook field") {
-        if (result.message === "Invalid priceBook field") {
-          setFileError("Invalid PriceBook File");
+        if (
+          result.message ===
+          "Invalid file format detected. The sheet should contain exactly two columns."
+        ) {
+          setFileError(
+            "Invalid file format detected. The sheet should contain exactly two columns."
+          );
           setLoading(false);
           setIsModalOpen(true);
-          setMessage("Invalid PriceBook File");
+          setMessage(
+            "Invalid file format detected. The sheet should contain exactly two columns."
+          );
         } else {
           setFileError(null);
         }
@@ -1408,18 +1434,53 @@ function Dealer() {
                 <p className="text-[#717275] text-lg mb-5 font-semibold">
                   Upload In Bulk
                 </p>
-                <FileDropdown
+                {/* <FileDropdown
                   className="!bg-transparent"
                   accept={
                     ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                   }
-                  onFileSelect={(file) => formik.setFieldValue("file", file)}
-                />
-                {/* {formik.touched.file && formik.errors.file && (
+                  onFileSelect={(file) => {
+                    setFileError(null);
+                    formik.setFieldValue("file", file);
+                  }}
+                /> */}
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={handleDropdownClick}
+                    className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
+                  >
+                    {selectedFile ? (
+                      selectedFile.name
+                    ) : (
+                      <>
+                        <img
+                          src={Dropbox}
+                          className="mx-auto mb-3"
+                          alt="Dropbox"
+                        />
+                        <p className="text-[#5D6E66]">
+                          Accepted file types: csv, xlsx, xls Max. file size: 50
+                          MB.
+                        </p>
+                      </>
+                    )}
+                  </button>
+
+                  {/* Hidden file input */}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    style={{ display: "none" }}
+                    onChange={handleFileSelect}
+                  />
+                </div>
+                {formik.touched.file && formik.errors.file && (
                   <p className="text-red-500 text-[10px] mt-1 font-medium">
                     {formik.errors.file}
                   </p>
-                )} */}
+                )}
                 {formik.touched.file && fileError && (
                   <p className="text-red-500 text-[10px] mt-1 font-medium">
                     {fileError}

@@ -58,7 +58,7 @@ import { getServicerListForDealer } from "../../../services/servicerServices";
 function DealerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("menu");
-    return storedTab ? storedTab : "Orders";
+    return storedTab ? storedTab : "Servicer";
   };
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
@@ -88,9 +88,7 @@ function DealerDetails() {
     dealerId: id.id,
     isPrimary: false,
   });
-  const { flag, toggleFlag, lastLocation, LastLocationContext } =
-    useMyContext();
-  console.log("here", flag, lastLocation, "==");
+  const { flag } = useMyContext();
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerId: "",
@@ -170,6 +168,7 @@ function DealerDetails() {
   }, [activeTab]);
 
   const dealerData = async () => {
+    setLoading(true);
     console.log(id);
     const result = await getDealersDetailsByid(id?.id);
     setDealerDetails(result.result[0]);
@@ -184,6 +183,7 @@ function DealerDetails() {
       state: result?.result[0]?.dealerData?.state,
       country: "USA",
     });
+    setLoading(false);
   };
   const openModal = () => {
     setIsModalOpen(true);
@@ -390,9 +390,7 @@ function DealerDetails() {
       <p>No records found.</p>
     </div>
   );
-  const handleGOBack = () => {
-    navigate(-1);
-  };
+
   const tabs = [
     {
       id: "Orders",
@@ -485,7 +483,7 @@ function DealerDetails() {
         <div className="flex">
           <div onClick={() => localStorage.removeItem("menu")}>
             <Link
-              onClick={handleGOBack}
+              to={"/dealerList"}
               className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
             >
               <img
@@ -1061,7 +1059,8 @@ function DealerDetails() {
             {firstMessage}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-4">
-            {secondMessage} {""} <br /> Redirecting Back to Detail page {timer}
+            {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
+            {timer} Seconds
           </p>
         </div>
       </Modal>

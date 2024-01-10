@@ -47,7 +47,7 @@ import { MyContextProvider, useMyContext } from "../../../context/context";
 function CustomerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("customer");
-    return storedTab ? storedTab : "Order";
+    return storedTab ? storedTab : "Users";
   };
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -260,6 +260,7 @@ function CustomerDetails() {
     }
   };
   const customerDetails = async () => {
+    setLoading(true);
     console.log(customerId);
     const result = await getCustomerDetailsById(customerId);
     setCustomerDetail(result.result);
@@ -274,6 +275,7 @@ function CustomerDetails() {
       state: result?.result?.meta?.state,
       country: "USA",
     });
+    setLoading(false);
   };
   useEffect(() => {
     localStorage.setItem("customer", activeTab);
@@ -887,8 +889,8 @@ function CustomerDetails() {
               {firstMessage}
             </p>
             <p className="text-neutral-grey text-base font-medium mt-4">
-              {secondMessage} {""} <br /> Redirecting Back to Detail page{" "}
-              {timer}
+              {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
+              {timer} Seconds
             </p>
           </div>
         </Modal>

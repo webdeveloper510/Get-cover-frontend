@@ -223,29 +223,29 @@ function DealerDetailList(props) {
       selector: (row) => "$ 0.00",
       sortable: true,
     },
-    {
-      name: "Status",
-      selector: (row) => row.status,
-      sortable: true,
-      cell: (row) => (
-        <div className="relative">
-          <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-          ></div>
-          <select
-            // disabled={row.isPrimary === true ? true : false}
-            value={row.status === true ? "active" : "inactive"}
-            onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-          >
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-        </div>
-      ),
-    },
+    // {
+    //   name: "Status",
+    //   selector: (row) => row.status,
+    //   sortable: true,
+    //   cell: (row) => (
+    //     <div className="relative">
+    //       <div
+    //         className={` ${
+    //           row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+    //         } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+    //       ></div>
+    //       <select
+    //         // disabled={row.isPrimary === true ? true : false}
+    //         value={row.status === true ? "active" : "inactive"}
+    //         onChange={(e) => handleStatusChange(row, e.target.value)}
+    //         className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+    //       >
+    //         <option value="active">Active</option>
+    //         <option value="inactive">Inactive</option>
+    //       </select>
+    //     </div>
+    //   ),
+    // },
     {
       name: "Action",
       minWidth: "auto",

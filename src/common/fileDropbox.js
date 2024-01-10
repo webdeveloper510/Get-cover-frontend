@@ -9,12 +9,18 @@ const FileDropdown = ({ className = "", accept, onFileSelect }) => {
   const handleDropdownClick = () => {
     fileInputRef.current.click();
   };
+
+  console.log(selectedFile);
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
-    setSelectedFile(file);
-    if (onFileSelect) {
-      onFileSelect(file);
+    console.log(file);
+    if (file) {
+      setSelectedFile(file);
+      if (onFileSelect) {
+        onFileSelect(file);
+      }
     }
+
     event.target.value = null;
   };
   return (
