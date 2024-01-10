@@ -309,7 +309,7 @@ function DealerPriceList() {
         </div>
         <Link
           to={"/addDealerBook"}
-          className=" w-[230px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+          className=" w-[190px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -323,10 +323,10 @@ function DealerPriceList() {
             <div className="col-span-4 self-center">
               <p className="text-xl font-semibold py-4">Dealer Price List</p>
             </div>
-            <div className="col-span-7">
+            <div className="col-span-8">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-10">
+                  <Grid className="!grid-cols-9">
                     <div className="col-span-2 self-center">
                       <Input
                         name="category"
@@ -379,7 +379,7 @@ function DealerPriceList() {
                         onChange={handleSelectChange}
                       />
                     </div>
-                    <div className="col-span-2 self-center justify-center flex">
+                    <div className="col-span-1 self-center justify-center flex">
                       <Button type="submit" className="!p-0">
                         <img
                           src={Search}
