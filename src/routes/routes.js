@@ -28,6 +28,7 @@ import AddOrder from "../pages/dashboard/Order/addOrder";
 import OrderList from "../pages/dashboard/Order/orderList";
 import ServicerDetails from "../pages/dashboard/Servicer/servicerDetails";
 import CustomerDetails from "../pages/dashboard/Customer/customerDetails";
+import ContractList from "../pages/dashboard/Contract/contractList";
 
 const routes = [
   {
@@ -236,6 +237,10 @@ const routes = [
       {
         path: "/orderList",
         element: <PrivateRoute element={<OrderList />} path="/orderList" />,
+      },
+      {
+        path: "/contractList",
+        element: <PrivateRoute element={<ContractList />} path="/contractList" />,
       },
     ],
   },

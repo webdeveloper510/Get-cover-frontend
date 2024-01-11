@@ -210,13 +210,23 @@ function UploadDealerBook() {
           </div>
 
           {/* Form Start */}
-          {error && (
+          {/* {error && (
             <p className="text-red-500 text-sm pl-2">
               <span className="font-semibold"> {error} </span>
             </p>
-          )}
+          )} */}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 py-8 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-xl">
+            <div className="px-8 pb-8 pt-5 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-xl">
+            {error ? (
+                <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
+                  <span className="font-semibold"> {error} </span>
+                </p>
+              ) : (
+                <p className="text-red-500 text-sm pl-2 mt-3 mb-5 opacity-0	">
+                  <span className="font-semibold"> error </span>
+                </p>
+              )}
+
               <Grid className="">
                 <div className="col-span-12">
                   <div className="col-span-12">

@@ -353,7 +353,7 @@ function SideBar() {
     },
     {
       name: "Contract",
-      url: "#",
+      url: "/contractList",
       active: ActiveProduct,
       image: ProductImage,
     },
