@@ -218,7 +218,6 @@ function PriceBookList(props) {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);

@@ -177,10 +177,8 @@ const routes = [
         element: <PrivateRoute element={<DealerList />} />,
       },
       {
-        path: "/dealerPriceList",
-        element: (
-          <PrivateRoute element={<DealerPriceList />} path="/dealerPriceList" />
-        ),
+        path: "/dealerPriceList/:dealerName?",
+        element: <PrivateRoute element={<DealerPriceList />} />,
       },
       {
         path: "/category",

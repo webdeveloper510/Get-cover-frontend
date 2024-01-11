@@ -421,8 +421,8 @@ function DealerDetails() {
       content: <ServicerList id={id.id} flag={flagValue} />,
     },
     {
-      id: "Customers",
-      label: "Customers",
+      id: "Customer",
+      label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
       content: <CustomerList id={id.id} />,
@@ -453,8 +453,8 @@ function DealerDetails() {
         localStorage.setItem("menu", "PriceBook");
         navigate(`/addDealerBook/${id.id}`);
         break;
-      case "Customers":
-        localStorage.setItem("menu", "Customers");
+      case "Customer":
+        localStorage.setItem("menu", "Customer");
         navigate(`/addCustomer/${id.id}`);
         break;
       case "Users":

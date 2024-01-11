@@ -18,6 +18,7 @@ import * as Yup from "yup";
 import { WithContext as ReactTags } from "react-tag-input";
 import { uploadDealerBookInBulk } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
+import DealerList from "../Dealer/dealerList";
 
 function UploadDealerBook() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -27,6 +28,7 @@ function UploadDealerBook() {
   const [error, setError] = useState("");
   const [tags, setTags] = useState([]);
   const [timer, setTimer] = useState(3);
+  const [dealerName, setDealerName] = useState("");
   const navigate = useNavigate();
   const openModal = () => {
     setIsModalOpen(true);
@@ -37,6 +39,11 @@ function UploadDealerBook() {
   };
 
   const handleSelectChange = (name, selectedValue) => {
+    activeDealers?.find((dealer) => {
+      if (dealer.value === selectedValue) {
+        setDealerName(dealer.label);
+      }
+    });
     formik.setFieldValue(name, selectedValue);
   };
   useEffect(() => {
@@ -49,7 +56,7 @@ function UploadDealerBook() {
 
     if (timer === 0) {
       closeModal();
-      navigate("/dealerPriceList");
+      navigate(`/dealerPriceList/${dealerName}`);
     }
     return () => {
       clearInterval(intervalId);
