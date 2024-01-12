@@ -525,6 +525,8 @@ function AddCompanyPriceBook() {
                     )}
                   </div>
                 )}
+                </Grid>
+                <Grid className="!grid-cols-6 mt-3">
 
                 <div className="col-span-1">
                   <Input
@@ -612,10 +614,10 @@ function AddCompanyPriceBook() {
                   <Input
                     type="number"
                     name="adminFee"
-                    className="!bg-[#fff]"
                     required={true}
                     minLength={"1"}
                     maxLength={"10"}
+                    className="!bg-[#fff] !px-0 w-[180px]"
                     label="Administration fee ($)"
                     placeholder=""
                     onChange={formik.handleChange}
@@ -636,6 +638,36 @@ function AddCompanyPriceBook() {
                     </div>
                   )}
                 </div>
+                <div className="col-span-1">
+                    <Select
+                      label="Terms"
+                      name="term"
+                      required={true}
+                      placeholder=""
+                      onChange={handleSelectChange}
+                      className="!bg-[#fff]"
+                      options={termList}
+                      value={
+                        (
+                          termList.find(
+                            (option) =>
+                              option.value ==
+                              (formik.values.term
+                                ? formik.values.term.toString()
+                                : "")
+                          ) || {}
+                        ).value || ""
+                      }
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.term && formik.errors.term}
+                      disabled={type === "Edit"}
+                    />
+                    {formik.touched.term && formik.errors.term && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.term}
+                      </div>
+                    )}
+                  </div>
                 <div className="col-span-1">
                   <Select
                     label="Status"
