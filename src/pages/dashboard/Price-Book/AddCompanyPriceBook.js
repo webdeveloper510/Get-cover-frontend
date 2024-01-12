@@ -38,6 +38,43 @@ function AddCompanyPriceBook() {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   console.log(id);
+  const producttype = [
+    { label: "Regular Pricing", value: "RegularPricing" },
+    { label: "Flat Pricing", value: "FlatPricing" },
+    { label: "Quantity Pricing", value: "QuantityPricing" },
+  ];
+
+  const validations = Yup.object({
+    priceCatId: Yup.string().required("Required"),
+    name: Yup.string().required("Required"),
+    description: Yup.string().required("Required"),
+    term: Yup.number().required("Required"),
+    frontingFee: Yup.number()
+      .typeError("Required")
+      .required("Required")
+      .min(0, "Fronting fee cannot be negative")
+      .nullable(),
+    reinsuranceFee: Yup.number()
+      .typeError("Required")
+      .required("Required")
+      .nullable()
+      .min(0, "Re-insurance fee cannot be negative"),
+    reserveFutureFee: Yup.number()
+      .typeError("Required")
+      .required("Required")
+      .nullable()
+      .min(0, "ReserveFuture fee cannot be negative"),
+    adminFee: Yup.number()
+      .typeError("Required")
+      .required("Required")
+      .nullable()
+      .min(0, "Admin fee cannot be negative"),
+    status: Yup.string().required("Required"),
+    productType: Yup.string().required("Required"),
+    rangeStart: Yup.string(),
+    rangeEnd: Yup.string(),
+  });
+
   const formik = useFormik({
     initialValues: {
       priceCatId: "",
@@ -49,35 +86,13 @@ function AddCompanyPriceBook() {
       reserveFutureFee: "",
       adminFee: "",
       status: "",
+      productType: "",
+      rangeStart: "",
+      rangeEnd: "",
     },
+    validationSchema: validations,
     //  disabled={active}
-    validationSchema: Yup.object({
-      priceCatId: Yup.string().required("Required"),
-      name: Yup.string().required("Required"),
-      description: Yup.string().required("Required"),
-      term: Yup.number().required("Required"),
-      frontingFee: Yup.number()
-        .typeError("Required")
-        .required("Required")
-        .min(0, "Fronting fee cannot be negative")
-        .nullable(),
-      reinsuranceFee: Yup.number()
-        .typeError("Required")
-        .required("Required")
-        .nullable()
-        .min(0, "Re-insurance fee cannot be negative"),
-      reserveFutureFee: Yup.number()
-        .typeError("Required")
-        .required("Required")
-        .nullable()
-        .min(0, "ReserveFuture fee cannot be negative"),
-      adminFee: Yup.number()
-        .typeError("Required")
-        .required("Required")
-        .nullable()
-        .min(0, "Admin fee cannot be negative"),
-      status: Yup.string().required("Required"),
-    }),
+
     // onSubmit: async (values) => {
     //   try {
     //     setLoader(true);
@@ -144,6 +159,19 @@ function AddCompanyPriceBook() {
       }
       setLoader(false);
     },
+  });
+  formik.validationSchema = Yup.object().shape({
+    ...validations.fields,
+    rangeStart: Yup.string().when("productType", {
+      is: "FlatPricing",
+      then: Yup.string().required("Required"),
+      otherwise: Yup.string(),
+    }),
+    rangeEnd: Yup.string().when("productType", {
+      is: "FlatPricing",
+      then: Yup.string().required("Required"),
+      otherwise: Yup.string(),
+    }),
   });
   const calculateTotal = () => {
     const frontingFee = parseFloat(formik.values.frontingFee) || 0;
@@ -471,6 +499,38 @@ function AddCompanyPriceBook() {
                     )}
                   </div>
                 )}
+                <div className="col-span-1">
+                  <Select
+                    label="Product Type"
+                    name="productType"
+                    required={true}
+                    placeholder=""
+                    onChange={handleSelectChange}
+                    className="!bg-[#fff]"
+                    options={producttype}
+                    value={
+                      (
+                        producttype.find(
+                          (option) =>
+                            option.value ==
+                            (formik.values.productType
+                              ? formik.values.productType.toString()
+                              : "")
+                        ) || {}
+                      ).value || ""
+                    }
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.productType && formik.errors.productType
+                    }
+                    disabled={type === "Edit"}
+                  />
+                  {formik.touched.productType && formik.errors.productType && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.productType}
+                    </div>
+                  )}
+                </div>
                 <div className="col-span-2">
                   <Input
                     type="text"
@@ -490,44 +550,8 @@ function AddCompanyPriceBook() {
                     </div>
                   )}
                 </div>
-
-                {type == "Edit" ? (
-                  <></>
-                ) : (
-                  <div className="col-span-1">
-                    <Select
-                      label="Terms"
-                      name="term"
-                      required={true}
-                      placeholder=""
-                      onChange={handleSelectChange}
-                      className="!bg-[#fff]"
-                      options={termList}
-                      value={
-                        (
-                          termList.find(
-                            (option) =>
-                              option.value ==
-                              (formik.values.term
-                                ? formik.values.term.toString()
-                                : "")
-                          ) || {}
-                        ).value || ""
-                      }
-                      onBlur={formik.handleBlur}
-                      error={formik.touched.term && formik.errors.term}
-                      disabled={type === "Edit"}
-                    />
-                    {formik.touched.term && formik.errors.term && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.term}
-                      </div>
-                    )}
-                  </div>
-                )}
-                </Grid>
-                <Grid className="!grid-cols-6 mt-3">
-
+              </Grid>
+              <Grid className="!grid-cols-6 mt-3">
                 <div className="col-span-1">
                   <Input
                     type="number"
@@ -638,7 +662,11 @@ function AddCompanyPriceBook() {
                     </div>
                   )}
                 </div>
-                <div className="col-span-1">
+
+                {type == "Edit" ? (
+                  <></>
+                ) : (
+                  <div className="col-span-1">
                     <Select
                       label="Terms"
                       name="term"
@@ -668,6 +696,8 @@ function AddCompanyPriceBook() {
                       </div>
                     )}
                   </div>
+                )}
+
                 <div className="col-span-1">
                   <Select
                     label="Status"
@@ -693,6 +723,67 @@ function AddCompanyPriceBook() {
                     </div>
                   )}
                 </div>
+                {formik.values.productType === "FlatPricing" && (
+                  <>
+                    <div className="col-span-1">
+                      <Input
+                        type="number"
+                        name="rangeStart"
+                        required={true}
+                        minLength={"1"}
+                        maxLength={"10"}
+                        className="!bg-[#fff] !px-0 w-[180px]"
+                        label="Range Start ($)"
+                        placeholder=""
+                        onChange={formik.handleChange}
+                        onBlur={(e) => {
+                          const formattedValue = parseFloat(
+                            e.target.value
+                          ).toFixed(2);
+                          formik.handleBlur(e);
+                          formik.setFieldValue("rangeStart", formattedValue);
+                        }}
+                        value={formik.values.rangeStart}
+                        maxDecimalPlaces={2}
+                      />
+
+                      {formik.touched.rangeStart &&
+                        formik.errors.rangeStart && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formik.errors.rangeStart}
+                          </div>
+                        )}
+                    </div>
+                    <div className="col-span-1">
+                      <Input
+                        type="number"
+                        name="rangeEnd"
+                        required={true}
+                        minLength={"1"}
+                        maxLength={"10"}
+                        className="!bg-[#fff] !px-0 w-[180px]"
+                        label="Range End ($)"
+                        placeholder=""
+                        onChange={formik.handleChange}
+                        onBlur={(e) => {
+                          const formattedValue = parseFloat(
+                            e.target.value
+                          ).toFixed(2);
+                          formik.handleBlur(e);
+                          formik.setFieldValue("rangeEnd", formattedValue);
+                        }}
+                        value={formik.values.rangeEnd}
+                        maxDecimalPlaces={2}
+                      />
+
+                      {formik.touched.rangeEnd && formik.errors.rangeEnd && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.rangeEnd}
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
               </Grid>
               <p className="mt-8 font-semibold text-lg">
                 Total Amount: <span> ${totalAmount}</span>
