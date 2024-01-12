@@ -9,6 +9,7 @@ import Input from '../../../common/input';
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
+import check from "../../../assets/images/icons/check.svg";
 import Button from '../../../common/button';
 
 function AddOrder() {
@@ -16,6 +17,31 @@ function AddOrder() {
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedOption, setSelectedOption] = useState('option1');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentStep, setCurrentStep] = useState(1);
+
+    console.log(currentStep)
+  const nextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+
+  const prevStep = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return renderStep1();
+      case 2:
+        return renderStep2();
+      case 3:
+        return renderStep3();
+      case 4:
+        return renderStep4();
+      default:
+        return null;
+    }
+  };
 
     const openModal = () => {
       setIsModalOpen(true);
@@ -45,48 +71,11 @@ function AddOrder() {
       { label: 'Option 2', value: 'option2' },
       { label: 'Option 3', value: 'option3' },
     ];
-  
-    return (
-      <div className='my-8 ml-3'>
-        <Headbar/>
-        <div className='flex mt-2'>
-        <Link to={'/orderList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
-            <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
-          </Link>
-          <div className='pl-3'>
-            <p className='font-bold text-[36px] leading-9 mb-[3px]'>Add Order</p>
-            <ul className='flex self-center'>
-              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Order </Link>  /  </li>
-              <li className='text-sm text-neutral-grey font-Regular'> Add Order / </li>
-              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'>  Order Details </li>
-            </ul>
-          </div>
-        </div>
-  
-        {/* Form Start */}
-          <div className='flex my-4'>
-            <div className='text-center'>
-                <p className='border border-black rounded-full mx-auto w-[26px]'>1</p>
-                <p className='text-sm font-bold'>Order Details</p>
-            </div>
-            <hr className='w-[150px] border-black mt-3'/>
-            <div className='text-center'>
-                <p className='border border-black rounded-full mx-auto w-[26px]'>2</p>
-                <p className='text-sm font-bold'>Dealer Order Details</p>
-            </div>
-            <hr className='w-[150px] border-black mt-3'/>
-            <div className='text-center'>
-                <p className='border border-black rounded-full mx-auto w-[26px]'>3</p>
-                <p className='text-sm font-bold'>Add Product</p>
-            </div>
-            <hr className='w-[150px] border-black mt-3'/>
-            <div className='text-center'>
-                <p className='border border-black rounded-full mx-auto w-[26px]'>4</p>
-                <p className='text-sm font-bold'>Order Details</p>
-            </div>
-          </div>
-           {/* First Step  */}
-          <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
+
+    const renderStep1 = () => {
+      // Step 1 content
+      return (
+        <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
             <p className='text-2xl font-bold mb-4'>Order Details</p>
             <Grid>
               <div className='col-span-6'>
@@ -124,56 +113,66 @@ function AddOrder() {
                 </Grid>
               </div>
               <div className='col-span-6 self-end justify-end flex'>
-                <Button>Next</Button>
+                <Button onClick={nextStep}>Next</Button>
               </div>
             </Grid>
           </div>
-          {/* Second Step  */}
-          <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
-            <p className='text-2xl font-bold mb-4'>Dealer Order Details</p>
+      );
+    };
+  
+    const renderStep2 = () => {
+      // Step 2 content
+      return (
+        <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
+        <p className='text-2xl font-bold mb-4'>Dealer Order Details</p>
+        <Grid>
+          <div className='col-span-6'>
             <Grid>
-              <div className='col-span-6'>
-                <Grid>
-                  <div className='col-span-12'>
-                    <Select 
-                     label="Dealer Purchase Order"
-                     name="dealerPurchaseOrder"
-                     placeholder=""
-                     className="!bg-white"
-                     required={true}
-                     options={country}
-                    />
-                  </div>
-                  <div className='col-span-6'>
-                  <Select 
-                     label="Service Coverage"
-                     name="servicerCoverage"
-                     placeholder=""
-                     className="!bg-white"
-                     required={true}
-                     options={city}
-                    />
-                  </div>
-                  <div className='col-span-6'>
-                  <Select 
-                     label="Coverage Type"
-                     name="customerType"
-                     placeholder=""
-                     className="!bg-white"
-                     required={true}
-                     options={country}
-                    />
-                  </div>
-                </Grid>
+              <div className='col-span-12'>
+                <Select 
+                 label="Dealer Purchase Order"
+                 name="dealerPurchaseOrder"
+                 placeholder=""
+                 className="!bg-white"
+                 required={true}
+                 options={country}
+                />
               </div>
-              <div className='col-span-6 self-end justify-end flex'>
-                <Button className='!bg-white !text-black'>Previous</Button>
-                <Button>Next</Button>
+              <div className='col-span-6'>
+              <Select 
+                 label="Service Coverage"
+                 name="servicerCoverage"
+                 placeholder=""
+                 className="!bg-white"
+                 required={true}
+                 options={city}
+                />
+              </div>
+              <div className='col-span-6'>
+              <Select 
+                 label="Coverage Type"
+                 name="customerType"
+                 placeholder=""
+                 className="!bg-white"
+                 required={true}
+                 options={country}
+                />
               </div>
             </Grid>
           </div>
-          {/* third Step  */}
-          <div className='mb-3'>
+          <div className='col-span-6 self-end justify-end flex'>
+            <Button onClick={prevStep} className='!bg-white !text-black'>Previous</Button>
+            <Button onClick={nextStep}>Next</Button>
+          </div>
+        </Grid>
+      </div>
+      );
+    };
+  
+    const renderStep3 = () => {
+      // Step 3 content
+      return (
+        <div className='mb-3'>
             <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
               <p className='text-2xl font-bold mb-4'>Add Product</p>
               <div className='absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 '>
@@ -405,104 +404,169 @@ function AddOrder() {
                 </div>
               </Grid>
             </div>
-            <Button className='!bg-white !text-black'>Previous</Button>
-            <Button>Next</Button>
+            <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
+            <Button onClick={nextStep}>Next</Button>
           </div>
-
-          {/* Forth Step  */}
-
-          <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
-            <Grid>
-              <div className='col-span-6'>
-                <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Order Details</p>
-                <Grid className='bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 '>
-                  <div className='col-span-4 py-4 border-r'>
-                    <p className='text-[12px]'>Dealer Name</p>
-                    <p className='font-bold text-sm'>Edward Wilson</p>
-                  </div>
-                  <div className='col-span-4 py-4 border-r'>
-                     <p className='text-[12px]'>Servicer Name</p>
-                     <p className='font-bold text-sm'>Jameson Wills</p>
-                  </div>
-                  <div className='col-span-4 py-4'>
-                     <p className='text-[12px]'>Customer Name</p>
-                     <p className='font-bold text-sm'>Ankush Grover</p>
-                  </div>
-                </Grid>
+      );
+    };
+  
+    const renderStep4 = () => {
+      // Step 4 content
+      return (
+        <>
+            <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
+        <Grid>
+          <div className='col-span-6'>
+            <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Order Details</p>
+            <Grid className='bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 '>
+              <div className='col-span-4 py-4 border-r'>
+                <p className='text-[12px]'>Dealer Name</p>
+                <p className='font-bold text-sm'>Edward Wilson</p>
               </div>
-              <div className='col-span-6'>
-                <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Dealer Order Details</p>
-                <Grid className='bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 '>
-                  <div className='col-span-4 py-4 border-r'>
-                    <p className='text-[12px]'>Dealer Purchase Order</p>
-                    <p className='font-bold text-sm'>123456789009876</p>
-                  </div>
-                  <div className='col-span-4 py-4 border-r'>
-                     <p className='text-[12px]'>Service Coverage</p>
-                     <p className='font-bold text-sm'>Parts</p>
-                  </div>
-                  <div className='col-span-4 py-4'>
-                     <p className='text-[12px]'>Coverage Type</p>
-                     <p className='font-bold text-sm'>Breakdown (BD)</p>
-                  </div>
-                </Grid>
+              <div className='col-span-4 py-4 border-r'>
+                 <p className='text-[12px]'>Servicer Name</p>
+                 <p className='font-bold text-sm'>Jameson Wills</p>
               </div>
-              <div className='col-span-8'>
-                <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Product Details</p>
-                <div className='bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl '>
-                  <Grid className='border-b px-4'>
-                  <div className='col-span-4 py-4 border-r'>
-                    <p className='text-[12px]'>Product Category</p>
-                    <p className='font-bold text-sm'>Electronic Gadget</p>
-                  </div>
-                  <div className='col-span-4 py-4 border-r'>
-                     <p className='text-[12px]'>Product Name</p>
-                     <p className='font-bold text-sm'>Laptop</p>
-                  </div>
-                  <div className='col-span-4 py-4'>
-                     <p className='text-[12px]'>Product Description</p>
-                     <p className='font-bold text-sm'>Laptops are designed to be portable computers.</p>
-                  </div>
-                  </Grid>
-                  <Grid className='border-b px-4'>
-                  <div className='col-span-3 py-4 border-r'>
-                    <p className='text-[12px]'>Term</p>
-                    <p className='font-bold text-sm'>18 Months</p>
-                  </div>
-                  <div className='col-span-3 py-4 border-r'>
-                     <p className='text-[12px]'>Unit Price</p>
-                     <p className='font-bold text-sm'>$20.00</p>
-                  </div>
-                  <div className='col-span-3 py-4 border-r'>
-                     <p className='text-[12px]'># of Products</p>
-                     <p className='font-bold text-sm'>2</p>
-                  </div>
-                  <div className='col-span-3 py-4'>
-                     <p className='text-[12px]'>Price</p>
-                     <p className='font-bold text-sm'>$100.00</p>
-                  </div>
-                  </Grid>
-                  <Grid className=' px-4'>
-                  <div className='col-span-12 py-4'>
-                     <p className='text-[12px]'>Note</p>
-                     <p className='font-bold text-sm'>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
-                  </div>
-                  </Grid>
-                </div>
-              </div>
-              <div className='col-span-4'>
-              <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Uploaded  Data</p>
-              <div className='border border-dashed w-full h-[83%] relative flex'>
-                  <div className='self-center text-center'>
-                      <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
-                      <p className="text-[#5D6E66] text-sm">
-                      Accepted file types: csv, xls, xlsx Max. file size: 50 MB.
-                      </p>
-                  </div>
-                    </div>
+              <div className='col-span-4 py-4'>
+                 <p className='text-[12px]'>Customer Name</p>
+                 <p className='font-bold text-sm'>Ankush Grover</p>
               </div>
             </Grid>
           </div>
+          <div className='col-span-6'>
+            <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Dealer Order Details</p>
+            <Grid className='bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 '>
+              <div className='col-span-4 py-4 border-r'>
+                <p className='text-[12px]'>Dealer Purchase Order</p>
+                <p className='font-bold text-sm'>123456789009876</p>
+              </div>
+              <div className='col-span-4 py-4 border-r'>
+                 <p className='text-[12px]'>Service Coverage</p>
+                 <p className='font-bold text-sm'>Parts</p>
+              </div>
+              <div className='col-span-4 py-4'>
+                 <p className='text-[12px]'>Coverage Type</p>
+                 <p className='font-bold text-sm'>Breakdown (BD)</p>
+              </div>
+            </Grid>
+          </div>
+          <div className='col-span-8'>
+            <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Product Details</p>
+            <div className='bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl '>
+              <Grid className='border-b px-4'>
+              <div className='col-span-4 py-4 border-r'>
+                <p className='text-[12px]'>Product Category</p>
+                <p className='font-bold text-sm'>Electronic Gadget</p>
+              </div>
+              <div className='col-span-4 py-4 border-r'>
+                 <p className='text-[12px]'>Product Name</p>
+                 <p className='font-bold text-sm'>Laptop</p>
+              </div>
+              <div className='col-span-4 py-4'>
+                 <p className='text-[12px]'>Product Description</p>
+                 <p className='font-bold text-sm'>Laptops are designed to be portable computers.</p>
+              </div>
+              </Grid>
+              <Grid className='border-b px-4'>
+              <div className='col-span-3 py-4 border-r'>
+                <p className='text-[12px]'>Term</p>
+                <p className='font-bold text-sm'>18 Months</p>
+              </div>
+              <div className='col-span-3 py-4 border-r'>
+                 <p className='text-[12px]'>Unit Price</p>
+                 <p className='font-bold text-sm'>$20.00</p>
+              </div>
+              <div className='col-span-3 py-4 border-r'>
+                 <p className='text-[12px]'># of Products</p>
+                 <p className='font-bold text-sm'>2</p>
+              </div>
+              <div className='col-span-3 py-4'>
+                 <p className='text-[12px]'>Price</p>
+                 <p className='font-bold text-sm'>$100.00</p>
+              </div>
+              </Grid>
+              <Grid className=' px-4'>
+              <div className='col-span-12 py-4'>
+                 <p className='text-[12px]'>Note</p>
+                 <p className='font-bold text-sm'>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+              </div>
+              </Grid>
+            </div>
+          </div>
+          <div className='col-span-4'>
+          <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Uploaded  Data</p>
+          <div className='border border-dashed w-full h-[83%] relative flex'>
+              <div className='self-center text-center'>
+                  <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
+                  <p className="text-[#5D6E66] text-sm">
+                  Accepted file types: csv, xls, xlsx Max. file size: 50 MB.
+                  </p>
+              </div>
+                </div>
+          </div>
+        </Grid>
+            </div>
+            <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
+            <Button>Submit</Button>
+        </>
+      
+      );
+    };
+  
+    return (
+      <div className='my-8 ml-3'>
+        <Headbar/>
+        <div className='flex mt-2'>
+        <Link to={'/orderList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
+            <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
+          </Link>
+          <div className='pl-3'>
+            <p className='font-bold text-[36px] leading-9 mb-[3px]'>Add Order</p>
+            <ul className='flex self-center'>
+              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Order </Link>  /  </li>
+              <li className='text-sm text-neutral-grey font-Regular'> Add Order / </li>
+              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'>  Order Details </li>
+            </ul>
+          </div>
+        </div>
+  
+        {/* Form Start */}
+          <div className='flex my-4 ml-3'>
+            <div className='text-center'>
+            {currentStep > 1 ? (<img src={check} className='text-center mx-auto'/>) : (
+              <p className='border border-black rounded-full mx-auto w-[26px]'>1</p>
+            )}
+                
+                <p className={` ${currentStep == 1 ? ('text-black') : ('text-[#ADADAD] ')} text-sm font-bold`}>Order Details</p>
+            </div>
+            <hr className='w-[150px] border-black mt-3'/>
+            <div className='text-center'>
+            {currentStep > 2 ? (<img src={check} className='text-center mx-auto'/>) : (
+              <p className={`border ${currentStep > 1 ?('text-black border-black') : ('text-[#ADADAD] border-[#ADADAD]') }  rounded-full mx-auto w-[26px]`}>2</p>
+            )}
+                
+                <p className={` ${currentStep == 2 ? ('text-black') : ('text-[#ADADAD] ')} text-sm font-bold`}>Dealer Order Details</p>
+            </div>
+            <hr className={`w-[150px]  ${currentStep > 2 ? 'border-black' : 'border-[#ADADAD]' } mt-3`}/>
+            <div className='text-center'>
+
+            {currentStep > 3 ? (<img src={check} className='text-center mx-auto'/>) : (
+               <p className={`border ${currentStep > 2 ?('text-black border-black') : ('text-[#ADADAD] border-[#ADADAD]')} rounded-full mx-auto w-[26px]`}>3</p>
+            )}
+              
+                <p className={` ${currentStep == 3 ? ('text-black') : ('text-[#ADADAD] ')}text-sm font-bold`}>Add Product</p>
+            </div>
+            <hr className={`w-[150px]  ${currentStep > 3 ? 'border-black' : 'border-[#ADADAD]' } mt-3`}/>
+            <div className='text-center'>
+            <p className={`border ${currentStep > 3 ?('text-black border-black') : ('text-[#ADADAD] border-[#ADADAD]')} rounded-full mx-auto w-[26px]`}>4</p>
+            <p className={` ${currentStep == 4 ? ('text-black') : ('text-[#ADADAD] ')}text-sm font-bold`}>Order Details</p>
+            </div>
+          </div>
+           
+
+          {renderStep()}
+
+       
           
       </div>
     )
