@@ -58,7 +58,7 @@ function AddCompanyPriceBook() {
       reserveFutureFee: "",
       adminFee: "",
       status: "",
-      priceType: "",
+      priceType: "RegularPricing",
       rangeStart: "",
       rangeEnd: "",
       quantityPriceDetail: [{
@@ -463,6 +463,37 @@ function AddCompanyPriceBook() {
                 className={`  ${type == "Edit" ? "!grid-cols-4" : "!grid-cols-5"
                   } `}
               >
+                   <div className="col-span-1">
+                  <Select
+                    label="Price Type"
+                    name="priceType"
+                    required={true}
+                    placeholder=""
+                    onChange={handleSelectChange}
+                    className="!bg-[#fff]"
+                    options={pricetype}
+                    value={
+                      (
+                        pricetype.find(
+                          (option) =>
+                            option.value ==
+                            (formik.values.priceType
+                              ? formik.values.priceType.toString()
+                              : "")
+                        ) || {}
+                      ).value || ""
+                    }
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.priceType && formik.errors.priceType
+                    }
+                  />
+                  {formik.touched.priceType && formik.errors.priceType && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.priceType}
+                    </div>
+                  )}
+                </div>
                 <div className="col-span-1">
                   <Select
                     label="Product Category"
@@ -515,37 +546,7 @@ function AddCompanyPriceBook() {
                     )}
                   </div>
                 )}
-                <div className="col-span-1">
-                  <Select
-                    label="Price Type"
-                    name="priceType"
-                    required={true}
-                    placeholder=""
-                    onChange={handleSelectChange}
-                    className="!bg-[#fff]"
-                    options={pricetype}
-                    value={
-                      (
-                        pricetype.find(
-                          (option) =>
-                            option.value ==
-                            (formik.values.priceType
-                              ? formik.values.priceType.toString()
-                              : "")
-                        ) || {}
-                      ).value || ""
-                    }
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.priceType && formik.errors.priceType
-                    }
-                  />
-                  {formik.touched.priceType && formik.errors.priceType && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.priceType}
-                    </div>
-                  )}
-                </div>
+             
                 <div className="col-span-2">
                   <Input
                     type="text"
@@ -868,7 +869,7 @@ function AddCompanyPriceBook() {
                 type="number"
                 name={`quantityPriceDetail[${index}].quantity`}
                 className="!bg-[#f9f9f9]"
-                label="Retail Price($)"
+                label="Quantity"
                 maxLength={"10"}
                 maxDecimalPlaces={2}
                 required={true}

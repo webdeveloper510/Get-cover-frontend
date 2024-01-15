@@ -18,6 +18,7 @@ import {
   editCompanyList,
   getCompanyPriceList,
   getCategoryList,
+  getCompanyPriceBookById,
 } from "../../../services/priceBookService";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -139,7 +140,19 @@ function CompanyPriceBook() {
     { label: "Active", value: "true" },
     { label: "Inactive", value: "false" },
   ];
-
+  const getCompanyPriceBook =  (id) => {
+    getcompanyPriceBookData(id)
+  }
+  const getcompanyPriceBookData =  async(id) => {
+    try {
+      const result = await getCompanyPriceBookById(id);
+      console.log(result);
+      setSelectedAction(null);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
@@ -261,6 +274,16 @@ function CompanyPriceBook() {
                 >
                   Edit
                 </div>
+                <hr/>
+                <div
+                  className="text-center py-1 cursor-pointer"
+                  onClick={() => getCompanyPriceBook(row._id)}
+                >
+                 
+                
+                  View
+                </div>
+             
               </div>
             )}
           </div>
