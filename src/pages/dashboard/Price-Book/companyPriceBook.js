@@ -8,6 +8,7 @@ import AddItem from "../../../assets/images/icons/addItem.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Headbar from "../../../common/headBar";
+import Edit from '../../../assets/images/Dealer/EditIcon.svg';
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -455,40 +456,59 @@ function CompanyPriceBook() {
           <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button>
+        <Button onClick={closeView} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+          <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
           <div className="py-3">
             <p className='text-center text-3xl font-semibold '>
             View Company Price Book
             </p>
            <Grid className='mt-5 px-6'>
-            <div className='col-span-6'>
+            <div className='col-span-4'>
                <p className="text-lg text-light-black font-semibold">Product Category</p>
                <p className="text-base text-neutral-grey font-semibold"> Sony</p>
             </div>
-            <div className='col-span-6'>
+            <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Product Name</p>
                <p className="text-base text-neutral-grey font-semibold"> Sony</p>
             </div>
-            <div className='col-span-6'>
+            <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Description</p>
                <p className="text-base text-neutral-grey font-semibold"> Description</p>
             </div>
-            <div className='col-span-6'>
+            <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Term</p>
                <p className="text-base text-neutral-grey font-semibold"> 72 Months</p>
             </div>
-            <div className='col-span-6'>
-            <p className="text-lg text-light-black font-semibold">Wholesale Cost</p>
+            <div className='col-span-4'>
+            <p className="text-lg text-light-black font-semibold">Fronting fee ($)</p>
                <p className="text-base text-neutral-grey font-semibold"> $132.00</p>
             </div>
-            <div className='col-span-6'>
+            <div className='col-span-4'>
+            <p className="text-lg text-light-black font-semibold">Re-insurance fee ($)</p>
+               <p className="text-base text-neutral-grey font-semibold"> $132.00</p>
+            </div>
+            <div className='col-span-4'>
+            <p className="text-lg text-light-black font-semibold">Reserve for future claims ($)</p>
+               <p className="text-base text-neutral-grey font-semibold"> $132.00</p>
+            </div>
+            <div className='col-span-4'>
+            <p className="text-lg text-light-black font-semibold">Administration fee ($)</p>
+               <p className="text-base text-neutral-grey font-semibold"> $132.00</p>
+            </div>
+            <div className='col-span-4'>
+            <p className="text-lg text-light-black font-semibold">Wholesale Cost ($)</p>
+               <p className="text-base text-neutral-grey font-semibold"> $132.00</p>
+            </div>
+            <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Status</p>
                <p className="text-base text-neutral-grey font-semibold"> Sony</p>
             </div>
-            <div className='col-span-6'>
+            <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Price Type</p>
                <p className="text-base text-neutral-grey font-semibold"> Quantity Price</p>
             </div>
-            <div className='col-span-6'>
+            <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Range Start</p>
                <p className="text-base text-neutral-grey font-semibold"> Sony</p>
             </div>
@@ -526,7 +546,7 @@ function CompanyPriceBook() {
                   <td>test</td>
                   <td>100</td>
                 </tr>
-                
+
 
               </table>
           
