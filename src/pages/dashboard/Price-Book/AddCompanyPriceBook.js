@@ -36,7 +36,7 @@ function AddCompanyPriceBook() {
   const { id } = useParams();
   const [detailsById, setDetailsById] = useState();
   const [active, setinActive] = useState(false);
-  const [value,setValue]= useState("");
+  const [value, setValue] = useState("");
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   console.log(id);
@@ -69,7 +69,7 @@ function AddCompanyPriceBook() {
     },
     validationSchema: Yup.object({
       priceCatId: Yup.string().required("Required"),
-      name: Yup.string().required("Required")  .transform((originalValue) => originalValue.trim()),
+      name: Yup.string().required("Required").transform((originalValue) => originalValue.trim()),
       description: Yup.string().required("Required"),
       term: Yup.number().required("Required"),
       frontingFee: Yup.number()
@@ -94,46 +94,82 @@ function AddCompanyPriceBook() {
         .min(0, "Admin fee cannot be negative"),
       status: Yup.string().required("Required"),
       priceType: Yup.string().required("Required"),
-   
+
       rangeStart:
-      value !== "FlatPricing"
-        ? Yup.number().notRequired()
-        :  Yup.number()
-        .typeError("Required")
-        .required("Required")
-        .nullable()
-        .min(0, "Range Start cannot be negative"),
+        value !== "FlatPricing"
+          ? Yup.number().notRequired()
+          : Yup.number()
+            .typeError("Required")
+            .required("Required")
+            .nullable()
+            .min(0, "Range Start cannot be negative"),
       rangeEnd:
-      value !== "FlatPricing"
-        ? Yup.number().notRequired()
-        :  Yup.number()
-        .typeError("Required")
-        .required("Required")
-        .nullable()
-        .min(0, "Range End cannot be negative"),
+        value !== "FlatPricing"
+          ? Yup.number().notRequired()
+          : Yup.number()
+            .typeError("Required")
+            .required("Required")
+            .nullable()
+            .min(0, "Range End cannot be negative"),
 
       quantityPriceDetail:
-      value !== "QuantityPricing"
-        ? Yup.array().notRequired()
-        : Yup.array().of(
+        value !== "QuantityPricing"
+          ? Yup.array().notRequired()
+          :Yup.array().of(
             Yup.object().shape({
-              name: Yup.string().required("Required"), 
-              quantity: Yup.number()
-                .typeError("Required")
-                .required("Required")
-                .nullable(),
-             
+              name: Yup.string().required("Required").transform((originalValue) => originalValue.trim()),
+              quantity:Yup.number()
+              .typeError("Required")
+              .required("Required")
+              .nullable()
+              .min(1, "quantity cannot be less then Zero"),
             })
-          ),
+          )
+            
     }),
 
     onSubmit: async (values) => {
+            let result;
+            let checkErrors=false
       try {
         setLoader(true);
-        let result;
-
         if (id) {
-          result = await editCompanyList(id, values);
+  if(value=="QuantityPricing"){
+    formik.values.quantityPriceDetail.forEach((item, index) => {
+      try {
+        Yup.object().shape({
+          name: Yup.string().required("Required").transform((originalValue) => originalValue.trim()),
+          quantity: Yup.number()
+            .typeError("Required")
+            .required("Required")
+            .nullable()
+            .min(1, "quantity cannot be Zero"),
+        }).validateSync(item, { abortEarly: true });
+      } catch (error) {
+        console.log(error.errors)
+        checkErrors=true
+      if(item.name == ""){
+        formik.setFieldError(`quantityPriceDetail[${index}].name`, "Required");
+      }
+      if(item.quantity == "" || item.quantity<1){
+        formik.setFieldError(`quantityPriceDetail[${index}].quantity`, error.errors[0]);
+        console.log(error.errors)
+      }
+      }
+   
+    });
+  }
+          console.log(checkErrors)
+     
+          if(checkErrors){
+            return false
+        
+          }
+     else{
+      console.log('here')
+      result = await editCompanyList(id, values);
+     }
+          
         } else {
           result = await addCompanyPricBook(values);
         }
@@ -163,8 +199,10 @@ function AddCompanyPriceBook() {
       name: "",
       quantity: ""
     };
-
-    formik.setFieldValue("quantityPriceDetail", [...formik.values.quantityPriceDetail, quantityPriceDetail]);
+    formik.setFieldValue("quantityPriceDetail", [
+      ...formik.values.quantityPriceDetail,
+      quantityPriceDetail
+    ]);
   };
   const handleDeleteQuantity = (index) => {
     const updatedQuantity = [...formik.values.quantityPriceDetail];
@@ -206,13 +244,13 @@ function AddCompanyPriceBook() {
           setDetailsById(result.result);
           if (isMounted) {
             console.log(result.result.rangeEnd)
-            if(result.result.startRange !== ""){
+            if (result.result.startRange !== "") {
               formik.setValues({
-                startRange:result.result.startRange
-              })     
+                startRange: result.result.startRange
+              })
             }
-            else{
-              
+            else {
+
             }
             setDetailsById(result.result);
             formik.setValues({
@@ -225,11 +263,12 @@ function AddCompanyPriceBook() {
               reserveFutureFee: result?.result?.reserveFutureFee?.toFixed(2),
               adminFee: result?.result?.adminFee?.toFixed(2),
               status: result.result.status,
-              priceType:result.result.priceType,
-              rangeStart: result?.result?.rangeStart?.toFixed(2) ,
+              priceType: result.result.priceType,
+              rangeStart: result?.result?.rangeStart?.toFixed(2),
               rangeEnd: result?.result?.rangeEnd?.toFixed(2),
-              quantityPriceDetail:result?.result?.quantityPriceDetail
+              quantityPriceDetail: result?.result?.quantityPriceDetail
             });
+          
             setLoader(false);
           }
         } else {
@@ -314,7 +353,7 @@ function AddCompanyPriceBook() {
     }
     if (name === "priceType") {
       console.log(selectedValue)
-   setValue(selectedValue)
+      setValue(selectedValue)
     }
     formik.setFieldValue(name, selectedValue);
   };
@@ -463,7 +502,7 @@ function AddCompanyPriceBook() {
                 className={`  ${type == "Edit" ? "!grid-cols-4" : "!grid-cols-5"
                   } `}
               >
-                   <div className="col-span-1">
+                <div className="col-span-1">
                   <Select
                     label="Price Type"
                     name="priceType"
@@ -546,7 +585,7 @@ function AddCompanyPriceBook() {
                     )}
                   </div>
                 )}
-             
+
                 <div className="col-span-2">
                   <Input
                     type="text"
@@ -800,110 +839,106 @@ function AddCompanyPriceBook() {
                     </div>
                   </>
                 )}
-                </Grid>
-                <Grid className="!grid-cols-4">
+              </Grid>
+              <Grid className="!grid-cols-4">
                 {formik.values.priceType === "QuantityPricing" && (
                   <>
-                        {formik.values.quantityPriceDetail.map((dealer, index) => {
-                          console.log(formik)
-                          return (
-                            <div  key={index}className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
-                            <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
-                              {index == 0 ? (
-                                <Button
-                                  className="text-sm  !font-light"
-                                  onClick={handleAddQuantity}
-                                >
-                                  {" "}
-                                  + Add More{" "}
-                                </Button>
-                              ) : (
-                                <div
-                                  onClick={() => {
-                                    handleDeleteQuantity(index);
-                                  }}
-                                >
-                                  <div className="flex h-full mx-3 bg-[#fff] justify-center">
-                                    <img
-                                      src={DeleteImage}
-                                      className="self-center cursor-pointer"
-                                      alt="Delete Icon"
-                                    />
-                                  </div>
+                    {formik.values.quantityPriceDetail.map((dealer, index) => {
+                   
+                      return (
+                        <div key={index} className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+                          <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
+                            {index == 0 ? (
+                              <Button
+                                className="text-sm  !font-light"
+                                onClick={handleAddQuantity}
+                              >
+                                {" "}
+                                + Add More{" "}
+                              </Button>
+                            ) : (
+                              <div
+                                onClick={() => {
+                                  handleDeleteQuantity(index);
+                                }}
+                              >
+                                <div className="flex h-full mx-3 bg-[#fff] justify-center">
+                                  <img
+                                    src={DeleteImage}
+                                    className="self-center cursor-pointer"
+                                    alt="Delete Icon"
+                                  />
                                 </div>
-                              )}
-                            </div>
-                            <div className=" p-4 pl-0 mt-4 relative rounded-xl">
-          <Grid className="">
-            <div className="col-span-12">
-              <Input
-                type="text"
-                name={`quantityPriceDetail[${index}].name`}
-                className="!bg-[#f9f9f9]"
-                label="Name"
-                required={true}
-                placeholder=""
-                value={formik.values.quantityPriceDetail?.[index]?.name || ''}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                onWheelCapture={(e) => e.preventDefault()}
-                error={
-                  formik.touched.quantityPriceDetail &&
-                  formik.touched.quantityPriceDetail[index] &&
-                  formik.errors.quantityPriceDetail &&
-                  formik.errors.quantityPriceDetail[index]?.name
-                }
-              />
-              {formik.touched.quantityPriceDetail &&
-                formik.touched.quantityPriceDetail[index] &&
-                formik.errors.quantityPriceDetail &&
-                formik.errors.quantityPriceDetail[index]?.name && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.quantityPriceDetail[index]?.name}
-                  </div>
-                )}
-            </div>
-
-            <div className="col-span-12">
-              <Input
-                type="number"
-                name={`quantityPriceDetail[${index}].quantity`}
-                className="!bg-[#f9f9f9]"
-                label="Quantity"
-                maxLength={"10"}
-                maxDecimalPlaces={2}
-                required={true}
-                placeholder=""
-                value={formik.values.quantityPriceDetail?.[index]?.quantity || ''}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                onWheelCapture={(e) => e.preventDefault()}
-                error={
-                  formik.touched.quantityPriceDetail &&
-                  formik.touched.quantityPriceDetail[index] &&
-                  formik.errors.quantityPriceDetail &&
-                  formik.errors.quantityPriceDetail[index]?.quantity
-                }
-              />
-              {formik.touched.quantityPriceDetail &&
-                formik.touched.quantityPriceDetail[index] &&
-                formik.errors.quantityPriceDetail &&
-                formik.errors.quantityPriceDetail[index]?.quantity && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.quantityPriceDetail[index]?.quantity}
-                  </div>
-                )}
-            </div>
-          </Grid>
-        </div>
+                              </div>
+                            )}
                           </div>
-                          )
-                        })}
+                          <div className=" p-4 pl-0 mt-4 relative rounded-xl">
+                            <Grid className="">
+                              <div className="col-span-12">
+                                <Input
+                                  type="text"
+                                  name={`quantityPriceDetail[${index}].name`}
+                                  className="!bg-[#f9f9f9]"
+                                  label="Name"
+                                  required={true}
+                                  placeholder=""
+                                  value={formik.values.quantityPriceDetail?.[index]?.name || ''}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  onWheelCapture={(e) => e.preventDefault()}
+                                  error={
+                                    formik.touched.quantityPriceDetail &&
+                                    formik.touched.quantityPriceDetail[index] &&
+                                    formik.errors.quantityPriceDetail &&
+                                    formik.errors.quantityPriceDetail[index]?.name
+                                  }
+                                />
+                            {formik.touched.quantityPriceDetail && formik.touched.quantityPriceDetail[index] &&
+      formik.errors.quantityPriceDetail && formik.errors.quantityPriceDetail[index]?.name && (
+                                  <div className="text-red-500 text-sm pl-2 pt-2">
+                                    {formik.errors.quantityPriceDetail[index]?.name}
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className="col-span-12">
+                                <Input
+                                  type="number"
+                                  name={`quantityPriceDetail[${index}].quantity`}
+                                  className="!bg-[#f9f9f9]"
+                                  label="Quantity"
+                                  maxLength={"10"}
+                                  maxDecimalPlaces={2}
+                                  required={true}
+                                  placeholder=""
+                                  value={formik.values.quantityPriceDetail?.[index]?.quantity || ''}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  onWheelCapture={(e) => e.preventDefault()}
+                                  error={
+                                    formik.touched.quantityPriceDetail &&
+                                    formik.touched.quantityPriceDetail[index] &&
+                                    formik.errors.quantityPriceDetail &&
+                                    formik.errors.quantityPriceDetail[index]?.quantity
+                                  }
+                                />
+                                {formik.touched.quantityPriceDetail && formik.touched.quantityPriceDetail[index] &&
+      formik.errors.quantityPriceDetail && formik.errors.quantityPriceDetail[index]?.quantity && (
+                                  <div className="text-red-500 text-sm pl-2 pt-2">
+                                    {formik.errors.quantityPriceDetail[index]?.quantity}
+                                  </div>
+                                )}
+                              </div>
+                            </Grid>
+                          </div>
+                        </div>
+                      )
+                    })}
                   </>
 
                 )}
-                </Grid>
-              
+              </Grid>
+
               <p className="mt-8 font-semibold text-lg">
                 Total Amount: <span> ${totalAmount}</span>
               </p>
