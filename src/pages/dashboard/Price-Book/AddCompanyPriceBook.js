@@ -14,6 +14,7 @@ import Modal from "../../../common/model";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import terms from "../../../assets/images/icons/terms.svg";
 import dealer from "../../../assets/images/icons/dealerName.svg";
+import DeleteImage from "../../../assets/images/icons/Delete.svg";
 
 import {
   addCompanyPricBook,
@@ -38,7 +39,7 @@ function AddCompanyPriceBook() {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   console.log(id);
-  const producttype = [
+  const pricetype = [
     { label: "Regular Pricing", value: "RegularPricing" },
     { label: "Flat Pricing", value: "FlatPricing" },
     { label: "Quantity Pricing", value: "QuantityPricing" },
@@ -70,9 +71,40 @@ function AddCompanyPriceBook() {
       .nullable()
       .min(0, "Admin fee cannot be negative"),
     status: Yup.string().required("Required"),
-    productType: Yup.string().required("Required"),
-    rangeStart: Yup.string(),
-    rangeEnd: Yup.string(),
+    priceType: Yup.string().required("Required"),
+    quantityPriceDetail: Yup.array().test({
+      name: 'conditionalRequired',
+      test: function (value) {
+        const isQuantityPricing = this.parent.priceType === 'QuantityPricing';
+        return isQuantityPricing ? true : !!value;
+      },
+      message: 'Required',
+    }).of(
+      Yup.object().shape({
+        name: Yup.string().required("Required"),
+        quantity: Yup.number()
+          .typeError("Required")
+          .required("Required")
+          .nullable()
+          .min(0, "Quantity cannot be negative"),
+      })
+    ).required("Required"),
+    rangeStart: Yup.number().test({
+      name: 'conditionalRequired',
+      test: function (value) {
+        const isFlatPricing = this.parent.priceType === 'FlatPricing';
+        return isFlatPricing ? !!value : true;
+      },
+      message: 'Required',
+    }),
+    rangeEnd: Yup.number().test({
+      name: 'conditionalRequired',
+      test: function (value) {
+        const isFlatPricing = this.parent.priceType === 'FlatPricing';
+        return isFlatPricing ? !!value : true;
+      },
+      message: 'Required',
+    }),
   });
 
   const formik = useFormik({
@@ -86,52 +118,20 @@ function AddCompanyPriceBook() {
       reserveFutureFee: "",
       adminFee: "",
       status: "",
-      productType: "",
+      priceType: "",
       rangeStart: "",
       rangeEnd: "",
+      quantityPriceDetail: [{
+        name: "",
+        quantity: ""
+      }
+      ]
     },
     validationSchema: validations,
-    //  disabled={active}
 
-    // onSubmit: async (values) => {
-    //   try {
-    //     setLoader(true);
-    //     let result;
-
-    //     if (id) {
-    //       // const matchingCategory = categoryList.find(
-    //       //   (checkState) => checkState.value === values.priceCatId
-    //       // );
-
-    //       // if (matchingCategory) {
-    //       result = await editCompanyList(id, values);
-    //       // } else {
-    //       //   formik.setFieldValue("priceCatId", "");
-    //       //   return;
-    //       // }
-    //     } else {
-    //       result = await addCompanyPricBook(values);
-    //     }
-
-    //     console.log(result);
-    //     setLoader(false);
-    //     if (result.code !== 200) {
-    //       setLoader(false);
-    //       setError(result.message);
-    //     } else {
-    //       setLoader(false);
-    //       setError(false);
-    //       setIsModalOpen(true);
-    //       setTimer(3);
-    //     }
-    //   } catch (error) {
-    //     setError(false);
-    //     console.error("Error:", error);
-    //   }
-    // },
     onSubmit: async (values) => {
       try {
-        setLoader(false);
+        setLoader(true);
         let result;
 
         if (id) {
@@ -160,19 +160,20 @@ function AddCompanyPriceBook() {
       setLoader(false);
     },
   });
-  formik.validationSchema = Yup.object().shape({
-    ...validations.fields,
-    rangeStart: Yup.string().when("productType", {
-      is: "FlatPricing",
-      then: Yup.string().required("Required"),
-      otherwise: Yup.string(),
-    }),
-    rangeEnd: Yup.string().when("productType", {
-      is: "FlatPricing",
-      then: Yup.string().required("Required"),
-      otherwise: Yup.string(),
-    }),
-  });
+  const handleAddQuantity = () => {
+    const quantityPriceDetail = {
+      name: "",
+      quantity: ""
+    };
+
+    formik.setFieldValue("quantityPriceDetail", [...formik.values.quantityPriceDetail, quantityPriceDetail]);
+  };
+  const handleDeleteQuantity = (index) => {
+    const updatedQuantity = [...formik.values.quantityPriceDetail];
+    updatedQuantity.splice(index, 1);
+    formik.setFieldValue("quantityPriceDetail", updatedQuantity);
+  };
+
   const calculateTotal = () => {
     const frontingFee = parseFloat(formik.values.frontingFee) || 0;
     const reinsuranceFee = parseFloat(formik.values.reinsuranceFee) || 0;
@@ -443,9 +444,8 @@ function AddCompanyPriceBook() {
               )}
 
               <Grid
-                className={`  ${
-                  type == "Edit" ? "!grid-cols-4" : "!grid-cols-5"
-                } `}
+                className={`  ${type == "Edit" ? "!grid-cols-4" : "!grid-cols-5"
+                  } `}
               >
                 <div className="col-span-1">
                   <Select
@@ -501,33 +501,33 @@ function AddCompanyPriceBook() {
                 )}
                 <div className="col-span-1">
                   <Select
-                    label="Product Type"
-                    name="productType"
+                    label="Price Type"
+                    name="priceType"
                     required={true}
                     placeholder=""
                     onChange={handleSelectChange}
                     className="!bg-[#fff]"
-                    options={producttype}
+                    options={pricetype}
                     value={
                       (
-                        producttype.find(
+                        pricetype.find(
                           (option) =>
                             option.value ==
-                            (formik.values.productType
-                              ? formik.values.productType.toString()
+                            (formik.values.priceType
+                              ? formik.values.priceType.toString()
                               : "")
                         ) || {}
                       ).value || ""
                     }
                     onBlur={formik.handleBlur}
                     error={
-                      formik.touched.productType && formik.errors.productType
+                      formik.touched.priceType && formik.errors.priceType
                     }
                     disabled={type === "Edit"}
                   />
-                  {formik.touched.productType && formik.errors.productType && (
+                  {formik.touched.priceType && formik.errors.priceType && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.productType}
+                      {formik.errors.priceType}
                     </div>
                   )}
                 </div>
@@ -723,7 +723,7 @@ function AddCompanyPriceBook() {
                     </div>
                   )}
                 </div>
-                {formik.values.productType === "FlatPricing" && (
+                {formik.values.priceType === "FlatPricing" && (
                   <>
                     <div className="col-span-1">
                       <Input
@@ -783,6 +783,114 @@ function AddCompanyPriceBook() {
                       )}
                     </div>
                   </>
+                )}
+                {formik.values.priceType === "QuantityPricing" && (
+                  <>
+                        {formik.values.quantityPriceDetail.map((dealer, index) => (
+        <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+          <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
+            {index == 0 ? (
+              <Button
+                className="text-sm !font-light"
+                onClick={handleAddQuantity}
+              >
+                {" "}
+                + Add More{" "}
+              </Button>
+            ) : (
+              <div
+                onClick={() => {
+                  handleDeleteQuantity(index);
+                }}
+              >
+                <div className="flex h-full mx-3 bg-[#fff] justify-center">
+                  <img
+                    src={DeleteImage}
+                    className="self-center cursor-pointer"
+                    alt="Delete Icon"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          <div className=" p-4 pl-0 relative rounded-xl">
+            <Grid className="">
+
+              <div className="col-span-3">
+                <Input
+                  type="text"
+                  name={`quantityPriceDetail[${index}].name`}
+                  className="!bg-[#f9f9f9]"
+                  label="Name"
+                  required={true}
+                  placeholder=""
+                  value={
+                    formik.values.quantityPriceDetail[index].name
+                  }
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  onWheelCapture={(e) => {
+                    e.preventDefault();
+                  }}
+                  error={
+                    formik.touched.quantityPriceDetail &&
+                    formik.touched.quantityPriceDetail[index] &&
+                    formik.errors.quantityPriceDetail &&
+                    formik.errors.quantityPriceDetail[index] &&
+                    formik.errors.quantityPriceDetail[index].name
+                  }
+                />
+                {formik.touched.quantityPriceDetail &&
+                  formik.touched.quantityPriceDetail[index] &&
+                  formik.errors.quantityPriceDetail &&
+                  formik.errors.quantityPriceDetail[index] &&
+                  formik.errors.quantityPriceDetail[index].name && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.quantityPriceDetail[index].name}
+                    </div>
+                  )}
+              </div>
+
+              <div className="col-span-12">
+                <Input
+                  type="number"
+                  name={`quantityPriceDetail[${index}].quantity`}
+                  className="!bg-[#f9f9f9]"
+                  label="Quantity"
+                  required={true}
+                  placeholder=""
+                  value={formik.values.quantityPriceDetail[index].quantity}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  disabled={true}
+                  onWheelCapture={(e) => {
+                    e.preventDefault();
+                  }}
+                  error={
+                    formik.touched.quantityPriceDetail &&
+                    formik.touched.quantityPriceDetail[index] &&
+                    formik.errors.quantityPriceDetail &&
+                    formik.errors.quantityPriceDetail[index] &&
+                    formik.errors.quantityPriceDetail[index].quantity
+                  }
+                />
+                {formik.touched.quantityPriceDetail &&
+                  formik.touched.quantityPriceDetail[index] &&
+                  formik.errors.quantityPriceDetail &&
+                  formik.errors.quantityPriceDetail[index] &&
+                  formik.errors.quantityPriceDetail[index].quantity && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.quantityPriceDetail[index].quantity}
+                    </div>
+                  )}
+              </div>
+
+            </Grid>
+          </div>
+        </div>
+      ))}
+                  </>
+
                 )}
               </Grid>
               <p className="mt-8 font-semibold text-lg">
