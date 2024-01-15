@@ -1,22 +1,24 @@
 import React, { useState } from 'react'
-import Button from '../../../../common/button'
-import Grid from '../../../../common/grid'
-import Input from '../../../../common/input'
+import Button from '../../../common/button'
+import Grid from '../../../common/grid'
+import Input from '../../../common/input'
 
 // Media Includes 
-import Search from '../../../../assets/images/icons/SearchIcon.svg';
-import productName from '../../../../assets/images/icons/productName1.svg';
-import attach from '../../../../assets/images/Attachments.svg';
-import model from '../../../../assets/images/icons/ProductModel.svg';
-import serial from '../../../../assets/images/icons/ProductSerial.svg';
-import Manufacturer from '../../../../assets/images/icons/ProductManufacturer.svg';
-import Edit from '../../../../assets/images/icons/editIcon.svg';
-import Delete from '../../../../assets/images/icons/deleteIcons.svg';
-import Add from '../../../../assets/images/icons/addIcon.svg';
-import chat from '../../../../assets/images/icons/chatIcon.svg';
-import DropActive from '../../../../assets/images/icons/DropActive.svg';
-import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import Select from '../../../../common/select';
+import Search from '../../../assets/images/icons/SearchIcon.svg';
+import productName from '../../../assets/images/icons/productName1.svg';
+import attach from '../../../assets/images/Attachments.svg';
+import model from '../../../assets/images/icons/ProductModel.svg';
+import serial from '../../../assets/images/icons/ProductSerial.svg';
+import Manufacturer from '../../../assets/images/icons/ProductManufacturer.svg';
+import Edit from '../../../assets/images/icons/editIcon.svg';
+import Delete from '../../../assets/images/icons/deleteIcons.svg';
+import Add from '../../../assets/images/icons/addIcon.svg';
+import chat from '../../../assets/images/icons/chatIcon.svg';
+import DropActive from '../../../assets/images/icons/DropActive.svg';
+import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
+import Select from '../../../common/select';
+import Headbar from '../../../common/headBar';
+import { Link } from 'react-router-dom';
 function ClaimList() {
   const [selectedValue, setSelectedValue] = useState('');
 
@@ -31,7 +33,26 @@ function ClaimList() {
   ];
 
   return (
-    <>
+    <> 
+    <div className="my-8 ml-3">
+    <Headbar />
+         <div className="flex mt-2">
+            <div className="pl-3">
+              <p className="font-bold text-[36px] leading-9 mb-[3px]">
+                Claim
+              </p>
+              <ul className="flex self-center">
+                <li className="text-sm text-neutral-grey font-Regular">
+                  <Link to={"/"}>Claim </Link>{" "}
+                  <span className="mx-2"> /</span>
+                </li>
+                <li className="text-sm text-neutral-grey font-semibold ml-1">
+                  {" "}
+                  Claim Listing
+                </li>
+              </ul>
+            </div>
+          </div>
       <div className='bg-white my-8 border-[1px] border-[#D1D1D1] rounded-xl'>
         <Grid className='!p-[26px] !pt-[14px] !pb-0'>
           <div className='col-span-2 self-center'>
@@ -169,7 +190,7 @@ function ClaimList() {
               </div>
               <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#fff] text-[11px] font-Regular'>Price($)</p>
+                  <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
                   <p className='text-[#5D6E66] text-sm font-semibold'>$18.00</p>
                 </div>
               </div>
@@ -347,7 +368,7 @@ function ClaimList() {
               </div>
               <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#fff] text-[11px] font-Regular'>Price($)</p>
+                  <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
                   <p className='text-[#5D6E66] text-sm font-semibold'>$18.00</p>
                 </div>
               </div>
@@ -525,7 +546,7 @@ function ClaimList() {
               </div>
               <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#fff] text-[11px] font-Regular'>Price($)</p>
+                  <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
                   <p className='text-[#5D6E66] text-sm font-semibold'>$18.00</p>
                 </div>
               </div>
@@ -613,6 +634,7 @@ function ClaimList() {
 
           </div>
         </div>
+      </div>
       </div>
     </>
   )

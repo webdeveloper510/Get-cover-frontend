@@ -30,6 +30,9 @@ import ServicerDetails from "../pages/dashboard/Servicer/servicerDetails";
 import CustomerDetails from "../pages/dashboard/Customer/customerDetails";
 import ContractList from "../pages/dashboard/Contract/contractList";
 import EditContract from "../pages/dashboard/Contract/editContract";
+import ClaimList from "../pages/dashboard/Claim/claimList";
+import AddClaim from "../pages/dashboard/Claim/addClaim";
+import AddBulkClaim from "../pages/dashboard/Claim/addBulkClaim";
 
 const routes = [
   {
@@ -249,6 +252,18 @@ const routes = [
       {
         path: "/contractList",
         element: <PrivateRoute element={<ContractList />} path="/contractList" />,
+      },
+      {
+        path: "/claimList",
+        element: <PrivateRoute element={<ClaimList />} path="/claimList" />,
+      },
+      {
+        path: "/addClaim",
+        element: <PrivateRoute element={<AddClaim />} path="/addClaim" />,
+      },
+      {
+        path: "/addBulkClaim",
+        element: <PrivateRoute element={<AddBulkClaim />} path="/addBulkClaim" />,
       },
     ],
   },

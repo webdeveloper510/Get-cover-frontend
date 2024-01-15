@@ -169,7 +169,7 @@ function ClaimList() {
               </div>
               <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#fff] text-[11px] font-Regular'>Price($)</p>
+                  <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
                   <p className='text-[#5D6E66] text-sm font-semibold'>$18.00</p>
                 </div>
               </div>
@@ -347,7 +347,7 @@ function ClaimList() {
               </div>
               <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#fff] text-[11px] font-Regular'>Price($)</p>
+                  <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
                   <p className='text-[#5D6E66] text-sm font-semibold'>$18.00</p>
                 </div>
               </div>
@@ -525,7 +525,7 @@ function ClaimList() {
               </div>
               <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#fff] text-[11px] font-Regular'>Price($)</p>
+                  <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
                   <p className='text-[#5D6E66] text-sm font-semibold'>$18.00</p>
                 </div>
               </div>

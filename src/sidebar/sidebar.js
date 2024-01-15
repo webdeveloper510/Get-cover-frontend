@@ -364,15 +364,21 @@ function SideBar() {
       items: [
         {
           name: "Claim Listing",
-          url: "#",
+          url: "/claimList",
           image: Dropdown1,
           active: Actives,
         },
         {
-          name: "Add Bulk Claim",
-          url: "#",
+          name: "Add Claim",
+          url: "/addClaim",
           image: Dropdown2,
           active: SeacondActive,
+        },
+        {
+          name: "Add Bulk Claim",
+          url: "/addBulkClaim",
+          image: Dropdown2,
+          active: ForthActive,
         },
       ],
     },

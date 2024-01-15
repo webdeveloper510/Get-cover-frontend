@@ -174,11 +174,6 @@ function CompanyPriceBook() {
       sortable: true,
       minWidth: "auto",
       maxWidth: "300px",
-      // cell: (row) => (
-      //   <span title={row.category.name}>
-      //     {truncateText(row.category.name, 20)}
-      //   </span>
-      // ),
     },
     {
       name: "Name",
@@ -295,7 +290,6 @@ function CompanyPriceBook() {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        // Close the dropdown if the click is outside of it
         setSelectedAction(null);
       }
     };
@@ -303,7 +297,6 @@ function CompanyPriceBook() {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
@@ -346,11 +339,6 @@ function CompanyPriceBook() {
             </ul>
           </div>
         </div>
-        {/* {error && (
-          <p className="text-red-500 text-sm pl-2">
-            <span className="font-semibold"> {error} </span>
-          </p>
-        )} */}
 
         <Link
           to={"/addCompanyPriceBook"}
