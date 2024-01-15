@@ -204,7 +204,6 @@ function Dealer() {
 
     if (timer === 0 && message === "New Dealer Created Successfully") {
       closeModal();
-      console.log("here113");
       navigate("/dealerList");
     }
     return () => clearInterval(intervalId);
