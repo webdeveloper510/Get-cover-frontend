@@ -86,7 +86,7 @@ function ContractList() {
                 <p className='text-white py-2 font-Regular'>Serial :  <b> GG7W212JHLF12 </b></p>
               </div>
               <div className='col-span-1 self-center justify-end'>
-                <img src={Edit} className='ml-auto mr-2' alt='edit' />
+              <Link to={'/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link>
               </div>
             </Grid>
 
@@ -174,7 +174,7 @@ function ContractList() {
                 <p className='text-white py-2 font-Regular'>Serial :  <b> GG7W212JHLF12 </b></p>
               </div>
               <div className='col-span-1 self-center justify-end'>
-                <img src={Edit} className='ml-auto mr-2' alt='edit' />
+               <Link to={'/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link>
               </div>
             </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] mb-5'>

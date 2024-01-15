@@ -46,11 +46,11 @@ function Headbar({ className = "" }) {
 
   return (
     <div className="">
-      <Grid className={`absolute right-[-1%] top-[24px]  ${className}`}>
+      <Grid className={`absolute right-[0%] top-[24px]  ${className}`}>
         <div className="col-span-4"></div>
         <div className="col-span-2"></div>
         <div className="col-span-6 ml-auto ">
-          <Grid className="border-2 w-[250px] bg-white ms-auto border-[#D1D1D1] flex self-center py-2 px-4 rounded-xl">
+          <Grid className="border-2 w-[250px] bg-white ms-auto border-[#D1D1D1] border-r-0 flex self-center py-2 pl-4 rounded-s-xl">
             <div className="col-span-4 flex self-center justify-around border-r-2 border-[#D1D1D1]">
               {/* <div>
                 <img src={SearchImage} className='cursor-pointer' alt="SearchImage" />
