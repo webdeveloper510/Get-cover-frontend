@@ -489,19 +489,21 @@ function CompanyPriceBook() {
                <p className="text-base text-neutral-grey font-semibold"> Quantity Price</p>
             </div>
             <div className='col-span-6'>
-            <p className="text-lg text-light-black font-semibold">Name </p>
-               <p className="text-base text-neutral-grey font-semibold"> test</p>
-            </div>
-            <div className='col-span-6'>
-            <p className="text-lg text-light-black font-semibold">Quantity</p>
-               <p className="text-base text-neutral-grey font-semibold"> 100</p>
-            </div>
-            <div className='col-span-6'>
             <p className="text-lg text-light-black font-semibold">Range Start</p>
                <p className="text-base text-neutral-grey font-semibold"> Sony</p>
             </div>
             <div className='col-span-12'>
-             <Button onClick={closeView} className={'w-full'}>Close</Button>
+              <table className="w-full border text-center">
+                <tr className="border bg-[#9999]">
+                  <th>Name</th>
+                  <th>Quantity</th>
+                </tr>
+                <tr className="border">
+                  <td>test</td>
+                  <td>100</td>
+                </tr>
+              </table>
+          
             </div>
            </Grid>
           </div>
