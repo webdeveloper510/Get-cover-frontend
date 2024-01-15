@@ -9,6 +9,12 @@ import Wholesale from "../../../assets/images/icons/wholePrice.svg";
 import product from "../../../assets/images/icons/productName.svg";
 import category1 from "../../../assets/images/icons/productCat.svg";
 import dealer from "../../../assets/images/icons/dealerName.svg";
+import claim from "../../../assets/images/icons/claimAmount.svg";
+import contract from "../../../assets/images/icons/contract.svg";
+import Eligibility from "../../../assets/images/icons/Eligibility.svg";
+import delaerName from "../../../assets/images/icons/dealerNumber.svg";
+import ServicerName from "../../../assets/images/icons/servicerNumber.svg";
+import CustomerName from "../../../assets/images/icons/customerNumber.svg";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from '../../../common/headBar';
 import { Link } from 'react-router-dom';
@@ -56,8 +62,8 @@ function EditContract() {
                     <Grid className="mx-8 mx-auto ">
                         <div className="col-span-3 self-center border-r border-[#4e4e4e]">
                             <div className="flex">
-                                <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                                    <img src={category1} className="w-6 h-6" alt="category" />
+                                <div className="self-center backdrop-blur mr-4">
+                                    <img src={contract}  alt="category" />
                                 </div>
                                 <div className="self-center">
                                     <p className="text-[#FFF] text-base font-medium leading-5	">
@@ -72,7 +78,7 @@ function EditContract() {
                         <div className="col-span-3 border-r border-[#4e4e4e]">
                             <div className="flex">
                                 <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                                    <img src={dealer} className="w-6 h-6" alt="dealer" />
+                                    <img src={category1} className="w-6 h-6" alt="dealer" />
                                 </div>
                                 <div className="self-center">
                                     <p className="text-[#FFF] text-base font-medium leading-5	">
@@ -85,9 +91,9 @@ function EditContract() {
                             </div>
                         </div>
                         <div className="col-span-3">
-                            <div className="flex justify-center">
-                                <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                                    <img src={Wholesale} className="w-6 h-6" alt="terms" />
+                            <div className="flex w-full border-r border-[#4e4e4e]">
+                                <div className="self-center backdrop-blur  mr-4">
+                                    <img src={delaerName} alt="terms" />
                                 </div>
                                 <div className="self-center">
                                     <p className="text-[#FFF] text-base font-medium leading-5">
@@ -101,8 +107,8 @@ function EditContract() {
                         </div>
                         <div className="col-span-3">
                             <div className="flex">
-                                <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                                    <img src={product} className="w-6 h-6" alt="product" />
+                                <div className="self-center backdrop-blur  mr-4">
+                                    <img src={delaerName}  alt="product" />
                                 </div>
                                 <div className="self-center">
                                     <p className="text-[#FFF] text-base font-medium leading-5	">
@@ -116,10 +122,10 @@ function EditContract() {
                         </div>
                     </Grid>
                     <Grid className="mx-8 mt-2  mx-auto ">
-                        <div className="col-span-3 self-center border-r pt-2 border-t border-[#4e4e4e]">
-                            <div className="flex">
-                                <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                                    <img src={category1} className="w-6 h-6" alt="category" />
+                        <div className="col-span-3 self-center pt-2 pr-3 border-t border-[#4e4e4e]">
+                            <div className="flex w-full border-r border-[#4e4e4e]">
+                                <div className="self-center backdrop-blur  mr-4">
+                                    <img src={CustomerName} alt="category" />
                                 </div>
                                 <div className="self-center">
                                     <p className="text-[#FFF] text-base font-medium leading-5	">
@@ -131,10 +137,10 @@ function EditContract() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-span-3 border-r border-[#4e4e4e]">
-                            <div className="flex">
-                                <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                                    <img src={dealer} className="w-6 h-6" alt="dealer" />
+                        <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                            <div className="flex w-full border-r border-[#4e4e4e]">
+                                <div className="self-center backdrop-blur   mr-4">
+                                    <img src={ServicerName} alt="dealer" />
                                 </div>
                                 <div className="self-center">
                                     <p className="text-[#FFF] text-base font-medium leading-5	">
@@ -146,10 +152,10 @@ function EditContract() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-span-3">
-                            <div className="flex justify-center">
-                                <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                                    <img src={Wholesale} className="w-6 h-6" alt="terms" />
+                        <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                            <div className="flex w-full border-r border-[#4e4e4e]">
+                                <div className="self-center backdrop-blur  mr-4">
+                                    <img src={claim} alt="terms" />
                                 </div>
                                 <div className="self-center">
                                     <p className="text-[#FFF] text-base font-medium leading-5">
@@ -161,10 +167,10 @@ function EditContract() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-span-3">
+                        <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
                             <div className="flex">
-                                <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                                    <img src={product} className="w-6 h-6" alt="product" />
+                                <div className="self-center backdrop-blur  mr-4">
+                                    <img src={Eligibility} alt="product" />
                                 </div>
                                 <div className="self-center">
                                     <p className="text-[#FFF] text-base font-medium leading-5	">

@@ -6,12 +6,29 @@ import Input from '../../../common/input'
 // Media Includes 
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import AddItem from "../../../assets/images/icons/addItem.svg";
+import Cross from "../../../assets/images/Cross.png";
 import Edit from '../../../assets/images/Dealer/EditIcon.svg';
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Headbar from '../../../common/headBar';
 import { Link } from 'react-router-dom';
+import Modal from '../../../common/model';
+import Select from '../../../common/select';
 function ContractList() {
   const [showTooltip, setShowTooltip] = useState(false);
+  const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
+
+  const closeDisapproved = () => {
+    setIsDisapprovedOpen(false);
+  };
+
+  const openDisapproved = () => {
+    setIsDisapprovedOpen(true);
+  };
+
+  const status = [
+    { label: "Active", value: true },
+    { label: "Inactive", value: false },
+  ];
   return (
     <>
           <div className="my-8 ml-3">
@@ -32,23 +49,23 @@ function ContractList() {
         </div>
 
       <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
-      <Grid className='!p-[26px] !pt-[14px] !pb-0'>
-              <div className='col-span-5 self-center'>
+           <Grid className='!p-[26px] !pt-[14px] !pb-0'>
+              <div className='col-span-4 self-center'>
                 <p className='text-xl font-semibold'>Contracts List</p>
               </div>
-              <div className='col-span-7'>
+              <div className='col-span-8'>
                 <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-                  <Grid className='!grid-cols-11' >
-                    <div className='col-span-3 self-center'>
-                      <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Order ID' />
+                  <Grid className='!grid-cols-9' >
+                    <div className='col-span-2 self-center'>
+                      <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Contract ID' />
                     </div>
-                    <div className='col-span-3 self-center'>
-                      <Input name='Email' type='email'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Dealer Order no.' />
+                    <div className='col-span-2 self-center'>
+                      <Input name='Email' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder=' Order ID' />
                     </div>
-                    <div className='col-span-3 self-center'>
-                      <Input name='PhoneNo.' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Customer Name' />
+                    <div className='col-span-2 self-center'>
+                      <Input name='PhoneNo.' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Dealer P.O. No.' />
                     </div>
-                    <div className='col-span-2 self-center flex justify-center'>
+                    <div className='col-span-1 self-center flex justify-center'>
                     <Button
                         type="submit" className='!p-0'>
                           <img src={Search} className='cursor-pointer ' alt='Search' />
@@ -63,6 +80,9 @@ function ContractList() {
                           alt="clearFilter"
                         />
                       </Button>
+                    </div>
+                    <div className='col-span-2 self-center'>
+                     <Button className='!text-sm' onClick={()=> openDisapproved()}>Advance Search</Button>
                     </div>
                   </Grid>
   
@@ -249,6 +269,94 @@ function ContractList() {
 
           </div>
         </div>
+
+        <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
+          <Button onClick={closeDisapproved} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
+          <div className="py-3">
+            <p className='text-center text-3xl font-semibold '>
+            Advance Search
+            </p>
+           <Grid className='mt-5 px-6'>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Contract ID"
+                        className="!bg-[#fff]"
+                        label="Contract ID"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Order ID"
+                        className="!bg-[#fff]"
+                        label="Order ID"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Dealer P.O. No."
+                        className="!bg-[#fff]"
+                        label="Dealer P.O. No."
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Serial No."
+                        className="!bg-[#fff]"
+                        label="Serial No."
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Product Name"
+                        className="!bg-[#fff]"
+                        label="Product Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Customer Name"
+                        className="!bg-[#fff]"
+                        label="Customer Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Servicer Name"
+                        className="!bg-[#fff]"
+                        label="Servicer Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Dealer Name"
+                        className="!bg-[#fff]"
+                        label="Dealer Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+            <Select
+                        name="Status"
+                        label="Status"
+                        options={status}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+            </div>
+            <div className='col-span-6'>
+            <Select
+                        name="ClaimStatus"
+                        label="Claim Status"
+                        options={status}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+            </div>
+            <div className='col-span-12'>
+             <Button className={'w-full'}>Search</Button>
+            </div>
+           </Grid>
+          </div>
+        </Modal>
       </div>
     </div>
     </>
