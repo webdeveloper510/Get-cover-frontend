@@ -34,6 +34,7 @@ function CompanyPriceBook() {
   const [companyPriceList, setCompanyPriceList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const navigate = useNavigate();
+  const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const dropdownRef = useRef(null);
@@ -138,7 +139,16 @@ function CompanyPriceBook() {
     const isCloseToBottom = companyPriceList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
+  const totalCost =
+  data.frontingFee +
+  data.reserveFutureFee +
+  data.reinsuranceFee +
+  data.adminFee;
 
+const formattedCost = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+}).format(totalCost);
   const status = [
     { label: "Active", value: "true" },
     { label: "Inactive", value: "false" },
@@ -149,7 +159,8 @@ function CompanyPriceBook() {
   const getcompanyPriceBookData =  async(id) => {
     try {
       const result = await getCompanyPriceBookById(id);
-      console.log(result);
+      console.log(result.result);
+      setData(result.result)
       setSelectedAction(null);
     } catch (error) {
       console.error(error);
@@ -456,7 +467,7 @@ function CompanyPriceBook() {
           <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button>
-        <Button onClick={closeView} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+        <Button onClick={()=>{navigate(`/editCompanyPriceBook/${data._id}`)}} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
           <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
         </Button>
           <div className="py-3">
@@ -466,91 +477,90 @@ function CompanyPriceBook() {
            <Grid className='mt-5 px-6'>
             <div className='col-span-4'>
                <p className="text-lg text-light-black font-semibold">Product Category</p>
-               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+               <p className="text-base text-neutral-grey font-semibold"> {data?.category?.name}</p>
             </div>
             <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Product Name</p>
-               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+               <p className="text-base text-neutral-grey font-semibold"> {data.name}</p>
             </div>
             <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Description</p>
-               <p className="text-base text-neutral-grey font-semibold"> Description</p>
+               <p className="text-base text-neutral-grey font-semibold"> {data.description}</p>
             </div>
             <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Term</p>
-               <p className="text-base text-neutral-grey font-semibold"> 72 Months</p>
+               <p className="text-base text-neutral-grey font-semibold"> {data.term} Months</p>
             </div>
             <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Fronting fee ($)</p>
-               <p className="text-base text-neutral-grey font-semibold"> $132.00</p>
+               <p className="text-base text-neutral-grey font-semibold"> ${data?.frontingFee?.toFixed(2)}</p>
             </div>
             <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Re-insurance fee ($)</p>
-               <p className="text-base text-neutral-grey font-semibold"> $132.00</p>
+               <p className="text-base text-neutral-grey font-semibold"> ${data?.reinsuranceFee?.toFixed(2)}</p>
             </div>
             <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Reserve for future claims ($)</p>
-               <p className="text-base text-neutral-grey font-semibold"> $132.00</p>
+               <p className="text-base text-neutral-grey font-semibold"> ${data?.reserveFutureFee?.toFixed(2)}</p>
             </div>
             <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Administration fee ($)</p>
-               <p className="text-base text-neutral-grey font-semibold"> $132.00</p>
+               <p className="text-base text-neutral-grey font-semibold"> ${data?.adminFee?.toFixed(2)}</p>
             </div>
             <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Wholesale Cost ($)</p>
-               <p className="text-base text-neutral-grey font-semibold"> $132.00</p>
+               <p className="text-base text-neutral-grey font-semibold">{formattedCost}</p>
             </div>
             <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Status</p>
-               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+               <p className="text-base text-neutral-grey font-semibold"> {data.status ===true ?'Active' :"inActive"}</p>
             </div>
             <div className='col-span-4'>
             <p className="text-lg text-light-black font-semibold">Price Type</p>
-               <p className="text-base text-neutral-grey font-semibold"> Quantity Price</p>
+               <p className="text-base text-neutral-grey font-semibold"> {data.priceType}</p>
             </div>
-            <div className='col-span-4'>
-            <p className="text-lg text-light-black font-semibold">Range Start</p>
-               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
-            </div>
-            <div className='col-span-12'>
+            {
+              data.priceType=="FlatPricing" && (
+<>
+<div  className='col-span-4'>  <p className="text-lg text-light-black font-semibold">Range Start</p>
+               <p className="text-base text-neutral-grey font-semibold"> {data?.rangeStart?.toFixed(2)}</p>
+               </div>
+               <div  className='col-span-4'> 
+               <p className="text-lg text-light-black font-semibold">Range End</p>
+               <p className="text-base text-neutral-grey font-semibold"> {data?.rangeEnd?.toFixed(2)}</p>
+               </div></>
+              )
+            }
+            
+            {
+              data.priceType=="QuantityPricing" && (
+              <>
+                          <div className='col-span-12'>
               <table className="w-full border text-center">
                 <tr className="border bg-[#9999]">
                   <th>Name</th>
                   <th>Quantity</th>
                 </tr>
-                <tr className="border">
-                  <td>test</td>
-                  <td>100</td>
-                </tr>
-                <tr className="border">
-                  <td>test</td>
-                  <td>100</td>
-                </tr>
-                <tr className="border">
-                  <td>test</td>
-                  <td>100</td>
-                </tr>
-                <tr className="border">
-                  <td>test</td>
-                  <td>100</td>
-                </tr>
-                <tr className="border">
-                  <td>test</td>
-                  <td>100</td>
-                </tr>
-                <tr className="border">
-                  <td>test</td>
-                  <td>100</td>
-                </tr>
-                <tr className="border">
-                  <td>test</td>
-                  <td>100</td>
-                </tr>
+                {
+  data.quantityPriceDetail.length !== 0 &&
+  data.quantityPriceDetail.map((item, index) => (
+    <tr key={index} className="border">
+      <td>{item.name}</td>
+      <td>{item.quantity}</td>
+    </tr>
+  ))
+}
+
+              
 
 
               </table>
           
             </div>
+              </>
+                )
+              }
+
            </Grid>
           </div>
         </Modal>
