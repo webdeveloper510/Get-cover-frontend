@@ -473,43 +473,43 @@ function CompanyPriceBook() {
             </p>
            <Grid className='mt-5 px-6'>
             <div className='col-span-6'>
-               <p className="text-lg text-light-black font-semibold">Category</p>
+               <p className="text-lg text-light-black font-semibold">Product Category</p>
                <p className="text-base text-neutral-grey font-semibold"> Sony</p>
             </div>
             <div className='col-span-6'>
-            <p className="text-lg text-light-black font-semibold">Name</p>
+            <p className="text-lg text-light-black font-semibold">Product Name</p>
                <p className="text-base text-neutral-grey font-semibold"> Sony</p>
             </div>
             <div className='col-span-6'>
             <p className="text-lg text-light-black font-semibold">Description</p>
-               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+               <p className="text-base text-neutral-grey font-semibold"> Description</p>
             </div>
             <div className='col-span-6'>
             <p className="text-lg text-light-black font-semibold">Term</p>
-               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+               <p className="text-base text-neutral-grey font-semibold"> 72 Months</p>
             </div>
             <div className='col-span-6'>
             <p className="text-lg text-light-black font-semibold">Wholesale Cost</p>
-               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+               <p className="text-base text-neutral-grey font-semibold"> $132.00</p>
             </div>
             <div className='col-span-6'>
             <p className="text-lg text-light-black font-semibold">Status</p>
                <p className="text-base text-neutral-grey font-semibold"> Sony</p>
             </div>
             <div className='col-span-6'>
-            <p className="text-lg text-light-black font-semibold">Category</p>
+            <p className="text-lg text-light-black font-semibold">Price Type</p>
+               <p className="text-base text-neutral-grey font-semibold"> Quantity Price</p>
+            </div>
+            <div className='col-span-6'>
+            <p className="text-lg text-light-black font-semibold">Name </p>
                <p className="text-base text-neutral-grey font-semibold"> Sony</p>
             </div>
             <div className='col-span-6'>
-            <p className="text-lg text-light-black font-semibold">Category</p>
+            <p className="text-lg text-light-black font-semibold">Quantity</p>
                <p className="text-base text-neutral-grey font-semibold"> Sony</p>
             </div>
             <div className='col-span-6'>
-            <p className="text-lg text-light-black font-semibold">Category</p>
-               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
-            </div>
-            <div className='col-span-6'>
-            <p className="text-lg text-light-black font-semibold">Category</p>
+            <p className="text-lg text-light-black font-semibold">Range Start</p>
                <p className="text-base text-neutral-grey font-semibold"> Sony</p>
             </div>
             <div className='col-span-12'>
