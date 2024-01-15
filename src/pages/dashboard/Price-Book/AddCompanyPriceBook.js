@@ -550,7 +550,7 @@ function AddCompanyPriceBook() {
                   )}
                 </div>
               </Grid>
-              <Grid className="!grid-cols-6 mt-3">
+              <Grid className="!grid-cols-6 mt-5">
                 <div className="col-span-1">
                   <Input
                     type="number"
@@ -581,7 +581,7 @@ function AddCompanyPriceBook() {
                   <Input
                     type="number"
                     name="reinsuranceFee"
-                    className="!bg-[#fff]"
+                    className="!bg-[#fff] !px-0 w-[180px]"
                     label="Re-insurance fee ($)"
                     minLength={"1"}
                     maxLength={"10"}
@@ -783,116 +783,119 @@ function AddCompanyPriceBook() {
                     </div>
                   </>
                 )}
+                </Grid>
+                <Grid className="!grid-cols-4">
                 {formik.values.priceType === "QuantityPricing" && (
                   <>
                         {formik?.values?.quantityPriceDetail.map((dealer, index) => (
-        <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
-          <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
-            {index == 0 ? (
-              <Button
-                className="text-sm !font-light"
-                onClick={handleAddQuantity}
-              >
-                {" "}
-                + Add More{" "}
-              </Button>
-            ) : (
-              <div
-                onClick={() => {
-                  handleDeleteQuantity(index);
-                }}
-              >
-                <div className="flex h-full mx-3 bg-[#fff] justify-center">
-                  <img
-                    src={DeleteImage}
-                    className="self-center cursor-pointer"
-                    alt="Delete Icon"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-          <div className=" p-4 pl-0 relative rounded-xl">
-            <Grid className="">
-
-              <div className="col-span-3">
-                <Input
-                  type="text"
-                  name={`quantityPriceDetail[${index}].name`}
-                  className="!bg-[#f9f9f9]"
-                  label="Name"
-                  required={true}
-                  placeholder=""
-                  value={
-                    formik.values.quantityPriceDetail[index].name
-                  }
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  onWheelCapture={(e) => {
-                    e.preventDefault();
-                  }}
-                  error={
-                    formik.touched.quantityPriceDetail &&
-                    formik.touched.quantityPriceDetail[index] &&
-                    formik.errors.quantityPriceDetail &&
-                    formik.errors.quantityPriceDetail[index] &&
-                    formik.errors.quantityPriceDetail[index].name
-                  }
-                />
-                {formik.touched.quantityPriceDetail &&
-                  formik.touched.quantityPriceDetail[index] &&
-                  formik.errors.quantityPriceDetail &&
-                  formik.errors.quantityPriceDetail[index] &&
-                  formik.errors.quantityPriceDetail[index].name && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.quantityPriceDetail[index].name}
-                    </div>
-                  )}
-              </div>
-
-              <div className="col-span-12">
-                          <Input
-                            type="number"
-                            name={`quantityPriceDetail[${index}].quantity`}
-                            className="!bg-[#f9f9f9]"
-                            label="Retail Price($)"
-                            maxLength={"10"}
-                            maxDecimalPlaces={2}
-                            required={true}
-                            placeholder=""
-                            value={formik.values.quantityPriceDetail[index].quantity}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
+                    <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+                      <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
+                        {index == 0 ? (
+                          <Button
+                            className="text-sm  !font-light"
+                            onClick={handleAddQuantity}
+                          >
+                            {" "}
+                            + Add More{" "}
+                          </Button>
+                        ) : (
+                          <div
+                            onClick={() => {
+                              handleDeleteQuantity(index);
                             }}
-                            error={
-                              formik.touched.quantityPriceDetail &&
+                          >
+                            <div className="flex h-full mx-3 bg-[#fff] justify-center">
+                              <img
+                                src={DeleteImage}
+                                className="self-center cursor-pointer"
+                                alt="Delete Icon"
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className=" p-4 pl-0 mt-4 relative rounded-xl">
+                        <Grid className="">
+
+                          <div className="col-span-12">
+                            <Input
+                              type="text"
+                              name={`quantityPriceDetail[${index}].name`}
+                              className="!bg-[#f9f9f9]"
+                              label="Name"
+                              required={true}
+                              placeholder=""
+                              value={
+                                formik.values.quantityPriceDetail[index].name
+                              }
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              onWheelCapture={(e) => {
+                                e.preventDefault();
+                              }}
+                              error={
+                                formik.touched.quantityPriceDetail &&
+                                formik.touched.quantityPriceDetail[index] &&
+                                formik.errors.quantityPriceDetail &&
+                                formik.errors.quantityPriceDetail[index] &&
+                                formik.errors.quantityPriceDetail[index].name
+                              }
+                            />
+                            {formik.touched.quantityPriceDetail &&
                               formik.touched.quantityPriceDetail[index] &&
                               formik.errors.quantityPriceDetail &&
                               formik.errors.quantityPriceDetail[index] &&
-                              formik.errors.quantityPriceDetail[index].quantity
-                            }
-                          />
-                          {formik.touched.quantityPriceDetail &&
-                            formik.touched.quantityPriceDetail[index] &&
-                            formik.errors.quantityPriceDetail &&
-                            formik.errors.quantityPriceDetail[index] &&
-                            formik.errors.quantityPriceDetail[index].retailPrice && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formik.errors.quantityPriceDetail[index].quantity}
-                              </div>
-                            )}
-                        </div>
+                              formik.errors.quantityPriceDetail[index].name && (
+                                <div className="text-red-500 text-sm pl-2 pt-2">
+                                  {formik.errors.quantityPriceDetail[index].name}
+                                </div>
+                              )}
+                          </div>
 
-            </Grid>
-          </div>
-        </div>
-      ))}
+                          <div className="col-span-12">
+                                      <Input
+                                        type="number"
+                                        name={`quantityPriceDetail[${index}].quantity`}
+                                        className="!bg-[#f9f9f9]"
+                                        label="Retail Price($)"
+                                        maxLength={"10"}
+                                        maxDecimalPlaces={2}
+                                        required={true}
+                                        placeholder=""
+                                        value={formik.values.quantityPriceDetail[index].quantity}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        onWheelCapture={(e) => {
+                                          e.preventDefault();
+                                        }}
+                                        error={
+                                          formik.touched.quantityPriceDetail &&
+                                          formik.touched.quantityPriceDetail[index] &&
+                                          formik.errors.quantityPriceDetail &&
+                                          formik.errors.quantityPriceDetail[index] &&
+                                          formik.errors.quantityPriceDetail[index].quantity
+                                        }
+                                      />
+                                      {formik.touched.quantityPriceDetail &&
+                                        formik.touched.quantityPriceDetail[index] &&
+                                        formik.errors.quantityPriceDetail &&
+                                        formik.errors.quantityPriceDetail[index] &&
+                                        formik.errors.quantityPriceDetail[index].retailPrice && (
+                                          <div className="text-red-500 text-sm pl-2 pt-2">
+                                            {formik.errors.quantityPriceDetail[index].quantity}
+                                          </div>
+                                        )}
+                                    </div>
+
+                        </Grid>
+                      </div>
+                    </div>
+                  ))}
                   </>
 
                 )}
-              </Grid>
+                </Grid>
+              
               <p className="mt-8 font-semibold text-lg">
                 Total Amount: <span> ${totalAmount}</span>
               </p>
