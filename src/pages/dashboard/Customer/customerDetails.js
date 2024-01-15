@@ -448,7 +448,7 @@ function CustomerDetails() {
                 </div>
               </div>
               <div className="flex mb-4">
-                <img
+                <img 
                   src={email}
                   className="mr-3 bg-[#383838] rounded-[14px]"
                   alt="email"

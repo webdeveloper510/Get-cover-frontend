@@ -14,6 +14,7 @@ import Input from "../../../common/input";
 import Select from "../../../common/select";
 import DataTable from "react-data-table-component";
 import Loader from "../../../assets/images/Loader.gif";
+import Cross from "../../../assets/images/Cross.png";
 import {
   editCompanyList,
   getCompanyPriceList,
@@ -24,6 +25,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import { editDealerPriceBook } from "../../../services/dealerServices";
+import Modal from "../../../common/model";
 
 function CompanyPriceBook() {
   // const [selectedProduct, setSelectedProduct] = useState("");
@@ -95,7 +97,7 @@ function CompanyPriceBook() {
   };
 
   const handleStatusChange = async (row, newStatus) => {
-    console.log(row);
+    // console.log(row);
     try {
       setCompanyPriceList((prevDealerPriceBook) => {
         return prevDealerPriceBook.map((category) => {
@@ -277,10 +279,8 @@ function CompanyPriceBook() {
                 <hr/>
                 <div
                   className="text-center py-1 cursor-pointer"
-                  onClick={() => getCompanyPriceBook(row._id)}
+                  onClick={() =>openView(row._id)}
                 >
-                 
-                
                   View
                 </div>
              
@@ -313,6 +313,17 @@ function CompanyPriceBook() {
       <p>No records found.</p>
     </div>
   );
+
+  const [isViewOpen, setIsViewOpen] = useState(false);
+
+  const closeView = () => {
+    setIsViewOpen(false);
+  };
+
+  const openView = (id) => {
+    setIsViewOpen(true);
+    getCompanyPriceBook(id)
+  };
 
   return (
     <>
@@ -451,6 +462,62 @@ function CompanyPriceBook() {
               />
             )}
           </div>
+
+          <Modal isOpen={isViewOpen} onClose={closeView}>
+          <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
+          <div className="py-3">
+            <p className='text-center text-3xl font-semibold '>
+            View Company Price Book
+            </p>
+           <Grid className='mt-5 px-6'>
+            <div className='col-span-6'>
+               <p className="text-lg text-light-black font-semibold">Category</p>
+               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+            </div>
+            <div className='col-span-6'>
+            <p className="text-lg text-light-black font-semibold">Name</p>
+               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+            </div>
+            <div className='col-span-6'>
+            <p className="text-lg text-light-black font-semibold">Description</p>
+               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+            </div>
+            <div className='col-span-6'>
+            <p className="text-lg text-light-black font-semibold">Term</p>
+               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+            </div>
+            <div className='col-span-6'>
+            <p className="text-lg text-light-black font-semibold">Wholesale Cost</p>
+               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+            </div>
+            <div className='col-span-6'>
+            <p className="text-lg text-light-black font-semibold">Status</p>
+               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+            </div>
+            <div className='col-span-6'>
+            <p className="text-lg text-light-black font-semibold">Category</p>
+               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+            </div>
+            <div className='col-span-6'>
+            <p className="text-lg text-light-black font-semibold">Category</p>
+               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+            </div>
+            <div className='col-span-6'>
+            <p className="text-lg text-light-black font-semibold">Category</p>
+               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+            </div>
+            <div className='col-span-6'>
+            <p className="text-lg text-light-black font-semibold">Category</p>
+               <p className="text-base text-neutral-grey font-semibold"> Sony</p>
+            </div>
+            <div className='col-span-12'>
+             <Button onClick={closeView} className={'w-full'}>Close</Button>
+            </div>
+           </Grid>
+          </div>
+        </Modal>
         </div>
       </div>
     </>
