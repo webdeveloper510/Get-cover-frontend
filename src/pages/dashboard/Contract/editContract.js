@@ -122,7 +122,7 @@ function EditContract() {
                         </div>
                     </Grid>
                     <Grid className="mx-8 mt-2  mx-auto ">
-                        <div className="col-span-3 self-center pt-2 pr-3 border-t border-[#4e4e4e]">
+                        <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
                             <div className="flex w-full border-r border-[#4e4e4e]">
                                 <div className="self-center backdrop-blur  mr-4">
                                     <img src={CustomerName} alt="category" />
