@@ -502,6 +502,32 @@ function CompanyPriceBook() {
                   <td>test</td>
                   <td>100</td>
                 </tr>
+                <tr className="border">
+                  <td>test</td>
+                  <td>100</td>
+                </tr>
+                <tr className="border">
+                  <td>test</td>
+                  <td>100</td>
+                </tr>
+                <tr className="border">
+                  <td>test</td>
+                  <td>100</td>
+                </tr>
+                <tr className="border">
+                  <td>test</td>
+                  <td>100</td>
+                </tr>
+                <tr className="border">
+                  <td>test</td>
+                  <td>100</td>
+                </tr>
+                <tr className="border">
+                  <td>test</td>
+                  <td>100</td>
+                </tr>
+                
+
               </table>
           
             </div>
