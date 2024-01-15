@@ -523,7 +523,6 @@ function AddCompanyPriceBook() {
                     error={
                       formik.touched.priceType && formik.errors.priceType
                     }
-                    disabled={type === "Edit"}
                   />
                   {formik.touched.priceType && formik.errors.priceType && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
@@ -786,7 +785,7 @@ function AddCompanyPriceBook() {
                 )}
                 {formik.values.priceType === "QuantityPricing" && (
                   <>
-                        {formik.values.quantityPriceDetail.map((dealer, index) => (
+                        {formik?.values?.quantityPriceDetail.map((dealer, index) => (
         <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
           <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
             {index == 0 ? (
@@ -852,38 +851,39 @@ function AddCompanyPriceBook() {
               </div>
 
               <div className="col-span-12">
-                <Input
-                  type="number"
-                  name={`quantityPriceDetail[${index}].quantity`}
-                  className="!bg-[#f9f9f9]"
-                  label="Quantity"
-                  required={true}
-                  placeholder=""
-                  value={formik.values.quantityPriceDetail[index].quantity}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  disabled={true}
-                  onWheelCapture={(e) => {
-                    e.preventDefault();
-                  }}
-                  error={
-                    formik.touched.quantityPriceDetail &&
-                    formik.touched.quantityPriceDetail[index] &&
-                    formik.errors.quantityPriceDetail &&
-                    formik.errors.quantityPriceDetail[index] &&
-                    formik.errors.quantityPriceDetail[index].quantity
-                  }
-                />
-                {formik.touched.quantityPriceDetail &&
-                  formik.touched.quantityPriceDetail[index] &&
-                  formik.errors.quantityPriceDetail &&
-                  formik.errors.quantityPriceDetail[index] &&
-                  formik.errors.quantityPriceDetail[index].quantity && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.quantityPriceDetail[index].quantity}
-                    </div>
-                  )}
-              </div>
+                          <Input
+                            type="number"
+                            name={`quantityPriceDetail[${index}].quantity`}
+                            className="!bg-[#f9f9f9]"
+                            label="Retail Price($)"
+                            maxLength={"10"}
+                            maxDecimalPlaces={2}
+                            required={true}
+                            placeholder=""
+                            value={formik.values.quantityPriceDetail[index].quantity}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                            error={
+                              formik.touched.quantityPriceDetail &&
+                              formik.touched.quantityPriceDetail[index] &&
+                              formik.errors.quantityPriceDetail &&
+                              formik.errors.quantityPriceDetail[index] &&
+                              formik.errors.quantityPriceDetail[index].quantity
+                            }
+                          />
+                          {formik.touched.quantityPriceDetail &&
+                            formik.touched.quantityPriceDetail[index] &&
+                            formik.errors.quantityPriceDetail &&
+                            formik.errors.quantityPriceDetail[index] &&
+                            formik.errors.quantityPriceDetail[index].retailPrice && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formik.errors.quantityPriceDetail[index].quantity}
+                              </div>
+                            )}
+                        </div>
 
             </Grid>
           </div>
