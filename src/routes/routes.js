@@ -29,6 +29,7 @@ import OrderList from "../pages/dashboard/Order/orderList";
 import ServicerDetails from "../pages/dashboard/Servicer/servicerDetails";
 import CustomerDetails from "../pages/dashboard/Customer/customerDetails";
 import ContractList from "../pages/dashboard/Contract/contractList";
+import EditContract from "../pages/dashboard/Contract/editContract";
 
 const routes = [
   {
@@ -95,6 +96,13 @@ const routes = [
         index: true,
         element: (
           <PrivateRoute element={<Notification />} path="/notifications" />
+        ),
+      },
+      {
+        path: "/editContract",
+        index: true,
+        element: (
+          <PrivateRoute element={<EditContract />} path="/editContract" />
         ),
       },
       {

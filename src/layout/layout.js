@@ -41,7 +41,7 @@ function Layout() {
         Location.pathname !== "/customerDetails/" + customerId
           ? "p-4"
           : "p-0"
-      } pl-0 overflow-x-hidden relative w-full`}
+      } pl-0 relative w-full`}
     >
       {Location.pathname !== "/dealerDetails/" + id &&
       Location.pathname !== "/customerDetails/" + customerId ? (
