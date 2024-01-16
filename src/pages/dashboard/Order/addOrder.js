@@ -784,10 +784,7 @@ function AddOrder() {
         </div>
       </div>
 
-
       {renderStep()}
-
-
 
     </div>
   )

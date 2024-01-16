@@ -546,7 +546,7 @@ function CompanyPriceBook() {
                           </tr>
                           <tr className="border bg-[#9999]">
                             <th>Name</th>
-                            <th>Quantity</th>
+                            <th>Max Quantity</th>
                           </tr>
                           {
                             data.quantityPriceDetail.length !== 0 &&
