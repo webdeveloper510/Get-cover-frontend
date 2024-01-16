@@ -416,9 +416,28 @@ function SideBar() {
 
     {
       name: "Reporting",
-      url: "#",
       image: ReportImage,
       active: ActiveReport,
+      items: [
+        {
+          name: "Sale",
+          url: "#",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Claims",
+          url: "#",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+        {
+          name: "Accounting",
+          url: "#",
+          image: Dropdown2,
+          active: ForthActive,
+        },
+      ],
     },
     {
       name: "Manage Account",
