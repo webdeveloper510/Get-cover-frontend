@@ -7,6 +7,7 @@ import Input from '../../../common/input'
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import productName from '../../../assets/images/icons/productName1.svg';
 import attach from '../../../assets/images/Attachments.svg';
+import AddItem from "../../../assets/images/icons/addItem.svg";
 import model from '../../../assets/images/icons/ProductModel.svg';
 import serial from '../../../assets/images/icons/ProductSerial.svg';
 import Manufacturer from '../../../assets/images/icons/ProductManufacturer.svg';
@@ -53,13 +54,27 @@ function ClaimList() {
               </ul>
             </div>
           </div>
+
+          <Link
+          to={"/addClaim"}
+          className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+        >
+          {" "}
+          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+          <span className="text-black ml-3 text-[14px] font-Regular">
+            Add Claim{" "}
+          </span>{" "}
+        </Link>
+
       <div className='bg-white my-8 border-[1px] border-[#D1D1D1] rounded-xl'>
         <Grid className='!p-[26px] !pt-[14px] !pb-0'>
           <div className='col-span-2 self-center'>
             <p className='text-xl font-semibold'>Claims List</p>
           </div>
-          <div className='col-span-7'>
+          <div className='col-span-10'>
             <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
+            <Grid className='' >
+            <div className='col-span-8'>
               <Grid className='' >
                 <div className='col-span-3 self-center'>
                   <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Contract ID' />
@@ -78,8 +93,7 @@ function ClaimList() {
 
             </div>
 
-          </div>
-          <div className='col-span-3 self-center flex justify-center'>
+              <div className='col-span-4 self-center flex justify-center'>
                   <Button
                     type="submit" className='!p-0'>
                     <img src={Search} className='cursor-pointer ' alt='Search' />
@@ -100,7 +114,9 @@ function ClaimList() {
                   </Button>
                 </div>
         </Grid>
-
+                      </div>
+                      </div>
+                      </Grid>
         <div className=' px-3 mt-5'>
           <div>
             <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
