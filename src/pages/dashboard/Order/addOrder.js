@@ -797,7 +797,7 @@ function AddOrder() {
                   <div className='col-span-12'>
                   <Grid className='!grid-cols-3'>
             {/* Loop */}
-            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+            <div className="bg-[#f9f9f9] p-4 relative rounded-xl">
               <div className=" p-4 pl-0 relative rounded-xl">
                 <Grid className="">
                   <div className="col-span-12">
@@ -842,7 +842,7 @@ function AddOrder() {
               </div>
             </div>
 
-            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+            <div className="bg-[#f9f9f9] p-4 relative rounded-xl">
               <div className=" p-4 pl-0 relative rounded-xl">
                 <Grid className="">
                   <div className="col-span-12">
