@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import Select from '../../../common/select';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
-
+import { format } from 'date-fns';
 // Media Include
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
@@ -168,6 +168,7 @@ function AddOrder() {
           term: "",
           priceType: "",
           additionalNotes: "",
+          coverageEndDate:"",
           QuantityPricing: [
             {
               name: "",
@@ -199,7 +200,7 @@ function AddOrder() {
             .typeError("Required")
             .required("Required")
             .nullable(),
-          file: Yup.string().required("File is required"),
+          // file: Yup.string().required("File is required"),
           coverageStartDate: Yup.date().required("Date is required")
         })
       ),
@@ -223,6 +224,7 @@ function AddOrder() {
       term: "",
       priceType: "",
       additionalNotes: "",
+      additionalNotes:"",
       QuantityPricing: [
         {
           name: "",
@@ -255,7 +257,18 @@ function AddOrder() {
       console.log(match[1]);
       formikStep3.setFieldValue(`productsArray[${match[1]}].priceBookId`, "");
       formikStep3.setFieldValue(`productsArray[${match[1]}].term`, "");
-
+      formikStep3.setFieldValue(
+        `productsArray[${match[1]}].price`,
+        ""
+      );
+      formikStep3.setFieldValue(
+        `productsArray[${match[1]}].noOfProducts`,
+        ""
+      );
+      // formikStep3.setFieldValue(
+      //   `productsArray[${match[1]}].coverageStartDate`,
+      //   ""
+      // );
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].unitPrice`,
         ""
@@ -298,6 +311,18 @@ function AddOrder() {
         return value.value === selectedValue;
       });
       console.log(productNameOptions)
+      // formikStep3.setFieldValue(
+      //   `productsArray[${match[1]}].coverageStartDate`,
+      //   ""
+      // );
+      formikStep3.setFieldValue(
+        `productsArray[${match[1]}].price`,
+        ""
+      );
+      formikStep3.setFieldValue(
+        `productsArray[${match[1]}].noOfProducts`,
+        ""
+      );
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].priceType`,
         data.priceType
@@ -722,14 +747,40 @@ function AddOrder() {
                     />
                   </div>
                   <div className='col-span-4'>
-                    <Input
-                      type="date"
-                      name="Coveragestart"
-                      className="!bg-white"
-                      label="Coverage Start"
+                  <Input
+                       type="date"
+                      name={`productsArray[${index}].coverageStartDate`}
+                      className="!bg-[#f9f9f9]"
+                      label="Price"
                       required={true}
                       placeholder=""
+                      value={format(new Date(formikStep3.values.productsArray[index].coverageStartDate), 'yyyy-MM-dd')}
+                      onChange={(e) => {
+                        formikStep3.handleChange(e);
+                      }}
+                      onBlur={formikStep3.handleBlur}
+                     
+                      onWheelCapture={(e) => {
+                        e.preventDefault();
+                      }}
+                      error={
+                        formikStep3.values.productsArray &&
+                        formikStep3.values.productsArray[index] &&
+                        formikStep3.values.productsArray &&
+                        formikStep3.values.productsArray[index] &&
+                        formikStep3.values.productsArray[index].coverageStartDate
+                      }
                     />
+                    {formikStep3.errors.productsArray &&
+                      formikStep3.errors.productsArray[index] &&
+                      formikStep3.errors.productsArray &&
+                      formikStep3.errors.productsArray[index] &&
+                      formikStep3.errors.productsArray[index].coverageStartDate && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formikStep3.errors.productsArray[index].coverageStartDate}
+                        </div>
+                      )}
+               
                   </div>
 
 
@@ -786,7 +837,7 @@ function AddOrder() {
           </div>
         ))}
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
-        <Button onClick={nextStep}>Next</Button>
+        <Button onClick={formikStep3.handleSubmit}>Next</Button>
       </div>
     );
   };
