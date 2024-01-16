@@ -41,9 +41,9 @@ function AddCompanyPriceBook() {
   const navigate = useNavigate();
   console.log(id);
   const pricetype = [
-    { label: "Regular Pricing", value: "RegularPricing" },
-    { label: "Flat Pricing", value: "FlatPricing" },
-    { label: "Quantity Pricing", value: "QuantityPricing" },
+    { label: "Regular Pricing", value: "Regular Pricing" },
+    { label: "Flat Pricing", value: "Flat Pricing" },
+    { label: "Quantity Pricing", value: "Quantity Pricing" },
   ];
 
 
