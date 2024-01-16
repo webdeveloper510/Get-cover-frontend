@@ -200,7 +200,7 @@ function AddOrder() {
             .typeError("Required")
             .required("Required")
             .nullable(),
-          // file: Yup.string().required("File is required"),
+          file: Yup.string().required("File is required"),
           coverageStartDate: Yup.date().required("Date is required")
         })
       ),
