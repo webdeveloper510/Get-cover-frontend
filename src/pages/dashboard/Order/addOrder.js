@@ -16,6 +16,7 @@ import * as Yup from "yup";
 import { getDealersList } from '../../../services/dealerServices';
 import { getServicerListByDealerId } from '../../../services/servicerServices';
 import { getCustomerListByDealerId } from '../../../services/customerServices';
+import FileDropdown from '../../../common/fileDropbox';
 
 
 function AddOrder() {
@@ -361,7 +362,7 @@ function AddOrder() {
                     // options={country}
                   />
                 </div>
-                <div className='col-span-3'>
+                <div className='col-span-4'>
                   <Select
                     label="Term"
                     name="term"
@@ -371,7 +372,7 @@ function AddOrder() {
                     // options={city}
                   />
                 </div>
-                <div className='col-span-3'>
+                <div className='col-span-4'>
                   <Input
                     type="number"
                     name="unitPrice"
@@ -381,7 +382,7 @@ function AddOrder() {
                     placeholder=""
                   />
                 </div>
-                <div className='col-span-3'>
+                <div className='col-span-4'>
                   <Input
                     type="number"
                     name="productNumber"
@@ -391,7 +392,7 @@ function AddOrder() {
                     placeholder=""
                   />
                 </div>
-                <div className='col-span-3'>
+                <div className='col-span-4'>
                   <Input
                     type="number"
                     name="price"
@@ -401,6 +402,28 @@ function AddOrder() {
                     placeholder=""
                   />
                 </div>
+                <div className='col-span-4'>
+                <Input
+                    type="number"
+                    name="price"
+                    className="!bg-white"
+                    label="Price "
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Input
+                    type="date"
+                    name="Coveragestart"
+                    className="!bg-white"
+                    label="Coverage Start"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+               
+               
                 <div className='col-span-12'>
                   <div className="relative">
                     <label
@@ -421,7 +444,7 @@ function AddOrder() {
               </Grid>
             </div>
             <div className='col-span-4'>
-              <div className='border border-dashed w-full h-full relative flex'>
+              <div className='border border-dashed w-full h-full relative flex justify-center'>
                 <label
                   htmlFor="description"
                   className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
@@ -429,13 +452,26 @@ function AddOrder() {
                   Upload File
                 </label>
                 <div className='self-center text-center'>
-                  <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
-                  <p className="text-[#5D6E66] text-sm">
-                    Accepted file types: csv, xls, xlsx Max. file size: 50 MB.
-                  </p>
+                <FileDropdown
+                    className="!bg-transparent !border-0"
+                   
+                  />
                 </div>
               </div>
             </div>
+            <div className='col-span-12'> 
+                <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                    Please click on file option and make a copy. Upload the list
+                    of Product Name and Price using our provided Google Sheets
+                    template, by{" "}
+                    <span
+                      className="underline cursor-pointer"
+                      // onClick={downloadCSVTemplate}
+                    >
+                      Clicking here
+                    </span>
+                    The file must be saved with csv , xls and xlsx Format.
+                  </p></div>
           </Grid>
         </div>
         {/* Next Open  */}
@@ -446,7 +482,7 @@ function AddOrder() {
           </div>
           <Grid>
             <div className='col-span-8 border-r pr-5'>
-              <Grid>
+            <Grid>
                 <div className='col-span-6'>
                   <Select
                     label="Product Category"
@@ -477,7 +513,7 @@ function AddOrder() {
                     // options={country}
                   />
                 </div>
-                <div className='col-span-3'>
+                <div className='col-span-4'>
                   <Select
                     label="Term"
                     name="term"
@@ -487,7 +523,7 @@ function AddOrder() {
                     // options={city}
                   />
                 </div>
-                <div className='col-span-3'>
+                <div className='col-span-4'>
                   <Input
                     type="number"
                     name="unitPrice"
@@ -497,7 +533,7 @@ function AddOrder() {
                     placeholder=""
                   />
                 </div>
-                <div className='col-span-3'>
+                <div className='col-span-4'>
                   <Input
                     type="number"
                     name="productNumber"
@@ -507,7 +543,7 @@ function AddOrder() {
                     placeholder=""
                   />
                 </div>
-                <div className='col-span-3'>
+                <div className='col-span-4'>
                   <Input
                     type="number"
                     name="price"
@@ -517,6 +553,28 @@ function AddOrder() {
                     placeholder=""
                   />
                 </div>
+                <div className='col-span-4'>
+                <Input
+                    type="number"
+                    name="price"
+                    className="!bg-white"
+                    label="Price "
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Input
+                    type="date"
+                    name="Coveragestart"
+                    className="!bg-white"
+                    label="Coverage Start"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+               
+               
                 <div className='col-span-12'>
                   <div className="relative">
                     <label
@@ -537,7 +595,7 @@ function AddOrder() {
               </Grid>
             </div>
             <div className='col-span-4'>
-              <div className='border border-dashed w-full h-full relative flex'>
+            <div className='border border-dashed w-full h-full relative flex justify-center'>
                 <label
                   htmlFor="description"
                   className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
@@ -545,13 +603,26 @@ function AddOrder() {
                   Upload File
                 </label>
                 <div className='self-center text-center'>
-                  <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
-                  <p className="text-[#5D6E66] text-sm">
-                    Accepted file types: csv, xls, xlsx Max. file size: 50 MB.
-                  </p>
+                <FileDropdown
+                    className="!bg-transparent !border-0"
+                   
+                  />
                 </div>
               </div>
             </div>
+            <div className='col-span-12'> 
+                <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                    Please click on file option and make a copy. Upload the list
+                    of Product Name and Price using our provided Google Sheets
+                    template, by{" "}
+                    <span
+                      className="underline cursor-pointer"
+                      // onClick={downloadCSVTemplate}
+                    >
+                      Clicking here
+                    </span>
+                    The file must be saved with csv , xls and xlsx Format.
+                  </p></div>
           </Grid>
         </div>
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
