@@ -910,7 +910,7 @@ function AddCompanyPriceBook() {
                                   type="number"
                                   name={`quantityPriceDetail[${index}].quantity`}
                                   className="!bg-[#f9f9f9]"
-                                  label="Quantity"
+                                  label="Max Quantity"
                                   maxLength={"10"}
                                   maxDecimalPlaces={2}
                                   required={true}

@@ -181,6 +181,13 @@ function CompanyPriceBook() {
       maxWidth: "80px",
     },
     {
+      name: "Price Type",
+      selector: (row) => row.priceType,
+      sortable: true,
+      minWidth: "auto",
+      maxWidth: "300px",
+    },
+    {
       name: "Category",
       selector: (row) => row.category.name,
       sortable: true,
@@ -207,7 +214,7 @@ function CompanyPriceBook() {
       maxWidth: "100px",
     },
     {
-      name: "Wholesale Cost",
+      name: "Cost",
       selector: (row) => {
         const totalCost =
           row.frontingFee +

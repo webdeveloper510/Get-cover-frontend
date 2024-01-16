@@ -157,12 +157,12 @@ function AddOrder() {
       getCustomerList(value)
     }
   };
-  const country = [
-    { label: 'Country', value: 'country' },
-    { label: 'Option 2', value: 'option2' },
-    { label: 'Option 3', value: 'option3' },
-  ];
   const coverage = [
+    { label: 'Breakdown', value: 'Breakdown' },
+    { label: 'Accidental', value: 'Accidental' },
+    { label: 'Breakdown/Accidental', value: 'Breakdown/Accidental' },
+  ];
+  const serviceCoverage = [
     { label: 'Parts', value: 'Parts' },
     { label: 'Labour', value: 'Labour' },
     { label: 'Parts/Labour', value: 'Parts/Labour' },
@@ -278,7 +278,7 @@ function AddOrder() {
                   className="!bg-white"
                   required={true}
                   onChange={handleSelectChange1}
-                  options={coverage}
+                  options={serviceCoverage}
                   value={formikStep2.values.serviceCoverageType}
                   onBlur={formikStep2.handleBlur}
                   error={formikStep2.touched.serviceCoverageType && formikStep2.errors.serviceCoverageType}
