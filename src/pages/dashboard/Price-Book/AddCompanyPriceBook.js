@@ -132,33 +132,36 @@ function AddCompanyPriceBook() {
             let result;
             let checkErrors=false
       try {
+        console.log(values,value)
         setLoader(true);
         if (id) {
   if(value=="QuantityPricing"){
     formik.values.quantityPriceDetail.forEach((item, index) => {
+      console.log(item);
       try {
         Yup.object().shape({
           name: Yup.string().required("Required").transform((originalValue) => originalValue.trim()),
           quantity: Yup.number()
-            .typeError("Required")
-            .required("Required")
-            .nullable()
-            .min(1, "quantity cannot be Zero"),
-        }).validateSync(item, { abortEarly: true });
+          .typeError("Required")
+          .required("Required")
+          .test('is-positive', 'Required', (value) => value != null && value >= 1),
+      }).validateSync(item, { abortEarly: true });
       } catch (error) {
-        console.log(error.errors)
-        checkErrors=true
-      if(item.name == ""){
-        formik.setFieldError(`quantityPriceDetail[${index}].name`, "Required");
+        console.log(error.errors);
+        checkErrors = true;
+    
+        if (item.name === "") {
+          formik.setFieldError(`quantityPriceDetail[${index}].name`, "Required");
+        }
+        if (item.quantity == null || item.quantity < 1) {
+          formik.setFieldError(`quantityPriceDetail[${index}].quantity`, "Quantity must be greater than or equal to 1");
+          console.log(error.errors);
+        }
       }
-      if(item.quantity == "" || item.quantity<1){
-        formik.setFieldError(`quantityPriceDetail[${index}].quantity`, error.errors[0]);
-        console.log(error.errors)
-      }
-      }
-   
     });
+    
   }
+
           console.log(checkErrors)
      
           if(checkErrors){
@@ -253,6 +256,7 @@ function AddCompanyPriceBook() {
 
             }
             setDetailsById(result.result);
+            setValue(result.result.priceType)
             formik.setValues({
               priceCatId: result.result.category._id,
               name: result.result.name,

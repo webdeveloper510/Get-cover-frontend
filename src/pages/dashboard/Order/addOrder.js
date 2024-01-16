@@ -116,6 +116,23 @@ function AddOrder() {
       nextStep()
     },
   });
+
+  const formikStep2 = useFormik({
+    initialValues: {
+      dealerPurchaseOrder: "",
+      serviceCoverageType: "",
+      coverageType: "",
+    },
+    validationSchema: Yup.object().shape({
+      dealerPurchaseOrder: Yup.string().required("Dealer Purchase Order is Required"),
+      serviceCoverageType: Yup.string().required("Service Coverage Type is Required"),
+      coverageType: Yup.string().required("Coverage Type is Required"),
+    }),
+    onSubmit: (values) => {
+      console.log(values);
+      nextStep()
+    },
+  });
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -128,7 +145,7 @@ function AddOrder() {
     setSelectedOption(event.target.value);
   };
   const handleSelectChange1 = (name, value) => {
-    // formik.setFieldValue(name,value)
+    formikStep2.setFieldValue(name,value)
   };
 
   const handleSelectChange = (name, value) => {
@@ -145,10 +162,10 @@ function AddOrder() {
     { label: 'Option 2', value: 'option2' },
     { label: 'Option 3', value: 'option3' },
   ];
-  const city = [
-    { label: 'Country', value: 'country' },
-    { label: 'Option 2', value: 'option2' },
-    { label: 'Option 3', value: 'option3' },
+  const coverage = [
+    { label: 'Parts', value: 'Parts' },
+    { label: 'Labour', value: 'Labour' },
+    { label: 'Parts/Labour', value: 'Parts/Labour' },
   ];
 
   const renderStep1 = () => {
@@ -226,40 +243,76 @@ function AddOrder() {
           <div className='col-span-6'>
             <Grid>
               <div className='col-span-12'>
-                <Select
-                  label="Dealer Purchase Order"
-                  name="dealerPurchaseOrder"
-                  placeholder=""
-                  className="!bg-white"
-                  required={true}
-                  options={country}
-                />
+      
+                            
+                  <div className="col-span-12 mt-4">
+                    <Input
+                      type="text"
+                      name="dealerPurchaseOrder"
+                      className="!bg-white"
+                      label="Dealer Purchase Order"
+                      required={true}
+                      placeholder=""
+                      maxLength={"500"}
+                      value={formikStep2.values.dealerPurchaseOrder}
+                      onBlur={formikStep2.handleBlur}
+                      onChange={formikStep2.handleChange}
+                      error={
+                        formikStep2.touched.dealerPurchaseOrder && formikStep2.errors.dealerPurchaseOrder
+                      }
+                    />
+                    {formikStep2.touched.dealerPurchaseOrder &&
+                      formikStep2.errors.dealerPurchaseOrder && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formikStep2.errors.dealerPurchaseOrder}
+                        </div>
+                      )}
+                
+                </div>
               </div>
-              <div className='col-span-6'>
+               <div className='col-span-6'>
                 <Select
                   label="Service Coverage"
-                  name="servicerCoverage"
+                  name="serviceCoverageType"
                   placeholder=""
                   className="!bg-white"
                   required={true}
-                  options={city}
+                  onChange={handleSelectChange1}
+                  options={coverage}
+                  value={formikStep2.values.serviceCoverageType}
+                  onBlur={formikStep2.handleBlur}
+                  error={formikStep2.touched.serviceCoverageType && formikStep2.errors.serviceCoverageType}
                 />
+                {formikStep2.touched.serviceCoverageType && formikStep2.errors.serviceCoverageType && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formikStep2.errors.serviceCoverageType}
+                  </div>
+                )}
               </div>
-              <div className='col-span-6'>
+                   <div className='col-span-6'>
                 <Select
                   label="Coverage Type"
-                  name="customerType"
+                  name="coverageType"
                   placeholder=""
                   className="!bg-white"
                   required={true}
-                  options={country}
+                  onChange={handleSelectChange1}
+                  options={coverage}
+                  value={formikStep2.values.coverageType}
+                  onBlur={formikStep2.handleBlur}
+                  error={formikStep2.touched.coverageType && formikStep2.errors.coverageType}
                 />
+                {formikStep2.touched.coverageType && formikStep2.errors.coverageType && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formikStep2.errors.coverageType}
+                  </div>
+                )}
               </div>
             </Grid>
           </div>
           <div className='col-span-6 self-end justify-end flex'>
             <Button onClick={prevStep} className='!bg-white !text-black'>Previous</Button>
-            <Button onClick={nextStep}>Next</Button>
+            <Button onClick={formikStep2.handleSubmit}>Next</Button>
           </div>
         </Grid>
       </div>
@@ -285,7 +338,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     required={true}
-                    options={country}
+                    // options={country}
                   />
                 </div>
                 <div className='col-span-6'>
@@ -295,7 +348,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     required={true}
-                    options={city}
+                    // options={city}
                   />
                 </div>
                 <div className='col-span-12'>
@@ -305,7 +358,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     required={true}
-                    options={country}
+                    // options={country}
                   />
                 </div>
                 <div className='col-span-3'>
@@ -315,7 +368,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     required={true}
-                    options={city}
+                    // options={city}
                   />
                 </div>
                 <div className='col-span-3'>
@@ -401,7 +454,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     required={true}
-                    options={country}
+                    // options={country}
                   />
                 </div>
                 <div className='col-span-6'>
@@ -411,7 +464,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     required={true}
-                    options={city}
+                    // options={city}
                   />
                 </div>
                 <div className='col-span-12'>
@@ -421,7 +474,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     required={true}
-                    options={country}
+                    // options={country}
                   />
                 </div>
                 <div className='col-span-3'>
@@ -431,7 +484,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     required={true}
-                    options={city}
+                    // options={city}
                   />
                 </div>
                 <div className='col-span-3'>
