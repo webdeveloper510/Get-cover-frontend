@@ -565,7 +565,7 @@ function AddOrder() {
                       label="Product Category"
                       options={categoryList}
                       required={true}
-                      className="!bg-[#f9f9f9]"
+                      className="!bg-[#fff]"
                       placeholder=""
                       value={formikStep3.values.productsArray[index].categoryId}
                       onBlur={formikStep3.handleBlur}
@@ -595,7 +595,7 @@ function AddOrder() {
                       label="Product Name"
                       options={productNameOptions[index]?.data}
                       required={true}
-                      className="!bg-[#f9f9f9]"
+                      className="!bg-[#fff]"
                       placeholder=""
                       value={formikStep3.values.productsArray[index].priceBookId}
                       onBlur={formikStep3.handleBlur}
@@ -623,7 +623,7 @@ function AddOrder() {
                     <Input
                       type="text"
                       name={`productsArray[${index}].description`}
-                      className="!bg-[#f9f9f9]"
+                      className="!bg-[#fff]"
                       label="Product Description"
                       required={true}
                       placeholder=""
@@ -643,7 +643,7 @@ function AddOrder() {
                       required={true}
                       placeholder=""
                       onChange={handleSelectChange2}
-                      className="!bg-[#f9f9f9]"
+                      className="!bg-[#fff]"
                       options={termList}
                       disabled={true}
                       value={formikStep3.values.productsArray[index].term}
@@ -654,7 +654,7 @@ function AddOrder() {
                     <Input
                       type="text"
                       name={`productsArray[${index}].priceType`}
-                      className="!bg-[#f9f9f9]"
+                      className="!bg-[#fff]"
                       label="Product Price Type"
                       required={true}
                       placeholder=""
@@ -672,7 +672,7 @@ function AddOrder() {
                     <Input
                       type="text"
                       name={`productsArray[${index}].unitPrice`}
-                      className="!bg-[#f9f9f9]"
+                      className="!bg-[#fff]"
                       label="Unit Price"
                       required={true}
                       placeholder=""
@@ -695,7 +695,7 @@ function AddOrder() {
                        <Input
                       type="number"
                       name={`productsArray[${index}].noOfProducts`}
-                      className="!bg-[#f9f9f9]"
+                      className="!bg-[#fff]"
                       label="# of Products"
                       required={true}
                       placeholder=""
@@ -737,7 +737,7 @@ function AddOrder() {
                   <Input
                       type="number"
                       name={`productsArray[${index}].price`}
-                      className="!bg-[#f9f9f9]"
+                      className="!bg-[#fff]"
                       label="Price"
                       required={true}
                       placeholder=""
@@ -754,7 +754,7 @@ function AddOrder() {
                   <Input
                        type="date"
                       name={`productsArray[${index}].coverageStartDate`}
-                      className="!bg-[#f9f9f9]"
+                      className="!bg-[#fff]"
                       label="Price"
                       required={true}
                       placeholder=""
@@ -793,6 +793,101 @@ function AddOrder() {
                         </div>
                       )}
                
+                  </div>
+                  <div className='col-span-12'>
+                  <Grid className='!grid-cols-3'>
+            {/* Loop */}
+            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+              <div className=" p-4 pl-0 relative rounded-xl">
+                <Grid className="">
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name={`name`}
+                      className="!bg-[#f9f9f9]"
+                      label="Name"
+                      required={true}
+                      placeholder=""
+
+                    />
+
+                  </div>
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name={`name`}
+                      className="!bg-[#f9f9f9]"
+                      label="Enter Quantity"
+                      required={true}
+                      placeholder=""
+
+                    />
+
+                  </div>
+
+                  <div className="col-span-12">
+                    <Input
+                      type="number"
+                      name={`quantity`}
+                      className="!bg-[#f9f9f9]"
+                      label="Max Quantity"
+                      maxLength={"10"}
+                      maxDecimalPlaces={2}
+                      required={true}
+                      placeholder=""
+                    />
+
+                  </div>
+                </Grid>
+              </div>
+            </div>
+
+            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+              <div className=" p-4 pl-0 relative rounded-xl">
+                <Grid className="">
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name={`name`}
+                      className="!bg-[#f9f9f9]"
+                      label="Name"
+                      required={true}
+                      placeholder=""
+
+                    />
+
+                  </div>
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name={`name`}
+                      className="!bg-[#f9f9f9]"
+                      label="Enter Quantity"
+                      required={true}
+                      placeholder=""
+
+                    />
+
+                  </div>
+
+                  <div className="col-span-12">
+                    <Input
+                      type="number"
+                      name={`quantity`}
+                      className="!bg-[#f9f9f9]"
+                      label="Max Quantity"
+                      maxLength={"10"}
+                      maxDecimalPlaces={2}
+                      required={true}
+                      placeholder=""
+                    />
+
+                  </div>
+                </Grid>
+              </div>
+            </div>
+              {/* Loop */}
+          </Grid>
                   </div>
 
 
@@ -845,119 +940,7 @@ function AddOrder() {
                   The file must be saved with csv , xls and xlsx Format.
                 </p></div>
             </Grid>
-            <Grid className='!grid-cols-4'>
-            {/* Loop */}
-            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
-              <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
-                <Button
-                  className="text-sm  !font-light"
-
-                >
-                  {" "}
-                  + Add More{" "}
-                </Button>
-
-              </div>
-              <div className=" p-4 pl-0 mt-4 relative rounded-xl">
-                <Grid className="">
-                  <div className="col-span-12">
-                    <Input
-                      type="text"
-                      name={`name`}
-                      className="!bg-[#f9f9f9]"
-                      label="Name"
-                      required={true}
-                      placeholder=""
-
-                    />
-
-                  </div>
-                  <div className="col-span-12">
-                    <Input
-                      type="text"
-                      name={`name`}
-                      className="!bg-[#f9f9f9]"
-                      label="Enter Quantity"
-                      required={true}
-                      placeholder=""
-
-                    />
-
-                  </div>
-
-                  <div className="col-span-12">
-                    <Input
-                      type="number"
-                      name={`quantity`}
-                      className="!bg-[#f9f9f9]"
-                      label="Max Quantity"
-                      maxLength={"10"}
-                      maxDecimalPlaces={2}
-                      required={true}
-                      placeholder=""
-                    />
-
-                  </div>
-                </Grid>
-              </div>
-            </div>
-
-            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
-              <div className='bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3'>
-                <div className="flex h-full mx-3 bg-[#fff] justify-center">
-                  <img
-                    src={DeleteImage}
-                    className="self-center cursor-pointer"
-                    alt="Delete Icon"
-                  />
-                </div>
-              </div>
-
-              <div className=" p-4 pl-0 mt-4 relative rounded-xl">
-                <Grid className="">
-                  <div className="col-span-12">
-                    <Input
-                      type="text"
-                      name={`name`}
-                      className="!bg-[#f9f9f9]"
-                      label="Name"
-                      required={true}
-                      placeholder=""
-
-                    />
-
-                  </div>
-                  <div className="col-span-12">
-                    <Input
-                      type="text"
-                      name={`name`}
-                      className="!bg-[#f9f9f9]"
-                      label="Enter Quantity"
-                      required={true}
-                      placeholder=""
-
-                    />
-
-                  </div>
-
-                  <div className="col-span-12">
-                    <Input
-                      type="number"
-                      name={`quantity`}
-                      className="!bg-[#f9f9f9]"
-                      label="Max Quantity"
-                      maxLength={"10"}
-                      maxDecimalPlaces={2}
-                      required={true}
-                      placeholder=""
-                    />
-
-                  </div>
-                </Grid>
-              </div>
-            </div>
-              {/* Loop */}
-          </Grid>
+           
 
           </div>
         ))}
