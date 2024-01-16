@@ -289,7 +289,6 @@ function CompanyPriceBook() {
                 >
                   View
                 </div>
-
               </div>
             )}
           </div>
@@ -530,7 +529,6 @@ function CompanyPriceBook() {
                       </div></>
                   )
                 }
-
                 {
                   data.priceType == "QuantityPricing" && (
                     <>
@@ -552,17 +550,11 @@ function CompanyPriceBook() {
                               </tr>
                             ))
                           }
-
-
-
-
                         </table>
-
                       </div>
                     </>
                   )
                 }
-
               </Grid>
             </div>
           </Modal>

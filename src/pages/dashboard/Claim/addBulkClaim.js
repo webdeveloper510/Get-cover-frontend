@@ -344,10 +344,10 @@ function AddBulkClaim() {
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             You have successfully uploaded & saved the <br />{" "}
-            <b> Dealer Book </b> with the new data <br /> you have entered.{" "}
+            <b> Claim </b> with the new data <br /> you have entered.{" "}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            Redirecting you on Dealer Price List {timer} seconds.
+            Redirecting you on Claim List {timer} seconds.
           </p>
         </div>
       </Modal>
