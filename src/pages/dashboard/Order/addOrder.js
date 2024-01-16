@@ -377,7 +377,7 @@ function AddOrder() {
                     type="number"
                     name="unitPrice"
                     className="!bg-white"
-                    label="Unit Price"
+                    label="Unit Price ($)"
                     required={true}
                     placeholder=""
                   />
@@ -395,9 +395,9 @@ function AddOrder() {
                 <div className='col-span-4'>
                   <Input
                     type="number"
-                    name="price"
+                    name="price "
                     className="!bg-white"
-                    label="Price "
+                    label="Price ($)"
                     required={true}
                     placeholder=""
                   />
@@ -407,7 +407,7 @@ function AddOrder() {
                     type="number"
                     name="price"
                     className="!bg-white"
-                    label="Price "
+                    label="Price ($)"
                     required={true}
                     placeholder=""
                   />
@@ -528,7 +528,7 @@ function AddOrder() {
                     type="number"
                     name="unitPrice"
                     className="!bg-white"
-                    label="Unit Price"
+                    label="Unit Price ($)"
                     required={true}
                     placeholder=""
                   />
@@ -546,7 +546,7 @@ function AddOrder() {
                 <div className='col-span-4'>
                   <Input
                     type="number"
-                    name="price"
+                    name="price ($)"
                     className="!bg-white"
                     label="Price "
                     required={true}
@@ -558,7 +558,7 @@ function AddOrder() {
                     type="number"
                     name="price"
                     className="!bg-white"
-                    label="Price "
+                    label="Price ($)"
                     required={true}
                     placeholder=""
                   />
