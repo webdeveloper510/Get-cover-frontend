@@ -115,64 +115,64 @@ function AddCompanyPriceBook() {
       quantityPriceDetail:
         value !== "Quantity Pricing"
           ? Yup.array().notRequired()
-          :Yup.array().of(
+          : Yup.array().of(
             Yup.object().shape({
               name: Yup.string().required("Required").transform((originalValue) => originalValue.trim()),
-              quantity:Yup.number()
-              .typeError("Required")
-              .required("Required")
-              .nullable()
-              .min(1, "quantity cannot be less then Zero"),
+              quantity: Yup.number()
+                .typeError("Required")
+                .required("Required")
+                .nullable()
+                .min(1, "quantity cannot be less then Zero"),
             })
           )
-            
+
     }),
 
     onSubmit: async (values) => {
-            let result;
-            let checkErrors=false
+      let result;
+      let checkErrors = false
       try {
-        console.log(values,value)
+        console.log(values, value)
         setLoader(true);
         if (id) {
-  if(value=="Quantity Pricing"){
-    formik.values.quantityPriceDetail.forEach((item, index) => {
-      console.log(item);
-      try {
-        Yup.object().shape({
-          name: Yup.string().required("Required").transform((originalValue) => originalValue.trim()),
-          quantity: Yup.number()
-          .typeError("Required")
-          .required("Required")
-          .test('is-positive', 'Required', (value) => value != null && value >= 1),
-      }).validateSync(item, { abortEarly: true });
-      } catch (error) {
-        console.log(error.errors);
-        checkErrors = true;
-    
-        if (item.name === "") {
-          formik.setFieldError(`quantityPriceDetail[${index}].name`, "Required");
-        }
-        if (item.quantity == null || item.quantity < 1) {
-          formik.setFieldError(`quantityPriceDetail[${index}].quantity`, "Quantity must be greater than or equal to 1");
-          console.log(error.errors);
-        }
-      }
-    });
-    
-  }
+          if (value == "Quantity Pricing") {
+            formik.values.quantityPriceDetail.forEach((item, index) => {
+              console.log(item);
+              try {
+                Yup.object().shape({
+                  name: Yup.string().required("Required").transform((originalValue) => originalValue.trim()),
+                  quantity: Yup.number()
+                    .typeError("Required")
+                    .required("Required")
+                    .test('is-positive', 'Required', (value) => value != null && value >= 1),
+                }).validateSync(item, { abortEarly: true });
+              } catch (error) {
+                console.log(error.errors);
+                checkErrors = true;
+
+                if (item.name === "") {
+                  formik.setFieldError(`quantityPriceDetail[${index}].name`, "Required");
+                }
+                if (item.quantity == null || item.quantity < 1) {
+                  formik.setFieldError(`quantityPriceDetail[${index}].quantity`, "Quantity must be greater than or equal to 1");
+                  console.log(error.errors);
+                }
+              }
+            });
+
+          }
 
           console.log(checkErrors)
-     
-          if(checkErrors){
+
+          if (checkErrors) {
             return false
-        
+
           }
-     else{
-      console.log('here')
-      result = await editCompanyList(id, values);
-     }
-          
+          else {
+            console.log('here')
+            result = await editCompanyList(id, values);
+          }
+
         } else {
           result = await addCompanyPricBook(values);
         }
@@ -272,7 +272,7 @@ function AddCompanyPriceBook() {
               rangeEnd: result?.result?.rangeEnd?.toFixed(2),
               quantityPriceDetail: result?.result?.quantityPriceDetail
             });
-          
+
             setLoader(false);
           }
         } else {
@@ -848,7 +848,7 @@ function AddCompanyPriceBook() {
                 {formik.values.priceType === "Quantity Pricing" && (
                   <>
                     {formik.values.quantityPriceDetail.map((dealer, index) => {
-                   
+
                       return (
                         <div key={index} className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
                           <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
@@ -897,12 +897,12 @@ function AddCompanyPriceBook() {
                                     formik.errors.quantityPriceDetail[index]?.name
                                   }
                                 />
-                            {formik.touched.quantityPriceDetail && formik.touched.quantityPriceDetail[index] &&
-      formik.errors.quantityPriceDetail && formik.errors.quantityPriceDetail[index]?.name && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {formik.errors.quantityPriceDetail[index]?.name}
-                                  </div>
-                                )}
+                                {formik.touched.quantityPriceDetail && formik.touched.quantityPriceDetail[index] &&
+                                  formik.errors.quantityPriceDetail && formik.errors.quantityPriceDetail[index]?.name && (
+                                    <div className="text-red-500 text-sm pl-2 pt-2">
+                                      {formik.errors.quantityPriceDetail[index]?.name}
+                                    </div>
+                                  )}
                               </div>
 
                               <div className="col-span-12">
@@ -927,11 +927,11 @@ function AddCompanyPriceBook() {
                                   }
                                 />
                                 {formik.touched.quantityPriceDetail && formik.touched.quantityPriceDetail[index] &&
-      formik.errors.quantityPriceDetail && formik.errors.quantityPriceDetail[index]?.quantity && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {formik.errors.quantityPriceDetail[index]?.quantity}
-                                  </div>
-                                )}
+                                  formik.errors.quantityPriceDetail && formik.errors.quantityPriceDetail[index]?.quantity && (
+                                    <div className="text-red-500 text-sm pl-2 pt-2">
+                                      {formik.errors.quantityPriceDetail[index]?.quantity}
+                                    </div>
+                                  )}
                               </div>
                             </Grid>
                           </div>
