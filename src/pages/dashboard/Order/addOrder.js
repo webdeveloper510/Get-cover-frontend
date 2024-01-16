@@ -9,6 +9,7 @@ import moment from 'moment';
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
+import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import check from "../../../assets/images/icons/check.svg";
 import Button from '../../../common/button';
 import { useFormik } from "formik";
@@ -831,6 +832,119 @@ function AddOrder() {
                   The file must be saved with csv , xls and xlsx Format.
                 </p></div>
             </Grid>
+            <Grid className='!grid-cols-4'>
+            {/* Loop */}
+            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+              <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
+                <Button
+                  className="text-sm  !font-light"
+
+                >
+                  {" "}
+                  + Add More{" "}
+                </Button>
+
+              </div>
+              <div className=" p-4 pl-0 mt-4 relative rounded-xl">
+                <Grid className="">
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name={`name`}
+                      className="!bg-[#f9f9f9]"
+                      label="Name"
+                      required={true}
+                      placeholder=""
+
+                    />
+
+                  </div>
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name={`name`}
+                      className="!bg-[#f9f9f9]"
+                      label="Enter Quantity"
+                      required={true}
+                      placeholder=""
+
+                    />
+
+                  </div>
+
+                  <div className="col-span-12">
+                    <Input
+                      type="number"
+                      name={`quantity`}
+                      className="!bg-[#f9f9f9]"
+                      label="Max Quantity"
+                      maxLength={"10"}
+                      maxDecimalPlaces={2}
+                      required={true}
+                      placeholder=""
+                    />
+
+                  </div>
+                </Grid>
+              </div>
+            </div>
+
+            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+              <div className='bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3'>
+                <div className="flex h-full mx-3 bg-[#fff] justify-center">
+                  <img
+                    src={DeleteImage}
+                    className="self-center cursor-pointer"
+                    alt="Delete Icon"
+                  />
+                </div>
+              </div>
+
+              <div className=" p-4 pl-0 mt-4 relative rounded-xl">
+                <Grid className="">
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name={`name`}
+                      className="!bg-[#f9f9f9]"
+                      label="Name"
+                      required={true}
+                      placeholder=""
+
+                    />
+
+                  </div>
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name={`name`}
+                      className="!bg-[#f9f9f9]"
+                      label="Enter Quantity"
+                      required={true}
+                      placeholder=""
+
+                    />
+
+                  </div>
+
+                  <div className="col-span-12">
+                    <Input
+                      type="number"
+                      name={`quantity`}
+                      className="!bg-[#f9f9f9]"
+                      label="Max Quantity"
+                      maxLength={"10"}
+                      maxDecimalPlaces={2}
+                      required={true}
+                      placeholder=""
+                    />
+
+                  </div>
+                </Grid>
+              </div>
+            </div>
+              {/* Loop */}
+          </Grid>
 
           </div>
         ))}
