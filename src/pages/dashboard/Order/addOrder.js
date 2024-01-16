@@ -5,6 +5,7 @@ import Select from '../../../common/select';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import moment from 'moment';
+import { format ,addMonths } from 'date-fns';
 // Media Include
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
@@ -165,6 +166,7 @@ function AddOrder() {
           price: null,
           file: "",
           coverageStartDate: "",
+          coverageEndDate:"",
           description: "",
           term: "",
           priceType: "",
@@ -221,6 +223,7 @@ function AddOrder() {
       price: null,
       file: "",
       coverageStartDate: "",
+      coverageEndDate:"",
       description: "",
       term: "",
       priceType: "",
@@ -258,6 +261,8 @@ function AddOrder() {
       console.log(match[1]);
       formikStep3.setFieldValue(`productsArray[${match[1]}].priceBookId`, "");
       formikStep3.setFieldValue(`productsArray[${match[1]}].term`, "");
+      formikStep3.setFieldValue(`productsArray[${match[1]}].coverageStartDate`, "");
+      formikStep3.setFieldValue(`productsArray[${match[1]}].coverageEndDate`, "");
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].price`,
         ""
@@ -312,10 +317,8 @@ function AddOrder() {
         return value.value === selectedValue;
       });
       console.log(productNameOptions)
-      // formikStep3.setFieldValue(
-      //   `productsArray[${match[1]}].coverageStartDate`,
-      //   ""
-      // );
+      formikStep3.setFieldValue(`productsArray[${match[1]}].coverageStartDate`, "");
+      formikStep3.setFieldValue(`productsArray[${match[1]}].coverageEndDate`, "");
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].price`,
         ""
@@ -755,8 +758,18 @@ function AddOrder() {
                       label="Price"
                       required={true}
                       placeholder=""
-                    value={formikStep3.values.productsArray[index].coverageStartDate}
-                      onChange={formikStep3.handleChange}
+                      value={ formikStep3.values.productsArray[index].coverageStartDate==''?formikStep3.values.productsArray[index].coverageStartDate: format(new Date(formikStep3.values.productsArray[index].coverageStartDate), 'yyyy-MM-dd') }
+                      onChange={(e) => {
+                        formikStep3.handleChange(e);
+                        const selectedDate = new Date(e.target.value);
+                        const gmtDate = selectedDate.toISOString();
+                        formikStep3.setFieldValue(`productsArray[${index}].coverageStartDate`,gmtDate)
+                        const termInMonths = formikStep3.values.productsArray[index].term || 0;
+                        const newEndDate = addMonths(selectedDate, termInMonths);
+                        const formattedEndDate = newEndDate.toISOString();
+                  
+                        formikStep3.setFieldValue(`productsArray[${index}].coverageEndDate`, formattedEndDate);
+                      }}
                       onBlur={formikStep3.handleBlur}
                      
                       onWheelCapture={(e) => {
@@ -949,7 +962,7 @@ function AddOrder() {
           </div>
         ))}
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
-        <Button onClick={nextStep}>Next</Button>
+        <Button onClick={formikStep3.handleSubmit}>Next</Button>
       </div>
     );
   };
