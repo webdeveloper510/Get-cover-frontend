@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom'
 import Select from '../../../common/select';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
-import { format } from 'date-fns';
+import moment from 'moment';
 // Media Include
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
-import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
 import check from "../../../assets/images/icons/check.svg";
 import Button from '../../../common/button';
@@ -201,7 +200,7 @@ function AddOrder() {
             .typeError("Required")
             .required("Required")
             .nullable(),
-          file: Yup.string().required("File is required"),
+          // file: Yup.string().required("File is required"),
           coverageStartDate: Yup.date().required("Date is required")
         })
       ),
@@ -755,10 +754,8 @@ function AddOrder() {
                       label="Price"
                       required={true}
                       placeholder=""
-                      value={format(new Date(formikStep3.values.productsArray[index].coverageStartDate), 'yyyy-MM-dd')}
-                      onChange={(e) => {
-                        formikStep3.handleChange(e);
-                      }}
+                    value={formikStep3.values.productsArray[index].coverageStartDate}
+                      onChange={formikStep3.handleChange}
                       onBlur={formikStep3.handleBlur}
                      
                       onWheelCapture={(e) => {
@@ -834,124 +831,11 @@ function AddOrder() {
                   The file must be saved with csv , xls and xlsx Format.
                 </p></div>
             </Grid>
-            <Grid className='!grid-cols-4'>
-            {/* Loop */}
-            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
-              <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
-                <Button
-                  className="text-sm  !font-light"
-
-                >
-                  {" "}
-                  + Add More{" "}
-                </Button>
-
-              </div>
-              <div className=" p-4 pl-0 mt-4 relative rounded-xl">
-                <Grid className="">
-                  <div className="col-span-12">
-                    <Input
-                      type="text"
-                      name={`name`}
-                      className="!bg-[#f9f9f9]"
-                      label="Name"
-                      required={true}
-                      placeholder=""
-
-                    />
-
-                  </div>
-                  <div className="col-span-12">
-                    <Input
-                      type="text"
-                      name={`name`}
-                      className="!bg-[#f9f9f9]"
-                      label="Enter Quantity"
-                      required={true}
-                      placeholder=""
-
-                    />
-
-                  </div>
-
-                  <div className="col-span-12">
-                    <Input
-                      type="number"
-                      name={`quantity`}
-                      className="!bg-[#f9f9f9]"
-                      label="Max Quantity"
-                      maxLength={"10"}
-                      maxDecimalPlaces={2}
-                      required={true}
-                      placeholder=""
-                    />
-
-                  </div>
-                </Grid>
-              </div>
-            </div>
-
-            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
-              <div className='bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3'>
-                <div className="flex h-full mx-3 bg-[#fff] justify-center">
-                  <img
-                    src={DeleteImage}
-                    className="self-center cursor-pointer"
-                    alt="Delete Icon"
-                  />
-                </div>
-              </div>
-
-              <div className=" p-4 pl-0 mt-4 relative rounded-xl">
-                <Grid className="">
-                  <div className="col-span-12">
-                    <Input
-                      type="text"
-                      name={`name`}
-                      className="!bg-[#f9f9f9]"
-                      label="Name"
-                      required={true}
-                      placeholder=""
-
-                    />
-
-                  </div>
-                  <div className="col-span-12">
-                    <Input
-                      type="text"
-                      name={`name`}
-                      className="!bg-[#f9f9f9]"
-                      label="Enter Quantity"
-                      required={true}
-                      placeholder=""
-
-                    />
-
-                  </div>
-
-                  <div className="col-span-12">
-                    <Input
-                      type="number"
-                      name={`quantity`}
-                      className="!bg-[#f9f9f9]"
-                      label="Max Quantity"
-                      maxLength={"10"}
-                      maxDecimalPlaces={2}
-                      required={true}
-                      placeholder=""
-                    />
-
-                  </div>
-                </Grid>
-              </div>
-            </div>
-              {/* Loop */}
-          </Grid>
 
           </div>
         ))}
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
-        <Button onClick={formikStep3.handleSubmit}>Next</Button>
+        <Button onClick={nextStep}>Next</Button>
       </div>
     );
   };
