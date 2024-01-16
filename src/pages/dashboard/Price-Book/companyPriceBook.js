@@ -524,7 +524,7 @@ function CompanyPriceBook() {
                   <p className="text-base text-neutral-grey font-semibold"> {data.priceType}</p>
                 </div>
                 {
-                  data.priceType == "FlatPricing" && (
+                  data.priceType == "Flat Pricing" && (
                     <>
                       <div className='col-span-4'> 
                         <p className="text-lg text-light-black font-semibold">Range Start</p>
@@ -537,7 +537,7 @@ function CompanyPriceBook() {
                   )
                 }
                 {
-                  data.priceType == "QuantityPricing" && (
+                  data.priceType == "Quantity Pricing" && (
                     <>
                       <div className='col-span-12'>
                         <table className="w-full border text-center">

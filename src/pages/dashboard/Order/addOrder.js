@@ -161,12 +161,12 @@ function AddOrder() {
   const coverage = [
     { label: 'Breakdown', value: 'Breakdown' },
     { label: 'Accidental', value: 'Accidental' },
-    { label: 'Breakdown/Accidental', value: 'Breakdown/Accidental' },
+    { label: 'Breakdown & Accidental', value: 'Breakdown & Accidental' },
   ];
   const serviceCoverage = [
     { label: 'Parts', value: 'Parts' },
     { label: 'Labour', value: 'Labour' },
-    { label: 'Parts/Labour', value: 'Parts/Labour' },
+    { label: 'Parts & Labour', value: 'Parts & Labour' },
   ];
 
   const renderStep1 = () => {

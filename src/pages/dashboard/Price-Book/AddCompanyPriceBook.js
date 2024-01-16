@@ -41,9 +41,9 @@ function AddCompanyPriceBook() {
   const navigate = useNavigate();
   console.log(id);
   const pricetype = [
-    { label: "Regular Pricing", value: "RegularPricing" },
-    { label: "Flat Pricing", value: "FlatPricing" },
-    { label: "Quantity Pricing", value: "QuantityPricing" },
+    { label: "Regular Pricing", value: "Regular Pricing" },
+    { label: "Flat Pricing", value: "Flat Pricing" },
+    { label: "Quantity Pricing", value: "Quantity Pricing" },
   ];
 
 
@@ -58,7 +58,7 @@ function AddCompanyPriceBook() {
       reserveFutureFee: "",
       adminFee: "",
       status: "",
-      priceType: "RegularPricing",
+      priceType: "Regular Pricing",
       rangeStart: "",
       rangeEnd: "",
       quantityPriceDetail: [{
@@ -96,7 +96,7 @@ function AddCompanyPriceBook() {
       priceType: Yup.string().required("Required"),
 
       rangeStart:
-        value !== "FlatPricing"
+        value !== "Flat Pricing"
           ? Yup.number().notRequired()
           : Yup.number()
             .typeError("Required")
@@ -104,7 +104,7 @@ function AddCompanyPriceBook() {
             .nullable()
             .min(0, "Range Start cannot be negative"),
       rangeEnd:
-        value !== "FlatPricing"
+        value !== "Flat Pricing"
           ? Yup.number().notRequired()
           : Yup.number()
             .typeError("Required")
@@ -113,7 +113,7 @@ function AddCompanyPriceBook() {
             .min(0, "Range End cannot be negative"),
 
       quantityPriceDetail:
-        value !== "QuantityPricing"
+        value !== "Quantity Pricing"
           ? Yup.array().notRequired()
           :Yup.array().of(
             Yup.object().shape({
@@ -135,7 +135,7 @@ function AddCompanyPriceBook() {
         console.log(values,value)
         setLoader(true);
         if (id) {
-  if(value=="QuantityPricing"){
+  if(value=="Quantity Pricing"){
     formik.values.quantityPriceDetail.forEach((item, index) => {
       console.log(item);
       try {
@@ -782,7 +782,7 @@ function AddCompanyPriceBook() {
                     </div>
                   )}
                 </div>
-                {formik.values.priceType === "FlatPricing" && (
+                {formik.values.priceType === "Flat Pricing" && (
                   <>
                     <div className="col-span-1">
                       <Input
@@ -845,7 +845,7 @@ function AddCompanyPriceBook() {
                 )}
               </Grid>
               <Grid className="!grid-cols-4">
-                {formik.values.priceType === "QuantityPricing" && (
+                {formik.values.priceType === "Quantity Pricing" && (
                   <>
                     {formik.values.quantityPriceDetail.map((dealer, index) => {
                    
