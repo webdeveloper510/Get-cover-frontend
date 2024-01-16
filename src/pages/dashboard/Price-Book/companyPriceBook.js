@@ -140,23 +140,23 @@ function CompanyPriceBook() {
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
   const totalCost =
-  data.frontingFee +
-  data.reserveFutureFee +
-  data.reinsuranceFee +
-  data.adminFee;
+    data.frontingFee +
+    data.reserveFutureFee +
+    data.reinsuranceFee +
+    data.adminFee;
 
-const formattedCost = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-}).format(totalCost);
+  const formattedCost = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(totalCost);
   const status = [
     { label: "Active", value: "true" },
     { label: "Inactive", value: "false" },
   ];
-  const getCompanyPriceBook =  (id) => {
+  const getCompanyPriceBook = (id) => {
     getcompanyPriceBookData(id)
   }
-  const getcompanyPriceBookData =  async(id) => {
+  const getcompanyPriceBookData = async (id) => {
     try {
       const result = await getCompanyPriceBookById(id);
       console.log(result.result);
@@ -166,7 +166,7 @@ const formattedCost = new Intl.NumberFormat("en-US", {
       console.error(error);
     }
   }
-  
+
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
@@ -232,9 +232,8 @@ const formattedCost = new Intl.NumberFormat("en-US", {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
@@ -283,14 +282,14 @@ const formattedCost = new Intl.NumberFormat("en-US", {
                 >
                   Edit
                 </div>
-                <hr/>
+                <hr />
                 <div
                   className="text-center py-1 cursor-pointer"
-                  onClick={() =>openView(row._id)}
+                  onClick={() => openView(row._id)}
                 >
                   View
                 </div>
-             
+
               </div>
             )}
           </div>
@@ -464,106 +463,109 @@ const formattedCost = new Intl.NumberFormat("en-US", {
           </div>
 
           <Modal isOpen={isViewOpen} onClose={closeView}>
-          <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
-          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
-        </Button>
-        <Button onClick={()=>{navigate(`/editCompanyPriceBook/${data._id}`)}} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
-          <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
-        </Button>
-          <div className="py-3">
-            <p className='text-center text-3xl font-semibold '>
-            View Company Price Book
-            </p>
-           <Grid className='mt-5 px-6'>
-            <div className='col-span-4'>
-               <p className="text-lg text-light-black font-semibold">Product Category</p>
-               <p className="text-base text-neutral-grey font-semibold"> {data?.category?.name}</p>
-            </div>
-            <div className='col-span-4'>
-            <p className="text-lg text-light-black font-semibold">Product Name</p>
-               <p className="text-base text-neutral-grey font-semibold"> {data.name}</p>
-            </div>
-            <div className='col-span-4'>
-            <p className="text-lg text-light-black font-semibold">Description</p>
-               <p className="text-base text-neutral-grey font-semibold"> {data.description}</p>
-            </div>
-            <div className='col-span-4'>
-            <p className="text-lg text-light-black font-semibold">Term</p>
-               <p className="text-base text-neutral-grey font-semibold"> {data.term} Months</p>
-            </div>
-            <div className='col-span-4'>
-            <p className="text-lg text-light-black font-semibold">Fronting fee ($)</p>
-               <p className="text-base text-neutral-grey font-semibold"> ${data?.frontingFee?.toFixed(2)}</p>
-            </div>
-            <div className='col-span-4'>
-            <p className="text-lg text-light-black font-semibold">Re-insurance fee ($)</p>
-               <p className="text-base text-neutral-grey font-semibold"> ${data?.reinsuranceFee?.toFixed(2)}</p>
-            </div>
-            <div className='col-span-4'>
-            <p className="text-lg text-light-black font-semibold">Reserve for future claims ($)</p>
-               <p className="text-base text-neutral-grey font-semibold"> ${data?.reserveFutureFee?.toFixed(2)}</p>
-            </div>
-            <div className='col-span-4'>
-            <p className="text-lg text-light-black font-semibold">Administration fee ($)</p>
-               <p className="text-base text-neutral-grey font-semibold"> ${data?.adminFee?.toFixed(2)}</p>
-            </div>
-            <div className='col-span-4'>
-            <p className="text-lg text-light-black font-semibold">Wholesale Cost ($)</p>
-               <p className="text-base text-neutral-grey font-semibold">{formattedCost}</p>
-            </div>
-            <div className='col-span-4'>
-            <p className="text-lg text-light-black font-semibold">Status</p>
-               <p className="text-base text-neutral-grey font-semibold"> {data.status ===true ?'Active' :"inActive"}</p>
-            </div>
-            <div className='col-span-4'>
-            <p className="text-lg text-light-black font-semibold">Price Type</p>
-               <p className="text-base text-neutral-grey font-semibold"> {data.priceType}</p>
-            </div>
-            {
-              data.priceType=="FlatPricing" && (
-<>
-<div  className='col-span-4'>  <p className="text-lg text-light-black font-semibold">Range Start</p>
-               <p className="text-base text-neutral-grey font-semibold"> {data?.rangeStart?.toFixed(2)}</p>
-               </div>
-               <div  className='col-span-4'> 
-               <p className="text-lg text-light-black font-semibold">Range End</p>
-               <p className="text-base text-neutral-grey font-semibold"> {data?.rangeEnd?.toFixed(2)}</p>
-               </div></>
-              )
-            }
-            
-            {
-              data.priceType=="QuantityPricing" && (
-              <>
-                          <div className='col-span-12'>
-              <table className="w-full border text-center">
-                <tr className="border bg-[#9999]">
-                  <th>Name</th>
-                  <th>Quantity</th>
-                </tr>
+            <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+            </Button>
+            <Button onClick={() => { navigate(`/editCompanyPriceBook/${data._id}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
+            </Button>
+            <div className="py-3">
+              <p className='text-center text-3xl font-semibold '>
+                View Company Price Book
+              </p>
+              <Grid className='mt-5 px-6'>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Product Category</p>
+                  <p className="text-base text-neutral-grey font-semibold"> {data?.category?.name}</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Product Name</p>
+                  <p className="text-base text-neutral-grey font-semibold"> {data.name}</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Description</p>
+                  <p className="text-base text-neutral-grey font-semibold"> {data.description}</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Term</p>
+                  <p className="text-base text-neutral-grey font-semibold"> {data.term} Months</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Fronting fee ($)</p>
+                  <p className="text-base text-neutral-grey font-semibold"> ${data?.frontingFee?.toFixed(2)}</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Re-insurance fee ($)</p>
+                  <p className="text-base text-neutral-grey font-semibold"> ${data?.reinsuranceFee?.toFixed(2)}</p>
+                </div>
+                <div className='col-span-6'>
+                  <p className="text-lg text-light-black font-semibold">Reserve for future claims ($)</p>
+                  <p className="text-base text-neutral-grey font-semibold"> ${data?.reserveFutureFee?.toFixed(2)}</p>
+                </div>
+                <div className='col-span-6'>
+                  <p className="text-lg text-light-black font-semibold">Administration fee ($)</p>
+                  <p className="text-base text-neutral-grey font-semibold"> ${data?.adminFee?.toFixed(2)}</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Wholesale Cost ($)</p>
+                  <p className="text-base text-neutral-grey font-semibold">{formattedCost}</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Status</p>
+                  <p className="text-base text-neutral-grey font-semibold"> {data.status === true ? 'Active' : "inActive"}</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Price Type</p>
+                  <p className="text-base text-neutral-grey font-semibold"> {data.priceType}</p>
+                </div>
                 {
-  data.quantityPriceDetail.length !== 0 &&
-  data.quantityPriceDetail.map((item, index) => (
-    <tr key={index} className="border">
-      <td>{item.name}</td>
-      <td>{item.quantity}</td>
-    </tr>
-  ))
-}
+                  data.priceType == "FlatPricing" && (
+                    <>
+                      <div className='col-span-4'>  <p className="text-lg text-light-black font-semibold">Range Start</p>
+                        <p className="text-base text-neutral-grey font-semibold"> {data?.rangeStart?.toFixed(2)}</p>
+                      </div>
+                      <div className='col-span-4'>
+                        <p className="text-lg text-light-black font-semibold">Range End</p>
+                        <p className="text-base text-neutral-grey font-semibold"> {data?.rangeEnd?.toFixed(2)}</p>
+                      </div></>
+                  )
+                }
 
-              
+                {
+                  data.priceType == "QuantityPricing" && (
+                    <>
+                      <div className='col-span-12'>
+                        <table className="w-full border text-center">
+                          <tr className="border bg-[#9999]">
+                            <th colSpan={'2'}>Quantity Pricing List </th>
+                          </tr>
+                          <tr className="border bg-[#9999]">
+                            <th>Name</th>
+                            <th>Quantity</th>
+                          </tr>
+                          {
+                            data.quantityPriceDetail.length !== 0 &&
+                            data.quantityPriceDetail.map((item, index) => (
+                              <tr key={index} className="border">
+                                <td>{item.name}</td>
+                                <td>{item.quantity}</td>
+                              </tr>
+                            ))
+                          }
 
 
-              </table>
-          
+
+
+                        </table>
+
+                      </div>
+                    </>
+                  )
+                }
+
+              </Grid>
             </div>
-              </>
-                )
-              }
-
-           </Grid>
-          </div>
-        </Modal>
+          </Modal>
         </div>
       </div>
     </>
