@@ -12,6 +12,7 @@ import Delete from "../../../assets/images/icons/DeleteIcon.svg";
 import check from "../../../assets/images/icons/check.svg";
 import Button from '../../../common/button';
 import RadioButton from '../../../common/radio';
+import FileDropdown from '../../../common/fileDropbox';
 
 function AddClaim() {
     const [selectedValue, setSelectedValue] = useState('');
@@ -218,14 +219,26 @@ function AddClaim() {
               <p className='text-2xl font-bold mb-4'> Upload Receipt or Image </p>
               <Grid>
                 <div className='col-span-6'>
-                  <div className='border border-dashed w-full h-full relative py-12'>
+                  <div className='border border-dashed w-full  relative py-12'>
                   <div className='self-center text-center'>
-                      <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
-                      <p className="text-[#5D6E66] text-sm">
-                      Accepted file types: csv, xls, xlsx Max. file size: 50 MB.
-                      </p>
+                  <FileDropdown
+                    className="!bg-transparent !border-0"
+                   
+                  />
                   </div>
                     </div>
+                    <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                    Please click on file option and make a copy. Upload the list
+                    of Product Name and Price using our provided Google Sheets
+                    template, by{" "}
+                    <span
+                      className="underline cursor-pointer"
+                      // onClick={downloadCSVTemplate}
+                    >
+                      Clicking here
+                    </span>
+                    The file must be saved with csv , xls and xlsx Format.
+                  </p>
                 </div>
                 <div className='col-span-6'>
                     <div className="relative">
@@ -237,7 +250,7 @@ function AddClaim() {
                   </label>
                     <textarea
                     id="note"
-                    rows="8"
+                    rows="10"
                     name="Note"
                     maxLength={150}
                     className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
@@ -277,15 +290,14 @@ function AddClaim() {
       <div className='my-8 ml-3'>
         <Headbar/>
         <div className='flex mt-2'>
-        <Link to={'/orderList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
+        <Link to={'/claimList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
             <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
           </Link>
           <div className='pl-3'>
-            <p className='font-bold text-[36px] leading-9 mb-[3px]'>Add Order</p>
+            <p className='font-bold text-[36px] leading-9 mb-[3px]'>Add Claim</p>
             <ul className='flex self-center'>
-              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Order </Link>  /  </li>
-              <li className='text-sm text-neutral-grey font-Regular'> Add Order / </li>
-              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'>  Order Details </li>
+              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Claim </Link>  /  </li>
+              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Add Claim  </li>
             </ul>
           </div>
         </div>

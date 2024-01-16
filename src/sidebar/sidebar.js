@@ -74,6 +74,8 @@ function SidebarItem({
       setIsActive(active === "Customer" || expandedItem === "Customer");
     } else if (item.name === "Order") {
       setIsActive(active === "Order" || expandedItem === "Order");
+    } else if (item.name === "Reporting") {
+      setIsActive(active === "Reporting" || expandedItem === "Reporting");
     } else {
       // console.log("ok")
       setIsActive(
@@ -413,7 +415,6 @@ function SideBar() {
         },
       ],
     },
-
     {
       name: "Reporting",
       image: ReportImage,
