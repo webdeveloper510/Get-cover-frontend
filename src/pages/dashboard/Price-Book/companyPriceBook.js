@@ -317,7 +317,6 @@ function CompanyPriceBook() {
       <p>No records found.</p>
     </div>
   );
-
   const [isViewOpen, setIsViewOpen] = useState(false);
 
   const closeView = () => {
@@ -521,7 +520,8 @@ function CompanyPriceBook() {
                 {
                   data.priceType == "FlatPricing" && (
                     <>
-                      <div className='col-span-4'>  <p className="text-lg text-light-black font-semibold">Range Start</p>
+                      <div className='col-span-4'> 
+                        <p className="text-lg text-light-black font-semibold">Range Start</p>
                         <p className="text-base text-neutral-grey font-semibold"> {data?.rangeStart?.toFixed(2)}</p>
                       </div>
                       <div className='col-span-4'>
