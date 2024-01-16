@@ -6,6 +6,7 @@ import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 
 // Media Include
+import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
@@ -13,25 +14,23 @@ import check from "../../../assets/images/icons/check.svg";
 import Button from '../../../common/button';
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getDealersList, getProductListbyProductCategoryId } from '../../../services/dealerServices';
+import { getDealersList } from '../../../services/dealerServices';
 import { getServicerListByDealerId } from '../../../services/servicerServices';
 import { getCustomerListByDealerId } from '../../../services/customerServices';
 import FileDropdown from '../../../common/fileDropbox';
-import { getCategoryListActiveData, getTermList } from '../../../services/priceBookService';
 
 
 function AddOrder() {
   const [selectedValue, setSelectedValue] = useState('');
-  const [productNameOptions, setProductNameOptions] = useState([]);
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedOption, setSelectedOption] = useState('option1');
-  const [termList, setTermList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [dealerList, setDealerList] = useState([]);
   const [servicerData, setServicerData] = useState([]);
   const [customerList, setCustomerList] = useState([]);
-  const [categoryList, setCategoryList] = useState([]);
+
+
 
   console.log(currentStep)
   const nextStep = () => {
@@ -41,22 +40,7 @@ function AddOrder() {
   const prevStep = () => {
     setCurrentStep(currentStep - 1);
   };
-  const getTermListData = async () => {
 
-    try {
-      const res = await getTermList();
-      console.log(res.result.terms);
-      setTermList(
-        res.result.terms.map((item) => ({
-          label: item.terms + " Months",
-          value: item.terms,
-        }))
-      );
-
-    } catch (error) {
-      console.error("Error fetching category list:", error);
-    }
-  };
   const getDealerListData = async () => {
     const result = await getDealersList();
     console.log(result.data);
@@ -105,8 +89,6 @@ function AddOrder() {
   };
   useEffect(() => {
     getDealerListData()
-    getProductList()
-    getTermListData()
   }, [])
   const renderStep = () => {
     switch (currentStep) {
@@ -153,94 +135,6 @@ function AddOrder() {
       nextStep()
     },
   });
-  const formikStep3 = useFormik({
-    initialValues: {
-      productsArray: [
-        {
-          categoryId: "",
-          priceBookId: "",
-          unitPrice: null,
-          noOfProducts: "",
-          price: null,
-          file: "",
-          coverageStartDate: "",
-          description: "",
-          term: "",
-          priceType: "",
-          additionalNotes: "",
-          QuantityPricing: [
-            {
-              name: "",
-              quantity: "",
-              totalUnits: ''
-            }
-          ]
-        }
-      ],
-    },
-    validationSchema: Yup.object().shape({
-      productsArray: Yup.array().of(
-        Yup.object().shape({
-          categoryId: Yup.string().required("Required"),
-          priceBookId: Yup.string().required("Required"),
-          unitPrice: Yup.number()
-            .typeError("Required")
-            .required("Required")
-            .nullable(),
-            noOfProducts: Yup.number().test('is-flat-pricing', 'Required', function(value) {
-              const isFlatPricing = this.parent.priceType !== 'QuantityPricing' ||  this.parent.priceType !== 'Quantity Pricing';
-            
-              if (isFlatPricing) {
-                return value !== null && value !== undefined && value !== '' ;
-              }
-              return true;
-            }),
-          price: Yup.number()
-            .typeError("Required")
-            .required("Required")
-            .nullable(),
-          file: Yup.string().required("File is required"),
-          coverageStartDate: Yup.date().required("Date is required")
-        })
-      ),
-    }),
-    onSubmit: (values) => {
-      console.log(values);
-      nextStep();
-    },
-  });
-
-  const handleAddProduct = () => {
-    const productsArray = {
-      categoryId: "",
-      priceBookId: "",
-      unitPrice: null,
-      noOfProducts: "",
-      price: null,
-      file: "",
-      coverageStartDate: "",
-      description: "",
-      term: "",
-      priceType: "",
-      additionalNotes: "",
-      QuantityPricing: [
-        {
-          name: "",
-          quantity: "",
-          totalUnits: ''
-        }
-      ]
-    };
-
-    formikStep3.setFieldValue("productsArray", [...formikStep3.values.productsArray, productsArray]);
-  };
-
-  const handleDeleteProduct = (index) => {
-    const updatedProduct = [...formikStep3.values.productsArray];
-    updatedProduct.splice(index, 1);
-    formikStep3.setFieldValue("productsArray", updatedProduct);
-  };
-
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -249,74 +143,9 @@ function AddOrder() {
     setIsModalOpen(false);
   };
 
-  const handleSelectChange2 = async (name, selectedValue) => {
-    if (name.includes("categoryId")) {
-      const match = name.match(/\[(\d+)\]/);
-      console.log(match[1]);
-      formikStep3.setFieldValue(`productsArray[${match[1]}].priceBookId`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].term`, "");
-
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].unitPrice`,
-        ""
-      );
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].description`,
-        ""
-      );
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].priceType`,
-        ""
-      );
-      if (match) {
-        const response = await getProductListbyProductCategoryId(selectedValue);
-        console.log(response)
-        setProductNameOptions((prevOptions) => {
-          const newOptions = [...prevOptions];
-          newOptions[match[1]] = {
-            data: response.result.priceBooks.map((item) => ({
-              label: item.name,
-              value: item._id,
-              description: item.description,
-              term: item.term,
-              priceType: item.priceType,
-              wholesalePrice:
-                item.frontingFee +
-                item.reserveFutureFee +
-                item.reinsuranceFee +
-                item.adminFee,
-              status: item.status,
-            })),
-          };
-          return newOptions;
-        });
-      }
-    }
-    if (name.includes("priceBookId")) {
-      const match = name.match(/\[(\d+)\]/);
-      const data = productNameOptions[match[1]].data.find((value) => {
-        return value.value === selectedValue;
-      });
-      console.log(productNameOptions)
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].priceType`,
-        data.priceType
-      );
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].description`,
-        data.description
-      );
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].unitPrice`,
-        data.wholesalePrice.toFixed(2)
-      );
-      formikStep3.setFieldValue(`productsArray[${match[1]}].term`, data.term);
-    }
-
-    console.log(name);
-    formikStep3.setFieldValue(name, selectedValue);
+  const handleRadioChange = (event) => {
+    setSelectedOption(event.target.value);
   };
-
   const handleSelectChange1 = (name, value) => {
     formikStep2.setFieldValue(name, value)
   };
@@ -340,15 +169,7 @@ function AddOrder() {
     { label: 'Labour', value: 'Labour' },
     { label: 'Parts & Labour', value: 'Parts & Labour' },
   ];
-  const getProductList = async () => {
-    const result = await getCategoryListActiveData();
-    setCategoryList(
-      result.result.map((item) => ({
-        label: item.name,
-        value: item._id,
-      }))
-    );
-  };
+
   const renderStep1 = () => {
     // Step 1 content
     return (
@@ -504,287 +325,422 @@ function AddOrder() {
     // Step 3 content
     return (
       <div className='mb-3'>
-        {formikStep3?.values?.productsArray.map((data, index) => (
-          <div key={index} className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
-            <p className='text-2xl font-bold mb-4'>Add Product</p>
-            <div className='absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 '>
-              {index === 0 ? (
-                <Button
-                  className="text-sm !font-light"
-                  onClick={handleAddProduct}
-                >
-                  + Add More Product
-                </Button>
-              ) : (
-                <div
-                  onClick={() => {
-                    handleDeleteProduct(index);
-                  }}
-                >
-                  <div className="flex h-full mx-3 bg-[#fff] justify-center">
-                    <img src={Delete} alt="Delete" className='cursor-pointer' />
+        <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
+          <p className='text-2xl font-bold mb-4'>Add Product</p>
+          <div className='absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 '>
+            <Button>+ Add More Product</Button>
+          </div>
+          <Grid>
+            <div className='col-span-8 border-r pr-5'>
+              <Grid>
+                <div className='col-span-6'>
+                  <Select
+                    label="Product Category"
+                    name="productCategory"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                  // options={country}
+                  />
+                </div>
+                <div className='col-span-6'>
+                  <Select
+                    label="Product Name"
+                    name="productName"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                  // options={city}
+                  />
+                </div>
+                <div className='col-span-12'>
+                  <Select
+                    label="Product Description"
+                    name="productDescription"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                  // options={country}
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Select
+                    label="Term"
+                    name="term"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                  // options={city}
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Input
+                    type="number"
+                    name="unitPrice"
+                    className="!bg-white"
+                    label="Unit Price ($)"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Input
+                    type="number"
+                    name="productNumber"
+                    className="!bg-white"
+                    label="# of Products"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Input
+                    type="number"
+                    name="price "
+                    className="!bg-white"
+                    label="Price ($)"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Input
+                    type="number"
+                    name="price"
+                    className="!bg-white"
+                    label="Price ($)"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Input
+                    type="date"
+                    name="Coveragestart"
+                    className="!bg-white"
+                    label="Coverage Start"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+
+
+                <div className='col-span-12'>
+                  <div className="relative">
+                    <label
+                      htmlFor="description"
+                      className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                    >
+                      Note
+                    </label>
+                    <textarea
+                      id="note"
+                      rows="4"
+                      name="Note"
+                      maxLength={150}
+                      className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                    ></textarea>
                   </div>
                 </div>
-              )}
+              </Grid>
             </div>
-            <Grid>
-              <div className='col-span-8 border-r pr-5'>
-                <Grid>
-                  <div className='col-span-6'>
-                    <Select
-                      name={`productsArray[${index}].categoryId`}
-                      label="Product Category"
-                      options={categoryList}
-                      required={true}
-                      className="!bg-[#f9f9f9]"
-                      placeholder=""
-                      value={formikStep3.values.productsArray[index].categoryId}
-                      onBlur={formikStep3.handleBlur}
-                      onChange={handleSelectChange2}
-                      index={index}
-                      error={
-                        formikStep3.values.productsArray &&
-                        formikStep3.values.productsArray[index] &&
-                        formikStep3.values.productsArray &&
-                        formikStep3.values.productsArray[index] &&
-                        formikStep3.values.productsArray[index].categoryId
-                      }
-                    />
-                    {formikStep3.errors.productsArray &&
-                      formikStep3.errors.productsArray[index] &&
-                      formikStep3.errors.productsArray &&
-                      formikStep3.errors.productsArray[index] &&
-                      formikStep3.errors.productsArray[index].categoryId && (
-                        <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formikStep3.errors.productsArray[index].categoryId}
-                        </div>
-                      )}
-                  </div>
-                  <div className='col-span-6'>
-                    <Select
-                      name={`productsArray[${index}].priceBookId`}
-                      label="Product Name"
-                      options={productNameOptions[index]?.data}
-                      required={true}
-                      className="!bg-[#f9f9f9]"
-                      placeholder=""
-                      value={formikStep3.values.productsArray[index].priceBookId}
-                      onBlur={formikStep3.handleBlur}
-                      onChange={handleSelectChange2}
-                      index={index}
-                      error={
-                        formikStep3.values.productsArray &&
-                        formikStep3.values.productsArray[index] &&
-                        formikStep3.values.productsArray &&
-                        formikStep3.values.productsArray[index] &&
-                        formikStep3.values.productsArray[index].priceBookId
-                      }
-                    />
-                    {formikStep3.errors.productsArray &&
-                      formikStep3.errors.productsArray[index] &&
-                      formikStep3.errors.productsArray &&
-                      formikStep3.errors.productsArray[index] &&
-                      formikStep3.errors.productsArray[index].priceBookId && (
-                        <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formikStep3.errors.productsArray[index].priceBookId}
-                        </div>
-                      )}
-                  </div>
-                  <div className='col-span-12'>
+            <div className='col-span-4'>
+              <div className='border border-dashed w-full h-full relative flex justify-center'>
+                <label
+                  htmlFor="description"
+                  className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                >
+                  Upload File
+                </label>
+                <div className='self-center text-center'>
+                  <FileDropdown
+                    className="!bg-transparent !border-0"
+
+                  />
+                </div>
+              </div>
+            </div>
+            <div className='col-span-12'>
+              <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                Please click on file option and make a copy. Upload the list
+                of Product Name and Price using our provided Google Sheets
+                template, by{" "}
+                <span
+                  className="underline cursor-pointer"
+                // onClick={downloadCSVTemplate}
+                >
+                  Clicking here
+                </span>
+                The file must be saved with csv , xls and xlsx Format.
+              </p>
+            </div>
+          </Grid>
+
+          <Grid className='!grid-cols-4'>
+            {/* Loop */}
+            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+              <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
+                <Button
+                  className="text-sm  !font-light"
+
+                >
+                  {" "}
+                  + Add More{" "}
+                </Button>
+
+              </div>
+              <div className=" p-4 pl-0 mt-4 relative rounded-xl">
+                <Grid className="">
+                  <div className="col-span-12">
                     <Input
                       type="text"
-                      name={`productsArray[${index}].description`}
+                      name={`name`}
                       className="!bg-[#f9f9f9]"
-                      label="Product Description"
+                      label="Name"
                       required={true}
                       placeholder=""
-                      value={formikStep3.values.productsArray[index].description}
-                      onChange={formikStep3.handleChange}
-                      onBlur={formikStep3.handleBlur}
-                      disabled={true}
-                      onWheelCapture={(e) => {
-                        e.preventDefault();
-                      }}
-                    />
-                  </div>
-                  <div className='col-span-4'>
-                    <Select
-                      label="Terms"
-                      name={`productsArray[${index}].term`}
-                      required={true}
-                      placeholder=""
-                      onChange={handleSelectChange2}
-                      className="!bg-[#f9f9f9]"
-                      options={termList}
-                      disabled={true}
-                      value={formikStep3.values.productsArray[index].term}
-                      onBlur={formikStep3.handleBlur}
-                    />
-                  </div>
-                  <div className='col-span-4'>
-                    <Input
-                      type="text"
-                      name={`productsArray[${index}].priceType`}
-                      className="!bg-[#f9f9f9]"
-                      label="Product Price Type"
-                      required={true}
-                      placeholder=""
-                      value={formikStep3.values.productsArray[index].priceType}
-                      onChange={formikStep3.handleChange}
-                      onBlur={formikStep3.handleBlur}
-                      disabled={true}
-                      onWheelCapture={(e) => {
-                        e.preventDefault();
-                      }}
+
                     />
 
                   </div>
-                  <div className='col-span-4'>
+                  <div className="col-span-12">
                     <Input
                       type="text"
-                      name={`productsArray[${index}].unitPrice`}
+                      name={`name`}
                       className="!bg-[#f9f9f9]"
-                      label="Unit Price"
+                      label="Enter Quantity"
                       required={true}
                       placeholder=""
-                      value={formikStep3.values.productsArray[index].unitPrice}
-                      onChange={formikStep3.handleChange}
-                      onBlur={formikStep3.handleBlur}
-                      disabled={true}
-                      onWheelCapture={(e) => {
-                        e.preventDefault();
-                      }}
+
                     />
 
                   </div>
 
-                  {(
-                    formikStep3.values.productsArray[index].priceType !== 'QuantityPricing' &&
-                    formikStep3.values.productsArray[index].priceType !== 'Quantity Pricing'
-                  ) && (
-                       <div className='col-span-4'>
-                       <Input
+                  <div className="col-span-12">
+                    <Input
                       type="number"
-                      name={`productsArray[${index}].noOfProducts`}
+                      name={`quantity`}
                       className="!bg-[#f9f9f9]"
-                      label="# of Products"
-                      required={true}
-                      placeholder=""
-                      value={formikStep3.values.productsArray[index].noOfProducts}
-                      onChange={(e) => {
-                        formikStep3.handleChange(e);
-                        const unitPrice = formikStep3.values.productsArray[index].unitPrice;
-                        const enteredValue = e.target.value;
-                        const calculatedPrice = unitPrice * enteredValue;
-                        console.log(calculatedPrice.toFixed(2))
-                        formikStep3.setFieldValue(`productsArray[${index}].price`, calculatedPrice.toFixed(2));
-                      }}
-                      onBlur={formikStep3.handleBlur}
-                      onWheelCapture={(e) => {
-                        e.preventDefault();
-                      }}
-                         error={
-                        formikStep3.values.productsArray &&
-                        formikStep3.values.productsArray[index] &&
-                        formikStep3.values.productsArray &&
-                        formikStep3.values.productsArray[index] &&
-                        formikStep3.values.productsArray[index].noOfProducts
-                      }
-                    />
-                     {formikStep3.errors.productsArray &&
-                      formikStep3.errors.productsArray[index] &&
-                      formikStep3.errors.productsArray &&
-                      formikStep3.errors.productsArray[index] &&
-                      formikStep3.errors.productsArray[index].noOfProducts && (
-                        <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formikStep3.errors.productsArray[index].noOfProducts}
-                        </div>
-                      )}
-                    </div>
-                    )}
-
-
-                  <div className='col-span-4'>
-                  <Input
-                      type="number"
-                      name={`productsArray[${index}].price`}
-                      className="!bg-[#f9f9f9]"
-                      label="Price"
-                      required={true}
-                      placeholder=""
-                      value={formikStep3.values.productsArray[index].price}
-                      onChange={formikStep3.handleChange}
-                      onBlur={formikStep3.handleBlur}
-                      disabled={true}
-                      onWheelCapture={(e) => {
-                        e.preventDefault();
-                      }}
-                    />
-                  </div>
-                  <div className='col-span-4'>
-                    <Input
-                      type="date"
-                      name="Coveragestart"
-                      className="!bg-white"
-                      label="Coverage Start"
+                      label="Max Quantity"
+                      maxLength={"10"}
+                      maxDecimalPlaces={2}
                       required={true}
                       placeholder=""
                     />
-                  </div>
 
-
-                  <div className='col-span-12'>
-                    <div className="relative">
-                      <label
-                        htmlFor="description"
-                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                      >
-                        Note
-                      </label>
-                      <textarea
-                        id="note"
-                        rows="4"
-                        name="Note"
-                        maxLength={150}
-                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                      ></textarea>
-                    </div>
                   </div>
                 </Grid>
               </div>
-              <div className='col-span-4'>
-                <div className='border border-dashed w-full h-full relative flex justify-center'>
-                  <label
-                    htmlFor="description"
-                    className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                  >
-                    Upload File
-                  </label>
-                  <div className='self-center text-center'>
-                    <FileDropdown
-                      className="!bg-transparent !border-0"
+            </div>
 
-                    />
-                  </div>
+            <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+              <div className='bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3'>
+                <div className="flex h-full mx-3 bg-[#fff] justify-center">
+                  <img
+                    src={DeleteImage}
+                    className="self-center cursor-pointer"
+                    alt="Delete Icon"
+                  />
                 </div>
               </div>
-              <div className='col-span-12'>
-                <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
-                  Please click on file option and make a copy. Upload the list
-                  of Product Name and Price using our provided Google Sheets
-                  template, by{" "}
-                  <span
-                    className="underline cursor-pointer"
 
-                  >
-                    Clicking here
-                  </span>
-                  The file must be saved with csv , xls and xlsx Format.
-                </p></div>
-            </Grid>
+              <div className=" p-4 pl-0 mt-4 relative rounded-xl">
+                <Grid className="">
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name={`name`}
+                      className="!bg-[#f9f9f9]"
+                      label="Name"
+                      required={true}
+                      placeholder=""
 
+                    />
+
+                  </div>
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name={`name`}
+                      className="!bg-[#f9f9f9]"
+                      label="Enter Quantity"
+                      required={true}
+                      placeholder=""
+
+                    />
+
+                  </div>
+
+                  <div className="col-span-12">
+                    <Input
+                      type="number"
+                      name={`quantity`}
+                      className="!bg-[#f9f9f9]"
+                      label="Max Quantity"
+                      maxLength={"10"}
+                      maxDecimalPlaces={2}
+                      required={true}
+                      placeholder=""
+                    />
+
+                  </div>
+                </Grid>
+              </div>
+            </div>
+              {/* Loop */}
+          </Grid>
+        </div>
+        {/* Next Open  */}
+        <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
+          <p className='text-2xl font-bold mb-4'>Add Product</p>
+          <div className='absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 '>
+            <img src={Delete} className='cursor-pointer' />
           </div>
-        ))}
+          <Grid>
+            <div className='col-span-8 border-r pr-5'>
+              <Grid>
+                <div className='col-span-6'>
+                  <Select
+                    label="Product Category"
+                    name="productCategory"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                  // options={country}
+                  />
+                </div>
+                <div className='col-span-6'>
+                  <Select
+                    label="Product Name"
+                    name="productName"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                  // options={city}
+                  />
+                </div>
+                <div className='col-span-12'>
+                  <Select
+                    label="Product Description"
+                    name="productDescription"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                  // options={country}
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Select
+                    label="Term"
+                    name="term"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                  // options={city}
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Input
+                    type="number"
+                    name="unitPrice"
+                    className="!bg-white"
+                    label="Unit Price ($)"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Input
+                    type="number"
+                    name="productNumber"
+                    className="!bg-white"
+                    label="# of Products"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Input
+                    type="number"
+                    name="price ($)"
+                    className="!bg-white"
+                    label="Price "
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Input
+                    type="number"
+                    name="price"
+                    className="!bg-white"
+                    label="Price ($)"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+                <div className='col-span-4'>
+                  <Input
+                    type="date"
+                    name="Coveragestart"
+                    className="!bg-white"
+                    label="Coverage Start"
+                    required={true}
+                    placeholder=""
+                  />
+                </div>
+
+
+                <div className='col-span-12'>
+                  <div className="relative">
+                    <label
+                      htmlFor="description"
+                      className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                    >
+                      Note
+                    </label>
+                    <textarea
+                      id="note"
+                      rows="4"
+                      name="Note"
+                      maxLength={150}
+                      className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                    ></textarea>
+                  </div>
+                </div>
+              </Grid>
+            </div>
+            <div className='col-span-4'>
+              <div className='border border-dashed w-full h-full relative flex justify-center'>
+                <label
+                  htmlFor="description"
+                  className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                >
+                  Upload File
+                </label>
+                <div className='self-center text-center'>
+                  <FileDropdown
+                    className="!bg-transparent !border-0"
+
+                  />
+                </div>
+              </div>
+            </div>
+            <div className='col-span-12'>
+              <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                Please click on file option and make a copy. Upload the list
+                of Product Name and Price using our provided Google Sheets
+                template, by{" "}
+                <span
+                  className="underline cursor-pointer"
+                // onClick={downloadCSVTemplate}
+                >
+                  Clicking here
+                </span>
+                The file must be saved with csv , xls and xlsx Format.
+              </p></div>
+          </Grid>
+        </div>
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
         <Button onClick={nextStep}>Next</Button>
       </div>
