@@ -189,6 +189,7 @@ function AddOrder() {
           additionalNotes: "",
           coverageEndDate: "",
           QuantityPricing: [],
+
         }
       ],
     },
@@ -1115,12 +1116,50 @@ function AddOrder() {
           </Grid>
         </div>
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
-        <Button>Submit</Button>
+        <Button type="submit" onClick={orderSubmit}>Submit</Button>
       </>
 
     );
   };
+const orderSubmit =() =>{
+  const data = {
+    ...formik.values,
+    ...formikStep2.values,
+    ...formikStep3.values, 
+    paidAmount: 123,
+    dueAmount: 21
+  };
+  const formData = new FormData();
+  appendToFormData(formData, data);
+  formData.forEach((value, key) => {
+    console.log(`formData uper   ${key}: ${value}`);
+  });
 
+}
+const appendToFormData = (formData, data, parentKey = "") => {
+  for (let key in data) {
+    if (data.hasOwnProperty(key)) {
+      const value = data[key];
+      const fullKey = parentKey ? `${parentKey}.${key}` : key;
+
+      if (Array.isArray(value)) {
+        value.forEach((item, index) => {
+          appendToFormData(formData, item, `${fullKey}[${index}]`);
+        });
+      } else if (value instanceof File) {
+        formData.append(fullKey, value);
+      } else if (typeof value === "object" && value !== null) {
+  
+        appendToFormData(formData, value, fullKey);
+      } else {
+        
+        formData.append(fullKey, value);
+      }
+    }
+  }
+
+  return formData;
+}
   return (
     <div className='my-8 ml-3'>
       <Headbar />
