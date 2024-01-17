@@ -33,6 +33,7 @@ import EditContract from "../pages/dashboard/Contract/editContract";
 import ClaimList from "../pages/dashboard/Claim/claimList";
 import AddClaim from "../pages/dashboard/Claim/addClaim";
 import AddBulkClaim from "../pages/dashboard/Claim/addBulkClaim";
+import EditClaim from "../pages/dashboard/Claim/editClaim";
 
 const routes = [
   {
@@ -106,6 +107,13 @@ const routes = [
         index: true,
         element: (
           <PrivateRoute element={<EditContract />} path="/editContract" />
+        ),
+      },
+      {
+        path: "/editClaim",
+        index: true,
+        element: (
+          <PrivateRoute element={<EditClaim />} path="/editclaim" />
         ),
       },
       {

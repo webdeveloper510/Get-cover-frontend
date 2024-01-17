@@ -113,7 +113,7 @@ function ContractList() {
             <Grid className='!gap-0 bg-[#F9F9F9] mb-5'>
               <div className='col-span-3 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>MHHC WS Order</p>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>GetCover WS Order</p>
                   <p className='text-[#333333] text-base font-semibold'>315174</p>
                 </div>
               </div>
@@ -200,7 +200,7 @@ function ContractList() {
             <Grid className='!gap-0 bg-[#F9F9F9] mb-5'>
               <div className='col-span-3 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>MHHC WS Order</p>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>GetCover WS Order</p>
                   <p className='text-[#333333] text-base font-semibold'>315174</p>
                 </div>
               </div>

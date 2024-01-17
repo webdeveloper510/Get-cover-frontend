@@ -67,7 +67,7 @@ function AddClaim() {
       { label: 'Option 3', value: 'option3' },
     ];
     const city = [
-      { label: 'Country', value: 'country' },
+      { label: 'City', value: 'city' },
       { label: 'Option 2', value: 'option2' },
       { label: 'Option 3', value: 'option3' },
     ];
