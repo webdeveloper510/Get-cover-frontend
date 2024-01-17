@@ -411,7 +411,6 @@ function AddOrder() {
                   name="servicerName"
                   placeholder=""
                   className="!bg-white"
-                  required={true}
                   onChange={handleSelectChange}
                   options={servicerData}
                   value={formik.values.servicerName}
@@ -425,7 +424,6 @@ function AddOrder() {
                   name="customerName"
                   placeholder=""
                   className="!bg-white"
-                  required={true}
                   onChange={handleSelectChange}
                   options={customerList}
                   value={formik.values.customerName}

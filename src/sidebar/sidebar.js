@@ -448,6 +448,7 @@ function SideBar() {
     },
   ];
 
+  
   return (
     <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
       <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[5px]">
