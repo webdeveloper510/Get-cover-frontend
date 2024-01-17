@@ -123,25 +123,25 @@ function AddOrder() {
   };
   const formik = useFormik({
     initialValues: {
-      dealerName: "",
-      servicerName: "",
-      customerName: "",
+      dealerId: "",
+      servicerId: "",
+      customerId: "",
     },
     validationSchema: Yup.object().shape({
-      dealerName: Yup.string().required("Dealer Name is required"),
-      servicerName: Yup.string(),
-      customerName: Yup.string()
+      dealerId: Yup.string().required("Dealer Name is required"),
+      servicerId: Yup.string(),
+      customerId: Yup.string()
     }),
     onSubmit: (values) => {
-        const foundDealer = dealerList.find((data) => data.value === values.dealerName);
+        const foundDealer = dealerList.find((data) => data.value === values.dealerId);
         setDealerName(foundDealer ? foundDealer.label : "");
  
-      if (values.servicerName) {
-        const foundServicer = servicerData.find((data) => data.value === values.servicerName);
+      if (values.servicerId) {
+        const foundServicer = servicerData.find((data) => data.value === values.servicerId);
         setServicerName(foundServicer ? foundServicer.label : "");
       }
-      if (values.customerName) {
-        const foundCustomer = customerList.find((data) => data.value === values.customerName);
+      if (values.customerId) {
+        const foundCustomer = customerList.find((data) => data.value === values.customerId);
         setCustomerName(foundCustomer ? foundCustomer.label : "");
       }
       nextStep()
@@ -398,10 +398,10 @@ function AddOrder() {
 
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
-    if (name == "dealerName") {
-      formik.setFieldValue('servicerName', '');
-      formik.setFieldValue('customerName', '');
-      formik.setFieldValue("dealerName", value)
+    if (name == "dealerId") {
+      formik.setFieldValue('servicerId', '');
+      formik.setFieldValue('customerId', '');
+      formik.setFieldValue("dealerId", value)
       getServicerList(value);
       getCustomerList(value);
     }
@@ -436,45 +436,45 @@ function AddOrder() {
                 <div className='col-span-6'>
                   <Select
                     label="Dealer Name"
-                    name="dealerName"
+                    name="dealerId"
                     placeholder=""
                     className="!bg-white"
                     required={true}
                     onChange={handleSelectChange}
                     options={dealerList}
-                    value={formik.values.dealerName}
+                    value={formik.values.dealerId}
                     onBlur={formik.handleBlur}
-                    error={formik.touched.dealerName && formik.errors.dealerName}
+                    error={formik.touched.dealerId && formik.errors.dealerId}
                   />
-                  {formik.touched.dealerName && formik.errors.dealerName && (
+                  {formik.touched.dealerId && formik.errors.dealerId && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.dealerName}
+                      {formik.errors.dealerId}
                     </div>
                   )}
                 </div>
                 <div className='col-span-6'>
                   <Select
                     label="Servicer Name"
-                    name="servicerName"
+                    name="servicerId"
                     placeholder=""
                     className="!bg-white"
                     required={true}
                     onChange={handleSelectChange}
                     options={servicerData}
-                    value={formik.values.servicerName}
+                    value={formik.values.servicerId}
                     onBlur={formik.handleBlur}
                   />
                 </div>
                 <div className='col-span-12'>
                   <Select
                     label="Customer Name"
-                    name="customerName"
+                    name="customerId"
                     placeholder=""
                     className="!bg-white"
                     required={true}
                     onChange={handleSelectChange}
                     options={customerList}
-                    value={formik.values.customerName}
+                    value={formik.values.customerId}
                     onBlur={formik.handleBlur}
                   />
                 </div>
