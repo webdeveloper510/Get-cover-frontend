@@ -995,6 +995,13 @@ function AddOrder() {
   };
 
   const renderStep4 = () => {
+    const calculateTotalAmount = (data) => {
+      let totalAmount = 0;
+      data.map((product, index) => {
+        totalAmount += parseFloat(product.price)
+      })
+      return totalAmount.toFixed(2)
+    }
     // Step 4 content
     return (
       <>
@@ -1079,6 +1086,7 @@ function AddOrder() {
                     <p className='font-bold text-sm'>{data.additionalNotes}</p>
                   </div>
                 </Grid>
+                
               </div>
             </div>
             <div className='col-span-4'>
@@ -1092,10 +1100,17 @@ function AddOrder() {
                 </div>
               </div>
             </div>
+           
           </>
         )
       })
      }
+      <Grid className=' px-4'>
+                  <div className='col-span-12 py-4'>
+                    <p className='text-[12px]'>Total Amount</p>
+                    <p className='font-bold text-sm'>$ {calculateTotalAmount(formikStep3.values.productsArray)}</p>
+                  </div>
+                </Grid>
           </Grid>
         </div>
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
