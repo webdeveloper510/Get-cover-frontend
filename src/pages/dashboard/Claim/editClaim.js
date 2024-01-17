@@ -5,26 +5,10 @@ import Input from '../../../common/input'
 
 // Media Includes 
 import BackImage from "../../../assets/images/icons/backArrow.svg";
-import Wholesale from "../../../assets/images/icons/wholePrice.svg";
-import product from "../../../assets/images/icons/productName.svg";
-import category1 from "../../../assets/images/icons/productCat.svg";
-import dealer from "../../../assets/images/icons/dealerName.svg";
-import claim from "../../../assets/images/icons/claimAmount.svg";
-import contract from "../../../assets/images/icons/contract.svg";
-import Eligibility from "../../../assets/images/icons/Eligibility.svg";
-import delaerName from "../../../assets/images/icons/dealerNumber.svg";
-import ServicerName from "../../../assets/images/icons/servicerNumber.svg";
-import CustomerName from "../../../assets/images/icons/customerNumber.svg";
-import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from '../../../common/headBar';
 import { Link } from 'react-router-dom';
 import Select from '../../../common/select';
 function EditClaim() {
-    const [showTooltip, setShowTooltip] = useState(false);
-    const status = [
-        { label: "Active", value: true },
-        { label: "Inactive", value: false },
-      ];
       const CoverageStartDate = [
         { label: "11/09/2026", value: true },
         { label: "12/09/2026", value: false },
