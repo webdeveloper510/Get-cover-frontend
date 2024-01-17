@@ -96,7 +96,7 @@ function AddOrder() {
   const getCustomerList = async (id) => {
     let arr = [];
     const result = await getCustomerListByDealerId(id, {});
-    result?.result?.map((res) => {
+  result?.result?.map((res) => {
       console.log(res);
       arr.push({
         label: res.customerData.username,
@@ -885,10 +885,8 @@ function AddOrder() {
               </div>
             </div>
               {/* Loop */}
-          </Grid>
+              </Grid>
                   </div>
-
-
                   <div className='col-span-12'>
                     <div className="relative">
                       <label
@@ -909,7 +907,7 @@ function AddOrder() {
                 </Grid>
               </div>
               <div className='col-span-4'>
-                <div className='border border-dashed w-full h-full relative flex justify-center'>
+                <div className='border border-dashed w-full h-[80%] relative flex justify-center'>
                   <label
                     htmlFor="description"
                     className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
@@ -923,8 +921,6 @@ function AddOrder() {
                     />
                   </div>
                 </div>
-              </div>
-              <div className='col-span-12'>
                 <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
                   Please click on file option and make a copy. Upload the list
                   of Product Name and Price using our provided Google Sheets
@@ -936,7 +932,9 @@ function AddOrder() {
                     Clicking here
                   </span>
                   The file must be saved with csv , xls and xlsx Format.
-                </p></div>
+                </p>
+              </div>
+           
             </Grid>
            
 
