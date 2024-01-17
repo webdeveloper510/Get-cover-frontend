@@ -227,10 +227,10 @@ function AddOrder() {
               },
               otherwise: (schema) => schema.notRequired(),
             }),
-          // price: Yup.number()
-          //   .typeError("Required")
-          //   .required("Required")
-          //   .nullable(),
+          price: Yup.number()
+            .typeError("Required")
+            .required("Required")
+            .nullable(),
           // file: Yup.string().required("File is required"),
           coverageStartDate: Yup.date().required("Date is required")
         })
