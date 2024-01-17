@@ -36,7 +36,7 @@ function AddOrder() {
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
 
-  console.log(currentStep)
+  
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
   };
@@ -48,7 +48,6 @@ function AddOrder() {
 
     try {
       const res = await getTermList();
-      console.log(res.result.terms);
       setTermList(
         res.result.terms.map((item) => ({
           label: item.terms + " Months",
@@ -62,13 +61,12 @@ function AddOrder() {
   };
   const getDealerListData = async () => {
     const result = await getDealersList();
-    console.log(result.data);
+  
     let arr = [];
     const filteredDealers = result.data.filter(
       (data) => data.dealerData.accountStatus === true
     );
     filteredDealers?.map((res) => {
-      console.log(res.name);
       arr.push({
         label: res.dealerData.name,
         value: res.dealerData._id,
@@ -84,7 +82,6 @@ function AddOrder() {
       (data) => data.servicerData.status === true
     );
     filteredServicers?.map((res) => {
-      console.log(res);
       arr.push({
         label: res.servicerData.name,
         value: res.servicerData._id,
@@ -98,7 +95,6 @@ function AddOrder() {
     let arr = [];
     const result = await getCustomerListByDealerId(id, {});
     result?.result?.map((res) => {
-      console.log(res);
       arr.push({
         label: res.customerData.username,
         value: res.customerData._id,
@@ -137,12 +133,9 @@ function AddOrder() {
       customerName: Yup.string()
     }),
     onSubmit: (values) => {
-      console.log(values);
-   
         const foundDealer = dealerList.find((data) => data.value === values.dealerName);
         setDealerName(foundDealer ? foundDealer.label : "");
-
-      
+ 
       if (values.servicerName) {
         const foundServicer = servicerData.find((data) => data.value === values.servicerName);
         setServicerName(foundServicer ? foundServicer.label : "");
@@ -167,7 +160,6 @@ function AddOrder() {
       coverageType: Yup.string().required("Coverage Type is Required"),
     }),
     onSubmit: (values) => {
-      console.log(values);
       nextStep()
     },
   });
@@ -238,11 +230,9 @@ function AddOrder() {
       ),
     }),
     onSubmit: (values) => {
-      console.log(values);
       let arr =[]
       let arr1 =[]
       values.productsArray.map((data,index)=>{
-        console.log(data.categoryId)
         const value = categoryList.find((val) => val.value === data.categoryId);
         arr.push(value ? value.label : "");
         const value1 = productNameOptions.map((val) =>({
@@ -251,7 +241,6 @@ function AddOrder() {
         })).filter((value)=>value.data.length>0)[0].data[0];
         arr1.push(value1 ? value1.label : "");    
       })
-      console.log(arr1)
       setCategoryName(arr)
       setPriceBookName(arr1)
       nextStep();
@@ -295,7 +284,6 @@ function AddOrder() {
   const handleSelectChange2 = async (name, selectedValue) => {
     if (name.includes("categoryId")) {
       const match = name.match(/\[(\d+)\]/);
-      console.log(match[1]);
       formikStep3.setFieldValue(`productsArray[${match[1]}].priceBookId`, "");
       formikStep3.setFieldValue(`productsArray[${match[1]}].term`, "");
       formikStep3.setFieldValue(`productsArray[${match[1]}].coverageStartDate`, "");
@@ -323,7 +311,6 @@ function AddOrder() {
       );
       if (match) {
         const response = await getProductListbyProductCategoryId(selectedValue);
-        console.log('------------', response)
         setProductNameOptions((prevOptions) => {
           const newOptions = [...prevOptions];
           newOptions[match[1]] = {
@@ -383,8 +370,6 @@ function AddOrder() {
       );
       formikStep3.setFieldValue(`productsArray[${match[1]}].term`, data.term);
     }
-
-    console.log(name);
     formikStep3.setFieldValue(name, selectedValue);
   };
   useEffect(() => {
@@ -765,7 +750,6 @@ function AddOrder() {
                             const unitPrice = formikStep3.values.productsArray[index].unitPrice;
                             const enteredValue = e.target.value;
                             const calculatedPrice = unitPrice * enteredValue;
-                            console.log(calculatedPrice.toFixed(2))
                             formikStep3.setFieldValue(`productsArray[${index}].price`, calculatedPrice.toFixed(2));
                           }}
                           onBlur={formikStep3.handleBlur}
@@ -1052,7 +1036,6 @@ function AddOrder() {
             </div>
      {
       formikStep3.values.productsArray.map((data,index)=>{
-        console.log(data)
         return (
           <>
                  <div className='col-span-8'>
