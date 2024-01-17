@@ -732,7 +732,7 @@ function AddOrder() {
                       type="text"
                       name={`productsArray[${index}].unitPrice`}
                       className="!bg-[#fff]"
-                      label="Unit Price"
+                      label="Unit Price ($)"
                       required={true}
                       placeholder=""
                       value={formikStep3.values.productsArray[index].unitPrice}
@@ -797,7 +797,7 @@ function AddOrder() {
                       type="number"
                       name={`productsArray[${index}].price`}
                       className="!bg-[#fff]"
-                      label="Price"
+                      label="Price ($)"
                       required={true}
                       placeholder=""
                       value={formikStep3.values.productsArray[index].price}
@@ -814,7 +814,7 @@ function AddOrder() {
                       type="date"
                       name={`productsArray[${index}].coverageStartDate`}
                       className="!bg-[#fff]"
-                      label="Price"
+                      label="Coverage Start Date"
                       required={true}
                       placeholder=""
                       value={formikStep3.values.productsArray[index].coverageStartDate == '' ? formikStep3.values.productsArray[index].coverageStartDate : format(new Date(formikStep3.values.productsArray[index].coverageStartDate), 'yyyy-MM-dd')}
