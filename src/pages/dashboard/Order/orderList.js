@@ -1,4 +1,4 @@
-import React , { useState } from 'react'
+import React , { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Button from '../../../common/button'
 
@@ -13,10 +13,12 @@ import Input from '../../../common/input';
 import DataTable from "react-data-table-component"
 import Select from '../../../common/select';
 import { RotateLoader } from 'react-spinners';
+import { getOrders } from '../../../services/orderServices';
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState('');
+  const [orderList,setOrderList]=useState([])
 
   const handleSelectChange1 = (label , value) => {
     console.log(label, value , "selected")
@@ -29,8 +31,17 @@ function OrderList() {
     { label: 'Inactive', value: false },
   ];
 
+  useEffect(()=>{
+  getOrderList()  
+  },[])
+
+  const getOrderList = async() =>{
+const result =await getOrders();
+console.log(result.result)
+setOrderList(result.result)
+  }
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = data.length - index <= 2;
+    const isCloseToBottom = orderList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -46,67 +57,48 @@ function OrderList() {
     </div>
   );
 
-  const data = [
-    {
-      Categoryid: 1,
-      Categoryname: "Category 1",
-      Email: "abcd@gmail.com",
-      Phoneno:"(095)413-1172",
-      Dealername: "Active",
-      order:"12",
-      orderValue:"$123.00"
-    },
-    {
-      Categoryid: 2,
-      Categoryname: "Category 1",
-      Email: "abcd@gmail.com",
-      Phoneno:"(095)413-1172",
-      Dealername: "Active",
-      order:"12",
-      orderValue:"$123.00"
-    },
-  ];
+ 
 
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.Categoryid,
+      selector: (row) => row?.unique_key,
       sortable: true,
       minWidth:'auto',
       maxWidth:'70px'
     },
     {
       name: "Dealer Order #",
-      selector: (row) => row.Categoryname,
+      selector: (row) => row.dealerPurchaseOrder,
       sortable: true,
       minWidth:'180px',
     },
     {
       name: "Dealer",
-      selector: (row) => row.Email,
+      selector: (row) => row.dealerName.name,
       sortable: true,
     },
     {
       name: "Customer",
-      selector: (row) => row.Phoneno,
+      selector: (row) => row.customerName.username,
       sortable: true,
       minWidth:'150px',
     },
     {
       name: "Servicer",
-      selector: (row) => row.Dealername,
+      selector: (row) => row.servicerName.name,
       sortable: true,
       minWidth:'130px',
     },
     {
       name: "# of Products",
-      selector: (row) => row.order,
+      selector: (row) => row.noOfProducts,
       sortable: true,
       minWidth:'150px',
     },
     {
       name: "Order Value",
-      selector: (row) => row.orderValue,
+      selector: (row) => `$ ${row.orderAmount?.toFixed(2)}`,
       sortable: true,
       minWidth:'150px',
     },
@@ -124,11 +116,11 @@ function OrderList() {
                 // onChange={(e) => handleStatusChange(row, e.target.value)}
                 className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
               >
-                <option value="active">Active</option>
-                <option value="waiting">Waiting</option>
-                <option value="expired">Expired</option>
-                <option value="canceled">Canceled</option>
-                <option value="refunded">Refunded</option>
+                <option value="Active">Active</option>
+                <option value="Waiting">Waiting</option>
+                <option value="Expired">Expired</option>
+                <option value="Canceled">Canceled</option>
+                <option value="Refunded">Refunded</option>
               </select>
             </div>
           ),
@@ -225,7 +217,7 @@ function OrderList() {
                 </div>
               </div>
             ) : (
-            <DataTable columns={columns} data={data} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} noDataComponent={<CustomNoDataComponent />} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
+            <DataTable columns={columns} data={orderList} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} noDataComponent={<CustomNoDataComponent />} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
             )}
           </div>
         </div>
