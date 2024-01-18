@@ -39,6 +39,12 @@ function AddOrder() {
 
 
 
+  const downloadCSVTemplate = async () => {
+    window.open(
+      "https://docs.google.com/spreadsheets/d/1BKGAJLFhjQXN8Wg4nYkUdFKpiPZ3h12-CMlrlkzAZE0/edit#gid=0",
+      "_blank"
+    );
+  };
   
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
@@ -1016,9 +1022,9 @@ function AddOrder() {
                   template, by{" "}
                   <span
                     className="underline cursor-pointer"
-
+                    onClick={downloadCSVTemplate}
                   >
-                    Clicking here
+                    Clicking here{" "}
                   </span>
                   The file must be saved with csv , xls and xlsx Format.
                 </p>
