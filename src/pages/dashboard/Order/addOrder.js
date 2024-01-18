@@ -262,19 +262,21 @@ function AddOrder() {
     const file = event.target.files[0];
     fileInputRef.current[index].current.file = file;
     console.log(file)
+    formikStep3.setFieldValue(`productsArray[${index}].file`, file);
     checkFileError(file,index)
   };
   
   const checkFileError = async (file,index) =>{
+    
     const formData = new FormData();
     formData.append('file',file)
     const fileValue = await fileValidation(formData);
     console.log(fileValue)
-    if (fileValue.code === 200){
-      formikStep3.setFieldValue(`productsArray[${index}].file`, file);
+    if (fileValue.code !== 200){
+      formikStep3.setFieldError(`productsArray[${index}].file`, fileValue.message);
     }
     else{
-     formikStep3.setFieldError(`productsArray[${index}].file`, fileValue.message);
+      formikStep3.setFieldError(`productsArray[${index}].file`, '');
     }
 
   }
@@ -962,7 +964,7 @@ function AddOrder() {
                       className="!bg-[#fff]"
                       label=" Start Date"
                       required={true}
-                      onInput={(e) => e.preventDefault()}
+                      readOnly
                       placeholder="" />
                   </div>
                   <div className='col-span-4'>
@@ -971,7 +973,7 @@ function AddOrder() {
                       name={`coverageStartDate`}
                       className="!bg-[#fff]"
                       label=" End Date"
-                      onInput={(e) => e.preventDefault()}
+                      readOnly
                       required={true}
                       placeholder="" />
                   </div>
