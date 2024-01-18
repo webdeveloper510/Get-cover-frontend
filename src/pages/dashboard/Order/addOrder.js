@@ -459,7 +459,6 @@ function AddOrder() {
                     name="servicerId"
                     placeholder=""
                     className="!bg-white"
-                    required={true}
                     onChange={handleSelectChange}
                     options={servicerData}
                     value={formik.values.servicerId}
@@ -472,7 +471,6 @@ function AddOrder() {
                     name="customerId"
                     placeholder=""
                     className="!bg-white"
-                    required={true}
                     onChange={handleSelectChange}
                     options={customerList}
                     value={formik.values.customerId}
@@ -671,7 +669,6 @@ function AddOrder() {
                       name={`productsArray[${index}].description`}
                       className="!bg-[#fff]"
                       label="Product Description"
-                      required={true}
                       placeholder=""
                       value={formikStep3.values.productsArray[index].description}
                       onChange={formikStep3.handleChange}
@@ -686,7 +683,6 @@ function AddOrder() {
                     <Select
                       label="Terms"
                       name={`productsArray[${index}].term`}
-                      required={true}
                       placeholder=""
                       onChange={handleSelectChange2}
                       className="!bg-[#fff]"
@@ -702,7 +698,6 @@ function AddOrder() {
                       name={`productsArray[${index}].priceType`}
                       className="!bg-[#fff]"
                       label="Product Price Type"
-                      required={true}
                       placeholder=""
                       value={formikStep3.values.productsArray[index].priceType}
                       onChange={formikStep3.handleChange}
@@ -720,7 +715,6 @@ function AddOrder() {
                       name={`productsArray[${index}].unitPrice`}
                       className="!bg-[#fff]"
                       label="Unit Price ($)"
-                      required={true}
                       placeholder=""
                       value={formikStep3.values.productsArray[index].unitPrice}
                       onChange={formikStep3.handleChange}
@@ -784,7 +778,6 @@ function AddOrder() {
                       name={`productsArray[${index}].price`}
                       className="!bg-[#fff]"
                       label="Price ($)"
-                      required={true}
                       placeholder=""
                       value={formikStep3.values.productsArray[index].price}
                       onChange={formikStep3.handleChange}
@@ -931,7 +924,7 @@ function AddOrder() {
                         htmlFor="description"
                         className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
                       >
-                        Note
+                        Note <span className="text-red-500">*</span>
                       </label>
                       <textarea
                         id={`productsArray[${index}].additionalNotes`}
@@ -1092,9 +1085,9 @@ function AddOrder() {
             </div>
             <div className='col-span-4'>
               <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Uploaded  Data</p>
-              <div className='border border-dashed w-full h-[83%] relative flex'>
-                <div className='self-center flex text-center mx-3 relative bg-white border w-full p-3'>
-                  <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" />
+              <div className='border border-dashed bg-[#F9F9F9] w-full h-[83%] relative flex'>
+                <div className='self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3'>
+                  <img src={cross} className="absolute -right-3 -top-3 mx-auto mb-3" alt="Dropbox" />
                   <img src={csvFile} className="mr-2" alt="Dropbox" />
                   <div className='flex justify-between w-full'>
                     <p className='self-center'>data structure name. csv</p>
@@ -1108,12 +1101,6 @@ function AddOrder() {
         )
       })
      }
-      <Grid className=' px-4'>
-                  <div className='col-span-12 py-4'>
-                    <p className='text-[12px]'>Total Amount</p>
-                    <p className='font-bold text-sm'>$ {calculateTotalAmount(formikStep3.values.productsArray)}</p>
-                  </div>
-                </Grid>
           </Grid>
           <Grid className='mt-5'>
             <div className='col-span-3'>
@@ -1135,16 +1122,25 @@ function AddOrder() {
                       />
             </p>
             </div>
-            <div className='col-span-3'>
-              <div className='flex border rounded-xl'>
+            <div className='col-span-3 pt-4'>
+              <div className='flex block  w-full text-base font-semibold bg-[#f9f9f9] rounded-lg border-[1px] border-gray-300 appearance-none peer undefined  border-gray-300  text-light-black'>
               <p className='self-center text-sm px-3'>Payment Status</p>
-              <Select
-                      label=""
-                      name='status'
-                      placeholder=""
-                      className1='w-full border-0'
-                      options={termList}
-                      />
+              <div className="relative">
+          <div
+            className={` 
+             
+                 bg-[#FF4747]
+             absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+          ></div>
+          <select
+          
+            className="text-[12px] border-l w-full border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold "
+          >
+            <option value="paid">Paid</option>
+            <option value="unpaid">Unpaid</option>
+            <option value="partlypaid">Partly Paid</option>
+          </select>
+        </div>
               </div>
             </div>
             <div className='col-span-2'>
@@ -1169,8 +1165,9 @@ function AddOrder() {
                       placeholder=""
                     />
             </div>
-            <div className='col-span-2' >
-              <p className='text-sm mt-4'>Total Amount: <b> $100.00 </b></p>
+            <div className='col-span-2 flex pt-4' >
+            <p className='text-[12px] pr-3'>Total Amount :</p>
+                    <p className='font-bold text-sm'>${calculateTotalAmount(formikStep3.values.productsArray)}</p>
             </div>
           </Grid>
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
