@@ -20,6 +20,7 @@ import { getCustomerListByDealerId } from '../../../services/customerServices';
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import { getCategoryListActiveData, getTermList } from '../../../services/priceBookService';
 import RadioButton from '../../../common/radio';
+import {fileValidation} from '../../../services/orderServices';
 
 
 function AddOrder() {
@@ -261,9 +262,22 @@ function AddOrder() {
     const file = event.target.files[0];
     fileInputRef.current[index].current.file = file;
     console.log(file)
-    formikStep3.setFieldValue(`productsArray[${index}].file`, file);
+    checkFileError(file,index)
   };
   
+  const checkFileError = async (file,index) =>{
+    const formData = new FormData();
+    formData.append('file',file)
+    const fileValue = await fileValidation(formData);
+    console.log(fileValue)
+    if (fileValue.code === 200){
+      formikStep3.setFieldValue(`productsArray[${index}].file`, file);
+    }
+    else{
+     formikStep3.setFieldError(`productsArray[${index}].file`, fileValue.message);
+    }
+
+  }
   useEffect(() => {
     fileInputRef.current = Array.from({ length: formikStep3.values.productsArray.length }, () => createRef());
   }, [formikStep3.values.productsArray.length]);
