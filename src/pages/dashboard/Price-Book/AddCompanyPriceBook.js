@@ -103,14 +103,17 @@ function AddCompanyPriceBook() {
             .required("Required")
             .nullable()
             .min(0, "Range Start cannot be negative"),
-      rangeEnd:
-        value !== "Flat Pricing"
-          ? Yup.number().notRequired()
-          : Yup.number()
-            .typeError("Required")
-            .required("Required")
-            .nullable()
-            .min(0, "Range End cannot be negative"),
+            rangeEnd: value !== "Flat Pricing"
+            ? Yup.number().notRequired()
+            : Yup.number()
+              .typeError("Required")
+              .required("Required")
+              .nullable()
+              .min(0, "Range End cannot be negative")
+              .test('endRange', 'End Range should be greater than start range', function (value) {
+                const { rangeStart } = this.parent;
+                return value > rangeStart;
+              }),
 
       quantityPriceDetail:
         value !== "Quantity Pricing"
@@ -129,6 +132,10 @@ function AddCompanyPriceBook() {
     }),
 
     onSubmit: async (values) => {
+      if(value !='Flat Pricing'){
+        delete values.rangeStart
+        delete values.rangeEnd
+        }
       let result;
       let checkErrors = false
       try {
