@@ -1,6 +1,6 @@
 import React, { createRef, useEffect, useRef, useState } from 'react'
 import Headbar from '../../../common/headBar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Select from '../../../common/select';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
@@ -20,7 +20,7 @@ import { getCustomerListByDealerId } from '../../../services/customerServices';
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import { getCategoryListActiveData, getTermList } from '../../../services/priceBookService';
 import RadioButton from '../../../common/radio';
-import {fileValidation} from '../../../services/orderServices';
+import { addOrder, fileValidation } from '../../../services/orderServices';
 
 
 function AddOrder() {
@@ -37,7 +37,10 @@ function AddOrder() {
   const [categoryList, setCategoryList] = useState([]);
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
-
+  const [fileValues, setFileValues] = useState([]);
+  const [sendNotification, setSendNotification] = useState(true)
+  const [numberOfOrders, setNumberOfOrders] = useState([]);
+  const navigate = useNavigate()
 
 
   const downloadCSVTemplate = async () => {
@@ -131,6 +134,10 @@ function AddOrder() {
         return null;
     }
   };
+  const handleRadioChange = (event) => {
+    setSendNotification(event.target.value === 'true');
+  };
+
   const formik = useFormik({
     initialValues: {
       dealerId: "",
@@ -191,8 +198,8 @@ function AddOrder() {
           additionalNotes: "",
           coverageEndDate: "",
           QuantityPricing: [],
-          rangeStart:'',
-          rangeEnd:""
+          rangeStart: '',
+          rangeEnd: ""
 
         }
       ],
@@ -202,7 +209,7 @@ function AddOrder() {
         Yup.object().shape({
           categoryId: Yup.string().required("Required"),
           priceBookId: Yup.string().required("Required"),
-          file: Yup.string().required("File is required"),
+          file: Yup.string().required("Valid File is required"),
           unitPrice: Yup.number()
             .typeError("Required")
             .required("Required")
@@ -263,21 +270,25 @@ function AddOrder() {
   const handleFileSelect = (event, index) => {
     const file = event.target.files[0];
     fileInputRef.current[index].current.file = file;
-    console.log(file)
-    formikStep3.setFieldValue(`productsArray[${index}].file`, file);
-    checkFileError(file,index)
+    setFileValues(prevFileValues => {
+      const newArray = [...prevFileValues];
+      newArray.splice(index, 0, file);
+      return newArray;
+    });
+    checkFileError(file, index)
   };
-  
-  const checkFileError = async (file,index) =>{
-    
+
+  const checkFileError = async (file, index) => {
+
     const formData = new FormData();
-    formData.append('file',file)
+    formData.append('file', file)
+    formData.append('noOfProducts', numberOfOrders[index])
     const fileValue = await fileValidation(formData);
-    console.log(fileValue)
-    if (fileValue.code !== 200){
+    if (fileValue.code !== 200) {
       formikStep3.setFieldError(`productsArray[${index}].file`, fileValue.message);
     }
-    else{
+    else {
+      formikStep3.setFieldValue(`productsArray[${index}].file`, file);
       formikStep3.setFieldError(`productsArray[${index}].file`, '');
     }
 
@@ -306,8 +317,8 @@ function AddOrder() {
       priceType: "",
       additionalNotes: "",
       QuantityPricing: [],
-      rangeStart:'',
-      rangeEnd:""
+      rangeStart: '',
+      rangeEnd: ""
     };
 
     formikStep3.setFieldValue("productsArray", [...formikStep3.values.productsArray, productsArray]);
@@ -365,7 +376,13 @@ function AddOrder() {
       );
       if (match) {
         const response = await getProductListbyProductCategoryId(selectedValue);
-        console.log(response)
+        setNumberOfOrders(prevFileValues => {
+          const newArray = [...prevFileValues];
+          newArray.splice(match[1], 1);
+          console.log(newArray);
+          return newArray;
+        });
+
         setProductNameOptions((prevOptions) => {
           const newOptions = [...prevOptions];
           newOptions[match[1]] = {
@@ -382,8 +399,8 @@ function AddOrder() {
                 item.reinsuranceFee +
                 item.adminFee,
               status: item.status,
-              rangeStart:item?.rangeStart?.toFixed(2),
-              rangeEnd:item?.rangeEnd?.toFixed(2)
+              rangeStart: item?.rangeStart?.toFixed(2),
+              rangeEnd: item?.rangeEnd?.toFixed(2)
             })),
           };
           return newOptions;
@@ -441,7 +458,6 @@ function AddOrder() {
     for (let i = 0; i < formikStep3.values.productsArray.length; i++) {
       if (formikStep3.values.productsArray[i].priceType === "Quantity Pricing") {
         let maxRoundedValue = 0;
-        let maxRoundedValueIndex = 0;
 
         for (let j = 0; j < formikStep3.values.productsArray[i].QuantityPricing.length; j++) {
           const enteredValue = formikStep3.values.productsArray[i].QuantityPricing[j].enterQuantity;
@@ -453,6 +469,12 @@ function AddOrder() {
           }
         }
         const unitPrice = parseFloat(formikStep3.values.productsArray[i].unitPrice);
+        setNumberOfOrders(prevFileValues => {
+          const newArray = [...prevFileValues];
+          newArray[i] = maxRoundedValue;
+          console.log(newArray)
+          return newArray;
+        });
         formikStep3.setFieldValue(`productsArray[${i}].price`, (unitPrice.toFixed(2) * maxRoundedValue).toFixed(2));
       }
     }
@@ -806,8 +828,14 @@ function AddOrder() {
                           onChange={(e) => {
                             formikStep3.handleChange(e);
                             const unitPrice = formikStep3.values.productsArray[index].unitPrice;
-                            const enteredValue = e.target.value;
+                            const enteredValue = parseFloat(e.target.value);
                             const calculatedPrice = unitPrice * enteredValue;
+                            setNumberOfOrders(prevFileValues => {
+                              const newArray = [...prevFileValues];
+                              newArray[index] = enteredValue;
+                              console.log(newArray)
+                              return newArray;
+                            });
                             formikStep3.setFieldValue(`productsArray[${index}].price`, calculatedPrice.toFixed(2));
                           }}
                           onBlur={formikStep3.handleBlur}
@@ -897,44 +925,44 @@ function AddOrder() {
 
                   </div>
                   {(
-  formikStep3.values.productsArray[index].priceType === 'FlatPricing' ||
-  formikStep3.values.productsArray[index].priceType === 'Flat Pricing'
-) && (
-  <>
-    <div className='col-span-4'>
-    <Input
-                      type="text"
-                      name={`productsArray[${index}].rangeStart`}
-                      className="!bg-[#fff]"
-                      label="Start Range"
-                      placeholder=""
-                      value={formikStep3.values.productsArray[index].rangeStart}
-                      onChange={formikStep3.handleChange}
-                      onBlur={formikStep3.handleBlur}
-                      disabled={true}
-                      onWheelCapture={(e) => {
-                        e.preventDefault();
-                      }}
-                    />
-    </div>
-    <div className='col-span-4'>
-    <Input
-                      type="text"
-                      name={`productsArray[${index}].rangeEnd`}
-                      className="!bg-[#fff]"
-                      label="End Range"
-                      placeholder=""
-                      value={formikStep3.values.productsArray[index].rangeEnd}
-                      onChange={formikStep3.handleChange}
-                      onBlur={formikStep3.handleBlur}
-                      disabled={true}
-                      onWheelCapture={(e) => {
-                        e.preventDefault();
-                      }}
-                    />
-    </div>
-  </>
-)}
+                    formikStep3.values.productsArray[index].priceType === 'FlatPricing' ||
+                    formikStep3.values.productsArray[index].priceType === 'Flat Pricing'
+                  ) && (
+                      <>
+                        <div className='col-span-4'>
+                          <Input
+                            type="text"
+                            name={`productsArray[${index}].rangeStart`}
+                            className="!bg-[#fff]"
+                            label="Start Range"
+                            placeholder=""
+                            value={formikStep3.values.productsArray[index].rangeStart}
+                            onChange={formikStep3.handleChange}
+                            onBlur={formikStep3.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+                        <div className='col-span-4'>
+                          <Input
+                            type="text"
+                            name={`productsArray[${index}].rangeEnd`}
+                            className="!bg-[#fff]"
+                            label="End Range"
+                            placeholder=""
+                            value={formikStep3.values.productsArray[index].rangeEnd}
+                            onChange={formikStep3.handleChange}
+                            onBlur={formikStep3.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+                      </>
+                    )}
                   <div className='col-span-12'>
                     <Grid className='!grid-cols-3'>
                       {
@@ -1019,7 +1047,7 @@ function AddOrder() {
                       }
                     </Grid>
                   </div>
-             
+
 
                   <div className='col-span-12'>
                     <div className="relative">
@@ -1065,13 +1093,13 @@ function AddOrder() {
                       onClick={() => handleDropdownClick(index)}
                       className={`bg-[#F2F2F2] py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
                     >
-                      {data.file ? (
+                      {fileValues[index] ? (
                         <div className='self-center flex text-center relative bg-white border w-full p-3'>
                           {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
                           <img src={csvFile} className="mr-2" alt="Dropbox" />
                           <div className='flex justify-between w-full'>
-                            <p className='self-center text-sm pr-3'>{data.file.name}</p>
-                            <p className='self-center text-sm'>{(data.file.size / 1000).toFixed(2)} kb</p>
+                            <p className='self-center text-sm pr-3'>{fileValues[index].name}</p>
+                            <p className='self-center text-sm'>{(fileValues[index].size / 1000).toFixed(2)} kb</p>
                           </div>
                         </div>
 
@@ -1096,6 +1124,7 @@ function AddOrder() {
                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                       style={{ display: "none" }}
                       onChange={(e) => handleFileSelect(e, index)}
+                      disabled={Boolean(numberOfOrders[index]) === true ? false : true}
                     />
                   </div>
 
@@ -1127,7 +1156,7 @@ function AddOrder() {
 
             </Grid>
           </div>
-         ))}
+        ))}
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
         <Button onClick={formikStep3.handleSubmit}>Next</Button>
       </div>
@@ -1183,7 +1212,6 @@ function AddOrder() {
             </div>
             {
               formikStep3.values.productsArray.map((data, index) => {
-                console.log(data.file.size)
                 return (
                   <>
                     <div className='col-span-8'>
@@ -1257,16 +1285,16 @@ function AddOrder() {
                 <RadioButton
                   id="yes-create-account"
                   label="Yes"
-                  value="yes"
-                // checked={createAccountOption === "yes"}
-                // onChange={handleRadioChange}
+                  value={true}
+                  checked={sendNotification === true}
+                  onChange={handleRadioChange}
                 />
                 <RadioButton
                   id="no-create-account"
                   label="No"
-                  value="no"
-                // checked={createAccountOption === "no"}
-                // onChange={handleRadioChange}
+                  value={false}
+                  checked={sendNotification === false}
+                  onChange={handleRadioChange}
                 />
               </p>
             </div>
@@ -1326,42 +1354,63 @@ function AddOrder() {
     );
   };
 
-  const orderSubmit = () => {
+  const orderSubmit = async () => {
+    const arr = [];
+    formikStep3.values.productsArray.map((res, index) => {
+      arr.push(res.file);
+    });
+    console.log(arr)
+    // const updatedProductsArray = formikStep3.values.productsArray.filter(item => delete item.file);
+
     const data = {
       ...formik.values,
       ...formikStep2.values,
       ...formikStep3.values,
       paidAmount: 123,
-      dueAmount: 21
-    };
-    const formData = new FormData();
-    appendToFormData(formData, data);
-    formData.forEach((value, key) => {
-      console.log(`formData uper   ${key}: ${value}`);
-    });
+      file:arr,
+      dueAmount: 21,
+      sendNotification: sendNotification,
+      paymentStatus: "Paid",
 
+    };
+    console.log(data)
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((item, index) => {
+          Object.entries(item).forEach(([key1, value1]) => {
+            if (!Array.isArray(value1) && key1 !== 'file') {
+              formData.append(`${key}[${index}][${key1}]`, value1);
+            }
+            if (key1 === 'file') {
+              formData.append(`file[${index}]`, item.file);
+            } else {
+            
+            }
+          })
+          if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
+            item.QuantityPricing.forEach((qpItem, qpIndex) => {
+              Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
+                formData.append(`${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`, qpValue);
+              });
+            });
+          }
+        });
+      } else {
+        formData.append(key, value);
+      }
+    });
+    for (var pair of formData.entries()) {
+      console.log(pair[0]+ ', ' + pair[1]); 
+  }
+  
+    const order = await addOrder(formData);
+    if (order.code === 200) {
+      //  navigate('/orderList')
+    }
+    console.log(order)
   }
 
-  const appendToFormData = (formData, data, parentKey = "") => {
-    for (let key in data) {
-      if (data.hasOwnProperty(key)) {
-        const value = data[key];
-        const fullKey = parentKey ? `${parentKey}.${key}` : key;
-
-        if (Array.isArray(value)) {
-          value.forEach((item, index) => appendToFormData(formData, item, `${fullKey}[${index}]`));
-        } else if (value instanceof File) {
-          formData.append(fullKey, value, value.name);
-        } else if (typeof value === "object" && value !== null) {
-          appendToFormData(formData, value, fullKey);
-        } else {
-          formData.append(fullKey, value);
-        }
-      }
-    }
-
-    return formData;
-  };
 
 
   return (
