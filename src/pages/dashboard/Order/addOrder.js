@@ -1029,7 +1029,7 @@ function AddOrder() {
                           <img src={csvFile} className="mr-2" alt="Dropbox" />
                           <div className='flex justify-between w-full'>
                             <p className='self-center text-sm pr-3'>{data.file.name}</p>
-                            <p className='self-center text-sm'>4MB</p>
+                            <p className='self-center text-sm'>{(data.file.size / 1000).toFixed(2)} kb</p>
                           </div>
                         </div>
 
