@@ -166,7 +166,7 @@ function ContractList() {
                         <div className=''>
                           <p className='text-base font-Regular'> Status :  <b> Waiting </b> </p> 
                         </div>
-                        <div ></div>
+                      
                       </div>
                       <div className='col-span-6'>
                         <div className=''>

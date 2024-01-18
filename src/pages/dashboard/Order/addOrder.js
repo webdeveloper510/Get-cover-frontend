@@ -8,9 +8,9 @@ import moment from 'moment';
 import { format ,addMonths } from 'date-fns';
 // Media Include
 import BackImage from '../../../assets/images/icons/backArrow.svg'
-import Dropbox from "../../../assets/images/icons/dropBox.svg";
+import cross from "../../../assets/images/icons/CrossButton.svg";
+import csvFile from "../../../assets/images/icons/csvFile.svg";
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
-import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import check from "../../../assets/images/icons/check.svg";
 import Button from '../../../common/button';
 import { useFormik } from "formik";
@@ -20,6 +20,7 @@ import { getServicerListByDealerId } from '../../../services/servicerServices';
 import { getCustomerListByDealerId } from '../../../services/customerServices';
 import FileDropdown from '../../../common/fileDropbox';
 import { getCategoryListActiveData, getTermList } from '../../../services/priceBookService';
+import RadioButton from '../../../common/radio';
 
 
 function AddOrder() {
@@ -1032,18 +1033,78 @@ function AddOrder() {
             <div className='col-span-4'>
               <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Uploaded  Data</p>
               <div className='border border-dashed w-full h-[83%] relative flex'>
-                <div className='self-center text-center'>
-                  <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
-                  <p className="text-[#5D6E66] text-sm">
-                    Accepted file types: csv, xls, xlsx Max. file size: 50 MB.
-                  </p>
+                <div className='self-center flex text-center mx-3 relative bg-white border w-full p-3'>
+                  <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" />
+                  <img src={csvFile} className="mr-2" alt="Dropbox" />
+                  <div className='flex justify-between w-full'>
+                    <p className='self-center'>data structure name. csv</p>
+                    <p className='self-center'>4MB</p>
+                  </div>
                 </div>
               </div>
             </div>
           </Grid>
-        </div>
+          <Grid className='mt-5'>
+            <div className='col-span-3'>
+            <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
+                      Do you want to sent notifications ?
+                      <RadioButton
+                        id="yes-create-account"
+                        label="Yes"
+                        value="yes"
+                        // checked={createAccountOption === "yes"}
+                        // onChange={handleRadioChange}
+                      />
+                      <RadioButton
+                        id="no-create-account"
+                        label="No"
+                        value="no"
+                        // checked={createAccountOption === "no"}
+                        // onChange={handleRadioChange}
+                      />
+            </p>
+            </div>
+            <div className='col-span-3'>
+              <div className='flex border rounded-xl'>
+              <p className='self-center text-sm px-3'>Payment Status</p>
+              <Select
+                      label=""
+                      name='status'
+                      placeholder=""
+                      className1='w-full border-0'
+                      options={termList}
+                      />
+              </div>
+            </div>
+            <div className='col-span-2'>
+            <Input
+                      type="number"
+                      name={`quantity`}
+                      className="!bg-[#fff]"
+                      label="Paid Amount"
+                      maxLength={"10"}
+                      maxDecimalPlaces={2}
+                      placeholder=""
+                    />
+            </div>
+            <div className='col-span-2'>
+            <Input
+                      type="number"
+                      name={`quantity`}
+                      className="!bg-[#fff]"
+                      label="Pending Amount"
+                      maxLength={"10"}
+                      maxDecimalPlaces={2}
+                      placeholder=""
+                    />
+            </div>
+            <div className='col-span-2' >
+              <p className='text-sm mt-4'>Total Amount: <b> $100.00 </b></p>
+            </div>
+          </Grid>
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
         <Button>Submit</Button>
+        </div>
       </>
 
     );
