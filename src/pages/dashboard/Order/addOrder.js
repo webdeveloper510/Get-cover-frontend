@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { createRef, useEffect, useRef, useState } from 'react'
 import Headbar from '../../../common/headBar'
 import { Link } from 'react-router-dom'
 import Select from '../../../common/select';
@@ -17,7 +17,7 @@ import * as Yup from "yup";
 import { getDealersList, getProductListbyProductCategoryId } from '../../../services/dealerServices';
 import { getServicerListByDealerId } from '../../../services/servicerServices';
 import { getCustomerListByDealerId } from '../../../services/customerServices';
-import FileDropdown from '../../../common/fileDropbox';
+import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import { getCategoryListActiveData, getTermList } from '../../../services/priceBookService';
 import RadioButton from '../../../common/radio';
 
@@ -36,6 +36,8 @@ function AddOrder() {
   const [categoryList, setCategoryList] = useState([]);
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
+
+
 
   
   const nextStep = () => {
@@ -191,6 +193,7 @@ function AddOrder() {
         Yup.object().shape({
           categoryId: Yup.string().required("Required"),
           priceBookId: Yup.string().required("Required"),
+          file: Yup.string().required("File is required"),
           unitPrice: Yup.number()
             .typeError("Required")
             .required("Required")
@@ -225,7 +228,7 @@ function AddOrder() {
             .typeError("Required")
             .required("Required")
             .nullable(),
-          // file: Yup.string().required("File is required"),
+         
           coverageStartDate: Yup.date().required("Date is required")
         })
       ),
@@ -247,7 +250,23 @@ function AddOrder() {
       nextStep();
     },
   });
-
+  const fileInputRef = useRef([]);
+  const handleFileSelect = (event, index) => {
+    const file = event.target.files[0];
+    fileInputRef.current[index].current.file = file;
+    console.log(file)
+    formikStep3.setFieldValue(`productsArray[${index}].file`, file);
+  };
+  
+  useEffect(() => {
+    fileInputRef.current = Array.from({ length: formikStep3.values.productsArray.length }, () => createRef());
+  }, [formikStep3.values.productsArray.length]);
+  
+  const handleDropdownClick = (index) => {
+    if (fileInputRef.current[index]  ) {
+       fileInputRef.current[index].current.click();
+    }
+  };
   const handleAddProduct = () => {
     const productsArray = {
       categoryId: "",
@@ -924,7 +943,7 @@ function AddOrder() {
                         htmlFor="description"
                         className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
                       >
-                        Note <span className="text-red-500">*</span>
+                        Note 
                       </label>
                       <textarea
                         id={`productsArray[${index}].additionalNotes`}
@@ -957,11 +976,37 @@ function AddOrder() {
                     Upload File
                   </label>
                   <div className='self-center text-center'>
-                    <FileDropdown
-                      className="!bg-transparent !border-0"
+                  <button
+        type="button"
+        onClick={() => handleDropdownClick(index)}
+        className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
+      >
+                 {data.file ? (
+          data.file.name
+                    ) : (
+                      <>
+                        <img
+                          src={Dropbox}
+                          className="mx-auto mb-3"
+                          alt="Dropbox"
+                        />
+                        <p className="text-[#5D6E66]">
+                          Accepted file types: csv, xlsx, xls Max. file size: 50
+                          MB.
+                        </p>
+                      </>
+                    )}
+                  </button>
 
-                    />
-                  </div>
+                  <input
+        type="file"
+        ref={fileInputRef.current[index]}
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        style={{ display: "none" }}
+        onChange={(e) => handleFileSelect(e, index)}
+      />
+                </div>
+               
                 </div>
               </div>
               <div className='col-span-12'>
@@ -976,7 +1021,17 @@ function AddOrder() {
                     Clicking here
                   </span>
                   The file must be saved with csv , xls and xlsx Format.
-                </p></div>
+                </p>
+                {formikStep3.errors.productsArray &&
+                          formikStep3.errors.productsArray[index] &&
+                          formikStep3.errors.productsArray &&
+                          formikStep3.errors.productsArray[index] &&
+                          formikStep3.errors.productsArray[index].file && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formikStep3.errors.productsArray[index].file}
+                            </div>
+                          )}</div>
+                
             </Grid>
 
 
@@ -1037,6 +1092,7 @@ function AddOrder() {
             </div>
      {
       formikStep3.values.productsArray.map((data,index)=>{
+        console.log(data.file.size)
         return (
           <>
                  <div className='col-span-8'>
@@ -1087,11 +1143,12 @@ function AddOrder() {
               <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Uploaded  Data</p>
               <div className='border border-dashed bg-[#F9F9F9] w-full h-[83%] relative flex'>
                 <div className='self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3'>
-                  <img src={cross} className="absolute -right-3 -top-3 mx-auto mb-3" alt="Dropbox" />
+                  {/* <img src={cross} className="absolute -right-3 -top-3 mx-auto mb-3" alt="Dropbox" /> */}
                   <img src={csvFile} className="mr-2" alt="Dropbox" />
                   <div className='flex justify-between w-full'>
-                    <p className='self-center'>data structure name. csv</p>
-                    <p className='self-center'>4MB</p>
+                    <p className='self-center'>{data.file.name}</p>
+                    <p className='self-center'>{(data.file.size / 1000).toFixed(2)} kb</p>
+
                   </div>
                 </div>
               </div>
@@ -1194,30 +1251,27 @@ const orderSubmit =() =>{
 
 }
 
-const appendToFormData = (formData, data, parentKey = "") => {
-  for (let key in data) {
-    if (data.hasOwnProperty(key)) {
-      const value = data[key];
-      const fullKey = parentKey ? `${parentKey}.${key}` : key;
-
-      if (Array.isArray(value)) {
-        value.forEach((item, index) => {
-          appendToFormData(formData, item, `${fullKey}[${index}]`);
-        });
-      } else if (value instanceof File) {
-        formData.append(fullKey, value);
-      } else if (typeof value === "object" && value !== null) {
+  const appendToFormData = (formData, data, parentKey = "") => {
+    for (let key in data) {
+      if (data.hasOwnProperty(key)) {
+        const value = data[key];
+        const fullKey = parentKey ? `${parentKey}.${key}` : key;
   
-        appendToFormData(formData, value, fullKey);
-      } else {
-        
-        formData.append(fullKey, value);
+        if (Array.isArray(value)) {
+          value.forEach((item, index) => appendToFormData(formData, item, `${fullKey}[${index}]`));
+        } else if (value instanceof File) {
+          formData.append(fullKey, value, value.name);
+        } else if (typeof value === "object" && value !== null) {
+          appendToFormData(formData, value, fullKey);
+        } else {
+          formData.append(fullKey, value);
+        }
       }
     }
-  }
-
-  return formData;
-}
+  
+    return formData;
+  };
+  
 
   return (
     <div className='my-8 ml-3'>
