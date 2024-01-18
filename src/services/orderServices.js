@@ -35,3 +35,25 @@ export const getOrders = async () => {
       throw error;
     }
   };
+
+  export const fileValidation =async (data) =>{
+    console.log(data)
+    const accessToken = getAccessToken();
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+  
+    if (accessToken) {
+      headers["x-access-token"] = accessToken;
+    }
+    console.log(headers);
+    try {
+      const response = await axios.post(`${url}/order/checkFileValidation`, data, {
+        headers,
+      });
+  
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
