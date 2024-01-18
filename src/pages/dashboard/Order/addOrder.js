@@ -949,7 +949,7 @@ function AddOrder() {
                         htmlFor="description"
                         className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
                       >
-                        Note <span className="text-red-500">*</span>
+                        Note 
                       </label>
                       <textarea
                         id={`productsArray[${index}].additionalNotes`}
@@ -1241,21 +1241,21 @@ function AddOrder() {
     );
   };
 
-  const orderSubmit =() =>{
-    const data = {
-      ...formik.values,
-      ...formikStep2.values,
-      ...formikStep3.values, 
-      paidAmount: 123,
-      dueAmount: 21
-    };
-    const formData = new FormData();
-    appendToFormData(formData, data);
-    formData.forEach((value, key) => {
-      console.log(`formData uper   ${key}: ${value}`);
-    });
+const orderSubmit =() =>{
+  const data = {
+    ...formik.values,
+    ...formikStep2.values,
+    ...formikStep3.values, 
+    paidAmount: 123,
+    dueAmount: 21
+  };
+  const formData = new FormData();
+  appendToFormData(formData, data);
+  formData.forEach((value, key) => {
+    console.log(`formData uper   ${key}: ${value}`);
+  });
 
-  }
+}
 
   const appendToFormData = (formData, data, parentKey = "") => {
     for (let key in data) {

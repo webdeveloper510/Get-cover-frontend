@@ -134,10 +134,10 @@ setOrderList(result.result)
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-          <div onClick={() => setSelectedAction(selectedAction === row.Categoryid ? null : row.Categoryid)}>
+          <div onClick={() => setSelectedAction(selectedAction === row.unique_key ? null : row.unique_key)}>
             <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
           </div>
-          {selectedAction === row.Categoryid && (
+          {selectedAction === row.unique_key && (
             <div className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
               index
             )}`}>
