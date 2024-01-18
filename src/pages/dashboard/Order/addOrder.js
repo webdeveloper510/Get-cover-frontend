@@ -191,6 +191,8 @@ function AddOrder() {
           additionalNotes: "",
           coverageEndDate: "",
           QuantityPricing: [],
+          rangeStart:'',
+          rangeEnd:""
 
         }
       ],
@@ -303,7 +305,9 @@ function AddOrder() {
       term: "",
       priceType: "",
       additionalNotes: "",
-      QuantityPricing: []
+      QuantityPricing: [],
+      rangeStart:'',
+      rangeEnd:""
     };
 
     formikStep3.setFieldValue("productsArray", [...formikStep3.values.productsArray, productsArray]);
@@ -348,11 +352,20 @@ function AddOrder() {
         ""
       );
       formikStep3.setFieldValue(
+        `productsArray[${match[1]}].rangeEnd`,
+        ''
+      );
+      formikStep3.setFieldValue(
+        `productsArray[${match[1]}].rangeStart`,
+        ''
+      );
+      formikStep3.setFieldValue(
         `productsArray[${match[1]}].priceType`,
         ""
       );
       if (match) {
         const response = await getProductListbyProductCategoryId(selectedValue);
+        console.log(response)
         setProductNameOptions((prevOptions) => {
           const newOptions = [...prevOptions];
           newOptions[match[1]] = {
@@ -369,6 +382,8 @@ function AddOrder() {
                 item.reinsuranceFee +
                 item.adminFee,
               status: item.status,
+              rangeStart:item?.rangeStart?.toFixed(2),
+              rangeEnd:item?.rangeEnd?.toFixed(2)
             })),
           };
           return newOptions;
@@ -401,6 +416,14 @@ function AddOrder() {
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].description`,
         data.description
+      );
+      formikStep3.setFieldValue(
+        `productsArray[${match[1]}].rangeEnd`,
+        data.rangeEnd
+      );
+      formikStep3.setFieldValue(
+        `productsArray[${match[1]}].rangeStart`,
+        data.rangeStart
       );
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].QuantityPricing`,
@@ -873,6 +896,45 @@ function AddOrder() {
                       )}
 
                   </div>
+                  {(
+  formikStep3.values.productsArray[index].priceType === 'FlatPricing' ||
+  formikStep3.values.productsArray[index].priceType === 'Flat Pricing'
+) && (
+  <>
+    <div className='col-span-4'>
+    <Input
+                      type="text"
+                      name={`productsArray[${index}].rangeStart`}
+                      className="!bg-[#fff]"
+                      label="Start Range"
+                      placeholder=""
+                      value={formikStep3.values.productsArray[index].rangeStart}
+                      onChange={formikStep3.handleChange}
+                      onBlur={formikStep3.handleBlur}
+                      disabled={true}
+                      onWheelCapture={(e) => {
+                        e.preventDefault();
+                      }}
+                    />
+    </div>
+    <div className='col-span-4'>
+    <Input
+                      type="text"
+                      name={`productsArray[${index}].rangeEnd`}
+                      className="!bg-[#fff]"
+                      label="End Range"
+                      placeholder=""
+                      value={formikStep3.values.productsArray[index].rangeEnd}
+                      onChange={formikStep3.handleChange}
+                      onBlur={formikStep3.handleBlur}
+                      disabled={true}
+                      onWheelCapture={(e) => {
+                        e.preventDefault();
+                      }}
+                    />
+    </div>
+  </>
+)}
                   <div className='col-span-12'>
                     <Grid className='!grid-cols-3'>
                       {
@@ -957,6 +1019,7 @@ function AddOrder() {
                       }
                     </Grid>
                   </div>
+<<<<<<< HEAD
                   <div className='col-span-4'>
                     <Input
                       type="date"
@@ -977,6 +1040,10 @@ function AddOrder() {
                       required={true}
                       placeholder="" />
                   </div>
+=======
+             
+
+>>>>>>> 71757974d9389d7d113278b46c5f2980aa268297
                   <div className='col-span-12'>
                     <div className="relative">
                       <label
