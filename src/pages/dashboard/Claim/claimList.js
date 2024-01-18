@@ -298,10 +298,8 @@ function ClaimList() {
                       <img src={attach} alt='' />
                     </div>
                   </Grid>
-
                 </div>
               </Grid>
-
             </div>
           </div>
 
@@ -672,7 +670,7 @@ function ClaimList() {
                 Comments Details
               </p>
               <div className='h-[500px] max-h-[500px] overflow-y-scroll'>
-
+             
               </div>
               <div>
                 <p><b> Attachment : </b>  Accepted file types: jpg, gif, png, Max. file size: 50 MB.</p>
