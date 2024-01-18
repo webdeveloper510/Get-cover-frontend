@@ -948,7 +948,7 @@ function AddOrder() {
                       className="!bg-[#fff]"
                       label=" Start Date"
                       required={true}
-                      readOnly
+                      onInput={(e) => e.preventDefault()}
                       placeholder="" />
                   </div>
                   <div className='col-span-4'>
@@ -957,7 +957,7 @@ function AddOrder() {
                       name={`coverageStartDate`}
                       className="!bg-[#fff]"
                       label=" End Date"
-                      readOnly
+                      onInput={(e) => e.preventDefault()}
                       required={true}
                       placeholder="" />
                   </div>
