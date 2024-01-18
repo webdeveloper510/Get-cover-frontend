@@ -28,7 +28,10 @@ function OrderList() {
 
   const status = [
     { label: 'Active', value: true },
-    { label: 'Inactive', value: false },
+    { label: 'Waiting', value: false },
+    { label: 'Expired', value: false },
+    { label: 'Canceled', value: false },
+    { label: 'Refunded', value: false },
   ];
 
   useEffect(()=>{
@@ -178,7 +181,7 @@ setOrderList(result.result)
               <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                 <Grid className='!grid-cols-11' >
                   <div className='col-span-3 self-center'>
-                    <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Order ID' />
+                    <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='ID' />
                   </div>
                   <div className='col-span-3 self-center'>
                     <Input name='orderNo' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Dealer Order No.' />
@@ -186,7 +189,6 @@ setOrderList(result.result)
                   <div className='col-span-3 self-center'>
                   <Select label=""
                       options={status}
-                      OptionName='Dealer Name'
                       color='text-[#1B1D21] opacity-50'
                       className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                       className="!text-[14px] !bg-[#f7f7f7]"

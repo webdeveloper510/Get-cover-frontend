@@ -46,7 +46,7 @@ function AddOrder() {
       "_blank"
     );
   };
-  
+
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
   };
@@ -71,7 +71,7 @@ function AddOrder() {
   };
   const getDealerListData = async () => {
     const result = await getDealersList();
-  
+
     let arr = [];
     const filteredDealers = result.data.filter(
       (data) => data.dealerData.accountStatus === true
@@ -143,9 +143,9 @@ function AddOrder() {
       customerId: Yup.string()
     }),
     onSubmit: (values) => {
-        const foundDealer = dealerList.find((data) => data.value === values.dealerId);
-        setDealerName(foundDealer ? foundDealer.label : "");
- 
+      const foundDealer = dealerList.find((data) => data.value === values.dealerId);
+      setDealerName(foundDealer ? foundDealer.label : "");
+
       if (values.servicerId) {
         const foundServicer = servicerData.find((data) => data.value === values.servicerId);
         setServicerName(foundServicer ? foundServicer.label : "");
@@ -220,7 +220,7 @@ function AddOrder() {
                   Yup.object().shape({
                     // name: Yup.string().required("Required"),
                     // quantity: Yup.number().required("Required"),
-                    value:Yup.number(),
+                    value: Yup.number(),
                     enterQuantity: Yup.number()
                       .typeError("Required")
                       .required("Required")
@@ -235,22 +235,22 @@ function AddOrder() {
             .typeError("Required")
             .required("Required")
             .nullable(),
-         
+
           coverageStartDate: Yup.date().required("Date is required")
         })
       ),
     }),
     onSubmit: (values) => {
-      let arr =[]
-      let arr1 =[]
-      values.productsArray.map((data,index)=>{
+      let arr = []
+      let arr1 = []
+      values.productsArray.map((data, index) => {
         const value = categoryList.find((val) => val.value === data.categoryId);
         arr.push(value ? value.label : "");
-        const value1 = productNameOptions.map((val) =>({
+        const value1 = productNameOptions.map((val) => ({
           ...val,
           data: val.data.filter((res) => res.value === data.priceBookId),
-        })).filter((value)=>value.data.length>0)[0].data[0];
-        arr1.push(value1 ? value1.label : "");    
+        })).filter((value) => value.data.length > 0)[0].data[0];
+        arr1.push(value1 ? value1.label : "");
       })
       setCategoryName(arr)
       setPriceBookName(arr1)
@@ -281,10 +281,10 @@ function AddOrder() {
   useEffect(() => {
     fileInputRef.current = Array.from({ length: formikStep3.values.productsArray.length }, () => createRef());
   }, [formikStep3.values.productsArray.length]);
-  
+
   const handleDropdownClick = (index) => {
-    if (fileInputRef.current[index]  ) {
-       fileInputRef.current[index].current.click();
+    if (fileInputRef.current[index]) {
+      fileInputRef.current[index].current.click();
     }
   };
   const handleAddProduct = () => {
@@ -417,7 +417,7 @@ function AddOrder() {
       if (formikStep3.values.productsArray[i].priceType === "Quantity Pricing") {
         let maxRoundedValue = 0;
         let maxRoundedValueIndex = 0;
-  
+
         for (let j = 0; j < formikStep3.values.productsArray[i].QuantityPricing.length; j++) {
           const enteredValue = formikStep3.values.productsArray[i].QuantityPricing[j].enterQuantity;
           const quantity = formikStep3.values.productsArray[i].QuantityPricing[j].quantity;
@@ -427,8 +427,8 @@ function AddOrder() {
             maxRoundedValue = roundedValue;
           }
         }
-        const unitPrice =parseFloat( formikStep3.values.productsArray[i].unitPrice);
-        formikStep3.setFieldValue(`productsArray[${i}].price`, (unitPrice.toFixed(2)*maxRoundedValue).toFixed(2));
+        const unitPrice = parseFloat(formikStep3.values.productsArray[i].unitPrice);
+        formikStep3.setFieldValue(`productsArray[${i}].price`, (unitPrice.toFixed(2) * maxRoundedValue).toFixed(2));
       }
     }
   }, [formikStep3.values.productsArray]);
@@ -613,7 +613,6 @@ function AddOrder() {
   };
 
   const renderStep3 = () => {
-    // Step 3 content
     return (
       <div className='mb-3'>
         {formikStep3?.values?.productsArray.map((data, index) => (
@@ -633,7 +632,7 @@ function AddOrder() {
                     handleDeleteProduct(index);
                   }}
                 >
-                  <div className="flex h-full mx-3 bg-[#fff] justify-center">
+                  <div className="flex h-full mx-3 bg-[#fff] rounded-[30px] justify-center">
                     <img src={Delete} alt="Delete" className='cursor-pointer' />
                   </div>
                 </div>
@@ -835,6 +834,7 @@ function AddOrder() {
                       label="Coverage Start Date"
                       required={true}
                       placeholder=""
+                      readOnly
                       value={formikStep3.values.productsArray[index].coverageStartDate == '' ? formikStep3.values.productsArray[index].coverageStartDate : format(new Date(formikStep3.values.productsArray[index].coverageStartDate), 'yyyy-MM-dd')}
                       onChange={(e) => {
                         formikStep3.handleChange(e);
@@ -927,8 +927,8 @@ function AddOrder() {
                                           onChange={(e) => {
                                             formikStep3.handleChange(e);
                                           }
-                                          
-                                        }
+
+                                          }
                                           onBlur={formikStep3.handleBlur}
                                           onWheelCapture={(e) => {
                                             e.preventDefault();
@@ -955,6 +955,26 @@ function AddOrder() {
                       }
                     </Grid>
                   </div>
+                  <div className='col-span-4'>
+                    <Input
+                      type="date"
+                      name={`coverageStartDate`}
+                      className="!bg-[#fff]"
+                      label=" Start Date"
+                      required={true}
+                      readOnly
+                      placeholder="" />
+                  </div>
+                  <div className='col-span-4'>
+                    <Input
+                      type="date"
+                      name={`coverageStartDate`}
+                      className="!bg-[#fff]"
+                      label=" End Date"
+                      readOnly
+                      required={true}
+                      placeholder="" />
+                  </div>
 
 
                   <div className='col-span-12'>
@@ -963,7 +983,7 @@ function AddOrder() {
                         htmlFor="description"
                         className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
                       >
-                        Note 
+                        Note
                       </label>
                       <textarea
                         id={`productsArray[${index}].additionalNotes`}
@@ -988,7 +1008,7 @@ function AddOrder() {
                 </Grid>
               </div>
               <div className='col-span-4'>
-                <div className='border border-dashed w-full h-full relative flex justify-center'>
+                <div className='border border-dashed w-full h-[80%] relative flex justify-center'>
                   <label
                     htmlFor="description"
                     className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
@@ -996,40 +1016,46 @@ function AddOrder() {
                     Upload File
                   </label>
                   <div className='self-center text-center'>
-                  <button
-        type="button"
-        onClick={() => handleDropdownClick(index)}
-        className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
-      >
-                 {data.file ? (
-          data.file.name
-                    ) : (
-                      <>
-                        <img
-                          src={Dropbox}
-                          className="mx-auto mb-3"
-                          alt="Dropbox"
-                        />
-                        <p className="text-[#5D6E66]">
-                          Accepted file types: csv, xlsx, xls Max. file size: 50
-                          MB.
-                        </p>
-                      </>
-                    )}
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDropdownClick(index)}
+                      className={`bg-[#F2F2F2] py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
+                    >
+                      {data.file ? (
+                        <div className='self-center flex text-center relative bg-white border w-full p-3'>
+                          <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" />
+                          <img src={csvFile} className="mr-2" alt="Dropbox" />
+                          <div className='flex justify-between w-full'>
+                            <p className='self-center text-sm pr-3'>{data.file.name}</p>
+                            <p className='self-center text-sm'>4MB</p>
+                          </div>
+                        </div>
 
-                  <input
-        type="file"
-        ref={fileInputRef.current[index]}
-        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-        style={{ display: "none" }}
-        onChange={(e) => handleFileSelect(e, index)}
-      />
+                      ) : (
+                        <>
+                          <img
+                            src={Dropbox}
+                            className="mx-auto mb-3"
+                            alt="Dropbox"
+                          />
+                          <p className="text-[#5D6E66]">
+                            Accepted file types: csv, xlsx, xls Max. file size: 50
+                            MB.
+                          </p>
+                        </>
+                      )}
+                    </button>
+
+                    <input
+                      type="file"
+                      ref={fileInputRef.current[index]}
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                      style={{ display: "none" }}
+                      onChange={(e) => handleFileSelect(e, index)}
+                    />
+                  </div>
+
                 </div>
-               
-                </div>
-              </div>
-              <div className='col-span-12'>
                 <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
                   Please click on file option and make a copy. Upload the list
                   of Product Name and Price using our provided Google Sheets
@@ -1043,20 +1069,21 @@ function AddOrder() {
                   The file must be saved with csv , xls and xlsx Format.
                 </p>
                 {formikStep3.errors.productsArray &&
-                          formikStep3.errors.productsArray[index] &&
-                          formikStep3.errors.productsArray &&
-                          formikStep3.errors.productsArray[index] &&
-                          formikStep3.errors.productsArray[index].file && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formikStep3.errors.productsArray[index].file}
-                            </div>
-                          )}</div>
-                
+                  formikStep3.errors.productsArray[index] &&
+                  formikStep3.errors.productsArray &&
+                  formikStep3.errors.productsArray[index] &&
+                  formikStep3.errors.productsArray[index].file && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formikStep3.errors.productsArray[index].file}
+                    </div>
+                  )}
+              </div>
+              <div className='col-span-12'>
+              </div>
+
             </Grid>
-
-
           </div>
-        ))}
+         ))}
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
         <Button onClick={formikStep3.handleSubmit}>Next</Button>
       </div>
@@ -1110,173 +1137,173 @@ function AddOrder() {
                 </div>
               </Grid>
             </div>
-     {
-      formikStep3.values.productsArray.map((data,index)=>{
-        console.log(data.file.size)
-        return (
-          <>
-                 <div className='col-span-8'>
-              <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Product Details</p>
-              <div className='bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl '>
-                <Grid className='border-b px-4'>
-                  <div className='col-span-4 py-4 border-r'>
-                    <p className='text-[12px]'>Product Category</p>
-                    <p className='font-bold text-sm'>{categoryName[index]}</p>
-                  </div>
-                  <div className='col-span-4 py-4 border-r'>
-                    <p className='text-[12px]'>Product Name</p>
-                    <p className='font-bold text-sm'>{priceBookName[index]}</p>
-                  </div>
-                  <div className='col-span-4 py-4'>
-                    <p className='text-[12px]'>Product Description</p>
-                    <p className='font-bold text-sm'>{data.description}</p>
-                  </div>
-                </Grid>
-                <Grid className='border-b px-4'>
-                  <div className='col-span-3 py-4 border-r'>
-                    <p className='text-[12px]'>Term</p>
-                    <p className='font-bold text-sm'>{data.term} Months</p>
-                  </div>
-                  <div className='col-span-3 py-4 border-r'>
-                    <p className='text-[12px]'>Unit Price</p>
-                    <p className='font-bold text-sm'>${data.unitPrice}</p>
-                  </div>
-                  <div className='col-span-3 py-4 border-r'>
-                    <p className='text-[12px]'># of Products</p>
-                    <p className='font-bold text-sm'>{data.price/parseFloat(data.unitPrice)}</p>
-                  </div>
-                  <div className='col-span-3 py-4'>
-                    <p className='text-[12px]'>Price</p>
-                    <p className='font-bold text-sm'>${data.price}</p>
-                  </div>
-                </Grid>
-                <Grid className=' px-4'>
-                  <div className='col-span-12 py-4'>
-                    <p className='text-[12px]'>Note</p>
-                    <p className='font-bold text-sm'>{data.additionalNotes}</p>
-                  </div>
-                </Grid>
-                
-              </div>
-            </div>
-            <div className='col-span-4'>
-              <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Uploaded  Data</p>
-              <div className='border border-dashed bg-[#F9F9F9] w-full h-[83%] relative flex'>
-                <div className='self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3'>
-                  {/* <img src={cross} className="absolute -right-3 -top-3 mx-auto mb-3" alt="Dropbox" /> */}
-                  <img src={csvFile} className="mr-2" alt="Dropbox" />
-                  <div className='flex justify-between w-full'>
-                    <p className='self-center'>{data.file.name}</p>
-                    <p className='self-center'>{(data.file.size / 1000).toFixed(2)} kb</p>
+            {
+              formikStep3.values.productsArray.map((data, index) => {
+                console.log(data.file.size)
+                return (
+                  <>
+                    <div className='col-span-8'>
+                      <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Product Details</p>
+                      <div className='bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl '>
+                        <Grid className='border-b px-4'>
+                          <div className='col-span-4 py-4 border-r'>
+                            <p className='text-[12px]'>Product Category</p>
+                            <p className='font-bold text-sm'>{categoryName[index]}</p>
+                          </div>
+                          <div className='col-span-4 py-4 border-r'>
+                            <p className='text-[12px]'>Product Name</p>
+                            <p className='font-bold text-sm'>{priceBookName[index]}</p>
+                          </div>
+                          <div className='col-span-4 py-4'>
+                            <p className='text-[12px]'>Product Description</p>
+                            <p className='font-bold text-sm'>{data.description}</p>
+                          </div>
+                        </Grid>
+                        <Grid className='border-b px-4'>
+                          <div className='col-span-3 py-4 border-r'>
+                            <p className='text-[12px]'>Term</p>
+                            <p className='font-bold text-sm'>{data.term} Months</p>
+                          </div>
+                          <div className='col-span-3 py-4 border-r'>
+                            <p className='text-[12px]'>Unit Price</p>
+                            <p className='font-bold text-sm'>${data.unitPrice}</p>
+                          </div>
+                          <div className='col-span-3 py-4 border-r'>
+                            <p className='text-[12px]'># of Products</p>
+                            <p className='font-bold text-sm'>{data.price / parseFloat(data.unitPrice)}</p>
+                          </div>
+                          <div className='col-span-3 py-4'>
+                            <p className='text-[12px]'>Price</p>
+                            <p className='font-bold text-sm'>${data.price}</p>
+                          </div>
+                        </Grid>
+                        <Grid className=' px-4'>
+                          <div className='col-span-12 py-4'>
+                            <p className='text-[12px]'>Note</p>
+                            <p className='font-bold text-sm'>{data.additionalNotes}</p>
+                          </div>
+                        </Grid>
 
-                  </div>
-                </div>
-              </div>
-            </div>
-           
-          </>
-        )
-      })
-     }
+                      </div>
+                    </div>
+                    <div className='col-span-4'>
+                      <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Uploaded  Data</p>
+                      <div className='border border-dashed bg-[#F9F9F9] w-full h-[83%] relative flex'>
+                        <div className='self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3'>
+                          {/* <img src={cross} className="absolute -right-3 -top-3 mx-auto mb-3" alt="Dropbox" /> */}
+                          <img src={csvFile} className="mr-2" alt="Dropbox" />
+                          <div className='flex justify-between w-full'>
+                            <p className='self-center'>{data.file.name}</p>
+                            <p className='self-center'>{(data.file.size / 1000).toFixed(2)} kb</p>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </>
+                )
+              })
+            }
           </Grid>
           <Grid className='mt-5'>
             <div className='col-span-3'>
-            <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
-                      Do you want to sent notifications ?
-                      <RadioButton
-                        id="yes-create-account"
-                        label="Yes"
-                        value="yes"
-                        // checked={createAccountOption === "yes"}
-                        // onChange={handleRadioChange}
-                      />
-                      <RadioButton
-                        id="no-create-account"
-                        label="No"
-                        value="no"
-                        // checked={createAccountOption === "no"}
-                        // onChange={handleRadioChange}
-                      />
-            </p>
+              <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
+                Do you want to sent notifications ?
+                <RadioButton
+                  id="yes-create-account"
+                  label="Yes"
+                  value="yes"
+                // checked={createAccountOption === "yes"}
+                // onChange={handleRadioChange}
+                />
+                <RadioButton
+                  id="no-create-account"
+                  label="No"
+                  value="no"
+                // checked={createAccountOption === "no"}
+                // onChange={handleRadioChange}
+                />
+              </p>
             </div>
             <div className='col-span-3 pt-4'>
               <div className='flex block  w-full text-base font-semibold bg-[#f9f9f9] rounded-lg border-[1px] border-gray-300 appearance-none peer undefined  border-gray-300  text-light-black'>
-              <p className='self-center text-sm px-3'>Payment Status</p>
-              <div className="relative">
-          <div
-            className={` 
+                <p className='self-center text-sm px-3'>Payment Status</p>
+                <div className="relative">
+                  <div
+                    className={` 
              
                  bg-[#FF4747]
-             absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-          ></div>
-          <select
-          
-            className="text-[12px] border-l w-full border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold "
-          >
-            <option value="paid">Paid</option>
-            <option value="unpaid">Unpaid</option>
-            <option value="partlypaid">Partly Paid</option>
-          </select>
-        </div>
+                  absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+                  ></div>
+                  <select
+
+                    className="text-[12px] border-l w-full border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold "
+                  >
+                    <option value="paid">Paid</option>
+                    <option value="unpaid">Unpaid</option>
+                    <option value="partlypaid">Partly Paid</option>
+                  </select>
+                </div>
               </div>
             </div>
             <div className='col-span-2'>
-            <Input
-                      type="number"
-                      name={`quantity`}
-                      className="!bg-[#fff]"
-                      label="Paid Amount"
-                      maxLength={"10"}
-                      maxDecimalPlaces={2}
-                      placeholder=""
-                    />
+              <Input
+                type="number"
+                name={`quantity`}
+                className="!bg-[#fff]"
+                label="Paid Amount"
+                maxLength={"10"}
+                maxDecimalPlaces={2}
+                placeholder=""
+              />
             </div>
             <div className='col-span-2'>
-            <Input
-                      type="number"
-                      name={`quantity`}
-                      className="!bg-[#fff]"
-                      label="Pending Amount"
-                      maxLength={"10"}
-                      maxDecimalPlaces={2}
-                      placeholder=""
-                    />
+              <Input
+                type="number"
+                name={`quantity`}
+                className="!bg-[#fff]"
+                label="Pending Amount"
+                maxLength={"10"}
+                maxDecimalPlaces={2}
+                placeholder=""
+              />
             </div>
             <div className='col-span-2 flex pt-4' >
-            <p className='text-[12px] pr-3'>Total Amount :</p>
-                    <p className='font-bold text-sm'>${calculateTotalAmount(formikStep3.values.productsArray)}</p>
+              <p className='text-[12px] pr-3'>Total Amount :</p>
+              <p className='font-bold text-sm'>${calculateTotalAmount(formikStep3.values.productsArray)}</p>
             </div>
           </Grid>
-        <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
-        <Button type="submit" onClick={orderSubmit}>Submit</Button>
+          <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
+          <Button type="submit" onClick={orderSubmit}>Submit</Button>
         </div>
       </>
 
     );
   };
 
-const orderSubmit =() =>{
-  const data = {
-    ...formik.values,
-    ...formikStep2.values,
-    ...formikStep3.values, 
-    paidAmount: 123,
-    dueAmount: 21
-  };
-  const formData = new FormData();
-  appendToFormData(formData, data);
-  formData.forEach((value, key) => {
-    console.log(`formData uper   ${key}: ${value}`);
-  });
+  const orderSubmit = () => {
+    const data = {
+      ...formik.values,
+      ...formikStep2.values,
+      ...formikStep3.values,
+      paidAmount: 123,
+      dueAmount: 21
+    };
+    const formData = new FormData();
+    appendToFormData(formData, data);
+    formData.forEach((value, key) => {
+      console.log(`formData uper   ${key}: ${value}`);
+    });
 
-}
+  }
 
   const appendToFormData = (formData, data, parentKey = "") => {
     for (let key in data) {
       if (data.hasOwnProperty(key)) {
         const value = data[key];
         const fullKey = parentKey ? `${parentKey}.${key}` : key;
-  
+
         if (Array.isArray(value)) {
           value.forEach((item, index) => appendToFormData(formData, item, `${fullKey}[${index}]`));
         } else if (value instanceof File) {
@@ -1288,10 +1315,10 @@ const orderSubmit =() =>{
         }
       }
     }
-  
+
     return formData;
   };
-  
+
 
   return (
     <div className='my-8 ml-3'>
