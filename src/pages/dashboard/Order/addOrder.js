@@ -1067,7 +1067,7 @@ function AddOrder() {
                     >
                       {data.file ? (
                         <div className='self-center flex text-center relative bg-white border w-full p-3'>
-                          <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" />
+                          {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
                           <img src={csvFile} className="mr-2" alt="Dropbox" />
                           <div className='flex justify-between w-full'>
                             <p className='self-center text-sm pr-3'>{data.file.name}</p>
