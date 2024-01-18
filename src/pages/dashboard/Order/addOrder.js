@@ -977,8 +977,6 @@ function AddOrder() {
                       required={true}
                       placeholder="" />
                   </div>
-
-
                   <div className='col-span-12'>
                     <div className="relative">
                       <label
@@ -1006,7 +1004,6 @@ function AddOrder() {
                         )}
                     </div>
                   </div>
-
                 </Grid>
               </div>
               <div className='col-span-4'>
@@ -1185,7 +1182,6 @@ function AddOrder() {
                             <p className='font-bold text-sm'>{data.additionalNotes}</p>
                           </div>
                         </Grid>
-
                       </div>
                     </div>
                     <div className='col-span-4'>
@@ -1197,12 +1193,10 @@ function AddOrder() {
                           <div className='flex justify-between w-full'>
                             <p className='self-center'>{data.file.name}</p>
                             <p className='self-center'>{(data.file.size / 1000).toFixed(2)} kb</p>
-
                           </div>
                         </div>
                       </div>
                     </div>
-
                   </>
                 )
               })
@@ -1265,7 +1259,7 @@ function AddOrder() {
                 type="number"
                 name={`quantity`}
                 className="!bg-[#fff]"
-                label="Pending Amount"
+                label="P`end  `ing Amount"
                 maxLength={"10"}
                 maxDecimalPlaces={2}
                 placeholder=""
