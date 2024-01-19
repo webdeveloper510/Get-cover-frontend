@@ -72,7 +72,7 @@ setOrderList(result.result)
     },
     {
       name: "Dealer Order #",
-      selector: (row) => row.dealerPurchaseOrder,
+      selector: (row) => row.venderOrder,
       sortable: true,
       minWidth:'180px',
     },
