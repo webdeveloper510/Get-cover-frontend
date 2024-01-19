@@ -86,12 +86,12 @@ function AddCompanyPriceBook() {
         .typeError("Required")
         .required("Required")
         .nullable()
-        .min(0, "ReserveFuture fee cannot be negative"),
+        .min(0, "Reserve for future claims cannot be negative"),
       adminFee: Yup.number()
         .typeError("Required")
         .required("Required")
         .nullable()
-        .min(0, "Admin fee cannot be negative"),
+        .min(0, "Administration  fee cannot be negative"),
       status: Yup.string().required("Required"),
       priceType: Yup.string().required("Required"),
 

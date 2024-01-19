@@ -76,7 +76,9 @@ function SidebarItem({
       setIsActive(active === "Order" || expandedItem === "Order");
     } else if (item.name === "Reporting") {
       setIsActive(active === "Reporting" || expandedItem === "Reporting");
-    } else {
+    } else if (item.name === "Reseller") {
+      setIsActive(active === "Reseller" || expandedItem === "Reseller");
+    }  else {
       // console.log("ok")
       setIsActive(
         active === item.url ||
@@ -287,6 +289,25 @@ function SideBar() {
           url: "/newDealerList",
           image: Dropdown2,
           active: ForthActive,
+        },
+      ],
+    },
+    {
+      name: "Reseller",
+      image: DealerImage,
+      active: ActiveDealer,
+      items: [
+        {
+          name: "Reseller List",
+          url: "/resellerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Reseller",
+          url: "/addReseller",
+          image: Dropdown2,
+          active: SeacondActive,
         },
       ],
     },

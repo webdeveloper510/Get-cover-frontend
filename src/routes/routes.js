@@ -34,6 +34,8 @@ import ClaimList from "../pages/dashboard/Claim/claimList";
 import AddClaim from "../pages/dashboard/Claim/addClaim";
 import AddBulkClaim from "../pages/dashboard/Claim/addBulkClaim";
 import EditClaim from "../pages/dashboard/Claim/editClaim";
+import AddReseller from "../pages/dashboard/Reseller/addReseller";
+import ResellerList from "../pages/dashboard/Reseller/resellerList";
 
 const routes = [
   {
@@ -147,13 +149,6 @@ const routes = [
         path: "/addCustomer/:dealerValueId?",
         element: <PrivateRoute element={<AddCustomer />} />,
       },
-      // {
-      //   path: "/dealerDetails/:id",
-      //   index: true,
-      //   element: (
-      //     <PrivateRoute element={<DealerDetails />} path="/dealerDetails/:id" />
-      //   ),
-      // },
       {
         path: "/addDealerBook/:dealerIdValue?",
         element: <PrivateRoute element={<AddDealerBook />} />,
@@ -268,6 +263,14 @@ const routes = [
       {
         path: "/addClaim",
         element: <PrivateRoute element={<AddClaim />} path="/addClaim" />,
+      },
+      {
+        path: "/resellerList",
+        element: <PrivateRoute element={<ResellerList />} path="/resellerList" />,
+      },
+      {
+        path: "/addReseller",
+        element: <PrivateRoute element={<AddReseller />} path="/addReseller" />,
       },
       {
         path: "/addBulkClaim",

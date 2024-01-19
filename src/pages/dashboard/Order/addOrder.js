@@ -583,8 +583,6 @@ function AddOrder() {
           <div className='col-span-6'>
             <Grid>
               <div className='col-span-12'>
-
-
                 <div className="col-span-12 mt-4">
                   <Input
                     type="text"
@@ -1048,6 +1046,26 @@ function AddOrder() {
                     </Grid>
                   </div>
 
+                  <div className='col-span-4'>
+                    <Input
+                      type="date"
+                      name={`price`}
+                      className="!bg-[#fff]"
+                      label="Start Range"
+                      placeholder=""/>
+
+                      </div>
+
+                      <div className='col-span-4'>
+                    <Input
+                      type="date"
+                      name={`price`}
+                      className="!bg-[#fff]"
+                      label="End Range"
+                      placeholder=""/>
+
+                      </div>
+
 
                   <div className='col-span-12'>
                     <div className="relative">
@@ -1303,13 +1321,11 @@ function AddOrder() {
                 <p className='self-center text-sm px-3'>Payment Status</p>
                 <div className="relative">
                   <div
-                    className={` 
-             
+                    className={`
                  bg-[#FF4747]
                   absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
                   ></div>
                   <select
-
                     className="text-[12px] border-l w-full border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold "
                   >
                     <option value="paid">Paid</option>
@@ -1408,16 +1424,13 @@ function AddOrder() {
     for (var pair of formData.entries()) {
       console.log(pair[0]+ ', ' + pair[1]); 
   }
-
+  
     const order = await addOrder(formData);
     if (order.code === 200) {
       //  navigate('/orderList')
     }
     console.log(order)
   }
-
-
-
   return (
     <div className='my-8 ml-3'>
       <Headbar />
@@ -1449,16 +1462,13 @@ function AddOrder() {
           {currentStep > 2 ? (<img src={check} className='text-center mx-auto' />) : (
             <p className={`border ${currentStep > 1 ? ('text-black border-black') : ('text-[#ADADAD] border-[#ADADAD]')}  rounded-full mx-auto w-[26px]`}>2</p>
           )}
-
           <p className={` ${currentStep == 2 ? ('text-black') : ('text-[#ADADAD] ')} text-sm font-bold`}>Dealer Order Details</p>
         </div>
         <hr className={`w-[150px]  ${currentStep > 2 ? 'border-black' : 'border-[#ADADAD]'} mt-3`} />
         <div className='text-center'>
-
           {currentStep > 3 ? (<img src={check} className='text-center mx-auto' />) : (
             <p className={`border ${currentStep > 2 ? ('text-black border-black') : ('text-[#ADADAD] border-[#ADADAD]')} rounded-full mx-auto w-[26px]`}>3</p>
           )}
-
           <p className={` ${currentStep == 3 ? ('text-black') : ('text-[#ADADAD] ')}text-sm font-bold`}>Add Product</p>
         </div>
         <hr className={`w-[150px]  ${currentStep > 3 ? 'border-black' : 'border-[#ADADAD]'} mt-3`} />
@@ -1467,12 +1477,7 @@ function AddOrder() {
           <p className={` ${currentStep == 4 ? ('text-black') : ('text-[#ADADAD] ')}text-sm font-bold`}>Order Details</p>
         </div>
       </div>
-
-
       {renderStep()}
-
-
-
     </div>
   )
 }

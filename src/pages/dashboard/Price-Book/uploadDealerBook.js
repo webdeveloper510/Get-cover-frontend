@@ -232,7 +232,8 @@ function UploadDealerBook() {
                 <div className="col-span-12">
                   <div className="col-span-12">
                     <Select
-                      label="Dealer Name*"
+                      label="Dealer Name"
+                      required={true}
                       name="dealerId"
                       placeholder=""
                       onChange={handleSelectChange}

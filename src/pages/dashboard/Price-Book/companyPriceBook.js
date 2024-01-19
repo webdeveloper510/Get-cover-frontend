@@ -310,9 +310,7 @@ function CompanyPriceBook() {
         setSelectedAction(null);
       }
     };
-
     document.addEventListener("click", handleClickOutside);
-
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
