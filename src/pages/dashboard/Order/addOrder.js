@@ -1356,8 +1356,8 @@ function AddOrder() {
 
   const orderSubmit = async () => {
     const arr = [];
-    formikStep3.values.productsArray.map((res, index) => {
-      arr.push(res.file);
+    let arrayOfObjects = formikStep3.values.productsArray.map((res, index) => {
+      arr.push({ file: res.file })
     });
     console.log(arr)
     // const updatedProductsArray = formikStep3.values.productsArray.filter(item => delete item.file);
@@ -1374,20 +1374,24 @@ function AddOrder() {
 
     };
     console.log(data)
+  
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((item, index) => {
           Object.entries(item).forEach(([key1, value1]) => {
-            if (!Array.isArray(value1) && key1 !== 'file') {
-              formData.append(`${key}[${index}][${key1}]`, value1);
+            if (!Array.isArray(value1) ) {
+              if( key1 !== 'file'){
+                formData.append(`${key}[${index}][${key1}]`, value1);
+              }
+              else{
+                if(key === 'file')
+               formData.append(`${key}[${index}]`, value1);
+              }
             }
-            if (key1 === 'file') {
-              formData.append(`file[${index}]`, item.file);
-            } else {
-            
-            }
+          
           })
+
           if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
             item.QuantityPricing.forEach((qpItem, qpIndex) => {
               Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
@@ -1400,10 +1404,11 @@ function AddOrder() {
         formData.append(key, value);
       }
     });
+ 
     for (var pair of formData.entries()) {
       console.log(pair[0]+ ', ' + pair[1]); 
   }
-  
+
     const order = await addOrder(formData);
     if (order.code === 200) {
       //  navigate('/orderList')
