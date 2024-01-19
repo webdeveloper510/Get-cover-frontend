@@ -54,6 +54,7 @@ import {
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
 import { getServicerListForDealer } from "../../../services/servicerServices";
+import Reseller from "./Dealer-Details/reseller";
 
 function DealerDetails() {
   const getInitialActiveTab = () => {
@@ -414,11 +415,18 @@ function DealerDetails() {
       content: <ClaimList />,
     },
     {
+      id: "Reseller",
+      label: "Reseller",
+      icons: User,
+      Activeicons: UserActive,
+      content: <Reseller id={id.id} />,
+    },
+    {
       id: "Servicer",
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: <ServicerList id={id.id} flag={flagValue} />,
+      content: <ServicerList id={id.id} />,
     },
     {
       id: "Customer",
@@ -638,9 +646,25 @@ function DealerDetails() {
           </div>
           <div className="col-span-3">
             <Grid className="!mt-5">
-              <div className="col-span-10">
+            <div
+                className="col-span-12"
+                onClick={() => routeToPage(activeTab)}
+              >
+                <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                  {" "}
+                  <img
+                    src={AddItem}
+                    className="self-center"
+                    alt="AddItem"
+                  />{" "}
+                  <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                    Add {activeTab}
+                  </span>{" "}
+                </Button>
+              </div>
+              <div className="col-span-12">
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-7 !gap-1">
+                  <Grid className="!grid-cols-8 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
@@ -671,22 +695,7 @@ function DealerDetails() {
                   </Grid>
                 </div>
               </div>
-              <div
-                className="col-span-2"
-                onClick={() => routeToPage(activeTab)}
-              >
-                <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-                  {" "}
-                  <img
-                    src={AddItem}
-                    className="self-center"
-                    alt="AddItem"
-                  />{" "}
-                  <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
-                    Add {activeTab}
-                  </span>{" "}
-                </Button>
-              </div>
+             
             </Grid>
 
             {tabs.map((tab) => (
