@@ -209,7 +209,7 @@ function AddOrder() {
         Yup.object().shape({
           categoryId: Yup.string().required("Required"),
           priceBookId: Yup.string().required("Required"),
-          file: Yup.string().required("Valid File is required"),
+          // file: Yup.string().required("Valid File is required"),
           unitPrice: Yup.number()
             .typeError("Required")
             .required("Required")
@@ -217,10 +217,10 @@ function AddOrder() {
           noOfProducts: Yup.number()
             .when('priceType', {
               is: (value) => value !== 'Quantity Pricing',
-              then: (schema) => schema.required("Required"),
+              then: (schema) => schema.required("Required").min(0, "Number of Product cannot be negative"),
               otherwise: (schema) => schema.notRequired(),
             }),
-          additionalNotes: Yup.string().required("Required"),
+          // additionalNotes: Yup.string().required("Required"),
           QuantityPricing: Yup.array()
             .when('priceType', {
               is: (value) => value === 'Quantity Pricing',
@@ -1046,27 +1046,6 @@ function AddOrder() {
                     </Grid>
                   </div>
 
-                  <div className='col-span-4'>
-                    <Input
-                      type="date"
-                      name={`price`}
-                      className="!bg-[#fff]"
-                      label="Start Range"
-                      placeholder=""/>
-
-                      </div>
-
-                      <div className='col-span-4'>
-                    <Input
-                      type="date"
-                      name={`price`}
-                      className="!bg-[#fff]"
-                      label="End Range"
-                      placeholder=""/>
-
-                      </div>
-
-
                   <div className='col-span-12'>
                     <div className="relative">
                       <label
@@ -1373,7 +1352,7 @@ function AddOrder() {
   const orderSubmit = async () => {
     const arr = [];
     let arrayOfObjects = formikStep3.values.productsArray.map((res, index) => {
-      arr.push({ file: res.file })
+      arr.push( res.file )
     });
     console.log(arr)
     // const updatedProductsArray = formikStep3.values.productsArray.filter(item => delete item.file);
@@ -1396,14 +1375,14 @@ function AddOrder() {
       if (Array.isArray(value)) {
         value.forEach((item, index) => {
           Object.entries(item).forEach(([key1, value1]) => {
+            console.log(key1==='file')
             if (!Array.isArray(value1) ) {
               if( key1 !== 'file'){
                 formData.append(`${key}[${index}][${key1}]`, value1);
               }
-              else{
-                if(key === 'file')
-               formData.append(`${key}[${index}]`, value1);
-              }
+                 if(key1 === 'file'){
+                  formData.append(`${key1}[${index}]`, value1);
+                 }
             }
           
           })
