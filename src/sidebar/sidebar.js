@@ -76,7 +76,9 @@ function SidebarItem({
       setIsActive(active === "Order" || expandedItem === "Order");
     } else if (item.name === "Reporting") {
       setIsActive(active === "Reporting" || expandedItem === "Reporting");
-    } else {
+    } else if (item.name === "Reseller") {
+      setIsActive(active === "Reseller" || expandedItem === "Reseller");
+    }  else {
       // console.log("ok")
       setIsActive(
         active === item.url ||

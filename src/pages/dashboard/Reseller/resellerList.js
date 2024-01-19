@@ -359,7 +359,6 @@ function ResellerList() {
                 highlightOnHover
                 sortIcon={
                   <>
-                    {" "}
                     <img src={shorting} className="ml-2" alt="shorting" />{" "}
                   </>
                 }
