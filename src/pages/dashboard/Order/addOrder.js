@@ -1019,7 +1019,6 @@ function AddOrder() {
                       }
                     </Grid>
                   </div>
-<<<<<<< HEAD
                   <div className='col-span-4'>
                     <Input
                       type="date"
@@ -1040,10 +1039,6 @@ function AddOrder() {
                       required={true}
                       placeholder="" />
                   </div>
-=======
-             
-
->>>>>>> 71757974d9389d7d113278b46c5f2980aa268297
                   <div className='col-span-12'>
                     <div className="relative">
                       <label
