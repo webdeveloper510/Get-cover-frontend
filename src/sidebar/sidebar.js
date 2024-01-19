@@ -291,6 +291,25 @@ function SideBar() {
       ],
     },
     {
+      name: "Reseller",
+      image: DealerImage,
+      active: ActiveDealer,
+      items: [
+        {
+          name: "Reseller List",
+          url: "/resellerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Reseller",
+          url: "/addReseller",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
       name: "Servicer",
       image: ServicerImage,
       active: ActiveServicer,
