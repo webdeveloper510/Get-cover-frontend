@@ -85,13 +85,11 @@ setOrderList(result.result)
       name: "Customer",
       selector: (row) => row.customerName.username,
       sortable: true,
-      minWidth:'150px',
     },
     {
       name: "Servicer",
       selector: (row) => row.servicerName.name,
       sortable: true,
-      minWidth:'130px',
     },
     {
       name: "# of Products",
