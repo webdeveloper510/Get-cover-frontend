@@ -9,6 +9,7 @@ import { format, addMonths } from 'date-fns';
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import cross from "../../../assets/images/icons/CrossButton.svg";
 import csvFile from "../../../assets/images/icons/csvFile.svg";
+import AddDealer from "../../../assets/images/dealer-book.svg";
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
 import check from "../../../assets/images/icons/check.svg";
 import Button from '../../../common/button';
@@ -21,6 +22,7 @@ import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import { getCategoryListActiveData, getTermList } from '../../../services/priceBookService';
 import RadioButton from '../../../common/radio';
 import { addOrder, fileValidation } from '../../../services/orderServices';
+import Modal from '../../../common/model';
 
 
 function AddOrder() {
@@ -41,7 +43,6 @@ function AddOrder() {
   const [sendNotification, setSendNotification] = useState(true)
   const [numberOfOrders, setNumberOfOrders] = useState([]);
   const navigate = useNavigate()
-
 
   const downloadCSVTemplate = async () => {
     window.open(
@@ -605,7 +606,6 @@ function AddOrder() {
                         {formikStep2.errors.dealerPurchaseOrder}
                       </div>
                     )}
-
                 </div>
               </div>
               <div className='col-span-6'>
@@ -859,8 +859,6 @@ function AddOrder() {
                           )}
                       </div>
                     )}
-
-
                   <div className='col-span-4'>
                     <Input
                       type="number"
@@ -1478,6 +1476,24 @@ function AddOrder() {
         </div>
       </div>
       {renderStep()}
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="text-center py-3">
+          <img src={AddDealer} alt="email Image" className="mx-auto" />
+
+          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          Added
+            <span className="text-light-black"> Successfully </span>
+          </p>
+
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            <b> New Order </b> Added Successfully 
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting you on Order List Page 3 seconds.
+          </p>
+        </div>
+      </Modal>
     </div>
   )
 }

@@ -482,9 +482,8 @@ function AddCompanyPriceBook() {
                   <span className="font-semibold"> error </span>
                 </p>
               )}
-
               <Grid
-                className={`  ${type == "Edit" ? "!grid-cols-4" : "!grid-cols-5"
+                className={`${type == "Edit" ? "!grid-cols-4" : "!grid-cols-5"
                   } `}
               >
                 <div className="col-span-1">
@@ -815,7 +814,6 @@ function AddCompanyPriceBook() {
                         value={formik.values.rangeEnd}
                         maxDecimalPlaces={2}
                       />
-
                       {formik.touched.rangeEnd && formik.errors.rangeEnd && (
                         <div className="text-red-500 text-sm pl-2 pt-2">
                           {formik.errors.rangeEnd}
@@ -829,7 +827,6 @@ function AddCompanyPriceBook() {
                 {formik.values.priceType === "Quantity Pricing" && (
                   <>
                     {formik.values.quantityPriceDetail.map((dealer, index) => {
-
                       return (
                         <div key={index} className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
                           <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
@@ -920,10 +917,8 @@ function AddCompanyPriceBook() {
                       )
                     })}
                   </>
-
                 )}
               </Grid>
-
               <p className="mt-8 font-semibold text-lg">
                 Total Amount: <span> ${totalAmount}</span>
               </p>
