@@ -20,8 +20,8 @@ import {
   checkDealersEmailValidation,
   getDealersList,
 } from "../../../services/dealerServices";
-import { addNewCustomer } from "../../../services/customerServices";
 import Cross from "../../../assets/images/Cross.png";
+import { addNewReseller } from "../../../services/reSellerServices";
 
 function AddReseller() {
   const [timer, setTimer] = useState(3);
@@ -33,7 +33,7 @@ function AddReseller() {
   const [dealerList, setDealerList] = useState([]);
   const navigate = useNavigate();
   const { dealerValueId } = useParams();
-  console.log(dealerValueId);
+  // console.log(dealerValueId);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerName: "",
@@ -96,12 +96,12 @@ function AddReseller() {
       }, 1000);
     }
 
-    if (timer === 0 && message === "Customer Created Successfully") {
+    if (timer === 0 && message === "Reseller Created Successfully") {
       closeModal();
       if (dealerValueId) {
         navigate(`/dealerDetails/${dealerValueId}`);
       } else {
-        navigate("/customerList");
+        navigate("/resellerList");
       }
     }
     setLoading(false);
@@ -155,7 +155,7 @@ function AddReseller() {
           formik.setFieldError(fieldPath, "");
           return true;
         } else if (
-          result.message === "Customer already exist with this account name"
+          result.message === "Reseller already exist with this account name"
         ) {
           formik.setFieldError("accountName", "Already Exist");
         } else if (result.code === 401) {
@@ -273,10 +273,10 @@ function AddReseller() {
         members: [newObject, ...values.members],
       };
       console.log(newValues);
-      const result = await addNewCustomer(newValues);
+      const result = await addNewReseller(newValues);
       console.log(result.message);
       if (result.code == 200) {
-        setMessage("Customer Created Successfully");
+        setMessage("Reseller Created Successfully");
         setLoading(false);
         setIsModalOpen(true);
         setTimer(3);
@@ -303,7 +303,7 @@ function AddReseller() {
     if (dealerValueId !== undefined) {
       navigate(`/dealerDetails/${dealerValueId}`);
     } else {
-      navigate("/customerList");
+      navigate("/resellerList");
     }
   };
   const getDealerListData = async () => {
@@ -907,7 +907,7 @@ function AddReseller() {
           </>
         )}
         <div className="text-center py-3">
-          {message === "Customer Created Successfully" ? (
+          {message === "Reseller Created Successfully" ? (
             <>
               <img src={AddDealer} alt="email Image" className="mx-auto" />
               <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
