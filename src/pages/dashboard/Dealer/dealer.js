@@ -407,6 +407,7 @@ function Dealer() {
                 retailPrice: Yup.number()
                   .typeError("Required")
                   .required("Required")
+                  .min(0, "Retail Price cannot be negative")
                   .nullable(),
                 status: Yup.boolean().required("Required"),
               })

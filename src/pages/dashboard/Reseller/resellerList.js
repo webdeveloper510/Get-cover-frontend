@@ -20,6 +20,7 @@ import { getDealersList } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { getResellerList } from "../../../services/reSellerServices";
 // Declare the base URL of the API
 function ResellerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -34,9 +35,9 @@ function ResellerList() {
     formik.setFieldValue(name, value);
   };
 
-  const getCustomer = async () => {
+  const getResellersList = async () => {
     setLoading(true);
-    const result = await getCustomerList();
+    const result = await getResellerList({});
     console.log(result.result);
     setCustomerList(result.result);
     setLoading(false);
@@ -96,14 +97,14 @@ function ResellerList() {
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.customerData.unique_key,
+      selector: (row) =>row.resellerData.unique_key,
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
     },
     {
       name: "Name",
-      selector: (row) => row.customerData.username,
+      selector: (row) => row?.resellerData?.name,
       sortable: true,
     },
     {
@@ -118,7 +119,7 @@ function ResellerList() {
     },
     {
       name: "Dealer Name",
-      selector: (row) => row.customerData.dealerName,
+      selector: (row) => row?.resellerData?.dealerName,
       sortable: true,
     },
     {
@@ -131,55 +132,55 @@ function ResellerList() {
       selector: (row) => "$ 0.00",
       sortable: true,
     },
-    {
-      name: "Action",
-      minWidth: "auto",
-      maxWidth: "90px",
-      cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
-        return (
-          <div className="relative">
-            <div
-              onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.customerData.unique_key
-                    ? null
-                    : row.customerData.unique_key
-                )
-              }
-            >
-              <img
-                src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
-                alt="Active Icon"
-              />
-            </div>
-            {selectedAction === row.customerData.unique_key && (
-              <div
-                ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
-              >
-                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                <div
-                  className="text-center cursor-pointer py-1"
-                  onClick={() => {
-                    navigate(`/customerDetails/${row.customerData._id}`);
-                  }}
-                >
-                  View
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      },
-    },
+    // {
+    //   name: "Action",
+    //   minWidth: "auto",
+    //   maxWidth: "90px",
+    //   cell: (row, index) => {
+    //     // console.log(index, index % 10 == 9)
+    //     return (
+    //       <div className="relative">
+    //         <div
+    //           onClick={() =>
+    //             setSelectedAction(
+    //               selectedAction === row.customerData.unique_key
+    //                 ? null
+    //                 : row.customerData.unique_key
+    //             )
+    //           }
+    //         >
+    //           <img
+    //             src={ActiveIcon}
+    //             className="cursor-pointer	w-[35px]"
+    //             alt="Active Icon"
+    //           />
+    //         </div>
+    //         {selectedAction === row.customerData.unique_key && (
+    //           <div
+    //             ref={dropdownRef}
+    //             className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+    //               index
+    //             )}`}
+    //           >
+    //             {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+    //             <div
+    //               className="text-center cursor-pointer py-1"
+    //               onClick={() => {
+    //                 navigate(`/customerDetails/${row.customerData._id}`);
+    //               }}
+    //             >
+    //               View
+    //             </div>
+    //           </div>
+    //         )}
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
 
   useEffect(() => {
-    getCustomer();
+    getResellersList();
     getDealerList();
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -198,13 +199,13 @@ function ResellerList() {
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
-    getCustomer();
+    getResellersList();
   };
 
   const getFilteredCustomerList = async (data) => {
     try {
       setLoading(true);
-      const res = await getFilterCustomerList(data);
+      const res = await getResellerList(data);
       console.log(res.result);
       setCustomerList(res.result);
     } catch (error) {

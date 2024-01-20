@@ -190,6 +190,7 @@ function AddDealerBook() {
       retailPrice: Yup.number()
         .typeError("Required")
         .required("Required")
+        .min(0, "Retail Price cannot be negative")
         .nullable(),
       priceBook: Yup.string().trim().required("Required"),
       dealerId: Yup.string().trim().required("Required"),
