@@ -646,7 +646,7 @@ function DealerDetails() {
           </div>
           <div className="col-span-3">
             <Grid className="!mt-5">
-            <div
+               <div
                 className="col-span-12"
                 onClick={() => routeToPage(activeTab)}
               >
