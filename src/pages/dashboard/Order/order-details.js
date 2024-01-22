@@ -20,6 +20,13 @@ import reserves from "../../../assets/images/Reporting/icons/ReservesFutureClaim
 import BrokerActive from "../../../assets/images/Reporting/icons/activeBroker.svg";
 import broker from "../../../assets/images/Reporting/icons/Broker.svg";
 import Select from "../../../common/select";
+import Dealer from "../../../assets/images/icons/dealer.svg";
+import Claim from "../../../assets/images/Dealer/Claim.svg";
+import User from "../../../assets/images/Dealer/Users.svg";
+import address from "../../../assets/images/Dealer/Address.svg";
+import name from "../../../assets/images/Dealer/Name.svg";
+import email from "../../../assets/images/Dealer/Email.svg";
+import phone from "../../../assets/images/Dealer/Phone.svg";
 import { cityData } from "../../../stateCityJson";
 import All from "./Sale-Tab/all";
 import WholeSale from "./Sale-Tab/wholeSale";
@@ -29,7 +36,7 @@ import ReInsurance from "./Sale-Tab/reInsurance";
 import Fronting from "./Sale-Tab/fronting";
 import Broker from "./Sale-Tab/broker";
 
-function Sale() {
+function OrderDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("SaleMenu");
     return storedTab ? storedTab : "Servicer";
@@ -128,8 +135,156 @@ function Sale() {
           </div>
         </div>
 
-        <Grid className="!grid-cols-3">
-
+        <Grid className="!grid-cols-4">
+        <div className="col-span-1">
+            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
+              <Grid>
+                <div className="col-span-9">
+                  <p className="text-sm text-neutral-grey font-Regular">
+                    Account Name
+                  </p>
+                  <p className="text-xl text-white font-semibold">
+                    {customerDetail?.meta?.username}
+                  </p>
+                </div>
+                <div className="col-span-3 text-end">
+                  <Button
+                    className="border !border-[#535456] !text-sm !font-Regular"
+                    onClick={openModal}
+                  >
+                    Edit
+                  </Button>
+                </div>
+              </Grid>
+              <div className="flex my-4">
+                <img
+                  src={address}
+                  className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                  alt="Address"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                    Address
+                  </p>
+                  <p className="text-base text-white font-semibold leading-5">
+                    {customerDetail?.meta?.street} {", "}
+                    {customerDetail?.meta?.state}
+                    {", "}
+                    {customerDetail?.meta?.country}
+                  </p>
+                </div>
+              </div>
+              <div className="flex w-full my-4">
+                <p className="text-[10px] mr-3 text-[#999999] font-Regular">
+                  PRIMARY CONTACT DETAILS
+                </p>
+                <hr className="self-center border-[#999999] w-[50%]" />
+              </div>
+              <div className="flex mb-4">
+                <div className="relative">
+                  <img
+                    src={DealerIcons}
+                    className="mr-3 bg-[#383838] rounded-[14px]"
+                    alt="DealerIcons"
+                  />
+                  <Link to={`/dealerDetails/${customerDetail?.meta?.dealerId}`}>
+                    {" "}
+                    <img
+                      src={DealerList}
+                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                      alt="DealerList"
+                    />{" "}
+                  </Link>
+                </div>
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular">
+                    Dealer Name
+                  </p>
+                  <p className="text-base text-white font-semibold ">
+                    {customerDetail?.meta?.dealerName}
+                  </p>
+                </div>
+              </div>
+              <div className="flex mb-4">
+                <img
+                  src={name}
+                  className="mr-3 bg-[#383838] rounded-[14px]"
+                  alt="Name"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular">Name</p>
+                  <p className="text-base text-white font-semibold ">
+                    {customerDetail?.primary?.firstName}{" "}
+                    {customerDetail?.primary?.lastName}
+                  </p>
+                </div>
+              </div>
+              <div className="flex mb-4">
+                <img 
+                  src={email}
+                  className="mr-3 bg-[#383838] rounded-[14px]"
+                  alt="email"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular">
+                    Email
+                  </p>
+                  <p className="text-base text-white font-semibold ">
+                    {customerDetail?.primary?.email}
+                  </p>
+                </div>
+              </div>
+              <div className="flex mb-4">
+                <img
+                  src={phone}
+                  className="mr-3 bg-[#383838] rounded-[14px]"
+                  alt="name"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular">
+                    Phone Number
+                  </p>
+                  <p className="text-base text-white font-semibold ">
+                    +1 {customerDetail?.primary?.phoneNumber}
+                  </p>
+                </div>
+              </div>
+              <Grid className="mt-5">
+                <div className="col-span-6 ">
+                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
+                    <p className="text-white text-lg !font-[600]">0</p>
+                    <p className="text-[#999999] text-sm font-Regular">
+                      Total number of Orders
+                    </p>
+                  </div>
+                </div>
+                <div className="col-span-6 ">
+                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
+                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-[#999999] text-sm font-Regular">
+                      Total Value of Orders
+                    </p>
+                  </div>
+                </div>
+                <div className="col-span-6 ">
+                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
+                    <p className="text-white text-lg !font-[600]">0</p>
+                    <p className="text-[#999999] text-sm font-Regular">
+                      Total number of Claims
+                    </p>
+                  </div>
+                </div>
+                <div className="col-span-6 ">
+                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
+                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-[#999999] text-sm font-Regular">
+                      Total Value of Claims
+                    </p>
+                  </div>
+                </div>
+              </Grid>
+            </div>
+          </div>
           <div className="col-span-3">
             <Grid className="!mt-5">
               
@@ -193,4 +348,4 @@ function Sale() {
   );
 }
 
-export default Sale
+export default OrderDetails

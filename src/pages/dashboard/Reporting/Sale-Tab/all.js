@@ -11,6 +11,7 @@ import Button from '../../../../common/button'
 import SelectWhite from '../../../../common/selectWhite'
 import drop from '../../../../assets/images/icons/dropwhite.svg'
 import ChartComponent from '../../../../common/chart'
+import BarChart from '../../../../common/barChart'
 
 function All() {
     const time = [
@@ -53,6 +54,8 @@ function All() {
                   </Grid>
                 </div>
               </Grid>
+
+              <BarChart/>
             </div>
         </div>
         <div className='col-span-4'>
@@ -121,6 +124,7 @@ function All() {
                     name="state"
                     placeholder=""
                     className="!bg-white"
+                    className1='!p-1'
                     options={time}
                 />
             </div>
