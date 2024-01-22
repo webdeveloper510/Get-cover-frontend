@@ -39,7 +39,7 @@ function OrderList() {
   },[])
 
   const getOrderList = async() =>{
-const result =await getOrders();
+const result =await getOrders({});
 console.log(result.result)
 setOrderList(result.result)
   }
