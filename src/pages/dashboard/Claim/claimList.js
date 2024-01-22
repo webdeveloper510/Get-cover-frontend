@@ -119,7 +119,7 @@ function ClaimList() {
                       />
                     </Button>
                     <Button
-                      type="submit" className='!p-0 ml-2 !font-normal !rounded-xl !px-2 !text-sm'>
+                      type="submit" className='ml-2 !text-sm'>
                       Advance Search
                     </Button>
                   </div>
