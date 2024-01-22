@@ -31,7 +31,7 @@ import Broker from "./Sale-Tab/broker";
 
 function Sale() {
   const getInitialActiveTab = () => {
-    const storedTab = localStorage.getItem("menu");
+    const storedTab = localStorage.getItem("SaleMenu");
     return storedTab ? storedTab : "Servicer";
   };
   const id = useParams();
@@ -39,7 +39,7 @@ function Sale() {
   const state = cityData;
 
   useEffect(() => {
-    localStorage.setItem("menu", activeTab);
+    localStorage.setItem("SaleMenu", activeTab);
   }, [activeTab]);
 
 

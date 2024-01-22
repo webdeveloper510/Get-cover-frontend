@@ -1,37 +1,41 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
+import { Chart, ArcElement, registerables } from 'chart.js';
+Chart.register(ArcElement, ...registerables);
 
 const ChartComponent = () => {
   const data = {
-    labels: ['January', 'February', 'March', 'April', 'May'],
+    labels: ['2022', '2023'],
     datasets: [
       {
-        label: 'My Dataset',
-        data: [10, 25, 20, 30, 15],
-        borderColor: 'rgba(75,192,192,1)',
-        pointBackgroundColor: ['red', 'blue', 'green', 'orange', 'purple'],
-        pointStyle: ['circle', 'triangle', 'rect', 'star', 'cross'],
+        label: 'Years Comparison',
+        data: [150, 300,],
+        backgroundColor: [ '#939393', '#3D3D3D'],
+        hoverOffset: 4,
       },
     ],
   };
 
   const options = {
     scales: {
-      x: {
-        type: 'category',
-      },
-      y: {
-        type: 'linear',
-        position: 'left',
-        beginAtZero: true,
-      },
+      x: [
+        {
+          type: 'category',
+        },
+      ],
+      y: [
+        {
+          type: 'linear',
+          position: 'left',
+          beginAtZero: true,
+        },
+      ],
     },
   };
-  
 
   return (
     <div>
-      <Line data={data} options={options} />
+      <Pie className='mb-5' data={data} options={options} />
     </div>
   );
 };
