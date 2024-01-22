@@ -443,7 +443,7 @@ function SideBar() {
       items: [
         {
           name: "Sale",
-          url: "#",
+          url: "/sale",
           image: Dropdown1,
           active: Actives,
         },

@@ -36,6 +36,7 @@ import AddBulkClaim from "../pages/dashboard/Claim/addBulkClaim";
 import EditClaim from "../pages/dashboard/Claim/editClaim";
 import AddReseller from "../pages/dashboard/Reseller/addReseller";
 import ResellerList from "../pages/dashboard/Reseller/resellerList";
+import Sale from "../pages/dashboard/Reporting/sale";
 
 const routes = [
   {
@@ -275,6 +276,10 @@ const routes = [
       {
         path: "/addBulkClaim",
         element: <PrivateRoute element={<AddBulkClaim />} path="/addBulkClaim" />,
+      },
+      {
+        path: "/sale",
+        element: <PrivateRoute element={<Sale />} path="/sale" />,
       },
     ],
   },

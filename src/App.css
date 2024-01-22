@@ -7,3 +7,8 @@
   transform: translateY(-1.25rem) scale(0.75);
   color: #4a90e2; /* Change the color to match your design */
 }
+
+.gradient-border {
+  border-image: linear-gradient(to right, #FFFFFF00, #AAAAAA, #FFFFFF00); /* Adjust colors as needed */
+  border-image-slice: 1;
+}
