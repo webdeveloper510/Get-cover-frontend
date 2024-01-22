@@ -143,7 +143,9 @@ setOrderList(result.result)
               index
             )}`}>
               {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                <div className='text-center py-1'>Edit</div>
+                <div className='text-center py-1 border-b'>Edit</div>
+                <div className='text-center py-1 border-b'>Process Order</div>
+                <div className='text-center py-1'>View</div>
             </div>
           )}
         </div>
