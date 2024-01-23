@@ -350,12 +350,20 @@ console.log(res)
     });
     
     console.log("formData", formData)
-    const value =  checkMultipleFileValidation(formData).then((res)=>{
+    checkMultipleFileValidation(formData).then((res)=>{
+      
       if(res.code== 200){
         nextStep();
       }
+      else{
+        for (let key of res.data) {
+          console.log(key.key);
+          openError()
+          formikStep3.setFieldError(`productsArray[${key.key-1}].file`, key.message);
+      }
+      }
     })
-    console.log(data)
+    // console.log(data)
   }
   const fileInputRef = useRef([]);
 
@@ -1407,7 +1415,7 @@ openModal()
         ))}
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
         <Button onClick={formikStep3.handleSubmit}>Next</Button>
-        <Button className="ml-2" onClick={()=>openError()}>Error</Button>
+        {/* <Button className="ml-2" onClick={()=>openError()}>Error</Button> */}
       </div>
     );
   };
@@ -1766,7 +1774,7 @@ openModal()
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-            Please check the form
+          Some Errors Please Check Form Validations
           </p>
         </div>
       </Modal>
