@@ -1435,6 +1435,24 @@ function AddOrder() {
                             <p className='font-bold text-sm'>${data.price}</p>
                           </div>
                         </Grid>
+                        <Grid className='border-b px-4'>
+                          <div className='col-span-3 py-4 border-r'>
+                            <p className='text-[12px]'>Term</p>
+                            <p className='font-bold text-sm'>{data.term} Months</p>
+                          </div>
+                          <div className='col-span-3 py-4 border-r'>
+                            <p className='text-[12px]'>Unit Price</p>
+                            <p className='font-bold text-sm'>${data.unitPrice}</p>
+                          </div>
+                          <div className='col-span-3 py-4 border-r'>
+                            <p className='text-[12px]'># of Products</p>
+                            <p className='font-bold text-sm'>{data.price / parseFloat(data.unitPrice)}</p>
+                          </div>
+                          <div className='col-span-3 py-4'>
+                            <p className='text-[12px]'>Price</p>
+                            <p className='font-bold text-sm'>${data.price}</p>
+                          </div>
+                        </Grid>
                         <Grid className=' px-4'>
                           <div className='col-span-12 py-4'>
                             <p className='text-[12px]'>Note</p>
@@ -1498,7 +1516,7 @@ function AddOrder() {
                     ></div>
                     <select
                       name="paymentStatus"
-                      className="text-[12px] border-l w-full border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold "
+                      className="text-[12px] bg-[transparent] border-l w-full border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold "
                       onChange={handlePaymentStatusChange}
                       onBlur={formik4.handleBlur}
                       value={formik4.values.paymentStatus}
@@ -1571,7 +1589,7 @@ function AddOrder() {
 
             </Grid>
             <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" onClick={()=>openModal()}>Submit</Button>
           </form>
         </div>
       </>

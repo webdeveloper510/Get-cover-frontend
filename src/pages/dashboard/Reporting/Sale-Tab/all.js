@@ -18,6 +18,10 @@ function All() {
         { label: "march 2024", value: true },
         { label: "Inactive", value: false },
       ];
+      const year = [
+        { label: "2024", value: true },
+        { label: "2023", value: false },
+      ];
   return (
     <>
     <Grid>
@@ -96,7 +100,7 @@ function All() {
                     placeholder=""
                     className="!bg-white"
                     className1='!text-sm !p-1'
-                    options={time}
+                    options={year}
                 />
                 <img src={Arrow} className='absolute -right-5 top-9' alt='Arrow'/>
                 </div>
@@ -108,7 +112,7 @@ function All() {
                     placeholder=""
                     className="!bg-white"
                     className1='!text-sm !p-1'
-                    options={time}
+                    options={year}
                 />
                 </div>
             </Grid>
