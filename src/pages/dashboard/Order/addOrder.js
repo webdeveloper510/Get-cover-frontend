@@ -1497,17 +1497,13 @@ openModal()
                           </div>
                         </Grid>
                         <Grid className='border-b px-4'>
-                          <div className='col-span-4 py-4 border-r'>
-                            <p className='text-[12px]'>Name</p>
+                          <div className='col-span-6 py-4 border-r'>
+                            <p className='text-[12px]'>Start Range</p>
                             <p className='font-bold text-sm'>Inverter</p>
                           </div>
-                          <div className='col-span-4 py-4 border-r'>
-                            <p className='text-[12px]'>Max Quantity</p>
+                          <div className='col-span-6 py-4'>
+                            <p className='text-[12px]'>End Range</p>
                             <p className='font-bold text-sm'>40</p>
-                          </div>
-                          <div className='col-span-4 py-4 '>
-                            <p className='text-[12px]'># of Quantity</p>
-                            <p className='font-bold text-sm'>10</p>
                           </div>
                         </Grid>
                         <Grid className=' px-4'>
