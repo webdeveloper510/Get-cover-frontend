@@ -1485,9 +1485,12 @@ function AddOrder() {
                   <p className='self-center text-sm px-3'>Payment Status</p>
                   <div className="relative">
                     <div
-                      className={`
-                 bg-[#FF4747]
-                  absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+              className={`
+              absolute h-3 w-3 rounded-full top-[33%] ml-[8px]
+              ${formik4.values.paymentStatus === 'unpaid' ? 'bg-[#FF4747]' : ''}
+              ${formik4.values.paymentStatus === 'paid' ? 'bg-[#00FF00]' : ''}
+              ${formik4.values.paymentStatus !== 'unpaid' && formik4.values.paymentStatus !== 'paid' ? 'bg-black' : ''}
+            `}
                     ></div>
                     <select
                       name="paymentStatus"
