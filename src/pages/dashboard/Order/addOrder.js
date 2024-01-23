@@ -46,6 +46,7 @@ function AddOrder() {
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
   const [fileValues, setFileValues] = useState([]);
+  const [timer, setTimer] = useState(3);
   const [sendNotification, setSendNotification] = useState(true)
   const [numberOfOrders, setNumberOfOrders] = useState([]);
   const navigate = useNavigate()
@@ -110,6 +111,20 @@ function AddOrder() {
     setServicerData(arr);
 
   };
+  useEffect(() => {
+    let intervalId;
+    if (isModalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0 ) {
+      closeModal();
+       navigate("/orderList");
+    }
+    return () => clearInterval(intervalId);
+  }, [isModalOpen, timer]);
 
   const getCustomerList = async (id) => {
     let arr = [];
@@ -241,12 +256,7 @@ console.log(res)
             .typeError("Required")
             .required("Required")
             .nullable(),
-          noOfProducts: Yup.number()
-            .when('priceType', {
-              is: (value) => value !== 'Quantity Pricing',
-              then: (schema) => schema.required("Required").min(0, "Number of Product cannot be negative"),
-              otherwise: (schema) => schema.notRequired(),
-            }),
+          noOfProducts: Yup.number().required("Required").min(1, "Number of Product cannot be negative"),
           // additionalNotes: Yup.string().required("Required"),
           QuantityPricing: Yup.array()
             .when('priceType', {
@@ -309,10 +319,13 @@ console.log(res)
 
     Object.entries(newValues).forEach(([key, value]) => {
       if (key === 'file') {
-        value.forEach((val, index) => {
-          console.log(val)
-          formData.append(`file`, val)
-        })
+        if (value) {
+          value.forEach((val, index) => {
+              formData.append(`file`, val)
+          });
+      } else {
+          formData.append(`file`, null); 
+      }
       }
       
       else if (key === "productsArray") {
@@ -373,7 +386,6 @@ console.log(res)
       formikStep3.setFieldError(`productsArray[${index}].file`, fileValue.message);
     }
     else {
-      // formikStep3.setFieldValue(`productsArray[${index}].file`, file);
       formikStep3.setFieldError(`productsArray[${index}].file`, '');
     }
 
@@ -387,14 +399,14 @@ console.log(res)
   }
   const formik4 = useFormik({
     initialValues: {
-      paymentStatus: 'unpaid',
+      paymentStatus: 'Unpaid',
       paidAmount: '',
       pendingAmount: '',
     },
     validationSchema:  Yup.object().shape({
       paidAmount: Yup.number()
         .when('paymentStatus', {
-          is: (status) => status !== 'paid',
+          is: (status) => status !== 'Paid',
           then: (schema)=>Yup.number()
           .max(
             calculateTotalAmount(formikStep3.values.productsArray),
@@ -406,7 +418,7 @@ console.log(res)
         }),
     
       }),    
-    onSubmit: values => {
+    onSubmit: (values) => {
 
       console.log(values);
       const arr = [];
@@ -430,9 +442,13 @@ console.log(res)
 
     Object.entries(data).forEach(([key, value]) => {
       if (key === 'file') {
-        value.forEach((val, index) => {
-          formData.append(`file`, val)
-        })
+        if (value) {
+          value.forEach((val, index) => {
+              formData.append(`file`, val)
+          });
+      } else {
+          formData.append(`file`, null); 
+      }
       }
       else if (key === "productsArray") {
         value.forEach((item, index) => {
@@ -459,15 +475,21 @@ console.log(res)
         formData.append(key, value);
       }
     });
-    const order =  addOrder(formData);
-    if (order.code === 200) {
-      navigate('/orderList')
-    }
+    console.log('here')
+  addOrder(formData).then((res)=>{
+      if (res.code == 200) {
+openModal()
+
+        //  navigate('/orderList')
+      }
+    })
+   
     },
   });
+
   const handlePaymentStatusChange = (e) => {
     const newPaymentStatus = e.target.value;
-    if (newPaymentStatus === 'unpaid') {
+    if (newPaymentStatus === 'Unpaid') {
       formik4.setFieldValue('paidAmount', calculateTotalAmount(formikStep3.values.productsArray));
       formik4.setFieldError('paidAmount', '');
       formik4.setFieldValue('paidAmount', calculateTotalAmount(formikStep3.values.productsArray));
@@ -681,9 +703,10 @@ console.log(res)
         });
         formikStep3.setFieldValue(`productsArray[${i}].price`, (unitPrice.toFixed(2) * maxRoundedValue).toFixed(2));
         formikStep3.setFieldValue(`productsArray[${i}].noOfProducts`, maxRoundedValue);
-
       }
     }
+    formik4.setFieldValue('paidAmount', calculateTotalAmount(formikStep3.values.productsArray));
+
   }, [formikStep3.values.productsArray]);
 
   const handleSelectChange1 = (name, value) => {
@@ -1573,9 +1596,9 @@ console.log(res)
                     <div
                       className={`
                       absolute h-3 w-3 rounded-full top-[33%] ml-[8px]
-                      ${formik4.values.paymentStatus === 'unpaid' ? 'bg-[#FFAA47]' : ''}
-                      ${formik4.values.paymentStatus === 'paid' ? 'bg-[#6BD133]' : ''}
-                      ${formik4.values.paymentStatus !== 'unpaid' && formik4.values.paymentStatus !== 'paid' ? 'bg-[#338FD1]' : ''}
+                      ${formik4.values.paymentStatus === 'Unpaid' ? 'bg-[#FFAA47]' : ''}
+                      ${formik4.values.paymentStatus === 'Paid' ? 'bg-[#6BD133]' : ''}
+                      ${formik4.values.paymentStatus !== 'Unpaid' && formik4.values.paymentStatus !== 'Paid' ? 'bg-[#338FD1]' : ''}
                     `}
                     ></div>
                     <select
@@ -1585,9 +1608,9 @@ console.log(res)
                       onBlur={formik4.handleBlur}
                       value={formik4.values.paymentStatus}
                     >
-                      <option value="paid">Paid</option>
-                      <option value="unpaid">Unpaid</option>
-                      <option value="partlypaid">Partly Paid</option>
+                      <option value="Paid">Paid</option>
+                      <option value="Unpaid">Unpaid</option>
+                      <option value="PartlyPaid">Partly Paid</option>
                     </select>
                   </div>
                 </div>
@@ -1597,9 +1620,11 @@ console.log(res)
 
                 
           {
-            formik4.values.paymentStatus !== 'paid' && (
+            formik4.values.paymentStatus !== 'Paid' && (
               <>
-                 <div className='col-span-6'>
+                 {
+                
+                    <div className='col-span-6'>
                  <Input
                   type="number"
                   name="paidAmount"
@@ -1608,7 +1633,6 @@ console.log(res)
                   maxLength={10}
                   maxDecimalPlaces={2}
                   placeholder=""
-                  disabled={formik4.values.paymentStatus==='unpaid'}
                   onChange={(e) => {
                     formik4.handleChange(e);
                     calculatePendingAmount(e.target.value);
@@ -1620,9 +1644,11 @@ console.log(res)
                   <div className="text-red-500">{formik4.errors.paidAmount}</div>
       )}
                  </div>
+                 
+                 }
              
               {
-                formik4.values.paymentStatus == 'partlypaid' && (
+                formik4.values.paymentStatus == 'PartlyPaid' && (
                   <div className='col-span-6'>
                   <Input
                     type="number"
@@ -1653,7 +1679,7 @@ console.log(res)
 
             </Grid>
             <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
-            <Button type="submit" onClick={()=>openModal()}>Submit</Button>
+            <Button type="submit" >Submit</Button>
           </form>
         </div>
       </>
@@ -1722,7 +1748,7 @@ console.log(res)
             <b> New Order </b> Added Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            Redirecting you on Order List Page 3 seconds.
+            Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>
       </Modal>
