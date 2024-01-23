@@ -8,6 +8,7 @@ import { format, addMonths } from 'date-fns';
 // Media Include
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import cross from "../../../assets/images/icons/CrossButton.svg";
+import disapproved from "../../../assets/images/Disapproved.png";
 import csvFile from "../../../assets/images/icons/csvFile.svg";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
@@ -24,6 +25,7 @@ import RadioButton from '../../../common/radio';
 import { addOrder, checkMultipleFileValidation, fileValidation } from '../../../services/orderServices';
 import Modal from '../../../common/model';
 import { getResellerListByDealerId } from '../../../services/reSellerServices';
+import Cross from "../../../assets/images/Cross.png";
 
 
 function AddOrder() {
@@ -34,6 +36,7 @@ function AddOrder() {
   const [resellerName, setResellerName] = useState('');
   const [termList, setTermList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isErrorOpen, setIsErrorOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [dealerList, setDealerList] = useState([]);
   const [servicerData, setServicerData] = useState([]);
@@ -520,6 +523,14 @@ console.log(res)
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const openError = () => {
+    setIsErrorOpen(true);
+  };
+
+  const closeError = () => {
+    setIsErrorOpen(false);
   };
 
   const handleSelectChange2 = async (name, selectedValue) => {
@@ -1373,6 +1384,7 @@ console.log(res)
         ))}
         <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
         <Button onClick={formikStep3.handleSubmit}>Next</Button>
+        <Button className="ml-2" onClick={()=>openError()}>Error</Button>
       </div>
     );
   };
@@ -1683,6 +1695,24 @@ console.log(res)
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page 3 seconds.
+          </p>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isErrorOpen} onClose={closeError}>
+         <Button onClick={closeError} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
+        <div className="text-center py-3">
+          <img src={disapproved} alt="email Image" className="mx-auto" />
+
+          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+            
+            <span className="text-light-black"> Error </span>
+          </p>
+
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Please check the form
           </p>
         </div>
       </Modal>
