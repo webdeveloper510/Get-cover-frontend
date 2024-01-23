@@ -161,14 +161,12 @@ function Reseller(props) {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
       email: "",
       phone: "",
     },
     validationSchema: Yup.object({
-      firstName: Yup.string(),
-      lastName: Yup.string(),
+      name: Yup.string(),
       email: Yup.string(),
       phone: Yup.number(),
     }),
@@ -196,13 +194,13 @@ function Reseller(props) {
                   <Grid className="!grid-cols-11">
                     <div className="col-span-3 self-center">
                       <Input
-                        name="firstName"
+                        name="name"
                         type="text"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
                         placeholder="Name"
-                        value={formik.values.firstName}
+                        value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
