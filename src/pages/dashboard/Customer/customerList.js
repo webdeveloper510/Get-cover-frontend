@@ -331,7 +331,7 @@ function CustomerList() {
                         onClick={() => {
                           handleFilterIconClick();
                         }}
-                        className="!ml-2 !bg-transparent !p-0"
+                        className="!bg-transparent !p-0"
                       >
                         <img
                           src={clearFilter}
