@@ -22,15 +22,15 @@ import OrderSummary from "./OrderDetails/orderSummary";
 
 function OrderDetails() {
   const getInitialActiveTab = () => {
-    const storedTab = localStorage.getItem("SaleMenu");
-    return storedTab ? storedTab : "Servicer";
+    const storedTab = localStorage.getItem("orderMenu");
+    return storedTab ? storedTab : "Order Summary";
   };
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const state = cityData;
 
   useEffect(() => {
-    localStorage.setItem("SaleMenu", activeTab);
+    localStorage.setItem("orderMenu", activeTab);
   }, [activeTab]);
 
 
