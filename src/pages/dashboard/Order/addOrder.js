@@ -641,10 +641,22 @@ function AddOrder() {
                     onBlur={formik.handleBlur}
                   />
                 </div>
-                <div className='col-span-12'>
+                <div className='col-span-6'>
                   <Select
                     label="Customer Name"
                     name="customerId"
+                    placeholder=""
+                    className="!bg-white"
+                    onChange={handleSelectChange}
+                    options={customerList}
+                    value={formik.values.customerId}
+                    onBlur={formik.handleBlur}
+                  />
+                </div>
+                <div className='col-span-6'>
+                  <Select
+                    label="Reseller Name"
+                    name="resellerId"
                     placeholder=""
                     className="!bg-white"
                     onChange={handleSelectChange}
@@ -678,7 +690,7 @@ function AddOrder() {
                     type="text"
                     name="dealerPurchaseOrder"
                     className="!bg-white"
-                    label="Dealer Purchase Order"
+                    label="Dealer Purchase Order #"
                     required={true}
                     placeholder=""
                     maxLength={"500"}
@@ -970,7 +982,6 @@ function AddOrder() {
                       name={`productsArray[${index}].coverageStartDate`}
                       className="!bg-[#fff]"
                       label="Coverage Start Date"
-                      required={true}
                       placeholder=""
                       readOnly
                       value={formikStep3.values.productsArray[index].coverageStartDate == '' ? formikStep3.values.productsArray[index].coverageStartDate : format(new Date(formikStep3.values.productsArray[index].coverageStartDate), 'yyyy-MM-dd')}
@@ -1096,7 +1107,7 @@ function AddOrder() {
                                         <Input
                                           type="tel"
                                           name={`productsArray[${index}].QuantityPricing[${index1}].enterQuantity`}
-                                          className="!bg-[#fff]"
+                                          className="!bg-[#f9f9f9]"
                                           label="# of Quantity"
                                           required={true}
                                           placeholder=""
