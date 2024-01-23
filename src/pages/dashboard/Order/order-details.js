@@ -7,34 +7,17 @@ import Button from "../../../common/button";
 // Media Import
 import AllActive from "../../../assets/images/Reporting/icons/Activeall.svg";
 import all from "../../../assets/images/Reporting/icons/all.svg";
+import BackImage from "../../../assets/images/icons/backArrow.svg";
+import DealerIcons from "../../../assets/images/icons/DealerIcons.svg";
+import DealerList from "../../../assets/images/icons/dealerList.svg";
 import WholesaleActive from "../../../assets/images/Reporting/icons/activeWholesale.svg";
 import wholesale from "../../../assets/images/Reporting/icons/Wholesale.svg";
-import BreakdownActive from "../../../assets/images/Reporting/icons/activeAdministration.svg";
-import breakdown from "../../../assets/images/Reporting/icons/Administration.svg";
-import FrontingActive from "../../../assets/images/Reporting/icons/activeFrontingFees.svg";
-import fronting from "../../../assets/images/Reporting/icons/frontingFees.svg";
-import insuranceActive from "../../../assets/images/Reporting/icons/activeRe-insurance.svg";
-import insurance from "../../../assets/images/Reporting/icons/Re-insurance.svg";
-import ReservesActive from "../../../assets/images/Reporting/icons/activeReservesFutureClaims.svg";
-import reserves from "../../../assets/images/Reporting/icons/ReservesFutureClaims.svg";
-import BrokerActive from "../../../assets/images/Reporting/icons/activeBroker.svg";
-import broker from "../../../assets/images/Reporting/icons/Broker.svg";
 import Select from "../../../common/select";
-import Dealer from "../../../assets/images/icons/dealer.svg";
-import Claim from "../../../assets/images/Dealer/Claim.svg";
-import User from "../../../assets/images/Dealer/Users.svg";
 import address from "../../../assets/images/Dealer/Address.svg";
-import name from "../../../assets/images/Dealer/Name.svg";
-import email from "../../../assets/images/Dealer/Email.svg";
-import phone from "../../../assets/images/Dealer/Phone.svg";
 import { cityData } from "../../../stateCityJson";
-import All from "./Sale-Tab/all";
-import WholeSale from "./Sale-Tab/wholeSale";
-import Breakdown from "./Sale-Tab/breakdown";
-import Reserves from "./Sale-Tab/reserves";
-import ReInsurance from "./Sale-Tab/reInsurance";
-import Fronting from "./Sale-Tab/fronting";
-import Broker from "./Sale-Tab/broker";
+import Contracts from "./OrderDetails/contracts";
+import OrderSummary from "./OrderDetails/orderSummary";
+
 
 function OrderDetails() {
   const getInitialActiveTab = () => {
@@ -53,54 +36,19 @@ function OrderDetails() {
 
   const tabs = [
     {
-      id: "All",
-      label: "All",
+      id: "Order Summary",
+      label: "Order Summary",
       icons: all,
       Activeicons: AllActive,
-      content: <All />,
+      content: <OrderSummary />,
     },
     {
-      id: "Wholesale",
-      label: "Wholesale",
+      id: "Contracts",
+      label: "Contracts",
       icons: wholesale,
       Activeicons: WholesaleActive,
-      content: <WholeSale />,
-    },
-    {
-      id: "Breakdown for Administration",
-      label: "Breakdown for Administration",
-      icons: breakdown,
-      Activeicons: BreakdownActive,
-      content: <Breakdown />,
-    },
-    {
-      id: "Fronting Fees",
-      label: "Fronting Fees",
-      icons: fronting,
-      Activeicons: FrontingActive,
-      content: <Fronting />,
-    },
-    {
-      id: "Re-insurance Premium",
-      label: "Re-insurance Premium",
-      icons: insurance,
-      Activeicons: insuranceActive,
-      content: <ReInsurance />,
-    },
-    {
-      id: "Reserves Future Claims",
-      label: "Reserves Future Claims",
-      icons: reserves,
-      Activeicons: ReservesActive,
-      content: <Reserves />,
-    },
-    {
-      id: "Broker Fees",
-      label: "Broker Fees",
-      icons: broker,
-      Activeicons: BrokerActive,
-      content: <Broker />,
-    },
+      content: <Contracts />,
+    }
   ];
 
   const handleTabClick = (tabId) => {
@@ -119,17 +67,29 @@ function OrderDetails() {
         <Headbar />
 
         <div className="flex">
+        <div
+          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+        >
+          <img
+            src={BackImage}
+            className="m-auto my-auto self-center bg-white"
+            alt="BackImage"
+          />
+        </div>
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
-             Reporting
+            Order Details
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Reporting / </Link>{" "}
+                <Link to={"/"}>Servicer / </Link>{" "}
+              </li>
+              <li className="text-sm text-neutral-grey font-Regular pl-2">
+                <Link to={"/"}>Order Details / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}
-                Sale ({activeTab})
+                 {activeTab}
               </li>
             </ul>
           </div>
@@ -141,16 +101,16 @@ function OrderDetails() {
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
-                    Account Name
+                   Order ID
                   </p>
                   <p className="text-xl text-white font-semibold">
-                    {customerDetail?.meta?.username}
+                    315174
                   </p>
                 </div>
                 <div className="col-span-3 text-end">
                   <Button
                     className="border !border-[#535456] !text-sm !font-Regular"
-                    onClick={openModal}
+                    // onClick={openModal}
                   >
                     Edit
                   </Button>
@@ -164,21 +124,48 @@ function OrderDetails() {
                 />
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular mt-3">
-                    Address
+                  Dealer Purchase Order
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                    {customerDetail?.meta?.street} {", "}
-                    {customerDetail?.meta?.state}
-                    {", "}
-                    {customerDetail?.meta?.country}
+                  12345678900987
+                  </p>
+                </div>
+              </div>
+              <div className="flex my-4">
+                <img
+                  src={address}
+                  className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                  alt="Address"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  Service Coverage
+                  </p>
+                  <p className="text-base text-white font-semibold leading-5">
+                  Parts
+                  </p>
+                </div>
+              </div>
+              <div className="flex my-4">
+                <img
+                  src={address}
+                  className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                  alt="Address"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  Coverage Type
+                  </p>
+                  <p className="text-base text-white font-semibold leading-5">
+                  Breakdown (BD)
                   </p>
                 </div>
               </div>
               <div className="flex w-full my-4">
                 <p className="text-[10px] mr-3 text-[#999999] font-Regular">
-                  PRIMARY CONTACT DETAILS
+                Other Details
                 </p>
-                <hr className="self-center border-[#999999] w-[50%]" />
+                <hr className="self-center border-[#999999] w-[70%]" />
               </div>
               <div className="flex mb-4">
                 <div className="relative">
@@ -187,7 +174,7 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="DealerIcons"
                   />
-                  <Link to={`/dealerDetails/${customerDetail?.meta?.dealerId}`}>
+                  <Link to={`/dealerDetails/vscjhc`}>
                     {" "}
                     <img
                       src={DealerList}
@@ -201,96 +188,69 @@ function OrderDetails() {
                     Dealer Name
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    {customerDetail?.meta?.dealerName}
+                  Edward Wilson
                   </p>
                 </div>
               </div>
               <div className="flex mb-4">
-                <img
-                  src={name}
-                  className="mr-3 bg-[#383838] rounded-[14px]"
-                  alt="Name"
-                />
-                <div>
-                  <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                  <p className="text-base text-white font-semibold ">
-                    {customerDetail?.primary?.firstName}{" "}
-                    {customerDetail?.primary?.lastName}
-                  </p>
+                <div className="relative">
+                  <img
+                    src={DealerIcons}
+                    className="mr-3 bg-[#383838] rounded-[14px]"
+                    alt="DealerIcons"
+                  />
+                  <Link to={`/dealerDetails/fgfgh`}>
+                    {" "}
+                    <img
+                      src={DealerList}
+                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                      alt="DealerList"
+                    />{" "}
+                  </Link>
                 </div>
-              </div>
-              <div className="flex mb-4">
-                <img 
-                  src={email}
-                  className="mr-3 bg-[#383838] rounded-[14px]"
-                  alt="email"
-                />
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular">
-                    Email
+                  Customer Name
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    {customerDetail?.primary?.email}
+                  Ankush Grover
                   </p>
                 </div>
               </div>
               <div className="flex mb-4">
-                <img
-                  src={phone}
-                  className="mr-3 bg-[#383838] rounded-[14px]"
-                  alt="name"
-                />
+                <div className="relative">
+                  <img
+                    src={DealerIcons}
+                    className="mr-3 bg-[#383838] rounded-[14px]"
+                    alt="DealerIcons"
+                  />
+                  <Link to={`/dealerDetails/sgdfg`}>
+                    {" "}
+                    <img
+                      src={DealerList}
+                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                      alt="DealerList"
+                    />{" "}
+                  </Link>
+                </div>
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular">
-                    Phone Number
+                  Servicer Name
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    +1 {customerDetail?.primary?.phoneNumber}
+                  Jameson Wills
                   </p>
                 </div>
               </div>
-              <Grid className="mt-5">
-                <div className="col-span-6 ">
-                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">0</p>
-                    <p className="text-[#999999] text-sm font-Regular">
-                      Total number of Orders
-                    </p>
-                  </div>
-                </div>
-                <div className="col-span-6 ">
-                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
-                    <p className="text-[#999999] text-sm font-Regular">
-                      Total Value of Orders
-                    </p>
-                  </div>
-                </div>
-                <div className="col-span-6 ">
-                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">0</p>
-                    <p className="text-[#999999] text-sm font-Regular">
-                      Total number of Claims
-                    </p>
-                  </div>
-                </div>
-                <div className="col-span-6 ">
-                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
-                    <p className="text-[#999999] text-sm font-Regular">
-                      Total Value of Claims
-                    </p>
-                  </div>
-                </div>
-              </Grid>
+              
             </div>
           </div>
           <div className="col-span-3">
             <Grid className="!mt-5">
               
-              <div className="col-span-10">
+              <div className="col-span-4">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-7 !gap-1">
+                  <Grid className="!grid-cols-2 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
@@ -321,16 +281,7 @@ function OrderDetails() {
                   </Grid>
                 </div>
               </div>
-              <div
-                className="col-span-2 self-center">
-                <Select
-                 label=""
-                 name="state"
-                 placeholder=""
-                 className="!bg-white"
-                 options={state}
-                  />
-              </div>
+             
             </Grid>
 
             {tabs.map((tab) => (

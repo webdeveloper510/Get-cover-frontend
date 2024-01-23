@@ -6,6 +6,7 @@ import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
+import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from '../../../common/headBar';
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from '../../../common/grid';
@@ -14,12 +15,21 @@ import DataTable from "react-data-table-component"
 import Select from '../../../common/select';
 import { RotateLoader } from 'react-spinners';
 import { getOrders } from '../../../services/orderServices';
+import Modal from '../../../common/model';
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [orderList,setOrderList]=useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   const handleSelectChange1 = (label , value) => {
     console.log(label, value , "selected")
     setSelectedProduct(value);
@@ -59,7 +69,6 @@ setOrderList(result.result)
       <p>No records found.</p>
     </div>
   );
-
  
 
   const columns = [
@@ -139,13 +148,13 @@ setOrderList(result.result)
             <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
           </div>
           {selectedAction === row.unique_key && (
-            <div className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+            <div className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
               index
             )}`}>
               {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div className='text-center py-1 border-b'>Edit</div>
-                <div className='text-center py-1 border-b'>Process Order</div>
-                <div className='text-center py-1'>View</div>
+                <div className='text-center py-1 border-b cursor-pointer' onClick={()=> openModal()}>Process Order</div>
+                <div className='text-center py-1'><Link to={'/orderDetails'}>View</Link></div>
             </div>
           )}
         </div>
@@ -225,6 +234,23 @@ setOrderList(result.result)
         </div>
 
       </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="text-center py-3">
+          <img src={AddDealer} alt="email Image" className="mx-auto" />
+
+          <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
+             
+            <span className="text-light-black"> Order Processed </span> Successfully
+          </p>
+
+          <p className="text-neutral-grey text-base font-medium mt-2">
+           Order Processed Successfully
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting you on Order List Page 3 seconds.
+          </p>
+        </div>
+      </Modal>
     </>
   )
 }

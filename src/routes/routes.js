@@ -37,6 +37,7 @@ import EditClaim from "../pages/dashboard/Claim/editClaim";
 import AddReseller from "../pages/dashboard/Reseller/addReseller";
 import ResellerList from "../pages/dashboard/Reseller/resellerList";
 import Sale from "../pages/dashboard/Reporting/sale";
+import OrderDetails from "../pages/dashboard/Order/order-details";
 
 const routes = [
   {
@@ -110,6 +111,13 @@ const routes = [
         index: true,
         element: (
           <PrivateRoute element={<EditContract />} path="/editContract" />
+        ),
+      },
+      {
+        path: "/orderDetails",
+        index: true,
+        element: (
+          <PrivateRoute element={<OrderDetails />} path="/orderDetails" />
         ),
       },
       {
