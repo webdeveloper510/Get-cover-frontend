@@ -1506,12 +1506,6 @@ openModal()
                             <p className='font-bold text-sm'>40</p>
                           </div>
                         </Grid>
-                        <Grid className=' px-4'>
-                          <div className='col-span-12 py-4'>
-                            <p className='text-[12px]'>Note</p>
-                            <p className='font-bold text-sm'>{data.additionalNotes}</p>
-                          </div>
-                        </Grid>
                         <Grid>
                         <div className='col-span-12'>
                         <table className="w-full border text-center">
@@ -1533,6 +1527,13 @@ openModal()
                         </table>
                       </div>
                       </Grid>
+                        <Grid className=' px-4'>
+                          <div className='col-span-12 py-4'>
+                            <p className='text-[12px]'>Note</p>
+                            <p className='font-bold text-sm'>{data.additionalNotes}</p>
+                          </div>
+                        </Grid>
+                      
                        
                        
                          {/* Loops */}
