@@ -273,7 +273,7 @@ function AddOrder() {
     const formData = new FormData();
     const arr = [];
     let arrayOfObjects = data.productsArray.map((res, index) => {
-      console.log(res.file)
+      console.log(res)
       arr.push(res.file)
     });
     let newValues = {
@@ -284,9 +284,11 @@ function AddOrder() {
     Object.entries(newValues).forEach(([key, value]) => {
       if (key === 'file') {
         value.forEach((val, index) => {
+          console.log(val)
           formData.append(`file`, val)
         })
       }
+      
       else if (key === "productsArray") {
         value.forEach((item, index) => {
           Object.entries(item).forEach(([key1, value1]) => {
@@ -307,6 +309,7 @@ function AddOrder() {
         formData.append(key, value);
       }
     });
+    
     console.log("formData", formData)
     const value =  checkMultipleFileValidation(formData).then((res)=>{
       if(res.code== 200){
@@ -316,19 +319,26 @@ function AddOrder() {
     console.log(data)
   }
   const fileInputRef = useRef([]);
+
   const handleFileSelect = (event, index) => {
     const file = event.target.files[0];
-    fileInputRef.current[index].current.file = file;
-    setFileValues(prevFileValues => {
-      const newArray = [...prevFileValues];
-      newArray.splice(index, 0, file);
-      return newArray;
-    });
-    checkFileError(file, index)
+  
+    if (file) {
+      fileInputRef.current[index].current.file = file;
+  
+      setFileValues((prevFileValues) => {
+        const newArray = [...prevFileValues];
+        newArray.splice(index, 0, file);
+        return newArray;
+      });
+      // formikStep3.setFieldValue(`productsArray[${index}].file`, fileValues);
+      checkFileError(file, index);
+    }
   };
+  
 
   const checkFileError = async (file, index) => {
-
+    formikStep3.setFieldValue(`productsArray[${index}].file`, file);
     const formData = new FormData();
     formData.append('file', file)
     formData.append('noOfProducts', numberOfOrders[index])
@@ -337,7 +347,7 @@ function AddOrder() {
       formikStep3.setFieldError(`productsArray[${index}].file`, fileValue.message);
     }
     else {
-      formikStep3.setFieldValue(`productsArray[${index}].file`, file);
+      // formikStep3.setFieldValue(`productsArray[${index}].file`, file);
       formikStep3.setFieldError(`productsArray[${index}].file`, '');
     }
 
@@ -373,8 +383,77 @@ function AddOrder() {
     onSubmit: values => {
 
       console.log(values);
+      const arr = [];
+    let arrayOfObjects = formikStep3.values.productsArray.map((res, index) => {
+      arr.push(res.file)
+    });
+    const totalAmount = calculateTotalAmount(formikStep3.values.productsArray)
+    console.log(totalAmount)
+    const data = {
+      ...formik.values,
+      ...formikStep2.values,
+      ...formikStep3.values,
+      paidAmount: values.paidAmount,
+      file: arr,
+      dueAmount: values.pendingAmount,
+      sendNotification: sendNotification,
+      paymentStatus: values.paymentStatus,
+      orderAmount: parseFloat(totalAmount)
+    };
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (key === 'file') {
+        value.forEach((val, index) => {
+          formData.append(`file`, val)
+        })
+      }
+      else if (key === "productsArray") {
+        value.forEach((item, index) => {
+          Object.entries(item).forEach(([key1, value1]) => {
+            // if (!Array.isArray(value1) ) {
+            if (key1 !== 'file') {
+              formData.append(`${key}[${index}][${key1}]`, value1);
+            }
+            else {
+            }
+          }
+          )
+
+          if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
+            item.QuantityPricing.forEach((qpItem, qpIndex) => {
+              Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
+                formData.append(`${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`, qpValue);
+              });
+            });
+          }
+        });
+      } else {
+
+        formData.append(key, value);
+      }
+    });
+    const order =  addOrder(formData);
+    if (order.code === 200) {
+      navigate('/orderList')
+    }
     },
   });
+  const handlePaymentStatusChange = (e) => {
+    const newPaymentStatus = e.target.value;
+    if (newPaymentStatus === 'unpaid') {
+      formik4.setFieldValue('paidAmount', calculateTotalAmount(formikStep3.values.productsArray));
+      formik4.setFieldError('paidAmount', '');
+      formik4.setFieldValue('paidAmount', calculateTotalAmount(formikStep3.values.productsArray));
+      formik4.setFieldValue('pendingAmount','0.00');
+
+    } else {
+      formik4.setFieldError('paidAmount', ''); 
+    }
+  
+    // Update the paymentStatus field
+    formik4.handleChange(e);
+  };
   useEffect(() => {
     fileInputRef.current = Array.from({ length: formikStep3.values.productsArray.length }, () => createRef());
   }, [formikStep3.values.productsArray.length]);
@@ -426,9 +505,6 @@ function AddOrder() {
       formikStep3.setFieldValue(`productsArray[${match[1]}].categoryId`, selectedValue)
       formikStep3.setFieldValue(`productsArray[${match[1]}].priceBookId`, "");
       formikStep3.setFieldValue(`productsArray[${match[1]}].term`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].coverageStartDate`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].coverageEndDate`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].QuantityPricing`, []);
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].price`,
         ""
@@ -495,8 +571,22 @@ function AddOrder() {
       const data = productNameOptions[match[1]].data.find((value) => {
         return value.value === selectedValue;
       });
-      formikStep3.setFieldValue(`productsArray[${match[1]}].coverageStartDate`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].coverageEndDate`, "");
+      // formikStep3.setFieldValue(
+      //   `productsArray[${match[1]}].QuantityPricing`,
+      //   data.quantityPriceDetail
+      // );
+      const updatedQuantityPricing = data.quantityPriceDetail.map((item,index) => {
+        const updatedItem = {
+          ...item,
+          enterQuantity: ""
+        };
+        console.log(index)
+        formikStep3.setFieldError(`productsArray[${match[1]}].QuantityPricing[${index}].enterQuantity`, '');
+        return updatedItem;
+      });
+      
+      
+      formikStep3.setFieldValue(`productsArray[${match[1]}].QuantityPricing`, updatedQuantityPricing);
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].price`,
         ""
@@ -525,10 +615,7 @@ function AddOrder() {
         `productsArray[${match[1]}].rangeStart`,
         data.rangeStart
       );
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].QuantityPricing`,
-        data.quantityPriceDetail
-      );
+    
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].unitPrice`,
         data.wholesalePrice.toFixed(2)
@@ -600,7 +687,7 @@ function AddOrder() {
   const calculatePendingAmount = (paidAmount) => {
     const totalAmount = calculateTotalAmount(formikStep3.values.productsArray);
     const pendingAmount = totalAmount - parseFloat(paidAmount) || 0; // Ensure a valid number
-    formik4.setFieldValue('pendingAmount', pendingAmount);
+    formik4.setFieldValue('pendingAmount', pendingAmount.toFixed(2));
   };
   const renderStep1 = () => {
     return (
@@ -1112,15 +1199,21 @@ function AddOrder() {
                                           }}
 
                                         />
-                                        {formikStep3.errors.productsArray &&
-                                          formikStep3.errors.productsArray[index] &&
-                                          formikStep3.errors.productsArray[index].QuantityPricing &&
-                                          formikStep3.errors.productsArray[index].QuantityPricing[index1] &&
-                                          formikStep3.errors.productsArray[index].QuantityPricing[index1].enterQuantity && (
-                                            <div className="text-red-500 text-sm pl-2 pt-2">
-                                              {formikStep3.errors.productsArray[index].QuantityPricing[index1].enterQuantity}
-                                            </div>
-                                          )}
+                         {formikStep3.touched.productsArray &&
+  formikStep3.touched.productsArray[index] &&
+  formikStep3.touched.productsArray[index].QuantityPricing &&
+  formikStep3.touched.productsArray[index].QuantityPricing[index1] &&
+  formikStep3.touched.productsArray[index].QuantityPricing[index1].enterQuantity && (
+    <div className="text-red-500 text-sm pl-2 pt-2">
+      {formikStep3.errors.productsArray &&
+        formikStep3.errors.productsArray[index] &&
+        formikStep3.errors.productsArray[index].QuantityPricing &&
+        formikStep3.errors.productsArray[index].QuantityPricing[index1] &&
+        formikStep3.errors.productsArray[index].QuantityPricing[index1].enterQuantity}
+    </div>
+  )}
+
+
                                       </div>
                                     </Grid>
                                   </div>
@@ -1388,7 +1481,7 @@ function AddOrder() {
                     <select
                       name="paymentStatus"
                       className="text-[12px] border-l w-full border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold "
-                      onChange={formik4.handleChange}
+                      onChange={handlePaymentStatusChange}
                       onBlur={formik4.handleBlur}
                       value={formik4.values.paymentStatus}
                     >
@@ -1411,6 +1504,7 @@ function AddOrder() {
                   maxLength={10}
                   maxDecimalPlaces={2}
                   placeholder=""
+                  disabled={formik4.values.paymentStatus==='unpaid'}
                   onChange={(e) => {
                     formik4.handleChange(e);
                     calculatePendingAmount(e.target.value);
@@ -1460,67 +1554,6 @@ function AddOrder() {
     );
   };
 
-  const orderSubmit = async () => {
-    const arr = [];
-    let arrayOfObjects = formikStep3.values.productsArray.map((res, index) => {
-      arr.push(res.file)
-    });
-    // console.log(arrayOfObjects,arr)
-    // const updatedProductsArray = formikStep3.values.productsArray.filter(item => delete item.file);
-    const totalAmount = calculateTotalAmount(formikStep3.values.productsArray)
-    console.log(totalAmount)
-    const data = {
-      ...formik.values,
-      ...formikStep2.values,
-      ...formikStep3.values,
-      paidAmount: 123,
-      file: arr,
-      dueAmount: 21,
-      sendNotification: sendNotification,
-      paymentStatus: "Paid",
-      orderAmount: parseFloat(totalAmount)
-    };
-    console.log(data)
-    // return false
-    const formData = new FormData();
-
-    Object.entries(data).forEach(([key, value]) => {
-      if (key === 'file') {
-        value.forEach((val, index) => {
-          formData.append(`file`, val)
-        })
-      }
-      else if (key === "productsArray") {
-        value.forEach((item, index) => {
-          Object.entries(item).forEach(([key1, value1]) => {
-            // if (!Array.isArray(value1) ) {
-            if (key1 !== 'file') {
-              formData.append(`${key}[${index}][${key1}]`, value1);
-            }
-            else {
-            }
-          }
-          )
-
-          if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
-            item.QuantityPricing.forEach((qpItem, qpIndex) => {
-              Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
-                formData.append(`${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`, qpValue);
-              });
-            });
-          }
-        });
-      } else {
-
-        formData.append(key, value);
-      }
-    });
-    const order = await addOrder(formData);
-    if (order.code === 200) {
-      navigate('/orderList')
-    }
-    console.log(order)
-  }
   return (
     <div className='my-8 ml-3'>
       <Headbar />
