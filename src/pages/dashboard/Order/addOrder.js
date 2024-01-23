@@ -23,6 +23,7 @@ import { getCategoryListActiveData, getTermList } from '../../../services/priceB
 import RadioButton from '../../../common/radio';
 import { addOrder, checkMultipleFileValidation, fileValidation } from '../../../services/orderServices';
 import Modal from '../../../common/model';
+import { getResellerListByDealerId } from '../../../services/reSellerServices';
 
 
 function AddOrder() {
@@ -30,6 +31,7 @@ function AddOrder() {
   const [dealerName, setDealerName] = useState('');
   const [servicerName, setServicerName] = useState('');
   const [customerName, setCustomerName] = useState('');
+  const [resellerName, setResellerName] = useState('');
   const [termList, setTermList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -37,6 +39,7 @@ function AddOrder() {
   const [servicerData, setServicerData] = useState([]);
   const [customerList, setCustomerList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
+  const [resellerList, setResllerList] = useState([]);
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
   const [fileValues, setFileValues] = useState([]);
@@ -116,6 +119,20 @@ function AddOrder() {
     });
     setCustomerList(arr)
   };
+  const getResellerList = async (id) => {
+    console.log(id)
+
+    let arr = [];
+    const result = await getResellerListByDealerId({},id);
+    result?.result?.map((res) => {
+console.log(res)
+      arr.push({
+        label: res.resellerData.name,
+         value: res.resellerData._id,
+      });
+    });
+    setResllerList(arr)
+  };
   useEffect(() => {
     getDealerListData()
     getProductList()
@@ -144,12 +161,14 @@ function AddOrder() {
       dealerId: "",
       servicerId: "",
       customerId: "",
+      resellerId:""
     },
     validationSchema: Yup.object().shape({
       dealerId: Yup.string().required("Dealer Name is required"),
       servicerId: Yup.string(),
-      customerId: Yup.string()
-    }),
+      customerId: Yup.string(),
+      resellerId: Yup.string()
+        }),
     onSubmit: (values) => {
       const foundDealer = dealerList.find((data) => data.value === values.dealerId);
       setDealerName(foundDealer ? foundDealer.label : "");
@@ -161,6 +180,10 @@ function AddOrder() {
       if (values.customerId) {
         const foundCustomer = customerList.find((data) => data.value === values.customerId);
         setCustomerName(foundCustomer ? foundCustomer.label : "");
+      }
+      if (values.resellerId) {
+        const foundReseller = resellerList.find((data) => data.value === values.resellerId);
+        setResellerName(foundReseller ? foundReseller.label : "");
       }
       nextStep()
     },
@@ -651,6 +674,7 @@ function AddOrder() {
       }
     }
   }, [formikStep3.values.productsArray]);
+
   const handleSelectChange1 = (name, value) => {
     formikStep2.setFieldValue(name, value)
   };
@@ -660,9 +684,11 @@ function AddOrder() {
     if (name == "dealerId") {
       formik.setFieldValue('servicerId', '');
       formik.setFieldValue('customerId', '');
+      formik.setFieldValue('resellerId', '');
       formik.setFieldValue("dealerId", value)
       getServicerList(value);
       getCustomerList(value);
+      getResellerList(value)
     }
   };
   const coverage = [
@@ -747,8 +773,8 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     onChange={handleSelectChange}
-                    options={customerList}
-                    value={formik.values.customerId}
+                    options={resellerList}
+                    value={formik.values.resellerId}
                     onBlur={formik.handleBlur}
                   />
                 </div>
@@ -1375,7 +1401,7 @@ function AddOrder() {
                 </div>
                 <div className='col-span-3 py-4'>
                   <p className='text-[12px]'>Reseller Name</p>
-                  <p className='font-bold text-sm'>{customerName}</p>
+                  <p className='font-bold text-sm'>{resellerName}</p>
                 </div>
               </Grid>
             </div>
