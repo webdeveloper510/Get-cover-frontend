@@ -10,18 +10,18 @@ import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
-import { getCustomerListByDealerId } from "../../../../services/customerServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
+import { getResellerListByDealerId } from "../../../../services/reSellerServices";
 function Reseller(props) {
   const [selectedAction, setSelectedAction] = useState(null);
-  const [customerList, setCustomerList] = useState([]);
+  const [resellerList, setResellerList] = useState([]);
   const dropdownRef = useRef(null);
   const [loading, setLoading] = useState(false);
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = customerList.length - index <= 10000;
+    const isCloseToBottom = resellerList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -33,14 +33,14 @@ function Reseller(props) {
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.customerData.unique_key,
+      selector: (row) => row?.resellerData?.unique_key,
       sortable: true,
       minWidth: "auto", // Set a custom minimum width
       maxWidth: "70px", // Set a custom maximum width
     },
     {
       name: "Name",
-      selector: (row) => row.firstName + " " + row.lastName,
+      selector: (row) => row.resellerData.name,
       sortable: true,
     },
     {
@@ -63,53 +63,53 @@ function Reseller(props) {
       selector: (row) => "$ 0.00",
       sortable: true,
     },
-    {
-      name: "Action",
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
-      cell: (row, index) => {
-        console.log(row);
-        return (
-          <div className="relative">
-            <div
-              onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.customerData.unique_key
-                    ? null
-                    : row.customerData.unique_key
-                )
-              }
-            >
-              <img
-                src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
-                alt="Active Icon"
-              />
-            </div>
-            {selectedAction === row.customerData.unique_key && (
-              <div
-                ref={dropdownRef}
-                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
-              >
-                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                <div
-                  onClick={() => {
-                    localStorage.setItem("menu", "Customers");
-                  }}
-                  className="text-center py-3 cursor-pointer"
-                >
-                  <Link to={`/customerDetails/${row.customerData._id}`}>
-                    View{" "}
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      },
-    },
+    // {
+    //   name: "Action",
+    //   minWidth: "auto", 
+    //   maxWidth: "70px", 
+    //   cell: (row, index) => {
+    //     console.log(row);
+    //     return (
+    //       <div className="relative">
+    //         <div
+    //           onClick={() =>
+    //             setSelectedAction(
+    //               selectedAction === row.customerData.unique_key
+    //                 ? null
+    //                 : row.customerData.unique_key
+    //             )
+    //           }
+    //         >
+    //           <img
+    //             src={ActiveIcon}
+    //             className="cursor-pointer	w-[35px]"
+    //             alt="Active Icon"
+    //           />
+    //         </div>
+    //         {selectedAction === row.customerData.unique_key && (
+    //           <div
+    //             ref={dropdownRef}
+    //             className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+    //               index
+    //             )}`}
+    //           >
+    //             {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+    //             <div
+    //               onClick={() => {
+    //                 localStorage.setItem("menu", "Customers");
+    //               }}
+    //               className="text-center py-3 cursor-pointer"
+    //             >
+    //               <Link to={`/customerDetails/${row.customerData._id}`}>
+    //                 View{" "}
+    //               </Link>
+    //             </div>
+    //           </div>
+    //         )}
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
 
   const CustomNoDataComponent = () => (
@@ -118,13 +118,13 @@ function Reseller(props) {
     </div>
   );
 
-  const getCustomerList = async () => {
-    const result = await getCustomerListByDealerId(props.id, {});
-    setCustomerList(result.result);
+  const getResellerList = async () => {
+    const result = await getResellerListByDealerId({},props.id);
+    setResellerList(result.result);
     console.log(result.result);
   };
   useEffect(() => {
-    getCustomerList();
+    getResellerList();
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSelectedAction(null);
@@ -143,9 +143,9 @@ function Reseller(props) {
   const filterDealerCustomer = async (data) => {
     try {
       setLoading(true);
-      const res = await getCustomerListByDealerId(props.id, data);
+      const res = await getResellerListByDealerId(data,props.id);
       console.log(res.result);
-      setCustomerList(res.result);
+      setResellerList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
@@ -156,7 +156,7 @@ function Reseller(props) {
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
-    getCustomerList();
+    getResellerList();
   };
 
   const formik = useFormik({
@@ -282,7 +282,7 @@ function Reseller(props) {
             ) : (
               <DataTable
                 columns={columns}
-                data={customerList}
+                data={resellerList}
                 highlightOnHover
                 sortIcon={
                   <>

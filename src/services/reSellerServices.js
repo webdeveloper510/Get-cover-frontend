@@ -48,3 +48,21 @@ export const addNewReseller = async (data) => {
       throw error;
     }
   };
+
+  export const getResellerListByDealerId = async (data,id) => {
+    const headers = createHeaders();
+    try {
+      const response = await axios.post(
+        `${url}/dealer/getDealerResellers/${id}
+        `,
+        data,
+        {
+          headers,
+        }
+      );
+  
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
