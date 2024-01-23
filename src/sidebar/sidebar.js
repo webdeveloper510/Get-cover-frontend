@@ -449,7 +449,7 @@ function SideBar() {
         },
         {
           name: "Claims",
-          url: "#",
+          url: "/claims",
           image: Dropdown2,
           active: SeacondActive,
         },
