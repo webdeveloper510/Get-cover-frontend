@@ -1211,18 +1211,18 @@ function AddOrder() {
 
                                         />
                          {formikStep3.touched.productsArray &&
-  formikStep3.touched.productsArray[index] &&
-  formikStep3.touched.productsArray[index].QuantityPricing &&
-  formikStep3.touched.productsArray[index].QuantityPricing[index1] &&
-  formikStep3.touched.productsArray[index].QuantityPricing[index1].enterQuantity && (
-    <div className="text-red-500 text-sm pl-2 pt-2">
-      {formikStep3.errors.productsArray &&
-        formikStep3.errors.productsArray[index] &&
-        formikStep3.errors.productsArray[index].QuantityPricing &&
-        formikStep3.errors.productsArray[index].QuantityPricing[index1] &&
-        formikStep3.errors.productsArray[index].QuantityPricing[index1].enterQuantity}
-    </div>
-  )}
+                            formikStep3.touched.productsArray[index] &&
+                            formikStep3.touched.productsArray[index].QuantityPricing &&
+                            formikStep3.touched.productsArray[index].QuantityPricing[index1] &&
+                            formikStep3.touched.productsArray[index].QuantityPricing[index1].enterQuantity && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formikStep3.errors.productsArray &&
+                                  formikStep3.errors.productsArray[index] &&
+                                  formikStep3.errors.productsArray[index].QuantityPricing &&
+                                  formikStep3.errors.productsArray[index].QuantityPricing[index1] &&
+                                  formikStep3.errors.productsArray[index].QuantityPricing[index1].enterQuantity}
+                              </div>
+                            )}
 
 
                                       </div>
@@ -1361,16 +1361,20 @@ function AddOrder() {
             <div className='col-span-6'>
               <p className='text-2xl font-bold text-[#bbbbbc] mb-4'>Order Details</p>
               <Grid className='bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 '>
-                <div className='col-span-4 py-4 border-r'>
+                <div className='col-span-3 py-4 border-r'>
                   <p className='text-[12px]'>Dealer Name</p>
                   <p className='font-bold text-sm'>{dealerName}</p>
                 </div>
-                <div className='col-span-4 py-4 border-r'>
+                <div className='col-span-3 py-4 border-r'>
                   <p className='text-[12px]'>Servicer Name</p>
                   <p className='font-bold text-sm'>{servicerName}</p>
                 </div>
-                <div className='col-span-4 py-4'>
+                <div className='col-span-3 py-4 border-r'>
                   <p className='text-[12px]'>Customer Name</p>
+                  <p className='font-bold text-sm'>{customerName}</p>
+                </div>
+                <div className='col-span-3 py-4'>
+                  <p className='text-[12px]'>Reseller Name</p>
                   <p className='font-bold text-sm'>{customerName}</p>
                 </div>
               </Grid>
@@ -1485,12 +1489,12 @@ function AddOrder() {
                   <p className='self-center text-sm px-3'>Payment Status</p>
                   <div className="relative">
                     <div
-              className={`
-              absolute h-3 w-3 rounded-full top-[33%] ml-[8px]
-              ${formik4.values.paymentStatus === 'unpaid' ? 'bg-[#FF4747]' : ''}
-              ${formik4.values.paymentStatus === 'paid' ? 'bg-[#00FF00]' : ''}
-              ${formik4.values.paymentStatus !== 'unpaid' && formik4.values.paymentStatus !== 'paid' ? 'bg-black' : ''}
-            `}
+                      className={`
+                      absolute h-3 w-3 rounded-full top-[33%] ml-[8px]
+                      ${formik4.values.paymentStatus === 'unpaid' ? 'bg-[#FFAA47]' : ''}
+                      ${formik4.values.paymentStatus === 'paid' ? 'bg-[#6BD133]' : ''}
+                      ${formik4.values.paymentStatus !== 'unpaid' && formik4.values.paymentStatus !== 'paid' ? 'bg-[#338FD1]' : ''}
+                    `}
                     ></div>
                     <select
                       name="paymentStatus"
@@ -1506,11 +1510,15 @@ function AddOrder() {
                   </div>
                 </div>
               </div>
+              <div className='col-span-4'>
+                <Grid>
+
+                
           {
             formik4.values.paymentStatus !== 'paid' && (
               <>
-                  <div className='col-span-2'>
-                <Input
+                 <div className='col-span-6'>
+                 <Input
                   type="number"
                   name="paidAmount"
                   className="!bg-[#fff]"
@@ -1529,10 +1537,11 @@ function AddOrder() {
                   {formik4.errors.paidAmount && formik4.touched.paidAmount && (
                   <div className="text-red-500">{formik4.errors.paidAmount}</div>
       )}
-              </div>
+                 </div>
+             
               {
                 formik4.values.paymentStatus == 'partlypaid' && (
-                  <div className='col-span-2'>
+                  <div className='col-span-6'>
                   <Input
                     type="number"
                     name="pendingAmount"
@@ -1553,6 +1562,8 @@ function AddOrder() {
               </>
             )
           }
+          </Grid>
+          </div>
               <div className='col-span-2 flex pt-4' >
                 <p className='text-[12px] pr-3'>Total Amount :</p>
                 <p className='font-bold text-sm'>${calculateTotalAmount(formikStep3.values.productsArray)}</p>

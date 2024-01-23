@@ -9,6 +9,8 @@ import Edit from '../../../../assets/images/Dealer/EditIcon.svg';
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 function ContractList() {
   const [showTooltip, setShowTooltip] = useState(false);
+ 
+
   return (
     <>
     <div className='my-8'>
@@ -21,13 +23,13 @@ function ContractList() {
                 <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
                   <Grid className='!grid-cols-11' >
                     <div className='col-span-3 self-center'>
-                      <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Order ID' />
+                      <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='ID' />
                     </div>
                     <div className='col-span-3 self-center'>
-                      <Input name='Email' type='email'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Dealer Order no.' />
+                      <Input name='Email' type='email' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Dealer Order no.' />
                     </div>
                     <div className='col-span-3 self-center'>
-                      <Input name='PhoneNo.' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Customer Name' />
+                      <Input name='PhoneNo.' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Customer Name' />
                     </div>
                     <div className='col-span-2 self-center flex justify-center'>
                     <Button
