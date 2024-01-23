@@ -5,15 +5,16 @@ import Grid from "../../../common/grid";
 import Button from "../../../common/button";
 
 // Media Import
-import AllActive from "../../../assets/images/Reporting/icons/Activeall.svg";
-import all from "../../../assets/images/Reporting/icons/all.svg";
+import contract from "../../../assets/images/order/Contracts.svg";
+import contractActive from "../../../assets/images/order/ContractsActive.svg";
+import orderSummary from "../../../assets/images/order/orderSummary.svg";
+import orderActive from "../../../assets/images/order/orderSummaryActive.svg";
 import BackImage from "../../../assets/images/icons/backArrow.svg";
-import DealerIcons from "../../../assets/images/icons/DealerIcons.svg";
+import Coverage from "../../../assets/images/order/Coverage.svg";
+import CoverageType from "../../../assets/images/order/CoverageType.svg";
+import Purchase from "../../../assets/images/order/Purchase.svg";
 import DealerList from "../../../assets/images/icons/dealerList.svg";
-import WholesaleActive from "../../../assets/images/Reporting/icons/activeWholesale.svg";
-import wholesale from "../../../assets/images/Reporting/icons/Wholesale.svg";
-import Select from "../../../common/select";
-import address from "../../../assets/images/Dealer/Address.svg";
+import Name from "../../../assets/images/order/Name.svg"
 import { cityData } from "../../../stateCityJson";
 import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
@@ -21,15 +22,15 @@ import OrderSummary from "./OrderDetails/orderSummary";
 
 function OrderDetails() {
   const getInitialActiveTab = () => {
-    const storedTab = localStorage.getItem("SaleMenu");
-    return storedTab ? storedTab : "Servicer";
+    const storedTab = localStorage.getItem("orderMenu");
+    return storedTab ? storedTab : "Order Summary";
   };
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const state = cityData;
 
   useEffect(() => {
-    localStorage.setItem("SaleMenu", activeTab);
+    localStorage.setItem("orderMenu", activeTab);
   }, [activeTab]);
 
 
@@ -38,15 +39,15 @@ function OrderDetails() {
     {
       id: "Order Summary",
       label: "Order Summary",
-      icons: all,
-      Activeicons: AllActive,
+      icons: orderSummary,
+      Activeicons: orderActive,
       content: <OrderSummary />,
     },
     {
       id: "Contracts",
       label: "Contracts",
-      icons: wholesale,
-      Activeicons: WholesaleActive,
+      icons: contract,
+      Activeicons: contractActive,
       content: <Contracts />,
     }
   ];
@@ -82,13 +83,12 @@ function OrderDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Servicer / </Link>{" "}
+                <Link to={"/"}>Servicer / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-Regular pl-2">
-                <Link to={"/"}>Order Details / </Link>{" "}
+                <Link to={"/"}>Order Details / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-                {" "}
                  {activeTab}
               </li>
             </ul>
@@ -110,7 +110,6 @@ function OrderDetails() {
                 <div className="col-span-3 text-end">
                   <Button
                     className="border !border-[#535456] !text-sm !font-Regular"
-                    // onClick={openModal}
                   >
                     Edit
                   </Button>
@@ -118,12 +117,12 @@ function OrderDetails() {
               </Grid>
               <div className="flex my-4">
                 <img
-                  src={address}
+                  src={Purchase}
                   className="mr-3 bg-[#383838] rounded-[14px] my-auto"
-                  alt="Address"
+                  alt="Purchase"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  <p className="text-sm text-neutral-grey font-Regular mt-2">
                   Dealer Purchase Order
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
@@ -133,12 +132,12 @@ function OrderDetails() {
               </div>
               <div className="flex my-4">
                 <img
-                  src={address}
+                  src={Coverage}
                   className="mr-3 bg-[#383838] rounded-[14px] my-auto"
-                  alt="Address"
+                  alt="Coverage"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  <p className="text-sm text-neutral-grey font-Regular mt-2">
                   Service Coverage
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
@@ -148,12 +147,12 @@ function OrderDetails() {
               </div>
               <div className="flex my-4">
                 <img
-                  src={address}
+                  src={CoverageType}
                   className="mr-3 bg-[#383838] rounded-[14px] my-auto"
-                  alt="Address"
+                  alt="CoverageType"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  <p className="text-sm text-neutral-grey font-Regular mt-2">
                   Coverage Type
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
@@ -170,9 +169,9 @@ function OrderDetails() {
               <div className="flex mb-4">
                 <div className="relative">
                   <img
-                    src={DealerIcons}
+                    src={Name}
                     className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="DealerIcons"
+                    alt="Name"
                   />
                   <Link to={`/dealerDetails/vscjhc`}>
                     {" "}
@@ -195,11 +194,11 @@ function OrderDetails() {
               <div className="flex mb-4">
                 <div className="relative">
                   <img
-                    src={DealerIcons}
+                    src={Name}
                     className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="DealerIcons"
+                    alt="Name"
                   />
-                  <Link to={`/dealerDetails/fgfgh`}>
+                  <Link to={`/customerDetails/fgfgh`}>
                     {" "}
                     <img
                       src={DealerList}
@@ -220,11 +219,11 @@ function OrderDetails() {
               <div className="flex mb-4">
                 <div className="relative">
                   <img
-                    src={DealerIcons}
+                    src={Name}
                     className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="DealerIcons"
+                    alt="Name"
                   />
-                  <Link to={`/dealerDetails/sgdfg`}>
+                  <Link to={`/servicerDetails/sgdfg`}>
                     {" "}
                     <img
                       src={DealerList}
@@ -247,7 +246,6 @@ function OrderDetails() {
           </div>
           <div className="col-span-3">
             <Grid className="!mt-5">
-              
               <div className="col-span-4">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!grid-cols-2 !gap-1">
@@ -269,7 +267,7 @@ function OrderDetails() {
                             alt={tab.label}
                           />
                           <span
-                            className={`ml-1 py-1 text-[13px] font-normal ${
+                            className={`ml-1 py-1 text-sm font-normal ${
                               activeTab === tab.id ? "text-white" : "text-black"
                             }`}
                           >
@@ -281,7 +279,6 @@ function OrderDetails() {
                   </Grid>
                 </div>
               </div>
-             
             </Grid>
 
             {tabs.map((tab) => (
