@@ -1461,24 +1461,22 @@ console.log(res)
                             <p className='font-bold text-sm'>${data.price}</p>
                           </div>
                         </Grid>
+                        {/* Loops */}
                         <Grid className='border-b px-4'>
-                          <div className='col-span-3 py-4 border-r'>
-                            <p className='text-[12px]'>Term</p>
+                          <div className='col-span-4 py-4 border-r'>
+                            <p className='text-[12px]'>Name</p>
                             <p className='font-bold text-sm'>{data.term} Months</p>
                           </div>
-                          <div className='col-span-3 py-4 border-r'>
-                            <p className='text-[12px]'>Unit Price</p>
+                          <div className='col-span-4 py-4 border-r'>
+                            <p className='text-[12px]'>Max Quantity</p>
                             <p className='font-bold text-sm'>${data.unitPrice}</p>
                           </div>
-                          <div className='col-span-3 py-4 border-r'>
-                            <p className='text-[12px]'># of Products</p>
+                          <div className='col-span-4 py-4 '>
+                            <p className='text-[12px]'># of Quantity</p>
                             <p className='font-bold text-sm'>{data.price / parseFloat(data.unitPrice)}</p>
                           </div>
-                          <div className='col-span-3 py-4'>
-                            <p className='text-[12px]'>Price</p>
-                            <p className='font-bold text-sm'>${data.price}</p>
-                          </div>
                         </Grid>
+                         {/* Loops */}
                         <Grid className=' px-4'>
                           <div className='col-span-12 py-4'>
                             <p className='text-[12px]'>Note</p>
