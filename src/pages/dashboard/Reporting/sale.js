@@ -49,12 +49,14 @@ function Sale() {
       id: "All",
       label: "All",
       icons: all,
+      className:'col-span-1',
       Activeicons: AllActive,
       content: <All />,
     },
     {
       id: "Wholesale",
       label: "Wholesale",
+      className:'col-span-2',
       icons: wholesale,
       Activeicons: WholesaleActive,
       content: <WholeSale />,
@@ -63,6 +65,7 @@ function Sale() {
       id: "Breakdown for Administration",
       label: "Breakdown for Administration",
       icons: breakdown,
+      className:'col-span-3',
       Activeicons: BreakdownActive,
       content: <Breakdown />,
     },
@@ -70,6 +73,7 @@ function Sale() {
       id: "Fronting Fees",
       label: "Fronting Fees",
       icons: fronting,
+      className:'col-span-2',
       Activeicons: FrontingActive,
       content: <Fronting />,
     },
@@ -77,6 +81,7 @@ function Sale() {
       id: "Re-insurance Premium",
       label: "Re-insurance Premium",
       icons: insurance,
+      className:'col-span-3',
       Activeicons: insuranceActive,
       content: <ReInsurance />,
     },
@@ -84,6 +89,7 @@ function Sale() {
       id: "Reserves Future Claims",
       label: "Reserves Future Claims",
       icons: reserves,
+      className:'col-span-3',
       Activeicons: ReservesActive,
       content: <Reserves />,
     },
@@ -91,6 +97,7 @@ function Sale() {
       id: "Broker Fees",
       label: "Broker Fees",
       icons: broker,
+      className:'col-span-2',
       Activeicons: BrokerActive,
       content: <Broker />,
     },
@@ -135,9 +142,9 @@ function Sale() {
               
               <div className="col-span-10">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-7 !gap-1">
+                  <Grid className="!gap-1">
                     {tabs.map((tab) => (
-                      <div className="col-span-1" key={tab.id}>
+                      <div className={tab.className} key={tab.id}>
                         <Button
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
                             activeTab === tab.id
@@ -154,7 +161,7 @@ function Sale() {
                             alt={tab.label}
                           />
                           <span
-                            className={`ml-1 py-1 text-[13px] font-normal ${
+                            className={`ml-1 py-1 text-[12px] font-normal ${
                               activeTab === tab.id ? "text-white" : "text-black"
                             }`}
                           >

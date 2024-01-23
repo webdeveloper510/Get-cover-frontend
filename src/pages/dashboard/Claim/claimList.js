@@ -17,6 +17,8 @@ import Add from '../../../assets/images/icons/addIcon.svg';
 import chat from '../../../assets/images/icons/chatIcon.svg';
 import DropActive from '../../../assets/images/icons/DropActive.svg';
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
+import arrowImage from "../../../assets/images/dropdownArrow.png";
+import upload from "../../../assets/images/icons/upload.svg";
 import Select from '../../../common/select';
 import Cross from "../../../assets/images/Cross.png";
 import Headbar from '../../../common/headBar';
@@ -143,7 +145,7 @@ function ClaimList() {
                   <p className='text-[#A3A3A3]'>Loss Date</p>
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
-                  <img src={chat} className=' mr-2' alt='chat' />
+                  <img src={chat} className=' mr-2' onClick={()=>openView()} alt='chat' />
                   <Link to={'/editClaim'}> <img src={Edit} className=' mr-2' alt='edit' /> </Link>
                   <div className='absolute -top-3.5 right-0'>
                     <img src={Add} alt="Delete" />
@@ -669,12 +671,108 @@ function ClaimList() {
               <p className='text-center text-3xl font-semibold '>
                 Comments Details
               </p>
-              <div className='h-[500px] max-h-[500px] overflow-y-scroll'>
+              <div className='h-[350px] mt-3 max-h-[350px] overflow-y-scroll border-[#D1D1D1] bg-[#F0F0F0] border rounded-xl'>
+
+                <Grid className='my-3'>
+                  <div className='col-span-1'>
+                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+                      <p className='text-white text-2xl self-center'>A</p>
+                    </div>
+                  </div>
+                  <div className='col-span-11'>
+                    <div className='bg-white rounded-md relative p-1'>
+                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+                    <Grid>
+                      <div className='col-span-6'>
+                        <p className='text-xl font-semibold'>GetCover Admin</p>
+                      </div>
+                      <div className='col-span-2 self-center'>
+                        <p className='text-sm'>9:30 am</p>
+                      </div>
+                      <div className='col-span-2 self-center'>
+                        <p className='text-sm'>12 Nov 2023</p>
+                      </div>
+                      <div className='col-span-2 self-center'>
+                        <Link className='text-[11px] text-[blue] underline underline-offset-1'>View Attachment</Link>
+                      </div>
+                    </Grid>
+                    <hr className='my-2'/>
+                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                    </div>
+                  </div>
+                </Grid>
+
+                <Grid className='my-3'>
+                  <div className='col-span-1'>
+                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+                      <p className='text-white text-2xl self-center'>D</p>
+                    </div>
+                  </div>
+                  <div className='col-span-11'>
+                    <div className='bg-white rounded-md relative p-1'>
+                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+                    <Grid>
+                      <div className='col-span-6'>
+                        <p className='text-xl font-semibold'>GetCover Dealer</p>
+                      </div>
+                      <div className='col-span-2 self-center'>
+                        <p className='text-sm'>9:30 am</p>
+                      </div>
+                      <div className='col-span-2 self-center'>
+                        <p className='text-sm'>12 Nov 2023</p>
+                      </div>
+                      <div className='col-span-2 self-center'>
+                        <Link className='text-[11px] text-[blue] underline underline-offset-1'>View Attachment</Link>
+                      </div>
+                    </Grid>
+                    <hr className='my-2'/>
+                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                    </div>
+                  </div>
+                </Grid>
+
+                <Grid className='my-3'>
+                  <div className='col-span-1'>
+                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+                      <p className='text-white text-2xl self-center'>S</p>
+                    </div>
+                  </div>
+                  <div className='col-span-11'>
+                    <div className='bg-white rounded-md relative p-1'>
+                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+                    <Grid>
+                      <div className='col-span-6'>
+                        <p className='text-xl font-semibold'>GetCover Servicer</p>
+                      </div>
+                      <div className='col-span-2 self-center'>
+                        <p className='text-sm'>9:30 am</p>
+                      </div>
+                      <div className='col-span-2 self-center'>
+                        <p className='text-sm'>12 Nov 2023</p>
+                      </div>
+                      <div className='col-span-2 self-center'>
+                        <Link className='text-[11px] text-[blue] underline underline-offset-1'>View Attachment</Link>
+                      </div>
+                    </Grid>
+                    <hr className='my-2'/>
+                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                    </div>
+                  </div>
+                </Grid>              
              
               </div>
-              <div>
-                <p><b> Attachment : </b>  Accepted file types: jpg, gif, png, Max. file size: 50 MB.</p>
+              <div >
+                <p className='text-sm my-3'><b> Attachment : </b>  <span className='text-neutral-grey'> Accepted file types: jpg, gif, png, Max. file size: 50 MB. </span></p>
               </div>
+              <Grid>
+                <div className='col-span-1'> 
+                  <div>
+                    <img src={upload} alt='upload'/>
+                  </div>
+                </div>
+                <div className=''></div>
+                <div className=''></div>
+              </Grid>
             
             </div>
           </Modal>
