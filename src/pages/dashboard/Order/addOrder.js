@@ -119,9 +119,9 @@ function AddOrder() {
       }, 1000);
     }
 
-    if (timer === 0 ) {
+    if (timer === 0) {
       closeModal();
-       navigate("/orderList");
+      navigate("/orderList");
     }
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
@@ -141,12 +141,12 @@ function AddOrder() {
     console.log(id)
 
     let arr = [];
-    const result = await getResellerListByDealerId({},id);
+    const result = await getResellerListByDealerId({}, id);
     result?.result?.map((res) => {
-console.log(res)
+      console.log(res)
       arr.push({
         label: res.resellerData.name,
-         value: res.resellerData._id,
+        value: res.resellerData._id,
       });
     });
     setResllerList(arr)
@@ -179,14 +179,14 @@ console.log(res)
       dealerId: "",
       servicerId: "",
       customerId: "",
-      resellerId:""
+      resellerId: ""
     },
     validationSchema: Yup.object().shape({
       dealerId: Yup.string().required("Dealer Name is required"),
       servicerId: Yup.string(),
       customerId: Yup.string(),
       resellerId: Yup.string()
-        }),
+    }),
     onSubmit: (values) => {
       const foundDealer = dealerList.find((data) => data.value === values.dealerId);
       setDealerName(foundDealer ? foundDealer.label : "");
@@ -302,7 +302,7 @@ console.log(res)
         arr1.push(value1 ? value1.label : "");
       })
       setCategoryName(arr)
-      setPriceBookName(arr1)   
+      setPriceBookName(arr1)
     },
   });
   const checkMultipleEmailCheck = (data) => {
@@ -321,13 +321,13 @@ console.log(res)
       if (key === 'file') {
         if (value) {
           value.forEach((val, index) => {
-              formData.append(`file`, val)
+            formData.append(`file`, val)
           });
-      } else {
-          formData.append(`file`, null); 
+        } else {
+          formData.append(`file`, null);
+        }
       }
-      }
-      
+
       else if (key === "productsArray") {
         value.forEach((item, index) => {
           Object.entries(item).forEach(([key1, value1]) => {
@@ -348,19 +348,19 @@ console.log(res)
         formData.append(key, value);
       }
     });
-    
+
     console.log("formData", formData)
-    checkMultipleFileValidation(formData).then((res)=>{
-      
-      if(res.code== 200){
+    checkMultipleFileValidation(formData).then((res) => {
+
+      if (res.code == 200) {
         nextStep();
       }
-      else{
+      else {
         for (let key of res.data) {
           console.log(key.key);
           openError()
-          formikStep3.setFieldError(`productsArray[${key.key-1}].file`, key.message);
-      }
+          formikStep3.setFieldError(`productsArray[${key.key - 1}].file`, key.message);
+        }
       }
     })
     // console.log(data)
@@ -369,10 +369,10 @@ console.log(res)
 
   const handleFileSelect = (event, index) => {
     const file = event.target.files[0];
-  
+
     if (file) {
       fileInputRef.current[index].current.file = file;
-  
+
       setFileValues((prevFileValues) => {
         const newArray = [...prevFileValues];
         newArray.splice(index, 0, file);
@@ -382,7 +382,7 @@ console.log(res)
       checkFileError(file, index);
     }
   };
-  
+
 
   const checkFileError = async (file, index) => {
     formikStep3.setFieldValue(`productsArray[${index}].file`, file);
@@ -411,87 +411,87 @@ console.log(res)
       paidAmount: '',
       pendingAmount: '',
     },
-    validationSchema:  Yup.object().shape({
+    validationSchema: Yup.object().shape({
       paidAmount: Yup.number()
         .when('paymentStatus', {
           is: (status) => status !== 'Paid',
-          then: (schema)=>Yup.number()
-          .max(
-            calculateTotalAmount(formikStep3.values.productsArray),
-            'Paid amount cannot be more than the total amount'
-          )
-          .required('Paid Amount is required'),
+          then: (schema) => Yup.number()
+            .max(
+              calculateTotalAmount(formikStep3.values.productsArray),
+              'Paid amount cannot be more than the total amount'
+            )
+            .required('Paid Amount is required'),
           otherwise: (schema) => schema.notRequired(),
 
         }),
-    
-      }),    
+
+    }),
     onSubmit: (values) => {
 
       console.log(values);
       const arr = [];
-    let arrayOfObjects = formikStep3.values.productsArray.map((res, index) => {
-      arr.push(res.file)
-    });
-    const totalAmount = calculateTotalAmount(formikStep3.values.productsArray)
-    console.log(totalAmount)
-    const data = {
-      ...formik.values,
-      ...formikStep2.values,
-      ...formikStep3.values,
-      paidAmount: values.paidAmount,
-      file: arr,
-      dueAmount: values.pendingAmount,
-      sendNotification: sendNotification,
-      paymentStatus: values.paymentStatus,
-      orderAmount: parseFloat(totalAmount)
-    };
-    const formData = new FormData();
+      let arrayOfObjects = formikStep3.values.productsArray.map((res, index) => {
+        arr.push(res.file)
+      });
+      const totalAmount = calculateTotalAmount(formikStep3.values.productsArray)
+      console.log(totalAmount)
+      const data = {
+        ...formik.values,
+        ...formikStep2.values,
+        ...formikStep3.values,
+        paidAmount: values.paidAmount,
+        file: arr,
+        dueAmount: values.pendingAmount,
+        sendNotification: sendNotification,
+        paymentStatus: values.paymentStatus,
+        orderAmount: parseFloat(totalAmount)
+      };
+      const formData = new FormData();
 
-    Object.entries(data).forEach(([key, value]) => {
-      if (key === 'file') {
-        if (value) {
-          value.forEach((val, index) => {
+      Object.entries(data).forEach(([key, value]) => {
+        if (key === 'file') {
+          if (value) {
+            value.forEach((val, index) => {
               formData.append(`file`, val)
-          });
-      } else {
-          formData.append(`file`, null); 
-      }
-      }
-      else if (key === "productsArray") {
-        value.forEach((item, index) => {
-          Object.entries(item).forEach(([key1, value1]) => {
-            // if (!Array.isArray(value1) ) {
-            if (key1 !== 'file') {
-              formData.append(`${key}[${index}][${key1}]`, value1);
-            }
-            else {
-            }
-          }
-          )
-
-          if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
-            item.QuantityPricing.forEach((qpItem, qpIndex) => {
-              Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
-                formData.append(`${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`, qpValue);
-              });
             });
+          } else {
+            formData.append(`file`, null);
           }
-        });
-      } else {
+        }
+        else if (key === "productsArray") {
+          value.forEach((item, index) => {
+            Object.entries(item).forEach(([key1, value1]) => {
+              // if (!Array.isArray(value1) ) {
+              if (key1 !== 'file') {
+                formData.append(`${key}[${index}][${key1}]`, value1);
+              }
+              else {
+              }
+            }
+            )
 
-        formData.append(key, value);
-      }
-    });
-    console.log('here')
-  addOrder(formData).then((res)=>{
-      if (res.code == 200) {
-openModal()
+            if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
+              item.QuantityPricing.forEach((qpItem, qpIndex) => {
+                Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
+                  formData.append(`${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`, qpValue);
+                });
+              });
+            }
+          });
+        } else {
 
-        //  navigate('/orderList')
-      }
-    })
-   
+          formData.append(key, value);
+        }
+      });
+      console.log('here')
+      addOrder(formData).then((res) => {
+        if (res.code == 200) {
+          openModal()
+
+          //  navigate('/orderList')
+        }
+      })
+
     },
   });
 
@@ -501,12 +501,12 @@ openModal()
       formik4.setFieldValue('paidAmount', calculateTotalAmount(formikStep3.values.productsArray));
       formik4.setFieldError('paidAmount', '');
       formik4.setFieldValue('paidAmount', calculateTotalAmount(formikStep3.values.productsArray));
-      formik4.setFieldValue('pendingAmount','0.00');
+      formik4.setFieldValue('pendingAmount', '0.00');
 
     } else {
-      formik4.setFieldError('paidAmount', ''); 
+      formik4.setFieldError('paidAmount', '');
     }
-  
+
     // Update the paymentStatus field
     formik4.handleChange(e);
   };
@@ -639,7 +639,7 @@ openModal()
       //   `productsArray[${match[1]}].QuantityPricing`,
       //   data.quantityPriceDetail
       // );
-      const updatedQuantityPricing = data.quantityPriceDetail.map((item,index) => {
+      const updatedQuantityPricing = data.quantityPriceDetail.map((item, index) => {
         const updatedItem = {
           ...item,
           enterQuantity: ""
@@ -648,8 +648,8 @@ openModal()
         formikStep3.setFieldError(`productsArray[${match[1]}].QuantityPricing[${index}].enterQuantity`, '');
         return updatedItem;
       });
-      
-      
+
+
       formikStep3.setFieldValue(`productsArray[${match[1]}].QuantityPricing`, updatedQuantityPricing);
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].price`,
@@ -679,7 +679,7 @@ openModal()
         `productsArray[${match[1]}].rangeStart`,
         data.rangeStart
       );
-    
+
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].unitPrice`,
         data.wholesalePrice.toFixed(2)
@@ -1278,19 +1278,19 @@ openModal()
                                           }}
 
                                         />
-                         {formikStep3.touched.productsArray &&
-                            formikStep3.touched.productsArray[index] &&
-                            formikStep3.touched.productsArray[index].QuantityPricing &&
-                            formikStep3.touched.productsArray[index].QuantityPricing[index1] &&
-                            formikStep3.touched.productsArray[index].QuantityPricing[index1].enterQuantity && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formikStep3.errors.productsArray &&
-                                  formikStep3.errors.productsArray[index] &&
-                                  formikStep3.errors.productsArray[index].QuantityPricing &&
-                                  formikStep3.errors.productsArray[index].QuantityPricing[index1] &&
-                                  formikStep3.errors.productsArray[index].QuantityPricing[index1].enterQuantity}
-                              </div>
-                            )}
+                                        {formikStep3.touched.productsArray &&
+                                          formikStep3.touched.productsArray[index] &&
+                                          formikStep3.touched.productsArray[index].QuantityPricing &&
+                                          formikStep3.touched.productsArray[index].QuantityPricing[index1] &&
+                                          formikStep3.touched.productsArray[index].QuantityPricing[index1].enterQuantity && (
+                                            <div className="text-red-500 text-sm pl-2 pt-2">
+                                              {formikStep3.errors.productsArray &&
+                                                formikStep3.errors.productsArray[index] &&
+                                                formikStep3.errors.productsArray[index].QuantityPricing &&
+                                                formikStep3.errors.productsArray[index].QuantityPricing[index1] &&
+                                                formikStep3.errors.productsArray[index].QuantityPricing[index1].enterQuantity}
+                                            </div>
+                                          )}
 
 
                                       </div>
@@ -1419,7 +1419,7 @@ openModal()
       </div>
     );
   };
- 
+
   const renderStep4 = () => {
 
     // Step 4 content
@@ -1497,55 +1497,67 @@ openModal()
                           </div>
                           <div className='col-span-3 py-4 border-r'>
                             <p className='text-[12px]'># of Products</p>
-                            <p className='font-bold text-sm'>{data.price / parseFloat(data.unitPrice)}</p>
+                            <p className='font-bold text-sm'>{Math.round(data.price / parseFloat(data.unitPrice))}</p>
                           </div>
                           <div className='col-span-3 py-4'>
                             <p className='text-[12px]'>Price</p>
                             <p className='font-bold text-sm'>${data.price}</p>
                           </div>
                         </Grid>
-                        <Grid className='border-b px-4'>
-                          <div className='col-span-6 py-4 border-r'>
-                            <p className='text-[12px]'>Start Range</p>
-                            <p className='font-bold text-sm'>Inverter</p>
-                          </div>
-                          <div className='col-span-6 py-4'>
-                            <p className='text-[12px]'>End Range</p>
-                            <p className='font-bold text-sm'>40</p>
-                          </div>
-                        </Grid>
+                        {
+                       data.priceType == "Flat Pricing" && (
+                            <Grid className='border-b px-4'>
+                            <div className='col-span-6 py-4 border-r'>
+                              <p className='text-[12px]'>Start Range</p>
+                              <p className='font-bold text-sm'>{data.rangeStart}</p>
+                            </div>
+                            <div className='col-span-6 py-4'>
+                              <p className='text-[12px]'>End Range</p>
+                              <p className='font-bold text-sm'>{data.rangeEnd}</p>
+                            </div>
+                          </Grid>
+                          )
+                        }
+                    
                         <Grid>
-                        <div className='col-span-12'>
-                        <table className="w-full border text-center">
-                          <tr className="border bg-[#9999]">
-                            <th colSpan={'3'}>Quantity Pricing List </th>
-                          </tr>
-                          <tr className="border bg-[#9999]">
-                            <th>Name</th>
-                            <th>Max Quantity</th>
-                            <th># of  Quantity</th>
-                          </tr>
-                          
-                              <tr key={index} className="border">
-                                <td>Solar Panels</td>
-                                <td>40</td>
-                                <td>2</td>
-                              </tr>
-                           
-                        </table>
-                      </div>
-                      </Grid>
+                          {
+                            data.priceType == "Quantity Pricing" && (
+                              <div className='col-span-12'>
+                                <table className="w-full border text-center">
+                                  <tr className="border bg-[#9999]">
+                                    <th colSpan={'3'}>Quantity Pricing List </th>
+                                  </tr>
+                                  <tr className="border bg-[#9999]">
+                                    <th>Name</th>
+                                    <th>Max Quantity</th>
+                                    <th># of  Quantity</th>
+                                  </tr>
+                                  {data.QuantityPricing && (
+                                    data.QuantityPricing.map((value, index) => {
+                                      return <tr key={index} className="border">
+                                        <td>{value.name}</td>
+                                        <td>{value.quantity}</td>
+                                        <td>{value.enterQuantity}</td>
+                                      </tr>;
+                                    })
+                                  )}
+                                </table>
+                              </div>
+                            )
+                          }
+
+                        </Grid>
                         <Grid className=' px-4'>
                           <div className='col-span-12 py-4'>
                             <p className='text-[12px]'>Note</p>
                             <p className='font-bold text-sm'>{data.additionalNotes}</p>
                           </div>
                         </Grid>
-                      
-                       
-                       
-                         {/* Loops */}
-                     
+
+
+
+                        {/* Loops */}
+
 
                       </div>
                     </div>
@@ -1618,60 +1630,60 @@ openModal()
               <div className='col-span-4'>
                 <Grid>
 
-                
-          {
-            formik4.values.paymentStatus !== 'Paid' && (
-              <>
-                 {
-                
-                    <div className='col-span-6'>
-                 <Input
-                  type="number"
-                  name="paidAmount"
-                  className="!bg-[#fff]"
-                  label="Paid Amount"
-                  maxLength={10}
-                  maxDecimalPlaces={2}
-                  placeholder=""
-                  onChange={(e) => {
-                    formik4.handleChange(e);
-                    calculatePendingAmount(e.target.value);
-                  }}
-                  onBlur={formik4.handleBlur}
-                  value={formik4.values.paidAmount}
-                />
-                  {formik4.errors.paidAmount && formik4.touched.paidAmount && (
-                  <div className="text-red-500">{formik4.errors.paidAmount}</div>
-      )}
-                 </div>
-                 
-                 }
-             
-              {
-                formik4.values.paymentStatus == 'PartlyPaid' && (
-                  <div className='col-span-6'>
-                  <Input
-                    type="number"
-                    name="pendingAmount"
-                    className="!bg-[#fff]"
-                    label="Pending Amount"
-                    maxLength={10}
-                    maxDecimalPlaces={2}
-                    disabled={true}
-                    placeholder=""
-                    onChange={formik4.handleChange}
-                    onBlur={formik4.handleBlur}
-                    value={formik4.values.pendingAmount}
-                  />
-                </div>
-                )
-              }
-           
-              </>
-            )
-          }
-          </Grid>
-          </div>
+
+                  {
+                    formik4.values.paymentStatus !== 'Paid' && (
+                      <>
+                        {
+
+                          <div className='col-span-6'>
+                            <Input
+                              type="number"
+                              name="paidAmount"
+                              className="!bg-[#fff]"
+                              label="Paid Amount"
+                              maxLength={10}
+                              maxDecimalPlaces={2}
+                              placeholder=""
+                              onChange={(e) => {
+                                formik4.handleChange(e);
+                                calculatePendingAmount(e.target.value);
+                              }}
+                              onBlur={formik4.handleBlur}
+                              value={formik4.values.paidAmount}
+                            />
+                            {formik4.errors.paidAmount && formik4.touched.paidAmount && (
+                              <div className="text-red-500">{formik4.errors.paidAmount}</div>
+                            )}
+                          </div>
+
+                        }
+
+                        {
+                          formik4.values.paymentStatus == 'PartlyPaid' && (
+                            <div className='col-span-6'>
+                              <Input
+                                type="number"
+                                name="pendingAmount"
+                                className="!bg-[#fff]"
+                                label="Pending Amount"
+                                maxLength={10}
+                                maxDecimalPlaces={2}
+                                disabled={true}
+                                placeholder=""
+                                onChange={formik4.handleChange}
+                                onBlur={formik4.handleBlur}
+                                value={formik4.values.pendingAmount}
+                              />
+                            </div>
+                          )
+                        }
+
+                      </>
+                    )
+                  }
+                </Grid>
+              </div>
               <div className='col-span-2 flex pt-4' >
                 <p className='text-[12px] pr-3'>Total Amount :</p>
                 <p className='font-bold text-sm'>${calculateTotalAmount(formikStep3.values.productsArray)}</p>
@@ -1754,19 +1766,19 @@ openModal()
       </Modal>
 
       <Modal isOpen={isErrorOpen} onClose={closeError}>
-         <Button onClick={closeError} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+        <Button onClick={closeError} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button>
         <div className="text-center py-3">
           <img src={disapproved} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            
+
             <span className="text-light-black"> Error </span>
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-          Some Errors Please Check Form Validations
+            Some Errors Please Check Form Validations
           </p>
         </div>
       </Modal>
