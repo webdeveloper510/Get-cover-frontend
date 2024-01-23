@@ -1496,21 +1496,6 @@ openModal()
                             <p className='font-bold text-sm'>${data.price}</p>
                           </div>
                         </Grid>
-                        {/* Loops */}
-                        <Grid className='border-b px-4'>
-                          <div className='col-span-4 py-4 border-r'>
-                            <p className='text-[12px]'>Name</p>
-                            <p className='font-bold text-sm'>Solar Panels</p>
-                          </div>
-                          <div className='col-span-4 py-4 border-r'>
-                            <p className='text-[12px]'>Max Quantity</p>
-                            <p className='font-bold text-sm'>40</p>
-                          </div>
-                          <div className='col-span-4 py-4 '>
-                            <p className='text-[12px]'># of Quantity</p>
-                            <p className='font-bold text-sm'>10</p>
-                          </div>
-                        </Grid>
                         <Grid className='border-b px-4'>
                           <div className='col-span-4 py-4 border-r'>
                             <p className='text-[12px]'>Name</p>
@@ -1525,27 +1510,37 @@ openModal()
                             <p className='font-bold text-sm'>10</p>
                           </div>
                         </Grid>
-                        <Grid className='border-b px-4'>
-                          <div className='col-span-4 py-4 border-r'>
-                            <p className='text-[12px]'>Name</p>
-                            <p className='font-bold text-sm'>Battery</p>
-                          </div>
-                          <div className='col-span-4 py-4 border-r'>
-                            <p className='text-[12px]'>Max Quantity</p>
-                            <p className='font-bold text-sm'>40</p>
-                          </div>
-                          <div className='col-span-4 py-4 '>
-                            <p className='text-[12px]'># of Quantity</p>
-                            <p className='font-bold text-sm'>10</p>
-                          </div>
-                        </Grid>
-                         {/* Loops */}
                         <Grid className=' px-4'>
                           <div className='col-span-12 py-4'>
                             <p className='text-[12px]'>Note</p>
                             <p className='font-bold text-sm'>{data.additionalNotes}</p>
                           </div>
                         </Grid>
+                        <Grid>
+                        <div className='col-span-12'>
+                        <table className="w-full border text-center">
+                          <tr className="border bg-[#9999]">
+                            <th colSpan={'3'}>Quantity Pricing List </th>
+                          </tr>
+                          <tr className="border bg-[#9999]">
+                            <th>Name</th>
+                            <th>Max Quantity</th>
+                            <th># of  Quantity</th>
+                          </tr>
+                          
+                              <tr key={index} className="border">
+                                <td>Solar Panels</td>
+                                <td>40</td>
+                                <td>2</td>
+                              </tr>
+                           
+                        </table>
+                      </div>
+                      </Grid>
+                       
+                       
+                         {/* Loops */}
+                     
 
                       </div>
                     </div>
