@@ -21,6 +21,7 @@ import {
   editDealerPriceBook,
   getDealerPriceBook,
   filterGetPriceBookDetails,
+  getDealerPricebookDetailById,
 } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
@@ -35,6 +36,8 @@ function DealerPriceList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedTearm, setSelectedTearm] = useState(false);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
+  const [dealerPriceBookDetail, setDealerPriceBookDetail] = useState({});
+
   const [termList, setTermList] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -290,7 +293,10 @@ function DealerPriceList() {
     setIsViewOpen(false);
   };
 
-  const openView = (id) => {
+  const openView = async (id) => {
+    const result = await getDealerPricebookDetailById(id);
+    setDealerPriceBookDetail(result.result[0])
+    console.log(result)
     setIsViewOpen(true);
   };
 
@@ -467,41 +473,86 @@ function DealerPriceList() {
             </Button>
             <div className="py-3">
               <p className='text-center text-3xl font-semibold '>
-                View Dealer Price Book
+                View {dealerPriceBookDetail?.dealer?.name}/{dealerPriceBookDetail?.priceBooks?.name}
               </p>
               <Grid className='mt-5 px-6'>
-                <div className='col-span-4'>
+                {/* <div className='col-span-4'>
                   <p className="text-lg text-light-black font-semibold">Dealer Name</p>
-                  <p className="text-base text-neutral-grey font-semibold"> Nikhil Dealer </p>
-                </div>
+                  <p className="text-base text-neutral-grey font-semibold"> {dealerPriceBookDetail?.dealer?.name} </p>
+                </div> */}
                 <div className='col-span-4'>
                   <p className="text-lg text-light-black font-semibold">Product Category</p>
-                  <p className="text-base text-neutral-grey font-semibold"> Solar </p>
+                  <p className="text-base text-neutral-grey font-semibold">
+                    {dealerPriceBookDetail?.priceBooks?.category[0].name} </p>
                 </div>
-                <div className='col-span-4'>
+                {/* <div className='col-span-4'>
                   <p className="text-lg text-light-black font-semibold">Product Name</p>
-                  <p className="text-base text-neutral-grey font-semibold">SOL-102 </p>
-                </div>
+                  <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.name} </p>
+                </div> */}
                 <div className='col-span-4'>
                   <p className="text-lg text-light-black font-semibold">Wholesale Price($)</p>
-                  <p className="text-base text-neutral-grey font-semibold">$1175.00</p>
+                  <p className="text-base text-neutral-grey font-semibold">${dealerPriceBookDetail?.wholesalePrice?.toFixed(2)}</p>
                 </div>
                 <div className='col-span-6'>
                   <p className="text-lg text-light-black font-semibold">Description</p>
-                  <p className="text-base text-neutral-grey font-semibold">Panel, Inverter and Battery</p>
+                  <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.category[0].description}</p>
                 </div>
                 <div className='col-span-4'>
                   <p className="text-lg text-light-black font-semibold">Term</p>
-                  <p className="text-base text-neutral-grey font-semibold">120 Months</p>
+                  <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.term} Months</p>
                 </div>
                 <div className='col-span-4'>
                   <p className="text-lg text-light-black font-semibold">Retail Price ($)</p>
-                  <p className="text-base text-neutral-grey font-semibold">$1200.00</p>
+                  <p className="text-base text-neutral-grey font-semibold">${dealerPriceBookDetail?.retailPrice?.toFixed(2)}</p>
                 </div>
+             
                 <div className='col-span-4'>
                   <p className="text-lg text-light-black font-semibold">Status</p>
-                  <p className="text-base text-neutral-grey font-semibold"> Active</p>
+                  <p className="text-base text-neutral-grey font-semibold"> {dealerPriceBookDetail?.priceBooks?.status === true ?'Active' :'UnActive'}</p>
                 </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Price Type</p>
+                  <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.priceType}</p>
+                </div>
+                {
+                  dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
+                    <>
+                      <div className='col-span-4'> 
+                        <p className="text-lg text-light-black font-semibold">Range Start</p>
+                        <p className="text-base text-neutral-grey font-semibold"> {dealerPriceBookDetail?.priceBooks?.rangeStart?.toFixed(2)}</p>
+                      </div>
+                      <div className='col-span-4'>
+                        <p className="text-lg text-light-black font-semibold">Range End</p>
+                        <p className="text-base text-neutral-grey font-semibold"> {dealerPriceBookDetail?.priceBooks?.rangeEnd?.toFixed(2)}</p>
+                      </div></>
+                  )
+                }
+                {
+                  dealerPriceBookDetail?.priceBooks?.priceType == "Quantity Pricing" && (
+                    <>
+                      <div className='col-span-12'>
+                        <table className="w-full border text-center">
+                          <tr className="border bg-[#9999]">
+                            <th colSpan={'2'}>Quantity Pricing List </th>
+                          </tr>
+                          <tr className="border bg-[#9999]">
+                            <th>Name</th>
+                            <th>Max Quantity</th>
+                          </tr>
+                          {
+                            dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.length !== 0 &&
+                            dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map((item, index) => (
+                              <tr key={index} className="border">
+                                <td>{item.name}</td>
+                                <td>{item.quantity}</td>
+                              </tr>
+                            ))
+                          }
+                        </table>
+                      </div>
+                    </>
+                  )
+                }
               </Grid>
             </div>
           </Modal>
