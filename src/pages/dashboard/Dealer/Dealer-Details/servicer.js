@@ -25,6 +25,7 @@ import * as Yup from "yup";
 import { unAssignedServicerForDealer } from "../../../../services/dealerServices";
 
 function ServicerList(props) {
+  console.log(props)
   const [selectedAction, setSelectedAction] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -93,8 +94,10 @@ function ServicerList(props) {
   useEffect(() => {
     getServicerList();
   }, []);
+
   useEffect(() => {
     if (props.flag) {
+      console.log(props)
       getServicerList();
     }
   }, [props?.flag]);

@@ -53,7 +53,7 @@ import {
 } from "../../../services/userServices";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
-import { getServicerListForDealer } from "../../../services/servicerServices";
+import { getServicerListByDealerId, getServicerListForDealer } from "../../../services/servicerServices";
 import Reseller from "./Dealer-Details/reseller";
 
 function DealerDetails() {
@@ -67,6 +67,7 @@ function DealerDetails() {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
+  const [refreshList1, setRefreshList1] = useState([]);
   const [dealerDetails, setDealerDetails] = useState([]);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
@@ -160,8 +161,10 @@ function DealerDetails() {
     setServicerList(result.result);
     console.log(result.result);
   };
+ 
   useEffect(() => {
     dealerData();
+    // getServicerListData()
     getServicerList();
   }, [id.id, flag]);
   useEffect(() => {
@@ -268,12 +271,10 @@ function DealerDetails() {
         setModalOpen(true);
         setFirstMessage("Servicer Updated Successfully");
         setSecondMessage("Servicer Updated Successfully");
-        getServicerList();
         closeModal1();
         setTimer(3);
       } else {
         setLoading(false);
-        getServicerList();
         closeModal1();
       }
 
@@ -422,18 +423,18 @@ function DealerDetails() {
       content: <Reseller id={id.id} />,
     },
     {
+      id: "Servicer",
+      label: "Servicer",
+      icons: Servicer,
+      Activeicons: ServicerActive,
+      content: <ServicerList id={id.id} flag={flagValue} />,
+    },
+    {
       id: "Customer",
       label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
       content: <CustomerList id={id.id} />,
-    },
-    {
-      id: "Servicer",
-      label: "Servicer",
-      icons: Servicer,
-      Activeicons: ServicerActive,
-      content: <ServicerList id={id.id} />,
     },
    
     {
