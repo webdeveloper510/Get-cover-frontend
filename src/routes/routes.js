@@ -285,8 +285,8 @@ const routes = [
         element: <PrivateRoute element={<ResellerList />} path="/resellerList" />,
       },
       {
-        path: "/addReseller",
-        element: <PrivateRoute element={<AddReseller />} path="/addReseller" />,
+        path: "/addReseller/:dealerValueId?",
+        element: <PrivateRoute element={<AddReseller />} />,
       },
       {
         path: "/addBulkClaim",

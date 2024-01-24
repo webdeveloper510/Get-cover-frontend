@@ -18,7 +18,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getDealersList, getProductListbyProductCategoryId } from '../../../services/dealerServices';
 import { getServicerListByDealerId } from '../../../services/servicerServices';
-import { getCustomerListByDealerId } from '../../../services/customerServices';
+import { getCustomerListByDealerId, getCustomerListByDealerIdAndResellerId } from '../../../services/customerServices';
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import { getCategoryListActiveData, getTermList } from '../../../services/priceBookService';
 import RadioButton from '../../../common/radio';
@@ -126,9 +126,12 @@ function AddOrder() {
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
 
-  const getCustomerList = async (id) => {
+  const getCustomerList = async (type,id) => {
     let arr = [];
-    const result = await getCustomerListByDealerId(id, {});
+    const result = type ==='dealer'? await getCustomerListByDealerId(id, {}): await getCustomerListByDealerIdAndResellerId({
+      dealerId:formik.values.dealerId,
+      resellerId:id,
+    }, {})
     result?.result?.map((res) => {
       arr.push({
         label: res.customerData.username,
@@ -729,8 +732,11 @@ function AddOrder() {
       formik.setFieldValue('resellerId', '');
       formik.setFieldValue("dealerId", value)
       getServicerList(value);
-      getCustomerList(value);
+      getCustomerList('dealer',value);
       getResellerList(value)
+    }
+    if(name == "resellerId"){
+      getCustomerList('reseller',value)
     }
   };
   const coverage = [

@@ -33,7 +33,7 @@ function AddReseller() {
   const [dealerList, setDealerList] = useState([]);
   const navigate = useNavigate();
   const { dealerValueId } = useParams();
-  // console.log(dealerValueId);
+   console.log(dealerValueId);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerName: "",
