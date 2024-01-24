@@ -786,16 +786,17 @@ function AddOrder() {
                 </div>
                 <div className='col-span-6'>
                   <Select
-                    label="Servicer Name"
-                    name="servicerId"
+                    label="Reseller Name"
+                    name="resellerId"
                     placeholder=""
                     className="!bg-white"
                     onChange={handleSelectChange}
-                    options={servicerData}
-                    value={formik.values.servicerId}
+                    options={resellerList}
+                    value={formik.values.resellerId}
                     onBlur={formik.handleBlur}
                   />
                 </div>
+                
                 <div className='col-span-6'>
                   <Select
                     label="Customer Name"
@@ -810,13 +811,13 @@ function AddOrder() {
                 </div>
                 <div className='col-span-6'>
                   <Select
-                    label="Reseller Name"
-                    name="resellerId"
+                    label="Servicer Name"
+                    name="servicerId"
                     placeholder=""
                     className="!bg-white"
                     onChange={handleSelectChange}
-                    options={resellerList}
-                    value={formik.values.resellerId}
+                    options={servicerData}
+                    value={formik.values.servicerId}
                     onBlur={formik.handleBlur}
                   />
                 </div>
@@ -1524,20 +1525,20 @@ function AddOrder() {
                             data.priceType == "Quantity Pricing" && (
                               <div className='col-span-12'>
                                 <table className="w-full border text-center">
-                                  <tr className="border bg-[#9999]">
-                                    <th colSpan={'3'}>Quantity Pricing List </th>
+                                  <tr className="border bg-[#fff]">
+                                    <td colSpan={'3'} className='text-[12px]'>Quantity Pricing List </td>
                                   </tr>
-                                  <tr className="border bg-[#9999]">
-                                    <th>Name</th>
-                                    <th>Max Quantity</th>
-                                    <th># of  Quantity</th>
+                                  <tr className="border bg-[#fff]">
+                                    <td className='text-[12px]'>Name</td>
+                                    <td className='text-[12px]'>Max Quantity</td>
+                                    <td className='text-[12px]'># of  Quantity</td>
                                   </tr>
                                   {data.QuantityPricing && (
                                     data.QuantityPricing.map((value, index) => {
                                       return <tr key={index} className="border">
-                                        <td>{value.name}</td>
-                                        <td>{value.quantity}</td>
-                                        <td>{value.enterQuantity}</td>
+                                        <th className='font-bold text-sm'>{value.name}</th>
+                                        <th className='font-bold text-sm'>{value.quantity}</th>
+                                        <th className='font-bold text-sm'>{value.enterQuantity}</th>
                                       </tr>;
                                     })
                                   )}

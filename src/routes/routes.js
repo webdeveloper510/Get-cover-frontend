@@ -39,6 +39,7 @@ import ResellerList from "../pages/dashboard/Reseller/resellerList";
 import Sale from "../pages/dashboard/Reporting/sale";
 import OrderDetails from "../pages/dashboard/Order/order-details";
 import Claims from "../pages/dashboard/Reporting/claims";
+import ResellerDetails from "../pages/dashboard/Reseller/resellerDetails";
 
 const routes = [
   {
@@ -132,6 +133,11 @@ const routes = [
         path: "/servicerDetails/:servicerId",
         index: true,
         element: <PrivateRoute element={<ServicerDetails />} />,
+      },
+      {
+        path: "/reselerDetails/:resellerId",
+        index: true,
+        element: <PrivateRoute element={<ResellerDetails />} />,
       },
     ],
   },

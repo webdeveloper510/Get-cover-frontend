@@ -500,6 +500,23 @@ function AddDealerBook() {
                         }}
                       />
                     </div>
+                    <div className="col-span-4">
+                      <Input
+                        type="text"
+                        name="priceType"
+                        className="!bg-[#fff]"
+                        label="Price Type"
+                        required={true}
+                        placeholder=""
+                        value={formik.values.term}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        disabled={true}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
+                      />
+                    </div>
                   </>
                 )}
 

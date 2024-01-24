@@ -24,10 +24,19 @@ import Cross from "../../../assets/images/Cross.png";
 import Headbar from '../../../common/headBar';
 import { Link } from 'react-router-dom';
 import Modal from '../../../common/model';
+import CollapsibleDiv from '../../../common/collapsibleDiv';
 function ClaimList() {
   const [selectedValue, setSelectedValue] = useState('');
   const [isViewOpen, setIsViewOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
+  const closeEdit = () => {
+    setIsEditOpen(false);
+  };
+
+  const openEdit = () => {
+    setIsEditOpen(true);
+  };
   const closeView = () => {
     setIsViewOpen(false);
   };
@@ -43,6 +52,11 @@ function ClaimList() {
     { label: 'City', value: 'city' },
     { label: 'Option 2', value: 'option2' },
     { label: 'Option 3', value: 'option3' },
+  ];
+
+  const CoverageStartDate = [
+    { label: "11/09/2026", value: true },
+    { label: "12/09/2026", value: false },
   ];
 
   return (
@@ -130,8 +144,8 @@ function ClaimList() {
             </div>
           </Grid>
           <div className=' px-3 mt-5'>
-            <div>
-              <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
+
+            <CollapsibleDiv title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
                 <div className='col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5'>
                   <p className='font-semibold leading-5 text-lg'> 861910  </p>
                   <p className='text-[#A3A3A3]'>Claim ID</p>
@@ -146,43 +160,41 @@ function ClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2' onClick={()=>openView()} alt='chat' />
-                  <Link to={'/editClaim'}> <img src={Edit} className=' mr-2' alt='edit' /> </Link>
-                  <div className='absolute -top-3.5 right-0'>
-                    <img src={Add} alt="Delete" />
-                  </div>
+                 <img src={Edit} className=' mr-2' onClick={()=>openEdit()} alt='edit' /> 
                 </div>
               </Grid>
+            <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
+            <div className='col-span-2 flex '>
+              <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
+              <div className='py-4 pl-3 self-center'>
+                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
+                <p className='text-[#333333] text-sm font-semibold'>Mac Book Air</p>
+              </div>
+            </div>
+            <div className='col-span-3 flex'>
+              <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+              <div className='py-4 pl-3 self-center'>
+                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
+                <p className='text-[#333333] text-sm font-semibold'>Apple</p>
+              </div>
+            </div>
+            <div className='col-span-4 flex'>
+              <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+              <div className='py-4 pl-3 self-center'>
+                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
+                <p className='text-[#333333] text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
+              </div>
+            </div>
+            <div className='col-span-3 flex'>
+              <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+              <div className='py-4 pl-3 self-center'>
+                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial</p>
+                <p className='text-[#333333] text-sm font-semibold'>GG7W212JHLF10</p>
+              </div>
+            </div>
+          </Grid> </>}>
 
-              <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
-                <div className='col-span-2 flex '>
-                  <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
-                  <div className='py-4 pl-3 self-center'>
-                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
-                    <p className='text-[#333333] text-sm font-semibold'>Mac Book Air</p>
-                  </div>
-                </div>
-                <div className='col-span-3 flex'>
-                  <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
-                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
-                    <p className='text-[#333333] text-sm font-semibold'>Apple</p>
-                  </div>
-                </div>
-                <div className='col-span-4 flex'>
-                  <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
-                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
-                    <p className='text-[#333333] text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
-                  </div>
-                </div>
-                <div className='col-span-3 flex'>
-                  <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
-                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial</p>
-                    <p className='text-[#333333] text-sm font-semibold'>GG7W212JHLF10</p>
-                  </div>
-                </div>
-              </Grid>
+              
               <Grid className='!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x'>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
@@ -302,12 +314,9 @@ function ClaimList() {
                   </Grid>
                 </div>
               </Grid>
-            </div>
-          </div>
+            </CollapsibleDiv>
 
-          <div className=' px-3 mt-5'>
-            <div>
-              <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
+            <CollapsibleDiv title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
                 <div className='col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5'>
                   <p className='font-semibold leading-5 text-lg'> 861910  </p>
                   <p className='text-[#A3A3A3]'>Claim ID</p>
@@ -321,44 +330,42 @@ function ClaimList() {
                   <p className='text-[#A3A3A3]'>Loss Date</p>
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
-                  <img src={chat} className=' mr-2' alt='chat' />
-                  <Link to={'/editClaim'}> <img src={Edit} className=' mr-2' alt='edit' /> </Link>
-                  <div className='absolute -top-3.5 right-0'>
-                    <img src={Delete} alt="Delete" />
-                  </div>
+                  <img src={chat} className=' mr-2' onClick={()=>openView()} alt='chat' />
+                 <img src={Edit} className=' mr-2' onClick={()=>openEdit()} alt='edit' /> 
                 </div>
               </Grid>
+            <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
+            <div className='col-span-2 flex '>
+              <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
+              <div className='py-4 pl-3 self-center'>
+                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
+                <p className='text-[#333333] text-sm font-semibold'>Mac Book Air</p>
+              </div>
+            </div>
+            <div className='col-span-3 flex'>
+              <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+              <div className='py-4 pl-3 self-center'>
+                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
+                <p className='text-[#333333] text-sm font-semibold'>Apple</p>
+              </div>
+            </div>
+            <div className='col-span-4 flex'>
+              <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+              <div className='py-4 pl-3 self-center'>
+                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
+                <p className='text-[#333333] text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
+              </div>
+            </div>
+            <div className='col-span-3 flex'>
+              <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+              <div className='py-4 pl-3 self-center'>
+                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial</p>
+                <p className='text-[#333333] text-sm font-semibold'>GG7W212JHLF10</p>
+              </div>
+            </div>
+          </Grid> </>}>
 
-              <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
-                <div className='col-span-2 flex '>
-                  <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
-                  <div className='py-4 pl-3 self-center'>
-                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
-                    <p className='text-[#333333] text-sm font-semibold'>Mac Book Air</p>
-                  </div>
-                </div>
-                <div className='col-span-3 flex'>
-                  <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
-                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
-                    <p className='text-[#333333] text-sm font-semibold'>Apple</p>
-                  </div>
-                </div>
-                <div className='col-span-4 flex'>
-                  <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
-                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
-                    <p className='text-[#333333] text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
-                  </div>
-                </div>
-                <div className='col-span-3 flex'>
-                  <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
-                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial</p>
-                    <p className='text-[#333333] text-sm font-semibold'>GG7W212JHLF10</p>
-                  </div>
-                </div>
-              </Grid>
+              
               <Grid className='!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x'>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
@@ -476,16 +483,11 @@ function ClaimList() {
                       <img src={attach} alt='' />
                     </div>
                   </Grid>
-
                 </div>
               </Grid>
+            </CollapsibleDiv>
 
-            </div>
-          </div>
-
-          <div className=' px-3 mt-5'>
-            <div>
-              <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
+            <CollapsibleDiv title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
                 <div className='col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5'>
                   <p className='font-semibold leading-5 text-lg'> 861910  </p>
                   <p className='text-[#A3A3A3]'>Claim ID</p>
@@ -499,44 +501,42 @@ function ClaimList() {
                   <p className='text-[#A3A3A3]'>Loss Date</p>
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
-                  <img src={chat} className=' mr-2' alt='chat' />
-                  <Link to={'/editClaim'}> <img src={Edit} className=' mr-2' alt='edit' /> </Link>
-                  <div className='absolute -top-3.5 right-0'>
-                    <img src={Delete} alt="Delete" />
-                  </div>
+                  <img src={chat} className=' mr-2' onClick={()=>openView()} alt='chat' />
+                 <img src={Edit} className=' mr-2' onClick={()=>openEdit()} alt='edit' /> 
                 </div>
               </Grid>
+            <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
+            <div className='col-span-2 flex '>
+              <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
+              <div className='py-4 pl-3 self-center'>
+                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
+                <p className='text-[#333333] text-sm font-semibold'>Mac Book Air</p>
+              </div>
+            </div>
+            <div className='col-span-3 flex'>
+              <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+              <div className='py-4 pl-3 self-center'>
+                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
+                <p className='text-[#333333] text-sm font-semibold'>Apple</p>
+              </div>
+            </div>
+            <div className='col-span-4 flex'>
+              <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+              <div className='py-4 pl-3 self-center'>
+                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
+                <p className='text-[#333333] text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
+              </div>
+            </div>
+            <div className='col-span-3 flex'>
+              <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+              <div className='py-4 pl-3 self-center'>
+                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial</p>
+                <p className='text-[#333333] text-sm font-semibold'>GG7W212JHLF10</p>
+              </div>
+            </div>
+          </Grid> </>}>
 
-              <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
-                <div className='col-span-2 flex '>
-                  <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
-                  <div className='py-4 pl-3 self-center'>
-                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
-                    <p className='text-[#333333] text-sm font-semibold'>Mac Book Air</p>
-                  </div>
-                </div>
-                <div className='col-span-3 flex'>
-                  <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
-                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
-                    <p className='text-[#333333] text-sm font-semibold'>Apple</p>
-                  </div>
-                </div>
-                <div className='col-span-4 flex'>
-                  <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
-                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
-                    <p className='text-[#333333] text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
-                  </div>
-                </div>
-                <div className='col-span-3 flex'>
-                  <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
-                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial</p>
-                    <p className='text-[#333333] text-sm font-semibold'>GG7W212JHLF10</p>
-                  </div>
-                </div>
-              </Grid>
+              
               <Grid className='!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x'>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
@@ -654,11 +654,10 @@ function ClaimList() {
                       <img src={attach} alt='' />
                     </div>
                   </Grid>
-
                 </div>
               </Grid>
+            </CollapsibleDiv>
 
-            </div>
           </div>
         </div>
       </div>
@@ -774,6 +773,100 @@ function ClaimList() {
                 <div className=''></div>
               </Grid>
             
+            </div>
+          </Modal>
+
+          <Modal  isOpen={isEditOpen} onClose={closeEdit}>
+          <Button onClick={closeEdit} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+            </Button>
+            <div className='py-3'>
+            <form className="mt-8 mr-4">
+                  <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1]  rounded-3xl">
+                    <p className='pb-5 text-lg font-semibold'>Repair Parts</p>
+                    <Grid className='mb-5'>
+                      <div className='col-span-3'>
+                      <Select
+                        name="ServiceType"
+                        label="Service Type"
+                        options={CoverageStartDate}
+                        required={true}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+                      </div>
+                      <div className='col-span-5'>
+                        <Input type='text' 
+                         name="description"
+                        className="!bg-[#fff]"
+                        label="Description"
+                        placeholder="" />
+                      </div>
+                      <div className='col-span-3'>
+                        <Input type='number' 
+                         name="price"
+                        className="!bg-[#fff]"
+                        label="Price ($)"
+                        placeholder="" />
+                      </div>
+                      <div className='col-span-1 self-center flex justify-center'>
+                       <Button>+</Button>
+                      </div>
+                    </Grid>
+                    <hr className='my-4'/>
+                    <Grid className='mb-5'>
+                      <div className='col-span-3'>
+                      <Select
+                        name="ServiceType"
+                        label="Service Type"
+                        options={CoverageStartDate}
+                        required={true}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+                      </div>
+                      <div className='col-span-5'>
+                        <Input type='text' 
+                         name="description"
+                        className="!bg-[#fff]"
+                        label="Description"
+                        placeholder="" />
+                      </div>
+                      <div className='col-span-3'>
+                        <Input type='number' 
+                         name="price"
+                        className="!bg-[#fff]"
+                        label="Price ($)"
+                        placeholder="" />
+                      </div>
+                      <div className='col-span-1 self-center  flex justify-center'>
+                       <Button><b>-</b></Button>
+                      </div>
+                    </Grid>
+
+                   
+                  </div>
+                  <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+                  <div className="relative">
+                      <label
+                        htmlFor="description"
+                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Note
+                      </label>
+                      <textarea
+                        id="note"
+                        rows="4"
+                        name="Note"
+                        maxLength={150}
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
+                      ></textarea>
+                    </div>
+                    </div>
+
+                  <div className='mt-8'>
+                    <Button className='!bg-white !text-black' >Cancel</Button>
+                    <Button>Update</Button>
+                    </div>
+                </form>
             </div>
           </Modal>
     </>

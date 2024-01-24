@@ -25,13 +25,13 @@ import User from "../../../assets/images/Dealer/Users.svg";
 import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
-import OrderList from "./Dealer-Details/order";
-import ContractList from "./Dealer-Details/contract";
-import ClaimList from "./Dealer-Details/claim";
-import ServicerList from "./Dealer-Details/servicer";
-import UserList from "./Dealer-Details/user";
-import PriceBookList from "./Dealer-Details/priceBook";
-import CustomerList from "./Dealer-Details/customer";
+import OrderList from "../Dealer/Dealer-Details/order";
+import ContractList from "../Dealer/Dealer-Details/contract";
+import ClaimList from "../Dealer/Dealer-Details/claim";
+import ServicerList from "../Dealer/Dealer-Details/servicer";
+import UserList from "../Dealer/Dealer-Details/user";
+import PriceBookList from "../Dealer/Dealer-Details/priceBook";
+import CustomerList from "../Dealer/Dealer-Details/customer";
 import Modal from "../../../common/model";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Input from "../../../common/input";
@@ -53,10 +53,10 @@ import {
 } from "../../../services/userServices";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
-import { getServicerListByDealerId, getServicerListForDealer } from "../../../services/servicerServices";
-import Reseller from "./Dealer-Details/reseller";
+import { getServicerListForDealer } from "../../../services/servicerServices";
+// import Reseller from "../Dealer/Dealer-Details/reseller";
 
-function DealerDetails() {
+function ResellerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("menu");
     return storedTab ? storedTab : "Servicer";
@@ -67,7 +67,6 @@ function DealerDetails() {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
-  const [refreshList1, setRefreshList1] = useState([]);
   const [dealerDetails, setDealerDetails] = useState([]);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
@@ -161,10 +160,8 @@ function DealerDetails() {
     setServicerList(result.result);
     console.log(result.result);
   };
- 
   useEffect(() => {
     dealerData();
-    // getServicerListData()
     getServicerList();
   }, [id.id, flag]);
   useEffect(() => {
@@ -271,10 +268,12 @@ function DealerDetails() {
         setModalOpen(true);
         setFirstMessage("Servicer Updated Successfully");
         setSecondMessage("Servicer Updated Successfully");
+        getServicerList();
         closeModal1();
         setTimer(3);
       } else {
         setLoading(false);
+        getServicerList();
         closeModal1();
       }
 
@@ -415,26 +414,26 @@ function DealerDetails() {
       Activeicons: ClaimActive,
       content: <ClaimList />,
     },
-    {
-      id: "Reseller",
-      label: "Reseller",
-      icons: User,
-      Activeicons: UserActive,
-      content: <Reseller id={id.id} />,
-    },
-    {
-      id: "Servicer",
-      label: "Servicer",
-      icons: Servicer,
-      Activeicons: ServicerActive,
-      content: <ServicerList id={id.id} flag={flagValue} />,
-    },
+    // {
+    //   id: "Reseller",
+    //   label: "Reseller",
+    //   icons: User,
+    //   Activeicons: UserActive,
+    //   content: <Reseller id={id.id} />,
+    // },
     {
       id: "Customer",
       label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
       content: <CustomerList id={id.id} />,
+    },
+    {
+      id: "Servicer",
+      label: "Servicer",
+      icons: Servicer,
+      Activeicons: ServicerActive,
+      content: <ServicerList id={id.id} />,
     },
    
     {
@@ -480,13 +479,13 @@ function DealerDetails() {
   };
   return (
     <>
-      {loading && (
+      {/* {loading && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#fff" />
           </div>
         </div>
-      )}
+      )} */}
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
 
@@ -505,18 +504,18 @@ function DealerDetails() {
           </div>
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
-              Dealer Details
+              Reseller Details
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Dealer / </Link>{" "}
+                <Link to={"/"}>Reseller / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}> Dealer List / </Link>{" "}
+                <Link to={"/"}> Reseller List / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}
-                Dealer Detail ({activeTab})
+                Reseller Detail ({activeTab})
               </li>
             </ul>
           </div>
@@ -648,25 +647,10 @@ function DealerDetails() {
           </div>
           <div className="col-span-3">
             <Grid className="!mt-5">
-               <div
-                className="col-span-12"
-                onClick={() => routeToPage(activeTab)}
-              >
-                <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-                  {" "}
-                  <img
-                    src={AddItem}
-                    className="self-center"
-                    alt="AddItem"
-                  />{" "}
-                  <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
-                    Add {activeTab}
-                  </span>{" "}
-                </Button>
-              </div>
-              <div className="col-span-12">
+              
+              <div className="col-span-10">
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-8 !gap-1">
+                  <Grid className="!grid-cols-7 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
@@ -697,7 +681,22 @@ function DealerDetails() {
                   </Grid>
                 </div>
               </div>
-             
+              <div
+                className="col-span-2"
+                onClick={() => routeToPage(activeTab)}
+              >
+                <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                  {" "}
+                  <img
+                    src={AddItem}
+                    className="self-center"
+                    alt="AddItem"
+                  />{" "}
+                  <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                    Add {activeTab}
+                  </span>{" "}
+                </Button>
+              </div>
             </Grid>
 
             {tabs.map((tab) => (
@@ -715,7 +714,7 @@ function DealerDetails() {
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center p-8">
-          <p className="text-3xl font-semibold mb-4">Edit Dealer Details</p>
+          <p className="text-3xl font-semibold mb-4">Edit Reseller Details</p>
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <Grid>
               <div className="col-span-12">
@@ -1079,4 +1078,5 @@ function DealerDetails() {
   );
 }
 
-export default DealerDetails;
+
+export default ResellerDetails
