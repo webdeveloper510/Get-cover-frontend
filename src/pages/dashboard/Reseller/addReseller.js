@@ -652,6 +652,26 @@ function AddReseller() {
                     />
                   </p>
                 </div>
+                <div className="col-span-12 self-center mt-5">
+                  <p className="text-light-black flex text-sm  font-semibold self-center">
+                    {" "}
+                    Do you want work as a servicer ?
+                    <RadioButton
+                      id="yes"
+                      label="Yes"
+                      value="yes"
+                      checked={createAccountOption === "yes"}
+                      onChange={handleRadioChange}
+                    />
+                    <RadioButton
+                      id="no"
+                      label="No"
+                      value="no"
+                      checked={createAccountOption === "no"}
+                      onChange={handleRadioChange}
+                    />
+                  </p>
+                </div>
               </Grid>
 
               <div className="mt-32">

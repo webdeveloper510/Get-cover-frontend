@@ -88,14 +88,14 @@ function ContractList() {
               </div>
               <div className='col-span-3 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
+                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
               <div className='col-span-3 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
+                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
                 </div>
               </div>
               <div className='col-span-3 border border-[#D1D1D1]'>
@@ -175,14 +175,14 @@ function ContractList() {
               </div>
               <div className='col-span-3 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
+                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
               <div className='col-span-3 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
+                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
                 </div>
               </div>
               <div className='col-span-3 border border-[#D1D1D1]'>
