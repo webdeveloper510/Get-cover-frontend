@@ -1627,7 +1627,7 @@ function AddOrder() {
 
 
                   {
-                    formik4.values.paymentStatus !== 'Paid' && (
+                    formik4.values.paymentStatus !== 'Unpaid' && (
                       <>
                         {
 
