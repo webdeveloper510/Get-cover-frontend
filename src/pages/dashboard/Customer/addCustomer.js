@@ -405,20 +405,25 @@ getResellerListByDealerId(dealerValueId)
               </div>
             )}
           </div>
-          <div className="col-span-4 mb-3">
-            <Select
-              label="Reseller Name"
-              name="resellerName"
-              placeholder=""
-              required={true}
-              onChange={handleSelectChange}
-              options={resellerList}
-              value={formik.values.resellerName}
-              onBlur={formik.handleBlur}
-              error={formik.touched.resellerName && formik.errors.resellerName}
-            />
+          {
+            resellerList.length !==0 && (
+              <div className="col-span-4 mb-3">
+              <Select
+                label="Reseller Name"
+                name="resellerName"
+                placeholder=""
+                required={true}
+                onChange={handleSelectChange}
+                options={resellerList}
+                value={formik.values.resellerName}
+                onBlur={formik.handleBlur}
+                error={formik.touched.resellerName && formik.errors.resellerName}
+              />
+      
+            </div>
+            )
+          }
     
-          </div>
         </Grid>
         <div className="bg-white p-4 drop-shadow-4xl border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid>

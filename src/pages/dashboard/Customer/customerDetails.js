@@ -432,7 +432,38 @@ function CustomerDetails() {
                     {customerDetail?.meta?.dealerName}
                   </p>
                 </div>
+                
               </div>
+              {
+                customerDetail?.meta?.resellerId && (
+                  <div className="flex mb-4">
+                <div className="relative">
+                  <img
+                    src={DealerIcons}
+                    className="mr-3 bg-[#383838] rounded-[14px]"
+                    alt="DealerIcons"
+                  />
+                  <Link to={`/resellerDetails/${customerDetail?.meta?.resellerId}`}>
+                    {" "}
+                    <img
+                      src={DealerList}
+                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                      alt="DealerList"
+                    />{" "}
+                  </Link>
+                </div>
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular">
+                    Reseller Name
+                  </p>
+                  <p className="text-base text-white font-semibold ">
+                    {customerDetail?.meta?.resellerName}
+                  </p>
+                </div>
+                
+              </div>
+                )
+              }
               <div className="flex mb-4">
                 <img
                   src={name}
