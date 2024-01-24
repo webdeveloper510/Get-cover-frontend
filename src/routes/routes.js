@@ -135,7 +135,7 @@ const routes = [
         element: <PrivateRoute element={<ServicerDetails />} />,
       },
       {
-        path: "/reselerDetails/:resellerId",
+        path: "/resellerDetails/:resellerId",
         index: true,
         element: <PrivateRoute element={<ResellerDetails />} />,
       },
