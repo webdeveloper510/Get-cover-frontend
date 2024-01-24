@@ -398,7 +398,7 @@ function PriceBookList(props) {
             <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
               <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
             </Button>
-            <Button onClick={() => { navigte(`/editCompanyPriceBook/`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+            <Button onClick={() => { navigte(`/editCompanyPriceBook/${dealerPriceBookDetail._id}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
               <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
             </Button>
             <div className="py-3">

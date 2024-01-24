@@ -383,7 +383,7 @@ function AddCustomer() {
               label="Reseller Name"
               name="resellerName"
               placeholder=""
-              required={true}
+              // required={true}
               onChange={handleSelectChange}
               disabled={dealerValueId != undefined ? true : false}
               options={dealerList}
