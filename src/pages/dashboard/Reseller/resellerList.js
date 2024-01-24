@@ -132,51 +132,51 @@ function ResellerList() {
       selector: (row) => "$ 0.00",
       sortable: true,
     },
-    // {
-    //   name: "Action",
-    //   minWidth: "auto",
-    //   maxWidth: "90px",
-    //   cell: (row, index) => {
-    //     // console.log(index, index % 10 == 9)
-    //     return (
-    //       <div className="relative">
-    //         <div
-    //           onClick={() =>
-    //             setSelectedAction(
-    //               selectedAction === row.customerData.unique_key
-    //                 ? null
-    //                 : row.customerData.unique_key
-    //             )
-    //           }
-    //         >
-    //           <img
-    //             src={ActiveIcon}
-    //             className="cursor-pointer	w-[35px]"
-    //             alt="Active Icon"
-    //           />
-    //         </div>
-    //         {selectedAction === row.customerData.unique_key && (
-    //           <div
-    //             ref={dropdownRef}
-    //             className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-    //               index
-    //             )}`}
-    //           >
-    //             {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-    //             <div
-    //               className="text-center cursor-pointer py-1"
-    //               onClick={() => {
-    //                 navigate(`/customerDetails/${row.customerData._id}`);
-    //               }}
-    //             >
-    //               View
-    //             </div>
-    //           </div>
-    //         )}
-    //       </div>
-    //     );
-    //   },
-    // },
+    {
+      name: "Action",
+      minWidth: "auto",
+      maxWidth: "90px",
+      cell: (row, index) => {
+        // console.log(index, index % 10 == 9)
+        return (
+          <div className="relative">
+            <div
+              onClick={() =>
+                setSelectedAction(
+                  selectedAction === row.resellerData.unique_key
+                    ? null
+                    : row.resellerData.unique_key
+                )
+              }
+            >
+              <img
+                src={ActiveIcon}
+                className="cursor-pointer	w-[35px]"
+                alt="Active Icon"
+              />
+            </div>
+            {selectedAction === row.resellerData.unique_key && (
+              <div
+                ref={dropdownRef}
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  index
+                )}`}
+              >
+                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+                <div
+                  className="text-center cursor-pointer py-1"
+                  onClick={() => {
+                    navigate(`/reselerDetails/${row?.resellerData._id}`);
+                  }}
+                >
+                  View
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      },
+    },
   ];
 
   useEffect(() => {

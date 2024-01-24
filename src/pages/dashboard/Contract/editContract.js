@@ -188,7 +188,7 @@ function EditContract() {
                 <form className="mt-8 mr-4">
                   <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
                     <p className='pb-5 text-lg font-semibold'>Contracts</p>
-                    <Grid className='!grid-cols-5'>
+                    <Grid className='!grid-cols-4'>
                       <div className='col-span-1'>
                         <Input type='text' 
                          name="Manufacturer"
@@ -213,14 +213,7 @@ function EditContract() {
                         required={true}
                         placeholder="" />
                       </div>
-                      <div className='col-span-2'>
-                        <Input type='text' 
-                         name="Product Description"
-                        className="!bg-[#fff]"
-                        label="Product Description"
-                        required={true}
-                        placeholder="" />
-                      </div>
+                     
                       <div className='col-span-1'>
                         <Input type='text' 
                          name="RetailPrice"
@@ -238,10 +231,9 @@ function EditContract() {
                         placeholder="" />
                       </div>
                       <div className='col-span-1'>
-                      <Select
+                      <Input type='date' 
                         name="Coverage Start Date"
                         label="Coverage Start Date"
-                        options={CoverageStartDate}
                         required={true}
                         className="!bg-[#fff]"
                         placeholder=""/>

@@ -259,7 +259,7 @@ function AddClaim() {
                     </div>
                     <div className="col-span-6">
                     <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                      Do you want to create an account?
+                    Do you want to send notifications?
                       <RadioButton
                         id="yes-create-account"
                         label="Yes"

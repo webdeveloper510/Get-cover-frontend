@@ -312,6 +312,25 @@ function SideBar() {
       ],
     },
     {
+      name: "Customer",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      items: [
+        {
+          name: "Customer List",
+          url: "/customerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Customer",
+          url: "/addCustomer",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
       name: "Servicer",
       image: ServicerImage,
       active: ActiveServicer,
@@ -333,25 +352,6 @@ function SideBar() {
           url: "/servicerRequestList",
           image: Dropdown2,
           active: ForthActive,
-        },
-      ],
-    },
-    {
-      name: "Customer",
-      image: CustomerImage,
-      active: ActiveCustomer,
-      items: [
-        {
-          name: "Customer List",
-          url: "/customerList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Add Customer",
-          url: "/addCustomer",
-          image: Dropdown2,
-          active: SeacondActive,
         },
       ],
     },

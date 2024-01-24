@@ -378,6 +378,25 @@ function AddCustomer() {
               </div>
             )}
           </div>
+          <div className="col-span-4 mb-3">
+            <Select
+              label="Reseller Name"
+              name="resellerName"
+              placeholder=""
+              required={true}
+              onChange={handleSelectChange}
+              disabled={dealerValueId != undefined ? true : false}
+              options={dealerList}
+              value={formik.values.dealerName}
+              onBlur={formik.handleBlur}
+              error={formik.touched.dealerName && formik.errors.dealerName}
+            />
+            {formik.touched.dealerName && formik.errors.dealerName && (
+              <div className="text-red-500 text-sm pl-2 pt-2">
+                {formik.errors.dealerName}
+              </div>
+            )}
+          </div>
         </Grid>
         <div className="bg-white p-4 drop-shadow-4xl border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid>
