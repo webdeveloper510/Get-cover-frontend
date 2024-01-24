@@ -769,7 +769,10 @@ function ClaimList() {
                     <img src={upload} alt='upload'/>
                   </div>
                 </div>
-                <div className=''></div>
+                <div className='col-span-9'>
+                  <Input type='text'
+                  />
+                </div>
                 <div className=''></div>
               </Grid>
             
@@ -838,15 +841,15 @@ function ClaimList() {
                         placeholder="" />
                       </div>
                       <div className='col-span-1 self-center  flex justify-center'>
-                       <Button><b>-</b></Button>
+                       <Button className='!text-sm'><b>-</b></Button>
                       </div>
                     </Grid>
                       <div className='text-right'>
-                    <Button>+ Add More</Button>
+                    <Button className='!text-sm'>+ Add More</Button>
                       </div>
                    
                   </div>
-                  <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+                  <div className="px-5 pb-5 pt-5 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
                   <div className="relative">
                       <label
                         htmlFor="description"
@@ -864,7 +867,7 @@ function ClaimList() {
                     </div>
                     </div>
 
-                  <div className='mt-8'>
+                  <div className='mt-5'>
                     <Button className='!bg-white !text-black' >Cancel</Button>
                     <Button>Update</Button>
                     </div>
