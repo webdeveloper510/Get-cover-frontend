@@ -11,9 +11,11 @@ import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
+import Edit from '../../../assets/images/Dealer/EditIcon.svg';
 import Loader from "../../../assets/images/Loader.gif";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Select from "../../../common/select";
+import Cross from "../../../assets/images/Cross.png";
 import DataTable from "react-data-table-component";
 import {
   editDealerPriceBook,
@@ -25,6 +27,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getTermList } from "../../../services/dealerServices";
 import axios from "axios";
+import Modal from "../../../common/model";
 const url = process.env.REACT_APP_API_KEY || "fallback_value";
 
 function DealerPriceList() {
@@ -262,10 +265,16 @@ function DealerPriceList() {
                 )}`}
               >
                 <div
-                  className="text-center py-2 cursor-pointer"
+                  className="text-center py-2 cursor-pointer border-b"
                   onClick={() => editScreen(row)}
                 >
                   Edit
+                </div>
+                <div
+                  className="text-center py-2 cursor-pointer"
+                  onClick={() => openView(row._id)}
+                >
+                  View
                 </div>
               </div>
             )}
@@ -274,6 +283,16 @@ function DealerPriceList() {
       },
     },
   ];
+
+  const [isViewOpen, setIsViewOpen] = useState(false);
+
+  const closeView = () => {
+    setIsViewOpen(false);
+  };
+
+  const openView = (id) => {
+    setIsViewOpen(true);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -438,6 +457,54 @@ function DealerPriceList() {
           </div>
         </div>
       </div>
+
+      <Modal isOpen={isViewOpen} onClose={closeView}>
+            <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+            </Button>
+            <Button onClick={() => { navigte(`/editCompanyPriceBook/`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
+            </Button>
+            <div className="py-3">
+              <p className='text-center text-3xl font-semibold '>
+                View Dealer Price Book
+              </p>
+              <Grid className='mt-5 px-6'>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Dealer Name</p>
+                  <p className="text-base text-neutral-grey font-semibold"> Nikhil Dealer </p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Product Category</p>
+                  <p className="text-base text-neutral-grey font-semibold"> Solar </p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Product Name</p>
+                  <p className="text-base text-neutral-grey font-semibold">SOL-102 </p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Wholesale Price($)</p>
+                  <p className="text-base text-neutral-grey font-semibold">$1175.00</p>
+                </div>
+                <div className='col-span-6'>
+                  <p className="text-lg text-light-black font-semibold">Description</p>
+                  <p className="text-base text-neutral-grey font-semibold">Panel, Inverter and Battery</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Term</p>
+                  <p className="text-base text-neutral-grey font-semibold">120 Months</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Retail Price ($)</p>
+                  <p className="text-base text-neutral-grey font-semibold">$1200.00</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Status</p>
+                  <p className="text-base text-neutral-grey font-semibold"> Active</p>
+                </div>
+              </Grid>
+            </div>
+          </Modal>
     </>
   );
 }
