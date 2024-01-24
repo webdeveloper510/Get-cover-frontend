@@ -1047,7 +1047,6 @@ function AddOrder() {
                         e.preventDefault();
                       }}
                     />
-
                   </div>
                   <div className='col-span-4'>
                     <Input
@@ -1066,8 +1065,6 @@ function AddOrder() {
                     />
 
                   </div>
-
-
                   <div className='col-span-4'>
                     <Input
                       type="number"
@@ -1113,9 +1110,6 @@ function AddOrder() {
                         </div>
                       )}
                   </div>
-
-
-
                   <div className='col-span-4'>
                     <Input
                       type="number"
@@ -1435,7 +1429,7 @@ function AddOrder() {
                   <p className='text-[12px]'>Dealer Name</p>
                   <p className='font-bold text-sm'>{dealerName}</p>
                 </div>
-                <div className='col-span-3 py-4'>
+                <div className='col-span-3 py-4 border-r'>
                   <p className='text-[12px]'>Reseller Name</p>
                   <p className='font-bold text-sm'>{resellerName}</p>
                 </div>
@@ -1443,7 +1437,7 @@ function AddOrder() {
                   <p className='text-[12px]'>Customer Name</p>
                   <p className='font-bold text-sm'>{customerName}</p>
                 </div>
-                <div className='col-span-3 py-4 border-r'>
+                <div className='col-span-3 py-4 '>
                   <p className='text-[12px]'>Servicer Name</p>
                   <p className='font-bold text-sm'>{servicerName}</p>
                 </div>
