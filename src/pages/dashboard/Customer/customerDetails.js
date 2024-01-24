@@ -457,7 +457,7 @@ function CustomerDetails() {
                     Reseller Name
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    {customerDetail?.meta?.resellerName}
+                    {customerDetail?.resellerName}
                   </p>
                 </div>
                 
