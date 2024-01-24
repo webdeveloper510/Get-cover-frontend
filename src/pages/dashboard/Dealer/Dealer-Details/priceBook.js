@@ -23,8 +23,9 @@ import Select from "../../../../common/select";
 import { RotateLoader } from "react-spinners";
 import * as Yup from "yup";
 import Modal from "../../../../common/model";
+import { getPriceBookListByResellerId } from "../../../../services/reSellerServices";
 function PriceBookList(props) {
-  console.log(props.id);
+  console.log(props);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
   const [selectedAction, setSelectedAction] = useState(null);
   const [priceBookList, setPriceBookList] = useState([]);
@@ -196,7 +197,7 @@ function PriceBookList(props) {
   ];
 
   const priceBookData = async () => {
-    const result = await getDealerPriceBookByDealerId(props.id);
+    const result = props.flag==='reseller'?await getPriceBookListByResellerId(props.id):await getDealerPriceBookByDealerId(props.id) ;
     setPriceBookList(result.result);
     console.log(result.result);
   };
@@ -247,7 +248,14 @@ function PriceBookList(props) {
   }, []);
 
   const filterDealerPriceBook = async (values) => {
-    values.dealerId = props.id;
+    if( props.flag==='reseller'){
+      values.dealerId = props.dealerId;
+
+    }
+    else{
+      values.dealerId = props.id;
+
+    }
     try {
       setLoading(true);
       const res = await getFilterPriceBookByDealer(values);

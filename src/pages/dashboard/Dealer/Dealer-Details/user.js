@@ -27,6 +27,7 @@ import Select from "../../../../common/select";
 import { getCustomerUsersById } from "../../../../services/customerServices";
 import { useMyContext } from "../../../../context/context";
 import { getServicerUsersById } from "../../../../services/servicerServices";
+import { getResellerUsersById } from "../../../../services/reSellerServices";
 
 function UserList(props) {
   const { toggleFlag } = useMyContext();
@@ -66,7 +67,14 @@ function UserList(props) {
       console.log(result);
       setServiceStatus(result.servicerStatus);
       setUserList(result.result);
-    } else {
+    }
+    else if (props.flag == "reseller") {
+      const result = await getResellerUsersById(props.id, {});
+      console.log(result);
+      // setServiceStatus(result.servicerStatus);
+      setUserList(result.data);
+    } 
+     else {
       const result = await getUserListByDealerId(props.id, {});
       console.log(result.result);
       setServiceStatus(result.dealerStatus);
@@ -254,7 +262,7 @@ function UserList(props) {
   const editUser = async (id) => {
     console.log(id);
     const result = await userDetailsById(id);
-    console.log(result.result);
+    console.log(result.result.status);
     SetIsprimary(result.result.isPrimary);
     setMainStatus(result.mainStatus);
     setInitialFormValues({

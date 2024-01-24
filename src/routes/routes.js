@@ -169,6 +169,7 @@ const routes = [
         path: "/addDealerBook/:dealerIdValue?",
         element: <PrivateRoute element={<AddDealerBook />} />,
       },
+      
       {
         path: "/editDealerBook/:id/:dealerIdValue?",
         element: <PrivateRoute element={<AddDealerBook />} />,
