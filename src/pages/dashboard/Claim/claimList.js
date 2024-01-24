@@ -27,7 +27,15 @@ import Modal from '../../../common/model';
 function ClaimList() {
   const [selectedValue, setSelectedValue] = useState('');
   const [isViewOpen, setIsViewOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
+  const closeEdit = () => {
+    setIsEditOpen(false);
+  };
+
+  const openEdit = () => {
+    setIsEditOpen(true);
+  };
   const closeView = () => {
     setIsViewOpen(false);
   };
@@ -43,6 +51,11 @@ function ClaimList() {
     { label: 'City', value: 'city' },
     { label: 'Option 2', value: 'option2' },
     { label: 'Option 3', value: 'option3' },
+  ];
+
+  const CoverageStartDate = [
+    { label: "11/09/2026", value: true },
+    { label: "12/09/2026", value: false },
   ];
 
   return (
@@ -146,7 +159,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2' onClick={()=>openView()} alt='chat' />
-                  <Link to={'/editClaim'}> <img src={Edit} className=' mr-2' alt='edit' /> </Link>
+                 <img src={Edit} className=' mr-2' onClick={()=>openEdit()} alt='edit' /> 
                   <div className='absolute -top-3.5 right-0'>
                     <img src={Add} alt="Delete" />
                   </div>
@@ -774,6 +787,100 @@ function ClaimList() {
                 <div className=''></div>
               </Grid>
             
+            </div>
+          </Modal>
+
+          <Modal  isOpen={isEditOpen} onClose={closeEdit}>
+          <Button onClick={closeEdit} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+            </Button>
+            <div className='py-3'>
+            <form className="mt-8 mr-4">
+                  <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1]  rounded-3xl">
+                    <p className='pb-5 text-lg font-semibold'>Repair Parts</p>
+                    <Grid className='mb-5'>
+                      <div className='col-span-3'>
+                      <Select
+                        name="ServiceType"
+                        label="Service Type"
+                        options={CoverageStartDate}
+                        required={true}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+                      </div>
+                      <div className='col-span-5'>
+                        <Input type='text' 
+                         name="description"
+                        className="!bg-[#fff]"
+                        label="Description"
+                        placeholder="" />
+                      </div>
+                      <div className='col-span-3'>
+                        <Input type='number' 
+                         name="price"
+                        className="!bg-[#fff]"
+                        label="Price ($)"
+                        placeholder="" />
+                      </div>
+                      <div className='col-span-1 self-center flex justify-center'>
+                       <Button>+</Button>
+                      </div>
+                    </Grid>
+                    <hr className='my-4'/>
+                    <Grid className='mb-5'>
+                      <div className='col-span-3'>
+                      <Select
+                        name="ServiceType"
+                        label="Service Type"
+                        options={CoverageStartDate}
+                        required={true}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+                      </div>
+                      <div className='col-span-5'>
+                        <Input type='text' 
+                         name="description"
+                        className="!bg-[#fff]"
+                        label="Description"
+                        placeholder="" />
+                      </div>
+                      <div className='col-span-3'>
+                        <Input type='number' 
+                         name="price"
+                        className="!bg-[#fff]"
+                        label="Price ($)"
+                        placeholder="" />
+                      </div>
+                      <div className='col-span-1 self-center  flex justify-center'>
+                       <Button><b>-</b></Button>
+                      </div>
+                    </Grid>
+
+                   
+                  </div>
+                  <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+                  <div className="relative">
+                      <label
+                        htmlFor="description"
+                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Note
+                      </label>
+                      <textarea
+                        id="note"
+                        rows="4"
+                        name="Note"
+                        maxLength={150}
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
+                      ></textarea>
+                    </div>
+                    </div>
+
+                  <div className='mt-8'>
+                    <Button className='!bg-white !text-black' >Cancel</Button>
+                    <Button>Update</Button>
+                    </div>
+                </form>
             </div>
           </Modal>
     </>
