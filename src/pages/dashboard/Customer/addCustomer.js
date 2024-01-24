@@ -51,6 +51,7 @@ function AddCustomer() {
     phoneNumber: "",
     position: "",
     members: [],
+    resellerName:''
   });
 
   const openModal = () => {
@@ -110,6 +111,9 @@ console.log(data.result)
   useEffect(() => {
     getDealerListData();
   }, []);
+  useEffect(()=>{
+getResellerListByDealerId(dealerValueId)
+  },[dealerValueId])
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -408,7 +412,6 @@ console.log(data.result)
               placeholder=""
               required={true}
               onChange={handleSelectChange}
-              disabled={dealerValueId != undefined ? true : false}
               options={resellerList}
               value={formik.values.resellerName}
               onBlur={formik.handleBlur}

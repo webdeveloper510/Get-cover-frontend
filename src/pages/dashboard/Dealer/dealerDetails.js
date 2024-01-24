@@ -473,7 +473,10 @@ function DealerDetails() {
       case "Servicer":
         modalOpen1();
         break;
-
+        case "Reseller":
+          localStorage.setItem("menu", "Reseller");
+          navigate(`/addReseller/${id.id}`);
+          break;
       default:
         console.log("Invalid data, no navigation");
     }

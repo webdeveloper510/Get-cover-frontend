@@ -72,8 +72,6 @@ function AddServicer() {
     }
 
     setLoading(false);
-
-    // Cleanup function
     return () => {
       clearInterval(intervalId);
     };
@@ -276,8 +274,6 @@ function AddServicer() {
           );
           emailValues.push(result);
         }
-
-        // console.log(emailValues);
         if (emailValues.some((value) => value === false)) {
           setLoading(false);
           return;
