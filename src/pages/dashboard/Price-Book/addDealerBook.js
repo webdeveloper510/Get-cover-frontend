@@ -508,7 +508,7 @@ function AddDealerBook() {
                         label="Price Type"
                         required={true}
                         placeholder=""
-                        value={formik.values.priceType}
+                        value={formik.values.term}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         disabled={true}
