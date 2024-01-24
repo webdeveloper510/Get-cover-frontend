@@ -282,7 +282,7 @@ function AddOrder() {
             .required("Required")
             .nullable(),
 
-          coverageStartDate: Yup.date().required("Date is required")
+          // coverageStartDate: Yup.date().required("Date is required")
         })
       ),
     }),
@@ -1435,17 +1435,17 @@ function AddOrder() {
                   <p className='text-[12px]'>Dealer Name</p>
                   <p className='font-bold text-sm'>{dealerName}</p>
                 </div>
-                <div className='col-span-3 py-4 border-r'>
-                  <p className='text-[12px]'>Servicer Name</p>
-                  <p className='font-bold text-sm'>{servicerName}</p>
+                <div className='col-span-3 py-4'>
+                  <p className='text-[12px]'>Reseller Name</p>
+                  <p className='font-bold text-sm'>{resellerName}</p>
                 </div>
                 <div className='col-span-3 py-4 border-r'>
                   <p className='text-[12px]'>Customer Name</p>
                   <p className='font-bold text-sm'>{customerName}</p>
                 </div>
-                <div className='col-span-3 py-4'>
-                  <p className='text-[12px]'>Reseller Name</p>
-                  <p className='font-bold text-sm'>{resellerName}</p>
+                <div className='col-span-3 py-4 border-r'>
+                  <p className='text-[12px]'>Servicer Name</p>
+                  <p className='font-bold text-sm'>{servicerName}</p>
                 </div>
               </Grid>
             </div>
