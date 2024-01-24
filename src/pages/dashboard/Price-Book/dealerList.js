@@ -302,7 +302,6 @@ function DealerPriceList() {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        // Close the dropdown if the click is outside of it
         setSelectedAction(null);
       }
     };
@@ -310,7 +309,6 @@ function DealerPriceList() {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
@@ -467,7 +465,7 @@ function DealerPriceList() {
             <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
               <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
             </Button>
-            <Button onClick={() => { navigte(`/editCompanyPriceBook/`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+            <Button onClick={() => { navigte(`/editDealerBook/${dealerPriceBookDetail._id}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
               <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
             </Button>
             <div className="py-3">
