@@ -31,6 +31,7 @@ function AddReseller() {
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [dealerList, setDealerList] = useState([]);
+  const [createServicerAccountOption, setServicerCreateAccountOption] = useState(false);
   const navigate = useNavigate();
   const { dealerValueId } = useParams();
    console.log(dealerValueId);
@@ -49,6 +50,7 @@ function AddReseller() {
     phoneNumber: "",
     position: "",
     members: [],
+    isServicer:createServicerAccountOption
   });
 
   const openModal = () => {
@@ -58,6 +60,11 @@ function AddReseller() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const handleServiceChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+     setServicerCreateAccountOption(valueAsBoolean)
+  }
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
   const handleRadioChangeDealers = (value, index) => {
@@ -267,6 +274,7 @@ function AddReseller() {
         position: values.position,
         status: formik.values.status,
       };
+      values.isServicer=createServicerAccountOption
 
       const newValues = {
         ...values,
@@ -653,28 +661,28 @@ function AddReseller() {
                   </p>
                 </div>
                 <div className="col-span-12 self-center mt-5">
-                  <p className="text-light-black flex text-sm  font-semibold self-center">
+                <p className="text-light-black flex text-[12px]  font-semibold self-center">
                     {" "}
                     Do you want work as a servicer ?
                     <RadioButton
                       id="yes"
                       label="Yes"
-                      value="yes"
-                      checked={createAccountOption === "yes"}
-                      onChange={handleRadioChange}
+                      value={true}
+                      checked={createServicerAccountOption === true}
+                      onChange={handleServiceChange}
                     />
                     <RadioButton
                       id="no"
                       label="No"
-                      value="no"
-                      checked={createAccountOption === "no"}
-                      onChange={handleRadioChange}
+                      value={false}
+                      checked={createServicerAccountOption === false}
+                      onChange={handleServiceChange}
                     />
                   </p>
                 </div>
               </Grid>
 
-              <div className="mt-32">
+              <div className="mt-24">
                 <Grid>
                   <div className="col-span-4 self-center">
                     <Button
