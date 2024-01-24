@@ -7,11 +7,14 @@ import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
+import Edit from '../../../../assets/images/Dealer/EditIcon.svg';
+import Cross from "../../../../assets/images/Cross.png";
 import DataTable from "react-data-table-component";
 import {
   editDealerPriceBook,
   getDealerPriceBookByDealerId,
   getFilterPriceBookByDealer,
+  getDealerPricebookDetailById,
 } from "../../../../services/dealerServices";
 import { getCategoryList } from "../../../../services/priceBookService";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +22,7 @@ import { useFormik } from "formik";
 import Select from "../../../../common/select";
 import { RotateLoader } from "react-spinners";
 import * as Yup from "yup";
+import Modal from "../../../../common/model";
 function PriceBookList(props) {
   console.log(props.id);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
@@ -26,6 +30,7 @@ function PriceBookList(props) {
   const [priceBookList, setPriceBookList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [dealerPriceBookDetail, setDealerPriceBookDetail] = useState({});
   const [error, setError] = useState("");
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -169,12 +174,18 @@ function PriceBookList(props) {
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
-                  className="text-center py-3"
+                  className="text-center py-3 border-b cursor-pointer"
                   onClick={() => {
                     routeToEditPage(row);
                   }}
                 >
                   Edit
+                </div>
+                <div 
+                  className="text-center py-3 cursor-pointer"
+                  onClick={() => openView(row._id)}
+                >
+                  View
                 </div>
               </div>
             )}
@@ -205,6 +216,19 @@ function PriceBookList(props) {
     }
   };
 
+  const [isViewOpen, setIsViewOpen] = useState(false);
+
+  const closeView = () => {
+    setIsViewOpen(false);
+  };
+
+  const openView = async (id) => {
+    const result = await getDealerPricebookDetailById(id);
+    setDealerPriceBookDetail(result.result[0])
+    console.log(result)
+    setIsViewOpen(true);
+  };
+  const navigte = useNavigate();
   useEffect(() => {
     priceBookData();
     getCategoryListData();
@@ -369,6 +393,90 @@ function PriceBookList(props) {
           </div>
         </div>
       </div>
+
+      <Modal isOpen={isViewOpen} onClose={closeView}>
+            <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+            </Button>
+            <Button onClick={() => { navigte(`/editCompanyPriceBook/`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
+            </Button>
+            <div className="py-3">
+              <p className='text-center text-3xl font-semibold '>
+                View {dealerPriceBookDetail?.dealer?.name}/{dealerPriceBookDetail?.priceBooks?.name}
+              </p>
+              <Grid className='mt-5 px-6'>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Product Category</p>
+                  <p className="text-base text-neutral-grey font-semibold">
+                    {dealerPriceBookDetail?.priceBooks?.category[0].name} </p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Wholesale Price($)</p>
+                  <p className="text-base text-neutral-grey font-semibold">${dealerPriceBookDetail?.wholesalePrice?.toFixed(2)}</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Retail Price ($)</p>
+                  <p className="text-base text-neutral-grey font-semibold">${dealerPriceBookDetail?.retailPrice?.toFixed(2)}</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Term</p>
+                  <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.term} Months</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Status</p>
+                  <p className="text-base text-neutral-grey font-semibold"> {dealerPriceBookDetail?.priceBooks?.status === true ?'Active' :'UnActive'}</p>
+                </div>
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Price Type</p>
+                  <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.priceType}</p>
+                </div>
+                <div className='col-span-6'>
+                  <p className="text-lg text-light-black font-semibold">Description</p>
+                  <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.category[0].description}</p>
+                </div>
+                {
+                  dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
+                    <>
+                      <div className='col-span-4'> 
+                        <p className="text-lg text-light-black font-semibold">Range Start</p>
+                        <p className="text-base text-neutral-grey font-semibold"> {dealerPriceBookDetail?.priceBooks?.rangeStart?.toFixed(2)}</p>
+                      </div>
+                      <div className='col-span-4'>
+                        <p className="text-lg text-light-black font-semibold">Range End</p>
+                        <p className="text-base text-neutral-grey font-semibold"> {dealerPriceBookDetail?.priceBooks?.rangeEnd?.toFixed(2)}</p>
+                      </div></>
+                  )
+                }
+                {
+                  dealerPriceBookDetail?.priceBooks?.priceType == "Quantity Pricing" && (
+                    <>
+                      <div className='col-span-12'>
+                        <table className="w-full border text-center">
+                          <tr className="border bg-[#9999]">
+                            <th colSpan={'2'}>Quantity Pricing List </th>
+                          </tr>
+                          <tr className="border bg-[#9999]">
+                            <th>Name</th>
+                            <th>Max Quantity</th>
+                          </tr>
+                          {
+                            dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.length !== 0 &&
+                            dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map((item, index) => (
+                              <tr key={index} className="border">
+                                <td>{item.name}</td>
+                                <td>{item.quantity}</td>
+                              </tr>
+                            ))
+                          }
+                        </table>
+                      </div>
+                    </>
+                  )
+                }
+              </Grid>
+            </div>
+          </Modal>
     </>
   );
 }

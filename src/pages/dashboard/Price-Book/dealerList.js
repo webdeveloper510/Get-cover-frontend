@@ -11,10 +11,10 @@ import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
-import Edit from '../../../assets/images/Dealer/EditIcon.svg';
 import Loader from "../../../assets/images/Loader.gif";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Select from "../../../common/select";
+import Edit from '../../../assets/images/Dealer/EditIcon.svg';
 import Cross from "../../../assets/images/Cross.png";
 import DataTable from "react-data-table-component";
 import {
@@ -246,7 +246,6 @@ function DealerPriceList() {
       minWidth: "auto",
       maxWidth: "80px",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div
@@ -474,36 +473,23 @@ function DealerPriceList() {
                 View {dealerPriceBookDetail?.dealer?.name}/{dealerPriceBookDetail?.priceBooks?.name}
               </p>
               <Grid className='mt-5 px-6'>
-                {/* <div className='col-span-4'>
-                  <p className="text-lg text-light-black font-semibold">Dealer Name</p>
-                  <p className="text-base text-neutral-grey font-semibold"> {dealerPriceBookDetail?.dealer?.name} </p>
-                </div> */}
                 <div className='col-span-4'>
                   <p className="text-lg text-light-black font-semibold">Product Category</p>
                   <p className="text-base text-neutral-grey font-semibold">
                     {dealerPriceBookDetail?.priceBooks?.category[0].name} </p>
                 </div>
-                {/* <div className='col-span-4'>
-                  <p className="text-lg text-light-black font-semibold">Product Name</p>
-                  <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.name} </p>
-                </div> */}
                 <div className='col-span-4'>
                   <p className="text-lg text-light-black font-semibold">Wholesale Price($)</p>
                   <p className="text-base text-neutral-grey font-semibold">${dealerPriceBookDetail?.wholesalePrice?.toFixed(2)}</p>
-                </div>
-                <div className='col-span-6'>
-                  <p className="text-lg text-light-black font-semibold">Description</p>
-                  <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.category[0].description}</p>
-                </div>
-                <div className='col-span-4'>
-                  <p className="text-lg text-light-black font-semibold">Term</p>
-                  <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.term} Months</p>
                 </div>
                 <div className='col-span-4'>
                   <p className="text-lg text-light-black font-semibold">Retail Price ($)</p>
                   <p className="text-base text-neutral-grey font-semibold">${dealerPriceBookDetail?.retailPrice?.toFixed(2)}</p>
                 </div>
-             
+                <div className='col-span-4'>
+                  <p className="text-lg text-light-black font-semibold">Term</p>
+                  <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.term} Months</p>
+                </div>
                 <div className='col-span-4'>
                   <p className="text-lg text-light-black font-semibold">Status</p>
                   <p className="text-base text-neutral-grey font-semibold"> {dealerPriceBookDetail?.priceBooks?.status === true ?'Active' :'UnActive'}</p>
@@ -511,6 +497,10 @@ function DealerPriceList() {
                 <div className='col-span-4'>
                   <p className="text-lg text-light-black font-semibold">Price Type</p>
                   <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.priceType}</p>
+                </div>
+                <div className='col-span-6'>
+                  <p className="text-lg text-light-black font-semibold">Description</p>
+                  <p className="text-base text-neutral-grey font-semibold">{dealerPriceBookDetail?.priceBooks?.category[0].description}</p>
                 </div>
                 {
                   dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
