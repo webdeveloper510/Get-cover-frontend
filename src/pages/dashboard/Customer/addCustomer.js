@@ -22,6 +22,7 @@ import {
 } from "../../../services/dealerServices";
 import { addNewCustomer } from "../../../services/customerServices";
 import Cross from "../../../assets/images/Cross.png";
+import { getResellerListByDealerId } from "../../../services/reSellerServices";
 
 function AddCustomer() {
   const [timer, setTimer] = useState(3);
@@ -31,6 +32,7 @@ function AddCustomer() {
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [dealerList, setDealerList] = useState([]);
+  const [resellerList, setResellerList] = useState([]);
   const navigate = useNavigate();
   const { dealerValueId } = useParams();
   console.log(dealerValueId);
@@ -68,7 +70,28 @@ function AddCustomer() {
 
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
+    if(name==='dealerName'){
+      getCustomerList(value)
+    }
   };
+  const getCustomerList =async(value) =>{
+    console.log(value)
+  
+const data =await getResellerListByDealerId({},value)
+let arr = [];
+    const filteredDealers = data.result.filter(
+      (value) => value.resellerData.status === true
+    );
+    filteredDealers?.map((res) => {
+      console.log(res.name);
+      arr.push({
+        label: res.resellerData.name,
+        value: res.resellerData._id,
+      });
+    });
+    setResellerList(arr)
+console.log(data.result)
+  }
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     setCreateAccountOption(selectedValue);
@@ -386,16 +409,12 @@ function AddCustomer() {
               required={true}
               onChange={handleSelectChange}
               disabled={dealerValueId != undefined ? true : false}
-              options={dealerList}
-              value={formik.values.dealerName}
+              options={resellerList}
+              value={formik.values.resellerName}
               onBlur={formik.handleBlur}
-              error={formik.touched.dealerName && formik.errors.dealerName}
+              error={formik.touched.resellerName && formik.errors.resellerName}
             />
-            {formik.touched.dealerName && formik.errors.dealerName && (
-              <div className="text-red-500 text-sm pl-2 pt-2">
-                {formik.errors.dealerName}
-              </div>
-            )}
+    
           </div>
         </Grid>
         <div className="bg-white p-4 drop-shadow-4xl border-[1px] border-[#D1D1D1] rounded-xl">
