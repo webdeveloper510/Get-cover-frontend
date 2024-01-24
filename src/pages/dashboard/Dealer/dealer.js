@@ -914,8 +914,8 @@ function Dealer() {
                       />
                     </p>
                   </div>
-                  <div className="col-span-12 mt-3">
-                    <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  <div className="col-span-12 mt-1">
+                    <p className="text-light-black flex text-[12px] font-semibold mt-2 ">
                       Does this Dealer's Customer will have a separate account?
                       <RadioButton
                         id="yes-separate-account"
@@ -934,6 +934,26 @@ function Dealer() {
                       />
                     </p>
                   </div>
+                  <div className="col-span-12 self-center mt-1">
+                  <p className="text-light-black flex text-[12px]  font-semibold self-center">
+                    {" "}
+                    Do you want work as a servicer ?
+                    <RadioButton
+                      id="yes"
+                      label="Yes"
+                      value="yes"
+                      checked={createAccountOption === "yes"}
+                      onChange={handleRadioChange}
+                    />
+                    <RadioButton
+                      id="no"
+                      label="No"
+                      value="no"
+                      checked={createAccountOption === "no"}
+                      onChange={handleRadioChange}
+                    />
+                  </p>
+                </div>
                 </Grid>
 
                 <div className="mt-14">
