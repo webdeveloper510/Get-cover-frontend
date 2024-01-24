@@ -781,8 +781,10 @@ function ClaimList() {
               <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
             </Button>
             <div className='py-3'>
-            <form className="mt-8 mr-4">
-                  <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1]  rounded-3xl">
+            <p className='text-center text-3xl font-semibold '>
+              Edit Claim</p>
+            <form className="mt-3 mr-4">
+                  <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1]  rounded-3xl">
                     <p className='pb-5 text-lg font-semibold'>Repair Parts</p>
                     <Grid className='mb-5'>
                       <div className='col-span-3'>
@@ -801,16 +803,14 @@ function ClaimList() {
                         label="Description"
                         placeholder="" />
                       </div>
-                      <div className='col-span-3'>
+                      <div className='col-span-4'>
                         <Input type='number' 
                          name="price"
                         className="!bg-[#fff]"
                         label="Price ($)"
                         placeholder="" />
                       </div>
-                      <div className='col-span-1 self-center flex justify-center'>
-                       <Button>+</Button>
-                      </div>
+                    
                     </Grid>
                     <hr className='my-4'/>
                     <Grid className='mb-5'>
@@ -841,7 +841,9 @@ function ClaimList() {
                        <Button><b>-</b></Button>
                       </div>
                     </Grid>
-
+                      <div className='text-right'>
+                    <Button>+ Add More</Button>
+                      </div>
                    
                   </div>
                   <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
@@ -854,7 +856,7 @@ function ClaimList() {
                       </label>
                       <textarea
                         id="note"
-                        rows="4"
+                        rows="3"
                         name="Note"
                         maxLength={150}
                         className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
