@@ -9,15 +9,12 @@ import Modal from "../../common/model";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-// Media imports
 import Logo from "../../assets/images/logo.png";
 import Logi from "../../assets/images/login.png";
 import email from "../../assets/images/approval-image.png";
 
-//importing Json data for state and cities
 import { cityData } from "../../stateCityJson";
 
-//api funcation decaleration
 import {
   authDealerRegister,
   authserviceProviderRegister,
