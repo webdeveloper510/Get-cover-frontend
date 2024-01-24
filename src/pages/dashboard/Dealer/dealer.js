@@ -34,6 +34,7 @@ function Dealer() {
   const [category, setCategoryList] = useState([]);
   const [termList, setTermList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [createServicerAccountOption, setServicerCreateAccountOption] = useState(false);
   const [separateAccountOption, setSeparateAccountOption] = useState("yes");
   const [selectedOption, setSelectedOption] = useState("yes");
   const [loading, setLoading] = useState(false);
@@ -77,6 +78,7 @@ function Dealer() {
     file: "",
     oldName: "",
     oldEmail: "",
+    isServicer:createServicerAccountOption
   });
 
   const navigate = useNavigate();
@@ -145,6 +147,7 @@ function Dealer() {
         ],
         isAccountCreate: false,
         customerAccountCreated: false,
+        isServicer:createServicerAccountOption,
         file: "",
       });
     }
@@ -187,6 +190,7 @@ function Dealer() {
             file: "",
             isAccountCreate: false,
             customerAccountCreated: false,
+            isServicer:createServicerAccountOption
           });
         }
       });
@@ -237,6 +241,10 @@ function Dealer() {
     );
   };
 
+  const handleServiceChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+     setServicerCreateAccountOption(valueAsBoolean)
+  }
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     setCreateAccountOption(selectedValue);
@@ -477,6 +485,15 @@ function Dealer() {
         position: values.position,
         status: true,
       };
+      values.isServicer=createServicerAccountOption
+
+      values.customerAccountCreated =
+        separateAccountOption === "yes" ? true : false;
+      if (createAccountOption === "yes" || createAccountOption === "no") {
+        values.isAccountCreate = createAccountOption === "yes" ? true : false;
+      } else {
+        values.isAccountCreate = createAccountOption;
+      }
 
       const newValues = {
         ...values,
@@ -495,14 +512,6 @@ function Dealer() {
           formData.append(key, value);
         }
       });
-      values.customerAccountCreated =
-        separateAccountOption === "yes" ? true : false;
-      if (createAccountOption === "yes" || createAccountOption === "no") {
-        values.isAccountCreate = createAccountOption === "yes" ? true : false;
-      } else {
-        values.isAccountCreate = createAccountOption;
-      }
-
       if (id !== undefined) {
         formData.append("dealerId", id);
       }
@@ -941,16 +950,16 @@ function Dealer() {
                     <RadioButton
                       id="yes"
                       label="Yes"
-                      value="yes"
-                      checked={createAccountOption === "yes"}
-                      onChange={handleRadioChange}
+                      value={true}
+                      checked={createServicerAccountOption === true}
+                      onChange={handleServiceChange}
                     />
                     <RadioButton
                       id="no"
                       label="No"
-                      value="no"
-                      checked={createAccountOption === "no"}
-                      onChange={handleRadioChange}
+                      value={false}
+                      checked={createServicerAccountOption === false}
+                      onChange={handleServiceChange}
                     />
                   </p>
                 </div>
