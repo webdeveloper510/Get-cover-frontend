@@ -771,8 +771,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-9'>
                   <Input type='text'
-                  className1="!text-[16px] !pt-2 placeholder-opacity-50 !pb-2 placeholder-[#1B1D21] !bg-[white]"
-                  />
+                  className1="!text-[16px] !pt-2 placeholder-opacity-50 !pb-2 placeholder-[#1B1D21] !bg-[white]"/>
                 </div>
                 <div className=''><Button>Submit</Button></div>
               </Grid>

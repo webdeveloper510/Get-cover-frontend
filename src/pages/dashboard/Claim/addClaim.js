@@ -13,6 +13,7 @@ import check from "../../../assets/images/icons/check.svg";
 import Button from '../../../common/button';
 import RadioButton from '../../../common/radio';
 import FileDropdown from '../../../common/fileDropbox';
+import SelectBoxWIthSerach from '../../../common/selectBoxWIthSerach';
 
 function AddClaim() {
     const [selectedValue, setSelectedValue] = useState('');
@@ -50,27 +51,16 @@ function AddClaim() {
     const closeModal = () => {
       setIsModalOpen(false);
     };
-  
-    const handleRadioChange = (event) => {
-      setSelectedOption(event.target.value);
-    };
-    const handleSelectChange1 = (label, value) => {
-      setSelectedCity(value);
-    };
-    
-    const handleSelectChange = (label, value) => {
-      setSelectedValue(value);
-    };
     const country = [
       { label: 'Country', value: 'country' },
       { label: 'Option 2', value: 'option2' },
       { label: 'Option 3', value: 'option3' },
     ];
-    const city = [
-      { label: 'City', value: 'city' },
-      { label: 'Option 2', value: 'option2' },
-      { label: 'Option 3', value: 'option3' },
-    ];
+    const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+  
+  const handleSelect = (selectedOption) => {
+    console.log('Selected Option:', selectedOption);
+  };
 
     const renderStep1 = () => {
       // Step 1 content
@@ -90,6 +80,9 @@ function AddClaim() {
                     />
                   </div>
                 </Grid>
+              </div>
+              <div className='col-span-6'>
+                 <SelectBoxWIthSerach options={options} label='Red' className="!bg-[#fff]" onSelect={handleSelect} />
               </div>
               <div className='col-span-6 self-end justify-end flex'>
                 <Button onClick={nextStep}>Next</Button>
