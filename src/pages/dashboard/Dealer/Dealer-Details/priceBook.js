@@ -411,7 +411,7 @@ function PriceBookList(props) {
             </Button>
             <div className="py-3">
               <p className='text-center text-3xl font-semibold '>
-                View {dealerPriceBookDetail?.dealer?.name}/{dealerPriceBookDetail?.priceBooks?.name}
+                 {dealerPriceBookDetail?.dealer?.name}/{dealerPriceBookDetail?.priceBooks?.name}
               </p>
               <Grid className='mt-5 px-6'>
                 <div className='col-span-4'>
