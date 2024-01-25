@@ -62,7 +62,9 @@ function AddClaim() {
   const handleSelect = (selectedOption) => {
     console.log('Selected Option:', selectedOption);
   };
-
+  const [item, setItem] = useState({
+    requested_order_ship_date: '2024-01-25', 
+  });
     const renderStep1 = () => {
       // Step 1 content
       return (
@@ -86,7 +88,13 @@ function AddClaim() {
                  <SelectBoxWIthSerach options={options} label='Red' className="!bg-[#fff]" onSelect={handleSelect} />
               </div>
               <div className='col-span-6'>
-                 <DateInput  label='Red' className="!bg-[#fff]" />
+              <DateInput
+                name="otherDate"
+                label="Other Date"
+                required 
+                item={item}
+                setItem={setItem}
+                className="!bg-[#fff]" />
               </div>
               <div className='col-span-6 self-end justify-end flex'>
                 <Button onClick={nextStep}>Next</Button>
