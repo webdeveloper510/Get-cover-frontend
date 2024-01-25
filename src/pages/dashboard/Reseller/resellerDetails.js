@@ -48,12 +48,12 @@ import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
 import RadioButton from "../../../common/radio";
 import {
-  addUserByDealerId,
   getUserListByDealerId,
 } from "../../../services/userServices";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
 import { getServicerListForDealer } from "../../../services/servicerServices";
+import { addUserByResellerId, editResellerData, getResellerListByResellerId, getResellerUsersById } from "../../../services/reSellerServices";
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
 function ResellerDetails() {
@@ -62,12 +62,13 @@ function ResellerDetails() {
     return storedTab ? storedTab : "Servicer";
   };
   const id = useParams();
+  console.log(id)
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
-  const [dealerDetails, setDealerDetails] = useState([]);
+  const [resellerDetail, setResllerDetails] = useState([]);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -86,13 +87,13 @@ function ResellerDetails() {
     phoneNumber: "",
     position: "",
     status: "yes",
-    dealerId: id.id,
+    resellerId: id.resellerId,
     isPrimary: false,
   });
   const { flag } = useMyContext();
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
-    dealerId: "",
+    resellerId: id.resellerId,
     street: "",
     city: "",
     zip: "",
@@ -141,7 +142,7 @@ function ResellerDetails() {
     setCreateAccountOption(selectedValue);
   };
   const getUserList = async () => {
-    const result = await getUserListByDealerId(id.id, {});
+    const result = await getResellerUsersById(id.resellerId, {});
     setRefreshUserList(result.result);
   };
   const closeModal1 = () => {
@@ -156,36 +157,52 @@ function ResellerDetails() {
     userValues.resetForm();
   };
   const getServicerList = async () => {
-    const result = await getServicerListForDealer(id.id);
+    const result = await getServicerListForDealer(id.resellerId);
     setServicerList(result.result);
     console.log(result.result);
   };
   useEffect(() => {
-    dealerData();
+    resellerDetails();
     getServicerList();
-  }, [id.id, flag]);
+  }, [id.resellerId, flag]);
   useEffect(() => {
     localStorage.setItem("menu", activeTab);
   }, [activeTab]);
 
-  const dealerData = async () => {
+  const resellerDetails = async () =>{
     setLoading(true);
-    console.log(id);
-    const result = await getDealersDetailsByid(id?.id);
-    setDealerDetails(result.result[0]);
-    console.log(result.result[0].dealerData);
+    const result = await getResellerListByResellerId(id.resellerId)
+    setResllerDetails(result.reseller[0])
     setInitialFormValues({
-      accountName: result?.result[0]?.dealerData?.name,
-      oldName: result?.result[0]?.dealerData?.name,
-      dealerId: id.id,
-      street: result?.result[0]?.dealerData?.street,
-      city: result?.result[0]?.dealerData?.city,
-      zip: result?.result[0]?.dealerData?.zip,
-      state: result?.result[0]?.dealerData?.state,
+      accountName: result?.reseller[0]?.resellerData?.name,
+      oldName: result?.reseller[0]?.resellerData?.name,
+      resellerId: id.resellerId,
+      street: result?.reseller[0]?.resellerData?.street,
+      city: result?.reseller[0]?.resellerData?.city,
+      zip: result?.reseller[0]?.resellerData?.zip,
+      state: result?.reseller[0]?.resellerData?.state,
       country: "USA",
     });
     setLoading(false);
-  };
+  }
+  // const dealerData = async () => {
+  //   setLoading(true);
+  //   console.log(id);
+  //   const result = await getDealersDetailsByid(id?.id);
+  //   setDealerDetails(result.result[0]);
+  //   console.log(result.result[0].dealerData);
+    // setInitialFormValues({
+    //   accountName: result?.result[0]?.dealerData?.name,
+    //   oldName: result?.result[0]?.dealerData?.name,
+    //   dealerId: id.id,
+    //   street: result?.result[0]?.dealerData?.street,
+    //   city: result?.result[0]?.dealerData?.city,
+    //   zip: result?.result[0]?.dealerData?.zip,
+    //   state: result?.result[0]?.dealerData?.state,
+    //   country: "USA",
+    // });
+  //   setLoading(false);
+  // };
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -198,7 +215,7 @@ function ResellerDetails() {
     initialValues: initialFormValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
-      dealerId: Yup.string().required("Required"),
+      resellerId: Yup.string().required("Required"),
       accountName: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required")
@@ -223,13 +240,13 @@ function ResellerDetails() {
     onSubmit: async (values) => {
       console.log(values);
       setLoading(true);
-      const result = await editDealerData(values);
+      const result = await editResellerData(values,id.resellerId);
 
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
         setModalOpen(true);
-        dealerData();
+        // dealerData();
         setIsModalOpen(false);
         setFirstMessage("Edited Successfully");
         setSecondMessage("Dealer edited Successfully");
@@ -258,7 +275,7 @@ function ResellerDetails() {
 
       console.log("Selected Data: ", selectedData);
 
-      const result = await createRelationWithDealer(id.id, {
+      const result = await createRelationWithDealer(id.resellerId, {
         servicers: selectedData,
       });
       console.log(result);
@@ -312,11 +329,11 @@ function ResellerDetails() {
         values.status = true;
       }
       setLoading(true);
-      const result = await addUserByDealerId(values);
+      const result = await addUserByResellerId(values);
       console.log(result.code);
       if (result.code == 200) {
         getUserList();
-        dealerData();
+        // dealerData();
         setModalOpen(true);
         setFirstMessage("New User Added Successfully");
         setSecondMessage("New User Added Successfully");
@@ -426,14 +443,14 @@ function ResellerDetails() {
       label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
-      content: <CustomerList id={id.id} />,
+      content: <CustomerList id={id.resellerId} />,
     },
     {
       id: "Servicer",
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: <ServicerList id={id.id} />,
+      content: <ServicerList id={id.resellerId} />,
     },
    
     {
@@ -441,14 +458,14 @@ function ResellerDetails() {
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: <UserList flag={"dealer"} id={id.id} data={refreshList} />,
+      content: <UserList flag={"reseller"} id={id.resellerId} data={refreshList} />,
     },
     {
       id: "PriceBook",
       label: "PriceBook",
       icons: PriceBook,
       Activeicons: PriceBookActive,
-      content: <PriceBookList id={id.id} />,
+      content: <PriceBookList id={id.resellerId} flag={'reseller'} dealerId={resellerDetail.resellerData?.dealerId} />,
     },
   ];
 
@@ -456,15 +473,15 @@ function ResellerDetails() {
     setActiveTab(tabId);
   };
   const routeToPage = (data) => {
-    console.log(data, id.id);
+    console.log(data, id.resellerId);
     switch (data) {
       case "PriceBook":
         localStorage.setItem("menu", "PriceBook");
-        navigate(`/addDealerBook/${id.id}`);
+        navigate(`/addDealerBook/${id.resellerId}`);
         break;
       case "Customer":
         localStorage.setItem("menu", "Customer");
-        navigate(`/addCustomer/${id.id}`);
+        navigate(`/addCustomer/${id.resellerId}`);
         break;
       case "Users":
         openUserModal();
@@ -492,7 +509,7 @@ function ResellerDetails() {
         <div className="flex">
           <div onClick={() => localStorage.removeItem("menu")}>
             <Link
-              to={"/dealerList"}
+              to={"/resellerList"}
               className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
             >
               <img
@@ -530,7 +547,7 @@ function ResellerDetails() {
                     Account Name
                   </p>
                   <p className="text-xl text-white font-semibold">
-                    {dealerDetails?.dealerData?.name}
+                    {resellerDetail?.resellerData?.name}
                   </p>
                 </div>
                 <div className="col-span-3 text-end">
@@ -553,10 +570,10 @@ function ResellerDetails() {
                     Address
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                    {dealerDetails?.dealerData?.street},{" "}
-                    {dealerDetails?.dealerData?.city},{" "}
-                    {dealerDetails?.dealerData?.state}{" "}
-                    {dealerDetails?.dealerData?.zip}, USA
+                    {resellerDetail?.resellerData?.street},{" "}
+                    {resellerDetail?.resellerData?.city},{" "}
+                    {resellerDetail?.resellerData?.state}{" "}
+                    {resellerDetail?.resellerData?.zip}, USA
                   </p>
                 </div>
               </div>
@@ -575,7 +592,7 @@ function ResellerDetails() {
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular">Name</p>
                   <p className="text-base text-white font-semibold ">
-                    {dealerDetails?.firstName} {dealerDetails?.lastName}
+                    {resellerDetail?.firstName} {resellerDetail?.lastName}
                   </p>
                 </div>
               </div>
@@ -590,7 +607,7 @@ function ResellerDetails() {
                     Email
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    {dealerDetails?.email}
+                    {resellerDetail?.email}
                   </p>
                 </div>
               </div>
@@ -605,7 +622,7 @@ function ResellerDetails() {
                     Phone Number
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    +1 {dealerDetails?.phoneNumber}
+                    +1 {resellerDetail?.phoneNumber}
                   </p>
                 </div>
               </div>

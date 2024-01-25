@@ -166,7 +166,7 @@ function ResellerList() {
                 <div
                   className="text-center cursor-pointer py-1"
                   onClick={() => {
-                    navigate(`/resellerDetails/${row?.resellerData._id}`);
+                    navigate(`/resellerDetails/${row?.accountId}`);
                   }}
                 >
                   View

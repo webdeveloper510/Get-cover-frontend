@@ -97,7 +97,6 @@ function ServicerList(props) {
 
   useEffect(() => {
     if (props.flag) {
-      console.log(props)
       getServicerList();
     }
   }, [props?.flag]);
