@@ -765,15 +765,16 @@ function ClaimList() {
               </div>
               <Grid>
                 <div className='col-span-1'> 
-                  <div>
-                    <img src={upload} alt='upload'/>
+                  <div className='border flex h-full justify-center'>
+                    <img src={upload} className='self-center' alt='upload'/>
                   </div>
                 </div>
                 <div className='col-span-9'>
                   <Input type='text'
+                  className1="!text-[16px] !pt-2 placeholder-opacity-50 !pb-2 placeholder-[#1B1D21] !bg-[white]"
                   />
                 </div>
-                <div className=''></div>
+                <div className=''><Button>Submit</Button></div>
               </Grid>
             
             </div>

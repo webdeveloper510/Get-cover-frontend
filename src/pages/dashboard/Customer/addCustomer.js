@@ -416,7 +416,6 @@ console.log(data.result)
                 label="Reseller Name"
                 name="resellerName"
                 placeholder=""
-                required={true}
                 onChange={handleSelectChange}
                 options={resellerList}
                 value={formik.values.resellerName}
