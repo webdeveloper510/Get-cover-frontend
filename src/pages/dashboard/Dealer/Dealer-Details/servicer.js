@@ -96,10 +96,10 @@ function ServicerList(props) {
   }, []);
 
   useEffect(() => {
-    if (props.flag) {
+   
       getServicerList();
-    }
-  }, [props?.flag]);
+ 
+  }, [props]);
 
   const getServicerList = async () => {
     setLoading(true);

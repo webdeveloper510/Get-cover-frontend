@@ -15,6 +15,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 function CustomerList(props) {
+  console.log(props)
   const [selectedAction, setSelectedAction] = useState(null);
   const [customerList, setCustomerList] = useState([]);
   const dropdownRef = useRef(null);
@@ -68,7 +69,6 @@ function CustomerList(props) {
       minWidth: "auto", // Set a custom minimum width
       maxWidth: "70px", // Set a custom maximum width
       cell: (row, index) => {
-        console.log(row);
         return (
           <div className="relative">
             <div
@@ -123,8 +123,11 @@ function CustomerList(props) {
     setCustomerList(result.result);
     console.log(result.result);
   };
-  useEffect(() => {
+  useEffect(()=>{
     getCustomerList();
+    },[props])
+  useEffect(() => {
+    
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSelectedAction(null);

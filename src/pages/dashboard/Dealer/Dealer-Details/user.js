@@ -87,8 +87,11 @@ function UserList(props) {
       setSelectedAction(null);
     }
   };
-  useEffect(() => {
+  useEffect(()=>{
     getUserList();
+  },[props])
+  useEffect(() => {
+ 
 
     document.addEventListener("click", handleClickOutside);
 

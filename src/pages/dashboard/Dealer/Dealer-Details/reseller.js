@@ -123,8 +123,11 @@ function Reseller(props) {
     setResellerList(result.result);
     console.log(result.result);
   };
-  useEffect(() => {
+  useEffect(()=>{
     getResellerList();
+  },[props])
+  useEffect(() => {
+    
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSelectedAction(null);
