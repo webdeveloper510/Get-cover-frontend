@@ -14,6 +14,7 @@ import Button from '../../../common/button';
 import RadioButton from '../../../common/radio';
 import FileDropdown from '../../../common/fileDropbox';
 import SelectBoxWIthSerach from '../../../common/selectBoxWIthSerach';
+import DateInput from '../../../common/dateInput';
 
 function AddClaim() {
     const [selectedValue, setSelectedValue] = useState('');
@@ -83,6 +84,9 @@ function AddClaim() {
               </div>
               <div className='col-span-6'>
                  <SelectBoxWIthSerach options={options} label='Red' className="!bg-[#fff]" onSelect={handleSelect} />
+              </div>
+              <div className='col-span-6'>
+                 <DateInput  label='Red' className="!bg-[#fff]" />
               </div>
               <div className='col-span-6 self-end justify-end flex'>
                 <Button onClick={nextStep}>Next</Button>
