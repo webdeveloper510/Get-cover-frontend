@@ -412,7 +412,7 @@ getResellerListByDealerId(dealerValueId)
                 label="Reseller Name"
                 name="resellerName"
                 placeholder=""
-                required={true}
+                // required={true}
                 onChange={handleSelectChange}
                 options={resellerList}
                 value={formik.values.resellerName}
