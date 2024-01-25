@@ -230,8 +230,11 @@ function PriceBookList(props) {
     setIsViewOpen(true);
   };
   const navigte = useNavigate();
-  useEffect(() => {
+  useEffect(()=>{
     priceBookData();
+  },[props])
+  useEffect(() => {
+    
     getCategoryListData();
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
