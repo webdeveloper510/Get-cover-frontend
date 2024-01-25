@@ -142,7 +142,7 @@ function Sale() {
               
               <div className="col-span-10">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!gap-1">
+                  <Grid className="!gap-1 !grid-cols-11">
                     {tabs.map((tab) => (
                       <div className={tab.className} key={tab.id}>
                         <Button

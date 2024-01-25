@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Grid from '../../../../common/grid'
 import Request from '../../../../assets/images/icons/requestServices.svg'
 import Complete from '../../../../assets/images/icons/completeClaim.svg'
@@ -13,6 +13,15 @@ import ChartComponent from '../../../../common/chart'
 import BarChart from '../../../../common/barChart'
 
 function All() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
+
+  const toggleDropdown1 = () => {
+    setIsDropdownOpen1(!isDropdownOpen1);
+  };
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
     const time = [
         { label: "march 2024", value: true },
         { label: "Inactive", value: false },
@@ -52,12 +61,23 @@ function All() {
                 <div className='col-span-3 self-center'>
                   
                      <div className='col-span-2'>
-                    <div className='flex border border-white px-2 py-1 h-full rounded-xl justify-between'>
-                       <p className='self-center text-[13px]'>
-                       Period
-                       </p>
-                       <img src={drop} className='w-4 h-4 self-center justify-end' alt='drop'/>
-                    </div>
+                     <div className='flex border border-white px-2 py-1 h-full rounded-xl justify-between relative'>
+                            <div className='flex justify-between w-full cursor-pointer' onClick={toggleDropdown1}>
+                            <p className='self-center text-[13px]'>
+                        Period
+                        </p>
+                        <img src={drop} className='w-4 h-4 self-center justify-end' alt='drop'/>
+                            </div>  
+                            {isDropdownOpen1 && (
+                            <div className='absolute top-8 w-full text-center '>
+                                <div className='bg-[#fff] text-light-black border rounded-xl py-2 px-4'>
+                                    <p className='font-semibold border-b'>Period</p>
+                                    <p className='border-b'>Days</p>
+                                    <p>Monthly</p>
+                                </div>
+                            </div>
+                            )}
+                        </div>
                     </div>
                     </div>
                     
@@ -77,12 +97,23 @@ function All() {
                 <div className='col-span-3 self-center'>
                   
                      <div className='col-span-2'>
-                    <div className='flex border border-white px-2 py-1 h-full rounded-xl justify-between'>
-                       <p className='self-center text-[13px]'>
-                       Period
-                       </p>
-                       <img src={drop} className='w-4 h-4 self-center justify-end' alt='drop'/>
-                    </div>
+                     <div className='flex border border-white px-2 py-1 h-full rounded-xl justify-between relative'>
+                            <div className='flex justify-between w-full cursor-pointer' onClick={toggleDropdown}>
+                            <p className='self-center text-[13px]'>
+                        Period
+                        </p>
+                        <img src={drop} className='w-4 h-4 self-center justify-end' alt='drop'/>
+                            </div>  
+                            {isDropdownOpen && (
+                            <div className='absolute top-8 w-full text-center '>
+                                <div className='bg-[#fff] text-light-black border rounded-xl py-2 px-4'>
+                                    <p className='font-semibold border-b'>Period</p>
+                                    <p className='border-b'>Days</p>
+                                    <p>Monthly</p>
+                                </div>
+                            </div>
+                            )}
+                        </div>
                     </div>
                     </div>
                     

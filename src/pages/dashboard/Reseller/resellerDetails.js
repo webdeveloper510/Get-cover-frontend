@@ -6,6 +6,7 @@ import Button from "../../../common/button";
 
 // Media Import
 import BackImage from "../../../assets/images/icons/backArrow.svg";
+import DealerList from "../../../assets/images/icons/dealerList.svg";
 import address from "../../../assets/images/Dealer/Address.svg";
 import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
@@ -47,6 +48,7 @@ import { cityData } from "../../../stateCityJson";
 import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
 import RadioButton from "../../../common/radio";
+import DealerIcons from "../../../assets/images/icons/DealerIcons.svg";
 import {
   getUserListByDealerId,
 } from "../../../services/userServices";
@@ -582,6 +584,32 @@ function ResellerDetails() {
                   PRIMARY CONTACT DETAILS
                 </p>
                 <hr className="self-center border-[#999999] w-[50%]" />
+              </div>
+              <div className="flex mb-4">
+                <div className="relative">
+                  <img
+                    src={DealerIcons}
+                    className="mr-3 bg-[#383838] rounded-[14px]"
+                    alt="DealerIcons"
+                  />
+                  <Link to={`/dealerDetails/${resellerDetail?.resellerData?.dealerId}`}>
+                    {" "}
+                    <img
+                      src={DealerList}
+                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                      alt="DealerList"
+                    />{" "}
+                  </Link>
+                </div>
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular">
+                    Dealer Name
+                  </p>
+                  <p className="text-base text-white font-semibold ">
+                    {resellerDetail?.resellerData?.dealerName}
+                  </p>
+                </div>
+                
               </div>
               <div className="flex mb-4">
                 <img
