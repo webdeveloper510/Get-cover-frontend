@@ -55,6 +55,7 @@ function AddDealerBook() {
     );
     formik.setFieldValue("priceBook", result?.result[0]?.priceBook);
     formik.setFieldValue("description", result?.result[0]?.description);
+    formik.setFieldValue("priceType", result?.result[0]?.priceType);
     formik.setFieldValue("term", result?.result[0]?.term);
     formik.setFieldValue("brokerFee", result?.result[0]?.brokerFee);
     formik.setFieldValue("wholesalePrice", result?.result[0]?.wholesalePrice);
@@ -144,6 +145,7 @@ function AddDealerBook() {
       });
       const response = await getProductListbyProductCategoryId(value);
       setProductNameOptions(() => {
+        console.log(response.result)
         return response.result.priceBooks.map((item) => ({
           label: item.name,
           value: item._id,
@@ -155,6 +157,7 @@ function AddDealerBook() {
             item.reinsuranceFee +
             item.adminFee,
           status: item.status,
+          priceType:item.priceType
         }));
       });
     }
@@ -167,6 +170,11 @@ function AddDealerBook() {
         "wholesalePrice",
         selectedProduct.wholesalePrice.toFixed(2)
       );
+      formik.setFieldValue(
+        "priceType",
+        selectedProduct.priceType
+      );
+      console.log(selectedProduct.priceType)
       formik.setFieldValue("description", selectedProduct.description);
       formik.setFieldValue("term", selectedProduct.term + " Months");
     }
@@ -185,6 +193,8 @@ function AddDealerBook() {
       wholesalePrice: "",
       term: "",
       brokerFee: "",
+      priceType:""
+      
     },
     validationSchema: Yup.object({
       retailPrice: Yup.number()
@@ -350,7 +360,7 @@ function AddDealerBook() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-8">
+                <div className="col-span-4">
                   <div className="flex">
                     <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
                       <img src={product} className="w-6 h-6" alt="product" />
@@ -363,8 +373,26 @@ function AddDealerBook() {
                         {priceBookById?.priceBooks?.description}
                       </p>
                     </div>
+                 
                   </div>
+
                 </div>
+                <div className="col-span-4">
+                 <div className="flex">
+                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                      <img src={product} className="w-6 h-6" alt="product" />
+                    </div>
+                  <div className="self-center">
+                      <p className="text-[#FFF] text-lg font-medium leading-5	">
+                        Price Type
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	font-medium">
+                        {priceBookById?.priceBooks?.priceType}
+                      </p>
+                    </div>
+                    </div>
+                </div>
+            
               </Grid>
             </div>
           )}
@@ -508,7 +536,7 @@ function AddDealerBook() {
                         label="Price Type"
                         required={true}
                         placeholder=""
-                        value={formik.values.term}
+                        value={formik.values.priceType}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         disabled={true}
