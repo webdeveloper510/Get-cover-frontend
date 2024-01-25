@@ -546,9 +546,9 @@ function CustomerDetails() {
           </div>
           <div className="col-span-3">
             <Grid className="!mt-5">
-              <div className="col-span-10">
+              <div className="col-span-6">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-7 !gap-1">
+                  <Grid className="!grid-cols-4 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
@@ -579,6 +579,7 @@ function CustomerDetails() {
                   </Grid>
                 </div>
               </div>
+              <div className="col-span-4"></div>
               <div className="col-span-2">
                 <Button
                   className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
