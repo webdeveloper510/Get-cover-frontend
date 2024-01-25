@@ -77,8 +77,10 @@ function AddCustomer() {
   };
   const getCustomerList =async(value) =>{
     console.log(value)
-  
-const data =await getResellerListByDealerId({},value)
+    getResellerList(value)
+  }
+  const getResellerList = async(value) =>{
+    const data =await getResellerListByDealerId({},value)
 let arr = [];
     const filteredDealers = data.result.filter(
       (value) => value.resellerData.status === true
@@ -112,7 +114,7 @@ console.log(data.result)
     getDealerListData();
   }, []);
   useEffect(()=>{
-getResellerListByDealerId(dealerValueId)
+    getResellerList(dealerValueId)
   },[dealerValueId])
   useEffect(() => {
     setLoading(true);
@@ -335,7 +337,9 @@ getResellerListByDealerId(dealerValueId)
   };
   const getDealerListData = async () => {
     if (dealerValueId !== undefined) {
+      getResellerList(dealerValueId)
       formik.setFieldValue("dealerName", dealerValueId);
+      
     }
     const result = await getDealersList();
     console.log(result.data);
