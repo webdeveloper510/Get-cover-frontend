@@ -90,7 +90,7 @@ function AddClaim() {
               <div className='col-span-6'>
               <DateInput
                 name="otherDate"
-                label="Other Date"
+                label="Select Date"
                 required 
                 item={item}
                 setItem={setItem}

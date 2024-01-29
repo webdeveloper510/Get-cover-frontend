@@ -21,7 +21,7 @@ const DateInput = ({ name, label, required, className1, error, disabled, classNa
     <div className="relative">
       <label
         htmlFor={name}
-        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 zIndex-1 scale-75 ${className}`}
+        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 z-10 scale-75 ${className}`}
       >
         {label} {required && <span className="text-red-500">*</span>}
       </label>
