@@ -726,22 +726,18 @@ function ResellerDetails() {
                   </Grid>
                 </div>
               </div>
-              <div
-                className="col-span-2"
-                onClick={() => routeToPage(activeTab)}
-              >
-                <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-                  {" "}
-                  <img
-                    src={AddItem}
-                    className="self-center"
-                    alt="AddItem"
-                  />{" "}
-                  <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
-                    Add {activeTab}
-                  </span>{" "}
-                </Button>
-              </div>
+              {activeTab !== 'Users' && activeTab !== 'PriceBook' && activeTab !== 'Customer' ? (
+                  <div className="col-span-2" onClick={() => routeToPage(activeTab)}>
+                    <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                      <img src={AddItem} className="self-center" alt="AddItem" />
+                      <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                        Add {activeTab}
+                      </span>
+                    </Button>
+                  </div>
+                ) : (
+                  <></>
+                )}
             </Grid>
 
             {tabs.map((tab) => (
