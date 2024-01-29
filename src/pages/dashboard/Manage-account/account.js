@@ -47,6 +47,7 @@ function Account() {
             email : 'Super@codenomad.net',
             phoneNumber : '9876543210',
             position : 'Admin',
+            status: 'active'
         },
         {
             id : 2,
@@ -54,6 +55,7 @@ function Account() {
             email : 'Super1@codenomad.net',
             phoneNumber : '9871065432',
             position : 'Admin',
+            status: 'active'
         }
     ]
 
@@ -70,7 +72,7 @@ function Account() {
           minWidth: "220px",
         },
         {
-          name: "Phone No",
+          name: "Phone #",
           selector: (row) => row?.phoneNumber,
           sortable: true,
         },
@@ -79,6 +81,28 @@ function Account() {
           selector: (row) => row.position,
           sortable: true,
         },
+        {
+            name: "Status",
+            selector: (row) => row.status,
+            sortable: true,
+            cell: (row) => (
+              <div className="relative">
+                <div
+                  className={` ${
+                    row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+                  } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+                ></div>
+                <select
+                  value={row.status === true ? "active" : "inactive"}
+                //   onChange={(e) => handleStatusChange(row, e.target.value)}
+                  className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+                >
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
+            ),
+          },
         {
           name: "Action",
           minWidth: "auto",
@@ -101,6 +125,9 @@ function Account() {
                       index
                     )}`}
                   >
+                    <p className='text-center cursor-pointer border-b  pb-2 mb-2' onClick={()=> openUserModal()}>
+                      Edit
+                    </p>
                     <p className='text-center cursor-pointer'>
                       Delete
                     </p>
@@ -180,6 +207,7 @@ function Account() {
                             className='!bg-[#fff]'
                         />
                     </div>
+                    <div className='col-span-4'></div>
                     <div className='col-span-4'>
                         <Input 
                             type='password'
@@ -210,7 +238,7 @@ function Account() {
                 <div className='bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3'>
                     <Button onClick={()=> openUserModal()}> + Add Member</Button>
                 </div>
-                 <p className='text-xl font-semibold mb-3'>User detals</p>
+                 <p className='text-xl font-semibold mb-3'>Other Super admin details</p>
 
                  <DataTable
                 columns={columns}
