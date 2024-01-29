@@ -60,7 +60,7 @@ import { addUserByResellerId, editResellerData, getResellerListByResellerId, get
 
 function ResellerDetails() {
   const getInitialActiveTab = () => {
-    const storedTab = localStorage.getItem("menu");
+    const storedTab = localStorage.getItem("Resellermenu");
     return storedTab ? storedTab : "Servicer";
   };
   const id = useParams();
@@ -168,7 +168,7 @@ function ResellerDetails() {
     getServicerList();
   }, [id.resellerId, flag]);
   useEffect(() => {
-    localStorage.setItem("menu", activeTab);
+    localStorage.setItem("Resellermenu", activeTab);
   }, [activeTab]);
 
   const resellerDetails = async () =>{
