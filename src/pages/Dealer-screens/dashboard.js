@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Headbar from '../../common/headBar'
 import { Link } from 'react-router-dom'
 import Grid from '../../common/grid'
-import ChartComponent from '../../common/chart'
 
-function Dashboard() {
+function DealerDashboard() {
   useEffect(()=>{
     console.log("yes")
   })
@@ -36,43 +35,10 @@ function Dashboard() {
                <p className='text-[#999999] text-sm'>Total Value of Claims</p>
             </div>
           </Grid>
-          <Grid>
-            <div className='col-span-8'></div>
-            <div className='col-span-4'>
-              <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
-                  <p className='text-xl font-bold mb-3'>Sales Per Years</p>
-                  <ChartComponent/>
-                  <Grid className='!gap-1'>
-                <div className='col-span-6'>
-                    <div className='border-2 p-2 rounded-xl border-[#D1D1D1]'>
-                      <div className='flex'>
-                            <div className='bg-[#3D3D3D] mt-2 w-4 h-4 rounded-full'></div>
-                            <div className='ml-1'>
-                                <p className='text-xl font-bold '>$159.00</p>
-                                <p> 2023</p>
-                            </div>
-                      </div>
-                    </div>
-                </div>
-                <div className='col-span-6'>
-                    <div className='border-2 p-2 rounded-xl border-[#D1D1D1]'>
-                      <div className='flex'>
-                            <div className='bg-[#939393] mt-2 w-4 h-4 rounded-full'></div>
-                            <div className='ml-1'>
-                                <p className='text-xl font-bold '>$107.00</p>
-                                <p> 2022</p>
-                            </div>
-                      </div>
-                    </div>
-                </div>
-            </Grid>
-              </div>
-            </div>
-          </Grid>
         </div>
      </div>
     </>
   )
 }
 
-export default Dashboard
+export default DealerDashboard

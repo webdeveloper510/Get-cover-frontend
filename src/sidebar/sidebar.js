@@ -463,7 +463,7 @@ function SideBar() {
     },
     {
       name: "Manage Account",
-      url: "#",
+      url: "/manageAccount",
       image: DashboardImage,
       active: ActiveDashboard,
     },

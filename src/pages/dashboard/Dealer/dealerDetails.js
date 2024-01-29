@@ -656,6 +656,7 @@ function DealerDetails() {
                 className="col-span-12"
                 onClick={() => routeToPage(activeTab)}
               >
+               
                 <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
                   {" "}
                   <img
