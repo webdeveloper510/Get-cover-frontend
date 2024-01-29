@@ -726,7 +726,7 @@ function ResellerDetails() {
                   </Grid>
                 </div>
               </div>
-              {activeTab !== 'Users' && activeTab !== 'PriceBook' && activeTab !== 'Customer' ? (
+              {activeTab !== 'Servicer' && activeTab !== 'PriceBook' ? (
                   <div className="col-span-2" onClick={() => routeToPage(activeTab)}>
                     <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
                       <img src={AddItem} className="self-center" alt="AddItem" />
