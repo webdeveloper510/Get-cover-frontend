@@ -20,95 +20,121 @@ const createHeaders = () => {
 };
 
 export const getOrders = async (data) => {
-    const headers = createHeaders();
-    console.log(headers);
-    try {
-      const response = await axios.post(
-        `${url}/order/getAllOrders`,data,
-        {
-          headers,
-        }
-      );
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(`${url}/order/getAllOrders`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fileValidation = async (data) => {
+  console.log(data);
+  const accessToken = getAccessToken();
+  const headers = {
+    "Content-Type": "multipart/form-data",
   };
 
-  export const fileValidation =async (data) =>{
-    console.log(data)
-    const accessToken = getAccessToken();
-    const headers = {
-      "Content-Type": "multipart/form-data",
-    };
-  
-    if (accessToken) {
-      headers["x-access-token"] = accessToken;
-    }
-    console.log(headers);
-    try {
-      const response = await axios.post(`${url}/order/checkFileValidation`, data, {
+  if (accessToken) {
+    headers["x-access-token"] = accessToken;
+  }
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/order/checkFileValidation`,
+      data,
+      {
         headers,
-      });
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const checkMultipleFileValidation = async (data) => {
+  console.log(data);
+  const accessToken = getAccessToken();
+  const headers = {
+    "Content-Type": "multipart/form-data",
   };
 
-  export const checkMultipleFileValidation =async (data) =>{
-    console.log(data)
-    const accessToken = getAccessToken();
-    const headers = {
-      "Content-Type": "multipart/form-data",
-    };
-  
-    if (accessToken) {
-      headers["x-access-token"] = accessToken;
-    }
-    console.log(headers);
-    try {
-      const response = await axios.post(`${url}/order/checkMultipleFileValidation`, data, {
+  if (accessToken) {
+    headers["x-access-token"] = accessToken;
+  }
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/order/checkMultipleFileValidation`,
+      data,
+      {
         headers,
-      });
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const addOrder = async (data) => {
+  console.log(data);
+  const accessToken = getAccessToken();
+  const headers = {
+    "Content-Type": "multipart/form-data",
   };
-  export const addOrder =async (data) =>{
-    console.log(data)
-    const accessToken = getAccessToken();
-    const headers = {
-      "Content-Type": "multipart/form-data",
-    };
-  
-    if (accessToken) {
-      headers["x-access-token"] = accessToken;
-    }
-    console.log(headers);
-    try {
-      const response = await axios.post(`${url}/order/createOrder`, data, {
+
+  if (accessToken) {
+    headers["x-access-token"] = accessToken;
+  }
+  console.log(headers);
+  try {
+    const response = await axios.post(`${url}/order/createOrder`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getCategoryAndPriceBooks = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/order/getCategoryAndPriceBooks/${id}`,
+      data,
+      {
         headers,
-      });
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
-  export const getCategoryAndPriceBooks =async (id,data) =>{
-    const headers = createHeaders();
-    try {
-      const response = await axios.post(`${url}/order/getCategoryAndPriceBooks/${id}`, data, {
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getServicerListInOrders = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/order/getServicerInOrders`,
+      data,
+      {
         headers,
-      });
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

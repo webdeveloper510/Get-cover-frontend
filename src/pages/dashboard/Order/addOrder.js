@@ -36,6 +36,7 @@ import {
   checkMultipleFileValidation,
   fileValidation,
   getCategoryAndPriceBooks,
+  getServicerListInOrders,
 } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import { getResellerListByDealerId } from "../../../services/reSellerServices";
@@ -107,12 +108,13 @@ function AddOrder() {
     setDealerList(arr);
   };
 
-  const getServicerList = async (id) => {
+  const getServicerList = async (data) => {
     let arr = [];
-    const result = await getServicerListByDealerId(id);
-    const filteredServicers = result.data.filter(
-      (data) => data.servicerData.status === true
-    );
+
+    const result = await getServicerListInOrders(data);
+    console.log(result);
+
+    const filteredServicers = result.result;
     filteredServicers?.map((res) => {
       arr.push({
         label: res.servicerData.name,
@@ -802,7 +804,11 @@ function AddOrder() {
       formik.setFieldValue("customerId", "");
       formik.setFieldValue("resellerId", "");
       formik.setFieldValue("dealerId", value);
-      getServicerList(value);
+      let data = {
+        dealerId: value,
+        resellerId: formik.values.resellerId,
+      };
+      getServicerList(data);
       getCustomerList("dealer", value);
       getResellerList(value);
       getCategoryList(
@@ -816,6 +822,11 @@ function AddOrder() {
     }
     if (name == "resellerId") {
       getCustomerList("reseller", value);
+      let data = {
+        dealerId: formik.values.dealerId,
+        resellerId: value,
+      };
+      getServicerList(data);
     }
   };
   const coverage = [

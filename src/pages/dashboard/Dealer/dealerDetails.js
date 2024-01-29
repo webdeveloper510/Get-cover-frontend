@@ -53,7 +53,10 @@ import {
 } from "../../../services/userServices";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
-import { getServicerListByDealerId, getServicerListForDealer } from "../../../services/servicerServices";
+import {
+  getServicerListByDealerId,
+  getServicerListForDealer,
+} from "../../../services/servicerServices";
 import Reseller from "./Dealer-Details/reseller";
 
 function DealerDetails() {
@@ -161,7 +164,7 @@ function DealerDetails() {
     setServicerList(result.result);
     console.log(result.result);
   };
- 
+
   useEffect(() => {
     dealerData();
     // getServicerListData()
@@ -328,8 +331,6 @@ function DealerDetails() {
         // window.location.reload();
         // setIsModalOpen(false);
       } else {
-        console.log(result);
-        console.log("here");
         if (result.code === 401) {
           console.log("here12");
           setFieldError("email", "Email already in use");
@@ -436,7 +437,7 @@ function DealerDetails() {
       Activeicons: CustomerActive,
       content: <CustomerList id={id.id} />,
     },
-   
+
     {
       id: "Users",
       label: "Users",
@@ -473,10 +474,10 @@ function DealerDetails() {
       case "Servicer":
         modalOpen1();
         break;
-        case "Reseller":
-          localStorage.setItem("menu", "Reseller");
-          navigate(`/addReseller/${id.id}`);
-          break;
+      case "Reseller":
+        localStorage.setItem("menu", "Reseller");
+        navigate(`/addReseller/${id.id}`);
+        break;
       default:
         console.log("Invalid data, no navigation");
     }
@@ -651,7 +652,7 @@ function DealerDetails() {
           </div>
           <div className="col-span-3">
             <Grid className="!mt-5">
-               <div
+              <div
                 className="col-span-12"
                 onClick={() => routeToPage(activeTab)}
               >
@@ -700,7 +701,6 @@ function DealerDetails() {
                   </Grid>
                 </div>
               </div>
-             
             </Grid>
 
             {tabs.map((tab) => (
