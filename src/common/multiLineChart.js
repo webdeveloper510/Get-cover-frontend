@@ -16,8 +16,8 @@ const MultiLineChart = () => {
       {
         label: 'Total Value of Orders1',
         data: [5120, 6242, 7562,11233, 8563, 2000, 8010, 9120, 8242, 8562,8563, 7000, 8010, 7120, 6242, 9000, 8563, 8000, 7010, 8120, 6242, 7562, 8563, 8000, 3010, 8120, 4242, 5562, 8563, 8000, 8010],  
-        backgroundColor: 'white',
-        borderColor: 'rgba(75,192,192,1)',
+        backgroundColor: '#939393',
+        borderColor: '#939393',
         borderWidth: 1,
       },
     ],

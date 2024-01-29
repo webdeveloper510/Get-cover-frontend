@@ -87,6 +87,7 @@ function ClaimList() {
         </Link>
 
         <div className='bg-white my-8 border-[1px] border-[#D1D1D1] rounded-xl'>
+          
           <Grid className='!p-[26px] !pt-[14px] !pb-0'>
             <div className='col-span-2 self-center'>
               <p className='text-xl font-semibold'>Claims List</p>
@@ -137,6 +138,7 @@ function ClaimList() {
               </div>
             </div>
           </Grid>
+
           <div className=' px-3 mt-5'>
 
             <CollapsibleDiv title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
@@ -153,8 +155,8 @@ function ClaimList() {
                   <p className='text-[#A3A3A3]'>Loss Date</p>
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
-                  <img src={chat} className=' mr-2' onClick={()=>openView()} alt='chat' />
-                 <img src={Edit} className=' mr-2' onClick={()=>openEdit()} alt='edit' /> 
+                  <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
+                 <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -324,8 +326,8 @@ function ClaimList() {
                   <p className='text-[#A3A3A3]'>Loss Date</p>
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
-                  <img src={chat} className=' mr-2' onClick={()=>openView()} alt='chat' />
-                 <img src={Edit} className=' mr-2' onClick={()=>openEdit()} alt='edit' /> 
+                  <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
+                 <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -495,8 +497,8 @@ function ClaimList() {
                   <p className='text-[#A3A3A3]'>Loss Date</p>
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
-                  <img src={chat} className=' mr-2' onClick={()=>openView()} alt='chat' />
-                 <img src={Edit} className=' mr-2' onClick={()=>openEdit()} alt='edit' /> 
+                  <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
+                 <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>

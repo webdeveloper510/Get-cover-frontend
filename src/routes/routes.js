@@ -40,6 +40,7 @@ import Sale from "../pages/dashboard/Reporting/sale";
 import OrderDetails from "../pages/dashboard/Order/order-details";
 import Claims from "../pages/dashboard/Reporting/claims";
 import ResellerDetails from "../pages/dashboard/Reseller/resellerDetails";
+import Account from "../pages/dashboard/Manage-account/account";
 
 const routes = [
   {
@@ -300,6 +301,10 @@ const routes = [
       {
         path: "/claims",
         element: <PrivateRoute element={<Claims />} path="/claims" />,
+      },
+      {
+        path: "/manageAccount",
+        element: <PrivateRoute element={<Account />} path="/manageAccount" />,
       },
     ],
   },
