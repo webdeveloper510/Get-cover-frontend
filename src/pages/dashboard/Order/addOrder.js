@@ -22,7 +22,7 @@ import { getCustomerListByDealerId, getCustomerListByDealerIdAndResellerId } fro
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import { getCategoryListActiveData, getTermList } from '../../../services/priceBookService';
 import RadioButton from '../../../common/radio';
-import { addOrder, checkMultipleFileValidation, fileValidation } from '../../../services/orderServices';
+import { addOrder, checkMultipleFileValidation, fileValidation, getCategoryAndPriceBooks } from '../../../services/orderServices';
 import Modal from '../../../common/model';
 import { getResellerListByDealerId } from '../../../services/reSellerServices';
 import Cross from "../../../assets/images/Cross.png";
@@ -126,11 +126,11 @@ function AddOrder() {
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
 
-  const getCustomerList = async (type,id) => {
+  const getCustomerList = async (type, id) => {
     let arr = [];
-    const result = type ==='dealer'? await getCustomerListByDealerId(id, {}): await getCustomerListByDealerIdAndResellerId({
-      dealerId:formik.values.dealerId,
-      resellerId:id,
+    const result = type === 'dealer' ? await getCustomerListByDealerId(id, {}) : await getCustomerListByDealerIdAndResellerId({
+      dealerId: formik.values.dealerId,
+      resellerId: id,
     }, {})
     result?.result?.map((res) => {
       arr.push({
@@ -156,7 +156,7 @@ function AddOrder() {
   };
   useEffect(() => {
     getDealerListData()
-    getProductList()
+    // getProductList()
     getTermListData()
   }, [])
   const renderStep = () => {
@@ -354,7 +354,7 @@ function AddOrder() {
 
     console.log("formData", formData)
     checkMultipleFileValidation(formData).then((res) => {
-
+      console.log(res)
       if (res.code == 200) {
         nextStep();
       }
@@ -371,20 +371,43 @@ function AddOrder() {
   const fileInputRef = useRef([]);
 
   const handleFileSelect = (event, index) => {
+    console.log(index)
     const file = event.target.files[0];
 
     if (file) {
-      fileInputRef.current[index].current.file = file;
-
       setFileValues((prevFileValues) => {
         const newArray = [...prevFileValues];
-        newArray.splice(index, 0, file);
+        if (newArray[index]) {
+          newArray[index] = file;
+        } else {
+          newArray[index] = file;
+        }
+
+        console.log(newArray);
         return newArray;
       });
-      // formikStep3.setFieldValue(`productsArray[${index}].file`, fileValues);
+
+      fileInputRef.current[index].current.file = file;
+
       checkFileError(file, index);
     }
   };
+
+  // const handleFileSelect = (event, index) => {
+  //   const file = event.target.files[0];
+
+  //   if (file) {
+  //     fileInputRef.current[index].current.file = file;
+
+  //     setFileValues((prevFileValues) => {
+  //       const newArray = [...prevFileValues];
+  //       newArray.splice(index, 0, file);
+  //       return newArray;
+  //     });
+  //     // formikStep3.setFieldValue(`productsArray[${index}].file`, fileValues);
+  //     checkFileError(file, index);
+  //   }
+  // };
 
 
   const checkFileError = async (file, index) => {
@@ -425,12 +448,9 @@ function AddOrder() {
             )
             .required('Paid Amount is required'),
           otherwise: (schema) => schema.notRequired(),
-
         }),
-
     }),
     onSubmit: (values) => {
-
       console.log(values);
       const arr = [];
       let arrayOfObjects = formikStep3.values.productsArray.map((res, index) => {
@@ -540,6 +560,10 @@ function AddOrder() {
       rangeStart: '',
       rangeEnd: ""
     };
+    getCategoryList(formik.values.dealerId, {
+      priceBookId: '',
+      priceCatId: ''
+    }, formikStep3.values.productsArray.length)
 
     formikStep3.setFieldValue("productsArray", [...formikStep3.values.productsArray, productsArray]);
   };
@@ -601,36 +625,17 @@ function AddOrder() {
         ""
       );
       if (match) {
-        const response = await getProductListbyProductCategoryId(selectedValue);
         setNumberOfOrders(prevFileValues => {
           const newArray = [...prevFileValues];
           newArray.splice(match[1], 1);
           console.log(newArray);
           return newArray;
         });
+        getCategoryList(formik.values.dealerId, {
+          priceCatId: selectedValue,
+          priceBookId: formikStep3.values.productsArray[match[1]].priceBookId
+        }, match[1])
 
-        setProductNameOptions((prevOptions) => {
-          const newOptions = [...prevOptions];
-          newOptions[match[1]] = {
-            data: response.result.priceBooks.map((item) => ({
-              label: item.name,
-              value: item._id,
-              description: item.description,
-              term: item.term,
-              priceType: item.priceType,
-              quantityPriceDetail: item.quantityPriceDetail,
-              wholesalePrice:
-                item.frontingFee +
-                item.reserveFutureFee +
-                item.reinsuranceFee +
-                item.adminFee,
-              status: item.status,
-              rangeStart: item?.rangeStart?.toFixed(2),
-              rangeEnd: item?.rangeEnd?.toFixed(2)
-            })),
-          };
-          return newOptions;
-        });
       }
     }
     if (name.includes("priceBookId")) {
@@ -638,6 +643,11 @@ function AddOrder() {
       const data = productNameOptions[match[1]].data.find((value) => {
         return value.value === selectedValue;
       });
+      getCategoryList(formik.values.dealerId, {
+        priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
+        priceBookId: selectedValue
+      }, match[1])
+      console.log(formikStep3.values.productsArray[match[1]].categoryId)
       // formikStep3.setFieldValue(
       //   `productsArray[${match[1]}].QuantityPricing`,
       //   data.quantityPriceDetail
@@ -685,7 +695,7 @@ function AddOrder() {
 
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].unitPrice`,
-        data.wholesalePrice.toFixed(2)
+        data.wholesalePrice
       );
       formikStep3.setFieldValue(`productsArray[${match[1]}].term`, data.term);
     }
@@ -727,16 +737,21 @@ function AddOrder() {
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
     if (name == "dealerId") {
+      setProductNameOptions([])
       formik.setFieldValue('servicerId', '');
       formik.setFieldValue('customerId', '');
       formik.setFieldValue('resellerId', '');
       formik.setFieldValue("dealerId", value)
       getServicerList(value);
-      getCustomerList('dealer',value);
+      getCustomerList('dealer', value);
       getResellerList(value)
+      getCategoryList(value, {
+        priceBookId: '',
+        priceCatId: ''
+      }, 0)
     }
-    if(name == "resellerId"){
-      getCustomerList('reseller',value)
+    if (name == "resellerId") {
+      getCustomerList('reseller', value)
     }
   };
   const coverage = [
@@ -749,15 +764,51 @@ function AddOrder() {
     { label: 'Labour', value: 'Labour' },
     { label: 'Parts & Labour', value: 'Parts & Labour' },
   ];
-  const getProductList = async () => {
-    const result = await getCategoryListActiveData();
+  const getCategoryList = async (value, data, index) => {
+    console.log('here', data.priceBookId !== '', data.priceCatId === '')
+    const result = await getCategoryAndPriceBooks(value, data);
+    if (data.priceBookId !== '' && data.priceCatId === '') {
+      formikStep3.setFieldValue(`productsArray[${index}].categoryId`, result.result.selectedCategory._id)
+      getCategoryList(formik.values.dealerId, {
+        priceBookId: data.priceBookId,
+        priceCatId: result.result.selectedCategory._id
+      }, index)
+    }
+    console.log(result.result)
     setCategoryList(
-      result.result.map((item) => ({
+      result.result.priceCategories.map((item) => ({
         label: item.name,
         value: item._id,
       }))
     );
-  };
+    if (formikStep3.values.productsArray.length !== 0) {
+      console.log('formikStep3.values.productsArray.length', formikStep3.values.productsArray.length)
+      for (let i = 0; i < index + 1; i++) {
+        console.log(i, index)
+        setProductNameOptions((prevOptions) => {
+          const newOptions = [...prevOptions];
+          console.log(newOptions)
+
+          newOptions[index] = {
+            data: result.result.priceBooks.map((item) => ({
+              label: item.name,
+              value: item._id,
+              description: result.result.dealerPriceBookDetail.description,
+              term: item.term,
+              priceType: item.priceType,
+              quantityPriceDetail: item.quantityPriceDetail,
+              wholesalePrice: result.result.dealerPriceBookDetail.retailPrice,
+              status: result.result.dealerPriceBookDetail.status,
+              rangeStart: item?.rangeStart?.toFixed(2),
+              rangeEnd: item?.rangeEnd?.toFixed(2)
+            })),
+          };
+          return newOptions;
+        });
+      }
+    }
+
+  }
   const calculatePendingAmount = (paidAmount) => {
     const totalAmount = calculateTotalAmount(formikStep3.values.productsArray);
     const pendingAmount = totalAmount - parseFloat(paidAmount) || 0; // Ensure a valid number
@@ -802,7 +853,7 @@ function AddOrder() {
                     onBlur={formik.handleBlur}
                   />
                 </div>
-                
+
                 <div className='col-span-6'>
                   <Select
                     label="Customer Name"
@@ -1355,7 +1406,7 @@ function AddOrder() {
                           {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
                           <img src={csvFile} className="mr-2" alt="Dropbox" />
                           <div className='flex justify-between w-full'>
-                            <p className='self-center text-sm pr-3'>{fileValues[index].name}</p>
+                            <p className='self-center text-sm pr-3'> {fileValues[index].name}</p>
                             <p className='self-center text-sm'>{(fileValues[index].size / 1000).toFixed(2)} kb</p>
                           </div>
                         </div>
@@ -1506,20 +1557,20 @@ function AddOrder() {
                           </div>
                         </Grid>
                         {
-                       data.priceType == "Flat Pricing" && (
+                          data.priceType == "Flat Pricing" && (
                             <Grid className='border-b px-4'>
-                            <div className='col-span-6 py-4 border-r'>
-                              <p className='text-[12px]'>Start Range</p>
-                              <p className='font-bold text-sm'>{data.rangeStart}</p>
-                            </div>
-                            <div className='col-span-6 py-4'>
-                              <p className='text-[12px]'>End Range</p>
-                              <p className='font-bold text-sm'>{data.rangeEnd}</p>
-                            </div>
-                          </Grid>
+                              <div className='col-span-6 py-4 border-r'>
+                                <p className='text-[12px]'>Start Range</p>
+                                <p className='font-bold text-sm'>{data.rangeStart}</p>
+                              </div>
+                              <div className='col-span-6 py-4'>
+                                <p className='text-[12px]'>End Range</p>
+                                <p className='font-bold text-sm'>{data.rangeEnd}</p>
+                              </div>
+                            </Grid>
                           )
                         }
-                    
+
                         <Grid>
                           {
                             data.priceType == "Quantity Pricing" && (
@@ -1568,8 +1619,11 @@ function AddOrder() {
                         <div className='self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3'>
                           <img src={csvFile} className="mr-2" alt="Dropbox" />
                           <div className='flex justify-between w-full'>
-                            <p className='self-center'>{data?.file?.name}</p>
-                            <p className='self-center'>{(data?.file?.size / 1000)?.toFixed(2)} kb</p>
+                            <p className='self-center'>{data?.file === '' ? 'No File Selected' : data?.file?.name}</p>
+                            <p className='self-center'>
+                              {data?.file === "" ? "" : (data?.file?.size / 1000)?.toFixed(2) + 'kb'}
+                            </p>
+
                           </div>
                         </div>
                       </div>
@@ -1645,6 +1699,7 @@ function AddOrder() {
                               label="Paid Amount"
                               maxLength={10}
                               maxDecimalPlaces={2}
+                              disabled={formik4.values.paymentStatus === 'Paid'}
                               placeholder=""
                               onChange={(e) => {
                                 formik4.handleChange(e);

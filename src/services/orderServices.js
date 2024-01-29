@@ -100,3 +100,15 @@ export const getOrders = async (data) => {
       throw error;
     }
   };
+  export const getCategoryAndPriceBooks =async (id,data) =>{
+    const headers = createHeaders();
+    try {
+      const response = await axios.post(`${url}/order/getCategoryAndPriceBooks/${id}`, data, {
+        headers,
+      });
+  
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
