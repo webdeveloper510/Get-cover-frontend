@@ -1902,7 +1902,7 @@ function AddOrder() {
             })}
           </Grid>
           <form onSubmit={formik4.handleSubmit}>
-            <Grid className="mt-5">
+            <Grid className="mt-5 !gap-1">
               <div className="col-span-3">
                 <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
                   Do you want to sent notifications ?
