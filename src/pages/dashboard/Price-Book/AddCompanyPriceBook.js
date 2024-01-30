@@ -772,7 +772,7 @@ function AddCompanyPriceBook() {
                         minLength={"1"}
                         maxLength={"10"}
                         className="!bg-[#fff] !px-0 w-[180px]"
-                        label="Range Start ($)"
+                        label="Start Range ($)"
                         placeholder=""
                         onChange={formik.handleChange}
                         onBlur={(e) => {
@@ -801,7 +801,7 @@ function AddCompanyPriceBook() {
                         minLength={"1"}
                         maxLength={"10"}
                         className="!bg-[#fff] !px-0 w-[180px]"
-                        label="Range End ($)"
+                        label="End Range ($)"
                         placeholder=""
                         onChange={formik.handleChange}
                         onBlur={(e) => {

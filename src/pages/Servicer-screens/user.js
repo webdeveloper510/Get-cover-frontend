@@ -34,7 +34,7 @@ import { Link } from "react-router-dom";
 import RadioButton from "../../common/radio";
 
 
-function DealerUser(props) {
+function ServicerUser(props) {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
@@ -819,4 +819,4 @@ function DealerUser(props) {
   );
 }
 
-export default DealerUser
+export default ServicerUser
