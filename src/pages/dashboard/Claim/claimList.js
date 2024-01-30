@@ -13,7 +13,7 @@ import serial from '../../../assets/images/icons/ProductSerial.svg';
 import Manufacturer from '../../../assets/images/icons/ProductManufacturer.svg';
 import Edit from '../../../assets/images/icons/editIcon.svg';
 import download from '../../../assets/images/download.png';
-import Add from '../../../assets/images/icons/addIcon.svg';
+import Attachment from '../../../assets/images/attachment.png';
 import chat from '../../../assets/images/icons/chatIcon.svg';
 import DropActive from '../../../assets/images/icons/DropActive.svg';
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
@@ -29,6 +29,7 @@ function ClaimList() {
   const [selectedValue, setSelectedValue] = useState('');
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
 
   const closeEdit = () => {
     setIsEditOpen(false);
@@ -39,6 +40,13 @@ function ClaimList() {
   };
   const closeView = () => {
     setIsViewOpen(false);
+  };
+
+  const openAttachments = () => {
+    setIsAttachmentsOpen(true);
+  };
+  const closeAttachments = () => {
+    setIsAttachmentsOpen(false);
   };
 
   const openView = () => {
@@ -305,7 +313,7 @@ function ClaimList() {
                       </div>
                     </div>
                     <div className='col-span-2 self-center'>
-                      <img src={attach} alt='' />
+                     <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div> 
                     </div>
                   </Grid>
                 </div>
@@ -476,7 +484,7 @@ function ClaimList() {
                       </div>
                     </div>
                     <div className='col-span-2 self-center'>
-                      <img src={attach} alt='' />
+                      <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div> 
                     </div>
                   </Grid>
                 </div>
@@ -647,7 +655,7 @@ function ClaimList() {
                       </div>
                     </div>
                     <div className='col-span-2 self-center'>
-                      <img src={attach} alt='' />
+                      <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div> 
                     </div>
                   </Grid>
                 </div>
@@ -948,6 +956,18 @@ function ClaimList() {
                     <Button>Update</Button>
                     </div>
                 </form>
+            </div>
+          </Modal>
+
+          <Modal  isOpen={isAttachmentsOpen} onClose={closeAttachments}>
+            <Button onClick={closeAttachments} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+                <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+            </Button>
+            <div className='py-1'>
+            <p className='text-center text-3xl font-semibold '>
+              View Attachment</p>
+
+              <img src={Attachment} className='p-4' alt='Attachment' /> 
             </div>
           </Modal>
     </>
