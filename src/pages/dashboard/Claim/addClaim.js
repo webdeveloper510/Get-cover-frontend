@@ -24,6 +24,7 @@ function AddClaim() {
     const [currentStep, setCurrentStep] = useState(1);
 
     console.log(currentStep)
+    
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
   };
@@ -45,19 +46,7 @@ function AddClaim() {
     }
   };
 
-    const openModal = () => {
-      setIsModalOpen(true);
-    };
-  
-    const closeModal = () => {
-      setIsModalOpen(false);
-    };
-    const country = [
-      { label: 'Country', value: 'country' },
-      { label: 'Option 2', value: 'option2' },
-      { label: 'Option 3', value: 'option3' },
-    ];
-    const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+  const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
   
   const handleSelect = (selectedOption) => {
     console.log('Selected Option:', selectedOption);
@@ -83,18 +72,6 @@ function AddClaim() {
                     />
                   </div>
                 </Grid>
-              </div>
-              <div className='col-span-6'>
-                 <SelectBoxWIthSerach options={options} label='Red' className="!bg-[#fff]" onSelect={handleSelect} />
-              </div>
-              <div className='col-span-6'>
-              <DateInput
-                name="otherDate"
-                label="Select Date"
-                required 
-                item={item}
-                setItem={setItem}
-                className="!bg-[#fff]" />
               </div>
               <div className='col-span-6 self-end justify-end flex'>
                 <Button onClick={nextStep}>Next</Button>
@@ -131,14 +108,9 @@ function AddClaim() {
                     />
               </div>
               <div className='col-span-4'>
-              <Select 
-                 label="Servicer Name"
-                 name="servicerName"
-                 placeholder=""
-                 className="!bg-white"
-                 required={true}
-                 options={country}
-                />
+              <SelectBoxWIthSerach options={options}  label="Servicer Name"
+                 name="servicerName" className="!bg-[#fff]" onSelect={handleSelect} />
+             
               </div>
               <div className='col-span-4'>
               <Input 
@@ -195,14 +167,13 @@ function AddClaim() {
                     />
               </div>
               <div className='col-span-4'>
-              <Input 
-                      type="date"
-                     label="Loss Date"
-                     name="lossDate"
-                     placeholder=""
-                     className="!bg-white"
-                     required={true}
-                    />
+              <DateInput
+                label="Loss Date"
+                name="lossDate"
+                required 
+                item={item}
+                setItem={setItem}
+                className="!bg-[#fff]" />
               </div>
               
             </Grid>

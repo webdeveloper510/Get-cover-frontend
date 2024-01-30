@@ -1697,7 +1697,7 @@ function AddOrder() {
               <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
                 Dealer Order Details
               </p>
-              <Grid className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 ">
+              <Grid className="bg-[#F9F9F9] !gap-2 border-[#D1D1D1] border rounded-xl px-2 ">
                 <div className="col-span-4 py-4 border-r">
                   <p className="text-[12px]">Dealer Purchase Order</p>
                   <p className="font-bold text-sm">
