@@ -469,6 +469,139 @@ function SideBar() {
     },
   ];
 
+  const dealer = [
+    {
+      name: "Dashboard",
+      url: "/dealer/dashboard",
+      image: DashboardImage,
+      active: ActiveDashboard,
+    },
+    {
+      name: "Order",
+      image: OrderImage,
+      active: ActiveOrder,
+      items: [
+        {
+          name: "Order List",
+          url: "/dealer/orderList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Order",
+          url: "/dealer/addOrder",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
+      name: "Contract",
+      url: "/dealer/contractList",
+      active: ActiveProduct,
+      image: ProductImage,
+    },
+    {
+      name: "Claim",
+      image: ClaimImage,
+      active: ActiveClaim,
+      items: [
+        {
+          name: "Claim Listing",
+          url: "/dealer/claimList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Claim",
+          url: "/dealer/addClaim",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+        {
+          name: "Add Bulk Claim",
+          url: "/dealer/addBulkClaim",
+          image: Dropdown2,
+          active: ForthActive,
+        },
+      ],
+    },
+    {
+      name: "Reseller",
+      image: DealerImage,
+      active: ActiveDealer,
+      items: [
+        {
+          name: "Reseller List",
+          url: "/resellerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Reseller",
+          url: "/addReseller",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
+      name: "Customer",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      items: [
+        {
+          name: "Customer List",
+          url: "/dealer/customerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Customer",
+          url: "/dealer/addCustomer",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },  
+    {
+      name: "User",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      url: "/dealer/user",
+    },   
+    {
+      name: "Price Book",
+      image: PriceImage,
+      active: ActivePriceBook,
+      url: "/dealer/priceBook",
+    },
+    {
+      name: "Reporting",
+      image: ReportImage,
+      active: ActiveReport,
+      items: [
+        {
+          name: "Sale",
+          url: "/sale",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Claims",
+          url: "/claims",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+        {
+          name: "Accounting",
+          url: "#",
+          image: Dropdown2,
+          active: ForthActive,
+        },
+      ],
+    },
+  ];
   
   return (
     <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
