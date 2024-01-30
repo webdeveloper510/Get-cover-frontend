@@ -834,9 +834,20 @@ function AddOrder() {
       getServicerList(data);
       customerList.length &&
         customerList.forEach((res) => {
-          console.log(res);
-          if (res.value === value && res.customerData.resellerId !== null) {
+          // console.log(
+          //   res.customerData.resellerId !== null,
+          //   res.customerData.resellerId
+          // );
+          if (res.value === value) {
+            if (res.customerData.resellerId != null);
             formik.setFieldValue("resellerId", res.customerData.resellerId);
+            let data = {
+              dealerId: formik.values.dealerId,
+              resellerId: res.customerData.resellerId,
+            };
+            getServicerList(data);
+          } else {
+            formik.setFieldValue("resellerId", "");
           }
         });
     }
