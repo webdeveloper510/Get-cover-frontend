@@ -130,12 +130,12 @@ function ServicerList() {
       minWidth: "150px",
     },
     {
-      name: "Phone No.",
+      name: "Phone #",
       selector: (row) => row.phoneNumber,
       sortable: true,
     },
     {
-      name: "No. of Claims",
+      name: "# of Claims",
       selector: (row) => 0,
       sortable: true,
       minWidth: "150px",
