@@ -41,6 +41,10 @@ import OrderDetails from "../pages/dashboard/Order/order-details";
 import Claims from "../pages/dashboard/Reporting/claims";
 import ResellerDetails from "../pages/dashboard/Reseller/resellerDetails";
 import Account from "../pages/dashboard/Manage-account/account";
+import DealerDashboard from "../pages/Dealer-screens/dashboard";
+import DealerUser from "../pages/Dealer-screens/user";
+import DealerContract from "../pages/Dealer-screens/contract";
+import DealerPriceBook from "../pages/Dealer-screens/priceBook";
 
 const routes = [
   {
@@ -306,6 +310,25 @@ const routes = [
         path: "/manageAccount",
         element: <PrivateRoute element={<Account />} path="/manageAccount" />,
       },
+// Dealer Routs ---------------------------------------------------------------
+
+      {
+        path: "/dealer/dashboard",
+        element: <PrivateRoute element={<DealerDashboard />} path="/dealer/dashboard" />,
+      },
+      {
+        path: "/dealer/user",
+        element: <PrivateRoute element={<DealerUser />} path="/dealer/user" />,
+      },
+      {
+        path: "/dealer/priceBook",
+        element: <PrivateRoute element={<DealerPriceBook />} path="/dealer/priceBook" />,
+      },
+      {
+        path: "/dealer/contract",
+        element: <PrivateRoute element={<DealerContract />} path="/dealer/contract" />,
+      },
+
     ],
   },
 ];
