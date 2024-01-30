@@ -21,10 +21,7 @@ import {
   getProductListbyProductCategoryId,
 } from "../../../services/dealerServices";
 import { getServicerListByDealerId } from "../../../services/servicerServices";
-import {
-  getCustomerListByDealerId,
-  getCustomerListByDealerIdAndResellerId,
-} from "../../../services/customerServices";
+import { getCustomerListByDealerIdAndResellerId } from "../../../services/customerServices";
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import {
   getCategoryListActiveData,
@@ -138,22 +135,16 @@ function AddOrder() {
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
 
-  const getCustomerList = async (type, id) => {
+  const getCustomerList = async (data) => {
     let arr = [];
-    const result =
-      type === "dealer"
-        ? await getCustomerListByDealerId(id, {})
-        : await getCustomerListByDealerIdAndResellerId(
-            {
-              dealerId: formik.values.dealerId,
-              resellerId: id,
-            },
-            {}
-          );
+    const result = await getCustomerListByDealerIdAndResellerId(data);
+    console.log(result);
     result?.result?.map((res) => {
+      console.log(res);
       arr.push({
-        label: res?.customerData?.username,
-        value: res?.customerData?._id,
+        label: res?.username,
+        value: res?._id,
+        customerData: res,
       });
     });
     setCustomerList(arr);
@@ -809,7 +800,10 @@ function AddOrder() {
         resellerId: formik.values.resellerId,
       };
       getServicerList(data);
-      getCustomerList("dealer", value);
+      getCustomerList({
+        dealerId: value,
+        resellerId: formik.values.resellerId,
+      });
       getResellerList(value);
       getCategoryList(
         value,
@@ -821,12 +815,30 @@ function AddOrder() {
       );
     }
     if (name == "resellerId") {
-      getCustomerList("reseller", value);
+      getCustomerList({
+        dealerId: formik.values.dealerId,
+        resellerId: value,
+      });
+      formik.setFieldValue("customerId", "");
       let data = {
         dealerId: formik.values.dealerId,
         resellerId: value,
       };
       getServicerList(data);
+    }
+    if (name == "customerId") {
+      let data = {
+        dealerId: formik.values.dealerId,
+        resellerId: formik.values.resellerId,
+      };
+      getServicerList(data);
+      customerList.length &&
+        customerList.forEach((res) => {
+          console.log(res);
+          if (res.value === value && res.customerData.resellerId !== null) {
+            formik.setFieldValue("resellerId", res.customerData.resellerId);
+          }
+        });
     }
   };
   const coverage = [
