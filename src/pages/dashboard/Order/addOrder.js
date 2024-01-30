@@ -383,7 +383,7 @@ function AddOrder() {
       if (res.code == 200) {
         nextStep();
       } else {
-        for (let key of res.data) {
+        for (let key of res.messages) {
           console.log(key.key);
           openError();
           formikStep3.setFieldError(
@@ -462,13 +462,14 @@ function AddOrder() {
     initialValues: {
       paymentStatus: "Unpaid",
       paidAmount: "",
-      pendingAmount: "",
+      pendingAmount: 0.0,
     },
     validationSchema: Yup.object().shape({
       paidAmount: Yup.number().when("paymentStatus", {
-        is: (status) => status !== "Paid",
+        is: (status) => status === "PartlyPaid",
         then: (schema) =>
-          Yup.number()
+          schema
+            .min(1, "Paid amount cannot be less than 1")
             .max(
               calculateTotalAmount(formikStep3.values.productsArray),
               "Paid amount cannot be more than the total amount"
@@ -1931,7 +1932,7 @@ function AddOrder() {
               </div>
               <div className="col-span-4">
                 <Grid>
-                  {formik4.values.paymentStatus !== "Unpaid" && (
+                  {formik4.values.paymentStatus == "PartlyPaid" && (
                     <>
                       {
                         <div className="col-span-6">
