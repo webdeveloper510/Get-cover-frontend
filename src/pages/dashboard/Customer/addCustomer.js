@@ -51,7 +51,7 @@ function AddCustomer() {
     phoneNumber: "",
     position: "",
     members: [],
-    resellerName:''
+    resellerName: "",
   });
 
   const openModal = () => {
@@ -71,18 +71,18 @@ function AddCustomer() {
 
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
-    if(name==='dealerName'){
-      getCustomerList(value)
+    if (name === "dealerName") {
+      getCustomerList(value);
     }
   };
-  const getCustomerList =async(value) =>{
-    console.log(value)
-    getResellerList(value)
-  }
-  const getResellerList = async(value) =>{
-    const data =await getResellerListByDealerId({},value)
-let arr = [];
-    const filteredDealers = data.result.filter(
+  const getCustomerList = async (value) => {
+    console.log(value);
+    getResellerList(value);
+  };
+  const getResellerList = async (value) => {
+    const data = await getResellerListByDealerId({}, value);
+    let arr = [];
+    const filteredDealers = data?.result?.filter(
       (value) => value.resellerData.status === true
     );
     filteredDealers?.map((res) => {
@@ -92,9 +92,9 @@ let arr = [];
         value: res.resellerData._id,
       });
     });
-    setResellerList(arr)
-console.log(data.result)
-  }
+    setResellerList(arr);
+    console.log(data.result);
+  };
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     setCreateAccountOption(selectedValue);
@@ -113,9 +113,9 @@ console.log(data.result)
   useEffect(() => {
     getDealerListData();
   }, []);
-  useEffect(()=>{
-    getResellerList(dealerValueId)
-  },[dealerValueId])
+  useEffect(() => {
+    getResellerList(dealerValueId);
+  }, [dealerValueId]);
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -337,9 +337,8 @@ console.log(data.result)
   };
   const getDealerListData = async () => {
     if (dealerValueId !== undefined) {
-      getResellerList(dealerValueId)
+      getResellerList(dealerValueId);
       formik.setFieldValue("dealerName", dealerValueId);
-      
     }
     const result = await getDealersList();
     console.log(result.data);
@@ -409,9 +408,8 @@ console.log(data.result)
               </div>
             )}
           </div>
-          {
-            resellerList.length !==0 && (
-              <div className="col-span-4 mb-3">
+          {resellerList.length !== 0 && (
+            <div className="col-span-4 mb-3">
               <Select
                 label="Reseller Name"
                 name="resellerName"
@@ -420,13 +418,12 @@ console.log(data.result)
                 options={resellerList}
                 value={formik.values.resellerName}
                 onBlur={formik.handleBlur}
-                error={formik.touched.resellerName && formik.errors.resellerName}
+                error={
+                  formik.touched.resellerName && formik.errors.resellerName
+                }
               />
-      
             </div>
-            )
-          }
-    
+          )}
         </Grid>
         <div className="bg-white p-4 drop-shadow-4xl border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid>

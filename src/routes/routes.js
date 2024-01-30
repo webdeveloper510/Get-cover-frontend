@@ -310,6 +310,7 @@ const routes = [
         path: "/manageAccount",
         element: <PrivateRoute element={<Account />} path="/manageAccount" />,
       },
+      
 // Dealer Routs ---------------------------------------------------------------
 
       {

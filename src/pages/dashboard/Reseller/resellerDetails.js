@@ -49,13 +49,16 @@ import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
 import RadioButton from "../../../common/radio";
 import DealerIcons from "../../../assets/images/icons/DealerIcons.svg";
-import {
-  getUserListByDealerId,
-} from "../../../services/userServices";
+import { getUserListByDealerId } from "../../../services/userServices";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
 import { getServicerListForDealer } from "../../../services/servicerServices";
-import { addUserByResellerId, editResellerData, getResellerListByResellerId, getResellerUsersById } from "../../../services/reSellerServices";
+import {
+  addUserByResellerId,
+  editResellerData,
+  getResellerListByResellerId,
+  getResellerUsersById,
+} from "../../../services/reSellerServices";
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
 function ResellerDetails() {
@@ -64,7 +67,7 @@ function ResellerDetails() {
     return storedTab ? storedTab : "Servicer";
   };
   const id = useParams();
-  console.log(id)
+  console.log(id);
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -171,10 +174,10 @@ function ResellerDetails() {
     localStorage.setItem("Resellermenu", activeTab);
   }, [activeTab]);
 
-  const resellerDetails = async () =>{
+  const resellerDetails = async () => {
     setLoading(true);
-    const result = await getResellerListByResellerId(id.resellerId)
-    setResllerDetails(result.reseller[0])
+    const result = await getResellerListByResellerId(id.resellerId);
+    setResllerDetails(result.reseller[0]);
     setInitialFormValues({
       accountName: result?.reseller[0]?.resellerData?.name,
       oldName: result?.reseller[0]?.resellerData?.name,
@@ -186,23 +189,23 @@ function ResellerDetails() {
       country: "USA",
     });
     setLoading(false);
-  }
+  };
   // const dealerData = async () => {
   //   setLoading(true);
   //   console.log(id);
   //   const result = await getDealersDetailsByid(id?.id);
   //   setDealerDetails(result.result[0]);
   //   console.log(result.result[0].dealerData);
-    // setInitialFormValues({
-    //   accountName: result?.result[0]?.dealerData?.name,
-    //   oldName: result?.result[0]?.dealerData?.name,
-    //   dealerId: id.id,
-    //   street: result?.result[0]?.dealerData?.street,
-    //   city: result?.result[0]?.dealerData?.city,
-    //   zip: result?.result[0]?.dealerData?.zip,
-    //   state: result?.result[0]?.dealerData?.state,
-    //   country: "USA",
-    // });
+  // setInitialFormValues({
+  //   accountName: result?.result[0]?.dealerData?.name,
+  //   oldName: result?.result[0]?.dealerData?.name,
+  //   dealerId: id.id,
+  //   street: result?.result[0]?.dealerData?.street,
+  //   city: result?.result[0]?.dealerData?.city,
+  //   zip: result?.result[0]?.dealerData?.zip,
+  //   state: result?.result[0]?.dealerData?.state,
+  //   country: "USA",
+  // });
   //   setLoading(false);
   // };
   const openModal = () => {
@@ -242,7 +245,7 @@ function ResellerDetails() {
     onSubmit: async (values) => {
       console.log(values);
       setLoading(true);
-      const result = await editResellerData(values,id.resellerId);
+      const result = await editResellerData(values, id.resellerId);
 
       console.log(result);
       if (result.code == 200) {
@@ -452,22 +455,30 @@ function ResellerDetails() {
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: <ServicerList id={id.resellerId} />,
+      content: <ServicerList id={resellerDetail?.resellerData?.dealerId} />,
     },
-   
+
     {
       id: "Users",
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: <UserList flag={"reseller"} id={id.resellerId} data={refreshList} />,
+      content: (
+        <UserList flag={"reseller"} id={id.resellerId} data={refreshList} />
+      ),
     },
     {
       id: "PriceBook",
       label: "PriceBook",
       icons: PriceBook,
       Activeicons: PriceBookActive,
-      content: <PriceBookList id={id.resellerId} flag={'reseller'} dealerId={resellerDetail.resellerData?.dealerId} />,
+      content: (
+        <PriceBookList
+          id={id.resellerId}
+          flag={"reseller"}
+          dealerId={resellerDetail.resellerData?.dealerId}
+        />
+      ),
     },
   ];
 
@@ -592,7 +603,9 @@ function ResellerDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="DealerIcons"
                   />
-                  <Link to={`/dealerDetails/${resellerDetail?.resellerData?.dealerId}`}>
+                  <Link
+                    to={`/dealerDetails/${resellerDetail?.resellerData?.dealerId}`}
+                  >
                     {" "}
                     <img
                       src={DealerList}
@@ -609,7 +622,6 @@ function ResellerDetails() {
                     {resellerDetail?.resellerData?.dealerName}
                   </p>
                 </div>
-                
               </div>
               <div className="flex mb-4">
                 <img
@@ -692,7 +704,6 @@ function ResellerDetails() {
           </div>
           <div className="col-span-3">
             <Grid className="!mt-5">
-              
               <div className="col-span-10">
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!grid-cols-7 !gap-1">
@@ -726,18 +737,21 @@ function ResellerDetails() {
                   </Grid>
                 </div>
               </div>
-              {activeTab !== 'Servicer' && activeTab !== 'PriceBook' ? (
-                  <div className="col-span-2" onClick={() => routeToPage(activeTab)}>
-                    <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-                      <img src={AddItem} className="self-center" alt="AddItem" />
-                      <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
-                        Add {activeTab}
-                      </span>
-                    </Button>
-                  </div>
-                ) : (
-                  <></>
-                )}
+              {activeTab !== "Servicer" && activeTab !== "PriceBook" ? (
+                <div
+                  className="col-span-2"
+                  onClick={() => routeToPage(activeTab)}
+                >
+                  <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                    <img src={AddItem} className="self-center" alt="AddItem" />
+                    <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                      Add {activeTab}
+                    </span>
+                  </Button>
+                </div>
+              ) : (
+                <></>
+              )}
             </Grid>
 
             {tabs.map((tab) => (
@@ -1119,5 +1133,4 @@ function ResellerDetails() {
   );
 }
 
-
-export default ResellerDetails
+export default ResellerDetails;

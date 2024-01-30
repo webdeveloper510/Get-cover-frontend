@@ -114,8 +114,8 @@ function AddOrder() {
     const filteredServicers = result.result;
     filteredServicers?.map((res) => {
       arr.push({
-        label: res.servicerData.name,
-        value: res.servicerData._id,
+        label: res.name,
+        value: res._id,
       });
     });
     setServicerData(arr);
