@@ -10,10 +10,12 @@ import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import DataTable from 'react-data-table-component';
 import Modal from '../../../common/model';
 import RadioButton from '../../../common/radio';
+import { RotateLoader } from 'react-spinners';
 
 function Account() {
     const [selectedAction, setSelectedAction] = useState(null);
     const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [createAccountOption, setCreateAccountOption] = useState("yes");
     const dropdownRef = useRef(null);
     const handleClickOutside = (event) => {
@@ -234,6 +236,13 @@ function Account() {
                     <Button>Save Changes</Button>
                  </div>
             </div>
+            {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
             <div className='px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
                 <div className='bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3'>
                     <Button onClick={()=> openUserModal()}> + Add Member</Button>
@@ -241,19 +250,19 @@ function Account() {
                  <p className='text-xl font-semibold mb-3'>Other Super admin details</p>
 
                  <DataTable
-                columns={columns}
-                data={Data}
-                highlightOnHover
-                sortIcon={
-                  <>
-                    {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                  </>
-                }
-                noDataComponent={<CustomNoDataComponent />}
-               
-              />
+                  columns={columns}
+                  data={Data}
+                  highlightOnHover
+                  sortIcon={
+                    <>
+                      {" "}
+                      <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                    </>
+                  }
+                  noDataComponent={<CustomNoDataComponent />}
+                  />
             </div>
+            )}
         </div>
 
         <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>

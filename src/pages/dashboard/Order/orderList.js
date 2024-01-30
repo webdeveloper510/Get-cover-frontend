@@ -20,7 +20,7 @@ import Modal from '../../../common/model';
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState('');
-  const [orderList,setOrderList]=useState([])
+  const [orderList,setOrderList]=useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -45,13 +45,17 @@ function OrderList() {
   ];
 
   useEffect(()=>{
-  getOrderList()  
+   
+    getOrderList()  
+   
   },[])
 
   const getOrderList = async() =>{
-const result =await getOrders({});
-console.log(result.result)
-setOrderList(result.result)
+    setLoading(true);
+    const result =await getOrders({});
+    console.log(result.result)
+    setOrderList(result.result)
+    setLoading(false);
   }
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = orderList.length - index <= 2;
