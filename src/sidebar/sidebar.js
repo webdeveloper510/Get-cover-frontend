@@ -602,6 +602,52 @@ function SideBar() {
       ],
     },
   ];
+
+  const servicer = [
+    {
+      name: "Dashboard",
+      url: "/servicer/dashboard",
+      image: DashboardImage,
+      active: ActiveDashboard,
+    },
+    {
+      name: "Claim",
+      image: ClaimImage,
+      active: ActiveClaim,
+      url: "/servicer/claimList",
+    }, 
+    {
+      name: "User",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      url: "/servicer/user",
+    },
+    {
+      name: "Reporting",
+      image: ReportImage,
+      active: ActiveReport,
+      items: [
+        {
+          name: "Sale",
+          url: "/sale",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Claims",
+          url: "/claims",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+        {
+          name: "Accounting",
+          url: "#",
+          image: Dropdown2,
+          active: ForthActive,
+        },
+      ],
+    },
+  ];
   
   return (
     <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">

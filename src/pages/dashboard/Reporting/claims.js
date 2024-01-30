@@ -33,15 +33,15 @@ import UnpaidClaim from "./Claim-Tab/unpaidClaim";
 
 function Claims() {
   const getInitialActiveTab = () => {
-    const storedTab = localStorage.getItem("SaleMenu");
-    return storedTab ? storedTab : "Servicer";
+    const storedTab = localStorage.getItem("ClaimMenu");
+    return storedTab ? storedTab : "all";
   };
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const state = cityData;
 
   useEffect(() => {
-    localStorage.setItem("SaleMenu", activeTab);
+    localStorage.setItem("ClaimMenu", activeTab);
   }, [activeTab]);
 
 

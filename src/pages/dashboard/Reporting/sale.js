@@ -32,7 +32,7 @@ import Broker from "./Sale-Tab/broker";
 function Sale() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("SaleMenu");
-    return storedTab ? storedTab : "Servicer";
+    return storedTab ? storedTab : "all";
   };
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
