@@ -1902,28 +1902,10 @@ function AddOrder() {
             })}
           </Grid>
           <form onSubmit={formik4.handleSubmit}>
-            <Grid className="mt-5 !gap-1">
-              <div className="col-span-3">
-                <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
-                  Do you want to sent notifications ?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value={true}
-                    checked={sendNotification === true}
-                    onChange={handleRadioChange}
-                  />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value={false}
-                    checked={sendNotification === false}
-                    onChange={handleRadioChange}
-                  />
-                </p>
-              </div>
+            <Grid className="mt-5">
+              
 
-              <div className="col-span-3 pt-4">
+              <div className="col-span-4 pt-2">
                 <div className="flex block  w-full text-base font-semibold bg-[#f9f9f9] rounded-lg border-[1px] border-gray-300 appearance-none peer undefined  border-gray-300  text-light-black">
                   <p className="self-center text-sm px-3">Payment Status</p>
                   <div className="relative">
@@ -2014,10 +1996,29 @@ function AddOrder() {
                   )}
                 </Grid>
               </div>
-              <div className="col-span-2 flex pt-4">
-                <p className="text-[12px] pr-3">Total Amount :</p>
-                <p className="font-bold text-sm">
+              <div className="col-span-4 flex justify-center pt-4">
+                <p className="text-base pr-3">Total Amount :</p>
+                <p className="font-bold text-lg">
                   ${calculateTotalAmount(formikStep3.values.productsArray)}
+                </p>
+              </div>
+              <div className="col-span-12">
+                <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
+                  Do you want to sent notifications ?
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value={true}
+                    checked={sendNotification === true}
+                    onChange={handleRadioChange}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value={false}
+                    checked={sendNotification === false}
+                    onChange={handleRadioChange}
+                  />
                 </p>
               </div>
             </Grid>
