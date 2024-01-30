@@ -383,7 +383,7 @@ function AddOrder() {
       if (res.code == 200) {
         nextStep();
       } else {
-        for (let key of res.messages) {
+        for (let key of res.message) {
           console.log(key.key);
           openError();
           formikStep3.setFieldError(
