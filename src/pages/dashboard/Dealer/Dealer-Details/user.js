@@ -67,14 +67,12 @@ function UserList(props) {
       console.log(result);
       setServiceStatus(result.servicerStatus);
       setUserList(result.result);
-    }
-    else if (props.flag == "reseller") {
+    } else if (props.flag == "reseller") {
       const result = await getResellerUsersById(props.id, {});
       console.log(result);
       // setServiceStatus(result.servicerStatus);
       setUserList(result.data);
-    } 
-     else {
+    } else {
       const result = await getUserListByDealerId(props.id, {});
       console.log(result.result);
       setServiceStatus(result.dealerStatus);
@@ -87,12 +85,10 @@ function UserList(props) {
       setSelectedAction(null);
     }
   };
-  useEffect(()=>{
-    getUserList();
-  },[props])
   useEffect(() => {
- 
-
+    getUserList();
+  }, [props]);
+  useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
@@ -324,120 +320,178 @@ function UserList(props) {
       filterUserDetails(values);
     },
   });
-  const columns = [
-    {
-      name: "Name",
-      selector: "name",
-      sortable: true,
-      cell: (row) => (
-        <div className="flex relative">
-          {row.isPrimary && (
-            <img src={star} alt="" className="absolute -left-3 top-0" />
-          )}
-          <span className="self-center pt-2 ml-3">
-            {row.firstName} {row.lastName}
-          </span>
-        </div>
-      ),
-    },
-    {
-      name: "Email Address",
-      selector: (row) => row.email,
-      sortable: true,
-    },
-    {
-      name: "Phone Number",
-      selector: (row) => row.phoneNumber,
-      sortable: true,
-    },
-    {
-      name: "Position",
-      selector: (row) => row.position,
-      sortable: true,
-    },
-    {
-      name: "Status",
-      selector: (row) => row.status,
-      sortable: true,
-      cell: (row) => (
-        <div className="relative">
-          <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-          ></div>
-          <select
-            disabled={row.isPrimary || !servicerStatus}
-            value={row.status === true ? "active" : "inactive"}
-            onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-          >
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-        </div>
-      ),
-    },
-    {
-      name: "Action",
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "90px", // Set a custom maximum width
-      cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
-        return (
-          <div className="relative">
-            <div
-              onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.email ? null : row.email
-                )
-              }
-            >
-              <img
-                src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
-                alt="Active Icon"
-              />
-            </div>
-            {selectedAction === row.email && (
-              <div
-                ref={dropdownRef}
-                className={`absolute z-[9999] ${
-                  !row.isPrimary ? "w-[120px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
-              >
-                {!row.isPrimary && row.status && (
-                  <div
-                    className="text-center py-2 cursor-pointer border-b"
-                    onClick={() => makeUserPrimary(row)}
-                  >
-                    Make Primary
-                  </div>
-                )}
 
-                <div
-                  className="text-center py-2 cursor-pointer border-b"
-                  onClick={() => editUser(row._id)}
-                >
-                  Edit
-                </div>
-                {!row.isPrimary && (
-                  <div
-                    className="text-center text-red-500 py-2 cursor-pointer"
-                    onClick={() => openModal1(row._id)}
-                  >
-                    Delete
-                  </div>
+  const columns =
+    props.flag === "reseller"
+      ? [
+          {
+            name: "Name",
+            selector: "name",
+            sortable: true,
+            cell: (row) => (
+              <div className="flex relative">
+                {row.isPrimary && (
+                  <img src={star} alt="" className="absolute -left-3 top-0" />
                 )}
+                <span className="self-center pt-2 ml-3">
+                  {row.firstName} {row.lastName}
+                </span>
               </div>
-            )}
-          </div>
-        );
-      },
-    },
-  ];
+            ),
+          },
+          {
+            name: "Email Address",
+            selector: (row) => row.email,
+            sortable: true,
+          },
+          {
+            name: "Phone Number",
+            selector: (row) => row.phoneNumber,
+            sortable: true,
+          },
+          {
+            name: "Position",
+            selector: (row) => row.position,
+            sortable: true,
+          },
+          {
+            name: "Status",
+            selector: (row) => row.status,
+            sortable: true,
+            cell: (row) => (
+              <div className="relative">
+                <div
+                  className={` ${
+                    row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+                  } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+                ></div>
+                <select
+                  disabled={row.isPrimary || !servicerStatus}
+                  value={row.status === true ? "active" : "inactive"}
+                  onChange={(e) => handleStatusChange(row, e.target.value)}
+                  className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+                >
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
+            ),
+          },
+        ]
+      : [
+          {
+            name: "Name",
+            selector: "name",
+            sortable: true,
+            cell: (row) => (
+              <div className="flex relative">
+                {row.isPrimary && (
+                  <img src={star} alt="" className="absolute -left-3 top-0" />
+                )}
+                <span className="self-center pt-2 ml-3">
+                  {row.firstName} {row.lastName}
+                </span>
+              </div>
+            ),
+          },
+          {
+            name: "Email Address",
+            selector: (row) => row.email,
+            sortable: true,
+          },
+          {
+            name: "Phone Number",
+            selector: (row) => row.phoneNumber,
+            sortable: true,
+          },
+          {
+            name: "Position",
+            selector: (row) => row.position,
+            sortable: true,
+          },
+          {
+            name: "Status",
+            selector: (row) => row.status,
+            sortable: true,
+            cell: (row) => (
+              <div className="relative">
+                <div
+                  className={` ${
+                    row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+                  } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+                ></div>
+                <select
+                  disabled={row.isPrimary || !servicerStatus}
+                  value={row.status === true ? "active" : "inactive"}
+                  onChange={(e) => handleStatusChange(row, e.target.value)}
+                  className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+                >
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
+            ),
+          },
+          {
+            name: "Action",
+            minWidth: "auto", // Set a custom minimum width
+            maxWidth: "90px", // Set a custom maximum width
+            cell: (row, index) => {
+              // console.log(index, index % 10 == 9)
+              return (
+                <div className="relative">
+                  <div
+                    onClick={() =>
+                      setSelectedAction(
+                        selectedAction === row.email ? null : row.email
+                      )
+                    }
+                  >
+                    <img
+                      src={ActiveIcon}
+                      className="cursor-pointer	w-[35px]"
+                      alt="Active Icon"
+                    />
+                  </div>
+                  {selectedAction === row.email && (
+                    <div
+                      ref={dropdownRef}
+                      className={`absolute z-[9999] ${
+                        !row.isPrimary ? "w-[120px]" : "w-[80px]"
+                      } drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                        index
+                      )}`}
+                    >
+                      {!row.isPrimary && row.status && (
+                        <div
+                          className="text-center py-2 cursor-pointer border-b"
+                          onClick={() => makeUserPrimary(row)}
+                        >
+                          Make Primary
+                        </div>
+                      )}
+
+                      <div
+                        className="text-center py-2 cursor-pointer border-b"
+                        onClick={() => editUser(row._id)}
+                      >
+                        Edit
+                      </div>
+                      {!row.isPrimary && (
+                        <div
+                          className="text-center text-red-500 py-2 cursor-pointer"
+                          onClick={() => openModal1(row._id)}
+                        >
+                          Delete
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            },
+          },
+        ];
 
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">

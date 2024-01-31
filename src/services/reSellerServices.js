@@ -20,121 +20,149 @@ const createHeaders = () => {
 };
 
 export const addNewReseller = async (data) => {
-    const headers = createHeaders();
-    try {
-      const response = await axios.post(`${url}/reseller/createReseller`, data, {
-        headers,
-      });
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/reseller/createReseller`, data, {
+      headers,
+    });
 
-  export const getResellerList = async (data) => {
-    const headers = createHeaders();
-    try {
-      const response = await axios.post(
-        `${url}/reseller/getAllResellers`,
-        data,
-        {
-          headers,
-        }
-      );
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
-  export const getResellerListByDealerId = async (data,id) => {
-    const headers = createHeaders();
-    try {
-      const response = await axios.post(
-        `${url}/dealer/getDealerResellers/${id}
+export const getResellerList = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/reseller/getAllResellers`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getResellerListByDealerId = async (data, id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealer/getDealerResellers/${id}
         `,
-        data,
-        {
-          headers,
-        }
-      );
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  export const getResellerListByResellerId = async (id) => {
-    const headers = createHeaders();
-    try {
-      const response = await axios.get(
-        `${url}/reseller/getResellerById/${id}`,
-        { headers }
-      );
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
-  
-  export const getPriceBookListByResellerId = async (id) => {
-    const headers = createHeaders();
-    try {
-      const response = await axios.post(
-        `${url}/reseller/getResellerPriceBook/${id}`,{},
-        { headers }
-      );
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  export const getResellerUsersById = async (id, data) => {
-    const headers = createHeaders();
-    try {
-      const response = await axios.post(
-        `${url}/reseller/getResellerUsers/${id}`,
-        data,
-        {
-          headers,
-        }
-      );
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  export const addUserByResellerId = async (data) => {
-    const headers = createHeaders();
-    try {
-      const response = await axios.post(`${url}/reseller/addResellerUser`, data, {
+      data,
+      {
         headers,
-      });
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
+      }
+    );
 
-  export const editResellerData = async (data,id) => {
-    const headers = createHeaders();
-    console.log(headers);
-    try {
-      const response = await axios.put(`${url}/reseller/editResellers/${id}`, data, {
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getResellerListByResellerId = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/reseller/getResellerById/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getPriceBookListByResellerId = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/reseller/getResellerPriceBook/${id}`,
+      {},
+      { headers }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getResellerUsersById = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/reseller/getResellerUsers/${id}`,
+      data,
+      {
         headers,
-      });
-  
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addUserByResellerId = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/reseller/addResellerUser`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editResellerData = async (data, id) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.put(
+      `${url}/reseller/editResellers/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getDealerDetailsId = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/reseller/getDealerByReseller/${id}`,
+      { headers }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getCustomerByDealerId = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/customer/getResellerCustomers/${id}`,
+      data,
+      { headers }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

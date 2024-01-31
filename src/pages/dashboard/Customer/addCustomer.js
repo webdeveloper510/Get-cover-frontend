@@ -22,7 +22,10 @@ import {
 } from "../../../services/dealerServices";
 import { addNewCustomer } from "../../../services/customerServices";
 import Cross from "../../../assets/images/Cross.png";
-import { getResellerListByDealerId } from "../../../services/reSellerServices";
+import {
+  getDealerDetailsId,
+  getResellerListByDealerId,
+} from "../../../services/reSellerServices";
 
 function AddCustomer() {
   const [timer, setTimer] = useState(3);
@@ -34,8 +37,8 @@ function AddCustomer() {
   const [dealerList, setDealerList] = useState([]);
   const [resellerList, setResellerList] = useState([]);
   const navigate = useNavigate();
-  const { dealerValueId } = useParams();
-  console.log(dealerValueId);
+  const { dealerValueId, typeofUser } = useParams();
+  console.log(dealerValueId, typeofUser);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerName: "",
@@ -62,7 +65,133 @@ function AddCustomer() {
     setIsModalOpen(false);
   };
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  const formik = useFormik({
+    initialValues: initialFormValues,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      dealerName: Yup.string().required("Required"),
+      accountName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(500, "Must be exactly 500 characters"),
+      street: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(500, "Must be exactly 500 characters"),
+      state: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      city: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      country: Yup.string().required("Required"),
+      email: Yup.string()
+        .matches(emailValidationRegex, "Invalid email address")
+        .required("Required"),
+      zip: Yup.string()
+        .required("Required")
+        .min(5, "Must be at least 5 characters")
+        .max(6, "Must be exactly 6 characters"),
+      firstName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(30, "Must be exactly 30 characters"),
+      lastName: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(30, "Must be exactly 30 characters"),
+      phoneNumber: Yup.string()
+        .required("Required")
+        .min(10, "Must be at least 10 characters")
+        .max(10, "Must be exactly 10 characters")
+        .matches(/^[0-9]+$/, "Must contain only digits"),
+      members: Yup.array().of(
+        Yup.object().shape({
+          firstName: Yup.string()
+            .transform((originalValue) => originalValue.trim())
+            .required("Required")
+            .max(30, "Must be exactly 30 characters"),
+          lastName: Yup.string()
+            .transform((originalValue) => originalValue.trim())
+            .required("Required")
+            .max(30, "Must be exactly 30 characters"),
+          phoneNumber: Yup.string()
+            .required("Required")
+            .min(10, "Must be at least 10 characters")
+            .max(10, "Must be exactly 10 characters")
+            .matches(/^[0-9]+$/, "Must contain only digits"),
+          email: Yup.string()
+            .matches(emailValidationRegex, "Invalid email address")
+            .required("Required"),
 
+          status: Yup.boolean().required("Required"),
+        })
+      ),
+    }),
+
+    onSubmit: async (values) => {
+      delete values.rese;
+      console.log(values);
+      const isEmailValid = !formik.errors.email;
+      if (formik.values.members.length > 0) {
+        console.log(formik.values.members.length);
+        let emailValues = [];
+        for (let i = 0; i < formik.values.members.length; i++) {
+          const result = await checkDealerEmailAndSetError(
+            formik.values.members[i].email,
+            formik,
+            `members[${i}].email`
+          );
+          emailValues.push(result);
+        }
+
+        // console.log(emailValues);
+        if (emailValues.some((value) => value === false)) {
+          setLoading(false);
+          return;
+        }
+      }
+      const newObject = {
+        email: values.email,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phoneNumber: values.phoneNumber,
+        isPrimary: true,
+        position: values.position,
+        status: formik.values.status,
+      };
+
+      const newValues = {
+        ...values,
+        members: [newObject, ...values.members],
+      };
+      console.log(newValues);
+      const result = await addNewCustomer(newValues);
+      console.log(result.message);
+      if (result.code == 200) {
+        setMessage("Customer Created Successfully");
+        setLoading(false);
+        setIsModalOpen(true);
+        setTimer(3);
+      } else if (
+        result.message == "Customer already exist with this account name"
+      ) {
+        setLoading(false);
+        formik.setFieldError("accountName", "Name Already Used");
+        setMessage("Some Errors Please Check Form Validations ");
+        setIsModalOpen(true);
+      } else if (result.message == "Primary user email already exist") {
+        setLoading(false);
+        formik.setFieldError("email", "Email Already Used");
+        setMessage("Some Errors Please Check Form Validations ");
+        setIsModalOpen(true);
+      } else {
+        setLoading(false);
+        setIsModalOpen(true);
+        setMessage(result.message);
+      }
+    },
+  });
   const handleRadioChangeDealers = (value, index) => {
     const updatedMembers = [...formik.values.members];
     updatedMembers[index].status = value === "yes";
@@ -114,8 +243,21 @@ function AddCustomer() {
     getDealerListData();
   }, []);
   useEffect(() => {
-    getResellerList(dealerValueId);
+    if (typeofUser != "reseller") {
+      getResellerList(dealerValueId);
+    } else {
+      getDealerListData();
+      getDealerDetails(dealerValueId);
+      console.log("hello");
+    }
   }, [dealerValueId]);
+  const getDealerDetails = async (id) => {
+    const data = await getDealerDetailsId(id);
+    formik.setFieldValue("dealerName", data.result._id);
+    getResellerList(data.result._id);
+    formik.setFieldValue("resellerName", id);
+    console.log(data.result._id);
+  };
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -127,8 +269,10 @@ function AddCustomer() {
 
     if (timer === 0 && message === "Customer Created Successfully") {
       closeModal();
-      if (dealerValueId) {
+      if (dealerValueId && typeofUser != "reseller") {
         navigate(`/dealerDetails/${dealerValueId}`);
+      } else if (typeofUser == "reseller") {
+        navigate(`/resellerDetails/${dealerValueId}`);
       } else {
         navigate("/customerList");
       }
@@ -202,135 +346,11 @@ function AddCustomer() {
     return false;
   };
 
-  const formik = useFormik({
-    initialValues: initialFormValues,
-    enableReinitialize: true,
-    validationSchema: Yup.object({
-      dealerName: Yup.string().required("Required"),
-      accountName: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required")
-        .max(500, "Must be exactly 500 characters"),
-      street: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required")
-        .max(500, "Must be exactly 500 characters"),
-      state: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required"),
-      city: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required"),
-      country: Yup.string().required("Required"),
-      email: Yup.string()
-        .matches(emailValidationRegex, "Invalid email address")
-        .required("Required"),
-      zip: Yup.string()
-        .required("Required")
-        .min(5, "Must be at least 5 characters")
-        .max(6, "Must be exactly 6 characters"),
-      firstName: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required")
-        .max(30, "Must be exactly 30 characters"),
-      lastName: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required")
-        .max(30, "Must be exactly 30 characters"),
-      phoneNumber: Yup.string()
-        .required("Required")
-        .min(10, "Must be at least 10 characters")
-        .max(10, "Must be exactly 10 characters")
-        .matches(/^[0-9]+$/, "Must contain only digits"),
-      members: Yup.array().of(
-        Yup.object().shape({
-          firstName: Yup.string()
-            .transform((originalValue) => originalValue.trim())
-            .required("Required")
-            .max(30, "Must be exactly 30 characters"),
-          lastName: Yup.string()
-            .transform((originalValue) => originalValue.trim())
-            .required("Required")
-            .max(30, "Must be exactly 30 characters"),
-          phoneNumber: Yup.string()
-            .required("Required")
-            .min(10, "Must be at least 10 characters")
-            .max(10, "Must be exactly 10 characters")
-            .matches(/^[0-9]+$/, "Must contain only digits"),
-          email: Yup.string()
-            .matches(emailValidationRegex, "Invalid email address")
-            .required("Required"),
-
-          status: Yup.boolean().required("Required"),
-        })
-      ),
-    }),
-
-    onSubmit: async (values) => {
-      console.log(values);
-      const isEmailValid = !formik.errors.email;
-      if (formik.values.members.length > 0) {
-        console.log(formik.values.members.length);
-        let emailValues = [];
-        for (let i = 0; i < formik.values.members.length; i++) {
-          const result = await checkDealerEmailAndSetError(
-            formik.values.members[i].email,
-            formik,
-            `members[${i}].email`
-          );
-          emailValues.push(result);
-        }
-
-        // console.log(emailValues);
-        if (emailValues.some((value) => value === false)) {
-          setLoading(false);
-          return;
-        }
-      }
-      const newObject = {
-        email: values.email,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        phoneNumber: values.phoneNumber,
-        isPrimary: true,
-        position: values.position,
-        status: formik.values.status,
-      };
-
-      const newValues = {
-        ...values,
-        members: [newObject, ...values.members],
-      };
-      console.log(newValues);
-      const result = await addNewCustomer(newValues);
-      console.log(result.message);
-      if (result.code == 200) {
-        setMessage("Customer Created Successfully");
-        setLoading(false);
-        setIsModalOpen(true);
-        setTimer(3);
-      } else if (
-        result.message == "Customer already exist with this account name"
-      ) {
-        setLoading(false);
-        formik.setFieldError("accountName", "Name Already Used");
-        setMessage("Some Errors Please Check Form Validations ");
-        setIsModalOpen(true);
-      } else if (result.message == "Primary user email already exist") {
-        setLoading(false);
-        formik.setFieldError("email", "Email Already Used");
-        setMessage("Some Errors Please Check Form Validations ");
-        setIsModalOpen(true);
-      } else {
-        setLoading(false);
-        setIsModalOpen(true);
-        setMessage(result.message);
-      }
-    },
-  });
   const handleLinkClick = () => {
-    if (dealerValueId !== undefined) {
+    if (dealerValueId !== undefined && typeofUser != "reseller") {
       navigate(`/dealerDetails/${dealerValueId}`);
+    } else if (dealerValueId !== undefined && typeofUser == "reseller") {
+      navigate(`/resellerDetails/${dealerValueId}`);
     } else {
       navigate("/customerList");
     }
@@ -393,7 +413,6 @@ function AddCustomer() {
               label="Dealer Name"
               name="dealerName"
               placeholder=""
-              // className="!bg-white"
               required={true}
               onChange={handleSelectChange}
               disabled={dealerValueId != undefined ? true : false}
@@ -414,6 +433,7 @@ function AddCustomer() {
                 label="Reseller Name"
                 name="resellerName"
                 placeholder=""
+                disabled={typeofUser == "reseller"}
                 onChange={handleSelectChange}
                 options={resellerList}
                 value={formik.values.resellerName}

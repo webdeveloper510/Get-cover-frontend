@@ -190,6 +190,7 @@ function DealerDetailList(props) {
     setRowValue(row);
     setIsModalOpen(true);
   };
+
   const columns = [
     {
       name: "ID",

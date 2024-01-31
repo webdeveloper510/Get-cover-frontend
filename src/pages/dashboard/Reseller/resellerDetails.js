@@ -448,14 +448,19 @@ function ResellerDetails() {
       label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
-      content: <CustomerList id={id.resellerId} />,
+      content: <CustomerList flag={"reseller"} id={id.resellerId} />,
     },
     {
       id: "Servicer",
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: <ServicerList id={resellerDetail?.resellerData?.dealerId} />,
+      content: (
+        <ServicerList
+          flag={"reseller"}
+          id={resellerDetail?.resellerData?.dealerId}
+        />
+      ),
     },
 
     {
@@ -494,7 +499,7 @@ function ResellerDetails() {
         break;
       case "Customer":
         localStorage.setItem("menu", "Customer");
-        navigate(`/addCustomer/${id.resellerId}`);
+        navigate(`/addCustomer/${id.resellerId}/reseller`);
         break;
       case "Users":
         openUserModal();
