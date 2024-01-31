@@ -33,7 +33,6 @@ import EditContract from "../pages/dashboard/Contract/editContract";
 import ClaimList from "../pages/dashboard/Claim/claimList";
 import AddClaim from "../pages/dashboard/Claim/addClaim";
 import AddBulkClaim from "../pages/dashboard/Claim/addBulkClaim";
-import EditClaim from "../pages/dashboard/Claim/editClaim";
 import AddReseller from "../pages/dashboard/Reseller/addReseller";
 import ResellerList from "../pages/dashboard/Reseller/resellerList";
 import Sale from "../pages/dashboard/Reporting/sale";
@@ -50,7 +49,6 @@ import DealerClaims from "../pages/Dealer-screens/Reporting/claims";
 import DealerClaimList from "../pages/Dealer-screens/Claim/claimList";
 import DealerAddClaim from "../pages/Dealer-screens/Claim/addClaim";
 import DealerAddBulkClaim from "../pages/Dealer-screens/Claim/addBulkClaim";
-import DealerEditClaim from "../pages/Dealer-screens/Claim/editClaim";
 
 const routes = [
   {
@@ -347,10 +345,6 @@ const routes = [
       {
         path: "/dealer/addBulkClaim",
         element: <PrivateRoute element={<DealerAddBulkClaim />} path="/dealer/claimList" />,
-      },
-      {
-        path: "/dealer/editClaim",
-        element: <PrivateRoute element={<DealerEditClaim />} path="/dealer/editClaim" />,
       },
 
       // Servicer Routs ---------------------------------------------------------------
