@@ -1,15 +1,21 @@
-import React , { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import Button from '../../../common/button'
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Button from "../../../common/button";
 
-import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
+import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
+<<<<<<< HEAD
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import unassign from "../../../assets/images/Unassign.png";
+=======
+import AddItem from "../../../assets/images/icons/addItem.svg";
+import Search from "../../../assets/images/icons/SearchIcon.svg";
+>>>>>>> dfb1543260a67737ca706734df75e9e4c0aa7ec3
 import AddDealer from "../../../assets/images/dealer-book.svg";
-import Headbar from '../../../common/headBar';
+import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
+<<<<<<< HEAD
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import DataTable from "react-data-table-component"
@@ -24,6 +30,20 @@ function OrderList() {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [timer, setTimer] = useState(3);
   const [orderList,setOrderList]=useState([]);
+=======
+import Grid from "../../../common/grid";
+import Input from "../../../common/input";
+import DataTable from "react-data-table-component";
+import Select from "../../../common/select";
+import { RotateLoader } from "react-spinners";
+import { getOrders } from "../../../services/orderServices";
+import Modal from "../../../common/model";
+
+function OrderList() {
+  const [selectedAction, setSelectedAction] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [orderList, setOrderList] = useState([]);
+>>>>>>> dfb1543260a67737ca706734df75e9e4c0aa7ec3
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -49,8 +69,8 @@ function OrderList() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const handleSelectChange1 = (label , value) => {
-    console.log(label, value , "selected")
+  const handleSelectChange1 = (label, value) => {
+    console.log(label, value, "selected");
     setSelectedProduct(value);
   };
   const [loading, setLoading] = useState(false);
@@ -60,28 +80,25 @@ function OrderList() {
     { label: 'Pending', value: false },
   ];
 
-  useEffect(()=>{
-   
-    getOrderList()  
-   
-  },[])
+  useEffect(() => {
+    getOrderList();
+  }, []);
 
-  const getOrderList = async() =>{
+  const getOrderList = async () => {
     setLoading(true);
-    const result =await getOrders({});
-    console.log(result.result)
-    setOrderList(result.result)
+    const result = await getOrders({});
+    console.log(result.result);
+    setOrderList(result.result);
     setLoading(false);
-  }
+  };
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = orderList.length - index <= 2;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
-  
   const paginationOptions = {
-    rowsPerPageText: 'Rows per page:',
-    rangeSeparatorText: 'of',
+    rowsPerPageText: "Rows per page:",
+    rangeSeparatorText: "of",
   };
 
   const CustomNoDataComponent = () => (
@@ -89,21 +106,20 @@ function OrderList() {
       <p>No records found.</p>
     </div>
   );
- 
 
   const columns = [
     {
       name: "ID",
       selector: (row) => row?.unique_key,
       sortable: true,
-      minWidth:'auto',
-      maxWidth:'70px'
+      minWidth: "auto",
+      maxWidth: "70px",
     },
     {
       name: "Dealer Order #",
       selector: (row) => row.venderOrder,
       sortable: true,
-      minWidth:'180px',
+      minWidth: "180px",
     },
     {
       name: "Dealer",
@@ -122,15 +138,15 @@ function OrderList() {
     },
     {
       name: "# of Products",
-      selector: (row) => row.noOfProducts,
+      selector: (row) => row.productsArray[0].noOfProducts,
       sortable: true,
-      minWidth:'150px',
+      minWidth: "150px",
     },
     {
       name: "Order Value",
       selector: (row) => `$ ${row.orderAmount?.toFixed(2)}`,
       sortable: true,
-      minWidth:'150px',
+      minWidth: "150px",
     },
     {
         name: "Status",
@@ -155,8 +171,8 @@ function OrderList() {
     },
     {
       name: "Action",
-      minWidth:'auto',
-      maxWidth:'80px',
+      minWidth: "auto",
+      maxWidth: "80px",
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (
@@ -174,95 +190,138 @@ function OrderList() {
                 <div className='text-center py-1 border-b cursor-pointer' onClick={()=> openModal()}>Process Order</div>
                 <div className='text-center py-1 cursor-pointer'><Link to={'/orderDetails'}>View</Link></div>
             </div>
-          )}
-        </div>
-        )
-      }
+            )}
+          </div>
+        );
+      },
     },
   ];
 
   return (
     <>
-      <div className='my-8 ml-3'>
-
+      <div className="my-8 ml-3">
         <Headbar />
 
-        <div className='flex mt-2'>
-          <div className='pl-3'>
-            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Order</p>
-            <ul className='flex self-center'>
-              <li className='text-sm text-neutral-grey font-Regular'><Link to={'/'}>Order </Link>  /  </li>
-              <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Order List </li>
+        <div className="flex mt-2">
+          <div className="pl-3">
+            <p className="font-bold text-[36px] leading-9	mb-[3px]">Order</p>
+            <ul className="flex self-center">
+              <li className="text-sm text-neutral-grey font-Regular">
+                <Link to={"/"}>Order </Link> /{" "}
+              </li>
+              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                {" "}
+                Order List{" "}
+              </li>
             </ul>
           </div>
         </div>
 
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]" > <Link to={'/addOrder'} className='flex'> <img src={AddItem} className='self-center' alt='AddItem' /> <span className='text-black ml-3 text-[14px] font-Regular'> Add New Order </span>  </Link></Button>
-  
-        <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
-          <Grid className='!p-[26px] !pt-[14px] !pb-0'>
-            <div className='col-span-5 self-center'>
-              <p className='text-xl font-semibold'>Order List</p>
+        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+          {" "}
+          <Link to={"/addOrder"} className="flex">
+            {" "}
+            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+            <span className="text-black ml-3 text-[14px] font-Regular">
+              {" "}
+              Add New Order{" "}
+            </span>{" "}
+          </Link>
+        </Button>
+
+        <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
+          <Grid className="!p-[26px] !pt-[14px] !pb-0">
+            <div className="col-span-5 self-center">
+              <p className="text-xl font-semibold">Order List</p>
             </div>
-            <div className='col-span-7'>
-              <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-                <Grid className='!grid-cols-11' >
-                  <div className='col-span-3 self-center'>
-                    <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='ID' />
+            <div className="col-span-7">
+              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                <Grid className="!grid-cols-11">
+                  <div className="col-span-3 self-center">
+                    <Input
+                      name="Name"
+                      type="text"
+                      className="!text-[14px] !bg-[#f7f7f7]"
+                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                      label=""
+                      placeholder="ID"
+                    />
                   </div>
-                  <div className='col-span-3 self-center'>
-                    <Input name='orderNo' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Dealer Order No.' />
+                  <div className="col-span-3 self-center">
+                    <Input
+                      name="orderNo"
+                      type="text"
+                      className="!text-[14px] !bg-[#f7f7f7]"
+                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                      label=""
+                      placeholder="Dealer Order No."
+                    />
                   </div>
-                  <div className='col-span-3 self-center'>
-                  <Select label=""
+                  <div className="col-span-3 self-center">
+                    <Select
+                      label=""
                       options={status}
-                      color='text-[#1B1D21] opacity-50'
+                      color="text-[#1B1D21] opacity-50"
                       className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                       className="!text-[14px] !bg-[#f7f7f7]"
                       selectedValue={selectedProduct}
-                      onChange={handleSelectChange1} />
+                      onChange={handleSelectChange1}
+                    />
                   </div>
-                  
-                  <div className='col-span-2 self-center flex'>
-                    <img src={Search} className='cursor-pointer	'  alt='Search' />
-                    <Button type="submit" className=' !bg-transparent !p-0'>
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
-                        />
-                      </Button>
+
+                  <div className="col-span-2 self-center flex">
+                    <img src={Search} className="cursor-pointer	" alt="Search" />
+                    <Button type="submit" className=" !bg-transparent !p-0">
+                      <img
+                        src={clearFilter}
+                        className="cursor-pointer	mx-auto"
+                        alt="clearFilter"
+                      />
+                    </Button>
                   </div>
                 </Grid>
-
               </div>
             </div>
           </Grid>
-          <div className='mb-5 relative'>
-          {loading ? (
+          <div className="mb-5 relative">
+            {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
               </div>
             ) : (
-            <DataTable columns={columns} data={orderList} highlightOnHover sortIcon={<> <img src={shorting}  className="ml-2" alt="shorting"/> </>} pagination  paginationPerPage={10} noDataComponent={<CustomNoDataComponent />} paginationComponentOptions={paginationOptions} paginationRowsPerPageOptions={[10, 20, 50, 100]} />
+              <DataTable
+                columns={columns}
+                data={orderList}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                  </>
+                }
+                pagination
+                paginationPerPage={10}
+                noDataComponent={<CustomNoDataComponent />}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              />
             )}
           </div>
         </div>
-
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
-             
-            <span className="text-light-black"> Order Processed </span> Successfully
+            <span className="text-light-black"> Order Processed </span>{" "}
+            Successfully
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-           Order Processed Successfully
+            Order Processed Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
@@ -305,7 +364,7 @@ function OrderList() {
         </div>
       </Modal>
     </>
-  )
+  );
 }
 
-export default OrderList
+export default OrderList;
