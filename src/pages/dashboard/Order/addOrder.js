@@ -391,8 +391,8 @@ function AddOrder() {
       } else {
         for (let key of res.message) {
           console.log(key.key);
-          openError();
-          setLoading(false);
+          setIsErrorOpen(true);
+          // setLoading(false);
           formikStep3.setFieldError(
             `productsArray[${key.key - 1}].file`,
             key.message
@@ -1929,8 +1929,8 @@ function AddOrder() {
             <Grid className="mt-5">
               <div className="col-span-4 pt-2">
                 <div className="flex block  w-full text-base font-semibold bg-[#f9f9f9] rounded-lg border-[1px] border-gray-300 appearance-none peer undefined  border-gray-300  text-light-black">
-                  <p className="self-center text-sm px-3">Payment Status</p>
-                  <div className="relative">
+                  <p className="self-center w-[40%] text-sm px-3">Payment Status</p>
+                  <div className="relative w-[60%]">
                     <div
                       className={`
                       absolute h-3 w-3 rounded-full top-[33%] ml-[8px]
