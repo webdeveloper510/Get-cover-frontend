@@ -25,7 +25,7 @@ import * as Yup from "yup";
 import { unAssignedServicerForDealer } from "../../../../services/dealerServices";
 
 function ServicerList(props) {
-  console.log(props)
+  console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -96,9 +96,7 @@ function ServicerList(props) {
   }, []);
 
   useEffect(() => {
-   
-      getServicerList();
- 
+    getServicerList();
   }, [props]);
 
   const getServicerList = async () => {
@@ -196,112 +194,127 @@ function ServicerList(props) {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  const columns = [
-    {
-      name: "ID",
-      selector: (row) => row.servicerData.unique_key,
-      sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
-    },
-    {
-      name: "Name",
-      selector: (row) => row.servicerData.name,
-      sortable: true,
-    },
-    {
-      name: "Email",
-      selector: (row) => row.email,
-      sortable: true,
-    },
-    {
-      name: "Phone No.",
-      selector: (row) => row.phoneNumber,
-      sortable: true,
-    },
-    {
-      name: "# of Claims",
-      selector: (row) => 0,
-      sortable: true,
-    },
-    {
-      name: "Total Claims Value",
-      selector: (row) => "$ 0.00",
-      sortable: true,
-    },
-    // {
-    //   name: "Status",
-    //   cell: (row) => (
-    //     <div className="relative">
-    //       <div
-    //         className={` ${
-    //           row.servicerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-    //         } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-    //       ></div>
-    //       <select
-    //         value={row.servicerData.status === true ? "active" : "inactive"}
-    //         onChange={(e) => handleStatusChange(row, e.target.value)}
-    //         className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-    //       >
-    //         <option value="active">Active</option>
-    //         <option value="inactive">Inactive</option>
-    //       </select>
-    //     </div>
-    //   ),
-    //   sortable: true,
-    // },
+  const columns =
+    props.flag === "reseller"
+      ? [
+          {
+            name: "ID",
+            selector: (row) => row.servicerData.unique_key,
+            sortable: true,
+            minWidth: "auto", // Set a custom minimum width
+            maxWidth: "70px", // Set a custom maximum width
+          },
+          {
+            name: "Name",
+            selector: (row) => row.servicerData.name,
+            sortable: true,
+          },
+          {
+            name: "Email",
+            selector: (row) => row.email,
+            sortable: true,
+          },
+          {
+            name: "Phone No.",
+            selector: (row) => row.phoneNumber,
+            sortable: true,
+          },
+          {
+            name: "# of Claims",
+            selector: (row) => 0,
+            sortable: true,
+          },
+          {
+            name: "Total Claims Value",
+            selector: (row) => "$ 0.00",
+            sortable: true,
+          },
+        ]
+      : [
+          {
+            name: "ID",
+            selector: (row) => row.servicerData.unique_key,
+            sortable: true,
+            minWidth: "auto", // Set a custom minimum width
+            maxWidth: "70px", // Set a custom maximum width
+          },
+          {
+            name: "Name",
+            selector: (row) => row.servicerData.name,
+            sortable: true,
+          },
+          {
+            name: "Email",
+            selector: (row) => row.email,
+            sortable: true,
+          },
+          {
+            name: "Phone No.",
+            selector: (row) => row.phoneNumber,
+            sortable: true,
+          },
+          {
+            name: "# of Claims",
+            selector: (row) => 0,
+            sortable: true,
+          },
+          {
+            name: "Total Claims Value",
+            selector: (row) => "$ 0.00",
+            sortable: true,
+          },
 
-    {
-      name: "Action",
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
-      cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
-        return (
-          <div className="relative">
-            <div
-              onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.servicerData.unique_key
-                    ? null
-                    : row.servicerData.unique_key
-                )
-              }
-            >
-              <img
-                src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
-                alt="Active Icon"
-              />
-            </div>
-            {selectedAction === row.servicerData.unique_key && (
-              <div
-                ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
-              >
-                <div
-                  className="text-center cursor-pointer py-1"
-                  onClick={() => {
-                    navigate(`/servicerDetails/${row.accountId}`);
-                  }}
-                >
-                  View
+          {
+            name: "Action",
+            minWidth: "auto", // Set a custom minimum width
+            maxWidth: "70px", // Set a custom maximum width
+            cell: (row, index) => {
+              // console.log(index, index % 10 == 9)
+              return (
+                <div className="relative">
+                  <div
+                    onClick={() =>
+                      setSelectedAction(
+                        selectedAction === row.servicerData.unique_key
+                          ? null
+                          : row.servicerData.unique_key
+                      )
+                    }
+                  >
+                    <img
+                      src={ActiveIcon}
+                      className="cursor-pointer	w-[35px]"
+                      alt="Active Icon"
+                    />
+                  </div>
+                  {selectedAction === row.servicerData.unique_key && (
+                    <div
+                      ref={dropdownRef}
+                      className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                        index
+                      )}`}
+                    >
+                      <div
+                        className="text-center cursor-pointer py-1"
+                        onClick={() => {
+                          navigate(`/servicerDetails/${row.accountId}`);
+                        }}
+                      >
+                        View
+                      </div>
+                      <div
+                        className="text-center py-3 cursor-pointer"
+                        onClick={() => openModal(row)}
+                      >
+                        Unassigned
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <div
-                  className="text-center py-3 cursor-pointer"
-                  onClick={() => openModal(row)}
-                >
-                  Unassigned
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      },
-    },
-  ];
+              );
+            },
+          },
+        ];
 
   return (
     <>

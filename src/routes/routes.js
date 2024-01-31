@@ -130,9 +130,7 @@ const routes = [
       {
         path: "/editClaim",
         index: true,
-        element: (
-          <PrivateRoute element={<EditClaim />} path="/editclaim" />
-        ),
+        element: <PrivateRoute element={<EditClaim />} path="/editclaim" />,
       },
       {
         path: "/servicerDetails/:servicerId",
@@ -167,14 +165,14 @@ const routes = [
         element: <PrivateRoute element={<Dealer />} />,
       },
       {
-        path: "/addCustomer/:dealerValueId?",
+        path: "/addCustomer/:dealerValueId?/:typeofUser?",
         element: <PrivateRoute element={<AddCustomer />} />,
       },
       {
         path: "/addDealerBook/:dealerIdValue?",
         element: <PrivateRoute element={<AddDealerBook />} />,
       },
-      
+
       {
         path: "/editDealerBook/:id/:dealerIdValue?",
         element: <PrivateRoute element={<AddDealerBook />} />,
@@ -276,7 +274,9 @@ const routes = [
       },
       {
         path: "/contractList",
-        element: <PrivateRoute element={<ContractList />} path="/contractList" />,
+        element: (
+          <PrivateRoute element={<ContractList />} path="/contractList" />
+        ),
       },
       {
         path: "/claimList",
@@ -288,7 +288,9 @@ const routes = [
       },
       {
         path: "/resellerList",
-        element: <PrivateRoute element={<ResellerList />} path="/resellerList" />,
+        element: (
+          <PrivateRoute element={<ResellerList />} path="/resellerList" />
+        ),
       },
       {
         path: "/addReseller/:dealerValueId?",
@@ -296,7 +298,9 @@ const routes = [
       },
       {
         path: "/addBulkClaim",
-        element: <PrivateRoute element={<AddBulkClaim />} path="/addBulkClaim" />,
+        element: (
+          <PrivateRoute element={<AddBulkClaim />} path="/addBulkClaim" />
+        ),
       },
       {
         path: "/sale",
@@ -310,12 +314,17 @@ const routes = [
         path: "/manageAccount",
         element: <PrivateRoute element={<Account />} path="/manageAccount" />,
       },
-      
-// Dealer Routs ---------------------------------------------------------------
+
+      // Dealer Routs ---------------------------------------------------------------
 
       {
         path: "/dealer/dashboard",
-        element: <PrivateRoute element={<DealerDashboard />} path="/dealer/dashboard" />,
+        element: (
+          <PrivateRoute
+            element={<DealerDashboard />}
+            path="/dealer/dashboard"
+          />
+        ),
       },
       {
         path: "/dealer/user",
@@ -323,13 +332,19 @@ const routes = [
       },
       {
         path: "/dealer/priceBook",
-        element: <PrivateRoute element={<DealerPriceBook />} path="/dealer/priceBook" />,
+        element: (
+          <PrivateRoute
+            element={<DealerPriceBook />}
+            path="/dealer/priceBook"
+          />
+        ),
       },
       {
         path: "/dealer/contract",
-        element: <PrivateRoute element={<DealerContract />} path="/dealer/contract" />,
+        element: (
+          <PrivateRoute element={<DealerContract />} path="/dealer/contract" />
+        ),
       },
-
     ],
   },
 ];

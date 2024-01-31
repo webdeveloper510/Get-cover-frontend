@@ -282,8 +282,10 @@ function AddOrder() {
             .required("Required")
             .nullable(),
           noOfProducts: Yup.number()
+            .typeError("Must be a number")
             .required("Required")
-            .min(1, "Number of Product cannot be negative"),
+            .integer("value should be an integer")
+            .min(0, "value cannot be negative"),
           // additionalNotes: Yup.string().required("Required"),
           QuantityPricing: Yup.array().when("priceType", {
             is: (value) => value === "Quantity Pricing",
@@ -383,7 +385,7 @@ function AddOrder() {
     console.log("formData", formData);
     checkMultipleFileValidation(formData).then((res) => {
       console.log(res);
-     
+
       if (res.code == 200) {
         nextStep();
       } else {
@@ -993,12 +995,11 @@ function AddOrder() {
                 </div>
               </Grid>
             </div>
-           
           </Grid>
         </div>
         <div className="flex">
-              <Button type="submit">Next</Button>
-            </div>
+          <Button type="submit">Next</Button>
+        </div>
       </form>
     );
   };
@@ -1007,692 +1008,708 @@ function AddOrder() {
     // Step 2 content
     return (
       <>
-      <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
-        <p className="text-2xl font-bold mb-4">Dealer Order Details</p>
-        <Grid>
-          <div className="col-span-6">
-            <Grid>
-              <div className="col-span-12">
-                <div className="col-span-12 mt-4">
-                  <Input
-                    type="text"
-                    name="dealerPurchaseOrder"
-                    className="!bg-white"
-                    label="Dealer Purchase Order #"
-                    required={true}
+        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+          <p className="text-2xl font-bold mb-4">Dealer Order Details</p>
+          <Grid>
+            <div className="col-span-6">
+              <Grid>
+                <div className="col-span-12">
+                  <div className="col-span-12 mt-4">
+                    <Input
+                      type="text"
+                      name="dealerPurchaseOrder"
+                      className="!bg-white"
+                      label="Dealer Purchase Order #"
+                      required={true}
+                      placeholder=""
+                      maxLength={"500"}
+                      value={formikStep2.values.dealerPurchaseOrder}
+                      onBlur={formikStep2.handleBlur}
+                      onChange={formikStep2.handleChange}
+                      error={
+                        formikStep2.touched.dealerPurchaseOrder &&
+                        formikStep2.errors.dealerPurchaseOrder
+                      }
+                    />
+                    {formikStep2.touched.dealerPurchaseOrder &&
+                      formikStep2.errors.dealerPurchaseOrder && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formikStep2.errors.dealerPurchaseOrder}
+                        </div>
+                      )}
+                  </div>
+                </div>
+                <div className="col-span-6">
+                  <Select
+                    label="Service Coverage"
+                    name="serviceCoverageType"
                     placeholder=""
-                    maxLength={"500"}
-                    value={formikStep2.values.dealerPurchaseOrder}
+                    className="!bg-white"
+                    required={true}
+                    onChange={handleSelectChange1}
+                    options={serviceCoverage}
+                    value={formikStep2.values.serviceCoverageType}
                     onBlur={formikStep2.handleBlur}
-                    onChange={formikStep2.handleChange}
                     error={
-                      formikStep2.touched.dealerPurchaseOrder &&
-                      formikStep2.errors.dealerPurchaseOrder
+                      formikStep2.touched.serviceCoverageType &&
+                      formikStep2.errors.serviceCoverageType
                     }
                   />
-                  {formikStep2.touched.dealerPurchaseOrder &&
-                    formikStep2.errors.dealerPurchaseOrder && (
+                  {formikStep2.touched.serviceCoverageType &&
+                    formikStep2.errors.serviceCoverageType && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formikStep2.errors.dealerPurchaseOrder}
+                        {formikStep2.errors.serviceCoverageType}
                       </div>
                     )}
                 </div>
-              </div>
-              <div className="col-span-6">
-                <Select
-                  label="Service Coverage"
-                  name="serviceCoverageType"
-                  placeholder=""
-                  className="!bg-white"
-                  required={true}
-                  onChange={handleSelectChange1}
-                  options={serviceCoverage}
-                  value={formikStep2.values.serviceCoverageType}
-                  onBlur={formikStep2.handleBlur}
-                  error={
-                    formikStep2.touched.serviceCoverageType &&
-                    formikStep2.errors.serviceCoverageType
-                  }
-                />
-                {formikStep2.touched.serviceCoverageType &&
-                  formikStep2.errors.serviceCoverageType && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formikStep2.errors.serviceCoverageType}
-                    </div>
-                  )}
-              </div>
-              <div className="col-span-6">
-                <Select
-                  label="Coverage Type"
-                  name="coverageType"
-                  placeholder=""
-                  className="!bg-white"
-                  required={true}
-                  onChange={handleSelectChange1}
-                  options={coverage}
-                  value={formikStep2.values.coverageType}
-                  onBlur={formikStep2.handleBlur}
-                  error={
-                    formikStep2.touched.coverageType &&
-                    formikStep2.errors.coverageType
-                  }
-                />
-                {formikStep2.touched.coverageType &&
-                  formikStep2.errors.coverageType && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formikStep2.errors.coverageType}
-                    </div>
-                  )}
-              </div>
-            </Grid>
-          </div>
-         
-        </Grid>
-      </div>
+                <div className="col-span-6">
+                  <Select
+                    label="Coverage Type"
+                    name="coverageType"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                    onChange={handleSelectChange1}
+                    options={coverage}
+                    value={formikStep2.values.coverageType}
+                    onBlur={formikStep2.handleBlur}
+                    error={
+                      formikStep2.touched.coverageType &&
+                      formikStep2.errors.coverageType
+                    }
+                  />
+                  {formikStep2.touched.coverageType &&
+                    formikStep2.errors.coverageType && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formikStep2.errors.coverageType}
+                      </div>
+                    )}
+                </div>
+              </Grid>
+            </div>
+          </Grid>
+        </div>
 
-       <div className="flex">
-            <Button onClick={prevStep} className="!bg-[transparent] !text-black">
-              Previous
-            </Button>
-            <Button onClick={formikStep2.handleSubmit}>Next</Button>
-          </div>
+        <div className="flex">
+          <Button onClick={prevStep} className="!bg-[transparent] !text-black">
+            Previous
+          </Button>
+          <Button onClick={formikStep2.handleSubmit}>Next</Button>
+        </div>
       </>
-      
     );
   };
 
   const renderStep3 = () => {
     return (
       <>
-       {/* {loading ? (
+        {/* {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
               </div>
             ) : ( */}
-              <div className="mb-3">
-                {formikStep3?.values?.productsArray.map((data, index) => (
-                  <div
-                    key={index}
-                    className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative"
+        <div className="mb-3">
+          {formikStep3?.values?.productsArray.map((data, index) => (
+            <div
+              key={index}
+              className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative"
+            >
+              <p className="text-2xl font-bold mb-4">Add Product</p>
+              <div className="absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 ">
+                {index === 0 ? (
+                  <Button
+                    className="text-sm !font-light"
+                    onClick={handleAddProduct}
                   >
-                    <p className="text-2xl font-bold mb-4">Add Product</p>
-                    <div className="absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 ">
-                      {index === 0 ? (
-                        <Button
-                          className="text-sm !font-light"
-                          onClick={handleAddProduct}
-                        >
-                          + Add More Product
-                        </Button>
-                      ) : (
-                        <div
-                          onClick={() => {
-                            handleDeleteProduct(index);
-                          }}
-                        >
-                          <div className="flex h-full mx-3 bg-[#fff] rounded-[30px] justify-center">
-                            <img src={Delete} alt="Delete" className="cursor-pointer" />
-                          </div>
-                        </div>
-                      )}
+                    + Add More Product
+                  </Button>
+                ) : (
+                  <div
+                    onClick={() => {
+                      handleDeleteProduct(index);
+                    }}
+                  >
+                    <div className="flex h-full mx-3 bg-[#fff] rounded-[30px] justify-center">
+                      <img
+                        src={Delete}
+                        alt="Delete"
+                        className="cursor-pointer"
+                      />
                     </div>
-                    <Grid>
-                      <div className="col-span-8 border-r pr-5">
-                        <Grid>
-                          <div className="col-span-6">
-                            <Select
-                              name={`productsArray[${index}].categoryId`}
-                              label="Product Category"
-                              options={categoryList}
-                              required={true}
-                              className="!bg-[#fff]"
-                              placeholder=""
-                              value={formikStep3.values.productsArray[index].categoryId}
-                              onBlur={formikStep3.handleBlur}
-                              onChange={handleSelectChange2}
-                              index={index}
-                              error={
-                                formikStep3.values.productsArray &&
-                                formikStep3.values.productsArray[index] &&
-                                formikStep3.values.productsArray &&
-                                formikStep3.values.productsArray[index] &&
-                                formikStep3.values.productsArray[index].categoryId
-                              }
-                            />
-                            {formikStep3.touched.productsArray &&
-                              formikStep3.touched.productsArray[index] &&
-                              formikStep3.touched.productsArray[index].categoryId && (
-                                <div className="text-red-500 text-sm pl-2 pt-2">
-                                  {formikStep3.errors.productsArray &&
-                                    formikStep3.errors.productsArray[index] &&
-                                    formikStep3.errors.productsArray[index].categoryId}
-                                </div>
-                              )}
+                  </div>
+                )}
+              </div>
+              <Grid>
+                <div className="col-span-8 border-r pr-5">
+                  <Grid>
+                    <div className="col-span-6">
+                      <Select
+                        name={`productsArray[${index}].categoryId`}
+                        label="Product Category"
+                        options={categoryList}
+                        required={true}
+                        className="!bg-[#fff]"
+                        placeholder=""
+                        value={
+                          formikStep3.values.productsArray[index].categoryId
+                        }
+                        onBlur={formikStep3.handleBlur}
+                        onChange={handleSelectChange2}
+                        index={index}
+                        error={
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray[index].categoryId
+                        }
+                      />
+                      {formikStep3.touched.productsArray &&
+                        formikStep3.touched.productsArray[index] &&
+                        formikStep3.touched.productsArray[index].categoryId && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formikStep3.errors.productsArray &&
+                              formikStep3.errors.productsArray[index] &&
+                              formikStep3.errors.productsArray[index]
+                                .categoryId}
                           </div>
-                          <div className="col-span-6">
-                            <Select
-                              name={`productsArray[${index}].priceBookId`}
-                              label="Product Name"
-                              options={productNameOptions[index]?.data}
-                              required={true}
-                              className="!bg-[#fff]"
-                              placeholder=""
-                              value={
-                                formikStep3.values.productsArray[index].priceBookId
-                              }
-                              onBlur={formikStep3.handleBlur}
-                              onChange={handleSelectChange2}
-                              index={index}
-                              error={
-                                formikStep3.values.productsArray &&
-                                formikStep3.values.productsArray[index] &&
-                                formikStep3.values.productsArray &&
-                                formikStep3.values.productsArray[index] &&
-                                formikStep3.values.productsArray[index].priceBookId
-                              }
-                            />
-                            {formikStep3.touched.productsArray &&
-                              formikStep3.touched.productsArray[index] &&
-                              formikStep3.touched.productsArray[index].priceBookId && (
-                                <div className="text-red-500 text-sm pl-2 pt-2">
-                                  {formikStep3.errors.productsArray &&
-                                    formikStep3.errors.productsArray[index] &&
-                                    formikStep3.errors.productsArray[index].priceBookId}
-                                </div>
-                              )}
+                        )}
+                    </div>
+                    <div className="col-span-6">
+                      <Select
+                        name={`productsArray[${index}].priceBookId`}
+                        label="Product Name"
+                        options={productNameOptions[index]?.data}
+                        required={true}
+                        className="!bg-[#fff]"
+                        placeholder=""
+                        value={
+                          formikStep3.values.productsArray[index].priceBookId
+                        }
+                        onBlur={formikStep3.handleBlur}
+                        onChange={handleSelectChange2}
+                        index={index}
+                        error={
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray[index].priceBookId
+                        }
+                      />
+                      {formikStep3.touched.productsArray &&
+                        formikStep3.touched.productsArray[index] &&
+                        formikStep3.touched.productsArray[index]
+                          .priceBookId && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formikStep3.errors.productsArray &&
+                              formikStep3.errors.productsArray[index] &&
+                              formikStep3.errors.productsArray[index]
+                                .priceBookId}
                           </div>
-                          <div className="col-span-12">
-                            <Input
-                              type="text"
-                              name={`productsArray[${index}].description`}
-                              className="!bg-[#fff]"
-                              label="Product Description"
-                              placeholder=""
-                              value={
-                                formikStep3.values.productsArray[index].description
-                              }
-                              onChange={formikStep3.handleChange}
-                              onBlur={formikStep3.handleBlur}
-                              disabled={true}
-                              onWheelCapture={(e) => {
-                                e.preventDefault();
-                              }}
-                            />
+                        )}
+                    </div>
+                    <div className="col-span-12">
+                      <Input
+                        type="text"
+                        name={`productsArray[${index}].description`}
+                        className="!bg-[#fff]"
+                        label="Product Description"
+                        placeholder=""
+                        value={
+                          formikStep3.values.productsArray[index].description
+                        }
+                        onChange={formikStep3.handleChange}
+                        onBlur={formikStep3.handleBlur}
+                        disabled={true}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Select
+                        label="Terms"
+                        name={`productsArray[${index}].term`}
+                        placeholder=""
+                        onChange={handleSelectChange2}
+                        className="!bg-[#fff]"
+                        options={termList}
+                        disabled={true}
+                        value={formikStep3.values.productsArray[index].term}
+                        onBlur={formikStep3.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        type="text"
+                        name={`productsArray[${index}].priceType`}
+                        className="!bg-[#fff]"
+                        label="Product Price Type"
+                        placeholder=""
+                        value={
+                          formikStep3.values.productsArray[index].priceType
+                        }
+                        onChange={formikStep3.handleChange}
+                        onBlur={formikStep3.handleBlur}
+                        disabled={true}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        type="text"
+                        name={`productsArray[${index}].unitPrice`}
+                        className="!bg-[#fff]"
+                        label="Unit Price ($)"
+                        placeholder=""
+                        value={
+                          formikStep3.values.productsArray[index].unitPrice
+                        }
+                        onChange={formikStep3.handleChange}
+                        onBlur={formikStep3.handleBlur}
+                        disabled={true}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        type="number"
+                        name={`productsArray[${index}].noOfProducts`}
+                        className="!bg-[#fff]"
+                        label="# of Products"
+                        required={true}
+                        placeholder=""
+                        disabled={
+                          formikStep3.values.productsArray[index].priceType !==
+                          "Quantity Pricing"
+                            ? false
+                            : true
+                        }
+                        value={
+                          formikStep3.values.productsArray[index].noOfProducts
+                        }
+                        onChange={(e) => {
+                          formikStep3.handleChange(e);
+                          const unitPrice =
+                            formikStep3.values.productsArray[index].unitPrice;
+                          const enteredValue = parseFloat(e.target.value);
+                          const calculatedPrice = unitPrice * enteredValue;
+                          setNumberOfOrders((prevFileValues) => {
+                            const newArray = [...prevFileValues];
+                            newArray[index] = enteredValue;
+                            console.log(newArray);
+                            return newArray;
+                          });
+                          formikStep3.setFieldValue(
+                            `productsArray[${index}].price`,
+                            calculatedPrice.toFixed(2)
+                          );
+                        }}
+                        onBlur={formikStep3.handleBlur}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
+                        error={
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray[index].noOfProducts
+                        }
+                      />
+                      {formikStep3.touched.productsArray &&
+                        formikStep3.touched.productsArray[index] &&
+                        formikStep3.touched.productsArray[index]
+                          .noOfProducts && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formikStep3.errors.productsArray &&
+                              formikStep3.errors.productsArray[index] &&
+                              formikStep3.errors.productsArray[index]
+                                .noOfProducts}
                           </div>
-                          <div className="col-span-4">
-                            <Select
-                              label="Terms"
-                              name={`productsArray[${index}].term`}
-                              placeholder=""
-                              onChange={handleSelectChange2}
-                              className="!bg-[#fff]"
-                              options={termList}
-                              disabled={true}
-                              value={formikStep3.values.productsArray[index].term}
-                              onBlur={formikStep3.handleBlur}
-                            />
-                          </div>
-                          <div className="col-span-4">
-                            <Input
-                              type="text"
-                              name={`productsArray[${index}].priceType`}
-                              className="!bg-[#fff]"
-                              label="Product Price Type"
-                              placeholder=""
-                              value={formikStep3.values.productsArray[index].priceType}
-                              onChange={formikStep3.handleChange}
-                              onBlur={formikStep3.handleBlur}
-                              disabled={true}
-                              onWheelCapture={(e) => {
-                                e.preventDefault();
-                              }}
-                            />
-                          </div>
-                          <div className="col-span-4">
-                            <Input
-                              type="text"
-                              name={`productsArray[${index}].unitPrice`}
-                              className="!bg-[#fff]"
-                              label="Unit Price ($)"
-                              placeholder=""
-                              value={formikStep3.values.productsArray[index].unitPrice}
-                              onChange={formikStep3.handleChange}
-                              onBlur={formikStep3.handleBlur}
-                              disabled={true}
-                              onWheelCapture={(e) => {
-                                e.preventDefault();
-                              }}
-                            />
-                          </div>
-                          <div className="col-span-4">
-                            <Input
-                              type="number"
-                              name={`productsArray[${index}].noOfProducts`}
-                              className="!bg-[#fff]"
-                              label="# of Products"
-                              required={true}
-                              placeholder=""
-                              disabled={
-                                formikStep3.values.productsArray[index].priceType !==
-                                "Quantity Pricing"
-                                  ? false
-                                  : true
-                              }
-                              value={
-                                formikStep3.values.productsArray[index].noOfProducts
-                              }
-                              onChange={(e) => {
-                                formikStep3.handleChange(e);
-                                const unitPrice =
-                                  formikStep3.values.productsArray[index].unitPrice;
-                                const enteredValue = parseFloat(e.target.value);
-                                const calculatedPrice = unitPrice * enteredValue;
-                                setNumberOfOrders((prevFileValues) => {
-                                  const newArray = [...prevFileValues];
-                                  newArray[index] = enteredValue;
-                                  console.log(newArray);
-                                  return newArray;
-                                });
-                                formikStep3.setFieldValue(
-                                  `productsArray[${index}].price`,
-                                  calculatedPrice.toFixed(2)
-                                );
-                              }}
-                              onBlur={formikStep3.handleBlur}
-                              onWheelCapture={(e) => {
-                                e.preventDefault();
-                              }}
-                              error={
-                                formikStep3.values.productsArray &&
-                                formikStep3.values.productsArray[index] &&
-                                formikStep3.values.productsArray &&
-                                formikStep3.values.productsArray[index] &&
-                                formikStep3.values.productsArray[index].noOfProducts
-                              }
-                            />
-                            {formikStep3.touched.productsArray &&
-                              formikStep3.touched.productsArray[index] &&
-                              formikStep3.touched.productsArray[index].noOfProducts && (
-                                <div className="text-red-500 text-sm pl-2 pt-2">
-                                  {formikStep3.errors.productsArray &&
-                                    formikStep3.errors.productsArray[index] &&
-                                    formikStep3.errors.productsArray[index]
-                                      .noOfProducts}
-                                </div>
-                              )}
-                          </div>
-                          <div className="col-span-4">
-                            <Input
-                              type="number"
-                              name={`productsArray[${index}].price`}
-                              className="!bg-[#fff]"
-                              label="Price ($)"
-                              placeholder=""
-                              value={formikStep3.values.productsArray[index].price}
-                              onChange={formikStep3.handleChange}
-                              onBlur={formikStep3.handleBlur}
-                              disabled={true}
-                              onWheelCapture={(e) => {
-                                e.preventDefault();
-                              }}
-                            />
-                          </div>
-                          <div className="col-span-4">
-                            <Input
-                              type="date"
-                              name={`productsArray[${index}].coverageStartDate`}
-                              className="!bg-[#fff]"
-                              label="Coverage Start Date"
-                              placeholder=""
-                              readOnly
-                              value={
-                                formikStep3.values.productsArray[index]
-                                  .coverageStartDate == ""
-                                  ? formikStep3.values.productsArray[index]
-                                      .coverageStartDate
-                                  : format(
-                                      new Date(
-                                        formikStep3.values.productsArray[
-                                          index
-                                        ].coverageStartDate
-                                      ),
-                                      "yyyy-MM-dd"
-                                    )
-                              }
-                              onChange={(e) => {
-                                formikStep3.handleChange(e);
-                                const selectedDate = new Date(e.target.value);
-                                const gmtDate = selectedDate.toISOString();
-                                formikStep3.setFieldValue(
-                                  `productsArray[${index}].coverageStartDate`,
-                                  gmtDate
-                                );
-                                const termInMonths =
-                                  formikStep3.values.productsArray[index].term || 0;
-                                const newEndDate = addMonths(
-                                  selectedDate,
-                                  termInMonths
-                                );
-                                const formattedEndDate = newEndDate.toISOString();
-
-                                formikStep3.setFieldValue(
-                                  `productsArray[${index}].coverageEndDate`,
-                                  formattedEndDate
-                                );
-                              }}
-                              onBlur={formikStep3.handleBlur}
-                              onWheelCapture={(e) => {
-                                e.preventDefault();
-                              }}
-                              error={
-                                formikStep3.values.productsArray &&
-                                formikStep3.values.productsArray[index] &&
-                                formikStep3.values.productsArray &&
-                                formikStep3.values.productsArray[index] &&
-                                formikStep3.values.productsArray[index]
-                                  .coverageStartDate
-                              }
-                            />
-                            {formikStep3.touched.productsArray &&
-                              formikStep3.touched.productsArray[index] &&
-                              formikStep3.touched.productsArray[index]
-                                .coverageStartDate && (
-                                <div className="text-red-500 text-sm pl-2 pt-2">
-                                  {formikStep3.errors.productsArray &&
-                                    formikStep3.errors.productsArray[index] &&
-                                    formikStep3.errors.productsArray[index]
-                                      .coverageStartDate}
-                                </div>
-                              )}
-                          </div>
-                          {(formikStep3.values.productsArray[index].priceType ===
-                            "FlatPricing" ||
-                            formikStep3.values.productsArray[index].priceType ===
-                              "Flat Pricing") && (
-                            <>
-                              <div className="col-span-4">
-                                <Input
-                                  type="text"
-                                  name={`productsArray[${index}].rangeStart`}
-                                  className="!bg-[#fff]"
-                                  label="Start Range"
-                                  placeholder=""
-                                  value={
-                                    formikStep3.values.productsArray[index].rangeStart
-                                  }
-                                  onChange={formikStep3.handleChange}
-                                  onBlur={formikStep3.handleBlur}
-                                  disabled={true}
-                                  onWheelCapture={(e) => {
-                                    e.preventDefault();
-                                  }}
-                                />
-                              </div>
-                              <div className="col-span-4">
-                                <Input
-                                  type="text"
-                                  name={`productsArray[${index}].rangeEnd`}
-                                  className="!bg-[#fff]"
-                                  label="End Range"
-                                  placeholder=""
-                                  value={
-                                    formikStep3.values.productsArray[index].rangeEnd
-                                  }
-                                  onChange={formikStep3.handleChange}
-                                  onBlur={formikStep3.handleBlur}
-                                  disabled={true}
-                                  onWheelCapture={(e) => {
-                                    e.preventDefault();
-                                  }}
-                                />
-                              </div>
-                            </>
-                          )}
-                          <div className="col-span-12">
-                            <Grid className="!grid-cols-3">
-                              {formikStep3.values.productsArray[index].priceType ===
-                                "Quantity Pricing" &&
-                                (() => {
-                                  return formikStep3.values.productsArray[
+                        )}
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        type="number"
+                        name={`productsArray[${index}].price`}
+                        className="!bg-[#fff]"
+                        label="Price ($)"
+                        placeholder=""
+                        value={formikStep3.values.productsArray[index].price}
+                        onChange={formikStep3.handleChange}
+                        onBlur={formikStep3.handleBlur}
+                        disabled={true}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        type="date"
+                        name={`productsArray[${index}].coverageStartDate`}
+                        className="!bg-[#fff]"
+                        label="Coverage Start Date"
+                        placeholder=""
+                        readOnly
+                        value={
+                          formikStep3.values.productsArray[index]
+                            .coverageStartDate == ""
+                            ? formikStep3.values.productsArray[index]
+                                .coverageStartDate
+                            : format(
+                                new Date(
+                                  formikStep3.values.productsArray[
                                     index
-                                  ].QuantityPricing.map((data, index1) => (
-                                    <div
-                                      className="bg-[#f9f9f9] p-4 relative rounded-xl"
-                                      key={index1}
-                                    >
-                                      <div className=" p-4 pl-0 relative rounded-xl">
-                                        <Grid className="">
-                                          <div className="col-span-12">
-                                            <Input
-                                              type="text"
-                                              name={`productsArray[${index}].QuantityPricing[${index1}].name`}
-                                              className="!bg-[#f9f9f9]"
-                                              label="Name"
-                                              value={
-                                                formikStep3.values.productsArray[index]
-                                                  .QuantityPricing[index1].name
-                                              }
-                                              required={true}
-                                              disabled={true}
-                                              onChange={formikStep3.handleChange}
-                                              placeholder=""
-                                              onBlur={() => {
-                                                formikStep3.setFieldTouched(
-                                                  `QuantityPricing[${index1}].name`,
-                                                  true,
-                                                  false
-                                                );
-                                              }}
-                                            />
-                                          </div>
-                                          <div className="col-span-12">
-                                            <Input
-                                              type="number"
-                                              name={`productsArray[${index}].QuantityPricing[${index1}].quantity`}
-                                              className="!bg-[#f9f9f9]"
-                                              label="Max Quantity"
-                                              maxLength={"10"}
-                                              maxDecimalPlaces={2}
-                                              value={
-                                                formikStep3.values.productsArray[index]
-                                                  .QuantityPricing[index1].quantity
-                                              }
-                                              required={true}
-                                              disabled={true}
-                                              onChange={formikStep3.handleChange}
-                                              onBlur={() => {
-                                                formikStep3.setFieldTouched(
-                                                  `QuantityPricing[${index1}].quantity`,
-                                                  true,
-                                                  false
-                                                );
-                                              }}
-                                              placeholder=""
-                                            />
-                                          </div>
-                                          <div className="col-span-12">
-                                            <Input
-                                              type="tel"
-                                              name={`productsArray[${index}].QuantityPricing[${index1}].enterQuantity`}
-                                              className="!bg-[#f9f9f9]"
-                                              label="# of Quantity"
-                                              required={true}
-                                              placeholder=""
-                                              value={
-                                                formikStep3.values.productsArray[index]
-                                                  .QuantityPricing[index1].enterQuantity
-                                              }
-                                              onChange={(e) => {
-                                                formikStep3.handleChange(e);
-                                              }}
-                                              onBlur={formikStep3.handleBlur}
-                                              onWheelCapture={(e) => {
-                                                e.preventDefault();
-                                              }}
-                                            />
-                                            {formikStep3.touched.productsArray &&
-                                              formikStep3.touched.productsArray[
+                                  ].coverageStartDate
+                                ),
+                                "yyyy-MM-dd"
+                              )
+                        }
+                        onChange={(e) => {
+                          formikStep3.handleChange(e);
+                          const selectedDate = new Date(e.target.value);
+                          const gmtDate = selectedDate.toISOString();
+                          formikStep3.setFieldValue(
+                            `productsArray[${index}].coverageStartDate`,
+                            gmtDate
+                          );
+                          const termInMonths =
+                            formikStep3.values.productsArray[index].term || 0;
+                          const newEndDate = addMonths(
+                            selectedDate,
+                            termInMonths
+                          );
+                          const formattedEndDate = newEndDate.toISOString();
+
+                          formikStep3.setFieldValue(
+                            `productsArray[${index}].coverageEndDate`,
+                            formattedEndDate
+                          );
+                        }}
+                        onBlur={formikStep3.handleBlur}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
+                        error={
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray[index]
+                            .coverageStartDate
+                        }
+                      />
+                      {formikStep3.touched.productsArray &&
+                        formikStep3.touched.productsArray[index] &&
+                        formikStep3.touched.productsArray[index]
+                          .coverageStartDate && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formikStep3.errors.productsArray &&
+                              formikStep3.errors.productsArray[index] &&
+                              formikStep3.errors.productsArray[index]
+                                .coverageStartDate}
+                          </div>
+                        )}
+                    </div>
+                    {(formikStep3.values.productsArray[index].priceType ===
+                      "FlatPricing" ||
+                      formikStep3.values.productsArray[index].priceType ===
+                        "Flat Pricing") && (
+                      <>
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            name={`productsArray[${index}].rangeStart`}
+                            className="!bg-[#fff]"
+                            label="Start Range"
+                            placeholder=""
+                            value={
+                              formikStep3.values.productsArray[index].rangeStart
+                            }
+                            onChange={formikStep3.handleChange}
+                            onBlur={formikStep3.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            name={`productsArray[${index}].rangeEnd`}
+                            className="!bg-[#fff]"
+                            label="End Range"
+                            placeholder=""
+                            value={
+                              formikStep3.values.productsArray[index].rangeEnd
+                            }
+                            onChange={formikStep3.handleChange}
+                            onBlur={formikStep3.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+                      </>
+                    )}
+                    <div className="col-span-12">
+                      <Grid className="!grid-cols-3">
+                        {formikStep3.values.productsArray[index].priceType ===
+                          "Quantity Pricing" &&
+                          (() => {
+                            return formikStep3.values.productsArray[
+                              index
+                            ].QuantityPricing.map((data, index1) => (
+                              <div
+                                className="bg-[#f9f9f9] p-4 relative rounded-xl"
+                                key={index1}
+                              >
+                                <div className=" p-4 pl-0 relative rounded-xl">
+                                  <Grid className="">
+                                    <div className="col-span-12">
+                                      <Input
+                                        type="text"
+                                        name={`productsArray[${index}].QuantityPricing[${index1}].name`}
+                                        className="!bg-[#f9f9f9]"
+                                        label="Name"
+                                        value={
+                                          formikStep3.values.productsArray[
+                                            index
+                                          ].QuantityPricing[index1].name
+                                        }
+                                        required={true}
+                                        disabled={true}
+                                        onChange={formikStep3.handleChange}
+                                        placeholder=""
+                                        onBlur={() => {
+                                          formikStep3.setFieldTouched(
+                                            `QuantityPricing[${index1}].name`,
+                                            true,
+                                            false
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                    <div className="col-span-12">
+                                      <Input
+                                        type="number"
+                                        name={`productsArray[${index}].QuantityPricing[${index1}].quantity`}
+                                        className="!bg-[#f9f9f9]"
+                                        label="Max Quantity"
+                                        maxLength={"10"}
+                                        maxDecimalPlaces={2}
+                                        value={
+                                          formikStep3.values.productsArray[
+                                            index
+                                          ].QuantityPricing[index1].quantity
+                                        }
+                                        required={true}
+                                        disabled={true}
+                                        onChange={formikStep3.handleChange}
+                                        onBlur={() => {
+                                          formikStep3.setFieldTouched(
+                                            `QuantityPricing[${index1}].quantity`,
+                                            true,
+                                            false
+                                          );
+                                        }}
+                                        placeholder=""
+                                      />
+                                    </div>
+                                    <div className="col-span-12">
+                                      <Input
+                                        type="tel"
+                                        name={`productsArray[${index}].QuantityPricing[${index1}].enterQuantity`}
+                                        className="!bg-[#f9f9f9]"
+                                        label="# of Quantity"
+                                        required={true}
+                                        placeholder=""
+                                        value={
+                                          formikStep3.values.productsArray[
+                                            index
+                                          ].QuantityPricing[index1]
+                                            .enterQuantity
+                                        }
+                                        onChange={(e) => {
+                                          formikStep3.handleChange(e);
+                                        }}
+                                        onBlur={formikStep3.handleBlur}
+                                        onWheelCapture={(e) => {
+                                          e.preventDefault();
+                                        }}
+                                      />
+                                      {formikStep3.touched.productsArray &&
+                                        formikStep3.touched.productsArray[
+                                          index
+                                        ] &&
+                                        formikStep3.touched.productsArray[index]
+                                          .QuantityPricing &&
+                                        formikStep3.touched.productsArray[index]
+                                          .QuantityPricing[index1] &&
+                                        formikStep3.touched.productsArray[index]
+                                          .QuantityPricing[index1]
+                                          .enterQuantity && (
+                                          <div className="text-red-500 text-sm pl-2 pt-2">
+                                            {formikStep3.errors.productsArray &&
+                                              formikStep3.errors.productsArray[
                                                 index
                                               ] &&
-                                              formikStep3.touched.productsArray[index]
-                                                .QuantityPricing &&
-                                              formikStep3.touched.productsArray[index]
-                                                .QuantityPricing[index1] &&
-                                              formikStep3.touched.productsArray[index]
-                                                .QuantityPricing[index1]
-                                                .enterQuantity && (
-                                                <div className="text-red-500 text-sm pl-2 pt-2">
-                                                  {formikStep3.errors.productsArray &&
-                                                    formikStep3.errors.productsArray[
-                                                      index
-                                                    ] &&
-                                                    formikStep3.errors.productsArray[
-                                                      index
-                                                    ].QuantityPricing &&
-                                                    formikStep3.errors.productsArray[
-                                                      index
-                                                    ].QuantityPricing[index1] &&
-                                                    formikStep3.errors.productsArray[
-                                                      index
-                                                    ].QuantityPricing[index1]
-                                                      .enterQuantity}
-                                                </div>
-                                              )}
+                                              formikStep3.errors.productsArray[
+                                                index
+                                              ].QuantityPricing &&
+                                              formikStep3.errors.productsArray[
+                                                index
+                                              ].QuantityPricing[index1] &&
+                                              formikStep3.errors.productsArray[
+                                                index
+                                              ].QuantityPricing[index1]
+                                                .enterQuantity}
                                           </div>
-                                        </Grid>
-                                      </div>
+                                        )}
                                     </div>
-                                  ));
-                                })()}
-                            </Grid>
-                          </div>
-
-                          <div className="col-span-12">
-                            <div className="relative">
-                              <label
-                                htmlFor="description"
-                                className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                              >
-                                Note
-                              </label>
-                              <textarea
-                                id={`productsArray[${index}].additionalNotes`}
-                                rows="4"
-                                name={`productsArray[${index}].additionalNotes`}
-                                maxLength={150}
-                                value={
-                                  formikStep3.values.productsArray[index]
-                                    .additionalNotes
-                                }
-                                onChange={formikStep3.handleChange}
-                                onBlur={formikStep3.handleBlur}
-                                className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                              ></textarea>
-                              {formikStep3.errors.productsArray &&
-                                formikStep3.errors.productsArray[index] &&
-                                formikStep3.errors.productsArray[index]
-                                  .additionalNotes && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {
-                                      formikStep3.errors.productsArray[index]
-                                        .additionalNotes
-                                    }
-                                  </div>
-                                )}
-                            </div>
-                          </div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-4">
-                        <div className="border border-dashed w-full h-[80%] relative flex justify-center">
-                          <label
-                            htmlFor="description"
-                            className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                          >
-                            Upload File
-                          </label>
-                          <div className="self-center text-center">
-                            <button
-                              type="button"
-                              onClick={() => handleDropdownClick(index)}
-                              className={`bg-[#F2F2F2] py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
-                            >
-                              {fileValues[index] ? (
-                                <div className="self-center flex text-center relative bg-white border w-full p-3">
-                                  {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
-                                  <img src={csvFile} className="mr-2" alt="Dropbox" />
-                                  <div className="flex justify-between w-full">
-                                    <p className="self-center text-sm pr-3">
-                                      {" "}
-                                      {fileValues[index].name}
-                                    </p>
-                                    <p className="self-center text-sm">
-                                      {(fileValues[index].size / 1000).toFixed(2)} kb
-                                    </p>
-                                  </div>
+                                  </Grid>
                                 </div>
-                              ) : (
-                                <>
-                                  <img
-                                    src={Dropbox}
-                                    className="mx-auto mb-3"
-                                    alt="Dropbox"
-                                  />
-                                  <p className="text-[#5D6E66]">
-                                    Accepted file types: csv, xlsx, xls Max. file size:
-                                    50 MB.
-                                  </p>
-                                </>
-                              )}
-                            </button>
+                              </div>
+                            ));
+                          })()}
+                      </Grid>
+                    </div>
 
-                            <input
-                              type="file"
-                              ref={fileInputRef.current[index]}
-                              accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                              style={{ display: "none" }}
-                              onChange={(e) => handleFileSelect(e, index)}
-                              disabled={
-                                Boolean(numberOfOrders[index]) === true ? false : true
-                              }
-                            />
-                          </div>
-                        </div>
-                        <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
-                          Please click on file option and make a copy. Upload the list
-                          of Product Name and Price using our provided Google Sheets
-                          template, by{" "}
-                          <span
-                            className="underline cursor-pointer"
-                            onClick={downloadCSVTemplate}
-                          >
-                            Clicking here{" "}
-                          </span>
-                          The file must be saved with csv , xls and xlsx Format.
-                        </p>
+                    <div className="col-span-12">
+                      <div className="relative">
+                        <label
+                          htmlFor="description"
+                          className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                        >
+                          Note
+                        </label>
+                        <textarea
+                          id={`productsArray[${index}].additionalNotes`}
+                          rows="4"
+                          name={`productsArray[${index}].additionalNotes`}
+                          maxLength={150}
+                          value={
+                            formikStep3.values.productsArray[index]
+                              .additionalNotes
+                          }
+                          onChange={formikStep3.handleChange}
+                          onBlur={formikStep3.handleBlur}
+                          className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                        ></textarea>
                         {formikStep3.errors.productsArray &&
                           formikStep3.errors.productsArray[index] &&
-                          formikStep3.errors.productsArray &&
-                          formikStep3.errors.productsArray[index] &&
-                          formikStep3.errors.productsArray[index].file && (
+                          formikStep3.errors.productsArray[index]
+                            .additionalNotes && (
                             <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formikStep3.errors.productsArray[index].file}
+                              {
+                                formikStep3.errors.productsArray[index]
+                                  .additionalNotes
+                              }
                             </div>
                           )}
                       </div>
-                      <div className="col-span-12"></div>
-                    </Grid>
+                    </div>
+                  </Grid>
+                </div>
+                <div className="col-span-4">
+                  <div className="border border-dashed w-full h-[80%] relative flex justify-center">
+                    <label
+                      htmlFor="description"
+                      className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                    >
+                      Upload File
+                    </label>
+                    <div className="self-center text-center">
+                      <button
+                        type="button"
+                        onClick={() => handleDropdownClick(index)}
+                        className={`bg-[#F2F2F2] py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
+                      >
+                        {fileValues[index] ? (
+                          <div className="self-center flex text-center relative bg-white border w-full p-3">
+                            {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
+                            <img src={csvFile} className="mr-2" alt="Dropbox" />
+                            <div className="flex justify-between w-full">
+                              <p className="self-center text-sm pr-3">
+                                {" "}
+                                {fileValues[index].name}
+                              </p>
+                              <p className="self-center text-sm">
+                                {(fileValues[index].size / 1000).toFixed(2)} kb
+                              </p>
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <img
+                              src={Dropbox}
+                              className="mx-auto mb-3"
+                              alt="Dropbox"
+                            />
+                            <p className="text-[#5D6E66]">
+                              Accepted file types: csv, xlsx, xls Max. file
+                              size: 50 MB.
+                            </p>
+                          </>
+                        )}
+                      </button>
+
+                      <input
+                        type="file"
+                        ref={fileInputRef.current[index]}
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                        style={{ display: "none" }}
+                        onChange={(e) => handleFileSelect(e, index)}
+                        disabled={
+                          Boolean(numberOfOrders[index]) === true ? false : true
+                        }
+                      />
+                    </div>
                   </div>
-                ))}
-                <Button className="!bg-[transparent] !text-black" onClick={prevStep}>
-                  Previous
-                </Button>
-                <Button onClick={formikStep3.handleSubmit}>Next</Button>
-                {/* <Button className="ml-2" onClick={()=>openError()}>Error</Button> */}
-              </div>
-            {/* )} */}
+                  <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                    Please click on file option and make a copy. Upload the list
+                    of Product Name and Price using our provided Google Sheets
+                    template, by{" "}
+                    <span
+                      className="underline cursor-pointer"
+                      onClick={downloadCSVTemplate}
+                    >
+                      Clicking here{" "}
+                    </span>
+                    The file must be saved with csv , xls and xlsx Format.
+                  </p>
+                  {formikStep3.errors.productsArray &&
+                    formikStep3.errors.productsArray[index] &&
+                    formikStep3.errors.productsArray &&
+                    formikStep3.errors.productsArray[index] &&
+                    formikStep3.errors.productsArray[index].file && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formikStep3.errors.productsArray[index].file}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-12"></div>
+              </Grid>
+            </div>
+          ))}
+          <Button className="!bg-[transparent] !text-black" onClick={prevStep}>
+            Previous
+          </Button>
+          <Button onClick={formikStep3.handleSubmit}>Next</Button>
+          {/* <Button className="ml-2" onClick={()=>openError()}>Error</Button> */}
+        </div>
+        {/* )} */}
       </>
     );
   };
@@ -1701,7 +1718,7 @@ function AddOrder() {
     // Step 4 content
     return (
       <>
-      {/* {loading ? (
+        {/* {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
@@ -1836,14 +1853,21 @@ function AddOrder() {
                               </tr>
                               <tr className="border bg-[#fff]">
                                 <th className="font-bold text-sm">Name</th>
-                                <th className="font-bold text-sm">Quantity Per Unit</th>
-                                <th className="font-bold text-sm"># of Quantity</th>
+                                <th className="font-bold text-sm">
+                                  Quantity Per Unit
+                                </th>
+                                <th className="font-bold text-sm">
+                                  # of Quantity
+                                </th>
                                 <th className="font-bold text-sm"># of Unit</th>
                               </tr>
                               {data.QuantityPricing &&
                                 data.QuantityPricing.map((value, index) => {
                                   return (
-                                    <tr key={index} className="border bg-[#fff]">
+                                    <tr
+                                      key={index}
+                                      className="border bg-[#fff]"
+                                    >
                                       <td className="text-[12px]">
                                         {value.name}
                                       </td>
@@ -1903,8 +1927,6 @@ function AddOrder() {
           </Grid>
           <form onSubmit={formik4.handleSubmit}>
             <Grid className="mt-5">
-              
-
               <div className="col-span-4 pt-2">
                 <div className="flex block  w-full text-base font-semibold bg-[#f9f9f9] rounded-lg border-[1px] border-gray-300 appearance-none peer undefined  border-gray-300  text-light-black">
                   <p className="self-center text-sm px-3">Payment Status</p>
@@ -2022,14 +2044,13 @@ function AddOrder() {
                 </p>
               </div>
             </Grid>
-            
           </form>
         </div>
         <Button className="!bg-[transparent] !text-black" onClick={prevStep}>
-              Previous
-            </Button>
-            <Button type="submit">Submit</Button>
-            {/* )} */}
+          Previous
+        </Button>
+        <Button type="submit">Submit</Button>
+        {/* )} */}
       </>
     );
   };

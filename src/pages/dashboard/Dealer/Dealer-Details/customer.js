@@ -14,8 +14,9 @@ import { getCustomerListByDealerId } from "../../../../services/customerServices
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
+import { getCustomerByDealerId } from "../../../../services/reSellerServices";
 function CustomerList(props) {
-  console.log(props)
+  console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
   const [customerList, setCustomerList] = useState([]);
   const dropdownRef = useRef(null);
@@ -36,8 +37,8 @@ function CustomerList(props) {
       name: "ID",
       selector: (row) => row.customerData.unique_key,
       sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "70px",
     },
     {
       name: "Name",
@@ -119,15 +120,18 @@ function CustomerList(props) {
   );
 
   const getCustomerList = async () => {
-    const result = await getCustomerListByDealerId(props.id, {});
+    console.log(props.flag, "---------");
+    const result =
+      props.flag === "reseller"
+        ? await getCustomerByDealerId(props.id, {})
+        : await getCustomerListByDealerId(props.id, {});
     setCustomerList(result.result);
     console.log(result.result);
   };
-  useEffect(()=>{
-    getCustomerList();
-    },[props])
   useEffect(() => {
-    
+    getCustomerList();
+  }, [props]);
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSelectedAction(null);
@@ -146,7 +150,10 @@ function CustomerList(props) {
   const filterDealerCustomer = async (data) => {
     try {
       setLoading(true);
-      const res = await getCustomerListByDealerId(props.id, data);
+      const res =
+        props.flag === "reseller"
+          ? await getCustomerByDealerId(props.id, {})
+          : await getCustomerListByDealerId(props.id, data);
       console.log(res.result);
       setCustomerList(res.result);
     } catch (error) {
