@@ -99,7 +99,7 @@ function AddOrder() {
     const result = await getDealersList();
 
     let arr = [];
-    const filteredDealers = result.data.filter(
+    const filteredDealers = result?.data?.filter(
       (data) => data.dealerData.accountStatus === true
     );
     filteredDealers?.map((res) => {

@@ -23,6 +23,7 @@ import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { unAssignedServicerForDealer } from "../../../../services/dealerServices";
+import { getResellerServicers } from "../../../../services/reSellerServices";
 
 function ServicerList(props) {
   console.log(props);
@@ -96,16 +97,18 @@ function ServicerList(props) {
   }, []);
 
   useEffect(() => {
-    if(props.activeTab==='Servicer'){
+    if (props.activeTab === "Servicer") {
       getServicerList();
-      }
-    
+    }
   }, [props]);
 
   const getServicerList = async () => {
     setLoading(true);
     console.log(props.id);
-    const result = await getServicerListByDealerId(props.id);
+    const result =
+      props.flag == "reseller"
+        ? await getResellerServicers(props.id)
+        : await getServicerListByDealerId(props.id);
     setServicerData(result.data);
     console.log(result.data);
     setLoading(false);
@@ -144,7 +147,10 @@ function ServicerList(props) {
   const filterServicerRequest = async (data) => {
     try {
       setLoading(true);
-      const res = await getServicerListByDealerId(props.id, data);
+      const res =
+        props.flag == "reseller"
+          ? await getResellerServicers(props.id, data)
+          : await getServicerListByDealerId(props.id, data);
       console.log(res.data);
       setServicerData(res.data);
     } catch (error) {
