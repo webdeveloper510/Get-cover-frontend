@@ -1524,7 +1524,7 @@ function AddOrder() {
                                             index
                                           ].QuantityPricing[index1].name
                                         }
-                                        required={true}
+                                        // required={true}
                                         disabled={true}
                                         onChange={formikStep3.handleChange}
                                         placeholder=""
@@ -1550,7 +1550,7 @@ function AddOrder() {
                                             index
                                           ].QuantityPricing[index1].quantity
                                         }
-                                        required={true}
+                                        // required={true}
                                         disabled={true}
                                         onChange={formikStep3.handleChange}
                                         onBlur={() => {
