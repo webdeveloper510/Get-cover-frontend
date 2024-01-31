@@ -22,6 +22,7 @@ import Modal from '../../../common/model';
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState('');
+  const [timer, setTimer] = useState(3);
   const [orderList,setOrderList]=useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
@@ -168,10 +169,10 @@ function OrderList() {
               index
             )}`}>
               {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                <div className='text-center py-1 border-b'>Edit</div>
-                <div className='text-center py-1 border-b'>Archive</div>
+                <div className='text-center py-1 border-b cursor-pointer'>Edit</div>
+                <div className='text-center py-1 border-b cursor-pointer' onClick={()=> openArchive()}>Archive</div>
                 <div className='text-center py-1 border-b cursor-pointer' onClick={()=> openModal()}>Process Order</div>
-                <div className='text-center py-1'><Link to={'/orderDetails'}>View</Link></div>
+                <div className='text-center py-1 cursor-pointer'><Link to={'/orderDetails'}>View</Link></div>
             </div>
           )}
         </div>
@@ -264,7 +265,7 @@ function OrderList() {
            Order Processed Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            Redirecting you on Order List Page 3 seconds.
+            Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>
       </Modal>
@@ -293,10 +294,13 @@ function OrderList() {
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
           <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
-            Unassigned Successfully
+            Archive Order Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            You have successfully Unassigned
+            You have successfully archive the order
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>
       </Modal>
