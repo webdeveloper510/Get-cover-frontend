@@ -4,18 +4,12 @@ import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-<<<<<<< HEAD
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import unassign from "../../../assets/images/Unassign.png";
-=======
-import AddItem from "../../../assets/images/icons/addItem.svg";
-import Search from "../../../assets/images/icons/SearchIcon.svg";
->>>>>>> dfb1543260a67737ca706734df75e9e4c0aa7ec3
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
-<<<<<<< HEAD
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import DataTable from "react-data-table-component"
@@ -30,20 +24,6 @@ function OrderList() {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [timer, setTimer] = useState(3);
   const [orderList,setOrderList]=useState([]);
-=======
-import Grid from "../../../common/grid";
-import Input from "../../../common/input";
-import DataTable from "react-data-table-component";
-import Select from "../../../common/select";
-import { RotateLoader } from "react-spinners";
-import { getOrders } from "../../../services/orderServices";
-import Modal from "../../../common/model";
-
-function OrderList() {
-  const [selectedAction, setSelectedAction] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState("");
-  const [orderList, setOrderList] = useState([]);
->>>>>>> dfb1543260a67737ca706734df75e9e4c0aa7ec3
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);

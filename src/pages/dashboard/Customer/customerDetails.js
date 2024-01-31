@@ -484,11 +484,11 @@ function CustomerDetails() {
                   className="mr-3 bg-[#383838] rounded-[14px]"
                   alt="email"
                 />
-                <div>
+                <div className="w-[80%]">
                   <p className="text-sm text-neutral-grey font-Regular">
                     Email
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base text-white leading-[13px] font-semibold break-words">
                     {customerDetail?.primary?.email}
                   </p>
                 </div>

@@ -112,11 +112,11 @@ function OrderDetails() {
                   </p>
                 </div>
                 <div className="col-span-3 text-end">
-                  <Button
+                  {/* <Button
                     className="border !border-[#535456] !text-sm !font-Regular"
                   >
                     Edit
-                  </Button>
+                  </Button> */}
                 </div>
               </Grid>
               <div className="flex my-4">
@@ -189,6 +189,31 @@ function OrderDetails() {
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular">
                     Dealer Name
+                  </p>
+                  <p className="text-base text-white font-semibold ">
+                  Edward Wilson
+                  </p>
+                </div>
+              </div>
+              <div className="flex mb-4">
+                <div className="relative">
+                  <img
+                    src={Name}
+                    className="mr-3 bg-[#383838] rounded-[14px]"
+                    alt="Name"
+                  />
+                  <Link to={`/resellerDetails/65ba33dc5c701216d9b76220`}>
+                    {" "}
+                    <img
+                      src={DealerList}
+                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                      alt="DealerList"
+                    />{" "}
+                  </Link>
+                </div>
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular">
+                    Reseller Name
                   </p>
                   <p className="text-base text-white font-semibold ">
                   Edward Wilson

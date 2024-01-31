@@ -79,7 +79,7 @@ function OrderSummary() {
                     </div>
                     </div>
                     <div className='col-span-3 self-center justify-end flex pr-4'>
-                    <Button className="!bg-white !text-light-black border flex"><img src={Csv} className='mr-3 self-center' alt='Csv'/> <span className='self-center'> View CSV File </span></Button>
+                    <Button className="!bg-white !text-light-black border flex"><img src={Csv} className='mr-3 self-center' alt='Csv'/> <span className='self-center'> View File </span></Button>
                     </div>
                     </Grid>
                 
@@ -141,7 +141,7 @@ function OrderSummary() {
                     </div>
                     </div>
                     <div className='col-span-3 self-center justify-end flex pr-4'>
-                    <Button className="!bg-white !text-light-black border flex"><img src={Csv} className='mr-3 self-center' alt='Csv'/> <span className='self-center'> View CSV File </span></Button>
+                    <Button className="!bg-white !text-light-black border flex"><img src={Csv} className='mr-3 self-center' alt='Csv'/> <span className='self-center'> View File </span></Button>
                     </div>
                     </Grid>
                 
@@ -203,7 +203,7 @@ function OrderSummary() {
                     </div>
                     </div>
                     <div className='col-span-3 self-center justify-end flex pr-4'>
-                    <Button className="!bg-white !text-light-black border flex"><img src={Csv} className='mr-3 self-center' alt='Csv'/> <span className='self-center'> View CSV File </span></Button>
+                    <Button className="!bg-white !text-light-black border flex"><img src={Csv} className='mr-3 self-center' alt='Csv'/> <span className='self-center'> View File </span></Button>
                     </div>
                     </Grid>
                 
