@@ -26,15 +26,11 @@ import {
 import Select from "../../common/select";
 import { getCustomerUsersById } from "../../services/customerServices";
 import { useMyContext } from "../../context/context";
-import { getServicerUsersById } from "../../services/servicerServices";
-import { getResellerUsersById } from "../../services/reSellerServices";
 import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
-import { Link } from "react-router-dom";
 import RadioButton from "../../common/radio";
 
-
-function DealerUser(props) {
+function DealerUser() {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
@@ -62,29 +58,9 @@ function DealerUser(props) {
   const [loading, setLoading] = useState(false);
 
   const getUserList = async () => {
-    console.log(props.flag);
-    if (props.flag == "customer") {
-      const result = await getCustomerUsersById(props.id, {});
-      console.log(result.result);
-      setUserList(result.result);
-    } else if (props.flag == "servicer") {
-      const result = await getServicerUsersById(props.id, {});
-      console.log(result);
-      setServiceStatus(result.servicerStatus);
-      setUserList(result.result);
-    }
-    else if (props.flag == "reseller") {
-      const result = await getResellerUsersById(props.id, {});
-      console.log(result);
-      // setServiceStatus(result.servicerStatus);
-      setUserList(result.data);
-    } 
-     else {
-      const result = await getUserListByDealerId(props.id, {});
-      console.log(result.result);
-      setServiceStatus(result.dealerStatus);
-      setUserList(result.result);
-    }
+    const result = await getCustomerUsersById("", {});
+    console.log(result.result);
+    setUserList(result.result);
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -92,12 +68,10 @@ function DealerUser(props) {
       setSelectedAction(null);
     }
   };
-  useEffect(()=>{
-    getUserList();
-  },[props])
   useEffect(() => {
- 
-
+    getUserList();
+  }, []);
+  useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
@@ -106,11 +80,6 @@ function DealerUser(props) {
     };
   }, []);
 
-  useEffect(() => {
-    if (props?.data?.length !== 0) {
-      getUserList();
-    }
-  }, [props?.data]);
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -300,7 +269,7 @@ function DealerUser(props) {
   const filterUserDetails = async (data) => {
     try {
       setLoading(true);
-      const res = await getUserListByDealerId(props.id, data);
+      const res = await getUserListByDealerId("", data);
       setUserList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
@@ -453,8 +422,8 @@ function DealerUser(props) {
   return (
     <>
       <div className="my-8">
-      <Headbar/>
-      <div className="flex mt-2">
+        <Headbar />
+        <div className="flex mt-2">
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Users</p>
             <ul className="flex self-center">
@@ -466,8 +435,9 @@ function DealerUser(props) {
           </div>
         </div>
 
-        <div 
-          className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1] cursor-pointer" onClick={()=> openModal2()}
+        <div
+          className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1] cursor-pointer"
+          onClick={() => openModal2()}
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -819,4 +789,4 @@ function DealerUser(props) {
   );
 }
 
-export default DealerUser
+export default DealerUser;
