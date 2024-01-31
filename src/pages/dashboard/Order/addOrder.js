@@ -212,9 +212,10 @@ function AddOrder() {
       dealerId: Yup.string().required("Dealer Name is required"),
       servicerId: Yup.string(),
       customerId: Yup.string(),
-      resellerId: Yup.string(),
     }),
     onSubmit: (values) => {
+      console.log(values);
+      nextStep();
       const foundDealer = dealerList.find(
         (data) => data.value === values.dealerId
       );
@@ -238,7 +239,6 @@ function AddOrder() {
         );
         setResellerName(foundReseller ? foundReseller.label : "");
       }
-      nextStep();
     },
   });
 
@@ -1034,7 +1034,14 @@ function AddOrder() {
           </Grid>
         </div>
         <div className="flex">
-          <Button type="submit">Next</Button>
+          <Button
+            type="submit"
+            onClick={() => {
+              console.log(formik.errors);
+            }}
+          >
+            Next
+          </Button>
         </div>
       </form>
     );
