@@ -386,47 +386,47 @@ const routes = [
 
       // Servicer Routs ---------------------------------------------------------------
       {
-        path: "/sericer/user",
+        path: "/servicer/user",
         element: (
           <PrivateRoute
             element={<ServicerUser />}
-            path="/sericer/user"
+            path="/servicer/user"
           />
         ),
       },
       {
-        path: "/sericer/dashboard",
+        path: "/servicer/dashboard",
         element: (
           <PrivateRoute
             element={<ServicerDashboard />}
-            path="/sericer/dashboard"
+            path="/servicer/dashboard"
           />
         ),
       },
       {
-        path: "/sericer/claimList",
+        path: "/servicer/claimList",
         element: (
           <PrivateRoute
             element={<ServicerClaimList />}
-            path="/sericer/claimList"
+            path="/servicer/claimList"
           />
         ),
       },
       {
-        path: "/sericer/sale",
+        path: "/servicer/sale",
         element: (
           <PrivateRoute
             element={<ServicerSale />}
-            path="/sericer/sale"
+            path="/servicer/sale"
           />
         ),
       },
       {
-        path: "/sericer/claims",
+        path: "/servicer/claims",
         element: (
           <PrivateRoute
             element={<ServicerClaims />}
-            path="/sericer/claims"
+            path="/servicer/claims"
           />
         ),
       },
