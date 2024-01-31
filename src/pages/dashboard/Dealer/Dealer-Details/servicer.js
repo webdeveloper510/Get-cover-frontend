@@ -270,48 +270,52 @@ function ServicerList(props) {
             maxWidth: "70px", // Set a custom maximum width
             cell: (row, index) => {
               // console.log(index, index % 10 == 9)
-              return (
-                <div className="relative">
-                  <div
-                    onClick={() =>
-                      setSelectedAction(
-                        selectedAction === row.servicerData.unique_key
-                          ? null
-                          : row.servicerData.unique_key
-                      )
-                    }
-                  >
-                    <img
-                      src={ActiveIcon}
-                      className="cursor-pointer	w-[35px]"
-                      alt="Active Icon"
-                    />
-                  </div>
-                  {selectedAction === row.servicerData.unique_key && (
+              if (row.servicerData.isServicer) {
+                return null;
+              } else {
+                return (
+                  <div className="relative">
                     <div
-                      ref={dropdownRef}
-                      className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                        index
-                      )}`}
+                      onClick={() =>
+                        setSelectedAction(
+                          selectedAction === row.servicerData.unique_key
+                            ? null
+                            : row.servicerData.unique_key
+                        )
+                      }
                     >
-                      <div
-                        className="text-center cursor-pointer py-1"
-                        onClick={() => {
-                          navigate(`/servicerDetails/${row.accountId}`);
-                        }}
-                      >
-                        View
-                      </div>
-                      <div
-                        className="text-center py-3 cursor-pointer"
-                        onClick={() => openModal(row)}
-                      >
-                        Unassigned
-                      </div>
+                      <img
+                        src={ActiveIcon}
+                        className="cursor-pointer	w-[35px]"
+                        alt="Active Icon"
+                      />
                     </div>
-                  )}
-                </div>
-              );
+                    {selectedAction === row.servicerData.unique_key && (
+                      <div
+                        ref={dropdownRef}
+                        className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                          index
+                        )}`}
+                      >
+                        <div
+                          className="text-center cursor-pointer py-1"
+                          onClick={() => {
+                            navigate(`/servicerDetails/${row.accountId}`);
+                          }}
+                        >
+                          View
+                        </div>
+                        <div
+                          className="text-center py-3 cursor-pointer"
+                          onClick={() => openModal(row)}
+                        >
+                          Unassigned
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
             },
           },
         ];

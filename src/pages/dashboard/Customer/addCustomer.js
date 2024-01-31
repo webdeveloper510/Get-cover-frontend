@@ -144,8 +144,6 @@ function AddCustomer() {
           );
           emailValues.push(result);
         }
-
-        // console.log(emailValues);
         if (emailValues.some((value) => value === false)) {
           setLoading(false);
           return;

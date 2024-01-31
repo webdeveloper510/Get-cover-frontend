@@ -77,16 +77,12 @@ export const getCustomerListByDealerId = async (id, data) => {
     throw error;
   }
 };
-export const getCustomerListByDealerIdAndResellerId = async ( data) => {
+export const getCustomerListByDealerIdAndResellerId = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(
-      `${url}/order/getCustomerInOrder`,
-      data,
-      {
-        headers,
-      }
-    );
+    const response = await axios.post(`${url}/order/getCustomerInOrder`, data, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {

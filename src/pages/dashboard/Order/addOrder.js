@@ -34,6 +34,7 @@ import {
   fileValidation,
   getCategoryAndPriceBooks,
   getServicerListInOrders,
+  getStep2Validation,
 } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import { getResellerListByDealerId } from "../../../services/reSellerServices";
@@ -142,7 +143,11 @@ function AddOrder() {
 
   const getCustomerList = async (data) => {
     let arr = [];
-    const result = await getCustomerListByDealerIdAndResellerId(data);
+    const resellerId = data?.resellerId == null ? "" : data.resellerId;
+    const result = await getCustomerListByDealerIdAndResellerId({
+      ...data,
+      resellerId: resellerId,
+    });
     console.log(result);
     result?.result?.map((res) => {
       console.log(res);
@@ -252,7 +257,20 @@ function AddOrder() {
       coverageType: Yup.string().required("Coverage Type is Required"),
     }),
     onSubmit: (values) => {
-      nextStep();
+      let data = {
+        dealerPurchaseOrder: values.dealerPurchaseOrder,
+      };
+      const result = getStep2Validation(data).then((res) => {
+        console.log(res);
+        if (res.code == 401) {
+          formikStep2.setFieldError(
+            "dealerPurchaseOrder",
+            "Dealer Purchase Order Number is already Used"
+          );
+        } else {
+          nextStep();
+        }
+      });
     },
   });
 
@@ -852,10 +870,11 @@ function AddOrder() {
         dealerId: formik.values.dealerId,
         resellerId: formik.values.resellerId,
       };
-      getServicerList(data);
+
       customerList.length &&
-        customerList.forEach((res) => {
-          if (res.value === value) {
+        customerList.find((res) => {
+          if (res.value == value) {
+            console.log("----", res.customerData.resellerId);
             if (res.customerData.resellerId != null);
             formik.setFieldValue("resellerId", res.customerData.resellerId);
             let data = {
@@ -863,8 +882,7 @@ function AddOrder() {
               resellerId: res.customerData.resellerId,
             };
             getServicerList(data);
-          } else {
-            formik.setFieldValue("resellerId", "");
+            getCustomerList(data);
           }
         });
     }
@@ -942,7 +960,7 @@ function AddOrder() {
     const pendingAmount = totalAmount - parseFloat(paidAmount) || 0; // Ensure a valid number
     formik4.setFieldValue("pendingAmount", pendingAmount.toFixed(2));
   };
-  
+
   const renderStep1 = () => {
     return (
       <form onSubmit={formik.handleSubmit}>
@@ -1892,7 +1910,10 @@ function AddOrder() {
                                         {value.enterQuantity}
                                       </td>
                                       <td className="text-[12px]">
-                                        {value.enterQuantity}
+                                        {Math.round(
+                                          value.enterQuantity /
+                                            parseFloat(value.quantity)
+                                        )}
                                       </td>
                                     </tr>
                                   );
@@ -1943,7 +1964,9 @@ function AddOrder() {
             <Grid className="mt-5">
               <div className="col-span-4 pt-2">
                 <div className="flex block  w-full text-base font-semibold bg-[#f9f9f9] rounded-lg border-[1px] border-gray-300 appearance-none peer undefined  border-gray-300  text-light-black">
-                  <p className="self-center w-[40%] text-sm px-3">Payment Status</p>
+                  <p className="self-center w-[40%] text-sm px-3">
+                    Payment Status
+                  </p>
                   <div className="relative w-[60%]">
                     <div
                       className={`

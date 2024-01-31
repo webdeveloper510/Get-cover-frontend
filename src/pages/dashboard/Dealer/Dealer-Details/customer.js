@@ -152,7 +152,7 @@ function CustomerList(props) {
       setLoading(true);
       const res =
         props.flag === "reseller"
-          ? await getCustomerByDealerId(props.id, {})
+          ? await getCustomerByDealerId(props.id, data)
           : await getCustomerListByDealerId(props.id, data);
       console.log(res.result);
       setCustomerList(res.result);

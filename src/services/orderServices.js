@@ -138,3 +138,16 @@ export const getServicerListInOrders = async (data) => {
     throw error;
   }
 };
+
+export const getStep2Validation = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/order/checkPurchaseOrder`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
