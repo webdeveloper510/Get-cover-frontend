@@ -78,6 +78,7 @@ function AddOrder() {
   const prevStep = () => {
     setCurrentStep(currentStep - 1);
   };
+
   const getTermListData = async () => {
     try {
       const res = await getTermList();
@@ -91,6 +92,7 @@ function AddOrder() {
       console.error("Error fetching category list:", error);
     }
   };
+
   const getDealerListData = async () => {
     const result = await getDealersList();
 
@@ -122,6 +124,7 @@ function AddOrder() {
     });
     setServicerData(arr);
   };
+
   useEffect(() => {
     let intervalId;
     if (isModalOpen && timer > 0) {
@@ -151,6 +154,7 @@ function AddOrder() {
     });
     setCustomerList(arr);
   };
+
   const getResellerList = async (id) => {
     console.log(id);
 
@@ -165,11 +169,13 @@ function AddOrder() {
     });
     setResllerList(arr);
   };
+
   useEffect(() => {
     getDealerListData();
     // getProductList()
     getTermListData();
   }, []);
+
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -184,6 +190,7 @@ function AddOrder() {
         return null;
     }
   };
+
   const handleRadioChange = (event) => {
     setSendNotification(event.target.value === "true");
   };
@@ -248,6 +255,7 @@ function AddOrder() {
       nextStep();
     },
   });
+
   const formikStep3 = useFormik({
     initialValues: {
       productsArray: [
@@ -335,6 +343,7 @@ function AddOrder() {
       setPriceBookName(arr1);
     },
   });
+
   const checkMultipleEmailCheck = (data) => {
     setLoading(true);
     const formData = new FormData();
@@ -400,6 +409,7 @@ function AddOrder() {
     });
     // console.log(data)
   };
+
   const fileInputRef = useRef([]);
 
   const handleFileSelect = (event, index) => {
@@ -573,6 +583,7 @@ function AddOrder() {
     // Update the paymentStatus field
     formik4.handleChange(e);
   };
+
   useEffect(() => {
     fileInputRef.current = Array.from(
       { length: formikStep3.values.productsArray.length },
@@ -585,6 +596,7 @@ function AddOrder() {
       fileInputRef.current[index].current.click();
     }
   };
+
   const handleAddProduct = () => {
     const productsArray = {
       categoryId: "",
@@ -741,6 +753,7 @@ function AddOrder() {
     }
     formikStep3.setFieldValue(name, selectedValue);
   };
+
   useEffect(() => {
     for (let i = 0; i < formikStep3.values.productsArray.length; i++) {
       if (
@@ -840,10 +853,6 @@ function AddOrder() {
       getServicerList(data);
       customerList.length &&
         customerList.forEach((res) => {
-          // console.log(
-          //   res.customerData.resellerId !== null,
-          //   res.customerData.resellerId
-          // );
           if (res.value === value) {
             if (res.customerData.resellerId != null);
             formik.setFieldValue("resellerId", res.customerData.resellerId);
@@ -858,16 +867,19 @@ function AddOrder() {
         });
     }
   };
+
   const coverage = [
     { label: "Breakdown", value: "Breakdown" },
     { label: "Accidental", value: "Accidental" },
     { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
   ];
+
   const serviceCoverage = [
     { label: "Parts", value: "Parts" },
     { label: "Labour", value: "Labour" },
     { label: "Parts & Labour", value: "Parts & Labour" },
   ];
+
   const getCategoryList = async (value, data, index) => {
     console.log("here", data.priceBookId !== "", data.priceCatId === "");
     const result = await getCategoryAndPriceBooks(value, data);
@@ -922,11 +934,13 @@ function AddOrder() {
       }
     }
   };
+
   const calculatePendingAmount = (paidAmount) => {
     const totalAmount = calculateTotalAmount(formikStep3.values.productsArray);
     const pendingAmount = totalAmount - parseFloat(paidAmount) || 0; // Ensure a valid number
     formik4.setFieldValue("pendingAmount", pendingAmount.toFixed(2));
   };
+  
   const renderStep1 = () => {
     return (
       <form onSubmit={formik.handleSubmit}>

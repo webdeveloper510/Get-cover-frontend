@@ -15,7 +15,6 @@ import * as Yup from "yup";
 import { WithContext as ReactTags } from "react-tag-input";
 import { uploadDealerBookInBulk } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
-import DealerList from "../Dealer/dealerList";
 import Button from "../../../common/button";
 
 function DealerAddBulkClaim() {

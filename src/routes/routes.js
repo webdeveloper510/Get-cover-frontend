@@ -45,6 +45,12 @@ import DealerDashboard from "../pages/Dealer-screens/dashboard";
 import DealerUser from "../pages/Dealer-screens/user";
 import DealerContract from "../pages/Dealer-screens/contract";
 import DealerPriceBook from "../pages/Dealer-screens/priceBook";
+import DealerSale from "../pages/Dealer-screens/Reporting/sale";
+import DealerClaims from "../pages/Dealer-screens/Reporting/claims";
+import DealerClaimList from "../pages/Dealer-screens/Claim/claimList";
+import DealerAddClaim from "../pages/Dealer-screens/Claim/addClaim";
+import DealerAddBulkClaim from "../pages/Dealer-screens/Claim/addBulkClaim";
+import DealerEditClaim from "../pages/Dealer-screens/Claim/editClaim";
 
 const routes = [
   {
@@ -125,13 +131,6 @@ const routes = [
         index: true,
         element: (
           <PrivateRoute element={<OrderDetails />} path="/orderDetails" />
-        ),
-      },
-      {
-        path: "/editClaim",
-        index: true,
-        element: (
-          <PrivateRoute element={<EditClaim />} path="/editclaim" />
         ),
       },
       {
@@ -329,6 +328,32 @@ const routes = [
         path: "/dealer/contract",
         element: <PrivateRoute element={<DealerContract />} path="/dealer/contract" />,
       },
+      {
+        path: "/dealer/sale",
+        element: <PrivateRoute element={<DealerSale />} path="/dealer/sale" />,
+      },
+      {
+        path: "/dealer/claim",
+        element: <PrivateRoute element={<DealerClaims />} path="/dealer/claim" />,
+      },
+      {
+        path: "/dealer/claimList",
+        element: <PrivateRoute element={<DealerClaimList />} path="/dealer/claimList" />,
+      },
+      {
+        path: "/dealer/addClaim",
+        element: <PrivateRoute element={<DealerAddClaim />} path="/dealer/addClaim" />,
+      },
+      {
+        path: "/dealer/addBulkClaim",
+        element: <PrivateRoute element={<DealerAddBulkClaim />} path="/dealer/claimList" />,
+      },
+      {
+        path: "/dealer/editClaim",
+        element: <PrivateRoute element={<DealerEditClaim />} path="/dealer/editClaim" />,
+      },
+
+      // Servicer Routs ---------------------------------------------------------------
 
     ],
   },
