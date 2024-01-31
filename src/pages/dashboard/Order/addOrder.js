@@ -1757,6 +1757,7 @@ function AddOrder() {
                 </div>
               </div>
             ) : ( */}
+            <form onSubmit={formik4.handleSubmit}>
         <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
           <Grid>
             <div className="col-span-6">
@@ -1960,7 +1961,7 @@ function AddOrder() {
               );
             })}
           </Grid>
-          <form onSubmit={formik4.handleSubmit}>
+          
             <Grid className="mt-5">
               <div className="col-span-4 pt-2">
                 <div className="flex block  w-full text-base font-semibold bg-[#f9f9f9] rounded-lg border-[1px] border-gray-300 appearance-none peer undefined  border-gray-300  text-light-black">
@@ -2081,12 +2082,13 @@ function AddOrder() {
                 </p>
               </div>
             </Grid>
-          </form>
+         
         </div>
         <Button className="!bg-[transparent] !text-black" onClick={prevStep}>
           Previous
         </Button>
         <Button type="submit">Submit</Button>
+        </form>
         {/* )} */}
       </>
     );

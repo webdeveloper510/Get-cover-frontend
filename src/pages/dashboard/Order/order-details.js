@@ -70,7 +70,6 @@ function OrderDetails() {
       )}
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
-
         <div className="flex">
         <Link
         to={'/orderList'}
@@ -84,7 +83,7 @@ function OrderDetails() {
         </Link>
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
-            Order Details
+              Order Details
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
@@ -106,7 +105,7 @@ function OrderDetails() {
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
-                   Order ID
+                    Order ID
                   </p>
                   <p className="text-xl text-white font-semibold">
                     315174
@@ -128,10 +127,10 @@ function OrderDetails() {
                 />
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular mt-2">
-                  Dealer Purchase Order
+                    Dealer Purchase Order
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                  12345678900987
+                    12345678900987
                   </p>
                 </div>
               </div>
@@ -143,10 +142,10 @@ function OrderDetails() {
                 />
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular mt-2">
-                  Service Coverage
+                    Service Coverage
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                  Parts
+                    Parts
                   </p>
                 </div>
               </div>
