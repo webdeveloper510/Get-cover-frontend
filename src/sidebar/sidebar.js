@@ -45,6 +45,7 @@ function SidebarItem({
 }) {
   const hasItems = item.items && item.items.length > 0;
   const [isActive, setIsActive] = useState(false);
+
   const locationGet = useLocation();
   useEffect(() => {
     const CheckItemsActive = item?.items;
@@ -78,7 +79,7 @@ function SidebarItem({
       setIsActive(active === "Reporting" || expandedItem === "Reporting");
     } else if (item.name === "Reseller") {
       setIsActive(active === "Reseller" || expandedItem === "Reseller");
-    }  else {
+    } else {
       // console.log("ok")
       setIsActive(
         active === item.url ||
@@ -242,6 +243,9 @@ function SideBar() {
   const location = useLocation();
   const [active, setActive] = useState(location.pathname);
   const [expandedItem, setExpandedItem] = useState(active);
+  const [userType, setUserType] = useState(
+    JSON.parse(localStorage.getItem("userDetails"))
+  );
   const navigate = useNavigate();
 
   const handleLinkClick = (url, dropdownItem) => {
@@ -260,6 +264,7 @@ function SideBar() {
     navigate("/");
   };
 
+  console.log();
   const Lists = [
     {
       name: "Dashboard",
@@ -563,13 +568,13 @@ function SideBar() {
           active: SeacondActive,
         },
       ],
-    },  
+    },
     {
       name: "User",
       image: CustomerImage,
       active: ActiveCustomer,
       url: "/dealer/user",
-    },   
+    },
     {
       name: "Price Book",
       image: PriceImage,
@@ -615,7 +620,7 @@ function SideBar() {
       image: ClaimImage,
       active: ActiveClaim,
       url: "/servicer/claimList",
-    }, 
+    },
     {
       name: "User",
       image: CustomerImage,
@@ -648,7 +653,7 @@ function SideBar() {
       ],
     },
   ];
-  
+
   return (
     <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
       <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[5px]">
@@ -657,17 +662,30 @@ function SideBar() {
         <div className="shadow-sm h-full ">
           <div className="mx-auto h-full mt-6">
             <ul className="pb-5">
-              {Lists.map((bar, index) => (
-                <SidebarItem
-                  key={index}
-                  item={bar}
-                  active={active}
-                  expandedItem={expandedItem}
-                  onToggleExpand={handleToggleExpand}
-                  onLinkClick={handleLinkClick}
-                  setExpandedItem={setExpandedItem} // Add this line
-                />
-              ))}
+              {userType?.role == "Super Admin"
+                ? Lists.map((bar, index) => (
+                    <SidebarItem
+                      key={index}
+                      item={bar}
+                      active={active}
+                      expandedItem={expandedItem}
+                      onToggleExpand={handleToggleExpand}
+                      onLinkClick={handleLinkClick}
+                      setExpandedItem={setExpandedItem}
+                    />
+                  ))
+                : servicer.map((bar, index) => (
+                    <SidebarItem
+                      key={index}
+                      item={bar}
+                      active={active}
+                      expandedItem={expandedItem}
+                      onToggleExpand={handleToggleExpand}
+                      onLinkClick={handleLinkClick}
+                      setExpandedItem={setExpandedItem}
+                    />
+                  ))}
+
               <li
                 className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]"
                 onClick={handleLogOut}
