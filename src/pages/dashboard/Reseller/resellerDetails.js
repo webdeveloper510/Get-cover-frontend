@@ -514,13 +514,13 @@ function ResellerDetails() {
   };
   return (
     <>
-      {/* {loading && (
+      {loading && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#fff" />
           </div>
         </div>
-      )} */}
+      )}
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
 
