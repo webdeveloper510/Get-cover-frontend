@@ -453,24 +453,17 @@ function AddOrder() {
       fileInputRef.current[index].current.file = file;
 
       checkFileError(file, index);
+    } else {
+      formikStep3.setFieldError(`productsArray[${index}].file`, "");
+      formikStep3.setFieldValue(`productsArray[${index}].file`, "");
+      setFileValues((prevFileValues) => {
+        const newArray = [...prevFileValues];
+        newArray.splice(index, 1);
+        console.log(newArray);
+        return newArray;
+      });
     }
   };
-
-  // const handleFileSelect = (event, index) => {
-  //   const file = event.target.files[0];
-
-  //   if (file) {
-  //     fileInputRef.current[index].current.file = file;
-
-  //     setFileValues((prevFileValues) => {
-  //       const newArray = [...prevFileValues];
-  //       newArray.splice(index, 0, file);
-  //       return newArray;
-  //     });
-  //     // formikStep3.setFieldValue(`productsArray[${index}].file`, fileValues);
-  //     checkFileError(file, index);
-  //   }
-  // };
 
   const checkFileError = async (file, index) => {
     formikStep3.setFieldValue(`productsArray[${index}].file`, file);
