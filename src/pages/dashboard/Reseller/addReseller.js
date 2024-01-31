@@ -22,6 +22,7 @@ import {
 } from "../../../services/dealerServices";
 import Cross from "../../../assets/images/Cross.png";
 import { addNewReseller } from "../../../services/reSellerServices";
+import { RotateLoader } from "react-spinners";
 
 function AddReseller() {
   const [timer, setTimer] = useState(3);
@@ -245,6 +246,7 @@ function AddReseller() {
     }),
 
     onSubmit: async (values) => {
+      setLoading(true);
       console.log(values);
       const isEmailValid = !formik.errors.email;
       if (formik.values.members.length > 0) {
@@ -335,6 +337,13 @@ function AddReseller() {
   };
   return (
     <div className="my-8 ml-3">
+       {loading && (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            )}
       <Headbar />
       <div className="flex mt-2">
         <div

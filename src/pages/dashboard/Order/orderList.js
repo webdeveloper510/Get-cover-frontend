@@ -6,12 +6,14 @@ import ActiveIcon from '../../../assets/images/icons/iconAction.svg';
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import AddItem from '../../../assets/images/icons/addItem.svg';
 import Search from '../../../assets/images/icons/SearchIcon.svg';
+import unassign from "../../../assets/images/Unassign.png";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from '../../../common/headBar';
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 import DataTable from "react-data-table-component"
+import Primary from "../../../assets/images/SetPrimary.png";
 import Select from '../../../common/select';
 import { RotateLoader } from 'react-spinners';
 import { getOrders } from '../../../services/orderServices';
@@ -22,7 +24,23 @@ function OrderList() {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [orderList,setOrderList]=useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+  const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const openArchive = () => {
+    setIsArchiveOpen(true);
+  };
 
+  const closeModal1 = () => {
+    setIsModalOpen1(false);
+  };
+
+  const openModal1 = () => {
+    setIsModalOpen1(true);
+  };
+
+  const closeArchive = () => {
+    setIsArchiveOpen(false);
+  };
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -38,10 +56,7 @@ function OrderList() {
 
   const status = [
     { label: 'Active', value: true },
-    { label: 'Waiting', value: false },
-    { label: 'Expired', value: false },
-    { label: 'Canceled', value: false },
-    { label: 'Refunded', value: false },
+    { label: 'Pending', value: false },
   ];
 
   useEffect(()=>{
@@ -131,10 +146,7 @@ function OrderList() {
                 className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
               >
                 <option value="Active">Active</option>
-                <option value="Waiting">Waiting</option>
-                <option value="Expired">Expired</option>
-                <option value="Canceled">Canceled</option>
-                <option value="Refunded">Refunded</option>
+                <option value="Pending">Pending</option>
               </select>
             </div>
           ),
@@ -157,6 +169,7 @@ function OrderList() {
             )}`}>
               {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div className='text-center py-1 border-b'>Edit</div>
+                <div className='text-center py-1 border-b'>Archive</div>
                 <div className='text-center py-1 border-b cursor-pointer' onClick={()=> openModal()}>Process Order</div>
                 <div className='text-center py-1'><Link to={'/orderDetails'}>View</Link></div>
             </div>
@@ -252,6 +265,38 @@ function OrderList() {
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page 3 seconds.
+          </p>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
+        <div className="text-center py-3">
+        <img src={unassign} alt="email Image" className="mx-auto my-4" />
+          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+            Would you like to Archive it?
+          </p>
+          <Grid className="!grid-cols-4 my-5 ">
+            <div className="col-span-1"></div>
+            <Button onClick={() => openModal1()}>Yes</Button>
+            <Button
+              className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              onClick={() => closeArchive()}
+            >
+              No
+            </Button>
+            <div className="col-span-1"></div>
+          </Grid>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto my-4" />
+          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+            Unassigned Successfully
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            You have successfully Unassigned
           </p>
         </div>
       </Modal>
