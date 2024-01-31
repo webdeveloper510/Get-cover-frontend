@@ -350,23 +350,36 @@ const routes = [
       },
       {
         path: "/dealer/claim",
-        element: <PrivateRoute element={<DealerClaims />} path="/dealer/claim" />,
+        element: (
+          <PrivateRoute element={<DealerClaims />} path="/dealer/claim" />
+        ),
       },
       {
         path: "/dealer/claimList",
-        element: <PrivateRoute element={<DealerClaimList />} path="/dealer/claimList" />,
+        element: (
+          <PrivateRoute
+            element={<DealerClaimList />}
+            path="/dealer/claimList"
+          />
+        ),
       },
       {
         path: "/dealer/addClaim",
-        element: <PrivateRoute element={<DealerAddClaim />} path="/dealer/addClaim" />,
+        element: (
+          <PrivateRoute element={<DealerAddClaim />} path="/dealer/addClaim" />
+        ),
       },
       {
         path: "/dealer/addBulkClaim",
-        element: <PrivateRoute element={<DealerAddBulkClaim />} path="/dealer/claimList" />,
+        element: (
+          <PrivateRoute
+            element={<DealerAddBulkClaim />}
+            path="/dealer/claimList"
+          />
+        ),
       },
 
       // Servicer Routs ---------------------------------------------------------------
-
     ],
   },
 ];
