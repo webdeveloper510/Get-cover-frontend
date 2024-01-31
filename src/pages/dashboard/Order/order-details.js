@@ -18,9 +18,11 @@ import Name from "../../../assets/images/order/Name.svg"
 import { cityData } from "../../../stateCityJson";
 import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
+import { RotateLoader } from "react-spinners";
 
 
 function OrderDetails() {
+  const [loading, setLoading] = useState(false);
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("orderMenu");
     return storedTab ? storedTab : "Order Summary";
@@ -30,7 +32,9 @@ function OrderDetails() {
   const state = cityData;
 
   useEffect(() => {
+    setLoading(true);
     localStorage.setItem("orderMenu", activeTab);
+    setLoading(false);
   }, [activeTab]);
 
 
@@ -57,18 +61,19 @@ function OrderDetails() {
   };
   return (
     <>
-      {/* {loading && (
+      {loading && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#fff" />
           </div>
         </div>
-      )} */}
+      )}
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
 
         <div className="flex">
-        <div
+        <Link
+        to={'/orderList'}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
         >
           <img
@@ -76,7 +81,7 @@ function OrderDetails() {
             className="m-auto my-auto self-center bg-white"
             alt="BackImage"
           />
-        </div>
+        </Link>
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
             Order Details
