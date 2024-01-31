@@ -465,6 +465,13 @@ function DealerContract() {
             </div>
             <div className='col-span-6'>
                <Input type='text' 
+                         name="Dealer Name"
+                        className="!bg-[#fff]"
+                        label="Dealer Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
                          name="Customer Name"
                         className="!bg-[#fff]"
                         label="Customer Name"
@@ -477,13 +484,7 @@ function DealerContract() {
                         label="Servicer Name"
                         placeholder="" />
             </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Dealer Name"
-                        className="!bg-[#fff]"
-                        label="Dealer Name"
-                        placeholder="" />
-            </div>
+           
             <div className='col-span-6'>
             <Select
                         name="Status"
