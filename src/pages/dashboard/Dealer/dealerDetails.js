@@ -149,14 +149,17 @@ function DealerDetails() {
     setRefreshUserList(result.result);
   };
   const closeModal1 = () => {
+    setActiveTab('Servicer')
     setIsModalOpen1(false);
   };
   const modalOpen1 = () => {
     getServicerList();
+    setActiveTab('Servicer123')
     setIsModalOpen1(true);
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
+    setActiveTab('Users')
     userValues.resetForm();
   };
   const getServicerList = async () => {
@@ -341,6 +344,7 @@ function DealerDetails() {
   });
   const openUserModal = () => {
     userValues.resetForm();
+    setActiveTab('Users123')
     setIsUserModalOpen(true);
   };
   const columns = [
@@ -421,21 +425,21 @@ function DealerDetails() {
       label: "Reseller",
       icons: User,
       Activeicons: UserActive,
-      content: <Reseller id={id.id} />,
+      content: <Reseller id={id.id}  activeTab={activeTab}/>,
     },
     {
       id: "Servicer",
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: <ServicerList id={id.id} flag={flagValue} />,
+      content: <ServicerList id={id.id} flag={flagValue} activeTab={activeTab} />,
     },
     {
       id: "Customer",
       label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
-      content: <CustomerList id={id.id} />,
+      content: <CustomerList id={id.id}  activeTab={activeTab}/>,
     },
 
     {
@@ -443,14 +447,14 @@ function DealerDetails() {
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: <UserList flag={"dealer"} id={id.id} data={refreshList} />,
+      content: <UserList flag={"dealer"} id={id.id} data={refreshList} activeTab={activeTab} />,
     },
     {
       id: "PriceBook",
       label: "PriceBook",
       icons: PriceBook,
       Activeicons: PriceBookActive,
-      content: <PriceBookList id={id.id} />,
+      content: <PriceBookList id={id.id}  activeTab={activeTab}/>,
     },
   ];
 

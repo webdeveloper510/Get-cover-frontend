@@ -448,7 +448,7 @@ function ResellerDetails() {
       label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
-      content: <CustomerList flag={"reseller"} id={id.resellerId} />,
+      content: <CustomerList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />,
     },
     {
       id: "Servicer",
@@ -458,7 +458,7 @@ function ResellerDetails() {
       content: (
         <ServicerList
           flag={"reseller"}
-          id={resellerDetail?.resellerData?.dealerId}
+          id={resellerDetail?.resellerData?.dealerId} activeTab={activeTab}
         />
       ),
     },
@@ -469,7 +469,7 @@ function ResellerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList flag={"reseller"} id={id.resellerId} data={refreshList} />
+        <UserList flag={"reseller"} id={id.resellerId} data={refreshList} activeTab={activeTab} />
       ),
     },
     {
@@ -481,7 +481,7 @@ function ResellerDetails() {
         <PriceBookList
           id={id.resellerId}
           flag={"reseller"}
-          dealerId={resellerDetail.resellerData?.dealerId}
+          dealerId={resellerDetail.resellerData?.dealerId} activeTab={activeTab}
         />
       ),
     },

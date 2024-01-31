@@ -233,7 +233,7 @@ function ServicerDetails() {
       label: "Dealer",
       icons: Dealer,
       Activeicons: DealerActive,
-      content: <DealerDetailList id={servicerId} flag={flagValue} />,
+      content: <DealerDetailList id={servicerId} flag={flagValue} activeTab={activeTab} />,
     },
     {
       id: "Users",
@@ -241,7 +241,7 @@ function ServicerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList flag={"servicer"} id={servicerId} data={refreshList} />
+        <UserList flag={"servicer"} id={servicerId} data={refreshList} activeTab={activeTab} />
       ),
     },
     {

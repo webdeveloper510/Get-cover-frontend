@@ -308,7 +308,7 @@ function CustomerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList flag={"customer"} id={customerId} data={refreshList} />
+        <UserList flag={"customer"} id={customerId} data={refreshList} activeTab={activeTab} />
       ),
     },
   ];

@@ -76,7 +76,8 @@ function DealerDetailList(props) {
     setIsModalOpen1(true);
   };
   useEffect(() => {
-    if (props.flag) {
+    if (props.flag && props.activeTab==='Dealer') {
+      
       servicerDealers();
     }
   }, [props?.flag]);

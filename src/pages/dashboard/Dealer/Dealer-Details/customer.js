@@ -129,7 +129,9 @@ function CustomerList(props) {
     console.log(result.result);
   };
   useEffect(() => {
+    if(props.activeTab==='Customer'){
     getCustomerList();
+    }
   }, [props]);
   useEffect(() => {
     const handleClickOutside = (event) => {

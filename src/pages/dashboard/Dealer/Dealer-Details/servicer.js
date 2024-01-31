@@ -96,7 +96,10 @@ function ServicerList(props) {
   }, []);
 
   useEffect(() => {
-    getServicerList();
+    if(props.activeTab==='Servicer'){
+      getServicerList();
+      }
+    
   }, [props]);
 
   const getServicerList = async () => {

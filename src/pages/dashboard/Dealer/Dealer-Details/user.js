@@ -86,7 +86,9 @@ function UserList(props) {
     }
   };
   useEffect(() => {
-    getUserList();
+    if(props.activeTab==='Users'){
+      getUserList();
+    }
   }, [props]);
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);

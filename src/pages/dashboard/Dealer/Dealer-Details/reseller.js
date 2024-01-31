@@ -124,7 +124,9 @@ function Reseller(props) {
     console.log(result.result);
   };
   useEffect(()=>{
-    getResellerList();
+    if(props.activeTab==='Reseller'){
+      getResellerList();
+      }
   },[props])
   useEffect(() => {
     

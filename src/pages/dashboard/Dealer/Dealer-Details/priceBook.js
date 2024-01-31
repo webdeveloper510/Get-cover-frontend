@@ -365,15 +365,18 @@ function PriceBookList(props) {
   // ];
 
   const priceBookData = async () => {
+    setLoading(true);
     const result =
       props.flag === "reseller"
         ? await getPriceBookListByResellerId(props.id)
         : await getDealerPriceBookByDealerId(props.id);
     setPriceBookList(result.result);
     console.log(result.result);
+    setLoading(false);
   };
 
   const getCategoryListData = async () => {
+    setLoading(true);
     try {
       const res = await getCategoryList();
       let arr = [];
@@ -386,6 +389,7 @@ function PriceBookList(props) {
     } catch (error) {
       console.error("Error fetching category list:", error);
     }
+    setLoading(false);
   };
 
   const [isViewOpen, setIsViewOpen] = useState(false);
@@ -402,7 +406,11 @@ function PriceBookList(props) {
   };
   const navigte = useNavigate();
   useEffect(() => {
-    priceBookData();
+    setLoading(true);
+    if(props.activeTab==='PriceBook'){
+      priceBookData();
+    }
+    setLoading(false);
   }, [props]);
   useEffect(() => {
     getCategoryListData();
