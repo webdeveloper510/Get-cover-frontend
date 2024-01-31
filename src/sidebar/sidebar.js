@@ -629,13 +629,13 @@ function SideBar() {
       items: [
         {
           name: "Sale",
-          url: "/sale",
+          url: "/servicer/sale",
           image: Dropdown1,
           active: Actives,
         },
         {
           name: "Claims",
-          url: "/claims",
+          url: "/servicer/claims",
           image: Dropdown2,
           active: SeacondActive,
         },

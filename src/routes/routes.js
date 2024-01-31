@@ -49,6 +49,11 @@ import DealerClaims from "../pages/Dealer-screens/Reporting/claims";
 import DealerClaimList from "../pages/Dealer-screens/Claim/claimList";
 import DealerAddClaim from "../pages/Dealer-screens/Claim/addClaim";
 import DealerAddBulkClaim from "../pages/Dealer-screens/Claim/addBulkClaim";
+import ServicerUser from "../pages/Servicer-screens/user";
+import ServicerDashboard from "../pages/Servicer-screens/dashboard";
+import ServicerClaimList from "../pages/Servicer-screens/Claim/claimList";
+import ServicerSale from "../pages/Servicer-screens/Reporting/sale";
+import ServicerClaims from "../pages/Servicer-screens/Reporting/claims";
 
 const routes = [
   {
@@ -380,6 +385,51 @@ const routes = [
       },
 
       // Servicer Routs ---------------------------------------------------------------
+      {
+        path: "/sericer/user",
+        element: (
+          <PrivateRoute
+            element={<ServicerUser />}
+            path="/sericer/user"
+          />
+        ),
+      },
+      {
+        path: "/sericer/dashboard",
+        element: (
+          <PrivateRoute
+            element={<ServicerDashboard />}
+            path="/sericer/dashboard"
+          />
+        ),
+      },
+      {
+        path: "/sericer/claimList",
+        element: (
+          <PrivateRoute
+            element={<ServicerClaimList />}
+            path="/sericer/claimList"
+          />
+        ),
+      },
+      {
+        path: "/sericer/sale",
+        element: (
+          <PrivateRoute
+            element={<ServicerSale />}
+            path="/sericer/sale"
+          />
+        ),
+      },
+      {
+        path: "/sericer/claims",
+        element: (
+          <PrivateRoute
+            element={<ServicerClaims />}
+            path="/sericer/claims"
+          />
+        ),
+      },
     ],
   },
 ];
