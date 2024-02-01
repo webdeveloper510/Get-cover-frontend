@@ -219,9 +219,6 @@ function ServicerUser(props) {
         openModal();
         toggleFlag();
         closeModal2();
-        // setIsModalOpen3(true);
-
-        // setError(result.message);
         setTimer(3);
         getUserList();
       } else if (result.code == 401) {
