@@ -533,7 +533,6 @@ function AddOrder() {
       const totalAmount = calculateTotalAmount(
         formikStep3.values.productsArray
       );
-      return false;
       console.log(totalAmount);
       const data = {
         ...formik.values,
