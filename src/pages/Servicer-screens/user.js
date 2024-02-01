@@ -205,7 +205,11 @@ function ServicerUser(props) {
       email: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .matches(emailValidationRegex, "Invalid email address")
-        .required("Required"),
+        .when("$type", {
+          is: (schema) => type == "Edit",
+          then: (schema) => schema.notRequired(),
+          otherwise: (schema) => schema.required("Required"),
+        }),
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
@@ -496,19 +500,21 @@ function ServicerUser(props) {
                         onChange={formikUSerFilter.handleChange}
                       />
                     </div>
-                    <div className="col-span-3 self-center">
-                      <Input
-                        name="email"
-                        type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder="Email"
-                        value={formikUSerFilter.values.email}
-                        onBlur={formikUSerFilter.handleBlur}
-                        onChange={formikUSerFilter.handleChange}
-                      />
-                    </div>
+                    {type === "Edit" && (
+                      <div className="col-span-3 self-center">
+                        <Input
+                          name="email"
+                          type="text"
+                          className="!text-[14px] !bg-[#f7f7f7]"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                          label=""
+                          placeholder="Email"
+                          value={formikUSerFilter.values.email}
+                          onBlur={formikUSerFilter.handleBlur}
+                          onChange={formikUSerFilter.handleChange}
+                        />
+                      </div>
+                    )}
                     <div className="col-span-3 self-center">
                       <Input
                         name="phone"
