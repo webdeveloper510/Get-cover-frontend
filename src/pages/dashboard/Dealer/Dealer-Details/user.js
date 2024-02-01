@@ -101,7 +101,9 @@ function UserList(props) {
 
   useEffect(() => {
     if (props?.data?.length !== 0) {
+      setLoading(true);
       getUserList();
+      setLoading(false);
     }
   }, [props?.data]);
   useEffect(() => {

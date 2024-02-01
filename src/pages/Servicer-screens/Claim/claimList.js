@@ -164,7 +164,7 @@ function ServicerClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-               
+                  <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -335,7 +335,7 @@ function ServicerClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 
+                  <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -506,7 +506,7 @@ function ServicerClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 
+                  <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>

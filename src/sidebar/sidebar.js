@@ -633,22 +633,10 @@ function SideBar() {
       active: ActiveReport,
       items: [
         {
-          name: "Sale",
-          url: "/servicer/sale",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
           name: "Claims",
           url: "/servicer/claims",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-        {
-          name: "Accounting",
-          url: "#",
-          image: Dropdown2,
-          active: ForthActive,
+          image: Dropdown1,
+          active: Actives,
         },
       ],
     },

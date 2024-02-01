@@ -29,6 +29,15 @@ function ClaimList() {
   const [selectedValue, setSelectedValue] = useState('');
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
+
+  const closeDisapproved = () => {
+    setIsDisapprovedOpen(false);
+  };
+
+  const openDisapproved = () => {
+    setIsDisapprovedOpen(true);
+  };
 
   const closeEdit = () => {
     setIsEditOpen(false);
@@ -48,10 +57,9 @@ function ClaimList() {
     setSelectedValue(value);
   };
 
-  const options = [
-    { label: 'City', value: 'city' },
-    { label: 'Option 2', value: 'option2' },
-    { label: 'Option 3', value: 'option3' },
+   const status = [
+    { label: "Active", value: true },
+    { label: "Inactive", value: false },
   ];
 
   const CoverageStartDate = [
@@ -105,7 +113,7 @@ function ClaimList() {
                       />
                     </Button>
                     <Button
-                      type="submit" className='ml-2 !text-sm'>
+                      type="submit" className='ml-2 !text-sm' onClick={()=> openDisapproved()}>
                       Advance Search
                     </Button>
                   </div>
@@ -841,6 +849,95 @@ function ClaimList() {
                 </form>
             </div>
           </Modal>
+
+          <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
+          <Button onClick={closeDisapproved} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
+          <div className="py-3">
+            <p className='text-center text-3xl font-semibold '>
+            Advance Search
+            </p>
+           <Grid className='mt-5 px-6'>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Contract ID"
+                        className="!bg-[#fff]"
+                        label="Contract ID"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Order ID"
+                        className="!bg-[#fff]"
+                        label="Order ID"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Dealer P.O. No."
+                        className="!bg-[#fff]"
+                        label="Dealer P.O. No."
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Serial No."
+                        className="!bg-[#fff]"
+                        label="Serial No."
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Product Name"
+                        className="!bg-[#fff]"
+                        label="Product Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Dealer Name"
+                        className="!bg-[#fff]"
+                        label="Dealer Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Customer Name"
+                        className="!bg-[#fff]"
+                        label="Customer Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Servicer Name"
+                        className="!bg-[#fff]"
+                        label="Servicer Name"
+                        placeholder="" />
+            </div>
+          
+            <div className='col-span-6'>
+            <Select
+                        name="Status"
+                        label="Status"
+                        options={status}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+            </div>
+            <div className='col-span-6'>
+            <Select
+                        name="ClaimStatus"
+                        label="Claim Status"
+                        options={status}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+            </div>
+            <div className='col-span-12'>
+             <Button className={'w-full'}>Search</Button>
+            </div>
+           </Grid>
+          </div>
+        </Modal>
     </>
   )
 }

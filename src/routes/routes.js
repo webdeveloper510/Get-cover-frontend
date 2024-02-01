@@ -47,13 +47,12 @@ import DealerPriceBook from "../pages/Dealer-screens/priceBook";
 import DealerSale from "../pages/Dealer-screens/Reporting/sale";
 import DealerClaims from "../pages/Dealer-screens/Reporting/claims";
 import DealerClaimList from "../pages/Dealer-screens/Claim/claimList";
-import DealerAddClaim from "../pages/Dealer-screens/Claim/addClaim";
-import DealerAddBulkClaim from "../pages/Dealer-screens/Claim/addBulkClaim";
 import ServicerUser from "../pages/Servicer-screens/user";
 import ServicerDashboard from "../pages/Servicer-screens/dashboard";
 import ServicerClaimList from "../pages/Servicer-screens/Claim/claimList";
-import ServicerSale from "../pages/Servicer-screens/Reporting/sale";
 import ServicerClaims from "../pages/Servicer-screens/Reporting/claims";
+import ServicerAddClaim from "../pages/Servicer-screens/Claim/addClaim";
+import ServicerAddBulkClaim from "../pages/Servicer-screens/Claim/addBulkClaim";
 
 const routes = [
   {
@@ -373,21 +372,7 @@ const routes = [
           />
         ),
       },
-      {
-        path: "/dealer/addClaim",
-        element: (
-          <PrivateRoute element={<DealerAddClaim />} path="/dealer/addClaim" />
-        ),
-      },
-      {
-        path: "/dealer/addBulkClaim",
-        element: (
-          <PrivateRoute
-            element={<DealerAddBulkClaim />}
-            path="/dealer/claimList"
-          />
-        ),
-      },
+     
 
       // Servicer Routs ---------------------------------------------------------------
       
@@ -419,20 +404,26 @@ const routes = [
         ),
       },
       {
-        path: "/servicer/sale",
-        element: (
-          <PrivateRoute
-            element={<ServicerSale />}
-            path="/servicer/sale"
-          />
-        ),
-      },
-      {
         path: "/servicer/claims",
         element: (
           <PrivateRoute
             element={<ServicerClaims />}
             path="/servicer/claims"
+          />
+        ),
+      },
+      {
+        path: "/servicer/addClaim",
+        element: (
+          <PrivateRoute element={<ServicerAddClaim />} path="/dealer/addClaim" />
+        ),
+      },
+      {
+        path: "/servicer/addBulkClaim",
+        element: (
+          <PrivateRoute
+            element={<ServicerAddBulkClaim />}
+            path="/servicer/claimList"
           />
         ),
       },

@@ -64,7 +64,7 @@ import {
 function ResellerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("Resellermenu");
-    return storedTab ? storedTab : "Servicer";
+    return storedTab ? storedTab : "Orders";
   };
   const id = useParams();
   console.log(id);
