@@ -118,7 +118,7 @@ function OrderList() {
     },
     {
       name: "# of Products",
-      selector: (row) => row.productsArray[0].noOfProducts,
+      selector: (row) => row?.productsArray[0]?.noOfProducts == null ? 0 : row.productsArray[0].noOfProducts,
       sortable: true,
       minWidth: "150px",
     },

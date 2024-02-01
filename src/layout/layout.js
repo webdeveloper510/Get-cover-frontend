@@ -16,9 +16,11 @@ function Layout() {
   };
 
   const Location = useLocation();
-  const { id, customerId } = useParams();
+  const { id, customerId, servicerId , resellerId } = useParams();
   const checkUrl = Location.pathname + "/" + id;
+  
   console.log(checkUrl, "yes, Got here----------------");
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
@@ -27,24 +29,29 @@ function Layout() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (!localStorage.getItem("token")) {
-  //     navigate("/login");
-  //   }
-  // }, []);
+
+
 
   return (
     <div
       className={`w-full flex bg-[#F9F9F9] bg-cover h-full ${
         Location.pathname !== "/dealerDetails/" + id &&
-        Location.pathname !== "/customerDetails/" + customerId
+        Location.pathname !== "/customerDetails/" + customerId &&
+        Location.pathname !== "/servicerDetails/" + servicerId &&
+        Location.pathname !== "/orderDetails/" &&
+        Location.pathname !== "/resellerDetails/" + resellerId &&
+        Location.pathname !== "/notifications/" 
           ? "p-4"
           : "p-0"
       } pl-0 relative w-full`}
     >
-      {Location.pathname !== "/dealerDetails/" + id &&
-      Location.pathname !== "/customerDetails/" + customerId ? (
+      {  Location.pathname !== "/dealerDetails/" + id &&
+        Location.pathname !== "/customerDetails/" + customerId &&
+        Location.pathname !== "/servicerDetails/" + servicerId &&
+        Location.pathname !== "/orderDetails/" &&
+        Location.pathname !== "/resellerDetails/" + resellerId &&
+        Location.pathname !== "/notifications/" 
+      ? (
         <div
           className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full `}
         >
@@ -56,7 +63,11 @@ function Layout() {
       <div
         className={`${
           Location.pathname !== "/dealerDetails/" + id &&
-          Location.pathname !== "/customerDetails/" + customerId
+          Location.pathname !== "/customerDetails/" + customerId &&
+          Location.pathname !== "/servicerDetails/" + servicerId &&
+          Location.pathname !== "/orderDetails/" &&
+          Location.pathname !== "/resellerDetails/" + resellerId &&
+          Location.pathname !== "/notifications/" 
             ? "w-[calc(100%-10px)] pl-3"
             : "w-[100%]"
         } h-full min-h-[94vh]`}

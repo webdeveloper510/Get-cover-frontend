@@ -117,7 +117,21 @@ const routes = [
       },
 
       // With Login URLS =========>
+    ],
+  },
 
+  // 
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/dashboard",
+        element: (
+          <PrivateRoute element={<Dashboard />} exact path="/dashboard" />
+        ),
+      },
+      
       {
         path: "/notifications",
         index: true,
@@ -148,20 +162,6 @@ const routes = [
         path: "/resellerDetails/:resellerId",
         index: true,
         element: <PrivateRoute element={<ResellerDetails />} />,
-      },
-    ],
-  },
-
-  // 
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: "/dashboard",
-        element: (
-          <PrivateRoute element={<Dashboard />} exact path="/dashboard" />
-        ),
       },
       {
         path: "/dealerDetails/:id",

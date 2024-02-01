@@ -94,6 +94,7 @@ function ResellerList() {
     </div>
   );
 
+
   const columns = [
     {
       name: "ID",
