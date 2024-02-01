@@ -40,6 +40,7 @@ import Modal from "../../../common/model";
 import { getResellerListByDealerId } from "../../../services/reSellerServices";
 import Cross from "../../../assets/images/Cross.png";
 import { RotateLoader } from "react-spinners";
+import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
 
 function AddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -968,7 +969,16 @@ function AddOrder() {
             <div className="col-span-6">
               <Grid>
                 <div className="col-span-6">
-                  <Select
+                <SelectBoxWIthSerach   
+                 label="Dealer Name"
+                 name="dealerId"
+                 className="!bg-[#fff]"
+                 onSelect={handleSelectChange}
+                 value={formik.values.dealerId}
+                 onBlur={formik.handleBlur}
+                 error={formik.touched.dealerId && formik.errors.dealerId}
+                 options={dealerList}/>
+                  {/* <Select
                     label="Dealer Name"
                     name="dealerId"
                     placeholder=""
@@ -979,7 +989,7 @@ function AddOrder() {
                     value={formik.values.dealerId}
                     onBlur={formik.handleBlur}
                     error={formik.touched.dealerId && formik.errors.dealerId}
-                  />
+                  /> */}
                   {formik.touched.dealerId && formik.errors.dealerId && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
                       {formik.errors.dealerId}
@@ -987,12 +997,14 @@ function AddOrder() {
                   )}
                 </div>
                 <div className="col-span-6">
-                  <Select
+                <SelectBoxWIthSerach
+                  // <Select
                     label="Reseller Name"
                     name="resellerId"
                     placeholder=""
                     className="!bg-white"
-                    onChange={handleSelectChange}
+                    // onChange={handleSelectChange}
+                    onSelect={handleSelectChange}
                     options={resellerList}
                     value={formik.values.resellerId}
                     onBlur={formik.handleBlur}
@@ -1000,24 +1012,28 @@ function AddOrder() {
                 </div>
 
                 <div className="col-span-6">
-                  <Select
+                  {/* <Select */}
+                <SelectBoxWIthSerach
                     label="Customer Name"
                     name="customerId"
                     placeholder=""
                     className="!bg-white"
-                    onChange={handleSelectChange}
+                    // onChange={handleSelectChange}
+                    onSelect={handleSelectChange}
                     options={customerList}
                     value={formik.values.customerId}
                     onBlur={formik.handleBlur}
                   />
                 </div>
                 <div className="col-span-6">
-                  <Select
+                  {/* <Select */}
+                  <SelectBoxWIthSerach
                     label="Servicer Name"
                     name="servicerId"
                     placeholder=""
                     className="!bg-white"
-                    onChange={handleSelectChange}
+                    onSelect={handleSelectChange}
+                    // onChange={handleSelectChange}
                     options={servicerData}
                     value={formik.values.servicerId}
                     onBlur={formik.handleBlur}
