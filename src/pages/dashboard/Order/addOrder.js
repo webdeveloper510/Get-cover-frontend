@@ -919,7 +919,7 @@ function AddOrder() {
     }
     console.log(result.result);
     setCategoryList(
-      result.result.priceCategories.map((item) => ({
+      result.result?.priceCategories.map((item) => ({
         label: item.name,
         value: item._id,
       }))
@@ -936,7 +936,7 @@ function AddOrder() {
           console.log(newOptions);
 
           newOptions[index] = {
-            data: result.result.priceBooks.map((item) => ({
+            data: result.result?.priceBooks.map((item) => ({
               label: item.name,
               value: item._id,
               description: item.description,
@@ -975,7 +975,7 @@ function AddOrder() {
                  name="dealerId"
                  className="!bg-[#fff]"
                  onChange={handleSelectChange}
-                 value={formik.values.dealerId}
+                 value={formik.values?.dealerId}
                  onBlur={formik.handleBlur}
                  error={formik.touched.dealerId && formik.errors.dealerId}
                  options={dealerList}/>
@@ -996,7 +996,7 @@ function AddOrder() {
                     // onChange={handleSelectChange}
                     onChange={handleSelectChange}
                     options={resellerList}
-                    value={formik.values.resellerId}
+                    value={resellerList.length ==0? '' : formik.values?.resellerId}
                     onBlur={formik.handleBlur}
                   />
                 </div>
@@ -1011,12 +1011,13 @@ function AddOrder() {
                     // onChange={handleSelectChange}
                     onChange={handleSelectChange}
                     options={customerList}
-                    value={formik.values.customerId}
+                    value={customerList.length ==0? '' : formik.values.customerId}
                     onBlur={formik.handleBlur}
                   />
                 </div>
                 <div className="col-span-6">
                   {/* <Select */}
+                  {console.log(servicerData.length, "length ", servicerData)}
                   <SelectBoxWIthSerach
                     label="Servicer Name"
                     name="servicerId"
@@ -1025,7 +1026,7 @@ function AddOrder() {
                     onChange={handleSelectChange}
                     // onChange={handleSelectChange}
                     options={servicerData}
-                    value={formik.values.servicerId}
+                    value={servicerData.length==0 ? '' : formik.values.servicerId}
                     onBlur={formik.handleBlur}
                   />
                 </div>

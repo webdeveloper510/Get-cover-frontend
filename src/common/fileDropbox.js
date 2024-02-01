@@ -8,8 +8,10 @@ import csvFile from "../assets/images/icons/csvFile.svg";
 const FileDropdown = ({ className = "", accept, onFileSelect }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
-
   const handleDropdownClick = () => {
+    //  if (fileInputRef.current[index]) {
+    //   fileInputRef.current[index].current.click();
+    // }
     fileInputRef.current.click();
   };
 
@@ -35,7 +37,7 @@ const FileDropdown = ({ className = "", accept, onFileSelect }) => {
       >
         {selectedFile ? (
          <div className='self-center flex text-center relative bg-white border w-full p-3'>
-         <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" />
+         {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
          <img src={csvFile} className="mr-2" alt="Dropbox" />
          <div className='flex justify-between w-full'>
            <p className='self-center'>{selectedFile.name}</p>
