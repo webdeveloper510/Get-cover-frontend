@@ -17,19 +17,16 @@ const SelectBoxWithSearch = ({
   const handleFocus = () => {
     setIsFocused(true);
   };
+
   const handleBlur = () => {
     setIsFocused(false);
     setIsFilled(!!value);
   };
 
-  const handleInputChange = (e) => {
-    const value = e?.target?.value || "";
-    setIsFilled(!!value);
-    onChange && onChange(name, value);
-  };
   useEffect(() => {
     setLocalDefaultValue(value);
   }, [value]);
+
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
@@ -38,7 +35,7 @@ const SelectBoxWithSearch = ({
       borderWidth: "1px",
       borderRadius: "10px",
       padding: "0.425rem",
-      borderColor: state.isFocused ? "#f9f9f9" : provided.borderColor, // Change the focus color
+      borderColor: state.isFocused ? "#f9f9f9" : provided.borderColor,
       boxShadow: state.isFocused
         ? "0 0 0 2px rgba(0, 188, 212, 0.5)"
         : provided.boxShadow,
@@ -58,10 +55,10 @@ const SelectBoxWithSearch = ({
     <div className="relative">
       <Select
         options={options}
-        onChange={handleInputChange}
+        onChange={(selectedOption) => onChange(name, selectedOption?.value || null)}
         styles={customStyles}
         isSearchable
-        value={value}
+        value={options.find((option) => option.value === value)}
         onFocus={handleFocus}
         onBlur={handleBlur}
         isClearable={true}
