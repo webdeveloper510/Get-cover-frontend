@@ -45,7 +45,7 @@ function ServicerUser(props) {
   const [isprimary, SetIsprimary] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
-  const [type, setType] = useState("Add");
+  const [type, setType] = useState("Add New");
   const [createAccountOption, setCreateAccountOption] = useState(true);
   const [deleteId, setDeleteId] = useState("");
 
@@ -152,7 +152,6 @@ function ServicerUser(props) {
     formik.resetForm();
   };
   const openModal2 = () => {
-    setType("Add");
     setIsModalOpen2(true);
   };
 
@@ -413,7 +412,10 @@ function ServicerUser(props) {
 
                 <div
                   className="text-center py-2 cursor-pointer border-b"
-                  onClick={() => editUser(row._id)}
+                  onClick={() => {
+                    setType("");
+                    editUser(row._id);
+                  }}
                 >
                   Edit
                 </div>
@@ -457,7 +459,16 @@ function ServicerUser(props) {
 
         <div
           className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1] cursor-pointer"
-          onClick={() => openModal2()}
+          onClick={() => {
+            formik.setFieldValue("firstName", "");
+            formik.setFieldValue("lastName", "");
+            formik.setFieldValue("position", "");
+            formik.setFieldValue("phoneNumber", "");
+            formik.setFieldValue("email", "");
+            formik.setFieldValue("status", true);
+            setType("Add New");
+            openModal2();
+          }}
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -643,7 +654,7 @@ function ServicerUser(props) {
       <Modal isOpen={isModalOpen2} onClose={closeModal2}>
         <div className=" py-3">
           <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
-            Add New User
+            {type} User
           </p>
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <Grid className="px-8">
