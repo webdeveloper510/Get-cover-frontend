@@ -166,3 +166,18 @@ export const getCustomerByDealerId = async (id, data) => {
     throw error;
   }
 };
+
+export const getResellerServicers = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/reseller/getResellerServicers/${id}`,
+      data,
+      { headers }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

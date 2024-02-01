@@ -32,7 +32,10 @@ import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
 import { Link } from "react-router-dom";
 import RadioButton from "../../common/radio";
-
+import {
+  addUser,
+  getUser,
+} from "../../services/servicerServices/userServicerServices";
 
 function ServicerUser(props) {
   const { toggleFlag } = useMyContext();
@@ -42,6 +45,8 @@ function ServicerUser(props) {
   const [isprimary, SetIsprimary] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
+  const [type, setType] = useState("Add");
+  const [createAccountOption, setCreateAccountOption] = useState(true);
   const [deleteId, setDeleteId] = useState("");
 
   const [primaryText, SetPrimaryText] = useState("");
@@ -55,36 +60,16 @@ function ServicerUser(props) {
     firstName: "",
     phoneNumber: "",
     position: "",
+    email: "",
     status: true,
-    id: "",
   });
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
-
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const getUserList = async () => {
-    console.log(props.flag);
-    if (props.flag == "customer") {
-      const result = await getCustomerUsersById(props.id, {});
-      console.log(result.result);
-      setUserList(result.result);
-    } else if (props.flag == "servicer") {
-      const result = await getServicerUsersById(props.id, {});
-      console.log(result);
-      setServiceStatus(result.servicerStatus);
-      setUserList(result.result);
-    }
-    else if (props.flag == "reseller") {
-      const result = await getResellerUsersById(props.id, {});
-      console.log(result);
-      // setServiceStatus(result.servicerStatus);
-      setUserList(result.data);
-    } 
-     else {
-      const result = await getUserListByDealerId(props.id, {});
-      console.log(result.result);
-      setServiceStatus(result.dealerStatus);
-      setUserList(result.result);
-    }
+    const result = await getUser({});
+    console.log(result.result);
+    setUserList(result.result);
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -92,12 +77,10 @@ function ServicerUser(props) {
       setSelectedAction(null);
     }
   };
-  useEffect(()=>{
-    getUserList();
-  },[props])
   useEffect(() => {
- 
-
+    getUserList();
+  }, []);
+  useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
@@ -105,12 +88,6 @@ function ServicerUser(props) {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  useEffect(() => {
-    if (props?.data?.length !== 0) {
-      getUserList();
-    }
-  }, [props?.data]);
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -149,7 +126,11 @@ function ServicerUser(props) {
     SetIsModalOpen(true);
     getUserList();
   };
-
+  const handleRadioChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    formik.setFieldValue("status", valueAsBoolean);
+    setCreateAccountOption(valueAsBoolean);
+  };
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
@@ -171,6 +152,7 @@ function ServicerUser(props) {
     formik.resetForm();
   };
   const openModal2 = () => {
+    setType("Add");
     setIsModalOpen2(true);
   };
 
@@ -221,30 +203,35 @@ function ServicerUser(props) {
         .max(10, "Must be exactly 10 characters")
         .matches(/^[0-9]+$/, "Must contain only digits"),
       status: Yup.boolean().required("Required"),
+      email: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .matches(emailValidationRegex, "Invalid email address")
+        .required("Required"),
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
       setLoading(true);
-      const result = await updateUserDetailsById(values);
+      const result = await addUser(values);
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
-        SetPrimaryText("User Edited Successfully ");
-        SetSecondaryText("user edited successfully ");
+        SetPrimaryText("User Add Successfully ");
+        SetSecondaryText("user add successfully ");
         openModal();
         toggleFlag();
+        closeModal2();
         // setIsModalOpen3(true);
 
         // setError(result.message);
         setTimer(3);
         getUserList();
+      } else if (result.code == 401) {
+        setLoading(false);
+        formik.setFieldError("email", "email already used");
       } else {
         setLoading(false);
-        // setError(false);
-        // setIsModalOpen(true);
-        // setTimer(3);
+        closeModal2();
       }
-      closeModal2();
     },
   });
 
@@ -268,6 +255,7 @@ function ServicerUser(props) {
     }
   };
   const editUser = async (id) => {
+    setType("Edit");
     console.log(id);
     const result = await userDetailsById(id);
     console.log(result.result.status);
@@ -298,9 +286,10 @@ function ServicerUser(props) {
   };
 
   const filterUserDetails = async (data) => {
+    console.log(data);
     try {
       setLoading(true);
-      const res = await getUserListByDealerId(props.id, data);
+      const res = await getUser(data);
       setUserList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
@@ -453,8 +442,8 @@ function ServicerUser(props) {
   return (
     <>
       <div className="my-8">
-      <Headbar/>
-      <div className="flex mt-2">
+        <Headbar />
+        <div className="flex mt-2">
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Users</p>
             <ul className="flex self-center">
@@ -466,8 +455,9 @@ function ServicerUser(props) {
           </div>
         </div>
 
-        <div 
-          className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1] cursor-pointer" onClick={()=> openModal2()}
+        <div
+          className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1] cursor-pointer"
+          onClick={() => openModal2()}
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -679,6 +669,26 @@ function ServicerUser(props) {
               </div>
               <div className="col-span-6">
                 <Input
+                  type="email"
+                  name="email"
+                  label="Email"
+                  required={true}
+                  className="!bg-[#fff]"
+                  placeholder=""
+                  maxLength={"30"}
+                  value={formik.values.email}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && formik.errors.email}
+                />
+                {formik.touched.email && formik.errors.email && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.email}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
                   type="text"
                   name="lastName"
                   label="Last Name"
@@ -756,7 +766,7 @@ function ServicerUser(props) {
                     </div>
                   )}
               </div>
-              <div className="col-span-6">
+              {/* <div className="col-span-6">
                 <Select
                   label="Status"
                   required={true}
@@ -775,23 +785,23 @@ function ServicerUser(props) {
                     {formik.errors.status}
                   </div>
                 )}
-              </div>
+              </div> */}
               <div className="col-span-6">
                 <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
                   Do you want to create an account?
                   <RadioButton
                     id="yes-create-account"
                     label="Yes"
-                    value="yes"
-                    // checked={createAccountOption === "yes"}
-                    // onChange={handleRadioChange}
+                    value={true}
+                    checked={createAccountOption === true}
+                    onChange={handleRadioChange}
                   />
                   <RadioButton
                     id="no-create-account"
                     label="No"
-                    value="no"
-                    // checked={createAccountOption === "no"}
-                    // onChange={handleRadioChange}
+                    value={false}
+                    checked={createAccountOption === false}
+                    onChange={handleRadioChange}
                   />
                 </p>
               </div>
@@ -819,4 +829,4 @@ function ServicerUser(props) {
   );
 }
 
-export default ServicerUser
+export default ServicerUser;
