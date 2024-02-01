@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
 const SelectBoxWithSearch = ({
@@ -10,12 +10,26 @@ const SelectBoxWithSearch = ({
   options,
   name,
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(!!value);
+  const [localDefaultValue, setLocalDefaultValue] = useState(value);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+  const handleBlur = () => {
+    setIsFocused(false);
+    setIsFilled(!!value);
+  };
+
   const handleInputChange = (e) => {
     const value = e?.target?.value || "";
     setIsFilled(!!value);
     onChange && onChange(name, value);
   };
+  useEffect(() => {
+    setLocalDefaultValue(value);
+  }, [value]);
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
@@ -47,7 +61,11 @@ const SelectBoxWithSearch = ({
         onChange={handleInputChange}
         styles={customStyles}
         isSearchable
+        value={value}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         isClearable={true}
+        defaultValue={localDefaultValue}
         placeholder="Search..."
       />
       <label

@@ -973,7 +973,7 @@ function AddOrder() {
                  label="Dealer Name"
                  name="dealerId"
                  className="!bg-[#fff]"
-                 onSelect={handleSelectChange}
+                 onChange={handleSelectChange}
                  value={formik.values.dealerId}
                  onBlur={formik.handleBlur}
                  error={formik.touched.dealerId && formik.errors.dealerId}
@@ -1004,7 +1004,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     // onChange={handleSelectChange}
-                    onSelect={handleSelectChange}
+                    onChange={handleSelectChange}
                     options={resellerList}
                     value={formik.values.resellerId}
                     onBlur={formik.handleBlur}
@@ -1019,7 +1019,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     // onChange={handleSelectChange}
-                    onSelect={handleSelectChange}
+                    onChange={handleSelectChange}
                     options={customerList}
                     value={formik.values.customerId}
                     onBlur={formik.handleBlur}
@@ -1032,7 +1032,7 @@ function AddOrder() {
                     name="servicerId"
                     placeholder=""
                     className="!bg-white"
-                    onSelect={handleSelectChange}
+                    onChange={handleSelectChange}
                     // onChange={handleSelectChange}
                     options={servicerData}
                     value={formik.values.servicerId}
