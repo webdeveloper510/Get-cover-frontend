@@ -602,7 +602,7 @@ function PriceBookList(props) {
           />
         </Button>
         <div className="py-3">
-          <p className="text-center text-3xl font-semibold ">
+          <p className="text-center text-3xl font-semibold  w-[70%] mx-auto ">
             {dealerPriceBookDetail?.dealer?.name}/
             {dealerPriceBookDetail?.priceBooks?.name}
           </p>

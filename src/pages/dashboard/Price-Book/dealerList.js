@@ -469,7 +469,7 @@ function DealerPriceList() {
               <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
             </Button>
             <div className="py-3">
-              <p className='text-center text-3xl font-semibold '>
+              <p className='text-center text-3xl font-semibold  w-[70%] mx-auto'>
                  {dealerPriceBookDetail?.dealer?.name}/{dealerPriceBookDetail?.priceBooks?.name}
               </p>
               <Grid className='mt-5 px-6'>
