@@ -45,7 +45,7 @@ function Layout() {
           : "p-0"
       } pl-0 relative w-full`}
     >
-      {  Location.pathname !== "/dealerDetails/" + id &&
+      { Location.pathname !== "/dealerDetails/" + id &&
         Location.pathname !== "/customerDetails/" + customerId &&
         Location.pathname !== "/servicerDetails/" + servicerId &&
         Location.pathname !== "/orderDetails/" &&

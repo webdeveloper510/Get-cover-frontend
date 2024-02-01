@@ -72,7 +72,7 @@ function OrderList() {
     setLoading(false);
   };
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = orderList.length - index <= 2;
+    const isCloseToBottom = orderList.length - index <= 10000 ;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -118,7 +118,7 @@ function OrderList() {
     },
     {
       name: "# of Products",
-      selector: (row) => row?.productsArray[0]?.noOfProducts == null ? 0 : row.productsArray[0].noOfProducts,
+      selector: (row) => row?.noOfProducts == null ? 0 : row.noOfProducts,
       sortable: true,
       minWidth: "150px",
     },
@@ -141,6 +141,7 @@ function OrderList() {
                 value={row.status === true ? "active" : "inactive"}
                 // onChange={(e) => handleStatusChange(row, e.target.value)}
                 className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+                disabled
               >
                 <option value="Active">Active</option>
                 <option value="Pending">Pending</option>

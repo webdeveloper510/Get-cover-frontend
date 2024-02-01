@@ -260,6 +260,7 @@ function AddOrder() {
     onSubmit: (values) => {
       let data = {
         dealerPurchaseOrder: values.dealerPurchaseOrder,
+        dealerId:formik.values.dealerId
       };
       const result = getStep2Validation(data).then((res) => {
         console.log(res);
