@@ -34,6 +34,7 @@ import { Link } from "react-router-dom";
 import RadioButton from "../../common/radio";
 import {
   addUser,
+  editUserDetails,
   getUser,
 } from "../../services/servicerServices/userServicerServices";
 
@@ -205,23 +206,35 @@ function ServicerUser(props) {
       email: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .matches(emailValidationRegex, "Invalid email address")
-        .required("Required"),
+        .when("$type", {
+          is: (schema) => type == "Edit",
+          then: (schema) => schema.notRequired(),
+          otherwise: (schema) => schema.required("Required"),
+        }),
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
+      if (type !== "Edit") {
+        delete values.id;
+      }
       setLoading(true);
-      const result = await addUser(values);
+      const result =
+        type == "Edit"
+          ? await editUserDetails(values.id, values)
+          : await addUser(values);
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
-        SetPrimaryText("User Add Successfully ");
-        SetSecondaryText("user add successfully ");
+        if (type == "Edit") {
+          SetPrimaryText("User Edit Successfully ");
+          SetSecondaryText("user edit successfully ");
+        } else {
+          SetPrimaryText("User Add Successfully ");
+          SetSecondaryText("user add successfully ");
+        }
         openModal();
         toggleFlag();
         closeModal2();
-        // setIsModalOpen3(true);
-
-        // setError(result.message);
         setTimer(3);
         getUserList();
       } else if (result.code == 401) {
@@ -499,6 +512,7 @@ function ServicerUser(props) {
                         onChange={formikUSerFilter.handleChange}
                       />
                     </div>
+
                     <div className="col-span-3 self-center">
                       <Input
                         name="email"
@@ -512,6 +526,7 @@ function ServicerUser(props) {
                         onChange={formikUSerFilter.handleChange}
                       />
                     </div>
+
                     <div className="col-span-3 self-center">
                       <Input
                         name="phone"
@@ -678,26 +693,7 @@ function ServicerUser(props) {
                   </div>
                 )}
               </div>
-              <div className="col-span-6">
-                <Input
-                  type="email"
-                  name="email"
-                  label="Email"
-                  required={true}
-                  className="!bg-[#fff]"
-                  placeholder=""
-                  maxLength={"30"}
-                  value={formik.values.email}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && formik.errors.email}
-                />
-                {formik.touched.email && formik.errors.email && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.email}
-                  </div>
-                )}
-              </div>
+
               <div className="col-span-6">
                 <Input
                   type="text"
@@ -718,6 +714,28 @@ function ServicerUser(props) {
                   </div>
                 )}
               </div>
+              {type !== "Edit" && (
+                <div className="col-span-6">
+                  <Input
+                    type="email"
+                    name="email"
+                    label="Email"
+                    required={true}
+                    className="!bg-[#fff]"
+                    placeholder=""
+                    maxLength={"30"}
+                    value={formik.values.email}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && formik.errors.email}
+                  />
+                  {formik.touched.email && formik.errors.email && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.email}
+                    </div>
+                  )}
+                </div>
+              )}
               <div className="col-span-6">
                 <Input
                   type="text"
@@ -777,45 +795,49 @@ function ServicerUser(props) {
                     </div>
                   )}
               </div>
-              {/* <div className="col-span-6">
-                <Select
-                  label="Status"
-                  required={true}
-                  name="status"
-                  placeholder=""
-                  onChange={handleSelectChange}
-                  disabled={isprimary || !mainStatus}
-                  className="!bg-[#fff]"
-                  options={status}
-                  value={formik.values.status}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.status && formik.errors.status}
-                />
-                {formik.touched.status && formik.errors.status && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.status}
-                  </div>
-                )}
-              </div> */}
-              <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                  Do you want to create an account?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value={true}
-                    checked={createAccountOption === true}
-                    onChange={handleRadioChange}
+              {type == "Edit" && (
+                <div className="col-span-6">
+                  <Select
+                    label="Status"
+                    required={true}
+                    name="status"
+                    placeholder=""
+                    onChange={handleSelectChange}
+                    disabled={isprimary || !mainStatus}
+                    className="!bg-[#fff]"
+                    options={status}
+                    value={formik.values.status}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.status && formik.errors.status}
                   />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value={false}
-                    checked={createAccountOption === false}
-                    onChange={handleRadioChange}
-                  />
-                </p>
-              </div>
+                  {formik.touched.status && formik.errors.status && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.status}
+                    </div>
+                  )}
+                </div>
+              )}
+              {type != "Edit" && (
+                <div className="col-span-6">
+                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                    Do you want to create an account?
+                    <RadioButton
+                      id="yes-create-account"
+                      label="Yes"
+                      value={true}
+                      checked={createAccountOption === true}
+                      onChange={handleRadioChange}
+                    />
+                    <RadioButton
+                      id="no-create-account"
+                      label="No"
+                      value={false}
+                      checked={createAccountOption === false}
+                      onChange={handleRadioChange}
+                    />
+                  </p>
+                </div>
+              )}
             </Grid>
             <Grid className="!grid-cols-5 my-5  px-8">
               <div className="col-span-2">
