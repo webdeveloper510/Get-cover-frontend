@@ -18,6 +18,7 @@ import Select from '../../../common/select';
 import { RotateLoader } from 'react-spinners';
 import { getOrders } from '../../../services/orderServices';
 import Modal from '../../../common/model';
+import Cross from "../../../assets/images/Cross.png";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -27,6 +28,16 @@ function OrderList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
+
+  const closeDisapproved = () => {
+    setIsDisapprovedOpen(false);
+  };
+
+  const openDisapproved = () => {
+    setIsDisapprovedOpen(true);
+  };
+
   const openArchive = () => {
     setIsArchiveOpen(true);
   };
@@ -212,13 +223,13 @@ function OrderList() {
 
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-5 self-center">
+            <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Order List</p>
             </div>
-            <div className="col-span-7">
+            <div className="col-span-9">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-3 self-center">
+                <Grid className="!grid-cols-9">
+                  <div className="col-span-2 self-center">
                     <Input
                       name="Name"
                       type="text"
@@ -228,7 +239,7 @@ function OrderList() {
                       placeholder="ID"
                     />
                   </div>
-                  <div className="col-span-3 self-center">
+                  <div className="col-span-2 self-center">
                     <Input
                       name="orderNo"
                       type="text"
@@ -238,7 +249,7 @@ function OrderList() {
                       placeholder="Dealer Order No."
                     />
                   </div>
-                  <div className="col-span-3 self-center">
+                  <div className="col-span-2 self-center">
                     <Select
                       label=""
                       options={status}
@@ -250,7 +261,7 @@ function OrderList() {
                     />
                   </div>
 
-                  <div className="col-span-2 self-center flex">
+                  <div className="col-span-3 self-center flex">
                     <img src={Search} className="cursor-pointer	" alt="Search" />
                     <Button type="submit" className=" !bg-transparent !p-0">
                       <img
@@ -258,6 +269,10 @@ function OrderList() {
                         className="cursor-pointer	mx-auto"
                         alt="clearFilter"
                       />
+                    </Button>
+                    <Button
+                      type="submit" className='ml-2 !text-sm' onClick={()=> openDisapproved()}>
+                      Advance Search
                     </Button>
                   </div>
                 </Grid>
@@ -344,6 +359,81 @@ function OrderList() {
           </p>
         </div>
       </Modal>
+
+      <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
+          <Button onClick={closeDisapproved} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
+          <div className="py-3">
+            <p className='text-center text-3xl font-semibold '>
+            Advance Search
+            </p>
+           <Grid className='mt-5 px-6'>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Order ID"
+                        className="!bg-[#fff]"
+                        label="Order ID"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Dealer P.O. No."
+                        className="!bg-[#fff]"
+                        label="Dealer P.O. No."
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Serial No."
+                        className="!bg-[#fff]"
+                        label="Serial No."
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Dealer Name"
+                        className="!bg-[#fff]"
+                        label="Dealer Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Reseller Name"
+                        className="!bg-[#fff]"
+                        label="Reseller Name"
+                        placeholder="" />
+            </div>
+           
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Customer Name"
+                        className="!bg-[#fff]"
+                        label="Customer Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Servicer Name"
+                        className="!bg-[#fff]"
+                        label="Servicer Name"
+                        placeholder="" />
+            </div>
+           
+            <div className='col-span-6'>
+            <Select
+                        name="Status"
+                        label="Status"
+                        options={status}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+            </div>
+            <div className='col-span-12'>
+             <Button className={'w-full'}>Search</Button>
+            </div>
+           </Grid>
+          </div>
+        </Modal>
     </>
   );
 }

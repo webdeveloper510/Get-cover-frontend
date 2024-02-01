@@ -47,7 +47,7 @@ import shorting from "../../../assets/images/icons/shorting.svg";
 function ServicerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("servicer");
-    return storedTab ? storedTab : "Dealer";
+    return storedTab ? storedTab : "Claims";
   };
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -62,7 +62,7 @@ import Reseller from "./Dealer-Details/reseller";
 function DealerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("menu");
-    return storedTab ? storedTab : "Servicer";
+    return storedTab ? storedTab : "Orders";
   };
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab

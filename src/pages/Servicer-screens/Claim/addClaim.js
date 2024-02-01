@@ -16,7 +16,7 @@ import FileDropdown from '../../../common/fileDropbox';
 import SelectBoxWIthSerach from '../../../common/selectBoxWIthSerach';
 import DateInput from '../../../common/dateInput';
 
-function DealerAddClaim() {
+function ServicerAddClaim() {
     const [selectedValue, setSelectedValue] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedOption, setSelectedOption] = useState('option1');
@@ -315,4 +315,4 @@ function DealerAddClaim() {
     )
   }
 
-export default DealerAddClaim
+export default ServicerAddClaim

@@ -17,7 +17,7 @@ import { uploadDealerBookInBulk } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
 import Button from "../../../common/button";
 
-function DealerAddBulkClaim() {
+function ServicerAddBulkClaim() {
   const [selectedValue, setSelectedValue] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -354,4 +354,4 @@ function DealerAddBulkClaim() {
   );
 }
 
-export default DealerAddBulkClaim;
+export default ServicerAddBulkClaim;

@@ -30,7 +30,15 @@ function ClaimList() {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
+  const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
 
+  const closeDisapproved = () => {
+    setIsDisapprovedOpen(false);
+  };
+
+  const openDisapproved = () => {
+    setIsDisapprovedOpen(true);
+  };
   const closeEdit = () => {
     setIsEditOpen(false);
   };
@@ -61,6 +69,19 @@ function ClaimList() {
     { label: "12/09/2026", value: false },
   ];
 
+  const status = [
+    { label: "Active", value: true },
+    { label: "Inactive", value: false },
+  ];
+
+  const state = [
+    { label: "Admin", value: true },
+    { label: "Dealer", value: false },
+    { label: "Reseller", value: false },
+    { label: "Servicer", value: false },
+    { label: "Customer", value: false },
+  ];
+  
   return (
     <>
       <div className="my-8 ml-3">
@@ -138,7 +159,7 @@ function ClaimList() {
                       />
                     </Button>
                     <Button
-                      type="submit" className='ml-2 !text-sm'>
+                      type="submit" className='ml-2 !text-sm' onClick={()=> openDisapproved()}>
                       Advance Search
                     </Button>
                   </div>
@@ -262,7 +283,14 @@ function ClaimList() {
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular'>Servicer Name :   <span className='font-semibold text-white'> Jameson Wills </span></p>
+                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
+                        Servicer Name : </span>   <Select 
+                          name="state"
+                          options={state}
+                          placeholder=""
+                          className=""
+                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
+                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -305,11 +333,15 @@ function ClaimList() {
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
-                      <div className='m-2 p-2 bg-[#3C3C3C]'>
+                      <div className='m-2 p-2 bg-[#3C3C3C] '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
+                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
+                          placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
+                        </div>
                       </div>
                     </div>
                     <div className='col-span-2 self-center'>
@@ -433,7 +465,14 @@ function ClaimList() {
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular'>Servicer Name :   <span className='font-semibold text-white'> Jameson Wills </span></p>
+                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
+                        Servicer Name : </span>   <Select 
+                          name="state"
+                          options={state}
+                          placeholder=""
+                          className=""
+                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
+                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -478,9 +517,13 @@ function ClaimList() {
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C]'>
                         <p className='text-[11px] text-white'>Diagnosis</p>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
+                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
+                          placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
+                        </div>
                       </div>
                     </div>
                     <div className='col-span-2 self-center'>
@@ -604,7 +647,14 @@ function ClaimList() {
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular'>Servicer Name :   <span className='font-semibold text-white'> Jameson Wills </span></p>
+                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
+                        Servicer Name : </span>   <Select 
+                          name="state"
+                          options={state}
+                          placeholder=""
+                          className=""
+                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
+                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -649,9 +699,13 @@ function ClaimList() {
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C]'>
                         <p className='text-[11px] text-white'>Diagnosis</p>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
+                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
+                          placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
+                        </div>
                       </div>
                     </div>
                     <div className='col-span-2 self-center'>
@@ -821,9 +875,18 @@ function ClaimList() {
                     <img src={upload} className='self-center' alt='upload'/>
                   </div>
                 </div>
-                <div className='col-span-9'>
+                <div className='col-span-6'>
                   <Input type='text'
                   className1="!text-[16px] !pt-2 placeholder-opacity-50 !pb-2 placeholder-[#1B1D21] !bg-[white]"/>
+                </div>
+                <div className='col-span-3'>
+                  <Select 
+                   name="state"
+                   options={state}
+                   placeholder=""
+                   className="!bg-white "
+                   className1='!p-2'
+                   />
                 </div>
                 <div className=''><Button>Submit</Button></div>
               </Grid>
@@ -970,6 +1033,95 @@ function ClaimList() {
               <img src={Attachment} className='p-4' alt='Attachment' /> 
             </div>
           </Modal>
+
+          <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
+          <Button onClick={closeDisapproved} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
+          <div className="py-3">
+            <p className='text-center text-3xl font-semibold '>
+            Advance Search
+            </p>
+           <Grid className='mt-5 px-6'>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Contract ID"
+                        className="!bg-[#fff]"
+                        label="Contract ID"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Order ID"
+                        className="!bg-[#fff]"
+                        label="Order ID"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Dealer P.O. No."
+                        className="!bg-[#fff]"
+                        label="Dealer P.O. No."
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Serial No."
+                        className="!bg-[#fff]"
+                        label="Serial No."
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Product Name"
+                        className="!bg-[#fff]"
+                        label="Product Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Dealer Name"
+                        className="!bg-[#fff]"
+                        label="Dealer Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Customer Name"
+                        className="!bg-[#fff]"
+                        label="Customer Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Servicer Name"
+                        className="!bg-[#fff]"
+                        label="Servicer Name"
+                        placeholder="" />
+            </div>
+           
+            <div className='col-span-6'>
+            <Select
+                        name="Status"
+                        label="Status"
+                        options={status}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+            </div>
+            <div className='col-span-6'>
+            <Select
+                        name="ClaimStatus"
+                        label="Claim Status"
+                        options={status}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+            </div>
+            <div className='col-span-12'>
+             <Button className={'w-full'}>Search</Button>
+            </div>
+           </Grid>
+          </div>
+        </Modal>
     </>
   )
 }

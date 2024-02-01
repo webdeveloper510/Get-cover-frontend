@@ -30,7 +30,15 @@ function DealerClaimList() {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
+  const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
 
+  const closeDisapproved = () => {
+    setIsDisapprovedOpen(false);
+  };
+
+  const openDisapproved = () => {
+    setIsDisapprovedOpen(true);
+  };
   const closeEdit = () => {
     setIsEditOpen(false);
   };
@@ -56,10 +64,16 @@ function DealerClaimList() {
     setSelectedValue(value);
   };
 
+  const status = [
+    { label: "Active", value: true },
+    { label: "Inactive", value: false },
+  ];
+
   const CoverageStartDate = [
     { label: "11/09/2026", value: true },
     { label: "12/09/2026", value: false },
   ];
+  
 
   return (
     <>
@@ -83,16 +97,16 @@ function DealerClaimList() {
           </div>
         </div>
 
-        <Link
-          to={"/addClaim"}
-          className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            Add Claim{" "}
-          </span>{" "}
-        </Link>
+          {/* <Link
+            to={"/addClaim"}
+            className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+          >
+            {" "}
+            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+            <span className="text-black ml-3 text-[14px] font-Regular">
+              Add Claim{" "}
+            </span>{" "}
+          </Link> */}
 
         <div className='bg-white my-8 border-[1px] border-[#D1D1D1] rounded-xl'>
           
@@ -138,7 +152,7 @@ function DealerClaimList() {
                       />
                     </Button>
                     <Button
-                      type="submit" className='ml-2 !text-sm'>
+                      type="submit" className='ml-2 !text-sm' onClick={()=> openDisapproved()}>
                       Advance Search
                     </Button>
                   </div>
@@ -164,7 +178,7 @@ function DealerClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
+                 {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -335,7 +349,7 @@ function DealerClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
+                 {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -506,7 +520,7 @@ function DealerClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
+                 {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -970,6 +984,95 @@ function DealerClaimList() {
               <img src={Attachment} className='p-4' alt='Attachment' /> 
             </div>
           </Modal>
+
+          <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
+          <Button onClick={closeDisapproved} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
+          <div className="py-3">
+            <p className='text-center text-3xl font-semibold '>
+            Advance Search
+            </p>
+           <Grid className='mt-5 px-6'>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Contract ID"
+                        className="!bg-[#fff]"
+                        label="Contract ID"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Order ID"
+                        className="!bg-[#fff]"
+                        label="Order ID"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Dealer P.O. No."
+                        className="!bg-[#fff]"
+                        label="Dealer P.O. No."
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Serial No."
+                        className="!bg-[#fff]"
+                        label="Serial No."
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Product Name"
+                        className="!bg-[#fff]"
+                        label="Product Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Dealer Name"
+                        className="!bg-[#fff]"
+                        label="Dealer Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Customer Name"
+                        className="!bg-[#fff]"
+                        label="Customer Name"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Servicer Name"
+                        className="!bg-[#fff]"
+                        label="Servicer Name"
+                        placeholder="" />
+            </div>
+          
+            <div className='col-span-6'>
+            <Select
+                        name="Status"
+                        label="Status"
+                        options={status}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+            </div>
+            <div className='col-span-6'>
+            <Select
+                        name="ClaimStatus"
+                        label="Claim Status"
+                        options={status}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+            </div>
+            <div className='col-span-12'>
+             <Button className={'w-full'}>Search</Button>
+            </div>
+           </Grid>
+          </div>
+        </Modal>
     </>
   )
 }
