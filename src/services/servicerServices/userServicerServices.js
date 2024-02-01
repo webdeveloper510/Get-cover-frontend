@@ -52,3 +52,20 @@ export const getUser = async (data) => {
     throw error;
   }
 };
+
+export const editUserDetails = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(
+      `${url}/servicerPortal/editUserDetail/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
