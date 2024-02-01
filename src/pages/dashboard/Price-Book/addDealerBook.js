@@ -17,6 +17,7 @@ import dealer from "../../../assets/images/icons/dealerName.svg";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import {
   addDealerPriceBook,
+  checkDealerPriceBook,
   editDealerPriceBook,
   getDealerPricebookDetailById,
   getDealersList,
@@ -145,7 +146,7 @@ function AddDealerBook() {
       });
       const response = await getProductListbyProductCategoryId(value);
       setProductNameOptions(() => {
-        console.log(response.result)
+        console.log(response.result);
         return response.result.priceBooks.map((item) => ({
           label: item.name,
           value: item._id,
@@ -157,7 +158,7 @@ function AddDealerBook() {
             item.reinsuranceFee +
             item.adminFee,
           status: item.status,
-          priceType:item.priceType
+          priceType: item.priceType,
         }));
       });
     }
@@ -170,11 +171,7 @@ function AddDealerBook() {
         "wholesalePrice",
         selectedProduct.wholesalePrice.toFixed(2)
       );
-      formik.setFieldValue(
-        "priceType",
-        selectedProduct.priceType
-      );
-      console.log(selectedProduct.priceType)
+      formik.setFieldValue("priceType", selectedProduct.priceType);
       formik.setFieldValue("description", selectedProduct.description);
       formik.setFieldValue("term", selectedProduct.term + " Months");
     }
@@ -193,8 +190,7 @@ function AddDealerBook() {
       wholesalePrice: "",
       term: "",
       brokerFee: "",
-      priceType:""
-      
+      priceType: "",
     },
     validationSchema: Yup.object({
       retailPrice: Yup.number()
@@ -373,16 +369,14 @@ function AddDealerBook() {
                         {priceBookById?.priceBooks?.description}
                       </p>
                     </div>
-                 
                   </div>
-
                 </div>
                 <div className="col-span-4">
-                 <div className="flex">
+                  <div className="flex">
                     <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
                       <img src={product} className="w-6 h-6" alt="product" />
                     </div>
-                  <div className="self-center">
+                    <div className="self-center">
                       <p className="text-[#FFF] text-lg font-medium leading-5	">
                         Price Type
                       </p>
@@ -390,9 +384,8 @@ function AddDealerBook() {
                         {priceBookById?.priceBooks?.priceType}
                       </p>
                     </div>
-                    </div>
+                  </div>
                 </div>
-            
               </Grid>
             </div>
           )}
