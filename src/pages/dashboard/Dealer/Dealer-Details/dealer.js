@@ -77,7 +77,6 @@ function DealerDetailList(props) {
   };
   useEffect(() => {
     if (props.flag && props.activeTab==='Dealer') {
-      
       servicerDealers();
     }
   }, [props?.flag]);

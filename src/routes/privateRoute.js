@@ -13,12 +13,23 @@ const PrivateRoute = ({ element, path, withoutLogin }) => {
   useEffect(() => {
     const checkAuthentication = async () => {
       const userToken = localStorage.getItem("userDetails");
+      console.log(userToken)
       setIsLoggedIn(!!userToken);
       setLoading(false);
       if (!!userToken === false && withoutLogin) {
         navigate(path, { replace: true });
       } else if (withoutLogin && !!userToken === true) {
-        navigate("/dashboard", { replace: true });
+        if (userToken?.role === "Super Admin") {
+          console.log('Super Admin')
+          navigate("/dashboard", { replace: true });
+        } else if (userToken?.role === "Servicer") {
+          console.log('Servicer')
+          navigate("/servicer/dashboard", { replace: true });
+        } else if (userToken?.role === "Dealer") {
+          navigate("/dealer/dashboard", { replace: true });
+        } else {
+          navigate("/dashboard", { replace: true });
+        }
       } else if (!withoutLogin && !!userToken === false) {
         navigate("/", { replace: true });
       } else {
