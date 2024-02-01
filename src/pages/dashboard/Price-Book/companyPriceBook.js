@@ -326,10 +326,16 @@ function CompanyPriceBook() {
   const closeView = () => {
     setIsViewOpen(false);
   };
-
-  const openView = (id) => {
-    setIsViewOpen(true);
-    getCompanyPriceBook(id)
+  const openView = async (id) => {
+    try {
+      setLoading(true);
+       getCompanyPriceBook(id);
+      setLoading(false);
+      setIsViewOpen(true);
+    } catch (error) {
+      console.error("Error loading data:", error);
+      setLoading(false);
+    }
   };
 
   return (

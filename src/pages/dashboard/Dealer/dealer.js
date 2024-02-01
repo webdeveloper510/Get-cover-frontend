@@ -12,6 +12,7 @@ import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import disapprove from "../../../assets/images/Disapproved.png";
 import Cross from "../../../assets/images/Cross.png";
 import Button from "../../../common/button";
+import csvFile from "../../../assets/images/icons/csvFile.svg";
 import RadioButton from "../../../common/radio";
 import FileDropdown from "../../../common/fileDropbox";
 import { cityData } from "../../../stateCityJson";
@@ -84,7 +85,10 @@ function Dealer() {
   const navigate = useNavigate();
   const { id } = useParams();
   const handleDropdownClick = () => {
-    fileInputRef.current.click();
+    if (fileInputRef) {
+      fileInputRef.current.click();
+      setSelectedFile(null)
+    }
   };
   const status = [
     { label: "Active", value: true },
@@ -1480,7 +1484,15 @@ function Dealer() {
                     className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
                   >
                     {selectedFile ? (
-                      selectedFile.name
+                       <div className='self-center flex text-center relative bg-white border w-[80%] mx-auto p-3'>
+                       {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
+                       <img src={csvFile} className="mr-2" alt="Dropbox" />
+                       <div className='flex justify-between w-full'>
+                         <p className='self-center'>{selectedFile.name}</p>
+                         <p className='self-center'>{(selectedFile.size/ 1000).toFixed(2)} kb</p>
+                       </div>
+                     </div> 
+                      
                     ) : (
                       <>
                         <img

@@ -47,7 +47,7 @@ import { MyContextProvider, useMyContext } from "../../../context/context";
 function CustomerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("customer");
-    return storedTab ? storedTab : "Orders";
+    return storedTab ? storedTab : "Order";
   };
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
