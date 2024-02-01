@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const Input = ({
   type,
@@ -17,77 +17,38 @@ const Input = ({
   maxDecimalPlaces,
   placeholder,
 }) => {
-  const [inputValue, setInputValue] = useState(value);
-  // console.log(defaultValue);
-  const handleWheelCapture = (event) => {
-    event.preventDefault();
-  };
+  const [inputValue, setInputValue] = useState(formatDate(value));
+
+  function formatDate(dateString) {
+    if (!dateString || typeof dateString !== 'string') {
+      return dateString; // Return the original value if it's null, undefined, or not a string
+    }
+    const parts = dateString.split('/');
+    if (parts.length === 3) {
+      const [year, month, day] = parts;
+      return `${year}/${month.padStart(2, '0')}/${day.padStart(2, '0')}`;
+    }
+    return dateString;
+  }
 
   const handleInput = (event) => {
-    if (
-      type === "number" &&
-      maxDecimalPlaces !== undefined &&
-      maxLength !== undefined
-    ) {
-      const inputValue = event.target.value;
-      const regex = new RegExp(`^-?\\d{0,10}(\\.\\d{0,2})?$`);
+    let inputValue = event.target.value;
 
-      if (!regex.test(inputValue)) {
-        return;
-      }
-      setInputValue(inputValue);
+    if (type === "date") {
+      inputValue = formatDate(inputValue);
+    }
 
-      if (onChange) {
-        onChange({
-          target: {
-            name: event.target.name,
-            value: inputValue,
-          },
-        });
-      }
-    } else if (
-      type === "tel" &&
-      maxDecimalPlaces !== undefined &&
-      maxLength !== undefined
-    ) {
-      const inputValue = event.target.value;
-      const regex = new RegExp(`^-?\\d{0,7}(\\.\\d{0,2})?$`);
+    setInputValue(inputValue);
 
-      if (!regex.test(inputValue)) {
-        return;
-      }
-      setInputValue(inputValue);
-
-      if (onChange) {
-        onChange({
-          target: {
-            name: event.target.name,
-            value: inputValue,
-          },
-        });
-      }
-    } else {
-      setInputValue(event.target.value);
-      if (onChange) {
-        onChange(event);
-      }
+    if (onChange) {
+      onChange({
+        target: {
+          name: event.target.name,
+          value: inputValue,
+        },
+      });
     }
   };
-
-  // useEffect(() => {
-  //   const inputElement = document.getElementById(name);
-  //   if (inputElement) {
-  //     inputElement.addEventListener("wheel", handleWheelCapture, {
-  //       passive: false,
-  //     });
-  //   }
-
-  //   return () => {
-  //     if (inputElement) {
-  //       inputElement.removeEventListener("wheel", handleWheelCapture);
-  //     }
-  //   };
-  // }, [handleWheelCapture, name]);
 
   return (
     <>
@@ -95,7 +56,7 @@ const Input = ({
         <input
           type={type}
           name={name}
-          value={value}
+          value={type=='date'? inputValue : value}
           id={name}
           onBlur={onBlur}
           minLength={minLength}
@@ -113,13 +74,11 @@ const Input = ({
               // Optionally, you can add additional logic here if needed
             }
           }}
-          // required={required}
         />
         <label
           htmlFor={name}
           className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${className}  `}
         >
-          {" "}
           {label} {required && <span className="text-red-500">*</span>}
         </label>
       </div>

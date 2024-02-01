@@ -28,8 +28,8 @@ const DateInput = ({ name, label, required, className1, error, disabled, classNa
       <DatePicker
         selected={selectedDate}
         onChange={handleDateChange}
-        dateFormat="yyyy/MM/dd"
-        placeholderText="YYYY/MM/DD"
+        dateFormat="MM/dd/yyyy"
+        placeholderText="MM/DD/YYYY"
         isClearable
         className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
           error ? "border-[red]" : "border-gray-300 "
