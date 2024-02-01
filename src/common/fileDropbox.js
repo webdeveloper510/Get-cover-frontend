@@ -2,19 +2,19 @@ import React, { useState, useRef } from "react";
 
 // media imports
 import Dropbox from "../assets/images/icons/dropBox.svg";
-
-import cross from "../assets/images/icons/CrossButton.svg";
 import csvFile from "../assets/images/icons/csvFile.svg";
 const FileDropdown = ({ className = "", accept, onFileSelect }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
-
   const handleDropdownClick = () => {
-    fileInputRef.current.click();
+     if (fileInputRef) {
+      fileInputRef.current.click();
+      setSelectedFile(null)
+    }
   };
 
   console.log(selectedFile);
-  const handleFileSelect = (event) => {
+  const handleFileSelect = (event) => { 
     const file = event.target.files[0];
     console.log(file);
     if (file) {
@@ -22,6 +22,8 @@ const FileDropdown = ({ className = "", accept, onFileSelect }) => {
       if (onFileSelect) {
         onFileSelect(file);
       }
+    } else {
+      setSelectedFile(null)
     }
 
     event.target.value = null;
@@ -35,11 +37,11 @@ const FileDropdown = ({ className = "", accept, onFileSelect }) => {
       >
         {selectedFile ? (
          <div className='self-center flex text-center relative bg-white border w-full p-3'>
-         <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" />
+         {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
          <img src={csvFile} className="mr-2" alt="Dropbox" />
          <div className='flex justify-between w-full'>
            <p className='self-center'>{selectedFile.name}</p>
-           <p className='self-center'>4MB</p>
+           <p className='self-center'>{(selectedFile.size/ 1000).toFixed(2)} kb</p>
          </div>
        </div> 
         ) : (

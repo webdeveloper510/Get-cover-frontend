@@ -421,6 +421,13 @@ function DealerUser() {
 
   return (
     <>
+    {loading && (
+        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#fff" />
+          </div>
+        </div>
+      )}
       <div className="my-8">
         <Headbar />
         <div className="flex mt-2">
