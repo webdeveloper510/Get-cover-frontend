@@ -64,17 +64,24 @@ function DealerClaimList() {
     setSelectedValue(value);
   };
 
+  const CoverageStartDate = [
+    { label: "11/09/2026", value: true },
+    { label: "12/09/2026", value: false },
+  ];
+
   const status = [
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
 
-  const CoverageStartDate = [
-    { label: "11/09/2026", value: true },
-    { label: "12/09/2026", value: false },
+  const state = [
+    { label: "Admin", value: true },
+    { label: "Dealer", value: false },
+    { label: "Reseller", value: false },
+    { label: "Servicer", value: false },
+    { label: "Customer", value: false },
   ];
   
-
   return (
     <>
       <div className="my-8 ml-3">
@@ -97,16 +104,16 @@ function DealerClaimList() {
           </div>
         </div>
 
-          {/* <Link
-            to={"/addClaim"}
-            className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-          >
-            {" "}
-            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-Regular">
-              Add Claim{" "}
-            </span>{" "}
-          </Link> */}
+        <Link
+          to={"/addClaim"}
+          className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+        >
+          {" "}
+          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+          <span className="text-black ml-3 text-[14px] font-Regular">
+            Add Claim{" "}
+          </span>{" "}
+        </Link>
 
         <div className='bg-white my-8 border-[1px] border-[#D1D1D1] rounded-xl'>
           
@@ -178,7 +185,7 @@ function DealerClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
+                 <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -276,7 +283,14 @@ function DealerClaimList() {
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular'>Servicer Name :   <span className='font-semibold text-white'> Jameson Wills </span></p>
+                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
+                        Servicer Name : </span>   <Select 
+                          name="state"
+                          options={state}
+                          placeholder=""
+                          className=""
+                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
+                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -319,11 +333,15 @@ function DealerClaimList() {
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
-                      <div className='m-2 p-2 bg-[#3C3C3C]'>
+                      <div className='m-2 p-2 bg-[#3C3C3C] '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
+                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
+                          placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
+                        </div>
                       </div>
                     </div>
                     <div className='col-span-2 self-center'>
@@ -349,7 +367,7 @@ function DealerClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
+                 <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -447,7 +465,14 @@ function DealerClaimList() {
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular'>Servicer Name :   <span className='font-semibold text-white'> Jameson Wills </span></p>
+                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
+                        Servicer Name : </span>   <Select 
+                          name="state"
+                          options={state}
+                          placeholder=""
+                          className=""
+                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
+                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -492,9 +517,13 @@ function DealerClaimList() {
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C]'>
                         <p className='text-[11px] text-white'>Diagnosis</p>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
+                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
+                          placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
+                        </div>
                       </div>
                     </div>
                     <div className='col-span-2 self-center'>
@@ -520,7 +549,7 @@ function DealerClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
+                 <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -618,7 +647,14 @@ function DealerClaimList() {
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular'>Servicer Name :   <span className='font-semibold text-white'> Jameson Wills </span></p>
+                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
+                        Servicer Name : </span>   <Select 
+                          name="state"
+                          options={state}
+                          placeholder=""
+                          className=""
+                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
+                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -663,9 +699,13 @@ function DealerClaimList() {
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C]'>
                         <p className='text-[11px] text-white'>Diagnosis</p>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
+                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
+                          placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
+                        </div>
                       </div>
                     </div>
                     <div className='col-span-2 self-center'>
@@ -835,9 +875,18 @@ function DealerClaimList() {
                     <img src={upload} className='self-center' alt='upload'/>
                   </div>
                 </div>
-                <div className='col-span-9'>
+                <div className='col-span-6'>
                   <Input type='text'
                   className1="!text-[16px] !pt-2 placeholder-opacity-50 !pb-2 placeholder-[#1B1D21] !bg-[white]"/>
+                </div>
+                <div className='col-span-3'>
+                  <Select 
+                   name="state"
+                   options={state}
+                   placeholder=""
+                   className="!bg-white "
+                   className1='!p-2'
+                   />
                 </div>
                 <div className=''><Button>Submit</Button></div>
               </Grid>
@@ -1050,7 +1099,7 @@ function DealerClaimList() {
                         label="Servicer Name"
                         placeholder="" />
             </div>
-          
+           
             <div className='col-span-6'>
             <Select
                         name="Status"
@@ -1076,6 +1125,5 @@ function DealerClaimList() {
     </>
   )
 }
-
 
 export default DealerClaimList
