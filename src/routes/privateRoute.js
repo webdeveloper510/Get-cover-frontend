@@ -12,13 +12,14 @@ const PrivateRoute = ({ element, path, withoutLogin }) => {
   const location = useLocation();
   useEffect(() => {
     const checkAuthentication = async () => {
-      const userToken = localStorage.getItem("userDetails");
-      console.log(userToken)
+      const userToken = JSON.parse(localStorage.getItem("userDetails"));
+      console.log(userToken, "userToken")
+
       setIsLoggedIn(!!userToken);
       setLoading(false);
       if (!!userToken === false && withoutLogin) {
         navigate(path, { replace: true });
-      } else if (withoutLogin && !!userToken === true) {
+      } else if (!withoutLogin && !!userToken === true) {
         if (userToken?.role === "Super Admin") {
           console.log('Super Admin')
           navigate("/dashboard", { replace: true });
@@ -28,11 +29,14 @@ const PrivateRoute = ({ element, path, withoutLogin }) => {
         } else if (userToken?.role === "Dealer") {
           navigate("/dealer/dashboard", { replace: true });
         } else {
+          console.log("Else =========1")
           navigate("/dashboard", { replace: true });
         }
       } else if (!withoutLogin && !!userToken === false) {
+        console.log("Else =========2")
         navigate("/", { replace: true });
       } else {
+        console.log("Else =========3")
         navigate(path, { replace: true });
       }
     };
@@ -44,6 +48,7 @@ const PrivateRoute = ({ element, path, withoutLogin }) => {
     return null;
   }
   console.log(path)
+  console.log("Else =========4")
 
   return <>
   {element}</>;
