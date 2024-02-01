@@ -1,4 +1,3 @@
-// PrivateRoute.js
 import React, { useState, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -12,31 +11,16 @@ const PrivateRoute = ({ element, path, withoutLogin }) => {
   const location = useLocation();
   useEffect(() => {
     const checkAuthentication = async () => {
-      const userToken = JSON.parse(localStorage.getItem("userDetails"));
-      console.log(userToken, "userToken")
-
+      const userToken = localStorage.getItem("userDetails");
       setIsLoggedIn(!!userToken);
       setLoading(false);
       if (!!userToken === false && withoutLogin) {
         navigate(path, { replace: true });
-      } else if (!withoutLogin && !!userToken === true) {
-        if (userToken?.role === "Super Admin") {
-          console.log('Super Admin')
-          navigate("/dashboard", { replace: true });
-        } else if (userToken?.role === "Servicer") {
-          console.log('Servicer')
-          navigate("/servicer/dashboard", { replace: true });
-        } else if (userToken?.role === "Dealer") {
-          navigate("/dealer/dashboard", { replace: true });
-        } else {
-          console.log("Else =========1")
-          navigate("/dashboard", { replace: true });
-        }
+      } else if (withoutLogin && !!userToken === true) {
+        navigate("/dashboard", { replace: true });
       } else if (!withoutLogin && !!userToken === false) {
-        console.log("Else =========2")
         navigate("/", { replace: true });
       } else {
-        console.log("Else =========3")
         navigate(path, { replace: true });
       }
     };
@@ -47,11 +31,9 @@ const PrivateRoute = ({ element, path, withoutLogin }) => {
   if (loading) {
     return null;
   }
-  console.log(path)
-  console.log("Else =========4")
+  console.log(path);
 
-  return <>
-  {element}</>;
+  return <>{element}</>;
 };
 
 export default PrivateRoute;

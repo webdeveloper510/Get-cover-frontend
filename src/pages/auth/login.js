@@ -48,7 +48,11 @@ function Login() {
         setError("");
         setUserDetails(result.result);
         localStorage.setItem("userDetails", JSON.stringify(result.result));
-        navigate("/dashboard");
+        if (result.result.role == "Super Admin") {
+          navigate("/dashboard");
+        } else if (result.result.role == "Servicer") {
+          navigate("/servicer/dashboard");
+        }
       }
     },
   });

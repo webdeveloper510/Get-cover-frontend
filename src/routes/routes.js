@@ -120,7 +120,7 @@ const routes = [
     ],
   },
 
-  // 
+  //
   {
     path: "/",
     element: <Layout />,
@@ -131,7 +131,7 @@ const routes = [
           <PrivateRoute element={<Dashboard />} exact path="/dashboard" />
         ),
       },
-      
+
       {
         path: "/notifications",
         index: true,
@@ -390,14 +390,11 @@ const routes = [
       },
 
       // Servicer Routs ---------------------------------------------------------------
-      
+
       {
         path: "/servicer/user",
         element: (
-          <PrivateRoute
-            element={<ServicerUser />}
-            path="/servicer/user"
-          />
+          <PrivateRoute element={<ServicerUser />} path="/servicer/user" />
         ),
       },
       {
@@ -421,19 +418,13 @@ const routes = [
       {
         path: "/servicer/sale",
         element: (
-          <PrivateRoute
-            element={<ServicerSale />}
-            path="/servicer/sale"
-          />
+          <PrivateRoute element={<ServicerSale />} path="/servicer/sale" />
         ),
       },
       {
         path: "/servicer/claims",
         element: (
-          <PrivateRoute
-            element={<ServicerClaims />}
-            path="/servicer/claims"
-          />
+          <PrivateRoute element={<ServicerClaims />} path="/servicer/claims" />
         ),
       },
     ],
