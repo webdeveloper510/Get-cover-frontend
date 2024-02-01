@@ -38,9 +38,9 @@ function Layout() {
         Location.pathname !== "/dealerDetails/" + id &&
         Location.pathname !== "/customerDetails/" + customerId &&
         Location.pathname !== "/servicerDetails/" + servicerId &&
-        Location.pathname !== "/orderDetails/" &&
+        Location.pathname !== "/orderDetails" &&
         Location.pathname !== "/resellerDetails/" + resellerId &&
-        Location.pathname !== "/notifications/" 
+        Location.pathname !== "/notifications" 
           ? "p-4"
           : "p-0"
       } pl-0 relative w-full`}
@@ -48,9 +48,9 @@ function Layout() {
       { Location.pathname !== "/dealerDetails/" + id &&
         Location.pathname !== "/customerDetails/" + customerId &&
         Location.pathname !== "/servicerDetails/" + servicerId &&
-        Location.pathname !== "/orderDetails/" &&
+        Location.pathname !== "/orderDetails" &&
         Location.pathname !== "/resellerDetails/" + resellerId &&
-        Location.pathname !== "/notifications/" 
+        Location.pathname !== "/notifications" 
       ? (
         <div
           className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full `}
@@ -65,9 +65,9 @@ function Layout() {
           Location.pathname !== "/dealerDetails/" + id &&
           Location.pathname !== "/customerDetails/" + customerId &&
           Location.pathname !== "/servicerDetails/" + servicerId &&
-          Location.pathname !== "/orderDetails/" &&
+          Location.pathname !== "/orderDetails" &&
           Location.pathname !== "/resellerDetails/" + resellerId &&
-          Location.pathname !== "/notifications/" 
+          Location.pathname !== "/notifications" 
             ? "w-[calc(100%-10px)] pl-3"
             : "w-[100%]"
         } h-full min-h-[94vh]`}
