@@ -826,6 +826,7 @@ function AddOrder() {
   };
 
   const handleSelectChange = (name, value) => {
+
     formik.handleChange({ target: { name, value } });
     if (name == "dealerId") {
       setProductNameOptions([]);
@@ -908,7 +909,7 @@ function AddOrder() {
         result.result.selectedCategory._id
       );
       getCategoryList(
-        formik.values.dealerId,
+        formik.values?.dealerId,
         {
           priceBookId: data.priceBookId,
           priceCatId: result.result.selectedCategory._id,
@@ -978,18 +979,7 @@ function AddOrder() {
                  onBlur={formik.handleBlur}
                  error={formik.touched.dealerId && formik.errors.dealerId}
                  options={dealerList}/>
-                  {/* <Select
-                    label="Dealer Name"
-                    name="dealerId"
-                    placeholder=""
-                    className="!bg-white"
-                    required={true}
-                    onChange={handleSelectChange}
-                    options={dealerList}
-                    value={formik.values.dealerId}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.dealerId && formik.errors.dealerId}
-                  /> */}
+                 
                   {formik.touched.dealerId && formik.errors.dealerId && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
                       {formik.errors.dealerId}
@@ -1039,6 +1029,60 @@ function AddOrder() {
                     onBlur={formik.handleBlur}
                   />
                 </div>
+
+                {/* <div className="col-span-6">
+                   <Select
+                    label="Dealer Name"
+                    name="dealerId"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                    onChange={handleSelectChange}
+                    options={dealerList}
+                    value={formik.values.dealerId}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.dealerId && formik.errors.dealerId}
+                  />
+                </div>
+                <div className="col-span-6">
+                 <Select
+                    label="Reseller Name"
+                    name="resellerId"
+                    placeholder=""
+                    className="!bg-white"
+                    // onChange={handleSelectChange}
+                    onChange={handleSelectChange}
+                    options={resellerList}
+                    value={formik.values.resellerId}
+                    onBlur={formik.handleBlur}
+                  />
+                </div>
+                <div className="col-span-6">
+                  <Select
+                    label="Customer Name"
+                    name="customerId"
+                    placeholder=""
+                    className="!bg-white"
+                    // onChange={handleSelectChange}
+                    onChange={handleSelectChange}
+                    options={customerList}
+                    value={formik.values.customerId}
+                    onBlur={formik.handleBlur}
+                  />
+                </div>
+                <div className="col-span-6">
+                  <Select
+                    label="Servicer Name"
+                    name="servicerId"
+                    placeholder=""
+                    className="!bg-white"
+                    onChange={handleSelectChange}
+                    // onChange={handleSelectChange}
+                    options={servicerData}
+                    value={formik.values.servicerId}
+                    onBlur={formik.handleBlur}
+                  />
+                </div> */}
               </Grid>
             </div>
           </Grid>
