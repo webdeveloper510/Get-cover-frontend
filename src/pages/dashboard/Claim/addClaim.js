@@ -39,14 +39,18 @@ function AddClaim() {
         return renderStep1();
       case 2:
         return renderStep2();
-      case 3:
-        return renderStep3();
       default:
         return null;
     }
   };
 
-  const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+  const options = [
+    { label: "Option 1", value: "option1" },
+    { label: "Option 2", value: "option2" },
+    { label: "Option 3", value: "option3" },
+    { label: "Option 4", value: "option4" },
+    { label: "Option 5", value: "option5" },
+  ];
   
   const handleSelect = (selectedOption) => {
     console.log('Selected Option:', selectedOption);
@@ -87,115 +91,90 @@ function AddClaim() {
         <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
         <p className='text-2xl font-bold mb-4'>Enter Required Info</p>
         <Grid>
-          <div className='col-span-11'>
+          <div className='col-span-12'>
             <Grid>
-              <div className='col-span-4'>
-              <Input 
-                     label="Dealer Name"
-                     name="dealerName"
-                     placeholder=""
-                     className="!bg-white"
-                     required={true}
-                    />
+              <div className='col-span-3'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Dealer Name</p>
+                  <p className='font-semibold'>Dealer Name</p>
+                </div>
               </div>
-              <div className='col-span-4'>
-              <Input 
-                     label="Customer Name"
-                     name="customerName"
-                     placeholder=""
-                     className="!bg-white"
-                     required={true}
-                    />
+              <div className='col-span-3'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Reseller Name</p>
+                  <p className='font-semibold'>Reseller Name</p>
+                </div>
               </div>
-              <div className='col-span-4'>
-              <SelectBoxWIthSerach options={options}  label="Servicer Name"
-                 name="servicerName" className="!bg-[#fff]" onSelect={handleSelect} />
-             
+              <div className='col-span-3'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Customer Name</p>
+                  <p className='font-semibold'>Customer Name</p>
+                </div>
               </div>
-              <div className='col-span-4'>
-              <Input 
-                     label="Manufacturer"
-                     name="manufacturer"
-                     placeholder=""
-                     className="!bg-white"
-                     required={true}
-                    />
+              <div className='col-span-3'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Manufacturer</p>
+                  <p className='font-semibold'>Manufacturer</p>
+                </div>
               </div>
-              <div className='col-span-4'>
-              <Input 
-                     label="Model"
-                     name="model"
-                     placeholder=""
-                     className="!bg-white"
-                     required={true}
-                    />
+              </Grid>
+              <Grid className='!grid-cols-5 mt-3'>
+              <div className='col-span-1'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Model</p>
+                  <p className='font-semibold'>Model</p>
+                </div>
               </div>
-              <div className='col-span-4'>
-              <Input 
-                     label="Serial"
-                     name="Serial"
-                     placeholder=""
-                     className="!bg-white"
-                     required={true}
-                    />
+              <div className='col-span-1'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Serial</p>
+                  <p className='font-semibold'>Serial</p>
+                </div>
               </div>
-              <div className='col-span-4'>
-              <Input 
-                     label="Order ID"
-                     name="orderID"
-                     placeholder=""
-                     className="!bg-white"
-                     required={true}
-                    />
+              <div className='col-span-1'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Order ID</p>
+                  <p className='font-semibold'>Order ID</p>
+                </div>
               </div>
-              <div className='col-span-4'>
-              <Input 
-                     label="Retail Price ($)"
-                     name="retailPrice"
-                     placeholder=""
-                     className="!bg-white"
-                     required={true}
-                    />
+              <div className='col-span-1'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Retail Price ($)</p>
+                  <p className='font-semibold'>Retail Price ($)</p>
+                </div>
               </div>
-              <div className='col-span-4'>
-              <Input 
-                     label="Condition"
-                     name="Condition"
-                     placeholder=""
-                     className="!bg-white"
-                     required={true}
-                    />
-              </div>
-              <div className='col-span-4'>
-              <DateInput
-                label="Loss Date"
-                name="lossDate"
-                required 
-                item={item}
-                setItem={setItem}
-                className="!bg-[#fff]" />
-              </div>
+              <div className='col-span-1'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Condition</p>
+                  <p className='font-semibold'>Condition</p>
+                </div>
+              </div>   
               
             </Grid>
           </div>
-          <div className='col-span-12 self-end justify-start flex'>
-            <Button onClick={prevStep} className='!bg-white !text-black'>Previous</Button>
-            <Button onClick={nextStep}>Next</Button>
-          </div>
         </Grid>
-      </div>
-      );
-    };
-  
-    const renderStep3 = () => {
-      // Step 3 content
-      return (
-        <div className='mb-3'>
-            <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
-              <p className='text-2xl font-bold mb-4'> Upload Receipt or Image </p>
+
+        <div className='my-4'>
+        <p className='text-2xl font-bold mb-4'> Upload Receipt or Image </p>
               <Grid>
                 <div className='col-span-6'>
-                  <div className='border border-dashed w-full  relative py-12'>
+                  <Grid className='my-3'>
+                    <div className='col-span-6'>
+                  <SelectBoxWIthSerach options={options}  label="Servicer Name"
+                    name="servicerName" className="!bg-[#fff]" onChange={handleSelect} />
+                
+                    </div>
+                    <div className='col-span-6'>
+                      <DateInput
+                        label="Loss Date"
+                        name="lossDate"
+                        required 
+                        item={item}
+                        setItem={setItem}
+                        className="!bg-[#fff]" />
+                    </div>
+                  </Grid>
+                  <div className='border border-dashed w-full  relative py-2'>
                   <div className='self-center text-center'>
                   <FileDropdown
                     className="!bg-transparent !border-0"
@@ -226,7 +205,7 @@ function AddClaim() {
                   </label>
                     <textarea
                     id="note"
-                    rows="10"
+                    rows="11"
                     name="Note"
                     maxLength={150}
                     className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
@@ -255,10 +234,11 @@ function AddClaim() {
               </Grid>
             <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
             <Button>Submit</Button>
-            </div>
-          </div>
+        </div>
+      </div>
       );
     };
+
   
    
   
@@ -294,15 +274,6 @@ function AddClaim() {
             )}
                 
                 <p className={` ${currentStep == 2 ? ('text-black') : ('text-[#ADADAD] ')} text-sm font-bold`}>Step 2</p>
-            </div>
-            <hr className={`w-[150px]  ${currentStep > 2 ? 'border-black' : 'border-[#ADADAD]' } mt-3`}/>
-            <div className='text-center'>
-
-            {currentStep > 3 ? (<img src={check} className='text-center mx-auto'/>) : (
-               <p className={`border ${currentStep > 2 ?('text-black border-black') : ('text-[#ADADAD] border-[#ADADAD]')} rounded-full mx-auto w-[26px]`}>3</p>
-            )}
-              
-                <p className={` ${currentStep == 3 ? ('text-black') : ('text-[#ADADAD] ')}text-sm font-bold`}>Step 3</p>
             </div>
           </div>
            
