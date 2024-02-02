@@ -619,18 +619,6 @@ function SideBar() {
       name: "Claim",
       image: ClaimImage,
       active: ActiveClaim,
-      url: "/servicer/claimList",
-    },
-    {
-      name: "User",
-      image: CustomerImage,
-      active: ActiveCustomer,
-      url: "/servicer/user",
-    },
-    {
-      name: "Claim",
-      image: ClaimImage,
-      active: ActiveClaim,
       items: [
         {
           name: "Claim Listing",
@@ -649,6 +637,25 @@ function SideBar() {
           url: "/servicer/addBulkClaim",
           image: Dropdown2,
           active: ForthActive,
+        },
+      ],
+    },
+    {
+      name: "User",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      url: "/servicer/user",
+    },
+    {
+      name: "Reporting",
+      image: ReportImage,
+      active: ActiveReport,
+      items: [
+        {
+          name: "Claims",
+          url: "/servicer/claims",
+          image: Dropdown1,
+          active: Actives,
         },
       ],
     },
