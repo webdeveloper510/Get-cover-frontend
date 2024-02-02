@@ -335,7 +335,7 @@ function ClaimList() {
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C] '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
@@ -517,7 +517,7 @@ function ClaimList() {
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C]'>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
@@ -699,7 +699,7 @@ function ClaimList() {
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C]'>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
