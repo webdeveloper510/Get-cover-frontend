@@ -277,6 +277,10 @@ const routes = [
         element: <PrivateRoute element={<AddOrder />} path="/addOrder" />,
       },
       {
+        path: "/editOrder/:orderId?",
+        element: <PrivateRoute element={<AddOrder />} />,
+      },
+      {
         path: "/orderList",
         element: <PrivateRoute element={<OrderList />} path="/orderList" />,
       },
@@ -372,7 +376,6 @@ const routes = [
           />
         ),
       },
-     
 
       // Servicer Routs ---------------------------------------------------------------
 
@@ -409,7 +412,10 @@ const routes = [
       {
         path: "/servicer/addClaim",
         element: (
-          <PrivateRoute element={<ServicerAddClaim />} path="/dealer/addClaim" />
+          <PrivateRoute
+            element={<ServicerAddClaim />}
+            path="/dealer/addClaim"
+          />
         ),
       },
       {

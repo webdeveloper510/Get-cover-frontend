@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -30,6 +30,7 @@ function OrderList() {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
@@ -197,7 +198,10 @@ function OrderList() {
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 {row.status == "Pending" ? (
                   <>
-                    <div className="text-center py-1 border-b cursor-pointer">
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => navigate(`/editOrder/${row._id}`)}
+                    >
                       Edit
                     </div>
                     <div
