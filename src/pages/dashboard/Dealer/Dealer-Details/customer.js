@@ -51,7 +51,7 @@ function CustomerList(props) {
       sortable: true,
     },
     {
-      name: "Phone No.",
+      name: "Phone #",
       selector: (row) => row.phoneNumber,
       sortable: true,
     },

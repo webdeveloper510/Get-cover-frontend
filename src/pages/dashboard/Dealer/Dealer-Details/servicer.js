@@ -224,7 +224,7 @@ function ServicerList(props) {
             sortable: true,
           },
           {
-            name: "Phone No.",
+            name: "Phone #",
             selector: (row) => row.phoneNumber,
             sortable: true,
           },
@@ -258,7 +258,7 @@ function ServicerList(props) {
             sortable: true,
           },
           {
-            name: "Phone No.",
+            name: "Phone #",
             selector: (row) => row.phoneNumber,
             sortable: true,
           },

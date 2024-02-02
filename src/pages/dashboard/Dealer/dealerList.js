@@ -154,7 +154,7 @@ function DealerList() {
       minWidth: "220px",
     },
     {
-      name: "Phone No",
+      name: "Phone #",
       selector: (row) => row?.phoneNumber,
       sortable: true,
     },
