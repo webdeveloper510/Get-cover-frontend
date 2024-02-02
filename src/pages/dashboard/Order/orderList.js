@@ -122,13 +122,13 @@ function OrderList() {
       selector: (row) => row.customerName.username,
       sortable: true,
     },
+    // {
+    //   name: "Servicer",
+    //   selector: (row) => row.servicerName.name,
+    //   sortable: true,
+    // },
     {
-      name: "Servicer",
-      selector: (row) => row.servicerName.name,
-      sortable: true,
-    },
-    {
-      name: "# of Products",
+      name: "# of Contract",
       selector: (row) => row?.noOfProducts == null ? 0 : row.noOfProducts,
       sortable: true,
       minWidth: "150px",
@@ -170,8 +170,8 @@ function OrderList() {
             )}`}>
               {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div className='text-center py-1 border-b cursor-pointer'>Edit</div>
-                <div className='text-center py-1 border-b cursor-pointer' onClick={()=> openArchive()}>Archive</div>
                 <div className='text-center py-1 border-b cursor-pointer' onClick={()=> openModal()}>Process Order</div>
+                <div className='text-center py-1 border-b cursor-pointer' onClick={()=> openArchive()}>Archive</div>
                 <div className='text-center py-1 cursor-pointer'><Link to={'/orderDetails'}>View</Link></div>
             </div>
             )}
