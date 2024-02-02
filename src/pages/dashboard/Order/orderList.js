@@ -4,27 +4,27 @@ import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import AddItem from '../../../assets/images/icons/addItem.svg';
-import Search from '../../../assets/images/icons/SearchIcon.svg';
+import AddItem from "../../../assets/images/icons/addItem.svg";
+import Search from "../../../assets/images/icons/SearchIcon.svg";
 import unassign from "../../../assets/images/Unassign.png";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
-import Grid from '../../../common/grid';
-import Input from '../../../common/input';
-import DataTable from "react-data-table-component"
+import Grid from "../../../common/grid";
+import Input from "../../../common/input";
+import DataTable from "react-data-table-component";
 import Primary from "../../../assets/images/SetPrimary.png";
-import Select from '../../../common/select';
-import { RotateLoader } from 'react-spinners';
-import { getOrders } from '../../../services/orderServices';
-import Modal from '../../../common/model';
+import Select from "../../../common/select";
+import { RotateLoader } from "react-spinners";
+import { getOrders } from "../../../services/orderServices";
+import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState("");
   const [timer, setTimer] = useState(3);
-  const [orderList,setOrderList]=useState([]);
+  const [orderList, setOrderList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -67,8 +67,8 @@ function OrderList() {
   const [loading, setLoading] = useState(false);
 
   const status = [
-    { label: 'Active', value: true },
-    { label: 'Pending', value: false },
+    { label: "Active", value: true },
+    { label: "Pending", value: false },
   ];
 
   useEffect(() => {
@@ -83,7 +83,7 @@ function OrderList() {
     setLoading(false);
   };
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = orderList.length - index <= 10000 ;
+    const isCloseToBottom = orderList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -129,7 +129,7 @@ function OrderList() {
     // },
     {
       name: "# of Contract",
-      selector: (row) => row?.noOfProducts == null ? 0 : row.noOfProducts,
+      selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts),
       sortable: true,
       minWidth: "150px",
     },
@@ -140,18 +140,18 @@ function OrderList() {
       minWidth: "150px",
     },
     {
-        name: "Status",
-        cell: (row) => (
-            <div className="flex border py-2 rounded-lg w-full">
-              <div
-                className={` ${
-                  row.status === true ? "bg-[#6BD133]" : "bg-[#6BD133]"
-                }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
-              ></div>
-            <p className="self-center"> Active </p> 
-            </div>
-          ),
-        sortable: true,
+      name: "Status",
+      cell: (row) => (
+        <div className="flex border py-2 rounded-lg w-full">
+          <div
+            className={` ${
+              row.status === "Pending" ? "bg-[#6BD133]" : "bg-[#6BD133]"
+            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
+          ></div>
+          <p className="self-center"> {row.status} </p>
+        </div>
+      ),
+      sortable: true,
     },
     {
       name: "Action",
@@ -161,19 +161,45 @@ function OrderList() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-          <div onClick={() => setSelectedAction(selectedAction === row.unique_key ? null : row.unique_key)}>
-            <img src={ActiveIcon} className='cursor-pointer	w-[35px]' alt="Active Icon" />
-          </div>
-          {selectedAction === row.unique_key && (
-            <div className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-              index
-            )}`}>
-              {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                <div className='text-center py-1 border-b cursor-pointer'>Edit</div>
-                <div className='text-center py-1 border-b cursor-pointer' onClick={()=> openModal()}>Process Order</div>
-                <div className='text-center py-1 border-b cursor-pointer' onClick={()=> openArchive()}>Archive</div>
-                <div className='text-center py-1 cursor-pointer'><Link to={'/orderDetails'}>View</Link></div>
+            <div
+              onClick={() =>
+                setSelectedAction(
+                  selectedAction === row.unique_key ? null : row.unique_key
+                )
+              }
+            >
+              <img
+                src={ActiveIcon}
+                className="cursor-pointer	w-[35px]"
+                alt="Active Icon"
+              />
             </div>
+            {selectedAction === row.unique_key && (
+              <div
+                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  index
+                )}`}
+              >
+                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+                <div className="text-center py-1 border-b cursor-pointer">
+                  Edit
+                </div>
+                <div
+                  className="text-center py-1 border-b cursor-pointer"
+                  onClick={() => openModal()}
+                >
+                  Process Order
+                </div>
+                <div
+                  className="text-center py-1 border-b cursor-pointer"
+                  onClick={() => openArchive()}
+                >
+                  Archive
+                </div>
+                <div className="text-center py-1 cursor-pointer">
+                  <Link to={"/orderDetails"}>View</Link>
+                </div>
+              </div>
             )}
           </div>
         );
@@ -263,7 +289,10 @@ function OrderList() {
                       />
                     </Button>
                     <Button
-                      type="submit" className='ml-2 !text-sm' onClick={()=> openDisapproved()}>
+                      type="submit"
+                      className="ml-2 !text-sm"
+                      onClick={() => openDisapproved()}
+                    >
                       Advance Search
                     </Button>
                   </div>
@@ -319,7 +348,7 @@ function OrderList() {
 
       <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
         <div className="text-center py-3">
-        <img src={unassign} alt="email Image" className="mx-auto my-4" />
+          <img src={unassign} alt="email Image" className="mx-auto my-4" />
           <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
             Would you like to Archive it?
           </p>
@@ -353,79 +382,98 @@ function OrderList() {
       </Modal>
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
-          <Button onClick={closeDisapproved} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
-          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        <Button
+          onClick={closeDisapproved}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
         </Button>
-          <div className="py-3">
-            <p className='text-center text-3xl font-semibold '>
-            Advance Search
-            </p>
-           <Grid className='mt-5 px-6'>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Order ID"
-                        className="!bg-[#fff]"
-                        label="Order ID"
-                        placeholder="" />
+        <div className="py-3">
+          <p className="text-center text-3xl font-semibold ">Advance Search</p>
+          <Grid className="mt-5 px-6">
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Order ID"
+                className="!bg-[#fff]"
+                label="Order ID"
+                placeholder=""
+              />
             </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Dealer P.O. No."
-                        className="!bg-[#fff]"
-                        label="Dealer P.O. No."
-                        placeholder="" />
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Dealer P.O. No."
+                className="!bg-[#fff]"
+                label="Dealer P.O. No."
+                placeholder=""
+              />
             </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Serial No."
-                        className="!bg-[#fff]"
-                        label="Serial No."
-                        placeholder="" />
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Serial No."
+                className="!bg-[#fff]"
+                label="Serial No."
+                placeholder=""
+              />
             </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Dealer Name"
-                        className="!bg-[#fff]"
-                        label="Dealer Name"
-                        placeholder="" />
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Dealer Name"
+                className="!bg-[#fff]"
+                label="Dealer Name"
+                placeholder=""
+              />
             </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Reseller Name"
-                        className="!bg-[#fff]"
-                        label="Reseller Name"
-                        placeholder="" />
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Reseller Name"
+                className="!bg-[#fff]"
+                label="Reseller Name"
+                placeholder=""
+              />
             </div>
-           
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Customer Name"
-                        className="!bg-[#fff]"
-                        label="Customer Name"
-                        placeholder="" />
+
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Customer Name"
+                className="!bg-[#fff]"
+                label="Customer Name"
+                placeholder=""
+              />
             </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Servicer Name"
-                        className="!bg-[#fff]"
-                        label="Servicer Name"
-                        placeholder="" />
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Servicer Name"
+                className="!bg-[#fff]"
+                label="Servicer Name"
+                placeholder=""
+              />
             </div>
-           
-            <div className='col-span-6'>
-            <Select
-                        name="Status"
-                        label="Status"
-                        options={status}
-                        className="!bg-[#fff]"
-                        placeholder=""/>
+
+            <div className="col-span-6">
+              <Select
+                name="Status"
+                label="Status"
+                options={status}
+                className="!bg-[#fff]"
+                placeholder=""
+              />
             </div>
-            <div className='col-span-12'>
-             <Button className={'w-full'}>Search</Button>
+            <div className="col-span-12">
+              <Button className={"w-full"}>Search</Button>
             </div>
-           </Grid>
-          </div>
-        </Modal>
+          </Grid>
+        </div>
+      </Modal>
     </>
   );
 }
