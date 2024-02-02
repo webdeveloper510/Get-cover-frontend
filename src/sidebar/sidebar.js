@@ -616,29 +616,10 @@ function SideBar() {
       active: ActiveDashboard,
     },
     {
-      name: "Claim",
+      name: "Claim Listing",
       image: ClaimImage,
       active: ActiveClaim,
-      items: [
-        {
-          name: "Claim Listing",
-          url: "/servicer/claimList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Add Claim",
-          url: "/servicer/addClaim",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-        {
-          name: "Add Bulk Claim",
-          url: "/servicer/addBulkClaim",
-          image: Dropdown2,
-          active: ForthActive,
-        },
-      ],
+      url: "/servicer/claimList", 
     },
     {
       name: "User",
@@ -647,17 +628,11 @@ function SideBar() {
       url: "/servicer/user",
     },
     {
-      name: "Reporting",
+      name: "Claims Reporting",
       image: ReportImage,
       active: ActiveReport,
-      items: [
-        {
-          name: "Claims",
-          url: "/servicer/claims",
-          image: Dropdown1,
-          active: Actives,
-        },
-      ],
+      url: "/servicer/claims",
+
     },
   ];
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../../../common/button";
 
@@ -29,7 +29,7 @@ function OrderList() {
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
-
+  const dropdownRef = useRef(null);
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
@@ -71,10 +71,23 @@ function OrderList() {
     { label: "Pending", value: false },
   ];
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      // Close the dropdown if the click is outside of it
+      setSelectedAction(null);
+    }
+  };
+
   useEffect(() => {
     getOrderList();
-  }, []);
 
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Cleanup the event listener on component unmount
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   const getOrderList = async () => {
     setLoading(true);
     const result = await getOrders({});
@@ -142,10 +155,10 @@ function OrderList() {
     {
       name: "Status",
       cell: (row) => (
-        <div className="flex border py-2 rounded-lg w-full">
+        <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
           <div
             className={` ${
-              row.status === "Pending" ? "bg-[#6BD133]" : "bg-[#6BD133]"
+              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
             }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
           ></div>
           <p className="self-center"> {row.status} </p>
@@ -176,6 +189,7 @@ function OrderList() {
             </div>
             {selectedAction === row.unique_key && (
               <div
+                ref={dropdownRef}
                 className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}

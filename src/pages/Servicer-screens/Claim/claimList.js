@@ -104,7 +104,7 @@ function ServicerClaimList() {
           </div>
         </div>
 
-        <Link
+        {/* <Link
           to={"/addClaim"}
           className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
         >
@@ -113,7 +113,7 @@ function ServicerClaimList() {
           <span className="text-black ml-3 text-[14px] font-Regular">
             Add Claim{" "}
           </span>{" "}
-        </Link>
+        </Link> */}
 
         <div className='bg-white my-8 border-[1px] border-[#D1D1D1] rounded-xl'>
           
@@ -224,7 +224,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -243,7 +243,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -262,7 +262,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -283,14 +283,6 @@ function ServicerClaimList() {
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <Select 
-                          name="state"
-                          options={state}
-                          placeholder=""
-                          className=""
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
-                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -303,9 +295,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Shipping Label received</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -315,9 +307,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -327,15 +319,15 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C] '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
@@ -406,7 +398,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -425,7 +417,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -444,7 +436,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -465,14 +457,6 @@ function ServicerClaimList() {
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <Select 
-                          name="state"
-                          options={state}
-                          placeholder=""
-                          className=""
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
-                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -485,9 +469,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Shipping Label received</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -497,9 +481,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -509,15 +493,15 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C]'>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
@@ -588,7 +572,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -607,7 +591,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -626,7 +610,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -647,14 +631,6 @@ function ServicerClaimList() {
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <Select 
-                          name="state"
-                          options={state}
-                          placeholder=""
-                          className=""
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
-                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -667,9 +643,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Shipping Label received</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -679,9 +655,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -691,15 +667,15 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C]'>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
@@ -1015,7 +991,7 @@ function ServicerClaimList() {
                     </div>
 
                   <div className='mt-3'>
-                    <Button className='!bg-white !text-black' >Cancel</Button>
+                    <Button className='!bg-white !text-black' onClick={()=> closeEdit()} >Cancel</Button>
                     <Button>Update</Button>
                     </div>
                 </form>
@@ -1117,7 +1093,7 @@ function ServicerClaimList() {
                         placeholder=""/>
             </div>
             <div className='col-span-12'>
-             <Button className={'w-full'}>Search</Button>
+             <Button className={'w-full'} onClick={()=>closeAttachments()}>Search</Button>
             </div>
            </Grid>
           </div>
