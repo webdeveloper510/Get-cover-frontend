@@ -297,6 +297,7 @@ function AddOrder() {
           QuantityPricing: [],
           rangeStart: "",
           rangeEnd: "",
+          checkNumberProducts: "",
         },
       ],
     },
@@ -351,6 +352,25 @@ function AddOrder() {
 
       let arr = [];
       let arr1 = [];
+
+      values.productsArray.map((res, index) => {
+        let sumOfValues = 0;
+        if (res.priceType == "Quantity Pricing") {
+          res.QuantityPricing.map((data) => {
+            let value = parseInt(data.enterQuantity);
+
+            sumOfValues += value;
+            console.log(parseInt(sumOfValues));
+          });
+          console.log(values.productsArray[index]);
+          values.productsArray[index][`checkNumberProducts`] = sumOfValues;
+        } else {
+          values.productsArray[index][`checkNumberProducts`] = parseInt(
+            res.noOfProducts
+          );
+        }
+        arr.push(res.file);
+      });
       values.productsArray.map((data, index) => {
         const value = categoryList.find((val) => val.value === data.categoryId);
         arr.push(value ? value.label : "");
@@ -512,28 +532,12 @@ function AddOrder() {
     onSubmit: (values) => {
       console.log(values);
       const arr = [];
-      let sumOfValues = 0;
-      let arrayOfObjects = formikStep3.values.productsArray.map(
-        (res, index) => {
-          console.log(res);
-          if (res.priceType == "Quantity Pricing") {
-            res.QuantityPricing.map((data) => {
-              let values = parseInt(data.enterQuantity);
-              sumOfValues += values;
-              // console.log(parseInt(sumOfValues));
-            });
-          } else {
-            let values = parseInt(res.noOfProducts);
-            sumOfValues += values;
-          }
-          arr.push(res.file);
-        }
-      );
-      console.log(sumOfValues);
+      formikStep3.values.productsArray.map((res, index) => {
+        arr.push(res.file);
+      });
       const totalAmount = calculateTotalAmount(
         formikStep3.values.productsArray
       );
-      return false;
       console.log(totalAmount);
       const data = {
         ...formik.values,
@@ -647,6 +651,7 @@ function AddOrder() {
       QuantityPricing: [],
       rangeStart: "",
       rangeEnd: "",
+      checkNumberProducts: "",
     };
     getCategoryList(
       formik.values.dealerId,

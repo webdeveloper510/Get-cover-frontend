@@ -41,7 +41,7 @@ function UploadDealerBook() {
   };
 
   const handleSelectChange = (name, selectedValue) => {
-    console.log(name, selectedValue, "Checking here if exist")
+    console.log(name, selectedValue, "Checking here if exist");
 
     activeDealers?.find((dealer) => {
       if (dealer.value === selectedValue) {
@@ -60,8 +60,8 @@ function UploadDealerBook() {
 
     if (timer === 0) {
       closeModal();
-      navigate(`/dealerPriceList`);
-      // navigate(`/dealerPriceList/${dealerName}`);
+      // navigate(`/dealerPriceList`);
+      navigate(`/dealerPriceList/${dealerName}`);
     }
     return () => {
       clearInterval(intervalId);
@@ -88,14 +88,14 @@ function UploadDealerBook() {
 
   const fileInputRef = useRef(null);
   const handleDropdownClick = () => {
-     if (fileInputRef) {
+    if (fileInputRef) {
       fileInputRef.current.click();
-      setSelectedFile(null)
-      formik.setFieldValue('file', '');
+      setSelectedFile(null);
+      formik.setFieldValue("file", "");
     }
   };
 
-  const handleFileSelect = (event) => { 
+  const handleFileSelect = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
     formik.setFieldValue("file", file);
@@ -312,45 +312,46 @@ function UploadDealerBook() {
                     Upload In Bulk
                   </p>
                   <div className="relative">
-                  <button
-                    type="button"
-                    onClick={handleDropdownClick}
-                    className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
-                  >
-                    {selectedFile ? (
-                      <div className='self-center flex text-center relative bg-white border w-[80%] mx-auto p-3'>
-                        {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
-                        <img src={csvFile} className="mr-2" alt="Dropbox" />
-                        <div className='flex justify-between w-full'>
-                          <p className='self-center'>{selectedFile.name}</p>
-                          <p className='self-center'>{(selectedFile.size / 1000).toFixed(2)} kb</p>
+                    <button
+                      type="button"
+                      onClick={handleDropdownClick}
+                      className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
+                    >
+                      {selectedFile ? (
+                        <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
+                          {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
+                          <img src={csvFile} className="mr-2" alt="Dropbox" />
+                          <div className="flex justify-between w-full">
+                            <p className="self-center">{selectedFile.name}</p>
+                            <p className="self-center">
+                              {(selectedFile.size / 1000).toFixed(2)} kb
+                            </p>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <>
+                          <img
+                            src={Dropbox}
+                            className="mx-auto mb-3"
+                            alt="Dropbox"
+                          />
+                          <p className="text-[#5D6E66]">
+                            Accepted file types: csv, xlsx, xls Max. file size:
+                            50 MB.
+                          </p>
+                        </>
+                      )}
+                    </button>
 
-                    ) : (
-                      <>
-                        <img
-                          src={Dropbox}
-                          className="mx-auto mb-3"
-                          alt="Dropbox"
-                        />
-                        <p className="text-[#5D6E66]">
-                          Accepted file types: csv, xlsx, xls Max. file size: 50
-                          MB.
-                        </p>
-                      </>
-                    )}
-                  </button>
-
-                  {/* Hidden file input */}
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                    style={{ display: "none" }}
-                    onChange={handleFileSelect}
-                  />
-                </div>
+                    {/* Hidden file input */}
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                      style={{ display: "none" }}
+                      onChange={handleFileSelect}
+                    />
+                  </div>
                   {formik.touched.file && formik.errors.file && (
                     <p className="text-red-500 text-[10px] mt-1 font-medium">
                       {formik.errors.file}

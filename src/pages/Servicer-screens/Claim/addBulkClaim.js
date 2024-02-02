@@ -53,8 +53,8 @@ function ServicerAddBulkClaim() {
 
     if (timer === 0) {
       closeModal();
-      navigate(`/dealerPriceList`);
-      // navigate(`/dealerPriceList/${dealerName}`);
+      // navigate(`/dealerPriceList`);
+      navigate(`/dealerPriceList/${dealerName}`);
     }
     return () => {
       clearInterval(intervalId);
@@ -191,17 +191,14 @@ function ServicerAddBulkClaim() {
         <>
           <div className="flex mt-2">
             <div className="pl-3">
-              <p className="font-bold text-[36px] leading-9 mb-[3px]">
-               Claim
-              </p>
+              <p className="font-bold text-[36px] leading-9 mb-[3px]">Claim</p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/"}>Claim </Link>{" "}
-                  <span className="mx-2"> /</span>
+                  <Link to={"/"}>Claim </Link> <span className="mx-2"> /</span>
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-1">
                   {" "}
-                 Add Bulk Claim
+                  Add Bulk Claim
                 </li>
               </ul>
             </div>
@@ -247,45 +244,45 @@ function ServicerAddBulkClaim() {
                   </div>
                 </div> */}
                 <div className="col-span-12">
-              <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
-                <ReactTags
-                  tags={tags}
-                  delimiters={delimiters}
-                  name="email"
-                  handleDelete={handleDelete}
-                  handleAddition={handleAddition}
-                  handleDrag={handleDrag}
-                  handleTagClick={handleTagClick}
-                  inputFieldPosition="bottom"
-                  autocomplete
-                  editable
-                  placeholder=""
-                />
-                <label
-                  htmlFor="email"
-                  className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-1 left-2 px-1 -translate-y-4 scale-75 bg-[#fff] text-[#5D6E66] "
-                >
-                  Email Confirmations
-                  <span className="text-red-500">*</span>
-                </label>
-              </div>
-              {formik.errors.email && (
-                <p className="text-red-500 text-[10px] mt-1 font-medium">
-                 {formik.errors.email &&
-                    (Array.isArray(formik.errors.email)
-                      ? formik.errors.email.map((error, index) => (
-                          <span key={index}>
-                            {index > 0 && ' '} 
-                {error}
-                          </span>
-                        ))
-                      : formik.errors.email)}
-                </p>
-              )}
-            </div>
+                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
+                    <ReactTags
+                      tags={tags}
+                      delimiters={delimiters}
+                      name="email"
+                      handleDelete={handleDelete}
+                      handleAddition={handleAddition}
+                      handleDrag={handleDrag}
+                      handleTagClick={handleTagClick}
+                      inputFieldPosition="bottom"
+                      autocomplete
+                      editable
+                      placeholder=""
+                    />
+                    <label
+                      htmlFor="email"
+                      className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-1 left-2 px-1 -translate-y-4 scale-75 bg-[#fff] text-[#5D6E66] "
+                    >
+                      Email Confirmations
+                      <span className="text-red-500">*</span>
+                    </label>
+                  </div>
+                  {formik.errors.email && (
+                    <p className="text-red-500 text-[10px] mt-1 font-medium">
+                      {formik.errors.email &&
+                        (Array.isArray(formik.errors.email)
+                          ? formik.errors.email.map((error, index) => (
+                              <span key={index}>
+                                {index > 0 && " "}
+                                {error}
+                              </span>
+                            ))
+                          : formik.errors.email)}
+                    </p>
+                  )}
+                </div>
                 <div className="col-span-12">
                   <p className="text-light-black text-base mb-2 font-semibold">
-                     Bulk Claim Details
+                    Bulk Claim Details
                   </p>
                   <FileDropdown
                     className="!bg-transparent"
@@ -342,8 +339,8 @@ function ServicerAddBulkClaim() {
             <span className="text-light-black"> Successfully </span>
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            You have successfully uploaded & saved the <br />{" "}
-            <b> Claim </b> with the new data <br /> you have entered.{" "}
+            You have successfully uploaded & saved the <br /> <b> Claim </b>{" "}
+            with the new data <br /> you have entered.{" "}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Claim List {timer} seconds.
