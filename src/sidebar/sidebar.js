@@ -619,7 +619,26 @@ function SideBar() {
       name: "Claim",
       image: ClaimImage,
       active: ActiveClaim,
-      url: "/servicer/claimList",
+      items: [
+        {
+          name: "Claim Listing",
+          url: "/servicer/claimList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Claim",
+          url: "/servicer/addClaim",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+        {
+          name: "Add Bulk Claim",
+          url: "/servicer/addBulkClaim",
+          image: Dropdown2,
+          active: ForthActive,
+        },
+      ],
     },
     {
       name: "User",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Headbar from "../../../common/headBar";
 import Select from "../../../common/select";
@@ -12,6 +12,8 @@ import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import FileDropdown from "../../../common/fileDropbox";
+import Dropbox from "../../../assets/images/icons/dropBox.svg";
+import csvFile from "../../../assets/images/icons/csvFile.svg";
 import { getDealerList } from "../../../services/extraServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -21,7 +23,7 @@ import { RotateLoader } from "react-spinners";
 import DealerList from "../Dealer/dealerList";
 
 function UploadDealerBook() {
-  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedFile, setSelectedFile] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loader, setLoader] = useState(false);
   const [activeDealers, SetActiveDealers] = useState([]);
@@ -39,6 +41,8 @@ function UploadDealerBook() {
   };
 
   const handleSelectChange = (name, selectedValue) => {
+    console.log(name, selectedValue, "Checking here if exist")
+
     activeDealers?.find((dealer) => {
       if (dealer.value === selectedValue) {
         setDealerName(dealer.label);
@@ -80,6 +84,22 @@ function UploadDealerBook() {
       "email",
       updatedTags.map((tag) => tag.text)
     );
+  };
+
+  const fileInputRef = useRef(null);
+  const handleDropdownClick = () => {
+     if (fileInputRef) {
+      fileInputRef.current.click();
+      setSelectedFile(null)
+      formik.setFieldValue('file', '');
+    }
+  };
+
+  const handleFileSelect = (event) => { 
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    formik.setFieldValue("file", file);
+    event.target.value = null;
   };
   const handleAddition = (tag) => {
     const updatedTags = [...tags, tag];
@@ -133,7 +153,7 @@ function UploadDealerBook() {
             .required("Required")
         )
         .required("At least one email is required"),
-      file: Yup.mixed().test("file", "CSV file is required", (value) => {
+      file: Yup.mixed().test("file", "File is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
       }),
     }),
@@ -291,13 +311,46 @@ function UploadDealerBook() {
                   <p className="text-light-black text-base mb-2 font-semibold">
                     Upload In Bulk
                   </p>
-                  <FileDropdown
-                    className="!bg-transparent"
-                    accept={
-                      ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                    }
-                    onFileSelect={(file) => formik.setFieldValue("file", file)}
+                  <div className="relative">
+                  <button
+                    type="button"
+                    onClick={handleDropdownClick}
+                    className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
+                  >
+                    {selectedFile ? (
+                      <div className='self-center flex text-center relative bg-white border w-[80%] mx-auto p-3'>
+                        {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
+                        <img src={csvFile} className="mr-2" alt="Dropbox" />
+                        <div className='flex justify-between w-full'>
+                          <p className='self-center'>{selectedFile.name}</p>
+                          <p className='self-center'>{(selectedFile.size / 1000).toFixed(2)} kb</p>
+                        </div>
+                      </div>
+
+                    ) : (
+                      <>
+                        <img
+                          src={Dropbox}
+                          className="mx-auto mb-3"
+                          alt="Dropbox"
+                        />
+                        <p className="text-[#5D6E66]">
+                          Accepted file types: csv, xlsx, xls Max. file size: 50
+                          MB.
+                        </p>
+                      </>
+                    )}
+                  </button>
+
+                  {/* Hidden file input */}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    style={{ display: "none" }}
+                    onChange={handleFileSelect}
                   />
+                </div>
                   {formik.touched.file && formik.errors.file && (
                     <p className="text-red-500 text-[10px] mt-1 font-medium">
                       {formik.errors.file}

@@ -56,7 +56,7 @@ const SelectBoxWithSearch = ({
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <Select
         options={options}
         onChange={(selectedOption) => onChange(name, selectedOption?.value || null)}
@@ -66,6 +66,7 @@ const SelectBoxWithSearch = ({
         onFocus={handleFocus}
         onBlur={handleBlur}
         isClearable={true}
+        className="!w-full"
         defaultValue={localDefaultValue}
         placeholder="Search..."
       />

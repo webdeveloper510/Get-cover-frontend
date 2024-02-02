@@ -43,7 +43,7 @@ function Notification() {
       <Headbar />
       <div className="flex">
         <Link
-          to={"/dashboard"}
+          to={"/"}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
         >
           <img
