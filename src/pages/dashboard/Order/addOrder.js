@@ -1988,7 +1988,7 @@ function AddOrder() {
                                     Quantity Per Unit
                                   </th>
                                   <th className="font-bold text-sm">
-                                    # of Quantity
+                                    Quantity
                                   </th>
                                   <th className="font-bold text-sm">
                                     # of Unit

@@ -74,6 +74,10 @@ code {
   color: #727378 !important;
 }
 
+.Diagnosis::-webkit-scrollbar {
+  display: none;
+}
+
 .rdt_Pagination {
   position: absolute;
   margin-top: 38px;
