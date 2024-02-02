@@ -207,7 +207,7 @@ function OrderList() {
                       Process Order
                     </div>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-center py-1 cursor-pointer"
                       onClick={() => openArchive()}
                     >
                       Archive

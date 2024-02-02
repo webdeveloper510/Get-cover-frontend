@@ -387,7 +387,7 @@ function AddOrder() {
   });
 
   const checkMultipleEmailCheck = (data) => {
-    setLoading(true);
+    // setLoading(true);
     const formData = new FormData();
     const arr = [];
     let arrayOfObjects = data.productsArray.map((res, index) => {
@@ -530,6 +530,7 @@ function AddOrder() {
     }),
     onSubmit: (values) => {
       console.log(values);
+      setLoading(true);
       const arr = [];
       formikStep3.values.productsArray.map((res, index) => {
         arr.push(res.file);
@@ -592,10 +593,12 @@ function AddOrder() {
 
           //  navigate('/orderList')
         } else {
+          setLoading(true);
           setError(res.message);
           console.log("here", res);
         }
       });
+      setLoading(true);
     },
   });
 
@@ -1840,239 +1843,240 @@ function AddOrder() {
     // Step 4 content
     return (
       <>
-        {/* {loading ? (
-              <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
+        {loading ? (
+          <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div>
+        ) : (
+          <form onSubmit={formik4.handleSubmit}>
+            <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+              <Grid>
+                <div className="col-span-6">
+                  <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                    Order Details
+                  </p>
+                  <Grid className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 ">
+                    <div className="col-span-3 py-4 border-r">
+                      <p className="text-[12px]">Dealer Name</p>
+                      <p className="font-bold text-sm">{dealerName}</p>
+                    </div>
+                    <div className="col-span-3 py-4 border-r">
+                      <p className="text-[12px]">Reseller Name</p>
+                      <p className="font-bold text-sm">{resellerName}</p>
+                    </div>
+                    <div className="col-span-3 py-4 border-r">
+                      <p className="text-[12px]">Customer Name</p>
+                      <p className="font-bold text-sm">{customerName}</p>
+                    </div>
+                    <div className="col-span-3 py-4 ">
+                      <p className="text-[12px]">Servicer Name</p>
+                      <p className="font-bold text-sm">{servicerName}</p>
+                    </div>
+                  </Grid>
                 </div>
-              </div>
-            ) : ( */}
-        <form onSubmit={formik4.handleSubmit}>
-          <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
-            <Grid>
-              <div className="col-span-6">
-                <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
-                  Order Details
-                </p>
-                <Grid className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 ">
-                  <div className="col-span-3 py-4 border-r">
-                    <p className="text-[12px]">Dealer Name</p>
-                    <p className="font-bold text-sm">{dealerName}</p>
-                  </div>
-                  <div className="col-span-3 py-4 border-r">
-                    <p className="text-[12px]">Reseller Name</p>
-                    <p className="font-bold text-sm">{resellerName}</p>
-                  </div>
-                  <div className="col-span-3 py-4 border-r">
-                    <p className="text-[12px]">Customer Name</p>
-                    <p className="font-bold text-sm">{customerName}</p>
-                  </div>
-                  <div className="col-span-3 py-4 ">
-                    <p className="text-[12px]">Servicer Name</p>
-                    <p className="font-bold text-sm">{servicerName}</p>
-                  </div>
-                </Grid>
-              </div>
-              <div className="col-span-6">
-                <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
-                  Dealer Order Details
-                </p>
-                <Grid className="bg-[#F9F9F9] !gap-2 border-[#D1D1D1] border rounded-xl px-2 ">
-                  <div className="col-span-4 py-4 border-r">
-                    <p className="text-[12px]">Dealer Purchase Order</p>
-                    <p className="font-bold text-sm">
-                      {formikStep2.values.dealerPurchaseOrder}
-                    </p>
-                  </div>
-                  <div className="col-span-4 py-4 border-r">
-                    <p className="text-[12px]">Service Coverage</p>
-                    <p className="font-bold text-sm">
-                      {formikStep2.values.serviceCoverageType}
-                    </p>
-                  </div>
-                  <div className="col-span-4 py-4">
-                    <p className="text-[12px]">Coverage Type</p>
-                    <p className="font-bold text-sm">
-                      {formikStep2.values.coverageType}
-                    </p>
-                  </div>
-                </Grid>
-              </div>
-              {formikStep3.values.productsArray.map((data, index) => {
-                return (
-                  <>
-                    <div className="col-span-8">
-                      <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
-                        Product Details
+                <div className="col-span-6">
+                  <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                    Dealer Order Details
+                  </p>
+                  <Grid className="bg-[#F9F9F9] !gap-2 border-[#D1D1D1] border rounded-xl px-2 ">
+                    <div className="col-span-4 py-4 border-r">
+                      <p className="text-[12px]">Dealer Purchase Order</p>
+                      <p className="font-bold text-sm">
+                        {formikStep2.values.dealerPurchaseOrder}
                       </p>
-                      <div className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl ">
-                        <Grid className="border-b px-4">
-                          <div className="col-span-4 py-4 border-r">
-                            <p className="text-[12px]">Product Category</p>
-                            <p className="font-bold text-sm">
-                              {categoryName[index]}
-                            </p>
-                          </div>
-                          <div className="col-span-4 py-4 border-r">
-                            <p className="text-[12px]">Product Name</p>
-                            <p className="font-bold text-sm">
-                              {priceBookName[index]}
-                            </p>
-                          </div>
-                          <div className="col-span-4 py-4">
-                            <p className="text-[12px]">Product Description</p>
-                            <p className="font-bold text-sm">
-                              {data.description}
-                            </p>
-                          </div>
-                        </Grid>
-                        <Grid className="border-b px-4">
-                          <div className="col-span-3 py-4 border-r">
-                            <p className="text-[12px]">Term</p>
-                            <p className="font-bold text-sm">
-                              {data.term} Months
-                            </p>
-                          </div>
-                          <div className="col-span-3 py-4 border-r">
-                            <p className="text-[12px]">Unit Price</p>
-                            <p className="font-bold text-sm">
-                              ${data.unitPrice}
-                            </p>
-                          </div>
-                          <div className="col-span-3 py-4 border-r">
-                            <p className="text-[12px]"># of Products</p>
-                            <p className="font-bold text-sm">
-                              {Math.round(
-                                data.price / parseFloat(data.unitPrice)
-                              )}
-                            </p>
-                          </div>
-                          <div className="col-span-3 py-4">
-                            <p className="text-[12px]">Price</p>
-                            <p className="font-bold text-sm">${data.price}</p>
-                          </div>
-                        </Grid>
-                        {data.priceType == "Flat Pricing" && (
+                    </div>
+                    <div className="col-span-4 py-4 border-r">
+                      <p className="text-[12px]">Service Coverage</p>
+                      <p className="font-bold text-sm">
+                        {formikStep2.values.serviceCoverageType}
+                      </p>
+                    </div>
+                    <div className="col-span-4 py-4">
+                      <p className="text-[12px]">Coverage Type</p>
+                      <p className="font-bold text-sm">
+                        {formikStep2.values.coverageType}
+                      </p>
+                    </div>
+                  </Grid>
+                </div>
+                {formikStep3.values.productsArray.map((data, index) => {
+                  return (
+                    <>
+                      <div className="col-span-8">
+                        <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                          Product Details
+                        </p>
+                        <div className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl ">
                           <Grid className="border-b px-4">
-                            <div className="col-span-6 py-4 border-r">
-                              <p className="text-[12px]">Start Range</p>
+                            <div className="col-span-4 py-4 border-r">
+                              <p className="text-[12px]">Product Category</p>
                               <p className="font-bold text-sm">
-                                {data.rangeStart}
+                                {categoryName[index]}
                               </p>
                             </div>
-                            <div className="col-span-6 py-4">
-                              <p className="text-[12px]">End Range</p>
+                            <div className="col-span-4 py-4 border-r">
+                              <p className="text-[12px]">Product Name</p>
                               <p className="font-bold text-sm">
-                                {data.rangeEnd}
+                                {priceBookName[index]}
+                              </p>
+                            </div>
+                            <div className="col-span-4 py-4">
+                              <p className="text-[12px]">Product Description</p>
+                              <p className="font-bold text-sm">
+                                {data.description}
                               </p>
                             </div>
                           </Grid>
-                        )}
-
-                        <Grid>
-                          {data.priceType == "Quantity Pricing" && (
-                            <div className="col-span-12">
-                              <table className="w-full border text-center">
-                                <tr className="border bg-[#fff]">
-                                  <td
-                                    colSpan={"4"}
-                                    className="font-bold text-sm"
-                                  >
-                                    Quantity Pricing List{" "}
-                                  </td>
-                                </tr>
-                                <tr className="border bg-[#fff]">
-                                  <th className="font-bold text-sm">Name</th>
-                                  <th className="font-bold text-sm">
-                                    Quantity Per Unit
-                                  </th>
-                                  <th className="font-bold text-sm">
-                                    Quantity
-                                  </th>
-                                  <th className="font-bold text-sm">
-                                    # of Unit
-                                  </th>
-                                </tr>
-                                {data.QuantityPricing &&
-                                  data.QuantityPricing.map((value, index) => {
-                                    return (
-                                      <tr
-                                        key={index}
-                                        className="border bg-[#fff]"
-                                      >
-                                        <td className="text-[12px]">
-                                          {value.name}
-                                        </td>
-                                        <td className="text-[12px]">
-                                          {value.quantity}
-                                        </td>
-                                        <td className="text-[12px]">
-                                          {value.enterQuantity}
-                                        </td>
-                                        <td className="text-[12px]">
-                                          {Math.max(
-                                            1,
-                                            Math.ceil(
-                                              value.enterQuantity /
-                                                parseFloat(value.quantity)
-                                            )
-                                          )}
-                                        </td>
-                                      </tr>
-                                    );
-                                  })}
-                              </table>
+                          <Grid className="border-b px-4">
+                            <div className="col-span-3 py-4 border-r">
+                              <p className="text-[12px]">Term</p>
+                              <p className="font-bold text-sm">
+                                {data.term} Months
+                              </p>
                             </div>
+                            <div className="col-span-3 py-4 border-r">
+                              <p className="text-[12px]">Unit Price</p>
+                              <p className="font-bold text-sm">
+                                ${data.unitPrice}
+                              </p>
+                            </div>
+                            <div className="col-span-3 py-4 border-r">
+                              <p className="text-[12px]"># of Products</p>
+                              <p className="font-bold text-sm">
+                                {Math.round(
+                                  data.price / parseFloat(data.unitPrice)
+                                )}
+                              </p>
+                            </div>
+                            <div className="col-span-3 py-4">
+                              <p className="text-[12px]">Price</p>
+                              <p className="font-bold text-sm">${data.price}</p>
+                            </div>
+                          </Grid>
+                          {data.priceType == "Flat Pricing" && (
+                            <Grid className="border-b px-4">
+                              <div className="col-span-6 py-4 border-r">
+                                <p className="text-[12px]">Start Range</p>
+                                <p className="font-bold text-sm">
+                                  {data.rangeStart}
+                                </p>
+                              </div>
+                              <div className="col-span-6 py-4">
+                                <p className="text-[12px]">End Range</p>
+                                <p className="font-bold text-sm">
+                                  {data.rangeEnd}
+                                </p>
+                              </div>
+                            </Grid>
                           )}
-                        </Grid>
-                        <Grid className=" px-4">
-                          <div className="col-span-12 py-4">
-                            <p className="text-[12px]">Note</p>
-                            <p className="font-bold text-sm">
-                              {data.additionalNotes}
-                            </p>
-                          </div>
-                        </Grid>
 
-                        {/* Loops */}
+                          <Grid>
+                            {data.priceType == "Quantity Pricing" && (
+                              <div className="col-span-12">
+                                <table className="w-full border text-center">
+                                  <tr className="border bg-[#fff]">
+                                    <td
+                                      colSpan={"4"}
+                                      className="font-bold text-sm"
+                                    >
+                                      Quantity Pricing List{" "}
+                                    </td>
+                                  </tr>
+                                  <tr className="border bg-[#fff]">
+                                    <th className="font-bold text-sm">Name</th>
+                                    <th className="font-bold text-sm">
+                                      Quantity Per Unit
+                                    </th>
+                                    <th className="font-bold text-sm">
+                                      Quantity
+                                    </th>
+                                    <th className="font-bold text-sm">
+                                      # of Unit
+                                    </th>
+                                  </tr>
+                                  {data.QuantityPricing &&
+                                    data.QuantityPricing.map((value, index) => {
+                                      return (
+                                        <tr
+                                          key={index}
+                                          className="border bg-[#fff]"
+                                        >
+                                          <td className="text-[12px]">
+                                            {value.name}
+                                          </td>
+                                          <td className="text-[12px]">
+                                            {value.quantity}
+                                          </td>
+                                          <td className="text-[12px]">
+                                            {value.enterQuantity}
+                                          </td>
+                                          <td className="text-[12px]">
+                                            {Math.max(
+                                              1,
+                                              Math.ceil(
+                                                value.enterQuantity /
+                                                  parseFloat(value.quantity)
+                                              )
+                                            )}
+                                          </td>
+                                        </tr>
+                                      );
+                                    })}
+                                </table>
+                              </div>
+                            )}
+                          </Grid>
+                          <Grid className=" px-4">
+                            <div className="col-span-12 py-4">
+                              <p className="text-[12px]">Note</p>
+                              <p className="font-bold text-sm">
+                                {data.additionalNotes}
+                              </p>
+                            </div>
+                          </Grid>
+
+                          {/* Loops */}
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-span-4">
-                      <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
-                        Uploaded Data
-                      </p>
-                      <div className="border border-dashed bg-[#F9F9F9] w-full h-[83%] relative flex">
-                        <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
-                          <img src={csvFile} className="mr-2" alt="Dropbox" />
-                          <div className="flex justify-between w-full">
-                            <p className="self-center">
-                              {data?.file === ""
-                                ? "No File Selected"
-                                : data?.file?.name}
-                            </p>
-                            <p className="self-center">
-                              {data?.file === ""
-                                ? ""
-                                : (data?.file?.size / 1000)?.toFixed(2) + "kb"}
-                            </p>
+                      <div className="col-span-4">
+                        <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                          Uploaded Data
+                        </p>
+                        <div className="border border-dashed bg-[#F9F9F9] w-full h-[83%] relative flex">
+                          <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
+                            <img src={csvFile} className="mr-2" alt="Dropbox" />
+                            <div className="flex justify-between w-full">
+                              <p className="self-center">
+                                {data?.file === ""
+                                  ? "No File Selected"
+                                  : data?.file?.name}
+                              </p>
+                              <p className="self-center">
+                                {data?.file === ""
+                                  ? ""
+                                  : (data?.file?.size / 1000)?.toFixed(2) +
+                                    "kb"}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </>
-                );
-              })}
-            </Grid>
+                    </>
+                  );
+                })}
+              </Grid>
 
-            <Grid className="mt-5">
-              <div className="col-span-4 pt-2">
-                <div className="flex block  w-full text-base font-semibold bg-[#f9f9f9] rounded-lg border-[1px] border-gray-300 appearance-none peer undefined  border-gray-300  text-light-black">
-                  <p className="self-center w-[40%] text-sm px-3">
-                    Payment Status
-                  </p>
-                  <div className="relative w-[60%]">
-                    <div
-                      className={`
+              <Grid className="mt-5">
+                <div className="col-span-4 pt-2">
+                  <div className="flex block  w-full text-base font-semibold bg-[#f9f9f9] rounded-lg border-[1px] border-gray-300 appearance-none peer undefined  border-gray-300  text-light-black">
+                    <p className="self-center w-[40%] text-sm px-3">
+                      Payment Status
+                    </p>
+                    <div className="relative w-[60%]">
+                      <div
+                        className={`
                       absolute h-3 w-3 rounded-full top-[33%] ml-[8px]
                       ${
                         formik4.values.paymentStatus === "Unpaid"
@@ -2091,106 +2095,110 @@ function AddOrder() {
                           : ""
                       }
                     `}
-                    ></div>
-                    <select
-                      name="paymentStatus"
-                      className="text-[12px] bg-[transparent] border-l w-full border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold "
-                      onChange={handlePaymentStatusChange}
-                      onBlur={formik4.handleBlur}
-                      value={formik4.values.paymentStatus}
-                    >
-                      <option value="Paid">Paid</option>
-                      <option value="Unpaid">Unpaid</option>
-                      <option value="PartlyPaid">Partly Paid</option>
-                    </select>
+                      ></div>
+                      <select
+                        name="paymentStatus"
+                        className="text-[12px] bg-[transparent] border-l w-full border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold "
+                        onChange={handlePaymentStatusChange}
+                        onBlur={formik4.handleBlur}
+                        value={formik4.values.paymentStatus}
+                      >
+                        <option value="Paid">Paid</option>
+                        <option value="Unpaid">Unpaid</option>
+                        <option value="PartlyPaid">Partly Paid</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-span-4">
-                <Grid>
-                  {formik4.values.paymentStatus == "PartlyPaid" && (
-                    <>
-                      {
-                        <div className="col-span-6">
-                          <Input
-                            type="number"
-                            name="paidAmount"
-                            className="!bg-[#fff]"
-                            label="Paid Amount"
-                            maxLength={10}
-                            maxDecimalPlaces={2}
-                            disabled={formik4.values.paymentStatus === "Paid"}
-                            placeholder=""
-                            onChange={(e) => {
-                              formik4.handleChange(e);
-                              calculatePendingAmount(e.target.value);
-                            }}
-                            onBlur={formik4.handleBlur}
-                            value={formik4.values.paidAmount}
-                          />
-                          {formik4.errors.paidAmount &&
-                            formik4.touched.paidAmount && (
-                              <div className="text-red-500">
-                                {formik4.errors.paidAmount}
-                              </div>
-                            )}
-                        </div>
-                      }
+                <div className="col-span-4">
+                  <Grid>
+                    {formik4.values.paymentStatus == "PartlyPaid" && (
+                      <>
+                        {
+                          <div className="col-span-6">
+                            <Input
+                              type="number"
+                              name="paidAmount"
+                              className="!bg-[#fff]"
+                              label="Paid Amount"
+                              maxLength={10}
+                              maxDecimalPlaces={2}
+                              disabled={formik4.values.paymentStatus === "Paid"}
+                              placeholder=""
+                              onChange={(e) => {
+                                formik4.handleChange(e);
+                                calculatePendingAmount(e.target.value);
+                              }}
+                              onBlur={formik4.handleBlur}
+                              value={formik4.values.paidAmount}
+                            />
+                            {formik4.errors.paidAmount &&
+                              formik4.touched.paidAmount && (
+                                <div className="text-red-500">
+                                  {formik4.errors.paidAmount}
+                                </div>
+                              )}
+                          </div>
+                        }
 
-                      {formik4.values.paymentStatus == "PartlyPaid" && (
-                        <div className="col-span-6">
-                          <Input
-                            type="number"
-                            name="pendingAmount"
-                            className="!bg-[#fff]"
-                            label="Pending Amount"
-                            maxLength={10}
-                            maxDecimalPlaces={2}
-                            disabled={true}
-                            placeholder=""
-                            onChange={formik4.handleChange}
-                            onBlur={formik4.handleBlur}
-                            value={formik4.values.pendingAmount}
-                          />
-                        </div>
-                      )}
-                    </>
-                  )}
-                </Grid>
-              </div>
-              <div className="col-span-4 flex justify-center pt-4">
-                <p className="text-base pr-3">Total Amount :</p>
-                <p className="font-bold text-lg">
-                  ${calculateTotalAmount(formikStep3.values.productsArray)}
-                </p>
-              </div>
-              <div className="col-span-12">
-                <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
-                  Do you want to sent notifications ?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value={true}
-                    checked={sendNotification === true}
-                    onChange={handleRadioChange}
-                  />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value={false}
-                    checked={sendNotification === false}
-                    onChange={handleRadioChange}
-                  />
-                </p>
-              </div>
-            </Grid>
-          </div>
+                        {formik4.values.paymentStatus == "PartlyPaid" && (
+                          <div className="col-span-6">
+                            <Input
+                              type="number"
+                              name="pendingAmount"
+                              className="!bg-[#fff]"
+                              label="Pending Amount"
+                              maxLength={10}
+                              maxDecimalPlaces={2}
+                              disabled={true}
+                              placeholder=""
+                              onChange={formik4.handleChange}
+                              onBlur={formik4.handleBlur}
+                              value={formik4.values.pendingAmount}
+                            />
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </Grid>
+                </div>
+                <div className="col-span-4 flex justify-center pt-4">
+                  <p className="text-base pr-3">Total Amount :</p>
+                  <p className="font-bold text-lg">
+                    ${calculateTotalAmount(formikStep3.values.productsArray)}
+                  </p>
+                </div>
+                <div className="col-span-12">
+                  <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
+                    Do you want to sent notifications ?
+                    <RadioButton
+                      id="yes-create-account"
+                      label="Yes"
+                      value={true}
+                      checked={sendNotification === true}
+                      onChange={handleRadioChange}
+                    />
+                    <RadioButton
+                      id="no-create-account"
+                      label="No"
+                      value={false}
+                      checked={sendNotification === false}
+                      onChange={handleRadioChange}
+                    />
+                  </p>
+                </div>
+              </Grid>
+            </div>
 
-          <Button className="!bg-[transparent] !text-black" onClick={prevStep}>
-            Previous
-          </Button>
-          <Button type="submit">Submit</Button>
-        </form>
+            <Button
+              className="!bg-[transparent] !text-black"
+              onClick={prevStep}
+            >
+              Previous
+            </Button>
+            <Button type="submit">Submit</Button>
+          </form>
+        )}
         {/* )} */}
       </>
     );
