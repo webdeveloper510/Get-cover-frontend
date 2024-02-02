@@ -589,16 +589,17 @@ function AddOrder() {
       console.log("here");
       addOrder(formData).then((res) => {
         if (res.code == 200) {
+          setLoading(false);
           openModal();
 
           //  navigate('/orderList')
         } else {
-          setLoading(true);
+          setLoading(false);
           setError(res.message);
           console.log("here", res);
         }
       });
-      setLoading(true);
+      setLoading(false);
     },
   });
 
