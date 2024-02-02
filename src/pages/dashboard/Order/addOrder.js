@@ -369,7 +369,6 @@ function AddOrder() {
             res.noOfProducts
           );
         }
-        arr.push(res.file);
       });
       values.productsArray.map((data, index) => {
         const value = categoryList.find((val) => val.value === data.categoryId);
