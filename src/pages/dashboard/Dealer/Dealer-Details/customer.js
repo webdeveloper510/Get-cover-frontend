@@ -94,7 +94,6 @@ function CustomerList(props) {
                   index
                 )}`}
               >
-                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
                   onClick={() => {
                     localStorage.setItem("menu", "Customer");
@@ -128,11 +127,13 @@ function CustomerList(props) {
     setCustomerList(result.result);
     console.log(result.result);
   };
+  
   useEffect(() => {
     if(props.activeTab==='Customer'){
     getCustomerList();
     }
   }, [props]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {

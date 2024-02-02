@@ -15,6 +15,7 @@ import RadioButton from '../../../common/radio';
 import FileDropdown from '../../../common/fileDropbox';
 import SelectBoxWIthSerach from '../../../common/selectBoxWIthSerach';
 import DateInput from '../../../common/dateInput';
+import Checkbox from '../../../common/checkbox';
 
 function AddClaim() {
     const [selectedValue, setSelectedValue] = useState('');
@@ -66,14 +67,65 @@ function AddClaim() {
             <Grid>
               <div className='col-span-6'>
                 <Grid>
-                  <div className='col-span-12'>
+                  <div className='col-span-10'>
                     <Input 
                      label="Contract ID"
                      name="ContractID"
                      placeholder=""
                      className="!bg-white"
-                     required={true}
+                    //  required={true}
                     />
+                  </div>
+                  <div className='col-span-2 self-center'>
+                    <Checkbox/>
+                  </div>
+                  <div className='col-span-10'>
+                    <Input 
+                     label="Customer Name"
+                     name="CustomerName"
+                     placeholder=""
+                     className="!bg-white"
+                    //  required={true}
+                    />
+                  </div>
+                  <div className='col-span-2 self-center'>
+                    <Checkbox/>
+                  </div>
+                  <div className='col-span-10'>
+                    <Input 
+                     label="Serial Number"
+                     name="Serial"
+                     placeholder=""
+                     className="!bg-white"
+                    //  required={true}
+                    />
+                  </div>
+                  <div className='col-span-2 self-center'>
+                    <Checkbox/>
+                  </div>
+                  <div className='col-span-10'>
+                    <Input 
+                     label="Order #"
+                     name="OrderNumber"
+                     placeholder=""
+                     className="!bg-white"
+                    //  required={true}
+                    />
+                  </div>
+                  <div className='col-span-2 self-center'>
+                    <Checkbox/>
+                  </div>
+                  <div className='col-span-10'>
+                    <Input 
+                     label="Dealer P.O. #"
+                     name="ContractID"
+                     placeholder=""
+                     className="!bg-white"
+                    //  required={true}
+                    />
+                  </div>
+                  <div className='col-span-2 self-center'>
+                    <Checkbox/>
                   </div>
                 </Grid>
               </div>
