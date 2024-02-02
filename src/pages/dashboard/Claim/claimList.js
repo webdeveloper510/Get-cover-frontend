@@ -752,7 +752,7 @@ function ClaimList() {
                       </div>
                     </Grid>
                     <hr className='my-2'/>
-                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.<span className='text-[11px]'>(To Admin)</span></p>
                     </div>
                   </div>
                 </Grid>
@@ -779,7 +779,7 @@ function ClaimList() {
                       </div>
                     </Grid>
                     <hr className='my-2'/>
-                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual. <span className='text-[11px]'>(To Admin)</span></p>
                     </div>
                   </div>
                 </Grid>
@@ -806,7 +806,7 @@ function ClaimList() {
                       </div>
                     </Grid>
                     <hr className='my-2'/>
-                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual. <span className='text-[11px]'>(To Admin)</span></p>
                     </div>
                   </div>
                 </Grid> 
@@ -833,7 +833,7 @@ function ClaimList() {
                       </div>
                     </Grid>
                     <hr className='my-2'/>
-                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual. <span className='text-[11px]'>(To Admin)</span></p>
                     </div>
                   </div>
                 </Grid>
@@ -860,7 +860,7 @@ function ClaimList() {
                       </div>
                     </Grid>
                     <hr className='my-2'/>
-                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual. <span className='text-[11px]'>(To Admin)</span></p>
                     </div>
                   </div>
                 </Grid>             
