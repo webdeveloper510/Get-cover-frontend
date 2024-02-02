@@ -338,6 +338,22 @@ export const createRelationWithDealer = async (id, data) => {
   }
 };
 
+export const checkDealerPriceBook = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealer/checkDealerPriceBook`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const unAssignedServicerForDealer = async (data) => {
   const headers = createHeaders();
   try {
@@ -350,4 +366,3 @@ export const unAssignedServicerForDealer = async (data) => {
     throw error;
   }
 };
-
