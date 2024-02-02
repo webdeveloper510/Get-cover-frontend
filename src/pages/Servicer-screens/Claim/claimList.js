@@ -104,7 +104,7 @@ function ServicerClaimList() {
           </div>
         </div>
 
-        <Link
+        {/* <Link
           to={"/addClaim"}
           className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
         >
@@ -113,7 +113,7 @@ function ServicerClaimList() {
           <span className="text-black ml-3 text-[14px] font-Regular">
             Add Claim{" "}
           </span>{" "}
-        </Link>
+        </Link> */}
 
         <div className='bg-white my-8 border-[1px] border-[#D1D1D1] rounded-xl'>
           
@@ -224,7 +224,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -243,7 +243,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -262,7 +262,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -295,9 +295,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Shipping Label received</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -307,9 +307,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -319,9 +319,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
@@ -398,7 +398,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -417,7 +417,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -436,7 +436,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -469,9 +469,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Shipping Label received</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -481,9 +481,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -493,9 +493,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
@@ -572,7 +572,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -591,7 +591,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -610,7 +610,7 @@ function ServicerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping </p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
@@ -643,9 +643,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Shipping Label received</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -655,9 +655,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -667,9 +667,9 @@ function ServicerClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
+                        {/* <div className='self-center ml-auto mr-2'>
                           <img src={DropActive} alt='DropActive' />
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
@@ -991,7 +991,7 @@ function ServicerClaimList() {
                     </div>
 
                   <div className='mt-3'>
-                    <Button className='!bg-white !text-black' >Cancel</Button>
+                    <Button className='!bg-white !text-black' onClick={()=> closeEdit()} >Cancel</Button>
                     <Button>Update</Button>
                     </div>
                 </form>
@@ -1093,7 +1093,7 @@ function ServicerClaimList() {
                         placeholder=""/>
             </div>
             <div className='col-span-12'>
-             <Button className={'w-full'}>Search</Button>
+             <Button className={'w-full'} onClick={()=>closeAttachments()}>Search</Button>
             </div>
            </Grid>
           </div>

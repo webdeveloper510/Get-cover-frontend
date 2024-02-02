@@ -142,10 +142,10 @@ function OrderList() {
     {
       name: "Status",
       cell: (row) => (
-        <div className="flex border py-2 rounded-lg w-full">
+        <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
           <div
             className={` ${
-              row.status === "Pending" ? "bg-[#6BD133]" : "bg-[#6BD133]"
+              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
             }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
           ></div>
           <p className="self-center"> {row.status} </p>
