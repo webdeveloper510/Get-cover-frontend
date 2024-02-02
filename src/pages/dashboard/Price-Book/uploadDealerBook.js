@@ -45,7 +45,7 @@ function UploadDealerBook() {
 
     activeDealers?.find((dealer) => {
       if (dealer.value === selectedValue) {
-        setDealerName(dealer.value);
+        setDealerName(dealer.label);
       }
     });
     formik.setFieldValue(name, selectedValue);
