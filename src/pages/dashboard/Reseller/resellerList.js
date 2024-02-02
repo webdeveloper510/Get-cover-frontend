@@ -12,10 +12,6 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Select from "../../../common/select";
-import {
-  getCustomerList,
-  getFilterCustomerList,
-} from "../../../services/customerServices";
 import { getDealersList } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
@@ -94,11 +90,10 @@ function ResellerList() {
     </div>
   );
 
-
   const columns = [
     {
       name: "ID",
-      selector: (row) =>row.resellerData.unique_key,
+      selector: (row) => row.resellerData.unique_key,
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
@@ -189,6 +184,7 @@ function ResellerList() {
                 <div
                   className="text-center cursor-pointer py-1"
                   onClick={() => {
+                    localStorage.removeItem("Resellermenu");
                     navigate(`/resellerDetails/${row?.accountId}`);
                   }}
                 >
@@ -247,11 +243,11 @@ function ResellerList() {
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Reseller</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Reseller  /</Link>{" "}
+                <Link to={"/"}>Reseller /</Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-1">
-              Resellers List
-            </li>
+                Resellers List
+              </li>
             </ul>
           </div>
         </div>
@@ -400,4 +396,4 @@ function ResellerList() {
   );
 }
 
-export default ResellerList
+export default ResellerList;

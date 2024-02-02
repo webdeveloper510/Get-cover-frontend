@@ -200,12 +200,12 @@ function ServicerList() {
                 <div
                   className="text-center cursor-pointer py-1"
                   onClick={() => {
+                    localStorage.removeItem("servicer");
                     navigate(`/servicerDetails/${row.accountId}`);
                   }}
                 >
                   View
                 </div>
-                
               </div>
             )}
           </div>
