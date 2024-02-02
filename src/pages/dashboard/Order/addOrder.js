@@ -298,6 +298,7 @@ function AddOrder() {
           rangeStart: "",
           rangeEnd: "",
           checkNumberProducts: "",
+          anil: 100,
         },
       ],
     },
@@ -353,23 +354,6 @@ function AddOrder() {
       let arr = [];
       let arr1 = [];
 
-      values.productsArray.map((res, index) => {
-        let sumOfValues = 0;
-        if (res.priceType == "Quantity Pricing") {
-          res.QuantityPricing.map((data) => {
-            let value = parseInt(data.enterQuantity);
-
-            sumOfValues += value;
-            console.log(parseInt(sumOfValues));
-          });
-          console.log(values.productsArray[index]);
-          values.productsArray[index][`checkNumberProducts`] = sumOfValues;
-        } else {
-          values.productsArray[index][`checkNumberProducts`] = parseInt(
-            res.noOfProducts
-          );
-        }
-      });
       values.productsArray.map((data, index) => {
         const value = categoryList.find((val) => val.value === data.categoryId);
         arr.push(value ? value.label : "");
@@ -393,6 +377,23 @@ function AddOrder() {
     let arrayOfObjects = data.productsArray.map((res, index) => {
       console.log(res);
       arr.push(res.file);
+    });
+    data.productsArray.map((res, index) => {
+      let sumOfValues = 0;
+      if (res.priceType == "Quantity Pricing") {
+        res.QuantityPricing.map((data) => {
+          let value = parseInt(data.enterQuantity);
+
+          sumOfValues += value;
+          console.log(parseInt(sumOfValues));
+        });
+
+        data.productsArray[index][`checkNumberProducts`] = sumOfValues;
+      } else {
+        data.productsArray[index][`checkNumberProducts`] = parseInt(
+          res.noOfProducts
+        );
+      }
     });
     let newValues = {
       ...data,
@@ -551,7 +552,7 @@ function AddOrder() {
         orderAmount: parseFloat(totalAmount),
       };
       const formData = new FormData();
-
+      console.log("--------------data", data);
       Object.entries(data).forEach(([key, value]) => {
         if (key === "file") {
           if (value) {
@@ -655,6 +656,7 @@ function AddOrder() {
       rangeStart: "",
       rangeEnd: "",
       checkNumberProducts: "",
+      anil: 100,
     };
     getCategoryList(
       formik.values.dealerId,
