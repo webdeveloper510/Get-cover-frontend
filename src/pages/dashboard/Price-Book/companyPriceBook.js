@@ -330,7 +330,6 @@ function CompanyPriceBook() {
     try {
       setLoading(true);
        getCompanyPriceBook(id);
-      setLoading(false);
       setIsViewOpen(true);
     } catch (error) {
       console.error("Error loading data:", error);
