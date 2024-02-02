@@ -142,21 +142,13 @@ function OrderList() {
     {
         name: "Status",
         cell: (row) => (
-            <div className="relative">
+            <div className="flex border py-2 rounded-lg w-full">
               <div
                 className={` ${
-                  row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-                } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+                  row.status === true ? "bg-[#6BD133]" : "bg-[#6BD133]"
+                }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
               ></div>
-              <select
-                value={row.status === true ? "active" : "inactive"}
-                // onChange={(e) => handleStatusChange(row, e.target.value)}
-                className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-                disabled
-              >
-                <option value="Active">Active</option>
-                <option value="Pending">Pending</option>
-              </select>
+            <p className="self-center"> Active </p> 
             </div>
           ),
         sortable: true,
