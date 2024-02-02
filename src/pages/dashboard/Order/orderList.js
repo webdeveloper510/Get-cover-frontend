@@ -189,30 +189,35 @@ function OrderList() {
             </div>
             {selectedAction === row.unique_key && (
               <div
-              ref={dropdownRef}
+                ref={dropdownRef}
                 className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                <div className="text-center py-1 border-b cursor-pointer">
-                  Edit
-                </div>
-                <div
-                  className="text-center py-1 border-b cursor-pointer"
-                  onClick={() => openModal()}
-                >
-                  Process Order
-                </div>
-                <div
-                  className="text-center py-1 text-red-500 cursor-pointer"
-                  onClick={() => openArchive()}
-                >
-                  Archive
-                </div>
-                {/* <div className="text-center py-1 cursor-pointer">
-                  <Link to={"/orderDetails"}>View</Link>
-                </div> */}
+                {row.status == "Pending" ? (
+                  <>
+                    <div className="text-center py-1 border-b cursor-pointer">
+                      Edit
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal()}
+                    >
+                      Process Order
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openArchive()}
+                    >
+                      Archive
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center py-1 cursor-pointer">
+                    <Link to={"/orderDetails"}>View</Link>
+                  </div>
+                )}
               </div>
             )}
           </div>
