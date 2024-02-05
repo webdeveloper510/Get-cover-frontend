@@ -66,6 +66,7 @@ import DealerEditContract from "../pages/Dealer-screens/Contract/editContract";
 import DealerAddServicer from "../pages/Dealer-screens/Servicer/addServicer";
 import DealerServicerList from "../pages/Dealer-screens/Servicer/servicerList";
 import DealerServicerDetails from "../pages/Dealer-screens/Servicer/servicerDetails";
+import ArchiveOrderList from "../pages/dashboard/Order/order-archive";
 
 const routes = [
   {
@@ -334,6 +335,10 @@ const routes = [
       {
         path: "/claims",
         element: <PrivateRoute element={<Claims />} path="/claims" />,
+      },
+      {
+        path: "/archiveOrder",
+        element: <PrivateRoute element={<ArchiveOrderList />} path="/archiveOrder" />,
       },
       {
         path: "/manageAccount",

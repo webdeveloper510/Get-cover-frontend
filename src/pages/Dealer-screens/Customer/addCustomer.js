@@ -406,7 +406,7 @@ function DealerAddCustomer() {
       {/* Form Start */}
       <form className="mt-8" onSubmit={formik.handleSubmit}>
         <Grid>
-          <div className="col-span-4 mb-3">
+          {/* <div className="col-span-4 mb-3">
             <Select
               label="Dealer Name"
               name="dealerName"
@@ -424,7 +424,7 @@ function DealerAddCustomer() {
                 {formik.errors.dealerName}
               </div>
             )}
-          </div>
+          </div> */}
           {resellerList.length !== 0 && (
             <div className="col-span-4 mb-3">
               <Select
