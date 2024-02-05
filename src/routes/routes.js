@@ -67,6 +67,7 @@ import DealerAddServicer from "../pages/Dealer-screens/Servicer/addServicer";
 import DealerServicerList from "../pages/Dealer-screens/Servicer/servicerList";
 import DealerServicerDetails from "../pages/Dealer-screens/Servicer/servicerDetails";
 import ArchiveOrderList from "../pages/dashboard/Order/order-archive";
+import ServicerDealerList from "../pages/Servicer-screens/Dealer/dealerLIst";
 
 const routes = [
   {
@@ -475,6 +476,15 @@ const routes = [
           <PrivateRoute
             element={<ServicerDashboard />}
             path="/servicer/dashboard"
+          />
+        ),
+      },
+      {
+        path: "/servicer/dealerList",
+        element: (
+          <PrivateRoute
+            element={<ServicerDealerList />}
+            path="/servicer/dealerList"
           />
         ),
       },

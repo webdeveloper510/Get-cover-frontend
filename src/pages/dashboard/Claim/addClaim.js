@@ -132,6 +132,28 @@ function AddClaim() {
                   </div>
                 </Grid>
               </div>
+              <div className='col-span-12'>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Customer Name</th>
+                      <th>Contract ID</th>
+                      <th>Serial Number</th>
+                      <th>Order #</th>
+                      <th>Dealer P.O. #</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </Grid>
           </div>
       );

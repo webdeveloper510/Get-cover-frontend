@@ -623,6 +623,12 @@ function SideBar() {
       active: ActiveDashboard,
     },
     {
+      name: "Dealer User",
+      image: DealerImage,
+      active: ActiveDealer,
+      url: "/servicer/dealerList",
+    },
+    {
       name: "Claim Listing",
       image: ClaimImage,
       active: ActiveClaim,
@@ -634,6 +640,7 @@ function SideBar() {
       active: ActiveCustomer,
       url: "/servicer/user",
     },
+   
     {
       name: "Claims Reporting",
       image: ReportImage,
