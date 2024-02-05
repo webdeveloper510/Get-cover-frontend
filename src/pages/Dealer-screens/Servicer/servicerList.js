@@ -21,6 +21,7 @@ import {
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { getDealerServicers } from "../../../services/dealerServices/priceBookServices";
 
 function DealerServicerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -41,40 +42,40 @@ function DealerServicerList() {
     getServicerList();
   }, []);
 
-  const getServicerList = async () => {
+  const getServicerList = async (value = {}) => {
     setLoading(true);
-    const result = await addNewServicerRequest("Approved", {});
+    const result = await getDealerServicers(value);
     setServicerList(result.data);
     console.log(result.data);
     setLoading(false);
   };
 
-  const handleStatusChange = async (row, newStatus) => {
-    console.log("row", row);
-    try {
-      setServicerList((servicerData) => {
-        return servicerData.map((data) => {
-          if (data.accountId === row.accountId) {
-            return {
-              ...data,
-              servicerData: {
-                ...data.servicerData,
-                status: newStatus === "active" ? true : false,
-              },
-            };
-          }
-          return data;
-        });
-      });
-      const result = await updateServicerStatus(row.accountId, {
-        status: newStatus === "active" ? true : false,
-        userId: row._id,
-      });
-      console.log(result);
-    } catch (error) {
-      console.error("Error in handleStatusChange:", error);
-    }
-  };
+  // const handleStatusChange = async (row, newStatus) => {
+  //   console.log("row", row);
+  //   try {
+  //     setServicerList((servicerData) => {
+  //       return servicerData.map((data) => {
+  //         if (data.accountId === row.accountId) {
+  //           return {
+  //             ...data,
+  //             servicerData: {
+  //               ...data.servicerData,
+  //               status: newStatus === "active" ? true : false,
+  //             },
+  //           };
+  //         }
+  //         return data;
+  //       });
+  //     });
+  //     const result = await updateServicerStatus(row.accountId, {
+  //       status: newStatus === "active" ? true : false,
+  //       userId: row._id,
+  //     });
+  //     console.log(result);
+  //   } catch (error) {
+  //     console.error("Error in handleStatusChange:", error);
+  //   }
+  // };
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -88,22 +89,9 @@ function DealerServicerList() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      filterServicerRequest(values);
+      getServicerList(values);
     },
   });
-
-  const filterServicerRequest = async (data) => {
-    try {
-      setLoading(true);
-      const res = await addNewServicerRequest("Approved", data);
-      console.log(res.data);
-      setServicerList(res.data);
-    } catch (error) {
-      console.error("Error fetching category list:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleFilterIconClick = () => {
     formik.resetForm();
@@ -146,72 +134,72 @@ function DealerServicerList() {
       sortable: true,
       minWidth: "180px",
     },
-    {
-      name: "Status",
-      cell: (row) => (
-        <div className="relative">
-          <div
-            className={` ${
-              row.servicerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-          ></div>
-          <select
-            value={row.servicerData.status === true ? "active" : "inactive"}
-            onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-          >
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-        </div>
-      ),
-      sortable: true,
-    },
-    {
-      name: "Action",
-      minWidth: "auto",
-      maxWidth: "80px",
-      cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
-        return (
-          <div className="relative">
-            <div
-              onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.servicerData.unique_key
-                    ? null
-                    : row.servicerData.unique_key
-                )
-              }
-            >
-              <img
-                src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
-                alt="Active Icon"
-              />
-            </div>
-            {selectedAction === row.servicerData.unique_key && (
-              <div
-                ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
-              >
-                <div
-                  className="text-center cursor-pointer py-1"
-                  onClick={() => {
-                    localStorage.removeItem("servicer");
-                    navigate(`/servicerDetails/${row.accountId}`);
-                  }}
-                >
-                  View
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      },
-    },
+    // {
+    //   name: "Status",
+    //   cell: (row) => (
+    //     <div className="relative">
+    //       <div
+    //         className={` ${
+    //           row.servicerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+    //         } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+    //       ></div>
+    //       <select
+    //         value={row.servicerData.status === true ? "active" : "inactive"}
+    //         onChange={(e) => handleStatusChange(row, e.target.value)}
+    //         className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+    //       >
+    //         <option value="active">Active</option>
+    //         <option value="inactive">Inactive</option>
+    //       </select>
+    //     </div>
+    //   ),
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Action",
+    //   minWidth: "auto",
+    //   maxWidth: "80px",
+    //   cell: (row, index) => {
+    //     // console.log(index, index % 10 == 9)
+    //     return (
+    //       <div className="relative">
+    //         <div
+    //           onClick={() =>
+    //             setSelectedAction(
+    //               selectedAction === row.servicerData.unique_key
+    //                 ? null
+    //                 : row.servicerData.unique_key
+    //             )
+    //           }
+    //         >
+    //           <img
+    //             src={ActiveIcon}
+    //             className="cursor-pointer	w-[35px]"
+    //             alt="Active Icon"
+    //           />
+    //         </div>
+    //         {selectedAction === row.servicerData.unique_key && (
+    //           <div
+    //             ref={dropdownRef}
+    //             className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+    //               index
+    //             )}`}
+    //           >
+    //             <div
+    //               className="text-center cursor-pointer py-1"
+    //               onClick={() => {
+    //                 localStorage.removeItem("servicer");
+    //                 navigate(`/servicerDetails/${row.accountId}`);
+    //               }}
+    //             >
+    //               View
+    //             </div>
+    //           </div>
+    //         )}
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
 
   const CustomNoDataComponent = () => (
@@ -219,19 +207,6 @@ function DealerServicerList() {
       <p>No records found.</p>
     </div>
   );
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setSelectedAction(null);
-      }
-    };
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
 
   return (
     <>

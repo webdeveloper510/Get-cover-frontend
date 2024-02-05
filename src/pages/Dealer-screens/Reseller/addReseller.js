@@ -32,10 +32,11 @@ function DealerAddReseller() {
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [dealerList, setDealerList] = useState([]);
-  const [createServicerAccountOption, setServicerCreateAccountOption] = useState(false);
+  const [createServicerAccountOption, setServicerCreateAccountOption] =
+    useState(false);
   const navigate = useNavigate();
   const { dealerValueId } = useParams();
-   console.log(dealerValueId);
+  console.log(dealerValueId);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerName: "",
@@ -51,7 +52,7 @@ function DealerAddReseller() {
     phoneNumber: "",
     position: "",
     members: [],
-    isServicer:createServicerAccountOption
+    isServicer: createServicerAccountOption,
   });
 
   const openModal = () => {
@@ -64,8 +65,8 @@ function DealerAddReseller() {
 
   const handleServiceChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
-     setServicerCreateAccountOption(valueAsBoolean)
-  }
+    setServicerCreateAccountOption(valueAsBoolean);
+  };
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
   const handleRadioChangeDealers = (value, index) => {
@@ -276,7 +277,7 @@ function DealerAddReseller() {
         position: values.position,
         status: formik.values.status,
       };
-      values.isServicer=createServicerAccountOption
+      values.isServicer = createServicerAccountOption;
 
       const newValues = {
         ...values,
@@ -323,7 +324,7 @@ function DealerAddReseller() {
     const result = await getDealersList();
     console.log(result.data);
     let arr = [];
-    const filteredDealers = result.data.filter(
+    const filteredDealers = result?.data?.filter(
       (data) => data.dealerData.accountStatus === true
     );
     filteredDealers?.map((res) => {
@@ -337,13 +338,13 @@ function DealerAddReseller() {
   };
   return (
     <div className="my-8 ml-3">
-       {loading && (
-              <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
-              </div>
-            )}
+      {loading && (
+        <div className=" h-[400px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div>
+      )}
       <Headbar />
       <div className="flex mt-2">
         <div
@@ -670,7 +671,7 @@ function DealerAddReseller() {
                   </p>
                 </div>
                 <div className="col-span-12 self-center mt-5">
-                <p className="text-light-black flex text-[12px]  font-semibold self-center">
+                  <p className="text-light-black flex text-[12px]  font-semibold self-center">
                     {" "}
                     Do you want work as a servicer ?
                     <RadioButton
@@ -975,5 +976,4 @@ function DealerAddReseller() {
   );
 }
 
-
-export default DealerAddReseller
+export default DealerAddReseller;

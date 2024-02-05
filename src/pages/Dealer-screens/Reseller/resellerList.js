@@ -16,7 +16,7 @@ import { getDealersList } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getResellerList } from "../../../services/reSellerServices";
+import { getResellerList } from "../../../services/dealerServices/priceBookServices";
 // Declare the base URL of the API
 function DealerResellerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -49,34 +49,17 @@ function DealerResellerList() {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
   };
-  const getDealerList = async () => {
-    let DealerArray = [];
-    setLoading(true);
-    const result = await getDealersList();
-    console.log(result, "jjjjj");
-    const Dealer = result.data.map((data) => {
-      const datadealer = {
-        label: data.dealerData.name,
-        value: data.dealerData._id,
-      };
-      DealerArray.push(datadealer);
-    });
-    setDealerList(DealerArray);
-    setLoading(false);
-  };
 
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
       phone: "",
-      dealerName: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
       email: Yup.string(),
       phone: Yup.number(),
-      dealerName: Yup.string(),
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
@@ -200,7 +183,6 @@ function DealerResellerList() {
 
   useEffect(() => {
     getResellersList();
-    getDealerList();
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSelectedAction(null);
@@ -324,20 +306,6 @@ function DealerResellerList() {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-                    <div className="col-span-2 self-center">
-                      <Select
-                        label=""
-                        name="dealerName"
-                        options={dealerList}
-                        OptionName="Dealer Name"
-                        color="text-[#1B1D21] opacity-50"
-                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        value={formik.values.dealerName}
-                        onChange={handleSelectChange1}
-                      />
-                    </div>
-
                     <div className="col-span-1 self-center flex">
                       <Button type="submit" className="!p-0">
                         <img

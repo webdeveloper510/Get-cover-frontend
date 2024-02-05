@@ -93,40 +93,40 @@ function DealerPriceBook(props) {
       sortable: true,
     },
 
-    // {
-    //   name: "Action",
-    //   minWidth: "auto", // Set a custom minimum width
-    //   maxWidth: "70px", // Set a custom maximum width
-    //   cell: (row, index) => {
-    //     return (
-    //       <div className="relative">
-    //         <div onClick={() => setSelectedAction(row.unique_key)}>
-    //           <img
-    //             src={ActiveIcon}
-    //             className="cursor-pointer	w-[35px]"
-    //             alt="Active Icon"
-    //           />
-    //         </div>
-    //         {selectedAction === row.unique_key && (
-    //           <div
-    //             ref={dropdownRef}
-    //             className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-    //               index
-    //             )}`}
-    //           >
-    //             {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-    //             <div
-    //               className="text-center py-3 cursor-pointer"
-    //               onClick={() => openView(row._id)}
-    //             >
-    //               View
-    //             </div>
-    //           </div>
-    //         )}
-    //       </div>
-    //     );
-    //   },
-    // },
+              // {
+              //   name: "Action",
+              //   minWidth: "auto", // Set a custom minimum width
+              //   maxWidth: "70px", // Set a custom maximum width
+              //   cell: (row, index) => {
+              //     return (
+              //       <div className="relative">
+              //         <div onClick={() => setSelectedAction(row.unique_key)}>
+              //           <img
+              //             src={ActiveIcon}
+              //             className="cursor-pointer	w-[35px]"
+              //             alt="Active Icon"
+              //           />
+              //         </div>
+              //         {selectedAction === row.unique_key && (
+              //           <div
+              //             ref={dropdownRef}
+              //             className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              //               index
+              //             )}`}
+              //           >
+              //             {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+              //             <div
+              //               className="text-center py-3 cursor-pointer"
+              //               onClick={() => openView(row._id)}
+              //             >
+              //               View
+              //             </div>
+              //           </div>
+              //         )}
+              //       </div>
+              //     );
+              //   },
+              // },
   ];
 
   const priceBookData = async () => {

@@ -48,3 +48,35 @@ export const priceBookFilter = async (filterData = {}) => {
     throw error;
   }
 };
+
+export const getDealerServicers = async (filterData = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/getDealerServicers`,
+      filterData,
+      { headers }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getResellerList = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/getDealerResellers`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
