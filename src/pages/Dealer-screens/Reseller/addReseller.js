@@ -374,7 +374,7 @@ function DealerAddReseller() {
 
       {/* Form Start */}
       <form className="mt-8" onSubmit={formik.handleSubmit}>
-        <Grid>
+        {/* <Grid>
           <div className="col-span-4 mb-3">
             <Select
               label="Dealer Name"
@@ -395,7 +395,7 @@ function DealerAddReseller() {
               </div>
             )}
           </div>
-        </Grid>
+        </Grid> */}
         <div className="bg-white p-4 drop-shadow-4xl border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid>
             <div className="col-span-4 border-e-[1px] border-[#D1D1D1] pr-3">

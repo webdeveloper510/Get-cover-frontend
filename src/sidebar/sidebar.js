@@ -377,6 +377,12 @@ function SideBar() {
           image: Dropdown2,
           active: SeacondActive,
         },
+        {
+          name: "Archive Order List",
+          url: "/archiveOrder",
+          image: Dropdown2,
+          active: ForthActive,
+        },
       ],
     },
     {
@@ -589,12 +595,6 @@ function SideBar() {
       ],
     },
     {
-      name: "Manage User",
-      image: CustomerImage,
-      active: ActiveCustomer,
-      url: "/dealer/user",
-    },
-    {
       name: "Price Book ",
       url: "/dealer/priceBook",
       image: PriceImage,
@@ -618,6 +618,12 @@ function SideBar() {
           active: SeacondActive,
         },
       ],
+    },
+    {
+      name: "Manage User",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      url: "/dealer/user",
     },
   ];
 
