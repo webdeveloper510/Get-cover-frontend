@@ -346,11 +346,11 @@ function DealerAddCustomer() {
 
   const handleLinkClick = () => {
     if (dealerValueId !== undefined && typeofUser != "reseller") {
-      navigate(`/dealerDetails/${dealerValueId}`);
+      navigate(`/dealer/dealerDetails/${dealerValueId}`);
     } else if (dealerValueId !== undefined && typeofUser == "reseller") {
-      navigate(`/resellerDetails/${dealerValueId}`);
+      navigate(`/dealer/resellerDetails/${dealerValueId}`);
     } else {
-      navigate("/customerList");
+      navigate("/dealer/customerList");
     }
   };
   const getDealerListData = async () => {

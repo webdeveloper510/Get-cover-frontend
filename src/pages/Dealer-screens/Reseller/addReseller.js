@@ -312,9 +312,9 @@ function DealerAddReseller() {
   });
   const handleLinkClick = () => {
     if (dealerValueId !== undefined) {
-      navigate(`/dealerDetails/${dealerValueId}`);
+      navigate(`/dealer/dealerDetails/${dealerValueId}`);
     } else {
-      navigate("/resellerList");
+      navigate("/dealer/resellerList");
     }
   };
   const getDealerListData = async () => {
