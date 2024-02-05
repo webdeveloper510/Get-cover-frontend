@@ -59,6 +59,13 @@ import DealerAddCustomer from "../pages/Dealer-screens/Customer/addCustomer";
 import DealerCustomerList from "../pages/Dealer-screens/Customer/customerList";
 import DealerAddReseller from "../pages/Dealer-screens/Reseller/addReseller";
 import DealerResellerList from "../pages/Dealer-screens/Reseller/resellerList";
+import DealerAddOrder from "../pages/Dealer-screens/Order/addOrder";
+import DealerOrderList from "../pages/Dealer-screens/Order/orderList";
+import DealerContractList from "../pages/Dealer-screens/Contract/contractList";
+import DealerEditContract from "../pages/Dealer-screens/Contract/editContract";
+import DealerAddServicer from "../pages/Dealer-screens/Servicer/addServicer";
+import DealerServicerList from "../pages/Dealer-screens/Servicer/servicerList";
+import DealerServicerDetails from "../pages/Dealer-screens/Servicer/servicerDetails";
 
 const routes = [
   {
@@ -357,12 +364,40 @@ const routes = [
         element: <PrivateRoute element={<DealerCustomerList />} path="/dealer/customerList" />,
       },
       {
+        path: "/dealer/contractList",
+        element: <PrivateRoute element={<DealerContractList />} path="/dealer/contractList" />,
+      },
+      {
+        path: "/dealer/editContract",
+        element: <PrivateRoute element={<DealerEditContract />} path="/dealer/editContract" />,
+      },
+      {
+        path: "/dealer/addOrder",
+        element: <PrivateRoute element={<DealerAddOrder />} path="/dealer/addOrder" />,
+      },
+      {
+        path: "/dealer/orderList",
+        element: <PrivateRoute element={<DealerOrderList />} path="/dealer/orderList" />,
+      },
+      {
         path: "/dealer/addReseller",
         element: <PrivateRoute element={<DealerAddReseller />} path="/dealer/addReseller" />,
       },
       {
         path: "/dealer/resellerList",
         element: <PrivateRoute element={<DealerResellerList />} path="/dealer/resellerList" />,
+      },
+      {
+        path: "/dealer/addServicer",
+        element: <PrivateRoute element={<DealerAddServicer />} path="/dealer/addServicer" />,
+      },
+      {
+        path: "/dealer/servicerList",
+        element: <PrivateRoute element={<DealerServicerList />} path="/dealer/servicerList" />,
+      },
+      {
+        path: "/dealer/servicerDetails",
+        element: <PrivateRoute element={<DealerServicerDetails />} path="/dealer/servicerDetails" />,
       },
       {
         path: "/dealer/customerDetails/:customerId",

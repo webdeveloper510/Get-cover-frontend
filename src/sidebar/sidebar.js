@@ -570,6 +570,25 @@ function SideBar() {
       ],
     },
     {
+      name: "Servicer",
+      image: ServicerImage,
+      active: ActiveServicer,
+      items: [
+        {
+          name: "Servicer List",
+          url: "/dealer/servicerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Servicer",
+          url: "/dealer/addServicer",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
       name: "Manage User",
       image: CustomerImage,
       active: ActiveCustomer,
@@ -594,7 +613,7 @@ function SideBar() {
         },
         {
           name: "Claims",
-          url: "/dealer/claims",
+          url: "/dealer/claim",
           image: Dropdown2,
           active: SeacondActive,
         },
