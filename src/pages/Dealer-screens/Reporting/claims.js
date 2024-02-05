@@ -49,22 +49,22 @@ function DealerClaims() {
       Activeicons: AllActive,
       content: <DealerAll />,
     },
-    {
-      id: "Paid Claims",
-      label: "Paid Claims",
-      className:'col-span-4',
-      icons: wholesale,
-      Activeicons: WholesaleActive,
-      content: <DealerPaidClaim />,
-    },
-    {
-      id: "Unpaid Claims",
-      label: "Unpaid Claims",
-      icons: breakdown,
-      className:'col-span-5',
-      Activeicons: BreakdownActive,
-      content: <DealerUnpaidClaim />,
-    }
+    // {
+    //   id: "Paid Claims",
+    //   label: "Paid Claims",
+    //   className:'col-span-4',
+    //   icons: wholesale,
+    //   Activeicons: WholesaleActive,
+    //   content: <DealerPaidClaim />,
+    // },
+    // {
+    //   id: "Unpaid Claims",
+    //   label: "Unpaid Claims",
+    //   icons: breakdown,
+    //   className:'col-span-5',
+    //   Activeicons: BreakdownActive,
+    //   content: <DealerUnpaidClaim />,
+    // }
   ];
 
   const handleTabClick = (tabId) => {
@@ -104,9 +104,9 @@ function DealerClaims() {
         <Grid className="!grid-cols-3">
           <div className="col-span-3">
             <Grid className="!mt-5">
-              <div className="col-span-5">
+              <div className="col-span-3">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!gap-1">
+                  <Grid className="!gap-1 !grid-cols-1">
                     {tabs.map((tab) => (
                       <div className={tab.className} key={tab.id}>
                         <Button
@@ -138,6 +138,7 @@ function DealerClaims() {
                 </div>
               </div>
               <div className="col-span-3"></div>
+              <div className="col-span-2"></div>
               <div
                 className="col-span-2 self-center">
                 <Select

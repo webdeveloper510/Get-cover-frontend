@@ -408,7 +408,7 @@ function DealerCustomerDetails() {
                 </p>
                 <hr className="self-center border-[#999999] w-[50%]" />
               </div>
-              <div className="flex mb-4">
+              {/* <div className="flex mb-4">
                 <div className="relative">
                   <img
                     src={DealerIcons}
@@ -433,7 +433,7 @@ function DealerCustomerDetails() {
                   </p>
                 </div>
                 
-              </div>
+              </div> */}
               {
                 customerDetail?.meta?.resellerId && (
                   <div className="flex mb-4">

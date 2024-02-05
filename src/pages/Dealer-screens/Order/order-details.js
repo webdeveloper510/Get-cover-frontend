@@ -170,7 +170,7 @@ function DealerOrderDetails() {
                 </p>
                 <hr className="self-center border-[#999999] w-[70%]" />
               </div>
-              <div className="flex mb-4">
+              {/* <div className="flex mb-4">
                 <div className="relative">
                   <img
                     src={Name}
@@ -194,7 +194,7 @@ function DealerOrderDetails() {
                   Edward Wilson
                   </p>
                 </div>
-              </div>
+              </div> */}
               <div className="flex mb-4">
                 <div className="relative">
                   <img

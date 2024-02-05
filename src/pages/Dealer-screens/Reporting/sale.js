@@ -7,26 +7,11 @@ import Button from "../../../common/button";
 // Media Import
 import AllActive from "../../../assets/images/Reporting/icons/Activeall.svg";
 import all from "../../../assets/images/Reporting/icons/all.svg";
-import WholesaleActive from "../../../assets/images/Reporting/icons/activeWholesale.svg";
-import wholesale from "../../../assets/images/Reporting/icons/Wholesale.svg";
-import BreakdownActive from "../../../assets/images/Reporting/icons/activeAdministration.svg";
-import breakdown from "../../../assets/images/Reporting/icons/Administration.svg";
-import FrontingActive from "../../../assets/images/Reporting/icons/activeFrontingFees.svg";
-import fronting from "../../../assets/images/Reporting/icons/frontingFees.svg";
-import insuranceActive from "../../../assets/images/Reporting/icons/activeRe-insurance.svg";
-import insurance from "../../../assets/images/Reporting/icons/Re-insurance.svg";
-import ReservesActive from "../../../assets/images/Reporting/icons/activeReservesFutureClaims.svg";
-import reserves from "../../../assets/images/Reporting/icons/ReservesFutureClaims.svg";
 import BrokerActive from "../../../assets/images/Reporting/icons/activeBroker.svg";
 import broker from "../../../assets/images/Reporting/icons/Broker.svg";
 import Select from "../../../common/select";
 import { cityData } from "../../../stateCityJson";
 import DealerAll from "./Sale-Tab/all";
-import DealerWholeSale from "./Sale-Tab/wholeSale";
-import DealerBreakdown from "./Sale-Tab/breakdown";
-import DealerFronting from "./Sale-Tab/fronting";
-import DealerReInsurance from "./Sale-Tab/reInsurance";
-import DealerReserves from "./Sale-Tab/reserves";
 import DealerBroker from "./Sale-Tab/broker";
 
 function DealerSale() {
@@ -53,46 +38,46 @@ function DealerSale() {
       Activeicons: AllActive,
       content: <DealerAll />,
     },
-    {
-      id: "Wholesale",
-      label: "Wholesale",
-      className:'col-span-2',
-      icons: wholesale,
-      Activeicons: WholesaleActive,
-      content: <DealerWholeSale />,
-    },
-    {
-      id: "Breakdown for Administration",
-      label: "Breakdown for Administration",
-      icons: breakdown,
-      className:'col-span-3',
-      Activeicons: BreakdownActive,
-      content: <DealerBreakdown />,
-    },
-    {
-      id: "Fronting Fees",
-      label: "Fronting Fees",
-      icons: fronting,
-      className:'col-span-2',
-      Activeicons: FrontingActive,
-      content: <DealerFronting />,
-    },
-    {
-      id: "Re-insurance Premium",
-      label: "Re-insurance Premium",
-      icons: insurance,
-      className:'col-span-3',
-      Activeicons: insuranceActive,
-      content: <DealerReInsurance />,
-    },
-    {
-      id: "Reserves Future Claims",
-      label: "Reserves Future Claims",
-      icons: reserves,
-      className:'col-span-3',
-      Activeicons: ReservesActive,
-      content: <DealerReserves />,
-    },
+    // {
+    //   id: "Wholesale",
+    //   label: "Wholesale",
+    //   className:'col-span-2',
+    //   icons: wholesale,
+    //   Activeicons: WholesaleActive,
+    //   content: <DealerWholeSale />,
+    // },
+    // {
+    //   id: "Breakdown for Administration",
+    //   label: "Breakdown for Administration",
+    //   icons: breakdown,
+    //   className:'col-span-3',
+    //   Activeicons: BreakdownActive,
+    //   content: <DealerBreakdown />,
+    // },
+    // {
+    //   id: "Fronting Fees",
+    //   label: "Fronting Fees",
+    //   icons: fronting,
+    //   className:'col-span-2',
+    //   Activeicons: FrontingActive,
+    //   content: <DealerFronting />,
+    // },
+    // {
+    //   id: "Re-insurance Premium",
+    //   label: "Re-insurance Premium",
+    //   icons: insurance,
+    //   className:'col-span-3',
+    //   Activeicons: insuranceActive,
+    //   content: <DealerReInsurance />,
+    // },
+    // {
+    //   id: "Reserves Future Claims",
+    //   label: "Reserves Future Claims",
+    //   icons: reserves,
+    //   className:'col-span-3',
+    //   Activeicons: ReservesActive,
+    //   content: <DealerReserves />,
+    // },
     {
       id: "Broker Fees",
       label: "Broker Fees",
@@ -140,9 +125,9 @@ function DealerSale() {
           <div className="col-span-3">
             <Grid className="!mt-5">
               
-              <div className="col-span-10">
+              <div className="col-span-4">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!gap-1 !grid-cols-11">
+                  <Grid className="!gap-1 !grid-cols-3">
                     {tabs.map((tab) => (
                       <div className={tab.className} key={tab.id}>
                         <Button
@@ -172,6 +157,9 @@ function DealerSale() {
                     ))}
                   </Grid>
                 </div>
+              </div>
+              <div className="col-span-6">
+
               </div>
               <div
                 className="col-span-2 self-center">
