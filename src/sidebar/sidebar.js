@@ -285,7 +285,7 @@ function SideBar() {
         },
         {
           name: "Add Dealer",
-          url: "/dealer",
+          url: "/addDealer",
           image: Dropdown2,
           active: SeacondActive,
         },
@@ -538,13 +538,13 @@ function SideBar() {
       items: [
         {
           name: "Reseller List",
-          url: "/resellerList",
+          url: "/dealer/resellerList",
           image: Dropdown1,
           active: Actives,
         },
         {
           name: "Add Reseller",
-          url: "/addReseller",
+          url: "/dealer/addReseller",
           image: Dropdown2,
           active: SeacondActive,
         },
@@ -570,16 +570,16 @@ function SideBar() {
       ],
     },
     {
-      name: "User",
+      name: "Manage User",
       image: CustomerImage,
       active: ActiveCustomer,
       url: "/dealer/user",
     },
     {
-      name: "Price Book",
+      name: "Price Book ",
+      url: "/dealer/priceBook",
       image: PriceImage,
       active: ActivePriceBook,
-      url: "/dealer/priceBook",
     },
     {
       name: "Reporting",
@@ -588,21 +588,15 @@ function SideBar() {
       items: [
         {
           name: "Sale",
-          url: "/sale",
+          url: "/dealer/sale",
           image: Dropdown1,
           active: Actives,
         },
         {
           name: "Claims",
-          url: "/claims",
+          url: "/dealer/claims",
           image: Dropdown2,
           active: SeacondActive,
-        },
-        {
-          name: "Accounting",
-          url: "#",
-          image: Dropdown2,
-          active: ForthActive,
         },
       ],
     },
@@ -643,8 +637,8 @@ function SideBar() {
         <hr className=" border-[#474747] border-[1px]" />
         <div className="shadow-sm h-full ">
           <div className="mx-auto h-full mt-6">
-            <ul className="pb-5">
-              {userType?.role == "Super Admin"
+          <ul className="pb-5">
+              {userType?.role === "Super Admin"
                 ? Lists.map((bar, index) => (
                     <SidebarItem
                       key={index}
@@ -656,7 +650,19 @@ function SideBar() {
                       setExpandedItem={setExpandedItem}
                     />
                   ))
-                : servicer.map((bar, index) => (
+                : userType?.role === "Servicer"
+                ? servicer.map((bar, index) => (
+                    <SidebarItem
+                      key={index}
+                      item={bar}
+                      active={active}
+                      expandedItem={expandedItem}
+                      onToggleExpand={handleToggleExpand}
+                      onLinkClick={handleLinkClick}
+                      setExpandedItem={setExpandedItem}
+                    />
+                  ))
+                : dealer.map((bar, index) => (
                     <SidebarItem
                       key={index}
                       item={bar}
@@ -667,7 +673,6 @@ function SideBar() {
                       setExpandedItem={setExpandedItem}
                     />
                   ))}
-
               <li
                 className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]"
                 onClick={handleLogOut}
@@ -678,7 +683,7 @@ function SideBar() {
                     className="w-[22px] h-[22px] text-black"
                     alt={LogoutImage}
                   />
-                  <span className="self-center  text-[14px] font-light text-left w-full pl-[12px] text-[#999999] ml-1">
+                  <span className="self-center text-[14px] font-light text-left w-full pl-[12px] text-[#999999] ml-1">
                     Logout
                   </span>
                 </div>

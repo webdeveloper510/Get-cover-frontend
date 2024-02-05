@@ -209,7 +209,15 @@ function Account() {
                             className='!bg-[#fff]'
                         />
                     </div>
-                    <div className='col-span-4'></div>
+                    <div className='col-span-4 text-right'>
+                     
+                    </div>
+                    <div className='col-span-8'>
+                    <p className='text-xl font-semibold mb-5'>Change Password</p>
+                    </div>
+                    <div className='col-span-4 text-right'>
+                      <Button> Save Changes</Button>
+                    </div>
                     <div className='col-span-4'>
                         <Input 
                             type='password'
@@ -233,7 +241,7 @@ function Account() {
                     </div>
                  </Grid>
                  <div className='mt-4 text-right'>
-                    <Button>Save Changes</Button>
+                    <Button>Change Password</Button>
                  </div>
             </div>
             {loading ? (

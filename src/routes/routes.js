@@ -53,6 +53,12 @@ import ServicerClaimList from "../pages/Servicer-screens/Claim/claimList";
 import ServicerClaims from "../pages/Servicer-screens/Reporting/claims";
 import ServicerAddClaim from "../pages/Servicer-screens/Claim/addClaim";
 import ServicerAddBulkClaim from "../pages/Servicer-screens/Claim/addBulkClaim";
+import DealerAddClaim from "../pages/Dealer-screens/Claim/addClaim";
+import DealerAddBulkClaim from "../pages/Dealer-screens/Claim/addBulkClaim";
+import DealerAddCustomer from "../pages/Dealer-screens/Customer/addCustomer";
+import DealerCustomerList from "../pages/Dealer-screens/Customer/customerList";
+import DealerAddReseller from "../pages/Dealer-screens/Reseller/addReseller";
+import DealerResellerList from "../pages/Dealer-screens/Reseller/resellerList";
 
 const routes = [
   {
@@ -169,7 +175,7 @@ const routes = [
       },
 
       {
-        path: "/dealer/:id?",
+        path: "/addDealer/:id?",
         element: <PrivateRoute element={<Dealer />} />,
       },
       {
@@ -343,6 +349,26 @@ const routes = [
         element: <PrivateRoute element={<DealerUser />} path="/dealer/user" />,
       },
       {
+        path: "/dealer/addCustomer",
+        element: <PrivateRoute element={<DealerAddCustomer />} path="/dealer/addCustomer" />,
+      },
+      {
+        path: "/dealer/customerList",
+        element: <PrivateRoute element={<DealerCustomerList />} path="/dealer/customerList" />,
+      },
+      {
+        path: "/dealer/addReseller",
+        element: <PrivateRoute element={<DealerAddReseller />} path="/dealer/addReseller" />,
+      },
+      {
+        path: "/dealer/resellerList",
+        element: <PrivateRoute element={<DealerResellerList />} path="/dealer/resellerList" />,
+      },
+      {
+        path: "/dealer/customerDetails/:customerId",
+        element: <PrivateRoute element={<DealerCustomerList />} path="/dealer/customerDetails/:customerId" />,
+      },
+      {
         path: "/dealer/priceBook",
         element: (
           <PrivateRoute
@@ -373,6 +399,24 @@ const routes = [
           <PrivateRoute
             element={<DealerClaimList />}
             path="/dealer/claimList"
+          />
+        ),
+      },
+      {
+        path: "/dealer/addClaim",
+        element: (
+          <PrivateRoute
+            element={<DealerAddClaim />}
+            path="/dealer/addClaim"
+          />
+        ),
+      },
+      {
+        path: "/dealer/addBulkClaim",
+        element: (
+          <PrivateRoute
+            element={<DealerAddBulkClaim />}
+            path="/dealer/addBulkClaim"
           />
         ),
       },

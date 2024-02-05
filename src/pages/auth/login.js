@@ -52,6 +52,8 @@ function Login() {
           navigate("/dashboard");
         } else if (result.result.role == "Servicer") {
           navigate("/servicer/dashboard");
+        } else if (result.result.role == "Dealer") {
+          navigate("/dealer/dashboard");
         }
       }
     },
