@@ -168,7 +168,7 @@ function DealerResellerList() {
                   className="text-center cursor-pointer py-1"
                   onClick={() => {
                     localStorage.removeItem("Resellermenu");
-                    navigate(`/resellerDetails/${row?.accountId}`);
+                    navigate(`/dealer/resellerDetails/${row?.accountId}`);
                   }}
                 >
                   View

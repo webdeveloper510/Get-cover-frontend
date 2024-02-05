@@ -166,7 +166,7 @@ function DealerCustomerList() {
                 <div
                   className="text-center cursor-pointer py-1"
                   onClick={() => {
-                    navigate(`/customerDetails/${row.customerData._id}`);
+                    navigate(`/dealer/customerDetails/${row.customerData._id}`);
                   }}
                 >
                   View
