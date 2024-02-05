@@ -635,7 +635,7 @@ function SideBar() {
       url: "/servicer/claimList", 
     },
     {
-      name: "User",
+      name: "Manage User",
       image: CustomerImage,
       active: ActiveCustomer,
       url: "/servicer/user",
