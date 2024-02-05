@@ -80,3 +80,20 @@ export const getResellerList = async (data) => {
     throw error;
   }
 };
+
+export const getDealerCustomers = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/getDealerCustomers`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

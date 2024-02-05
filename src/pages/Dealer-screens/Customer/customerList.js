@@ -12,14 +12,12 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Select from "../../../common/select";
-import {
-  getCustomerList,
-  getFilterCustomerList,
-} from "../../../services/customerServices";
+import { getFilterCustomerList } from "../../../services/customerServices";
 import { getDealersList } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { getDealerCustomers } from "../../../services/dealerServices/priceBookServices";
 // Declare the base URL of the API
 function DealerCustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -34,12 +32,18 @@ function DealerCustomerList() {
     formik.setFieldValue(name, value);
   };
 
-  const getCustomer = async () => {
-    setLoading(true);
-    const result = await getCustomerList();
-    console.log(result.result);
-    setCustomerList(result.result);
-    setLoading(false);
+  const getCustomer = async (value = {}) => {
+    try {
+      setLoading(true);
+      const result = await getDealerCustomers(value);
+      console.log(result.result);
+      setCustomerList(result.result);
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   const dropdownRef = useRef(null);
 
@@ -56,8 +60,7 @@ function DealerCustomerList() {
     let DealerArray = [];
     setLoading(true);
     const result = await getDealersList();
-    console.log(result, "jjjjj");
-    const Dealer = result.data.map((data) => {
+    const Dealer = result?.data?.map((data) => {
       const datadealer = {
         label: data.dealerData.name,
         value: data.dealerData._id,
@@ -73,17 +76,15 @@ function DealerCustomerList() {
       name: "",
       email: "",
       phone: "",
-      dealerName: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
       email: Yup.string(),
       phone: Yup.number(),
-      dealerName: Yup.string(),
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      getFilteredCustomerList(values);
+      getCustomer(values);
     },
   });
 
@@ -201,18 +202,6 @@ function DealerCustomerList() {
     getCustomer();
   };
 
-  const getFilteredCustomerList = async (data) => {
-    try {
-      setLoading(true);
-      const res = await getFilterCustomerList(data);
-      console.log(res.result);
-      setCustomerList(res.result);
-    } catch (error) {
-      console.error("Error fetching category list:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
     <>
       <div className="my-8 ml-3">
@@ -302,19 +291,6 @@ function DealerCustomerList() {
                           });
                         }}
                         onBlur={formik.handleBlur}
-                      />
-                    </div>
-                    <div className="col-span-2 self-center">
-                      <Select
-                        label=""
-                        name="dealerName"
-                        options={dealerList}
-                        OptionName="Dealer Name"
-                        color="text-[#1B1D21] opacity-50"
-                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        value={formik.values.dealerName}
-                        onChange={handleSelectChange1}
                       />
                     </div>
 
