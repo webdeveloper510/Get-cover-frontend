@@ -85,7 +85,6 @@ export const editCategoryList = async (id, categoryListData) => {
 
 export const getCompanyPriceList = async (filterData) => {
   const headers = createHeaders();
-  console.log(filterData);
   try {
     const response = await axios.post(
       `${url}/price/priceBooks`,
