@@ -488,6 +488,50 @@ function SideBar() {
       active: ActiveDashboard,
     },
     {
+      name: "Reseller",
+      image: DealerImage,
+      active: ActiveDealer,
+      items: [
+        {
+          name: "Reseller List",
+          url: "/dealer/resellerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Reseller",
+          url: "/dealer/addReseller",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
+      name: "Customer",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      items: [
+        {
+          name: "Customer List",
+          url: "/dealer/customerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Customer",
+          url: "/dealer/addCustomer",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
+      name: "Servicer List",
+      image: ServicerImage,
+      active: ActiveServicer,
+      url: "/dealer/servicerList",
+    },
+    {
       name: "Order",
       image: OrderImage,
       active: ActiveOrder,
@@ -537,63 +581,7 @@ function SideBar() {
         },
       ],
     },
-    {
-      name: "Reseller",
-      image: DealerImage,
-      active: ActiveDealer,
-      items: [
-        {
-          name: "Reseller List",
-          url: "/dealer/resellerList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Add Reseller",
-          url: "/dealer/addReseller",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
-    {
-      name: "Customer",
-      image: CustomerImage,
-      active: ActiveCustomer,
-      items: [
-        {
-          name: "Customer List",
-          url: "/dealer/customerList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Add Customer",
-          url: "/dealer/addCustomer",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
-    {
-      name: "Servicer",
-      image: ServicerImage,
-      active: ActiveServicer,
-      items: [
-        {
-          name: "Servicer List",
-          url: "/dealer/servicerList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Add Servicer",
-          url: "/dealer/addServicer",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
+    
     {
       name: "Price Book ",
       url: "/dealer/priceBook",

@@ -249,7 +249,7 @@ function DealerServicerList() {
           </div>
         </div>
 
-        <Link
+        {/* <Link
           to={"/addServicer"}
           className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
         >
@@ -258,7 +258,7 @@ function DealerServicerList() {
           <span className="text-black ml-3 text-[14px] font-semibold">
             Add New Servicer{" "}
           </span>{" "}
-        </Link>
+        </Link> */}
 
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
