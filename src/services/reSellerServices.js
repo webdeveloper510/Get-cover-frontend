@@ -76,12 +76,12 @@ export const getResellerListByResellerId = async (id) => {
   }
 };
 
-export const getPriceBookListByResellerId = async (id) => {
+export const getPriceBookListByResellerId = async (id, value = {}) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
       `${url}/reseller/getResellerPriceBook/${id}`,
-      {},
+      { value },
       { headers }
     );
 

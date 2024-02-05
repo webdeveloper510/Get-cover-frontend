@@ -151,3 +151,20 @@ export const getStep2Validation = async (data) => {
     throw error;
   }
 };
+
+export const orderDetailsById = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/order/getOrderById/${id}
+       `,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

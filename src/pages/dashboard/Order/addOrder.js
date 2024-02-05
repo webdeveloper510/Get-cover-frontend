@@ -1,6 +1,6 @@
 import React, { createRef, useEffect, useRef, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -35,6 +35,7 @@ import {
   getCategoryAndPriceBooks,
   getServicerListInOrders,
   getStep2Validation,
+  orderDetailsById,
 } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import { getResellerListByDealerId } from "../../../services/reSellerServices";
@@ -65,7 +66,9 @@ function AddOrder() {
   const [sendNotification, setSendNotification] = useState(true);
   const [numberOfOrders, setNumberOfOrders] = useState([]);
   const [error, setError] = useState("");
+  const [order, orderDetail] = useState({});
   const navigate = useNavigate();
+  const { orderId } = useParams();
 
   const downloadCSVTemplate = async () => {
     window.open(
@@ -178,11 +181,41 @@ function AddOrder() {
   };
 
   useEffect(() => {
+    console.log(orderId);
+    if (orderId != undefined) {
+      orderDetails();
+    }
     getDealerListData();
     // getProductList()
     getTermListData();
   }, []);
-
+  const orderDetails = async () => {
+    const result = await orderDetailsById(orderId);
+    console.log(result.result);
+    getResellerList(result?.result?.dealerId);
+    getCustomerList({
+      dealerId: result?.result?.dealerId,
+      resellerId: result?.result?.resellerId,
+    });
+    getServicerList({
+      dealerId: result?.result?.dealerId,
+      resellerId: result?.result?.resellerId,
+    });
+    orderDetail(result.result);
+    formik.setFieldValue("dealerId", result?.result?.dealerId);
+    formik.setFieldValue("servicerId", result?.result?.servicerId);
+    formik.setFieldValue("customerId", result?.result?.customerId);
+    formik.setFieldValue("resellerId", result?.result?.resellerId);
+    formikStep2.setFieldValue(
+      "dealerPurchaseOrder",
+      result?.result?.venderOrder
+    );
+    formikStep2.setFieldValue(
+      "serviceCoverageType",
+      result?.result?.serviceCoverageType
+    );
+    formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
+  };
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -211,11 +244,9 @@ function AddOrder() {
     },
     validationSchema: Yup.object().shape({
       dealerId: Yup.string().required("Dealer Name is required"),
-      servicerId: Yup.string(),
-      customerId: Yup.string(),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      console.log(values.error);
       nextStep();
       const foundDealer = dealerList.find(
         (data) => data.value === values.dealerId
@@ -262,7 +293,9 @@ function AddOrder() {
       let data = {
         dealerPurchaseOrder: values.dealerPurchaseOrder,
         dealerId: formik.values.dealerId,
+        oldDealerPurchaseOrder: order?.venderOrder,
       };
+
       const result = getStep2Validation(data).then((res) => {
         console.log(res);
         if (res.code == 401) {
@@ -298,6 +331,7 @@ function AddOrder() {
           rangeStart: "",
           rangeEnd: "",
           checkNumberProducts: "",
+          anil: 100,
         },
       ],
     },
@@ -353,23 +387,6 @@ function AddOrder() {
       let arr = [];
       let arr1 = [];
 
-      values.productsArray.map((res, index) => {
-        let sumOfValues = 0;
-        if (res.priceType == "Quantity Pricing") {
-          res.QuantityPricing.map((data) => {
-            let value = parseInt(data.enterQuantity);
-
-            sumOfValues += value;
-            console.log(parseInt(sumOfValues));
-          });
-          console.log(values.productsArray[index]);
-          values.productsArray[index][`checkNumberProducts`] = sumOfValues;
-        } else {
-          values.productsArray[index][`checkNumberProducts`] = parseInt(
-            res.noOfProducts
-          );
-        }
-      });
       values.productsArray.map((data, index) => {
         const value = categoryList.find((val) => val.value === data.categoryId);
         arr.push(value ? value.label : "");
@@ -393,6 +410,23 @@ function AddOrder() {
     let arrayOfObjects = data.productsArray.map((res, index) => {
       console.log(res);
       arr.push(res.file);
+    });
+    data.productsArray.map((res, index) => {
+      let sumOfValues = 0;
+      if (res.priceType == "Quantity Pricing") {
+        res.QuantityPricing.map((data) => {
+          let value = parseInt(data.enterQuantity);
+
+          sumOfValues += value;
+          console.log(parseInt(sumOfValues));
+        });
+
+        data.productsArray[index][`checkNumberProducts`] = sumOfValues;
+      } else {
+        data.productsArray[index][`checkNumberProducts`] = parseInt(
+          res.noOfProducts
+        );
+      }
     });
     let newValues = {
       ...data,
@@ -551,7 +585,7 @@ function AddOrder() {
         orderAmount: parseFloat(totalAmount),
       };
       const formData = new FormData();
-
+      console.log("--------------data", data);
       Object.entries(data).forEach(([key, value]) => {
         if (key === "file") {
           if (value) {
@@ -655,6 +689,7 @@ function AddOrder() {
       rangeStart: "",
       rangeEnd: "",
       checkNumberProducts: "",
+      anil: 100,
     };
     getCategoryList(
       formik.values.dealerId,

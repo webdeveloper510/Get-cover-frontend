@@ -371,7 +371,7 @@ function PriceBookList(props) {
         ? await getPriceBookListByResellerId(props.id)
         : await getDealerPriceBookByDealerId(props.id);
     setPriceBookList(result.result);
-    console.log(result.result);
+    console.log(result);
     setLoading(false);
   };
 
@@ -407,7 +407,7 @@ function PriceBookList(props) {
   const navigte = useNavigate();
   useEffect(() => {
     setLoading(true);
-    if(props.activeTab==='PriceBook'){
+    if (props.activeTab === "PriceBook") {
       priceBookData();
     }
     setLoading(false);
@@ -431,26 +431,44 @@ function PriceBookList(props) {
   const filterDealerPriceBook = async (values) => {
     if (props.flag === "reseller") {
       values.dealerId = props.dealerId;
+      try {
+        setLoading(true);
+        const res = await getPriceBookListByResellerId(props.id, values);
+        if (res.code != 200) {
+          setError(res.message);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          setError("");
+        }
+        console.log(res);
+        setPriceBookList(res.result);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching category list:", error);
+      } finally {
+        setLoading(false);
+      }
     } else {
       values.dealerId = props.id;
-    }
-    try {
-      setLoading(true);
-      const res = await getFilterPriceBookByDealer(values);
-      if (res.code != 200) {
-        setError(res.message);
+      try {
+        setLoading(true);
+        const res = await getFilterPriceBookByDealer(values);
+        if (res.code != 200) {
+          setError(res.message);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          setError("");
+        }
+        console.log(res);
+        setPriceBookList(res.result);
+      } catch (error) {
         setLoading(false);
-      } else {
+        console.error("Error fetching category list:", error);
+      } finally {
         setLoading(false);
-        setError("");
       }
-      console.log(res);
-      setPriceBookList(res.result);
-    } catch (error) {
-      setLoading(false);
-      console.error("Error fetching category list:", error);
-    } finally {
-      setLoading(false);
     }
   };
   const formik = useFormik({
