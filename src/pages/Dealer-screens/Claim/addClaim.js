@@ -280,8 +280,6 @@ function DealerAddClaim() {
 
           {renderStep()}
 
-       
-          
       </div>
     )
   }
