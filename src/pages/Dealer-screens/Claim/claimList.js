@@ -4,6 +4,7 @@ import Grid from '../../../common/grid'
 import Input from '../../../common/input'
 
 // Media Includes 
+import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import productName from '../../../assets/images/icons/productName1.svg';
 import attach from '../../../assets/images/Attachments.svg';
@@ -957,7 +958,7 @@ function DealerClaimList() {
                         placeholder="" />
                       </div>
                       <div className='col-span-1 self-center  flex justify-center'>
-                       <Button className='!text-sm'><b>-</b></Button>
+                       <Button className='!text-sm'><img src={DeleteImage} /></Button>
                       </div>
                     </Grid>
                     <hr className='my-4'/>
@@ -986,7 +987,7 @@ function DealerClaimList() {
                         placeholder="" />
                       </div>
                       <div className='col-span-1 self-center  flex justify-center'>
-                       <Button className='!text-sm'><b>-</b></Button>
+                       <Button className='!text-sm'><img src={DeleteImage} /></Button>
                       </div>
                     </Grid>
                     </div>

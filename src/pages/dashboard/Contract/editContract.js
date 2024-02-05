@@ -19,6 +19,7 @@ import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from '../../../common/headBar';
 import { Link } from 'react-router-dom';
 import Select from '../../../common/select';
+import DateInput from '../../../common/dateInput';
 function EditContract() {
     const [showTooltip, setShowTooltip] = useState(false);
     const status = [
@@ -29,6 +30,9 @@ function EditContract() {
         { label: "11/09/2026", value: true },
         { label: "12/09/2026", value: false },
       ];
+      const [item, setItem] = useState({
+        requested_order_ship_date: '2024-02-05', 
+      });
     return (
         <>
             <div className="my-8 ml-3">
@@ -231,12 +235,19 @@ function EditContract() {
                         placeholder="" />
                       </div>
                       <div className='col-span-1'>
-                      <Input type='date' 
+                      {/* <Input type='date' 
                         name="Coverage Start Date"
                         label="Coverage Start Date"
                         required={true}
                         className="!bg-[#fff]"
-                        placeholder=""/>
+                        placeholder=""/> */}
+                         <DateInput
+                         name="Coverage Start Date"
+                         label="Coverage Start Date"
+                        required 
+                        item={item}
+                        setItem={setItem}
+                        className="!bg-[#fff]" />
                       </div>
                       <div className='col-span-1'>
                       <Select
