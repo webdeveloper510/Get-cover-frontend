@@ -1,15 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Headbar from '../../../common/headBar'
 import { Link } from 'react-router-dom'
-import Select from '../../../common/select';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 
 // Media Include
 import BackImage from '../../../assets/images/icons/backArrow.svg'
-import Dropbox from "../../../assets/images/icons/dropBox.svg";
-import Edit from '../../../assets/images/Dealer/EditIcon.svg';
-import Delete from "../../../assets/images/icons/DeleteIcon.svg";
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import check from "../../../assets/images/icons/check.svg";
 import Button from '../../../common/button';
@@ -17,12 +13,9 @@ import RadioButton from '../../../common/radio';
 import FileDropdown from '../../../common/fileDropbox';
 import SelectBoxWIthSerach from '../../../common/selectBoxWIthSerach';
 import DateInput from '../../../common/dateInput';
-import Checkbox from '../../../common/checkbox';
 import Modal from '../../../common/model';
 
 function DealerAddClaim() {
-    const [selectedValue, setSelectedValue] = useState('');
-    const [selectedCity, setSelectedCity] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
     const dropdownRef = useRef(null);
@@ -86,12 +79,11 @@ function DealerAddClaim() {
   useEffect(() => {
       document.addEventListener("click", handleClickOutside);
       return () => {
-          document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
       };
   }, []);
 
     const renderStep1 = () => {
-      // Step 1 content
       return (
         <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
             <p className='text-xl font-bold mb-4'>Step 1</p>
@@ -104,11 +96,7 @@ function DealerAddClaim() {
                      name="ContractID"
                      placeholder=""
                      className="!bg-white"
-                    //  required={true}
                     />
-                    {/* <div className="ml-3 self-center">
-                    <Checkbox />
-                    </div> */}
                   </div>
                   <div className='col-span-4'>
                     <Input 
@@ -116,7 +104,6 @@ function DealerAddClaim() {
                      name="CustomerName"
                      placeholder=""
                      className="!bg-white"
-                    //  required={true}
                     />
                   </div>
                   <div className='col-span-4'>
@@ -125,7 +112,6 @@ function DealerAddClaim() {
                      name="Serial"
                      placeholder=""
                      className="!bg-white"
-                    //  required={true}
                     />
                   </div>
                   <div className='col-span-4'>
@@ -134,7 +120,6 @@ function DealerAddClaim() {
                      name="OrderNumber"
                      placeholder=""
                      className="!bg-white"
-                    //  required={true}
                     />
                   </div>
                   <div className='col-span-4'>
@@ -143,7 +128,6 @@ function DealerAddClaim() {
                      name="ContractID"
                      placeholder=""
                      className="!bg-white"
-                    //  required={true}
                     />
                   </div>
                   <div className='col-span-4 self-end justify-end flex'>
