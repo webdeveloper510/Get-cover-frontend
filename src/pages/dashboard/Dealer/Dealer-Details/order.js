@@ -87,24 +87,14 @@ function OrderList() {
         selector: (row) => row.status,
         sortable: true,
         cell: (row) => (
-          <div className="relative">
-            <div
-              className={` ${
-                row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-            ></div>
-            <select
-              value={row.status === true ? "active" : "inactive"}
-              onChange={(e) => handleStatusChange(row, e.target.value)}
-              className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-            >
-             <option value="active">Active</option>
-                <option value="waiting">Waiting</option>
-                <option value="expired">Expired</option>
-                <option value="canceled">Canceled</option>
-                <option value="refunded">Refunded</option>
-            </select>
-          </div>
+          <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
+          <div
+            className={` ${
+              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
+            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
+          ></div>
+          <p className="self-center"> {row.status} </p>
+        </div>
         ),
       },
       {
@@ -141,10 +131,7 @@ function OrderList() {
 
     const status = [
       { label: 'Active', value: true },
-      { label: 'Waiting', value: false },
-      { label: 'Expired', value: false },
-      { label: 'Canceled', value: false },
-      { label: 'Refunded', value: false },
+      { label: 'Pending', value: false },
     ];
   
     return (
