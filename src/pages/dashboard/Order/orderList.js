@@ -254,7 +254,7 @@ function OrderList() {
                   </>
                 ) : (
                   <div className="text-center py-1 cursor-pointer">
-                    <Link to={"/orderDetails"}>View</Link>
+                    <Link to={`/orderDetails/${row._id}`}>View</Link>
                   </div>
                 )}
               </div>
@@ -387,7 +387,7 @@ function OrderList() {
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-      <Button
+        <Button
           onClick={closeModal}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
         >
@@ -404,8 +404,7 @@ function OrderList() {
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-            {processOrderErrors &&
-              processOrderErrors.map((res) =>{})}
+            {processOrderErrors && processOrderErrors.map((res) => {})}
           </p>
           {/* <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
