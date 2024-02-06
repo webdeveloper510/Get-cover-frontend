@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Headbar from '../../../common/headBar'
 import { Link } from 'react-router-dom'
 import Select from '../../../common/select';
@@ -8,7 +8,9 @@ import Input from '../../../common/input';
 // Media Include
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
+import Edit from '../../../assets/images/Dealer/EditIcon.svg';
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
+import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import check from "../../../assets/images/icons/check.svg";
 import Button from '../../../common/button';
 import RadioButton from '../../../common/radio';
@@ -16,18 +18,25 @@ import FileDropdown from '../../../common/fileDropbox';
 import SelectBoxWIthSerach from '../../../common/selectBoxWIthSerach';
 import DateInput from '../../../common/dateInput';
 import Checkbox from '../../../common/checkbox';
+import Modal from '../../../common/model';
 
 function AddClaim() {
     const [selectedValue, setSelectedValue] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
-    const [selectedOption, setSelectedOption] = useState('option1');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
-
+    const dropdownRef = useRef(null);
     console.log(currentStep)
-    
+    const [selectedActions, setSelectedActions] = useState([]);
+
+    const handleToggleDropdown = (index) => {
+        const newSelectedActions = [...selectedActions];
+        newSelectedActions[index] = !newSelectedActions[index];
+        setSelectedActions(newSelectedActions);
+    };
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
+    setIsModalOpen(false);
   };
 
   const prevStep = () => {
@@ -52,13 +61,35 @@ function AddClaim() {
     { label: "Option 4", value: "option4" },
     { label: "Option 5", value: "option5" },
   ];
-  
+
   const handleSelect = (selectedOption) => {
     console.log('Selected Option:', selectedOption);
   };
   const [item, setItem] = useState({
     requested_order_ship_date: '2024-01-25', 
   });
+
+  const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setSelectedActions(null);
+      }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  useEffect(() => {
+      document.addEventListener("click", handleClickOutside);
+      return () => {
+          document.removeEventListener("click", handleClickOutside);
+      };
+  }, []);
+
     const renderStep1 = () => {
       // Step 1 content
       return (
@@ -115,8 +146,8 @@ function AddClaim() {
                     //  required={true}
                     />
                   </div>
-                  <div className='col-span-12 self-end justify-end flex'>
-                    <Button onClick={nextStep}>Next</Button>
+                  <div className='col-span-4 self-end justify-end flex'>
+                    <Button >Search</Button>
                   </div>
                 </Grid>
               </div>
@@ -129,16 +160,36 @@ function AddClaim() {
                       <th>Serial Number</th>
                       <th>Order #</th>
                       <th>Dealer P.O. #</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
+                  {Array.from({ length: 1 }).map((_, index) => (
                     <tr>
                       <td className='py-1'>Contract ID</td>
                       <td>Customer Name</td>
                       <td>Serial Number</td>
                       <td>Order #</td>
                       <td>Dealer P.O. #</td>
+                      <td>
+                        <div className="relative">
+                            <div onClick={() => handleToggleDropdown(index)}>
+                                <img src={ActiveIcon} className="cursor-pointer w-[35px] mx-auto" alt="Active Icon" />
+                            </div>
+                            {selectedActions[index] && (
+                                <div  className="absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
+                                    <div className="text-center pb-1 border-b text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer" onClick={nextStep}>
+                                        <p>Select</p>
+                                    </div>
+                                    <div className="text-center pt-1 text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer" onClick={() => openModal()}>
+                                        <p>View</p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                      </td>
                     </tr>
+                  ))}
                   </tbody>
                 </table>
               </div>
@@ -342,7 +393,118 @@ function AddClaim() {
 
           {renderStep()}
 
-       
+          <Modal isOpen={isModalOpen} onClose={closeModal} className="w-[1100px]">
+            <div className="text-center">
+              <p className="text-3xl font-semibold mb-4">Contract Details</p>
+              <div>
+            <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
+              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
+                <p className='text-white py-2 font-Regular'>Contract ID :  <b> 861910 </b></p>
+              </div>
+              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
+                <p className='text-white py-2 font-Regular'>Order ID : <b> 315174  </b></p>
+              </div>
+              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
+                <p className='text-white py-2 font-Regular'>Dealer P.O. No. : <b> MC-10554 </b></p>
+              </div>
+              <div className='col-span-2 '>
+              </div>
+              <div className='col-span-1 self-center justify-end'>
+                <Button className='!bg-[white] !text-black !p-2 !text-sm' onClick={nextStep}>Select</Button>
+              </div>
+            </Grid>
+
+            <Grid className='!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5'>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Manufacturer</p>
+                  <p className='text-[#333333] text-base font-semibold'>Apple iPad</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Model</p>
+                  <p className='text-[#333333] text-base font-semibold'>Apple iPad 5th Gen, 30GB</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Serial</p>
+                  <p className='text-[#333333] text-base font-semibold'>GG7W212JHLF12</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Retail Price</p>
+                  <p className='text-[#333333] text-base font-semibold'>$182</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Condition</p>
+                  <p className='text-[#333333] text-base font-semibold'>Used</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Dealer Name</p>
+                  <p className='text-[#333333] text-base font-semibold'>Edward Wilson</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Reseller Name</p>
+                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
+                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
+                </div>
+              </div>
+              <div className='col-span-2 border border-[#D1D1D1]'>
+                
+                 <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
+                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
+                </div>
+              </div>
+             
+              <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Coverage Start Date</p>
+                  <p className='text-[#333333] text-base font-semibold'>11/09/2026</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Coverage End Date</p>
+                  <p className='text-[#333333] text-base font-semibold'>09/11/2030</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Claim Amount</p>
+                  <p className='text-[#333333] text-base font-semibold'>$0.00</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Status</p>
+                  <p className='text-[#333333] text-base font-semibold'>Waiting</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1] rounded-ee-xl'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Eligibility</p>
+                  <p className='text-[#333333] text-base font-semibold'>Not Eligible</p>
+                </div>
+              </div>
+            </Grid>
+          </div>
+            </div>
+          </Modal>
           
       </div>
     )

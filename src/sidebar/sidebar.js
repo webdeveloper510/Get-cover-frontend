@@ -608,7 +608,7 @@ function SideBar() {
       ],
     },
     {
-      name: "Manage User",
+      name: "Manage Account",
       image: CustomerImage,
       active: ActiveCustomer,
       url: "/dealer/user",
@@ -623,7 +623,7 @@ function SideBar() {
       active: ActiveDashboard,
     },
     {
-      name: "Dealer User",
+      name: "Dealer List",
       image: DealerImage,
       active: ActiveDealer,
       url: "/servicer/dealerList",
@@ -633,20 +633,19 @@ function SideBar() {
       image: ClaimImage,
       active: ActiveClaim,
       url: "/servicer/claimList", 
-    },
-    {
-      name: "Manage User",
-      image: CustomerImage,
-      active: ActiveCustomer,
-      url: "/servicer/user",
-    },
-   
+    },  
     {
       name: "Claims Reporting",
       image: ReportImage,
       active: ActiveReport,
       url: "/servicer/claims",
 
+    },
+    {
+      name: "Manage Account",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      url: "/servicer/user",
     },
   ];
 

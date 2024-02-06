@@ -218,13 +218,6 @@ function DealerList() {
                   index
                 )}`}
               >
-                {/* <img
-                  src={arrowImage}
-                  className={`absolute  object-contain left-1/2 w-[12px] ${
-                    index % 10 === 9 ? "bottom-[-5px] rotate-180" : "top-[-5px]"
-                  } `}
-                  alt="up arror"
-                /> */}
                 <Link
                   to={`/dealerDetails/${row?.dealerData._id}`}
                   className="text-center p-3"
