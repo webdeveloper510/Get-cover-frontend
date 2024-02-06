@@ -16,18 +16,24 @@ import DataTable from "react-data-table-component";
 import Primary from "../../../assets/images/SetPrimary.png";
 import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
-import { getOrders } from "../../../services/orderServices";
+import {
+  archiveOrders,
+  getOrders,
+  processOrders,
+} from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
+  const [orderId, SetOrderId] = useState("");
   const [timer, setTimer] = useState(3);
   const [orderList, setOrderList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [processOrderErrors, setProcessOrderErrors] = useState([]);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -39,22 +45,51 @@ function OrderList() {
     setIsDisapprovedOpen(true);
   };
 
-  const openArchive = () => {
+  const openArchive = (id) => {
+    SetOrderId(id);
     setIsArchiveOpen(true);
   };
 
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
+  useEffect(() => {
+    let intervalId;
+    if (isModalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    if (isModalOpen1 && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    if (timer === 0) {
+      closeArchive();
+      getOrderList();
+      closeModal1();
+    }
+    return () => clearInterval(intervalId);
+  }, [isModalOpen, isModalOpen1, timer]);
 
   const openModal1 = () => {
+    console.log(orderId);
+    archiveOrders(orderId).then((res) => {
+      console.log(res);
+    });
+    setTimer(3);
     setIsModalOpen1(true);
   };
 
   const closeArchive = () => {
     setIsArchiveOpen(false);
   };
-  const openModal = () => {
+  const openModal = (id) => {
+    processOrders(id).then((res) => {
+      setProcessOrderErrors(res.result);
+      console.log(res);
+    });
     setIsModalOpen(true);
   };
 
@@ -206,13 +241,13 @@ function OrderList() {
                     </div>
                     <div
                       className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal()}
+                      onClick={() => openModal(row._id)}
                     >
                       Process Order
                     </div>
                     <div
                       className="text-center py-1 cursor-pointer"
-                      onClick={() => openArchive()}
+                      onClick={() => openArchive(row._id)}
                     >
                       Archive
                     </div>
@@ -361,11 +396,12 @@ function OrderList() {
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-            Order Processed Successfully
+            {processOrderErrors &&
+              processOrderErrors.map((res) =>{})}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          {/* <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
-          </p>
+          </p> */}
         </div>
       </Modal>
 

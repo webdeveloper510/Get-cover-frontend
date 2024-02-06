@@ -32,7 +32,46 @@ export const getOrders = async (data) => {
     throw error;
   }
 };
+export const getArchiveOrders = async (data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(`${url}/order/getArchieveOrder`, data, {
+      headers,
+    });
 
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const archiveOrders = async (id, data = {}) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(`${url}/order/archiveOrder/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const processOrders = async (id, data = {}) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(`${url}/order/processOrder/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const fileValidation = async (data) => {
   console.log(data);
   const accessToken = getAccessToken();

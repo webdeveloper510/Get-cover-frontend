@@ -16,7 +16,7 @@ import DataTable from "react-data-table-component";
 import Primary from "../../../assets/images/SetPrimary.png";
 import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
-import { getOrders } from "../../../services/orderServices";
+import { getArchiveOrders, getOrders } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 
@@ -91,16 +91,11 @@ function ArchiveOrderList() {
   }, []);
   const getOrderList = async () => {
     setLoading(true);
-    const result = await getOrders({});
+    const result = await getArchiveOrders({});
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);
   };
-  const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = orderList.length - index <= 10000;
-    return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
-  };
-
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
@@ -162,7 +157,10 @@ function ArchiveOrderList() {
 
         <div className="flex mt-2">
           <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]"> Archive Order</p>
+            <p className="font-bold text-[36px] leading-9	mb-[3px]">
+              {" "}
+              Archive Order
+            </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
                 <Link to={"/"}>Order </Link> /{" "}
