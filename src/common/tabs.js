@@ -14,7 +14,7 @@ const Tabs = ({ tabs }) => {
           <div
             key={tab.id}
             onClick={() => handleTabClick(tab.id)}
-            className={`flex self-center p-4 cursor-pointer mr-3 border-[1px] border-[#D1D1D1] ${
+            className={`flex self-center py-2 px-4 rounded cursor-pointer mr-3 border-[1px] border-[#D1D1D1] ${
               activeTab === tab.id ? "!bg-[#2A2A2A] !text-white"
               : "!bg-[#F9F9F9] !text-black"
             }`}
