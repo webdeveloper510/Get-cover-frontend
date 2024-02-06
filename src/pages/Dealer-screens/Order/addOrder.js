@@ -2260,7 +2260,7 @@ function DealerAddOrder() {
       <Headbar />
       <div className="flex mt-2">
         <Link
-          to={"/orderList"}
+          to={"/dealer/orderList"}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
         >
           <img

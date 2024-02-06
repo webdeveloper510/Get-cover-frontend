@@ -7,7 +7,7 @@ import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.sv
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import unassign from "../../../assets/images/Unassign.png";
-import AddDealer from "../../../assets/images/dealer-book.svg";
+import AddDealer from "../../../assets/images/Disapproved.png";
 import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
@@ -387,12 +387,20 @@ function OrderList() {
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
+      <Button
+          onClick={closeModal}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
-            <span className="text-light-black"> Order Processed </span>{" "}
-            Successfully
+            <span className="text-light-black">Error</span>{" "}
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
