@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
-import Button from '../../../common/button'
-import Grid from '../../../common/grid'
-import Input from '../../../common/input'
+import Button from '../../common/button'
+import Grid from '../../common/grid'
+import Input from '../../common/input'
 
 // Media Includes 
-import Search from '../../../assets/images/icons/SearchIcon.svg';
-import AddItem from "../../../assets/images/icons/addItem.svg";
-import Cross from "../../../assets/images/Cross.png";
-import Edit from '../../../assets/images/Dealer/EditIcon.svg';
-import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import Headbar from '../../../common/headBar';
+import Search from '../../assets/images/icons/SearchIcon.svg';
+import AddItem from "../../assets/images/icons/addItem.svg";
+import Cross from "../../assets/images/Cross.png";
+import Edit from '../../assets/images/Dealer/EditIcon.svg';
+import clearFilter from "../../assets/images/icons/Clear-Filter-Icon-White.svg";
+import Headbar from '../../common/headBar';
 import { Link } from 'react-router-dom';
-import Modal from '../../../common/model';
-import Select from '../../../common/select';
-function DealerContractList() {
+import Select from '../../common/select';
+import Modal from '../../common/model';
+function ResellerContract() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
 
@@ -105,7 +105,7 @@ function DealerContractList() {
               <div className='col-span-2 '>
               </div>
               <div className='col-span-1 self-center justify-end'>
-              {/* <Link to={'/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link> */}
+              <Link to={'/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link>
               </div>
             </Grid>
 
@@ -215,7 +215,7 @@ function DealerContractList() {
               <div className='col-span-2 '>
               </div>
               <div className='col-span-1 self-center justify-end'>
-              {/* <Link to={'/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link> */}
+              <Link to={'/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link>
               </div>
             </Grid>
 
@@ -323,7 +323,7 @@ function DealerContractList() {
               <div className='col-span-2 '>
               </div>
               <div className='col-span-1 self-center justify-end'>
-              {/* <Link to={'/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link> */}
+              <Link to={'/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link>
               </div>
             </Grid>
 
@@ -484,7 +484,7 @@ function DealerContractList() {
                         label="Servicer Name"
                         placeholder="" />
             </div>
-          
+           
             <div className='col-span-6'>
             <Select
                         name="Status"
@@ -513,4 +513,4 @@ function DealerContractList() {
   )
 }
 
-export default DealerContractList
+export default ResellerContract

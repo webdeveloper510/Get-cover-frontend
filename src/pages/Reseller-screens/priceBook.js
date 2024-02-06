@@ -23,7 +23,7 @@ import {
   getPriceBookForDealer,
   priceBookFilter,
 } from "../../services/dealerServices/priceBookServices";
-function DealerPriceBook(props) {
+function ResellerPriceBook(props) {
   console.log(props);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -83,45 +83,50 @@ function DealerPriceBook(props) {
       sortable: true,
     },
     {
+      name: "WholeSale Cost",
+      selector: (row) => "$ " + row.wholesalePrice.toFixed(2),
+      sortable: true,
+    },
+    {
       name: "Retail Cost",
       selector: (row) => "$  " + row.retailPrice.toFixed(2),
       sortable: true,
     },
 
-              {
-                name: "Action",
-                minWidth: "auto", // Set a custom minimum width
-                maxWidth: "70px", // Set a custom maximum width
-                cell: (row, index) => {
-                  return (
-                    <div className="relative">
-                      <div onClick={() => setSelectedAction(row.unique_key)}>
-                        <img
-                          src={ActiveIcon}
-                          className="cursor-pointer	w-[35px]"
-                          alt="Active Icon"
-                        />
-                      </div>
-                      {selectedAction === row.unique_key && (
-                        <div
-                          ref={dropdownRef}
-                          className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                            index
-                          )}`}
-                        >
-                          {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                          <div
-                            className="text-center py-3 cursor-pointer"
-                            onClick={() => openView(row._id)}
-                          >
-                            View
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                },
-              },
+              // {
+              //   name: "Action",
+              //   minWidth: "auto", // Set a custom minimum width
+              //   maxWidth: "70px", // Set a custom maximum width
+              //   cell: (row, index) => {
+              //     return (
+              //       <div className="relative">
+              //         <div onClick={() => setSelectedAction(row.unique_key)}>
+              //           <img
+              //             src={ActiveIcon}
+              //             className="cursor-pointer	w-[35px]"
+              //             alt="Active Icon"
+              //           />
+              //         </div>
+              //         {selectedAction === row.unique_key && (
+              //           <div
+              //             ref={dropdownRef}
+              //             className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              //               index
+              //             )}`}
+              //           >
+              //             {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+              //             <div
+              //               className="text-center py-3 cursor-pointer"
+              //               onClick={() => openView(row._id)}
+              //             >
+              //               View
+              //             </div>
+              //           </div>
+              //         )}
+              //       </div>
+              //     );
+              //   },
+              // },
   ];
 
   const priceBookData = async () => {
@@ -343,6 +348,9 @@ function DealerPriceBook(props) {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
+        {/* <Button onClick={() => { navigte(`/editCompanyPriceBook/${dealerPriceBookDetail._id}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
+            </Button> */}
         <div className="py-3">
           <p className="text-center text-3xl font-semibold ">
             {dealerPriceBookDetail?.priceBooks?.name}
@@ -458,4 +466,4 @@ function DealerPriceBook(props) {
   );
 }
 
-export default DealerPriceBook;
+export default ResellerPriceBook;
