@@ -142,18 +142,12 @@ function DealerContractList() {
               </div>
               <div className='col-span-1 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Dealer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Edward Wilson</p>
-                </div>
-              </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
-                <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Reseller Name</p>
                   <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
              
-              <div className='col-span-1 border border-[#D1D1D1]'>
+              <div className='col-span-2 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
                   <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
@@ -248,12 +242,6 @@ function DealerContractList() {
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Condition</p>
                   <p className='text-[#333333] text-base font-semibold'>Used</p>
-                </div>
-              </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
-                <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Dealer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Edward Wilson</p>
                 </div>
               </div>
               <div className='col-span-1 border border-[#D1D1D1]'>
@@ -262,7 +250,7 @@ function DealerContractList() {
                   <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
+              <div className='col-span-2 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
                   <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
@@ -360,17 +348,11 @@ function DealerContractList() {
               </div>
               <div className='col-span-1 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Dealer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Edward Wilson</p>
-                </div>
-              </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
-                <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Reseller Name</p>
                   <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
+              <div className='col-span-2 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
                   <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
@@ -465,9 +447,9 @@ function DealerContractList() {
             </div>
             <div className='col-span-6'>
                <Input type='text' 
-                         name="Dealer Name"
+                         name="Reseller Name"
                         className="!bg-[#fff]"
-                        label="Dealer Name"
+                        label="Reseller Name"
                         placeholder="" />
             </div>
             <div className='col-span-6'>

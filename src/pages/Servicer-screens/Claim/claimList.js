@@ -706,142 +706,147 @@ function ServicerClaimList() {
               </p>
               <div className='h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-[#D1D1D1] bg-[#F0F0F0] border rounded-xl'>
 
-                <Grid className='my-3'>
-                  <div className='col-span-1'>
-                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
-                      <p className='text-white text-2xl self-center'>A</p>
-                    </div>
-                  </div>
-                  <div className='col-span-11'>
-                    <div className='bg-white rounded-md relative p-1'>
-                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-                    <Grid>
-                      <div className='col-span-6'>
-                        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
-                      </div>
-                      <div className='col-span-5 self-center flex justify-end'>
-                        <p className='text-sm pr-3'>9:30 am</p>
-                        <p className='text-sm'>12 Nov 2023</p>
-                      </div>
-                      <div className='col-span-1 self-center text-center'>
-                       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-                      </div>
-                    </Grid>
-                    <hr className='my-2'/>
-                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual. <span className='text-[11px]'>(To Admin)</span></p>
-                    </div>
-                  </div>
-                </Grid>
+<Grid className='my-3'>
+  <div className='col-span-1'>
+    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+      <p className='text-white text-2xl self-center'>A</p>
+    </div>
+  </div>
+  <div className='col-span-11'>
+    <div className='bg-white rounded-md relative p-1'>
+      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+    <Grid>
+      <div className='col-span-6'>
+        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
+      </div>
+      <div className='col-span-5 self-center flex justify-end'>
+        <p className='text-sm pr-3'>9:30 am</p>
+        <p className='text-sm'>12 Nov 2023</p>
+      </div>
+      <div className='col-span-1 self-center text-center'>
+       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
+      </div>
+    </Grid>
+    <hr className='my-2'/>
+     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+    </div>
+  </div>
+</Grid>
 
-                <Grid className='my-3'>
-                  <div className='col-span-1'>
-                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
-                      <p className='text-white text-2xl self-center'>D</p>
-                    </div>
-                  </div>
-                  <div className='col-span-11'>
-                    <div className='bg-white rounded-md relative p-1'>
-                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-                    <Grid>
-                      <div className='col-span-6'>
-                        <p className='text-xl font-semibold'>Alison <span className='text-[12px]'>(Dealer)</span></p>
-                      </div>
-                      <div className='col-span-5 self-center flex justify-end'>
-                        <p className='text-sm pr-3'>9:30 am</p>
-                        <p className='text-sm'>12 Nov 2023</p>
-                      </div>
-                      <div className='col-span-1 self-center text-center'>
-                       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-                      </div>
-                    </Grid>
-                    <hr className='my-2'/>
-                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual. <span className='text-[11px]'>(To Admin)</span></p>
-                    </div>
-                  </div>
-                </Grid>
+<Grid className='my-3'>
+  <div className='col-span-1'>
+    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+      <p className='text-white text-2xl self-center'>D</p>
+    </div>
+  </div>
+  <div className='col-span-11'>
+    <div className='bg-white rounded-md relative p-1'>
+      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+    <Grid>
+      <div className='col-span-6'>
+        <p className='text-xl font-semibold'>Alison <span className='text-[12px]'>(Dealer)</span></p>
+      </div>
+      <div className='col-span-5 self-center flex justify-end'>
+        <p className='text-sm pr-3'>9:30 am</p>
+        <p className='text-sm'>12 Nov 2023</p>
+      </div>
+      <div className='col-span-1 self-center text-center'>
+       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
+      </div>
+    </Grid>
+    <hr className='my-2'/>
+    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+    </div>
+  </div>
+</Grid>
 
-                <Grid className='my-3'>
-                  <div className='col-span-1'>
-                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
-                      <p className='text-white text-2xl self-center'>S</p>
-                    </div>
-                  </div>
-                  <div className='col-span-11'>
-                    <div className='bg-white rounded-md relative p-1'>
-                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-                    <Grid>
-                      <div className='col-span-6'>
-                        <p className='text-xl font-semibold'>Veronica <span className='text-[12px]'> (Servicer) </span></p>
-                      </div>
-                      <div className='col-span-5 self-center flex justify-end'>
-                        <p className='text-sm pr-3'>9:30 am</p>
-                        <p className='text-sm'>12 Nov 2023</p>
-                      </div>
-                      <div className='col-span-1 self-center text-center'>
-                       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-                      </div>
-                    </Grid>
-                    <hr className='my-2'/>
-                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.<span className='text-[11px]'>(To Admin)</span></p>
-                    </div>
-                  </div>
-                </Grid> 
+<Grid className='my-3'>
+  <div className='col-span-1'>
+    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+      <p className='text-white text-2xl self-center'>S</p>
+    </div>
+  </div>
+  <div className='col-span-11'>
+    <div className='bg-white rounded-md relative p-1'>
+      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+    <Grid>
+      <div className='col-span-6'>
+        <p className='text-xl font-semibold'>Veronica <span className='text-[12px]'> (Servicer) </span></p>
+      </div>
+      <div className='col-span-5 self-center flex justify-end'>
+        <p className='text-sm pr-3'>9:30 am</p>
+        <p className='text-sm'>12 Nov 2023</p>
+      </div>
+      <div className='col-span-1 self-center text-center'>
+       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
+      </div>
+    </Grid>
+    <hr className='my-2'/>
+    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+    </div>
+  </div>
+</Grid> 
 
-                 <Grid className='my-3'>
-                  <div className='col-span-1'>
-                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
-                      <p className='text-white text-2xl self-center'>A</p>
-                    </div>
-                  </div>
-                  <div className='col-span-11'>
-                    <div className='bg-white rounded-md relative p-1'>
-                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-                    <Grid>
-                      <div className='col-span-6'>
-                        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
-                      </div>
-                      <div className='col-span-5 self-center flex justify-end'>
-                        <p className='text-sm pr-3'>9:30 am</p>
-                        <p className='text-sm'>12 Nov 2023</p>
-                      </div>
-                      <div className='col-span-1 self-center text-center'>
-                       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-                      </div>
-                    </Grid>
-                    <hr className='my-2'/>
-                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.<span className='text-[11px]'>(To Admin)</span></p>
-                    </div>
-                  </div>
-                </Grid>
+ <Grid className='my-3'>
+  <div className='col-span-1'>
+    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+      <p className='text-white text-2xl self-center'>A</p>
+    </div>
+  </div>
+  <div className='col-span-11'>
+    <div className='bg-white rounded-md relative p-1'>
+      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+    <Grid>
+      <div className='col-span-6'>
+        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
+      </div>
+      <div className='col-span-5 self-center flex justify-end'>
+        <p className='text-sm pr-3'>9:30 am</p>
+        <p className='text-sm'>12 Nov 2023</p>
+      </div>
+      <div className='col-span-1 self-center text-center'>
+       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
+      </div>
+    </Grid>
+    <hr className='my-2'/>
+    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+    </div>
+  </div>
+</Grid>
 
-                 <Grid className='my-3'>
-                  <div className='col-span-1'>
-                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
-                      <p className='text-white text-2xl self-center'>A</p>
-                    </div>
-                  </div>
-                  <div className='col-span-11'>
-                    <div className='bg-white rounded-md relative p-1'>
-                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-                    <Grid>
-                      <div className='col-span-6'>
-                        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
-                      </div>
-                      <div className='col-span-5 self-center flex justify-end'>
-                        <p className='text-sm pr-3'>9:30 am</p>
-                        <p className='text-sm'>12 Nov 2023</p>
-                      </div>
-                      <div className='col-span-1 self-center text-center'>
-                       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-                      </div>
-                    </Grid>
-                    <hr className='my-2'/>
-                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual. <span className='text-[11px]'>(To Admin)</span></p>
-                    </div>
-                  </div>
-                </Grid>             
-             
-              </div>
+ <Grid className='my-3'>
+  <div className='col-span-1'>
+    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+      <p className='text-white text-2xl self-center'>A</p>
+    </div>
+  </div>
+  <div className='col-span-11'>
+    <div className='bg-white rounded-md relative p-1'>
+      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+    <Grid>
+      <div className='col-span-6'>
+        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
+      </div>
+      <div className='col-span-5 self-center flex justify-end'>
+        <p className='text-sm pr-3'>9:30 am</p>
+        <p className='text-sm'>12 Nov 2023</p>
+      </div>
+      <div className='col-span-1 self-center text-center'>
+       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
+      </div>
+    </Grid>
+    <hr className='my-2'/>
+    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+    </div>
+  </div>
+</Grid>             
+
+</div>
               <div >
                 <p className='text-sm my-3'><b> Attachment : </b>  <span className='text-neutral-grey'> Accepted file types: jpg, gif, png, Max. file size: 50 MB. </span></p>
               </div>
