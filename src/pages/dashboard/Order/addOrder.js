@@ -1,6 +1,6 @@
 import React, { createRef, useEffect, useRef, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -71,6 +71,7 @@ function AddOrder() {
   const [order, orderDetail] = useState({});
   const navigate = useNavigate();
   const { orderId } = useParams();
+  const location = useLocation();
 
   const downloadCSVTemplate = async () => {
     window.open(
@@ -183,7 +184,7 @@ function AddOrder() {
       orderDetails();
       setType("Edit");
     } else {
-      setType("Type");
+      setType("Add");
     }
     getDealerListData();
     getTermListData();
@@ -254,6 +255,16 @@ function AddOrder() {
     );
     formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
   };
+  useEffect(() => {
+    console.log(location);
+    if (location.pathname == "/addOrder") {
+      setCurrentStep(1);
+      formik.resetForm();
+      formikStep2.resetForm();
+      formikStep3.resetForm();
+      formik4.resetForm();
+    }
+  }, [location]);
   const renderStep = () => {
     switch (currentStep) {
       case 1:
