@@ -250,13 +250,13 @@ function DealerPriceBook(props) {
         </div>
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-4 self-center">
+            <div className="col-span-6 self-center">
               <p className="text-xl font-semibold">Price Book List</p>
             </div>
-            <div className="col-span-8">
+            <div className="col-span-6">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-11">
+                  <Grid className="!grid-cols-8">
                     <div className="col-span-3 self-center">
                       <Input
                         name="name"
@@ -281,19 +281,6 @@ function DealerPriceBook(props) {
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px]  !bg-[#f7f7f7]"
                         value={formik.values.category}
-                        onChange={formik.setFieldValue}
-                      />
-                    </div>
-                    <div className="col-span-3 self-center">
-                      <Select
-                        name="status"
-                        label=""
-                        options={status}
-                        OptionName="Status"
-                        color="text-[#1B1D21] opacity-50"
-                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        value={formik.values.status}
                         onChange={formik.setFieldValue}
                       />
                     </div>
