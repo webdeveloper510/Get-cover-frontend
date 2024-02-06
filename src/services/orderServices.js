@@ -85,7 +85,6 @@ export const checkMultipleFileValidation = async (data) => {
   }
 };
 export const addOrder = async (data) => {
-  console.log(data);
   const accessToken = getAccessToken();
   const headers = {
     "Content-Type": "multipart/form-data",
@@ -99,6 +98,24 @@ export const addOrder = async (data) => {
     const response = await axios.post(`${url}/order/createOrder`, data, {
       headers,
     });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editOrder = async (id, data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/order/editOrderDetail/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
