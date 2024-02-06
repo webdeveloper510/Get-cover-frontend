@@ -497,13 +497,13 @@ function PriceBookList(props) {
       <div className="my-8">
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-4 self-center">
+            <div className={` ${props.flag === "reseller" ? ('col-span-6 self-center') : ('col-span-4 self-center') }`}>
               <p className="text-xl font-semibold">Price Book List</p>
             </div>
-            <div className="col-span-8">
+            <div className={` ${props.flag === "reseller" ? ('col-span-6') : ('col-span-8') }`}>
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-11">
+                  <Grid className={` ${props.flag === "reseller" ? ('!grid-cols-8') : ('!grid-cols-11')}`}>
                     <div className="col-span-3 self-center">
                       <Input
                         name="name"
@@ -531,7 +531,7 @@ function PriceBookList(props) {
                         onChange={formik.setFieldValue}
                       />
                     </div>
-                    <div className="col-span-3 self-center">
+                    {  props.flag === "reseller" ? (<></>) : ( <div className="col-span-3 self-center">
                       <Select
                         name="status"
                         label=""
@@ -543,7 +543,8 @@ function PriceBookList(props) {
                         value={formik.values.status}
                         onChange={formik.setFieldValue}
                       />
-                    </div>
+                    </div>)}
+                   
                     <div className="col-span-2 self-center flex justify-center">
                       <button type="submit">
                         <img

@@ -106,7 +106,7 @@ function DealerClaimList() {
         </div>
 
         <Link
-          to={"/addClaim"}
+          to={"/dealer/addClaim"}
           className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
         >
           {" "}
