@@ -11,6 +11,7 @@ import DataTable from 'react-data-table-component';
 import Modal from '../../../common/model';
 import RadioButton from '../../../common/radio';
 import { RotateLoader } from 'react-spinners';
+import Tabs from '../../../common/tabs';
 
 function Account() {
     const [selectedAction, setSelectedAction] = useState(null);
@@ -155,6 +156,93 @@ function Account() {
         };
       }, []);
 
+      const tabsData = [
+        { id: 1, label: 'Edit Account', content: (
+          <>
+          <Grid >
+          <div className='col-span-12'>
+             <p className='text-xl font-semibold mb-5'>Edit Account</p>
+             </div>
+          <div className='col-span-4'>
+               <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                 <p className='text-sm m-0 p-0'>Email</p>
+                 <p className='font-semibold'>Super@codenomad.net</p>
+               </div>
+             </div>
+            
+             <div className='col-span-4'>
+                 <Input 
+                     type='text'
+                     label='First Name'
+                     className='!bg-[#fff]'
+                 />
+             </div>
+             <div className='col-span-4'>
+                 <Input 
+                     type='text'
+                     label='Last Name'
+                     className='!bg-[#fff]'
+                 />
+             </div>
+             <div className='col-span-4'>
+                 <Input 
+                     type='tel'
+                     label='Phone No.'
+                     className='!bg-[#fff]'
+                 />
+             </div>
+             <div className='col-span-4'>
+                 <Input 
+                     type='text'
+                     label='Postion'
+                     className='!bg-[#fff]'
+                 />
+             </div>
+             <div className='col-span-4 text-right'>
+              
+             </div>
+             <div className='col-span-12 text-right'>
+               <Button> Save Changes</Button>
+             </div>
+          </Grid>
+           
+          </>
+        ) },
+        { id: 2, label: 'Change Password', content: (
+          <>
+          <Grid>
+          <div className='col-span-12'>
+             <p className='text-xl font-semibold mb-5'>Change Password</p>
+             </div>
+             <div className='col-span-4'>
+                 <Input 
+                     type='password'
+                     label='Old Password'
+                     className='!bg-[#fff]'
+                 />
+             </div>
+             <div className='col-span-4'>
+                 <Input 
+                     type='password'
+                     label='New Password'
+                     className='!bg-[#fff]'
+                 />
+             </div>
+             <div className='col-span-4'>
+                 <Input 
+                     type='password'
+                     label='Confirm Password'
+                     className='!bg-[#fff]'
+                 />
+             </div>
+          </Grid>
+          <div className='mt-4 text-right'>
+             <Button>Change Password</Button>
+          </div>
+          </>
+        ) },
+      ];
+
   return (
     <>
      <div className='my-8 ml-3'>
@@ -172,77 +260,9 @@ function Account() {
             </div>
 
             <div className='px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
-                 <p className='text-xl font-semibold mb-5'>Edit Account</p>
-                 <Grid >
-                 <div className='col-span-4'>
-                      <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                        <p className='text-sm m-0 p-0'>Email</p>
-                        <p className='font-semibold'>Super@codenomad.net</p>
-                      </div>
-                    </div>
-                   
-                    <div className='col-span-4'>
-                        <Input 
-                            type='text'
-                            label='First Name'
-                            className='!bg-[#fff]'
-                        />
-                    </div>
-                    <div className='col-span-4'>
-                        <Input 
-                            type='text'
-                            label='Last Name'
-                            className='!bg-[#fff]'
-                        />
-                    </div>
-                    <div className='col-span-4'>
-                        <Input 
-                            type='tel'
-                            label='Phone No.'
-                            className='!bg-[#fff]'
-                        />
-                    </div>
-                    <div className='col-span-4'>
-                        <Input 
-                            type='text'
-                            label='Postion'
-                            className='!bg-[#fff]'
-                        />
-                    </div>
-                    <div className='col-span-4 text-right'>
-                     
-                    </div>
-                    <div className='col-span-8'>
-                    <p className='text-xl font-semibold mb-5'>Change Password</p>
-                    </div>
-                    <div className='col-span-4 text-right'>
-                      <Button> Save Changes</Button>
-                    </div>
-                    <div className='col-span-4'>
-                        <Input 
-                            type='password'
-                            label='Old Password'
-                            className='!bg-[#fff]'
-                        />
-                    </div>
-                    <div className='col-span-4'>
-                        <Input 
-                            type='password'
-                            label='New Password'
-                            className='!bg-[#fff]'
-                        />
-                    </div>
-                    <div className='col-span-4'>
-                        <Input 
-                            type='password'
-                            label='Confirm Password'
-                            className='!bg-[#fff]'
-                        />
-                    </div>
-                 </Grid>
-                 <div className='mt-4 text-right'>
-                    <Button>Change Password</Button>
-                 </div>
+                 
+           
+                  <Tabs tabs={tabsData} />
             </div>
             {loading ? (
               <div className=" h-[400px] w-full flex py-5">
