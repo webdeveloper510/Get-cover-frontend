@@ -68,6 +68,7 @@ const Input = ({
           onChange={handleInput}
           disabled={disabled}
           placeholder={placeholder}
+          onWheel={(e) => e.target.blur()}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
