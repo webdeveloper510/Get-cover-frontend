@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Headbar from '../../../common/headBar'
 import { Link } from 'react-router-dom'
 import Select from '../../../common/select';
@@ -8,7 +8,9 @@ import Input from '../../../common/input';
 // Media Include
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
+import Edit from '../../../assets/images/Dealer/EditIcon.svg';
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
+import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import check from "../../../assets/images/icons/check.svg";
 import Button from '../../../common/button';
 import RadioButton from '../../../common/radio';
@@ -16,18 +18,25 @@ import FileDropdown from '../../../common/fileDropbox';
 import SelectBoxWIthSerach from '../../../common/selectBoxWIthSerach';
 import DateInput from '../../../common/dateInput';
 import Checkbox from '../../../common/checkbox';
+import Modal from '../../../common/model';
 
 function DealerAddClaim() {
     const [selectedValue, setSelectedValue] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
-    const [selectedOption, setSelectedOption] = useState('option1');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
-
+    const dropdownRef = useRef(null);
     console.log(currentStep)
-    
+    const [selectedActions, setSelectedActions] = useState([]);
+
+    const handleToggleDropdown = (index) => {
+        const newSelectedActions = [...selectedActions];
+        newSelectedActions[index] = !newSelectedActions[index];
+        setSelectedActions(newSelectedActions);
+    };
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
+    setIsModalOpen(false);
   };
 
   const prevStep = () => {
@@ -52,244 +61,296 @@ function DealerAddClaim() {
     { label: "Option 4", value: "option4" },
     { label: "Option 5", value: "option5" },
   ];
-  
+
   const handleSelect = (selectedOption) => {
     console.log('Selected Option:', selectedOption);
   };
   const [item, setItem] = useState({
     requested_order_ship_date: '2024-01-25', 
   });
-  const renderStep1 = () => {
-    // Step 1 content
-    return (
-      <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
-          <p className='text-xl font-bold mb-4'>Step 1</p>
-          <Grid>
-            <div className='col-span-12'>
-              <Grid>
-                <div className='col-span-5'>
-                  <Input 
-                   label="Contract ID"
-                   name="ContractID"
-                   placeholder=""
-                   className="!bg-white"
-                  //  required={true}
-                  />
-                </div>
-                <div className='col-span-1 self-center'>
-                  <Checkbox/>
-                </div>
-                <div className='col-span-5'>
-                  <Input 
-                   label="Customer Name"
-                   name="CustomerName"
-                   placeholder=""
-                   className="!bg-white"
-                  //  required={true}
-                  />
-                </div>
-                <div className='col-span-1 self-center'>
-                  <Checkbox/>
-                </div>
-                <div className='col-span-5'>
-                  <Input 
-                   label="Serial Number"
-                   name="Serial"
-                   placeholder=""
-                   className="!bg-white"
-                  //  required={true}
-                  />
-                </div>
-                <div className='col-span-1 self-center'>
-                  <Checkbox/>
-                </div>
-                <div className='col-span-5'>
-                  <Input 
-                   label="Order #"
-                   name="OrderNumber"
-                   placeholder=""
-                   className="!bg-white"
-                  //  required={true}
-                  />
-                </div>
-                <div className='col-span-1 self-center'>
-                  <Checkbox/>
-                </div>
-                <div className='col-span-5'>
-                  <Input 
-                   label="Dealer P.O. #"
-                   name="ContractID"
-                   placeholder=""
-                   className="!bg-white"
-                  //  required={true}
-                  />
-                </div>
-                <div className='col-span-1 self-center'>
-                  <Checkbox/>
-                </div>
-                <div className='col-span-6 self-end justify-end flex'>
-                  <Button onClick={nextStep}>Next</Button>
-                </div>
-              </Grid>
-            </div>
-          </Grid>
-        </div>
-    );
+
+  const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setSelectedActions(null);
+      }
   };
 
-  const renderStep2 = () => {
-    // Step 2 content
-    return (
-      <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
-      <p className='text-2xl font-bold mb-4'>Enter Required Info</p>
-      <Grid>
-        <div className='col-span-12'>
-          <Grid>
-            <div className='col-span-3'>
-              <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                <p className='text-sm m-0 p-0'>Dealer Name</p>
-                <p className='font-semibold'>Dealer Name</p>
-              </div>
-            </div>
-            <div className='col-span-3'>
-              <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                <p className='text-sm m-0 p-0'>Reseller Name</p>
-                <p className='font-semibold'>Reseller Name</p>
-              </div>
-            </div>
-            <div className='col-span-3'>
-              <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                <p className='text-sm m-0 p-0'>Customer Name</p>
-                <p className='font-semibold'>Customer Name</p>
-              </div>
-            </div>
-            <div className='col-span-3'>
-              <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                <p className='text-sm m-0 p-0'>Manufacturer</p>
-                <p className='font-semibold'>Manufacturer</p>
-              </div>
-            </div>
-            </Grid>
-            <Grid className='!grid-cols-5 mt-3'>
-            <div className='col-span-1'>
-              <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                <p className='text-sm m-0 p-0'>Model</p>
-                <p className='font-semibold'>Model</p>
-              </div>
-            </div>
-            <div className='col-span-1'>
-              <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                <p className='text-sm m-0 p-0'>Serial</p>
-                <p className='font-semibold'>Serial</p>
-              </div>
-            </div>
-            <div className='col-span-1'>
-              <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                <p className='text-sm m-0 p-0'>Order ID</p>
-                <p className='font-semibold'>Order ID</p>
-              </div>
-            </div>
-            <div className='col-span-1'>
-              <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                <p className='text-sm m-0 p-0'>Retail Price ($)</p>
-                <p className='font-semibold'>Retail Price ($)</p>
-              </div>
-            </div>
-            <div className='col-span-1'>
-              <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                <p className='text-sm m-0 p-0'>Condition</p>
-                <p className='font-semibold'>Condition</p>
-              </div>
-            </div>   
-            
-          </Grid>
-        </div>
-      </Grid>
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
-      <div className='my-4'>
-      <p className='text-2xl font-bold mb-4'> Upload Receipt or Image </p>
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  useEffect(() => {
+      document.addEventListener("click", handleClickOutside);
+      return () => {
+          document.removeEventListener("click", handleClickOutside);
+      };
+  }, []);
+
+    const renderStep1 = () => {
+      // Step 1 content
+      return (
+        <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
+            <p className='text-xl font-bold mb-4'>Step 1</p>
             <Grid>
-              <div className='col-span-6'>
-                <Grid className='my-3'>
-                  <div className='col-span-6'>
-                <SelectBoxWIthSerach options={options}  label="Servicer Name"
-                  name="servicerName" className="!bg-[#fff]" onChange={handleSelect} />
-              
+              <div className='col-span-12'>
+                <Grid>
+                  <div className='col-span-4'>
+                    <Input 
+                     label="Contract ID"
+                     name="ContractID"
+                     placeholder=""
+                     className="!bg-white"
+                    //  required={true}
+                    />
+                    {/* <div className="ml-3 self-center">
+                    <Checkbox />
+                    </div> */}
                   </div>
-                  <div className='col-span-6'>
-                    <DateInput
-                      label="Loss Date"
-                      name="lossDate"
-                      required 
-                      item={item}
-                      setItem={setItem}
-                      className="!bg-[#fff]" />
+                  <div className='col-span-4'>
+                    <Input 
+                     label="Customer Name"
+                     name="CustomerName"
+                     placeholder=""
+                     className="!bg-white"
+                    //  required={true}
+                    />
+                  </div>
+                  <div className='col-span-4'>
+                    <Input 
+                     label="Serial Number"
+                     name="Serial"
+                     placeholder=""
+                     className="!bg-white"
+                    //  required={true}
+                    />
+                  </div>
+                  <div className='col-span-4'>
+                    <Input 
+                     label="Order #"
+                     name="OrderNumber"
+                     placeholder=""
+                     className="!bg-white"
+                    //  required={true}
+                    />
+                  </div>
+                  <div className='col-span-4'>
+                    <Input 
+                     label="Dealer P.O. #"
+                     name="ContractID"
+                     placeholder=""
+                     className="!bg-white"
+                    //  required={true}
+                    />
+                  </div>
+                  <div className='col-span-4 self-end justify-end flex'>
+                    <Button >Search</Button>
                   </div>
                 </Grid>
-                <div className='border border-dashed w-full  relative py-2'>
-                <div className='self-center text-center'>
-                <FileDropdown
-                  className="!bg-transparent !border-0"
-                 
-                />
-                </div>
-                  </div>
-                  <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
-                  Please click on file option and make a copy. Upload the list
-                  of Product Name and Price using our provided Google Sheets
-                  template, by{" "}
-                  <span
-                    className="underline cursor-pointer"
-                    // onClick={downloadCSVTemplate}
-                  >
-                    Clicking here
-                  </span>
-                  The file must be saved with csv , xls and xlsx Format.
-                </p>
               </div>
-              <div className='col-span-6'>
-                  <div className="relative">
-                <label
-                  htmlFor="description"
-                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                >
-                  Diagonsis <span className="text-red-500">*</span>
-                </label>
-                  <textarea
-                  id="note"
-                  rows="11"
-                  name="Note"
-                  maxLength={150}
-                  className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
-                ></textarea>
+              <div className='col-span-12'>
+                <table className='w-full border text-center'>
+                  <thead className='bg-[#F9F9F9] '>
+                    <tr className='py-2'>
+                      <th>Contract ID</th>
+                      <th className='!py-2'>Customer Name</th>
+                      <th>Serial Number</th>
+                      <th>Order #</th>
+                      <th>Dealer P.O. #</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {Array.from({ length: 1 }).map((_, index) => (
+                    <tr>
+                      <td className='py-1'>Contract ID</td>
+                      <td>Customer Name</td>
+                      <td>Serial Number</td>
+                      <td>Order #</td>
+                      <td>Dealer P.O. #</td>
+                      <td>
+                        <div className="relative">
+                            <div onClick={() => handleToggleDropdown(index)}>
+                                <img src={ActiveIcon} className="cursor-pointer w-[35px] mx-auto" alt="Active Icon" />
+                            </div>
+                            {selectedActions[index] && (
+                                <div  className="absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
+                                    <div className="text-center pb-1 border-b text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer" onClick={nextStep}>
+                                        <p>Select</p>
+                                    </div>
+                                    <div className="text-center pt-1 text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer" onClick={() => openModal()}>
+                                        <p>View</p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  </tbody>
+                </table>
+              </div>
+            </Grid>
+          </div>
+      );
+    };
+  
+    const renderStep2 = () => {
+      // Step 2 content
+      return (
+        <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
+        <p className='text-2xl font-bold mb-4'>Enter Required Info</p>
+        <Grid>
+          <div className='col-span-12'>
+            <Grid>
+              <div className='col-span-3'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Dealer Name</p>
+                  <p className='font-semibold'>Dealer Name</p>
+                </div>
+              </div>
+              <div className='col-span-3'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Reseller Name</p>
+                  <p className='font-semibold'>Reseller Name</p>
+                </div>
+              </div>
+              <div className='col-span-3'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Customer Name</p>
+                  <p className='font-semibold'>Customer Name</p>
+                </div>
+              </div>
+              <div className='col-span-3'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Manufacturer</p>
+                  <p className='font-semibold'>Manufacturer</p>
+                </div>
+              </div>
+              </Grid>
+              <Grid className='!grid-cols-5 mt-3'>
+              <div className='col-span-1'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Model</p>
+                  <p className='font-semibold'>Model</p>
+                </div>
+              </div>
+              <div className='col-span-1'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Serial</p>
+                  <p className='font-semibold'>Serial</p>
+                </div>
+              </div>
+              <div className='col-span-1'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Order ID</p>
+                  <p className='font-semibold'>Order ID</p>
+                </div>
+              </div>
+              <div className='col-span-1'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Retail Price ($)</p>
+                  <p className='font-semibold'>Retail Price ($)</p>
+                </div>
+              </div>
+              <div className='col-span-1'>
+                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                  <p className='text-sm m-0 p-0'>Condition</p>
+                  <p className='font-semibold'>Condition</p>
+                </div>
+              </div>   
+              
+            </Grid>
+          </div>
+        </Grid>
+
+        <div className='my-4'>
+        <p className='text-2xl font-bold mb-4'> Upload Receipt or Image </p>
+              <Grid>
+                <div className='col-span-6'>
+                  <Grid className='my-3'>
+                    <div className='col-span-6'>
+                  <SelectBoxWIthSerach options={options}  label="Servicer Name"
+                    name="servicerName" className="!bg-[#fff]" onChange={handleSelect} />
+                
+                    </div>
+                    <div className='col-span-6'>
+                      <DateInput
+                        label="Loss Date"
+                        name="lossDate"
+                        required 
+                        item={item}
+                        setItem={setItem}
+                        className="!bg-[#fff]" />
+                    </div>
+                  </Grid>
+                  <div className='border border-dashed w-full  relative py-2'>
+                  <div className='self-center text-center'>
+                  <FileDropdown
+                    className="!bg-transparent !border-0"
+                   
+                  />
                   </div>
-                  </div>
-                  <div className="col-span-6">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                  Do you want to send notifications?
-                    <RadioButton
-                      id="yes-create-account"
-                      label="Yes"
-                      value="yes"
-                      // checked={createAccountOption === "yes"}
-                      // onChange={handleRadioChange}
-                    />
-                    <RadioButton
-                      id="no-create-account"
-                      label="No"
-                      value="no"
-                      // checked={createAccountOption === "no"}
-                      // onChange={handleRadioChange}
-                    />
+                    </div>
+                    <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                    Please click on file option and make a copy. Upload the list
+                    of Product Name and Price using our provided Google Sheets
+                    template, by{" "}
+                    <span
+                      className="underline cursor-pointer"
+                      // onClick={downloadCSVTemplate}
+                    >
+                      Clicking here
+                    </span>
+                    The file must be saved with csv , xls and xlsx Format.
                   </p>
                 </div>
-            </Grid>
-          <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
-          <Button>Submit</Button>
+                <div className='col-span-6'>
+                    <div className="relative">
+                  <label
+                    htmlFor="description"
+                    className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  >
+                    Diagonsis <span className="text-red-500">*</span>
+                  </label>
+                    <textarea
+                    id="note"
+                    rows="11"
+                    name="Note"
+                    maxLength={150}
+                    className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
+                  ></textarea>
+                    </div>
+                    </div>
+                    <div className="col-span-6">
+                    <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                    Do you want to send notifications?
+                      <RadioButton
+                        id="yes-create-account"
+                        label="Yes"
+                        value="yes"
+                        // checked={createAccountOption === "yes"}
+                        // onChange={handleRadioChange}
+                      />
+                      <RadioButton
+                        id="no-create-account"
+                        label="No"
+                        value="no"
+                        // checked={createAccountOption === "no"}
+                        // onChange={handleRadioChange}
+                      />
+                    </p>
+                  </div>
+              </Grid>
+            <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
+            <Button>Submit</Button>
+        </div>
       </div>
-    </div>
-    );
-  };
+      );
+    };
 
   
    
@@ -332,6 +393,119 @@ function DealerAddClaim() {
 
           {renderStep()}
 
+          <Modal isOpen={isModalOpen} onClose={closeModal} className="w-[1100px]">
+            <div className="text-center">
+              <p className="text-3xl font-semibold mb-4">Contract Details</p>
+              <div>
+            <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
+              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
+                <p className='text-white py-2 font-Regular'>Contract ID :  <b> 861910 </b></p>
+              </div>
+              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
+                <p className='text-white py-2 font-Regular'>Order ID : <b> 315174  </b></p>
+              </div>
+              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
+                <p className='text-white py-2 font-Regular'>Dealer P.O. No. : <b> MC-10554 </b></p>
+              </div>
+              <div className='col-span-2 '>
+              </div>
+              <div className='col-span-1 self-center justify-end'>
+                <Button className='!bg-[white] !text-black !p-2 !text-sm' onClick={nextStep}>Select</Button>
+              </div>
+            </Grid>
+
+            <Grid className='!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5'>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Manufacturer</p>
+                  <p className='text-[#333333] text-base font-semibold'>Apple iPad</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Model</p>
+                  <p className='text-[#333333] text-base font-semibold'>Apple iPad 5th Gen, 30GB</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Serial</p>
+                  <p className='text-[#333333] text-base font-semibold'>GG7W212JHLF12</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Retail Price</p>
+                  <p className='text-[#333333] text-base font-semibold'>$182</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Condition</p>
+                  <p className='text-[#333333] text-base font-semibold'>Used</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Dealer Name</p>
+                  <p className='text-[#333333] text-base font-semibold'>Edward Wilson</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Reseller Name</p>
+                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
+                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
+                </div>
+              </div>
+              <div className='col-span-2 border border-[#D1D1D1]'>
+                
+                 <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
+                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
+                </div>
+              </div>
+             
+              <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Coverage Start Date</p>
+                  <p className='text-[#333333] text-base font-semibold'>11/09/2026</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Coverage End Date</p>
+                  <p className='text-[#333333] text-base font-semibold'>09/11/2030</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Claim Amount</p>
+                  <p className='text-[#333333] text-base font-semibold'>$0.00</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Status</p>
+                  <p className='text-[#333333] text-base font-semibold'>Waiting</p>
+                </div>
+              </div>
+              <div className='col-span-1 border border-[#D1D1D1] rounded-ee-xl'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Eligibility</p>
+                  <p className='text-[#333333] text-base font-semibold'>Not Eligible</p>
+                </div>
+              </div>
+            </Grid>
+          </div>
+            </div>
+          </Modal>
+          
       </div>
     )
   }

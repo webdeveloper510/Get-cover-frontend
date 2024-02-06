@@ -252,7 +252,7 @@ function DealerOrderList() {
 
         <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
           {" "}
-          <Link to={"/addOrder"} className="flex">
+          <Link to={"/dealer/addOrder"} className="flex">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
             <span className="text-black ml-3 text-[14px] font-Regular">
@@ -444,15 +444,7 @@ function DealerOrderList() {
                 placeholder=""
               />
             </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Dealer Name"
-                className="!bg-[#fff]"
-                label="Dealer Name"
-                placeholder=""
-              />
-            </div>
+            
             <div className="col-span-6">
               <Input
                 type="text"
@@ -486,6 +478,15 @@ function DealerOrderList() {
               <Select
                 name="Status"
                 label="Status"
+                options={status}
+                className="!bg-[#fff]"
+                placeholder=""
+              />
+            </div>
+            <div className="col-span-6">
+              <Select
+                name="Status"
+                label="Claim Status"
                 options={status}
                 className="!bg-[#fff]"
                 placeholder=""
