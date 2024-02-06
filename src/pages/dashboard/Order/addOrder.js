@@ -202,6 +202,20 @@ function AddOrder() {
       resellerId: result?.result?.resellerId,
     });
     result?.result?.productsArray?.forEach((product, index) => {
+      if (product.orderFile.name != "") {
+        setFileValues((prevFileValues) => {
+          const newArray = [...prevFileValues];
+          newArray[index] = product.orderFile;
+          return newArray;
+        });
+      } else {
+        setFileValues((prevFileValues) => {
+          const newArray = [...prevFileValues];
+          newArray[index] = null;
+          return newArray;
+        });
+      }
+
       setNumberOfOrders((prevFileValues) => {
         const newArray = [...prevFileValues];
         newArray[index] = product.noOfProducts;
@@ -239,6 +253,7 @@ function AddOrder() {
         rangeEnd: product.rangeEnd || "",
         checkNumberProducts: product.checkNumberProducts || "",
         orderFile: product.orderFile || "",
+        fileValue: "",
       })),
     });
     formik.setFieldValue("dealerId", result?.result?.dealerId);
@@ -254,6 +269,9 @@ function AddOrder() {
       result?.result?.serviceCoverageType
     );
     formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
+    formik4.setFieldValue("paymentStatus", result?.result?.paymentStatus);
+    formik4.setFieldValue("paidAmount", result?.result?.paymentStatus);
+    formik4.setFieldValue("pendingAmount", result?.result?.pendingAmount);
   };
   useEffect(() => {
     console.log(location);
@@ -379,6 +397,7 @@ function AddOrder() {
           rangeEnd: "",
           checkNumberProducts: "",
           orderFile: {},
+          fileValue: "",
         },
       ],
     },
@@ -453,9 +472,13 @@ function AddOrder() {
     // setLoading(true);
     const formData = new FormData();
     const arr = [];
-    let arrayOfObjects = data.productsArray.map((res, index) => {
+    data.productsArray.map((res, index) => {
+      console.log(res?.file?.name != "");
+      res.fileValue = res?.file?.name != "";
       arr.push(res.file);
     });
+    console.log(data);
+
     data.productsArray.map((res, index) => {
       let sumOfValues = 0;
       if (res.priceType == "Quantity Pricing") {
@@ -575,8 +598,8 @@ function AddOrder() {
     } else {
       if (type == "Edit") {
         formikStep3.setFieldValue(
-          `productsArray[${index}].orderFile['fileName']`,
-          fileValue.fileName
+          `productsArray[${index}].orderFile`,
+          fileValue.orderFile
         );
       }
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
@@ -750,6 +773,7 @@ function AddOrder() {
       rangeEnd: "",
       checkNumberProducts: "",
       orderFile: {},
+      fileValue: "",
     };
     getCategoryList(
       formik.values.dealerId,
@@ -2144,7 +2168,7 @@ function AddOrder() {
                             <img src={csvFile} className="mr-2" alt="Dropbox" />
                             <div className="flex justify-between w-full">
                               <p className="self-center">
-                                {data?.file === ""
+                                {data?.file.name == ""
                                   ? "No File Selected"
                                   : data?.file?.name}
                               </p>

@@ -14,8 +14,6 @@ const SelectBoxWithSearch = ({
   const [isFilled, setIsFilled] = useState(!!value);
   const [localDefaultValue, setLocalDefaultValue] = useState(value);
 
-
-
   const handleFocus = () => {
     setIsFocused(true);
   };
@@ -26,11 +24,9 @@ const SelectBoxWithSearch = ({
   };
 
   useEffect(() => {
-    console.log(value, "value")
-    setLocalDefaultValue(value?value:'');
+    setLocalDefaultValue(value ? value : "");
   }, [value, localDefaultValue]);
 
-  console.log(localDefaultValue, "localDefaultValue")
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
@@ -59,10 +55,17 @@ const SelectBoxWithSearch = ({
     <div className="relative w-full">
       <Select
         options={options}
-        onChange={(selectedOption) => onChange(name, selectedOption?.value || null)}
+        onChange={(selectedOption) =>
+          onChange(name, selectedOption?.value || null)
+        }
         styles={customStyles}
         isSearchable
-        value={options.find((option) => option?.value === value) || { value, label: value }}
+        value={
+          options.find((option) => option?.value === value) || {
+            value,
+            label: value,
+          }
+        }
         onFocus={handleFocus}
         onBlur={handleBlur}
         isClearable={true}
