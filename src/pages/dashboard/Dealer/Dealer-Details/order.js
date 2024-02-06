@@ -112,8 +112,7 @@ function OrderList() {
               <div className={`absolute z-[2] w-[70px] drop-shadow-5xl px-3 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}>
-                  <div className='text-center pt-3 pb-1 cursor-pointer border-b-[1px]'>Edit</div>
-                  <div className='text-center pb-3 pt-2 border-t cursor-pointer'>View</div>
+                  <div className='text-center py-3 cursor-pointer '>Edit</div>
               </div>
             )}
           </div>
