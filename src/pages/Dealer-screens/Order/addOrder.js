@@ -331,7 +331,6 @@ function DealerAddOrder() {
           rangeStart: "",
           rangeEnd: "",
           checkNumberProducts: "",
-          anil: 100,
         },
       ],
     },
@@ -689,7 +688,6 @@ function DealerAddOrder() {
       rangeStart: "",
       rangeEnd: "",
       checkNumberProducts: "",
-      anil: 100,
     };
     getCategoryList(
       formik.values.dealerId,

@@ -529,7 +529,12 @@ function AddOrder() {
 
   const handleFileSelect = (event, index) => {
     const file = event.target.files[0];
-
+    setFileValues((prevFileValues) => {
+      const newArray = [...prevFileValues];
+      newArray[index] = null;
+      console.log(newArray);
+      return newArray;
+    });
     if (file) {
       setFileValues((prevFileValues) => {
         const newArray = [...prevFileValues];
