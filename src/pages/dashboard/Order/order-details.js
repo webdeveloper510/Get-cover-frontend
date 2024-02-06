@@ -14,15 +14,18 @@ import Coverage from "../../../assets/images/order/Coverage.svg";
 import CoverageType from "../../../assets/images/order/CoverageType.svg";
 import Purchase from "../../../assets/images/order/Purchase.svg";
 import DealerList from "../../../assets/images/icons/dealerList.svg";
-import Name from "../../../assets/images/order/Name.svg"
+import Name from "../../../assets/images/order/Name.svg";
 import { cityData } from "../../../stateCityJson";
 import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
-
+import { orderDetailsById } from "../../../services/orderServices";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
+  const [orderDetails, setOrderDetails] = useState({});
+  const [userDetails, setUserDetails] = useState({});
+  const { orderId } = useParams();
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("orderMenu");
     return storedTab ? storedTab : "Order Summary";
@@ -32,20 +35,29 @@ function OrderDetails() {
   const state = cityData;
 
   useEffect(() => {
+    getOrderDetails();
+  }, [orderId]);
+  useEffect(() => {
     setLoading(true);
     localStorage.setItem("orderMenu", activeTab);
     setLoading(false);
   }, [activeTab]);
 
-
-
+  const getOrderDetails = async () => {
+    setLoading(true);
+    const result = await orderDetailsById(orderId);
+    setUserDetails(result.orderUserData);
+    setOrderDetails(result.result);
+    console.log(result);
+    setLoading(false);
+  };
   const tabs = [
     {
       id: "Order Summary",
       label: "Order Summary",
       icons: orderSummary,
       Activeicons: orderActive,
-      content: <OrderSummary />,
+      content: <OrderSummary data={orderDetails.productsArray} />,
     },
     {
       id: "Contracts",
@@ -53,7 +65,7 @@ function OrderDetails() {
       icons: contract,
       Activeicons: contractActive,
       content: <Contracts />,
-    }
+    },
   ];
 
   const handleTabClick = (tabId) => {
@@ -71,16 +83,16 @@ function OrderDetails() {
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
         <div className="flex">
-        <Link
-        to={'/orderList'}
-          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
-        >
-          <img
-            src={BackImage}
-            className="m-auto my-auto self-center bg-white"
-            alt="BackImage"
-          />
-        </Link>
+          <Link
+            to={"/orderList"}
+            className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+          >
+            <img
+              src={BackImage}
+              className="m-auto my-auto self-center bg-white"
+              alt="BackImage"
+            />
+          </Link>
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
               Order Details
@@ -93,14 +105,14 @@ function OrderDetails() {
                 <Link to={"/"}>Order Details / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-                 {activeTab}
+                {activeTab}
               </li>
             </ul>
           </div>
         </div>
 
         <Grid className="!grid-cols-4">
-        <div className="col-span-1">
+          <div className="col-span-1">
             <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
@@ -108,7 +120,8 @@ function OrderDetails() {
                     Order ID
                   </p>
                   <p className="text-xl text-white font-semibold">
-                    315174
+                    {" "}
+                    {orderDetails.unique_key}{" "}
                   </p>
                 </div>
                 <div className="col-span-3 text-end">
@@ -130,7 +143,7 @@ function OrderDetails() {
                     Dealer Purchase Order
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                    12345678900987
+                    {orderDetails.venderOrder}
                   </p>
                 </div>
               </div>
@@ -145,7 +158,7 @@ function OrderDetails() {
                     Service Coverage
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                    Parts
+                    {orderDetails.serviceCoverageType}
                   </p>
                 </div>
               </div>
@@ -157,16 +170,16 @@ function OrderDetails() {
                 />
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular mt-2">
-                  Coverage Type
+                    Coverage Type
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                  Breakdown (BD)
+                    {orderDetails.coverageType}
                   </p>
                 </div>
               </div>
               <div className="flex w-full my-4">
                 <p className="text-[10px] mr-3 text-[#999999] font-Regular">
-                Other Details
+                  Other Details
                 </p>
                 <hr className="self-center border-[#999999] w-[70%]" />
               </div>
@@ -177,7 +190,7 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
-                  <Link to={`/dealerDetails/vscjhc`}>
+                  <Link to={`/dealerDetails/${orderDetails.dealerId}`}>
                     {" "}
                     <img
                       src={DealerList}
@@ -191,7 +204,7 @@ function OrderDetails() {
                     Dealer Name
                   </p>
                   <p className="text-base text-white font-semibold ">
-                  Edward Wilson
+                    {userDetails?.dealerData?.name}
                   </p>
                 </div>
               </div>
@@ -202,7 +215,7 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
-                  <Link to={`/resellerDetails/65ba33dc5c701216d9b76220`}>
+                  <Link to={`/resellerDetails/${orderDetails.resellerId}`}>
                     {" "}
                     <img
                       src={DealerList}
@@ -216,7 +229,7 @@ function OrderDetails() {
                     Reseller Name
                   </p>
                   <p className="text-base text-white font-semibold ">
-                  Edward Wilson
+                    {userDetails?.resellerData?.name}
                   </p>
                 </div>
               </div>
@@ -227,7 +240,7 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
-                  <Link to={`/customerDetails/fgfgh`}>
+                  <Link to={`/customerDetails/${orderDetails.customerId}`}>
                     {" "}
                     <img
                       src={DealerList}
@@ -238,10 +251,10 @@ function OrderDetails() {
                 </div>
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular">
-                  Customer Name
+                    Customer Name
                   </p>
                   <p className="text-base text-white font-semibold ">
-                  Ankush Grover
+                    {userDetails?.customerData?.username}
                   </p>
                 </div>
               </div>
@@ -252,7 +265,7 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
-                  <Link to={`/servicerDetails/sgdfg`}>
+                  <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
                     {" "}
                     <img
                       src={DealerList}
@@ -263,14 +276,13 @@ function OrderDetails() {
                 </div>
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular">
-                  Servicer Name
+                    Servicer Name
                   </p>
                   <p className="text-base text-white font-semibold ">
-                  Jameson Wills
+                    {userDetails?.servicerData?.name}
                   </p>
                 </div>
               </div>
-              
             </div>
           </div>
           <div className="col-span-3">
@@ -325,4 +337,4 @@ function OrderDetails() {
   );
 }
 
-export default OrderDetails
+export default OrderDetails;

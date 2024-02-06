@@ -160,15 +160,20 @@ function DealerList() {
     },
     {
       name: "# of Orders",
-      selector: (row) => 0,
+      selector: (row) => row?.ordersData?.checkNumberProducts,
       sortable: true,
     },
     {
       name: "Order Values",
-      selector: (row) => "$0.00",
+      selector: (row) =>
+        `$ ${
+          row?.ordersData?.count === undefined
+            ? parseInt(0).toFixed(2)
+            : row?.ordersData?.count?.toFixed(2)
+        }`,
       sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "170px", // Set a custom maximum width
+      minWidth: "auto", 
+      maxWidth: "170px",
     },
     {
       name: "Status",

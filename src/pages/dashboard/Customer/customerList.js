@@ -123,12 +123,17 @@ function CustomerList() {
     },
     {
       name: "Orders",
-      selector: (row) => 0,
+      selector: (row) => row?.order?.noOfProducts,
       sortable: true,
     },
     {
       name: "Order Value",
-      selector: (row) => "$ 0.00",
+      selector: (row) =>
+        `$ ${
+          row?.order?.orderAmount === undefined
+            ? parseInt(0).toFixed(2)
+            : row?.order?.orderAmount?.toFixed(2)
+        }`,
       sortable: true,
     },
     {

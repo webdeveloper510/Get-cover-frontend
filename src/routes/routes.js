@@ -193,7 +193,14 @@ const routes = [
         path: "/addDealerBook/:dealerIdValue?",
         element: <PrivateRoute element={<AddDealerBook />} />,
       },
-
+      {
+        path: "/addOrderforReseller/:resellerId?/:dealerValue?",
+        element: <PrivateRoute element={<AddOrder />} />,
+      },
+      {
+        path: "/addOrderforCustomer/:customerId?/:dealerValue?/:resellerId?",
+        element: <PrivateRoute element={<AddOrder />} />,
+      },
       {
         path: "/editDealerBook/:id/:dealerIdValue?",
         element: <PrivateRoute element={<AddDealerBook />} />,
@@ -286,8 +293,8 @@ const routes = [
         ),
       },
       {
-        path: "/addOrder",
-        element: <PrivateRoute element={<AddOrder />} path="/addOrder" />,
+        path: "/addOrder/:dealerId?",
+        element: <PrivateRoute element={<AddOrder />} />,
       },
       {
         path: "/editOrder/:orderId?",

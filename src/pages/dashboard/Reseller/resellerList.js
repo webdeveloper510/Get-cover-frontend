@@ -120,12 +120,17 @@ function ResellerList() {
     },
     {
       name: "Orders",
-      selector: (row) => 0,
+      selector: (row) => row?.orders?.noOfProducts,
       sortable: true,
     },
     {
       name: "Order Value",
-      selector: (row) => "$ 0.00",
+      selector: (row) =>
+        `$ ${
+          row?.orders?.orderAmount === undefined
+            ? parseInt(0).toFixed(2)
+            : row?.orders?.orderAmount?.toFixed(2)
+        }`,
       sortable: true,
     },
     {

@@ -150,3 +150,19 @@ export const getCustomerUsersById = async (id, data) => {
     throw error;
   }
 };
+export const getOrderListByCustomerId = async (id, data = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/customer/customerOrders/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

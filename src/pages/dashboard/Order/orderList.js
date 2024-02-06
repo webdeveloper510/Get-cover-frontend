@@ -34,6 +34,7 @@ function OrderList() {
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [processOrderErrors, setProcessOrderErrors] = useState([]);
+  const [errorList, SetErrorList] = useState([]);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -88,11 +89,12 @@ function OrderList() {
   const openModal = (id) => {
     processOrders(id).then((res) => {
       setProcessOrderErrors(res.result);
-      console.log(res);
+      SetErrorList(res.result);
+      console.log(res.result);
     });
     setIsModalOpen(true);
   };
-
+ 
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -404,11 +406,16 @@ function OrderList() {
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-            {processOrderErrors && processOrderErrors.map((res) => {})}
+            {errorList &&
+              errorList.map((res) => {
+                console.log(res);
+                return (
+                  <p className="text-neutral-grey text-base font-medium mt-2">
+                    {res}
+                  </p>
+                );
+              })}
           </p>
-          {/* <p className="text-neutral-grey text-base font-medium mt-2">
-            Redirecting you on Order List Page {timer} seconds.
-          </p> */}
         </div>
       </Modal>
 

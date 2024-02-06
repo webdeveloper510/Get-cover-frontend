@@ -250,6 +250,15 @@ function CustomerDetails() {
   const routeToPage = (data) => {
     // console.log(data, id.id);
     switch (data) {
+      case "Order":
+        const resellerIdParam = customerDetail?.meta?.resellerId
+          ? `/${customerDetail?.meta?.resellerId}`
+          : "";
+
+        navigate(
+          `/addOrderforCustomer/${customerId}/${customerDetail?.meta?.dealerId}${resellerIdParam}`
+        );
+        break;
       case "Users":
         localStorage.getItem("Users");
         openUserModal();
@@ -286,7 +295,9 @@ function CustomerDetails() {
       label: "Order",
       icons: Order,
       Activeicons: OrderActive,
-      content: <OrderList />,
+      content: (
+        <OrderList flag={"customer"} id={customerId} activeTab={activeTab} />
+      ),
     },
     {
       id: "Contracts",
@@ -308,7 +319,12 @@ function CustomerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList flag={"customer"} id={customerId} data={refreshList} activeTab={activeTab} />
+        <UserList
+          flag={"customer"}
+          id={customerId}
+          data={refreshList}
+          activeTab={activeTab}
+        />
       ),
     },
   ];
@@ -432,38 +448,36 @@ function CustomerDetails() {
                     {customerDetail?.meta?.dealerName}
                   </p>
                 </div>
-                
               </div>
-              {
-                customerDetail?.meta?.resellerId && (
-                  <div className="flex mb-4">
-                <div className="relative">
-                  <img
-                    src={DealerIcons}
-                    className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="DealerIcons"
-                  />
-                  <Link to={`/resellerDetails/${customerDetail?.meta?.resellerId}`}>
-                    {" "}
+              {customerDetail?.meta?.resellerId && (
+                <div className="flex mb-4">
+                  <div className="relative">
                     <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
+                      src={DealerIcons}
+                      className="mr-3 bg-[#383838] rounded-[14px]"
+                      alt="DealerIcons"
+                    />
+                    <Link
+                      to={`/resellerDetails/${customerDetail?.meta?.resellerId}`}
+                    >
+                      {" "}
+                      <img
+                        src={DealerList}
+                        className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                        alt="DealerList"
+                      />{" "}
+                    </Link>
+                  </div>
+                  <div>
+                    <p className="text-sm text-neutral-grey font-Regular">
+                      Reseller Name
+                    </p>
+                    <p className="text-base text-white font-semibold ">
+                      {customerDetail?.resellerName}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
-                    Reseller Name
-                  </p>
-                  <p className="text-base text-white font-semibold ">
-                    {customerDetail?.resellerName}
-                  </p>
-                </div>
-                
-              </div>
-                )
-              }
+              )}
               <div className="flex mb-4">
                 <img
                   src={name}
@@ -479,7 +493,7 @@ function CustomerDetails() {
                 </div>
               </div>
               <div className="flex mb-4">
-                <img 
+                <img
                   src={email}
                   className="mr-3 bg-[#383838] rounded-[14px]"
                   alt="email"
@@ -511,7 +525,10 @@ function CustomerDetails() {
               <Grid className="mt-5">
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">0</p>
+                    <p className="text-white text-lg !font-[600]">
+                      {" "}
+                      {customerDetail?.orderData?.[0]?.noOfOrders ?? 0}
+                    </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total number of Orders
                     </p>
@@ -519,7 +536,12 @@ function CustomerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-white text-lg  !font-[600]">
+                      ${" "}
+                      {customerDetail?.orderData?.[0]?.totalOrderAmount?.toFixed(
+                        2
+                      ) ?? 0}
+                    </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
                     </p>
