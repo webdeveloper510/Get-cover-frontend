@@ -67,7 +67,7 @@ function AddClaim() {
             <Grid>
               <div className='col-span-12'>
                 <Grid>
-                  <div className='col-span-5'>
+                  <div className='col-span-4'>
                     <Input 
                      label="Contract ID"
                      name="ContractID"
@@ -75,11 +75,11 @@ function AddClaim() {
                      className="!bg-white"
                     //  required={true}
                     />
+                    {/* <div className="ml-3 self-center">
+                    <Checkbox />
+                    </div> */}
                   </div>
-                  <div className='col-span-1 self-center'>
-                    <Checkbox/>
-                  </div>
-                  <div className='col-span-5'>
+                  <div className='col-span-4'>
                     <Input 
                      label="Customer Name"
                      name="CustomerName"
@@ -88,10 +88,7 @@ function AddClaim() {
                     //  required={true}
                     />
                   </div>
-                  <div className='col-span-1 self-center'>
-                    <Checkbox/>
-                  </div>
-                  <div className='col-span-5'>
+                  <div className='col-span-4'>
                     <Input 
                      label="Serial Number"
                      name="Serial"
@@ -100,10 +97,7 @@ function AddClaim() {
                     //  required={true}
                     />
                   </div>
-                  <div className='col-span-1 self-center'>
-                    <Checkbox/>
-                  </div>
-                  <div className='col-span-5'>
+                  <div className='col-span-4'>
                     <Input 
                      label="Order #"
                      name="OrderNumber"
@@ -112,10 +106,7 @@ function AddClaim() {
                     //  required={true}
                     />
                   </div>
-                  <div className='col-span-1 self-center'>
-                    <Checkbox/>
-                  </div>
-                  <div className='col-span-5'>
+                  <div className='col-span-4'>
                     <Input 
                      label="Dealer P.O. #"
                      name="ContractID"
@@ -124,20 +115,17 @@ function AddClaim() {
                     //  required={true}
                     />
                   </div>
-                  <div className='col-span-1 self-center'>
-                    <Checkbox/>
-                  </div>
-                  <div className='col-span-6 self-end justify-end flex'>
+                  <div className='col-span-12 self-end justify-end flex'>
                     <Button onClick={nextStep}>Next</Button>
                   </div>
                 </Grid>
               </div>
               <div className='col-span-12'>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Customer Name</th>
+                <table className='w-full border text-center'>
+                  <thead className='bg-[#F9F9F9] '>
+                    <tr className='py-2'>
                       <th>Contract ID</th>
+                      <th className='!py-2'>Customer Name</th>
                       <th>Serial Number</th>
                       <th>Order #</th>
                       <th>Dealer P.O. #</th>
@@ -145,11 +133,11 @@ function AddClaim() {
                   </thead>
                   <tbody>
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td className='py-1'>Contract ID</td>
+                      <td>Customer Name</td>
+                      <td>Serial Number</td>
+                      <td>Order #</td>
+                      <td>Dealer P.O. #</td>
                     </tr>
                   </tbody>
                 </table>

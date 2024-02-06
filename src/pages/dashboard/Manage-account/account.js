@@ -160,9 +160,6 @@ function Account() {
         { id: 1, label: 'Edit Account', content: (
           <>
           <Grid >
-          <div className='col-span-12'>
-             <p className='text-xl font-semibold mb-5'>Edit Account</p>
-             </div>
           <div className='col-span-4'>
                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
                  <p className='text-sm m-0 p-0'>Email</p>
@@ -211,9 +208,6 @@ function Account() {
         { id: 2, label: 'Change Password', content: (
           <>
           <Grid>
-          <div className='col-span-12'>
-             <p className='text-xl font-semibold mb-5'>Change Password</p>
-             </div>
              <div className='col-span-4'>
                  <Input 
                      type='password'
