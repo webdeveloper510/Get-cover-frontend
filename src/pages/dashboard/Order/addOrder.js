@@ -31,6 +31,7 @@ import RadioButton from "../../../common/radio";
 import {
   addOrder,
   checkMultipleFileValidation,
+  editOrder,
   fileValidation,
   getCategoryAndPriceBooks,
   getServicerListInOrders,
@@ -66,6 +67,7 @@ function AddOrder() {
   const [sendNotification, setSendNotification] = useState(true);
   const [numberOfOrders, setNumberOfOrders] = useState([]);
   const [error, setError] = useState("");
+  const [type, setType] = useState("Add");
   const [order, orderDetail] = useState({});
   const navigate = useNavigate();
   const { orderId } = useParams();
@@ -82,6 +84,7 @@ function AddOrder() {
   };
 
   const prevStep = () => {
+    setError("");
     setCurrentStep(currentStep - 1);
   };
 
@@ -119,7 +122,6 @@ function AddOrder() {
     let arr = [];
 
     const result = await getServicerListInOrders(data);
-    console.log(result);
 
     const filteredServicers = result.result;
     filteredServicers?.map((res) => {
@@ -153,9 +155,8 @@ function AddOrder() {
       ...data,
       resellerId: resellerId,
     });
-    console.log(result);
+
     result?.result?.map((res) => {
-      console.log(res);
       arr.push({
         label: res?.username,
         value: res?._id,
@@ -166,12 +167,9 @@ function AddOrder() {
   };
 
   const getResellerList = async (id) => {
-    console.log(id);
-
     let arr = [];
     const result = await getResellerListByDealerId({}, id);
     result?.result?.map((res) => {
-      console.log(res);
       arr.push({
         label: res.resellerData.name,
         value: res.resellerData._id,
@@ -181,17 +179,18 @@ function AddOrder() {
   };
 
   useEffect(() => {
-    console.log(orderId);
     if (orderId != undefined) {
       orderDetails();
+      setType("Edit");
+    } else {
+      setType("Type");
     }
     getDealerListData();
-    // getProductList()
     getTermListData();
   }, []);
   const orderDetails = async () => {
     const result = await orderDetailsById(orderId);
-    console.log(result.result);
+    console.log(result.result.productsArray);
     getResellerList(result?.result?.dealerId);
     getCustomerList({
       dealerId: result?.result?.dealerId,
@@ -201,7 +200,46 @@ function AddOrder() {
       dealerId: result?.result?.dealerId,
       resellerId: result?.result?.resellerId,
     });
+    result?.result?.productsArray?.forEach((product, index) => {
+      setNumberOfOrders((prevFileValues) => {
+        const newArray = [...prevFileValues];
+        newArray[index] = product.noOfProducts;
+
+        return newArray;
+      });
+      getCategoryList(
+        result.result.dealerId,
+        {
+          priceBookId: product.priceBookId,
+          priceCatId: product.categoryId,
+        },
+        index
+      );
+    });
+
     orderDetail(result.result);
+    formikStep3.setValues({
+      ...formikStep3.values,
+      productsArray: result?.result?.productsArray?.map((product, index) => ({
+        categoryId: product.categoryId || "",
+        priceBookId: product.priceBookId || "",
+        unitPrice: product.unitPrice || null,
+        noOfProducts: product.noOfProducts || "",
+        price: product.price || null,
+        file: product.orderFile || "",
+        coverageStartDate: product.coverageStartDate || "",
+        coverageEndDate: product.coverageEndDate || "",
+        description: product.description || "",
+        term: product.term || "",
+        priceType: product.priceType || "",
+        additionalNotes: product.additionalNotes || "",
+        QuantityPricing: product.QuantityPricing || [],
+        rangeStart: product.rangeStart || "",
+        rangeEnd: product.rangeEnd || "",
+        checkNumberProducts: product.checkNumberProducts || "",
+        orderFile: product.orderFile || "",
+      })),
+    });
     formik.setFieldValue("dealerId", result?.result?.dealerId);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
     formik.setFieldValue("customerId", result?.result?.customerId);
@@ -246,7 +284,6 @@ function AddOrder() {
       dealerId: Yup.string().required("Dealer Name is required"),
     }),
     onSubmit: (values) => {
-      console.log(values.error);
       nextStep();
       const foundDealer = dealerList.find(
         (data) => data.value === values.dealerId
@@ -297,7 +334,6 @@ function AddOrder() {
       };
 
       const result = getStep2Validation(data).then((res) => {
-        console.log(res);
         if (res.code == 401) {
           formikStep2.setFieldError(
             "dealerPurchaseOrder",
@@ -331,7 +367,7 @@ function AddOrder() {
           rangeStart: "",
           rangeEnd: "",
           checkNumberProducts: "",
-          anil: 100,
+          orderFile: {},
         },
       ],
     },
@@ -381,7 +417,6 @@ function AddOrder() {
       ),
     }),
     onSubmit: (values) => {
-      console.log(values);
       checkMultipleEmailCheck(values);
 
       let arr = [];
@@ -408,7 +443,6 @@ function AddOrder() {
     const formData = new FormData();
     const arr = [];
     let arrayOfObjects = data.productsArray.map((res, index) => {
-      console.log(res);
       arr.push(res.file);
     });
     data.productsArray.map((res, index) => {
@@ -418,7 +452,6 @@ function AddOrder() {
           let value = parseInt(data.enterQuantity);
 
           sumOfValues += value;
-          console.log(parseInt(sumOfValues));
         });
 
         data.productsArray[index][`checkNumberProducts`] = sumOfValues;
@@ -465,31 +498,25 @@ function AddOrder() {
       }
     });
 
-    console.log("formData", formData);
     checkMultipleFileValidation(formData).then((res) => {
-      console.log(res);
-
       if (res.code == 200) {
         nextStep();
       } else {
         for (let key of res.message) {
-          console.log(key.key);
+          console.log("res", res.message);
           setIsErrorOpen(true);
-          // setLoading(false);
           formikStep3.setFieldError(
-            `productsArray[${key.key - 1}].file`,
+            `productsArray[${key.key}].file`,
             key.message
           );
         }
       }
     });
-    // console.log(data)
   };
 
   const fileInputRef = useRef([]);
 
   const handleFileSelect = (event, index) => {
-    console.log(index);
     const file = event.target.files[0];
 
     if (file) {
@@ -500,8 +527,6 @@ function AddOrder() {
         } else {
           newArray[index] = file;
         }
-
-        console.log(newArray);
         return newArray;
       });
 
@@ -513,8 +538,8 @@ function AddOrder() {
       formikStep3.setFieldValue(`productsArray[${index}].file`, "");
       setFileValues((prevFileValues) => {
         const newArray = [...prevFileValues];
-        newArray.splice(index, 1);
-        console.log(newArray);
+        newArray[index] = null;
+
         return newArray;
       });
     }
@@ -532,6 +557,12 @@ function AddOrder() {
         fileValue.message
       );
     } else {
+      if (type == "Edit") {
+        formikStep3.setFieldValue(
+          `productsArray[${index}].orderFile['fileName']`,
+          fileValue.fileName
+        );
+      }
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
     }
   };
@@ -564,7 +595,7 @@ function AddOrder() {
     }),
     onSubmit: (values) => {
       console.log(values);
-      setLoading(true);
+      // setLoading(true);
       const arr = [];
       formikStep3.values.productsArray.map((res, index) => {
         arr.push(res.file);
@@ -572,7 +603,7 @@ function AddOrder() {
       const totalAmount = calculateTotalAmount(
         formikStep3.values.productsArray
       );
-      console.log(totalAmount);
+
       const data = {
         ...formik.values,
         ...formikStep2.values,
@@ -585,7 +616,6 @@ function AddOrder() {
         orderAmount: parseFloat(totalAmount),
       };
       const formData = new FormData();
-      console.log("--------------data", data);
       Object.entries(data).forEach(([key, value]) => {
         if (key === "file") {
           if (value) {
@@ -598,58 +628,72 @@ function AddOrder() {
         } else if (key === "productsArray") {
           value.forEach((item, index) => {
             Object.entries(item).forEach(([key1, value1]) => {
-              // if (!Array.isArray(value1) ) {
-              if (key1 !== "file") {
+              console.log(key1);
+              if (key1 !== "file" && key1 !== "QuantityPricing") {
                 formData.append(`${key}[${index}][${key1}]`, value1);
-              } else {
+              }
+              if (
+                key1 == "QuantityPricing" &&
+                Array.isArray(item.QuantityPricing)
+              ) {
+                formData.append(
+                  `${key}[${index}][QuantityPricing]`,
+                  JSON.stringify(item.QuantityPricing)
+                );
               }
             });
-
-            if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
-              item.QuantityPricing.forEach((qpItem, qpIndex) => {
-                Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
-                  formData.append(
-                    `${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`,
-                    qpValue
-                  );
-                });
-              });
-            }
           });
         } else {
           formData.append(key, value);
         }
       });
-      console.log("here");
-      addOrder(formData).then((res) => {
-        if (res.code == 200) {
-          setLoading(false);
-          openModal();
+      if (orderId != undefined) {
+        editOrder(orderId, data).then((res) => {
+          if (res.code == 200) {
+            setLoading(false);
+            openModal();
 
-          //  navigate('/orderList')
-        } else {
-          setLoading(false);
-          setError(res.message);
-          console.log("here", res);
-        }
-      });
+            //  navigate('/orderList')
+          } else {
+            setLoading(false);
+            setError(res.message);
+          }
+        });
+      } else {
+        addOrder(formData).then((res) => {
+          if (res.code == 200) {
+            setLoading(false);
+            openModal();
+
+            //  navigate('/orderList')
+          } else {
+            setLoading(false);
+            setError(res.message);
+          }
+        });
+      }
       setLoading(false);
     },
   });
 
   const handlePaymentStatusChange = (e) => {
     const newPaymentStatus = e.target.value;
+    console.log("newPaymentStatus", newPaymentStatus);
     if (newPaymentStatus === "Unpaid") {
+      formik4.setFieldValue("paidAmount", 0.0);
+
+      formik4.setFieldValue(
+        "pendingAmount",
+        calculateTotalAmount(formikStep3.values.productsArray)
+      );
+    }
+    if (newPaymentStatus == "Paid") {
+      console.log(calculateTotalAmount(formikStep3.values.productsArray));
       formik4.setFieldValue(
         "paidAmount",
         calculateTotalAmount(formikStep3.values.productsArray)
       );
-      formik4.setFieldError("paidAmount", "");
-      formik4.setFieldValue(
-        "paidAmount",
-        calculateTotalAmount(formikStep3.values.productsArray)
-      );
-      formik4.setFieldValue("pendingAmount", "0.00");
+      formik4.setFieldValue("pendingAmount", 0.0);
     } else {
       formik4.setFieldError("paidAmount", "");
     }
@@ -689,7 +733,7 @@ function AddOrder() {
       rangeStart: "",
       rangeEnd: "",
       checkNumberProducts: "",
-      anil: 100,
+      orderFile: {},
     };
     getCategoryList(
       formik.values.dealerId,
@@ -709,6 +753,12 @@ function AddOrder() {
   const handleDeleteProduct = (index) => {
     const updatedProduct = [...formikStep3.values.productsArray];
     updatedProduct.splice(index, 1);
+    setFileValues((prevFileValues) => {
+      const newArray = [...prevFileValues];
+      newArray[index] = null;
+
+      return newArray;
+    });
     formikStep3.setFieldValue("productsArray", updatedProduct);
   };
 
@@ -748,7 +798,7 @@ function AddOrder() {
         setNumberOfOrders((prevFileValues) => {
           const newArray = [...prevFileValues];
           newArray.splice(match[1], 1);
-          console.log(newArray);
+
           return newArray;
         });
         getCategoryList(
@@ -774,7 +824,7 @@ function AddOrder() {
         },
         match[1]
       );
-      console.log(formikStep3.values.productsArray[match[1]].categoryId);
+
       // formikStep3.setFieldValue(
       //   `productsArray[${match[1]}].QuantityPricing`,
       //   data.quantityPriceDetail
@@ -785,7 +835,7 @@ function AddOrder() {
             ...item,
             enterQuantity: "",
           };
-          console.log(index);
+
           formikStep3.setFieldError(
             `productsArray[${match[1]}].QuantityPricing[${index}].enterQuantity`,
             ""
@@ -859,7 +909,7 @@ function AddOrder() {
         setNumberOfOrders((prevFileValues) => {
           const newArray = [...prevFileValues];
           newArray[i] = maxRoundedValue;
-          console.log(newArray);
+
           return newArray;
         });
         formikStep3.setFieldValue(
@@ -873,9 +923,10 @@ function AddOrder() {
       }
     }
     formik4.setFieldValue(
-      "paidAmount",
+      "pendingAmount",
       calculateTotalAmount(formikStep3.values.productsArray)
     );
+    formik4.setFieldValue("paidAmount", 0.0);
   }, [formikStep3.values.productsArray]);
 
   const handleSelectChange1 = (name, value) => {
@@ -930,7 +981,6 @@ function AddOrder() {
       customerList.length &&
         customerList.find((res) => {
           if (res.value == value) {
-            console.log("----", res.customerData.resellerId);
             if (res.customerData.resellerId != null);
             formik.setFieldValue("resellerId", res.customerData.resellerId);
             let data = {
@@ -957,7 +1007,6 @@ function AddOrder() {
   ];
 
   const getCategoryList = async (value, data, index) => {
-    console.log("here", data.priceBookId !== "", data.priceCatId === "");
     const result = await getCategoryAndPriceBooks(value, data);
     if (data.priceBookId !== "" && data.priceCatId === "") {
       formikStep3.setFieldValue(
@@ -973,7 +1022,7 @@ function AddOrder() {
         index
       );
     }
-    console.log(result.result);
+
     setCategoryList(
       result.result?.priceCategories.map((item) => ({
         label: item.name,
@@ -981,15 +1030,9 @@ function AddOrder() {
       }))
     );
     if (formikStep3.values.productsArray.length !== 0) {
-      console.log(
-        "formikStep3.values.productsArray.length",
-        formikStep3.values.productsArray.length
-      );
       for (let i = 0; i < index + 1; i++) {
-        console.log(i, index);
         setProductNameOptions((prevOptions) => {
           const newOptions = [...prevOptions];
-          console.log(newOptions);
 
           newOptions[index] = {
             data: result.result?.priceBooks.map((item) => ({
@@ -1078,7 +1121,7 @@ function AddOrder() {
                 </div>
                 <div className="col-span-6">
                   {/* <Select */}
-                  {console.log(servicerData.length, "length ", servicerData)}
+
                   <SelectBoxWIthSerach
                     label="Servicer Name"
                     name="servicerId"
@@ -1465,7 +1508,7 @@ function AddOrder() {
                           setNumberOfOrders((prevFileValues) => {
                             const newArray = [...prevFileValues];
                             newArray[index] = enteredValue;
-                            console.log(newArray);
+
                             return newArray;
                           });
                           formikStep3.setFieldValue(
@@ -2224,6 +2267,7 @@ function AddOrder() {
                   </p>
                 </div>
               </Grid>
+              {error && <p className="text-red-500">{error}</p>}
             </div>
 
             <Button
@@ -2255,14 +2299,16 @@ function AddOrder() {
           />
         </Link>
         <div className="pl-3">
-          <p className="font-bold text-[36px] leading-9 mb-[3px]">Add Order</p>
+          <p className="font-bold text-[36px] leading-9 mb-[3px]">
+            {type} Order
+          </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
               <Link to={"/"}>Order </Link> /{" "}
             </li>
             <li className="text-sm text-neutral-grey font-Regular">
               {" "}
-              Add Order /{" "}
+              {type} Order /{" "}
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
@@ -2372,12 +2418,13 @@ function AddOrder() {
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            Added
+            {type == "Edit" ? "Edit" : "Added"}
             <span className="text-light-black"> Successfully </span>
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-            <b> New Order </b> Added Successfully
+            <b> {type == "Edit" ? "" : "New Order"} </b>{" "}
+            {type == "Edit" ? "Edited" : "Added"} Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.

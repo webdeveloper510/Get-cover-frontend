@@ -81,7 +81,7 @@ export const getPriceBookListByResellerId = async (id, value = {}) => {
   try {
     const response = await axios.post(
       `${url}/reseller/getResellerPriceBook/${id}`,
-      { value },
+      value,
       { headers }
     );
 
