@@ -1201,6 +1201,7 @@ function AddOrder() {
                   <SelectBoxWIthSerach
                     label="Dealer Name"
                     name="dealerId"
+                    required={true}
                     className="!bg-[#fff]"
                     onChange={handleSelectChange}
                     value={formik.values?.dealerId}

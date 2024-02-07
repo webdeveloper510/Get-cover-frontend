@@ -17,11 +17,13 @@ import Select from "../../../../common/select";
 import { getOrderListByDealerId } from "../../../../services/dealerServices";
 import { getOrderListByResellerId } from "../../../../services/reSellerServices";
 import { getOrderListByCustomerId } from "../../../../services/customerServices";
+import { RotateLoader } from "react-spinners";
 
 function OrderList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
   const [orderList, setOrderList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleStatusChange = (action) => {
     // Implement the logic for the selected action (e.g., edit or delete)
@@ -34,6 +36,7 @@ function OrderList(props) {
     }
   }, [props]);
   const getOrderList = async () => {
+    setLoading(true);
     let result = {};
     if (props.flag == "reseller") {
       result = await getOrderListByResellerId(props.id);
@@ -43,6 +46,7 @@ function OrderList(props) {
       result = await getOrderListByDealerId(props.id);
     }
     setOrderList(result.result);
+    setLoading(false);
     console.log(result);
   };
 
@@ -72,11 +76,6 @@ function OrderList(props) {
     {
       name: "Customer Name",
       selector: (row) => row.customerName.username,
-      sortable: true,
-    },
-    {
-      name: "Servicer Name",
-      selector: (row) => row.servicerName.name,
       sortable: true,
     },
     {
@@ -117,14 +116,14 @@ function OrderList(props) {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(row.Categoryid)}>
+            <div onClick={() => setSelectedAction(row.unique_key)}>
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.Categoryid && (
+            {selectedAction === row.unique_key && (
               <div
                 className={`absolute z-[2] w-[70px] drop-shadow-5xl px-3 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
@@ -211,6 +210,12 @@ function OrderList(props) {
             </div>
           </Grid>
           <div className="mb-5 relative dealer-detail">
+          {loading ? (
+            <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div> ) : (
             <DataTable
               columns={columns}
               data={orderList}
@@ -227,6 +232,7 @@ function OrderList(props) {
               paginationComponentOptions={paginationOptions}
               paginationRowsPerPageOptions={[10, 20, 50, 100]}
             />
+          )}
           </div>
         </div>
       </div>
