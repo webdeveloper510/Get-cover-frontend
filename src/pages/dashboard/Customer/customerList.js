@@ -122,7 +122,7 @@ function CustomerList() {
       sortable: true,
     },
     {
-      name: "Orders",
+      name: "# of Orders",
       selector: (row) => row?.order?.noOfProducts,
       sortable: true,
     },

@@ -119,7 +119,7 @@ function ResellerList() {
       sortable: true,
     },
     {
-      name: "Orders",
+      name: "# of Orders",
       selector: (row) => row?.orders?.noOfProducts,
       sortable: true,
     },

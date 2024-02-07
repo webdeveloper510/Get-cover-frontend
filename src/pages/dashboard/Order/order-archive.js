@@ -127,15 +127,15 @@ function ArchiveOrderList() {
       sortable: true,
     },
     {
+      name: "Reseller",
+      selector: (row) => row.resellerName.name,
+      sortable: true,
+    },
+    {
       name: "Customer",
       selector: (row) => row.customerName.username,
       sortable: true,
     },
-    // {
-    //   name: "Servicer",
-    //   selector: (row) => row.servicerName.name,
-    //   sortable: true,
-    // },
     {
       name: "# of Contract",
       selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts),
@@ -350,15 +350,6 @@ function ArchiveOrderList() {
             <div className="col-span-6">
               <Input
                 type="text"
-                name="Serial No."
-                className="!bg-[#fff]"
-                label="Serial No."
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
                 name="Dealer Name"
                 className="!bg-[#fff]"
                 label="Dealer Name"
@@ -390,16 +381,6 @@ function ArchiveOrderList() {
                 name="Servicer Name"
                 className="!bg-[#fff]"
                 label="Servicer Name"
-                placeholder=""
-              />
-            </div>
-
-            <div className="col-span-6">
-              <Select
-                name="Status"
-                label="Status"
-                options={status}
-                className="!bg-[#fff]"
                 placeholder=""
               />
             </div>

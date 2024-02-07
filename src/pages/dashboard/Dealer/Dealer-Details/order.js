@@ -69,18 +69,18 @@ function OrderList(props) {
       maxWidth: "70px", // Set a custom maximum width
     },
     {
-      name: "Dealer Order #",
+      name: "Dealer P.O #",
       selector: (row) => row.venderOrder,
       sortable: true,
     },
     {
-      name: "Customer Name",
-      selector: (row) => row.customerName.username,
+      name: "Reseller",
+      selector: (row) => row.resellerName.name,
       sortable: true,
     },
     {
-      name: "Reseller Name",
-      selector: (row) => row.resellerName.name,
+      name: "Customer",
+      selector: (row) => row.customerName.username,
       sortable: true,
     },
     {
@@ -98,7 +98,7 @@ function OrderList(props) {
       selector: (row) => row.status,
       sortable: true,
       cell: (row) => (
-        <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
+        <div className="flex border py-2 rounded-lg w-[80%]">
           <div
             className={` ${
               row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"

@@ -243,7 +243,7 @@ function NewDealerList() {
       }
     } else if (action === "Approved") {
       setIsModalOpen(false);
-      navigate(`/dealer/${id}`);
+      navigate(`/addDealer/${id}`);
     }
   };
   const handleGOBack =()=>{
