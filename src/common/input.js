@@ -36,9 +36,9 @@ const Input = ({
     let inputValue = event.target.value;
 
     if (type === "date") {
-      // inputValue = formatDate(inputValue);
-       inputValue = moment().calendar();
-       console.log(inputValue, "---------------")
+      inputValue = formatDate(inputValue);
+      //  inputValue = moment().calendar();
+      //  console.log(inputValue, "---------------")
     }
 
     setInputValue(inputValue);
