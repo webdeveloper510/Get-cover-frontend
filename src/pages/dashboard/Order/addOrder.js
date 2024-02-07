@@ -30,6 +30,7 @@ import {
 import RadioButton from "../../../common/radio";
 import {
   addOrder,
+  checkEditFileValidations,
   checkMultipleFileValidation,
   editOrder,
   fileValidation,
@@ -269,7 +270,7 @@ function AddOrder() {
     const result = await orderDetailsById(orderId);
     console.log(result.result.productsArray);
     getResellerList(result?.result?.dealerId);
-    
+
     getCustomerList({
       dealerId: result?.result?.dealerId,
       resellerId: result?.result?.resellerId,
@@ -310,7 +311,7 @@ function AddOrder() {
         index
       );
     });
-
+    console.log(result.result);
     orderDetail(result.result);
     formikStep3.setValues({
       ...formikStep3.values,
@@ -591,6 +592,14 @@ function AddOrder() {
       file: arr,
     };
 
+    if (type == "Edit") {
+      let dataValue = {
+        ...data,
+      };
+      checkEditFileValidations(dataValue).then((res) => {
+        console.log(res);
+      });
+    }
     Object.entries(newValues).forEach(([key, value]) => {
       if (key === "file") {
         if (value) {
@@ -693,6 +702,10 @@ function AddOrder() {
           `productsArray[${index}].orderFile`,
           fileValue.orderFile
         );
+        formikStep3.setFieldValue(
+          `productsArray[${index}].file`,
+          fileValue.orderFile
+        );
       }
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
     }
@@ -747,7 +760,7 @@ function AddOrder() {
         orderAmount: parseFloat(totalAmount),
       };
       const formData = new FormData();
-      
+
       Object.entries(data).forEach(([key, value]) => {
         if (key === "file") {
           if (value) {
@@ -959,6 +972,7 @@ function AddOrder() {
       // );
       const updatedQuantityPricing = data.quantityPriceDetail.map(
         (item, index) => {
+          console.log(data, "------");
           const updatedItem = {
             ...item,
             enterQuantity: "",
@@ -1201,11 +1215,15 @@ function AddOrder() {
                     label="Dealer Name"
                     name="dealerId"
                     required={true}
-                    className={`${ orderId ||
+                    className={`${
+                      orderId ||
                       dealerId ||
                       resellerId ||
                       dealerValue ||
-                      customerId ? '!bg-[#f2f2f2] !top-3' : '!bg-white' }`}
+                      customerId
+                        ? "!bg-[#f2f2f2] !top-3"
+                        : "!bg-white"
+                    }`}
                     onChange={handleSelectChange}
                     value={formik.values?.dealerId}
                     onBlur={formik.handleBlur}
@@ -1232,7 +1250,8 @@ function AddOrder() {
                     name="resellerId"
                     placeholder=""
                     className={`${
-                      resellerId ? '!bg-[#f2f2f2] !top-3' : '!bg-white' }`}
+                      resellerId ? "!bg-[#f2f2f2] !top-3" : "!bg-white"
+                    }`}
                     isDisabled={resellerId}
                     onChange={handleSelectChange}
                     options={resellerList}
@@ -1250,7 +1269,8 @@ function AddOrder() {
                     name="customerId"
                     placeholder=""
                     className={`${
-                      customerId ? '!bg-[#f2f2f2] !top-3' : '!bg-white' }`}
+                      customerId ? "!bg-[#f2f2f2] !top-3" : "!bg-white"
+                    }`}
                     isDisabled={customerId}
                     onChange={handleSelectChange}
                     options={customerList}
@@ -2259,7 +2279,16 @@ function AddOrder() {
                             <div className="col-span-4 py-4">
                               <p className="text-[12px]">Coverage Start Date</p>
                               <p className="font-bold text-sm">
-                                {data.additionalNotes}
+                                {data?.coverageStartDate == "" ? (
+                                  <></>
+                                ) : (
+                                  <>
+                                    {format(
+                                      new Date(data?.coverageStartDate),
+                                      "MM/dd/yyyy"
+                                    )}
+                                  </>
+                                )}
                               </p>
                             </div>
                           </Grid>
@@ -2276,10 +2305,11 @@ function AddOrder() {
                             <img src={csvFile} className="mr-2" alt="Dropbox" />
                             <div className="flex justify-between w-full">
                               <p className="self-center">
-                                {data?.file.name == ""
+                                {data?.file === "" || data?.file?.name === ""
                                   ? "No File Selected"
                                   : data?.file?.name}
                               </p>
+
                               <p className="self-center">
                                 {data?.file === ""
                                   ? ""

@@ -123,6 +123,18 @@ export const checkMultipleFileValidation = async (data) => {
     throw error;
   }
 };
+export const checkEditFileValidations = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/order/editFileCase`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const addOrder = async (data) => {
   const accessToken = getAccessToken();
   const headers = {
