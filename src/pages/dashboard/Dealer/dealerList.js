@@ -160,19 +160,19 @@ function DealerList() {
     },
     {
       name: "# of Orders",
-      selector: (row) => row?.ordersData?.checkNumberProducts,
+      selector: (row) => row?.ordersData?.noOfProducts,
       sortable: true,
     },
     {
       name: "Order Values",
       selector: (row) =>
         `$ ${
-          row?.ordersData?.count === undefined
+          row?.ordersData?.orderAmount === undefined
             ? parseInt(0).toFixed(2)
-            : row?.ordersData?.count?.toFixed(2)
+            : row?.ordersData?.orderAmount?.toFixed(2)
         }`,
       sortable: true,
-      minWidth: "auto", 
+      minWidth: "auto",
       maxWidth: "170px",
     },
     {
