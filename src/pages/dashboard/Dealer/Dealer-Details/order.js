@@ -34,6 +34,7 @@ function OrderList(props) {
   const [orderList, setOrderList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorList, SetErrorList] = useState([]);
+  const [orderId, SetOrderId] = useState("");
   const [processOrderErrors, setProcessOrderErrors] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [timer, setTimer] = useState(3);
@@ -42,15 +43,10 @@ function OrderList(props) {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const navigate = useNavigate();
 
-    const closeDisapproved = () => {
-    setIsDisapprovedOpen(false);
-  };
-
-  const openDisapproved = () => {
-    setIsDisapprovedOpen(true);
-  };
+  
 
   const openArchive = (id) => {
+    SetOrderId(id);
     setIsArchiveOpen(true);
   };
 
@@ -71,10 +67,10 @@ function OrderList(props) {
     setIsModalOpen1(false);
   };
   const openModal1 = () => {
-    // console.log(orderId);
-    // archiveOrders(orderId).then((res) => {
-    //   console.log(res);
-    // });
+    console.log(orderId);
+    archiveOrders(orderId).then((res) => {
+      console.log(res);
+    });
     setTimer(3);
     setIsModalOpen1(true);
   };
@@ -87,6 +83,27 @@ function OrderList(props) {
       getOrderList();
     }
   }, [props]);
+
+  useEffect(() => {
+    let intervalId;
+    if (isModalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    if (isModalOpen1 && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    if (timer === 0) {
+      closeArchive();
+      getOrderList();
+      closeModal1();
+    }
+    return () => clearInterval(intervalId);
+  }, [isModalOpen, isModalOpen1, timer]);
+  
   const getOrderList = async () => {
     setLoading(true);
     let result = {};
@@ -345,91 +362,6 @@ function OrderList(props) {
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
           </p>
-        </div>
-      </Modal>
-
-      <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
-        <Button
-          onClick={closeDisapproved}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
-        >
-          <img
-            src={Cross}
-            className="w-full h-full text-black rounded-full p-0"
-          />
-        </Button>
-        <div className="py-3">
-          <p className="text-center text-3xl font-semibold ">Advance Search</p>
-          <Grid className="mt-5 px-6">
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Order ID"
-                className="!bg-[#fff]"
-                label="Order ID"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Dealer P.O. No."
-                className="!bg-[#fff]"
-                label="Dealer P.O. No."
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Serial No."
-                className="!bg-[#fff]"
-                label="Serial No."
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Reseller Name"
-                className="!bg-[#fff]"
-                label="Reseller Name"
-                placeholder=""
-              />
-            </div>
-
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Customer Name"
-                className="!bg-[#fff]"
-                label="Customer Name"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Servicer Name"
-                className="!bg-[#fff]"
-                label="Servicer Name"
-                placeholder=""
-              />
-            </div>
-
-            <div className="col-span-12">
-              <Select
-                name="Status"
-                label="Status"
-                options={status}
-                className="!bg-[#fff]"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-12">
-              <Button className={"w-full"}>Search</Button>
-            </div>
-          </Grid>
         </div>
       </Modal>
 
