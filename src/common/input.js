@@ -1,6 +1,7 @@
 import moment from "moment";
 import React, { useState } from "react";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const Input = ({
   type,
   error,
@@ -31,6 +32,17 @@ const Input = ({
     }
     return dateString;
   }
+  const handleDateChange = (date) => {
+    setInputValue(date);
+    if (onChange) {
+      onChange({
+        target: {
+          name: name,
+          value: date ? date.toISOString().split("T")[0] : "",
+        },
+      });
+    }
+  };
 
   const handleInput = (event) => {
     let inputValue = event.target.value;
@@ -56,6 +68,19 @@ const Input = ({
   return (
     <>
       <div className="relative">
+      {type === "date" ? (
+          <DatePicker
+            selected={inputValue ? new Date(inputValue) : null}
+            onChange={handleDateChange}
+            dateFormat="MM/dd/yyyy"
+            placeholderText="MM/dd/yyyy"
+            
+            className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
+              error ? "border-[red]" : "border-gray-300 "
+            } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
+          />
+        ) : (
+          <>
         <input
           type={type}
           name={name}
@@ -79,6 +104,8 @@ const Input = ({
             }
           }}
         />
+          </>
+        )}
         <label
           htmlFor={name}
           className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${className}  `}
