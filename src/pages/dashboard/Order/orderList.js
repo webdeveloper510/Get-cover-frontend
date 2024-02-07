@@ -255,9 +255,8 @@ function OrderList() {
                     </div>
                   </>
                 ) : (
-                  <div className="text-center py-1 cursor-pointer">
-                    <Link to={`/orderDetails/${row._id}`}>View</Link>
-                  </div>
+                    <Link to={`/orderDetails/${row._id}`} className="text-center py-1 cursor-pointer w-full flex justify-center">View</Link>
+                
                 )}
               </div>
             )}

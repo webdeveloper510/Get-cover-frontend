@@ -23,6 +23,7 @@ import { orderDetailsById } from "../../../services/orderServices";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
   const [userDetails, setUserDetails] = useState({});
   const { orderId } = useParams();
@@ -42,14 +43,14 @@ function OrderDetails() {
     localStorage.setItem("orderMenu", activeTab);
     setLoading(false);
   }, [activeTab]);
-
+console.log(loading1, '=================>>>')
   const getOrderDetails = async () => {
-    setLoading(true);
+    setLoading1(true);
     const result = await orderDetailsById(orderId);
     setUserDetails(result.orderUserData);
     setOrderDetails(result.result);
     console.log(result);
-    setLoading(false);
+    setLoading1(false);
   };
   const tabs = [
     {
@@ -73,7 +74,7 @@ function OrderDetails() {
   };
   return (
     <>
-      {loading && (
+      {loading1 && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#fff" />
