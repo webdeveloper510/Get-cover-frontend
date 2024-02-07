@@ -353,6 +353,7 @@ function AddOrder() {
   useEffect(() => {
     console.log(location);
     if (location.pathname == "/addOrder") {
+      setType("Add");
       setCurrentStep(1);
       formik.resetForm();
       setFileValues([]);
@@ -1205,7 +1206,13 @@ function AddOrder() {
                     onChange={handleSelectChange}
                     value={formik.values?.dealerId}
                     onBlur={formik.handleBlur}
-                    disabled={true}
+                    isDisabled={
+                      orderId ||
+                      dealerId ||
+                      resellerId ||
+                      dealerValue ||
+                      customerId
+                    }
                     error={formik.touched.dealerId && formik.errors.dealerId}
                     options={dealerList}
                   />
@@ -1223,6 +1230,7 @@ function AddOrder() {
                     name="resellerId"
                     placeholder=""
                     className="!bg-white"
+                    isDisabled={resellerId}
                     // onChange={handleSelectChange}
                     onChange={handleSelectChange}
                     options={resellerList}
@@ -1240,6 +1248,7 @@ function AddOrder() {
                     name="customerId"
                     placeholder=""
                     className="!bg-white"
+                    isDisabled={customerId}
                     // onChange={handleSelectChange}
                     onChange={handleSelectChange}
                     options={customerList}

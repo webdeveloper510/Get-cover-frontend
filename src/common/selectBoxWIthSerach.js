@@ -9,6 +9,7 @@ const SelectBoxWithSearch = ({
   className,
   options,
   name,
+  isDisabled,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(!!value);
@@ -68,8 +69,8 @@ const SelectBoxWithSearch = ({
         }
         onFocus={handleFocus}
         onBlur={handleBlur}
-        isClearable={true}
         className="!w-full"
+        isDisabled={isDisabled}
         defaultValue={localDefaultValue}
         placeholder="Search..."
       />
