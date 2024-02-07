@@ -47,16 +47,6 @@ function OrderSummary(props) {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-6 border border-[#D1D1D1]">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Product Description
-                            </p>
-                            <p className="text-[#333333] text-base font-semibold">
-                              {res.description}
-                            </p>
-                          </div>
-                        </div>
                         <div className="col-span-3 border border-[#D1D1D1]">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
@@ -67,6 +57,17 @@ function OrderSummary(props) {
                             </p>
                           </div>
                         </div>
+                        <div className="col-span-6 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Product Description
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res.description}
+                            </p>
+                          </div>
+                        </div>
+                       
                         <div className="col-span-3 border border-[#D1D1D1]">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">

@@ -37,7 +37,7 @@ const SelectBoxWithSearch = ({
       padding: "0.425rem",
       borderColor: state.isFocused ? "#f9f9f9" : provided.borderColor,
       boxShadow: state.isFocused
-        ? "0 0 0 2px rgba(0, 188, 212, 0.5)"
+        ? "0 0 0 2px gray-300"
         : provided.boxShadow,
     }),
     option: (provided, state) => ({
@@ -47,7 +47,7 @@ const SelectBoxWithSearch = ({
     }),
     indicatorSeparator: (provided) => ({
       ...provided,
-      backgroundColor: "#00bcd4",
+      backgroundColor: "#f9f9f9",
     }),
   };
 
@@ -74,7 +74,7 @@ const SelectBoxWithSearch = ({
         placeholder="Search..."
       />
       <label
-        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${className} text-[#5D6E66]`}
+        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 !hover:bg-[#f9f9f9] scale-75 ${className} text-[#5D6E66]`}
         htmlFor={label}
       >
         {label} {required && <span className="text-red-500">*</span>}

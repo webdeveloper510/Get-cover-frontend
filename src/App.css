@@ -12,3 +12,7 @@
   border-image: linear-gradient(to right, #FFFFFF00, #AAAAAA, #FFFFFF00); /* Adjust colors as needed */
   border-image-slice: 1;
 }
+
+.css-1mplhyi-control:hover {
+  border-color:#f9f9f9 !important;
+}
