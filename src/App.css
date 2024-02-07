@@ -12,3 +12,7 @@
   border-image: linear-gradient(to right, #FFFFFF00, #AAAAAA, #FFFFFF00); /* Adjust colors as needed */
   border-image-slice: 1;
 }
+
+.css-b62m3t-container div:hover {
+  border-color: #80808085 !important;
+}

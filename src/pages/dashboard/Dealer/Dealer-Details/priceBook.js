@@ -531,7 +531,7 @@ function PriceBookList(props) {
                         onChange={formik.setFieldValue}
                       />
                     </div>
-                    {  props.flag === "reseller" ? (<></>) : ( <div className="col-span-3 self-center">
+                    {props.flag === "reseller" ? (<></>) : ( <div className="col-span-3 self-center">
                       <Select
                         name="status"
                         label=""

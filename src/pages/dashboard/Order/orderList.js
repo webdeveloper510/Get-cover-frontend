@@ -56,23 +56,23 @@ function OrderList() {
   };
   useEffect(() => {
     let intervalId;
-    if (isModalOpen && timer > 0) {
-      intervalId = setInterval(() => {
-        setTimer((prevTimer) => prevTimer - 1);
-      }, 1000);
-    }
+    // if (isModalOpen && timer > 0) {
+    //   intervalId = setInterval(() => {
+    //     setTimer((prevTimer) => prevTimer - 1);
+    //   }, 1000);
+    // }
     if (isModalOpen1 && timer > 0) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
     }
-    if (timer === 0) {
+    if ( timer === 0) {
       closeArchive();
-      getOrderList();
+       getOrderList();
       closeModal1();
     }
     return () => clearInterval(intervalId);
-  }, [isModalOpen, isModalOpen1, timer]);
+  }, [ isModalOpen1, timer]);
 
   const openModal1 = () => {
     console.log(orderId);
@@ -88,10 +88,12 @@ function OrderList() {
   };
   const openModal = (id) => {
     processOrders(id).then((res) => {
+      setSelectedAction(null)
       setProcessOrderErrors(res.result);
       SetErrorList(res.result);
       console.log(res.result);
     });
+   
     setIsModalOpen(true);
   };
  
