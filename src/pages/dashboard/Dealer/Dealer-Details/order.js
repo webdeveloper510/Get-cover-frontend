@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../../common/button";
 
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
@@ -18,17 +18,69 @@ import { getOrderListByDealerId } from "../../../../services/dealerServices";
 import { getOrderListByResellerId } from "../../../../services/reSellerServices";
 import { getOrderListByCustomerId } from "../../../../services/customerServices";
 import { RotateLoader } from "react-spinners";
-
+import Modal from "../../../../common/model";
+import Cross from "../../../../assets/images/Cross.png";
+import unassign from "../../../../assets/images/Unassign.png";
+import Primary from "../../../../assets/images/SetPrimary.png";
+import AddDealer from "../../../../assets/images/Disapproved.png";
+import {
+  archiveOrders,
+  getOrders,
+  processOrders,
+} from "../../../../services/orderServices";
 function OrderList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
   const [orderList, setOrderList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errorList, SetErrorList] = useState([]);
+  const [processOrderErrors, setProcessOrderErrors] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [timer, setTimer] = useState(3);
+  const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+  const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const navigate = useNavigate();
 
-  const handleStatusChange = (action) => {
-    // Implement the logic for the selected action (e.g., edit or delete)
-    console.log(`Selected action: ${action}`);
-    // You can replace the console.log statement with the actual logic you want to perform
+    const closeDisapproved = () => {
+    setIsDisapprovedOpen(false);
+  };
+
+  const openDisapproved = () => {
+    setIsDisapprovedOpen(true);
+  };
+
+  const openArchive = (id) => {
+    setIsArchiveOpen(true);
+  };
+
+  const openModal = (id) => {
+    processOrders(id).then((res) => {
+      setProcessOrderErrors(res.result);
+      SetErrorList(res.result);
+      console.log(res.result);
+    });
+    setIsModalOpen(true);
+  };
+ 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const closeModal1 = () => {
+    setIsModalOpen1(false);
+  };
+  const openModal1 = () => {
+    // console.log(orderId);
+    // archiveOrders(orderId).then((res) => {
+    //   console.log(res);
+    // });
+    setTimer(3);
+    setIsModalOpen1(true);
+  };
+
+  const closeArchive = () => {
+    setIsArchiveOpen(false);
   };
   useEffect(() => {
     if (props.activeTab === "Orders" || props.activeTab === "Order") {
@@ -125,11 +177,35 @@ function OrderList(props) {
             </div>
             {selectedAction === row.unique_key && (
               <div
-                className={`absolute z-[2] w-[70px] drop-shadow-5xl px-3 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[120px] drop-shadow-5xl px-3 py-2 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
-                <div className="text-center py-3 cursor-pointer ">Edit</div>
+                {row.status == "Pending" ? (
+                  <>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => navigate(`/editOrder/${row._id}`)}
+                    >
+                      Edit
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Process Order
+                    </div>
+                    <div
+                      className="text-center py-1 cursor-pointer"
+                      onClick={() => openArchive(row._id)}
+                    >
+                      Archive
+                    </div>
+                  </>
+                ) : (
+                    <Link to={`/orderDetails/${row._id}`} className="text-center py-1 cursor-pointer w-full flex justify-center">View</Link>
+                
+                )}
               </div>
             )}
           </div>
@@ -236,6 +312,157 @@ function OrderList(props) {
           </div>
         </div>
       </div>
+
+      <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
+        <div className="text-center py-3">
+          <img src={unassign} alt="email Image" className="mx-auto my-4" />
+          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+            Would you like to Archive it?
+          </p>
+          <Grid className="!grid-cols-4 my-5 ">
+            <div className="col-span-1"></div>
+            <Button onClick={() => openModal1()}>Yes</Button>
+            <Button
+              className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              onClick={() => closeArchive()}
+            >
+              No
+            </Button>
+            <div className="col-span-1"></div>
+          </Grid>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto my-4" />
+          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+            Archive Order Successfully
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            You have successfully archive the order
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting you on Order List Page {timer} seconds.
+          </p>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
+        <Button
+          onClick={closeDisapproved}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="py-3">
+          <p className="text-center text-3xl font-semibold ">Advance Search</p>
+          <Grid className="mt-5 px-6">
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Order ID"
+                className="!bg-[#fff]"
+                label="Order ID"
+                placeholder=""
+              />
+            </div>
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Dealer P.O. No."
+                className="!bg-[#fff]"
+                label="Dealer P.O. No."
+                placeholder=""
+              />
+            </div>
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Serial No."
+                className="!bg-[#fff]"
+                label="Serial No."
+                placeholder=""
+              />
+            </div>
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Reseller Name"
+                className="!bg-[#fff]"
+                label="Reseller Name"
+                placeholder=""
+              />
+            </div>
+
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Customer Name"
+                className="!bg-[#fff]"
+                label="Customer Name"
+                placeholder=""
+              />
+            </div>
+            <div className="col-span-6">
+              <Input
+                type="text"
+                name="Servicer Name"
+                className="!bg-[#fff]"
+                label="Servicer Name"
+                placeholder=""
+              />
+            </div>
+
+            <div className="col-span-12">
+              <Select
+                name="Status"
+                label="Status"
+                options={status}
+                className="!bg-[#fff]"
+                placeholder=""
+              />
+            </div>
+            <div className="col-span-12">
+              <Button className={"w-full"}>Search</Button>
+            </div>
+          </Grid>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <Button
+          onClick={closeModal}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={AddDealer} alt="email Image" className="mx-auto" />
+
+          <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
+            <span className="text-light-black">Error</span>{" "}
+          </p>
+
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            {errorList &&
+              errorList.map((res) => {
+                console.log(res);
+                return (
+                  <p className="text-neutral-grey text-base font-medium mt-2">
+                    {res}
+                  </p>
+                );
+              })}
+          </p>
+        </div>
+      </Modal>
     </>
   );
 }
