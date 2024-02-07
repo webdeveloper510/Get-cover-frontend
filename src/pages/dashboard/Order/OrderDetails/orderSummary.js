@@ -7,6 +7,7 @@ import Input from "../../../../common/input";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import Csv from "../../../../assets/images/icons/csvWhite.svg";
+import { format, addMonths } from "date-fns";
 function OrderSummary(props) {
   console.log(props.data);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -31,7 +32,7 @@ function OrderSummary(props) {
                       <Grid className="bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl">
                         <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
-                            Product Name : <b> {res.priceBookId} </b>
+                            Product Name : <b> {res.name} </b>
                           </p>
                         </div>
                       </Grid>
@@ -43,17 +44,17 @@ function OrderSummary(props) {
                               Product Category
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              {res.categoryId}
+                              {res.catName}
                             </p>
                           </div>
                         </div>
                         <div className="col-span-3 border border-[#D1D1D1]">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
-                              Price Type 
+                              Price Type
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              {res.description}
+                              {res.priceType}
                             </p>
                           </div>
                         </div>
@@ -67,7 +68,7 @@ function OrderSummary(props) {
                             </p>
                           </div>
                         </div>
-                       
+
                         <div className="col-span-3 border border-[#D1D1D1]">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
@@ -84,7 +85,7 @@ function OrderSummary(props) {
                               Unit Price
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              $20.00
+                              $ {res.unitPrice}
                             </p>
                           </div>
                         </div>
@@ -94,7 +95,7 @@ function OrderSummary(props) {
                               No. of Products
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              {res.noOfProducts}
+                              {res.checkNumberProducts}
                             </p>
                           </div>
                         </div>
@@ -114,7 +115,10 @@ function OrderSummary(props) {
                               Coverage Start Date
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              ${res.price.toFixed(2)}
+                              {format(
+                                new Date(res.coverageStartDate),
+                                "MM-dd-yyyy"
+                              )}
                             </p>
                           </div>
                         </div>
@@ -124,84 +128,84 @@ function OrderSummary(props) {
                               Coverage End Date
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              ${res.price.toFixed(2)}
+                              {format(
+                                new Date(res.coverageEndDate),
+                                "MM-dd-yyyy"
+                              )}
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-3 border border-[#D1D1D1]">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Price
-                            </p>
-                            <p className="text-[#333333] text-base font-semibold">
-                              ${res.price.toFixed(2)}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="col-span-3 border border-[#D1D1D1]">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Price
-                            </p>
-                            <p className="text-[#333333] text-base font-semibold">
-                              ${res.price.toFixed(2)}
-                            </p>
-                          </div>
-                        </div>
-                            {res.priceType == "Quantity Pricing" && (
-                              <div className="col-span-12">
-                                <table className="w-full border text-center">
-                                  <tr className="border bg-[#fff]">
-                                    <td
-                                      colSpan={"4"}
-                                      className="font-bold text-sm"
-                                    >
-                                      Quantity Pricing List{" "}
-                                    </td>
-                                  </tr>
-                                  <tr className="border bg-[#fff]">
-                                    <th className="font-bold text-sm">Name</th>
-                                    <th className="font-bold text-sm">
-                                      Quantity Per Unit
-                                    </th>
-                                    <th className="font-bold text-sm">
-                                      Quantity
-                                    </th>
-                                    <th className="font-bold text-sm">
-                                      # of Unit
-                                    </th>
-                                  </tr>
-                                  {res.QuantityPricing &&
-                                    res.QuantityPricing.map((value, index) => {
-                                      return (
-                                        <tr
-                                          key={index}
-                                          className="border bg-[#fff]"
-                                        >
-                                          <td className="text-[12px]">
-                                            {value.name}
-                                          </td>
-                                          <td className="text-[12px]">
-                                            {value.quantity}
-                                          </td>
-                                          <td className="text-[12px]">
-                                            {value.enterQuantity}
-                                          </td>
-                                          <td className="text-[12px]">
-                                            {Math.max(
-                                              1,
-                                              Math.ceil(
-                                                value.enterQuantity /
-                                                  parseFloat(value.quantity)
-                                              )
-                                            )}
-                                          </td>
-                                        </tr>
-                                      );
-                                    })}
-                                </table>
+                        {res.priceType == "Flat Pricing" && (
+                          <>
+                            <div className="col-span-3 border border-[#D1D1D1]">
+                              <div className="py-4 pl-3">
+                                <p className="text-[#5D6E66] text-sm font-Regular">
+                                  Start Range
+                                </p>
+                                <p className="text-[#333333] text-base font-semibold">
+                                  ${res.rangeStart.toFixed(2)}
+                                </p>
                               </div>
-                            )}
+                            </div>
+                            <div className="col-span-3 border border-[#D1D1D1]">
+                              <div className="py-4 pl-3">
+                                <p className="text-[#5D6E66] text-sm font-Regular">
+                                  End Range
+                                </p>
+                                <p className="text-[#333333] text-base font-semibold">
+                                  ${res.rangeEnd.toFixed(2)}
+                                </p>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                        {res.priceType == "Quantity Pricing" && (
+                          <div className="col-span-12">
+                            <table className="w-full border text-center">
+                              <tr className="border bg-[#fff]">
+                                <td colSpan={"4"} className="font-bold text-sm">
+                                  Quantity Pricing List{" "}
+                                </td>
+                              </tr>
+                              <tr className="border bg-[#fff]">
+                                <th className="font-bold text-sm">Name</th>
+                                <th className="font-bold text-sm">
+                                  Quantity Per Unit
+                                </th>
+                                <th className="font-bold text-sm">Quantity</th>
+                                <th className="font-bold text-sm"># of Unit</th>
+                              </tr>
+                              {res.QuantityPricing &&
+                                res.QuantityPricing.map((value, index) => {
+                                  return (
+                                    <tr
+                                      key={index}
+                                      className="border bg-[#fff]"
+                                    >
+                                      <td className="text-[12px]">
+                                        {value.name}
+                                      </td>
+                                      <td className="text-[12px]">
+                                        {value.quantity}
+                                      </td>
+                                      <td className="text-[12px]">
+                                        {value.enterQuantity}
+                                      </td>
+                                      <td className="text-[12px]">
+                                        {Math.max(
+                                          1,
+                                          Math.ceil(
+                                            value.enterQuantity /
+                                              parseFloat(value.quantity)
+                                          )
+                                        )}
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                            </table>
+                          </div>
+                        )}
                         <div className="col-span-12 border rounded-b-xl	 border-[#D1D1D1]">
                           <Grid className="">
                             <div className="col-span-9 py-4 pl-3">

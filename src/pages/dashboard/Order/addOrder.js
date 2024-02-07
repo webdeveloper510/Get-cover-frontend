@@ -597,55 +597,68 @@ function AddOrder() {
         ...data,
       };
       checkEditFileValidations(dataValue).then((res) => {
-        console.log(res);
+        if (res.code == 200) {
+          nextStep();
+        } else {
+          for (let key of res.message) {
+            console.log("res", res.message);
+            setIsErrorOpen(true);
+            formikStep3.setFieldError(
+              `productsArray[${key.key}].file`,
+              key.message
+            );
+          }
+        }
       });
     }
-    Object.entries(newValues).forEach(([key, value]) => {
-      if (key === "file") {
-        if (value) {
-          value.forEach((val, index) => {
-            formData.append(`file`, val);
-          });
-        } else {
-          formData.append(`file`, null);
-        }
-      } else if (key === "productsArray") {
-        value.forEach((item, index) => {
-          Object.entries(item).forEach(([key1, value1]) => {
-            if (key1 !== "file") {
-              formData.append(`${key}[${index}][${key1}]`, value1);
-            }
-          });
-          if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
-            item.QuantityPricing.forEach((qpItem, qpIndex) => {
-              Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
-                formData.append(
-                  `${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`,
-                  qpValue
-                );
-              });
-            });
-          }
+else{
+  Object.entries(newValues).forEach(([key, value]) => {
+    if (key === "file") {
+      if (value) {
+        value.forEach((val, index) => {
+          formData.append(`file`, val);
         });
       } else {
-        formData.append(key, value);
+        formData.append(`file`, null);
       }
-    });
-
-    checkMultipleFileValidation(formData).then((res) => {
-      if (res.code == 200) {
-        nextStep();
-      } else {
-        for (let key of res.message) {
-          console.log("res", res.message);
-          setIsErrorOpen(true);
-          formikStep3.setFieldError(
-            `productsArray[${key.key}].file`,
-            key.message
-          );
+    } else if (key === "productsArray") {
+      value.forEach((item, index) => {
+        Object.entries(item).forEach(([key1, value1]) => {
+          if (key1 !== "file") {
+            formData.append(`${key}[${index}][${key1}]`, value1);
+          }
+        });
+        if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
+          item.QuantityPricing.forEach((qpItem, qpIndex) => {
+            Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
+              formData.append(
+                `${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`,
+                qpValue
+              );
+            });
+          });
         }
+      });
+    } else {
+      formData.append(key, value);
+    }
+  });
+
+  checkMultipleFileValidation(formData).then((res) => {
+    if (res.code == 200) {
+      nextStep();
+    } else {
+      for (let key of res.message) {
+        console.log("res", res.message);
+        setIsErrorOpen(true);
+        formikStep3.setFieldError(
+          `productsArray[${key.key}].file`,
+          key.message
+        );
       }
-    });
+    }
+  });
+}
   };
 
   const fileInputRef = useRef([]);
