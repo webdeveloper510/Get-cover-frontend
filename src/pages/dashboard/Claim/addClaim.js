@@ -179,10 +179,10 @@ function AddClaim() {
                             </div>
                             {selectedActions[index] && (
                                 <div  className="absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
-                                    <div className="text-center pb-1 border-b text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer" onClick={nextStep}>
+                                    <div className="text-center pb-1 border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer" onClick={nextStep}>
                                         <p>Select</p>
                                     </div>
-                                    <div className="text-center pt-1 text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer" onClick={() => openModal()}>
+                                    <div className="text-center pt-1 text-[12px] border-[#E6E6E6] text-light-black cursor-pointer" onClick={() => openModal()}>
                                         <p>View</p>
                                     </div>
                                 </div>
@@ -408,19 +408,18 @@ function AddClaim() {
               <p className="text-3xl font-semibold mb-4">Contract Details</p>
               <div>
             <Grid className='bg-[#333333] !gap-2 !grid-cols-9 !p-3 rounded-t-xl'>
-              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
+              <div className='col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl'>
                 <p className='text-white py-2 font-Regular'>Contract ID :  <b> 861910 </b></p>
               </div>
-              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
+              <div className='col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat '>
                 <p className='text-white py-2 font-Regular'>Order ID : <b> 315174  </b></p>
               </div>
-              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
+              <div className='col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat '>
                 <p className='text-white py-2 font-Regular'>Dealer P.O. No. : <b> MC-10554 </b></p>
               </div>
-              <div className='col-span-2 '>
-              </div>
-              <div className='col-span-1 self-center justify-end'>
-                <Button className='!bg-[white] !text-black !p-2 !text-sm' onClick={nextStep}>Select</Button>
+              <div className='col-span-1'></div>
+              <div className='col-span-1 self-center justify-end self-center text-center bg-contract bg-cover bg-right bg-no-repeat'>
+                <Button className='!bg-[transparent] !text-white !py-2 !font-Regular' onClick={nextStep}>Select</Button>
               </div>
             </Grid>
 
@@ -473,14 +472,19 @@ function AddClaim() {
                   <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
-              <div className='col-span-2 border border-[#D1D1D1]'>
+              <div className='col-span-1 border border-[#D1D1D1]'>
                 
                  <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
                   <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
                 </div>
               </div>
-             
+              <div className='col-span-1 border border-[#D1D1D1]'>
+                <div className='py-4 pl-3'>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Claim Amount</p>
+                  <p className='text-[#333333] text-base font-semibold'>$0.00</p>
+                </div>
+              </div>
               <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Coverage Start Date</p>
@@ -493,24 +497,7 @@ function AddClaim() {
                   <p className='text-[#333333] text-base font-semibold'>09/11/2030</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
-                <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Claim Amount</p>
-                  <p className='text-[#333333] text-base font-semibold'>$0.00</p>
-                </div>
-              </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
-                <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Status</p>
-                  <p className='text-[#333333] text-base font-semibold'>Waiting</p>
-                </div>
-              </div>
-              <div className='col-span-1 border border-[#D1D1D1] rounded-ee-xl'>
-                <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Eligibility</p>
-                  <p className='text-[#333333] text-base font-semibold'>Not Eligible</p>
-                </div>
-              </div>
+              <div className='col-span-3  border border-[#D1D1D1] rounded-ee-xl'></div>
             </Grid>
           </div>
             </div>
