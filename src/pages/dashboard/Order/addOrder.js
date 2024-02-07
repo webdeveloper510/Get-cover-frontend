@@ -62,6 +62,7 @@ function AddOrder() {
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [fileValues, setFileValues] = useState([]);
   const [timer, setTimer] = useState(3);
   const [sendNotification, setSendNotification] = useState(true);
@@ -179,8 +180,11 @@ function AddOrder() {
     setResllerList(arr);
   };
 
+  console.log(loading1, '--------------')
   useEffect(() => {
     if (orderId != undefined) {
+    
+     
       orderDetails();
       setType("Edit");
     } else {
@@ -190,6 +194,7 @@ function AddOrder() {
     getTermListData();
   }, []);
   const orderDetails = async () => {
+    setLoading1(true);
     const result = await orderDetailsById(orderId);
     console.log(result.result.productsArray);
     getResellerList(result?.result?.dealerId);
@@ -272,6 +277,7 @@ function AddOrder() {
     formik4.setFieldValue("paymentStatus", result?.result?.paymentStatus);
     formik4.setFieldValue("paidAmount", result?.result?.paymentStatus);
     formik4.setFieldValue("pendingAmount", result?.result?.pendingAmount);
+    setLoading1(false);
   };
   useEffect(() => {
     console.log(location);
@@ -2326,6 +2332,7 @@ function AddOrder() {
 
   return (
     <div className="my-8 ml-3">
+       
       <Headbar />
       <div className="flex mt-2">
         <Link
@@ -2451,7 +2458,14 @@ function AddOrder() {
           </p>
         </div>
       </div>
-      {renderStep()}
+      {loading1 ? (
+        <div className=" h-[400px] w-full flex py-5">
+        <div className="self-center mx-auto">
+          <RotateLoader color="#333" />
+        </div>
+      </div>
+      ) : (<> {renderStep()} </> )}
+     
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
