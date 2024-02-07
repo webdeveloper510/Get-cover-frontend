@@ -76,6 +76,22 @@ export const getResellerListByResellerId = async (id) => {
   }
 };
 
+export const getOrderListByResellerId = async (id, data = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/reseller/resellerOrders/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const getPriceBookListByResellerId = async (id, value = {}) => {
   const headers = createHeaders();
   try {

@@ -71,9 +71,9 @@ function AddOrder() {
   const [type, setType] = useState("Add");
   const [order, orderDetail] = useState({});
   const navigate = useNavigate();
-  const { orderId } = useParams();
+  const { orderId, dealerId, resellerId, dealerValue, customerId } =
+    useParams();
   const location = useLocation();
-
   const downloadCSVTemplate = async () => {
     window.open(
       "https://docs.google.com/spreadsheets/d/1BKGAJLFhjQXN8Wg4nYkUdFKpiPZ3h12-CMlrlkzAZE0/edit#gid=0",
@@ -119,7 +119,9 @@ function AddOrder() {
     });
     setDealerList(arr);
   };
-
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   const getServicerList = async (data) => {
     let arr = [];
 
@@ -145,7 +147,15 @@ function AddOrder() {
 
     if (timer === 0) {
       closeModal();
-      navigate("/orderList");
+      if (customerId) {
+        navigate(`/customerDetails/${customerId}`);
+      } else if (resellerId) {
+        navigate(`/resellerDetails/${resellerId}`);
+      } else if (dealerId) {
+        navigate(`/dealerDetails/${dealerId}`);
+      } else {
+        navigate("/orderList");
+      }
     }
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
@@ -189,6 +199,69 @@ function AddOrder() {
       setType("Edit");
     } else {
       setType("Add");
+    }
+    if (dealerId) {
+      formik.setFieldValue("dealerId", dealerId);
+      getResellerList(dealerId);
+      getCustomerList({
+        dealerId: dealerId,
+        resellerId: "",
+      });
+      getServicerList({
+        dealerId: dealerId,
+        resellerId: "",
+      });
+      getCategoryList(
+        dealerId,
+        {
+          priceBookId: "",
+          priceCatId: "",
+        },
+        0
+      );
+    }
+    if (resellerId) {
+      formik.setFieldValue("resellerId", resellerId);
+      formik.setFieldValue("dealerId", dealerValue);
+      getResellerList(dealerValue);
+      getCustomerList({
+        dealerId: dealerValue,
+        resellerId: resellerId,
+      });
+      getServicerList({
+        dealerId: dealerValue,
+        resellerId: resellerId,
+      });
+      getCategoryList(
+        dealerValue,
+        {
+          priceBookId: "",
+          priceCatId: "",
+        },
+        0
+      );
+    }
+    if (customerId) {
+      formik.setFieldValue("customerId", customerId);
+      formik.setFieldValue("dealerId", dealerValue);
+      formik.setFieldValue("resellerId", resellerId);
+      getResellerList(dealerValue);
+      getCustomerList({
+        dealerId: dealerValue,
+        resellerId: resellerId,
+      });
+      getServicerList({
+        dealerId: dealerValue,
+        resellerId: resellerId,
+      });
+      getCategoryList(
+        dealerValue,
+        {
+          priceBookId: "",
+          priceCatId: "",
+        },
+        0
+      );
     }
     getDealerListData();
     getTermListData();
@@ -1122,6 +1195,7 @@ function AddOrder() {
                     onChange={handleSelectChange}
                     value={formik.values?.dealerId}
                     onBlur={formik.handleBlur}
+                    disabled={true}
                     error={formik.touched.dealerId && formik.errors.dealerId}
                     options={dealerList}
                   />
@@ -2336,7 +2410,7 @@ function AddOrder() {
       <Headbar />
       <div className="flex mt-2">
         <Link
-          to={"/orderList"}
+          onClick={handleGOBack}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
         >
           <img

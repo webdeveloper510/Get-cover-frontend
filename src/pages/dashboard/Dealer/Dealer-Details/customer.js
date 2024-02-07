@@ -57,12 +57,14 @@ function CustomerList(props) {
     },
     {
       name: "Orders",
-      selector: (row) => 0,
+      selector: (row) => row?.orderData.noOfOrders,
       sortable: true,
     },
     {
       name: "Order Value",
-      selector: (row) => "$ 0.00",
+      selector: (row) =>
+        "$" + (row?.orderData.totalOrderAmount ?? 0).toFixed(2),
+
       sortable: true,
     },
     {
@@ -127,10 +129,10 @@ function CustomerList(props) {
     setCustomerList(result.result);
     console.log(result.result);
   };
-  
+
   useEffect(() => {
-    if(props.activeTab==='Customer'){
-    getCustomerList();
+    if (props.activeTab === "Customer") {
+      getCustomerList();
     }
   }, [props]);
 

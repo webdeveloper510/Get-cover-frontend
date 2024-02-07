@@ -420,7 +420,9 @@ function ResellerDetails() {
       label: "Orders",
       icons: Order,
       Activeicons: OrderActive,
-      content: <OrderList />,
+      content: (
+        <OrderList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
+      ),
     },
     {
       id: "Contracts",
@@ -504,14 +506,21 @@ function ResellerDetails() {
     setActiveTab(tabId);
   };
   const routeToPage = (data) => {
-    console.log(data, id.resellerId);
+    console.log(resellerDetail?.resellerData?.dealerId, id.resellerId);
+
     switch (data) {
+      case "Orders":
+        localStorage.setItem("Resellermenu", "Orders");
+        navigate(
+          `/addOrderforReseller/${id.resellerId}/${resellerDetail?.resellerData?.dealerId}`
+        );
+        break;
       case "PriceBook":
-        localStorage.setItem("menu", "PriceBook");
+        localStorage.setItem("Resellermenu", "PriceBook");
         navigate(`/addDealerBook/${id.resellerId}`);
         break;
       case "Customer":
-        localStorage.setItem("menu", "Customer");
+        localStorage.setItem("Resellermenu", "Customer");
         navigate(`/addCustomer/${id.resellerId}/reseller`);
         break;
       case "Users":
@@ -687,7 +696,10 @@ function ResellerDetails() {
               <Grid className="mt-5">
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg font-semibold ">0</p>
+                    <p className="text-white text-lg font-semibold ">
+                      {" "}
+                      {resellerDetail?.orderData?.noOfOrders ?? 0}{" "}
+                    </p>
                     <p className="text-[#999999] text-sm font-Regular ">
                       Total Number of Orders
                     </p>
@@ -695,7 +707,12 @@ function ResellerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-white text-lg  !font-[600]">
+                      ${" "}
+                      {resellerDetail?.orderData?.totalOrderAmount?.toFixed(
+                        2
+                      ) ?? 0}
+                    </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
                     </p>

@@ -219,7 +219,7 @@ function DealerOrderList() {
                   </>
                 ) : (
                   <div className="text-center py-1 cursor-pointer">
-                    <Link to={"/orderDetails"}>View</Link>
+                    <Link to={`/orderDetails/${row._id}`}>View</Link>
                   </div>
                 )}
               </div>
@@ -444,7 +444,7 @@ function DealerOrderList() {
                 placeholder=""
               />
             </div>
-            
+
             <div className="col-span-6">
               <Input
                 type="text"

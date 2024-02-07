@@ -354,6 +354,22 @@ export const checkDealerPriceBook = async (data) => {
     throw error;
   }
 };
+export const getOrderListByDealerId = async (id, data = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealer/dealerOrders/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const unAssignedServicerForDealer = async (data) => {
   const headers = createHeaders();
   try {

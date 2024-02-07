@@ -149,17 +149,17 @@ function DealerDetails() {
     setRefreshUserList(result.result);
   };
   const closeModal1 = () => {
-    setActiveTab('Servicer')
+    setActiveTab("Servicer");
     setIsModalOpen1(false);
   };
   const modalOpen1 = () => {
     getServicerList();
-    setActiveTab('Servicer123')
+    setActiveTab("Servicer123");
     setIsModalOpen1(true);
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
-    setActiveTab('Users')
+    setActiveTab("Users");
     userValues.resetForm();
   };
   const getServicerList = async () => {
@@ -344,7 +344,7 @@ function DealerDetails() {
   });
   const openUserModal = () => {
     userValues.resetForm();
-    setActiveTab('Users123')
+    setActiveTab("Users123");
     setIsUserModalOpen(true);
   };
   const columns = [
@@ -404,7 +404,7 @@ function DealerDetails() {
       label: "Orders",
       icons: Order,
       Activeicons: OrderActive,
-      content: <OrderList />,
+      content: <OrderList id={id.id} flag={"dealer"} activeTab={activeTab} />,
     },
     {
       id: "Contracts",
@@ -425,21 +425,23 @@ function DealerDetails() {
       label: "Reseller",
       icons: User,
       Activeicons: UserActive,
-      content: <Reseller id={id.id}  activeTab={activeTab}/>,
+      content: <Reseller id={id.id} activeTab={activeTab} />,
     },
     {
       id: "Servicer",
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: <ServicerList id={id.id} flag={flagValue} activeTab={activeTab} />,
+      content: (
+        <ServicerList id={id.id} flag={flagValue} activeTab={activeTab} />
+      ),
     },
     {
       id: "Customer",
       label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
-      content: <CustomerList id={id.id}  activeTab={activeTab}/>,
+      content: <CustomerList id={id.id} activeTab={activeTab} />,
     },
 
     {
@@ -447,14 +449,21 @@ function DealerDetails() {
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: <UserList flag={"dealer"} id={id.id} data={refreshList} activeTab={activeTab} />,
+      content: (
+        <UserList
+          flag={"dealer"}
+          id={id.id}
+          data={refreshList}
+          activeTab={activeTab}
+        />
+      ),
     },
     {
       id: "PriceBook",
       label: "PriceBook",
       icons: PriceBook,
       Activeicons: PriceBookActive,
-      content: <PriceBookList id={id.id}  activeTab={activeTab}/>,
+      content: <PriceBookList id={id.id} activeTab={activeTab} />,
     },
   ];
 
@@ -481,6 +490,10 @@ function DealerDetails() {
       case "Reseller":
         localStorage.setItem("menu", "Reseller");
         navigate(`/addReseller/${id.id}`);
+        break;
+      case "Orders":
+        localStorage.setItem("menu", "Orders");
+        navigate(`/addOrder/${id.id}`);
         break;
       default:
         console.log("Invalid data, no navigation");
@@ -594,7 +607,7 @@ function DealerDetails() {
                   className="mr-3 bg-[#383838] rounded-[14px]"
                   alt="email"
                 />
-               <div className="w-[80%]">
+                <div className="w-[80%]">
                   <p className="text-sm text-neutral-grey font-Regular">
                     Email
                   </p>
@@ -621,7 +634,9 @@ function DealerDetails() {
               <Grid className="mt-5">
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg font-semibold ">0</p>
+                    <p className="text-white text-lg font-semibold ">
+                      {dealerDetails?.ordersResult?.[0]?.noOfOrders ?? 0}
+                    </p>
                     <p className="text-[#999999] text-sm font-Regular ">
                       Total Number of Orders
                     </p>
@@ -629,7 +644,12 @@ function DealerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-white text-lg  !font-[600]">
+                      ${" "}
+                      {dealerDetails?.ordersResult?.[0]?.totalOrderAmount?.toFixed(
+                        2
+                      ) ?? 0}
+                    </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
                     </p>
@@ -660,7 +680,6 @@ function DealerDetails() {
                 className="col-span-12"
                 onClick={() => routeToPage(activeTab)}
               >
-               
                 <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
                   {" "}
                   <img
