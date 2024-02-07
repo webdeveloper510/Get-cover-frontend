@@ -556,8 +556,10 @@ function AddOrder() {
     });
     console.log(arr);
     arr.forEach((res, index) => {
-      console.log(res);
-      if (res === "" || res?.file?.name != " ") {
+      console.log(res?.file?.name == " ");
+      if (res === "") {
+        data.productsArray[index].fileValue = false;
+      } else if (res?.file?.name == " ") {
         data.productsArray[index].fileValue = false;
       } else {
         data.productsArray[index].fileValue = true;
