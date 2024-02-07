@@ -35,9 +35,9 @@ const SelectBoxWithSearch = ({
       borderWidth: "1px",
       borderRadius: "10px",
       padding: "0.425rem",
-      borderColor: state.isFocused ? "#f9f9f9" : provided.borderColor,
+      borderColor: state.isFocused ? "#80808085" : provided.borderColor,
       boxShadow: state.isFocused
-        ? "0 0 0 2px gray-300"
+        ? "0 0 0 0px #80808085"
         : provided.boxShadow,
     }),
     option: (provided, state) => ({
