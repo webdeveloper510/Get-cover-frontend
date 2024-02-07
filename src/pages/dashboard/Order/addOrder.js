@@ -551,17 +551,15 @@ function AddOrder() {
     const formData = new FormData();
     const arr = [];
     data.productsArray.map((res, index) => {
-      console.log(res?.file?.name);
-      //   if (res?.file?.name == undefined) {
-      //     res.fileValue = false;
-      //   } else {
-      //     res.fileValue = true;
-      //   }
+      console.log();
       arr[index] = res.file;
     });
     console.log(arr);
     arr.forEach((res, index) => {
+      console.log(res?.file?.name == " ");
       if (res === "") {
+        data.productsArray[index].fileValue = false;
+      } else if (res?.file?.name == " ") {
         data.productsArray[index].fileValue = false;
       } else {
         data.productsArray[index].fileValue = true;
@@ -647,6 +645,7 @@ function AddOrder() {
       console.log(newArray);
       return newArray;
     });
+    formikStep3.setFieldValue(`productsArray[${index}].file`, {});
     if (file) {
       setFileValues((prevFileValues) => {
         const newArray = [...prevFileValues];
@@ -2112,6 +2111,7 @@ function AddOrder() {
                   </Grid>
                 </div>
                 {formikStep3.values.productsArray.map((data, index) => {
+                  console.log(data);
                   return (
                     <>
                       <div className="col-span-8">
