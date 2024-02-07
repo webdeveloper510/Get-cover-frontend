@@ -97,3 +97,21 @@ export const getDealerCustomers = async (data) => {
     throw error;
   }
 };
+
+export const addPriceBook = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/createDealerPriceBook
+      `,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

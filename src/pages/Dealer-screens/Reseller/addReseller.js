@@ -23,6 +23,7 @@ import {
 import Cross from "../../../assets/images/Cross.png";
 import { addNewReseller } from "../../../services/reSellerServices";
 import { RotateLoader } from "react-spinners";
+import { addNewResellerForDealer } from "../../../services/dealerServices/resellerServices";
 
 function DealerAddReseller() {
   const [timer, setTimer] = useState(3);
@@ -36,10 +37,10 @@ function DealerAddReseller() {
     useState(false);
   const navigate = useNavigate();
   const { dealerValueId } = useParams();
-  console.log(dealerValueId);
+
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
-    dealerName: "",
+    // dealerName: "",
     status: true,
     street: "",
     city: "",
@@ -110,7 +111,7 @@ function DealerAddReseller() {
       if (dealerValueId) {
         navigate(`/dealerDetails/${dealerValueId}`);
       } else {
-        navigate("/resellerList");
+        navigate("/dealer/resellerList");
       }
     }
     setLoading(false);
@@ -186,7 +187,7 @@ function DealerAddReseller() {
     initialValues: initialFormValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
-      dealerName: Yup.string().required("Required"),
+      // dealerName: Yup.string().required("Required"),
       accountName: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required")
@@ -284,7 +285,7 @@ function DealerAddReseller() {
         members: [newObject, ...values.members],
       };
       console.log(newValues);
-      const result = await addNewReseller(newValues);
+      const result = await addNewResellerForDealer(newValues);
       console.log(result.message);
       if (result.code == 200) {
         setMessage("Reseller Created Successfully");
@@ -310,6 +311,7 @@ function DealerAddReseller() {
       }
     },
   });
+  console.log(formik.errors);
   const handleLinkClick = () => {
     if (dealerValueId !== undefined) {
       navigate(`/dealer/dealerDetails/${dealerValueId}`);
@@ -318,9 +320,9 @@ function DealerAddReseller() {
     }
   };
   const getDealerListData = async () => {
-    if (dealerValueId !== undefined) {
-      formik.setFieldValue("dealerName", dealerValueId);
-    }
+    // if (dealerValueId !== undefined) {
+    //   formik.setFieldValue("dealerName", dealerValueId);
+    // }
     const result = await getDealersList();
     console.log(result.data);
     let arr = [];

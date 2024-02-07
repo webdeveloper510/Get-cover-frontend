@@ -54,7 +54,7 @@ function ResellerList() {
     setLoading(true);
     const result = await getDealersList();
     console.log(result, "jjjjj");
-    const Dealer = result.data.map((data) => {
+    const Dealer = result?.data?.map((data) => {
       const datadealer = {
         label: data.dealerData.name,
         value: data.dealerData._id,

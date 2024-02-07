@@ -66,13 +66,13 @@ function OrderList() {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
     }
-    if ( timer === 0) {
+    if (timer === 0) {
       closeArchive();
-       getOrderList();
+      getOrderList();
       closeModal1();
     }
     return () => clearInterval(intervalId);
-  }, [ isModalOpen1, timer]);
+  }, [isModalOpen1, timer]);
 
   const openModal1 = () => {
     console.log(orderId);
@@ -88,15 +88,15 @@ function OrderList() {
   };
   const openModal = (id) => {
     processOrders(id).then((res) => {
-      setSelectedAction(null)
+      setSelectedAction(null);
       setProcessOrderErrors(res.result);
       SetErrorList(res.result);
       console.log(res.result);
     });
-   
+
     setIsModalOpen(true);
   };
- 
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -257,8 +257,12 @@ function OrderList() {
                     </div>
                   </>
                 ) : (
-                    <Link to={`/orderDetails/${row._id}`} className="text-center py-1 cursor-pointer w-full flex justify-center">View</Link>
-                
+                  <Link
+                    to={`/orderDetails/${row._id}`}
+                    className="text-center py-1 cursor-pointer w-full flex justify-center"
+                  >
+                    View
+                  </Link>
                 )}
               </div>
             )}

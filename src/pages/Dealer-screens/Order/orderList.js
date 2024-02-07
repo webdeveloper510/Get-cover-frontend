@@ -19,6 +19,7 @@ import { RotateLoader } from "react-spinners";
 import { getOrders } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
+import { getDealerOrderList } from "../../../services/dealerServices/orderListServices";
 
 function DealerOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -91,7 +92,7 @@ function DealerOrderList() {
   }, []);
   const getOrderList = async () => {
     setLoading(true);
-    const result = await getOrders({});
+    const result = await getDealerOrderList({});
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);

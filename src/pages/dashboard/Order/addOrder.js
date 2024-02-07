@@ -610,59 +610,66 @@ function AddOrder() {
           }
         }
       });
-    }
-else{
-  Object.entries(newValues).forEach(([key, value]) => {
-    if (key === "file") {
-      if (value) {
-        value.forEach((val, index) => {
-          formData.append(`file`, val);
-        });
-      } else {
-        formData.append(`file`, null);
-      }
-    } else if (key === "productsArray") {
-      value.forEach((item, index) => {
-        Object.entries(item).forEach(([key1, value1]) => {
-          if (key1 !== "file") {
-            formData.append(`${key}[${index}][${key1}]`, value1);
-          }
-        });
-        if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
-          item.QuantityPricing.forEach((qpItem, qpIndex) => {
-            Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
-              formData.append(
-                `${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`,
-                qpValue
-              );
+    } else {
+      Object.entries(newValues).forEach(([key, value]) => {
+        if (key === "file") {
+          if (value) {
+            value.forEach((val, index) => {
+              formData.append(`file`, val);
             });
+          } else {
+            formData.append(`file`, null);
+          }
+        } else if (key === "productsArray") {
+          value.forEach((item, index) => {
+            Object.entries(item).forEach(([key1, value1]) => {
+              if (key1 !== "file") {
+                formData.append(`${key}[${index}][${key1}]`, value1);
+              }
+            });
+            if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
+              item.QuantityPricing.forEach((qpItem, qpIndex) => {
+                Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
+                  formData.append(
+                    `${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`,
+                    qpValue
+                  );
+                });
+              });
+            }
           });
+        } else {
+          formData.append(key, value);
         }
       });
-    } else {
-      formData.append(key, value);
-    }
-  });
 
-  checkMultipleFileValidation(formData).then((res) => {
-    if (res.code == 200) {
-      nextStep();
-    } else {
-      for (let key of res.message) {
-        console.log("res", res.message);
-        setIsErrorOpen(true);
-        formikStep3.setFieldError(
-          `productsArray[${key.key}].file`,
-          key.message
-        );
-      }
+      checkMultipleFileValidation(formData).then((res) => {
+        if (res.code == 200) {
+          nextStep();
+        } else {
+          for (let key of res.message) {
+            console.log("res", res.message);
+            setIsErrorOpen(true);
+            formikStep3.setFieldError(
+              `productsArray[${key.key}].file`,
+              key.message
+            );
+          }
+        }
+      });
     }
-  });
-}
   };
 
   const fileInputRef = useRef([]);
-
+  const handleInputClick = (index) => {
+    setFileValues((prevFileValues) => {
+      const newArray = [...prevFileValues];
+      newArray[index] = null;
+      console.log(newArray);
+      return newArray;
+    });
+    formikStep3.setFieldValue(`productsArray[${index}].file`, {});
+  };
   const handleFileSelect = (event, index) => {
     const file = event.target.files[0];
     setFileValues((prevFileValues) => {
@@ -2048,7 +2055,10 @@ else{
                         ref={fileInputRef.current[index]}
                         accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                         style={{ display: "none" }}
-                        onChange={(e) => handleFileSelect(e, index)}
+                        onChange={(e) => {
+                          handleFileSelect(e, index);
+                        }}
+                        onClick={() => handleInputClick(index)}
                         disabled={
                           Boolean(numberOfOrders[index]) === true ? false : true
                         }
