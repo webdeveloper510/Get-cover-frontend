@@ -190,11 +190,9 @@ function AddOrder() {
     setResllerList(arr);
   };
 
-  console.log(loading1, '--------------')
+  console.log(loading1, "--------------");
   useEffect(() => {
     if (orderId != undefined) {
-    
-     
       orderDetails();
       setType("Edit");
     } else {
@@ -357,6 +355,7 @@ function AddOrder() {
     if (location.pathname == "/addOrder") {
       setCurrentStep(1);
       formik.resetForm();
+      setFileValues([]);
       formikStep2.resetForm();
       formikStep3.resetForm();
       formik4.resetForm();
@@ -552,11 +551,22 @@ function AddOrder() {
     const formData = new FormData();
     const arr = [];
     data.productsArray.map((res, index) => {
-      console.log(res?.file?.name != "");
-      res.fileValue = res?.file?.name != "";
-      arr.push(res.file);
+      console.log(res?.file?.name);
+      //   if (res?.file?.name == undefined) {
+      //     res.fileValue = false;
+      //   } else {
+      //     res.fileValue = true;
+      //   }
+      arr[index] = res.file;
     });
-    console.log(data);
+    console.log(arr);
+    arr.forEach((res, index) => {
+      if (res === "") {
+        data.productsArray[index].fileValue = false;
+      } else {
+        data.productsArray[index].fileValue = true;
+      }
+    });
 
     data.productsArray.map((res, index) => {
       let sumOfValues = 0;
@@ -2406,7 +2416,6 @@ function AddOrder() {
 
   return (
     <div className="my-8 ml-3">
-       
       <Headbar />
       <div className="flex mt-2">
         <Link
@@ -2534,12 +2543,13 @@ function AddOrder() {
       </div>
       {loading1 ? (
         <div className=" h-[400px] w-full flex py-5">
-        <div className="self-center mx-auto">
-          <RotateLoader color="#333" />
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
         </div>
-      </div>
-      ) : (<> {renderStep()} </> )}
-     
+      ) : (
+        <> {renderStep()} </>
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
