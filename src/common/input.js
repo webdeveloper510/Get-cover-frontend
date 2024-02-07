@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useState } from "react";
 
 const Input = ({
@@ -36,6 +37,8 @@ const Input = ({
 
     if (type === "date") {
       inputValue = formatDate(inputValue);
+      //  inputValue = moment(inputValue, "MM/DD/YYYY").format("MM/DD/YYYY");
+      //  console.log(inputValue, "---------------")
     }
 
     setInputValue(inputValue);

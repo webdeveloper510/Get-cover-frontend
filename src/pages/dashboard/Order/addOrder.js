@@ -269,14 +269,17 @@ function AddOrder() {
     const result = await orderDetailsById(orderId);
     console.log(result.result.productsArray);
     getResellerList(result?.result?.dealerId);
+    
     getCustomerList({
       dealerId: result?.result?.dealerId,
       resellerId: result?.result?.resellerId,
     });
+
     getServicerList({
       dealerId: result?.result?.dealerId,
       resellerId: result?.result?.resellerId,
     });
+
     result?.result?.productsArray?.forEach((product, index) => {
       if (product.orderFile.name != "") {
         setFileValues((prevFileValues) => {
@@ -722,8 +725,8 @@ function AddOrder() {
       }),
     }),
     onSubmit: (values) => {
+      setLoading1(true);
       console.log(values);
-      // setLoading(true);
       const arr = [];
       formikStep3.values.productsArray.map((res, index) => {
         arr.push(res.file);
@@ -744,6 +747,7 @@ function AddOrder() {
         orderAmount: parseFloat(totalAmount),
       };
       const formData = new FormData();
+      
       Object.entries(data).forEach(([key, value]) => {
         if (key === "file") {
           if (value) {
@@ -775,32 +779,27 @@ function AddOrder() {
           formData.append(key, value);
         }
       });
+      setLoading1(true);
       if (orderId != undefined) {
         editOrder(orderId, data).then((res) => {
           if (res.code == 200) {
-            setLoading(false);
             openModal();
-
-            //  navigate('/orderList')
           } else {
-            setLoading(false);
             setError(res.message);
           }
         });
       } else {
         addOrder(formData).then((res) => {
           if (res.code == 200) {
-            setLoading(false);
             openModal();
 
             //  navigate('/orderList')
           } else {
-            setLoading(false);
             setError(res.message);
           }
         });
       }
-      setLoading(false);
+      setLoading1(false);
     },
   });
 
@@ -1202,7 +1201,11 @@ function AddOrder() {
                     label="Dealer Name"
                     name="dealerId"
                     required={true}
-                    className="!bg-[#fff]"
+                    className={`${ orderId ||
+                      dealerId ||
+                      resellerId ||
+                      dealerValue ||
+                      customerId ? '!bg-[#f2f2f2] !top-3' : '!bg-white' }`}
                     onChange={handleSelectChange}
                     value={formik.values?.dealerId}
                     onBlur={formik.handleBlur}
@@ -1225,13 +1228,12 @@ function AddOrder() {
                 </div>
                 <div className="col-span-6">
                   <SelectBoxWIthSerach
-                    // <Select
                     label="Reseller Name"
                     name="resellerId"
                     placeholder=""
-                    className="!bg-white"
+                    className={`${
+                      resellerId ? '!bg-[#f2f2f2] !top-3' : '!bg-white' }`}
                     isDisabled={resellerId}
-                    // onChange={handleSelectChange}
                     onChange={handleSelectChange}
                     options={resellerList}
                     value={
@@ -1247,9 +1249,9 @@ function AddOrder() {
                     label="Customer Name"
                     name="customerId"
                     placeholder=""
-                    className="!bg-white"
+                    className={`${
+                      customerId ? '!bg-[#f2f2f2] !top-3' : '!bg-white' }`}
                     isDisabled={customerId}
-                    // onChange={handleSelectChange}
                     onChange={handleSelectChange}
                     options={customerList}
                     value={

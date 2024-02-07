@@ -56,7 +56,7 @@ function CustomerList(props) {
       sortable: true,
     },
     {
-      name: "Orders",
+      name: "# of Orders",
       selector: (row) => row?.orderData.noOfOrders,
       sortable: true,
     },
