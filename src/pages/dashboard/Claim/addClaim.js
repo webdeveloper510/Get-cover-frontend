@@ -415,7 +415,7 @@ function AddClaim() {
                 <p className='text-white py-2 font-Regular'>Order ID : <b> 315174  </b></p>
               </div>
               <div className='col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat '>
-                <p className='text-white py-2 font-Regular'>Dealer P.O. No. : <b> MC-10554 </b></p>
+                <p className='text-white py-2 font-Regular'>Dealer P.O. # : <b> MC-10554 </b></p>
               </div>
               <div className='col-span-1'></div>
               <div className='col-span-1 self-center justify-end self-center rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat'>
