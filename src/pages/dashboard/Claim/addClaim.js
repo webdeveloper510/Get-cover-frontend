@@ -9,6 +9,7 @@ import Input from '../../../common/input';
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import Edit from '../../../assets/images/Dealer/EditIcon.svg';
+import Cross from "../../../assets/images/Cross.png";
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import check from "../../../assets/images/icons/check.svg";
@@ -393,11 +394,20 @@ function AddClaim() {
 
           {renderStep()}
 
-          <Modal isOpen={isModalOpen} onClose={closeModal} className="w-[1100px]">
-            <div className="text-center">
+          <Modal isOpen={isModalOpen} onClose={closeModal} className="!w-[1100px]">
+              <Button
+              onClick={closeModal}
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+            >
+              <img
+                src={Cross}
+                className="w-full h-full text-black rounded-full p-0"
+              />
+            </Button>
+            <div className="text-center mt-2">
               <p className="text-3xl font-semibold mb-4">Contract Details</p>
               <div>
-            <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
+            <Grid className='bg-[#333333] !gap-2 !grid-cols-9 !p-3 rounded-t-xl'>
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
                 <p className='text-white py-2 font-Regular'>Contract ID :  <b> 861910 </b></p>
               </div>
