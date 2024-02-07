@@ -646,7 +646,7 @@ function DealerDetails() {
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
                       ${" "}
-                      {dealerDetails?.ordersResult?.[0]?.totalOrderAmount?.toFixed(
+                      {dealerDetails?.ordersResult?.[0]?.orderAmount?.toFixed(
                         2
                       ) ?? 0}
                     </p>

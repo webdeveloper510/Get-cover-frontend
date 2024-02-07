@@ -123,7 +123,7 @@ function CustomerList() {
     },
     {
       name: "# of Orders",
-      selector: (row) => row?.order?.noOfProducts,
+      selector: (row) => row?.order?.noOfOrders ?? 0,
       sortable: true,
     },
     {

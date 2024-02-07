@@ -160,7 +160,7 @@ function DealerList() {
     },
     {
       name: "# of Orders",
-      selector: (row) => row?.ordersData?.noOfProducts,
+      selector: (row) => row?.ordersData?.noOfOrders ?? 0,
       sortable: true,
     },
     {
