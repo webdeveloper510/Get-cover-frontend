@@ -37,7 +37,7 @@ const Input = ({
 
     if (type === "date") {
       inputValue = formatDate(inputValue);
-      //  inputValue = moment().calendar();
+      //  inputValue = moment(inputValue, "MM/DD/YYYY").format("MM/DD/YYYY");
       //  console.log(inputValue, "---------------")
     }
 
