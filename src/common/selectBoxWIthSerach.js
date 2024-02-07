@@ -8,6 +8,7 @@ const SelectBoxWithSearch = ({
   required,
   className,
   options,
+  className1,
   name,
   isDisabled,
 }) => {
@@ -69,7 +70,7 @@ const SelectBoxWithSearch = ({
         }
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className="!w-full"
+        className={`!w-full ${className1}`}
         isDisabled={isDisabled}
         defaultValue={localDefaultValue}
         placeholder="Search..."

@@ -54,7 +54,7 @@ function Reseller(props) {
       sortable: true,
     },
     {
-      name: "Orders",
+      name: "# of Orders",
       selector: (row) => 0,
       sortable: true,
     },
