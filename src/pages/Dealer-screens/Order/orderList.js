@@ -122,16 +122,16 @@ function DealerOrderList() {
       maxWidth: "70px",
     },
     {
-      name: "Dealer Order #",
+      name: "Dealer P.O #",
       selector: (row) => row.venderOrder,
       sortable: true,
       minWidth: "180px",
     },
-    {
-      name: "Dealer",
-      selector: (row) => row.dealerName.name,
-      sortable: true,
-    },
+    // {
+    //   name: "Dealer",
+    //   selector: (row) => row.dealerName.name,
+    //   sortable: true,
+    // },
     {
       name: "Customer",
       selector: (row) => row.customerName.username,

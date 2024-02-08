@@ -29,6 +29,12 @@ const SelectBoxWithSearch = ({
     setLocalDefaultValue(value ? value : "");
   }, [value, localDefaultValue]);
 
+  // Adding an "unselect" option
+  const extendedOptions = [
+    { value: null, label: "Unselect" }, // Change the label as per your preference
+    ...options,
+  ];
+
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
@@ -56,17 +62,14 @@ const SelectBoxWithSearch = ({
   return (
     <div className="relative w-full">
       <Select
-        options={options}
-        onChange={(selectedOption) =>
-          onChange(name, selectedOption?.value || null)
-        }
+        options={extendedOptions}
+        onChange={(selectedOption) => onChange(name, selectedOption?.value)}
         styles={customStyles}
         isSearchable
         value={
-          options.find((option) => option?.value === value) || {
-            value,
-            label: value,
-          }
+          value !== null
+            ? extendedOptions.find((option) => option?.value === value)
+            : null
         }
         onFocus={handleFocus}
         onBlur={handleBlur}
