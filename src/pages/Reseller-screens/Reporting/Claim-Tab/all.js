@@ -12,7 +12,7 @@ import drop from '../../../../assets/images/icons/dropwhite.svg'
 import ChartComponent from '../../../../common/chart'
 import BarChart from '../../../../common/barChart'
 
-function DealerAll() {
+function ResellerAll() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
 
@@ -128,4 +128,4 @@ function DealerAll() {
   )
 }
 
-export default DealerAll
+export default ResellerAll

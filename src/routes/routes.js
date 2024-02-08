@@ -70,6 +70,24 @@ import ArchiveOrderList from "../pages/dashboard/Order/order-archive";
 import ServicerDealerList from "../pages/Servicer-screens/Dealer/dealerLIst";
 import DealerResellerDetails from "../pages/Dealer-screens/Reseller/resellerDetails";
 import DealerCustomerDetails from "../pages/Dealer-screens/Customer/customerDetails";
+import ResellerAddBulkClaim from "../pages/Reseller-screens/Claim/addBulkClaim";
+import ResellerAddClaim from "../pages/Reseller-screens/Claim/addClaim";
+import ResellerClaimList from "../pages/Reseller-screens/Claim/claimList";
+import ResellerClaims from "../pages/Reseller-screens/Reporting/claims";
+import ResellerSale from "../pages/Reseller-screens/Reporting/sale";
+import ResellerContractList from "../pages/Reseller-screens/Contract/contractList";
+import ResellerPriceBook from "../pages/Reseller-screens/priceBook";
+import ResellerCustomerDetails from "../pages/Reseller-screens/Customer/customerDetails";
+import ResellerServicerDetails from "../pages/Reseller-screens/Servicer/servicerDetails";
+import ResellerServicerList from "../pages/Reseller-screens/Servicer/servicerList";
+import ResellerAddServicer from "../pages/Reseller-screens/Servicer/addServicer";
+import ResellerOrderList from "../pages/Reseller-screens/Order/orderList";
+import ResellerAddOrder from "../pages/Reseller-screens/Order/addOrder";
+import ResellerEditContract from "../pages/Reseller-screens/Contract/editContract";
+import ResellerCustomerList from "../pages/Reseller-screens/Customer/customerList";
+import ResellerAddCustomer from "../pages/Reseller-screens/Customer/addCustomer";
+import ResellerUser from "../pages/Reseller-screens/user";
+import ResellerDashboard from "../pages/Reseller-screens/dashboard";
 
 const routes = [
   {
@@ -594,6 +612,158 @@ const routes = [
           <PrivateRoute
             element={<ServicerAddBulkClaim />}
             path="/servicer/claimList"
+          />
+        ),
+      },
+
+ // Reseller Routs ---------------------------------------------------------------
+
+      {
+        path: "/reseller/dashboard",
+        element: (
+          <PrivateRoute
+            element={<ResellerDashboard />}
+            path="/reseller/dashboard"
+          />
+        ),
+      },
+      {
+        path: "/reseller/user",
+        element: <PrivateRoute element={<ResellerUser />} path="/dealer/user" />,
+      },
+      {
+        path: "/reseller/addCustomer",
+        element: (
+          <PrivateRoute
+            element={<ResellerAddCustomer />}
+            path="/reseller/addCustomer"
+          />
+        ),
+      },
+      {
+        path: "/reseller/customerList",
+        element: (
+          <PrivateRoute
+            element={<ResellerCustomerList />}
+            path="/reseller/customerList"
+          />
+        ),
+      },
+      {
+        path: "/reseller/contractList",
+        element: (
+          <PrivateRoute
+            element={<ResellerContractList />}
+            path="/reseller/contractList"
+          />
+        ),
+      },
+      {
+        path: "/reseller/editContract",
+        element: (
+          <PrivateRoute
+            element={<ResellerEditContract />}
+            path="/reseller/editContract"
+          />
+        ),
+      },
+      {
+        path: "/reseller/addOrder",
+        element: (
+          <PrivateRoute element={<ResellerAddOrder />} path="/reseller/addOrder" />
+        ),
+      },
+      {
+        path: "/reseller/orderList",
+        element: (
+          <PrivateRoute
+            element={<ResellerOrderList />}
+            path="/reseller/orderList"
+          />
+        ),
+      },
+      {
+        path: "/reseller/addServicer",
+        element: (
+          <PrivateRoute
+            element={<ResellerAddServicer />}
+            path="/reseller/addServicer"
+          />
+        ),
+      },
+      {
+        path: "/reseller/servicerList",
+        element: (
+          <PrivateRoute
+            element={<ResellerServicerList />}
+            path="/reseller/servicerList"
+          />
+        ),
+      },
+      {
+        path: "/reseller/servicerDetails",
+        element: (
+          <PrivateRoute
+            element={<ResellerServicerDetails />}
+            path="/reseller/servicerDetails"
+          />
+        ),
+      },
+      {
+        path: "/reseller/customerDetails/:customerId",
+        element: (
+          <PrivateRoute
+            element={<ResellerCustomerDetails />}
+            path="/reseller/customerDetails/:customerId"
+          />
+        ),
+      },
+      {
+        path: "/reseller/priceBook",
+        element: (
+          <PrivateRoute
+            element={<ResellerPriceBook />}
+            path="/reseller/priceBook"
+          />
+        ),
+      },
+      {
+        path: "/reseller/contract",
+        element: (
+          <PrivateRoute element={<ResellerContractList />} path="/reseller/contract" />
+        ),
+      },
+      {
+        path: "/reseller/sale",
+        element: <PrivateRoute element={<ResellerSale />} path="/reseller/sale" />,
+      },
+      {
+        path: "/reseller/claim",
+        element: (
+          <PrivateRoute element={<ResellerClaims />} path="/reseller/claim" />
+        ),
+      },
+      {
+        path: "/reseller/claimList",
+        element: (
+          <PrivateRoute
+            element={<ResellerClaimList />}
+            path="/reseller/claimList"
+          />
+        ),
+      },
+      {
+        path: "/reseller/addClaim",
+        element: (
+          <PrivateRoute element={<ResellerAddClaim />} path="/reseller/addClaim" />
+        ),
+      },
+      {
+        path: "/reseller/addBulkClaim",
+        element: (
+          <PrivateRoute
+            element={<ResellerAddBulkClaim />}
+            path="/reseller/addBulkClaim"
           />
         ),
       },

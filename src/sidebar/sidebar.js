@@ -614,7 +614,121 @@ function SideBar() {
       url: "/dealer/user",
     },
   ];
-
+  const reseller = [
+    {
+      name: "Dashboard",
+      url: "/reseller/dashboard",
+      image: DashboardImage,
+      active: ActiveDashboard,
+    },
+    {
+      name: "Customer",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      items: [
+        {
+          name: "Customer List",
+          url: "/reseller/customerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Customer",
+          url: "/reseller/addCustomer",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
+      name: "Servicer List",
+      image: ServicerImage,
+      active: ActiveServicer,
+      url: "/reseller/servicerList",
+    },
+    {
+      name: "Order",
+      image: OrderImage,
+      active: ActiveOrder,
+      items: [
+        {
+          name: "Order List",
+          url: "/reseller/orderList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Order",
+          url: "/reseller/addOrder",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
+      name: "Contract",
+      url: "/reseller/contractList",
+      active: ActiveProduct,
+      image: ProductImage,
+    },
+    {
+      name: "Claim",
+      image: ClaimImage,
+      active: ActiveClaim,
+      items: [
+        {
+          name: "Claim Listing",
+          url: "/reseller/claimList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Claim",
+          url: "/reseller/addClaim",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+        {
+          name: "Add Bulk Claim",
+          url: "/reseller/addBulkClaim",
+          image: Dropdown2,
+          active: ForthActive,
+        },
+      ],
+    },
+    
+    {
+      name: "Price Book ",
+      url: "/reseller/priceBook",
+      image: PriceImage,
+      active: ActivePriceBook,
+    },
+    {
+      name: "Reporting",
+      image: ReportImage,
+      active: ActiveReport,
+      items: [
+        {
+          name: "Sale",
+          url: "/reseller/sale",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Claims",
+          url: "/reseller/claim",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
+      name: "Manage Account",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      url: "/reseller/user",
+    },
+  ];
   const servicer = [
     {
       name: "Dashboard",
@@ -681,6 +795,17 @@ function SideBar() {
                       setExpandedItem={setExpandedItem}
                     />
                   ))
+                : userType?.role === "Reseller" ? reseller.map((bar, index) => (
+                  <SidebarItem
+                    key={index}
+                    item={bar}
+                    active={active}
+                    expandedItem={expandedItem}
+                    onToggleExpand={handleToggleExpand}
+                    onLinkClick={handleLinkClick}
+                    setExpandedItem={setExpandedItem}
+                  />
+                ))
                 : dealer.map((bar, index) => (
                     <SidebarItem
                       key={index}

@@ -3,7 +3,7 @@ import BarChart from '../../../../common/barChart'
 import Grid from '../../../../common/grid'
 import drop from '../../../../assets/images/icons/dropwhite.svg'
 
-function DealerUnpaidClaim() {
+function ResellerUnpaidClaim() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -48,4 +48,4 @@ function DealerUnpaidClaim() {
   )
 }
 
-export default DealerUnpaidClaim
+export default ResellerUnpaidClaim

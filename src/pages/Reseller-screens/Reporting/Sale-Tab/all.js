@@ -13,7 +13,7 @@ import ChartComponent from '../../../../common/chart'
 import BarChart from '../../../../common/barChart'
 import Input from '../../../../common/input'
 
-function DealerAll() {
+function ServicerAll() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isRangeOpen, setIsRangeOpen] = useState(false);
 
@@ -163,4 +163,4 @@ function DealerAll() {
   )
 }
 
-export default DealerAll
+export default ServicerAll
