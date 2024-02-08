@@ -125,7 +125,7 @@ function DealerOrderList() {
       name: "Dealer P.O #",
       selector: (row) => row.venderOrder,
       sortable: true,
-      minWidth: "180px",
+      minWidth: "120px",
     },
     // {
     //   name: "Dealer",
@@ -146,7 +146,7 @@ function DealerOrderList() {
       name: "# of Contract",
       selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts),
       sortable: true,
-      minWidth: "150px",
+      minWidth: "100px",
     },
     {
       name: "Order Value",
