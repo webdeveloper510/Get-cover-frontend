@@ -540,7 +540,7 @@ function DealerResellerDetails() {
         <div className="flex">
           <div onClick={() => localStorage.removeItem("menu")}>
             <Link
-              to={"/resellerList"}
+              to={"/dealer/resellerList"}
               className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
             >
               <img
