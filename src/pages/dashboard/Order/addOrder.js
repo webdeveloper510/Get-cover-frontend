@@ -64,6 +64,7 @@ function AddOrder() {
   const [priceBookName, setPriceBookName] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [fileValues, setFileValues] = useState([]);
   const [timer, setTimer] = useState(3);
   const [sendNotification, setSendNotification] = useState(true);
@@ -758,7 +759,7 @@ function AddOrder() {
       }),
     }),
     onSubmit: (values) => {
-      setLoading1(true);
+      setLoading2(true);
       console.log(values);
       const arr = [];
       formikStep3.values.productsArray.map((res, index) => {
@@ -816,6 +817,7 @@ function AddOrder() {
       if (orderId != undefined) {
         editOrder(orderId, data).then((res) => {
           if (res.code == 200) {
+            setLoading2(false);
             openModal();
           } else {
             setError(res.message);
@@ -824,6 +826,7 @@ function AddOrder() {
       } else {
         addOrder(formData).then((res) => {
           if (res.code == 200) {
+            setLoading2(false);
             openModal();
 
             //  navigate('/orderList')
@@ -832,7 +835,7 @@ function AddOrder() {
           }
         });
       }
-      setLoading1(false);
+      setLoading2(false);
     },
   });
 
@@ -2619,7 +2622,13 @@ function AddOrder() {
           </div>
         </div>
       ) : (
-        <> {renderStep()} </>
+        <> {loading2 ? (
+          <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div>
+        ) : ( <>{renderStep()} </> )}</>
       )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
