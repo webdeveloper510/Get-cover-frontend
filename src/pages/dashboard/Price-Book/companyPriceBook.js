@@ -325,6 +325,7 @@ function CompanyPriceBook() {
 
   const closeView = () => {
     setIsViewOpen(false);
+    setLoading(false);
   };
   const openView = async (id) => {
     try {

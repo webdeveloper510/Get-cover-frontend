@@ -353,7 +353,7 @@ function UploadDealerBook() {
                     />
                   </div>
                   {formik.touched.file && formik.errors.file && (
-                    <p className="text-red-500 text-[10px] mt-1 font-medium">
+                    <p className="text-red-500 text-base mt-1 font-medium">
                       {formik.errors.file}
                     </p>
                   )}

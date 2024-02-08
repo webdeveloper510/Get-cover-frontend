@@ -49,8 +49,6 @@ const Input = ({
 
     if (type === "date") {
       inputValue = formatDate(inputValue);
-      //  inputValue = moment(inputValue, "MM/DD/YYYY").format("MM/DD/YYYY");
-      //  console.log(inputValue, "---------------")
     }
 
     setInputValue(inputValue);
@@ -73,8 +71,7 @@ const Input = ({
             selected={inputValue ? new Date(inputValue) : null}
             onChange={handleDateChange}
             dateFormat="MM/dd/yyyy"
-            placeholderText="MM/dd/yyyy"
-            
+            placeholderText="mm/dd/yyyy"
             className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
               error ? "border-[red]" : "border-gray-300 "
             } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}

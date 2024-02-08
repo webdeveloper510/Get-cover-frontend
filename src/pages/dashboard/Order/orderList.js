@@ -411,13 +411,12 @@ function OrderList() {
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
+            Order can not be process to the following reasons  : <br/>
             {errorList &&
               errorList.map((res) => {
                 console.log(res);
                 return (
-                  <p className="text-neutral-grey text-base font-medium mt-2">
-                    {res}
-                  </p>
+                    <span >{res}. </span>
                 );
               })}
           </p>
