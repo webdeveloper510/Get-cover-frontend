@@ -42,7 +42,7 @@ function CustomerList(props) {
     },
     {
       name: "Name",
-      selector: (row) => row.firstName + " " + row.lastName,
+      selector: (row) => row?.customerData?.username,
       sortable: true,
     },
     {
