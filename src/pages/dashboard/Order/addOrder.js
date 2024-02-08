@@ -825,13 +825,13 @@ setLoading1(true)
           formData.append(key, value);
         }
       });
-      setLoading1(true);
       if (orderId != undefined) {
         editOrder(orderId, data).then((res) => {
           if (res.code == 200) {
             setLoading2(false);
             openModal();
           } else {
+            setLoading2(false);
             setError(res.message);
           }
         });
@@ -843,6 +843,7 @@ setLoading1(true)
 
             //  navigate('/orderList')
           } else {
+            setLoading2(false);
             setError(res.message);
           }
         });
