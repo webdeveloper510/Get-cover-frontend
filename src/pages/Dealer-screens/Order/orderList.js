@@ -125,7 +125,7 @@ function DealerOrderList() {
       name: "Dealer P.O #",
       selector: (row) => row.venderOrder,
       sortable: true,
-      minWidth: "120px",
+      minWidth: "180px",
     },
     // {
     //   name: "Dealer",
@@ -146,7 +146,7 @@ function DealerOrderList() {
       name: "# of Contract",
       selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts),
       sortable: true,
-      minWidth: "100px",
+      minWidth: "150px",
     },
     {
       name: "Order Value",
@@ -436,16 +436,6 @@ function DealerOrderList() {
                 placeholder=""
               />
             </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Serial No."
-                className="!bg-[#fff]"
-                label="Serial No."
-                placeholder=""
-              />
-            </div>
-
             <div className="col-span-6">
               <Input
                 type="text"

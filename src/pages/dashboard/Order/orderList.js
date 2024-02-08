@@ -487,15 +487,6 @@ function OrderList() {
             <div className="col-span-6">
               <Input
                 type="text"
-                name="Serial No."
-                className="!bg-[#fff]"
-                label="Serial No."
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
                 name="Dealer Name"
                 className="!bg-[#fff]"
                 label="Dealer Name"
@@ -531,7 +522,7 @@ function OrderList() {
               />
             </div>
 
-            <div className="col-span-6">
+            <div className="col-span-12">
               <Select
                 name="Status"
                 label="Status"
