@@ -76,6 +76,7 @@ function AddOrder() {
   const { orderId, dealerId, resellerId, dealerValue, customerId } =
     useParams();
   const location = useLocation();
+
   const downloadCSVTemplate = async () => {
     window.open(
       "https://docs.google.com/spreadsheets/d/1BKGAJLFhjQXN8Wg4nYkUdFKpiPZ3h12-CMlrlkzAZE0/edit#gid=0",
@@ -137,6 +138,7 @@ function AddOrder() {
       });
     });
     setServicerData(arr);
+    setLoading1(false);
   };
 
   useEffect(() => {
@@ -194,7 +196,9 @@ function AddOrder() {
 
   console.log(loading1, "--------------");
   useEffect(() => {
+
     if (orderId != undefined) {
+      
       orderDetails();
       setType("Edit");
     } else {
@@ -267,7 +271,7 @@ function AddOrder() {
     getTermListData();
   }, []);
   const orderDetails = async () => {
-    setLoading1(true);
+    // setLoading1(true);
     const result = await orderDetailsById(orderId);
     console.log(result.result.productsArray);
     getResellerList(result?.result?.dealerId);
@@ -337,10 +341,12 @@ function AddOrder() {
         fileValue: "",
       })),
     });
+    formik.setFieldValue("resellerId", result?.result?.resellerId);
     formik.setFieldValue("dealerId", result?.result?.dealerId);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
     formik.setFieldValue("customerId", result?.result?.customerId);
-    formik.setFieldValue("resellerId", result?.result?.resellerId);
+   
+
     formikStep2.setFieldValue(
       "dealerPurchaseOrder",
       result?.result?.venderOrder
@@ -353,11 +359,17 @@ function AddOrder() {
     formik4.setFieldValue("paymentStatus", result?.result?.paymentStatus);
     formik4.setFieldValue("paidAmount", result?.result?.paymentStatus);
     formik4.setFieldValue("pendingAmount", result?.result?.pendingAmount);
-    setLoading1(false);
+
+    
+   // setLoading1(false);
   };
   useEffect(() => {
     console.log(location);
+    if (location.pathname.includes('/editOrder')){
+setLoading1(true)
+    }
     if (location.pathname == "/addOrder") {
+      setLoading1(true)
       setType("Add");
       setCurrentStep(1);
       formik.resetForm();
@@ -1227,7 +1239,8 @@ function AddOrder() {
 
   const renderStep1 = () => {
     return (
-      <form onSubmit={formik.handleSubmit}>
+      <>
+        <form onSubmit={formik.handleSubmit}>
         <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
           <p className="text-2xl font-bold mb-4">Order Details</p>
           <Grid>
@@ -1389,6 +1402,8 @@ function AddOrder() {
           </Button>
         </div>
       </form>
+      </>
+    
     );
   };
 
