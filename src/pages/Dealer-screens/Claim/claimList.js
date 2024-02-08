@@ -106,7 +106,7 @@ function DealerClaimList() {
         </div>
 
         <Link
-          to={"/dealer/addClaim"}
+          to={"/addClaim"}
           className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
         >
           {" "}
@@ -336,7 +336,7 @@ function DealerClaimList() {
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C] '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
@@ -345,8 +345,15 @@ function DealerClaimList() {
                         </div>
                       </div>
                     </div>
-                    <div className='col-span-2 self-center'>
-                     <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div> 
+                    <div className='col-span-2 self-center h-full p-3 pl-0'>
+                      {/* <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div>  */}
+                      <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
+                        <div className='self-center'>
+                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
+                          <p className='text-sm font-semibold text-center'>Download <br/>
+                             Attachments</p>
+                        </div>
+                      </div>
                     </div>
                   </Grid>
                 </div>
@@ -518,7 +525,7 @@ function DealerClaimList() {
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C]'>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
@@ -527,8 +534,15 @@ function DealerClaimList() {
                         </div>
                       </div>
                     </div>
-                    <div className='col-span-2 self-center'>
-                      <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div> 
+                    <div className='col-span-2 self-center h-full p-3 pl-0'>
+                      {/* <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div>  */}
+                      <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
+                        <div className='self-center'>
+                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
+                          <p className='text-sm font-semibold text-center'>Download <br/>
+                             Attachments</p>
+                        </div>
+                      </div>
                     </div>
                   </Grid>
                 </div>
@@ -700,7 +714,7 @@ function DealerClaimList() {
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C]'>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
@@ -709,8 +723,15 @@ function DealerClaimList() {
                         </div>
                       </div>
                     </div>
-                    <div className='col-span-2 self-center'>
-                      <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div> 
+                    <div className='col-span-2 self-center h-full p-3 pl-0'>
+                      {/* <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div>  */}
+                      <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
+                        <div className='self-center'>
+                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
+                          <p className='text-sm font-semibold text-center'>Download <br/>
+                             Attachments</p>
+                        </div>
+                      </div>
                     </div>
                   </Grid>
                 </div>
@@ -731,147 +752,147 @@ function DealerClaimList() {
               </p>
               <div className='h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-[#D1D1D1] bg-[#F0F0F0] border rounded-xl'>
 
-<Grid className='my-3'>
-  <div className='col-span-1'>
-    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
-      <p className='text-white text-2xl self-center'>A</p>
-    </div>
-  </div>
-  <div className='col-span-11'>
-    <div className='bg-white rounded-md relative p-1'>
-      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-    <Grid>
-      <div className='col-span-6'>
-        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
-      </div>
-      <div className='col-span-5 self-center flex justify-end'>
-        <p className='text-sm pr-3'>9:30 am</p>
-        <p className='text-sm'>12 Nov 2023</p>
-      </div>
-      <div className='col-span-1 self-center text-center'>
-       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-      </div>
-    </Grid>
-    <hr className='my-2'/>
-     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
-     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
-    </div>
-  </div>
-</Grid>
+                <Grid className='my-3'>
+                  <div className='col-span-1'>
+                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+                      <p className='text-white text-2xl self-center'>A</p>
+                    </div>
+                  </div>
+                  <div className='col-span-11'>
+                    <div className='bg-white rounded-md relative p-1'>
+                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+                    <Grid>
+                      <div className='col-span-6'>
+                        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
+                      </div>
+                      <div className='col-span-5 self-center flex justify-end'>
+                        <p className='text-sm pr-3'>9:30 am</p>
+                        <p className='text-sm'>12 Nov 2023</p>
+                      </div>
+                      <div className='col-span-1 self-center text-center'>
+                       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
+                      </div>
+                    </Grid>
+                    <hr className='my-2'/>
+                     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+                    </div>
+                  </div>
+                </Grid>
 
-<Grid className='my-3'>
-  <div className='col-span-1'>
-    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
-      <p className='text-white text-2xl self-center'>D</p>
-    </div>
-  </div>
-  <div className='col-span-11'>
-    <div className='bg-white rounded-md relative p-1'>
-      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-    <Grid>
-      <div className='col-span-6'>
-        <p className='text-xl font-semibold'>Alison <span className='text-[12px]'>(Dealer)</span></p>
-      </div>
-      <div className='col-span-5 self-center flex justify-end'>
-        <p className='text-sm pr-3'>9:30 am</p>
-        <p className='text-sm'>12 Nov 2023</p>
-      </div>
-      <div className='col-span-1 self-center text-center'>
-       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-      </div>
-    </Grid>
-    <hr className='my-2'/>
-    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
-     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
-    </div>
-  </div>
-</Grid>
+                <Grid className='my-3'>
+                  <div className='col-span-1'>
+                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+                      <p className='text-white text-2xl self-center'>D</p>
+                    </div>
+                  </div>
+                  <div className='col-span-11'>
+                    <div className='bg-white rounded-md relative p-1'>
+                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+                    <Grid>
+                      <div className='col-span-6'>
+                        <p className='text-xl font-semibold'>Alison <span className='text-[12px]'>(Dealer)</span></p>
+                      </div>
+                      <div className='col-span-5 self-center flex justify-end'>
+                        <p className='text-sm pr-3'>9:30 am</p>
+                        <p className='text-sm'>12 Nov 2023</p>
+                      </div>
+                      <div className='col-span-1 self-center text-center'>
+                       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
+                      </div>
+                    </Grid>
+                    <hr className='my-2'/>
+                    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+                    </div>
+                  </div>
+                </Grid>
 
-<Grid className='my-3'>
-  <div className='col-span-1'>
-    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
-      <p className='text-white text-2xl self-center'>S</p>
-    </div>
-  </div>
-  <div className='col-span-11'>
-    <div className='bg-white rounded-md relative p-1'>
-      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-    <Grid>
-      <div className='col-span-6'>
-        <p className='text-xl font-semibold'>Veronica <span className='text-[12px]'> (Servicer) </span></p>
-      </div>
-      <div className='col-span-5 self-center flex justify-end'>
-        <p className='text-sm pr-3'>9:30 am</p>
-        <p className='text-sm'>12 Nov 2023</p>
-      </div>
-      <div className='col-span-1 self-center text-center'>
-       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-      </div>
-    </Grid>
-    <hr className='my-2'/>
-    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
-     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
-    </div>
-  </div>
-</Grid> 
+                <Grid className='my-3'>
+                  <div className='col-span-1'>
+                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+                      <p className='text-white text-2xl self-center'>S</p>
+                    </div>
+                  </div>
+                  <div className='col-span-11'>
+                    <div className='bg-white rounded-md relative p-1'>
+                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+                    <Grid>
+                      <div className='col-span-6'>
+                        <p className='text-xl font-semibold'>Veronica <span className='text-[12px]'> (Servicer) </span></p>
+                      </div>
+                      <div className='col-span-5 self-center flex justify-end'>
+                        <p className='text-sm pr-3'>9:30 am</p>
+                        <p className='text-sm'>12 Nov 2023</p>
+                      </div>
+                      <div className='col-span-1 self-center text-center'>
+                       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
+                      </div>
+                    </Grid>
+                    <hr className='my-2'/>
+                    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+                    </div>
+                  </div>
+                </Grid> 
 
- <Grid className='my-3'>
-  <div className='col-span-1'>
-    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
-      <p className='text-white text-2xl self-center'>A</p>
-    </div>
-  </div>
-  <div className='col-span-11'>
-    <div className='bg-white rounded-md relative p-1'>
-      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-    <Grid>
-      <div className='col-span-6'>
-        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
-      </div>
-      <div className='col-span-5 self-center flex justify-end'>
-        <p className='text-sm pr-3'>9:30 am</p>
-        <p className='text-sm'>12 Nov 2023</p>
-      </div>
-      <div className='col-span-1 self-center text-center'>
-       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-      </div>
-    </Grid>
-    <hr className='my-2'/>
-    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
-     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
-    </div>
-  </div>
-</Grid>
+                 <Grid className='my-3'>
+                  <div className='col-span-1'>
+                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+                      <p className='text-white text-2xl self-center'>A</p>
+                    </div>
+                  </div>
+                  <div className='col-span-11'>
+                    <div className='bg-white rounded-md relative p-1'>
+                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+                    <Grid>
+                      <div className='col-span-6'>
+                        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
+                      </div>
+                      <div className='col-span-5 self-center flex justify-end'>
+                        <p className='text-sm pr-3'>9:30 am</p>
+                        <p className='text-sm'>12 Nov 2023</p>
+                      </div>
+                      <div className='col-span-1 self-center text-center'>
+                       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
+                      </div>
+                    </Grid>
+                    <hr className='my-2'/>
+                    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+                    </div>
+                  </div>
+                </Grid>
 
- <Grid className='my-3'>
-  <div className='col-span-1'>
-    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
-      <p className='text-white text-2xl self-center'>A</p>
-    </div>
-  </div>
-  <div className='col-span-11'>
-    <div className='bg-white rounded-md relative p-1'>
-      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-    <Grid>
-      <div className='col-span-6'>
-        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
-      </div>
-      <div className='col-span-5 self-center flex justify-end'>
-        <p className='text-sm pr-3'>9:30 am</p>
-        <p className='text-sm'>12 Nov 2023</p>
-      </div>
-      <div className='col-span-1 self-center text-center'>
-       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-      </div>
-    </Grid>
-    <hr className='my-2'/>
-    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
-     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
-    </div>
-  </div>
-</Grid>             
-
-</div>
+                 <Grid className='my-3'>
+                  <div className='col-span-1'>
+                    <div className='bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full'>
+                      <p className='text-white text-2xl self-center'>A</p>
+                    </div>
+                  </div>
+                  <div className='col-span-11'>
+                    <div className='bg-white rounded-md relative p-1'>
+                      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
+                    <Grid>
+                      <div className='col-span-6'>
+                        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
+                      </div>
+                      <div className='col-span-5 self-center flex justify-end'>
+                        <p className='text-sm pr-3'>9:30 am</p>
+                        <p className='text-sm'>12 Nov 2023</p>
+                      </div>
+                      <div className='col-span-1 self-center text-center'>
+                       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
+                      </div>
+                    </Grid>
+                    <hr className='my-2'/>
+                    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+                    </div>
+                  </div>
+                </Grid>             
+             
+              </div>
               <div >
                 <p className='text-sm my-3'><b> Attachment : </b>  <span className='text-neutral-grey'> Accepted file types: jpg, gif, png, Max. file size: 50 MB. </span></p>
               </div>
@@ -882,8 +903,13 @@ function DealerClaimList() {
                   </div>
                 </div>
                 <div className='col-span-6'>
-                  <Input type='text'
-                  className1="!text-[16px] !pt-2 placeholder-opacity-50 !pb-2 placeholder-[#1B1D21] !bg-[white]"/>
+                <textarea
+                    id="note"
+                    rows="1"
+                    name="Note"
+                    maxLength={150}
+                    className="block px-2.5 pb-2.5 pt-2 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
+                  ></textarea>
                 </div>
                 <div className='col-span-3'>
                   <Select 
@@ -910,91 +936,103 @@ function DealerClaimList() {
             <form className="mt-3 mr-4">
                   <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1]  rounded-3xl">
                     <p className='pb-5 text-lg font-semibold'>Repair Parts</p>
-                    <div className='w-full h-[180px] px-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden'>
-                    <Grid className='mb-5'>
-                      <div className='col-span-3'>
-                      <Select
-                        name="ServiceType"
-                        label="Service Type"
-                        options={CoverageStartDate}
-                        required={true}
-                        className="!bg-[#fff]"
-                        placeholder=""/>
-                      </div>
-                      <div className='col-span-5'>
-                        <Input type='text' 
-                         name="description"
-                        className="!bg-[#fff]"
-                        label="Description"
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-4'>
-                        <Input type='number' 
-                         name="price"
-                        className="!bg-[#fff]"
-                        label="Price ($)"
-                        placeholder="" />
-                      </div>
-                    
-                    </Grid>
-                    <hr className='my-4'/>
-                    <Grid className='mb-5'>
-                      <div className='col-span-3'>
-                      <Select
-                        name="ServiceType"
-                        label="Service Type"
-                        options={CoverageStartDate}
-                        required={true}
-                        className="!bg-[#fff]"
-                        placeholder=""/>
-                      </div>
-                      <div className='col-span-5'>
-                        <Input type='text' 
-                         name="description"
-                        className="!bg-[#fff]"
-                        label="Description"
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-3'>
-                        <Input type='number' 
-                         name="price"
-                        className="!bg-[#fff]"
-                        label="Price ($)"
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-1 self-center  flex justify-center'>
-                       <Button className='!text-sm'><img src={DeleteImage} /></Button>
-                      </div>
-                    </Grid>
-                    <hr className='my-4'/>
-                    <Grid className='mb-5'>
-                      <div className='col-span-3'>
-                      <Select
-                        name="ServiceType"
-                        label="Service Type"
-                        options={CoverageStartDate}
-                        required={true}
-                        className="!bg-[#fff]"
-                        placeholder=""/>
-                      </div>
-                      <div className='col-span-5'>
-                        <Input type='text' 
-                         name="description"
-                        className="!bg-[#fff]"
-                        label="Description"
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-3'>
-                        <Input type='number' 
-                         name="price"
-                        className="!bg-[#fff]"
-                        label="Price ($)"
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-1 self-center  flex justify-center'>
-                       <Button className='!text-sm'><img src={DeleteImage} /></Button>
-                      </div>
-                    </Grid>
+                    <div className='w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden'>
+                      <Grid className='mb-5'>
+                        <div className='col-span-3'>
+                        <Select
+                          name="ServiceType"
+                          label="Service Type"
+                          options={CoverageStartDate}
+                          required={true}
+                          className="!bg-[#fff]"
+                          placeholder=""/>
+                        </div>
+                        <div className='col-span-5'>
+                          <Input type='text' 
+                          name="description"
+                          className="!bg-[#fff]"
+                          label="Description"
+                          placeholder="" />
+                        </div>
+                        <div className='col-span-4'>
+                          <Input type='number' 
+                          name="price"
+                          className="!bg-[#fff]"
+                          label="Price ($)"
+                          placeholder="" />
+                        </div>
+                      
+                      </Grid>
+                      <hr className='my-4'/>
+                      <Grid className='mb-5'>
+                        <div className='col-span-3'>
+                        <Select
+                          name="ServiceType"
+                          label="Service Type"
+                          options={CoverageStartDate}
+                          required={true}
+                          className="!bg-[#fff]"
+                          placeholder=""/>
+                        </div>
+                        <div className='col-span-5'>
+                          <Input type='text' 
+                          name="description"
+                          className="!bg-[#fff]"
+                          label="Description"
+                          placeholder="" />
+                        </div>
+                        <div className='col-span-3'>
+                          <Input type='number' 
+                          name="price"
+                          className="!bg-[#fff]"
+                          label="Price ($)"
+                          placeholder="" />
+                        </div>
+                        <div className='col-span-1 self-center bg-[#EBEBEB] rounded-[4px] flex justify-center'>
+                          <div className="flex h-full bg-[#EBEBEB]  justify-center">
+                            <img
+                              src={DeleteImage}
+                              className="self-center p-1 cursor-pointer"
+                              alt="Delete Icon"
+                            />
+                          </div>
+                        </div>
+                      </Grid>
+                      <hr className='my-4'/>
+                      <Grid className='mb-5'>
+                        <div className='col-span-3'>
+                        <Select
+                          name="ServiceType"
+                          label="Service Type"
+                          options={CoverageStartDate}
+                          required={true}
+                          className="!bg-[#fff]"
+                          placeholder=""/>
+                        </div>
+                        <div className='col-span-5'>
+                          <Input type='text' 
+                          name="description"
+                          className="!bg-[#fff]"
+                          label="Description"
+                          placeholder="" />
+                        </div>
+                        <div className='col-span-3'>
+                          <Input type='number' 
+                          name="price"
+                          className="!bg-[#fff]"
+                          label="Price ($)"
+                          placeholder="" />
+                        </div>
+                        <div className='col-span-1 self-center bg-[#EBEBEB] rounded-[4px] flex justify-center'>
+                          <div className="flex h-full bg-[#EBEBEB]  justify-center">
+                            <img
+                              src={DeleteImage}
+                              className="self-center p-1 cursor-pointer"
+                              alt="Delete Icon"
+                            />
+                          </div>
+                        </div>
+                      </Grid>
                     </div>
                     
                       <div className='text-right'>
@@ -1021,8 +1059,8 @@ function DealerClaimList() {
                     </div>
 
                   <div className='mt-3'>
-                    <Button className='!bg-white !text-black' >Cancel</Button>
-                    <Button>Update</Button>
+                    <Button className='!bg-white !text-black' onClick={closeEdit}>Cancel</Button>
+                    <Button onClick={closeEdit}>Update</Button>
                     </div>
                 </form>
             </div>
@@ -1065,16 +1103,9 @@ function DealerClaimList() {
             </div>
             <div className='col-span-6'>
                <Input type='text' 
-                         name="Dealer P.O. No."
+                         name="Dealer P.O. #."
                         className="!bg-[#fff]"
-                        label="Dealer P.O. No."
-                        placeholder="" />
-            </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Serial No."
-                        className="!bg-[#fff]"
-                        label="Serial No."
+                        label="Dealer P.O. #."
                         placeholder="" />
             </div>
             <div className='col-span-6'>
@@ -1082,13 +1113,6 @@ function DealerClaimList() {
                          name="Product Name"
                         className="!bg-[#fff]"
                         label="Product Name"
-                        placeholder="" />
-            </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Dealer Name"
-                        className="!bg-[#fff]"
-                        label="Dealer Name"
                         placeholder="" />
             </div>
             <div className='col-span-6'>

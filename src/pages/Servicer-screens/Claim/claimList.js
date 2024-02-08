@@ -1047,13 +1047,6 @@ function ServicerClaimList() {
             </div>
             <div className='col-span-6'>
                <Input type='text' 
-                         name="Serial No."
-                        className="!bg-[#fff]"
-                        label="Serial No."
-                        placeholder="" />
-            </div>
-            <div className='col-span-6'>
-               <Input type='text' 
                          name="Product Name"
                         className="!bg-[#fff]"
                         label="Product Name"
@@ -1072,15 +1065,7 @@ function ServicerClaimList() {
                         className="!bg-[#fff]"
                         label="Customer Name"
                         placeholder="" />
-            </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Servicer Name"
-                        className="!bg-[#fff]"
-                        label="Servicer Name"
-                        placeholder="" />
-            </div>
-           
+            </div>           
             <div className='col-span-6'>
             <Select
                         name="Status"

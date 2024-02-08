@@ -748,10 +748,10 @@ function DealerUser() {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="position"
-                  label="Position"
+                  name="email"
+                  label="Email"
                   className="!bg-[#fff]"
-                  // required={true}
+                  required={true}
                   placeholder=""
                   maxLength={"30"}
                   value={formik.values.position}
@@ -805,24 +805,24 @@ function DealerUser() {
                   )}
               </div>
               <div className="col-span-6">
-                <Select
-                  label="Status"
-                  required={true}
-                  name="status"
-                  placeholder=""
-                  onChange={handleSelectChange}
-                  disabled={isprimary || !mainStatus}
+                <Input
+                  type="text"
+                  name="position"
+                  label="Position"
                   className="!bg-[#fff]"
-                  options={status}
-                  value={formik.values.status}
+                  // required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={formik.values.position}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.status && formik.errors.status}
+                  onChange={formik.handleChange}
+                  error={formik.touched.position && formik.errors.position}
                 />
-                {formik.touched.status && formik.errors.status && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.status}
-                  </div>
-                )}
+                {/* {formik.touched.position && formik.errors.position && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.position}
+                </div>
+              )} */}
               </div>
               <div className="col-span-6">
                 <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">

@@ -1,11 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Headbar from '../../../common/headBar'
 import { Link } from 'react-router-dom'
+import Select from '../../../common/select';
 import Grid from '../../../common/grid';
 import Input from '../../../common/input';
 
 // Media Include
 import BackImage from '../../../assets/images/icons/backArrow.svg'
+import Dropbox from "../../../assets/images/icons/dropBox.svg";
+import Edit from '../../../assets/images/Dealer/EditIcon.svg';
+import Cross from "../../../assets/images/Cross.png";
+import Delete from "../../../assets/images/icons/DeleteIcon.svg";
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import check from "../../../assets/images/icons/check.svg";
 import Button from '../../../common/button';
@@ -13,9 +18,12 @@ import RadioButton from '../../../common/radio';
 import FileDropdown from '../../../common/fileDropbox';
 import SelectBoxWIthSerach from '../../../common/selectBoxWIthSerach';
 import DateInput from '../../../common/dateInput';
+import Checkbox from '../../../common/checkbox';
 import Modal from '../../../common/model';
 
 function DealerAddClaim() {
+    const [selectedValue, setSelectedValue] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
     const dropdownRef = useRef(null);
@@ -79,11 +87,12 @@ function DealerAddClaim() {
   useEffect(() => {
       document.addEventListener("click", handleClickOutside);
       return () => {
-      document.removeEventListener("click", handleClickOutside);
+          document.removeEventListener("click", handleClickOutside);
       };
   }, []);
 
     const renderStep1 = () => {
+      // Step 1 content
       return (
         <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
             <p className='text-xl font-bold mb-4'>Step 1</p>
@@ -96,7 +105,11 @@ function DealerAddClaim() {
                      name="ContractID"
                      placeholder=""
                      className="!bg-white"
+                    //  required={true}
                     />
+                    {/* <div className="ml-3 self-center">
+                    <Checkbox />
+                    </div> */}
                   </div>
                   <div className='col-span-4'>
                     <Input 
@@ -104,6 +117,7 @@ function DealerAddClaim() {
                      name="CustomerName"
                      placeholder=""
                      className="!bg-white"
+                    //  required={true}
                     />
                   </div>
                   <div className='col-span-4'>
@@ -112,6 +126,7 @@ function DealerAddClaim() {
                      name="Serial"
                      placeholder=""
                      className="!bg-white"
+                    //  required={true}
                     />
                   </div>
                   <div className='col-span-4'>
@@ -120,6 +135,7 @@ function DealerAddClaim() {
                      name="OrderNumber"
                      placeholder=""
                      className="!bg-white"
+                    //  required={true}
                     />
                   </div>
                   <div className='col-span-4'>
@@ -128,6 +144,7 @@ function DealerAddClaim() {
                      name="ContractID"
                      placeholder=""
                      className="!bg-white"
+                    //  required={true}
                     />
                   </div>
                   <div className='col-span-4 self-end justify-end flex'>
@@ -162,10 +179,10 @@ function DealerAddClaim() {
                             </div>
                             {selectedActions[index] && (
                                 <div  className="absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
-                                    <div className="text-center pb-1 border-b text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer" onClick={nextStep}>
+                                    <div className="text-center pb-1 border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer" onClick={nextStep}>
                                         <p>Select</p>
                                     </div>
-                                    <div className="text-center pt-1 text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer" onClick={() => openModal()}>
+                                    <div className="text-center pt-1 text-[12px] border-[#E6E6E6] text-light-black cursor-pointer" onClick={() => openModal()}>
                                         <p>View</p>
                                     </div>
                                 </div>
@@ -190,25 +207,19 @@ function DealerAddClaim() {
         <Grid>
           <div className='col-span-12'>
             <Grid>
-              <div className='col-span-3'>
-                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                  <p className='text-sm m-0 p-0'>Dealer Name</p>
-                  <p className='font-semibold'>Dealer Name</p>
-                </div>
-              </div>
-              <div className='col-span-3'>
+              <div className='col-span-4'>
                 <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
                   <p className='text-sm m-0 p-0'>Reseller Name</p>
                   <p className='font-semibold'>Reseller Name</p>
                 </div>
               </div>
-              <div className='col-span-3'>
+              <div className='col-span-4'>
                 <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
                   <p className='text-sm m-0 p-0'>Customer Name</p>
                   <p className='font-semibold'>Customer Name</p>
                 </div>
               </div>
-              <div className='col-span-3'>
+              <div className='col-span-4'>
                 <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
                   <p className='text-sm m-0 p-0'>Manufacturer</p>
                   <p className='font-semibold'>Manufacturer</p>
@@ -262,12 +273,11 @@ function DealerAddClaim() {
                 
                     </div>
                     <div className='col-span-6'>
-                      <DateInput
+                      <Input
                         label="Loss Date"
                         name="lossDate"
+                        type='date'
                         required 
-                        item={item}
-                        setItem={setItem}
                         className="!bg-[#fff]" />
                     </div>
                   </Grid>
@@ -377,28 +387,36 @@ function DealerAddClaim() {
 
           {renderStep()}
 
-          <Modal isOpen={isModalOpen} onClose={closeModal} className="w-[1100px]">
-            <div className="text-center">
+          <Modal isOpen={isModalOpen} onClose={closeModal} className="!w-[1100px]">
+              <Button
+              onClick={closeModal}
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+            >
+              <img
+                src={Cross}
+                className="w-full h-full text-black rounded-full p-0"
+              />
+            </Button>
+            <div className="text-center mt-2">
               <p className="text-3xl font-semibold mb-4">Contract Details</p>
               <div>
-            <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
-              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
+            <Grid className='bg-[#333333] !gap-2 !grid-cols-9 !px-3 rounded-t-xl'>
+              <div className='col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl'>
                 <p className='text-white py-2 font-Regular'>Contract ID :  <b> 861910 </b></p>
               </div>
-              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
+              <div className='col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat '>
                 <p className='text-white py-2 font-Regular'>Order ID : <b> 315174  </b></p>
               </div>
-              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
-                <p className='text-white py-2 font-Regular'>Dealer P.O. No. : <b> MC-10554 </b></p>
+              <div className='col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat '>
+                <p className='text-white py-2 font-Regular'>Dealer P.O. # : <b> MC-10554 </b></p>
               </div>
-              <div className='col-span-2 '>
-              </div>
-              <div className='col-span-1 self-center justify-end'>
-                <Button className='!bg-[white] !text-black !p-2 !text-sm' onClick={nextStep}>Select</Button>
+              <div className='col-span-1'></div>
+              <div className='col-span-1 self-center justify-end self-center rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat'>
+                <Button className='!bg-[transparent] !text-white !py-2 !font-Regular' onClick={nextStep}>Select</Button>
               </div>
             </Grid>
 
-            <Grid className='!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5'>
+            <Grid className='!gap-0 !grid-cols-5 bg-[#F9F9F9]'>
               <div className='col-span-1 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Manufacturer</p>
@@ -429,54 +447,44 @@ function DealerAddClaim() {
                   <p className='text-[#333333] text-base font-semibold'>Used</p>
                 </div>
               </div>
+              </Grid>
+              <Grid className='!gap-0 !grid-cols-3 bg-[#F9F9F9] mb-5'>
+                
               <div className='col-span-1 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Reseller Name</p>
                   <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
-              <div className='col-span-2 border border-[#D1D1D1]'>
+              <div className='col-span-1 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
                   <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
-              <div className='col-span-2 border border-[#D1D1D1]'>
+              <div className='col-span-1 border border-[#D1D1D1]'>
                 
                  <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
                   <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
                 </div>
               </div>
-             
               <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
-                <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Coverage Start Date</p>
-                  <p className='text-[#333333] text-base font-semibold'>11/09/2026</p>
-                </div>
-              </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
-                <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Coverage End Date</p>
-                  <p className='text-[#333333] text-base font-semibold'>09/11/2030</p>
-                </div>
-              </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Claim Amount</p>
                   <p className='text-[#333333] text-base font-semibold'>$0.00</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
+              <div className='col-span-1 border border-[#D1D1D1] '>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Status</p>
-                  <p className='text-[#333333] text-base font-semibold'>Waiting</p>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Coverage Start Date</p>
+                  <p className='text-[#333333] text-base font-semibold'>11/09/2026</p>
                 </div>
               </div>
               <div className='col-span-1 border border-[#D1D1D1] rounded-ee-xl'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Eligibility</p>
-                  <p className='text-[#333333] text-base font-semibold'>Not Eligible</p>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Coverage End Date</p>
+                  <p className='text-[#333333] text-base font-semibold'>09/11/2030</p>
                 </div>
               </div>
             </Grid>
@@ -487,5 +495,4 @@ function DealerAddClaim() {
       </div>
     )
   }
-
 export default DealerAddClaim

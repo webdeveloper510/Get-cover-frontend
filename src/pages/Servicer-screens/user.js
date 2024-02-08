@@ -26,19 +26,12 @@ import {
 import Select from "../../common/select";
 import { getCustomerUsersById } from "../../services/customerServices";
 import { useMyContext } from "../../context/context";
-import { getServicerUsersById } from "../../services/servicerServices";
-import { getResellerUsersById } from "../../services/reSellerServices";
 import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
-import { Link } from "react-router-dom";
 import RadioButton from "../../common/radio";
-import {
-  addUser,
-  editUserDetails,
-  getUser,
-} from "../../services/servicerServices/userServicerServices";
+import Tabs from "../../common/tabs";
 
-function ServicerUser(props) {
+function ServicerUser() {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
@@ -46,8 +39,6 @@ function ServicerUser(props) {
   const [isprimary, SetIsprimary] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
-  const [type, setType] = useState("Add New");
-  const [createAccountOption, setCreateAccountOption] = useState(true);
   const [deleteId, setDeleteId] = useState("");
 
   const [primaryText, SetPrimaryText] = useState("");
@@ -61,14 +52,14 @@ function ServicerUser(props) {
     firstName: "",
     phoneNumber: "",
     position: "",
-    email: "",
     status: true,
+    id: "",
   });
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
-  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
   const getUserList = async () => {
-    const result = await getUser({});
+    const result = await getCustomerUsersById("", {});
     console.log(result.result);
     setUserList(result.result);
   };
@@ -89,6 +80,7 @@ function ServicerUser(props) {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -127,11 +119,7 @@ function ServicerUser(props) {
     SetIsModalOpen(true);
     getUserList();
   };
-  const handleRadioChange = (event) => {
-    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
-    formik.setFieldValue("status", valueAsBoolean);
-    setCreateAccountOption(valueAsBoolean);
-  };
+
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
@@ -203,47 +191,30 @@ function ServicerUser(props) {
         .max(10, "Must be exactly 10 characters")
         .matches(/^[0-9]+$/, "Must contain only digits"),
       status: Yup.boolean().required("Required"),
-      email: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .matches(emailValidationRegex, "Invalid email address")
-        .when("$type", {
-          is: (schema) => type == "Edit",
-          then: (schema) => schema.notRequired(),
-          otherwise: (schema) => schema.required("Required"),
-        }),
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      if (type !== "Edit") {
-        delete values.id;
-      }
       setLoading(true);
-      const result =
-        type == "Edit"
-          ? await editUserDetails(values.id, values)
-          : await addUser(values);
+      const result = await updateUserDetailsById(values);
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
-        if (type == "Edit") {
-          SetPrimaryText("User Edit Successfully ");
-          SetSecondaryText("user edit successfully ");
-        } else {
-          SetPrimaryText("User Add Successfully ");
-          SetSecondaryText("user add successfully ");
-        }
+        SetPrimaryText("User Edited Successfully ");
+        SetSecondaryText("user edited successfully ");
         openModal();
         toggleFlag();
-        closeModal2();
+        // setIsModalOpen3(true);
+
+        // setError(result.message);
         setTimer(3);
         getUserList();
-      } else if (result.code == 401) {
-        setLoading(false);
-        formik.setFieldError("email", "email already used");
       } else {
         setLoading(false);
-        closeModal2();
+        // setError(false);
+        // setIsModalOpen(true);
+        // setTimer(3);
       }
+      closeModal2();
     },
   });
 
@@ -267,7 +238,6 @@ function ServicerUser(props) {
     }
   };
   const editUser = async (id) => {
-    setType("Edit");
     console.log(id);
     const result = await userDetailsById(id);
     console.log(result.result.status);
@@ -298,10 +268,9 @@ function ServicerUser(props) {
   };
 
   const filterUserDetails = async (data) => {
-    console.log(data);
     try {
       setLoading(true);
-      const res = await getUser(data);
+      const res = await getUserListByDealerId("", data);
       setUserList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
@@ -425,10 +394,7 @@ function ServicerUser(props) {
 
                 <div
                   className="text-center py-2 cursor-pointer border-b"
-                  onClick={() => {
-                    setType("");
-                    editUser(row._id);
-                  }}
+                  onClick={() => editUser(row._id)}
                 >
                   Edit
                 </div>
@@ -454,13 +420,101 @@ function ServicerUser(props) {
     </div>
   );
 
+  const tabsData = [
+    { id: 1, label: 'Edit Account', content: (
+      <>
+      <Grid >
+      <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Email</p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+        
+         <div className='col-span-4'>
+             <Input 
+                 type='text'
+                 label='First Name'
+                 className='!bg-[#fff]'
+             />
+         </div>
+         <div className='col-span-4'>
+             <Input 
+                 type='text'
+                 label='Last Name'
+                 className='!bg-[#fff]'
+             />
+         </div>
+         <div className='col-span-4'>
+             <Input 
+                 type='tel'
+                 label='Phone No.'
+                 className='!bg-[#fff]'
+             />
+         </div>
+         <div className='col-span-4'>
+             <Input 
+                 type='text'
+                 label='Postion'
+                 className='!bg-[#fff]'
+             />
+         </div>
+         <div className='col-span-4 text-right'>
+          
+         </div>
+         <div className='col-span-12 text-right'>
+           <Button> Save Changes</Button>
+         </div>
+      </Grid>
+       
+      </>
+    ) },
+    { id: 2, label: 'Change Password', content: (
+      <>
+      <Grid>
+         <div className='col-span-4'>
+             <Input 
+                 type='password'
+                 label='Old Password'
+                 className='!bg-[#fff]'
+             />
+         </div>
+         <div className='col-span-4'>
+             <Input 
+                 type='password'
+                 label='New Password'
+                 className='!bg-[#fff]'
+             />
+         </div>
+         <div className='col-span-4'>
+             <Input 
+                 type='password'
+                 label='Confirm Password'
+                 className='!bg-[#fff]'
+             />
+         </div>
+      </Grid>
+      <div className='mt-4 text-right'>
+         <Button>Change Password</Button>
+      </div>
+      </>
+    ) },
+  ];
+
   return (
     <>
+    {loading && (
+        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#fff" />
+          </div>
+        </div>
+      )}
       <div className="my-8">
         <Headbar />
         <div className="flex mt-2">
           <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">Users</p>
+            <p className="font-bold text-[36px] leading-9	mb-[3px]">Manage Users</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}
@@ -470,142 +524,120 @@ function ServicerUser(props) {
           </div>
         </div>
 
-        <div
-          className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1] cursor-pointer"
-          onClick={() => {
-            formik.setFieldValue("firstName", "");
-            formik.setFieldValue("lastName", "");
-            formik.setFieldValue("position", "");
-            formik.setFieldValue("phoneNumber", "");
-            formik.setFieldValue("email", "");
-            formik.setFieldValue("status", true);
-            setType("Add New");
-            openModal2();
-          }}
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            Add User{" "}
-          </span>{" "}
-        </div>
-
-        <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
-          <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-5 self-center">
-              <p className="text-xl font-semibold">Users List</p>
-            </div>
-            <div className="col-span-7">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <form className="" onSubmit={formikUSerFilter.handleSubmit}>
-                  <Grid className="!grid-cols-11">
-                    <div className="col-span-3 self-center">
-                      <Input
-                        name="firstName"
-                        type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder="First Name"
-                        value={formikUSerFilter.values.firstName}
-                        onBlur={formikUSerFilter.handleBlur}
-                        onChange={formikUSerFilter.handleChange}
-                      />
-                    </div>
-
-                    <div className="col-span-3 self-center">
-                      <Input
-                        name="email"
-                        type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder="Email"
-                        value={formikUSerFilter.values.email}
-                        onBlur={formikUSerFilter.handleBlur}
-                        onChange={formikUSerFilter.handleChange}
-                      />
-                    </div>
-
-                    <div className="col-span-3 self-center">
-                      <Input
-                        name="phone"
-                        type="tel"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder="Phone"
-                        value={formikUSerFilter.values.phone}
-                        onBlur={formikUSerFilter.handleBlur}
-                        onChange={(e) => {
-                          const sanitizedValue = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          );
-                          console.log(sanitizedValue);
-                          formikUSerFilter.handleChange({
-                            target: {
-                              name: "phone",
-                              value: sanitizedValue,
-                            },
-                          });
-                        }}
-                      />
-                    </div>
-                    <div className="col-span-2 self-center flex justify-center">
-                      <Button type="submit" className="!p-0">
-                        <img
-                          src={Search}
-                          className="cursor-pointer "
-                          alt="Search"
-                        />
-                      </Button>
-                      <Button
-                        type="submit"
-                        onClick={() => {
-                          handleFilterIconClick();
-                        }}
-                        className="!bg-transparent !p-0"
-                      >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
-                        />
-                      </Button>
-                    </div>
-                  </Grid>
-                </form>
-              </div>
-            </div>
-          </Grid>
-          <div className="mb-5 relative dealer-detail">
-            {loading ? (
+        <div className='px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
+                 <Tabs tabs={tabsData} />
+           </div> 
+        {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
               </div>
             ) : (
-              <DataTable
-                columns={columns}
-                data={userList}
-                highlightOnHover
-                sortIcon={
-                  <>
-                    {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
-                  </>
-                }
-                noDataComponent={<CustomNoDataComponent />}
-                pagination
-                paginationPerPage={10}
-                paginationComponentOptions={paginationOptions}
-                paginationRowsPerPageOptions={[10, 20, 50, 100]}
-              />
+            <div className='px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
+                <div className='bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3'>
+                    <Button onClick={()=> openModal2()}> + Add Member</Button>
+                </div>
+                <p className='text-xl font-semibold mb-3'>Users List</p>
+                <Grid className="!p-[2px] !pt-[14px] !pb-0">
+                  <div className="col-span-5 self-center">
+                  </div>
+                  <div className="col-span-7">
+                    <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                      <form className="" onSubmit={formikUSerFilter.handleSubmit}>
+                        <Grid className="!grid-cols-11">
+                          <div className="col-span-3 self-center">
+                            <Input
+                              name="firstName"
+                              type="text"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              label=""
+                              placeholder="First Name"
+                              value={formikUSerFilter.values.firstName}
+                              onBlur={formikUSerFilter.handleBlur}
+                              onChange={formikUSerFilter.handleChange}
+                            />
+                          </div>
+                          <div className="col-span-3 self-center">
+                            <Input
+                              name="email"
+                              type="text"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              label=""
+                              placeholder="Email"
+                              value={formikUSerFilter.values.email}
+                              onBlur={formikUSerFilter.handleBlur}
+                              onChange={formikUSerFilter.handleChange}
+                            />
+                          </div>
+                          <div className="col-span-3 self-center">
+                            <Input
+                              name="phone"
+                              type="tel"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              label=""
+                              placeholder="Phone"
+                              value={formikUSerFilter.values.phone}
+                              onBlur={formikUSerFilter.handleBlur}
+                              onChange={(e) => {
+                                const sanitizedValue = e.target.value.replace(
+                                  /[^0-9]/g,
+                                  ""
+                                );
+                                console.log(sanitizedValue);
+                                formikUSerFilter.handleChange({
+                                  target: {
+                                    name: "phone",
+                                    value: sanitizedValue,
+                                  },
+                                });
+                              }}
+                            />
+                          </div>
+                          <div className="col-span-2 self-center flex justify-center">
+                            <Button type="submit" className="!p-0">
+                              <img
+                                src={Search}
+                                className="cursor-pointer "
+                                alt="Search"
+                              />
+                            </Button>
+                            <Button
+                              type="submit"
+                              onClick={() => {
+                                handleFilterIconClick();
+                              }}
+                              className="!bg-transparent !p-0"
+                            >
+                              <img
+                                src={clearFilter}
+                                className="cursor-pointer	mx-auto"
+                                alt="clearFilter"
+                              />
+                            </Button>
+                          </div>
+                        </Grid>
+                      </form>
+                    </div>
+                  </div>
+                </Grid>
+                 <DataTable
+                  columns={columns}
+                  data={userList}
+                  highlightOnHover
+                  sortIcon={
+                    <>
+                      {" "}
+                      <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                    </>
+                  }
+                  noDataComponent={<CustomNoDataComponent />}
+                  />
+            </div>
             )}
-          </div>
-        </div>
       </div>
 
       {/* Modal Primary Popop */}
@@ -669,7 +701,7 @@ function ServicerUser(props) {
       <Modal isOpen={isModalOpen2} onClose={closeModal2}>
         <div className=" py-3">
           <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
-            {type} User
+            Add New User
           </p>
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <Grid className="px-8">
@@ -693,7 +725,6 @@ function ServicerUser(props) {
                   </div>
                 )}
               </div>
-
               <div className="col-span-6">
                 <Input
                   type="text"
@@ -714,35 +745,13 @@ function ServicerUser(props) {
                   </div>
                 )}
               </div>
-              {type !== "Edit" && (
-                <div className="col-span-6">
-                  <Input
-                    type="email"
-                    name="email"
-                    label="Email"
-                    required={true}
-                    className="!bg-[#fff]"
-                    placeholder=""
-                    maxLength={"30"}
-                    value={formik.values.email}
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    error={formik.touched.email && formik.errors.email}
-                  />
-                  {formik.touched.email && formik.errors.email && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.email}
-                    </div>
-                  )}
-                </div>
-              )}
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="position"
-                  label="Position"
+                  name="email"
+                  label="Email"
                   className="!bg-[#fff]"
-                  // required={true}
+                  required={true}
                   placeholder=""
                   maxLength={"30"}
                   value={formik.values.position}
@@ -795,49 +804,45 @@ function ServicerUser(props) {
                     </div>
                   )}
               </div>
-              {type == "Edit" && (
-                <div className="col-span-6">
-                  <Select
-                    label="Status"
-                    required={true}
-                    name="status"
-                    placeholder=""
-                    onChange={handleSelectChange}
-                    disabled={isprimary || !mainStatus}
-                    className="!bg-[#fff]"
-                    options={status}
-                    value={formik.values.status}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.status && formik.errors.status}
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="position"
+                  label="Position"
+                  className="!bg-[#fff]"
+                  // required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={formik.values.position}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={formik.touched.position && formik.errors.position}
+                />
+                {/* {formik.touched.position && formik.errors.position && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.position}
+                </div>
+              )} */}
+              </div>
+              <div className="col-span-6">
+                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  Do you want to create an account?
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value="yes"
+                    // checked={createAccountOption === "yes"}
+                    // onChange={handleRadioChange}
                   />
-                  {formik.touched.status && formik.errors.status && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.status}
-                    </div>
-                  )}
-                </div>
-              )}
-              {type != "Edit" && (
-                <div className="col-span-6">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                    Do you want to create an account?
-                    <RadioButton
-                      id="yes-create-account"
-                      label="Yes"
-                      value={true}
-                      checked={createAccountOption === true}
-                      onChange={handleRadioChange}
-                    />
-                    <RadioButton
-                      id="no-create-account"
-                      label="No"
-                      value={false}
-                      checked={createAccountOption === false}
-                      onChange={handleRadioChange}
-                    />
-                  </p>
-                </div>
-              )}
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value="no"
+                    // checked={createAccountOption === "no"}
+                    // onChange={handleRadioChange}
+                  />
+                </p>
+              </div>
             </Grid>
             <Grid className="!grid-cols-5 my-5  px-8">
               <div className="col-span-2">
