@@ -360,6 +360,7 @@ function AddOrder() {
       setType("Add");
       setCurrentStep(1);
       formik.resetForm();
+      setNumberOfOrders([]);
       setFileValues([]);
       formikStep2.resetForm();
       formikStep3.resetForm();
@@ -661,17 +662,20 @@ function AddOrder() {
   };
 
   const fileInputRef = useRef([]);
-  const handleInputClick = (index) => {
+  const handleInputClick = (index, event) => {
     setFileValues((prevFileValues) => {
       const newArray = [...prevFileValues];
       newArray[index] = null;
       console.log(newArray);
       return newArray;
     });
-    formikStep3.setFieldValue(`productsArray[${index}].file`, {});
+    event.currentTarget.value = null;
+    formikStep3.setFieldValue(`productsArray[${index}].file`, "");
   };
   const handleFileSelect = (event, index) => {
     const file = event.target.files[0];
+    console.log(file, event.target);
+
     setFileValues((prevFileValues) => {
       const newArray = [...prevFileValues];
       newArray[index] = null;
@@ -974,6 +978,7 @@ function AddOrder() {
     }
     if (name.includes("priceBookId")) {
       const match = name.match(/\[(\d+)\]/);
+      formikStep3.setFieldValue(`productsArray[${match[1]}].noOfProducts`, "");
       const data = productNameOptions[match[1]].data.find((value) => {
         return value.value === selectedValue;
       });
@@ -1011,7 +1016,7 @@ function AddOrder() {
         updatedQuantityPricing
       );
       formikStep3.setFieldValue(`productsArray[${match[1]}].price`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].noOfProducts`, "");
+      formikStep3.setFieldValue(`productsArray[${match[1]}].noOfProducts`, NaN);
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].priceType`,
         data.priceType
@@ -1099,6 +1104,7 @@ function AddOrder() {
     formik.handleChange({ target: { name, value } });
     if (name == "dealerId") {
       setProductNameOptions([]);
+      formikStep3.resetForm();
       formik.setFieldValue("servicerId", "");
       formik.setFieldValue("customerId", "");
       formik.setFieldValue("resellerId", "");
@@ -2058,7 +2064,7 @@ function AddOrder() {
                         onChange={(e) => {
                           handleFileSelect(e, index);
                         }}
-                        onClick={() => handleInputClick(index)}
+                        onClick={(event) => handleInputClick(index, event)}
                         disabled={
                           Boolean(numberOfOrders[index]) === true ? false : true
                         }
@@ -2066,6 +2072,7 @@ function AddOrder() {
                     </div>
                   </div>
                   <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                    {numberOfOrders[index]}
                     Please click on file option and make a copy. Upload the list
                     of Product Name and Price using our provided Google Sheets
                     template, by{" "}
