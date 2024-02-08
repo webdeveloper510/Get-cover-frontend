@@ -78,6 +78,11 @@ function DealerPriceBook(props) {
       sortable: true,
     },
     {
+      name: "Price Type",
+      selector: (row) => row?.priceBooks?.priceType,
+      sortable: true,
+    },
+    {
       name: "Term",
       selector: (row) => row?.priceBooks?.term + " " + "Months",
       sortable: true,

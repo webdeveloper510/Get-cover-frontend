@@ -1061,26 +1061,26 @@ function ServicerClaimList() {
             </div>
             <div className='col-span-6'>
                <Input type='text' 
-                         name="Customer Name"
-                        className="!bg-[#fff]"
-                        label="Customer Name"
-                        placeholder="" />
+                  name="Customer Name"
+                className="!bg-[#fff]"
+                label="Customer Name"
+                placeholder="" />
             </div>           
             <div className='col-span-6'>
             <Select
-                        name="Status"
-                        label="Status"
-                        options={status}
-                        className="!bg-[#fff]"
-                        placeholder=""/>
+              name="Status"
+              label="Status"
+              options={status}
+              className="!bg-[#fff]"
+              placeholder=""/>
             </div>
             <div className='col-span-6'>
             <Select
-                        name="ClaimStatus"
-                        label="Claim Status"
-                        options={status}
-                        className="!bg-[#fff]"
-                        placeholder=""/>
+              name="ClaimStatus"
+              label="Claim Status"
+              options={status}
+              className="!bg-[#fff]"
+              placeholder=""/>
             </div>
             <div className='col-span-12'>
              <Button className={'w-full'} onClick={()=>closeAttachments()}>Search</Button>
