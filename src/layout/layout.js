@@ -37,8 +37,8 @@ function Layout() {
         Location.pathname !== "/customerDetails/" + customerId &&
         Location.pathname !== "/servicerDetails/" + servicerId &&
         Location.pathname !== "/orderDetails/" + orderId &&
-
         Location.pathname !== "/resellerDetails/" + resellerId &&
+        Location.pathname !== "/dealer/customerDetails/" + customerId &&
         Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
         Location.pathname !== "/notifications"
           ? "p-4"
@@ -48,9 +48,10 @@ function Layout() {
       {Location.pathname !== "/dealerDetails/" + id &&
       Location.pathname !== "/customerDetails/" + customerId &&
       Location.pathname !== "/servicerDetails/" + servicerId &&
-      Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
       Location.pathname !== "/orderDetails/" + orderId &&
       Location.pathname !== "/resellerDetails/" + resellerId &&
+      Location.pathname !== "/dealer/customerDetails/" + customerId &&
+      Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
       Location.pathname !== "/notifications" ? (
         <div
           className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full `}
@@ -65,6 +66,7 @@ function Layout() {
           Location.pathname !== "/dealerDetails/" + id &&
           Location.pathname !== "/customerDetails/" + customerId &&
           Location.pathname !== "/servicerDetails/" + servicerId &&
+          Location.pathname !== "/dealer/customerDetails/" + customerId &&
           Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
           Location.pathname !== "/orderDetails/" + orderId &&
           Location.pathname !== "/resellerDetails/" + resellerId &&

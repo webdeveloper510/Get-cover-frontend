@@ -177,19 +177,28 @@ function DealerResellerDetails() {
   const resellerDetails = async () => {
     setLoading(true);
     const result = await getResellerListByResellerId(id.resellerId);
-    setResllerDetails(result.reseller[0]);
-    setInitialFormValues({
-      accountName: result?.reseller[0]?.resellerData?.name,
-      oldName: result?.reseller[0]?.resellerData?.name,
-      resellerId: id.resellerId,
-      street: result?.reseller[0]?.resellerData?.street,
-      city: result?.reseller[0]?.resellerData?.city,
-      zip: result?.reseller[0]?.resellerData?.zip,
-      state: result?.reseller[0]?.resellerData?.state,
-      country: "USA",
-    });
+    console.log(result, "88888888888888")
+    if (result.code === 200){
+      
+      setResllerDetails(result?.reseller[0]);
+      setInitialFormValues({
+        accountName: result?.reseller[0]?.resellerData?.name,
+        oldName: result?.reseller[0]?.resellerData?.name,
+        resellerId: id.resellerId,
+        street: result?.reseller[0]?.resellerData?.street,
+        city: result?.reseller[0]?.resellerData?.city,
+        zip: result?.reseller[0]?.resellerData?.zip,
+        state: result?.reseller[0]?.resellerData?.state,
+        country: "USA",
+      });
+    }
+
+      else{
+        console.log(result?.message)
+      }
     setLoading(false);
   };
+
   // const dealerData = async () => {
   //   setLoading(true);
   //   console.log(id);

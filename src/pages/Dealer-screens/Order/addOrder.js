@@ -1023,7 +1023,7 @@ function DealerAddOrder() {
           <Grid>
             <div className="col-span-6">
               <Grid>
-                <div className="col-span-6">
+                {/* <div className="col-span-6">
                   <SelectBoxWIthSerach
                     label="Dealer Name"
                     name="dealerId"
@@ -1040,7 +1040,7 @@ function DealerAddOrder() {
                       {formik.errors.dealerId}
                     </div>
                   )}
-                </div>
+                </div> */}
                 <div className="col-span-6">
                   <SelectBoxWIthSerach
                     // <Select
@@ -1909,19 +1909,16 @@ function DealerAddOrder() {
                     Order Details
                   </p>
                   <Grid className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 ">
-                    <div className="col-span-3 py-4 border-r">
-                      <p className="text-[12px]">Dealer Name</p>
-                      <p className="font-bold text-sm">{dealerName}</p>
-                    </div>
-                    <div className="col-span-3 py-4 border-r">
+                   
+                    <div className="col-span-4 py-4 border-r">
                       <p className="text-[12px]">Reseller Name</p>
                       <p className="font-bold text-sm">{resellerName}</p>
                     </div>
-                    <div className="col-span-3 py-4 border-r">
+                    <div className="col-span-4 py-4 border-r">
                       <p className="text-[12px]">Customer Name</p>
                       <p className="font-bold text-sm">{customerName}</p>
                     </div>
-                    <div className="col-span-3 py-4 ">
+                    <div className="col-span-4 py-4 ">
                       <p className="text-[12px]">Servicer Name</p>
                       <p className="font-bold text-sm">{servicerName}</p>
                     </div>

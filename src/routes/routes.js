@@ -472,7 +472,7 @@ const routes = [
         ),
       },
       {
-        path: "/dealer/customerDetails/:resellerId",
+        path: "/dealer/customerDetails/:customerId",
         element: (
           <PrivateRoute
             element={<DealerCustomerDetails />}
