@@ -117,7 +117,7 @@ function DealerResellerDetails() {
     setModalOpen(false);
   };
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     let intervalId;
 
     if (modalOpen && timer > 0) {
@@ -244,7 +244,7 @@ function DealerResellerDetails() {
 
     onSubmit: async (values) => {
       console.log(values);
-      setLoading(true);
+      // setLoading(true);
       const result = await editResellerData(values, id.resellerId);
 
       console.log(result);
@@ -272,7 +272,7 @@ function DealerResellerDetails() {
 
     onSubmit: async (values) => {
       setFlagValue(false);
-      setLoading(true);
+      // setLoading(true);
       const selectedData = servicerList.map((item) => ({
         _id: item._id,
         status: values.selectedItems.includes(item._id) || item.check,
@@ -333,7 +333,7 @@ function DealerResellerDetails() {
       if (values.status === "yes") {
         values.status = true;
       }
-      setLoading(true);
+      // setLoading(true);
       const result = await addUserByResellerId(values);
       console.log(result.code);
       if (result.code == 200) {
@@ -527,13 +527,13 @@ function DealerResellerDetails() {
   };
   return (
     <>
-      {loading && (
+      {/* {loading && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#fff" />
           </div>
         </div>
-      )}
+      )} */}
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
 

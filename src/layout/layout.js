@@ -39,7 +39,7 @@ function Layout() {
         Location.pathname !== "/orderDetails/" + orderId &&
 
         Location.pathname !== "/resellerDetails/" + resellerId &&
-        Location.pathname !== "dealer/resellerDetails/" + resellerId &&
+        Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
         Location.pathname !== "/notifications"
           ? "p-4"
           : "p-0"
@@ -48,7 +48,7 @@ function Layout() {
       {Location.pathname !== "/dealerDetails/" + id &&
       Location.pathname !== "/customerDetails/" + customerId &&
       Location.pathname !== "/servicerDetails/" + servicerId &&
-      Location.pathname !== "dealer/resellerDetails/" + resellerId &&
+      Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
       Location.pathname !== "/orderDetails/" + orderId &&
       Location.pathname !== "/resellerDetails/" + resellerId &&
       Location.pathname !== "/notifications" ? (
@@ -65,7 +65,7 @@ function Layout() {
           Location.pathname !== "/dealerDetails/" + id &&
           Location.pathname !== "/customerDetails/" + customerId &&
           Location.pathname !== "/servicerDetails/" + servicerId &&
-          Location.pathname !== "dealer/resellerDetails/" + resellerId &&
+          Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
           Location.pathname !== "/orderDetails/" + orderId &&
           Location.pathname !== "/resellerDetails/" + resellerId &&
           Location.pathname !== "/notifications"

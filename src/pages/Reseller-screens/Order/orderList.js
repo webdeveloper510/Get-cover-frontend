@@ -167,7 +167,6 @@ function ResellerOrderList() {
       minWidth: "auto",
       maxWidth: "80px",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div
