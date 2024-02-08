@@ -369,7 +369,7 @@ function AddOrder() {
 setLoading1(true)
     }
     if (location.pathname == "/addOrder") {
-      setLoading1(true)
+      // setLoading1(true)
       setType("Add");
       setCurrentStep(1);
       formik.resetForm();
