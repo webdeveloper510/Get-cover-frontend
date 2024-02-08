@@ -119,13 +119,17 @@ function Reseller(props) {
   );
 
   const getResellerList = async () => {
+    setLoading(true);
     const result = await getResellerListByDealerId({},props.id);
     setResellerList(result.result);
     console.log(result.result);
+    setLoading(false);
   };
   useEffect(()=>{
     if(props.activeTab==='Reseller'){
+      
       getResellerList();
+      
       }
   },[props])
   useEffect(() => {

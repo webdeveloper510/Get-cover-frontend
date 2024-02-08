@@ -406,11 +406,9 @@ function PriceBookList(props) {
   };
   const navigte = useNavigate();
   useEffect(() => {
-    setLoading(true);
     if (props.activeTab === "PriceBook") {
       priceBookData();
     }
-    setLoading(false);
   }, [props]);
   useEffect(() => {
     getCategoryListData();

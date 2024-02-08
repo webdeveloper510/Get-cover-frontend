@@ -57,6 +57,7 @@ function UserList(props) {
   const [loading, setLoading] = useState(false);
 
   const getUserList = async () => {
+    setLoading(true);
     console.log(props.flag);
     if (props.flag == "customer") {
       const result = await getCustomerUsersById(props.id, {});
@@ -78,6 +79,7 @@ function UserList(props) {
       setServiceStatus(result.dealerStatus);
       setUserList(result.result);
     }
+    setLoading(false);
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -101,13 +103,11 @@ function UserList(props) {
 
   useEffect(() => {
     if (props?.data?.length !== 0) {
-      setLoading(true);
+     
       getUserList();
-      setLoading(false);
     }
   }, [props?.data]);
   useEffect(() => {
-    setLoading(true);
     let intervalId;
 
     if ((isModalOpen || (isModalOpen12 && timer > 0)) && timer > 0) {
@@ -129,7 +129,6 @@ function UserList(props) {
       setTimer(3);
     }
 
-    setLoading(false);
 
     return () => {
       clearInterval(intervalId);
