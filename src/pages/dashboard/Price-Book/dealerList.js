@@ -136,7 +136,6 @@ function DealerPriceList() {
   };
 
   const getTermListData = async () => {
-    setLoading(true);
     try {
       const res = await getTermList();
       console.log(res.result.terms, "==============");
@@ -146,7 +145,6 @@ function DealerPriceList() {
           value: item.terms,
         }))
       );
-      setLoading(false);
     } catch (error) {
       console.error("Error fetching category list:", error);
     }
