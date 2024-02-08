@@ -63,7 +63,7 @@ function CustomerList(props) {
     {
       name: "Order Value",
       selector: (row) =>
-        "$" + (row?.orderData?.totalOrderAmount ?? parseInt(0)).toFixed(2),
+        "$" + (row?.orderData?.orderAmount ?? parseInt(0)).toFixed(2),
 
       sortable: true,
     },

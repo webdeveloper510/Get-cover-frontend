@@ -55,12 +55,13 @@ function Reseller(props) {
     },
     {
       name: "# of Orders",
-      selector: (row) => 0,
+      selector: (row) => row?.orderData?.noOfOrders ?? 0,
       sortable: true,
     },
     {
       name: "Order Value",
-      selector: (row) => "$ 0.00",
+      selector: (row) =>
+        "$" + (row?.orderData?.orderAmount ?? parseInt(0)).toFixed(2),
       sortable: true,
     },
     {
