@@ -3,38 +3,7 @@ import Headbar from "../../../common/headBar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Grid from "../../../common/grid";
 import Button from "../../../common/button";
-
-// Media Import
-import BackImage from "../../../assets/images/icons/backArrow.svg";
-import DealerList from "../../../assets/images/icons/dealerList.svg";
-import address from "../../../assets/images/Dealer/Address.svg";
-import name from "../../../assets/images/Dealer/Name.svg";
-import AddItem from "../../../assets/images/icons/addItem.svg";
-import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
-import Order from "../../../assets/images/Dealer/Orders.svg";
-import ContractsActive from "../../../assets/images/Dealer/Contract-active.svg";
-import ClaimActive from "../../../assets/images/Dealer/Claim-active.svg";
-import ServicerActive from "../../../assets/images/Dealer/Servicer-active.svg";
-import CustomerActive from "../../../assets/images/Dealer/Customer-active.svg";
-import UserActive from "../../../assets/images/Dealer/User-active.svg";
-import PriceBookActive from "../../../assets/images/Dealer/PriceBook-active.svg";
-import Contract from "../../../assets/images/Dealer/Contract.svg";
-import Claim from "../../../assets/images/Dealer/Claim.svg";
-import Servicer from "../../../assets/images/Dealer/Servicer.svg";
-import Customer from "../../../assets/images/Dealer/Customers.svg";
-import User from "../../../assets/images/Dealer/Users.svg";
-import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
-import email from "../../../assets/images/Dealer/Email.svg";
-import phone from "../../../assets/images/Dealer/Phone.svg";
-import OrderList from "../../Servicer-screens/Dealer/Dealer-Details/order";
-import ContractList from "../../Servicer-screens/Dealer/Dealer-Details/contract";
-import ClaimList from "../../Servicer-screens/Dealer/Dealer-Details/claim";
-import ServicerList from "../../Servicer-screens/Dealer/Dealer-Details/servicer";
-import UserList from "../../Servicer-screens/Dealer/Dealer-Details/user";
-import PriceBookList from "../../Servicer-screens/Dealer/Dealer-Details/priceBook";
-import CustomerList from "../../Servicer-screens/Dealer/Dealer-Details/customer";
 import Modal from "../../../common/model";
-import shorting from "../../../assets/images/icons/shorting.svg";
 import Input from "../../../common/input";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -59,6 +28,37 @@ import {
   getResellerListByResellerId,
   getResellerUsersById,
 } from "../../../services/reSellerServices";
+import shorting from "../../../assets/images/icons/shorting.svg";
+
+// Media Import
+import BackImage from "../../../assets/images/icons/backArrow.svg";
+import address from "../../../assets/images/Dealer/Address.svg";
+import name from "../../../assets/images/Dealer/Name.svg";
+import AddItem from "../../../assets/images/icons/addItem.svg";
+import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
+import Order from "../../../assets/images/Dealer/Orders.svg";
+import ContractsActive from "../../../assets/images/Dealer/Contract-active.svg";
+import ClaimActive from "../../../assets/images/Dealer/Claim-active.svg";
+import ServicerActive from "../../../assets/images/Dealer/Servicer-active.svg";
+import CustomerActive from "../../../assets/images/Dealer/Customer-active.svg";
+import UserActive from "../../../assets/images/Dealer/User-active.svg";
+import PriceBookActive from "../../../assets/images/Dealer/PriceBook-active.svg";
+import Contract from "../../../assets/images/Dealer/Contract.svg";
+import Claim from "../../../assets/images/Dealer/Claim.svg";
+import Servicer from "../../../assets/images/Dealer/Servicer.svg";
+import Customer from "../../../assets/images/Dealer/Customers.svg";
+import User from "../../../assets/images/Dealer/Users.svg";
+import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
+import email from "../../../assets/images/Dealer/Email.svg";
+import phone from "../../../assets/images/Dealer/Phone.svg";
+import OrderList from "../../dashboard/Dealer/Dealer-Details/order";
+import ContractList from "../../dashboard/Dealer/Dealer-Details/contract";
+import ClaimList from "../../dashboard/Dealer/Dealer-Details/claim";
+import ServicerList from "../../dashboard/Dealer/Dealer-Details/servicer";
+import UserList from "../../dashboard/Dealer/Dealer-Details/user";
+import PriceBookList from "../../dashboard/Dealer/Dealer-Details/priceBook";
+import CustomerList from "../../dashboard/Dealer/Dealer-Details/customer";;
+
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
 function DealerResellerDetails() {

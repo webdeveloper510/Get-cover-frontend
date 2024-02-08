@@ -1,47 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Button from "../../../common/button";
 
-import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
-import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import AddItem from "../../../assets/images/icons/addItem.svg";
-import Search from "../../../assets/images/icons/SearchIcon.svg";
-import Headbar from "../../../common/headBar";
-import shorting from "../../../assets/images/icons/shorting.svg";
-import Grid from "../../../common/grid";
-import Input from "../../../common/input";
+import { Link } from "react-router-dom";
+import Button from "../../../../common/button";
+
+import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
+import Search from "../../../../assets/images/icons/SearchIcon.svg";
+import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
+import shorting from "../../../../assets/images/icons/shorting.svg";
+import Grid from "../../../../common/grid";
+import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
-import Select from "../../../common/select";
-import { getDealersList } from "../../../services/dealerServices";
-import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getResellerList } from "../../../services/dealerServices/priceBookServices";
-// Declare the base URL of the API
-function DealerResellerList() {
+import { RotateLoader } from "react-spinners";
+import { getResellerListByDealerId } from "../../../../services/reSellerServices";
+function Reseller(props) {
   const [selectedAction, setSelectedAction] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState("");
-  const [customerList, setCustomerList] = useState([]);
-  const [dealerList, setDealerList] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const handleSelectChange1 = (name, value) => {
-    console.log(value);
-    setSelectedProduct(value);
-    formik.setFieldValue(name, value);
-  };
-
-  const getResellersList = async () => {
-    setLoading(true);
-    const result = await getResellerList({});
-    console.log(result.result);
-    setCustomerList(result.result);
-    setLoading(false);
-  };
+  const [resellerList, setResellerList] = useState([]);
   const dropdownRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = customerList.length - index <= 10000;
+    const isCloseToBottom = resellerList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -50,40 +30,17 @@ function DealerResellerList() {
     rangeSeparatorText: "of",
   };
 
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      phone: "",
-    },
-    validationSchema: Yup.object({
-      name: Yup.string(),
-      email: Yup.string(),
-      phone: Yup.number(),
-    }),
-    onSubmit: async (values) => {
-      console.log("Form values:", values);
-      getFilteredCustomerList(values);
-    },
-  });
-
-  const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
-      <p>No records found.</p>
-    </div>
-  );
-
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.resellerData.unique_key,
+      selector: (row) => row?.resellerData?.unique_key,
       sortable: true,
-      minWidth: "auto",
-      maxWidth: "70px",
+      minWidth: "auto", // Set a custom minimum width
+      maxWidth: "70px", // Set a custom maximum width
     },
     {
       name: "Name",
-      selector: (row) => row?.resellerData?.name,
+      selector: (row) => row.resellerData.name,
       sortable: true,
     },
     {
@@ -92,12 +49,12 @@ function DealerResellerList() {
       sortable: true,
     },
     {
-      name: "Phone No.",
+      name: "Phone #",
       selector: (row) => row.phoneNumber,
       sortable: true,
     },
     {
-      name: "# Orders",
+      name: "# of Orders",
       selector: (row) => 0,
       sortable: true,
     },
@@ -107,33 +64,11 @@ function DealerResellerList() {
       sortable: true,
     },
     {
-      name: "Status",
-      selector: (row) => row.status,
-      sortable: true,
-      cell: (row) => (
-        <div className="relative">
-          <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-          ></div>
-          <select
-            value={row.status === true ? "active" : "inactive"}
-            // onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-          >
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-        </div>
-      ),
-    },
-    {
       name: "Action",
-      minWidth: "auto",
-      maxWidth: "90px",
+      minWidth: "auto", 
+      maxWidth: "70px", 
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
+        console.log(row);
         return (
           <div className="relative">
             <div
@@ -154,19 +89,20 @@ function DealerResellerList() {
             {selectedAction === row.resellerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
-                  className="text-center cursor-pointer py-1"
                   onClick={() => {
-                    localStorage.removeItem("Resellermenu");
-                    navigate(`/dealer/resellerDetails/${row?.accountId}`);
+                    localStorage.setItem("menu", "Customers");
                   }}
+                  className="text-center py-3 cursor-pointer"
                 >
-                  View
+                  <Link to={`/resellerDetails/${row.resellerData._id}`}>
+                    View{" "}
+                  </Link>
                 </div>
               </div>
             )}
@@ -176,8 +112,24 @@ function DealerResellerList() {
     },
   ];
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
+  const getResellerList = async () => {
+    const result = await getResellerListByDealerId({},props.id);
+    setResellerList(result.result);
+    console.log(result.result);
+  };
+  useEffect(()=>{
+    if(props.activeTab==='Reseller'){
+      getResellerList();
+      }
+  },[props])
   useEffect(() => {
-    getResellersList();
+    
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSelectedAction(null);
@@ -187,69 +139,65 @@ function DealerResellerList() {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
-  const handleFilterIconClick = () => {
-    formik.resetForm();
-    console.log(formik.values);
-    getResellersList();
-  };
+  const [DealserValue, setDealerValue] = useState(null);
 
-  const getFilteredCustomerList = async (data) => {
+  const filterDealerCustomer = async (data) => {
     try {
       setLoading(true);
-      const res = await getResellerList(data);
+      const res = await getResellerListByDealerId(data,props.id);
       console.log(res.result);
-      setCustomerList(res.result);
+      setResellerList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
       setLoading(false);
     }
   };
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    getResellerList();
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phone: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string(),
+      email: Yup.string(),
+      phone: Yup.number(),
+    }),
+    onSubmit: async (values) => {
+      console.log(values);
+      try {
+        await filterDealerCustomer(values);
+      } catch (error) {
+        console.error("Error filtering customer list:", error);
+      }
+    },
+  });
+
   return (
     <>
-      <div className="my-8 ml-3">
-        <Headbar />
-
-        <div className="flex mt-2">
-          <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">Reseller</p>
-            <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Reseller /</Link>{" "}
-              </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1">
-                Resellers List
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <Link
-          to={"/addReseller"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-        >
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            {" "}
-            Add New Reseller{" "}
-          </span>{" "}
-        </Link>
-
+      <div className="my-8">
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-4 self-center">
+            <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Resellers List</p>
             </div>
-            <div className="col-span-8">
+            <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-7">
-                    <div className="col-span-2 self-center">
+                  <Grid className="!grid-cols-11">
+                    <div className="col-span-3 self-center">
                       <Input
                         name="name"
                         type="text"
@@ -262,7 +210,7 @@ function DealerResellerList() {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-                    <div className="col-span-2 self-center">
+                    <div className="col-span-3 self-center">
                       <Input
                         name="email"
                         type="text"
@@ -275,14 +223,14 @@ function DealerResellerList() {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-                    <div className="col-span-2 self-center">
+                    <div className="col-span-3 self-center">
                       <Input
                         name="phone"
                         type="tel"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        placeholder="Phone No."
+                        placeholder="Phone"
                         value={formik.values.phone}
                         onChange={(e) => {
                           const sanitizedValue = e.target.value.replace(
@@ -300,16 +248,16 @@ function DealerResellerList() {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-                    <div className="col-span-1 self-center flex">
+                    <div className="col-span-2 self-center flex justify-center">
                       <Button type="submit" className="!p-0">
                         <img
                           src={Search}
-                          className="cursor-pointer	"
+                          className="cursor-pointer "
                           alt="Search"
                         />
                       </Button>
                       <Button
-                        type="button"
+                        type="submit"
                         onClick={() => {
                           handleFilterIconClick();
                         }}
@@ -327,7 +275,7 @@ function DealerResellerList() {
               </div>
             </div>
           </Grid>
-          <div className="mb-5 relative">
+          <div className="mb-5 relative dealer-detail">
             {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
@@ -337,11 +285,12 @@ function DealerResellerList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={customerList}
+                data={resellerList}
                 highlightOnHover
                 sortIcon={
                   <>
-                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />
                   </>
                 }
                 noDataComponent={<CustomNoDataComponent />}
@@ -358,4 +307,5 @@ function DealerResellerList() {
   );
 }
 
-export default DealerResellerList;
+
+export default Reseller

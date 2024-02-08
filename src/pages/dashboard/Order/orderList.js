@@ -157,34 +157,29 @@ function OrderList() {
       selector: (row) => row?.unique_key,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "123px"
     },
     {
-      name: "Dealer Order #",
+      name: "Dealer P.O #",
       selector: (row) => row.venderOrder,
       sortable: true,
       minWidth: "180px",
     },
     {
-      name: "Dealer",
+      name: "Dealer Name",
       selector: (row) => row.dealerName.name,
       sortable: true,
     },
     {
-      name: "Customer",
+      name: "Customer Name",
       selector: (row) => row.customerName.username,
       sortable: true,
     },
-    // {
-    //   name: "Servicer",
-    //   selector: (row) => row.servicerName.name,
-    //   sortable: true,
-    // },
     {
-      name: "# of Contract",
+      name: "# Contracts",
       selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts),
       sortable: true,
-      minWidth: "150px",
+      minWidth: "100px",
     },
     {
       name: "Order Value",

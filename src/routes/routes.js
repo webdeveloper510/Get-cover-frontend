@@ -68,6 +68,8 @@ import DealerServicerList from "../pages/Dealer-screens/Servicer/servicerList";
 import DealerServicerDetails from "../pages/Dealer-screens/Servicer/servicerDetails";
 import ArchiveOrderList from "../pages/dashboard/Order/order-archive";
 import ServicerDealerList from "../pages/Servicer-screens/Dealer/dealerLIst";
+import DealerResellerDetails from "../pages/Dealer-screens/Reseller/resellerDetails";
+import DealerCustomerDetails from "../pages/Dealer-screens/Customer/customerDetails";
 
 const routes = [
   {
@@ -456,11 +458,24 @@ const routes = [
         ),
       },
       {
+        path: "/dealer/resellerDetails/:resellerId",
+        index: true,
+        element: <PrivateRoute element={<DealerResellerDetails />} />,
+      },
+      {
         path: "/dealer/servicerDetails",
         element: (
           <PrivateRoute
             element={<DealerServicerDetails />}
             path="/dealer/servicerDetails"
+          />
+        ),
+      },
+      {
+        path: "/dealer/customerDetails/:resellerId",
+        element: (
+          <PrivateRoute
+            element={<DealerCustomerDetails />}
           />
         ),
       },
