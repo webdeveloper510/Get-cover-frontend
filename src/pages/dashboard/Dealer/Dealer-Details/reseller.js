@@ -119,26 +119,11 @@ function Reseller(props) {
   );
 
   const getResellerList = async () => {
-<<<<<<< HEAD
     const result = await getResellerListByDealerId({}, props.id);
-=======
-    setLoading(true);
-    const result = await getResellerListByDealerId({},props.id);
->>>>>>> 726b318ad2fe53b860e28f5e2d4817c64128d3a5
     setResellerList(result.result);
     console.log(result.result);
     setLoading(false);
   };
-<<<<<<< HEAD
-=======
-  useEffect(()=>{
-    if(props.activeTab==='Reseller'){
-      
-      getResellerList();
-      
-      }
-  },[props])
->>>>>>> 726b318ad2fe53b860e28f5e2d4817c64128d3a5
   useEffect(() => {
     if (props.activeTab === "Reseller") {
       getResellerList();
