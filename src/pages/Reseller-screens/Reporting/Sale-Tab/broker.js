@@ -7,7 +7,7 @@ import drop from '../../../../assets/images/icons/dropwhite.svg'
 import ChartComponent from '../../../../common/chart'
 import BarChart from '../../../../common/barChart'
 
-function DealerBroker() {
+function ServicerBroker() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -129,4 +129,4 @@ function DealerBroker() {
   )
 }
 
-export default DealerBroker
+export default ServicerBroker

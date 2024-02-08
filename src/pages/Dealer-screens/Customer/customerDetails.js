@@ -19,16 +19,16 @@ import Claim from "../../../assets/images/Dealer/Claim.svg";
 import User from "../../../assets/images/Dealer/Users.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
-import ClaimList from "../../Servicer-screens/Dealer/Dealer-Details/claim";
-import UserList from "../../Servicer-screens/Dealer/Dealer-Details/user";
+import ClaimList from "../Reseller/Dealer-Details/claim";
+import UserList from "../Reseller/Dealer-Details/user";
 import Modal from "../../../common/model";
 import Input from "../../../common/input";
 import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
 import Order from "../../../assets/images/Dealer/Orders.svg";
 import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
-import OrderList from "../../Servicer-screens/Dealer/Dealer-Details/order";
-import ContractList from "../../Servicer-screens/Dealer/Dealer-Details/contract";
+import OrderList from "../Reseller/Dealer-Details/order";
+import ContractList from "../Reseller/Dealer-Details/contract";
 import {
   getCustomerDetailsById,
   updateCustomerDetailsById,

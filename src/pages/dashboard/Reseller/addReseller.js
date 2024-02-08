@@ -96,7 +96,6 @@ function AddReseller() {
     getDealerListData();
   }, []);
   useEffect(() => {
-    setLoading(true);
     let intervalId;
     if (isModalOpen && timer > 0) {
       intervalId = setInterval(() => {
@@ -112,7 +111,6 @@ function AddReseller() {
         navigate("/resellerList");
       }
     }
-    setLoading(false);
     return () => {
       clearInterval(intervalId);
     };
@@ -336,14 +334,16 @@ function AddReseller() {
     setDealerList(arr);
   };
   return (
+    <>
+    {loading ? (
+          <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div>
+        ) : (
     <div className="my-8 ml-3">
-       {loading && (
-              <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
-              </div>
-            )}
+
       <Headbar />
       <div className="flex mt-2">
         <div
@@ -972,6 +972,7 @@ function AddReseller() {
         </div>
       </Modal>
     </div>
+        )}</>
   );
 }
 

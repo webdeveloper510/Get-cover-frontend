@@ -1,19 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import Button from "../../common/button";
+import Button from "../../../../common/button";
 
-import ActiveIcon from "../../assets/images/icons/iconAction.svg";
-import star from "../../assets/images/icons/star.svg";
-import Primary from "../../assets/images/SetPrimary.png";
-import deleteUser10 from "../../assets/images/deleteUser.svg";
-import assign from "../../assets/images/Unassign.png";
-import Search from "../../assets/images/icons/SearchIcon.svg";
-import clearFilter from "../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import shorting from "../../assets/images/icons/shorting.svg";
-import Grid from "../../common/grid";
-import Input from "../../common/input";
+import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
+import star from "../../../../assets/images/icons/star.svg";
+import Primary from "../../../../assets/images/SetPrimary.png";
+import deleteUser10 from "../../../../assets/images/deleteUser.svg";
+import assign from "../../../../assets/images/Unassign.png";
+import Search from "../../../../assets/images/icons/SearchIcon.svg";
+import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
+import shorting from "../../../../assets/images/icons/shorting.svg";
+import Grid from "../../../../common/grid";
+import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
 import { RotateLoader } from "react-spinners";
-import Modal from "../../common/model";
+import Modal from "../../../../common/model";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -22,16 +22,14 @@ import {
   getUserListByDealerId,
   userDetailsById,
   updateUserDetailsById,
-} from "../../services/userServices";
-import Select from "../../common/select";
-import { getCustomerUsersById } from "../../services/customerServices";
-import { useMyContext } from "../../context/context";
-import AddItem from "../../assets/images/icons/addItem.svg";
-import Headbar from "../../common/headBar";
-import RadioButton from "../../common/radio";
-import Tabs from "../../common/tabs";
+} from "../../../../services/userServices";
+import Select from "../../../../common/select";
+import { getCustomerUsersById } from "../../../../services/customerServices";
+import { useMyContext } from "../../../../context/context";
+import { getServicerUsersById } from "../../../../services/servicerServices";
+import { getResellerUsersById } from "../../../../services/reSellerServices";
 
-function ServicerUser() {
+function UserList(props) {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
@@ -59,9 +57,27 @@ function ServicerUser() {
   const [loading, setLoading] = useState(false);
 
   const getUserList = async () => {
-    const result = await getCustomerUsersById("", {});
-    console.log(result.result);
-    setUserList(result.result);
+    console.log(props.flag);
+    if (props.flag == "customer") {
+      const result = await getCustomerUsersById(props.id, {});
+      console.log(result.result);
+      setUserList(result.result);
+    } else if (props.flag == "servicer") {
+      const result = await getServicerUsersById(props.id, {});
+      console.log(result);
+      setServiceStatus(result.servicerStatus);
+      setUserList(result.result);
+    } else if (props.flag == "reseller") {
+      const result = await getResellerUsersById(props.id, {});
+      console.log(result);
+      // setServiceStatus(result.servicerStatus);
+      setUserList(result.data);
+    } else {
+      const result = await getUserListByDealerId(props.id, {});
+      console.log(result.result);
+      setServiceStatus(result.dealerStatus);
+      setUserList(result.result);
+    }
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -70,8 +86,10 @@ function ServicerUser() {
     }
   };
   useEffect(() => {
-    getUserList();
-  }, []);
+    if (props.activeTab === "Users") {
+      getUserList();
+    }
+  }, [props]);
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
@@ -81,6 +99,13 @@ function ServicerUser() {
     };
   }, []);
 
+  useEffect(() => {
+    if (props?.data?.length !== 0) {
+      setLoading(true);
+      getUserList();
+      setLoading(false);
+    }
+  }, [props?.data]);
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -270,7 +295,7 @@ function ServicerUser() {
   const filterUserDetails = async (data) => {
     try {
       setLoading(true);
-      const res = await getUserListByDealerId("", data);
+      const res = await getUserListByDealerId(props.id, data);
       setUserList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
@@ -299,6 +324,7 @@ function ServicerUser() {
       filterUserDetails(values);
     },
   });
+
   const columns = [
     {
       name: "Name",
@@ -420,224 +446,123 @@ function ServicerUser() {
     </div>
   );
 
-  const tabsData = [
-    { id: 1, label: 'Edit Account', content: (
-      <>
-      <Grid >
-      <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Email</p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-        
-         <div className='col-span-4'>
-             <Input 
-                 type='text'
-                 label='First Name'
-                 className='!bg-[#fff]'
-             />
-         </div>
-         <div className='col-span-4'>
-             <Input 
-                 type='text'
-                 label='Last Name'
-                 className='!bg-[#fff]'
-             />
-         </div>
-         <div className='col-span-4'>
-             <Input 
-                 type='tel'
-                 label='Phone No.'
-                 className='!bg-[#fff]'
-             />
-         </div>
-         <div className='col-span-4'>
-             <Input 
-                 type='text'
-                 label='Postion'
-                 className='!bg-[#fff]'
-             />
-         </div>
-         <div className='col-span-4 text-right'>
-          
-         </div>
-         <div className='col-span-12 text-right'>
-           <Button> Save Changes</Button>
-         </div>
-      </Grid>
-       
-      </>
-    ) },
-    { id: 2, label: 'Change Password', content: (
-      <>
-      <Grid>
-         <div className='col-span-4'>
-             <Input 
-                 type='password'
-                 label='Old Password'
-                 className='!bg-[#fff]'
-             />
-         </div>
-         <div className='col-span-4'>
-             <Input 
-                 type='password'
-                 label='New Password'
-                 className='!bg-[#fff]'
-             />
-         </div>
-         <div className='col-span-4'>
-             <Input 
-                 type='password'
-                 label='Confirm Password'
-                 className='!bg-[#fff]'
-             />
-         </div>
-      </Grid>
-      <div className='mt-4 text-right'>
-         <Button>Change Password</Button>
-      </div>
-      </>
-    ) },
-  ];
-
   return (
     <>
-    {loading && (
-        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#fff" />
-          </div>
-        </div>
-      )}
       <div className="my-8">
-        <Headbar />
-        <div className="flex mt-2">
-          <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">Manage Users</p>
-            <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-                {" "}
-                Users{" "}
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className='px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
-                 <Tabs tabs={tabsData} />
-           </div> 
-        {loading ? (
+        <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
+          <Grid className="!p-[26px] !pt-[14px] !pb-0">
+            <div className="col-span-5 self-center">
+              <p className="text-xl font-semibold">Users List</p>
+            </div>
+            <div className="col-span-7">
+              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                <form className="" onSubmit={formikUSerFilter.handleSubmit}>
+                  <Grid className="!grid-cols-11">
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="firstName"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="First Name"
+                        value={formikUSerFilter.values.firstName}
+                        onBlur={formikUSerFilter.handleBlur}
+                        onChange={formikUSerFilter.handleChange}
+                      />
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="email"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Email"
+                        value={formikUSerFilter.values.email}
+                        onBlur={formikUSerFilter.handleBlur}
+                        onChange={formikUSerFilter.handleChange}
+                      />
+                    </div>
+                    <div className="col-span-3 self-center">
+                      <Input
+                        name="phone"
+                        type="tel"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Phone"
+                        value={formikUSerFilter.values.phone}
+                        onBlur={formikUSerFilter.handleBlur}
+                        onChange={(e) => {
+                          const sanitizedValue = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                          console.log(sanitizedValue);
+                          formikUSerFilter.handleChange({
+                            target: {
+                              name: "phone",
+                              value: sanitizedValue,
+                            },
+                          });
+                        }}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center flex justify-center">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer "
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button
+                        type="submit"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                        className="!bg-transparent !p-0"
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
+              </div>
+            </div>
+          </Grid>
+          <div className="mb-5 relative dealer-detail">
+            {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
               </div>
             ) : (
-            <div className='px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
-                <div className='bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3'>
-                    <Button onClick={()=> openModal2()}> + Add Member</Button>
-                </div>
-                <p className='text-xl font-semibold mb-3'>Users List</p>
-                <Grid className="!p-[2px] !pt-[14px] !pb-0">
-                  <div className="col-span-5 self-center">
-                  </div>
-                  <div className="col-span-7">
-                    <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                      <form className="" onSubmit={formikUSerFilter.handleSubmit}>
-                        <Grid className="!grid-cols-11">
-                          <div className="col-span-3 self-center">
-                            <Input
-                              name="firstName"
-                              type="text"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="First Name"
-                              value={formikUSerFilter.values.firstName}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={formikUSerFilter.handleChange}
-                            />
-                          </div>
-                          <div className="col-span-3 self-center">
-                            <Input
-                              name="email"
-                              type="text"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="Email"
-                              value={formikUSerFilter.values.email}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={formikUSerFilter.handleChange}
-                            />
-                          </div>
-                          <div className="col-span-3 self-center">
-                            <Input
-                              name="phone"
-                              type="tel"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="Phone"
-                              value={formikUSerFilter.values.phone}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={(e) => {
-                                const sanitizedValue = e.target.value.replace(
-                                  /[^0-9]/g,
-                                  ""
-                                );
-                                console.log(sanitizedValue);
-                                formikUSerFilter.handleChange({
-                                  target: {
-                                    name: "phone",
-                                    value: sanitizedValue,
-                                  },
-                                });
-                              }}
-                            />
-                          </div>
-                          <div className="col-span-2 self-center flex justify-center">
-                            <Button type="submit" className="!p-0">
-                              <img
-                                src={Search}
-                                className="cursor-pointer "
-                                alt="Search"
-                              />
-                            </Button>
-                            <Button
-                              type="submit"
-                              onClick={() => {
-                                handleFilterIconClick();
-                              }}
-                              className="!bg-transparent !p-0"
-                            >
-                              <img
-                                src={clearFilter}
-                                className="cursor-pointer	mx-auto"
-                                alt="clearFilter"
-                              />
-                            </Button>
-                          </div>
-                        </Grid>
-                      </form>
-                    </div>
-                  </div>
-                </Grid>
-                 <DataTable
-                  columns={columns}
-                  data={userList}
-                  highlightOnHover
-                  sortIcon={
-                    <>
-                      {" "}
-                      <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                    </>
-                  }
-                  noDataComponent={<CustomNoDataComponent />}
-                  />
-            </div>
+              <DataTable
+                columns={columns}
+                data={userList}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />
+                  </>
+                }
+                noDataComponent={<CustomNoDataComponent />}
+                pagination
+                paginationPerPage={10}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              />
             )}
+          </div>
+        </div>
       </div>
 
       {/* Modal Primary Popop */}
@@ -701,7 +626,7 @@ function ServicerUser() {
       <Modal isOpen={isModalOpen2} onClose={closeModal2}>
         <div className=" py-3">
           <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
-            Add New User
+            Edit User
           </p>
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <Grid className="px-8">
@@ -748,10 +673,10 @@ function ServicerUser() {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="email"
-                  label="Email"
+                  name="position"
+                  label="Position"
                   className="!bg-[#fff]"
-                  required={true}
+                  // required={true}
                   placeholder=""
                   maxLength={"30"}
                   value={formik.values.position}
@@ -805,43 +730,24 @@ function ServicerUser() {
                   )}
               </div>
               <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="position"
-                  label="Position"
-                  className="!bg-[#fff]"
-                  // required={true}
+                <Select
+                  label="Status"
+                  required={true}
+                  name="status"
                   placeholder=""
-                  maxLength={"30"}
-                  value={formik.values.position}
+                  onChange={handleSelectChange}
+                  disabled={isprimary || !mainStatus}
+                  className="!bg-[#fff]"
+                  options={status}
+                  value={formik.values.status}
                   onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.position && formik.errors.position}
+                  error={formik.touched.status && formik.errors.status}
                 />
-                {/* {formik.touched.position && formik.errors.position && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.position}
-                </div>
-              )} */}
-              </div>
-              <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                  Do you want to create an account?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value="yes"
-                    // checked={createAccountOption === "yes"}
-                    // onChange={handleRadioChange}
-                  />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value="no"
-                    // checked={createAccountOption === "no"}
-                    // onChange={handleRadioChange}
-                  />
-                </p>
+                {formik.touched.status && formik.errors.status && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.status}
+                  </div>
+                )}
               </div>
             </Grid>
             <Grid className="!grid-cols-5 my-5  px-8">
@@ -867,4 +773,4 @@ function ServicerUser() {
   );
 }
 
-export default ServicerUser;
+export default UserList;

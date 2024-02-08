@@ -97,12 +97,7 @@ function DealerResellerList() {
       sortable: true,
     },
     {
-      name: "Dealer Name",
-      selector: (row) => row?.resellerData?.dealerName,
-      sortable: true,
-    },
-    {
-      name: "Orders",
+      name: "# Orders",
       selector: (row) => 0,
       sortable: true,
     },

@@ -121,6 +121,7 @@ function CustomerList(props) {
   );
 
   const getCustomerList = async () => {
+    setLoading(true);
     console.log(props.flag, "---------");
     const result =
       props.flag === "reseller"
@@ -128,6 +129,7 @@ function CustomerList(props) {
         : await getCustomerListByDealerId(props.id, {});
     setCustomerList(result.result);
     console.log(result.result);
+    setLoading(false);
   };
 
   useEffect(() => {

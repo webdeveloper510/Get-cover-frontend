@@ -118,12 +118,7 @@ function DealerCustomerList() {
       sortable: true,
     },
     {
-      name: "Dealer Name",
-      selector: (row) => row.customerData.dealerName,
-      sortable: true,
-    },
-    {
-      name: "Orders",
+      name: "# Orders",
       selector: (row) => 0,
       sortable: true,
     },

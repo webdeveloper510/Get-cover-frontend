@@ -120,19 +120,19 @@ function DealerOrderList() {
       selector: (row) => row?.unique_key,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "120px",
     },
     {
-      name: "Dealer Order #",
+      name: "Dealer P.O #",
       selector: (row) => row.venderOrder,
       sortable: true,
       minWidth: "180px",
     },
-    {
-      name: "Dealer",
-      selector: (row) => row.dealerName.name,
-      sortable: true,
-    },
+    // {
+    //   name: "Dealer",
+    //   selector: (row) => row.dealerName.name,
+    //   sortable: true,
+    // },
     {
       name: "Customer",
       selector: (row) => row.customerName.username,
@@ -437,16 +437,6 @@ function DealerOrderList() {
                 placeholder=""
               />
             </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Serial No."
-                className="!bg-[#fff]"
-                label="Serial No."
-                placeholder=""
-              />
-            </div>
-
             <div className="col-span-6">
               <Input
                 type="text"

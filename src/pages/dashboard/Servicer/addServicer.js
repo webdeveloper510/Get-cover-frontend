@@ -23,6 +23,7 @@ import AddDealer from "../../../assets/images/dealer-book.svg";
 import disapprove from "../../../assets/images/Disapproved.png";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
+import { RotateLoader } from "react-spinners";
 
 function AddServicer() {
   const [selectedCity, setSelectedCity] = useState("");
@@ -58,7 +59,7 @@ function AddServicer() {
     }
   };
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     let intervalId;
     if (isModalOpen && timer > 0) {
       intervalId = setInterval(() => {
@@ -71,7 +72,7 @@ function AddServicer() {
       closeModal();
     }
 
-    setLoading(false);
+    // setLoading(false);
     return () => {
       clearInterval(intervalId);
     };
@@ -263,6 +264,7 @@ function AddServicer() {
     }),
 
     onSubmit: async (values) => {
+      setLoading(true);
       if (formik.values.members.length > 0) {
         console.log(formik.values.members.length);
         let emailValues = [];
@@ -328,6 +330,14 @@ function AddServicer() {
     navigate(-1);
   };
   return (
+    <>
+         {loading ? (
+          <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div>
+        ) : (
     <div className="my-8 ml-3">
       <Headbar />
       <div className="flex mt-2">
@@ -912,6 +922,8 @@ function AddServicer() {
         </div>
       </Modal>
     </div>
+        )}
+    </>
   );
 }
 

@@ -1,47 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Button from "../../../common/button";
 
-import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
-import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import AddItem from "../../../assets/images/icons/addItem.svg";
-import Search from "../../../assets/images/icons/SearchIcon.svg";
-import Headbar from "../../../common/headBar";
-import shorting from "../../../assets/images/icons/shorting.svg";
-import Grid from "../../../common/grid";
-import Input from "../../../common/input";
+import { Link } from "react-router-dom";
+import Button from "../../../../common/button";
+
+import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
+import Search from "../../../../assets/images/icons/SearchIcon.svg";
+import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
+import shorting from "../../../../assets/images/icons/shorting.svg";
+import Grid from "../../../../common/grid";
+import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
-import Select from "../../../common/select";
-import {
-  getCustomerList,
-  getFilterCustomerList,
-} from "../../../services/customerServices";
-import { getDealersList } from "../../../services/dealerServices";
-import { RotateLoader } from "react-spinners";
+import { getCustomerListByDealerId } from "../../../../services/customerServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-// Declare the base URL of the API
-function CustomerList() {
+import { RotateLoader } from "react-spinners";
+import { getCustomerByDealerId } from "../../../../services/reSellerServices";
+function CustomerList(props) {
+  console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState("");
   const [customerList, setCustomerList] = useState([]);
-  const [dealerList, setDealerList] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const handleSelectChange1 = (name, value) => {
-    console.log(value);
-    setSelectedProduct(value);
-    formik.setFieldValue(name, value);
-  };
-
-  const getCustomer = async () => {
-    setLoading(true);
-    const result = await getCustomerList();
-    console.log(result.result);
-    setCustomerList(result.result);
-    setLoading(false);
-  };
   const dropdownRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = customerList.length - index <= 10000;
@@ -52,46 +31,6 @@ function CustomerList() {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
   };
-  const getDealerList = async () => {
-    let DealerArray = [];
-    setLoading(true);
-    const result = await getDealersList();
-    console.log(result, "jjjjj");
-    const Dealer = result.data.map((data) => {
-      const datadealer = {
-        label: data.dealerData.name,
-        value: data.dealerData._id,
-      };
-      DealerArray.push(datadealer);
-    });
-    setDealerList(DealerArray);
-    setLoading(false);
-  };
-
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      phone: "",
-      dealerName: "",
-    },
-    validationSchema: Yup.object({
-      name: Yup.string(),
-      email: Yup.string(),
-      phone: Yup.number(),
-      dealerName: Yup.string(),
-    }),
-    onSubmit: async (values) => {
-      console.log("Form values:", values);
-      getFilteredCustomerList(values);
-    },
-  });
-
-  const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
-      <p>No records found.</p>
-    </div>
-  );
 
   const columns = [
     {
@@ -103,7 +42,7 @@ function CustomerList() {
     },
     {
       name: "Name",
-      selector: (row) => row.customerData.username,
+      selector: (row) => row.firstName + " " + row.lastName,
       sortable: true,
     },
     {
@@ -117,31 +56,22 @@ function CustomerList() {
       sortable: true,
     },
     {
-      name: "Dealer Name",
-      selector: (row) => row.customerData.dealerName,
-      sortable: true,
-    },
-    {
       name: "# of Orders",
-      selector: (row) => row?.order?.noOfOrders ?? 0,
+      selector: (row) => row?.orderData.noOfOrders,
       sortable: true,
     },
     {
       name: "Order Value",
       selector: (row) =>
-        `$ ${
-          row?.order?.orderAmount === undefined
-            ? parseInt(0).toFixed(2)
-            : row?.order?.orderAmount?.toFixed(2)
-        }`,
+        "$" + (row?.orderData.totalOrderAmount ?? 0).toFixed(2),
+
       sortable: true,
     },
     {
       name: "Action",
-      minWidth: "auto",
-      maxWidth: "90px",
+      minWidth: "auto", // Set a custom minimum width
+      maxWidth: "70px", // Set a custom maximum width
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div
@@ -162,18 +92,19 @@ function CustomerList() {
             {selectedAction === row.customerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
-                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
-                  className="text-center cursor-pointer py-1"
                   onClick={() => {
-                    navigate(`/customerDetails/${row.customerData._id}`);
+                    localStorage.setItem("menu", "Customer");
                   }}
+                  className="text-center py-3 cursor-pointer"
                 >
-                  View
+                  <Link to={`/customerDetails/${row.customerData._id}`}>
+                    View{" "}
+                  </Link>
                 </div>
               </div>
             )}
@@ -183,9 +114,29 @@ function CustomerList() {
     },
   ];
 
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
+
+  const getCustomerList = async () => {
+    console.log(props.flag, "---------");
+    const result =
+      props.flag === "reseller"
+        ? await getCustomerByDealerId(props.id, {})
+        : await getCustomerListByDealerId(props.id, {});
+    setCustomerList(result.result);
+    console.log(result.result);
+  };
+
   useEffect(() => {
-    getCustomer();
-    getDealerList();
+    if (props.activeTab === "Customer") {
+      getCustomerList();
+    }
+  }, [props]);
+
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSelectedAction(null);
@@ -195,21 +146,19 @@ function CustomerList() {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
-  const handleFilterIconClick = () => {
-    formik.resetForm();
-    console.log(formik.values);
-    getCustomer();
-  };
+  const [DealserValue, setDealerValue] = useState(null);
 
-  const getFilteredCustomerList = async (data) => {
+  const filterDealerCustomer = async (data) => {
     try {
       setLoading(true);
-      const res = await getFilterCustomerList(data);
+      const res =
+        props.flag === "reseller"
+          ? await getCustomerByDealerId(props.id, data)
+          : await getCustomerListByDealerId(props.id, data);
       console.log(res.result);
       setCustomerList(res.result);
     } catch (error) {
@@ -218,60 +167,62 @@ function CustomerList() {
       setLoading(false);
     }
   };
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    getCustomerList();
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+    },
+    validationSchema: Yup.object({
+      firstName: Yup.string(),
+      lastName: Yup.string(),
+      email: Yup.string(),
+      phone: Yup.number(),
+    }),
+    onSubmit: async (values) => {
+      console.log(values);
+      try {
+        await filterDealerCustomer(values);
+      } catch (error) {
+        console.error("Error filtering customer list:", error);
+      }
+    },
+  });
+
   return (
     <>
-      <div className="my-8 ml-3">
-        <Headbar />
-
-        <div className="flex mt-2">
-          <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">Customer</p>
-            <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Customer /</Link>{" "}
-              </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1">
-                Customers List
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <Link
-          to={"/addCustomer"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            {" "}
-            Add New Customer{" "}
-          </span>{" "}
-        </Link>
-
+      <div className="my-8">
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-2 self-center">
+            <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Customers List</p>
             </div>
-            <div className="col-span-10">
+            <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-9">
-                    <div className="col-span-2 self-center">
+                  <Grid className="!grid-cols-11">
+                    <div className="col-span-3 self-center">
                       <Input
-                        name="name"
+                        name="firstName"
                         type="text"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
                         placeholder="Name"
-                        value={formik.values.name}
+                        value={formik.values.firstName}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
                     </div>
-                    <div className="col-span-2 self-center">
+                    <div className="col-span-3 self-center">
                       <Input
                         name="email"
                         type="text"
@@ -284,14 +235,14 @@ function CustomerList() {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-                    <div className="col-span-2 self-center">
+                    <div className="col-span-3 self-center">
                       <Input
                         name="phone"
                         type="tel"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        placeholder="Phone No."
+                        placeholder="Phone"
                         value={formik.values.phone}
                         onChange={(e) => {
                           const sanitizedValue = e.target.value.replace(
@@ -309,29 +260,16 @@ function CustomerList() {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-                    <div className="col-span-2 self-center">
-                      <Input
-                        label=""
-                        name="dealerName"
-                        OptionName="Dealer Name"
-                        color="text-[#1B1D21] opacity-50"
-                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        value={formik.values.dealerName}
-                        onChange={handleSelectChange1}
-                      />
-                    </div>
-
-                    <div className="col-span-1 self-center flex">
+                    <div className="col-span-2 self-center flex justify-center">
                       <Button type="submit" className="!p-0">
                         <img
                           src={Search}
-                          className="cursor-pointer	"
+                          className="cursor-pointer "
                           alt="Search"
                         />
                       </Button>
                       <Button
-                        type="button"
+                        type="submit"
                         onClick={() => {
                           handleFilterIconClick();
                         }}
@@ -349,7 +287,7 @@ function CustomerList() {
               </div>
             </div>
           </Grid>
-          <div className="mb-5 relative">
+          <div className="mb-5 relative dealer-detail">
             {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
@@ -364,7 +302,7 @@ function CustomerList() {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />
                   </>
                 }
                 noDataComponent={<CustomNoDataComponent />}
@@ -380,5 +318,4 @@ function CustomerList() {
     </>
   );
 }
-
 export default CustomerList;

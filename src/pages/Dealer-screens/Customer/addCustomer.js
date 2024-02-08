@@ -425,7 +425,6 @@ function DealerAddCustomer() {
               </div>
             )}
           </div> */}
-          {resellerList.length !== 0 && (
             <div className="col-span-4 mb-3">
               <Select
                 label="Reseller Name"
@@ -441,7 +440,7 @@ function DealerAddCustomer() {
                 }
               />
             </div>
-          )}
+         
         </Grid>
         <div className="bg-white p-4 drop-shadow-4xl border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid>

@@ -3,38 +3,7 @@ import Headbar from "../../../common/headBar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Grid from "../../../common/grid";
 import Button from "../../../common/button";
-
-// Media Import
-import BackImage from "../../../assets/images/icons/backArrow.svg";
-import DealerList from "../../../assets/images/icons/dealerList.svg";
-import address from "../../../assets/images/Dealer/Address.svg";
-import name from "../../../assets/images/Dealer/Name.svg";
-import AddItem from "../../../assets/images/icons/addItem.svg";
-import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
-import Order from "../../../assets/images/Dealer/Orders.svg";
-import ContractsActive from "../../../assets/images/Dealer/Contract-active.svg";
-import ClaimActive from "../../../assets/images/Dealer/Claim-active.svg";
-import ServicerActive from "../../../assets/images/Dealer/Servicer-active.svg";
-import CustomerActive from "../../../assets/images/Dealer/Customer-active.svg";
-import UserActive from "../../../assets/images/Dealer/User-active.svg";
-import PriceBookActive from "../../../assets/images/Dealer/PriceBook-active.svg";
-import Contract from "../../../assets/images/Dealer/Contract.svg";
-import Claim from "../../../assets/images/Dealer/Claim.svg";
-import Servicer from "../../../assets/images/Dealer/Servicer.svg";
-import Customer from "../../../assets/images/Dealer/Customers.svg";
-import User from "../../../assets/images/Dealer/Users.svg";
-import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
-import email from "../../../assets/images/Dealer/Email.svg";
-import phone from "../../../assets/images/Dealer/Phone.svg";
-import OrderList from "../../Servicer-screens/Dealer/Dealer-Details/order";
-import ContractList from "../../Servicer-screens/Dealer/Dealer-Details/contract";
-import ClaimList from "../../Servicer-screens/Dealer/Dealer-Details/claim";
-import ServicerList from "../../Servicer-screens/Dealer/Dealer-Details/servicer";
-import UserList from "../../Servicer-screens/Dealer/Dealer-Details/user";
-import PriceBookList from "../../Servicer-screens/Dealer/Dealer-Details/priceBook";
-import CustomerList from "../../Servicer-screens/Dealer/Dealer-Details/customer";
 import Modal from "../../../common/model";
-import shorting from "../../../assets/images/icons/shorting.svg";
 import Input from "../../../common/input";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -59,6 +28,37 @@ import {
   getResellerListByResellerId,
   getResellerUsersById,
 } from "../../../services/reSellerServices";
+import shorting from "../../../assets/images/icons/shorting.svg";
+
+// Media Import
+import BackImage from "../../../assets/images/icons/backArrow.svg";
+import address from "../../../assets/images/Dealer/Address.svg";
+import name from "../../../assets/images/Dealer/Name.svg";
+import AddItem from "../../../assets/images/icons/addItem.svg";
+import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
+import Order from "../../../assets/images/Dealer/Orders.svg";
+import ContractsActive from "../../../assets/images/Dealer/Contract-active.svg";
+import ClaimActive from "../../../assets/images/Dealer/Claim-active.svg";
+import ServicerActive from "../../../assets/images/Dealer/Servicer-active.svg";
+import CustomerActive from "../../../assets/images/Dealer/Customer-active.svg";
+import UserActive from "../../../assets/images/Dealer/User-active.svg";
+import PriceBookActive from "../../../assets/images/Dealer/PriceBook-active.svg";
+import Contract from "../../../assets/images/Dealer/Contract.svg";
+import Claim from "../../../assets/images/Dealer/Claim.svg";
+import Servicer from "../../../assets/images/Dealer/Servicer.svg";
+import Customer from "../../../assets/images/Dealer/Customers.svg";
+import User from "../../../assets/images/Dealer/Users.svg";
+import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
+import email from "../../../assets/images/Dealer/Email.svg";
+import phone from "../../../assets/images/Dealer/Phone.svg";
+import OrderList from "../../dashboard/Dealer/Dealer-Details/order";
+import ContractList from "../../dashboard/Dealer/Dealer-Details/contract";
+import ClaimList from "../../dashboard/Dealer/Dealer-Details/claim";
+import ServicerList from "../../dashboard/Dealer/Dealer-Details/servicer";
+import UserList from "../../dashboard/Dealer/Dealer-Details/user";
+import PriceBookList from "../../dashboard/Dealer/Dealer-Details/priceBook";
+import CustomerList from "../../dashboard/Dealer/Dealer-Details/customer";;
+
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
 function DealerResellerDetails() {
@@ -117,7 +117,7 @@ function DealerResellerDetails() {
     setModalOpen(false);
   };
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     let intervalId;
 
     if (modalOpen && timer > 0) {
@@ -177,19 +177,28 @@ function DealerResellerDetails() {
   const resellerDetails = async () => {
     setLoading(true);
     const result = await getResellerListByResellerId(id.resellerId);
-    setResllerDetails(result.reseller[0]);
-    setInitialFormValues({
-      accountName: result?.reseller[0]?.resellerData?.name,
-      oldName: result?.reseller[0]?.resellerData?.name,
-      resellerId: id.resellerId,
-      street: result?.reseller[0]?.resellerData?.street,
-      city: result?.reseller[0]?.resellerData?.city,
-      zip: result?.reseller[0]?.resellerData?.zip,
-      state: result?.reseller[0]?.resellerData?.state,
-      country: "USA",
-    });
+    console.log(result, "88888888888888")
+    if (result.code === 200){
+      
+      setResllerDetails(result?.reseller[0]);
+      setInitialFormValues({
+        accountName: result?.reseller[0]?.resellerData?.name,
+        oldName: result?.reseller[0]?.resellerData?.name,
+        resellerId: id.resellerId,
+        street: result?.reseller[0]?.resellerData?.street,
+        city: result?.reseller[0]?.resellerData?.city,
+        zip: result?.reseller[0]?.resellerData?.zip,
+        state: result?.reseller[0]?.resellerData?.state,
+        country: "USA",
+      });
+    }
+
+      else{
+        console.log(result?.message)
+      }
     setLoading(false);
   };
+
   // const dealerData = async () => {
   //   setLoading(true);
   //   console.log(id);
@@ -244,7 +253,7 @@ function DealerResellerDetails() {
 
     onSubmit: async (values) => {
       console.log(values);
-      setLoading(true);
+      // setLoading(true);
       const result = await editResellerData(values, id.resellerId);
 
       console.log(result);
@@ -272,7 +281,7 @@ function DealerResellerDetails() {
 
     onSubmit: async (values) => {
       setFlagValue(false);
-      setLoading(true);
+      // setLoading(true);
       const selectedData = servicerList.map((item) => ({
         _id: item._id,
         status: values.selectedItems.includes(item._id) || item.check,
@@ -333,7 +342,7 @@ function DealerResellerDetails() {
       if (values.status === "yes") {
         values.status = true;
       }
-      setLoading(true);
+      // setLoading(true);
       const result = await addUserByResellerId(values);
       console.log(result.code);
       if (result.code == 200) {
@@ -527,20 +536,20 @@ function DealerResellerDetails() {
   };
   return (
     <>
-      {loading && (
+      {/* {loading && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#fff" />
           </div>
         </div>
-      )}
+      )} */}
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
 
         <div className="flex">
           <div onClick={() => localStorage.removeItem("menu")}>
             <Link
-              to={"/resellerList"}
+              to={"/dealer/resellerList"}
               className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
             >
               <img

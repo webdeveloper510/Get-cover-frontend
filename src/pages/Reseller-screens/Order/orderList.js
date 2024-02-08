@@ -121,7 +121,7 @@ function ResellerOrderList() {
       maxWidth: "70px",
     },
     {
-      name: "Dealer Order #",
+      name: "Dealer P.O #",
       selector: (row) => row.venderOrder,
       sortable: true,
       minWidth: "180px",
@@ -136,11 +136,6 @@ function ResellerOrderList() {
       selector: (row) => row.customerName.username,
       sortable: true,
     },
-    // {
-    //   name: "Servicer",
-    //   selector: (row) => row.servicerName.name,
-    //   sortable: true,
-    // },
     {
       name: "# of Contract",
       selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts),
@@ -172,7 +167,6 @@ function ResellerOrderList() {
       minWidth: "auto",
       maxWidth: "80px",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div
@@ -287,7 +281,7 @@ function ResellerOrderList() {
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
-                      placeholder="Dealer Order No."
+                      placeholder="Dealer P.O #"
                     />
                   </div>
                   <div className="col-span-2 self-center">
@@ -429,7 +423,7 @@ function ResellerOrderList() {
             <div className="col-span-6">
               <Input
                 type="text"
-                name="Dealer P.O. No."
+                name="Dealer P.O. #"
                 className="!bg-[#fff]"
                 label="Dealer P.O. No."
                 placeholder=""
@@ -444,25 +438,7 @@ function ResellerOrderList() {
                 placeholder=""
               />
             </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Dealer Name"
-                className="!bg-[#fff]"
-                label="Dealer Name"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Reseller Name"
-                className="!bg-[#fff]"
-                label="Reseller Name"
-                placeholder=""
-              />
-            </div>
-
+           
             <div className="col-span-6">
               <Input
                 type="text"
