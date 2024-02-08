@@ -234,6 +234,8 @@ function AddCustomer() {
 
       formik.setFieldValue("members", updatedMembers);
       formik.setFieldValue("status", false);
+    } else {
+      formik.setFieldValue("status", true);
     }
   };
   const state = cityData;

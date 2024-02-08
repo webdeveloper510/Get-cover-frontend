@@ -13,9 +13,10 @@ import { getDealerPricebookDetailById } from "../../services/dealerServices";
 import { getCategoryList } from "../../services/priceBookService";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import Select from "../../common/select";
 import { RotateLoader } from "react-spinners";
-import * as Yup from "yup";
+
 import Modal from "../../common/model";
 import { getPriceBookListByResellerId } from "../../services/reSellerServices";
 import Headbar from "../../common/headBar";

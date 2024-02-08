@@ -4,16 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../../common/button";
 
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
-import arrowImage from "../../../../assets/images/dropdownArrow.png";
-import AddItem from "../../../../assets/images/icons/addItem.svg";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import Headbar from "../../../../common/headBar";
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
 import Select from "../../../../common/select";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { getOrderListByDealerId } from "../../../../services/dealerServices";
 import { getOrderListByResellerId } from "../../../../services/reSellerServices";
 import { getOrderListByCustomerId } from "../../../../services/customerServices";
@@ -25,7 +24,6 @@ import Primary from "../../../../assets/images/SetPrimary.png";
 import AddDealer from "../../../../assets/images/Disapproved.png";
 import {
   archiveOrders,
-  getOrders,
   processOrders,
 } from "../../../../services/orderServices";
 function OrderList(props) {
@@ -43,8 +41,6 @@ function OrderList(props) {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const navigate = useNavigate();
 
-  
-
   const openArchive = (id) => {
     SetOrderId(id);
     setIsArchiveOpen(true);
@@ -58,11 +54,35 @@ function OrderList(props) {
     });
     setIsModalOpen(true);
   };
- 
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const validationSchema = Yup.object().shape({});
 
+  const initialValues = {
+    orderId: "",
+    venderOrder: "",
+    dealerName: "",
+    resellerName: "",
+    customerName: "",
+    servicerName: "",
+    status: "",
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      getOrderList(values);
+
+      console.log(values);
+    },
+  });
+
+  const handleSelectChange = (name, selectedValue) => {
+    formik.setFieldValue(name, selectedValue);
+  };
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
@@ -83,7 +103,10 @@ function OrderList(props) {
       getOrderList();
     }
   }, [props]);
-
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    getOrderList();
+  };
   useEffect(() => {
     let intervalId;
     if (isModalOpen && timer > 0) {
@@ -103,16 +126,16 @@ function OrderList(props) {
     }
     return () => clearInterval(intervalId);
   }, [isModalOpen, isModalOpen1, timer]);
-  
-  const getOrderList = async () => {
+
+  const getOrderList = async (data = {}) => {
     setLoading(true);
     let result = {};
     if (props.flag == "reseller") {
-      result = await getOrderListByResellerId(props.id);
+      result = await getOrderListByResellerId(props.id, data);
     } else if (props.flag == "customer") {
-      result = await getOrderListByCustomerId(props.id);
+      result = await getOrderListByCustomerId(props.id, data);
     } else if (props.flag == "dealer") {
-      result = await getOrderListByDealerId(props.id);
+      result = await getOrderListByDealerId(props.id, data);
     }
     setOrderList(result.result);
     setLoading(false);
@@ -220,8 +243,12 @@ function OrderList(props) {
                     </div>
                   </>
                 ) : (
-                    <Link to={`/orderDetails/${row._id}`} className="text-center py-1 cursor-pointer w-full flex justify-center">View</Link>
-                
+                  <Link
+                    to={`/orderDetails/${row._id}`}
+                    className="text-center py-1 cursor-pointer w-full flex justify-center"
+                  >
+                    View
+                  </Link>
                 )}
               </div>
             )}
@@ -238,8 +265,8 @@ function OrderList(props) {
   );
 
   const status = [
-    { label: "Active", value: true },
-    { label: "Pending", value: false },
+    { label: "Active", value: "Active" },
+    { label: "Pending", value: "Pending" },
   ];
 
   return (
@@ -252,80 +279,96 @@ function OrderList(props) {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="ID"
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Email"
-                      type="email"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Dealer Order no."
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Select
-                      label=""
-                      options={status}
-                      color="text-[#1B1D21] opacity-50"
-                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer "
-                        alt="Search"
+                <form onSubmit={formik.handleSubmit}>
+                  <Grid className="!grid-cols-9">
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="Name"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="ID"
+                        {...formik.getFieldProps("orderId")}
                       />
-                    </Button>
-                    <Button type="submit" className="!bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="orderNo"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Dealer Order No."
+                        {...formik.getFieldProps("venderOrder")}
                       />
-                    </Button>
-                  </div>
-                </Grid>
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Select
+                        label=""
+                        options={status}
+                        color="text-[#1B1D21] opacity-50"
+                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        onChange={handleSelectChange}
+                        name="status"
+                        value={formik.values.status}
+                      />
+                    </div>
+
+                    <div className="col-span-3 self-center flex">
+                      <Button type="submit" className=" !bg-transparent !p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer	"
+                          alt="Search"
+                        />
+                      </Button>
+
+                      <Button
+                        type="submit"
+                        className=" !bg-transparent !p-0"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
               </div>
             </div>
           </Grid>
           <div className="mb-5 relative dealer-detail">
-          {loading ? (
-            <div className=" h-[400px] w-full flex py-5">
-            <div className="self-center mx-auto">
-              <RotateLoader color="#333" />
-            </div>
-          </div> ) : (
-            <DataTable
-              columns={columns}
-              data={orderList}
-              highlightOnHover
-              sortIcon={
-                <>
-                  {" "}
-                  <img src={shorting} className="ml-2" alt="shorting" />
-                </>
-              }
-              pagination
-              paginationPerPage={10}
-              noDataComponent={<CustomNoDataComponent />}
-              paginationComponentOptions={paginationOptions}
-              paginationRowsPerPageOptions={[10, 20, 50, 100]}
-            />
-          )}
+            {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
+              <DataTable
+                columns={columns}
+                data={orderList}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />
+                  </>
+                }
+                pagination
+                paginationPerPage={10}
+                noDataComponent={<CustomNoDataComponent />}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              />
+            )}
           </div>
         </div>
       </div>

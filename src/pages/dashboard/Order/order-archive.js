@@ -19,6 +19,8 @@ import { RotateLoader } from "react-spinners";
 import { getArchiveOrders, getOrders } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 function ArchiveOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -35,6 +37,33 @@ function ArchiveOrderList() {
     setIsDisapprovedOpen(false);
   };
 
+  const validationSchema = Yup.object().shape({});
+
+  const initialValues = {
+    orderId: "",
+    venderOrder: "",
+    // serialNo: "",
+    dealerName: "",
+    resellerName: "",
+    customerName: "",
+    servicerName: "",
+    status: "",
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      getOrderList(values);
+      console.log(values);
+    },
+  });
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    getOrderList();
+  };
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
   };
@@ -89,9 +118,10 @@ function ArchiveOrderList() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  const getOrderList = async () => {
+  const getOrderList = async (data = {}) => {
+    closeDisapproved();
     setLoading(true);
-    const result = await getArchiveOrders({});
+    const result = await getArchiveOrders(data);
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);
@@ -192,46 +222,70 @@ function ArchiveOrderList() {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-7">
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="Name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="ID"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="orderNo"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Dealer Order No."
-                    />
-                  </div>
-
-                  <div className="col-span-3 self-center flex">
-                    <img src={Search} className="cursor-pointer	" alt="Search" />
-                    <Button type="submit" className=" !bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                <form onSubmit={formik.handleSubmit}>
+                  <Grid className="!grid-cols-9">
+                    <div className="col-span-2 self-center">
+                      {/* <Input
+                        name="Name"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="ID"
+                      /> */}
+                      <Input
+                        name="Name"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="ID"
+                        {...formik.getFieldProps("orderId")}
                       />
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="ml-2 !text-sm"
-                      onClick={() => openDisapproved()}
-                    >
-                      Advance Search
-                    </Button>
-                  </div>
-                </Grid>
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="orderNo"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Dealer Order No."
+                        {...formik.getFieldProps("venderOrder")}
+                      />
+                    </div>
+                    <div className="col-span-3 self-center flex">
+                      <Button type="submit" className=" !bg-transparent !p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer	"
+                          alt="Search"
+                        />
+                      </Button>
+
+                      <Button
+                        type="submit"
+                        className=" !bg-transparent !p-0"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                      <Button
+                        type="button"
+                        className="ml-2 !text-sm"
+                        onClick={() => openDisapproved()}
+                      >
+                        Advance Search
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
               </div>
             </div>
           </Grid>
@@ -326,69 +380,81 @@ function ArchiveOrderList() {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-        <div className="py-3">
-          <p className="text-center text-3xl font-semibold ">Advance Search</p>
-          <Grid className="mt-5 px-6">
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Order ID"
-                className="!bg-[#fff]"
-                label="Order ID"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Dealer P.O. No."
-                className="!bg-[#fff]"
-                label="Dealer P.O. No."
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Dealer Name"
-                className="!bg-[#fff]"
-                label="Dealer Name"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Reseller Name"
-                className="!bg-[#fff]"
-                label="Reseller Name"
-                placeholder=""
-              />
-            </div>
 
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Customer Name"
-                className="!bg-[#fff]"
-                label="Customer Name"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Servicer Name"
-                className="!bg-[#fff]"
-                label="Servicer Name"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-12">
-              <Button className={"w-full"}>Search</Button>
-            </div>
-          </Grid>
-        </div>
+        <form onSubmit={formik.handleSubmit}>
+          <div className="py-3">
+            <p className="text-center text-3xl font-semibold ">
+              Advance Search
+            </p>
+            <Grid className="mt-5 px-6">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="orderId"
+                  className="!bg-[#fff]"
+                  label="Order ID"
+                  placeholder=""
+                  {...formik.getFieldProps("orderId")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="venderOrder"
+                  className="!bg-[#fff]"
+                  label="Dealer P.O. No."
+                  placeholder=""
+                  {...formik.getFieldProps("venderOrder")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="dealerName"
+                  className="!bg-[#fff]"
+                  label="Dealer Name"
+                  placeholder=""
+                  {...formik.getFieldProps("dealerName")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="resellerName"
+                  className="!bg-[#fff]"
+                  label="Reseller Name"
+                  placeholder=""
+                  {...formik.getFieldProps("resellerName")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="customerName"
+                  className="!bg-[#fff]"
+                  label="Customer Name"
+                  placeholder=""
+                  {...formik.getFieldProps("customerName")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="servicerName"
+                  className="!bg-[#fff]"
+                  label="Servicer Name"
+                  placeholder=""
+                  {...formik.getFieldProps("servicerName")}
+                />
+              </div>
+              <div className="col-span-12">
+                <Button type="submit" className={"w-full"}>
+                  Search
+                </Button>
+              </div>
+            </Grid>
+          </div>
+        </form>
       </Modal>
     </>
   );

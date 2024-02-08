@@ -65,8 +65,8 @@ function Reseller(props) {
     },
     {
       name: "Action",
-      minWidth: "auto", 
-      maxWidth: "70px", 
+      minWidth: "auto",
+      maxWidth: "70px",
       cell: (row, index) => {
         console.log(row);
         return (
@@ -96,7 +96,7 @@ function Reseller(props) {
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
                   onClick={() => {
-                    localStorage.setItem("menu", "Customers");
+                    localStorage.setItem("menu", "Reseller");
                   }}
                   className="text-center py-3 cursor-pointer"
                 >
@@ -119,17 +119,16 @@ function Reseller(props) {
   );
 
   const getResellerList = async () => {
-    const result = await getResellerListByDealerId({},props.id);
+    const result = await getResellerListByDealerId({}, props.id);
     setResellerList(result.result);
     console.log(result.result);
   };
-  useEffect(()=>{
-    if(props.activeTab==='Reseller'){
-      getResellerList();
-      }
-  },[props])
   useEffect(() => {
-    
+    if (props.activeTab === "Reseller") {
+      getResellerList();
+    }
+  }, [props]);
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSelectedAction(null);
@@ -148,7 +147,7 @@ function Reseller(props) {
   const filterDealerCustomer = async (data) => {
     try {
       setLoading(true);
-      const res = await getResellerListByDealerId(data,props.id);
+      const res = await getResellerListByDealerId(data, props.id);
       console.log(res.result);
       setResellerList(res.result);
     } catch (error) {
@@ -307,5 +306,4 @@ function Reseller(props) {
   );
 }
 
-
-export default Reseller
+export default Reseller;
