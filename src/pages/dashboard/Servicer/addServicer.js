@@ -23,6 +23,7 @@ import AddDealer from "../../../assets/images/dealer-book.svg";
 import disapprove from "../../../assets/images/Disapproved.png";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
+import { RotateLoader } from "react-spinners";
 
 function AddServicer() {
   const [selectedCity, setSelectedCity] = useState("");
