@@ -43,7 +43,7 @@ function OrderDetails() {
     localStorage.setItem("orderMenu", activeTab);
     setLoading(false);
   }, [activeTab]);
-console.log(loading1, '=================>>>')
+
   const getOrderDetails = async () => {
     setLoading1(true);
     const result = await orderDetailsById(orderId);
@@ -51,6 +51,9 @@ console.log(loading1, '=================>>>')
     setOrderDetails(result.result);
     console.log(result);
     setLoading1(false);
+  };
+  const handleGOBack = () => {
+    navigate(-1);
   };
   const tabs = [
     {
@@ -85,7 +88,7 @@ console.log(loading1, '=================>>>')
         <Headbar />
         <div className="flex">
           <Link
-            to={"/orderList"}
+            onClick={handleGOBack}
             className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
           >
             <img
@@ -125,13 +128,7 @@ console.log(loading1, '=================>>>')
                     {orderDetails.unique_key}{" "}
                   </p>
                 </div>
-                <div className="col-span-3 text-end">
-                  {/* <Button
-                    className="border !border-[#535456] !text-sm !font-Regular"
-                  >
-                    Edit
-                  </Button> */}
-                </div>
+                <div className="col-span-3 text-end"></div>
               </Grid>
               <div className="flex my-4">
                 <img
