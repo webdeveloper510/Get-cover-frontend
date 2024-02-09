@@ -3,6 +3,8 @@ import Button from "../../common/button";
 
 import ActiveIcon from "../../assets/images/icons/iconAction.svg";
 import star from "../../assets/images/icons/star.svg";
+import terms from "../../assets/images/Dealer/Address.svg";
+import dealer from "../../assets/images/Dealer/Name.svg";
 import Primary from "../../assets/images/SetPrimary.png";
 import deleteUser10 from "../../assets/images/deleteUser.svg";
 import assign from "../../assets/images/Unassign.png";
@@ -421,110 +423,88 @@ function ResellerUser() {
   );
 
   const tabsData = [
-    { id: 1, label: 'Detals', content: (
+    { id: 1, label: 'Details', content: (
       <>
       <p className="text-base font-semibold mb-3">Dealer Details</p>
       <hr/>
-      <Grid className="!mt-3" >
-      <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Account Name</p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-         <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Business Street Address</p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-         <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Business City </p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div> 
-         <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Business State </p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-         <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Business Zipcode  </p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-      </Grid>
-      <p className="text-base font-semibold mt-5 mb-3">Reseller Details</p>
-      <hr/>
-      <Grid className="!mt-3" >
-      <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Account Name</p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-         <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Reseller Street Address</p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-         <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Reseller City </p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div> 
-         <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Reseller State </p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-         <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Reseller Zipcode  </p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-      </Grid>
+        <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
+          <Grid className="mx-8 mx-auto ">
+            <div className="col-span-2 self-center border-r border-[#4e4e4e]">
+            </div>
+            <div className="col-span-3 border-r border-[#4e4e4e]">
+              <div className="flex">
+                <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
+                  <img src={dealer} alt="dealer" />
+                </div>
+                <div className="self-center">
+                  <p className="text-[#FFF] text-base font-medium leading-5	">
+                    Account Name
+                  </p>
+                  <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                  Nikhil Reseller
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-5">
+              <div className="flex justify-center">
+                <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
+                  <img src={terms} className="" alt="terms" />
+                </div>
+                <div className="self-center">
+                  <p className="text-[#FFF] text-base font-medium leading-5">
+                    Address
+                  </p>
+                  <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                  Hno 353, Kurali, Georgia 140101, USA
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-2">
+            </div>
+          </Grid>
+        </div>
       <p className="text-base font-semibold mb-3 mt-5"> My Details</p>
       <hr/>
-      <Grid className="!mt-3">
-      <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Account Name</p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-         <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Street Address</p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-         <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>City </p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div> 
-         <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>State </p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-         <div className='col-span-4'>
-           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-             <p className='text-sm m-0 p-0'>Zipcode</p>
-             <p className='font-semibold'>Super@codenomad.net</p>
-           </div>
-         </div>
-      </Grid>
+           <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
+              <Grid className="mx-8 mx-auto ">
+                <div className="col-span-2 self-center border-r border-[#4e4e4e]">
+                </div>
+                <div className="col-span-3 border-r border-[#4e4e4e]">
+                  <div className="flex">
+                    <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
+                      <img src={dealer} alt="dealer" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                        Account Name
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      Nikhil Reseller
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-5">
+                  <div className="flex justify-center">
+                    <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
+                      <img src={terms} className="" alt="terms" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5">
+                        Address
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                      Hno 353, Kurali, Georgia 140101, USA
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-2">
+                </div>
+              </Grid>
+            </div>
       </>
     ) },
     { id: 2, label: 'My Account', content: (

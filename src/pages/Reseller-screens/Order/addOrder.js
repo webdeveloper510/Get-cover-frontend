@@ -1025,7 +1025,7 @@ function ResellerAddOrder() {
           <Grid>
             <div className="col-span-6">
               <Grid>
-                <div className="col-span-6">
+                {/* <div className="col-span-6">
                   <SelectBoxWIthSerach
                     label="Dealer Name"
                     name="dealerId"
@@ -1042,7 +1042,7 @@ function ResellerAddOrder() {
                       {formik.errors.dealerId}
                     </div>
                   )}
-                </div>
+                </div> */}
                 {/* <div className="col-span-6">
                   <SelectBoxWIthSerach
                     // <Select
