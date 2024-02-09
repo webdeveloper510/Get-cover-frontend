@@ -31,7 +31,7 @@ const SelectBoxWithSearch = ({
 
   // Adding an "unselect" option
   const extendedOptions = [
-    { value: null, label: "Unselect" }, // Change the label as per your preference
+    { value: "", label: "select" }, // Change the label as per your preference
     ...options,
   ];
 
@@ -44,9 +44,7 @@ const SelectBoxWithSearch = ({
       borderRadius: "10px",
       padding: "0.425rem",
       borderColor: state.isFocused ? "#80808085" : provided.borderColor,
-      boxShadow: state.isFocused
-        ? "0 0 0 0px #80808085"
-        : provided.boxShadow,
+      boxShadow: state.isFocused ? "0 0 0 0px #80808085" : provided.boxShadow,
     }),
     option: (provided, state) => ({
       ...provided,
