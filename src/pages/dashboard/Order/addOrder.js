@@ -772,6 +772,7 @@ function AddOrder() {
     }),
     onSubmit: (values) => {
       setLoading2(true);
+      console.log(loading2 , '===========================================>>')
       console.log(values);
       const arr = [];
       formikStep3.values.productsArray.map((res, index) => {
@@ -829,9 +830,11 @@ function AddOrder() {
         editOrder(orderId, data).then((res) => {
           if (res.code == 200) {
             setLoading2(false);
+            console.log(loading2 , '===========================================>>1')
             openModal();
           } else {
             setLoading2(false);
+            console.log(loading2 , '====================2=======================>>')
             setError(res.message);
           }
         });
@@ -839,16 +842,17 @@ function AddOrder() {
         addOrder(formData).then((res) => {
           if (res.code == 200) {
             setLoading2(false);
+            console.log(loading2 , '======================3=====================>>')
             openModal();
 
             //  navigate('/orderList')
           } else {
             setLoading2(false);
+            console.log(loading2 , '=====================4======================>>')
             setError(res.message);
           }
         });
       }
-      setLoading2(false);
     },
   });
 
