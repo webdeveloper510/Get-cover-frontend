@@ -197,11 +197,9 @@ function ResellerOrderList() {
       cell: (row) => (
         <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
           <div
-            className={` ${
-              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
-            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
+            className={` bg-[#6BD133] h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
           ></div>
-          <p className="self-center"> {row.status} </p>
+          <p className="self-center"> Active </p>
         </div>
       ),
       sortable: true,
@@ -229,12 +227,10 @@ function ResellerOrderList() {
             {selectedAction === row.id && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
+                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md bottom-1`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                {row.status == "Pending" ? (
+                {/* {row.status == "Pending" ? (
                   <>
                     <div
                       className="text-center py-1 border-b cursor-pointer"
@@ -255,11 +251,11 @@ function ResellerOrderList() {
                       Archive
                     </div>
                   </>
-                ) : (
+                ) : ( */}
                   <div className="text-center py-1 cursor-pointer">
-                    <Link to={"/orderDetails"}>View</Link>
+                    <p>View</p>
                   </div>
-                )}
+                {/* )} */}
               </div>
             )}
           </div>
