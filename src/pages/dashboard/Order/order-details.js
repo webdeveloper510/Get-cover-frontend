@@ -27,6 +27,7 @@ function OrderDetails() {
   const [orderDetails, setOrderDetails] = useState({});
   const [userDetails, setUserDetails] = useState({});
   const { orderId } = useParams();
+  const navigate = useNavigate();
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("orderMenu");
     return storedTab ? storedTab : "Order Summary";
