@@ -330,16 +330,16 @@ function ResellerList() {
                       />
                     </div>
                     <div className="col-span-2 self-center">
-                      <Select
+                      <Input
                         label=""
                         name="dealerName"
-                        options={dealerList}
-                        OptionName="Dealer Name"
+                        type='text'
+                        placeholder="Dealer Name"
                         color="text-[#1B1D21] opacity-50"
-                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px] !bg-[#f7f7f7]"
-                        value={formik.values.dealerName}
-                        onChange={handleSelectChange1}
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        value={formik.dealerName}
+                        onChange={formik.handleChange}
                       />
                     </div>
 

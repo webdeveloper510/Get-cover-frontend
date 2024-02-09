@@ -1043,7 +1043,7 @@ function ResellerAddOrder() {
                     </div>
                   )}
                 </div>
-                <div className="col-span-6">
+                {/* <div className="col-span-6">
                   <SelectBoxWIthSerach
                     // <Select
                     label="Reseller Name"
@@ -1058,7 +1058,7 @@ function ResellerAddOrder() {
                     }
                     onBlur={formik.handleBlur}
                   />
-                </div>
+                </div> */}
 
                 <div className="col-span-6">
                   {/* <Select */}

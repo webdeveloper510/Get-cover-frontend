@@ -29,6 +29,7 @@ import { useMyContext } from "../../context/context";
 import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
 import RadioButton from "../../common/radio";
+import Tabs from "../../common/tabs";
 
 function ResellerUser() {
   const { toggleFlag } = useMyContext();
@@ -419,6 +420,87 @@ function ResellerUser() {
     </div>
   );
 
+  const tabsData = [
+    { id: 1, label: 'Edit Account', content: (
+      <>
+      <Grid >
+      <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Email</p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+        
+         <div className='col-span-4'>
+             <Input 
+                 type='text'
+                 label='First Name'
+                 className='!bg-[#fff]'
+             />
+         </div>
+         <div className='col-span-4'>
+             <Input 
+                 type='text'
+                 label='Last Name'
+                 className='!bg-[#fff]'
+             />
+         </div>
+         <div className='col-span-4'>
+             <Input 
+                 type='tel'
+                 label='Phone No.'
+                 className='!bg-[#fff]'
+             />
+         </div>
+         <div className='col-span-4'>
+             <Input 
+                 type='text'
+                 label='Postion'
+                 className='!bg-[#fff]'
+             />
+         </div>
+         <div className='col-span-4 text-right'>
+          
+         </div>
+         <div className='col-span-12 text-right'>
+           <Button> Save Changes</Button>
+         </div>
+      </Grid>
+       
+      </>
+    ) },
+    { id: 2, label: 'Change Password', content: (
+      <>
+      <Grid>
+         <div className='col-span-4'>
+             <Input 
+                 type='password'
+                 label='Old Password'
+                 className='!bg-[#fff]'
+             />
+         </div>
+         <div className='col-span-4'>
+             <Input 
+                 type='password'
+                 label='New Password'
+                 className='!bg-[#fff]'
+             />
+         </div>
+         <div className='col-span-4'>
+             <Input 
+                 type='password'
+                 label='Confirm Password'
+                 className='!bg-[#fff]'
+             />
+         </div>
+      </Grid>
+      <div className='mt-4 text-right'>
+         <Button>Change Password</Button>
+      </div>
+      </>
+    ) },
+  ];
+
   return (
     <>
     {loading && (
@@ -432,7 +514,7 @@ function ResellerUser() {
         <Headbar />
         <div className="flex mt-2">
           <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">Users</p>
+            <p className="font-bold text-[36px] leading-9	mb-[3px]">Manage Users</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}
@@ -442,131 +524,120 @@ function ResellerUser() {
           </div>
         </div>
 
-        <div
-          className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1] cursor-pointer"
-          onClick={() => openModal2()}
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            Add User{" "}
-          </span>{" "}
-        </div>
-
-        <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
-          <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-5 self-center">
-              <p className="text-xl font-semibold">Users List</p>
-            </div>
-            <div className="col-span-7">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <form className="" onSubmit={formikUSerFilter.handleSubmit}>
-                  <Grid className="!grid-cols-11">
-                    <div className="col-span-3 self-center">
-                      <Input
-                        name="firstName"
-                        type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder="First Name"
-                        value={formikUSerFilter.values.firstName}
-                        onBlur={formikUSerFilter.handleBlur}
-                        onChange={formikUSerFilter.handleChange}
-                      />
-                    </div>
-                    <div className="col-span-3 self-center">
-                      <Input
-                        name="email"
-                        type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder="Email"
-                        value={formikUSerFilter.values.email}
-                        onBlur={formikUSerFilter.handleBlur}
-                        onChange={formikUSerFilter.handleChange}
-                      />
-                    </div>
-                    <div className="col-span-3 self-center">
-                      <Input
-                        name="phone"
-                        type="tel"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder="Phone"
-                        value={formikUSerFilter.values.phone}
-                        onBlur={formikUSerFilter.handleBlur}
-                        onChange={(e) => {
-                          const sanitizedValue = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          );
-                          console.log(sanitizedValue);
-                          formikUSerFilter.handleChange({
-                            target: {
-                              name: "phone",
-                              value: sanitizedValue,
-                            },
-                          });
-                        }}
-                      />
-                    </div>
-                    <div className="col-span-2 self-center flex justify-center">
-                      <Button type="submit" className="!p-0">
-                        <img
-                          src={Search}
-                          className="cursor-pointer "
-                          alt="Search"
-                        />
-                      </Button>
-                      <Button
-                        type="submit"
-                        onClick={() => {
-                          handleFilterIconClick();
-                        }}
-                        className="!bg-transparent !p-0"
-                      >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
-                        />
-                      </Button>
-                    </div>
-                  </Grid>
-                </form>
-              </div>
-            </div>
-          </Grid>
-          <div className="mb-5 relative dealer-detail">
-            {loading ? (
+        <div className='px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
+                 <Tabs tabs={tabsData} />
+           </div> 
+        {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
               </div>
             ) : (
-              <DataTable
-                columns={columns}
-                data={userList}
-                highlightOnHover
-                sortIcon={
-                  <>
-                    {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
-                  </>
-                }
-                noDataComponent={<CustomNoDataComponent />}
-                pagination
-                paginationPerPage={10}
-                paginationComponentOptions={paginationOptions}
-                paginationRowsPerPageOptions={[10, 20, 50, 100]}
-              />
+            <div className='px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
+                <div className='bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3'>
+                    <Button onClick={()=> openModal2()}> + Add Member</Button>
+                </div>
+                <p className='text-xl font-semibold mb-3'>Users List</p>
+                <Grid className="!p-[2px] !pt-[14px] !pb-0">
+                  <div className="col-span-5 self-center">
+                  </div>
+                  <div className="col-span-7">
+                    <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                      <form className="" onSubmit={formikUSerFilter.handleSubmit}>
+                        <Grid className="!grid-cols-11">
+                          <div className="col-span-3 self-center">
+                            <Input
+                              name="firstName"
+                              type="text"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              label=""
+                              placeholder="First Name"
+                              value={formikUSerFilter.values.firstName}
+                              onBlur={formikUSerFilter.handleBlur}
+                              onChange={formikUSerFilter.handleChange}
+                            />
+                          </div>
+                          <div className="col-span-3 self-center">
+                            <Input
+                              name="email"
+                              type="text"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              label=""
+                              placeholder="Email"
+                              value={formikUSerFilter.values.email}
+                              onBlur={formikUSerFilter.handleBlur}
+                              onChange={formikUSerFilter.handleChange}
+                            />
+                          </div>
+                          <div className="col-span-3 self-center">
+                            <Input
+                              name="phone"
+                              type="tel"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              label=""
+                              placeholder="Phone"
+                              value={formikUSerFilter.values.phone}
+                              onBlur={formikUSerFilter.handleBlur}
+                              onChange={(e) => {
+                                const sanitizedValue = e.target.value.replace(
+                                  /[^0-9]/g,
+                                  ""
+                                );
+                                console.log(sanitizedValue);
+                                formikUSerFilter.handleChange({
+                                  target: {
+                                    name: "phone",
+                                    value: sanitizedValue,
+                                  },
+                                });
+                              }}
+                            />
+                          </div>
+                          <div className="col-span-2 self-center flex justify-center">
+                            <Button type="submit" className="!p-0">
+                              <img
+                                src={Search}
+                                className="cursor-pointer "
+                                alt="Search"
+                              />
+                            </Button>
+                            <Button
+                              type="submit"
+                              onClick={() => {
+                                handleFilterIconClick();
+                              }}
+                              className="!bg-transparent !p-0"
+                            >
+                              <img
+                                src={clearFilter}
+                                className="cursor-pointer	mx-auto"
+                                alt="clearFilter"
+                              />
+                            </Button>
+                          </div>
+                        </Grid>
+                      </form>
+                    </div>
+                  </div>
+                </Grid>
+                 <DataTable
+                  columns={columns}
+                  data={userList}
+                  highlightOnHover
+                  sortIcon={
+                    <>
+                      {" "}
+                      <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                    </>
+                  }
+                  noDataComponent={<CustomNoDataComponent />}
+                  />
+            </div>
             )}
-          </div>
-        </div>
       </div>
 
       {/* Modal Primary Popop */}
@@ -677,10 +748,10 @@ function ResellerUser() {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="position"
-                  label="Position"
+                  name="email"
+                  label="Email"
                   className="!bg-[#fff]"
-                  // required={true}
+                  required={true}
                   placeholder=""
                   maxLength={"30"}
                   value={formik.values.position}
@@ -734,24 +805,24 @@ function ResellerUser() {
                   )}
               </div>
               <div className="col-span-6">
-                <Select
-                  label="Status"
-                  required={true}
-                  name="status"
-                  placeholder=""
-                  onChange={handleSelectChange}
-                  disabled={isprimary || !mainStatus}
+                <Input
+                  type="text"
+                  name="position"
+                  label="Position"
                   className="!bg-[#fff]"
-                  options={status}
-                  value={formik.values.status}
+                  // required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={formik.values.position}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.status && formik.errors.status}
+                  onChange={formik.handleChange}
+                  error={formik.touched.position && formik.errors.position}
                 />
-                {formik.touched.status && formik.errors.status && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.status}
-                  </div>
-                )}
+                {/* {formik.touched.position && formik.errors.position && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.position}
+                </div>
+              )} */}
               </div>
               <div className="col-span-6">
                 <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
@@ -795,5 +866,6 @@ function ResellerUser() {
     </>
   );
 }
+
 
 export default ResellerUser;
