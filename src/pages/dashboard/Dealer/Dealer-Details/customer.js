@@ -113,6 +113,7 @@ function CustomerList(props) {
       },
     },
   ];
+  
 
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">

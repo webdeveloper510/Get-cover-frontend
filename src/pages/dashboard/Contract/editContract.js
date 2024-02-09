@@ -163,7 +163,7 @@ function EditContract() {
                                 </div>
                                 <div className="self-center">
                                     <p className="text-[#FFF] text-base font-medium leading-5">
-                                        Claim Amount
+                                        Claimed Value
                                     </p>
                                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
                                         MC-10554

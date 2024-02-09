@@ -89,6 +89,50 @@ function ResellerOrderList() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  const data =[
+    {
+      id : '1',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '2',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '3',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '4',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '5',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    }
+  ]
+
   const getOrderList = async () => {
     setLoading(true);
     const result = await getOrders({});
@@ -115,36 +159,36 @@ function ResellerOrderList() {
   const columns = [
     {
       name: "ID",
-      selector: (row) => row?.unique_key,
+      selector: (row) => row?.id,
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
     },
     {
       name: "Dealer P.O #",
-      selector: (row) => row.venderOrder,
+      selector: (row) => row.name,
       sortable: true,
       minWidth: "180px",
     },
     {
       name: "Dealer",
-      selector: (row) => row.dealerName.name,
+      selector: (row) => row.name,
       sortable: true,
     },
     {
       name: "Customer",
-      selector: (row) => row.customerName.username,
+      selector: (row) => row.name,
       sortable: true,
     },
     {
       name: "# of Contract",
-      selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts),
+      selector: (row) => (row?.order == null ? 0 : row.order),
       sortable: true,
       minWidth: "150px",
     },
     {
       name: "Order Value",
-      selector: (row) => `$ ${row.orderAmount?.toFixed(2)}`,
+      selector: (row) => `$ 100.00`,
       sortable: true,
       minWidth: "150px",
     },
@@ -172,7 +216,7 @@ function ResellerOrderList() {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.unique_key ? null : row.unique_key
+                  selectedAction === row.id ? null : row.id
                 )
               }
             >
@@ -182,7 +226,7 @@ function ResellerOrderList() {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.unique_key && (
+            {selectedAction === row.id && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
@@ -327,7 +371,7 @@ function ResellerOrderList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={orderList}
+                data={data}
                 highlightOnHover
                 sortIcon={
                   <>

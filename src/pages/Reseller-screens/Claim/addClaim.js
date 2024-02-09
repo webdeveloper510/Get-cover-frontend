@@ -447,13 +447,7 @@ function ResellerAddClaim() {
                   <p className='text-[#333333] text-base font-semibold'>Used</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
-                <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Dealer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Edward Wilson</p>
-                </div>
-              </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
+              <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
                   <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
@@ -478,13 +472,12 @@ function ResellerAddClaim() {
                   <p className='text-[#333333] text-base font-semibold'>11/09/2026</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
+              <div className='col-span-1 border border-[#D1D1D1] rounded-ee-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Coverage End Date</p>
                   <p className='text-[#333333] text-base font-semibold'>09/11/2030</p>
                 </div>
               </div>
-              <div className='col-span-4  border border-[#D1D1D1] rounded-ee-xl'></div>
             </Grid>
           </div>
             </div>

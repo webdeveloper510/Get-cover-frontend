@@ -98,17 +98,60 @@ function ResellerServicerList() {
     console.log(formik.values);
     getServicerList();
   };
+
+  const data =[
+    {
+      id : '1',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '2',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '3',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '4',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '5',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    }
+  ]
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.servicerData.unique_key,
+      selector: (row) => row.id,
       sortable: true,
       minWidth: "auto",
       maxWidth: "80px",
     },
     {
       name: "Servicer Name",
-      selector: (row) => row.servicerData.name,
+      selector: (row) => row.name,
       sortable: true,
     },
     {
@@ -119,18 +162,18 @@ function ResellerServicerList() {
     },
     {
       name: "Phone #",
-      selector: (row) => row.phoneNumber,
+      selector: (row) => row.phone,
       sortable: true,
     },
     {
       name: "# of Claims",
-      selector: (row) => 0,
+      selector: (row) => 4,
       sortable: true,
       minWidth: "150px",
     },
     {
       name: "Total Claims Value",
-      selector: (row) => "$0.00",
+      selector: (row) => "$20.00",
       sortable: true,
       minWidth: "180px",
     },
@@ -333,7 +376,7 @@ function ResellerServicerList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={servicerList}
+                data={data}
                 highlightOnHover
                 sortIcon={
                   <>
