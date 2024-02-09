@@ -153,7 +153,7 @@ function OrderList(props) {
       sortable: true,
     },
     {
-      name: "# Products",
+      name: "# Of Contracts",
       selector: (row) => row.noOfProducts,
       sortable: true,
     },
