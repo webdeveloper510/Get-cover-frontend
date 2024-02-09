@@ -268,10 +268,10 @@ function AddOrder() {
     getDealerListData();
     getTermListData();
   }, []);
+
   const orderDetails = async () => {
     // setLoading1(true);
     const result = await orderDetailsById(orderId);
-    console.log(result.result.productsArray);
     getResellerList(result?.result?.dealerId);
 
     getCustomerList({
@@ -285,6 +285,14 @@ function AddOrder() {
     });
 
     result?.result?.productsArray?.forEach((product, index) => {
+      getCategoryList(
+        result.result.dealerId,
+        {
+          priceBookId: product.priceBookId,
+          priceCatId: product.categoryId,
+        },
+        index
+      );
       if (product.orderFile.name != "") {
         setFileValues((prevFileValues) => {
           const newArray = [...prevFileValues];
@@ -305,14 +313,6 @@ function AddOrder() {
 
         return newArray;
       });
-      getCategoryList(
-        result.result.dealerId,
-        {
-          priceBookId: product.priceBookId,
-          priceCatId: product.categoryId,
-        },
-        index
-      );
     });
     console.log(result.result);
     orderDetail(result.result);
@@ -745,7 +745,7 @@ function AddOrder() {
   };
   const calculateTotalAmount = (data) => {
     let totalAmount = 0;
-    data.map((product, index) => {
+    data?.map((product, index) => {
       totalAmount += parseFloat(product.price);
     });
     return totalAmount.toFixed(2);
@@ -772,7 +772,7 @@ function AddOrder() {
     }),
     onSubmit: (values) => {
       setLoading2(true);
-      console.log(loading2 , '===========================================>>')
+      console.log(loading2, "===========================================>>");
       console.log(values);
       const arr = [];
       formikStep3.values.productsArray.map((res, index) => {
@@ -830,11 +830,17 @@ function AddOrder() {
         editOrder(orderId, data).then((res) => {
           if (res.code == 200) {
             setLoading2(false);
-            console.log(loading2 , '===========================================>>1')
+            console.log(
+              loading2,
+              "===========================================>>1"
+            );
             openModal();
           } else {
             setLoading2(false);
-            console.log(loading2 , '====================2=======================>>')
+            console.log(
+              loading2,
+              "====================2=======================>>"
+            );
             setError(res.message);
           }
         });
@@ -842,13 +848,19 @@ function AddOrder() {
         addOrder(formData).then((res) => {
           if (res.code == 200) {
             setLoading2(false);
-            console.log(loading2 , '======================3=====================>>')
+            console.log(
+              loading2,
+              "======================3=====================>>"
+            );
             openModal();
 
             //  navigate('/orderList')
           } else {
             setLoading2(false);
-            console.log(loading2 , '=====================4======================>>')
+            console.log(
+              loading2,
+              "=====================4======================>>"
+            );
             setError(res.message);
           }
         });
@@ -884,10 +896,10 @@ function AddOrder() {
 
   useEffect(() => {
     fileInputRef.current = Array.from(
-      { length: formikStep3.values.productsArray.length },
+      { length: formikStep3?.values?.productsArray?.length },
       () => createRef()
     );
-  }, [formikStep3.values.productsArray.length]);
+  }, [formikStep3?.values?.productsArray?.length]);
 
   const handleDropdownClick = (index) => {
     if (fileInputRef.current[index]) {
@@ -1064,7 +1076,7 @@ function AddOrder() {
   };
 
   useEffect(() => {
-    for (let i = 0; i < formikStep3.values.productsArray.length; i++) {
+    for (let i = 0; i < formikStep3?.values?.productsArray?.length; i++) {
       if (
         formikStep3.values.productsArray[i].priceType === "Quantity Pricing"
       ) {
