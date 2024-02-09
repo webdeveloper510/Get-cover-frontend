@@ -196,9 +196,7 @@ function AddOrder() {
 
   console.log(loading1, "--------------");
   useEffect(() => {
-
     if (orderId != undefined) {
-      
       orderDetails();
       setType("Edit");
     } else {
@@ -345,7 +343,6 @@ function AddOrder() {
     formik.setFieldValue("dealerId", result?.result?.dealerId);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
     formik.setFieldValue("customerId", result?.result?.customerId);
-   
 
     formikStep2.setFieldValue(
       "dealerPurchaseOrder",
@@ -360,13 +357,12 @@ function AddOrder() {
     formik4.setFieldValue("paidAmount", result?.result?.paymentStatus);
     formik4.setFieldValue("pendingAmount", result?.result?.pendingAmount);
 
-    
-   // setLoading1(false);
+    // setLoading1(false);
   };
   useEffect(() => {
     console.log(location);
-    if (location.pathname.includes('/editOrder')){
-setLoading1(true)
+    if (location.pathname.includes("/editOrder")) {
+      setLoading1(true);
     }
     if (location.pathname == "/addOrder") {
       // setLoading1(true)
@@ -1248,100 +1244,102 @@ setLoading1(true)
     return (
       <>
         <form onSubmit={formik.handleSubmit}>
-        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
-          <p className="text-2xl font-bold mb-4">Order Details</p>
-          <Grid>
-            <div className="col-span-6">
-              <Grid>
-                <div className="col-span-6">
-                  <SelectBoxWIthSerach
-                    label="Dealer Name"
-                    name="dealerId"
-                    required={true}
-                    className={`${
-                      orderId ||
-                      dealerId ||
-                      resellerId ||
-                      dealerValue ||
-                      customerId
-                        ? "!bg-[#f2f2f2] !top-3"
-                        : "!bg-white"
-                    }`}
-                    onChange={handleSelectChange}
-                    value={formik.values?.dealerId}
-                    onBlur={formik.handleBlur}
-                    isDisabled={
-                      orderId ||
-                      dealerId ||
-                      resellerId ||
-                      dealerValue ||
-                      customerId
-                    }
-                    error={formik.touched.dealerId && formik.errors.dealerId}
-                    options={dealerList}
-                  />
+          <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+            <p className="text-2xl font-bold mb-4">Order Details</p>
+            <Grid>
+              <div className="col-span-6">
+                <Grid>
+                  <div className="col-span-6">
+                    <SelectBoxWIthSerach
+                      label="Dealer Name"
+                      name="dealerId"
+                      required={true}
+                      className={`${
+                        orderId ||
+                        dealerId ||
+                        resellerId ||
+                        dealerValue ||
+                        customerId
+                          ? "!bg-[#f2f2f2] !top-3"
+                          : "!bg-white"
+                      }`}
+                      onChange={handleSelectChange}
+                      value={formik.values?.dealerId}
+                      onBlur={formik.handleBlur}
+                      isDisabled={
+                        orderId ||
+                        dealerId ||
+                        resellerId ||
+                        dealerValue ||
+                        customerId
+                      }
+                      error={formik.touched.dealerId && formik.errors.dealerId}
+                      options={dealerList}
+                    />
 
-                  {formik.touched.dealerId && formik.errors.dealerId && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.dealerId}
-                    </div>
-                  )}
-                </div>
-                <div className="col-span-6">
-                  <SelectBoxWIthSerach
-                    label="Reseller Name"
-                    name="resellerId"
-                    placeholder=""
-                    className={`${
-                      resellerId ? "!bg-[#f2f2f2] !top-3" : "!bg-white"
-                    }`}
-                    isDisabled={resellerId}
-                    onChange={handleSelectChange}
-                    options={resellerList}
-                    value={
-                      resellerList.length == 0 ? "" : formik.values?.resellerId
-                    }
-                    onBlur={formik.handleBlur}
-                  />
-                </div>
+                    {formik.touched.dealerId && formik.errors.dealerId && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.dealerId}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-6">
+                    <SelectBoxWIthSerach
+                      label="Reseller Name"
+                      name="resellerId"
+                      placeholder=""
+                      className={`${
+                        resellerId ? "!bg-[#f2f2f2] !top-3" : "!bg-white"
+                      }`}
+                      isDisabled={resellerId}
+                      onChange={handleSelectChange}
+                      options={resellerList}
+                      value={
+                        resellerList.length == 0
+                          ? ""
+                          : formik.values?.resellerId
+                      }
+                      onBlur={formik.handleBlur}
+                    />
+                  </div>
 
-                <div className="col-span-6">
-                  {/* <Select */}
-                  <SelectBoxWIthSerach
-                    label="Customer Name"
-                    name="customerId"
-                    placeholder=""
-                    className={`${
-                      customerId ? "!bg-[#f2f2f2] !top-3" : "!bg-white"
-                    }`}
-                    isDisabled={customerId}
-                    onChange={handleSelectChange}
-                    options={customerList}
-                    value={
-                      customerList.length == 0 ? "" : formik.values.customerId
-                    }
-                    onBlur={formik.handleBlur}
-                  />
-                </div>
-                <div className="col-span-6">
-                  {/* <Select */}
+                  <div className="col-span-6">
+                    {/* <Select */}
+                    <SelectBoxWIthSerach
+                      label="Customer Name"
+                      name="customerId"
+                      placeholder=""
+                      className={`${
+                        customerId ? "!bg-[#f2f2f2] !top-3" : "!bg-white"
+                      }`}
+                      isDisabled={customerId}
+                      onChange={handleSelectChange}
+                      options={customerList}
+                      value={
+                        customerList.length == 0 ? "" : formik.values.customerId
+                      }
+                      onBlur={formik.handleBlur}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    {/* <Select */}
 
-                  <SelectBoxWIthSerach
-                    label="Servicer Name"
-                    name="servicerId"
-                    placeholder=""
-                    className="!bg-white"
-                    onChange={handleSelectChange}
-                    // onChange={handleSelectChange}
-                    options={servicerData}
-                    value={
-                      servicerData.length == 0 ? "" : formik.values.servicerId
-                    }
-                    onBlur={formik.handleBlur}
-                  />
-                </div>
+                    <SelectBoxWIthSerach
+                      label="Servicer Name"
+                      name="servicerId"
+                      placeholder=""
+                      className="!bg-white"
+                      onChange={handleSelectChange}
+                      // onChange={handleSelectChange}
+                      options={servicerData}
+                      value={
+                        servicerData.length == 0 ? "" : formik.values.servicerId
+                      }
+                      onBlur={formik.handleBlur}
+                    />
+                  </div>
 
-                {/* <div className="col-span-6">
+                  {/* <div className="col-span-6">
                    <Select
                     label="Dealer Name"
                     name="dealerId"
@@ -1394,23 +1392,22 @@ setLoading1(true)
                     onBlur={formik.handleBlur}
                   />
                 </div> */}
-              </Grid>
-            </div>
-          </Grid>
-        </div>
-        <div className="flex">
-          <Button
-            type="submit"
-            onClick={() => {
-              console.log(formik.errors);
-            }}
-          >
-            Next
-          </Button>
-        </div>
-      </form>
+                </Grid>
+              </div>
+            </Grid>
+          </div>
+          <div className="flex">
+            <Button
+              type="submit"
+              onClick={() => {
+                console.log(formik.errors);
+              }}
+            >
+              Next
+            </Button>
+          </div>
+        </form>
       </>
-    
     );
   };
 
@@ -2091,7 +2088,6 @@ setLoading1(true)
                     </div>
                   </div>
                   <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
-                    {numberOfOrders[index]}
                     Please click on file option and make a copy. Upload the list
                     of Product Name and Price using our provided Google Sheets
                     template, by{" "}
@@ -2645,13 +2641,18 @@ setLoading1(true)
           </div>
         </div>
       ) : (
-        <> {loading2 ? (
-          <div className=" h-[400px] w-full flex py-5">
-            <div className="self-center mx-auto">
-              <RotateLoader color="#333" />
+        <>
+          {" "}
+          {loading2 ? (
+            <div className=" h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
+              </div>
             </div>
-          </div>
-        ) : ( <>{renderStep()} </> )}</>
+          ) : (
+            <>{renderStep()} </>
+          )}
+        </>
       )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>

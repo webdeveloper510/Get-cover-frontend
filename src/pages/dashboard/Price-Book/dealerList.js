@@ -176,7 +176,7 @@ function DealerPriceList() {
   const columns = [
     {
       name: "ID",
-      selector: (row, index) => row?.unique_key,
+      selector: (row, index) => row.unique_key,
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",

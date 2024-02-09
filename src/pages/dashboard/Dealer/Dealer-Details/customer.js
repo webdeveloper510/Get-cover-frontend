@@ -42,7 +42,7 @@ function CustomerList(props) {
     },
     {
       name: "Name",
-      selector: (row) => row.firstName + " " + row.lastName,
+      selector: (row) => row?.customerData?.username,
       sortable: true,
     },
     {
@@ -57,13 +57,13 @@ function CustomerList(props) {
     },
     {
       name: "# of Orders",
-      selector: (row) => row?.orderData.noOfOrders,
+      selector: (row) => row?.orderData?.noOfOrders ?? 0,
       sortable: true,
     },
     {
       name: "Order Value",
       selector: (row) =>
-        "$" + (row?.orderData.totalOrderAmount ?? 0).toFixed(2),
+        "$" + (row?.orderData?.orderAmount ?? parseInt(0)).toFixed(2),
 
       sortable: true,
     },

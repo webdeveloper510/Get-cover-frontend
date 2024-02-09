@@ -540,7 +540,7 @@ function CustomerDetails() {
                       ${" "}
                       {customerDetail?.orderData?.[0]?.orderAmount?.toFixed(
                         2
-                      ) ?? 0}
+                      ) ?? parseInt(0).toFixed(2)}
                     </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
