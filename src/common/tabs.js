@@ -9,7 +9,7 @@ const Tabs = ({ tabs }) => {
 
   return (
     <div>
-      <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1] flex w-[34%] justify-center">
+      <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1] flex w-[50%] justify-center">
         {tabs.map((tab) => (
           <div
             key={tab.id}

@@ -94,17 +94,59 @@ function ResellerCustomerList() {
     </div>
   );
 
+  const data =[
+    {
+      id : '1',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '2',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '3',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '4',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '5',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    }
+  ]
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.customerData.unique_key,
+      selector: (row) => row.id,
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
     },
     {
       name: "Name",
-      selector: (row) => row.customerData.username,
+      selector: (row) => row.name,
       sortable: true,
     },
     {
@@ -114,22 +156,17 @@ function ResellerCustomerList() {
     },
     {
       name: "Phone #",
-      selector: (row) => row.phoneNumber,
-      sortable: true,
-    },
-    {
-      name: "Dealer Name",
-      selector: (row) => row.customerData.dealerName,
+      selector: (row) => row.phone,
       sortable: true,
     },
     {
       name: "Orders",
-      selector: (row) => 0,
+      selector: (row) => 5,
       sortable: true,
     },
     {
       name: "Order Value",
-      selector: (row) => "$ 0.00",
+      selector: (row) => "$ 100.00",
       sortable: true,
     },
     {
@@ -143,9 +180,9 @@ function ResellerCustomerList() {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.customerData.unique_key
+                  selectedAction === row.id
                     ? null
-                    : row.customerData.unique_key
+                    : row.id
                 )
               }
             >
@@ -155,7 +192,7 @@ function ResellerCustomerList() {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.customerData.unique_key && (
+            {selectedAction === row.id && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
@@ -331,7 +368,7 @@ function ResellerCustomerList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={customerList}
+                data={data}
                 highlightOnHover
                 sortIcon={
                   <>

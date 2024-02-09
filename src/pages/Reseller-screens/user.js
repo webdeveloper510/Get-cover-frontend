@@ -421,7 +421,113 @@ function ResellerUser() {
   );
 
   const tabsData = [
-    { id: 1, label: 'Edit Account', content: (
+    { id: 1, label: 'Detals', content: (
+      <>
+      <p className="text-base font-semibold mb-3">Dealer Details</p>
+      <hr/>
+      <Grid className="!mt-3" >
+      <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Account Name</p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+         <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Business Street Address</p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+         <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Business City </p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div> 
+         <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Business State </p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+         <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Business Zipcode  </p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+      </Grid>
+      <p className="text-base font-semibold mt-5 mb-3">Reseller Details</p>
+      <hr/>
+      <Grid className="!mt-3" >
+      <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Account Name</p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+         <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Reseller Street Address</p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+         <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Reseller City </p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div> 
+         <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Reseller State </p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+         <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Reseller Zipcode  </p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+      </Grid>
+      <p className="text-base font-semibold mb-3 mt-5"> My Details</p>
+      <hr/>
+      <Grid className="!mt-3">
+      <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Account Name</p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+         <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Street Address</p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+         <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>City </p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div> 
+         <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>State </p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+         <div className='col-span-4'>
+           <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+             <p className='text-sm m-0 p-0'>Zipcode</p>
+             <p className='font-semibold'>Super@codenomad.net</p>
+           </div>
+         </div>
+      </Grid>
+      </>
+    ) },
+    { id: 2, label: 'My Account', content: (
       <>
       <Grid >
       <div className='col-span-4'>
@@ -469,7 +575,7 @@ function ResellerUser() {
        
       </>
     ) },
-    { id: 2, label: 'Change Password', content: (
+    { id: 3, label: 'Change Password', content: (
       <>
       <Grid>
          <div className='col-span-4'>

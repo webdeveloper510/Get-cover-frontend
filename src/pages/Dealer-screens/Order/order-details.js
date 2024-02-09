@@ -87,7 +87,7 @@ function DealerOrderDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Servicer / </Link>
+                <Link to={"/"}>Order List / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-Regular pl-2">
                 <Link to={"/"}>Order Details / </Link>

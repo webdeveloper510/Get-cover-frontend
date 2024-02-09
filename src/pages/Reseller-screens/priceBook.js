@@ -59,37 +59,86 @@ function ResellerPriceBook(props) {
     </div>
   );
 
+
+  const data =[
+    {
+      id : '1',
+      name : 'custmore001',
+      Term : ' 12',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000',
+      Category: 'Category'
+    },
+    {
+      id : '2',
+      name : 'custmore001',
+      Term : ' 12',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000',
+      Category: 'Category'
+    },
+    {
+      id : '3',
+      name : 'custmore001',
+      Term : ' 12',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000',
+      Category: 'Category'
+    },
+    {
+      id : '4',
+      name : 'custmore001',
+      Term : ' 12',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000',
+      Category: 'Category'
+    },
+    {
+      id : '5',
+      name : 'custmore001',
+      Term : ' 12',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000',
+      Category: 'Category'
+    }
+  ]
+
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.unique_key,
+      selector: (row) => row.id,
       sortable: true,
       minWidth: "auto", // Set a custom minimum width
       maxWidth: "70px", // Set a custom maximum width
     },
     {
       name: "Name",
-      selector: (row) => row?.priceBooks?.name,
+      selector: (row) => row?.name,
       sortable: true,
     },
     {
       name: "Category",
-      selector: (row) => row?.priceBooks?.category[0]?.name,
+      selector: (row) => row?.Category,
       sortable: true,
     },
     {
       name: "Term",
-      selector: (row) => row?.priceBooks?.term + " " + "Months",
+      selector: (row) => row?.Term + " " + "Months",
       sortable: true,
     },
     {
       name: "WholeSale Cost",
-      selector: (row) => "$ " + row.wholesalePrice.toFixed(2),
+      selector: (row) => "$ 80.00" ,
       sortable: true,
     },
     {
       name: "Retail Cost",
-      selector: (row) => "$  " + row.retailPrice.toFixed(2),
+      selector: (row) => "$ 120.00 ",
       sortable: true,
     },
 
@@ -319,7 +368,7 @@ function ResellerPriceBook(props) {
             ) : (
               <DataTable
                 columns={columns}
-                data={priceBookList}
+                data={data}
                 highlightOnHover
                 sortIcon={
                   <>

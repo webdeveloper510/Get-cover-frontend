@@ -931,14 +931,7 @@ function ClaimList() {
                <Input type='text' 
                          name="Dealer P.O. No."
                         className="!bg-[#fff]"
-                        label="Dealer P.O. No."
-                        placeholder="" />
-            </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Serial No."
-                        className="!bg-[#fff]"
-                        label="Serial No."
+                        label="Dealer P.O. #"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
@@ -946,13 +939,6 @@ function ClaimList() {
                          name="Product Name"
                         className="!bg-[#fff]"
                         label="Product Name"
-                        placeholder="" />
-            </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Dealer Name"
-                        className="!bg-[#fff]"
-                        label="Dealer Name"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
@@ -974,14 +960,6 @@ function ClaimList() {
             <Select
                         name="Status"
                         label="Status"
-                        options={status}
-                        className="!bg-[#fff]"
-                        placeholder=""/>
-            </div>
-            <div className='col-span-6'>
-            <Select
-                        name="ClaimStatus"
-                        label="Claim Status"
                         options={status}
                         className="!bg-[#fff]"
                         placeholder=""/>

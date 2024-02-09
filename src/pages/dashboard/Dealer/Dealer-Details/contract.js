@@ -121,7 +121,7 @@ function ContractList() {
                 <div className='col-span-7 py-4 pl-3'>
                   <p className='text-[#333333] text-base font-Regular'>Retail Price : <span className='font-semibold'> $182 </span></p>
                   <p className='text-[#333333] text-base font-Regular'>Condition :   <span className='font-semibold'> Used </span></p>
-                  <p className='text-[#333333] text-base font-Regular'>Claim Amount :  <span className='font-semibold'> $18.00  </span></p>
+                  <p className='text-[#333333] text-base font-Regular'>Claimed Value :  <span className='font-semibold'> $18.00  </span></p>
                 </div>
                 <div className='col-span-5 self-center'>
                     <Grid>
@@ -208,7 +208,7 @@ function ContractList() {
                 <div className='col-span-7 py-4 pl-3'>
                   <p className='text-[#333333] text-base font-Regular'>Retail Price : <span className='font-semibold'> $182 </span></p>
                   <p className='text-[#333333] text-base font-Regular'>Condition :   <span className='font-semibold'> Used </span></p>
-                  <p className='text-[#333333] text-base font-Regular'>Claim Amount :  <span className='font-semibold'> $18.00  </span></p>
+                  <p className='text-[#333333] text-base font-Regular'>Claimed Value :  <span className='font-semibold'> $18.00  </span></p>
                 </div>
                 <div className='col-span-5 self-center'>
                     <Grid>

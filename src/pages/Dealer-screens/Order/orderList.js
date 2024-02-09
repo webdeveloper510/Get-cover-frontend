@@ -114,17 +114,66 @@ function DealerOrderList() {
     </div>
   );
 
+  
+  const data =[
+    {
+      id : '1',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000',
+      status: 'active'
+    },
+    {
+      id : '2',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000',
+      status: 'active'
+    },
+    {
+      id : '3',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000',
+      status: 'active'
+    },
+    {
+      id : '4',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000',
+      status: 'active'
+    },
+    {
+      id : '5',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000',
+      status: 'active'
+    }
+  ]
+
   const columns = [
     {
       name: "ID",
-      selector: (row) => row?.unique_key,
+      selector: (row) => row?.id,
       sortable: true,
       minWidth: "auto",
       maxWidth: "120px",
     },
     {
       name: "Dealer P.O #",
-      selector: (row) => row.venderOrder,
+      selector: (row) => row.name,
       sortable: true,
       minWidth: "180px",
     },
@@ -135,7 +184,7 @@ function DealerOrderList() {
     // },
     {
       name: "Customer",
-      selector: (row) => row.customerName.username,
+      selector: (row) => row.name,
       sortable: true,
     },
     // {
@@ -145,13 +194,13 @@ function DealerOrderList() {
     // },
     {
       name: "# of Contract",
-      selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts),
+      selector: (row) =>  row.order,
       sortable: true,
       minWidth: "150px",
     },
     {
       name: "Order Value",
-      selector: (row) => `$ ${row.orderAmount?.toFixed(2)}`,
+      selector: (row) => `$ 100.00`,
       sortable: true,
       minWidth: "150px",
     },
@@ -221,7 +270,8 @@ function DealerOrderList() {
                   </>
                 ) : (
                   <div className="text-center py-1 cursor-pointer">
-                    <Link to={`/orderDetails/${row._id}`}>View</Link>
+                    {/* <Link to={`/orderDetails/${row._id}`}>View</Link> */}
+                    <p>View</p>
                   </div>
                 )}
               </div>
@@ -335,7 +385,7 @@ function DealerOrderList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={orderList}
+                data={data}
                 highlightOnHover
                 sortIcon={
                   <>

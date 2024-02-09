@@ -181,7 +181,7 @@ function ContractList() {
               </div>
               <div className='col-span-1 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Claim Amount</p>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Claimed Value</p>
                   <p className='text-[#333333] text-base font-semibold'>$0.00</p>
                 </div>
               </div>
@@ -289,7 +289,7 @@ function ContractList() {
               </div>
               <div className='col-span-1 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Claim Amount</p>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Claimed Value</p>
                   <p className='text-[#333333] text-base font-semibold'>$0.00</p>
                 </div>
               </div>
@@ -398,7 +398,7 @@ function ContractList() {
               </div>
               <div className='col-span-1 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Claim Amount</p>
+                  <p className='text-[#5D6E66] text-sm font-Regular'>Claimed Value</p>
                   <p className='text-[#333333] text-base font-semibold'>$0.00</p>
                 </div>
               </div>
