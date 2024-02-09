@@ -223,16 +223,9 @@ function ArchiveOrderList() {
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-9">
+                  <Grid className="!grid-cols-7">
                     <div className="col-span-2 self-center">
-                      {/* <Input
-                        name="Name"
-                        type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder="ID"
-                      /> */}
+                    
                       <Input
                         name="Name"
                         type="text"

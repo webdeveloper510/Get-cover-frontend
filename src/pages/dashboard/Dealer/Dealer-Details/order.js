@@ -280,7 +280,7 @@ function OrderList(props) {
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-9">
+                  <Grid className="!grid-cols-7">
                     <div className="col-span-2 self-center">
                       <Input
                         name="Name"
@@ -316,7 +316,7 @@ function OrderList(props) {
                       />
                     </div>
 
-                    <div className="col-span-3 self-center flex">
+                    <div className="col-span-1 self-center flex">
                       <Button type="submit" className=" !bg-transparent !p-0">
                         <img
                           src={Search}

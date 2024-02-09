@@ -73,7 +73,7 @@ function ResellerList() {
       dealerName: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string(),
+      name: Yup.string() ,
       email: Yup.string(),
       phone: Yup.number(),
       dealerName: Yup.string(),
