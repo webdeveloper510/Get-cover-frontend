@@ -157,7 +157,45 @@ function Account() {
       }, []);
 
       const tabsData = [
-        { id: 1, label: 'Edit Account', content: (
+        { id: 1, label: 'Detals', content: (
+          <>
+          <p className="text-base font-semibold mb-3 mt-5"> My Details</p>
+          <hr/>
+          <Grid className="!mt-3">
+          <div className='col-span-4'>
+               <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                 <p className='text-sm m-0 p-0'>Account Name</p>
+                 <p className='font-semibold'>Super@codenomad.net</p>
+               </div>
+             </div>
+             <div className='col-span-4'>
+               <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                 <p className='text-sm m-0 p-0'>Street Address</p>
+                 <p className='font-semibold'>Super@codenomad.net</p>
+               </div>
+             </div>
+             <div className='col-span-4'>
+               <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                 <p className='text-sm m-0 p-0'>City </p>
+                 <p className='font-semibold'>Super@codenomad.net</p>
+               </div>
+             </div> 
+             <div className='col-span-4'>
+               <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                 <p className='text-sm m-0 p-0'>State </p>
+                 <p className='font-semibold'>Super@codenomad.net</p>
+               </div>
+             </div>
+             <div className='col-span-4'>
+               <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
+                 <p className='text-sm m-0 p-0'>Zipcode</p>
+                 <p className='font-semibold'>Super@codenomad.net</p>
+               </div>
+             </div>
+          </Grid>
+          </>
+        ) },
+        { id: 2, label: 'My Account', content: (
           <>
           <Grid >
           <div className='col-span-4'>
@@ -205,7 +243,7 @@ function Account() {
            
           </>
         ) },
-        { id: 2, label: 'Change Password', content: (
+        { id: 3, label: 'Change Password', content: (
           <>
           <Grid>
              <div className='col-span-4'>
