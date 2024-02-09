@@ -270,7 +270,8 @@ function DealerOrderList() {
                   </>
                 ) : (
                   <div className="text-center py-1 cursor-pointer">
-                    <Link to={`/orderDetails/${row._id}`}>View</Link>
+                    {/* <Link to={`/orderDetails/${row._id}`}>View</Link> */}
+                    <p>View</p>
                   </div>
                 )}
               </div>
