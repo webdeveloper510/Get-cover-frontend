@@ -54,8 +54,10 @@ function Login() {
           navigate("/servicer/dashboard");
         } else if (result.result.role == "Dealer") {
           navigate("/dealer/dashboard");
-        }else if (result.result.role == "Reseller") {
+        } else if (result.result.role == "Reseller") {
           navigate("/reseller/dashboard");
+        } else if (result.result.role == "Customer") {
+          navigate("/customer/dashboard");
         }
       }
     },

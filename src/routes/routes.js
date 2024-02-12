@@ -88,6 +88,16 @@ import ResellerCustomerList from "../pages/Reseller-screens/Customer/customerLis
 import ResellerAddCustomer from "../pages/Reseller-screens/Customer/addCustomer";
 import ResellerUser from "../pages/Reseller-screens/user";
 import ResellerDashboard from "../pages/Reseller-screens/dashboard";
+import CustomerDashboard from "../pages/Customer-screens/dashboard";
+import CustomerUser from "../pages/Customer-screens/user";
+import CustomerAddClaim from "../pages/Customer-screens/Claim/addClaim";
+import CustomerClaimList from "../pages/Customer-screens/Claim/claimList";
+import CustomerContractList from "../pages/Customer-screens/Contract/contractList";
+import CustomerAddBulkClaim from "../pages/Customer-screens/Claim/addBulkClaim";
+import CustomerEditContract from "../pages/Customer-screens/Contract/editContract";
+import CustomerOrderList from "../pages/Customer-screens/Order/orderList";
+import CustomerAddOrder from "../pages/Customer-screens/Order/addOrder";
+import CustomerOrderDetails from "../pages/Customer-screens/Order/order-details";
 
 const routes = [
   {
@@ -764,6 +774,94 @@ const routes = [
           <PrivateRoute
             element={<ResellerAddBulkClaim />}
             path="/reseller/addBulkClaim"
+          />
+        ),
+      },
+
+       // Customer Routs ---------------------------------------------------------------
+
+       {
+        path: "/customer/dashboard",
+        element: (
+          <PrivateRoute
+            element={<CustomerDashboard />}
+            path="/customer/dashboard"
+          />
+        ),
+      },
+      {
+        path: "/customer/user",
+        element: <PrivateRoute element={<CustomerUser />} path="/customer/user" />,
+      },
+      {
+        path: "/customer/addClaim",
+        element: (
+          <PrivateRoute
+            element={<CustomerAddClaim />}
+            path="/customer/addClaim"
+          />
+        ),
+      },
+      {
+        path: "/customer/claimList",
+        element: (
+          <PrivateRoute
+            element={<CustomerClaimList />}
+            path="/customer/claimList"
+          />
+        ),
+      },
+      {
+        path: "/customer/addBulkClaim",
+        element: (
+          <PrivateRoute
+            element={<CustomerAddBulkClaim />}
+            path="/customer/addBulkClaim"
+          />
+        ),
+      },
+      {
+        path: "/customer/contractList",
+        element: (
+          <PrivateRoute
+            element={<CustomerContractList />}
+            path="/customer/contractList"
+          />
+        ),
+      },
+      {
+        path: "/customer/editContract",
+        element: (
+          <PrivateRoute
+            element={<CustomerEditContract />}
+            path="/customer/editContract"
+          />
+        ),
+      },
+      {
+        path: "/customer/orderList",
+        element: (
+          <PrivateRoute
+            element={<CustomerOrderList />}
+            path="/customer/orderList"
+          />
+        ),
+      },
+      {
+        path: "/customer/addOrder",
+        element: (
+          <PrivateRoute
+            element={<CustomerAddOrder />}
+            path="/customer/addOrder"
+          />
+        ),
+      },
+      {
+        path: "/customer/orderDetails/:orderId",
+        element: (
+          <PrivateRoute
+            element={<CustomerOrderDetails />}
+            path="/customer/orderDetails/:orderId"
           />
         ),
       },
