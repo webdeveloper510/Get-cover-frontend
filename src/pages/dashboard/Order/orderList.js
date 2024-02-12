@@ -170,7 +170,7 @@ function OrderList() {
     setLoading(false);
   };
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = orderList.length - index <= 10000;
+    const isCloseToBottom = 3 - index <= 1;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -279,6 +279,24 @@ function OrderList() {
                       Process Order
                     </div>
                     <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Mark as Paid
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Invoice 
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Export Order
+                    </div>
+                    <div
                       className="text-center py-1 cursor-pointer"
                       onClick={() => openArchive(row._id)}
                     >
@@ -286,12 +304,26 @@ function OrderList() {
                     </div>
                   </>
                 ) : (
-                  <Link
+                  <>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Invoice 
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Export Order
+                    </div>
+                    <Link
                     to={`/orderDetails/${row._id}`}
                     className="text-center py-1 cursor-pointer w-full flex justify-center"
                   >
                     View
-                  </Link>
+                  </Link></>
+                 
                 )}
               </div>
             )}
