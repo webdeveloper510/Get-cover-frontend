@@ -128,7 +128,7 @@ function CustomerAddDealerBook() {
       console.log("Navigating to /dealerDetails/" + dealerIdValue);
       navigate(`/dealerDetails/${dealerIdValue}`);
     } else {
-      navigate("/dealerPriceList");
+      navigate("/dealer/priceBook");
     }
   };
   const closeModal = () => {
