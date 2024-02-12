@@ -74,7 +74,7 @@ function EditContract() {
                                         Contract ID
                                     </p>
                                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                                        861910
+                                    CI-2024-10000000
                                     </p>
                                 </div>
                             </div>
@@ -235,29 +235,21 @@ function EditContract() {
                         placeholder="" />
                       </div>
                       <div className='col-span-1'>
-                      {/* <Input type='date' 
+                      <Input type='date' 
                         name="Coverage Start Date"
                         label="Coverage Start Date"
                         required={true}
                         className="!bg-[#fff]"
-                        placeholder=""/> */}
-                         <DateInput
+                        placeholder=""/>
+                         {/* <DateInput
                          name="Coverage Start Date"
                          label="Coverage Start Date"
                         required 
                         item={item}
                         setItem={setItem}
-                        className="!bg-[#fff]" />
+                        className="!bg-[#fff]" /> */}
                       </div>
-                      <div className='col-span-1'>
-                      <Select
-                        name="Status"
-                        label="Status"
-                        options={status}
-                        required={true}
-                        className="!bg-[#fff]"
-                        placeholder=""/>
-                      </div>
+                    
                     </Grid>
 
                     <div className='mt-8'>

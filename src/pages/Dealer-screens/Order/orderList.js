@@ -123,7 +123,7 @@ function DealerOrderList() {
       phone : '3456789098',
       order : '8',
       orderValue :'1000',
-      status: 'active'
+      status: 'Active'
     },
     {
       id : '2',
@@ -132,7 +132,7 @@ function DealerOrderList() {
       phone : '3456789098',
       order : '8',
       orderValue :'1000',
-      status: 'active'
+      status: 'Active'
     },
     {
       id : '3',
@@ -141,7 +141,7 @@ function DealerOrderList() {
       phone : '3456789098',
       order : '8',
       orderValue :'1000',
-      status: 'active'
+      status: 'Active'
     },
     {
       id : '4',
@@ -150,7 +150,7 @@ function DealerOrderList() {
       phone : '3456789098',
       order : '8',
       orderValue :'1000',
-      status: 'active'
+      status: 'Active'
     },
     {
       id : '5',
@@ -159,7 +159,7 @@ function DealerOrderList() {
       phone : '3456789098',
       order : '8',
       orderValue :'1000',
-      status: 'active'
+      status: 'Active'
     }
   ]
 

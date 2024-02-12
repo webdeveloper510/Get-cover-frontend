@@ -309,7 +309,7 @@ function DealerPriceBook(props) {
               </div>
             </div>
           </Grid>
-          <div className="mb-5 relative dealer-detail">
+          <div className="mb-5 relative">
             {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">

@@ -114,7 +114,6 @@ function ArchiveOrderList() {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
@@ -143,7 +142,7 @@ function ArchiveOrderList() {
       selector: (row) => row?.unique_key,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "123px",
     },
     {
       name: "Dealer Order #",

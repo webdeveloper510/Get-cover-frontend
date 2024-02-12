@@ -282,6 +282,14 @@ function OrderDetails() {
                   </p>
                 </div>
               </div>
+              <Grid className="!py-5">
+                <div className="col-span-6">
+                  <Button className='!bg-[white] !text-black'>Invoice</Button>
+                </div>
+                <div className="col-span-6">
+                <Button className='!bg-[white] !text-black'>Export Order</Button>
+                </div>
+              </Grid>
             </div>
           </div>
           <div className="col-span-3">

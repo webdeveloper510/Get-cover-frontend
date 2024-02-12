@@ -2106,45 +2106,23 @@ function ResellerAddOrder() {
 
               <Grid className="mt-5">
                 <div className="col-span-4 pt-2">
-                  <div className="flex block  w-full text-base font-semibold bg-[#f9f9f9] rounded-lg border-[1px] border-gray-300 appearance-none peer undefined  border-gray-300  text-light-black">
-                    <p className="self-center w-[40%] text-sm px-3">
-                      Payment Status
-                    </p>
-                    <div className="relative w-[60%]">
-                      <div
-                        className={`
-                      absolute h-3 w-3 rounded-full top-[33%] ml-[8px]
-                      ${
-                        formik4.values.paymentStatus === "Unpaid"
-                          ? "bg-[#FFAA47]"
-                          : ""
-                      }
-                      ${
-                        formik4.values.paymentStatus === "Paid"
-                          ? "bg-[#6BD133]"
-                          : ""
-                      }
-                      ${
-                        formik4.values.paymentStatus !== "Unpaid" &&
-                        formik4.values.paymentStatus !== "Paid"
-                          ? "bg-[#338FD1]"
-                          : ""
-                      }
-                    `}
-                      ></div>
-                      <select
-                        name="paymentStatus"
-                        className="text-[12px] bg-[transparent] border-l w-full border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold "
-                        onChange={handlePaymentStatusChange}
-                        onBlur={formik4.handleBlur}
-                        value={formik4.values.paymentStatus}
-                      >
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                        <option value="PartlyPaid">Partly Paid</option>
-                      </select>
-                    </div>
-                  </div>
+                <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
+                    Do you want to sent notifications ?
+                    <RadioButton
+                      id="yes-create-account"
+                      label="Yes"
+                      value={true}
+                      checked={sendNotification === true}
+                      onChange={handleRadioChange}
+                    />
+                    <RadioButton
+                      id="no-create-account"
+                      label="No"
+                      value={false}
+                      checked={sendNotification === false}
+                      onChange={handleRadioChange}
+                    />
+                  </p>
                 </div>
                 <div className="col-span-4">
                   <Grid>
@@ -2205,23 +2183,7 @@ function ResellerAddOrder() {
                   </p>
                 </div>
                 <div className="col-span-12">
-                  <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
-                    Do you want to sent notifications ?
-                    <RadioButton
-                      id="yes-create-account"
-                      label="Yes"
-                      value={true}
-                      checked={sendNotification === true}
-                      onChange={handleRadioChange}
-                    />
-                    <RadioButton
-                      id="no-create-account"
-                      label="No"
-                      value={false}
-                      checked={sendNotification === false}
-                      onChange={handleRadioChange}
-                    />
-                  </p>
+               
                 </div>
               </Grid>
             </div>

@@ -205,7 +205,7 @@ function OrderList() {
       sortable: true,
     },
     {
-      name: "Customer Name",
+      name: "Customer",
       selector: (row) => row.customerName.username,
       sortable: true,
     },
