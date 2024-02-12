@@ -73,120 +73,17 @@ function DealerResellerList() {
     </div>
   );
 
- const data = [
-    {
-      id: 1,
-      name: "reseller001 also servicer",
-      email: "reseller001@yopmail.com",
-      PhoneNo: 2134567890,
-      dealerName: "Dealer001 also servicer",
-      order: 8,
-      orderValue: "$ 1558190.00"
-    },
-    {
-      id: 2,
-      name: "reseller002 not servicer",
-      email: "reseller002@yopmail.com",
-      PhoneNo: 2314567890,
-      dealerName: "Dealer001 also servicer",
-      order: 0,
-      orderValue: "$ 0.00"
-    },
-    {
-      id: 3,
-      name: "gfhggf",
-      email: "santosh1@codenomad.net",
-      PhoneNo: 9988774455,
-      dealerName: "Dealer001 also servicer",
-      order: 0,
-      orderValue: "$ 0.00"
-    },
-    {
-      id: 4,
-      name: "sdsdsd",
-      email: "test@codenomad.net",
-      PhoneNo: 1234567890,
-      dealerName: "Dealer001 also servicer",
-      order: 0,
-      orderValue: "$ 0.00"
-    },
-    {
-      id: 5,
-      name: "Nikhil Reseller 1",
-      email: "nikhil_reseller_1@yopmail.com",
-      PhoneNo: 7508998804,
-      dealerName: "Nikhil Dealer 100",
-      order: 1,
-      orderValue: "$ 500.00"
-    },
-    {
-      id: 6,
-      name: "Nitin",
-      email: "nitin@codenomad.net",
-      PhoneNo: 7018051504,
-      dealerName: "saurav sharma",
-      order: 0,
-      orderValue: "$ 0.00"
-    },
-    {
-      id: 10,
-      name: "saurav reseller",
-      email: "sauravreseller@yopmail.com",
-      PhoneNo: 2345678903,
-      dealerName: "saurav sharma",
-      order: 0,
-      orderValue: "$ 0.00"
-    },
-    {
-      id: 11,
-      name: "amitTL",
-      email: "test23@yopmail.com",
-      PhoneNo: 9944555555,
-      dealerName: "yash002",
-      order: 0,
-      orderValue: "$ 0.00"
-    },
-    {
-      id: 12,
-      name: "AmitReseller",
-      email: "amit+1@codenomad.net",
-      PhoneNo: 4234234243,
-      dealerName: "Dealer001 also servicer",
-      order: 0,
-      orderValue: "$ 0.00"
-    },
-    {
-      id: 13,
-      name: "53fgdfg",
-      email: "dfgz3@dfg.gh",
-      PhoneNo: 5464564564,
-      dealerName: "anit99999",
-      order: 0,
-      orderValue: "$ 0.00"
-    },
-    {
-      id: 14,
-      name: "Nikhil Reseller",
-      email: "nikhil_reseller_500@yopmail.com",
-      PhoneNo: 9041311724,
-      dealerName: "Nikhil Dealer 100",
-      order: 0,
-      orderValue: "$ 0.00",
-      status: "active"
-    }
-  ]
-
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.id,
+      selector: (row) => row.resellerData.unique_key,
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
     },
     {
       name: "Name",
-      selector: (row) => row?.name,
+      selector: (row) => row?.resellerData?.name,
       sortable: true,
     },
     {
@@ -196,7 +93,7 @@ function DealerResellerList() {
     },
     {
       name: "Phone No.",
-      selector: (row) => row.PhoneNo,
+      selector: (row) => row.phoneNumber,
       sortable: true,
     },
     {
@@ -242,9 +139,9 @@ function DealerResellerList() {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.id
+                  selectedAction === row.resellerData.unique_key
                     ? null
-                    : row.id
+                    : row.resellerData.unique_key
                 )
               }
             >
@@ -254,7 +151,7 @@ function DealerResellerList() {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.id && (
+            {selectedAction === row.resellerData.unique_key && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
@@ -264,10 +161,10 @@ function DealerResellerList() {
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
                   className="text-center cursor-pointer py-1"
-                  // onClick={() => {
-                  //   localStorage.removeItem("Resellermenu");
-                  //   navigate(`/dealer/resellerDetails/${row?.accountId}`);
-                  // }}
+                  onClick={() => {
+                    localStorage.removeItem("Resellermenu");
+                    navigate(`/dealer/resellerDetails/${row?.accountId}`);
+                  }}
                 >
                   View
                 </div>
@@ -333,7 +230,7 @@ function DealerResellerList() {
         </div>
 
         <Link
-          to={"/addReseller"}
+          to={"/dealer/addReseller"}
           className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
         >
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -440,7 +337,7 @@ function DealerResellerList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={data}
+                data={customerList}
                 highlightOnHover
                 sortIcon={
                   <>

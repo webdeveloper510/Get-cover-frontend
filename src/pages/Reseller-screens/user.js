@@ -434,7 +434,7 @@ function ResellerUser() {
                 <hr />
               </div>
               <div className="col-span-2 text-center">
-                <p className="text-base text-white font-semibold mb-3 mr-3 mt-5">
+                <p className="text-base text-white font-semibold my-3">
                   {" "}
                   Dealer Details
                 </p>
@@ -477,12 +477,12 @@ function ResellerUser() {
               </div>
               <div className="col-span-2"></div>
             </Grid>
-            <Grid>
+            <Grid className="mt-5">
               <div className="col-span-5 self-center">
                 <hr />
               </div>
               <div className="col-span-2 text-center">
-                <p className="text-base text-white font-semibold mb-3 mr-3 mt-5">
+                <p className="text-base text-white font-semibold">
                   {" "}
                   My Details
                 </p>

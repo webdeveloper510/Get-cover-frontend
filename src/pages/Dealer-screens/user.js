@@ -428,13 +428,13 @@ function DealerUser() {
       label: "Details",
       content: (
         <>
-          <div className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
+          <div className="bg-Edit bg-cover px-8 mt-8 py-8 rounded-[30px]">
             <Grid>
               <div className="col-span-5 self-center">
                 <hr />
               </div>
               <div className="col-span-2 text-center">
-                <p className="text-base text-white font-semibold mb-3 mr-3 mt-5">
+                <p className="text-base text-white font-semibold ">
                   {" "}
                   My Details
                 </p>
