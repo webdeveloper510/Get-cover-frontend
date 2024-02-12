@@ -98,6 +98,7 @@ import CustomerEditContract from "../pages/Customer-screens/Contract/editContrac
 import CustomerOrderList from "../pages/Customer-screens/Order/orderList";
 import CustomerAddOrder from "../pages/Customer-screens/Order/addOrder";
 import CustomerOrderDetails from "../pages/Customer-screens/Order/order-details";
+import CustomerAddDealerBook from "../pages/Dealer-screens/Price-Book/addDealerBook";
 
 const routes = [
   {
@@ -562,6 +563,15 @@ const routes = [
           <PrivateRoute
             element={<DealerAddBulkClaim />}
             path="/dealer/addBulkClaim"
+          />
+        ),
+      },
+      {
+        path: "/dealer/addPriceBook",
+        element: (
+          <PrivateRoute
+            element={<CustomerAddDealerBook />}
+            path="/dealer/addPriceBook"
           />
         ),
       },
