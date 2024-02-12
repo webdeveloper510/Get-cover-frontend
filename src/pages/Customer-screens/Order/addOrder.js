@@ -43,7 +43,7 @@ import Cross from "../../../assets/images/Cross.png";
 import { RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
 
-function ResellerAddOrder() {
+function CustomerAddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
   const [dealerName, setDealerName] = useState("");
   const [servicerName, setServicerName] = useState("");
@@ -1060,8 +1060,8 @@ function ResellerAddOrder() {
                   />
                 </div> */}
 
-                <div className="col-span-6">
-                  {/* <Select */}
+                {/* <div className="col-span-6">
+                 
                   <SelectBoxWIthSerach
                     label="Customer Name"
                     name="customerId"
@@ -1075,7 +1075,7 @@ function ResellerAddOrder() {
                     }
                     onBlur={formik.handleBlur}
                   />
-                </div>
+                </div> */}
                 <div className="col-span-6">
                   {/* <Select */}
                   {console.log(servicerData.length, "length ", servicerData)}
@@ -2373,4 +2373,4 @@ function ResellerAddOrder() {
   );
 }
 
-export default ResellerAddOrder;
+export default CustomerAddOrder;

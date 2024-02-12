@@ -5,13 +5,14 @@ import ActiveIcon from "../../assets/images/icons/iconAction.svg";
 import Search from "../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import shorting from "../../assets/images/icons/shorting.svg";
+import AddItem from "../../assets/images/icons/addItem.svg";
 import Grid from "../../common/grid";
 import Input from "../../common/input";
 import Cross from "../../assets/images/Cross.png";
 import DataTable from "react-data-table-component";
 import { getDealerPricebookDetailById } from "../../services/dealerServices";
 import { getCategoryList } from "../../services/priceBookService";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Select from "../../common/select";
@@ -111,12 +112,18 @@ function DealerPriceBook(props) {
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 px-2 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
+                <Link to={'/customer/addPriceBook'}
+                  className="text-center pt-2 pb-1 border-b cursor-pointer"
+                  
+                >
+                  Edit
+                </Link>
                 <div
-                  className="text-center py-3 cursor-pointer"
+                  className="text-center pt-1 pb-2 cursor-pointer"
                   onClick={() => openView(row._id)}
                 >
                   View
@@ -165,10 +172,13 @@ function DealerPriceBook(props) {
     console.log(result);
     setIsViewOpen(true);
   };
+  
   const navigte = useNavigate();
+
   useEffect(() => {
     priceBookData();
   }, [props]);
+
   useEffect(() => {
     getCategoryListData();
     const handleClickOutside = (event) => {
@@ -210,6 +220,7 @@ function DealerPriceBook(props) {
       setLoading(false);
     }
   };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -226,11 +237,13 @@ function DealerPriceBook(props) {
       filterDealerPriceBook(values);
     },
   });
+
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
     priceBookData();
   };
+
   return (
     <>
       <div className="my-8">
@@ -248,6 +261,16 @@ function DealerPriceBook(props) {
             </ul>
           </div>
         </div>
+        <Link
+          to={"/dealer/addPriceBook"}
+          className=" w-[180px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+        >
+          {" "}
+          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+          <span className="text-black ml-3 text-[14px] font-Regular">
+            Add PriceBook{" "}
+          </span>{" "}
+        </Link>
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-6 self-center">
@@ -309,7 +332,7 @@ function DealerPriceBook(props) {
               </div>
             </div>
           </Grid>
-          <div className="mb-5 relative dealer-detail">
+          <div className="mb-5 relative">
             {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">

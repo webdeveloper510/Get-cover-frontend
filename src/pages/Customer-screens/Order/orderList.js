@@ -19,10 +19,8 @@ import { RotateLoader } from "react-spinners";
 import { getOrders } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
-import { getDealerOrderList } from "../../../services/dealerServices/orderListServices";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-function DealerOrderList() {
+
+function CustomerOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [timer, setTimer] = useState(3);
@@ -91,9 +89,53 @@ function DealerOrderList() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  const data =[
+    {
+      id : '1',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '2',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '3',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '4',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    },
+    {
+      id : '5',
+      name : 'custmore001',
+      email : ' customer001@yopmail.com',
+      phone : '3456789098',
+      order : '8',
+      orderValue :'1000'
+    }
+  ]
+
   const getOrderList = async () => {
     setLoading(true);
-    const result = await getDealerOrderList({});
+    const result = await getOrders({});
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);
@@ -114,62 +156,13 @@ function DealerOrderList() {
     </div>
   );
 
-  
-  const data =[
-    {
-      id : '1',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      status: 'Active'
-    },
-    {
-      id : '2',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      status: 'Active'
-    },
-    {
-      id : '3',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      status: 'Active'
-    },
-    {
-      id : '4',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      status: 'Active'
-    },
-    {
-      id : '5',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      status: 'Active'
-    }
-  ]
-
   const columns = [
     {
       name: "ID",
       selector: (row) => row?.id,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "120px",
+      maxWidth: "70px",
     },
     {
       name: "Dealer P.O #",
@@ -177,24 +170,19 @@ function DealerOrderList() {
       sortable: true,
       minWidth: "180px",
     },
-    // {
-    //   name: "Dealer",
-    //   selector: (row) => row.dealerName.name,
-    //   sortable: true,
-    // },
+    {
+      name: "Dealer",
+      selector: (row) => row.name,
+      sortable: true,
+    },
     {
       name: "Customer",
       selector: (row) => row.name,
       sortable: true,
     },
-    // {
-    //   name: "Servicer",
-    //   selector: (row) => row.servicerName.name,
-    //   sortable: true,
-    // },
     {
       name: "# of Contract",
-      selector: (row) =>  row.order,
+      selector: (row) => (row?.order == null ? 0 : row.order),
       sortable: true,
       minWidth: "150px",
     },
@@ -209,11 +197,9 @@ function DealerOrderList() {
       cell: (row) => (
         <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
           <div
-            className={` ${
-              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
-            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
+            className={` bg-[#6BD133] h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
           ></div>
-          <p className="self-center"> {row.status} </p>
+          <p className="self-center"> Active </p>
         </div>
       ),
       sortable: true,
@@ -223,13 +209,12 @@ function DealerOrderList() {
       minWidth: "auto",
       maxWidth: "80px",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.unique_key ? null : row.unique_key
+                  selectedAction === row.id ? null : row.id
                 )
               }
             >
@@ -239,15 +224,13 @@ function DealerOrderList() {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.unique_key && (
+            {selectedAction === row.id && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
+                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md bottom-1`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                {row.status == "Pending" ? (
+                {/* {row.status == "Pending" ? (
                   <>
                     <div
                       className="text-center py-1 border-b cursor-pointer"
@@ -268,12 +251,11 @@ function DealerOrderList() {
                       Archive
                     </div>
                   </>
-                ) : (
+                ) : ( */}
                   <div className="text-center py-1 cursor-pointer">
-                    {/* <Link to={`/orderDetails/${row._id}`}>View</Link> */}
                     <p>View</p>
                   </div>
-                )}
+                {/* )} */}
               </div>
             )}
           </div>
@@ -304,7 +286,7 @@ function DealerOrderList() {
 
         <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
           {" "}
-          <Link to={"/dealer/addOrder"} className="flex">
+          <Link to={"/addOrder"} className="flex">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
             <span className="text-black ml-3 text-[14px] font-Regular">
@@ -339,7 +321,7 @@ function DealerOrderList() {
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
-                      placeholder="Dealer Order No."
+                      placeholder="Dealer P.O #"
                     />
                   </div>
                   <div className="col-span-2 self-center">
@@ -481,7 +463,7 @@ function DealerOrderList() {
             <div className="col-span-6">
               <Input
                 type="text"
-                name="Dealer P.O. No."
+                name="Dealer P.O. #"
                 className="!bg-[#fff]"
                 label="Dealer P.O. No."
                 placeholder=""
@@ -490,13 +472,13 @@ function DealerOrderList() {
             <div className="col-span-6">
               <Input
                 type="text"
-                name="Reseller Name"
+                name="Serial No."
                 className="!bg-[#fff]"
-                label="Reseller Name"
+                label="Serial No."
                 placeholder=""
               />
             </div>
-
+           
             <div className="col-span-6">
               <Input
                 type="text"
@@ -525,15 +507,6 @@ function DealerOrderList() {
                 placeholder=""
               />
             </div>
-            <div className="col-span-6">
-              <Select
-                name="Status"
-                label="Claim Status"
-                options={status}
-                className="!bg-[#fff]"
-                placeholder=""
-              />
-            </div>
             <div className="col-span-12">
               <Button className={"w-full"}>Search</Button>
             </div>
@@ -544,4 +517,4 @@ function DealerOrderList() {
   );
 }
 
-export default DealerOrderList;
+export default CustomerOrderList;

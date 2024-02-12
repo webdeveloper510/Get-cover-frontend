@@ -762,6 +762,70 @@ function SideBar() {
       url: "/servicer/user",
     },
   ];
+  const Customer = [
+    {
+      name: "Dashboard",
+      url: "/customer/dashboard",
+      image: DashboardImage,
+      active: ActiveDashboard,
+    },
+    {
+      name: "Order",
+      image: OrderImage,
+      active: ActiveOrder,
+      items: [
+        {
+          name: "Order List",
+          url: "/customer/orderList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Order",
+          url: "/customer/addOrder",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
+      name: "Contract",
+      url: "/customer/contractList",
+      active: ActiveProduct,
+      image: ProductImage,
+    },
+    {
+      name: "Claim",
+      image: ClaimImage,
+      active: ActiveClaim,
+      items: [
+        {
+          name: "Claim Listing",
+          url: "/customer/claimList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Claim",
+          url: "/customer/addClaim",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+        {
+          name: "Add Bulk Claim",
+          url: "/customer/addBulkClaim",
+          image: Dropdown2,
+          active: ForthActive,
+        },
+      ],
+    },
+    {
+      name: "Manage Account",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      url: "/customer/user",
+    },
+  ];
 
   return (
     <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
@@ -806,6 +870,17 @@ function SideBar() {
                     setExpandedItem={setExpandedItem}
                   />
                 ))
+                :  userType?.role === "Customer" ? Customer.map((bar, index) => (
+                  <SidebarItem
+                    key={index}
+                    item={bar}
+                    active={active}
+                    expandedItem={expandedItem}
+                    onToggleExpand={handleToggleExpand}
+                    onLinkClick={handleLinkClick}
+                    setExpandedItem={setExpandedItem}
+                  />
+                ))
                 : dealer.map((bar, index) => (
                     <SidebarItem
                       key={index}
@@ -816,7 +891,7 @@ function SideBar() {
                       onLinkClick={handleLinkClick}
                       setExpandedItem={setExpandedItem}
                     />
-                  ))}
+                  ) )}
               <li
                 className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]"
                 onClick={handleLogOut}

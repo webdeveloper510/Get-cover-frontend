@@ -20,7 +20,7 @@ import Headbar from '../../../common/headBar';
 import { Link } from 'react-router-dom';
 import Select from '../../../common/select';
 import DateInput from '../../../common/dateInput';
-function EditContract() {
+function CustomerEditContract() {
     const [showTooltip, setShowTooltip] = useState(false);
     const status = [
         { label: "Active", value: true },
@@ -74,7 +74,7 @@ function EditContract() {
                                         Contract ID
                                     </p>
                                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                                    CI-2024-10000000
+                                        861910
                                     </p>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@ function EditContract() {
                                 </div>
                                 <div className="self-center">
                                     <p className="text-[#FFF] text-base font-medium leading-5">
-                                        Claimed Value
+                                        Claim Amount
                                     </p>
                                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
                                         MC-10554
@@ -235,21 +235,29 @@ function EditContract() {
                         placeholder="" />
                       </div>
                       <div className='col-span-1'>
-                      <Input type='date' 
+                      {/* <Input type='date' 
                         name="Coverage Start Date"
                         label="Coverage Start Date"
                         required={true}
                         className="!bg-[#fff]"
-                        placeholder=""/>
-                         {/* <DateInput
+                        placeholder=""/> */}
+                         <DateInput
                          name="Coverage Start Date"
                          label="Coverage Start Date"
                         required 
                         item={item}
                         setItem={setItem}
-                        className="!bg-[#fff]" /> */}
+                        className="!bg-[#fff]" />
                       </div>
-                    
+                      <div className='col-span-1'>
+                      <Select
+                        name="Status"
+                        label="Status"
+                        options={status}
+                        required={true}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+                      </div>
                     </Grid>
 
                     <div className='mt-8'>
@@ -264,5 +272,5 @@ function EditContract() {
     )
 }
 
-export default EditContract
+export default CustomerEditContract
 

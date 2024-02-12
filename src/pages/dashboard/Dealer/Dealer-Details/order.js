@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../../common/button";
@@ -40,6 +40,7 @@ function OrderList(props) {
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
   const openArchive = (id) => {
     SetOrderId(id);
@@ -217,6 +218,7 @@ function OrderList(props) {
             </div>
             {selectedAction === row.unique_key && (
               <div
+                ref={dropdownRef}
                 className={`absolute z-[2] w-[120px] drop-shadow-5xl px-3 py-2 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
@@ -236,6 +238,24 @@ function OrderList(props) {
                       Process Order
                     </div>
                     <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Mark as Paid
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Invoice 
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Export Order
+                    </div>
+                    <div
                       className="text-center py-1 cursor-pointer"
                       onClick={() => openArchive(row._id)}
                     >
@@ -243,12 +263,26 @@ function OrderList(props) {
                     </div>
                   </>
                 ) : (
-                  <Link
+                  <>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Invoice 
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Export Order
+                    </div>
+                    <Link
                     to={`/orderDetails/${row._id}`}
                     className="text-center py-1 cursor-pointer w-full flex justify-center"
                   >
                     View
-                  </Link>
+                  </Link></>
+                 
                 )}
               </div>
             )}
@@ -263,6 +297,20 @@ function OrderList(props) {
       <p>No records found.</p>
     </div>
   );
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setSelectedAction(null);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const status = [
     { label: "Active", value: "Active" },
