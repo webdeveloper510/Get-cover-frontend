@@ -23,9 +23,9 @@ import {
 import { addNewCustomer } from "../../../services/customerServices";
 import Cross from "../../../assets/images/Cross.png";
 import {
-  getDealerDetailsId,
-  getResellerListByDealerId,
-} from "../../../services/reSellerServices";
+  addNewCustomerDealer,
+  getResellerListForDealer,
+} from "../../../services/dealerServices/customerServices";
 
 function DealerAddCustomer() {
   const [timer, setTimer] = useState(3);
@@ -69,7 +69,7 @@ function DealerAddCustomer() {
     initialValues: initialFormValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
-      dealerName: Yup.string().required("Required"),
+      // dealerName: Yup.string().required("Required"),
       accountName: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required")
@@ -163,8 +163,8 @@ function DealerAddCustomer() {
         ...values,
         members: [newObject, ...values.members],
       };
-      console.log(newValues);
-      const result = await addNewCustomer(newValues);
+
+      const result = await addNewCustomerDealer(newValues);
       console.log(result.message);
       if (result.code == 200) {
         setMessage("Customer Created Successfully");
@@ -198,16 +198,16 @@ function DealerAddCustomer() {
 
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
-    if (name === "dealerName") {
-      getCustomerList(value);
-    }
+    // if (name === "dealerName") {
+    //   getCustomerList(value);
+    // }
   };
-  const getCustomerList = async (value) => {
-    console.log(value);
-    getResellerList(value);
-  };
-  const getResellerList = async (value) => {
-    const data = await getResellerListByDealerId({}, value);
+  // const getCustomerList = async (value) => {
+  //   console.log(value);
+  //   getResellerList(value);
+  // };
+  const getResellerList = async () => {
+    const data = await getResellerListForDealer({});
     let arr = [];
     const filteredDealers = data?.result?.filter(
       (value) => value.resellerData.status === true
@@ -237,25 +237,26 @@ function DealerAddCustomer() {
     }
   };
   const state = cityData;
+  // useEffect(() => {
+  //   getDealerListData();
+  // }, []);
   useEffect(() => {
-    getDealerListData();
-  }, []);
-  useEffect(() => {
-    if (typeofUser != "reseller") {
-      getResellerList(dealerValueId);
-    } else {
-      getDealerListData();
-      getDealerDetails(dealerValueId);
-      console.log("hello");
-    }
+    getResellerList();
+    // if (typeofUser != "reseller") {
+    //   getResellerList(dealerValueId);
+    // } else {
+    // getDealerListData();
+    //   getDealerDetails(dealerValueId);
+    //   console.log("hello");
+    // }
   }, [dealerValueId]);
-  const getDealerDetails = async (id) => {
-    const data = await getDealerDetailsId(id);
-    formik.setFieldValue("dealerName", data.result._id);
-    getResellerList(data.result._id);
-    formik.setFieldValue("resellerName", id);
-    console.log(data.result._id);
-  };
+  // const getDealerDetails = async (id) => {
+  //   const data = await getDealerDetailsId(id);
+  //   formik.setFieldValue("dealerName", data.result._id);
+  //   getResellerList(data.result._id);
+  //   formik.setFieldValue("resellerName", id);
+  //   console.log(data.result._id);
+  // };
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -268,11 +269,11 @@ function DealerAddCustomer() {
     if (timer === 0 && message === "Customer Created Successfully") {
       closeModal();
       if (dealerValueId && typeofUser != "reseller") {
-        navigate(`/dealerDetails/${dealerValueId}`);
+        navigate(`/dealer/dealerDetails/${dealerValueId}`);
       } else if (typeofUser == "reseller") {
-        navigate(`/resellerDetails/${dealerValueId}`);
+        navigate(`/dealer/resellerDetails/${dealerValueId}`);
       } else {
-        navigate("/customerList");
+        navigate("/dealer/customerList");
       }
     }
     setLoading(false);
@@ -353,26 +354,26 @@ function DealerAddCustomer() {
       navigate("/dealer/customerList");
     }
   };
-  const getDealerListData = async () => {
-    if (dealerValueId !== undefined) {
-      getResellerList(dealerValueId);
-      formik.setFieldValue("dealerName", dealerValueId);
-    }
-    const result = await getDealersList();
-    console.log(result.data);
-    let arr = [];
-    const filteredDealers = result.data.filter(
-      (data) => data.dealerData.accountStatus === true
-    );
-    filteredDealers?.map((res) => {
-      console.log(res.name);
-      arr.push({
-        label: res.dealerData.name,
-        value: res.dealerData._id,
-      });
-    });
-    setDealerList(arr);
-  };
+  // const getDealerListData = async () => {
+  //   if (dealerValueId !== undefined) {
+  //     getResellerList(dealerValueId);
+  //     formik.setFieldValue("dealerName", dealerValueId);
+  //   }
+  //   const result = await getDealersList();
+  //   console.log(result.data);
+  //   let arr = [];
+  //   const filteredDealers = result?.data?.filter(
+  //     (data) => data.dealerData.accountStatus === true
+  //   );
+  //   filteredDealers?.map((res) => {
+  //     console.log(res.name);
+  //     arr.push({
+  //       label: res.dealerData.name,
+  //       value: res.dealerData._id,
+  //     });
+  //   });
+  //   setDealerList(arr);
+  // };
   return (
     <div className="my-8 ml-3">
       <Headbar />
@@ -425,22 +426,19 @@ function DealerAddCustomer() {
               </div>
             )}
           </div> */}
-            <div className="col-span-4 mb-3">
-              <Select
-                label="Reseller Name"
-                name="resellerName"
-                placeholder=""
-                disabled={typeofUser == "reseller"}
-                onChange={handleSelectChange}
-                options={resellerList}
-                value={formik.values.resellerName}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.resellerName && formik.errors.resellerName
-                }
-              />
-            </div>
-         
+          <div className="col-span-4 mb-3">
+            <Select
+              label="Reseller Name"
+              name="resellerName"
+              placeholder=""
+              disabled={typeofUser == "reseller"}
+              onChange={handleSelectChange}
+              options={resellerList}
+              value={formik.values.resellerName}
+              onBlur={formik.handleBlur}
+              error={formik.touched.resellerName && formik.errors.resellerName}
+            />
+          </div>
         </Grid>
         <div className="bg-white p-4 drop-shadow-4xl border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid>

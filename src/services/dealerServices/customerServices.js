@@ -19,11 +19,11 @@ const createHeaders = () => {
   }
 };
 
-export const addNewResellerForDealer = async (data) => {
+export const getResellerListForDealer = async (data = {}) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
-      `${url}/dealerPortal/createReseller`,
+      `${url}/dealerPortal/getDealerResellers`,
       data,
       {
         headers,
@@ -36,14 +36,16 @@ export const addNewResellerForDealer = async (data) => {
   }
 };
 
-export const getDealersListForDealerPortal  = async (data) => {
-  console.log(data);
+export const addNewCustomerDealer = async (data) => {
   const headers = createHeaders();
-  console.log(headers);
   try {
-    const response = await axios.post(`${url}/admin/getDealerResellers`, data, {
-      headers,
-    });
+    const response = await axios.post(
+      `${url}/dealerPortal/createCustomer`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
