@@ -220,7 +220,7 @@ function DealerResellerList() {
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Reseller</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Reseller /</Link>{" "}
+                <Link to={"/dealer/dashboard"}>Reseller /</Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-1">
                 Resellers List

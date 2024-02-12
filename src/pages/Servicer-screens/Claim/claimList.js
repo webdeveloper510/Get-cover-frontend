@@ -336,8 +336,14 @@ function ServicerClaimList() {
                         </div>
                       </div>
                     </div>
-                    <div className='col-span-2 self-center'>
-                     <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div> 
+                    <div className='col-span-2 self-center h-full p-3 pl-0'>
+                    <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
+                        <div className='self-center'>
+                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
+                          <p className='text-sm font-semibold text-center'>Download <br/>
+                             Attachments</p>
+                        </div>
+                      </div>
                     </div>
                   </Grid>
                 </div>
@@ -510,8 +516,14 @@ function ServicerClaimList() {
                         </div>
                       </div>
                     </div>
-                    <div className='col-span-2 self-center'>
-                      <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div> 
+                    <div className='col-span-2 self-center h-full p-3 pl-0'>
+                    <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
+                        <div className='self-center'>
+                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
+                          <p className='text-sm font-semibold text-center'>Download <br/>
+                             Attachments</p>
+                        </div>
+                      </div>
                     </div>
                   </Grid>
                 </div>
@@ -684,8 +696,14 @@ function ServicerClaimList() {
                         </div>
                       </div>
                     </div>
-                    <div className='col-span-2 self-center'>
-                      <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div> 
+                    <div className='col-span-2 self-center h-full p-3 pl-0'>
+                      <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
+                        <div className='self-center'>
+                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
+                          <p className='text-sm font-semibold text-center'>Download <br/>
+                             Attachments</p>
+                        </div>
+                      </div>
                     </div>
                   </Grid>
                 </div>
