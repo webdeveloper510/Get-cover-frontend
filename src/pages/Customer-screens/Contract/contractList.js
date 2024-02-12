@@ -179,6 +179,7 @@ function CustomerContractList() {
                   <p className='text-[#333333] text-base font-semibold'>Not Eligible</p>
                 </div>
               </div>
+              <div className='col-span-4 border border-[#D1D1D1] rounded-ee-xl'></div>
             </Grid>
           </div>
 

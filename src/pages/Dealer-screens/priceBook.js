@@ -172,10 +172,13 @@ function DealerPriceBook(props) {
     console.log(result);
     setIsViewOpen(true);
   };
+  
   const navigte = useNavigate();
+
   useEffect(() => {
     priceBookData();
   }, [props]);
+
   useEffect(() => {
     getCategoryListData();
     const handleClickOutside = (event) => {
@@ -217,6 +220,7 @@ function DealerPriceBook(props) {
       setLoading(false);
     }
   };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -233,11 +237,13 @@ function DealerPriceBook(props) {
       filterDealerPriceBook(values);
     },
   });
+
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
     priceBookData();
   };
+
   return (
     <>
       <div className="my-8">
