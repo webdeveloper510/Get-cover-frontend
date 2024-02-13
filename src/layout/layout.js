@@ -42,6 +42,7 @@ function Layout() {
         Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
         Location.pathname !== "/notifications" &&
         Location.pathname !== "/reseller/orderDetails" &&
+        Location.pathname !== "/customer/orderDetails" &&
         Location.pathname !== "/dealer/orderDetails"
           ? "p-4"
           : "p-0"
@@ -56,6 +57,7 @@ function Layout() {
       Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
       Location.pathname !== "/notifications" &&
       Location.pathname !== "/reseller/orderDetails" &&
+      Location.pathname !== "/customer/orderDetails" &&
       Location.pathname !== "/dealer/orderDetails" ? (
         <div
           className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full `}
@@ -76,6 +78,7 @@ function Layout() {
           Location.pathname !== "/resellerDetails/" + resellerId &&
           Location.pathname !== "/notifications" &&
           Location.pathname !== "/reseller/orderDetails" &&
+          Location.pathname !== "/customer/orderDetails" &&
           Location.pathname !== "/dealer/orderDetails"
             ? "w-[calc(100%-10px)] pl-3"
             : "w-[100%]"
