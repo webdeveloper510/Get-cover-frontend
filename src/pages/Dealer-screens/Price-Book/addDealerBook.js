@@ -64,28 +64,28 @@ function CustomerAddDealerBook() {
       "categoryId",
       result?.result[0]?.priceBooks?.category[0]?._id
     );
-    formik.setFieldValue("dealerId", result?.result[0]?.dealerId);
+    // formik.setFieldValue("dealerId", result?.result[0]?.dealerId);
     setLoader(false);
   };
 
-  const dealerList = async () => {
-    try {
-      const result = await getDealersList();
-      console.log(result.data);
-      const filteredDealers = result.data.filter(
-        (data) => data.dealerData.accountStatus === true
-      );
+  // const dealerList = async () => {
+  //   try {
+  //     const result = await getDealersList();
+  //     console.log(result.data);
+  //     const filteredDealers = result.data.filter(
+  //       (data) => data.dealerData.accountStatus === true
+  //     );
 
-      let arr = filteredDealers.map((data) => ({
-        label: data.dealerData.name,
-        value: data.dealerData._id,
-      }));
+  //     let arr = filteredDealers.map((data) => ({
+  //       label: data.dealerData.name,
+  //       value: data.dealerData._id,
+  //     }));
 
-      setActiveDealerList(arr);
-    } catch (error) {
-      console.error("Error fetching dealer list:", error);
-    }
-  };
+  //     setActiveDealerList(arr);
+  //   } catch (error) {
+  //     console.error("Error fetching dealer list:", error);
+  //   }
+  // };
   useEffect(() => {
     if (id) {
       dealerDetailById(id);
@@ -95,7 +95,7 @@ function CustomerAddDealerBook() {
     } else {
       setType("Add");
     }
-    dealerList();
+    // dealerList();
     getProductList();
   }, []);
 
@@ -199,7 +199,7 @@ function CustomerAddDealerBook() {
         .min(0, "Retail Price cannot be negative")
         .nullable(),
       priceBook: Yup.string().trim().required("Required"),
-      dealerId: Yup.string().trim().required("Required"),
+      // dealerId: Yup.string().trim().required("Required"),
       categoryId: Yup.string().trim().required("Required"),
       status: Yup.boolean().required("Required"),
     }),
@@ -326,7 +326,7 @@ function CustomerAddDealerBook() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-4">
+                {/* <div className="col-span-4">
                   <div className="flex">
                     <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
                       <img src={dealer} className="w-6 h-6" alt="dealer" />
@@ -340,7 +340,7 @@ function CustomerAddDealerBook() {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="col-span-4 ">
                   <div className="flex">
                     <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
@@ -403,7 +403,7 @@ function CustomerAddDealerBook() {
               <Grid>
                 {type !== "Edit" && (
                   <>
-                    <div className="col-span-4">
+                    {/* <div className="col-span-4">
                       <Select
                         name="dealerId"
                         label="Dealer Name"
@@ -424,7 +424,7 @@ function CustomerAddDealerBook() {
                           {formik.errors.dealerId}
                         </div>
                       )}
-                    </div>
+                    </div> */}
                     <div className="col-span-4">
                       <Select
                         name="categoryId"

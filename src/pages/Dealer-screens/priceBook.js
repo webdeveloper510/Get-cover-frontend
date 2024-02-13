@@ -22,6 +22,7 @@ import Modal from "../../common/model";
 import { getPriceBookListByResellerId } from "../../services/reSellerServices";
 import Headbar from "../../common/headBar";
 import {
+  getPriceBookDetailsForDealerPortal,
   getPriceBookForDealer,
   priceBookFilter,
 } from "../../services/dealerServices/priceBookServices";
@@ -116,9 +117,9 @@ function DealerPriceBook(props) {
                   index
                 )}`}
               >
-                <Link to={'/customer/addPriceBook'}
+                <Link
+                  to={"/customer/addPriceBook"}
                   className="text-center pt-2 pb-1 border-b cursor-pointer"
-                  
                 >
                   Edit
                 </Link>
@@ -167,12 +168,12 @@ function DealerPriceBook(props) {
   };
 
   const openView = async (id) => {
-    const result = await getDealerPricebookDetailById(id);
+    const result = await getPriceBookDetailsForDealerPortal(id);
     setDealerPriceBookDetail(result?.result[0]);
     console.log(result);
     setIsViewOpen(true);
   };
-  
+
   const navigte = useNavigate();
 
   useEffect(() => {

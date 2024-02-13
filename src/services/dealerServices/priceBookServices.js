@@ -115,3 +115,20 @@ export const addPriceBook = async (data) => {
     throw error;
   }
 };
+
+export const getPriceBookDetailsForDealerPortal = async (data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.get(
+      `${url}/dealerPortal/getDealerPriceBookById/${data}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

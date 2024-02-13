@@ -25,6 +25,9 @@ import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import PdfGenerator from "../../pdfViewer";
+import OpenPdfFile from "../../pdfViewer";
+import OpenPdf from "../../pdfViewer";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -52,7 +55,14 @@ function OrderList() {
     SetOrderId(id);
     setIsArchiveOpen(true);
   };
-
+  const childRef = useRef();
+  const openPdf = () => {
+    // return (
+    //   <PDFViewer>
+    //     <pdfViewer/>
+    //   </PDFViewer>
+    // );
+  };
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
@@ -284,18 +294,14 @@ function OrderList() {
                     >
                       Mark as Paid
                     </div>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
-                    >
-                      Invoice 
-                    </div>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
-                    >
-                      Export Order
-                    </div>
+                    <>
+                      <div
+                        className="text-center py-1 border-b cursor-pointer"
+                       
+                      >
+                        <PdfGenerator />
+                      </div>
+                    </>
                     <div
                       className="text-center py-1 cursor-pointer"
                       onClick={() => openArchive(row._id)}
@@ -309,7 +315,7 @@ function OrderList() {
                       className="text-center py-1 border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      Invoice 
+                      Invoice
                     </div>
                     <div
                       className="text-center py-1 border-b cursor-pointer"
@@ -318,12 +324,12 @@ function OrderList() {
                       Export Order
                     </div>
                     <Link
-                    to={`/orderDetails/${row._id}`}
-                    className="text-center py-1 cursor-pointer w-full flex justify-center"
-                  >
-                    View
-                  </Link></>
-                 
+                      to={`/orderDetails/${row._id}`}
+                      className="text-center py-1 cursor-pointer w-full flex justify-center"
+                    >
+                      View
+                    </Link>
+                  </>
                 )}
               </div>
             )}
@@ -492,11 +498,7 @@ function OrderList() {
 
           <p className="text-neutral-grey text-base font-medium mt-2">
             Order can not be process to the following reasons : <br />
-            {errorList &&
-              errorList.map((res) => {
-                console.log(res);
-                return <span>{res}. </span>;
-              })}
+            <span>{errorList}. </span>;
           </p>
         </div>
       </Modal>
