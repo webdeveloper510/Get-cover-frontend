@@ -177,21 +177,11 @@ function DealerOrderList() {
       sortable: true,
       minWidth: "180px",
     },
-    // {
-    //   name: "Dealer",
-    //   selector: (row) => row.dealerName.name,
-    //   sortable: true,
-    // },
     {
       name: "Customer",
       selector: (row) => row.name,
       sortable: true,
     },
-    // {
-    //   name: "Servicer",
-    //   selector: (row) => row.servicerName.name,
-    //   sortable: true,
-    // },
     {
       name: "# of Contract",
       selector: (row) =>  row.order,

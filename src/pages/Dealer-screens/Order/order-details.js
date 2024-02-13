@@ -72,7 +72,7 @@ function DealerOrderDetails() {
         <Headbar />
         <div className="flex">
         <Link
-        to={'/orderList'}
+        to={'/dealer/orderList'}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
         >
           <img
@@ -270,7 +270,14 @@ function DealerOrderDetails() {
                   </p>
                 </div>
               </div>
-              
+              <Grid className="!py-5">
+                <div className="col-span-6">
+                  <Button className='!bg-[white] !text-black'>Invoice</Button>
+                </div>
+                <div className="col-span-6">
+                <Button className='!bg-[white] !text-black'>Export Order</Button>
+                </div>
+              </Grid>
             </div>
           </div>
           <div className="col-span-3">
