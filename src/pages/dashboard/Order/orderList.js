@@ -28,6 +28,7 @@ import * as Yup from "yup";
 import PdfGenerator from "../../pdfViewer";
 import OpenPdfFile from "../../pdfViewer";
 import OpenPdf from "../../pdfViewer";
+import PdfMake from "../../pdfMakeOrder";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -319,15 +320,14 @@ function OrderList() {
                   </Link>
                     <div
                       className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
+                     
                     >
-                      Invoice
+                      <PdfGenerator />
                     </div>
                     <div
                       className="text-center py-1  cursor-pointer"
-                      onClick={() => openModal(row._id)}
                     >
-                      Export Order
+                      <PdfMake/>
                     </div>
                     <Link
                       to={`/orderDetails/${row._id}`}
