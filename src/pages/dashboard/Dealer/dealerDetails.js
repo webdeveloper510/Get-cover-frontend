@@ -676,6 +676,7 @@ function DealerDetails() {
           </div>
           <div className="col-span-3">
             <Grid className="!mt-5">
+            {activeTab !== "Contracts" ? (
               <div
                 className="col-span-12"
                 onClick={() => routeToPage(activeTab)}
@@ -692,6 +693,7 @@ function DealerDetails() {
                   </span>{" "}
                 </Button>
               </div>
+            ) :(<></>) }
               <div className="col-span-12">
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!grid-cols-8 !gap-1">
