@@ -387,7 +387,7 @@ const routes = [
       },
 
       // Dealer Routs ---------------------------------------------------------------
-      
+
       {
         path: "/dealer/orderDetails",
         element: (
@@ -508,14 +508,6 @@ const routes = [
           <PrivateRoute
             element={<DealerServicerDetails />}
             path="/dealer/servicerDetails"
-          />
-        ),
-      },
-      {
-        path: "/dealer/customerDetails/:customerId",
-        element: (
-          <PrivateRoute
-            element={<DealerCustomerDetails />}
           />
         ),
       },
