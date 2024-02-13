@@ -1,9 +1,9 @@
 import React from 'react';
 import html2pdf from 'html2pdf.js';
 import logo from '../assets/images/logo.png'
-class PdfGenerator extends React.Component {
+function PdfGenerator(props) {
 
-  convertToPDF = () => {
+ const convertToPDF = () => {
     const opt = {
       margin:       0,
       filename:     'invoice.pdf',
@@ -12,12 +12,12 @@ class PdfGenerator extends React.Component {
       jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
 
-    html2pdf().from(this.generateHTML()).set(opt).save();
+    html2pdf().from(generateHTML()).set(opt).save();
   }
 
 
 
-  generateHTML = () => {
+ const generateHTML = () => {
     return `
       <div style="max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
@@ -125,12 +125,10 @@ class PdfGenerator extends React.Component {
     `;
   }
 
-  render() {
     return (
       <div>
-        <button onClick={this.convertToPDF}>Invoice</button>
+        <button onClick={convertToPDF}>Invoice</button>
       </div>
     )
-    }
   }
 export default PdfGenerator;
