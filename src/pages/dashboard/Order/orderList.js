@@ -325,7 +325,7 @@ function OrderList() {
                       <PdfGenerator />
                     </div>
                     <div
-                      className="text-center py-1  cursor-pointer"
+                      className="text-center py-1 border-b cursor-pointer"
                     >
                       <PdfMake/>
                     </div>
