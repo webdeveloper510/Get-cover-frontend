@@ -99,6 +99,7 @@ import CustomerOrderList from "../pages/Customer-screens/Order/orderList";
 import CustomerAddOrder from "../pages/Customer-screens/Order/addOrder";
 import CustomerOrderDetails from "../pages/Customer-screens/Order/order-details";
 import CustomerAddDealerBook from "../pages/Dealer-screens/Price-Book/addDealerBook";
+import ResellerOrderDetails from "../pages/Reseller-screens/Order/order-details";
 
 const routes = [
   {
@@ -784,6 +785,15 @@ const routes = [
           <PrivateRoute
             element={<ResellerAddBulkClaim />}
             path="/reseller/addBulkClaim"
+          />
+        ),
+      },
+      {
+        path: "/reseller/orderDetails",
+        element: (
+          <PrivateRoute
+            element={<ResellerOrderDetails />}
+            path="/reseller/orderDetails"
           />
         ),
       },

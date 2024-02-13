@@ -40,7 +40,8 @@ function Layout() {
         Location.pathname !== "/resellerDetails/" + resellerId &&
         Location.pathname !== "/dealer/customerDetails/" + customerId &&
         Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
-        Location.pathname !== "/notifications"
+        Location.pathname !== "/notifications" &&
+        Location.pathname !== "/reseller/orderDetails"
           ? "p-4"
           : "p-0"
       } pl-0 relative w-full`}
@@ -52,7 +53,8 @@ function Layout() {
       Location.pathname !== "/resellerDetails/" + resellerId &&
       Location.pathname !== "/dealer/customerDetails/" + customerId &&
       Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
-      Location.pathname !== "/notifications" ? (
+      Location.pathname !== "/notifications" &&
+      Location.pathname !== "/reseller/orderDetails" ? (
         <div
           className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full `}
         >
@@ -70,7 +72,8 @@ function Layout() {
           Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
           Location.pathname !== "/orderDetails/" + orderId &&
           Location.pathname !== "/resellerDetails/" + resellerId &&
-          Location.pathname !== "/notifications"
+          Location.pathname !== "/notifications" &&
+          Location.pathname !== "/reseller/orderDetails"
             ? "w-[calc(100%-10px)] pl-3"
             : "w-[100%]"
         } h-full min-h-[94vh]`}

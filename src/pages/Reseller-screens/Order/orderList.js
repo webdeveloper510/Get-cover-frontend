@@ -129,7 +129,8 @@ function ResellerOrderList() {
       email : ' customer001@yopmail.com',
       phone : '3456789098',
       order : '8',
-      orderValue :'1000'
+      orderValue :'1000',
+      status : 'Pending'
     }
   ]
 
@@ -230,7 +231,7 @@ function ResellerOrderList() {
                 className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md bottom-1`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                {/* {row.status == "Pending" ? (
+                {row.status == "Pending" ? (
                   <>
                     <div
                       className="text-center py-1 border-b cursor-pointer"
@@ -251,11 +252,11 @@ function ResellerOrderList() {
                       Archive
                     </div>
                   </>
-                ) : ( */}
+                ) : (
                   <div className="text-center py-1 cursor-pointer">
-                    <p>View</p>
+                    <Link to={'/reseller/orderDetails'}>View</Link>
                   </div>
-                {/* )} */}
+                )}
               </div>
             )}
           </div>

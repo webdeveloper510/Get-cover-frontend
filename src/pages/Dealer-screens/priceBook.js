@@ -97,8 +97,8 @@ function DealerPriceBook(props) {
 
     {
       name: "Action",
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "70px",
       cell: (row, index) => {
         return (
           <div className="relative">
@@ -118,12 +118,11 @@ function DealerPriceBook(props) {
               >
                 <div
                   className="text-center border-b pt-2 pb-1 cursor-pointer">
-                <Link to={'/dealer/addPriceBook'}
-                  className="text-center  mx-auto"
-                  
-                >
-                  Edit
-                </Link>
+                  <Link to={'/dealer/addPriceBook'}
+                    className="text-center  mx-auto"
+                  >
+                    Edit
+                  </Link>
                 </div>
                 <div
                   className="text-center pt-1 pb-2 cursor-pointer"
