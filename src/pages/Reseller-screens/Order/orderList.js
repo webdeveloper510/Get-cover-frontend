@@ -233,28 +233,61 @@ function ResellerOrderList() {
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 {row.status == "Pending" ? (
                   <>
-                    <div
+                  <div
                       className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => navigate(`/editOrder/${row._id}`)}
+                      onClick={() => navigate(`/reseller/editOrder/${row._id}`)}
                     >
                       Edit
                     </div>
                     <div
                       className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal()}
+                      onClick={() => openModal(row._id)}
                     >
                       Process Order
                     </div>
                     <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Mark as Paid
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Invoice 
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Export Order
+                    </div>
+                    <div
                       className="text-center py-1 cursor-pointer"
-                      onClick={() => openArchive()}
+                      onClick={() => openArchive(row._id)}
                     >
                       Archive
                     </div>
                   </>
                 ) : (
                   <div className="text-center py-1 cursor-pointer">
-                    <Link to={'/reseller/orderDetails'}>View</Link>
+                    <Link to={'/reseller/orderDetails'} className="text-center py-1 cursor-pointer border-b w-full flex justify-center"
+                  >
+                    View
+                  </Link>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Invoice 
+                    </div>
+                    <div
+                      className="text-center py-1  cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Export Order
+                    </div>
                   </div>
                 )}
               </div>

@@ -99,7 +99,7 @@ function DealerOrderList() {
     setLoading(false);
   };
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = orderList.length - index <= 10000;
+    const isCloseToBottom = 4 - index <= 1;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -159,7 +159,7 @@ function DealerOrderList() {
       phone : '3456789098',
       order : '8',
       orderValue :'1000',
-      status: 'Active'
+      status: 'Pending'
     }
   ]
 
@@ -229,7 +229,7 @@ function DealerOrderList() {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.unique_key ? null : row.unique_key
+                  selectedAction === row.id ? null : row.id
                 )
               }
             >
@@ -239,7 +239,7 @@ function DealerOrderList() {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.unique_key && (
+            {selectedAction === row.id && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
@@ -249,29 +249,61 @@ function DealerOrderList() {
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 {row.status == "Pending" ? (
                   <>
-                    <div
+                   <div
                       className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => navigate(`/editOrder/${row._id}`)}
+                      onClick={() => navigate(`/dealer/editOrder/${row._id}`)}
                     >
                       Edit
                     </div>
                     <div
                       className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal()}
+                      onClick={() => openModal(row._id)}
                     >
                       Process Order
                     </div>
                     <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Mark as Paid
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Invoice 
+                    </div>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Export Order
+                    </div>
+                    <div
                       className="text-center py-1 cursor-pointer"
-                      onClick={() => openArchive()}
+                      onClick={() => openArchive(row._id)}
                     >
                       Archive
                     </div>
                   </>
                 ) : (
                   <div className="text-center py-1 cursor-pointer">
-                    {/* <Link to={`/orderDetails/${row._id}`}>View</Link> */}
-                    <p>View</p>
+                    <Link to={`/dealer/orderDetails`} className="text-center py-1 cursor-pointer border-b w-full flex justify-center"
+                  >
+                    View
+                  </Link>
+                    <div
+                      className="text-center py-1 border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Invoice 
+                    </div>
+                    <div
+                      className="text-center py-1  cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      Export Order
+                    </div>
                   </div>
                 )}
               </div>

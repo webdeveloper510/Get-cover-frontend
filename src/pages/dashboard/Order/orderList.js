@@ -305,6 +305,12 @@ function OrderList() {
                   </>
                 ) : (
                   <>
+                  <Link
+                    to={`/orderDetails/${row._id}`}
+                    className="text-center py-1 cursor-pointer border-b w-full flex justify-center"
+                  >
+                    View
+                  </Link>
                     <div
                       className="text-center py-1 border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
@@ -312,17 +318,12 @@ function OrderList() {
                       Invoice 
                     </div>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-center py-1  cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       Export Order
                     </div>
-                    <Link
-                    to={`/orderDetails/${row._id}`}
-                    className="text-center py-1 cursor-pointer w-full flex justify-center"
-                  >
-                    View
-                  </Link></>
+                    </>
                  
                 )}
               </div>
