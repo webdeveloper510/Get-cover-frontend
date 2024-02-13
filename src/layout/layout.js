@@ -5,13 +5,11 @@ import SideBar from "../sidebar/sidebar";
 function Layout() {
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
 
-  // You can adjust the threshold value based on your design
   const scrollThreshold = 200;
 
   const handleScroll = () => {
     const scrollY = window.scrollY || window.pageYOffset;
 
-    // Check if the user has scrolled past the threshold
     setIsSidebarSticky(scrollY > scrollThreshold);
   };
 
@@ -24,7 +22,6 @@ function Layout() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
