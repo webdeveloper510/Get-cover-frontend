@@ -5,6 +5,7 @@ import Grid from "../../../common/grid";
 import Button from "../../../common/button";
 
 // Media Import
+import Csv from "../../../assets/images/icons/csvWhite.svg";
 import contract from "../../../assets/images/order/Contracts.svg";
 import contractActive from "../../../assets/images/order/ContractsActive.svg";
 import orderSummary from "../../../assets/images/order/orderSummary.svg";
@@ -19,6 +20,8 @@ import { cityData } from "../../../stateCityJson";
 import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
+import PdfGenerator from "../../pdfViewer";
+import PdfMake from "../../pdfMakeOrder";
 
 
 function ResellerOrderDetails() {
@@ -271,11 +274,31 @@ function ResellerOrderDetails() {
                 </div>
               </div>
               <Grid className="!py-5">
-                <div className="col-span-6">
-                  <Button className='!bg-[white] !text-black'>Invoice</Button>
+                <div className="col-span-5">
+                <Button className="!bg-white !text-light-black !text-sm border flex">
+                                <img
+                                  src={Csv}
+                                  className="mr-3 self-center"
+                                  alt="Csv"
+                                />{" "}
+                                <span className="self-center">
+                                  {" "}
+                                  <PdfGenerator/>
+                                </span>
+                              </Button>
                 </div>
-                <div className="col-span-6">
-                <Button className='!bg-[white] !text-black'>Export Order</Button>
+                <div className="col-span-7">
+                <Button className="!bg-white !text-light-black !text-sm border flex">
+                                <img
+                                  src={Csv}
+                                  className="mr-3 self-center"
+                                  alt="Csv"
+                                />{" "}
+                                <span className="self-center">
+                                  {" "}
+                                  <PdfMake/>
+                                </span>
+                              </Button>
                 </div>
               </Grid>
             </div>

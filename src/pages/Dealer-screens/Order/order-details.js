@@ -16,6 +16,7 @@ import Purchase from "../../../assets/images/order/Purchase.svg";
 import DealerList from "../../../assets/images/icons/dealerList.svg";
 import Name from "../../../assets/images/order/Name.svg"
 import { cityData } from "../../../stateCityJson";
+import Csv from "../../../assets/images/icons/csvWhite.svg";
 import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
@@ -271,11 +272,31 @@ function DealerOrderDetails() {
                 </div>
               </div>
               <Grid className="!py-5">
-                <div className="col-span-6">
-                  <Button className='!bg-[white] !text-black'>Invoice</Button>
+                <div className="col-span-5">
+                <Button className="!bg-white !text-light-black !text-sm border flex">
+                                <img
+                                  src={Csv}
+                                  className="mr-3 self-center"
+                                  alt="Csv"
+                                />{" "}
+                                <span className="self-center">
+                                  {" "}
+                                  Invoice
+                                </span>
+                              </Button>
                 </div>
-                <div className="col-span-6">
-                <Button className='!bg-[white] !text-black'>Export Order</Button>
+                <div className="col-span-7">
+                <Button className="!bg-white !text-light-black !text-sm border flex">
+                                <img
+                                  src={Csv}
+                                  className="mr-3 self-center"
+                                  alt="Csv"
+                                />{" "}
+                                <span className="self-center">
+                                  {" "}
+                                  Export Order
+                                </span>
+                              </Button>
                 </div>
               </Grid>
             </div>
