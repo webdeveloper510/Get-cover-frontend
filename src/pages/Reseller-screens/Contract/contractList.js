@@ -201,9 +201,6 @@ function ResellerContractList() {
               </div>
               <div className='col-span-2 '>
               </div>
-              <div className='col-span-1 self-center justify-end'>
-              {/* <Link to={'/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link> */}
-              </div>
             </Grid>
 
             <Grid className='!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5'>
@@ -381,7 +378,6 @@ function ResellerContractList() {
               <div className='col-span-3 border border-[#D1D1D1] rounded-ee-xl'></div>
             </Grid>
           </div>
-
         </div>
 
         <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
