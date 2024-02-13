@@ -401,13 +401,13 @@ function CustomerAddClaim() {
               <p className="text-3xl font-semibold mb-4">Contract Details</p>
               <div>
             <Grid className='bg-[#333333] !gap-2 !grid-cols-9 !px-3 rounded-t-xl'>
-              <div className='col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl'>
-                <p className='text-white py-2 font-Regular'>Contract ID :  <b> 861910 </b></p>
+              <div className='col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl'>
+                <p className='text-white py-2 font-Regular'>Contract ID :  <b> CI-2024-1000123 </b></p>
               </div>
               <div className='col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat '>
                 <p className='text-white py-2 font-Regular'>Order ID : <b> 315174  </b></p>
               </div>
-              <div className='col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat '>
+              <div className='col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat '>
                 <p className='text-white py-2 font-Regular'>Dealer P.O. # : <b> MC-10554 </b></p>
               </div>
               <div className='col-span-1'></div>

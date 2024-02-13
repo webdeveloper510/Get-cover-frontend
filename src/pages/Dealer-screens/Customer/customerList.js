@@ -217,7 +217,7 @@ function DealerCustomerList() {
         </div>
 
         <Link
-          to={"/addCustomer"}
+          to={"/dealer/addCustomer"}
           className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
         >
           {" "}

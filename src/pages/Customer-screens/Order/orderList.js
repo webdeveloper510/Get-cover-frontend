@@ -129,6 +129,7 @@ function CustomerOrderList() {
       email : ' customer001@yopmail.com',
       phone : '3456789098',
       order : '8',
+      status : "Pending",
       orderValue :'1000'
     }
   ]
@@ -226,37 +227,70 @@ function CustomerOrderList() {
             </div>
             {selectedAction === row.id && (
               <div
-                ref={dropdownRef}
-                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md bottom-1`}
-              >
-                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                {/* {row.status == "Pending" ? (
-                  <>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => navigate(`/editOrder/${row._id}`)}
-                    >
-                      Edit
-                    </div>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal()}
-                    >
-                      Process Order
-                    </div>
-                    <div
-                      className="text-center py-1 cursor-pointer"
-                      onClick={() => openArchive()}
-                    >
-                      Archive
-                    </div>
-                  </>
-                ) : ( */}
-                  <div className="text-center py-1 cursor-pointer">
-                    <p>View</p>
+              ref={dropdownRef}
+              className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md bottom-1`}
+            >
+              {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+              {row.status == "Pending" ? (
+                <>
+                <div
+                    className="text-center py-1 border-b cursor-pointer"
+                    onClick={() => navigate(`/reseller/editOrder/${row._id}`)}
+                  >
+                    Edit
                   </div>
-                {/* )} */}
-              </div>
+                  <div
+                    className="text-center py-1 border-b cursor-pointer"
+                    onClick={() => openModal(row._id)}
+                  >
+                    Process Order
+                  </div>
+                  <div
+                    className="text-center py-1 border-b cursor-pointer"
+                    onClick={() => openModal(row._id)}
+                  >
+                    Mark as Paid
+                  </div>
+                  <div
+                    className="text-center py-1 border-b cursor-pointer"
+                    onClick={() => openModal(row._id)}
+                  >
+                    Invoice 
+                  </div>
+                  <div
+                    className="text-center py-1 border-b cursor-pointer"
+                    onClick={() => openModal(row._id)}
+                  >
+                    Export Order
+                  </div>
+                  <div
+                    className="text-center py-1 cursor-pointer"
+                    onClick={() => openArchive(row._id)}
+                  >
+                    Archive
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-1 cursor-pointer">
+                  <Link to={'/customer/orderDetails'} className="text-center py-1 cursor-pointer border-b w-full flex justify-center"
+                >
+                  View
+                </Link>
+                  <div
+                    className="text-center py-1 border-b cursor-pointer"
+                    onClick={() => openModal(row._id)}
+                  >
+                    Invoice 
+                  </div>
+                  <div
+                    className="text-center py-1  cursor-pointer"
+                    onClick={() => openModal(row._id)}
+                  >
+                    Export Order
+                  </div>
+                </div>
+              )}
+            </div>
             )}
           </div>
         );

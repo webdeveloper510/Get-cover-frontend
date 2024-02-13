@@ -5,13 +5,11 @@ import SideBar from "../sidebar/sidebar";
 function Layout() {
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
 
-  // You can adjust the threshold value based on your design
   const scrollThreshold = 200;
 
   const handleScroll = () => {
     const scrollY = window.scrollY || window.pageYOffset;
 
-    // Check if the user has scrolled past the threshold
     setIsSidebarSticky(scrollY > scrollThreshold);
   };
 
@@ -24,7 +22,6 @@ function Layout() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -40,7 +37,10 @@ function Layout() {
         Location.pathname !== "/resellerDetails/" + resellerId &&
         Location.pathname !== "/dealer/customerDetails/" + customerId &&
         Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
-        Location.pathname !== "/notifications"
+        Location.pathname !== "/notifications" &&
+        Location.pathname !== "/reseller/orderDetails" &&
+        Location.pathname !== "/customer/orderDetails" &&
+        Location.pathname !== "/dealer/orderDetails"
           ? "p-4"
           : "p-0"
       } pl-0 relative w-full`}
@@ -52,7 +52,10 @@ function Layout() {
       Location.pathname !== "/resellerDetails/" + resellerId &&
       Location.pathname !== "/dealer/customerDetails/" + customerId &&
       Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
-      Location.pathname !== "/notifications" ? (
+      Location.pathname !== "/notifications" &&
+      Location.pathname !== "/reseller/orderDetails" &&
+      Location.pathname !== "/customer/orderDetails" &&
+      Location.pathname !== "/dealer/orderDetails" ? (
         <div
           className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full `}
         >
@@ -70,7 +73,10 @@ function Layout() {
           Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
           Location.pathname !== "/orderDetails/" + orderId &&
           Location.pathname !== "/resellerDetails/" + resellerId &&
-          Location.pathname !== "/notifications"
+          Location.pathname !== "/notifications" &&
+          Location.pathname !== "/reseller/orderDetails" &&
+          Location.pathname !== "/customer/orderDetails" &&
+          Location.pathname !== "/dealer/orderDetails"
             ? "w-[calc(100%-10px)] pl-3"
             : "w-[100%]"
         } h-full min-h-[94vh]`}

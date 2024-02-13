@@ -98,8 +98,8 @@ function DealerPriceBook(props) {
 
     {
       name: "Action",
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "70px",
       cell: (row, index) => {
         return (
           <div className="relative">
@@ -113,16 +113,18 @@ function DealerPriceBook(props) {
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 px-2 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[70px] justify-center drop-shadow-5xl -right-3 px-2 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
-                <Link
-                  to={"/customer/addPriceBook"}
-                  className="text-center pt-2 pb-1 border-b cursor-pointer"
-                >
-                  Edit
-                </Link>
+                <div
+                  className="text-center border-b pt-2 pb-1 cursor-pointer">
+                  <Link to={'/dealer/addPriceBook'}
+                    className="text-center  mx-auto"
+                  >
+                    Edit
+                  </Link>
+                </div>
                 <div
                   className="text-center pt-1 pb-2 cursor-pointer"
                   onClick={() => openView(row._id)}

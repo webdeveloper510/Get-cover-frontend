@@ -764,7 +764,7 @@ function DealerResellerDetails() {
                   </Grid>
                 </div>
               </div>
-              {activeTab !== "Servicer" && activeTab !== "PriceBook" ? (
+              {activeTab !== "Servicer" && activeTab !== "PriceBook" && activeTab !== "Contracts"  ? (
                 <div
                   className="col-span-2"
                   onClick={() => routeToPage(activeTab)}

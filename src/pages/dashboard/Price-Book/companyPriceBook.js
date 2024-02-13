@@ -33,6 +33,7 @@ function CompanyPriceBook() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [companyPriceList, setCompanyPriceList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
+  const [loading1, setLoading1] =useState(false)
   const navigate = useNavigate();
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -158,12 +159,15 @@ function CompanyPriceBook() {
   }
   const getcompanyPriceBookData = async (id) => {
     try {
+      setLoading1(true);
       const result = await getCompanyPriceBookById(id);
       console.log(result.result);
       setData(result.result)
       setSelectedAction(null);
+      setLoading1(false);
     } catch (error) {
       console.error(error);
+      setLoading1(false);
     }
   }
 
@@ -330,7 +334,7 @@ function CompanyPriceBook() {
   const openView = async (id) => {
     try {
       setLoading(true);
-       getCompanyPriceBook(id);
+      getCompanyPriceBook(id);
       setIsViewOpen(true);
     } catch (error) {
       console.error("Error loading data:", error);
@@ -478,96 +482,106 @@ function CompanyPriceBook() {
             <Button onClick={() => { navigate(`/editCompanyPriceBook/${data._id}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
               <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
             </Button>
-            <div className="py-3">
-              <p className='text-center text-3xl font-semibold '>
-                View Company Price Book
-              </p>
-              <Grid className='mt-5 px-6'>
-                <div className='col-span-4'>
-                  <p className="text-lg text-light-black font-semibold">Product Category</p>
-                  <p className="text-base text-neutral-grey font-semibold"> {data?.category?.name}</p>
+            {loading1 ? (<>
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
                 </div>
-                <div className='col-span-4'>
-                  <p className="text-lg text-light-black font-semibold">Product Name</p>
-                  <p className="text-base text-neutral-grey font-semibold"> {data.name}</p>
-                </div>
-                <div className='col-span-4'>
-                  <p className="text-lg text-light-black font-semibold">Description</p>
-                  <p className="text-base text-neutral-grey font-semibold"> {data.description}</p>
-                </div>
-                <div className='col-span-4'>
-                  <p className="text-lg text-light-black font-semibold">Term</p>
-                  <p className="text-base text-neutral-grey font-semibold"> {data.term} Months</p>
-                </div>
-                <div className='col-span-4'>
-                  <p className="text-lg text-light-black font-semibold">Fronting fee ($)</p>
-                  <p className="text-base text-neutral-grey font-semibold"> ${data?.frontingFee?.toFixed(2)}</p>
-                </div>
-                <div className='col-span-4'>
-                  <p className="text-lg text-light-black font-semibold">Re-insurance fee ($)</p>
-                  <p className="text-base text-neutral-grey font-semibold"> ${data?.reinsuranceFee?.toFixed(2)}</p>
-                </div>
-                <div className='col-span-6'>
-                  <p className="text-lg text-light-black font-semibold">Reserve for future claims ($)</p>
-                  <p className="text-base text-neutral-grey font-semibold"> ${data?.reserveFutureFee?.toFixed(2)}</p>
-                </div>
-                <div className='col-span-6'>
-                  <p className="text-lg text-light-black font-semibold">Administration fee ($)</p>
-                  <p className="text-base text-neutral-grey font-semibold"> ${data?.adminFee?.toFixed(2)}</p>
-                </div>
-                <div className='col-span-4'>
-                  <p className="text-lg text-light-black font-semibold">Wholesale Cost ($)</p>
-                  <p className="text-base text-neutral-grey font-semibold">{formattedCost}</p>
-                </div>
-                <div className='col-span-4'>
-                  <p className="text-lg text-light-black font-semibold">Status</p>
-                  <p className="text-base text-neutral-grey font-semibold"> {data.status === true ? 'Active' : "inActive"}</p>
-                </div>
-                <div className='col-span-4'>
-                  <p className="text-lg text-light-black font-semibold">Price Type</p>
-                  <p className="text-base text-neutral-grey font-semibold"> {data.priceType}</p>
-                </div>
-                {
-                  data.priceType == "Flat Pricing" && (
-                    <>
-                      <div className='col-span-4'> 
-                        <p className="text-lg text-light-black font-semibold">Range Start</p>
-                        <p className="text-base text-neutral-grey font-semibold"> {data?.rangeStart?.toFixed(2)}</p>
-                      </div>
-                      <div className='col-span-4'>
-                        <p className="text-lg text-light-black font-semibold">Range End</p>
-                        <p className="text-base text-neutral-grey font-semibold"> {data?.rangeEnd?.toFixed(2)}</p>
-                      </div></>
-                  )
-                }
-                {
-                  data.priceType == "Quantity Pricing" && (
-                    <>
-                      <div className='col-span-12'>
-                        <table className="w-full border text-center">
-                          <tr className="border bg-[#9999]">
-                            <th colSpan={'2'}>Quantity Pricing List </th>
-                          </tr>
-                          <tr className="border bg-[#9999]">
-                            <th>Name</th>
-                            <th>Max Quantity</th>
-                          </tr>
-                          {
-                            data.quantityPriceDetail.length !== 0 &&
-                            data.quantityPriceDetail.map((item, index) => (
-                              <tr key={index} className="border">
-                                <td>{item.name}</td>
-                                <td>{item.quantity}</td>
-                              </tr>
-                            ))
-                          }
-                        </table>
-                      </div>
-                    </>
-                  )
-                }
-              </Grid>
-            </div>
+              </div></>) : (
+              <>
+              <div className="py-3">
+                <p className='text-center text-3xl font-semibold '>
+                  View Company Price Book
+                </p>
+                <Grid className='mt-5 px-6'>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Product Category</p>
+                    <p className="text-base text-neutral-grey font-semibold"> {data?.category?.name}</p>
+                  </div>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Product Name</p>
+                    <p className="text-base text-neutral-grey font-semibold"> {data.name}</p>
+                  </div>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Description</p>
+                    <p className="text-base text-neutral-grey font-semibold"> {data.description}</p>
+                  </div>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Term</p>
+                    <p className="text-base text-neutral-grey font-semibold"> {data.term} Months</p>
+                  </div>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Fronting fee ($)</p>
+                    <p className="text-base text-neutral-grey font-semibold"> ${data?.frontingFee?.toFixed(2)}</p>
+                  </div>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Re-insurance fee ($)</p>
+                    <p className="text-base text-neutral-grey font-semibold"> ${data?.reinsuranceFee?.toFixed(2)}</p>
+                  </div>
+                  <div className='col-span-6'>
+                    <p className="text-lg text-light-black font-semibold">Reserve for future claims ($)</p>
+                    <p className="text-base text-neutral-grey font-semibold"> ${data?.reserveFutureFee?.toFixed(2)}</p>
+                  </div>
+                  <div className='col-span-6'>
+                    <p className="text-lg text-light-black font-semibold">Administration fee ($)</p>
+                    <p className="text-base text-neutral-grey font-semibold"> ${data?.adminFee?.toFixed(2)}</p>
+                  </div>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Wholesale Cost ($)</p>
+                    <p className="text-base text-neutral-grey font-semibold">{formattedCost}</p>
+                  </div>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Status</p>
+                    <p className="text-base text-neutral-grey font-semibold"> {data.status === true ? 'Active' : "inActive"}</p>
+                  </div>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Price Type</p>
+                    <p className="text-base text-neutral-grey font-semibold"> {data.priceType}</p>
+                  </div>
+                  {
+                    data.priceType == "Flat Pricing" && (
+                      <>
+                        <div className='col-span-4'> 
+                          <p className="text-lg text-light-black font-semibold">Range Start</p>
+                          <p className="text-base text-neutral-grey font-semibold"> {data?.rangeStart?.toFixed(2)}</p>
+                        </div>
+                        <div className='col-span-4'>
+                          <p className="text-lg text-light-black font-semibold">Range End</p>
+                          <p className="text-base text-neutral-grey font-semibold"> {data?.rangeEnd?.toFixed(2)}</p>
+                        </div></>
+                    )
+                  }
+                  {
+                    data.priceType == "Quantity Pricing" && (
+                      <>
+                        <div className='col-span-12'>
+                          <table className="w-full border text-center">
+                            <tr className="border bg-[#9999]">
+                              <th colSpan={'2'}>Quantity Pricing List </th>
+                            </tr>
+                            <tr className="border bg-[#9999]">
+                              <th>Name</th>
+                              <th>Max Quantity</th>
+                            </tr>
+                            {
+                              data.quantityPriceDetail.length !== 0 &&
+                              data.quantityPriceDetail.map((item, index) => (
+                                <tr key={index} className="border">
+                                  <td>{item.name}</td>
+                                  <td>{item.quantity}</td>
+                                </tr>
+                              ))
+                            }
+                          </table>
+                        </div>
+                      </>
+                    )
+                  }
+                </Grid>
+              </div>
+              </>
+            )}
+            
           </Modal>
         </div>
       </div>

@@ -93,8 +93,8 @@ function CustomerContractList() {
         <div className='px-3 mt-5'>
           <div>
           <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
-              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
-                <p className='text-white py-2 font-Regular'>Contract ID :  <b> 861910 </b></p>
+              <div className='col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
+                <p className='text-white py-2 font-Regular'>Contract ID :  <b> CI-2024-1000 </b></p>
               </div>
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
                 <p className='text-white py-2 font-Regular'>Order ID : <b> 315174  </b></p>
@@ -102,7 +102,7 @@ function CustomerContractList() {
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
                 <p className='text-white py-2 font-Regular'>Dealer P.O. No. : <b> MC-10554 </b></p>
               </div>
-              <div className='col-span-2 '>
+              <div className='col-span-1 '>
               </div>
               <div className='col-span-1 self-center justify-end'>
               {/* <Link to={'/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link> */}
@@ -185,8 +185,8 @@ function CustomerContractList() {
 
           <div>
           <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
-              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
-                <p className='text-white py-2 font-Regular'>Contract ID :  <b> 861910 </b></p>
+              <div className='col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
+                <p className='text-white py-2 font-Regular'>Contract ID :  <b> CI-2024-1000 </b></p>
               </div>
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
                 <p className='text-white py-2 font-Regular'>Order ID : <b> 315174  </b></p>
@@ -194,7 +194,7 @@ function CustomerContractList() {
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
                 <p className='text-white py-2 font-Regular'>Dealer P.O. No. : <b> MC-10554 </b></p>
               </div>
-              <div className='col-span-2 '>
+              <div className='col-span-1 '>
               </div>
               <div className='col-span-1 self-center justify-end'>
               {/* <Link to={'/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link> */}
@@ -276,8 +276,8 @@ function CustomerContractList() {
 
           <div>
           <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
-              <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
-                <p className='text-white py-2 font-Regular'>Contract ID :  <b> 861910 </b></p>
+              <div className='col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
+                <p className='text-white py-2 font-Regular'>Contract ID :  <b> CI-2024-1000 </b></p>
               </div>
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
                 <p className='text-white py-2 font-Regular'>Order ID : <b> 315174  </b></p>
@@ -285,7 +285,7 @@ function CustomerContractList() {
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat '>
                 <p className='text-white py-2 font-Regular'>Dealer P.O. No. : <b> MC-10554 </b></p>
               </div>
-              <div className='col-span-2 '>
+              <div className='col-span-1 '>
               </div>
               <div className='col-span-1 self-center justify-end'>
               {/* <Link to={'/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link> */}

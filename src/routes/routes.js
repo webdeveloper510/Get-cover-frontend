@@ -99,6 +99,8 @@ import CustomerOrderList from "../pages/Customer-screens/Order/orderList";
 import CustomerAddOrder from "../pages/Customer-screens/Order/addOrder";
 import CustomerOrderDetails from "../pages/Customer-screens/Order/order-details";
 import CustomerAddDealerBook from "../pages/Dealer-screens/Price-Book/addDealerBook";
+import ResellerOrderDetails from "../pages/Reseller-screens/Order/order-details";
+import DealerOrderDetails from "../pages/Dealer-screens/Order/order-details";
 
 const routes = [
   {
@@ -387,6 +389,15 @@ const routes = [
       // Dealer Routs ---------------------------------------------------------------
 
       {
+        path: "/dealer/orderDetails",
+        element: (
+          <PrivateRoute
+            element={<DealerOrderDetails />}
+            path="/dealer/orderDetails"
+          />
+        ),
+      },
+      {
         path: "/dealer/dashboard",
         element: (
           <PrivateRoute
@@ -497,14 +508,6 @@ const routes = [
           <PrivateRoute
             element={<DealerServicerDetails />}
             path="/dealer/servicerDetails"
-          />
-        ),
-      },
-      {
-        path: "/dealer/customerDetails/:customerId",
-        element: (
-          <PrivateRoute
-            element={<DealerCustomerDetails />}
           />
         ),
       },
@@ -787,6 +790,15 @@ const routes = [
           />
         ),
       },
+      {
+        path: "/reseller/orderDetails",
+        element: (
+          <PrivateRoute
+            element={<ResellerOrderDetails />}
+            path="/reseller/orderDetails"
+          />
+        ),
+      },
 
        // Customer Routs ---------------------------------------------------------------
 
@@ -867,11 +879,11 @@ const routes = [
         ),
       },
       {
-        path: "/customer/orderDetails/:orderId",
+        path: "/customer/orderDetails",
         element: (
           <PrivateRoute
             element={<CustomerOrderDetails />}
-            path="/customer/orderDetails/:orderId"
+            path="/customer/orderDetails"
           />
         ),
       },
