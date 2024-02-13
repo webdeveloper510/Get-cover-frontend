@@ -581,6 +581,7 @@ function ResellerCustomerDetails() {
               </div>
               <div className="col-span-4"></div>
               <div className="col-span-2">
+              {activeTab !== "Contracts" ? ( 
                 <Button
                   className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
                   onClick={() => routeToPage(activeTab)}
@@ -594,7 +595,7 @@ function ResellerCustomerDetails() {
                   <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
                     Add {activeTab}
                   </span>{" "}
-                </Button>
+                </Button> ) : (<></>)}
               </div>
             </Grid>
 

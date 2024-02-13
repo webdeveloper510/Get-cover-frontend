@@ -603,6 +603,7 @@ function CustomerDetails() {
               </div>
               <div className="col-span-4"></div>
               <div className="col-span-2">
+                 {activeTab !== "Contracts" ? (
                 <Button
                   className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
                   onClick={() => routeToPage(activeTab)}
@@ -617,6 +618,7 @@ function CustomerDetails() {
                     Add {activeTab}
                   </span>{" "}
                 </Button>
+                 ) :(<></>)}
               </div>
             </Grid>
 
