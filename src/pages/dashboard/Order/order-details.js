@@ -20,7 +20,10 @@ import { cityData } from "../../../stateCityJson";
 import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
-import { orderDetailsById } from "../../../services/orderServices";
+import {
+  getContracts,
+  orderDetailsById,
+} from "../../../services/orderServices";
 import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
 
@@ -29,6 +32,8 @@ function OrderDetails() {
   const [loading1, setLoading1] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
   const [userDetails, setUserDetails] = useState({});
+  const [invoiceData, setInvoiceData] = useState({});
+  const [contractDetails, setContractDetails] = useState();
   const { orderId } = useParams();
   const navigate = useNavigate();
   const getInitialActiveTab = () => {
@@ -41,6 +46,7 @@ function OrderDetails() {
 
   useEffect(() => {
     getOrderDetails();
+    getOrdersContracts();
   }, [orderId]);
   useEffect(() => {
     setLoading(true);
@@ -53,11 +59,24 @@ function OrderDetails() {
     const result = await orderDetailsById(orderId);
     setUserDetails(result.orderUserData);
     setOrderDetails(result.result);
-    console.log(result);
+    let data = {
+      dealerName: result.orderUserData.dealerData,
+      customerName: result.orderUserData.customerData,
+      resellerName: result.orderUserData.resellerData,
+      totalOrderAmount: result.result.orderAmount,
+      ...result.result,
+    };
+    setInvoiceData(data);
+    console.log(data);
     setLoading1(false);
   };
   const handleGOBack = () => {
     navigate(-1);
+  };
+  const getOrdersContracts = async () => {
+    const result = await getContracts(orderId);
+    setContractDetails(result);
+    console.log(result);
   };
   const tabs = [
     {
@@ -287,30 +306,22 @@ function OrderDetails() {
               </div>
               <Grid className="!py-5">
                 <div className="col-span-5">
-                <Button className="!bg-white !text-light-black !text-sm border flex">
-                                <img
-                                  src={Csv}
-                                  className="mr-3 self-center"
-                                  alt="Csv"
-                                />{" "}
-                                <span className="self-center">
-                                  {" "}
-                                  <PdfGenerator/>
-                                </span>
-                              </Button>
+                  <Button className="!bg-white !text-light-black !text-sm border flex">
+                    <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "}
+                    <span className="self-center">
+                      {" "}
+                      <PdfGenerator data={invoiceData} />
+                    </span>
+                  </Button>
                 </div>
                 <div className="col-span-7">
-                <Button className="!bg-white !text-light-black !text-sm border flex">
-                                <img
-                                  src={Csv}
-                                  className="mr-3 self-center"
-                                  alt="Csv"
-                                />{" "}
-                                <span className="self-center">
-                                  {" "}
-                                 <PdfMake/>
-                                </span>
-                              </Button>
+                  <Button className="!bg-white !text-light-black !text-sm border flex">
+                    <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "}
+                    <span className="self-center">
+                      {" "}
+                      <PdfMake data={contractDetails} />
+                    </span>
+                  </Button>
                 </div>
               </Grid>
             </div>

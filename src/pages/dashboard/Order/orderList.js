@@ -26,8 +26,6 @@ import Cross from "../../../assets/images/Cross.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import PdfGenerator from "../../pdfViewer";
-import OpenPdfFile from "../../pdfViewer";
-import OpenPdf from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
 
 function OrderList() {
@@ -56,14 +54,7 @@ function OrderList() {
     SetOrderId(id);
     setIsArchiveOpen(true);
   };
-  const childRef = useRef();
-  const openPdf = () => {
-    // return (
-    //   <PDFViewer>
-    //     <pdfViewer/>
-    //   </PDFViewer>
-    // );
-  };
+
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
@@ -296,11 +287,8 @@ function OrderList() {
                       Mark as Paid
                     </div>
                     <>
-                      <div
-                        className="text-center py-1 border-b cursor-pointer"
-                       
-                      >
-                        <PdfGenerator />
+                      <div className="text-center py-1 border-b cursor-pointer">
+                        <PdfGenerator data={row} />
                       </div>
                     </>
                     <div
@@ -312,22 +300,17 @@ function OrderList() {
                   </>
                 ) : (
                   <>
-                  <Link
-                    to={`/orderDetails/${row._id}`}
-                    className="text-center py-1 cursor-pointer border-b w-full flex justify-center"
-                  >
-                    View
-                  </Link>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                     
+                    <Link
+                      to={`/orderDetails/${row._id}`}
+                      className="text-center py-1 cursor-pointer border-b w-full flex justify-center"
                     >
-                      <PdfGenerator />
+                      View
+                    </Link>
+                    <div className="text-center py-1 border-b cursor-pointer">
+                      <PdfGenerator data={row} />
                     </div>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                    >
-                      <PdfMake/>
+                    <div className="text-center py-1 border-b cursor-pointer">
+                      <PdfMake />
                     </div>
                     <Link
                       to={`/orderDetails/${row._id}`}

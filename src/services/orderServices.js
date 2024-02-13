@@ -32,6 +32,19 @@ export const getOrders = async (data) => {
     throw error;
   }
 };
+export const getContracts = async (id) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.get(`${url}/order/getOrderContract/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const getArchiveOrders = async (data) => {
   const headers = createHeaders();
   console.log(headers);

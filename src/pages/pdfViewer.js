@@ -1,23 +1,22 @@
-import React from 'react';
-import html2pdf from 'html2pdf.js';
-import logo from '../assets/images/logo.png'
+import React from "react";
+import html2pdf from "html2pdf.js";
+import logo from "../assets/images/logo.png";
+import { format } from "date-fns";
 function PdfGenerator(props) {
-
- const convertToPDF = () => {
+  console.log(props.data);
+  const convertToPDF = () => {
     const opt = {
-      margin:       0,
-      filename:     'invoice.pdf',
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2 },
-      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      margin: 0,
+      filename: "invoice.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
 
     html2pdf().from(generateHTML()).set(opt).save();
-  }
+  };
 
-
-
- const generateHTML = () => {
+  const generateHTML = () => {
     return `
       <div style="max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
@@ -38,15 +37,22 @@ function PdfGenerator(props) {
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Date:</b></td>
-                                    <td style="border: none; padding: 4px;">20/06/2024</td>
+                                    <td style="border: none; padding: 4px;">${format(
+                                      new Date(),
+                                      "MM-dd-yyyy"
+                                    )}</td>
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Number:</b></td>
-                                    <td style="border: none; padding: 4px;"> CI-2024-10000</td>
+                                    <td style="border: none; padding: 4px;"> ${
+                                      props?.data?.unique_key
+                                    }</td>
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
-                                    <td style="border: none; padding: 4px;">$250.00</td>
+                                    <td style="border: none; padding: 4px;">$ ${
+                                      props?.data?.totalOrderAmount
+                                    }</td>
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;">Currency Type:</td>
@@ -63,18 +69,30 @@ function PdfGenerator(props) {
                 <tr>
                     <td style="text-align: left; width: 50%;">
                         <h4 style="margin: 0; padding: 0;"><b>Dealer Details: </b></h4>
-                        <h4 style="margin: 0; padding: 0;"><b> Vertex Leadership </b></h4>
-                        <small style="margin: 0; padding: 0;">Bill To: Vertex Leadership Group 2528 Ave Germantown, Tennessee 38139 <br/>
+                        <h4 style="margin: 0; padding: 0;"><b> ${
+                          props.data?.dealerName?.name
+                        } </b></h4>
+                        <small style="margin: 0; padding: 0;">Bill To: ${
+                          props.data?.dealerName?.street
+                        } ${props.data?.dealerName?.city} ,${
+      props.data?.dealerName?.state
+    } ${props.data?.dealerName?.zip} <br/>
                             Amanda Foley | afoley@vertexlg.com <br/>
                             </small>
                     </td>
                     <td style="text-align: left; width: 50%;">
-                        <h4 style="margin: 0; padding: 0;"><b>Reseller Details:</b></h4>
-                        <h4 style="margin: 0; padding: 0;"><b> Vertex Leadership </b></h4>
-                        <small style="margin: 0; padding: 0;">Bill To: Vertex Leadership Group 2528 Ave Germantown, Tennessee 38139 <br/>
-                            Amanda Foley | afoley@vertexlg.com 
-                            </small>
-                    </td>
+                    <h4 style="margin: 0; padding: 0;"><b>Reseller Details:</b></h4>
+                    <h4 style="margin: 0; padding: 0;"><b>${
+                      props?.data?.resellerName?.name ?? ""
+                    }</b></h4>
+                    <small style="margin: 0; padding: 0;">Bill To:
+                      ${props?.data?.resellerName?.street ?? ""} 
+                      ${props?.data?.resellerName?.city ?? ""}, 
+                      ${props?.data?.resellerName?.state ?? ""} 
+                      ${props?.data?.resellerName?.zip ?? ""} <br/>
+                      Amanda Foley | afoley@vertexlg.com 
+                    </small>
+                  </td>
                 </tr>
             </tbody>
         </table>
@@ -82,53 +100,72 @@ function PdfGenerator(props) {
         <tbody>
             <tr>
             <td colspan="2">
-        <h4 style="margin: 0; padding: 0;"><b> Customer : </b> Bergen Science Charter High School </h4>
-        <p><b>Purchase Order:</b> 215_002</p>
+        <h4 style="margin: 0; padding: 0;"><b> Customer : </b> ${
+          props?.data?.customerName?.username
+            ? props?.data?.customerName?.username
+            : ""
+        } </h4>
+        <p><b>Purchase Order:</b> ${props.data.venderOrder}</p>
         </td>
         </tr>
         </tbody>
         </table>
         <table style="width: 100%; border-collapse: collapse;">
         <thead style="background-color: #f4f4f4; text-align: left;">
-            <tr>
-                <th style="border-bottom: 1px solid #ddd; padding: 8px;">S.no.</th>
-                <th style="border-bottom: 1px solid #ddd; padding: 8px;">Product Warranty Details</th>
-                <th style="border-bottom: 1px solid #ddd; padding: 8px;">Qty</th>
-                <th style="border-bottom: 1px solid #ddd; padding: 8px;">Unit Price</th>
-                <th style="border-bottom: 1px solid #ddd; padding: 8px;">Total</th>
-            </tr>
+          <tr>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">S.no.</th>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">Product Warranty Details</th>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">Qty</th>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">Unit Price</th>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">Total</th>
+          </tr>
         </thead>
         <tbody>
-            <tr>
-                <td style="border-bottom: 1px solid #ddd; padding: 8px;">1</td>
-                <td style="border-bottom: 1px solid #ddd; padding: 8px;">Product</td>
-                <td style="border-bottom: 1px solid #ddd; padding: 8px;">10</td>
-                <td style="border-bottom: 1px solid #ddd; padding: 8px;">$50.00</td>
-                <td style="border-bottom: 1px solid #ddd; padding: 8px;">$100.00</td>
+          ${props?.data?.productsArray
+            ?.map(
+              (product, index) => `
+            <tr key="${index}">
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
+                index + 1
+              }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
+                product.description
+              }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
+                product.noOfProducts
+              }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.unitPrice.toFixed(
+                2
+              )}</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.price.toFixed(
+                2
+              )}</td>
             </tr>
-            <tr>
-                <td style="border-bottom: 1px solid #ddd; padding: 8px;">2</td>
-                <td style="border-bottom: 1px solid #ddd; padding: 8px;">Product</td>
-                <td style="border-bottom: 1px solid #ddd; padding: 8px;">10</td>
-                <td style="border-bottom: 1px solid #ddd; padding: 8px;">$75.00</td>
-                <td style="border-bottom: 1px solid #ddd; padding: 8px;">$150.00</td>
-            </tr>
+          `
+            )
+            .join("")}
         </tbody>
         <tfoot>
-            <tr>
-                <td colspan="4" style="font-weight: bold; padding: 8px; text-align: right;">Total:</td>
-                <td style="font-weight: bold; padding: 8px;">$250.00</td>
-            </tr>
+          <tr>
+            <td colspan="4" style="font-weight: bold; padding: 8px; text-align: right;">Total:</td>
+            <td style="font-weight: bold; padding: 8px;">$${props?.data?.productsArray
+              .reduce(
+                (total, product) =>
+                  total + product.noOfProducts * product.unitPrice,
+                0
+              )
+              .toFixed(2)}</td>
+          </tr>
         </tfoot>
-    </table>
+      </table>
       </div>
     `;
-  }
+  };
 
-    return (
-      <div>
-        <button onClick={convertToPDF}>Invoice</button>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <button onClick={convertToPDF}>Invoice</button>
+    </div>
+  );
+}
 export default PdfGenerator;
