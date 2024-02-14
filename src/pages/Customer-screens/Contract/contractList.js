@@ -134,22 +134,13 @@ function CustomerContractList() {
                   <p className='text-[#333333] text-base font-semibold'>$182</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
+              <div className='col-span-1 border border-[#D1D1D1] '>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Condition</p>
                   <p className='text-[#333333] text-base font-semibold'>Used</p>
                 </div>
               </div>
-             
-              <div className='col-span-1 border border-[#D1D1D1]'>
-                
-                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
-                </div>
-              </div>
-             
-              <div className='col-span-1 border border-[#D1D1D1] '>
+              <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Coverage Start Date</p>
                   <p className='text-[#333333] text-base font-semibold'>11/29/2026</p>
@@ -173,13 +164,12 @@ function CustomerContractList() {
                   <p className='text-[#333333] text-base font-semibold'>Waiting</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
+              <div className='col-span-1 border border-[#D1D1D1] rounded-ee-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Eligibility</p>
                   <p className='text-[#333333] text-base font-semibold'>Not Eligible</p>
                 </div>
               </div>
-              <div className='col-span-4 border border-[#D1D1D1] rounded-ee-xl'></div>
             </Grid>
           </div>
 
@@ -226,21 +216,13 @@ function CustomerContractList() {
                   <p className='text-[#333333] text-base font-semibold'>$182</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
+              <div className='col-span-1 border border-[#D1D1D1] '>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Condition</p>
                   <p className='text-[#333333] text-base font-semibold'>Used</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
-                
-                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
-                </div>
-              </div>
-             
-              <div className='col-span-1 border border-[#D1D1D1] '>
+              <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Coverage Start Date</p>
                   <p className='text-[#333333] text-base font-semibold'>11/29/2026</p>
@@ -258,19 +240,18 @@ function CustomerContractList() {
                   <p className='text-[#333333] text-base font-semibold'>$0.00</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
+              <div className='col-span-1 border border-[#D1D1D1] '>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Status</p>
                   <p className='text-[#333333] text-base font-semibold'>Waiting</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
+              <div className='col-span-1 border border-[#D1D1D1] rounded-ee-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Eligibility</p>
                   <p className='text-[#333333] text-base font-semibold'>Not Eligible</p>
                 </div>
               </div>
-              <div className='col-span-4 border border-[#D1D1D1] rounded-ee-xl'></div>
             </Grid>
           </div>
 
@@ -317,21 +298,13 @@ function CustomerContractList() {
                   <p className='text-[#333333] text-base font-semibold'>$182</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
+              <div className='col-span-1 border border-[#D1D1D1] '>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Condition</p>
                   <p className='text-[#333333] text-base font-semibold'>Used</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
-                
-                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
-                </div>
-              </div>
-             
-              <div className='col-span-1 border border-[#D1D1D1] '>
+              <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Coverage Start Date</p>
                   <p className='text-[#333333] text-base font-semibold'>11/29/2026</p>
@@ -349,19 +322,18 @@ function CustomerContractList() {
                   <p className='text-[#333333] text-base font-semibold'>$0.00</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
+              <div className='col-span-1 border border-[#D1D1D1] '>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Status</p>
                   <p className='text-[#333333] text-base font-semibold'>Waiting</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
+              <div className='col-span-1 border border-[#D1D1D1] rounded-ee-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Eligibility</p>
                   <p className='text-[#333333] text-base font-semibold'>Not Eligible</p>
                 </div>
               </div>
-              <div className='col-span-4 border border-[#D1D1D1] rounded-ee-xl'></div>
             </Grid>
           </div>
 
@@ -404,15 +376,7 @@ function CustomerContractList() {
                         label="Product Name"
                         placeholder="" />
             </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                         name="Servicer Name"
-                        className="!bg-[#fff]"
-                        label="Servicer Name"
-                        placeholder="" />
-            </div>
-          
-            <div className='col-span-6'>
+            <div className='col-span-12'>
             <Select
                         name="Status"
                         label="Status"

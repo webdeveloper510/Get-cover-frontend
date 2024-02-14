@@ -28,7 +28,7 @@ function CustomerOrderDetails() {
   const [loading, setLoading] = useState(false);
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("orderMenu");
-    return storedTab ? storedTab : "Order Summary";
+    return storedTab ? storedTab : "Contracts";
   };
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
@@ -43,13 +43,6 @@ function CustomerOrderDetails() {
 
 
   const tabs = [
-    {
-      id: "Order Summary",
-      label: "Order Summary",
-      icons: orderSummary,
-      Activeicons: orderActive,
-      content: <OrderSummary />,
-    },
     {
       id: "Contracts",
       label: "Contracts",
@@ -167,147 +160,13 @@ function CustomerOrderDetails() {
                   </p>
                 </div>
               </div>
-              <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-[#999999] font-Regular">
-                Other Details
-                </p>
-                <hr className="self-center border-[#999999] w-[70%]" />
-              </div>
-              {/* <div className="flex mb-4">
-                <div className="relative">
-                  <img
-                    src={Name}
-                    className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="Name"
-                  />
-                  <Link to={`/dealerDetails/vscjhc`}>
-                    {" "}
-                    <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
-                </div>
-                <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
-                    Dealer Name
-                  </p>
-                  <p className="text-base text-white font-semibold ">
-                  Edward Wilson
-                  </p>
-                </div>
-              </div> */}
-              <div className="flex mb-4">
-                <div className="relative">
-                  <img
-                    src={Name}
-                    className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="Name"
-                  />
-                  <Link to={`/resellerDetails/65ba33dc5c701216d9b76220`}>
-                    {" "}
-                    <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
-                </div>
-                <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
-                    Reseller Name
-                  </p>
-                  <p className="text-base text-white font-semibold ">
-                  Edward Wilson
-                  </p>
-                </div>
-              </div>
-              <div className="flex mb-4">
-                <div className="relative">
-                  <img
-                    src={Name}
-                    className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="Name"
-                  />
-                  <Link to={`/customerDetails/fgfgh`}>
-                    {" "}
-                    <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
-                </div>
-                <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
-                  Customer Name
-                  </p>
-                  <p className="text-base text-white font-semibold ">
-                  Ankush Grover
-                  </p>
-                </div>
-              </div>
-              <div className="flex mb-4">
-                <div className="relative">
-                  <img
-                    src={Name}
-                    className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="Name"
-                  />
-                  <Link to={`/servicerDetails/sgdfg`}>
-                    {" "}
-                    <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
-                </div>
-                <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
-                  Servicer Name
-                  </p>
-                  <p className="text-base text-white font-semibold ">
-                  Jameson Wills
-                  </p>
-                </div>
-              </div>
-              <Grid className="!py-5">
-                <div className="col-span-5">
-                <Button className="!bg-white !text-light-black !text-sm border flex">
-                                <img
-                                  src={Csv}
-                                  className="mr-3 self-center"
-                                  alt="Csv"
-                                />{" "}
-                                <span className="self-center">
-                                  {" "}
-                                  <PdfGenerator/>
-                                </span>
-                              </Button>
-                </div>
-                <div className="col-span-7">
-                <Button className="!bg-white !text-light-black !text-sm border flex">
-                                <img
-                                  src={Csv}
-                                  className="mr-3 self-center"
-                                  alt="Csv"
-                                />{" "}
-                                <span className="self-center">
-                                  {" "}
-                                  <PdfMake/>
-                                </span>
-                              </Button>
-                </div>
-              </Grid>
             </div>
           </div>
           <div className="col-span-3">
             <Grid className="!mt-5">
               <div className="col-span-4">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-2 !gap-1">
+                  <Grid className="!grid-cols-1 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button

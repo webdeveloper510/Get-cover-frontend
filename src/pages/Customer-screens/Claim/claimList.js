@@ -32,6 +32,7 @@ function CustomerClaimList() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null);
 
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
@@ -170,7 +171,7 @@ function CustomerClaimList() {
 
           <div className=' px-3 mt-5'>
 
-            <CollapsibleDiv title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
+            <CollapsibleDiv index={1} activeIndex={activeIndex} setActiveIndex={setActiveIndex}  title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
                 <div className='col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5'>
                   <p className='font-semibold leading-5 text-lg'> 861910  </p>
                   <p className='text-[#A3A3A3]'>Claim ID</p>
@@ -185,7 +186,7 @@ function CustomerClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
+                 {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -220,7 +221,7 @@ function CustomerClaimList() {
           </Grid> </>}>
 
               
-              <Grid className='!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x'>
+          <Grid className='!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x'>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
@@ -326,7 +327,7 @@ function CustomerClaimList() {
                     <div className='col-span-3 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C] '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
@@ -335,15 +336,22 @@ function CustomerClaimList() {
                         </div>
                       </div>
                     </div>
-                    <div className='col-span-2 self-center'>
-                     <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div> 
+                    <div className='col-span-2 self-center h-full p-3 pl-0'>
+                      {/* <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div>  */}
+                      <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
+                        <div className='self-center'>
+                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
+                          <p className='text-sm font-semibold text-center'>Download <br/>
+                             Attachments</p>
+                        </div>
+                      </div>
                     </div>
                   </Grid>
                 </div>
               </Grid>
             </CollapsibleDiv>
 
-            <CollapsibleDiv title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
+            <CollapsibleDiv index={2} activeIndex={activeIndex} setActiveIndex={setActiveIndex} title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
                 <div className='col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5'>
                   <p className='font-semibold leading-5 text-lg'> 861910  </p>
                   <p className='text-[#A3A3A3]'>Claim ID</p>
@@ -358,7 +366,7 @@ function CustomerClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
+                 {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -393,7 +401,7 @@ function CustomerClaimList() {
           </Grid> </>}>
 
               
-              <Grid className='!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x'>
+          <Grid className='!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x'>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
@@ -455,15 +463,6 @@ function CustomerClaimList() {
                   <Grid className=''>
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <Select 
-                          name="state"
-                          options={state}
-                          placeholder=""
-                          className=""
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
-                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -506,9 +505,9 @@ function CustomerClaimList() {
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
-                      <div className='m-2 p-2 bg-[#3C3C3C]'>
+                      <div className='m-2 p-2 bg-[#3C3C3C] '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
@@ -517,15 +516,22 @@ function CustomerClaimList() {
                         </div>
                       </div>
                     </div>
-                    <div className='col-span-2 self-center'>
-                      <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div> 
+                    <div className='col-span-2 self-center h-full p-3 pl-0'>
+                      {/* <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div>  */}
+                      <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
+                        <div className='self-center'>
+                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
+                          <p className='text-sm font-semibold text-center'>Download <br/>
+                             Attachments</p>
+                        </div>
+                      </div>
                     </div>
                   </Grid>
                 </div>
               </Grid>
             </CollapsibleDiv>
 
-            <CollapsibleDiv title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
+            <CollapsibleDiv index={3} activeIndex={activeIndex} setActiveIndex={setActiveIndex} title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
                 <div className='col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5'>
                   <p className='font-semibold leading-5 text-lg'> 861910  </p>
                   <p className='text-[#A3A3A3]'>Claim ID</p>
@@ -540,7 +546,7 @@ function CustomerClaimList() {
                 </div>
                 <div className='col-span-3 self-center justify-center flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
+                 {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
                 </div>
               </Grid>
             <Grid className='!gap-0 bg-[#F9F9F9] border-[#474747] border-x'>
@@ -575,7 +581,7 @@ function CustomerClaimList() {
           </Grid> </>}>
 
               
-              <Grid className='!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x'>
+          <Grid className='!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x'>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
@@ -637,15 +643,6 @@ function CustomerClaimList() {
                   <Grid className=''>
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <Select 
-                          name="state"
-                          options={state}
-                          placeholder=""
-                          className=""
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
-                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -688,9 +685,9 @@ function CustomerClaimList() {
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
-                      <div className='m-2 p-2 bg-[#3C3C3C]'>
+                      <div className='m-2 p-2 bg-[#3C3C3C] '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll'>
+                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
@@ -699,8 +696,15 @@ function CustomerClaimList() {
                         </div>
                       </div>
                     </div>
-                    <div className='col-span-2 self-center'>
-                      <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div> 
+                    <div className='col-span-2 self-center h-full p-3 pl-0'>
+                      {/* <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div>  */}
+                      <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
+                        <div className='self-center'>
+                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
+                          <p className='text-sm font-semibold text-center'>Download <br/>
+                             Attachments</p>
+                        </div>
+                      </div>
                     </div>
                   </Grid>
                 </div>
@@ -1067,21 +1071,6 @@ function CustomerClaimList() {
                 label="Product Name"
                 placeholder="" />
             </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                    name="Customer Name"
-                  className="!bg-[#fff]"
-                  label="Customer Name"
-                  placeholder="" />
-            </div>
-            <div className='col-span-6'>
-               <Input type='text' 
-                  name="Servicer Name"
-                className="!bg-[#fff]"
-                label="Servicer Name"
-                placeholder="" />
-            </div>
-           
             <div className='col-span-6'>
             <Select
                 name="Status"

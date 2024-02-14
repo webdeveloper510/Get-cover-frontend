@@ -770,23 +770,11 @@ function SideBar() {
       active: ActiveDashboard,
     },
     {
-      name: "Order",
+      name: "Order List",
       image: OrderImage,
       active: ActiveOrder,
-      items: [
-        {
-          name: "Order List",
-          url: "/customer/orderList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Add Order",
-          url: "/customer/addOrder",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
+      url: "/customer/orderList",
+         
     },
     {
       name: "Contract",

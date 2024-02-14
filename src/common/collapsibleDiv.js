@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import Delete from '../assets/images/icons/deleteIcons.svg';
 import Add from '../assets/images/icons/addIcon.svg';
 
-const CollapsibleDiv = ({ title, children }) => {
+const CollapsibleDiv = ({ title, children, index, activeIndex, setActiveIndex }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const contentRef = useRef(null);
 
   const handleToggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
+    setActiveIndex(isCollapsed ? index : null);
   };
 
   useEffect(() => {
@@ -16,6 +17,13 @@ const CollapsibleDiv = ({ title, children }) => {
       contentRef.current.style.maxHeight = isCollapsed ? '0px' : `${contentRef.current.scrollHeight}px`;
     }
   }, [isCollapsed]);
+
+  useEffect(() => {
+    // Close the current element if its index doesn't match the activeIndex
+    if (index !== activeIndex) {
+      setIsCollapsed(true);
+    }
+  }, [index, activeIndex]);
 
   return (
     <div className="mt-8">

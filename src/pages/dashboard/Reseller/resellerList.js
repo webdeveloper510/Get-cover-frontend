@@ -51,7 +51,6 @@ function ResellerList() {
   };
   const getDealerList = async () => {
     let DealerArray = [];
-    setLoading(true);
     const result = await getDealersList();
     console.log(result, "jjjjj");
     const Dealer = result?.data?.map((data) => {
@@ -62,7 +61,6 @@ function ResellerList() {
       DealerArray.push(datadealer);
     });
     setDealerList(DealerArray);
-    setLoading(false);
   };
 
   const formik = useFormik({

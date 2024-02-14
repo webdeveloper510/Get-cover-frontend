@@ -172,12 +172,12 @@ function CustomerOrderList() {
       minWidth: "180px",
     },
     {
-      name: "Dealer",
+      name: "Dealer Name",
       selector: (row) => row.name,
       sortable: true,
     },
     {
-      name: "Customer",
+      name: "Reseller Name",
       selector: (row) => row.name,
       sortable: true,
     },
@@ -186,24 +186,6 @@ function CustomerOrderList() {
       selector: (row) => (row?.order == null ? 0 : row.order),
       sortable: true,
       minWidth: "150px",
-    },
-    {
-      name: "Order Value",
-      selector: (row) => `$ 100.00`,
-      sortable: true,
-      minWidth: "150px",
-    },
-    {
-      name: "Status",
-      cell: (row) => (
-        <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
-          <div
-            className={` bg-[#6BD133] h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
-          ></div>
-          <p className="self-center"> Active </p>
-        </div>
-      ),
-      sortable: true,
     },
     {
       name: "Action",
@@ -231,65 +213,13 @@ function CustomerOrderList() {
               className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md bottom-1`}
             >
               {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-              {row.status == "Pending" ? (
-                <>
-                <div
-                    className="text-center py-1 border-b cursor-pointer"
-                    onClick={() => navigate(`/reseller/editOrder/${row._id}`)}
-                  >
-                    Edit
-                  </div>
-                  <div
-                    className="text-center py-1 border-b cursor-pointer"
-                    onClick={() => openModal(row._id)}
-                  >
-                    Process Order
-                  </div>
-                  <div
-                    className="text-center py-1 border-b cursor-pointer"
-                    onClick={() => openModal(row._id)}
-                  >
-                    Mark as Paid
-                  </div>
-                  <div
-                    className="text-center py-1 border-b cursor-pointer"
-                    onClick={() => openModal(row._id)}
-                  >
-                    Invoice 
-                  </div>
-                  <div
-                    className="text-center py-1 border-b cursor-pointer"
-                    onClick={() => openModal(row._id)}
-                  >
-                    Export Order
-                  </div>
-                  <div
-                    className="text-center py-1 cursor-pointer"
-                    onClick={() => openArchive(row._id)}
-                  >
-                    Archive
-                  </div>
-                </>
-              ) : (
+              
                 <div className="text-center py-1 cursor-pointer">
-                  <Link to={'/customer/orderDetails'} className="text-center py-1 cursor-pointer border-b w-full flex justify-center"
+                  <Link to={'/customer/orderDetails'} className="text-center py-1 cursor-pointer w-full flex justify-center"
                 >
                   View
                 </Link>
-                  <div
-                    className="text-center py-1 border-b cursor-pointer"
-                    onClick={() => openModal(row._id)}
-                  >
-                    Invoice 
-                  </div>
-                  <div
-                    className="text-center py-1  cursor-pointer"
-                    onClick={() => openModal(row._id)}
-                  >
-                    Export Order
-                  </div>
                 </div>
-              )}
             </div>
             )}
           </div>
@@ -317,18 +247,6 @@ function CustomerOrderList() {
             </ul>
           </div>
         </div>
-
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-          {" "}
-          <Link to={"/addOrder"} className="flex">
-            {" "}
-            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-Regular">
-              {" "}
-              Add New Order{" "}
-            </span>{" "}
-          </Link>
-        </Button>
 
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">

@@ -37,29 +37,7 @@ function PdfMake(props) {
                             <tr>
                                 <td colspan="2" style="text-align: right; padding-right: 20px; padding-bottom: 40px;"> <b style="margin: 0; padding-bottom: 40px; font-size:30px">Export Order</b></td>
                             </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 4px;">Invoice Date:</td>
-                                     <td style="border: none; padding: 4px;">${format(
-                                       new Date(props?.data.result.orderDate),
-                                       "MM-dd-yyyy"
-                                     )}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 4px;"><b>Invoice Number:</b></td>
-                                        <td style="border: none; padding: 4px;"><b>  ${
-                                          props.data.result.unique_key
-                                        }</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
-                                        <td style="border: none; padding: 4px;"><b>$ ${
-                                          props.data.result.orderAmount
-                                        }</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 4px;">Currency Type:</td>
-                                        <td style="border: none; padding: 4px;">USD</td>
-                                    </tr>
+                                    
                                 </thead>
                             </table>
                         </td>
@@ -76,10 +54,9 @@ function PdfMake(props) {
                             }</b></h4>
                             <small style="margin: 0; padding: 0;">Bill To:  ${
                               props.data?.orderUserData?.dealerData?.street
-                            } ${props.data?.orderUserData?.dealerData?.city} ,${
-      props.data?.orderUserData?.dealerData?.state
-    } ${props.data?.orderUserData?.dealerData?.zip} <br/>
-                                Amanda Foley | afoley@vertexlg.com <br/>
+                              } ${props.data?.orderUserData?.dealerData?.city} ,${
+                                props.data?.orderUserData?.dealerData?.state
+                              } ${props.data?.orderUserData?.dealerData?.zip} <br/>
                                 </small>
                         </td>
                         <td style="text-align: left; width: 50%;">

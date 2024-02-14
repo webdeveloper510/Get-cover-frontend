@@ -54,7 +54,6 @@ function CustomerList() {
   };
   const getDealerList = async () => {
     let DealerArray = [];
-    setLoading(true);
     const result = await getDealersList();
     console.log(result, "jjjjj");
     const Dealer = result.data.map((data) => {
@@ -65,7 +64,6 @@ function CustomerList() {
       DealerArray.push(datadealer);
     });
     setDealerList(DealerArray);
-    setLoading(false);
   };
 
   const formik = useFormik({

@@ -113,15 +113,6 @@ function CustomerAddClaim() {
                   </div>
                   <div className='col-span-4'>
                     <Input 
-                     label="Customer Name"
-                     name="CustomerName"
-                     placeholder=""
-                     className="!bg-white"
-                    //  required={true}
-                    />
-                  </div>
-                  <div className='col-span-4'>
-                    <Input 
                      label="Serial Number"
                      name="Serial"
                      placeholder=""
@@ -147,7 +138,7 @@ function CustomerAddClaim() {
                     //  required={true}
                     />
                   </div>
-                  <div className='col-span-4 self-end justify-end flex'>
+                  <div className='col-span-8 self-end justify-end flex'>
                     <Button >Search</Button>
                   </div>
                 </Grid>
@@ -157,8 +148,7 @@ function CustomerAddClaim() {
                   <thead className='bg-[#F9F9F9] '>
                     <tr className='py-2'>
                       <th>Contract ID</th>
-                      <th className='!py-2'>Customer Name</th>
-                      <th>Serial Number</th>
+                      <th className='!py-2'>Serial Number</th>
                       <th>Order #</th>
                       <th>Dealer P.O. #</th>
                       <th>Action</th>
@@ -168,7 +158,6 @@ function CustomerAddClaim() {
                   {Array.from({ length: 1 }).map((_, index) => (
                     <tr>
                       <td className='py-1'>Contract ID</td>
-                      <td>Customer Name</td>
                       <td>Serial Number</td>
                       <td>Order #</td>
                       <td>Dealer P.O. #</td>
@@ -211,12 +200,6 @@ function CustomerAddClaim() {
                 <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
                   <p className='text-sm m-0 p-0'>Dealer Name</p>
                   <p className='font-semibold'>Dealer Name</p>
-                </div>
-              </div>
-              <div className='col-span-1'>
-                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                  <p className='text-sm m-0 p-0'>Customer Name</p>
-                  <p className='font-semibold'>Customer Name</p>
                 </div>
               </div>
               <div className='col-span-1'>
@@ -441,17 +424,10 @@ function CustomerAddClaim() {
                   <p className='text-[#333333] text-base font-semibold'>$182</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
+              <div className='col-span-1 border border-[#D1D1D1] rounded-es-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Condition</p>
                   <p className='text-[#333333] text-base font-semibold'>Used</p>
-                </div>
-              </div>
-              <div className='col-span-1 border border-[#D1D1D1]'>
-                
-                 <div className='py-4 pl-3'>
-                  <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
                 </div>
               </div>
               <div className='col-span-1 border border-[#D1D1D1]'>
@@ -466,7 +442,7 @@ function CustomerAddClaim() {
                   <p className='text-[#333333] text-base font-semibold'>11/09/2026</p>
                 </div>
               </div>
-              <div className='col-span-1 border border-[#D1D1D1] rounded-ee-xl rounded-es-xl'>
+              <div className='col-span-1 border border-[#D1D1D1] rounded-ee-xl '>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Coverage End Date</p>
                   <p className='text-[#333333] text-base font-semibold'>09/11/2030</p>
