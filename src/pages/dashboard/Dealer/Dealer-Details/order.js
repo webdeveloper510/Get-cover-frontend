@@ -28,6 +28,7 @@ import {
   processOrders,
 } from "../../../../services/orderServices";
 import PdfMake from "../../../pdfMakeOrder";
+import PdfGenerator from "../../../pdfViewer";
 function OrderList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -258,11 +259,8 @@ function OrderList(props) {
                     >
                       Mark as Paid
                     </div>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
-                    >
-                      Invoice
+                    <div className="text-center py-1 border-b cursor-pointer">
+                      <PdfGenerator data={row} />
                     </div>
 
                     <div
@@ -274,14 +272,11 @@ function OrderList(props) {
                   </>
                 ) : (
                   <>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
-                    >
-                      Invoice
+                    <div className="text-center py-1 border-b cursor-pointer">
+                      <PdfGenerator data={row} />
                     </div>
                     <div className="text-center py-1 border-b cursor-pointer">
-                      <PdfMake data={contractDetails} />
+                      <PdfMake data={row} />
                     </div>
                     <Link
                       to={`/orderDetails/${row._id}`}

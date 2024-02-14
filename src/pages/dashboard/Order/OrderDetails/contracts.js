@@ -7,11 +7,27 @@ import Input from "../../../../common/input";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
+import { format, addMonths } from "date-fns";
 
 function Contracts(props) {
   const [showTooltip, setShowTooltip] = useState(false);
 
-  console.log(props);
+  const findDate = (data, type) => {
+    const product = props?.data?.result?.productsArray?.find(
+      (res) => res._id === data.orderProductId
+    );
+
+    if (product) {
+      return format(
+        new Date(
+          type === "start" ? product.coverageStartDate : product.coverageEndDate
+        ),
+        "MM-dd-yyyy"
+      );
+    }
+
+    return ""; // Return an empty string if no matching product is found
+  };
   return (
     <>
       <div className="my-8">
@@ -160,7 +176,7 @@ function Contracts(props) {
                           Coverage Start Date
                         </p>
                         <p className="text-[#333333] text-base font-semibold">
-                          11/09/2026
+                          {findDate(res, "start")}
                         </p>
                       </div>
                     </div>
@@ -170,7 +186,7 @@ function Contracts(props) {
                           Coverage End Date
                         </p>
                         <p className="text-[#333333] text-base font-semibold">
-                          09/11/2030
+                          {findDate(res, "end")}
                         </p>
                       </div>
                     </div>

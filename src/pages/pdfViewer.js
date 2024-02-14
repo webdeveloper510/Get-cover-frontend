@@ -75,22 +75,23 @@ function PdfGenerator(props) {
                         <small style="margin: 0; padding: 0;">Bill To: ${
                           props.data?.dealerName?.street
                         } ${props.data?.dealerName?.city} ,${
-                          props.data?.dealerName?.state
-                        } ${props.data?.dealerName?.zip}
+      props.data?.dealerName?.state
+    } ${props.data?.dealerName?.zip} <br/>
+                           
                             </small>
                     </td>
                     <td style="text-align: left; width: 50%;">
-                    ${props.data?.resellerName?.name ? `
-                        <h4 style="margin: 0; padding: 0;"><b>Reseller Details:</b></h4>
-                        <h4 style="margin: 0; padding: 0;"><b>${props.data?.resellerName?.name}</b></h4>
-                        <small style="margin: 0; padding: 0;">Bill To:
-                          ${props.data?.resellerName?.street ?? ""} 
-                          ${props.data?.resellerName?.city ?? ""}, 
-                          ${props.data?.resellerName?.state ?? ""} 
-                          ${props.data?.resellerName?.zip ?? ""} <br/>
-                        </small>` : ''
-                      }
-                   
+                    <h4 style="margin: 0; padding: 0;"><b>Reseller Details:</b></h4>
+                    <h4 style="margin: 0; padding: 0;"><b>${
+                      props?.data?.resellerName?.name ?? ""
+                    }</b></h4>
+                    <small style="margin: 0; padding: 0;">Bill To:
+                      ${props?.data?.resellerName?.street ?? ""} 
+                      ${props?.data?.resellerName?.city ?? ""}, 
+                      ${props?.data?.resellerName?.state ?? ""} 
+                      ${props?.data?.resellerName?.zip ?? ""} <br/>
+                     
+                    </small>
                   </td>
                 </tr>
             </tbody>
