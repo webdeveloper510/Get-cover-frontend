@@ -9,6 +9,7 @@ import Search from "../../../assets/images/icons/SearchIcon.svg";
 import unassign from "../../../assets/images/Unassign.png";
 import AddDealer from "../../../assets/images/Disapproved.png";
 import Headbar from "../../../common/headBar";
+import Edit from '../../../assets/images/Dealer/EditIcon.svg';
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -41,10 +42,12 @@ function OrderList() {
   const [errorList, SetErrorList] = useState([]);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const [data, setData] = useState(null);
   const navigate = useNavigate();
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
+  console.log (data, '======================================')
 
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
@@ -122,6 +125,7 @@ function OrderList() {
   });
 
   const openModal = (id) => {
+    setData(id)
     processOrders(id).then((res) => {
       setSelectedAction(null);
       setProcessOrderErrors(res.result);
@@ -469,6 +473,9 @@ function OrderList() {
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
+      <Button onClick={() => { navigate(`/editOrder/${data}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
+            </Button>
         <Button
           onClick={closeModal}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
