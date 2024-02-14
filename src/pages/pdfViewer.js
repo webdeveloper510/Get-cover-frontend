@@ -105,7 +105,7 @@ function PdfGenerator(props) {
             ? props?.data?.customerName?.username
             : ""
         } </h4>
-        <p><b>Purchase Order:</b> ${props.data.venderOrder}</p>
+        <p><b>Dealer Purchase Order #:</b> ${props.data.venderOrder}</p>
         </td>
         </tr>
         </tbody>
