@@ -172,7 +172,7 @@ function OrderList() {
     setLoading(false);
   };
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = 3 - index <= 1;
+    const isCloseToBottom = 1 - index <= 1;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
