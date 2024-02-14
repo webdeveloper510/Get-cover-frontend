@@ -24,8 +24,10 @@ import Primary from "../../../../assets/images/SetPrimary.png";
 import AddDealer from "../../../../assets/images/Disapproved.png";
 import {
   archiveOrders,
+  getContracts,
   processOrders,
 } from "../../../../services/orderServices";
+import PdfMake from "../../../pdfMakeOrder";
 function OrderList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -36,6 +38,7 @@ function OrderList(props) {
   const [processOrderErrors, setProcessOrderErrors] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [timer, setTimer] = useState(3);
+  const [contractDetails, setContractDetails] = useState();
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -54,6 +57,13 @@ function OrderList(props) {
       console.log(res.result);
     });
     setIsModalOpen(true);
+  };
+
+  const orderDetails = async (id) => {
+    const result = await getContracts(id);
+    console.log(result);
+    setContractDetails(result);
+    // setSelectedAction(null);
   };
 
   const closeModal = () => {
@@ -103,7 +113,7 @@ function OrderList(props) {
     if (props.activeTab === "Orders" || props.activeTab === "Order") {
       getOrderList();
     }
-  }, [props]);
+  }, [props?.flag]);
   const handleFilterIconClick = () => {
     formik.resetForm();
     getOrderList();
@@ -209,7 +219,12 @@ function OrderList(props) {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(row.unique_key)}>
+            <div
+              onClick={() => {
+                setSelectedAction(row.unique_key);
+                orderDetails(row._id);
+              }}
+            >
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
@@ -247,14 +262,9 @@ function OrderList(props) {
                       className="text-center py-1 border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      Invoice 
+                      Invoice
                     </div>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
-                    >
-                      Export Order
-                    </div>
+
                     <div
                       className="text-center py-1 cursor-pointer"
                       onClick={() => openArchive(row._id)}
@@ -268,21 +278,18 @@ function OrderList(props) {
                       className="text-center py-1 border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      Invoice 
+                      Invoice
                     </div>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
-                    >
-                      Export Order
+                    <div className="text-center py-1 border-b cursor-pointer">
+                      <PdfMake data={contractDetails} />
                     </div>
                     <Link
-                    to={`/orderDetails/${row._id}`}
-                    className="text-center py-1 cursor-pointer w-full flex justify-center"
-                  >
-                    View
-                  </Link></>
-                 
+                      to={`/orderDetails/${row._id}`}
+                      className="text-center py-1 cursor-pointer w-full flex justify-center"
+                    >
+                      View
+                    </Link>
+                  </>
                 )}
               </div>
             )}

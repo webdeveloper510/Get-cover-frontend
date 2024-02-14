@@ -41,7 +41,7 @@ function OrderDetails() {
     return storedTab ? storedTab : "Order Summary";
   };
   const id = useParams();
-  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const state = cityData;
 
   useEffect(() => {
@@ -91,7 +91,7 @@ function OrderDetails() {
       label: "Contracts",
       icons: contract,
       Activeicons: contractActive,
-      content: <Contracts />,
+      content: <Contracts data={contractDetails} />,
     },
   ];
 
