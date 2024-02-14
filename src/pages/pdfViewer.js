@@ -81,17 +81,19 @@ function PdfGenerator(props) {
                             </small>
                     </td>
                     <td style="text-align: left; width: 50%;">
-                    <h4 style="margin: 0; padding: 0;"><b>Reseller Details:</b></h4>
-                    <h4 style="margin: 0; padding: 0;"><b>${
-                      props?.data?.resellerName?.name ?? ""
-                    }</b></h4>
-                    <small style="margin: 0; padding: 0;">Bill To:
-                      ${props?.data?.resellerName?.street ?? ""} 
-                      ${props?.data?.resellerName?.city ?? ""}, 
-                      ${props?.data?.resellerName?.state ?? ""} 
-                      ${props?.data?.resellerName?.zip ?? ""} <br/>
-                      Amanda Foley | afoley@vertexlg.com 
-                    </small>
+                    ${props?.data?.resellerName?.name !== '' ? (
+                      `<h4 style="margin: 0; padding: 0;"><b>Reseller Details:</b></h4>
+                      <h4 style="margin: 0; padding: 0;"><b>${
+                        props?.data?.resellerName?.name ?? ""
+                      }</b></h4>
+                      <small style="margin: 0; padding: 0;">Bill To:
+                        ${props?.data?.resellerName?.street ?? ""} 
+                        ${props?.data?.resellerName?.city ?? ""}, 
+                        ${props?.data?.resellerName?.state ?? ""} 
+                        ${props?.data?.resellerName?.zip ?? ""} <br/>
+                      </small>`
+                    ) : ('')}
+                   
                   </td>
                 </tr>
             </tbody>

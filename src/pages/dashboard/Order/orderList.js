@@ -487,7 +487,7 @@ function OrderList() {
 
           <p className="text-neutral-grey text-base font-medium mt-2">
             Order can not be process to the following reasons : <br />
-            <span>{errorList}. </span>;
+            <span>{errorList} is missing . </span>
           </p>
         </div>
       </Modal>
