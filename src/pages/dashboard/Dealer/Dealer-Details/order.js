@@ -272,18 +272,19 @@ function OrderList(props) {
                   </>
                 ) : (
                   <>
-                    <div className="text-center py-1 border-b cursor-pointer">
-                      <PdfGenerator data={row} />
-                    </div>
-                    <div className="text-center py-1 border-b cursor-pointer">
-                      <PdfMake data={row} />
-                    </div>
-                    <Link
+                  <Link
                       to={`/orderDetails/${row._id}`}
-                      className="text-center py-1 cursor-pointer w-full flex justify-center"
+                      className="text-center py-1 cursor-pointer w-full flex  border-b justify-center"
                     >
                       View
                     </Link>
+                    <div className="text-center py-1 border-b cursor-pointer">
+                      <PdfGenerator data={row} />
+                    </div>
+                    <div className="text-center py-1 cursor-pointer">
+                      <PdfMake data={row} />
+                    </div>
+                    
                   </>
                 )}
               </div>

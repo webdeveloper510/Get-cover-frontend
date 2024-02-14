@@ -52,7 +52,7 @@ function PdfGenerator(props) {
                                     <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
                                     <td style="border: none; padding: 4px;">$ ${
                                       props?.data?.totalOrderAmount
-                                    }</td>
+                                    }.00</td>
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;">Currency Type:</td>
@@ -72,12 +72,9 @@ function PdfGenerator(props) {
                         <h4 style="margin: 0; padding: 0;"><b> ${
                           props.data?.dealerName?.name
                         } </b></h4>
-                        <small style="margin: 0; padding: 0;">Bill To: ${
-                          props.data?.dealerName?.street
-                        } ${props.data?.dealerName?.city} ,${
-      props.data?.dealerName?.state
-    } ${props.data?.dealerName?.zip} <br/>
-                           
+                        <small style="margin: 0; padding: 0;">Bill To: Name <br/>
+                           Address <br/>
+                           9874563210 | example@gmail.com
                             </small>
                     </td>
                     <td style="text-align: left; width: 50%;">
@@ -85,13 +82,10 @@ function PdfGenerator(props) {
                     <h4 style="margin: 0; padding: 0;"><b>${
                       props?.data?.resellerName?.name ?? ""
                     }</b></h4>
-                    <small style="margin: 0; padding: 0;">Bill To:
-                      ${props?.data?.resellerName?.street ?? ""} 
-                      ${props?.data?.resellerName?.city ?? ""}, 
-                      ${props?.data?.resellerName?.state ?? ""} 
-                      ${props?.data?.resellerName?.zip ?? ""} <br/>
-                     
-                    </small>
+                    <small style="margin: 0; padding: 0;">Bill To: Name <br/>
+                    Address <br/>
+                    9874563210 | example@gmail.com
+                     </small>
                   </td>
                 </tr>
             </tbody>
@@ -99,12 +93,41 @@ function PdfGenerator(props) {
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
         <tbody>
             <tr>
+                <td style="text-align: left; width: 50%;">
+                    <h4 style="margin: 0; padding: 0;"><b>Customer Details: </b></h4>
+                    <h4 style="margin: 0; padding: 0;"><b> ${
+                      props?.data?.dealerName?.username
+                      ? props?.data?.dealerName?.username
+                      : ""
+                    } </b></h4>
+                    <small style="margin: 0; padding: 0;"> ${
+                      props.data?.dealerName?.street
+                      } ${props.data?.dealerName?.city} ,${
+                      props.data?.dealerName?.state
+                      } ${props.data?.dealerName?.zip} <br/>
+                       
+                        </small>
+                </td>
+                <td style="text-align: left; width: 50%;">
+                <h4 style="margin: 0; padding: 0;"><b>Servicer Details:</b></h4>
+                <h4 style="margin: 0; padding: 0;"><b>${
+                  props?.data?.resellerName?.name ?? ""
+                }</b></h4>
+                <small style="margin: 0; padding: 0;">
+                  ${props?.data?.resellerName?.street ?? ""} 
+                  ${props?.data?.resellerName?.city ?? ""}, 
+                  ${props?.data?.resellerName?.state ?? ""} 
+                  ${props?.data?.resellerName?.zip ?? ""} <br/>
+                 
+                </small>
+              </td>
+            </tr>
+        </tbody>
+    </table>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <tbody>
+            <tr>
             <td colspan="2">
-        <h4 style="margin: 0; padding: 0;"><b> Customer : </b> ${
-          props?.data?.customerName?.username
-            ? props?.data?.customerName?.username
-            : ""
-        } </h4>
         <p><b>Dealer Purchase Order #:</b> ${props.data.venderOrder}</p>
         </td>
         </tr>

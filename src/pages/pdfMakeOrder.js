@@ -37,43 +37,49 @@ function PdfMake(props) {
                     <table style="width: 100%; border-collapse: collapse;">
                         <thead>
                             <tr>
-                                <td colspan="2" style="text-align: right; padding-right: 20px; padding-bottom: 40px;"> <b style="margin: 0; padding-bottom: 40px; font-size:30px">Export Order</b></td>
+                                <td colspan="2" style="text-align: right; padding-right: 20px; padding-bottom: 40px;"> <b style="margin: 0; padding-bottom: 40px; font-size:30px;">Export Order</b></td>
                             </tr>
-<<<<<<< HEAD
-                                    
-=======
-                                    <tr>
-                                        <td style="border: none; padding: 4px;">Invoice Date:</td>
-                                     <td style="border: none; padding: 4px;">${format(
-                                       new Date(
-                                         props?.data?.result?.orderDate
-                                           ? props?.data.result.orderDate
-                                           : new Date()
-                                       ),
-                                       "MM-dd-yyyy"
-                                     )}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 4px;"><b>Invoice Number:</b></td>
-                                        <td style="border: none; padding: 4px;"><b>  ${
-                                          props?.data?.result?.unique_key
-                                            ? props?.data?.result?.unique_key
-                                            : props?.data?.unique_key
-                                        }</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
-                                        <td style="border: none; padding: 4px;"><b>$ ${
-                                          props?.data?.result?.orderAmount
-                                            ? props?.data?.result?.orderAmount
-                                            : props.data.orderAmount
-                                        }</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: none; padding: 4px;">Currency Type:</td>
-                                        <td style="border: none; padding: 4px;">USD</td>
-                                    </tr>
->>>>>>> ac5897ad027cc638948b5c23ff679b54f6a313ab
+                                <tr>
+                                    <td> <b> Order ID : </b> </td> 
+                                    <td>
+                                    ${
+                                      props?.data?.result?.venderOrder
+                                        ? props.data.result.venderOrder
+                                        : props.data.venderOrder
+                                    }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> <b> Dealer P.O. # : </b> </td> 
+                                    <td>
+                                    ${
+                                      props?.data?.result?.venderOrder
+                                      ? props.data.result.venderOrder
+                                      : props.data.venderOrder
+                                    }
+                                    </td>
+                                </tr>
+                                <tr>
+                                  <td> <b>Service Coverage : </b> </td>
+                                  <td>
+                                  ${
+                                    props?.data?.result?.serviceCoverageType
+                                      ? props.data.result.serviceCoverageType
+                                      : props.data.serviceCoverageType
+                                  }
+                                  </td>
+                                  </tr>
+                                  <tr>
+                                  <td> <b> Coverage Type : </b> </td>
+                                  <td>  ${
+                                    props?.data?.result?.coverageType
+                                      ? props.data.result.coverageType
+                                      : props.data.coverageType
+                                  }</td>
+                                </tr>
+                
+                            </tbody>
+                        </table>
                                 </thead>
                             </table>
                         </td>
@@ -85,23 +91,25 @@ function PdfMake(props) {
                     <tr>
                         <td style="text-align: left; width: 50%;">
                             <h4 style="margin: 0; padding: 0;"><b>Dealer Details: </b></h4>
-                            <h4 style="margin: 0; padding: 0;"><b> unique_ke ${
+                            <h4 style="margin: 0; padding: 0;"><b>  ${
                               props?.data?.orderUserData?.dealerData?.name ??
                               props?.data?.dealerName?.name
                             }</b></h4>
-                            <small style="margin: 0; padding: 0;">Bill To:  ${
+                            <small style="margin: 0; padding: 0;">Bill To: UserName <br/>
+                            ${
                               props.data?.orderUserData?.dealerData?.street ??
                               props?.data?.dealerName?.street
                             } ${
-      props.data?.orderUserData?.dealerData?.city ??
-      props?.data?.dealerName?.city
-    } ,${
-      props.data?.orderUserData?.dealerData?.state ??
-      props?.data?.dealerName?.state
-    } ${
-      props.data?.orderUserData?.dealerData?.zip ?? props?.data?.dealerName?.zip
-    } <br/>
-                            
+                                props.data?.orderUserData?.dealerData?.city ??
+                                props?.data?.dealerName?.city
+                              } ,${
+                                props.data?.orderUserData?.dealerData?.state ??
+                                props?.data?.dealerName?.state
+                              } ${
+                                props.data?.orderUserData?.dealerData?.zip ?? props?.data?.dealerName?.zip
+                              }
+                              <br/>
+                              9874563210 | Example@gmail.com
                                 </small>
                         </td>
                         <td style="text-align: left; width: 50%;">
@@ -111,33 +119,21 @@ function PdfMake(props) {
                                 ? props?.data?.orderUserData?.resellerData?.name
                                 : props?.data?.resellerName?.name
                             }</b></h4>
-                              <small style="margin: 0; padding: 0;">Bill To:
-                                ${
-                                  props?.data?.orderUserData?.resellerData
-                                    ?.street
-                                    ? props?.data?.orderUserData?.resellerData
-                                        ?.street
-                                    : props?.data?.resellerName?.street
-                                } 
-                                ${
-                                  props?.data?.orderUserData?.resellerData?.city
-                                    ? props?.data?.orderUserData?.resellerData
-                                        ?.city
-                                    : props?.data?.resellerName?.city
-                                }, 
-                                ${
-                                  props?.data?.orderUserData?.resellerData
-                                    ?.state
-                                    ? props?.data?.orderUserData?.resellerData
-                                        ?.state
-                                    : props?.data?.resellerName?.state
-                                } 
-                                ${
-                                  props?.data?.orderUserData?.resellerData?.zip
-                                    ? props?.data?.orderUserData?.resellerData
-                                        ?.zip
-                                    : props?.data?.resellerName?.zip
-                                } <br/>
+                            <small style="margin: 0; padding: 0;">Bill To: UserName <br/>
+                            ${
+                              props.data?.orderUserData?.dealerData?.street ??
+                              props?.data?.dealerName?.street
+                            } ${
+                                props.data?.orderUserData?.dealerData?.city ??
+                                props?.data?.dealerName?.city
+                              } ,${
+                                props.data?.orderUserData?.dealerData?.state ??
+                                props?.data?.dealerName?.state
+                              } ${
+                                props.data?.orderUserData?.dealerData?.zip ?? props?.data?.dealerName?.zip
+                              }
+                              <br/>
+                              9874563210 | Example@gmail.com
                                 </small>
                         </td>
                     </tr>
@@ -149,7 +145,7 @@ function PdfMake(props) {
                         ? props?.data?.orderUserData?.customerData?.username
                         : props?.data?.customerName?.username
                     } </b></h4>
-                    <small style="margin: 0; padding: 0;">Bill To: ${
+                    <small style="margin: 0; padding: 0;"> ${
                       props?.data?.orderUserData?.customerData?.street
                         ? props?.data?.orderUserData?.customerData?.street
                         : props?.data?.customerName?.street
@@ -179,7 +175,7 @@ function PdfMake(props) {
                         ? props?.data?.orderUserData?.servicerData?.name
                         : props?.data.servicerName?.name
                     } </b></h4>
-                    <small style="margin: 0; padding: 0;">Bill To: ${
+                    <small style="margin: 0; padding: 0;"> ${
                       props?.data?.orderUserData?.servicerData?.street
                         ? props?.data?.orderUserData?.servicerData?.street
                         : props?.data.servicerName?.street
@@ -204,38 +200,35 @@ function PdfMake(props) {
                     </tr>
                 </tbody>
             </table>
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-                <tbody>
-                    <tr>
-                        <td> <b> Dealer P.O. # : </b> ${
-                          props?.data?.result?.venderOrder
-                            ? props.data.result.venderOrder
-                            : props.data.venderOrder
-                        }</td>
-                        <td> <b>Service Coverage : </b> ${
-                          props?.data?.result?.serviceCoverageType
-                            ? props.data.result.serviceCoverageType
-                            : props.data.serviceCoverageType
-                        }</td>
-                        <td> <b> Coverage Type : </b> ${
-                          props?.data?.result?.coverageType
-                            ? props.data.result.coverageType
-                            : props.data.coverageType
-                        }</td>
-                    </tr>
-    
-                </tbody>
+        
+            <table style="width: 100%; border-collapse: collapse; margin-bottom:40px">
+              <tbody style=" text-align: left;">
+                <tr>
+                  <td><b>Product Category</b> : product-001</td>
+                  <td><b> Product Name </b> : product-001</td>
+                  <td><b> Product Description </b> : product-001</td>
+                </tr>
+                <tr>
+                  <td><b> Term </b>: product-001</td>
+                  <td><b> Unit Price </b> : product-001</td>
+                  <td><b> # of Products </b> : product-001</td>
+                </tr>
+                <tr>
+                  <td><b> Price </b>: product-001</td>
+                  <td><b> Coverage Start Date </b> : 02/14/2024 </td>
+                  <td><b> Coverage End Date </b> : 02/14/2030 </td>
+                </tr>
+              </tbody>
             </table>
             <table style="width: 100%; border-collapse: collapse;">
                 <thead style="background-color: #f4f4f4; text-align: left;">
                     <tr>
                         <th style="border-bottom: 1px solid #ddd; padding: 8px;">S.no.</th>
-                        <th style="border-bottom: 1px solid #ddd; padding: 8px;">Manufacturer</th>
+                        <th style="border-bottom: 1px solid #ddd; padding: 8px;">Brand</th>
                         <th style="border-bottom: 1px solid #ddd; padding: 8px;">Model</th>
                         <th style="border-bottom: 1px solid #ddd; padding: 8px;">Serial</th>
                         <th style="border-bottom: 1px solid #ddd; padding: 8px;">Retail Price</th>
                         <th style="border-bottom: 1px solid #ddd; padding: 8px;">Condition</th>
-                        <th style="border-bottom: 1px solid #ddd; padding: 8px;">Coverage Start and End Date</th>
                         <th style="border-bottom: 1px solid #ddd; padding: 8px;">Claimed Value</th>
                     </tr>
                 </thead>
@@ -255,13 +248,12 @@ function PdfMake(props) {
                     <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
                       contract.serial
                     }</td>
-                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">${parseInt(
+                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">$ ${parseInt(
                       contract.productValue
                     ).toFixed(2)}</td>
                     <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
                       contract.condition
                     }</td>
-                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">11/09/2026 11/09/2030</td>
                     <td style="border-bottom: 1px solid #ddd; padding: 8px;">$ ${parseInt(
                       contract.claimAmount
                     ).toFixed(2)}</td>
