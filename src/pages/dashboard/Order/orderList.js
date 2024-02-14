@@ -310,7 +310,7 @@ function OrderList() {
                       <PdfGenerator data={row} />
                     </div>
                     <div className="text-center py-1 border-b cursor-pointer">
-                      <PdfMake />
+                      <PdfMake data={row} />
                     </div>
                     <Link
                       to={`/orderDetails/${row._id}`}

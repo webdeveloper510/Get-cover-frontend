@@ -4,7 +4,7 @@ import logo from "../assets/images/logo.png";
 import { format } from "date-fns";
 
 function PdfMake(props) {
-  console.log(props?.data?.result?.contract);
+  console.log(props);
 
   const convertToPDF = () => {
     const opt = {
@@ -19,6 +19,8 @@ function PdfMake(props) {
   };
 
   const generateHTML = () => {
+    const contracts =
+      props?.data?.result?.contract || props?.data?.contract || [];
     return `
           <div style="max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
@@ -40,20 +42,28 @@ function PdfMake(props) {
                                     <tr>
                                         <td style="border: none; padding: 4px;">Invoice Date:</td>
                                      <td style="border: none; padding: 4px;">${format(
-                                       new Date(props?.data.result.orderDate),
+                                       new Date(
+                                         props?.data?.result?.orderDate
+                                           ? props?.data.result.orderDate
+                                           : new Date()
+                                       ),
                                        "MM-dd-yyyy"
                                      )}</td>
                                     </tr>
                                     <tr>
                                         <td style="border: none; padding: 4px;"><b>Invoice Number:</b></td>
                                         <td style="border: none; padding: 4px;"><b>  ${
-                                          props.data.result.unique_key
+                                          props?.data?.result?.unique_key
+                                            ? props?.data?.result?.unique_key
+                                            : props?.data?.unique_key
                                         }</b></td>
                                     </tr>
                                     <tr>
                                         <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
                                         <td style="border: none; padding: 4px;"><b>$ ${
-                                          props.data.result.orderAmount
+                                          props?.data?.result?.orderAmount
+                                            ? props?.data?.result?.orderAmount
+                                            : props.data.orderAmount
                                         }</b></td>
                                     </tr>
                                     <tr>
@@ -72,40 +82,58 @@ function PdfMake(props) {
                         <td style="text-align: left; width: 50%;">
                             <h4 style="margin: 0; padding: 0;"><b>Dealer Details: </b></h4>
                             <h4 style="margin: 0; padding: 0;"><b> unique_ke ${
-                              props?.data?.orderUserData?.dealerData?.name
+                              props?.data?.orderUserData?.dealerData?.name ??
+                              props?.data?.dealerName?.name
                             }</b></h4>
                             <small style="margin: 0; padding: 0;">Bill To:  ${
-                              props.data?.orderUserData?.dealerData?.street
-                            } ${props.data?.orderUserData?.dealerData?.city} ,${
-      props.data?.orderUserData?.dealerData?.state
-    } ${props.data?.orderUserData?.dealerData?.zip} <br/>
-                                Amanda Foley | afoley@vertexlg.com <br/>
+                              props.data?.orderUserData?.dealerData?.street ??
+                              props?.data?.dealerName?.street
+                            } ${
+      props.data?.orderUserData?.dealerData?.city ??
+      props?.data?.dealerName?.city
+    } ,${
+      props.data?.orderUserData?.dealerData?.state ??
+      props?.data?.dealerName?.state
+    } ${
+      props.data?.orderUserData?.dealerData?.zip ?? props?.data?.dealerName?.zip
+    } <br/>
+                            
                                 </small>
                         </td>
                         <td style="text-align: left; width: 50%;">
                             <h4 style="margin: 0; padding: 0;"><b>Reseller Details:</b></h4>
                             <h4 style="margin: 0; padding: 0;"><b> ${
-                              props?.data?.orderUserData?.resellerData?.name ??
-                              ""
+                              props?.data?.orderUserData?.resellerData?.name
+                                ? props?.data?.orderUserData?.resellerData?.name
+                                : props?.data?.resellerName?.name
                             }</b></h4>
                               <small style="margin: 0; padding: 0;">Bill To:
                                 ${
                                   props?.data?.orderUserData?.resellerData
-                                    ?.street ?? ""
+                                    ?.street
+                                    ? props?.data?.orderUserData?.resellerData
+                                        ?.street
+                                    : props?.data?.resellerName?.street
                                 } 
                                 ${
-                                  props?.data?.orderUserData?.resellerData
-                                    ?.city ?? ""
+                                  props?.data?.orderUserData?.resellerData?.city
+                                    ? props?.data?.orderUserData?.resellerData
+                                        ?.city
+                                    : props?.data?.resellerName?.city
                                 }, 
                                 ${
                                   props?.data?.orderUserData?.resellerData
-                                    ?.state ?? ""
+                                    ?.state
+                                    ? props?.data?.orderUserData?.resellerData
+                                        ?.state
+                                    : props?.data?.resellerName?.state
                                 } 
                                 ${
-                                  props?.data?.orderUserData?.resellerData
-                                    ?.zip ?? ""
+                                  props?.data?.orderUserData?.resellerData?.zip
+                                    ? props?.data?.orderUserData?.resellerData
+                                        ?.zip
+                                    : props?.data?.resellerName?.zip
                                 } <br/>
-                                Amanda Foley | afoley@vertexlg.com
                                 </small>
                         </td>
                     </tr>
@@ -113,31 +141,60 @@ function PdfMake(props) {
                     <td style="text-align: left; margin-top:40px; width: 50%;">
                     <h4 style="margin: 0; padding: 0;"><b>Customer Details: </b></h4>
                     <h4 style="margin: 0; padding: 0;"><b> ${
-                      props?.data?.orderUserData?.customerData?.username ?? ""
+                      props?.data?.orderUserData?.customerData?.username
+                        ? props?.data?.orderUserData?.customerData?.username
+                        : props?.data?.customerName?.username
                     } </b></h4>
                     <small style="margin: 0; padding: 0;">Bill To: ${
-                      props?.data?.orderUserData?.customerData?.street ?? ""
+                      props?.data?.orderUserData?.customerData?.street
+                        ? props?.data?.orderUserData?.customerData?.street
+                        : props?.data?.customerName?.street
                     } 
-                    ${props?.data?.orderUserData?.customerData?.city ?? ""}, 
-                    ${props?.data?.orderUserData?.customerData?.state ?? ""} 
-                    ${props?.data?.orderUserData?.customerData?.zip ?? ""} <br/>
-                        Amanda Foley | afoley@vertexlg.com <br/>
+                    ${
+                      props?.data?.orderUserData?.customerData?.city
+                        ? props?.data?.orderUserData?.customerData?.city
+                        : props?.data?.customerName?.city
+                    }, 
+                    ${
+                      props?.data?.orderUserData?.customerData?.state
+                        ? props?.data?.orderUserData?.customerData?.state
+                        : props?.data?.customerName?.state
+                    } 
+                    ${
+                      props?.data?.orderUserData?.customerData?.zip
+                        ? props?.data?.orderUserData?.customerData?.zip
+                        : props?.data?.customerName?.zip
+                    } <br/>
+                  
                         </small>
                 </td>
                 <td style="text-align: left; width: 50%;">
                     <h4 style="margin: 0; padding: 0;"><b>Servicer Details:</b></h4>
                     <h4 style="margin: 0; padding: 0;"><b> ${
-                      props?.data?.orderUserData?.servicerData?.name ?? ""
+                      props?.data?.orderUserData?.servicerData?.name
+                        ? props?.data?.orderUserData?.servicerData?.name
+                        : props?.data.servicerName?.name
                     } </b></h4>
                     <small style="margin: 0; padding: 0;">Bill To: ${
-                      props?.data?.orderUserData?.servicerData?.street ?? ""
+                      props?.data?.orderUserData?.servicerData?.street
+                        ? props?.data?.orderUserData?.servicerData?.street
+                        : props?.data.servicerName?.street
                     } 
-                      ${props?.data?.orderUserData?.servicerData?.city ?? ""}, 
-                      ${props?.data?.orderUserData?.servicerData?.state ?? ""} 
                       ${
-                        props?.data?.orderUserData?.servicerData?.zip ?? ""
+                        props?.data?.orderUserData?.servicerData?.city
+                          ? props?.data?.orderUserData?.servicerData?.city
+                          : props?.data.servicerName?.city
+                      }, 
+                      ${
+                        props?.data?.orderUserData?.servicerData?.state
+                          ? props?.data?.orderUserData?.servicerData?.state
+                          : props?.data.servicerName?.state
+                      } 
+                      ${
+                        props?.data?.orderUserData?.servicerData?.zip
+                          ? props?.data?.orderUserData?.servicerData?.zip
+                          : props?.data.servicerName?.zip
                       } <br/>
-                        Amanda Foley | afoley@vertexlg.com
                         </small>
                 </td>
                     </tr>
@@ -147,13 +204,19 @@ function PdfMake(props) {
                 <tbody>
                     <tr>
                         <td> <b> Dealer P.O. # : </b> ${
-                          props.data.result.venderOrder
+                          props?.data?.result?.venderOrder
+                            ? props.data.result.venderOrder
+                            : props.data.venderOrder
                         }</td>
                         <td> <b>Service Coverage : </b> ${
-                          props.data.result.serviceCoverageType
+                          props?.data?.result?.serviceCoverageType
+                            ? props.data.result.serviceCoverageType
+                            : props.data.serviceCoverageType
                         }</td>
                         <td> <b> Coverage Type : </b> ${
-                          props.data.result.coverageType
+                          props?.data?.result?.coverageType
+                            ? props.data.result.coverageType
+                            : props.data.coverageType
                         }</td>
                     </tr>
     
@@ -173,7 +236,7 @@ function PdfMake(props) {
                     </tr>
                 </thead>
                 <tbody>
-                ${props?.data?.result?.contract
+                ${contracts
                   ?.map(
                     (contract, index) => `
                     <td style="border-bottom: 1px solid #ddd; padding: 8px;">${

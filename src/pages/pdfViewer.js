@@ -77,7 +77,7 @@ function PdfGenerator(props) {
                         } ${props.data?.dealerName?.city} ,${
       props.data?.dealerName?.state
     } ${props.data?.dealerName?.zip} <br/>
-                            Amanda Foley | afoley@vertexlg.com <br/>
+                           
                             </small>
                     </td>
                     <td style="text-align: left; width: 50%;">
@@ -90,7 +90,7 @@ function PdfGenerator(props) {
                       ${props?.data?.resellerName?.city ?? ""}, 
                       ${props?.data?.resellerName?.state ?? ""} 
                       ${props?.data?.resellerName?.zip ?? ""} <br/>
-                      Amanda Foley | afoley@vertexlg.com 
+                     
                     </small>
                   </td>
                 </tr>
