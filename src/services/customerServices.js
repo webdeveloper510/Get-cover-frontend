@@ -166,3 +166,20 @@ export const getOrderListByCustomerId = async (id, data = {}) => {
     throw error;
   }
 };
+
+export const getContractsforCustomer = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/customer/getCustomerContract/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
