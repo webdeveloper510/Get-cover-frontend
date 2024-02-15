@@ -267,3 +267,16 @@ export const orderDetailsById = async (id) => {
     throw error;
   }
 };
+
+export const getAllContractsForAdmin = async (data = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/contract/getAllContracts`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
