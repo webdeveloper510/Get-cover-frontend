@@ -18,8 +18,8 @@ import CustomerName from "../../../assets/images/icons/customerNumber.svg";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from "../../../common/headBar";
 import { Link, useParams } from "react-router-dom";
-import Select from "../../../common/select";
-import DateInput from "../../../common/dateInput";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { getContractValues } from "../../../services/extraServices";
 import { useEffect } from "react";
 function EditContract() {
@@ -28,21 +28,41 @@ function EditContract() {
   const { id } = useParams();
   console.log(id);
 
-  const status = [
-    { label: "Active", value: true },
-    { label: "Inactive", value: false },
-  ];
-  const CoverageStartDate = [
-    { label: "11/09/2026", value: true },
-    { label: "12/09/2026", value: false },
-  ];
-  const [item, setItem] = useState({
-    requested_order_ship_date: "2024-02-05",
+  const validationSchema = Yup.object().shape({
+    manufacture: Yup.string().required("Required"),
+    model: Yup.string().required("Required"),
+    serial: Yup.string().required("Required"),
+    productValue: Yup.string().required("Required"),
+    condition: Yup.string().required("Rrequired"),
+    coverageStartDate: Yup.date().required("Required"),
   });
 
+  const formik = useFormik({
+    initialValues: {
+      manufacture: "",
+      model: "",
+      serial: "",
+      productValue: "",
+      condition: "",
+      coverageStartDate: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      console.log(values);
+    },
+  });
   const getContractDetails = async () => {
     const result = await getContractValues(id);
     setContractDetails(result.result);
+    formik.setValues({
+      manufacture: result.result.manufacture || "",
+      model: result.result.model || "",
+      serial: result.result.serial || "",
+      productValue: result.result.productValue || "",
+      condition: result.result.condition || "",
+      coverageStartDate:
+        result.result.order[0].productsArray[0].coverageStartDate || "",
+    });
     console.log(result.result);
   };
 
@@ -208,83 +228,139 @@ function EditContract() {
           </Grid>
         </div>
 
-        <form className="mt-8 mr-4">
+        <form className="mt-8 mr-4" onSubmit={formik.handleSubmit}>
           <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
             <p className="pb-5 text-lg font-semibold">Contracts</p>
             <Grid className="!grid-cols-4">
               <div className="col-span-1">
                 <Input
                   type="text"
-                  name="Manufacturer"
+                  name="manufacture"
                   className="!bg-[#fff]"
                   label="Manufacturer"
                   required={true}
                   placeholder=""
+                  value={formik.values.manufacture}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.manufacture && formik.errors.manufacture
+                  }
                 />
+                {formik.touched.manufacture && formik.errors.manufacture && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.manufacture}
+                  </div>
+                )}
               </div>
               <div className="col-span-1">
                 <Input
                   type="text"
-                  name="Model"
+                  name="model"
                   className="!bg-[#fff]"
                   label="Model"
                   required={true}
                   placeholder=""
+                  value={formik.values.model}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={formik.touched.model && formik.errors.model}
                 />
+                {formik.touched.model && formik.errors.model && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.model}
+                  </div>
+                )}
               </div>
               <div className="col-span-1">
                 <Input
                   type="text"
-                  name="Serial"
+                  name="serial"
                   className="!bg-[#fff]"
                   label="Serial"
                   required={true}
                   placeholder=""
+                  value={formik.values.serial}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={formik.touched.serial && formik.errors.serial}
                 />
+                {formik.touched.serial && formik.errors.serial && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.serial}
+                  </div>
+                )}
               </div>
 
               <div className="col-span-1">
                 <Input
                   type="text"
-                  name="RetailPrice"
+                  name="productValue"
                   className="!bg-[#fff]"
-                  label="Retail Price($)"
+                  label="RetailPrice"
                   required={true}
                   placeholder=""
+                  value={formik.values.productValue}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.productValue && formik.errors.productValue
+                  }
                 />
+                {formik.touched.productValue && formik.errors.productValue && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.productValue}
+                  </div>
+                )}
               </div>
               <div className="col-span-1">
                 <Input
                   type="text"
-                  name="Condition"
+                  name="condition"
                   className="!bg-[#fff]"
                   label="Condition"
                   required={true}
                   placeholder=""
+                  value={formik.values.condition}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={formik.touched.condition && formik.errors.condition}
                 />
+                {formik.touched.condition && formik.errors.condition && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.condition}
+                  </div>
+                )}
               </div>
               <div className="col-span-1">
                 <Input
                   type="date"
-                  name="Coverage Start Date"
+                  name="coverageStartDate"
                   label="Coverage Start Date"
                   required={true}
                   className="!bg-[#fff]"
                   placeholder=""
+                  disabled={true}
+                  value={formik.values.coverageStartDate}
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.coverageStartDate &&
+                    formik.errors.coverageStartDate
+                  }
                 />
-                {/* <DateInput
-                         name="Coverage Start Date"
-                         label="Coverage Start Date"
-                        required 
-                        item={item}
-                        setItem={setItem}
-                        className="!bg-[#fff]" /> */}
+                {formik.touched.coverageStartDate &&
+                  formik.errors.coverageStartDate && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.coverageStartDate}
+                    </div>
+                  )}
               </div>
             </Grid>
 
             <div className="mt-8">
               <Button className="!bg-white !text-black">Cancel</Button>
-              <Button>Update</Button>
+              <Button type="submit">Update</Button>
             </div>
           </div>
         </form>

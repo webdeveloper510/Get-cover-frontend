@@ -1,35 +1,40 @@
-import React, { useEffect, useState } from 'react'
-import Button from '../../../../common/button'
-import Grid from '../../../../common/grid'
-import Input from '../../../../common/input'
+import React, { useEffect, useState } from "react";
+import Button from "../../../../common/button";
+import Grid from "../../../../common/grid";
+import Input from "../../../../common/input";
 
-// Media Includes 
-import Search from '../../../../assets/images/icons/SearchIcon.svg';
-import Edit from '../../../../assets/images/Dealer/EditIcon.svg';
+// Media Includes
+import Search from "../../../../assets/images/icons/SearchIcon.svg";
+import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { getContractsforDealer } from "../../../../services/dealerServices";
-import {getContractsforReseller} from "../../../../services/reSellerServices"
-import { RotateLoader } from 'react-spinners';
+import { getContractsforReseller } from "../../../../services/reSellerServices";
+import { RotateLoader } from "react-spinners";
 import { format } from "date-fns";
-import CustomPagination from '../../../pagination';
+import CustomPagination from "../../../pagination";
+import { getContractsforCustomer } from "../../../../services/customerServices";
 function ContractList(props) {
-  console.log(props, "-------------------->>>")
+  console.log(props, "-------------------->>>");
   const [showTooltip, setShowTooltip] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(false);
-  console.log(contractList?.length, '---------------------->>')
+
   const getContracts = async (page = 1, rowsPerPage = 10) => {
     let data = {
       page: page,
       pageLimit: rowsPerPage,
     };
     setLoading(true);
+    console.log(props);
     const result =
-    props.flag === "reseller"
-      ? await getContractsforReseller(props.id, data )
-      : await getContractsforDealer(data);
+      props.flag === "reseller"
+        ? await getContractsforReseller(props.id, data)
+        : props.flag === "dealer"
+        ? await getContractsforDealer(props.id, data)
+        : await getContractsforCustomer(props.id, data);
+
     setContractList(result.result);
     console.log(result);
     setTotalRecords(result?.totalCount);
@@ -80,33 +85,54 @@ function ContractList(props) {
 
   return (
     <>
-      <div className='my-8'>
-        <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
-          <Grid className='!p-[26px] !pt-[14px] !pb-0'>
-            <div className='col-span-5 self-center'>
-              <p className='text-xl font-semibold'>Contracts List</p>
+      <div className="my-8">
+        <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
+          <Grid className="!p-[26px] !pt-[14px] !pb-0">
+            <div className="col-span-5 self-center">
+              <p className="text-xl font-semibold">Contracts List</p>
             </div>
-            <div className='col-span-7'>
-              <div className='bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]'>
-                <Grid className='!grid-cols-11' >
-                  <div className='col-span-3 self-center'>
-                    <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='ID' />
+            <div className="col-span-7">
+              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                <Grid className="!grid-cols-11">
+                  <div className="col-span-3 self-center">
+                    <Input
+                      name="Name"
+                      type="text"
+                      className="!text-[14px] !bg-[#f7f7f7]"
+                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                      label=""
+                      placeholder="ID"
+                    />
                   </div>
-                  <div className='col-span-3 self-center'>
-                    <Input name='Email' type='email' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Dealer Order no.' />
+                  <div className="col-span-3 self-center">
+                    <Input
+                      name="Email"
+                      type="email"
+                      className="!text-[14px] !bg-[#f7f7f7]"
+                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                      label=""
+                      placeholder="Dealer Order no."
+                    />
                   </div>
-                  <div className='col-span-3 self-center'>
-                    <Input name='PhoneNo.' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Customer Name' />
+                  <div className="col-span-3 self-center">
+                    <Input
+                      name="PhoneNo."
+                      type="text"
+                      className="!text-[14px] !bg-[#f7f7f7]"
+                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                      label=""
+                      placeholder="Customer Name"
+                    />
                   </div>
-                  <div className='col-span-2 self-center flex justify-center'>
-                    <Button
-                      type="submit" className='!p-0'>
-                      <img src={Search} className='cursor-pointer ' alt='Search' />
+                  <div className="col-span-2 self-center flex justify-center">
+                    <Button type="submit" className="!p-0">
+                      <img
+                        src={Search}
+                        className="cursor-pointer "
+                        alt="Search"
+                      />
                     </Button>
-                    <Button
-                      type="submit"
-                      className="!bg-transparent !p-0"
-                    >
+                    <Button type="submit" className="!bg-transparent !p-0">
                       <img
                         src={clearFilter}
                         className="cursor-pointer	mx-auto"
@@ -115,7 +141,6 @@ function ContractList(props) {
                     </Button>
                   </div>
                 </Grid>
-
               </div>
             </div>
           </Grid>
@@ -149,7 +174,8 @@ function ContractList(props) {
                               </div>
                               <div className="col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
-                                  Order ID : <b> {res?.order[0]?.unique_key} </b>
+                                  Order ID :{" "}
+                                  <b> {res?.order[0]?.unique_key} </b>
                                 </p>
                               </div>
                               <div className="col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
@@ -160,7 +186,7 @@ function ContractList(props) {
                               </div>
                               <div className="col-span-1 self-center justify-end"></div>
                               <div className="col-span-1 self-center justify-end">
-                                <Link to={"/editContract"}>
+                                <Link to={`/editContract/${res._id}`}>
                                   {" "}
                                   <img
                                     src={Edit}
@@ -326,11 +352,11 @@ function ContractList(props) {
                 onPageChange={handlePageChange}
               />
             </div>
-           )}
+          )}
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default ContractList
+export default ContractList;

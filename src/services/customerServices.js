@@ -167,7 +167,7 @@ export const getOrderListByCustomerId = async (id, data = {}) => {
   }
 };
 
-export const getContractsforCustomer = async (id, data) => {
+export const getContractsforCustomer = async (id, data = {}) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
