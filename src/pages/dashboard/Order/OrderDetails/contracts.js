@@ -8,26 +8,48 @@ import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import { format, addMonths } from "date-fns";
+import CustomPagination from "../../../pagination";
+import { getContracts } from "../../../../services/orderServices";
+import { useEffect } from "react";
 
 function Contracts(props) {
   const [showTooltip, setShowTooltip] = useState(false);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [contractDetails, setContractDetails] = useState();
+  const [loading, setLoading] = useState(false);
 
-  const findDate = (data, type) => {
-    const product = props?.data?.result?.productsArray?.find(
-      (res) => res._id === data.orderProductId
-    );
-
-    if (product) {
-      return format(
-        new Date(
-          type === "start" ? product.coverageStartDate : product.coverageEndDate
-        ),
-        "MM-dd-yyyy"
-      );
+  const handlePageChange = async (page, rowsPerPage) => {
+    console.log(page, rowsPerPage);
+    setLoading(true);
+    try {
+      await getOrdersContracts(page, rowsPerPage);
+    } finally {
+      setLoading(false);
     }
-
-    return ""; // Return an empty string if no matching product is found
   };
+
+  const getOrdersContracts = async (page = 1, rowsPerPage = 10) => {
+    let data = {
+      page: page,
+      pageLimit: rowsPerPage,
+    };
+
+    try {
+      const result = await getContracts(props.orderId, data);
+      setContractDetails(result);
+      setTotalRecords(result?.contractCount);
+      console.log(result);
+    } catch (error) {
+      console.error("Error fetching contracts:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (props?.flag == "contracts") {
+      getOrdersContracts();
+    }
+  }, [props?.flag]);
+
   return (
     <>
       <div className="my-8">
@@ -91,10 +113,9 @@ function Contracts(props) {
           </Grid>
 
           <div className="px-3 mt-5">
-            {props &&
-              props.data &&
-              props.data.result &&
-              props?.data?.result?.contract?.map((res) => (
+            {contractDetails &&
+              contractDetails.result &&
+              contractDetails.result.map((res) => (
                 <div>
                   <Grid className="bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl">
                     <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
@@ -176,7 +197,12 @@ function Contracts(props) {
                           Coverage Start Date
                         </p>
                         <p className="text-[#333333] text-base font-semibold">
-                          {findDate(res, "start")}
+                          {/* format(
+        new Date(
+          type === "start" ? product.coverageStartDate : product.coverageEndDate
+        ),
+        "MM-dd-yyyy"
+      );  {findDate(res, "start")} */}
                         </p>
                       </div>
                     </div>
@@ -186,7 +212,7 @@ function Contracts(props) {
                           Coverage End Date
                         </p>
                         <p className="text-[#333333] text-base font-semibold">
-                          {findDate(res, "end")}
+                          {/* {findDate(res, "end")} */}
                         </p>
                       </div>
                     </div>
@@ -225,6 +251,11 @@ function Contracts(props) {
                 </div>
               ))}
           </div>
+          <CustomPagination
+            totalRecords={contractDetails?.contractCount}
+            rowsPerPageOptions={[10, 20, 50, 100]}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
     </>

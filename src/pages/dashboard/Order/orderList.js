@@ -19,6 +19,7 @@ import { RotateLoader } from "react-spinners";
 import {
   archiveOrders,
   getOrders,
+  markPaid,
   processOrders,
 } from "../../../services/orderServices";
 import Modal from "../../../common/model";
@@ -40,6 +41,9 @@ function OrderList() {
   const [processOrderErrors, setProcessOrderErrors] = useState([]);
   const [errorList, SetErrorList] = useState([]);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [primaryMessage, setPrimaryMessage] = useState("");
+  const [secondaryMessage, setSecondaryMessage] = useState("");
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const closeDisapproved = () => {
@@ -51,6 +55,7 @@ function OrderList() {
   };
 
   const openArchive = (id) => {
+    setMessage("Would you like to Archive it?");
     SetOrderId(id);
     setIsArchiveOpen(true);
   };
@@ -88,11 +93,24 @@ function OrderList() {
 
   const openModal1 = () => {
     console.log(orderId);
-    archiveOrders(orderId).then((res) => {
-      console.log(res);
-    });
-    setTimer(3);
-    setIsModalOpen1(true);
+    if (message == "Would you like to Archive it?") {
+      archiveOrders(orderId).then((res) => {
+        setPrimaryMessage("Archive Order Successfully");
+        setSecondaryMessage("You have successfully archive the order");
+        console.log(res);
+        setTimer(3);
+        setIsModalOpen1(true);
+      });
+    } else {
+      markPaid(orderId).then((res) => {
+        if (res.code == 200) {
+          setPrimaryMessage("Order Successfully Paid.");
+          setSecondaryMessage("You have successfully marked the order as paid");
+          setTimer(3);
+          setIsModalOpen1(true);
+        }
+      });
+    }
   };
 
   const closeArchive = () => {
@@ -187,6 +205,13 @@ function OrderList() {
     </div>
   );
 
+  const markasPaid = async (row) => {
+    setMessage(
+      `Would you prefer to make the full payment $ ${row.orderAmount} ?`
+    );
+    SetOrderId(row._id);
+    setIsArchiveOpen(true);
+  };
   const columns = [
     {
       name: "ID",
@@ -282,7 +307,7 @@ function OrderList() {
                     </div>
                     <div
                       className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
+                      onClick={() => markasPaid(row)}
                     >
                       Mark as Paid
                     </div>
@@ -496,7 +521,7 @@ function OrderList() {
         <div className="text-center py-3">
           <img src={unassign} alt="email Image" className="mx-auto my-4" />
           <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
-            Would you like to Archive it?
+            {message}
           </p>
           <Grid className="!grid-cols-4 my-5 ">
             <div className="col-span-1"></div>
@@ -516,10 +541,10 @@ function OrderList() {
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
           <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
-            Archive Order Successfully
+            {primaryMessage}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            You have successfully archive the order
+            {secondaryMessage}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.

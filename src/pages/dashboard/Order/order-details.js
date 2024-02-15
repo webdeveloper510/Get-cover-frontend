@@ -91,7 +91,7 @@ function OrderDetails() {
       label: "Contracts",
       icons: contract,
       Activeicons: contractActive,
-      content: <Contracts data={contractDetails} />,
+      content: <Contracts orderId={orderId} flag={"contracts"} />,
     },
   ];
 

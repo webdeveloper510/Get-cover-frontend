@@ -32,13 +32,17 @@ export const getOrders = async (data) => {
     throw error;
   }
 };
-export const getContracts = async (id) => {
+export const getContracts = async (id, data = {}) => {
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.get(`${url}/order/getOrderContract/${id}`, {
-      headers,
-    });
+    const response = await axios.post(
+      `${url}/order/getOrderContract/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -50,6 +54,20 @@ export const getArchiveOrders = async (data) => {
   console.log(headers);
   try {
     const response = await axios.post(`${url}/order/getArchieveOrder`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const markPaid = async (id) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.get(`${url}/order/markAsPaid/${id}`, {
       headers,
     });
 
