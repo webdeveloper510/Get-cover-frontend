@@ -50,27 +50,32 @@ function ContractList() {
 
   const findDate = (data, index, type) => {
     if (contractList) {
-      for (var i = 0; i < contractList.length; i++) {
-        for (
-          var j = 0;
-          j < contractList[i].order[0].productsArray.length;
-          j++
-        ) {
-          const currentProduct = contractList[i].order[0].productsArray[j];
+      let foundDate = "Date Not Found";
 
-          if (data.orderProductId === currentProduct._id) {
-            return format(
+      contractList.forEach((contract) => {
+        const productsArray = contract?.order[0]?.productsArray;
+
+        if (productsArray) {
+          const matchingProduct = productsArray.find(
+            (product) => product._id === data.orderProductId
+          );
+
+          if (matchingProduct) {
+            foundDate = format(
               new Date(
                 type === "start"
-                  ? currentProduct.coverageStartDate
-                  : currentProduct.coverageEndDate
+                  ? matchingProduct.coverageStartDate
+                  : matchingProduct.coverageEndDate
               ),
               "MM-dd-yyyy"
             );
           }
         }
-      }
+      });
+
+      return foundDate;
     }
+
     return "Date Not Found";
   };
 
