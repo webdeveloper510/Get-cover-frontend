@@ -11,6 +11,7 @@ import { format, addMonths } from "date-fns";
 import CustomPagination from "../../../pagination";
 import { getContracts } from "../../../../services/orderServices";
 import { useEffect } from "react";
+import { RotateLoader } from "react-spinners";
 
 function Contracts(props) {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -113,6 +114,13 @@ function Contracts(props) {
           </Grid>
 
           <div className="px-3 mt-5">
+          {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (<>
             {contractDetails &&
               contractDetails.result &&
               contractDetails.result.map((res) => (
@@ -249,7 +257,8 @@ function Contracts(props) {
                     <div className="col-span-3 border border-[#D1D1D1] rounded-ee-xl"></div>
                   </Grid>
                 </div>
-              ))}
+              )) }
+            </> ) }
           </div>
           <CustomPagination
             totalRecords={contractDetails?.contractCount}

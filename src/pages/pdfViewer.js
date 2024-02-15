@@ -187,7 +187,7 @@ function PdfGenerator(props) {
 
   return (
     <div>
-      <button onClick={convertToPDF}>Invoice</button>
+      <button onClick={convertToPDF} className="hover:font-semibold">Invoice</button>
     </div>
   );
 }

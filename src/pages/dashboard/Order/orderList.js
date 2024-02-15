@@ -304,30 +304,30 @@ function OrderList() {
                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-left py-1 flex border-b cursor-pointer"
+                      className="text-left py-1 flex border-b hover:font-semibold cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
                        <img src={edit} className="w-4 h-4 mr-2"/> Edit
                     </div>
                     <div
-                      className="text-left py-1 flex border-b cursor-pointer"
+                      className="text-left py-1 flex border-b hover:font-semibold cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       <img src={process} className="w-4 h-4 mr-2"/> Process Order
                     </div>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-center py-1 flex border-b hover:font-semibold cursor-pointer"
                       onClick={() => markasPaid(row)}
                     >
                       <img src={mark} className="w-4 h-4 mr-2"/> Mark as Paid
                     </div>
                     <>
-                      <div className="text-left flex py-1 border-b cursor-pointer">
+                      <div className="text-left flex py-1 border-b  cursor-pointer">
                         <img src={download} className="w-4 h-4 mr-2"/><PdfGenerator data={row} />
                       </div>
                     </>
                     <div
-                      className="text-left py-1 flex cursor-pointer"
+                      className="text-left py-1 flex cursor-pointer hover:font-semibold"
                       onClick={() => openArchive(row._id)}
                     >
                      <img src={remove} className="w-4 h-4 mr-2"/> Archive
