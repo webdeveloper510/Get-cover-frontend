@@ -9,7 +9,7 @@ import Search from "../../../assets/images/icons/SearchIcon.svg";
 import unassign from "../../../assets/images/Unassign.png";
 import AddDealer from "../../../assets/images/Disapproved.png";
 import Headbar from "../../../common/headBar";
-import Edit from '../../../assets/images/Dealer/EditIcon.svg';
+import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -25,12 +25,12 @@ import {
 } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
-import download from '../../../assets/images/download.png';
-import view from '../../../assets/images/eye.png';
-import edit from '../../../assets/images/edit-text.png'
-import remove from '../../../assets/images/delete.png'
-import mark from '../../../assets/images/pay.png';
-import process from '../../../assets/images/return.png';
+import download from "../../../assets/images/download.png";
+import view from "../../../assets/images/eye.png";
+import edit from "../../../assets/images/edit-text.png";
+import remove from "../../../assets/images/delete.png";
+import mark from "../../../assets/images/pay.png";
+import process from "../../../assets/images/return.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import PdfGenerator from "../../pdfViewer";
@@ -57,7 +57,7 @@ function OrderList() {
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
-  console.log (data, '======================================')
+  console.log(data, "======================================");
 
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
@@ -149,7 +149,7 @@ function OrderList() {
   });
 
   const openModal = (id) => {
-    setData(id)
+    setData(id);
     processOrders(id).then((res) => {
       setSelectedAction(null);
       setProcessOrderErrors(res.result);
@@ -307,30 +307,35 @@ function OrderList() {
                       className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
-                       <img src={edit} className="w-4 h-4 mr-2"/> Edit
+                      <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
                     <div
                       className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      <img src={process} className="w-4 h-4 mr-2"/> Process Order
+                      <img src={process} className="w-4 h-4 mr-2" /> Process
+                      Order
                     </div>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => markasPaid(row)}
-                    >
-                      <img src={mark} className="w-4 h-4 mr-2"/> Mark as Paid
-                    </div>
+                    {row.flag && (
+                      <div
+                        className="text-center py-1 border-b cursor-pointer"
+                        onClick={() => markasPaid(row)}
+                      >
+                        <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
+                      </div>
+                    )}
+
                     <>
                       <div className="text-left flex py-1 border-b cursor-pointer">
-                        <img src={download} className="w-4 h-4 mr-2"/><PdfGenerator data={row} />
+                        <img src={download} className="w-4 h-4 mr-2" />
+                        <PdfGenerator data={row} />
                       </div>
                     </>
                     <div
                       className="text-left py-1 flex cursor-pointer"
                       onClick={() => openArchive(row._id)}
                     >
-                     <img src={remove} className="w-4 h-4 mr-2"/> Archive
+                      <img src={remove} className="w-4 h-4 mr-2" /> Archive
                     </div>
                   </>
                 ) : (
@@ -339,13 +344,15 @@ function OrderList() {
                       to={`/orderDetails/${row._id}`}
                       className="text-left py-1 cursor-pointer border-b w-full flex justify-start"
                     >
-                      <img src={view} className="w-4 h-4 mr-2"/> View
+                      <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
                     <div className="text-left py-1 flex border-b cursor-pointer">
-                    <img src={download} className="w-4 h-4 mr-2"/> <PdfGenerator data={row} />
+                      <img src={download} className="w-4 h-4 mr-2" />{" "}
+                      <PdfGenerator data={row} />
                     </div>
                     <div className="text-left py-1 flex cursor-pointer">
-                    <img src={download} className="w-4 h-4 mr-2"/> <PdfMake data={row} />
+                      <img src={download} className="w-4 h-4 mr-2" />{" "}
+                      <PdfMake data={row} />
                     </div>
                   </>
                 )}
@@ -498,9 +505,17 @@ function OrderList() {
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-      <Button onClick={() => { navigate(`/editOrder/${data}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
-              <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
-            </Button>
+        <Button
+          onClick={() => {
+            navigate(`/editOrder/${data}`);
+          }}
+          className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Edit}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
         <Button
           onClick={closeModal}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
