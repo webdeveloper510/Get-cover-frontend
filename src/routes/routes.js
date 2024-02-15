@@ -187,11 +187,9 @@ const routes = [
         ),
       },
       {
-        path: "/editContract",
+        path: "/editContract/:id",
         index: true,
-        element: (
-          <PrivateRoute element={<EditContract />} path="/editContract" />
-        ),
+        element: <PrivateRoute element={<EditContract />} />,
       },
       {
         path: "/orderDetails/:orderId",
@@ -639,7 +637,7 @@ const routes = [
         ),
       },
 
- // Reseller Routs ---------------------------------------------------------------
+      // Reseller Routs ---------------------------------------------------------------
 
       {
         path: "/reseller/dashboard",
@@ -652,7 +650,9 @@ const routes = [
       },
       {
         path: "/reseller/user",
-        element: <PrivateRoute element={<ResellerUser />} path="/dealer/user" />,
+        element: (
+          <PrivateRoute element={<ResellerUser />} path="/dealer/user" />
+        ),
       },
       {
         path: "/reseller/addCustomer",
@@ -693,7 +693,10 @@ const routes = [
       {
         path: "/reseller/addOrder",
         element: (
-          <PrivateRoute element={<ResellerAddOrder />} path="/reseller/addOrder" />
+          <PrivateRoute
+            element={<ResellerAddOrder />}
+            path="/reseller/addOrder"
+          />
         ),
       },
       {
@@ -753,12 +756,17 @@ const routes = [
       {
         path: "/reseller/contract",
         element: (
-          <PrivateRoute element={<ResellerContractList />} path="/reseller/contract" />
+          <PrivateRoute
+            element={<ResellerContractList />}
+            path="/reseller/contract"
+          />
         ),
       },
       {
         path: "/reseller/sale",
-        element: <PrivateRoute element={<ResellerSale />} path="/reseller/sale" />,
+        element: (
+          <PrivateRoute element={<ResellerSale />} path="/reseller/sale" />
+        ),
       },
       {
         path: "/reseller/claim",
@@ -778,7 +786,10 @@ const routes = [
       {
         path: "/reseller/addClaim",
         element: (
-          <PrivateRoute element={<ResellerAddClaim />} path="/reseller/addClaim" />
+          <PrivateRoute
+            element={<ResellerAddClaim />}
+            path="/reseller/addClaim"
+          />
         ),
       },
       {
@@ -800,9 +811,9 @@ const routes = [
         ),
       },
 
-       // Customer Routs ---------------------------------------------------------------
+      // Customer Routs ---------------------------------------------------------------
 
-       {
+      {
         path: "/customer/dashboard",
         element: (
           <PrivateRoute
@@ -813,7 +824,9 @@ const routes = [
       },
       {
         path: "/customer/user",
-        element: <PrivateRoute element={<CustomerUser />} path="/customer/user" />,
+        element: (
+          <PrivateRoute element={<CustomerUser />} path="/customer/user" />
+        ),
       },
       {
         path: "/customer/addClaim",
