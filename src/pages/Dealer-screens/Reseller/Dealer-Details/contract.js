@@ -68,7 +68,7 @@ function ContractList() {
               </div>
               <div className='col-span-1 self-center justify-end'></div>
               <div className='col-span-1 self-center justify-end'>
-              <Link to={'/dealer/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link>
+              {/* <Link to={'/dealer/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link> */}
               </div>
             </Grid>
 
@@ -162,7 +162,7 @@ function ContractList() {
               </div>
               <div className='col-span-1 self-center justify-end'></div>
               <div className='col-span-1 self-center justify-end'>
-              <Link to={'/dealer/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link>
+              {/* <Link to={'/dealer/editContract'}> <img src={Edit} className='ml-auto mr-2' alt='edit' /> </Link> */}
               </div>
             </Grid>
 

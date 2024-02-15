@@ -30,6 +30,7 @@ function DealerClaimList() {
   const [selectedValue, setSelectedValue] = useState('');
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
 
@@ -171,7 +172,7 @@ function DealerClaimList() {
 
           <div className=' px-3 mt-5'>
 
-            <CollapsibleDiv title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
+            <CollapsibleDiv index={1} activeIndex={activeIndex} setActiveIndex={setActiveIndex}  title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
                 <div className='col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5'>
                   <p className='font-semibold leading-5 text-lg'> 861910  </p>
                   <p className='text-[#A3A3A3]'>Claim ID</p>
@@ -285,13 +286,7 @@ function DealerClaimList() {
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <Select 
-                          name="state"
-                          options={state}
-                          placeholder=""
-                          className=""
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
-                            /></p>
+                        Servicer Name : </span>   <span className='font-semibold text-white'> yash </span></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -316,9 +311,7 @@ function DealerClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
-                        </div>
+                      
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -328,9 +321,7 @@ function DealerClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
-                        </div>
+                      
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
@@ -360,7 +351,7 @@ function DealerClaimList() {
               </Grid>
             </CollapsibleDiv>
 
-            <CollapsibleDiv title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
+            <CollapsibleDiv index={2} activeIndex={activeIndex} setActiveIndex={setActiveIndex}  title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
                 <div className='col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5'>
                   <p className='font-semibold leading-5 text-lg'> 861910  </p>
                   <p className='text-[#A3A3A3]'>Claim ID</p>
@@ -474,13 +465,7 @@ function DealerClaimList() {
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <Select 
-                          name="state"
-                          options={state}
-                          placeholder=""
-                          className=""
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
-                            /></p>
+                        Servicer Name : </span> <span className='font-semibold text-white'> yash </span></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -505,9 +490,7 @@ function DealerClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
-                        </div>
+                       
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -517,9 +500,7 @@ function DealerClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
-                        </div>
+                        
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
@@ -549,7 +530,7 @@ function DealerClaimList() {
               </Grid>
             </CollapsibleDiv>
 
-            <CollapsibleDiv title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
+            <CollapsibleDiv index={3} activeIndex={activeIndex} setActiveIndex={setActiveIndex}  title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
                 <div className='col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5'>
                   <p className='font-semibold leading-5 text-lg'> 861910  </p>
                   <p className='text-[#A3A3A3]'>Claim ID</p>
@@ -663,13 +644,7 @@ function DealerClaimList() {
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <Select 
-                          name="state"
-                          options={state}
-                          placeholder=""
-                          className=""
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
-                            /></p>
+                        Servicer Name : </span><span className='font-semibold text-white'> yash </span></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -694,9 +669,7 @@ function DealerClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
-                        </div>
+                       
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -706,9 +679,7 @@ function DealerClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
-                        </div>
+                       
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>

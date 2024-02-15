@@ -31,6 +31,11 @@ function DealerResellerList() {
     formik.setFieldValue(name, value);
   };
 
+  const status = [
+    { label: "Active", value: true },
+    { label: "Inactive", value: false },
+  ];
+  
   const getResellersList = async () => {
     setLoading(true);
     const result = await getResellerList({});
@@ -248,7 +253,7 @@ function DealerResellerList() {
             <div className="col-span-8">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-7">
+                  <Grid className="!grid-cols-9">
                     <div className="col-span-2 self-center">
                       <Input
                         name="name"
@@ -298,6 +303,19 @@ function DealerResellerList() {
                           });
                         }}
                         onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center">
+                    <Select
+                        label=""
+                        name="status"
+                        OptionName="Status"
+                        options={status}
+                        color="text-[#1B1D21] opacity-50"
+                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px] !bg-[#f7f7f7] "
+                        value={formik.values.status}
+                        onChange={formik.setFieldValue}
                       />
                     </div>
                     <div className="col-span-1 self-center flex">

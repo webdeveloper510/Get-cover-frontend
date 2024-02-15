@@ -42,7 +42,7 @@ import ResellerDetails from "../pages/dashboard/Reseller/resellerDetails";
 import Account from "../pages/dashboard/Manage-account/account";
 import DealerDashboard from "../pages/Dealer-screens/dashboard";
 import DealerUser from "../pages/Dealer-screens/user";
-import DealerContract from "../pages/Dealer-screens/contract";
+import DealerContract from "../pages/Dealer-screens/Contract/contractList";
 import DealerPriceBook from "../pages/Dealer-screens/priceBook";
 import DealerSale from "../pages/Dealer-screens/Reporting/sale";
 import DealerClaims from "../pages/Dealer-screens/Reporting/claims";
@@ -411,11 +411,11 @@ const routes = [
         element: <PrivateRoute element={<DealerUser />} path="/dealer/user" />,
       },
       {
-        path: "/dealer/addCustomer",
+        path: "/dealer/addCustomer/:dealerValueId?/:typeofUser?",
         element: (
           <PrivateRoute
             element={<DealerAddCustomer />}
-            path="/dealer/addCustomer"
+            path="/dealer/addCustomer/:dealerValueId?/:typeofUser?"
           />
         ),
       },
@@ -515,7 +515,7 @@ const routes = [
         path: "/dealer/customerDetails/:customerId",
         element: (
           <PrivateRoute
-            element={<DealerCustomerList />}
+            element={<DealerCustomerDetails />}
             path="/dealer/customerDetails/:customerId"
           />
         ),

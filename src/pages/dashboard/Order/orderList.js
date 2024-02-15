@@ -9,6 +9,7 @@ import Search from "../../../assets/images/icons/SearchIcon.svg";
 import unassign from "../../../assets/images/Unassign.png";
 import AddDealer from "../../../assets/images/Disapproved.png";
 import Headbar from "../../../common/headBar";
+import Edit from '../../../assets/images/Dealer/EditIcon.svg';
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -24,6 +25,12 @@ import {
 } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
+import download from '../../../assets/images/download.png';
+import view from '../../../assets/images/eye.png';
+import edit from '../../../assets/images/edit-text.png'
+import remove from '../../../assets/images/delete.png'
+import mark from '../../../assets/images/pay.png';
+import process from '../../../assets/images/return.png';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import PdfGenerator from "../../pdfViewer";
@@ -45,10 +52,12 @@ function OrderList() {
   const [primaryMessage, setPrimaryMessage] = useState("");
   const [secondaryMessage, setSecondaryMessage] = useState("");
   const dropdownRef = useRef(null);
+  const [data, setData] = useState(null);
   const navigate = useNavigate();
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
+  console.log (data, '======================================')
 
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
@@ -140,6 +149,7 @@ function OrderList() {
   });
 
   const openModal = (id) => {
+    setData(id)
     processOrders(id).then((res) => {
       setSelectedAction(null);
       setProcessOrderErrors(res.result);
@@ -286,7 +296,7 @@ function OrderList() {
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -294,55 +304,49 @@ function OrderList() {
                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
-                      Edit
+                       <img src={edit} className="w-4 h-4 mr-2"/> Edit
                     </div>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      Process Order
+                      <img src={process} className="w-4 h-4 mr-2"/> Process Order
                     </div>
                     <div
                       className="text-center py-1 border-b cursor-pointer"
                       onClick={() => markasPaid(row)}
                     >
-                      Mark as Paid
+                      <img src={mark} className="w-4 h-4 mr-2"/> Mark as Paid
                     </div>
                     <>
-                      <div className="text-center py-1 border-b cursor-pointer">
-                        <PdfGenerator data={row} />
+                      <div className="text-left flex py-1 border-b cursor-pointer">
+                        <img src={download} className="w-4 h-4 mr-2"/><PdfGenerator data={row} />
                       </div>
                     </>
                     <div
-                      className="text-center py-1 cursor-pointer"
+                      className="text-left py-1 flex cursor-pointer"
                       onClick={() => openArchive(row._id)}
                     >
-                      Archive
+                     <img src={remove} className="w-4 h-4 mr-2"/> Archive
                     </div>
                   </>
                 ) : (
                   <>
                     <Link
                       to={`/orderDetails/${row._id}`}
-                      className="text-center py-1 cursor-pointer border-b w-full flex justify-center"
+                      className="text-left py-1 cursor-pointer border-b w-full flex justify-start"
                     >
-                      View
+                      <img src={view} className="w-4 h-4 mr-2"/> View
                     </Link>
-                    <div className="text-center py-1 border-b cursor-pointer">
-                      <PdfGenerator data={row} />
+                    <div className="text-left py-1 flex border-b cursor-pointer">
+                    <img src={download} className="w-4 h-4 mr-2"/> <PdfGenerator data={row} />
                     </div>
-                    <div className="text-center py-1 border-b cursor-pointer">
-                      <PdfMake data={row} />
+                    <div className="text-left py-1 flex cursor-pointer">
+                    <img src={download} className="w-4 h-4 mr-2"/> <PdfMake data={row} />
                     </div>
-                    <Link
-                      to={`/orderDetails/${row._id}`}
-                      className="text-center py-1 cursor-pointer w-full flex justify-center"
-                    >
-                      View
-                    </Link>
                   </>
                 )}
               </div>
@@ -494,6 +498,9 @@ function OrderList() {
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
+      <Button onClick={() => { navigate(`/editOrder/${data}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
+            </Button>
         <Button
           onClick={closeModal}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"

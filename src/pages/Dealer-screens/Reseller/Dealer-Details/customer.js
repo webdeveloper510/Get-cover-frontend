@@ -102,7 +102,7 @@ function CustomerList(props) {
                   }}
                   className="text-center py-3 cursor-pointer"
                 >
-                  <Link to={`/customerDetails/${row.customerData._id}`}>
+                  <Link to={`/dealer/customerDetails/${row.customerData._id}`}>
                     View{" "}
                   </Link>
                 </div>

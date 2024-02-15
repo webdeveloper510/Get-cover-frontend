@@ -51,13 +51,13 @@ import User from "../../../assets/images/Dealer/Users.svg";
 import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
-import OrderList from "../../dashboard/Dealer/Dealer-Details/order";
-import ContractList from "../../dashboard/Dealer/Dealer-Details/contract";
-import ClaimList from "../../dashboard/Dealer/Dealer-Details/claim";
-import ServicerList from "../../dashboard/Dealer/Dealer-Details/servicer";
-import UserList from "../../dashboard/Dealer/Dealer-Details/user";
+import OrderList from "./Dealer-Details/order";
+import ContractList from "./Dealer-Details/contract";
+import ClaimList from "./Dealer-Details/claim";
+import ServicerList from "./Dealer-Details/servicer";
+import UserList from "./Dealer-Details/user";
 import PriceBookList from "../../dashboard/Dealer/Dealer-Details/priceBook";
-import CustomerList from "../../dashboard/Dealer/Dealer-Details/customer";;
+import CustomerList from "./Dealer-Details/customer";;
 
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
@@ -445,13 +445,7 @@ function DealerResellerDetails() {
       Activeicons: ClaimActive,
       content: <ClaimList />,
     },
-    // {
-    //   id: "Reseller",
-    //   label: "Reseller",
-    //   icons: User,
-    //   Activeicons: UserActive,
-    //   content: <Reseller id={id.id} />,
-    // },
+
     {
       id: "Customer",
       label: "Customer",
@@ -493,20 +487,6 @@ function DealerResellerDetails() {
         />
       ),
     },
-    {
-      id: "PriceBook",
-      label: "PriceBook",
-      icons: PriceBook,
-      Activeicons: PriceBookActive,
-      content: (
-        <PriceBookList
-          id={id.resellerId}
-          flag={"reseller"}
-          dealerId={resellerDetail.resellerData?.dealerId}
-          activeTab={activeTab}
-        />
-      ),
-    },
   ];
 
   const handleTabClick = (tabId) => {
@@ -517,11 +497,11 @@ function DealerResellerDetails() {
     switch (data) {
       case "PriceBook":
         localStorage.setItem("menu", "PriceBook");
-        navigate(`/addDealerBook/${id.resellerId}`);
+        navigate(`/dealer/addDealerBook/${id.resellerId}`);
         break;
       case "Customer":
         localStorage.setItem("menu", "Customer");
-        navigate(`/addCustomer/${id.resellerId}/reseller`);
+        navigate(`/dealer/addCustomer/${id.resellerId}`);
         break;
       case "Users":
         openUserModal();
@@ -536,13 +516,13 @@ function DealerResellerDetails() {
   };
   return (
     <>
-      {/* {loading && (
+      {loading && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#fff" />
           </div>
         </div>
-      )} */}
+      )}
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
 
@@ -733,7 +713,7 @@ function DealerResellerDetails() {
             <Grid className="!mt-5">
               <div className="col-span-10">
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-7 !gap-1">
+                  <Grid className="!grid-cols-6 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
