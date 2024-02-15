@@ -43,40 +43,36 @@ function PdfMake(props) {
                         <tr>
                             <td> <b> Order ID : </b> </td> 
                             <td>
-                            ${
-                              data?.result?.venderOrder
-                                ? data.result.venderOrder
-                                : data.venderOrder
-                            }
+                            ${data?.result?.venderOrder
+        ? data.result.venderOrder
+        : data.venderOrder
+      }
                             </td>
                         </tr>
                         <tr>
                             <td> <b> Dealer P.O. # : </b> </td> 
                             <td>
-                            ${
-                              data?.result?.venderOrder
-                              ? data.result.venderOrder
-                              : data.venderOrder
-                            }
+                            ${data?.result?.venderOrder
+        ? data.result.venderOrder
+        : data.venderOrder
+      }
                             </td>
                         </tr>
                         <tr>
                           <td> <b>Service Coverage : </b> </td>
                           <td>
-                          ${
-                            data?.result?.serviceCoverageType
-                              ? data.result.serviceCoverageType
-                              : data.serviceCoverageType
-                          }
+                          ${data?.result?.serviceCoverageType
+        ? data.result.serviceCoverageType
+        : data.serviceCoverageType
+      }
                           </td>
                           </tr>
                           <tr>
                           <td> <b> Coverage Type : </b> </td>
-                          <td>  ${
-                            data?.result?.coverageType
-                              ? data.result.coverageType
-                              : data.coverageType
-                          }</td>
+                          <td>  ${data?.result?.coverageType
+        ? data.result.coverageType
+        : data.coverageType
+      }</td>
                         </tr>
         
                     </tbody>
@@ -92,123 +88,117 @@ function PdfMake(props) {
             <tr>
                 <td style="text-align: left; width: 50%;">
                     <h4 style="margin: 0; padding: 0;"><b>Dealer Details: </b></h4>
-                    <h4 style="margin: 0; padding: 0;"><b>  ${
-                      data?.orderUserData?.dealerData?.name ??
-                      data?.dealerName?.name
-                    }</b></h4>
+                    <h4 style="margin: 0; padding: 0;"><b>  ${data?.orderUserData?.dealerData?.name ??
+                          data?.dealerName?.name
+                          }</b></h4>
                     <small style="margin: 0; padding: 0;">Bill To: UserName <br/>
-                    ${
-                      data?.orderUserData?.dealerData?.street ??
-                      data?.dealerName?.street
-                    } ${
-                        data?.orderUserData?.dealerData?.city ??
-                        data?.dealerName?.city
-                      } ,${
-                        data?.orderUserData?.dealerData?.state ??
-                        data?.dealerName?.state
-                      } ${
-                        data?.orderUserData?.dealerData?.zip ?? data?.dealerName?.zip
-                      }
+                    ${data?.orderUserData?.dealerData?.street ??
+                    data?.dealerName?.street
+                    } ${data?.orderUserData?.dealerData?.city ??
+                    data?.dealerName?.city
+                    } ,${data?.orderUserData?.dealerData?.state ??
+                    data?.dealerName?.state
+                    } ${data?.orderUserData?.dealerData?.zip ?? data?.dealerName?.zip
+                    }
                       <br/>
                       9874563210 | Example@gmail.com
                         </small>
                 </td>
                 <td style="text-align: left; width: 50%;">
                     <h4 style="margin: 0; padding: 0;"><b>Reseller Details:</b></h4>
-                    <h4 style="margin: 0; padding: 0;"><b> ${
-                      data?.orderUserData?.resellerData?.name
+                    <h4 style="margin: 0; padding: 0;"><b> ${data?.orderUserData?.resellerData?.name
                         ? data?.orderUserData?.resellerData?.name
                         : data?.resellerName?.name
-                    }</b></h4>
+                      }</b></h4>
                     <small style="margin: 0; padding: 0;">Bill To: UserName <br/>
-                    ${
-                      data?.orderUserData?.dealerData?.street ??
-                      data?.dealerName?.street
-                    } ${
-                        data?.orderUserData?.dealerData?.city ??
-                        data?.dealerName?.city
-                      } ,${
-                        data?.orderUserData?.dealerData?.state ??
-                        data?.dealerName?.state
-                      } ${
-                        data?.orderUserData?.dealerData?.zip ?? data?.dealerName?.zip
-                      }
-                      <br/>
-                      9874563210 | Example@gmail.com
-                        </small>
+                    ${data?.orderUserData?.dealerData?.street ??
+                    data?.dealerName?.street
+                    } ${data?.orderUserData?.dealerData?.city ??
+                    data?.dealerName?.city
+                    } ,${data?.orderUserData?.dealerData?.state ??
+                    data?.dealerName?.state
+                    } ${data?.orderUserData?.dealerData?.zip ?? data?.dealerName?.zip
+                    }
+                    <br/>
+                    9874563210 | Example@gmail.com
+                      </small>
                 </td>
-            </tr>
-            <tr >
+                </tr>
+                </tbody>
+            </table>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tbody>
+                    <tr>
             <td style="text-align: left; margin-top:40px; width: 50%;">
             <h4 style="margin: 0; padding: 0;"><b>Customer Details: </b></h4>
-            <h4 style="margin: 0; padding: 0;"><b> ${
-              data?.orderUserData?.customerData?.username
-                ? data?.orderUserData?.customerData?.username
-                : data?.customerName?.username
-            } </b></h4>
-            <small style="margin: 0; padding: 0;"> ${
-              data?.orderUserData?.customerData?.street
-                ? data?.orderUserData?.customerData?.street
-                : data?.customerName?.street
-            } 
-            ${
-              data?.orderUserData?.customerData?.city
-                ? data?.orderUserData?.customerData?.city
-                : data?.customerName?.city
-            }, 
-            ${
-              data?.orderUserData?.customerData?.state
-                ? data?.orderUserData?.customerData?.state
-                : data?.customerName?.state
-            } 
-            ${
-              data?.orderUserData?.customerData?.zip
-                ? data?.orderUserData?.customerData?.zip
-                : data?.customerName?.zip
-            } <br/>
+            <h4 style="margin: 0; padding: 0;"><b> ${data?.orderUserData?.customerData?.username
+                    ? data?.orderUserData?.customerData?.username
+                    : data?.customerName?.username
+                  } </b></h4>
+                        <small style="margin: 0; padding: 0;"> ${data?.orderUserData?.customerData?.street
+                    ? data?.orderUserData?.customerData?.street
+                    : data?.customerName?.street
+                  } 
+                        ${data?.orderUserData?.customerData?.city
+                    ? data?.orderUserData?.customerData?.city
+                    : data?.customerName?.city
+                  }, 
+                        ${data?.orderUserData?.customerData?.state
+                    ? data?.orderUserData?.customerData?.state
+                    : data?.customerName?.state
+                  } 
+                        ${data?.orderUserData?.customerData?.zip
+                    ? data?.orderUserData?.customerData?.zip
+                    : data?.customerName?.zip
+                  } <br/>
           
                 </small>
         </td>
         <td style="text-align: left; width: 50%;">
             <h4 style="margin: 0; padding: 0;"><b>Servicer Details:</b></h4>
-            <h4 style="margin: 0; padding: 0;"><b> ${
-              data?.orderUserData?.servicerData?.name
-                ? data?.orderUserData?.servicerData?.name
-                : data.servicerName?.name
-            } </b></h4>
-            <small style="margin: 0; padding: 0;"> ${
-              data?.orderUserData?.servicerData?.street
-                ? data?.orderUserData?.servicerData?.street
-                : data.servicerName?.street
-            } 
-              ${
-                data?.orderUserData?.servicerData?.city
-                  ? data?.orderUserData?.servicerData?.city
-                  : data.servicerName?.city
-              }, 
-              ${
-                data?.orderUserData?.servicerData?.state
-                  ? data?.orderUserData?.servicerData?.state
-                  : data.servicerName?.state
-              } 
-              ${
-                data?.orderUserData?.servicerData?.zip
-                  ? data?.orderUserData?.servicerData?.zip
-                  : data.servicerName?.zip
-              } <br/>
+            <h4 style="margin: 0; padding: 0;"><b> ${data?.orderUserData?.servicerData?.name
+        ? data?.orderUserData?.servicerData?.name
+        : data.servicerName?.name
+      } </b></h4>
+            <small style="margin: 0; padding: 0;"> ${data?.orderUserData?.servicerData?.street
+        ? data?.orderUserData?.servicerData?.street
+        : data.servicerName?.street
+      } 
+              ${data?.orderUserData?.servicerData?.city
+        ? data?.orderUserData?.servicerData?.city
+        : data.servicerName?.city
+      }, 
+              ${data?.orderUserData?.servicerData?.state
+        ? data?.orderUserData?.servicerData?.state
+        : data.servicerName?.state
+      } 
+              ${data?.orderUserData?.servicerData?.zip
+        ? data?.orderUserData?.servicerData?.zip
+        : data.servicerName?.zip
+      } <br/>
                 </small>
         </td>
             </tr>
         </tbody>
     </table>
 
-    <table style="width: 100%; border-collapse: collapse; margin-bottom:40px">
+    <table style="width: 100%; border-collapse: collapse;">
       <tbody style=" text-align: left;">
         <tr>
           <td><b>Product Category</b> : product-001</td>
           <td><b> Product Name </b> : product-001</td>
-          <td><b> Product Description </b> : product-001</td>
         </tr>
+        </tbody>
+        </table>
+        <table style= "">
+        <tbody>
+        <tr>
+        <td><b> Product Description </b> : product-001</td>
+        </tr>
+        </tbody>
+        </table>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom:40px">
+        <tbody style=" text-align: left;">
         <tr>
           <td><b> Term </b>: product-001</td>
           <td><b> Unit Price </b> : product-001</td>
@@ -220,7 +210,8 @@ function PdfMake(props) {
           <td><b> Coverage End Date </b> : 02/14/2030 </td>
         </tr>
       </tbody>
-    </table>`;
+    </table> 
+   `;
 
     for (let page = 0; page < pageCount; page++) {
       // Start of a new page
@@ -240,39 +231,33 @@ function PdfMake(props) {
                 </thead>
                 <tbody>
                 ${contracts
-                  ?.slice(page * pageSize, (page + 1) * pageSize)
-                  ?.map(
-                    (contract, index) => `
-                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
-                      index + 1
-                    }</td>
-                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
-                      contract.manufacture
-                    } </td>
-                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
-                      contract.manufacture
-                    }</td>
-                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
-                      contract.serial
-                    }</td>
+          ?.slice(page * pageSize, (page + 1) * pageSize)
+          ?.map(
+            (contract, index) => `
+                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">${index + 1
+              }</td>
+                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">${contract.manufacture
+              } </td>
+                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">${contract.manufacture
+              }</td>
+                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">${contract.serial
+              }</td>
                     <td style="border-bottom: 1px solid #ddd; padding: 8px;">$ ${parseInt(
-                      contract.productValue
-                    ).toFixed(2)}</td>
-                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
-                      contract.condition
-                    }</td>
+                contract.productValue
+              ).toFixed(2)}</td>
+                    <td style="border-bottom: 1px solid #ddd; padding: 8px;">${contract.condition
+              }</td>
                     <td style="border-bottom: 1px solid #ddd; padding: 8px;">$ ${parseInt(
-                      contract.claimAmount
-                    ).toFixed(2)}</td>
+                contract.claimAmount
+              ).toFixed(2)}</td>
                   </tr>
                 `
-                  )
-                  .join("")}
+          )
+          .join("")}
               </tbody>
-
             </table>
-          </div>
-        `;
+            `;
+           
     }
 
     return htmlContent;
