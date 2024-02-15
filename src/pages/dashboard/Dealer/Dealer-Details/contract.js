@@ -114,11 +114,13 @@ function ContractList(props) {
               </div>
             </div>
           </Grid>
-          {contractList.length == 0 ? (<>
-
-            <div className="text-center my-5">
-              <p>No records found.</p>
-            </div></>) : (
+          {contractList.length == 0 ? (
+            <>
+              <div className="text-center my-5">
+                <p>No records found.</p>
+              </div>
+            </>
+          ) : (
             <div>
               {loading ? (
                 <div className=" h-[400px] w-full flex py-5">
@@ -320,9 +322,6 @@ function ContractList(props) {
               />
             </div>
           )}
-
-
-
         </div>
       </div>
     </>
