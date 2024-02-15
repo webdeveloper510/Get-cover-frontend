@@ -286,13 +286,7 @@ function DealerClaimList() {
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <Select 
-                          name="state"
-                          options={state}
-                          placeholder=""
-                          className=""
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
-                            /></p>
+                        Servicer Name : </span>   <span className='font-semibold text-white'> yash </span></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -317,9 +311,7 @@ function DealerClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
-                        </div>
+                      
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -329,9 +321,7 @@ function DealerClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
-                        </div>
+                      
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
@@ -475,13 +465,7 @@ function DealerClaimList() {
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <Select 
-                          name="state"
-                          options={state}
-                          placeholder=""
-                          className=""
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
-                            /></p>
+                        Servicer Name : </span> <span className='font-semibold text-white'> yash </span></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -506,9 +490,7 @@ function DealerClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
-                        </div>
+                       
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -518,9 +500,7 @@ function DealerClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
-                        </div>
+                        
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>
@@ -664,13 +644,7 @@ function DealerClaimList() {
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <Select 
-                          name="state"
-                          options={state}
-                          placeholder=""
-                          className=""
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
-                            /></p>
+                        Servicer Name : </span><span className='font-semibold text-white'> yash </span></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -695,9 +669,7 @@ function DealerClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
-                        </div>
+                       
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
@@ -707,9 +679,7 @@ function DealerClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
-                        </div>
+                       
                       </div>
                     </div>
                     <div className='col-span-3 self-center'>

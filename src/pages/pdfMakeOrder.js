@@ -181,8 +181,14 @@ function PdfMake(props) {
             </tr>
         </tbody>
     </table>
-
-    <table style="width: 100%; border-collapse: collapse;">
+    <table style="width: 100%; border-collapse: collapse ; margin-bottom:5px">
+    <tbody>
+       <tr style='padding-bottom:5px;'>
+          <td> <b style:"font-size:20px"> 1.   Product Details :- </b></td>
+       </tr>
+    </tbody>
+    </table>
+    <table style="width: 100%; border-collapse: collapse;  border-top: 1px solid #f4f4f4; margin-top:10px">
       <tbody style=" text-align: left;">
         <tr>
           <td><b>Product Category</b> : product-001</td>

@@ -99,7 +99,7 @@ function DealerPriceBook(props) {
     {
       name: "Action",
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "100px",
       cell: (row, index) => {
         return (
           <div className="relative">
@@ -118,15 +118,7 @@ function DealerPriceBook(props) {
                 )}`}
               >
                 <div
-                  className="text-center border-b pt-2 pb-1 cursor-pointer">
-                  <Link to={'/dealer/addPriceBook'}
-                    className="text-center  mx-auto"
-                  >
-                    Edit
-                  </Link>
-                </div>
-                <div
-                  className="text-center pt-1 pb-2 cursor-pointer"
+                  className="text-center py-2 cursor-pointer"
                   onClick={() => openView(row._id)}
                 >
                   View
@@ -264,26 +256,16 @@ function DealerPriceBook(props) {
             </ul>
           </div>
         </div>
-        <Link
-          to={"/dealer/addPriceBook"}
-          className=" w-[180px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            Add PriceBook{" "}
-          </span>{" "}
-        </Link>
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-6 self-center">
+            <div className="col-span-4 self-center">
               <p className="text-xl font-semibold">Price Book List</p>
             </div>
-            <div className="col-span-6">
+            <div className="col-span-8">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-8">
-                    <div className="col-span-3 self-center">
+                  <Grid className="!grid-cols-9">
+                    <div className="col-span-2 self-center">
                       <Input
                         name="name"
                         type="text"
@@ -296,8 +278,34 @@ function DealerPriceBook(props) {
                         onBlur={formik.handleBlur}
                       />
                     </div>
+                    <div className="col-span-2 self-center">
+                      <Select
+                        name="category"
+                        label=""
+                        options={categoryList}
+                        OptionName="Term"
+                        color="text-[#1B1D21] opacity-50"
+                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px]  !bg-[#f7f7f7]"
+                        value={formik.values.category}
+                        onChange={formik.setFieldValue}
+                      />
+                    </div>
 
-                    <div className="col-span-3 self-center">
+                    <div className="col-span-2 self-center">
+                      <Select
+                        name="category"
+                        label=""
+                        options={categoryList}
+                        OptionName="Price Type"
+                        color="text-[#1B1D21] opacity-50"
+                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px]  !bg-[#f7f7f7]"
+                        value={formik.values.category}
+                        onChange={formik.setFieldValue}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center">
                       <Select
                         name="category"
                         label=""
@@ -310,7 +318,7 @@ function DealerPriceBook(props) {
                         onChange={formik.setFieldValue}
                       />
                     </div>
-                    <div className="col-span-2 self-center flex justify-center">
+                    <div className="col-span-1 self-center flex justify-center">
                       <button type="submit">
                         <img
                           src={Search}
@@ -379,20 +387,20 @@ function DealerPriceBook(props) {
             {dealerPriceBookDetail?.priceBooks?.name}
           </p>
           <Grid className="mt-5 px-6">
+          <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
+                Price Type
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBookDetail?.priceBooks?.priceType}
+              </p>
+            </div>
             <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
                 Product Category
               </p>
               <p className="text-base text-neutral-grey font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.category[0].name}{" "}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
-                Wholesale Price($)
-              </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                ${dealerPriceBookDetail?.wholesalePrice?.toFixed(2)}
               </p>
             </div>
             <div className="col-span-4">
@@ -409,24 +417,8 @@ function DealerPriceBook(props) {
                 {dealerPriceBookDetail?.priceBooks?.term} Months
               </p>
             </div>
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">Status</p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {" "}
-                {dealerPriceBookDetail?.priceBooks?.status === true
-                  ? "Active"
-                  : "UnActive"}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
-                Price Type
-              </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.priceType}
-              </p>
-            </div>
-            <div className="col-span-6">
+           
+            <div className="col-span-8">
               <p className="text-lg text-light-black font-semibold">
                 Description
               </p>
