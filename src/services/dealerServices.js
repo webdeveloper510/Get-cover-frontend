@@ -382,3 +382,20 @@ export const unAssignedServicerForDealer = async (data) => {
     throw error;
   }
 };
+
+export const getContractsforDealer = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealer/getDealerContract/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -268,7 +268,7 @@ function PdfMake(props) {
 
   return (
     <div>
-      <button onClick={convertToPDF}>Export Order</button>
+      <button onClick={convertToPDF} className="hover:font-semibold">Order</button>
     </div>
   );
 }

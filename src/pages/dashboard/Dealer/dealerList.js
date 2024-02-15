@@ -7,6 +7,7 @@ import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import arrowImage from "../../../assets/images/dropdownArrow.png";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import Headbar from "../../../common/headBar";
+import AddItem from "../../../assets/images/icons/addItem.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
@@ -257,7 +258,19 @@ function DealerList() {
           </div>
         </div>
 
-        <div className="bg-white mt-10 border-[1px] border-[#D1D1D1] rounded-xl">
+        <Button className="!bg-white flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+          {" "}
+          <Link to={"/addDealer"} className="flex">
+            {" "}
+            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+            <span className="text-black ml-3 text-[14px] font-Regular">
+              {" "}
+              Add New Dealer{" "}
+            </span>{" "}
+          </Link>
+        </Button>
+
+        <div className="bg-white mt-3 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Dealers List</p>

@@ -304,13 +304,13 @@ function OrderList() {
                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-left py-1 flex border-b cursor-pointer"
+                      className="text-left py-1 flex border-b hover:font-semibold cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
                     <div
-                      className="text-left py-1 flex border-b cursor-pointer"
+                      className="text-left py-1 flex border-b hover:font-semibold cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       <img src={process} className="w-4 h-4 mr-2" /> Process
@@ -332,7 +332,7 @@ function OrderList() {
                       </div>
                     </>
                     <div
-                      className="text-left py-1 flex cursor-pointer"
+                      className="text-left py-1 flex cursor-pointer hover:font-semibold"
                       onClick={() => openArchive(row._id)}
                     >
                       <img src={remove} className="w-4 h-4 mr-2" /> Archive
