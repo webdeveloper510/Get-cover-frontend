@@ -197,3 +197,20 @@ export const getResellerServicers = async (id, data) => {
     throw error;
   }
 };
+
+export const getContractsforReseller = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/reseller/getResellerContract/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
