@@ -229,7 +229,9 @@ function OrderDetails() {
                   </p>
                 </div>
               </div>
-              <div className="flex mb-4">
+              {userDetails?.resellerData?.name == null ? (<></>) : (
+                <>
+                 <div className="flex mb-4">
                 <div className="relative">
                   <img
                     src={Name}
@@ -253,7 +255,9 @@ function OrderDetails() {
                     {userDetails?.resellerData?.name}
                   </p>
                 </div>
-              </div>
+              </div></>
+              )} 
+             
               <div className="flex mb-4">
                 <div className="relative">
                   <img
@@ -279,7 +283,9 @@ function OrderDetails() {
                   </p>
                 </div>
               </div>
-              <div className="flex mb-4">
+              {userDetails?.servicerData?.name == null ? ('') : (
+                <>
+                  <div className="flex mb-4">
                 <div className="relative">
                   <img
                     src={Name}
@@ -304,6 +310,9 @@ function OrderDetails() {
                   </p>
                 </div>
               </div>
+                </>
+              )}
+            
               <Grid className="!py-5">
                 <div className="col-span-5">
                   <Button className="!bg-white !text-light-black !text-sm border flex">
