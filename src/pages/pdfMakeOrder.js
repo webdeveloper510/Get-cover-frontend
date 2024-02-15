@@ -8,11 +8,11 @@ function PdfMake(props) {
 
   const convertToPDF = () => {
     const opt = {
-      margin: 0.1,
+      margin: 0.3,
       filename: "Export_Order.pdf",
-      image: { type: "pdf", quality: 0.98 },
+      image: { type: "jpeg", quality: 1 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: "mm", format: "a4", userUnit: 0.1, putOnlyUsedFonts: true, orientation: 'p' },
+      jsPDF: { unit: "mm", format: "letter" },
     };
     const htmlContent = generateHTML(props.data);
 
@@ -23,7 +23,7 @@ function PdfMake(props) {
     const contracts = data?.result?.contract || data?.contract || [];
     const pageSize = 10; // Number of contracts per page
     let pageCount = Math.ceil(contracts.length / pageSize);
-    let htmlContent = `<div style=" max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    let htmlContent = `
     <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
         <tbody>
             <tr>
@@ -181,22 +181,22 @@ function PdfMake(props) {
             </tr>
         </tbody>
     </table>
-    <table style="width: 100%; border-collapse: collapse ; margin-bottom:5px">
+    <table style="width: 100%; border-collapse: collapse; margin-bottom:5px">
     <tbody>
        <tr style='padding-bottom:5px;'>
           <td> <b style:"font-size:20px"> 1.   Product Details :- </b></td>
        </tr>
     </tbody>
     </table>
-    <table style="width: 100%; border-collapse: collapse;  border-top: 1px solid #f4f4f4; margin-top:10px">
-      <tbody style=" text-align: left;">
+    <table style="width: 100%; border-collapse: collapse; border-top: 1px solid #f4f4f4; margin-top:0px">
+      <tbody style="text-align: left;">
         <tr>
           <td><b>Product Category</b> : product-001</td>
           <td><b> Product Name </b> : product-001</td>
         </tr>
         </tbody>
         </table>
-        <table style= "">
+        <table style="">
         <tbody>
         <tr>
         <td><b> Product Description </b> : product-001</td>
@@ -204,7 +204,7 @@ function PdfMake(props) {
         </tbody>
         </table>
         <table style="width: 100%; border-collapse: collapse; margin-bottom:40px">
-        <tbody style=" text-align: left;">
+        <tbody style="text-align: left;">
         <tr>
           <td><b> Term </b>: product-001</td>
           <td><b> Unit Price </b> : product-001</td>
@@ -222,8 +222,7 @@ function PdfMake(props) {
     for (let page = 0; page < pageCount; page++) {
       // Start of a new page
       htmlContent += `
-          
-            <table  style=" page-break-before: ${page === 0 ? 'auto' : 'always'}; width: 100%; border-collapse: collapse;">
+            <table style="page-break-before: ${page === 0 ? 'auto' : 'always'}; width: 100%; border-collapse: collapse;">
                 <thead style="background-color: #f4f4f4; text-align: left;">
                     <tr>
                         <th style="border-bottom: 1px solid #ddd; padding: 8px;">S.no.</th>
@@ -257,13 +256,11 @@ function PdfMake(props) {
                 contract.claimAmount
               ).toFixed(2)}</td>
                   </tr>
-                `
-          )
+                ` )
           .join("")}
               </tbody>
             </table>
             `;
-           
     }
 
     return htmlContent;

@@ -271,7 +271,7 @@ function OrderList() {
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -279,19 +279,19 @@ function OrderList() {
                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-left py-1 border-b cursor-pointer"
+                      className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
                        <img src={edit} className="w-4 h-4 mr-2"/> Edit
                     </div>
                     <div
-                      className="text-left py-1 border-b cursor-pointer"
+                      className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       <img src={process} className="w-4 h-4 mr-2"/> Process Order
                     </div>
                     <div
-                      className="text-left py-1 border-b cursor-pointer"
+                      className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       <img src={mark} className="w-4 h-4 mr-2"/> Mark as Paid
@@ -312,7 +312,7 @@ function OrderList() {
                   <>
                     <Link
                       to={`/orderDetails/${row._id}`}
-                      className="text-left py-1 cursor-pointer border-b w-full flex justify-center"
+                      className="text-left py-1 cursor-pointer border-b w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2"/> View
                     </Link>
