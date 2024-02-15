@@ -411,7 +411,7 @@ function DealerDetails() {
       label: "Contracts",
       icons: Contract,
       Activeicons: ContractsActive,
-      content: <ContractList id={id.id} activeTab={activeTab} />,
+      content: <ContractList id={id.id}  activeTab={activeTab} />,
     },
     {
       id: "Claims",

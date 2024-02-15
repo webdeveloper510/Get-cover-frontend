@@ -9,22 +9,27 @@ import Edit from '../../../../assets/images/Dealer/EditIcon.svg';
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import { Link } from 'react-router-dom';
 import { getContractsforDealer } from "../../../../services/dealerServices";
+import {getContractsforReseller} from "../../../../services/reSellerServices"
 import { RotateLoader } from 'react-spinners';
 import { format } from "date-fns";
 import CustomPagination from '../../../pagination';
 function ContractList(props) {
+  console.log(props, "-------------------->>>")
   const [showTooltip, setShowTooltip] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(false);
-  console.log(contractList, '---------------------->>')
+  console.log(contractList?.length, '---------------------->>')
   const getContracts = async (page = 1, rowsPerPage = 10) => {
     let data = {
       page: page,
       pageLimit: rowsPerPage,
     };
     setLoading(true);
-    const result = await getContractsforDealer(data, props.id);
+    const result =
+    props.flag === "reseller"
+      ? await getContractsforReseller(props.id, data )
+      : await getContractsforDealer(data);
     setContractList(result.result);
     console.log(result);
     setTotalRecords(result?.totalCount);
@@ -114,7 +119,7 @@ function ContractList(props) {
               </div>
             </div>
           </Grid>
-          {contractList.length == 0 ? (
+          {contractList?.length == 0 ? (
             <>
               <div className="text-center my-5">
                 <p>No records found.</p>
@@ -321,7 +326,7 @@ function ContractList(props) {
                 onPageChange={handlePageChange}
               />
             </div>
-          )}
+           )}
         </div>
       </div>
     </>
