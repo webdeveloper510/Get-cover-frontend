@@ -319,7 +319,7 @@ function OrderDetails() {
                     <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "}
                     <span className="self-center">
                       {" "}
-                      <PdfMake data={contractDetails} />
+                      <PdfMake data={orderId} />
                     </span>
                   </Button>
                 </div>

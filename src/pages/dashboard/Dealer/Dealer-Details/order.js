@@ -272,7 +272,7 @@ function OrderList(props) {
                   </>
                 ) : (
                   <>
-                  <Link
+                    <Link
                       to={`/orderDetails/${row._id}`}
                       className="text-center py-1 cursor-pointer w-full flex  border-b justify-center"
                     >
@@ -282,9 +282,8 @@ function OrderList(props) {
                       <PdfGenerator data={row} />
                     </div>
                     <div className="text-center py-1 cursor-pointer">
-                      <PdfMake data={row} />
+                      <PdfMake data={row._id} />
                     </div>
-                    
                   </>
                 )}
               </div>

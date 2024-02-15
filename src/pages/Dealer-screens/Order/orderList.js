@@ -10,12 +10,12 @@ import unassign from "../../../assets/images/Unassign.png";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
-import download from '../../../assets/images/download.png';
-import view from '../../../assets/images/eye.png';
-import edit from '../../../assets/images/edit-text.png'
-import remove from '../../../assets/images/delete.png'
-import mark from '../../../assets/images/pay.png';
-import process from '../../../assets/images/return.png';
+import download from "../../../assets/images/download.png";
+import view from "../../../assets/images/eye.png";
+import edit from "../../../assets/images/edit-text.png";
+import remove from "../../../assets/images/delete.png";
+import mark from "../../../assets/images/pay.png";
+import process from "../../../assets/images/return.png";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
@@ -122,54 +122,53 @@ function DealerOrderList() {
     </div>
   );
 
-  
-  const data =[
+  const data = [
     {
-      id : '1',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      status: 'Active'
+      id: "1",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1000",
+      status: "Active",
     },
     {
-      id : '2',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      status: 'Active'
+      id: "2",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1000",
+      status: "Active",
     },
     {
-      id : '3',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      status: 'Active'
+      id: "3",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1000",
+      status: "Active",
     },
     {
-      id : '4',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      status: 'Active'
+      id: "4",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1000",
+      status: "Active",
     },
     {
-      id : '5',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      status: 'Pending'
-    }
-  ]
+      id: "5",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1000",
+      status: "Pending",
+    },
+  ];
 
   const columns = [
     {
@@ -192,7 +191,7 @@ function DealerOrderList() {
     },
     {
       name: "# of Contract",
-      selector: (row) =>  row.order,
+      selector: (row) => row.order,
       sortable: true,
       minWidth: "150px",
     },
@@ -226,9 +225,7 @@ function DealerOrderList() {
           <div className="relative">
             <div
               onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.id ? null : row.id
-                )
+                setSelectedAction(selectedAction === row.id ? null : row.id)
               }
             >
               <img
@@ -251,30 +248,32 @@ function DealerOrderList() {
                       className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
-                       <img src={edit} className="w-4 h-4 mr-2"/> Edit
+                      <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
                     <div
                       className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      <img src={process} className="w-4 h-4 mr-2"/> Process Order
+                      <img src={process} className="w-4 h-4 mr-2" /> Process
+                      Order
                     </div>
                     <div
                       className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      <img src={mark} className="w-4 h-4 mr-2"/> Mark as Paid
+                      <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
                     </div>
                     <>
                       <div className="text-left flex py-1 border-b cursor-pointer">
-                        <img src={download} className="w-4 h-4 mr-2"/><PdfGenerator data={row} />
+                        <img src={download} className="w-4 h-4 mr-2" />
+                        <PdfGenerator data={row} />
                       </div>
                     </>
                     <div
                       className="text-left py-1 flex cursor-pointer"
                       onClick={() => openArchive(row._id)}
                     >
-                     <img src={remove} className="w-4 h-4 mr-2"/> Archive
+                      <img src={remove} className="w-4 h-4 mr-2" /> Archive
                     </div>
                   </>
                 ) : (
@@ -283,13 +282,15 @@ function DealerOrderList() {
                       to={`/orderDetails/${row._id}`}
                       className="text-left py-1 cursor-pointer border-b w-full flex justify-start"
                     >
-                      <img src={view} className="w-4 h-4 mr-2"/> View
+                      <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
                     <div className="text-left py-1 flex border-b cursor-pointer">
-                    <img src={download} className="w-4 h-4 mr-2"/> <PdfGenerator data={row} />
+                      <img src={download} className="w-4 h-4 mr-2" />{" "}
+                      <PdfGenerator data={row} />
                     </div>
                     <div className="text-left py-1 flex cursor-pointer">
-                    <img src={download} className="w-4 h-4 mr-2"/> <PdfMake data={row} />
+                      <img src={download} className="w-4 h-4 mr-2" />{" "}
+                      <PdfMake data={row._id} />
                     </div>
                   </>
                 )}

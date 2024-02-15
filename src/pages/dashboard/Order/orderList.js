@@ -352,7 +352,7 @@ function OrderList() {
                     </div>
                     <div className="text-left py-1 flex cursor-pointer">
                       <img src={download} className="w-4 h-4 mr-2" />{" "}
-                      <PdfMake data={row} />
+                      <PdfMake data={row._id} />
                     </div>
                   </>
                 )}

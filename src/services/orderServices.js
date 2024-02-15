@@ -280,3 +280,16 @@ export const getAllContractsForAdmin = async (data = {}) => {
     throw error;
   }
 };
+
+export const getExportOrderHtml = async (id, data = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/order/generatePDF/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
