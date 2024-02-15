@@ -10,6 +10,12 @@ import unassign from "../../../assets/images/Unassign.png";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
+import download from '../../../assets/images/download.png';
+import view from '../../../assets/images/eye.png';
+import edit from '../../../assets/images/edit-text.png'
+import remove from '../../../assets/images/delete.png'
+import mark from '../../../assets/images/pay.png';
+import process from '../../../assets/images/return.png';
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
@@ -239,62 +245,51 @@ function DealerOrderList() {
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 {row.status == "Pending" ? (
                   <>
-                   <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => navigate(`/dealer/editOrder/${row._id}`)}
+                    <div
+                      className="text-left py-1 flex border-b cursor-pointer"
+                      onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
-                      Edit
+                       <img src={edit} className="w-4 h-4 mr-2"/> Edit
                     </div>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      Process Order
+                      <img src={process} className="w-4 h-4 mr-2"/> Process Order
                     </div>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      Mark as Paid
+                      <img src={mark} className="w-4 h-4 mr-2"/> Mark as Paid
                     </div>
+                    <>
+                      <div className="text-left flex py-1 border-b cursor-pointer">
+                        <img src={download} className="w-4 h-4 mr-2"/><PdfGenerator data={row} />
+                      </div>
+                    </>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
-                    >
-                      Invoice 
-                    </div>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
-                    >
-                      Export Order
-                    </div>
-                    <div
-                      className="text-center py-1 cursor-pointer"
+                      className="text-left py-1 flex cursor-pointer"
                       onClick={() => openArchive(row._id)}
                     >
-                      Archive
+                     <img src={remove} className="w-4 h-4 mr-2"/> Archive
                     </div>
                   </>
                 ) : (
-                  <div className="text-center py-1 cursor-pointer">
-                    <Link to={`/dealer/orderDetails`} className="text-center py-1 cursor-pointer border-b w-full flex justify-center"
-                  >
-                    View
-                  </Link>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
+                  <>
+                    <Link
+                      to={`/orderDetails/${row._id}`}
+                      className="text-left py-1 cursor-pointer border-b w-full flex justify-start"
                     >
-                      Invoice 
+                      <img src={view} className="w-4 h-4 mr-2"/> View
+                    </Link>
+                    <div className="text-left py-1 flex border-b cursor-pointer">
+                    <img src={download} className="w-4 h-4 mr-2"/> <PdfGenerator data={row} />
                     </div>
-                    <div
-                      className="text-center py-1  cursor-pointer"
-                      onClick={() => openModal(row._id)}
-                    >
-                      Export Order
+                    <div className="text-left py-1 flex cursor-pointer">
+                    <img src={download} className="w-4 h-4 mr-2"/> <PdfMake data={row} />
                     </div>
-                  </div>
+                  </>
                 )}
               </div>
             )}
