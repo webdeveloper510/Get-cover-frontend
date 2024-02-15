@@ -48,32 +48,32 @@ function ContractList() {
     setIsDisapprovedOpen(true);
   };
 
-  const findDate = (data, type) => {
-    const product = contractList?.find((contract) => {
-      return contract.order;
-    });
+  const findDate = (data, index, type) => {
+    if (contractList) {
+      for (var i = 0; i < contractList.length; i++) {
+        for (
+          var j = 0;
+          j < contractList[i].order[0].productsArray.length;
+          j++
+        ) {
+          const currentProduct = contractList[i].order[0].productsArray[j];
 
-    if (product) {
-      const selectedProduct = product.order.find(
-        (res) => res._id === data.orderId
-      );
-
-      if (selectedProduct && selectedProduct.productsArray) {
-        const formattedDates = selectedProduct.productsArray.map((res) => {
-          return format(
-            new Date(
-              type === "start" ? res.coverageStartDate : res.coverageEndDate
-            ),
-            "MM-dd-yyyy"
-          );
-        });
-
-        return formattedDates[0];
+          if (data.orderProductId === currentProduct._id) {
+            return format(
+              new Date(
+                type === "start"
+                  ? currentProduct.coverageStartDate
+                  : currentProduct.coverageEndDate
+              ),
+              "MM-dd-yyyy"
+            );
+          }
+        }
       }
     }
-
-    return "";
+    return "Date Not Found";
   };
+
   const handlePageChange = async (page, rowsPerPage) => {
     console.log(page, rowsPerPage);
     setLoading(true);
@@ -182,8 +182,7 @@ function ContractList() {
           ) : (
             <>
               {contractList &&
-                contractList.map((res) => {
-                  console.log(res);
+                contractList.map((res, index) => {
                   return (
                     <div className="px-3 mt-5">
                       <div>
@@ -206,7 +205,7 @@ function ContractList() {
                           </div>
                           <div className="col-span-1 self-center justify-end"></div>
                           <div className="col-span-1 self-center justify-end">
-                            <Link to={"/editContract"}>
+                            <Link to={`/editContract/${res._id}`}>
                               {" "}
                               <img
                                 src={Edit}
@@ -315,7 +314,7 @@ function ContractList() {
                                 Coverage Start Date
                               </p>
                               <p className="text-[#333333] text-base font-semibold">
-                                {findDate(res, "start")}
+                                {findDate(res, index, "start")}
                               </p>
                             </div>
                           </div>
@@ -325,7 +324,7 @@ function ContractList() {
                                 Coverage End Date
                               </p>
                               <p className="text-[#333333] text-base font-semibold">
-                                {findDate(res, "end")}
+                                {findDate(res, index, "end")}
                               </p>
                             </div>
                           </div>

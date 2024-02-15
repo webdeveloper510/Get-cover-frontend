@@ -71,3 +71,16 @@ export const getDealerList = async () => {
     throw error;
   }
 };
+
+export const getContractValues = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/contract/getContractById/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
