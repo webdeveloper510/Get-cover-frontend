@@ -286,7 +286,7 @@ function OrderList(props) {
                     </div>
                     {row.flag && (
                       <div
-                        className="text-center py-1 border-b cursor-pointer"
+                        className="text-center py-1 border-b hover:font-semibold cursor-pointer"
                         onClick={() => markasPaid(row)}
                       >
                         <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
@@ -294,10 +294,7 @@ function OrderList(props) {
                     )}
 
                     <>
-                      <div className="text-left flex py-1 border-b cursor-pointer">
-                        <img src={download} className="w-4 h-4 mr-2" />
                         <PdfGenerator data={row} />
-                      </div>
                     </>
                     <div
                       className="text-left py-1 flex cursor-pointer hover:font-semibold"
@@ -310,18 +307,13 @@ function OrderList(props) {
                   <>
                     <Link
                       to={`/orderDetails/${row._id}`}
-                      className="text-left py-1 cursor-pointer border-b w-full flex justify-start"
+                      className="text-left py-1 cursor-pointer border-b hover:font-semibold w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                    <div className="text-left py-1 flex border-b cursor-pointer">
-                      <img src={download} className="w-4 h-4 mr-2" />{" "}
                       <PdfGenerator data={row} />
-                    </div>
-                    <div className="text-left py-1 flex cursor-pointer">
-                      <img src={download} className="w-4 h-4 mr-2" />{" "}
+                    
                       <PdfMake data={row._id} />
-                    </div>
                   </>
                 )}
               </div>

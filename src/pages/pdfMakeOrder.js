@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import { getExportOrderHtml } from "../services/orderServices";
-
+import download from "../assets/images/download.png";
 const PdfMake = (props) => {
   const [htmlContent, setHtmlContent] = useState("");
 
@@ -34,9 +34,12 @@ const PdfMake = (props) => {
   return (
     <div>
       <div id="pdfContent" />
-      <button onClick={downloadAsPDF} className="hover:font-semibold">
+      <div className="text-left py-1 flex cursor-pointer hover:font-semibold" onClick={downloadAsPDF}>
+       <img src={download} className="w-4 h-4 mr-2" />{" "}
+      <button  className="">
         Order
       </button>
+      </div>
     </div>
   );
 };
