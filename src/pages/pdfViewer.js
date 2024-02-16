@@ -78,7 +78,9 @@ function PdfGenerator(props) {
                            
                             </small>
                     </td>
-                    <td style="text-align: left; width: 50%;">
+                    ${
+                      props?.data?.resellerId != null
+                        ? `    <td style="text-align: left; width: 50%;">
                     <h4 style="margin: 0; padding: 0;"><b>Reseller Details:</b></h4>
                     <h4 style="margin: 0; padding: 0;"><b>${
                       props?.data?.resellerName?.name ?? ""
@@ -90,7 +92,10 @@ function PdfGenerator(props) {
                       ${props?.data?.resellerName?.zip ?? ""} <br/>
                      
                     </small>
-                  </td>
+                  </td> `
+                        : ""
+                    }
+                 
                 </tr>
             </tbody>
         </table>
