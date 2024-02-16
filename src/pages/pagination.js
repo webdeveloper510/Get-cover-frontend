@@ -10,6 +10,7 @@ const CustomPagination = ({
 
   useEffect(() => {
     onPageChange(currentPage, rowsPerPage);
+    window.scrollTo(0, 0); // Scroll to the top of the page
   }, [currentPage, rowsPerPage]);
 
   const totalPages = Math.ceil(totalRecords / rowsPerPage);
