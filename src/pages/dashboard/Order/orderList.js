@@ -57,7 +57,6 @@ function OrderList() {
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
-  console.log(data, "======================================");
 
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
@@ -82,11 +81,6 @@ function OrderList() {
   };
   useEffect(() => {
     let intervalId;
-    // if (isModalOpen && timer > 0) {
-    //   intervalId = setInterval(() => {
-    //     setTimer((prevTimer) => prevTimer - 1);
-    //   }, 1000);
-    // }
     if (isModalOpen1 && timer > 0) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
@@ -106,7 +100,7 @@ function OrderList() {
       archiveOrders(orderId).then((res) => {
         setPrimaryMessage("Archive Order Successfully");
         setSecondaryMessage("You have successfully archive the order");
-        console.log(res);
+        // console.log(res);
         setTimer(3);
         setIsModalOpen1(true);
       });
@@ -154,7 +148,7 @@ function OrderList() {
       setSelectedAction(null);
       setProcessOrderErrors(res.result);
       SetErrorList(res.result);
-      console.log(res.result);
+      // console.log(res.result);
     });
 
     setIsModalOpen(true);
@@ -163,10 +157,7 @@ function OrderList() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const handleSelectChange1 = (label, value) => {
-    console.log(label, value, "selected");
-    setSelectedProduct(value);
-  };
+
   const [loading, setLoading] = useState(false);
 
   const status = [
@@ -176,7 +167,6 @@ function OrderList() {
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      // Close the dropdown if the click is outside of it
       setSelectedAction(null);
     }
   };
@@ -185,7 +175,7 @@ function OrderList() {
     getOrderList();
 
     document.addEventListener("click", handleClickOutside);
-    
+
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
