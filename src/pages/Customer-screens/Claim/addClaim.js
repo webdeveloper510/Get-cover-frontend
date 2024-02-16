@@ -198,12 +198,6 @@ function CustomerAddClaim() {
           <Grid className='!grid-cols-4 mt-3'>
               <div className='col-span-1'>
                 <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                  <p className='text-sm m-0 p-0'>Dealer Name</p>
-                  <p className='font-semibold'>Dealer Name</p>
-                </div>
-              </div>
-              <div className='col-span-1'>
-                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
                   <p className='text-sm m-0 p-0'>Manufacturer</p>
                   <p className='font-semibold'>Manufacturer</p>
                 </div>

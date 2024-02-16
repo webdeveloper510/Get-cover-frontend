@@ -318,7 +318,7 @@ function OrderList() {
                     </div>
                     {row.flag && (
                       <div
-                        className="text-center py-1 border-b cursor-pointer"
+                        className="text-center py-1 border-b flex cursor-pointer"
                         onClick={() => markasPaid(row)}
                       >
                         <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid

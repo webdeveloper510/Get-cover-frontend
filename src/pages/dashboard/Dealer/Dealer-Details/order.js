@@ -286,7 +286,7 @@ function OrderList(props) {
                     </div>
                     {row.flag && (
                       <div
-                        className="text-center py-1 border-b hover:font-semibold cursor-pointer"
+                        className="text-center py-1 border-b flex hover:font-semibold cursor-pointer"
                         onClick={() => markasPaid(row)}
                       >
                         <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
