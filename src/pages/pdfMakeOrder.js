@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import { getExportOrderHtml } from "../services/orderServices";
 import download from "../assets/images/download.png";
+import logo from "../assets/images/logo.png";
 const PdfMake = (props) => {
   const [htmlContent, setHtmlContent] = useState("");
 
