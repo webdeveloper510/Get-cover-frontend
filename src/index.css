@@ -74,10 +74,22 @@ code {
   color: #727378 !important;
 }
 
-.Diagnosis::-webkit-scrollbar {
-  display: none;
+
+
+.Diagnosis::-webkit-scrollbar-track {
+  background: #333333;
 }
 
+/* Handle */
+.Diagnosis::-webkit-scrollbar-thumb {
+  background: #cfcfcf;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.Diagnosis::-webkit-scrollbar-thumb:hover {
+  background: #dfdfdf;
+}
 .rdt_Pagination {
   position: absolute;
   margin-top: 38px;

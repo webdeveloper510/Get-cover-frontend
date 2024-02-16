@@ -26,8 +26,7 @@ function ContractList(props) {
       pageLimit: rowsPerPage,
     };
     setLoading(true);
-    const result =
-    props.flag === "reseller"
+    const result = props.flag === "reseller"
       ? await getContractsforReseller(props.id, data )
       : await getContractsforDealer(data);
     setContractList(result.result);
