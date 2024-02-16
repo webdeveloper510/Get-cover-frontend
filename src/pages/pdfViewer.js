@@ -38,7 +38,7 @@ function PdfGenerator(props) {
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Date:</b></td>
                                     <td style="border: none; padding: 4px;">${format(
-                                      new Date(),
+                                      new Date(props?.data?.createdAt),
                                       "MM-dd-yyyy"
                                     )}</td>
                                 </tr>
@@ -50,9 +50,7 @@ function PdfGenerator(props) {
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
-                                    <td style="border: none; padding: 4px;">$ ${
-                                      props?.data?.totalOrderAmount
-                                    }</td>
+                                    <td style="border: none; padding: 4px;">$  ${props?.data?.totalOrderAmount?.toLocaleString()}</td>
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;">Currency Type:</td>
@@ -134,12 +132,12 @@ function PdfGenerator(props) {
               <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
                 product.noOfProducts
               }</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.unitPrice.toFixed(
-                2
-              )}</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.price.toFixed(
-                2
-              )}</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.unitPrice
+                .toFixed(2)
+                .toLocaleString()}</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.price
+                .toFixed(2)
+                .toLocaleString()}</td>
             </tr>
           `
             )
@@ -148,13 +146,18 @@ function PdfGenerator(props) {
         <tfoot>
           <tr>
             <td colspan="4" style="font-weight: bold; padding: 8px; text-align: right;">Total:</td>
-            <td style="font-weight: bold; padding: 8px;">$${props?.data?.productsArray
-              .reduce(
-                (total, product) =>
-                  total + product.noOfProducts * product.unitPrice,
-                0
-              )
-              .toFixed(2)}</td>
+            <td style={{ fontWeight: 'bold', padding: '8px' }}>
+            $${Number(
+              props?.data?.productsArray
+                .reduce(
+                  (total, product) =>
+                    total + product.noOfProducts * product.unitPrice,
+                  0
+                )
+                .toFixed(2)
+            ).toLocaleString()}
+        
+          </td>
           </tr>
         </tfoot>
       </table>
@@ -164,7 +167,9 @@ function PdfGenerator(props) {
 
   return (
     <div>
-      <button onClick={convertToPDF} className="hover:font-semibold">Invoice</button>
+      <button onClick={convertToPDF} className="hover:font-semibold">
+        Invoice
+      </button>
     </div>
   );
 }
