@@ -5,6 +5,12 @@ import Button from "../../../../common/button";
 
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
+import download from "../../../../assets/images/download.png";
+import view from "../../../../assets/images/eye.png";
+import edit from "../../../../assets/images/edit-text.png";
+import remove from "../../../../assets/images/delete.png";
+import mark from "../../../../assets/images/pay.png";
+import process from "../../../../assets/images/return.png";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
@@ -25,6 +31,7 @@ import AddDealer from "../../../../assets/images/Disapproved.png";
 import {
   archiveOrders,
   getContracts,
+  markPaid,
   processOrders,
 } from "../../../../services/orderServices";
 import PdfMake from "../../../pdfMakeOrder";
@@ -39,6 +46,9 @@ function OrderList(props) {
   const [processOrderErrors, setProcessOrderErrors] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [timer, setTimer] = useState(3);
+  const [message, setMessage] = useState("");
+  const [primaryMessage, setPrimaryMessage] = useState("");
+  const [secondaryMessage, setSecondaryMessage] = useState("");
   const [contractDetails, setContractDetails] = useState();
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
@@ -99,12 +109,24 @@ function OrderList(props) {
     setIsModalOpen1(false);
   };
   const openModal1 = () => {
-    console.log(orderId);
-    archiveOrders(orderId).then((res) => {
-      console.log(res);
-    });
-    setTimer(3);
-    setIsModalOpen1(true);
+    if (message == "Would you like to Archive it?") {
+      archiveOrders(orderId).then((res) => {
+        setPrimaryMessage("Archive Order Successfully");
+        setSecondaryMessage("You have successfully archive the order");
+        console.log(res);
+        setTimer(3);
+        setIsModalOpen1(true);
+      });
+    } else {
+      markPaid(orderId).then((res) => {
+        if (res.code == 200) {
+          setPrimaryMessage("Order Successfully Paid.");
+          setSecondaryMessage("You have successfully marked the order as paid");
+          setTimer(3);
+          setIsModalOpen1(true);
+        }
+      });
+    }
   };
 
   const closeArchive = () => {
@@ -162,6 +184,14 @@ function OrderList(props) {
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = orderList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
+  };
+
+  const markasPaid = async (row) => {
+    setMessage(
+      `Would you prefer to make the full payment $ ${row.orderAmount} ?`
+    );
+    SetOrderId(row._id);
+    setIsArchiveOpen(true);
   };
 
   const columns = [
@@ -235,53 +265,61 @@ function OrderList(props) {
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[120px] drop-shadow-5xl px-3 py-2 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[130px] drop-shadow-5xl px-3 py-2 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
-                {row.status == "Pending" ? (
+                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-left py-1 flex border-b hover:font-semibold cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
-                      Edit
+                      <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-left py-1 flex border-b hover:font-semibold cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      Process Order
+                      <img src={process} className="w-4 h-4 mr-2" /> Process
+                      Order
                     </div>
-                    <div
-                      className="text-center py-1 border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
-                    >
-                      Mark as Paid
-                    </div>
-                    <div className="text-center py-1 border-b cursor-pointer">
-                      <PdfGenerator data={row} />
-                    </div>
+                    {row.flag && (
+                      <div
+                        className="text-center py-1 border-b cursor-pointer"
+                        onClick={() => markasPaid(row)}
+                      >
+                        <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
+                      </div>
+                    )}
 
+                    <>
+                      <div className="text-left flex py-1 border-b cursor-pointer">
+                        <img src={download} className="w-4 h-4 mr-2" />
+                        <PdfGenerator data={row} />
+                      </div>
+                    </>
                     <div
-                      className="text-center py-1 cursor-pointer"
+                      className="text-left py-1 flex cursor-pointer hover:font-semibold"
                       onClick={() => openArchive(row._id)}
                     >
-                      Archive
+                      <img src={remove} className="w-4 h-4 mr-2" /> Archive
                     </div>
                   </>
                 ) : (
                   <>
                     <Link
                       to={`/orderDetails/${row._id}`}
-                      className="text-center py-1 cursor-pointer w-full flex  border-b justify-center"
+                      className="text-left py-1 cursor-pointer border-b w-full flex justify-start"
                     >
-                      View
+                      <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                    <div className="text-center py-1 border-b cursor-pointer">
+                    <div className="text-left py-1 flex border-b cursor-pointer">
+                      <img src={download} className="w-4 h-4 mr-2" />{" "}
                       <PdfGenerator data={row} />
                     </div>
-                    <div className="text-center py-1 cursor-pointer">
+                    <div className="text-left py-1 flex cursor-pointer">
+                      <img src={download} className="w-4 h-4 mr-2" />{" "}
                       <PdfMake data={row._id} />
                     </div>
                   </>
@@ -445,12 +483,12 @@ function OrderList(props) {
 
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
-          <img src={Primary} alt="email Image" className="mx-auto my-4" />
+        <img src={Primary} alt="email Image" className="mx-auto my-4" />
           <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
-            Archive Order Successfully
+            {primaryMessage}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            You have successfully archive the order
+            {secondaryMessage}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
@@ -476,15 +514,12 @@ function OrderList(props) {
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-            {errorList &&
-              errorList.map((res) => {
-                console.log(res);
-                return (
+           
+
                   <p className="text-neutral-grey text-base font-medium mt-2">
-                    {res}
+                    {errorList}
                   </p>
-                );
-              })}
+              
           </p>
         </div>
       </Modal>

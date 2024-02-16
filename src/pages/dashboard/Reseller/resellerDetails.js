@@ -429,7 +429,13 @@ function ResellerDetails() {
       label: "Contracts",
       icons: Contract,
       Activeicons: ContractsActive,
-      content: <ContractList />,
+      content: (
+        <ContractList
+          flag={"reseller"}
+          id={id.resellerId}
+          activeTab={activeTab}
+        />
+      ),
     },
     {
       id: "Claims",
@@ -771,7 +777,9 @@ function ResellerDetails() {
                   </Grid>
                 </div>
               </div>
-              {activeTab !== "Servicer" && activeTab !== "PriceBook" && activeTab !== "Contracts" ? (
+              {activeTab !== "Servicer" &&
+              activeTab !== "PriceBook" &&
+              activeTab !== "Contracts" ? (
                 <div
                   className="col-span-2"
                   onClick={() => routeToPage(activeTab)}

@@ -83,7 +83,6 @@ function UserList(props) {
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      // Close the dropdown if the click is outside of it
       setSelectedAction(null);
     }
   };
@@ -103,7 +102,6 @@ function UserList(props) {
 
   useEffect(() => {
     if (props?.data?.length !== 0) {
-     
       getUserList();
     }
   }, [props?.data]);
@@ -128,7 +126,6 @@ function UserList(props) {
       clearInterval(intervalId);
       setTimer(3);
     }
-
 
     return () => {
       clearInterval(intervalId);

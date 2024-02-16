@@ -304,7 +304,9 @@ function CustomerDetails() {
       label: "Contracts",
       icons: Dealer,
       Activeicons: DealerActive,
-      content: <ContractList />,
+      content: (
+        <ContractList flag={"customer"} id={customerId} activeTab={activeTab} />
+      ),
     },
     {
       id: "Claims",
@@ -603,22 +605,24 @@ function CustomerDetails() {
               </div>
               <div className="col-span-4"></div>
               <div className="col-span-2">
-                 {activeTab !== "Contracts" ? (
-                <Button
-                  className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-                  onClick={() => routeToPage(activeTab)}
-                >
-                  {" "}
-                  <img
-                    src={AddItem}
-                    className="self-center"
-                    alt="AddItem"
-                  />{" "}
-                  <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
-                    Add {activeTab}
-                  </span>{" "}
-                </Button>
-                 ) :(<></>)}
+                {activeTab !== "Contracts" ? (
+                  <Button
+                    className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+                    onClick={() => routeToPage(activeTab)}
+                  >
+                    {" "}
+                    <img
+                      src={AddItem}
+                      className="self-center"
+                      alt="AddItem"
+                    />{" "}
+                    <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
+                      Add {activeTab}
+                    </span>{" "}
+                  </Button>
+                ) : (
+                  <></>
+                )}
               </div>
             </Grid>
 
