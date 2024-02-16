@@ -545,7 +545,7 @@ function DealerDetails() {
 
         <Grid className="!grid-cols-4">
           <div className="col-span-1">
-            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
+            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px] h-[85vh] overflow-y-auto">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">

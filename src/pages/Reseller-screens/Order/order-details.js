@@ -276,29 +276,29 @@ function ResellerOrderDetails() {
               <Grid className="!py-5">
                 <div className="col-span-5">
                 <Button className="!bg-white !text-light-black !text-sm border flex">
-                                <img
-                                  src={Csv}
-                                  className="mr-3 self-center"
-                                  alt="Csv"
-                                />{" "}
-                                <span className="self-center">
-                                  {" "}
-                                  <PdfGenerator/>
-                                </span>
-                              </Button>
-                </div>
-                <div className="col-span-7">
-                <Button className="!bg-white !text-light-black !text-sm border flex">
-                                <img
-                                  src={Csv}
-                                  className="mr-3 self-center"
-                                  alt="Csv"
-                                />{" "}
-                                <span className="self-center">
-                                  {" "}
-                                  <PdfMake/>
-                                </span>
-                              </Button>
+                    <img
+                      src={Csv}
+                      className="mr-3 self-center"
+                      alt="Csv"
+                    />{" "}
+                    <span className="self-center">
+                      {" "}
+                      <PdfGenerator/>
+                    </span>
+                  </Button>
+                    </div>
+                    <div className="col-span-7">
+                    <Button className="!bg-white !text-light-black !text-sm border flex">
+                    <img
+                      src={Csv}
+                      className="mr-3 self-center"
+                      alt="Csv"
+                    />{" "}
+                    <span className="self-center">
+                      {" "}
+                      <PdfMake/>
+                    </span>
+                  </Button>
                 </div>
               </Grid>
             </div>

@@ -376,7 +376,28 @@ function CustomerContractList() {
                         label="Product Name"
                         placeholder="" />
             </div>
-            <div className='col-span-12'>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Serial"
+                        className="!bg-[#fff]"
+                        label="Serial #"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Manufacturer"
+                        className="!bg-[#fff]"
+                        label="Manufacturer"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Model"
+                        className="!bg-[#fff]"
+                        label="Model"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
             <Select
                         name="Status"
                         label="Status"
