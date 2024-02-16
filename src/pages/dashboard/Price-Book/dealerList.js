@@ -38,9 +38,7 @@ function DealerPriceList() {
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
   const [dealerPriceBookDetail, setDealerPriceBookDetail] = useState({});
   const { dealerName } = useParams();
-  console.log(dealerName);
   const [termList, setTermList] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const navigte = useNavigate();
   const dropdownRef = useRef(null);
@@ -207,22 +205,20 @@ function DealerPriceList() {
     },
     {
       name: "Wholesale Cost",
-      selector: (row) => "$" + row?.wholesalePrice?.toFixed(2),
+      selector: (row) => "$" + row?.wholesalePrice?.toLocaleString(2),
       sortable: true,
       minWidth: "160px",
     },
     {
       name: "Retail Cost",
-      selector: (row) => "$" + row?.retailPrice?.toFixed(2),
+      selector: (row) => "$" + row?.retailPrice?.toLocaleString(2),
       sortable: true,
       minWidth: "120px",
     },
-
     {
       name: "Status",
       selector: (row) => row.status,
       sortable: true,
-
       cell: (row) => (
         <div className="relative">
           <div
@@ -320,6 +316,7 @@ function DealerPriceList() {
 
   return (
     <>
+    
       <div className="my-8 ml-3">
         <Headbar />
         <div className="flex mt-2">
