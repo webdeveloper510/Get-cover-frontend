@@ -61,7 +61,7 @@ function Dashboard() {
             </div>
             <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
               <p className="text-2xl font-bold">
-                ${parseInt(dashboardDetail.totalAmount).toFixed(2)}
+                ${parseInt(dashboardDetail.totalAmount).toLocaleString(2)}
               </p>
               <p className="text-[#999999] text-sm">Total Value of Orders</p>
             </div>
