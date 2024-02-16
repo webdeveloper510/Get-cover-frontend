@@ -258,7 +258,7 @@ function ContractList() {
                                 Retail Price
                               </p>
                               <p className="text-[#333333] text-base font-semibold">
-                                ${parseInt(res.productValue).toFixed(2)}
+                                ${parseInt(res.productValue).toLocaleString(2)}
                               </p>
                             </div>
                           </div>
@@ -339,7 +339,7 @@ function ContractList() {
                                 Claimed Value
                               </p>
                               <p className="text-[#333333] text-base font-semibold">
-                                ${parseInt(res.claimAmount).toFixed(2)}
+                                ${parseInt(res.claimAmount).toLocaleString(2)}
                               </p>
                             </div>
                           </div>

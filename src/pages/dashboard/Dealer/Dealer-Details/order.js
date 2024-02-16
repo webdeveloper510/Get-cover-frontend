@@ -225,7 +225,7 @@ function OrderList(props) {
     },
     {
       name: "Order Value",
-      selector: (row) => "$" + (row?.orderAmount ?? 0).toFixed(2),
+      selector: (row) => "$" + (row?.orderAmount ?? 0).toLocaleString(2),
       sortable: true,
     },
     {

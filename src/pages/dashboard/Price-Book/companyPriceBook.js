@@ -512,19 +512,19 @@ function CompanyPriceBook() {
                   </div>
                   <div className='col-span-4'>
                     <p className="text-lg text-light-black font-semibold">Fronting fee ($)</p>
-                    <p className="text-base text-neutral-grey font-semibold"> ${data?.frontingFee?.toFixed(2)}</p>
+                    <p className="text-base text-neutral-grey font-semibold"> ${data?.frontingFee?.toLocaleString(2)}</p>
                   </div>
                   <div className='col-span-4'>
                     <p className="text-lg text-light-black font-semibold">Re-insurance fee ($)</p>
-                    <p className="text-base text-neutral-grey font-semibold"> ${data?.reinsuranceFee?.toFixed(2)}</p>
+                    <p className="text-base text-neutral-grey font-semibold"> ${data?.reinsuranceFee?.toLocaleString(2)}</p>
                   </div>
                   <div className='col-span-6'>
                     <p className="text-lg text-light-black font-semibold">Reserve for future claims ($)</p>
-                    <p className="text-base text-neutral-grey font-semibold"> ${data?.reserveFutureFee?.toFixed(2)}</p>
+                    <p className="text-base text-neutral-grey font-semibold"> ${data?.reserveFutureFee?.toLocaleString(2)}</p>
                   </div>
                   <div className='col-span-6'>
                     <p className="text-lg text-light-black font-semibold">Administration fee ($)</p>
-                    <p className="text-base text-neutral-grey font-semibold"> ${data?.adminFee?.toFixed(2)}</p>
+                    <p className="text-base text-neutral-grey font-semibold"> ${data?.adminFee?.toLocaleString(2)}</p>
                   </div>
                   <div className='col-span-4'>
                     <p className="text-lg text-light-black font-semibold">Wholesale Cost ($)</p>
@@ -543,11 +543,11 @@ function CompanyPriceBook() {
                       <>
                         <div className='col-span-4'> 
                           <p className="text-lg text-light-black font-semibold">Range Start</p>
-                          <p className="text-base text-neutral-grey font-semibold"> {data?.rangeStart?.toFixed(2)}</p>
+                          <p className="text-base text-neutral-grey font-semibold"> {data?.rangeStart?.toLocaleString(2)}</p>
                         </div>
                         <div className='col-span-4'>
                           <p className="text-lg text-light-black font-semibold">Range End</p>
-                          <p className="text-base text-neutral-grey font-semibold"> {data?.rangeEnd?.toFixed(2)}</p>
+                          <p className="text-base text-neutral-grey font-semibold"> {data?.rangeEnd?.toLocaleString(2)}</p>
                         </div></>
                     )
                   }

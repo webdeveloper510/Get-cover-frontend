@@ -129,8 +129,8 @@ function CustomerList() {
       selector: (row) =>
         `$ ${
           row?.order?.orderAmount === undefined
-            ? parseInt(0).toFixed(2)
-            : row?.order?.orderAmount?.toFixed(2)
+            ? parseInt(0).toLocaleString(2)
+            : row?.order?.orderAmount?.toLocaleString(2)
         }`,
       sortable: true,
     },

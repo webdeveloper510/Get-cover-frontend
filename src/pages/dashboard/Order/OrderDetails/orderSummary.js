@@ -105,7 +105,7 @@ function OrderSummary(props) {
                               Price
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              ${res.price.toFixed(2)}
+                              ${res.price.toLocaleString(2)}
                             </p>
                           </div>
                         </div>
@@ -143,7 +143,7 @@ function OrderSummary(props) {
                                   Start Range
                                 </p>
                                 <p className="text-[#333333] text-base font-semibold">
-                                  ${res.rangeStart.toFixed(2)}
+                                  ${res.rangeStart.toLocaleString(2)}
                                 </p>
                               </div>
                             </div>
@@ -153,7 +153,7 @@ function OrderSummary(props) {
                                   End Range
                                 </p>
                                 <p className="text-[#333333] text-base font-semibold">
-                                  ${res.rangeEnd.toFixed(2)}
+                                  ${res.rangeEnd.toLocaleString(2)}
                                 </p>
                               </div>
                             </div>
