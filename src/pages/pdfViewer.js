@@ -16,6 +16,7 @@ function PdfGenerator(props) {
 
     html2pdf().from(generateHTML()).set(opt).save();
   };
+  
 
   const generateHTML = () => {
     return `
