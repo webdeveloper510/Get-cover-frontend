@@ -57,6 +57,7 @@ function OrderList(props) {
   const dropdownRef = useRef(null);
 
   const openArchive = (id) => {
+    setMessage("Would you like to Archive it?");
     SetOrderId(id);
     setIsArchiveOpen(true);
   };

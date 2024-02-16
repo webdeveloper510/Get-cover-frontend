@@ -316,7 +316,7 @@ function OrderDetails() {
               <Grid className="!py-5">
                 <div className="col-span-5">
                   <Button className="!bg-white !text-light-black !text-sm border flex">
-                    <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "}
+                    {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
                     <span className="self-center">
                       {" "}
                       <PdfGenerator data={invoiceData} />
@@ -325,7 +325,7 @@ function OrderDetails() {
                 </div>
                 <div className="col-span-7">
                   <Button className="!bg-white !text-light-black !text-sm border flex">
-                    <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "}
+                    {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
                     <span className="self-center">
                       {" "}
                       <PdfMake data={orderId} />
