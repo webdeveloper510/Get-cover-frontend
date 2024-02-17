@@ -84,3 +84,20 @@ export const getContractValues = async (id) => {
     throw error;
   }
 };
+
+export const editContractValues = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/contract/getContractById/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
