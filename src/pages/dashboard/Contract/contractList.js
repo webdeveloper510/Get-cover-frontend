@@ -41,9 +41,9 @@ function ContractList() {
     setLoading(false);
   };
 
-  useEffect(() => {
-    getContracts();
-  }, []);
+  // useEffect(() => {
+  //   getContracts();
+  // }, []);
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
   };
@@ -59,7 +59,7 @@ function ContractList() {
           const matchingProduct = productsArray.find(
             (product) => product._id === data.orderProductId
           );
-
+          console.log(productsArray);
           if (matchingProduct) {
             foundDate = format(
               new Date(

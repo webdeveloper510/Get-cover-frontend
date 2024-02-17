@@ -46,11 +46,11 @@ function Contracts(props) {
     }
   };
 
-  useEffect(() => {
-    if (props?.flag == "contracts") {
-      getOrdersContracts();
-    }
-  }, [props?.flag]);
+  // useEffect(() => {
+  //   if (props?.flag == "contracts") {
+  //     getOrdersContracts();
+  //   }
+  // }, [props?.flag]);
 
   return (
     <>
@@ -121,18 +121,19 @@ function Contracts(props) {
                   <RotateLoader color="#333" />
                 </div>
               </div>
-            ) : (<>
-            {contractDetails &&
-              contractDetails.result &&
-              contractDetails.result.map((res) => (
-                <div>
-                  <Grid className="bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl">
-                    <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
-                      <p className="text-white py-2 font-Regular">
-                        Contract ID : <b>{res?.unique_key} </b>
-                      </p>
-                    </div>
-                    <div className="col-span-5"></div>
+            ) : (
+              <>
+                {contractDetails &&
+                  contractDetails.result &&
+                  contractDetails.result.map((res) => (
+                    <div>
+                      <Grid className="bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl">
+                        <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
+                          <p className="text-white py-2 font-Regular">
+                            Contract ID : <b>{res?.unique_key} </b>
+                          </p>
+                        </div>
+                        <div className="col-span-5"></div>
 
                         <div className="col-span-1 self-center justify-end">
                           <Link to={`/editContract/${res?._id}`}>

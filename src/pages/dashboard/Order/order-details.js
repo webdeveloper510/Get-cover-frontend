@@ -46,7 +46,6 @@ function OrderDetails() {
 
   useEffect(() => {
     getOrderDetails();
-    getOrdersContracts();
   }, [orderId]);
   useEffect(() => {
     setLoading(true);
@@ -73,11 +72,7 @@ function OrderDetails() {
   const handleGOBack = () => {
     navigate(-1);
   };
-  const getOrdersContracts = async () => {
-    const result = await getContracts(orderId);
-    setContractDetails(result);
-    console.log(result);
-  };
+
   const tabs = [
     {
       id: "Order Summary",
