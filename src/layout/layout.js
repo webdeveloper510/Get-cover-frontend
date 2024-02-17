@@ -57,7 +57,7 @@ function Layout() {
       Location.pathname !== "/customer/orderDetails" &&
       Location.pathname !== "/dealer/orderDetails" ? (
         <div
-          className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full `}
+          className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full s:hidden md:block xl:block `}
         >
           <SideBar />
         </div>
