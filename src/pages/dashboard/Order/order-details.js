@@ -229,35 +229,38 @@ function OrderDetails() {
                   </p>
                 </div>
               </div>
-              {userDetails?.resellerData?.name == null ? (<></>) : (
+              {userDetails?.resellerData?.name == null ? (
+                <></>
+              ) : (
                 <>
-                 <div className="flex mb-4">
-                <div className="relative">
-                  <img
-                    src={Name}
-                    className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="Name"
-                  />
-                  <Link to={`/resellerDetails/${orderDetails.resellerId}`}>
-                    {" "}
-                    <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
-                </div>
-                <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
-                    Reseller Name
-                  </p>
-                  <p className="text-base text-white font-semibold ">
-                    {userDetails?.resellerData?.name}
-                  </p>
-                </div>
-              </div></>
-              )} 
-             
+                  <div className="flex mb-4">
+                    <div className="relative">
+                      <img
+                        src={Name}
+                        className="mr-3 bg-[#383838] rounded-[14px]"
+                        alt="Name"
+                      />
+                      <Link to={`/resellerDetails/${orderDetails.resellerId}`}>
+                        {" "}
+                        <img
+                          src={DealerList}
+                          className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                          alt="DealerList"
+                        />{" "}
+                      </Link>
+                    </div>
+                    <div>
+                      <p className="text-sm text-neutral-grey font-Regular">
+                        Reseller Name
+                      </p>
+                      <p className="text-base text-white font-semibold ">
+                        {userDetails?.resellerData?.name}
+                      </p>
+                    </div>
+                  </div>
+                </>
+              )}
+
               <div className="flex mb-4">
                 <div className="relative">
                   <img
@@ -283,43 +286,45 @@ function OrderDetails() {
                   </p>
                 </div>
               </div>
-              {userDetails?.servicerData?.name == null ? ('') : (
+              {userDetails?.servicerData?.name == null ? (
+                ""
+              ) : (
                 <>
                   <div className="flex mb-4">
-                <div className="relative">
-                  <img
-                    src={Name}
-                    className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="Name"
-                  />
-                  <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
-                    {" "}
-                    <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
-                </div>
-                <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
-                    Servicer Name
-                  </p>
-                  <p className="text-base text-white font-semibold ">
-                    {userDetails?.servicerData?.name}
-                  </p>
-                </div>
-              </div>
+                    <div className="relative">
+                      <img
+                        src={Name}
+                        className="mr-3 bg-[#383838] rounded-[14px]"
+                        alt="Name"
+                      />
+                      <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
+                        {" "}
+                        <img
+                          src={DealerList}
+                          className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                          alt="DealerList"
+                        />{" "}
+                      </Link>
+                    </div>
+                    <div>
+                      <p className="text-sm text-neutral-grey font-Regular">
+                        Servicer Name
+                      </p>
+                      <p className="text-base text-white font-semibold ">
+                        {userDetails?.servicerData?.name}
+                      </p>
+                    </div>
+                  </div>
                 </>
               )}
-            
+
               <Grid className="!py-5">
                 <div className="col-span-6">
                   <Button className="!bg-white !text-light-black !text-sm border flex">
                     {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
                     <span className="self-center">
                       {" "}
-                      <PdfGenerator data={invoiceData} />
+                      <PdfGenerator data={orderDetails._id} />
                     </span>
                   </Button>
                 </div>

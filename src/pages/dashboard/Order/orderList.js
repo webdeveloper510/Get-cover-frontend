@@ -315,7 +315,10 @@ function OrderList() {
                     )}
 
                     <>
-                        <PdfGenerator data={row} onClick={() => setSelectedAction(null)} />
+                      <PdfGenerator
+                        data={row._id}
+                        onClick={() => setSelectedAction(null)}
+                      />
                     </>
                     <div
                       className="text-left py-1 flex cursor-pointer hover:font-semibold"
@@ -332,8 +335,11 @@ function OrderList() {
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                      <PdfGenerator data={row} onClick={() => setSelectedAction(null)} />
-                      <PdfMake data={row._id} />
+                    <PdfGenerator
+                      data={row}
+                      onClick={() => setSelectedAction(null)}
+                    />
+                    <PdfMake data={row._id} />
                   </>
                 )}
               </div>

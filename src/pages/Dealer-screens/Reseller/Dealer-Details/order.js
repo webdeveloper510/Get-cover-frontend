@@ -51,8 +51,6 @@ function OrderList(props) {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const navigate = useNavigate();
 
-  
-
   const openArchive = (id) => {
     SetOrderId(id);
     setIsArchiveOpen(true);
@@ -66,7 +64,7 @@ function OrderList(props) {
     });
     setIsModalOpen(true);
   };
- 
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -111,7 +109,7 @@ function OrderList(props) {
     }
     return () => clearInterval(intervalId);
   }, [isModalOpen, isModalOpen1, timer]);
-  
+
   const getOrderList = async () => {
     setLoading(true);
     let result = {};
@@ -206,7 +204,7 @@ function OrderList(props) {
                   index
                 )}`}
               >
-               {row.status == "Pending" ? (
+                {row.status == "Pending" ? (
                   <>
                     <div
                       className="text-left py-1 flex border-b cursor-pointer"
@@ -228,7 +226,7 @@ function OrderList(props) {
                       <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
                     </div>
                     <>
-                        <PdfGenerator data={row} />
+                      <PdfGenerator data={row._id} />
                     </>
                     <div
                       className="text-left py-1 flex cursor-pointer"
@@ -245,8 +243,8 @@ function OrderList(props) {
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                      <PdfGenerator data={row} />
-                      <PdfMake data={row._id} />
+                    <PdfGenerator data={row._id} />
+                    <PdfMake data={row._id} />
                   </>
                 )}
               </div>
@@ -329,29 +327,30 @@ function OrderList(props) {
             </div>
           </Grid>
           <div className="mb-5 relative dealer-detail">
-          {loading ? (
-            <div className=" h-[400px] w-full flex py-5">
-            <div className="self-center mx-auto">
-              <RotateLoader color="#333" />
-            </div>
-          </div> ) : (
-            <DataTable
-              columns={columns}
-              data={orderList}
-              highlightOnHover
-              sortIcon={
-                <>
-                  {" "}
-                  <img src={shorting} className="ml-2" alt="shorting" />
-                </>
-              }
-              pagination
-              paginationPerPage={10}
-              noDataComponent={<CustomNoDataComponent />}
-              paginationComponentOptions={paginationOptions}
-              paginationRowsPerPageOptions={[10, 20, 50, 100]}
-            />
-          )}
+            {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
+              <DataTable
+                columns={columns}
+                data={orderList}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />
+                  </>
+                }
+                pagination
+                paginationPerPage={10}
+                noDataComponent={<CustomNoDataComponent />}
+                paginationComponentOptions={paginationOptions}
+                paginationRowsPerPageOptions={[10, 20, 50, 100]}
+              />
+            )}
           </div>
         </div>
       </div>

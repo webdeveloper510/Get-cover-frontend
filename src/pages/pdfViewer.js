@@ -3,8 +3,9 @@ import html2pdf from "html2pdf.js";
 import logo from "../assets/images/logo.png";
 import download from "../assets/images/download.png";
 import { format } from "date-fns";
+import { orderDetailsById } from "../services/orderServices";
 function PdfGenerator(props, className) {
-  console.log(props.data);
+  console.log(props);
   const convertToPDF = () => {
     const opt = {
       margin: 0,
@@ -16,9 +17,18 @@ function PdfGenerator(props, className) {
 
     html2pdf().from(generateHTML()).set(opt).save();
   };
-  
 
-  const generateHTML = () => {
+  const generateHTML = async () => {
+    const result = await orderDetailsById(props.data);
+    let data = {
+      dealerName: result.orderUserData.dealerData,
+      customerName: result.orderUserData.customerData,
+      resellerName: result.orderUserData.resellerData,
+      totalOrderAmount: result.result.orderAmount,
+      ...result.result,
+    };
+    // setInvoiceData(data);
+    console.log(data);
     return `
       <div style="max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
@@ -40,19 +50,19 @@ function PdfGenerator(props, className) {
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Date:</b></td>
                                     <td style="border: none; padding: 4px;">${format(
-                                      new Date(props?.data?.createdAt),
+                                      new Date(data?.createdAt),
                                       "MM-dd-yyyy"
                                     )}</td>
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Number:</b></td>
                                     <td style="border: none; padding: 4px;"> ${
-                                      props?.data?.unique_key
+                                      data?.unique_key
                                     }</td>
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
-                                    <td style="border: none; padding: 4px;">$  ${props?.data?.totalOrderAmount?.toLocaleString()}</td>
+                                    <td style="border: none; padding: 4px;">$  ${data?.totalOrderAmount?.toLocaleString()}</td>
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;">Currency Type:</td>
@@ -81,17 +91,17 @@ function PdfGenerator(props, className) {
                             </small>
                     </td>
                     ${
-                      props?.data?.resellerId != null
+                      data?.resellerId != null
                         ? `    <td style="text-align: left; width: 50%;">
                     <h4 style="margin: 0; padding: 0;"><b>Reseller Details:</b></h4>
                     <h4 style="margin: 0; padding: 0;"><b>${
-                      props?.data?.resellerName?.name ?? ""
+                      data?.resellerName?.name ?? ""
                     }</b></h4>
                     <small style="margin: 0; padding: 0;">Bill To:
-                      ${props?.data?.resellerName?.street ?? ""} 
-                      ${props?.data?.resellerName?.city ?? ""}, 
-                      ${props?.data?.resellerName?.state ?? ""} 
-                      ${props?.data?.resellerName?.zip ?? ""} <br/>
+                      ${data?.resellerName?.street ?? ""} 
+                      ${data?.resellerName?.city ?? ""}, 
+                      ${data?.resellerName?.state ?? ""} 
+                      ${data?.resellerName?.zip ?? ""} <br/>
                      
                     </small>
                   </td> `
@@ -102,23 +112,17 @@ function PdfGenerator(props, className) {
                 <tr>
                 <td style="text-align: left; width: 50%; padding-top: 20px;">
                 ${
-                  props?.data?.customerName != null
+                  data?.customerName != null
                     ? `
                 <h4 style="margin: 0; padding: 0;"><b>Customer Details: </b></h4>
-                <h4 style="margin: 0; padding: 0;"><b> ${
-                  props.data?.customerName?.username
-                } </b></h4>
-                <small style="margin: 0; padding: 0;">Address: ${
-                  props.data?.customerName?.street
-                  } ${props.data?.customerName?.city} ,${
-                  props.data?.customerName?.state
-                  } ${props.data?.customerName?.zip} <br/>
+                <h4 style="margin: 0; padding: 0;"><b> ${props.data?.customerName?.username} </b></h4>
+                <small style="margin: 0; padding: 0;">Address: ${props.data?.customerName?.street} ${props.data?.customerName?.city} ,${props.data?.customerName?.state} ${props.data?.customerName?.zip} <br/>
                    
                     </small>
             </td>
             `
-            : ""
-        }
+                    : ""
+                }
          
                 </tr>
             </tbody>
@@ -143,7 +147,7 @@ function PdfGenerator(props, className) {
           </tr>
         </thead>
         <tbody>
-          ${props?.data?.productsArray
+          ${data?.productsArray
             ?.map(
               (product, index) => `
             <tr key="${index}">
@@ -172,7 +176,7 @@ function PdfGenerator(props, className) {
             <td colspan="4" style="font-weight: bold; padding: 8px; text-align: right;">Total:</td>
             <td style={{ fontWeight: 'bold', padding: '8px' }}>
             $${Number(
-              props?.data?.productsArray
+              data?.productsArray
                 .reduce(
                   (total, product) =>
                     total + product.noOfProducts * product.unitPrice,
@@ -190,9 +194,12 @@ function PdfGenerator(props, className) {
   };
 
   return (
-      <div className={`text-left flex py-1 cursor-pointer hover:font-semibold  ${className}`} onClick={convertToPDF}>
+    <div
+      className={`text-left flex py-1 cursor-pointer hover:font-semibold  ${className}`}
+      onClick={convertToPDF}
+    >
       <img src={download} className="w-4 h-4 mr-2" />
-      <button  className="">Invoice</button>
+      <button className="">Invoice</button>
     </div>
   );
 }

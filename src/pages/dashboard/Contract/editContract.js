@@ -34,7 +34,7 @@ function EditContract() {
     manufacture: Yup.string().required("Required"),
     model: Yup.string().required("Required"),
     serial: Yup.string().required("Required"),
-    productValue: Yup.string().required("Required"),
+    productValue: Yup.number().required("Required"),
     condition: Yup.string().required("Rrequired"),
     coverageStartDate: Yup.date().required("Required"),
   });
@@ -44,32 +44,32 @@ function EditContract() {
       manufacture: "",
       model: "",
       serial: "",
-      productValue: "",
+      productValue: null,
       condition: "",
       coverageStartDate: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      setLoading(true)
+      setLoading(true);
       console.log(values);
-      setLoading(false)
+      setLoading(false);
     },
   });
   const getContractDetails = async () => {
-    setLoading(true)
+    setLoading(true);
     const result = await getContractValues(id);
     setContractDetails(result.result);
     formik.setValues({
       manufacture: result.result.manufacture || "",
       model: result.result.model || "",
       serial: result.result.serial || "",
-      productValue: result.result.productValue || "",
+      productValue: parseInt(result?.result?.productValue).toFixed(2) || null,
       condition: result.result.condition || "",
       coverageStartDate:
         result.result.order[0].productsArray[0].coverageStartDate || "",
     });
     console.log(result.result);
-    setLoading(false)
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -107,279 +107,294 @@ function EditContract() {
           </div>
         </div>
         {loading ? (
-              <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
+          <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
+              <Grid className="mx-8 mx-auto ">
+                <div className="col-span-3 self-center border-r border-[#4e4e4e]">
+                  <div className="flex">
+                    <div className="self-center backdrop-blur mr-4">
+                      <img src={contract} alt="category" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                        Contract ID
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {contractDetails?.unique_key}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <>
-              <div className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
-                <Grid className="mx-8 mx-auto ">
-                  <div className="col-span-3 self-center border-r border-[#4e4e4e]">
-                    <div className="flex">
-                      <div className="self-center backdrop-blur mr-4">
-                        <img src={contract} alt="category" />
-                      </div>
-                      <div className="self-center">
-                        <p className="text-[#FFF] text-base font-medium leading-5	">
-                          Contract ID
-                        </p>
-                        <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                          {contractDetails?.unique_key}
-                        </p>
-                      </div>
+                <div className="col-span-3 border-r border-[#4e4e4e]">
+                  <div className="flex">
+                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                      <img src={category1} className="w-6 h-6" alt="dealer" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                        Order ID
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {contractDetails?.order?.[0]?.unique_key}
+                      </p>
                     </div>
                   </div>
-                  <div className="col-span-3 border-r border-[#4e4e4e]">
-                    <div className="flex">
-                      <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                        <img src={category1} className="w-6 h-6" alt="dealer" />
-                      </div>
-                      <div className="self-center">
-                        <p className="text-[#FFF] text-base font-medium leading-5	">
-                          Order ID
-                        </p>
-                        <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                          {contractDetails?.order?.[0]?.unique_key}
-                        </p>
-                      </div>
+                </div>
+                <div className="col-span-3">
+                  <div className="flex w-full border-r border-[#4e4e4e]">
+                    <div className="self-center backdrop-blur  mr-4">
+                      <img src={delaerName} alt="terms" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5">
+                        Dealer P.O. No.
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                        {contractDetails?.order?.[0]?.venderOrder}
+                      </p>
                     </div>
                   </div>
-                  <div className="col-span-3">
-                    <div className="flex w-full border-r border-[#4e4e4e]">
-                      <div className="self-center backdrop-blur  mr-4">
-                        <img src={delaerName} alt="terms" />
-                      </div>
-                      <div className="self-center">
-                        <p className="text-[#FFF] text-base font-medium leading-5">
-                          Dealer P.O. No.
-                        </p>
-                        <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                          {contractDetails?.order?.[0]?.venderOrder}
-                        </p>
-                      </div>
+                </div>
+                <div className="col-span-3">
+                  <div className="flex">
+                    <div className="self-center backdrop-blur  mr-4">
+                      <img src={delaerName} alt="product" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                        Dealer Name
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {contractDetails?.order?.[0]?.dealer?.[0]?.name}
+                      </p>
                     </div>
                   </div>
-                  <div className="col-span-3">
-                    <div className="flex">
-                      <div className="self-center backdrop-blur  mr-4">
-                        <img src={delaerName} alt="product" />
-                      </div>
-                      <div className="self-center">
-                        <p className="text-[#FFF] text-base font-medium leading-5	">
-                          Dealer Name
-                        </p>
-                        <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                          {contractDetails?.order?.[0]?.dealer?.[0]?.name}
-                        </p>
-                      </div>
+                </div>
+              </Grid>
+              <Grid className="mx-8 mt-2  mx-auto ">
+                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                  <div className="flex w-full border-r border-[#4e4e4e]">
+                    <div className="self-center backdrop-blur  mr-4">
+                      <img src={CustomerName} alt="category" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                        Customer Name
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {contractDetails?.order?.[0]?.customer?.[0]?.username}
+                      </p>
                     </div>
                   </div>
-                </Grid>
-                <Grid className="mx-8 mt-2  mx-auto ">
-                  <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                    <div className="flex w-full border-r border-[#4e4e4e]">
-                      <div className="self-center backdrop-blur  mr-4">
-                        <img src={CustomerName} alt="category" />
-                      </div>
-                      <div className="self-center">
-                        <p className="text-[#FFF] text-base font-medium leading-5	">
-                          Customer Name
-                        </p>
-                        <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                          {contractDetails?.order?.[0]?.customer?.[0]?.username}
-                        </p>
-                      </div>
+                </div>
+                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                  <div className="flex w-full border-r border-[#4e4e4e]">
+                    <div className="self-center backdrop-blur   mr-4">
+                      <img src={ServicerName} alt="dealer" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                        Servicer Name
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {contractDetails?.order?.[0]?.servicer?.[0]?.name}
+                      </p>
                     </div>
                   </div>
-                  <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                    <div className="flex w-full border-r border-[#4e4e4e]">
-                      <div className="self-center backdrop-blur   mr-4">
-                        <img src={ServicerName} alt="dealer" />
-                      </div>
-                      <div className="self-center">
-                        <p className="text-[#FFF] text-base font-medium leading-5	">
-                          Servicer Name
-                        </p>
-                        <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                          {contractDetails?.order?.[0]?.servicer?.[0]?.name}
-                        </p>
-                      </div>
+                </div>
+                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                  <div className="flex w-full border-r border-[#4e4e4e]">
+                    <div className="self-center backdrop-blur  mr-4">
+                      <img src={claim} alt="terms" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5">
+                        Claimed Value
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                        ${" "}
+                        {parseInt(contractDetails?.claimAmount).toLocaleString(
+                          2
+                        )}
+                      </p>
                     </div>
                   </div>
-                  <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                    <div className="flex w-full border-r border-[#4e4e4e]">
-                      <div className="self-center backdrop-blur  mr-4">
-                        <img src={claim} alt="terms" />
-                      </div>
-                      <div className="self-center">
-                        <p className="text-[#FFF] text-base font-medium leading-5">
-                          Claimed Value
-                        </p>
-                        <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                          $ {parseInt(contractDetails?.claimAmount).toLocaleString(2)}
-                        </p>
-                      </div>
+                </div>
+                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                  <div className="flex">
+                    <div className="self-center backdrop-blur  mr-4">
+                      <img src={Eligibility} alt="product" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                        Eligibility
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {contractDetails?.eligibilty}
+                      </p>
                     </div>
                   </div>
-                  <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                    <div className="flex">
-                      <div className="self-center backdrop-blur  mr-4">
-                        <img src={Eligibility} alt="product" />
-                      </div>
-                      <div className="self-center">
-                        <p className="text-[#FFF] text-base font-medium leading-5	">
-                          Eligibility
-                        </p>
-                        <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                          {contractDetails?.eligibilty}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </Grid>
-              </div>
+                </div>
+              </Grid>
+            </div>
 
-              <form className="mt-8 mr-4" onSubmit={formik.handleSubmit}>
-                <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
-                  <p className="pb-5 text-lg font-semibold">Contracts</p>
-                  <Grid className="!grid-cols-4">
-                    <div className="col-span-1">
-                      <Input
-                        type="text"
-                        name="manufacture"
-                        className="!bg-[#fff]"
-                        label="Manufacturer"
-                        required={true}
-                        placeholder=""
-                        value={formik.values.manufacture}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        error={
-                          formik.touched.manufacture && formik.errors.manufacture
-                        }
-                      />
-                      {formik.touched.manufacture && formik.errors.manufacture && (
+            <form className="mt-8 mr-4" onSubmit={formik.handleSubmit}>
+              <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+                <p className="pb-5 text-lg font-semibold">Contracts</p>
+                <Grid className="!grid-cols-4">
+                  <div className="col-span-1">
+                    <Input
+                      type="text"
+                      name="manufacture"
+                      className="!bg-[#fff]"
+                      label="Manufacturer"
+                      required={true}
+                      placeholder=""
+                      value={formik.values.manufacture}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.manufacture && formik.errors.manufacture
+                      }
+                    />
+                    {formik.touched.manufacture &&
+                      formik.errors.manufacture && (
                         <div className="text-red-500 text-sm pl-2 pt-2">
                           {formik.errors.manufacture}
                         </div>
                       )}
-                    </div>
-                    <div className="col-span-1">
-                      <Input
-                        type="text"
-                        name="model"
-                        className="!bg-[#fff]"
-                        label="Model"
-                        required={true}
-                        placeholder=""
-                        value={formik.values.model}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        error={formik.touched.model && formik.errors.model}
-                      />
-                      {formik.touched.model && formik.errors.model && (
-                        <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formik.errors.model}
-                        </div>
-                      )}
-                    </div>
-                    <div className="col-span-1">
-                      <Input
-                        type="text"
-                        name="serial"
-                        className="!bg-[#fff]"
-                        label="Serial"
-                        required={true}
-                        placeholder=""
-                        value={formik.values.serial}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        error={formik.touched.serial && formik.errors.serial}
-                      />
-                      {formik.touched.serial && formik.errors.serial && (
-                        <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formik.errors.serial}
-                        </div>
-                      )}
-                    </div>
+                  </div>
+                  <div className="col-span-1">
+                    <Input
+                      type="text"
+                      name="model"
+                      className="!bg-[#fff]"
+                      label="Model"
+                      required={true}
+                      placeholder=""
+                      value={formik.values.model}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={formik.touched.model && formik.errors.model}
+                    />
+                    {formik.touched.model && formik.errors.model && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.model}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-1">
+                    <Input
+                      type="text"
+                      name="serial"
+                      className="!bg-[#fff]"
+                      label="Serial"
+                      required={true}
+                      placeholder=""
+                      value={formik.values.serial}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={formik.touched.serial && formik.errors.serial}
+                    />
+                    {formik.touched.serial && formik.errors.serial && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.serial}
+                      </div>
+                    )}
+                  </div>
 
-                    <div className="col-span-1">
-                      <Input
-                        type="text"
-                        name="productValue"
-                        className="!bg-[#fff]"
-                        label="RetailPrice"
-                        required={true}
-                        placeholder=""
-                        value={formik.values.productValue}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        error={
-                          formik.touched.productValue && formik.errors.productValue
-                        }
-                      />
-                      {formik.touched.productValue && formik.errors.productValue && (
+                  <div className="col-span-1">
+                    <Input
+                      type="number"
+                      name="productValue"
+                      className="!bg-[#fff]"
+                      label="RetailPrice"
+                      maxLength={"10"}
+                      required={true}
+                      placeholder=""
+                      onBlur={(e) => {
+                        const formattedValue = parseFloat(
+                          e.target.value
+                        ).toFixed(2);
+                        console.log(formattedValue);
+                        formik.handleBlur(e);
+                        formik.setFieldValue("productValue", formattedValue);
+                      }}
+                      maxDecimalPlaces={2}
+                      error={
+                        formik.touched.productValue &&
+                        formik.errors.productValue
+                      }
+                    />
+
+                    {formik.touched.productValue &&
+                      formik.errors.productValue && (
                         <div className="text-red-500 text-sm pl-2 pt-2">
                           {formik.errors.productValue}
                         </div>
                       )}
-                    </div>
-                    <div className="col-span-1">
-                      <Input
-                        type="text"
-                        name="condition"
-                        className="!bg-[#fff]"
-                        label="Condition"
-                        required={true}
-                        placeholder=""
-                        value={formik.values.condition}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        error={formik.touched.condition && formik.errors.condition}
-                      />
-                      {formik.touched.condition && formik.errors.condition && (
+                  </div>
+                  <div className="col-span-1">
+                    <Input
+                      type="text"
+                      name="condition"
+                      className="!bg-[#fff]"
+                      label="Condition"
+                      required={true}
+                      placeholder=""
+                      value={formik.values.condition}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.condition && formik.errors.condition
+                      }
+                    />
+                    {formik.touched.condition && formik.errors.condition && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.condition}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-1">
+                    <Input
+                      type="date"
+                      name="coverageStartDate"
+                      label="Coverage Start Date"
+                      required={true}
+                      className="!bg-[#fff]"
+                      placeholder=""
+                      disabled={true}
+                      value={formik.values.coverageStartDate}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.coverageStartDate &&
+                        formik.errors.coverageStartDate
+                      }
+                    />
+                    {formik.touched.coverageStartDate &&
+                      formik.errors.coverageStartDate && (
                         <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formik.errors.condition}
+                          {formik.errors.coverageStartDate}
                         </div>
                       )}
-                    </div>
-                    <div className="col-span-1">
-                      <Input
-                        type="date"
-                        name="coverageStartDate"
-                        label="Coverage Start Date"
-                        required={true}
-                        className="!bg-[#fff]"
-                        placeholder=""
-                        disabled={true}
-                        value={formik.values.coverageStartDate}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        error={
-                          formik.touched.coverageStartDate &&
-                          formik.errors.coverageStartDate
-                        }
-                      />
-                      {formik.touched.coverageStartDate &&
-                        formik.errors.coverageStartDate && (
-                          <div className="text-red-500 text-sm pl-2 pt-2">
-                            {formik.errors.coverageStartDate}
-                          </div>
-                        )}
-                    </div>
-                  </Grid>
-
-                  <div className="mt-8">
-                    <Button className="!bg-white !text-black">Cancel</Button>
-                    <Button type="submit">Update</Button>
                   </div>
-                </div>
-              </form>
-              </>
-            )}
+                </Grid>
 
+                <div className="mt-8">
+                  <Button className="!bg-white !text-black">Cancel</Button>
+                  <Button type="submit">Update</Button>
+                </div>
+              </div>
+            </form>
+          </>
+        )}
       </div>
     </>
   );

@@ -295,7 +295,7 @@ function OrderList(props) {
                     )}
 
                     <>
-                      <PdfGenerator data={row} />
+                      <PdfGenerator data={row._id} />
                     </>
                     <div
                       className="text-left py-1 flex cursor-pointer hover:font-semibold"
@@ -312,7 +312,7 @@ function OrderList(props) {
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                    <PdfGenerator data={row} />
+                    <PdfGenerator data={row._id} />
 
                     <PdfMake data={row._id} />
                   </>

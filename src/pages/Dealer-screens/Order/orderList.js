@@ -264,7 +264,7 @@ function DealerOrderList() {
                       <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
                     </div>
                     <>
-                        <PdfGenerator data={row} />
+                      <PdfGenerator data={row._id} />
                     </>
                     <div
                       className="text-left py-1 flex cursor-pointer"
@@ -281,8 +281,8 @@ function DealerOrderList() {
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                      <PdfGenerator data={row} />
-                      <PdfMake data={row._id} />
+                    <PdfGenerator data={row._id} />
+                    <PdfMake data={row._id} />
                   </>
                 )}
               </div>

@@ -97,49 +97,49 @@ function ResellerOrderList() {
     };
   }, []);
 
-  const data =[
+  const data = [
     {
-      id : '1',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1,000'
+      id: "1",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1,000",
     },
     {
-      id : '2',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1,000'
+      id: "2",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1,000",
     },
     {
-      id : '3',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1,000'
+      id: "3",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1,000",
     },
     {
-      id : '4',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1,000'
+      id: "4",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1,000",
     },
     {
-      id : '5',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1,000',
-      status : 'Pending'
-    }
-  ]
+      id: "5",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1,000",
+      status: "Pending",
+    },
+  ];
 
   const getOrderList = async () => {
     setLoading(true);
@@ -221,9 +221,7 @@ function ResellerOrderList() {
           <div className="relative">
             <div
               onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.id ? null : row.id
-                )
+                setSelectedAction(selectedAction === row.id ? null : row.id)
               }
             >
               <img
@@ -260,7 +258,7 @@ function ResellerOrderList() {
                       <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
                     </div>
                     <>
-                        <PdfGenerator data={row} />
+                      <PdfGenerator data={row._id} />
                     </>
                     <div
                       className="text-left py-1 flex cursor-pointer"
@@ -277,8 +275,8 @@ function ResellerOrderList() {
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                      <PdfGenerator data={row} />
-                      <PdfMake data={row._id} />
+                    <PdfGenerator data={row._id} />
+                    <PdfMake data={row._id} />
                   </>
                 )}
               </div>
@@ -503,7 +501,7 @@ function ResellerOrderList() {
                 placeholder=""
               />
             </div>
-           
+
             <div className="col-span-6">
               <Input
                 type="text"
