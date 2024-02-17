@@ -8,6 +8,12 @@ import arrowImage from "../../../../assets/images/dropdownArrow.png";
 import AddItem from "../../../../assets/images/icons/addItem.svg";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
+import download from "../../../../assets/images/download.png";
+import view from "../../../../assets/images/eye.png";
+import edit from "../../../../assets/images/edit-text.png";
+import remove from "../../../../assets/images/delete.png";
+import mark from "../../../../assets/images/pay.png";
+import process from "../../../../assets/images/return.png";
 import Headbar from "../../../../common/headBar";
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
@@ -28,6 +34,8 @@ import {
   getOrders,
   processOrders,
 } from "../../../../services/orderServices";
+import PdfGenerator from "../../../pdfViewer";
+import PdfMake from "../../../pdfMakeOrder";
 function OrderList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -198,30 +206,48 @@ function OrderList(props) {
                   index
                 )}`}
               >
-                {row.status == "Pending" ? (
+               {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
-                      Edit
+                      <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-left py-1 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      Process Order
+                      <img src={process} className="w-4 h-4 mr-2" /> Process
+                      Order
                     </div>
                     <div
-                      className="text-center py-1 cursor-pointer"
+                      className="text-left py-1 flex border-b cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
+                    </div>
+                    <>
+                        <PdfGenerator data={row} />
+                    </>
+                    <div
+                      className="text-left py-1 flex cursor-pointer"
                       onClick={() => openArchive(row._id)}
                     >
-                      Archive
+                      <img src={remove} className="w-4 h-4 mr-2" /> Archive
                     </div>
                   </>
                 ) : (
-                    <Link to={`/orderDetails/${row._id}`} className="text-center py-1 cursor-pointer w-full flex justify-center">View</Link>
-                
+                  <>
+                    <Link
+                      to={`/orderDetails/${row._id}`}
+                      className="text-left py-1 cursor-pointer border-b w-full flex justify-start"
+                    >
+                      <img src={view} className="w-4 h-4 mr-2" /> View
+                    </Link>
+                      <PdfGenerator data={row} />
+                      <PdfMake data={row._id} />
+                  </>
                 )}
               </div>
             )}

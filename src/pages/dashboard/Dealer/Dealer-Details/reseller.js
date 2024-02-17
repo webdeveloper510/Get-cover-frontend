@@ -61,7 +61,7 @@ function Reseller(props) {
     {
       name: "Order Value",
       selector: (row) =>
-        "$" + (row?.orderData?.orderAmount ?? parseInt(0)).toFixed(2),
+        "$" + (row?.orderData?.orderAmount ?? parseInt(0)).toLocaleString(2),
       sortable: true,
     },
     {

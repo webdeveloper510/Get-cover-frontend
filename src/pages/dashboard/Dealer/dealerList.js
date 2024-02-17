@@ -169,8 +169,8 @@ function DealerList() {
       selector: (row) =>
         `$ ${
           row?.ordersData?.orderAmount === undefined
-            ? parseInt(0).toFixed(2)
-            : row?.ordersData?.orderAmount?.toFixed(2)
+            ? parseInt(0).toLocaleString(2)
+            : row?.ordersData?.orderAmount?.toLocaleString(2)
         }`,
       sortable: true,
       minWidth: "auto",

@@ -126,8 +126,8 @@ function ResellerList() {
       selector: (row) =>
         `$ ${
           row?.orders?.orderAmount === undefined
-            ? parseInt(0).toFixed(2)
-            : row?.orders?.orderAmount?.toFixed(2)
+            ? parseInt(0).toLocaleString(2)
+            : row?.orders?.orderAmount?.toLocaleString(2)
         }`,
       sortable: true,
     },

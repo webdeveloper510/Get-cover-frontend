@@ -246,7 +246,7 @@ function DealerOrderList() {
                   <>
                     <div
                       className="text-left py-1 flex border-b cursor-pointer"
-                      onClick={() => navigate(`/editOrder/${row._id}`)}
+                      onClick={() => navigate(`/dealer/editOrder/${row._id}`)}
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
@@ -264,10 +264,7 @@ function DealerOrderList() {
                       <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
                     </div>
                     <>
-                      <div className="text-left flex py-1 border-b cursor-pointer">
-                        <img src={download} className="w-4 h-4 mr-2" />
                         <PdfGenerator data={row} />
-                      </div>
                     </>
                     <div
                       className="text-left py-1 flex cursor-pointer"
@@ -279,19 +276,13 @@ function DealerOrderList() {
                 ) : (
                   <>
                     <Link
-                      to={`/orderDetails/${row._id}`}
+                      to={`/dealer/orderDetails/${row._id}`}
                       className="text-left py-1 cursor-pointer border-b w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                    <div className="text-left py-1 flex border-b cursor-pointer">
-                      <img src={download} className="w-4 h-4 mr-2" />{" "}
                       <PdfGenerator data={row} />
-                    </div>
-                    <div className="text-left py-1 flex cursor-pointer">
-                      <img src={download} className="w-4 h-4 mr-2" />{" "}
                       <PdfMake data={row._id} />
-                    </div>
                   </>
                 )}
               </div>

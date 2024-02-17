@@ -218,7 +218,7 @@ function EditContract() {
                           Claimed Value
                         </p>
                         <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                          $ {parseInt(contractDetails?.claimAmount).toFixed(2)}
+                          $ {parseInt(contractDetails?.claimAmount).toLocaleString(2)}
                         </p>
                       </div>
                     </div>

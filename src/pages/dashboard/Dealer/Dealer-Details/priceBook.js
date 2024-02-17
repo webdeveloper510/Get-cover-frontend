@@ -75,7 +75,7 @@ function PriceBookList(props) {
       });
 
       const result = await editDealerPriceBook(row._id, {
-        retailPrice: row?.retailPrice?.toFixed(2),
+        retailPrice: row?.retailPrice?.toLocaleString(2),
         priceBook: row?.priceBook,
         dealerId: row?.dealerId,
         status: newStatus === "active" ? true : false,
@@ -118,12 +118,12 @@ function PriceBookList(props) {
           },
           {
             name: "WholeSale Cost",
-            selector: (row) => "$ " + row.wholesalePrice.toFixed(2),
+            selector: (row) => "$ " + row.wholesalePrice.toLocaleString(2),
             sortable: true,
           },
           {
             name: "Retail Cost",
-            selector: (row) => "$  " + row.retailPrice.toFixed(2),
+            selector: (row) => "$  " + row.retailPrice.toLocaleString(2),
             sortable: true,
           },
           // {
@@ -180,12 +180,12 @@ function PriceBookList(props) {
           },
           {
             name: "WholeSale Cost",
-            selector: (row) => "$ " + row.wholesalePrice.toFixed(2),
+            selector: (row) => "$ " + row.wholesalePrice.toLocaleString(2),
             sortable: true,
           },
           {
             name: "Retail Cost",
-            selector: (row) => "$  " + row.retailPrice.toFixed(2),
+            selector: (row) => "$  " + row.retailPrice.toLocaleString(2),
             sortable: true,
           },
           {
@@ -637,7 +637,7 @@ function PriceBookList(props) {
                 Wholesale Price($)
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-                ${dealerPriceBookDetail?.wholesalePrice?.toFixed(2)}
+                ${dealerPriceBookDetail?.wholesalePrice?.toLocaleString(2)}
               </p>
             </div>
             <div className="col-span-4">
@@ -645,7 +645,7 @@ function PriceBookList(props) {
                 Retail Price ($)
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-                ${dealerPriceBookDetail?.retailPrice?.toFixed(2)}
+                ${dealerPriceBookDetail?.retailPrice?.toLocaleString(2)}
               </p>
             </div>
             <div className="col-span-4">
@@ -687,7 +687,7 @@ function PriceBookList(props) {
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
                     {" "}
-                    {dealerPriceBookDetail?.priceBooks?.rangeStart?.toFixed(2)}
+                    {dealerPriceBookDetail?.priceBooks?.rangeStart?.toLocaleString(2)}
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -696,7 +696,7 @@ function PriceBookList(props) {
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
                     {" "}
-                    {dealerPriceBookDetail?.priceBooks?.rangeEnd?.toFixed(2)}
+                    {dealerPriceBookDetail?.priceBooks?.rangeEnd?.toLocaleString(2)}
                   </p>
                 </div>
               </>

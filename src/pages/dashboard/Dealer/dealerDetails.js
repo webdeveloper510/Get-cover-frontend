@@ -545,7 +545,7 @@ function DealerDetails() {
 
         <Grid className="!grid-cols-4">
           <div className="col-span-1">
-            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
+            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px] h-[85vh] overflow-y-auto">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -646,9 +646,9 @@ function DealerDetails() {
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
                       ${" "}
-                      {dealerDetails?.ordersResult?.[0]?.orderAmount?.toFixed(
+                      {dealerDetails?.ordersResult?.[0]?.orderAmount?.toLocaleString(
                         2
-                      ) ?? parseInt(0).toFixed(2)}
+                      ) ?? parseInt(0).toLocaleString(2)}
                     </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders

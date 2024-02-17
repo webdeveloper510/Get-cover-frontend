@@ -10,6 +10,7 @@ const CustomPagination = ({
 
   useEffect(() => {
     onPageChange(currentPage, rowsPerPage);
+    window.scrollTo(0, 0); 
   }, [currentPage, rowsPerPage]);
 
   const totalPages = Math.ceil(totalRecords / rowsPerPage);
@@ -23,7 +24,7 @@ const CustomPagination = ({
 
   const handleRowsPerPageChange = (e) => {
     setRowsPerPage(parseInt(e.target.value, 10));
-    setCurrentPage(1); // Reset to the first page when changing rows per page
+    setCurrentPage(1); 
   };
 
   return (

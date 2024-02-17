@@ -57,7 +57,6 @@ function OrderList() {
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
-  console.log(data, "======================================");
 
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
@@ -82,11 +81,6 @@ function OrderList() {
   };
   useEffect(() => {
     let intervalId;
-    // if (isModalOpen && timer > 0) {
-    //   intervalId = setInterval(() => {
-    //     setTimer((prevTimer) => prevTimer - 1);
-    //   }, 1000);
-    // }
     if (isModalOpen1 && timer > 0) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
@@ -106,7 +100,7 @@ function OrderList() {
       archiveOrders(orderId).then((res) => {
         setPrimaryMessage("Archive Order Successfully");
         setSecondaryMessage("You have successfully archive the order");
-        console.log(res);
+        // console.log(res);
         setTimer(3);
         setIsModalOpen1(true);
       });
@@ -154,7 +148,7 @@ function OrderList() {
       setSelectedAction(null);
       setProcessOrderErrors(res.result);
       SetErrorList(res.result);
-      console.log(res.result);
+      // console.log(res.result);
     });
 
     setIsModalOpen(true);
@@ -163,10 +157,7 @@ function OrderList() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const handleSelectChange1 = (label, value) => {
-    console.log(label, value, "selected");
-    setSelectedProduct(value);
-  };
+
   const [loading, setLoading] = useState(false);
 
   const status = [
@@ -176,7 +167,6 @@ function OrderList() {
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      // Close the dropdown if the click is outside of it
       setSelectedAction(null);
     }
   };
@@ -187,7 +177,6 @@ function OrderList() {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
@@ -254,7 +243,7 @@ function OrderList() {
     },
     {
       name: "Order Value",
-      selector: (row) => `$ ${row.orderAmount?.toFixed(2)}`,
+      selector: (row) => `$ ${row.orderAmount?.toLocaleString(2)}`,
       sortable: true,
       minWidth: "150px",
     },
@@ -318,7 +307,7 @@ function OrderList() {
                     </div>
                     {row.flag && (
                       <div
-                        className="text-center py-1 border-b cursor-pointer"
+                        className="text-center py-1 border-b flex cursor-pointer"
                         onClick={() => markasPaid(row)}
                       >
                         <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
@@ -326,10 +315,7 @@ function OrderList() {
                     )}
 
                     <>
-                      <div className="text-left flex py-1 border-b cursor-pointer">
-                        <img src={download} className="w-4 h-4 mr-2" />
-                        <PdfGenerator data={row} />
-                      </div>
+                        <PdfGenerator data={row} onClick={() => setSelectedAction(null)} />
                     </>
                     <div
                       className="text-left py-1 flex cursor-pointer hover:font-semibold"
@@ -342,18 +328,12 @@ function OrderList() {
                   <>
                     <Link
                       to={`/orderDetails/${row._id}`}
-                      className="text-left py-1 cursor-pointer border-b w-full flex justify-start"
+                      className="text-left py-1 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                    <div className="text-left py-1 flex border-b cursor-pointer">
-                      <img src={download} className="w-4 h-4 mr-2" />{" "}
-                      <PdfGenerator data={row} />
-                    </div>
-                    <div className="text-left py-1 flex cursor-pointer">
-                      <img src={download} className="w-4 h-4 mr-2" />{" "}
+                      <PdfGenerator data={row} onClick={() => setSelectedAction(null)} />
                       <PdfMake data={row._id} />
-                    </div>
                   </>
                 )}
               </div>

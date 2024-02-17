@@ -430,16 +430,13 @@ function CustomerUser() {
         <>
           <div className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
             <Grid>
-              <div className="col-span-5 self-center">
-                <hr />
-              </div>
-              <div className="col-span-2 text-center">
+              <div className="col-span-2 text-left">
                 <p className="text-base text-white font-semibold my-3">
                   {" "}
                   Dealer Details
                 </p>
               </div>
-              <div className="col-span-5 self-center">
+              <div className="col-span-10 self-center">
                 <hr />
               </div>
             </Grid>
@@ -478,16 +475,13 @@ function CustomerUser() {
               <div className="col-span-2"></div>
             </Grid>
             <Grid>
-              <div className="col-span-5 self-center">
-                <hr />
-              </div>
-              <div className="col-span-2 text-center">
+              <div className="col-span-2 text-left">
                 <p className="text-base text-white font-semibold my-3">
                   {" "}
                   Reseller Details
                 </p>
               </div>
-              <div className="col-span-5 self-center">
+              <div className="col-span-10 self-center">
                 <hr />
               </div>
             </Grid>
@@ -526,20 +520,16 @@ function CustomerUser() {
               <div className="col-span-2"></div>
             </Grid>
             <Grid className="mt-5">
-              <div className="col-span-5 self-center">
-                <hr />
-              </div>
-              <div className="col-span-2 text-center">
+              <div className="col-span-2 text-left">
                 <p className="text-base text-white font-semibold">
                   {" "}
                   My Details
                 </p>
               </div>
-              <div className="col-span-5 self-center">
+              <div className="col-span-10 self-center">
                 <hr />
               </div>
             </Grid>
-
             <Grid className="mx-8 mx-auto mt-4">
               <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
               <div className="col-span-3 border-r border-[#4e4e4e]">
@@ -574,40 +564,118 @@ function CustomerUser() {
               </div>
               <div className="col-span-2"></div>
             </Grid>
-          </div>
-        </>
-      ),
-    },
-    {
-      id: 2,
-      label: "My Account",
-      content: (
-        <>
-          <Grid>
-            <div className="col-span-4">
-              <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                <p className="text-sm m-0 p-0">Email</p>
-                <p className="font-semibold">Super@codenomad.net</p>
-              </div>
-            </div>
 
-            <div className="col-span-4">
-              <Input type="text" label="First Name" className="!bg-[#fff]" />
             </div>
-            <div className="col-span-4">
-              <Input type="text" label="Last Name" className="!bg-[#fff]" />
+            {loading ? (
+          <div className=" h-[400px] w-full flex py-5 ">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
             </div>
-            <div className="col-span-4">
-              <Input type="tel" label="Phone No." className="!bg-[#fff]" />
-            </div>
-            <div className="col-span-4">
-              <Input type="text" label="Postion" className="!bg-[#fff]" />
-            </div>
-            <div className="col-span-4 text-right"></div>
-            <div className="col-span-12 text-right">
-              <Button> Save Changes</Button>
-            </div>
-          </Grid>
+          </div>
+            ) : (
+              <div className="px-8 pb-8 pt-4 mt-8 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+                <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                  <Button onClick={() => openModal2()}> + Add Member</Button>
+                </div>
+                <p className="text-xl font-semibold mb-3">Users List</p>
+                <Grid className="!p-[2px] !pt-[14px] !pb-0">
+                  <div className="col-span-5 self-center"></div>
+                  <div className="col-span-7">
+                    <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                      <form className="" onSubmit={formikUSerFilter.handleSubmit}>
+                        <Grid className="!grid-cols-11">
+                          <div className="col-span-3 self-center">
+                            <Input
+                              name="firstName"
+                              type="text"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              label=""
+                              placeholder="First Name"
+                              value={formikUSerFilter.values.firstName}
+                              onBlur={formikUSerFilter.handleBlur}
+                              onChange={formikUSerFilter.handleChange}
+                            />
+                          </div>
+                          <div className="col-span-3 self-center">
+                            <Input
+                              name="email"
+                              type="text"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              label=""
+                              placeholder="Email"
+                              value={formikUSerFilter.values.email}
+                              onBlur={formikUSerFilter.handleBlur}
+                              onChange={formikUSerFilter.handleChange}
+                            />
+                          </div>
+                          <div className="col-span-3 self-center">
+                            <Input
+                              name="phone"
+                              type="tel"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              label=""
+                              placeholder="Phone"
+                              value={formikUSerFilter.values.phone}
+                              onBlur={formikUSerFilter.handleBlur}
+                              onChange={(e) => {
+                                const sanitizedValue = e.target.value.replace(
+                                  /[^0-9]/g,
+                                  ""
+                                );
+                                console.log(sanitizedValue);
+                                formikUSerFilter.handleChange({
+                                  target: {
+                                    name: "phone",
+                                    value: sanitizedValue,
+                                  },
+                                });
+                              }}
+                            />
+                          </div>
+                          <div className="col-span-2 self-center flex justify-center">
+                            <Button type="submit" className="!p-0">
+                              <img
+                                src={Search}
+                                className="cursor-pointer "
+                                alt="Search"
+                              />
+                            </Button>
+                            <Button
+                              type="submit"
+                              onClick={() => {
+                                handleFilterIconClick();
+                              }}
+                              className="!bg-transparent !p-0"
+                            >
+                              <img
+                                src={clearFilter}
+                                className="cursor-pointer	mx-auto"
+                                alt="clearFilter"
+                              />
+                            </Button>
+                          </div>
+                        </Grid>
+                      </form>
+                    </div>
+                  </div>
+                </Grid>
+                <DataTable
+                  columns={columns}
+                  data={userList}
+                  highlightOnHover
+                  sortIcon={
+                    <>
+                      {" "}
+                      <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                    </>
+                  }
+                  noDataComponent={<CustomNoDataComponent />}
+                />
+              </div>
+            )}
         </>
       ),
     },
@@ -675,116 +743,7 @@ function CustomerUser() {
         <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
           <Tabs tabs={tabsData} />
         </div>
-        {loading ? (
-          <div className=" h-[400px] w-full flex py-5">
-            <div className="self-center mx-auto">
-              <RotateLoader color="#333" />
-            </div>
-          </div>
-        ) : (
-          <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-            <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-              <Button onClick={() => openModal2()}> + Add Member</Button>
-            </div>
-            <p className="text-xl font-semibold mb-3">Users List</p>
-            <Grid className="!p-[2px] !pt-[14px] !pb-0">
-              <div className="col-span-5 self-center"></div>
-              <div className="col-span-7">
-                <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <form className="" onSubmit={formikUSerFilter.handleSubmit}>
-                    <Grid className="!grid-cols-11">
-                      <div className="col-span-3 self-center">
-                        <Input
-                          name="firstName"
-                          type="text"
-                          className="!text-[14px] !bg-[#f7f7f7]"
-                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                          label=""
-                          placeholder="First Name"
-                          value={formikUSerFilter.values.firstName}
-                          onBlur={formikUSerFilter.handleBlur}
-                          onChange={formikUSerFilter.handleChange}
-                        />
-                      </div>
-                      <div className="col-span-3 self-center">
-                        <Input
-                          name="email"
-                          type="text"
-                          className="!text-[14px] !bg-[#f7f7f7]"
-                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                          label=""
-                          placeholder="Email"
-                          value={formikUSerFilter.values.email}
-                          onBlur={formikUSerFilter.handleBlur}
-                          onChange={formikUSerFilter.handleChange}
-                        />
-                      </div>
-                      <div className="col-span-3 self-center">
-                        <Input
-                          name="phone"
-                          type="tel"
-                          className="!text-[14px] !bg-[#f7f7f7]"
-                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                          label=""
-                          placeholder="Phone"
-                          value={formikUSerFilter.values.phone}
-                          onBlur={formikUSerFilter.handleBlur}
-                          onChange={(e) => {
-                            const sanitizedValue = e.target.value.replace(
-                              /[^0-9]/g,
-                              ""
-                            );
-                            console.log(sanitizedValue);
-                            formikUSerFilter.handleChange({
-                              target: {
-                                name: "phone",
-                                value: sanitizedValue,
-                              },
-                            });
-                          }}
-                        />
-                      </div>
-                      <div className="col-span-2 self-center flex justify-center">
-                        <Button type="submit" className="!p-0">
-                          <img
-                            src={Search}
-                            className="cursor-pointer "
-                            alt="Search"
-                          />
-                        </Button>
-                        <Button
-                          type="submit"
-                          onClick={() => {
-                            handleFilterIconClick();
-                          }}
-                          className="!bg-transparent !p-0"
-                        >
-                          <img
-                            src={clearFilter}
-                            className="cursor-pointer	mx-auto"
-                            alt="clearFilter"
-                          />
-                        </Button>
-                      </div>
-                    </Grid>
-                  </form>
-                </div>
-              </div>
-            </Grid>
-            <DataTable
-              columns={columns}
-              data={userList}
-              highlightOnHover
-              sortIcon={
-                <>
-                  {" "}
-                  <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                </>
-              }
-              noDataComponent={<CustomNoDataComponent />}
-            />
-          </div>
-        )}
+       
       </div>
 
       {/* Modal Primary Popop */}

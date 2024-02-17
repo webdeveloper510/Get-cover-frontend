@@ -1,8 +1,9 @@
 import React from "react";
 import html2pdf from "html2pdf.js";
 import logo from "../assets/images/logo.png";
+import download from "../assets/images/download.png";
 import { format } from "date-fns";
-function PdfGenerator(props) {
+function PdfGenerator(props, className) {
   console.log(props.data);
   const convertToPDF = () => {
     const opt = {
@@ -15,6 +16,7 @@ function PdfGenerator(props) {
 
     html2pdf().from(generateHTML()).set(opt).save();
   };
+  
 
   const generateHTML = () => {
     return `
@@ -171,10 +173,9 @@ function PdfGenerator(props) {
   };
 
   return (
-    <div>
-      <button onClick={convertToPDF} className="hover:font-semibold">
-        Invoice
-      </button>
+      <div className={`text-left flex py-1 cursor-pointer hover:font-semibold  ${className}`} onClick={convertToPDF}>
+      <img src={download} className="w-4 h-4 mr-2" />
+      <button  className="">Invoice</button>
     </div>
   );
 }

@@ -62,7 +62,7 @@ function CustomerContracts() {
               </div>
               
               <div className='col-span-1 self-center justify-end'>
-                <img src={Edit} className='ml-auto mr-2' alt='edit' />
+                {/* <img src={Edit} className='ml-auto mr-2' alt='edit' /> */}
               </div>
             </Grid>
 
@@ -148,7 +148,7 @@ function CustomerContracts() {
               </div>
               
               <div className='col-span-1 self-center justify-end'>
-                <img src={Edit} className='ml-auto mr-2' alt='edit' />
+                {/* <img src={Edit} className='ml-auto mr-2' alt='edit' /> */}
               </div>
             </Grid>
 
