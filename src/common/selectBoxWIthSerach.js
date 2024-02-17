@@ -71,7 +71,7 @@ const SelectBoxWithSearch = ({
         }
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className={`!w-full ${className1}`}
+        className={`!w-full SearchSelect ${className1}`}
         isDisabled={isDisabled}
         defaultValue={localDefaultValue}
         placeholder="Search..."

@@ -462,7 +462,24 @@ function ContractList() {
                     placeholder=""
                   />
                 </div>
-
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="Model"
+                    className="!bg-[#fff]"
+                    label="Model"
+                    placeholder=""
+                  />
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="Manufacturer"
+                    className="!bg-[#fff]"
+                    label="Servicer Name"
+                    placeholder="Manufacturer"
+                  />
+                </div>
                 <div className="col-span-6">
                   <Select
                     name="Status"
