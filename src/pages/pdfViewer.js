@@ -99,17 +99,34 @@ function PdfGenerator(props, className) {
                     }
                  
                 </tr>
+                <tr>
+                <td style="text-align: left; width: 50%; padding-top: 20px;">
+                ${
+                  props?.data?.customerName != null
+                    ? `
+                <h4 style="margin: 0; padding: 0;"><b>Customer Details: </b></h4>
+                <h4 style="margin: 0; padding: 0;"><b> ${
+                  props.data?.customerName?.username
+                } </b></h4>
+                <small style="margin: 0; padding: 0;">Address: ${
+                  props.data?.customerName?.street
+                  } ${props.data?.customerName?.city} ,${
+                  props.data?.customerName?.state
+                  } ${props.data?.customerName?.zip} <br/>
+                   
+                    </small>
+            </td>
+            `
+            : ""
+        }
+         
+                </tr>
             </tbody>
         </table>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
         <tbody>
             <tr>
             <td colspan="2">
-        <h4 style="margin: 0; padding: 0;"><b> Customer : </b> ${
-          props?.data?.customerName?.username
-            ? props?.data?.customerName?.username
-            : ""
-        } </h4>
         <p><b>Dealer Purchase Order #:</b> ${props.data.venderOrder}</p>
         </td>
         </tr>

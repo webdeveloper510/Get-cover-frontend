@@ -90,7 +90,6 @@ export const editContractValues = async (id) => {
   try {
     const response = await axios.post(
       `${url}/contract/getContractById/${id}`,
-      data,
       {
         headers,
       }
