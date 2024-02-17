@@ -748,7 +748,7 @@ function AddOrder() {
     data?.map((product, index) => {
       totalAmount += parseFloat(product.price);
     });
-    return totalAmount.toFixed(2);
+    return totalAmount.toLocaleString(2);
   };
   const formik4 = useFormik({
     initialValues: {
@@ -1109,7 +1109,7 @@ function AddOrder() {
         });
         formikStep3.setFieldValue(
           `productsArray[${i}].price`,
-          (unitPrice.toFixed(2) * maxRoundedValue).toFixed(2)
+          (unitPrice.toLocaleString(2) * maxRoundedValue).toLocaleString(2)
         );
         formikStep3.setFieldValue(
           `productsArray[${i}].noOfProducts`,
@@ -1238,10 +1238,10 @@ function AddOrder() {
               term: item.term,
               priceType: item.priceType,
               quantityPriceDetail: item.quantityPriceDetail,
-              wholesalePrice: item?.retailPrice?.toFixed(2),
+              wholesalePrice: item?.retailPrice?.toLocaleString(2),
               status: item.status,
-              rangeStart: item?.rangeStart?.toFixed(2),
-              rangeEnd: item?.rangeEnd?.toFixed(2),
+              rangeStart: item?.rangeStart?.toLocaleString(2),
+              rangeEnd: item?.rangeEnd?.toLocaleString(2),
             })),
           };
           return newOptions;
@@ -1253,7 +1253,7 @@ function AddOrder() {
   const calculatePendingAmount = (paidAmount) => {
     const totalAmount = calculateTotalAmount(formikStep3.values.productsArray);
     const pendingAmount = totalAmount - parseFloat(paidAmount) || 0; // Ensure a valid number
-    formik4.setFieldValue("pendingAmount", pendingAmount.toFixed(2));
+    formik4.setFieldValue("pendingAmount", pendingAmount.toLocaleString(2));
   };
 
   const renderStep1 = () => {
@@ -1732,7 +1732,7 @@ function AddOrder() {
                           });
                           formikStep3.setFieldValue(
                             `productsArray[${index}].price`,
-                            calculatedPrice.toFixed(2)
+                            calculatedPrice.toLocaleString(2)
                           );
                         }}
                         onBlur={formikStep3.handleBlur}
@@ -2069,7 +2069,7 @@ function AddOrder() {
                                 {fileValues[index].name}
                               </p>
                               <p className="self-center text-sm">
-                                {(fileValues[index].size / 1000).toFixed(2)} kb
+                                {(fileValues[index].size / 1000).toLocaleString(2)} kb
                               </p>
                             </div>
                           </div>
@@ -2188,13 +2188,13 @@ function AddOrder() {
                         {formikStep2.values.dealerPurchaseOrder}
                       </p>
                     </div>
-                    <div className="col-span-4 py-4 border-r">
+                    <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Service Coverage</p>
                       <p className="font-bold text-sm">
                         {formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
-                    <div className="col-span-4 py-4">
+                    <div className="col-span-5 py-4">
                       <p className="text-[12px]">Coverage Type</p>
                       <p className="font-bold text-sm">
                         {formikStep2.values.coverageType}
@@ -2241,20 +2241,20 @@ function AddOrder() {
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Unit Price</p>
                               <p className="font-bold text-sm">
-                                ${data.unitPrice}
+                                ${data.unitPrice.toLocaleString()}
                               </p>
                             </div>
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]"># of Products</p>
                               <p className="font-bold text-sm">
                                 {Math.round(
-                                  data.price / parseFloat(data.unitPrice)
+                                  data.price / parseFloat(data.unitPrice.toLocaleString())
                                 )}
                               </p>
                             </div>
                             <div className="col-span-3 py-4">
                               <p className="text-[12px]">Price</p>
-                              <p className="font-bold text-sm">${data.price}</p>
+                              <p className="font-bold text-sm">${data.price.toLocaleString()}</p>
                             </div>
                           </Grid>
                           {data.priceType == "Flat Pricing" && (
@@ -2374,7 +2374,7 @@ function AddOrder() {
                               <p className="self-center">
                                 {data?.file === ""
                                   ? ""
-                                  : (data?.file?.size / 1000)?.toFixed(2) +
+                                  : (data?.file?.size / 1000)?.toLocaleString(2) +
                                     "kb"}
                               </p>
                             </div>
