@@ -137,7 +137,7 @@ function OrderList(props) {
     if (props.activeTab === "Orders" || props.activeTab === "Order") {
       getOrderList();
     }
-  }, [props?.flag]);
+  }, [props]);
   const handleFilterIconClick = () => {
     formik.resetForm();
     getOrderList();
@@ -270,7 +270,7 @@ function OrderList(props) {
                   index
                 )}`}
               >
-                 {row.status == "Pending" ? (
+                {row.status == "Pending" ? (
                   <>
                     <div
                       className="text-left py-1 flex border-b hover:font-semibold cursor-pointer"
@@ -295,7 +295,7 @@ function OrderList(props) {
                     )}
 
                     <>
-                        <PdfGenerator data={row} />
+                      <PdfGenerator data={row} />
                     </>
                     <div
                       className="text-left py-1 flex cursor-pointer hover:font-semibold"
@@ -312,9 +312,9 @@ function OrderList(props) {
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                      <PdfGenerator data={row} />
-                    
-                      <PdfMake data={row._id} />
+                    <PdfGenerator data={row} />
+
+                    <PdfMake data={row._id} />
                   </>
                 )}
               </div>
@@ -476,7 +476,7 @@ function OrderList(props) {
 
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
-        <img src={Primary} alt="email Image" className="mx-auto my-4" />
+          <img src={Primary} alt="email Image" className="mx-auto my-4" />
           <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
             {primaryMessage}
           </p>
@@ -507,12 +507,9 @@ function OrderList(props) {
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-           
-
-                  <p className="text-neutral-grey text-base font-medium mt-2">
-                    {errorList}
-                  </p>
-              
+            <p className="text-neutral-grey text-base font-medium mt-2">
+              {errorList}
+            </p>
           </p>
         </div>
       </Modal>

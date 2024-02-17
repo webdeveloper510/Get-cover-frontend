@@ -42,8 +42,10 @@ function ContractList(props) {
   };
 
   useEffect(() => {
-    getContracts();
-  }, []);
+    if (props.activeTab === "Contracts") {
+      getContracts();
+    }
+  }, [props]);
 
   const handlePageChange = async (page, rowsPerPage) => {
     console.log(page, rowsPerPage);
@@ -234,7 +236,10 @@ function ContractList(props) {
                                     Retail Price
                                   </p>
                                   <p className="text-[#333333] text-base font-semibold">
-                                    ${parseInt(res.productValue).toLocaleString(2)}
+                                    $
+                                    {parseInt(res.productValue).toLocaleString(
+                                      2
+                                    )}
                                   </p>
                                 </div>
                               </div>
@@ -315,7 +320,10 @@ function ContractList(props) {
                                     Claimed Value
                                   </p>
                                   <p className="text-[#333333] text-base font-semibold">
-                                    ${parseInt(res.claimAmount).toLocaleString(2)}
+                                    $
+                                    {parseInt(res.claimAmount).toLocaleString(
+                                      2
+                                    )}
                                   </p>
                                 </div>
                               </div>
