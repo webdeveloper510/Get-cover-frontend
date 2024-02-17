@@ -8,6 +8,7 @@ import arrowImage from "../../../assets/images/dropdownArrow.png";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
+import view from "../../../assets/images/eye.png";
 import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
@@ -198,13 +199,13 @@ function ServicerList() {
                 )}`}
               >
                 <div
-                  className="text-center cursor-pointer py-1"
                   onClick={() => {
                     localStorage.removeItem("servicer");
                     navigate(`/servicerDetails/${row.accountId}`);
                   }}
-                >
-                  View
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                  >
+                   <img src={view} className="w-4 h-4 mr-2"/> View
                 </div>
               </div>
             )}

@@ -9,6 +9,7 @@ import Search from "../../../assets/images/icons/SearchIcon.svg";
 import Headbar from "../../../common/headBar";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import Grid from "../../../common/grid";
+import view from "../../../assets/images/eye.png";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
@@ -226,9 +227,9 @@ function DealerList() {
               >
                 <Link
                   to={`/dealerDetails/${row?.dealerData._id}`}
-                  className="text-center p-3"
-                >
-                  View
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                  >
+                   <img src={view} className="w-4 h-4 mr-2"/> View
                 </Link>
               </div>
             )}

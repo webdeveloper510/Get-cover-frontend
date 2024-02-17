@@ -14,6 +14,7 @@ import DealerActive from "../../../assets/images/icons/dealerDetails.svg";
 import ClaimActive from "../../../assets/images/Dealer/Claim-active.svg";
 import UserActive from "../../../assets/images/Dealer/User-active.svg";
 import Dealer from "../../../assets/images/icons/dealer.svg";
+import view from "../../../assets/images/eye.png";
 import Unpaid from "../../../assets/images/icons/Unpaid.svg";
 import UnpaidActive from "../../../assets/images/icons/unpaidActive.svg";
 import Claim from "../../../assets/images/Dealer/Claim.svg";

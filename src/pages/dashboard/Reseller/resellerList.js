@@ -9,6 +9,7 @@ import Search from "../../../assets/images/icons/SearchIcon.svg";
 import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
+import view from "../../../assets/images/eye.png";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Select from "../../../common/select";
@@ -185,13 +186,13 @@ function ResellerList() {
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
-                  className="text-center cursor-pointer py-1"
                   onClick={() => {
                     localStorage.removeItem("Resellermenu");
                     navigate(`/resellerDetails/${row?.accountId}`);
                   }}
-                >
-                  View
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                  >
+                   <img src={view} className="w-4 h-4 mr-2"/> View
                 </div>
               </div>
             )}
