@@ -12,6 +12,7 @@ import CustomPagination from "../../../pagination";
 import { getContracts } from "../../../../services/orderServices";
 import { useEffect } from "react";
 import { RotateLoader } from "react-spinners";
+import { Link } from "react-router-dom";
 
 function Contracts(props) {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -134,10 +135,19 @@ function Contracts(props) {
                         </div>
                         <div className="col-span-5"></div>
 
+<<<<<<< HEAD
                         <div className="col-span-1 self-center justify-end">
                           <img src={Edit} className="ml-auto mr-2" alt="edit" />
                         </div>
                       </Grid>
+=======
+                    <div className="col-span-1 self-center justify-end">
+                      <Link to={`/editContract/${res?._id}`}>
+                      <img src={Edit} className="ml-auto mr-2" alt="edit" />
+                      </Link>
+                    </div>
+                  </Grid>
+>>>>>>> b1dacd31d1f945bab73b9a25e8796c3a1b002ffb
 
                       <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
                         <div className="col-span-1 border border-[#D1D1D1]">

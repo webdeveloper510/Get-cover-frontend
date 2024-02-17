@@ -6,6 +6,7 @@ import logo from "../assets/images/logo.png";
 const PdfMake = (props) => {
   const downloadAsPDF = async () => {
     try {
+      setLoading(true);
       const response = await getExportOrderHtml(props?.data);
 
       console.log(response);
