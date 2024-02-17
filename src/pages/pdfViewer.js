@@ -4,9 +4,19 @@ import logo from "../assets/images/logo.png";
 import download from "../assets/images/download.png";
 import { format } from "date-fns";
 import { orderDetailsById } from "../services/orderServices";
+import { useState } from "react";
 function PdfGenerator(props, className) {
-  console.log(props);
-  const convertToPDF = () => {
+  const [data, setData] = useState({});
+  const convertToPDF = async () => {
+    const result = await orderDetailsById(props.data);
+    let value = {
+      dealerName: result.orderUserData.dealerData,
+      customerName: result.orderUserData.customerData,
+      resellerName: result.orderUserData.resellerData,
+      totalOrderAmount: result.result.orderAmount,
+      ...result.result,
+    };
+
     const opt = {
       margin: 0,
       filename: "invoice.pdf",
@@ -15,20 +25,15 @@ function PdfGenerator(props, className) {
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
 
-    html2pdf().from(generateHTML()).set(opt).save();
+    try {
+      const pdf = html2pdf().from(generateHTML(value)).set(opt);
+      pdf.save();
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
   };
 
-  const generateHTML = async () => {
-    const result = await orderDetailsById(props.data);
-    let data = {
-      dealerName: result.orderUserData.dealerData,
-      customerName: result.orderUserData.customerData,
-      resellerName: result.orderUserData.resellerData,
-      totalOrderAmount: result.result.orderAmount,
-      ...result.result,
-    };
-    // setInvoiceData(data);
-    console.log(data);
+  const generateHTML = (data) => {
     return `
       <div style="max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
@@ -49,10 +54,9 @@ function PdfGenerator(props, className) {
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Date:</b></td>
-                                    <td style="border: none; padding: 4px;">${format(
-                                      new Date(data?.createdAt),
-                                      "MM-dd-yyyy"
-                                    )}</td>
+                                    <td style="border: none; padding: 4px;">${
+                                      data.createdAt
+                                    }}</td>
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Number:</b></td>

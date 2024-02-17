@@ -114,151 +114,153 @@ function Contracts(props) {
           </Grid>
 
           <div className="px-3 mt-5">
-          {loading ? (
+            {loading ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
               </div>
-            ) : (<>
-            {contractDetails &&
-              contractDetails.result &&
-              contractDetails.result.map((res) => (
-                <div>
-                  <Grid className="bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl">
-                    <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
-                      <p className="text-white py-2 font-Regular">
-                        Contract ID : <b> CI-2024-1000 </b>
-                      </p>
-                    </div>
-                    <div className="col-span-5"></div>
+            ) : (
+              <>
+                {contractDetails &&
+                  contractDetails.result &&
+                  contractDetails.result.map((res) => (
+                    <div>
+                      <Grid className="bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl">
+                        <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
+                          <p className="text-white py-2 font-Regular">
+                            Contract ID : <b> CI-2024-1000 </b>
+                          </p>
+                        </div>
+                        <div className="col-span-5"></div>
 
-                    <div className="col-span-1 self-center justify-end">
-                      <img src={Edit} className="ml-auto mr-2" alt="edit" />
-                    </div>
-                  </Grid>
+                        <div className="col-span-1 self-center justify-end">
+                          <img src={Edit} className="ml-auto mr-2" alt="edit" />
+                        </div>
+                      </Grid>
 
-                  <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
-                    <div className="col-span-1 border border-[#D1D1D1]">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Manufacturer
-                        </p>
-                        <p className="text-[#333333] text-base font-semibold">
-                          {res?.manufacture}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-span-1 border border-[#D1D1D1]">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Model
-                        </p>
-                        <p className="text-[#333333] text-base font-semibold">
-                          {res?.model}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-span-1 border border-[#D1D1D1]">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Serial
-                        </p>
-                        <p className="text-[#333333] text-base font-semibold">
-                          {res?.serial}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-span-2 border border-[#D1D1D1]">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Product Description
-                        </p>
-                        <p className="text-[#333333] text-base font-semibold">
-                          Laptops are designed to be portable computers.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-span-1 border border-[#D1D1D1]">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Retail Price
-                        </p>
-                        <p className="text-[#333333] text-base font-semibold">
-                          ${parseInt(res?.productValue).toLocaleString(2)}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-span-1 border border-[#D1D1D1]">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Condition
-                        </p>
-                        <p className="text-[#333333] text-base font-semibold">
-                          {res?.condition}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-span-1 border border-[#D1D1D1]">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Coverage Start Date
-                        </p>
-                        <p className="text-[#333333] text-base font-semibold">
-                          {/* format(
+                      <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Manufacturer
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res?.manufacture}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Model
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res?.model}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Serial
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res?.serial}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-2 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Product Description
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              Laptops are designed to be portable computers.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Retail Price
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              ${parseInt(res?.productValue).toLocaleString(2)}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Condition
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res?.condition}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Coverage Start Date
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {/* format(
         new Date(
           type === "start" ? product.coverageStartDate : product.coverageEndDate
         ),
         "MM-dd-yyyy"
       );  {findDate(res, "start")} */}
-                        </p>
-                      </div>
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Coverage End Date
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {/* {findDate(res, "end")} */}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Claim Amount
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              $ {parseInt(res?.claimAmount).toLocaleString(2)}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl	">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Status
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res?.status}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Eligibility
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res?.eligibilty}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-3 border border-[#D1D1D1] rounded-ee-xl"></div>
+                      </Grid>
                     </div>
-                    <div className="col-span-1 border border-[#D1D1D1]">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Coverage End Date
-                        </p>
-                        <p className="text-[#333333] text-base font-semibold">
-                          {/* {findDate(res, "end")} */}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-span-1 border border-[#D1D1D1]">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Claim Amount
-                        </p>
-                        <p className="text-[#333333] text-base font-semibold">
-                          $ {parseInt(res?.claimAmount).toLocaleString(2)}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl	">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Status
-                        </p>
-                        <p className="text-[#333333] text-base font-semibold">
-                          {res?.status}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-span-1 border border-[#D1D1D1]">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Eligibility
-                        </p>
-                        <p className="text-[#333333] text-base font-semibold">
-                          {res?.eligibilty}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-span-3 border border-[#D1D1D1] rounded-ee-xl"></div>
-                  </Grid>
-                </div>
-              )) }
-            </> ) }
+                  ))}
+              </>
+            )}
           </div>
           <CustomPagination
             totalRecords={contractDetails?.contractCount}
