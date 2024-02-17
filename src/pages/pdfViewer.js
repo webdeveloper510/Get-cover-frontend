@@ -19,7 +19,7 @@ function PdfGenerator(props, className) {
 
     const opt = {
       margin: 0,
-      filename: "invoice.pdf",
+      filename: `${value.unique_key}Invoice.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
@@ -54,9 +54,10 @@ function PdfGenerator(props, className) {
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Date:</b></td>
-                                    <td style="border: none; padding: 4px;">${
-                                      data.createdAt
-                                    }}</td>
+                                    <td style="border: none; padding: 4px;">${format(
+                                      new Date(data?.createdAt),
+                                      "MM-dd-yyyy"
+                                    )}</td>
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Number:</b></td>
