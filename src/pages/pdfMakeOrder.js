@@ -3,10 +3,12 @@ import html2pdf from "html2pdf.js";
 import { getExportOrderHtml } from "../services/orderServices";
 import download from "../assets/images/download.png";
 import logo from "../assets/images/logo.png";
+import { RotateLoader } from "react-spinners";
 const PdfMake = (props) => {
+  const [loading, setLoading] = useState(false);
   const downloadAsPDF = async () => {
     try {
-      // setLoading(true);
+      setLoading(true);
       const response = await getExportOrderHtml(props?.data);
 
       console.log(response);
@@ -19,6 +21,7 @@ const PdfMake = (props) => {
       };
       const element = document.getElementById("pdfContent");
       html2pdf().from(response.result).set(opt).save();
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching data from API:", error);
     }
@@ -32,7 +35,7 @@ const PdfMake = (props) => {
         onClick={downloadAsPDF}
       >
         <img src={download} className="w-4 h-4 mr-2" />{" "}
-        <button className="">Order</button>
+        <button className="">   {loading ? 'Downloading' :'Order'}</button>
       </div>
     </div>
   );
