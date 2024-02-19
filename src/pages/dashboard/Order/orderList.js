@@ -336,7 +336,7 @@ function OrderList() {
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
                     <PdfGenerator
-                      data={row}
+                      data={row._id}
                       onClick={() => setSelectedAction(null)}
                     />
                     <PdfMake data={row._id} />

@@ -34,7 +34,7 @@ function EditContract() {
     manufacture: Yup.string().required("Required"),
     model: Yup.string().required("Required"),
     serial: Yup.string().required("Required"),
-    productValue: Yup.number().required("Required"),
+    productValue: Yup.string().required("Required"),
     condition: Yup.string().required("Rrequired"),
     coverageStartDate: Yup.date().required("Required"),
   });
@@ -44,7 +44,7 @@ function EditContract() {
       manufacture: "",
       model: "",
       serial: "",
-      productValue: null,
+      productValue: "",
       condition: "",
       coverageStartDate: "",
     },
@@ -63,7 +63,7 @@ function EditContract() {
       manufacture: result.result.manufacture || "",
       model: result.result.model || "",
       serial: result.result.serial || "",
-      productValue: parseInt(result?.result?.productValue).toFixed(2) || null,
+      productValue: result.result.productValue || "",
       condition: result.result.condition || "",
       coverageStartDate:
         result.result.order[0].productsArray[0].coverageStartDate || "",
@@ -311,28 +311,20 @@ function EditContract() {
 
                   <div className="col-span-1">
                     <Input
-                      type="number"
+                      type="text"
                       name="productValue"
                       className="!bg-[#fff]"
                       label="RetailPrice"
-                      maxLength={"10"}
                       required={true}
                       placeholder=""
-                      onBlur={(e) => {
-                        const formattedValue = parseFloat(
-                          e.target.value
-                        ).toFixed(2);
-                        console.log(formattedValue);
-                        formik.handleBlur(e);
-                        formik.setFieldValue("productValue", formattedValue);
-                      }}
-                      maxDecimalPlaces={2}
+                      value={formik.values.productValue}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
                       error={
                         formik.touched.productValue &&
                         formik.errors.productValue
                       }
                     />
-
                     {formik.touched.productValue &&
                       formik.errors.productValue && (
                         <div className="text-red-500 text-sm pl-2 pt-2">
