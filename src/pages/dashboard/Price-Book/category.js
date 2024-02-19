@@ -10,6 +10,7 @@ import shorting from "../../../assets/images/icons/shorting.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import Headbar from "../../../common/headBar";
 import Grid from "../../../common/grid";
+import edit from "../../../assets/images/edit-text.png";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import { useEffect } from "react";
@@ -170,10 +171,10 @@ function Category() {
                 )}`}
               >
                 <div
-                  className="text-center py-1 cursor-pointer"
                   onClick={() => navigate(`/editCategory/${row._id}`)}
-                >
-                  Edit
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                  >
+                   <img src={edit} className="w-4 h-4 mr-2"/> Edit
                 </div>
               </div>
             )}

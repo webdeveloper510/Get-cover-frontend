@@ -12,6 +12,7 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Select from "../../../common/select";
+import view from "../../../assets/images/eye.png";
 import {
   getCustomerList,
   getFilterCustomerList,
@@ -166,12 +167,12 @@ function CustomerList() {
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
-                  className="text-center cursor-pointer py-1"
                   onClick={() => {
                     navigate(`/customerDetails/${row.customerData._id}`);
                   }}
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
                 >
-                  View
+                 <img src={view} className="w-4 h-4 mr-2"/> View
                 </div>
               </div>
             )}
