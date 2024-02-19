@@ -540,6 +540,17 @@ function ResellerDetails() {
         console.log("Invalid data, no navigation");
     }
   };
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
   return (
     <>
       {loading && (
@@ -695,7 +706,7 @@ function ResellerDetails() {
                     Phone Number
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    +1 {resellerDetail?.phoneNumber}
+                    +1 { formatPhoneNumber(resellerDetail?.phoneNumber)}
                   </p>
                 </div>
               </div>

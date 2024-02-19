@@ -306,6 +306,18 @@ function ServicerDetails() {
       dealerForm.resetForm();
     },
   });
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
+  
   const servicerDetail = async () => {
     setLoading(true);
     const res = await getServicerDetailsByServicerId(servicerId);
@@ -610,7 +622,7 @@ function ServicerDetails() {
                     Phone Number
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    +1 {servicerDetails?.phoneNumber}
+                    +1 { formatPhoneNumber(servicerDetails?.phoneNumber)}
                   </p>
                 </div>
               </div>
