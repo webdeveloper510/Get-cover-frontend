@@ -46,7 +46,7 @@ function Headbar({ className = "" }) {
 
   return (
     <div className="">
-      <Grid className={` right-[0%] s:relative md:absolute xl:absolute  top-[24px]  ${className}`}>
+      <Grid className={` md:right-[0%] xl:right-[0%] s:relative md:absolute xl:absolute s:top-[-12px] s:right-[15%]  md:top-[24px]  xl:top-[24px]  ${className}`}>
         <div className="col-span-4"></div>
         <div className="col-span-2"></div>
         <div className="col-span-6 ml-auto ">

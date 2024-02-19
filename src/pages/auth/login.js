@@ -67,7 +67,7 @@ function Login() {
     <Layout>
       <form onSubmit={formik.handleSubmit}>
         <div className="relative bg-hero-pattern bg-cover	bg-no-repeat	bg-center	">
-          <Grid className="px-8">
+          <Grid className="px-8 s:grid-cols-6 md:grid-cols-12 xl:grid-cols-12">
             <div className="col-span-5">
               <img
                 src={Logi}
