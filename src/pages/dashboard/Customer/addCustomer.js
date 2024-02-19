@@ -439,7 +439,7 @@ function AddCustomer() {
             </div>
             {resellerList.length !== 0 && (
               <div className="col-span-4 mb-3">
-                <Select
+                <SelectBoxWithSearch
                   label="Reseller Name"
                   name="resellerName"
                   placeholder=""

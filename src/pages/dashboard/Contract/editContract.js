@@ -215,6 +215,71 @@ function EditContract() {
                     </div>
                     <div className="self-center">
                       <p className="text-[#FFF] text-base font-medium leading-5">
+                        Reseller Name
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                        ${" "}
+                        {parseInt(contractDetails?.claimAmount).toLocaleString(
+                          2
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                  <div className="flex">
+                    <div className="self-center backdrop-blur  mr-4">
+                      <img src={Eligibility} alt="product" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                        Status
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {contractDetails?.status}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Grid>
+              <Grid className="mx-8 mt-2  mx-auto ">
+                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                  <div className="flex w-full border-r border-[#4e4e4e]">
+                    <div className="self-center backdrop-blur  mr-4">
+                      <img src={CustomerName} alt="category" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                        Coverage Start Date
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                  <div className="flex w-full border-r border-[#4e4e4e]">
+                    <div className="self-center backdrop-blur   mr-4">
+                      <img src={ServicerName} alt="dealer" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      Coverage Start Date
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      {contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                  <div className="flex w-full border-r border-[#4e4e4e]">
+                    <div className="self-center backdrop-blur  mr-4">
+                      <img src={claim} alt="terms" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5">
                         Claimed Value
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
