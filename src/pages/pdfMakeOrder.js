@@ -5,16 +5,19 @@ import download from "../assets/images/download.png";
 import logo from "../assets/images/logo.png";
 const PdfMake = (props) => {
   const [htmlContent, setHtmlContent] = useState("");
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     fetchDataFromApi();
   }, [props?.data]);
   const fetchDataFromApi = async () => {
     try {
+      setLoading(true)
       const response = await getExportOrderHtml(props?.data);
 
       console.log(response);
       setHtmlContent(response.result);
+      setLoading(false)
     } catch (error) {
       console.error("Error fetching data from API:", error);
     }
