@@ -23,6 +23,7 @@ import {
 import Cross from "../../../assets/images/Cross.png";
 import { addNewReseller } from "../../../services/reSellerServices";
 import { RotateLoader } from "react-spinners";
+import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 
 function AddReseller() {
   const [timer, setTimer] = useState(3);
@@ -376,7 +377,7 @@ function AddReseller() {
       <form className="mt-8" onSubmit={formik.handleSubmit}>
         <Grid>
           <div className="col-span-4 mb-3">
-            <Select
+            <SelectBoxWithSearch
               label="Dealer Name"
               name="dealerName"
               placeholder=""
