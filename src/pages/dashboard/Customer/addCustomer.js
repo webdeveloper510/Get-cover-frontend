@@ -27,6 +27,7 @@ import {
   getResellerListByDealerId,
 } from "../../../services/reSellerServices";
 import { RotateLoader } from "react-spinners";
+import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 
 function AddCustomer() {
   const [timer, setTimer] = useState(3);
@@ -418,7 +419,7 @@ function AddCustomer() {
         <form className="mt-8" onSubmit={formik.handleSubmit}>
           <Grid>
             <div className="col-span-4 mb-3">
-              <Select
+              <SelectBoxWithSearch
                 label="Dealer Name"
                 name="dealerName"
                 placeholder=""
