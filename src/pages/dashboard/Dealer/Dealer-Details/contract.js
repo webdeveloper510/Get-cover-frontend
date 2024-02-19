@@ -45,7 +45,7 @@ function ContractList(props) {
     if (props.activeTab === "Contracts") {
       getContracts();
     }
-  }, [props]);
+  }, [props?.flag]);
 
   const handlePageChange = async (page, rowsPerPage) => {
     console.log(page, rowsPerPage);

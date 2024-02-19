@@ -17,16 +17,20 @@ import ServicerName from "../../../assets/images/icons/servicerNumber.svg";
 import CustomerName from "../../../assets/images/icons/customerNumber.svg";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from "../../../common/headBar";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getContractValues } from "../../../services/extraServices";
+import {
+  editContractById,
+  getContractValues,
+} from "../../../services/extraServices";
 import { useEffect } from "react";
 import { RotateLoader } from "react-spinners";
 function EditContract() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [contractDetails, setContractDetails] = useState({});
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { id } = useParams();
   console.log(id);
 
@@ -34,7 +38,10 @@ function EditContract() {
     manufacture: Yup.string().required("Required"),
     model: Yup.string().required("Required"),
     serial: Yup.string().required("Required"),
-    productValue: Yup.string().required("Required"),
+    productValue: Yup.number()
+      .typeError("Must be a number")
+      .required("Required")
+      .min(1, "Product value must be at least 1"),
     condition: Yup.string().required("Rrequired"),
     coverageStartDate: Yup.date().required("Required"),
   });
@@ -50,9 +57,17 @@ function EditContract() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      setLoading(true);
-      console.log(values);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const res = await editContractById(id, values);
+        console.log(res);
+        navigate(-1);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error editing contract:", error);
+      } finally {
+        setLoading(false);
+      }
     },
   });
   const getContractDetails = async () => {
@@ -188,7 +203,7 @@ function EditContract() {
                         Reseller Name
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                      {contractDetails?.order?.[0]?.reseller?.[0]?.name}
+                        {contractDetails?.order?.[0]?.reseller?.[0]?.name}
                       </p>
                     </div>
                   </div>
@@ -250,7 +265,13 @@ function EditContract() {
                         Coverage Start Date
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                        {contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate}
+                        {new Date(
+                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
                       </p>
                     </div>
                   </div>
@@ -262,10 +283,16 @@ function EditContract() {
                     </div>
                     <div className="self-center">
                       <p className="text-[#FFF] text-base font-medium leading-5	">
-                      Coverage Start Date
+                        Coverage Start Date
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                      {contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate}
+                        {new Date(
+                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
                       </p>
                     </div>
                   </div>
@@ -373,7 +400,7 @@ function EditContract() {
 
                   <div className="col-span-1">
                     <Input
-                      type="text"
+                      type="number"
                       name="productValue"
                       className="!bg-[#fff]"
                       label="RetailPrice"
@@ -415,7 +442,6 @@ function EditContract() {
                       </div>
                     )}
                   </div>
-                  
                 </Grid>
 
                 <div className="mt-8">
