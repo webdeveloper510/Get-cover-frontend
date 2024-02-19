@@ -748,7 +748,7 @@ function AddOrder() {
     data?.map((product, index) => {
       totalAmount += parseFloat(product.price);
     });
-    return totalAmount.toFixed(2);
+    return totalAmount.toLocaleString(2);
   };
   const formik4 = useFormik({
     initialValues: {
@@ -2241,7 +2241,7 @@ function AddOrder() {
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Unit Price</p>
                               <p className="font-bold text-sm">
-                                ${data.unitPrice}
+                                ${data.unitPrice.toLocaleString()}
                               </p>
                             </div>
                             <div className="col-span-3 py-4 border-r">
@@ -2254,7 +2254,7 @@ function AddOrder() {
                             </div>
                             <div className="col-span-3 py-4">
                               <p className="text-[12px]">Price</p>
-                              <p className="font-bold text-sm">${data.price}</p>
+                              <p className="font-bold text-sm">${data.price.toLocaleString(2)}</p>
                             </div>
                           </Grid>
                           {data.priceType == "Flat Pricing" && (
