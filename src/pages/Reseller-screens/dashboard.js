@@ -34,7 +34,7 @@ function ResellerDashboard() {
           </div>
         </div>
         <div className='mt-5'>
-          <Grid>
+          <Grid className='s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12'>
             <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
                <p className='text-2xl font-bold'>6,359</p>
                <p className='text-[#999999] text-sm'>Total Number of Orders</p>
@@ -53,7 +53,7 @@ function ResellerDashboard() {
             </div>
           </Grid>
 
-          <Grid>
+          <Grid className='s:hidden md:block xl:block'>
                         <div className='col-span-12'>
                             <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
                                 <Grid>
