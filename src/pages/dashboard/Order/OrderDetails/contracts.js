@@ -134,12 +134,16 @@ function Contracts(props) {
                     </div>
                     <div className="col-span-5"></div>
 
-                    <div className="col-span-1 self-center justify-end">
-                      <Link to={`/editContract/${res?._id}`}>
-                      <img src={Edit} className="ml-auto mr-2" alt="edit" />
-                      </Link>
-                    </div>
-                  </Grid>
+                        <div className="col-span-1 self-center justify-end">
+                          <Link to={`/editContract/${res?._id}`}>
+                            <img
+                              src={Edit}
+                              className="ml-auto mr-2"
+                              alt="edit"
+                            />
+                          </Link>
+                        </div>
+                      </Grid>
 
                       <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
                         <div className="col-span-1 border border-[#D1D1D1]">
