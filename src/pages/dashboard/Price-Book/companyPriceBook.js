@@ -12,6 +12,8 @@ import Edit from '../../../assets/images/Dealer/EditIcon.svg';
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
+import view from "../../../assets/images/eye.png";
+import edit from "../../../assets/images/edit-text.png";
 import Select from "../../../common/select";
 import DataTable from "react-data-table-component";
 import Loader from "../../../assets/images/Loader.gif";
@@ -288,17 +290,17 @@ function CompanyPriceBook() {
                 )}`}
               >
                 <div
-                  className="text-center py-1 cursor-pointer"
                   onClick={() => navigate(`/editCompanyPriceBook/${row._id}`)}
-                >
-                  Edit
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                  >
+                   <img src={edit} className="w-4 h-4 mr-2"/> Edit
                 </div>
                 <hr />
                 <div
-                  className="text-center py-1 cursor-pointer"
                   onClick={() => openView(row._id)}
-                >
-                  View
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                  >
+                   <img src={view} className="w-4 h-4 mr-2"/> View
                 </div>
               </div>
             )}

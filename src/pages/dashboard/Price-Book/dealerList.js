@@ -16,6 +16,8 @@ import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.sv
 import Select from "../../../common/select";
 import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import Cross from "../../../assets/images/Cross.png";
+import view from "../../../assets/images/eye.png";
+import edit from "../../../assets/images/edit-text.png";
 import DataTable from "react-data-table-component";
 import {
   editDealerPriceBook,
@@ -268,16 +270,16 @@ function DealerPriceList() {
                 )}`}
               >
                 <div
-                  className="text-center py-2 cursor-pointer border-b"
                   onClick={() => editScreen(row)}
-                >
-                  Edit
+                  className="text-left cursor-pointer border-b flex hover:font-semibold py-1"
+                  >
+                   <img src={edit} className="w-4 h-4 mr-2"/> Edit
                 </div>
                 <div
-                  className="text-center py-2 cursor-pointer"
                   onClick={() => openView(row._id)}
-                >
-                  View
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                  >
+                   <img src={view} className="w-4 h-4 mr-2"/> View
                 </div>
               </div>
             )}

@@ -88,8 +88,22 @@ export const getContractValues = async (id) => {
 export const editContractValues = async (id) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(
-      `${url}/contract/getContractById/${id}`,
+    const response = await axios.post(`${url}/contract/getContractById/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editContractById = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(
+      `${url}/contract/editContract/${id}`,
+      data,
       {
         headers,
       }
