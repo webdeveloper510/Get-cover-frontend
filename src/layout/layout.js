@@ -41,8 +41,8 @@ function Layout() {
         Location.pathname !== "/reseller/orderDetails" &&
         Location.pathname !== "/customer/orderDetails" &&
         Location.pathname !== "/dealer/orderDetails"
-          ? "p-4"
-          : "p-0"
+          ? "p-4 "
+          : "p-0 max-h-[100vh] overflow-hidden"
       } pl-0 relative w-full`}
     >
       {Location.pathname !== "/dealerDetails/" + id &&
