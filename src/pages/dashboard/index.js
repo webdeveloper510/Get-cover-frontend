@@ -63,7 +63,7 @@ function Dashboard() {
               </div>
             ) : (
             <div className="mt-5">
-              <Grid>
+              <Grid className=" s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12">
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-8">
                   <p className="text-2xl font-bold">
                     {dashboardDetail?.totalOrder}
@@ -85,7 +85,7 @@ function Dashboard() {
                   <p className="text-[#999999] text-sm">Total Value of Claims</p>
                 </div>
               </Grid>
-              <Grid>
+              <Grid className="s:hidden md:block ">
                 <div className="col-span-12">
                   <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
                     <Grid>
@@ -177,7 +177,7 @@ function Dashboard() {
                 </div>
               </Grid>
               <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
-                <Grid>
+                <Grid className="s:grid-cols-2 md:grid-cols-12 xl:grid-cols-12">
                   <div className="col-span-2 my-3">
                     <Select
                       label=""
@@ -189,7 +189,7 @@ function Dashboard() {
                     />
                   </div>
                 </Grid>
-                <Grid className="!grid-cols-5">
+                <Grid className="  s:grid-cols-1 md:grid-cols-3 xl:grid-cols-5">
                   <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
                     <div className="bg-white pl-2">
                       <div className="flex mb-4">
