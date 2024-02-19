@@ -181,6 +181,21 @@ function EditContract() {
                 <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
                   <div className="flex w-full border-r border-[#4e4e4e]">
                     <div className="self-center backdrop-blur  mr-4">
+                      <img src={delaerName} alt="terms" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5">
+                        Reseller Name
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                      {contractDetails?.order?.[0]?.reseller?.[0]?.name}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                  <div className="flex w-full border-r border-[#4e4e4e]">
+                    <div className="self-center backdrop-blur  mr-4">
                       <img src={CustomerName} alt="category" />
                     </div>
                     <div className="self-center">
@@ -204,24 +219,6 @@ function EditContract() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
                         {contractDetails?.order?.[0]?.servicer?.[0]?.name}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                  <div className="flex w-full border-r border-[#4e4e4e]">
-                    <div className="self-center backdrop-blur  mr-4">
-                      <img src={claim} alt="terms" />
-                    </div>
-                    <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5">
-                        Reseller Name
-                      </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                        ${" "}
-                        {parseInt(contractDetails?.claimAmount).toLocaleString(
-                          2
-                        )}
                       </p>
                     </div>
                   </div>
@@ -418,30 +415,7 @@ function EditContract() {
                       </div>
                     )}
                   </div>
-                  <div className="col-span-1">
-                    <Input
-                      type="date"
-                      name="coverageStartDate"
-                      label="Coverage Start Date"
-                      required={true}
-                      className="!bg-[#fff]"
-                      placeholder=""
-                      disabled={true}
-                      value={formik.values.coverageStartDate}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      error={
-                        formik.touched.coverageStartDate &&
-                        formik.errors.coverageStartDate
-                      }
-                    />
-                    {formik.touched.coverageStartDate &&
-                      formik.errors.coverageStartDate && (
-                        <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formik.errors.coverageStartDate}
-                        </div>
-                      )}
-                  </div>
+                  
                 </Grid>
 
                 <div className="mt-8">
