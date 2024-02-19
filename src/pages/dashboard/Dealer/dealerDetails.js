@@ -546,8 +546,8 @@ function DealerDetails() {
         </div>
 
         <Grid className="!grid-cols-4">
-          <div className="col-span-1">
-            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px] h-[85vh] overflow-y-auto">
+          <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
+            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -676,7 +676,7 @@ function DealerDetails() {
               </Grid>
             </div>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!mt-5">
               {activeTab !== "Contracts" ? (
                 <div

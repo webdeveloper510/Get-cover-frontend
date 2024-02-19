@@ -585,7 +585,7 @@ function ResellerDetails() {
         </div>
 
         <Grid className="!grid-cols-4">
-          <div className="col-span-1">
+          <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
             <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
@@ -742,7 +742,7 @@ function ResellerDetails() {
               </Grid>
             </div>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!mt-5">
               <div className="col-span-10">
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">

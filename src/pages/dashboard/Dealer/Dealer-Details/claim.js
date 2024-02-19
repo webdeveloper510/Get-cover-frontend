@@ -32,7 +32,13 @@ function ClaimList() {
   const [activeIndex, setActiveIndex] = useState(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
-
+  const state = [
+    { label: "Admin", value: true },
+    { label: "Dealer", value: false },
+    { label: "Reseller", value: false },
+    { label: "Servicer", value: false },
+    { label: "Customer", value: false },
+  ];
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
@@ -125,7 +131,7 @@ function ClaimList() {
           </Grid>
           <div className=' px-3 mt-5'>
 
-          <CollapsibleDiv index={1} activeIndex={activeIndex} setActiveIndex={setActiveIndex}  title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
+            <CollapsibleDiv index={1} activeIndex={activeIndex} setActiveIndex={setActiveIndex}  title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
                 <div className='col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5'>
                   <p className='font-semibold leading-5 text-lg'> 861910  </p>
                   <p className='text-[#A3A3A3]'>Claim ID</p>
@@ -239,8 +245,13 @@ function ClaimList() {
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>  <span className='font-semibold text-white'> yash </span> </p>
-                        
+                        Servicer Name : </span>   <Select 
+                          name="state"
+                          options={state}
+                          placeholder=""
+                          className=""
+                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
+                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -423,7 +434,13 @@ function ClaimList() {
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <span className='font-semibold text-white'> yash </span></p>
+                        Servicer Name : </span>   <Select 
+                          name="state"
+                          options={state}
+                          placeholder=""
+                          className=""
+                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
+                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
@@ -606,7 +623,13 @@ function ClaimList() {
                       <div className='bg-[#3C3C3C] py-4 px-2'>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
                         <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
-                        Servicer Name : </span>   <span className='font-semibold text-white'> yash </span></p>
+                        Servicer Name : </span>   <Select 
+                          name="state"
+                          options={state}
+                          placeholder=""
+                          className=""
+                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
+                            /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
