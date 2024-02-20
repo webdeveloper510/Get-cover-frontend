@@ -1,6 +1,6 @@
 import React, { createRef, useEffect, useRef, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -16,32 +16,27 @@ import check from "../../../assets/images/icons/check.svg";
 import Button from "../../../common/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  getDealersList,
-  getProductListbyProductCategoryId,
-} from "../../../services/dealerServices";
-import { getServicerListByDealerId } from "../../../services/servicerServices";
-import { getCustomerListByDealerIdAndResellerId } from "../../../services/customerServices";
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
-import {
-  getCategoryListActiveData,
-  getTermList,
-} from "../../../services/priceBookService";
+import { getTermList } from "../../../services/priceBookService";
 import RadioButton from "../../../common/radio";
 import {
-  addOrder,
   checkMultipleFileValidation,
   fileValidation,
-  getCategoryAndPriceBooks,
-  getServicerListInOrders,
   getStep2Validation,
   orderDetailsById,
 } from "../../../services/orderServices";
 import Modal from "../../../common/model";
-import { getResellerListByDealerId } from "../../../services/reSellerServices";
 import Cross from "../../../assets/images/Cross.png";
 import { RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
+import {
+  addOrderforDealerPortal,
+  editOrderforDealerPortal,
+  getCategoryAndPriceBooksforDealerPortal,
+  getCustomerListforDealerPortal,
+  getResellerListforDealerPortal,
+  getServicerListInOrdersforDealerPortal,
+} from "../../../services/dealerServices/orderListServices";
 
 function DealerAddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -52,7 +47,6 @@ function DealerAddOrder() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isErrorOpen, setIsErrorOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
-  const [dealerList, setDealerList] = useState([]);
   const [servicerData, setServicerData] = useState([]);
   const [customerList, setCustomerList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
@@ -66,8 +60,10 @@ function DealerAddOrder() {
   const [numberOfOrders, setNumberOfOrders] = useState([]);
   const [error, setError] = useState("");
   const [order, orderDetail] = useState({});
+  const [type, setType] = useState("Add");
   const navigate = useNavigate();
-  const { orderId } = useParams();
+  const { orderId, resellerId, customerId } = useParams();
+  const location = useLocation();
 
   const downloadCSVTemplate = async () => {
     window.open(
@@ -83,7 +79,22 @@ function DealerAddOrder() {
   const prevStep = () => {
     setCurrentStep(currentStep - 1);
   };
-
+  useEffect(() => {
+    console.log(location);
+    if (location.pathname.includes("/editOrder")) {
+      // setLoading1(true);
+    }
+    if (location.pathname == "/dealer/addOrder") {
+      setType("Add");
+      setCurrentStep(1);
+      formik.resetForm();
+      setNumberOfOrders([]);
+      setFileValues([]);
+      formikStep2.resetForm();
+      formikStep3.resetForm();
+      formik4.resetForm();
+    }
+  }, [location]);
   const getTermListData = async () => {
     try {
       const res = await getTermList();
@@ -98,29 +109,14 @@ function DealerAddOrder() {
     }
   };
 
-  const getDealerListData = async () => {
-    const result = await getDealersList();
-
-    let arr = [];
-    const filteredDealers = result?.data?.filter(
-      (data) => data.dealerData.accountStatus === true
-    );
-    filteredDealers?.map((res) => {
-      arr.push({
-        label: res.dealerData.name,
-        value: res.dealerData._id,
-      });
-    });
-    setDealerList(arr);
-  };
-
   const getServicerList = async (data) => {
     let arr = [];
 
-    const result = await getServicerListInOrders(data);
+    const result = await getServicerListInOrdersforDealerPortal(data);
     console.log(result);
 
     const filteredServicers = result.result;
+    console.log(filteredServicers);
     filteredServicers?.map((res) => {
       arr.push({
         label: res.name,
@@ -140,7 +136,13 @@ function DealerAddOrder() {
 
     if (timer === 0) {
       closeModal();
-      navigate("/orderList");
+      if (customerId) {
+        navigate(`/dealer/customerDetails/${customerId}`);
+      } else if (resellerId) {
+        navigate(`/dealer/resellerDetails/${resellerId}`);
+      } else {
+        navigate("/dealer/orderList");
+      }
     }
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
@@ -148,13 +150,11 @@ function DealerAddOrder() {
   const getCustomerList = async (data) => {
     let arr = [];
     const resellerId = data?.resellerId == null ? "" : data.resellerId;
-    const result = await getCustomerListByDealerIdAndResellerId({
-      ...data,
+    const result = await getCustomerListforDealerPortal({
       resellerId: resellerId,
     });
     console.log(result);
     result?.result?.map((res) => {
-      console.log(res);
       arr.push({
         label: res?.username,
         value: res?._id,
@@ -168,7 +168,7 @@ function DealerAddOrder() {
     console.log(id);
 
     let arr = [];
-    const result = await getResellerListByDealerId({}, id);
+    const result = await getResellerListforDealerPortal({});
     result?.result?.map((res) => {
       console.log(res);
       arr.push({
@@ -183,23 +183,128 @@ function DealerAddOrder() {
     console.log(orderId);
     if (orderId != undefined) {
       orderDetails();
+      setType("Edit");
+    } else {
+      setType("Add");
     }
-    getDealerListData();
+    if (resellerId) {
+      formik.setFieldValue("resellerId", resellerId);
+      getResellerList();
+      getCustomerList({
+        resellerId: resellerId,
+      });
+      getServicerList({
+        resellerId: resellerId,
+      });
+      getCategoryList(
+        {
+          priceBookId: "",
+          priceCatId: "",
+        },
+        0
+      );
+    }
+    if (customerId) {
+      formik.setFieldValue("customerId", customerId);
+      formik.setFieldValue("resellerId", resellerId);
+      getResellerList();
+      getCustomerList({
+        resellerId: resellerId,
+      });
+      getServicerList({
+        resellerId: resellerId,
+      });
+      getCategoryList(
+        {
+          priceBookId: "",
+          priceCatId: "",
+        },
+        0
+      );
+    } else if (
+      orderId == undefined &&
+      resellerId == undefined &&
+      customerId == undefined
+    ) {
+      getResellerList();
+      getServicerList();
+      getCustomerList();
+      getCategoryList(
+        {
+          priceBookId: "",
+          priceCatId: "",
+        },
+        0
+      );
+    }
     // getProductList()
     getTermListData();
-  }, []);
+  }, [orderId, resellerId, customerId]);
   const orderDetails = async () => {
     const result = await orderDetailsById(orderId);
     console.log(result.result);
-    getResellerList(result?.result?.dealerId);
+    getResellerList();
     getCustomerList({
-      dealerId: result?.result?.dealerId,
       resellerId: result?.result?.resellerId,
     });
     getServicerList({
-      dealerId: result?.result?.dealerId,
       resellerId: result?.result?.resellerId,
     });
+    result?.result?.productsArray?.forEach((product, index) => {
+      getCategoryList(
+        {
+          priceBookId: product.priceBookId,
+          priceCatId: product.categoryId,
+        },
+        index
+      );
+      if (product.orderFile.name != "") {
+        setFileValues((prevFileValues) => {
+          const newArray = [...prevFileValues];
+          newArray[index] = product.orderFile;
+          return newArray;
+        });
+      } else {
+        setFileValues((prevFileValues) => {
+          const newArray = [...prevFileValues];
+          newArray[index] = null;
+          return newArray;
+        });
+      }
+
+      setNumberOfOrders((prevFileValues) => {
+        const newArray = [...prevFileValues];
+        newArray[index] = product.noOfProducts;
+
+        return newArray;
+      });
+    });
+    console.log(result.result);
+    orderDetail(result.result);
+    formikStep3.setValues({
+      ...formikStep3.values,
+      productsArray: result?.result?.productsArray?.map((product, index) => ({
+        categoryId: product.categoryId || "",
+        priceBookId: product.priceBookId || "",
+        unitPrice: product.unitPrice || null,
+        noOfProducts: product.noOfProducts || "",
+        price: product.price || null,
+        file: product.orderFile || "",
+        coverageStartDate: product.coverageStartDate || "",
+        coverageEndDate: product.coverageEndDate || "",
+        description: product.description || "",
+        term: product.term || "",
+        priceType: product.priceType || "",
+        additionalNotes: product.additionalNotes || "",
+        QuantityPricing: product.QuantityPricing || [],
+        rangeStart: product.rangeStart || "",
+        rangeEnd: product.rangeEnd || "",
+        checkNumberProducts: product.checkNumberProducts || "",
+        orderFile: product.orderFile || "",
+        fileValue: "",
+      })),
+    });
+
     orderDetail(result.result);
     formik.setFieldValue("dealerId", result?.result?.dealerId);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
@@ -240,8 +345,7 @@ function DealerAddOrder() {
       customerId: "",
       resellerId: "",
     },
-    validationSchema: Yup.object().shape({
-    }),
+    validationSchema: Yup.object().shape({}),
     onSubmit: (values) => {
       console.log("values", values);
       nextStep();
@@ -284,7 +388,6 @@ function DealerAddOrder() {
     onSubmit: (values) => {
       let data = {
         dealerPurchaseOrder: values.dealerPurchaseOrder,
-        dealerId: formik.values.dealerId,
         oldDealerPurchaseOrder: order?.venderOrder,
       };
 
@@ -373,7 +476,6 @@ function DealerAddOrder() {
       ),
     }),
     onSubmit: (values) => {
-      alert("here");
       console.log(values);
       checkMultipleEmailCheck(values);
 
@@ -479,6 +581,16 @@ function DealerAddOrder() {
 
   const fileInputRef = useRef([]);
 
+  const handleInputClick = (index, event) => {
+    setFileValues((prevFileValues) => {
+      const newArray = [...prevFileValues];
+      newArray[index] = null;
+      console.log(newArray);
+      return newArray;
+    });
+    event.currentTarget.value = null;
+    formikStep3.setFieldValue(`productsArray[${index}].file`, "");
+  };
   const handleFileSelect = (event, index) => {
     console.log(index);
     const file = event.target.files[0];
@@ -575,7 +687,7 @@ function DealerAddOrder() {
         orderAmount: parseFloat(totalAmount),
       };
       const formData = new FormData();
-      console.log("--------------data", data);
+
       Object.entries(data).forEach(([key, value]) => {
         if (key === "file") {
           if (value) {
@@ -588,30 +700,45 @@ function DealerAddOrder() {
         } else if (key === "productsArray") {
           value.forEach((item, index) => {
             Object.entries(item).forEach(([key1, value1]) => {
-              // if (!Array.isArray(value1) ) {
-              if (key1 !== "file") {
+              console.log(key1);
+              if (key1 !== "file" && key1 !== "QuantityPricing") {
                 formData.append(`${key}[${index}][${key1}]`, value1);
-              } else {
+              }
+              if (
+                key1 == "QuantityPricing" &&
+                Array.isArray(item.QuantityPricing)
+              ) {
+                formData.append(
+                  `${key}[${index}][QuantityPricing]`,
+                  JSON.stringify(item.QuantityPricing)
+                );
               }
             });
-
-            if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
-              item.QuantityPricing.forEach((qpItem, qpIndex) => {
-                Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
-                  formData.append(
-                    `${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`,
-                    qpValue
-                  );
-                });
-              });
-            }
           });
         } else {
           formData.append(key, value);
         }
       });
-      console.log("here");
-      addOrder(formData).then((res) => {
+      if (orderId != undefined) {
+        editOrderforDealerPortal(orderId, data).then((res) => {
+          if (res.code == 200) {
+            openModal();
+          } else {
+            setError(res.message);
+          }
+        });
+      } else {
+        addOrderforDealerPortal(formData).then((res) => {
+          if (res.code == 200) {
+            openModal();
+
+            //  navigate('/orderList')
+          } else {
+            setError(res.message);
+          }
+        });
+      }
+      addOrderforDealerPortal(formData).then((res) => {
         if (res.code == 200) {
           setLoading(false);
           openModal();
@@ -626,27 +753,6 @@ function DealerAddOrder() {
       setLoading(false);
     },
   });
-
-  const handlePaymentStatusChange = (e) => {
-    const newPaymentStatus = e.target.value;
-    if (newPaymentStatus === "Unpaid") {
-      formik4.setFieldValue(
-        "paidAmount",
-        calculateTotalAmount(formikStep3.values.productsArray)
-      );
-      formik4.setFieldError("paidAmount", "");
-      formik4.setFieldValue(
-        "paidAmount",
-        calculateTotalAmount(formikStep3.values.productsArray)
-      );
-      formik4.setFieldValue("pendingAmount", "0.00");
-    } else {
-      formik4.setFieldError("paidAmount", "");
-    }
-
-    // Update the paymentStatus field
-    formik4.handleChange(e);
-  };
 
   useEffect(() => {
     fileInputRef.current = Array.from(
@@ -682,7 +788,6 @@ function DealerAddOrder() {
       fileValue: "",
     };
     getCategoryList(
-      formik.values.dealerId,
       {
         priceBookId: "",
         priceCatId: "",
@@ -742,7 +847,6 @@ function DealerAddOrder() {
           return newArray;
         });
         getCategoryList(
-          formik.values.dealerId,
           {
             priceCatId: selectedValue,
             priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
@@ -757,7 +861,6 @@ function DealerAddOrder() {
         return value.value === selectedValue;
       });
       getCategoryList(
-        formik.values.dealerId,
         {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: selectedValue,
@@ -876,19 +979,16 @@ function DealerAddOrder() {
     formik.handleChange({ target: { name, value } });
     if (name == "resellerId") {
       getCustomerList({
-        dealerId: formik.values.dealerId,
         resellerId: value,
       });
       formik.setFieldValue("customerId", "");
       let data = {
-        dealerId: formik.values.dealerId,
         resellerId: value,
       };
       getServicerList(data);
     }
     if (name == "customerId") {
       let data = {
-        dealerId: formik.values.dealerId,
         resellerId: formik.values.resellerId,
       };
 
@@ -899,7 +999,6 @@ function DealerAddOrder() {
             if (res.customerData.resellerId != null);
             formik.setFieldValue("resellerId", res.customerData.resellerId);
             let data = {
-              dealerId: formik.values.dealerId,
               resellerId: res.customerData.resellerId,
             };
             getServicerList(data);
@@ -921,16 +1020,14 @@ function DealerAddOrder() {
     { label: "Parts & Labour", value: "Parts & Labour" },
   ];
 
-  const getCategoryList = async (value, data, index) => {
-    console.log("here", data.priceBookId !== "", data.priceCatId === "");
-    const result = await getCategoryAndPriceBooks(value, data);
+  const getCategoryList = async (data, index) => {
+    const result = await getCategoryAndPriceBooksforDealerPortal(data);
     if (data.priceBookId !== "" && data.priceCatId === "") {
       formikStep3.setFieldValue(
         `productsArray[${index}].categoryId`,
         result.result.selectedCategory._id
       );
       getCategoryList(
-        formik.values?.dealerId,
         {
           priceBookId: data.priceBookId,
           priceCatId: result.result.selectedCategory._id,
@@ -1015,6 +1112,7 @@ function DealerAddOrder() {
                     name="resellerId"
                     placeholder=""
                     className="!bg-white"
+                    isDisabled={resellerId}
                     // onChange={handleSelectChange}
                     onChange={handleSelectChange}
                     options={resellerList}
@@ -1031,6 +1129,7 @@ function DealerAddOrder() {
                     label="Customer Name"
                     name="customerId"
                     placeholder=""
+                    isDisabled={customerId}
                     className="!bg-white"
                     // onChange={handleSelectChange}
                     onChange={handleSelectChange}
@@ -1808,6 +1907,7 @@ function DealerAddOrder() {
                           accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                           style={{ display: "none" }}
                           onChange={(e) => handleFileSelect(e, index)}
+                          onClick={(event) => handleInputClick(index, event)}
                           disabled={
                             Boolean(numberOfOrders[index]) === true
                               ? false
@@ -1876,7 +1976,6 @@ function DealerAddOrder() {
                     Order Details
                   </p>
                   <Grid className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 ">
-                   
                     <div className="col-span-4 py-4 border-r">
                       <p className="text-[12px]">Reseller Name</p>
                       <p className="font-bold text-sm">{resellerName}</p>
@@ -2085,7 +2184,7 @@ function DealerAddOrder() {
 
               <Grid className="mt-5">
                 <div className="col-span-4 pt-2">
-                <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
+                  <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
                     Do you want to sent notifications ?
                     <RadioButton
                       id="yes-create-account"
@@ -2103,17 +2202,14 @@ function DealerAddOrder() {
                     />
                   </p>
                 </div>
-                <div className="col-span-4">
-                </div>
+                <div className="col-span-4"></div>
                 <div className="col-span-4 flex justify-center pt-4">
                   <p className="text-base pr-3">Total Amount :</p>
                   <p className="font-bold text-lg">
                     ${calculateTotalAmount(formikStep3.values.productsArray)}
                   </p>
                 </div>
-                <div className="col-span-12">
-                 
-                </div>
+                <div className="col-span-12"></div>
               </Grid>
             </div>
 
@@ -2146,18 +2242,20 @@ function DealerAddOrder() {
           />
         </Link>
         <div className="pl-3">
-          <p className="font-bold text-[36px] leading-9 mb-[3px]">Add Order</p>
+          <p className="font-bold text-[36px] leading-9 mb-[3px]">
+            {type} Order
+          </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
               <Link to={"/"}>Order </Link> /{" "}
             </li>
             <li className="text-sm text-neutral-grey font-Regular">
               {" "}
-              Add Order /{" "}
+              {type} Order /{" "}
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
-              Order Details{" "}
+              {type} Details{" "}
             </li>
           </ul>
         </div>
