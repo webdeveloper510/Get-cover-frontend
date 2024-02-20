@@ -26,7 +26,6 @@ import {
 import Select from "../../../../common/select";
 import { getCustomerUsersById } from "../../../../services/customerServices";
 import { useMyContext } from "../../../../context/context";
-import { getServicerUsersById } from "../../../../services/servicerServices";
 import { getResellerUsersById } from "../../../../services/reSellerServices";
 
 function UserList(props) {
@@ -36,7 +35,6 @@ function UserList(props) {
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
-  const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
 
   const [primaryText, SetPrimaryText] = useState("");
@@ -57,31 +55,19 @@ function UserList(props) {
   const [loading, setLoading] = useState(false);
 
   const getUserList = async () => {
-    console.log(props.flag);
+    console.log(props);
     if (props.flag == "customer") {
       const result = await getCustomerUsersById(props.id, {});
       console.log(result.result);
       setUserList(result.result);
-    } else if (props.flag == "servicer") {
-      const result = await getServicerUsersById(props.id, {});
-      console.log(result);
-      setServiceStatus(result.servicerStatus);
-      setUserList(result.result);
     } else if (props.flag == "reseller") {
       const result = await getResellerUsersById(props.id, {});
       console.log(result);
-      // setServiceStatus(result.servicerStatus);
       setUserList(result.data);
-    } else {
-      const result = await getUserListByDealerId(props.id, {});
-      console.log(result.result);
-      setServiceStatus(result.dealerStatus);
-      setUserList(result.result);
     }
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      // Close the dropdown if the click is outside of it
       setSelectedAction(null);
     }
   };
@@ -89,7 +75,7 @@ function UserList(props) {
     if (props.activeTab === "Users") {
       getUserList();
     }
-  }, [props]);
+  }, [props?.flag]);
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
@@ -228,16 +214,10 @@ function UserList(props) {
         SetSecondaryText("user edited successfully ");
         openModal();
         toggleFlag();
-        // setIsModalOpen3(true);
-
-        // setError(result.message);
         setTimer(3);
         getUserList();
       } else {
         setLoading(false);
-        // setError(false);
-        // setIsModalOpen(true);
-        // setTimer(3);
       }
       closeModal2();
     },
@@ -259,7 +239,6 @@ function UserList(props) {
     if (result.code === 200) {
       getUserList();
       setIsModalOpen12(true);
-      // closeModal1();
     }
   };
   const editUser = async (id) => {
@@ -368,7 +347,7 @@ function UserList(props) {
             } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
-            disabled={row.isPrimary || !servicerStatus}
+            disabled={row.isPrimary}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
@@ -684,11 +663,6 @@ function UserList(props) {
                   onChange={formik.handleChange}
                   error={formik.touched.position && formik.errors.position}
                 />
-                {/* {formik.touched.position && formik.errors.position && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.position}
-                </div>
-              )} */}
               </div>
               <div className="col-span-6">
                 <Input

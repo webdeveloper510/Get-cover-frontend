@@ -45,7 +45,6 @@ import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
 
 function DealerAddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
-  const [dealerName, setDealerName] = useState("");
   const [servicerName, setServicerName] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [resellerName, setResellerName] = useState("");
@@ -237,22 +236,15 @@ function DealerAddOrder() {
 
   const formik = useFormik({
     initialValues: {
-      dealerId: "",
       servicerId: "",
       customerId: "",
       resellerId: "",
     },
     validationSchema: Yup.object().shape({
-      dealerId: Yup.string().required("Dealer Name is required"),
     }),
     onSubmit: (values) => {
       console.log("values", values);
       nextStep();
-      const foundDealer = dealerList.find(
-        (data) => data.value === values.dealerId
-      );
-      setDealerName(foundDealer ? foundDealer.label : "");
-
       if (values.servicerId) {
         const foundServicer = servicerData.find(
           (data) => data.value === values.servicerId
@@ -882,31 +874,6 @@ function DealerAddOrder() {
 
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
-    if (name == "dealerId") {
-      setProductNameOptions([]);
-      formik.setFieldValue("servicerId", "");
-      formik.setFieldValue("customerId", "");
-      formik.setFieldValue("resellerId", "");
-      formik.setFieldValue("dealerId", value);
-      let data = {
-        dealerId: value,
-        resellerId: formik.values.resellerId,
-      };
-      getServicerList(data);
-      getCustomerList({
-        dealerId: value,
-        resellerId: formik.values.resellerId,
-      });
-      getResellerList(value);
-      getCategoryList(
-        value,
-        {
-          priceBookId: "",
-          priceCatId: "",
-        },
-        0
-      );
-    }
     if (name == "resellerId") {
       getCustomerList({
         dealerId: formik.values.dealerId,

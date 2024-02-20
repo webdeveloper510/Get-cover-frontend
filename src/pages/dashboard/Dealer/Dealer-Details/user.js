@@ -74,7 +74,7 @@ function UserList(props) {
     } else if (props.flag == "reseller") {
       const result = await getResellerUsersById(props.id, {});
       console.log(result);
-      // setServiceStatus(result.servicerStatus);
+      setServiceStatus(result.servicerStatus);
       setUserList(result.data);
     } else {
       const result = await getUserListByDealerId(props.id, {});

@@ -37,8 +37,8 @@ function DealerAddCustomer() {
   const [dealerList, setDealerList] = useState([]);
   const [resellerList, setResellerList] = useState([]);
   const navigate = useNavigate();
-  const { dealerValueId, typeofUser } = useParams();
-  console.log(dealerValueId, typeofUser);
+  const { resellerId, typeofUser } = useParams();
+  console.log(resellerId);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerName: "",
@@ -220,6 +220,7 @@ function DealerAddCustomer() {
       });
     });
     setResellerList(arr);
+    formik.setFieldValue("resellerName", resellerId);
     console.log(data.result);
   };
   const handleRadioChange = (event) => {
@@ -249,7 +250,7 @@ function DealerAddCustomer() {
     //   getDealerDetails(dealerValueId);
     //   console.log("hello");
     // }
-  }, [dealerValueId]);
+  }, [resellerId]);
   // const getDealerDetails = async (id) => {
   //   const data = await getDealerDetailsId(id);
   //   formik.setFieldValue("dealerName", data.result._id);
@@ -268,10 +269,10 @@ function DealerAddCustomer() {
 
     if (timer === 0 && message === "Customer Created Successfully") {
       closeModal();
-      if (dealerValueId && typeofUser != "reseller") {
-        navigate(`/dealer/dealerDetails/${dealerValueId}`);
+      if (resellerId && typeofUser != "reseller") {
+        navigate(`/dealer/resellerDetails/${resellerId}`);
       } else if (typeofUser == "reseller") {
-        navigate(`/dealer/resellerDetails/${dealerValueId}`);
+        navigate(`/dealer/resellerDetails/${resellerId}`);
       } else {
         navigate("/dealer/customerList");
       }
@@ -346,13 +347,7 @@ function DealerAddCustomer() {
   };
 
   const handleLinkClick = () => {
-    if (dealerValueId !== undefined && typeofUser != "reseller") {
-      navigate(`/dealer/dealerDetails/${dealerValueId}`);
-    } else if (dealerValueId !== undefined && typeofUser == "reseller") {
-      navigate(`/dealer/resellerDetails/${dealerValueId}`);
-    } else {
-      navigate("/dealer/customerList");
-    }
+    navigate(-1);
   };
   // const getDealerListData = async () => {
   //   if (dealerValueId !== undefined) {
@@ -431,8 +426,8 @@ function DealerAddCustomer() {
               label="Reseller Name"
               name="resellerName"
               placeholder=""
-              disabled={typeofUser == "reseller"}
               onChange={handleSelectChange}
+              disabled={resellerId != undefined ? true : false}
               options={resellerList}
               value={formik.values.resellerName}
               onBlur={formik.handleBlur}
