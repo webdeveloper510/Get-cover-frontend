@@ -476,23 +476,14 @@ function ContractList() {
                     type="text"
                     name="Manufacturer"
                     className="!bg-[#fff]"
-                    label="Servicer Name"
-                    placeholder="Manufacturer"
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Select
-                    name="Status"
-                    label="Status"
-                    options={status}
-                    className="!bg-[#fff]"
+                    label="Manufacturer"
                     placeholder=""
                   />
                 </div>
-                <div className="col-span-6">
+                <div className="col-span-12">
                   <Select
-                    name="ClaimStatus"
-                    label="Claim Status"
+                    name="Status"
+                    label="Status"
                     options={status}
                     className="!bg-[#fff]"
                     placeholder=""

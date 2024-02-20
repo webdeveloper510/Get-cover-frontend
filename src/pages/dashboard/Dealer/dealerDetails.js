@@ -502,6 +502,17 @@ function DealerDetails() {
     }
   };
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
@@ -658,10 +669,8 @@ function DealerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      ${" "}
-                      {dealerDetails?.ordersResult?.[0]?.orderAmount?.toLocaleString(
-                        2
-                      ) ?? parseInt(0).toLocaleString(2)}
+                      $ 
+                      {formatOrderValue(dealerDetails?.ordersResult?.[0]?.orderAmount ?? parseInt(0))}
                     </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
