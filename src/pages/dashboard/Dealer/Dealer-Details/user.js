@@ -462,27 +462,40 @@ function UserList(props) {
       <div className="my-8">
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-5 self-center">
+            <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Users List</p>
             </div>
-            <div className="col-span-7">
+            <div className="col-span-9">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form className="" onSubmit={formikUSerFilter.handleSubmit}>
-                  <Grid className="!grid-cols-11">
-                    <div className="col-span-3 self-center">
+                  <Grid className="!grid-cols-9">
+                    <div className="col-span-2 self-center">
                       <Input
                         name="firstName"
                         type="text"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        placeholder="Name"
+                        placeholder="First Name"
                         value={formikUSerFilter.values.firstName}
                         onBlur={formikUSerFilter.handleBlur}
                         onChange={formikUSerFilter.handleChange}
                       />
                     </div>
-                    <div className="col-span-3 self-center">
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="lastName"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Last Name"
+                        value={formikUSerFilter.values.lastName}
+                        onBlur={formikUSerFilter.handleBlur}
+                        onChange={formikUSerFilter.handleChange}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center">
                       <Input
                         name="email"
                         type="text"
@@ -495,7 +508,7 @@ function UserList(props) {
                         onChange={formikUSerFilter.handleChange}
                       />
                     </div>
-                    <div className="col-span-3 self-center">
+                    <div className="col-span-2 self-center">
                       <Input
                         name="phone"
                         type="tel"
@@ -520,7 +533,7 @@ function UserList(props) {
                         }}
                       />
                     </div>
-                    <div className="col-span-2 self-center flex justify-center">
+                    <div className="col-span-1 self-center flex justify-center">
                       <Button type="submit" className="!p-0">
                         <img
                           src={Search}
