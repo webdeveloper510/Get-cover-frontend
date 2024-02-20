@@ -100,6 +100,16 @@ function ResellerList() {
     return phoneNumber; // Return original phone number if it couldn't be formatted
   }; 
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   const columns = [
     {
       name: "ID",
@@ -139,7 +149,7 @@ function ResellerList() {
         `$ ${
           row?.orders?.orderAmount === undefined
             ? parseInt(0).toLocaleString(2)
-            : row?.orders?.orderAmount?.toLocaleString(2)
+            :  formatOrderValue(row?.orders?.orderAmount) 
         }`,
       sortable: true,
     },
