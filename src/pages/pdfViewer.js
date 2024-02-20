@@ -9,10 +9,14 @@ function PdfGenerator(props, className) {
   const [data, setData] = useState({});
   const convertToPDF = async () => {
     const result = await orderDetailsById(props.data);
+    console.log("result===================",result)
     let value = {
       dealerName: result.orderUserData.dealerData,
       customerName: result.orderUserData.customerData,
       resellerName: result.orderUserData.resellerData,
+      customerUserData: result.orderUserData.customerUserData,
+      username: result.orderUserData.username,
+      resellerUsername: result.orderUserData.resellerUsername,
       totalOrderAmount: result.result.orderAmount,
       ...result.result,
     };
@@ -43,6 +47,7 @@ function PdfGenerator(props, className) {
     }
   };
   const generateHTML = (data) => {
+    console.log("pdfdata===================",data)
     return `
       <div style="max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
@@ -96,7 +101,7 @@ function PdfGenerator(props, className) {
                     <td style="text-align: left; width: 50%;">
                         <h4 style="margin: 0; padding: 0;"><b>Dealer Details: </b></h4>
                         <h4 style="margin: 0; padding: 0;"><b> ${
-                          data?.username?.firstName
+                          data?.dealerName?.name
                         } </b></h4>
                         <small style="margin: 0; padding: 0;">Bill To: ${data?.username?.firstName} 
                          ${data?.username?.lastName} <br/>

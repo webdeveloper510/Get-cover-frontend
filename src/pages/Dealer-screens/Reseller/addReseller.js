@@ -30,6 +30,7 @@ function DealerAddReseller() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [dealerList, setDealerList] = useState([]);
@@ -182,7 +183,7 @@ function DealerAddReseller() {
     }
     return false;
   };
-
+  console.log(loading1, '-----------------loader');
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -247,9 +248,10 @@ function DealerAddReseller() {
       ),
     }),
 
+  
     onSubmit: async (values) => {
-      setLoading(true);
-      console.log(values);
+      setLoading1(true);
+      console.log(values, '-----------------values');
       const isEmailValid = !formik.errors.email;
       if (formik.values.members.length > 0) {
         console.log(formik.values.members.length);
@@ -289,23 +291,23 @@ function DealerAddReseller() {
       console.log(result.message);
       if (result.code == 200) {
         setMessage("Reseller Created Successfully");
-        setLoading(false);
+        setLoading1(false);
         setIsModalOpen(true);
         setTimer(3);
       } else if (
         result.message == "Reseller already exist with this account name"
       ) {
-        setLoading(false);
+        setLoading1(false);
         formik.setFieldError("accountName", "Name Already Used");
         setMessage("Some Errors Please Check Form Validations ");
         setIsModalOpen(true);
       } else if (result.message == "Primary user email already exist") {
-        setLoading(false);
+        setLoading1(false);
         formik.setFieldError("email", "Email Already Used");
         setMessage("Some Errors Please Check Form Validations ");
         setIsModalOpen(true);
       } else {
-        setLoading(false);
+        setLoading1(false);
         setIsModalOpen(true);
         setMessage(result.message);
       }
@@ -347,6 +349,7 @@ function DealerAddReseller() {
           </div>
         </div>
       )}
+       
       <Headbar />
       <div className="flex mt-2">
         <div
@@ -374,9 +377,15 @@ function DealerAddReseller() {
           </ul>
         </div>
       </div>
-
-      {/* Form Start */}
-      <form className="mt-8" onSubmit={formik.handleSubmit}>
+      {loading1 ? (
+        <div className=" h-[400px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div>
+      ) : (<>
+        {/* Form Start */}
+        <form className="mt-8" onSubmit={formik.handleSubmit}>
         {/* <Grid>
           <div className="col-span-4 mb-3">
             <Select
@@ -930,6 +939,8 @@ function DealerAddReseller() {
         </Button>
       </form>
 
+      </>)}
+    
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {message === "Reseller Created Successfully" ? (
           <></>

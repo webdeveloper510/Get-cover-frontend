@@ -26,12 +26,14 @@ import {
   addNewCustomerDealer,
   getResellerListForDealer,
 } from "../../../services/dealerServices/customerServices";
+import { RotateLoader } from "react-spinners";
 
 function DealerAddCustomer() {
   const [timer, setTimer] = useState(3);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [dealerList, setDealerList] = useState([]);
@@ -130,6 +132,7 @@ function DealerAddCustomer() {
     }),
 
     onSubmit: async (values) => {
+      setLoading1(true);
       delete values.rese;
       console.log(values);
       const isEmailValid = !formik.errors.email;
@@ -168,23 +171,23 @@ function DealerAddCustomer() {
       console.log(result.message);
       if (result.code == 200) {
         setMessage("Customer Created Successfully");
-        setLoading(false);
+        setLoading1(false);
         setIsModalOpen(true);
         setTimer(3);
       } else if (
         result.message == "Customer already exist with this account name"
       ) {
-        setLoading(false);
+        setLoading1(false);
         formik.setFieldError("accountName", "Name Already Used");
         setMessage("Some Errors Please Check Form Validations ");
         setIsModalOpen(true);
       } else if (result.message == "Primary user email already exist") {
-        setLoading(false);
+        setLoading1(false);
         formik.setFieldError("email", "Email Already Used");
         setMessage("Some Errors Please Check Form Validations ");
         setIsModalOpen(true);
       } else {
-        setLoading(false);
+        setLoading1(false);
         setIsModalOpen(true);
         setMessage(result.message);
       }
@@ -398,7 +401,13 @@ function DealerAddCustomer() {
           </ul>
         </div>
       </div>
-
+      {loading1 ? (
+        <div className=" h-[400px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div>
+      ) : (<>
       {/* Form Start */}
       <form className="mt-8" onSubmit={formik.handleSubmit}>
         <Grid>
@@ -945,6 +954,8 @@ function DealerAddCustomer() {
           Submit
         </Button>
       </form>
+      </>
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {message === "Customer Created Successfully" ? (

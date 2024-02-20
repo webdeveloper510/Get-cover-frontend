@@ -62,6 +62,17 @@ function DealerPriceBook(props) {
     </div>
   );
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const columns = [
     {
       name: "ID",
@@ -92,7 +103,10 @@ function DealerPriceBook(props) {
     },
     {
       name: "Retail Cost",
-      selector: (row) => "$  " + row.retailPrice.toLocaleString(2),
+      selector: (row) =>  `$ ${
+        row.retailPrice === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row.retailPrice ?? parseInt(0))}`,
       sortable: true,
     },
 
@@ -132,12 +146,14 @@ function DealerPriceBook(props) {
   ];
 
   const priceBookData = async () => {
+    setLoading(true);
     const result =
       props.flag === "reseller"
         ? await getPriceBookListByResellerId(props.id)
         : await getPriceBookForDealer(props.id);
     setPriceBookList(result.result);
     console.log(result.result);
+    setLoading(false);
   };
 
   const getCategoryListData = async () => {
@@ -171,6 +187,7 @@ function DealerPriceBook(props) {
   const navigte = useNavigate();
 
   useEffect(() => {
+    
     priceBookData();
   }, [props]);
 
@@ -208,6 +225,7 @@ function DealerPriceBook(props) {
       }
       console.log(res);
       setPriceBookList(res.result);
+      setLoading(false);
     } catch (error) {
       setLoading(false);
       console.error("Error fetching category list:", error);
