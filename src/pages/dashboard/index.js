@@ -46,6 +46,19 @@ function Dashboard() {
   useEffect(() => {
     dashboardDetails();
   }, []);
+  
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   return (
     <>
       <div className="my-8 ml-3">
@@ -72,7 +85,7 @@ function Dashboard() {
                 </div>
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
                   <p className="text-2xl font-bold">
-                    ${parseInt(dashboardDetail.totalAmount).toLocaleString(2)}
+                    ${ formatOrderValue(dashboardDetail.totalAmount ?? parseInt(0))}
                   </p>
                   <p className="text-[#999999] text-sm">Total Value of Orders</p>
                 </div>
