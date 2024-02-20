@@ -354,6 +354,7 @@ function ContractList(props) {
                     })}
                 </>
               )}
+
               <CustomPagination
                 totalRecords={totalRecords}
                 rowsPerPageOptions={[10, 20, 50, 100]}
