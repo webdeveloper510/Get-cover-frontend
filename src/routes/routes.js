@@ -409,11 +409,10 @@ const routes = [
         element: <PrivateRoute element={<DealerUser />} path="/dealer/user" />,
       },
       {
-        path: "/dealer/addCustomer/:dealerValueId?/:typeofUser?",
+        path: "/dealer/addCustomer/:resellerId?/:typeofUser?",
         element: (
           <PrivateRoute
             element={<DealerAddCustomer />}
-            path="/dealer/addCustomer/:dealerValueId?/:typeofUser?"
           />
         ),
       },

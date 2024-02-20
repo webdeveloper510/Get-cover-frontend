@@ -57,7 +57,7 @@ import ClaimList from "./Dealer-Details/claim";
 import ServicerList from "./Dealer-Details/servicer";
 import UserList from "./Dealer-Details/user";
 import PriceBookList from "../../dashboard/Dealer/Dealer-Details/priceBook";
-import CustomerList from "./Dealer-Details/customer";;
+import CustomerList from "./Dealer-Details/customer";
 
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
@@ -148,7 +148,8 @@ function DealerResellerDetails() {
   };
   const getUserList = async () => {
     const result = await getResellerUsersById(id.resellerId, {});
-    setRefreshUserList(result.result);
+    setRefreshUserList(result.data);
+    console.log(result.data);
   };
   const closeModal1 = () => {
     setIsModalOpen1(false);
@@ -159,6 +160,7 @@ function DealerResellerDetails() {
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
+    setActiveTab("Users");
     userValues.resetForm();
   };
   const getServicerList = async () => {
@@ -177,9 +179,7 @@ function DealerResellerDetails() {
   const resellerDetails = async () => {
     setLoading(true);
     const result = await getResellerListByResellerId(id.resellerId);
-    console.log(result, "88888888888888")
-    if (result.code === 200){
-      
+    if (result.code === 200) {
       setResllerDetails(result?.reseller[0]);
       setInitialFormValues({
         accountName: result?.reseller[0]?.resellerData?.name,
@@ -191,11 +191,9 @@ function DealerResellerDetails() {
         state: result?.reseller[0]?.resellerData?.state,
         country: "USA",
       });
+    } else {
+      console.log(result?.message);
     }
-
-      else{
-        console.log(result?.message)
-      }
     setLoading(false);
   };
 
@@ -370,6 +368,7 @@ function DealerResellerDetails() {
   });
   const openUserModal = () => {
     userValues.resetForm();
+    setActiveTab("Users123");
     setIsUserModalOpen(true);
   };
   const columns = [
@@ -501,7 +500,7 @@ function DealerResellerDetails() {
         break;
       case "Customer":
         localStorage.setItem("menu", "Customer");
-        navigate(`/dealer/addCustomer/${id.resellerId}`);
+        navigate(`/dealer/addCustomer/${id.resellerId}/reseller`);
         break;
       case "Users":
         openUserModal();
@@ -744,7 +743,9 @@ function DealerResellerDetails() {
                   </Grid>
                 </div>
               </div>
-              {activeTab !== "Servicer" && activeTab !== "PriceBook" && activeTab !== "Contracts"  ? (
+              {activeTab !== "Servicer" &&
+              activeTab !== "PriceBook" &&
+              activeTab !== "Contracts" ? (
                 <div
                   className="col-span-2"
                   onClick={() => routeToPage(activeTab)}
