@@ -387,20 +387,15 @@ const routes = [
       // Dealer Routs ---------------------------------------------------------------
 
       {
-        path: "/dealer/orderDetails",
-        element: (
-          <PrivateRoute
-            element={<DealerOrderDetails />}
-            path="/dealer/orderDetails"
-          />
-        ),
+        path: "/dealer/orderDetails/:orderId",
+        element: <PrivateRoute element={<DealerOrderDetails />} />,
       },
       {
         path: "/dealer/addOrderforReseller/:resellerId?",
         element: <PrivateRoute element={<DealerAddOrder />} />,
       },
       {
-        path: "/dealer/addOrderforCustomer/:customerId?",
+        path: "/dealer/addOrderforCustomer/:customerId?/:resellerId?",
         element: <PrivateRoute element={<DealerAddOrder />} />,
       },
       {
@@ -418,11 +413,7 @@ const routes = [
       },
       {
         path: "/dealer/addCustomer/:resellerId?/:typeofUser?",
-        element: (
-          <PrivateRoute
-            element={<DealerAddCustomer />}
-          />
-        ),
+        element: <PrivateRoute element={<DealerAddCustomer />} />,
       },
       {
         path: "/dealer/customerList",
@@ -450,6 +441,10 @@ const routes = [
             path="/dealer/editContract"
           />
         ),
+      },
+      {
+        path: "/dealer/editOrder/:orderId?",
+        element: <PrivateRoute element={<DealerAddOrder />} />,
       },
       {
         path: "/dealer/addOrder",
@@ -518,12 +513,7 @@ const routes = [
       },
       {
         path: "/dealer/customerDetails/:customerId",
-        element: (
-          <PrivateRoute
-            element={<DealerCustomerDetails />}
-            path="/dealer/customerDetails/:customerId"
-          />
-        ),
+        element: <PrivateRoute element={<DealerCustomerDetails />} />,
       },
       {
         path: "/dealer/priceBook",

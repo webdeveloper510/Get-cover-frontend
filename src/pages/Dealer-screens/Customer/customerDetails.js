@@ -19,16 +19,13 @@ import Claim from "../../../assets/images/Dealer/Claim.svg";
 import User from "../../../assets/images/Dealer/Users.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
-import ClaimList from "../Reseller/Dealer-Details/claim";
-import UserList from "../Reseller/Dealer-Details/user";
 import Modal from "../../../common/model";
 import Input from "../../../common/input";
 import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
 import Order from "../../../assets/images/Dealer/Orders.svg";
 import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
-import OrderList from "../Reseller/Dealer-Details/order";
-import ContractList from "../Reseller/Dealer-Details/contract";
+
 import {
   getCustomerDetailsById,
   updateCustomerDetailsById,
@@ -43,8 +40,12 @@ import {
 import RadioButton from "../../../common/radio";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
+import OrderList from "../Order/orderList";
+import ContractList from "../Contract/contractList";
+import ClaimList from "../Reseller/Dealer-Details/claim";
+import UserList from "../Reseller/Dealer-Details/user";
 
-function DealerCustomerDetails() {
+function CustomerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("customer");
     return storedTab ? storedTab : "Order";
@@ -248,13 +249,16 @@ function DealerCustomerDetails() {
     customerDetails();
   }, [customerId, flag]);
   const routeToPage = (data) => {
-    // console.log(data, id.id);
+    console.log(
+      `/dealer/addOrderforCustomer/${customerId}/${customerDetail?.meta?.resellerId}`
+    );
     switch (data) {
       case "Order":
-        // localStorage.setItem("menu", "Orders");
-        navigate(
-          `/dealer/addOrderforCustomer/${customerId}`
-        );
+        const resellerIdParam = customerDetail?.meta?.resellerId
+          ? `/${customerDetail?.meta?.resellerId}`
+          : "";
+        navigate(`/dealer/addOrderforCustomer/${customerId}${resellerIdParam}`);
+        break;
       case "Users":
         localStorage.getItem("Users");
         openUserModal();
@@ -264,6 +268,18 @@ function DealerCustomerDetails() {
         console.log("Invalid data, no navigation");
     }
   };
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
+
   const customerDetails = async () => {
     setLoading(true);
     console.log(customerId);
@@ -282,17 +298,6 @@ function DealerCustomerDetails() {
     });
     setLoading(false);
   };
-
-  const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
-    if (match) {
-      return `(${match[1]}) ${match[2]}-${match[3]}`;
-    }
-  
-    return phoneNumber; // Return original phone number if it couldn't be formatted
-  };
   useEffect(() => {
     localStorage.setItem("customer", activeTab);
   }, [activeTab]);
@@ -302,14 +307,18 @@ function DealerCustomerDetails() {
       label: "Order",
       icons: Order,
       Activeicons: OrderActive,
-      content: <OrderList />,
+      content: (
+        <OrderList flag={"customer"} id={customerId} activeTab={activeTab} />
+      ),
     },
     {
       id: "Contracts",
       label: "Contracts",
       icons: Dealer,
       Activeicons: DealerActive,
-      content: <ContractList />,
+      content: (
+        <ContractList flag={"customer"} id={customerId} activeTab={activeTab} />
+      ),
     },
     {
       id: "Claims",
@@ -324,7 +333,12 @@ function DealerCustomerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList flag={"customer"} id={customerId} data={refreshList} activeTab={activeTab} />
+        <UserList
+          flag={"customer"}
+          id={customerId}
+          data={refreshList}
+          activeTab={activeTab}
+        />
       ),
     },
   ];
@@ -336,6 +350,17 @@ function DealerCustomerDetails() {
   const handleGOBack = () => {
     localStorage.removeItem("customer");
     navigate(-1);
+  };
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
   };
   return (
     <>
@@ -379,9 +404,9 @@ function DealerCustomerDetails() {
           </div>
         </div>
 
-        <Grid className="!grid-cols-4">
-          <div className="col-span-1">
-            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
+        <Grid className="!grid-cols-4 mt-5">
+          <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
+            <div className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -424,7 +449,7 @@ function DealerCustomerDetails() {
                 </p>
                 <hr className="self-center border-[#999999] w-[50%]" />
               </div>
-              {/* <div className="flex mb-4">
+              <div className="flex mb-4">
                 <div className="relative">
                   <img
                     src={DealerIcons}
@@ -448,38 +473,36 @@ function DealerCustomerDetails() {
                     {customerDetail?.meta?.dealerName}
                   </p>
                 </div>
-                
-              </div> */}
-              {
-                customerDetail?.meta?.resellerId && (
-                  <div className="flex mb-4">
-                <div className="relative">
-                  <img
-                    src={DealerIcons}
-                    className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="DealerIcons"
-                  />
-                  <Link to={`/resellerDetails/${customerDetail?.meta?.resellerId}`}>
-                    {" "}
-                    <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
-                </div>
-                <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
-                    Reseller Name
-                  </p>
-                  <p className="text-base text-white font-semibold ">
-                    {customerDetail?.resellerName}
-                  </p>
-                </div>
-                
               </div>
-                )
-              }
+              {customerDetail?.meta?.resellerId && (
+                <div className="flex mb-4">
+                  <div className="relative">
+                    <img
+                      src={DealerIcons}
+                      className="mr-3 bg-[#383838] rounded-[14px]"
+                      alt="DealerIcons"
+                    />
+                    <Link
+                      to={`/resellerDetails/${customerDetail?.meta?.resellerId}`}
+                    >
+                      {" "}
+                      <img
+                        src={DealerList}
+                        className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                        alt="DealerList"
+                      />{" "}
+                    </Link>
+                  </div>
+                  <div>
+                    <p className="text-sm text-neutral-grey font-Regular">
+                      Reseller Name
+                    </p>
+                    <p className="text-base text-white font-semibold ">
+                      {customerDetail?.resellerName}
+                    </p>
+                  </div>
+                </div>
+              )}
               <div className="flex mb-4">
                 <img
                   src={name}
@@ -495,7 +518,7 @@ function DealerCustomerDetails() {
                 </div>
               </div>
               <div className="flex mb-4">
-                <img 
+                <img
                   src={email}
                   className="mr-3 bg-[#383838] rounded-[14px]"
                   alt="email"
@@ -527,7 +550,10 @@ function DealerCustomerDetails() {
               <Grid className="mt-5">
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">0</p>
+                    <p className="text-white text-lg !font-[600]">
+                      {" "}
+                      {customerDetail?.orderData?.[0]?.noOfOrders ?? 0}
+                    </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total number of Orders
                     </p>
@@ -535,7 +561,13 @@ function DealerCustomerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-white text-lg  !font-[600]">
+                      ${" "}
+                      {formatOrderValue(
+                        customerDetail?.orderData?.[0]?.orderAmount ??
+                          parseInt(0)
+                      )}
+                    </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
                     </p>
@@ -560,7 +592,7 @@ function DealerCustomerDetails() {
               </Grid>
             </div>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!mt-5">
               <div className="col-span-6">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
@@ -597,21 +629,24 @@ function DealerCustomerDetails() {
               </div>
               <div className="col-span-4"></div>
               <div className="col-span-2">
-              {activeTab !== "Contracts" ? ( <Button
-                  className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-                  onClick={() => routeToPage(activeTab)}
-                >
-                  {" "}
-                  <img
-                    src={AddItem}
-                    className="self-center"
-                    alt="AddItem"
-                  />{" "}
-                  <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
-                    Add {activeTab}
-                  </span>{" "}
-                </Button>) : (<></>)}
-               
+                {activeTab !== "Contracts" ? (
+                  <Button
+                    className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+                    onClick={() => routeToPage(activeTab)}
+                  >
+                    {" "}
+                    <img
+                      src={AddItem}
+                      className="self-center"
+                      alt="AddItem"
+                    />{" "}
+                    <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
+                      Add {activeTab}
+                    </span>{" "}
+                  </Button>
+                ) : (
+                  <></>
+                )}
               </div>
             </Grid>
 
@@ -947,4 +982,4 @@ function DealerCustomerDetails() {
     </>
   );
 }
-export default DealerCustomerDetails;
+export default CustomerDetails;

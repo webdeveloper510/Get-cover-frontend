@@ -53,3 +53,128 @@ export const getOrdersForDealerPortal = async (data) => {
     throw error;
   }
 };
+
+export const getAllContractsForDealerPortal = async (data = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/getDealerContracts`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getResellerListforDealerPortal = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/getDealerResellers
+        `,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getServicerListInOrdersforDealerPortal = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/getServicerInOrders`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCustomerListforDealerPortal = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/getCustomerInOrder`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCategoryAndPriceBooksforDealerPortal = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/getCategoryAndPriceBooks`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addOrderforDealerPortal = async (data) => {
+  const accessToken = getAccessToken();
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+
+  if (accessToken) {
+    headers["x-access-token"] = accessToken;
+  }
+  console.log(headers);
+  try {
+    const response = await axios.post(`${url}/dealerPortal/createOrder`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editOrderforDealerPortal = async (id, data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/editOrderDetail/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

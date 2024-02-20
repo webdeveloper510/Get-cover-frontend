@@ -294,7 +294,7 @@ function OrderList() {
                   <>
                     <div
                       className="text-left py-1 flex border-b hover:font-semibold cursor-pointer"
-                      onClick={() => navigate(`/editOrder/${row._id}`)}
+                      onClick={() => navigate(`/dealer/editOrder/${row._id}`)}
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
@@ -330,7 +330,7 @@ function OrderList() {
                 ) : (
                   <>
                     <Link
-                      to={`/orderDetails/${row._id}`}
+                      to={`/dealer/orderDetails/${row._id}`}
                       className="text-left py-1 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
@@ -369,18 +369,6 @@ function OrderList() {
             </ul>
           </div>
         </div>
-
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-          {" "}
-          <Link to={"/dealer/addOrder"} className="flex">
-            {" "}
-            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-Regular">
-              {" "}
-              Add New Order{" "}
-            </span>{" "}
-          </Link>
-        </Button>
 
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">

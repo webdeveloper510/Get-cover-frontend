@@ -35,7 +35,7 @@ function DealerResellerList() {
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
-  
+
   const getResellersList = async () => {
     setLoading(true);
     const result = await getResellerList({});
@@ -44,17 +44,16 @@ function DealerResellerList() {
     setLoading(false);
   };
 
-  
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  }; 
+  };
   const dropdownRef = useRef(null);
 
   const calculateDropdownPosition = (index) => {
@@ -89,7 +88,16 @@ function DealerResellerList() {
       <p>No records found.</p>
     </div>
   );
-
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   const columns = [
     {
       name: "ID",
@@ -114,13 +122,18 @@ function DealerResellerList() {
       sortable: true,
     },
     {
-      name: "# Orders",
-      selector: (row) => 0,
+      name: "# of Orders",
+      selector: (row) => row?.orders?.noOfOrders ?? 0,
       sortable: true,
     },
     {
       name: "Order Value",
-      selector: (row) => "$ 0.00",
+      selector: (row) =>
+        `$ ${
+          row?.orders?.orderAmount === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.orders?.orderAmount)
+        }`,
       sortable: true,
     },
     {
@@ -318,7 +331,7 @@ function DealerResellerList() {
                       />
                     </div>
                     <div className="col-span-2 self-center">
-                    <Select
+                      <Select
                         label=""
                         name="status"
                         OptionName="Status"
