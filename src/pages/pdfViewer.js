@@ -7,30 +7,20 @@ import { orderDetailsById } from "../services/orderServices";
 import { useState } from "react";
 function PdfGenerator(props, className) {
   const [data, setData] = useState({});
-  const convertToPDF = async () => {
-    const result = await orderDetailsById(props.data);
-    console.log("result===================",result)
-    let value = {
-      dealerName: result.orderUserData.dealerData,
-      customerName: result.orderUserData.customerData,
-      resellerName: result.orderUserData.resellerData,
-      customerUserData: result.orderUserData.customerUserData,
-      username: result.orderUserData.username,
-      resellerUsername: result.orderUserData.resellerUsername,
-      totalOrderAmount: result.result.orderAmount,
-      ...result.result,
-    };
+  const convertToPDF = () => {
+    const result = props.data;
+   
 
     const opt = {
       margin: 0,
-      filename: `${value.unique_key}Invoice.pdf`,
+      filename: `${result.unique_key}Invoice.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
 
     try {
-      const pdf = html2pdf().from(generateHTML(value)).set(opt);
+      const pdf = html2pdf().from(generateHTML(result)).set(opt);
       pdf.save();
     } catch (error) {
       console.error("Error generating PDF:", error);
@@ -47,7 +37,6 @@ function PdfGenerator(props, className) {
     }
   };
   const generateHTML = (data) => {
-    console.log("pdfdata===================",data)
     return `
       <div style="max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
