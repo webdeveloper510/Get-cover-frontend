@@ -46,6 +46,19 @@ function Dashboard() {
   useEffect(() => {
     dashboardDetails();
   }, []);
+  
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   return (
     <>
       <div className="my-8 ml-3">
@@ -72,7 +85,9 @@ function Dashboard() {
                 </div>
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
                   <p className="text-2xl font-bold">
-                    ${parseInt(dashboardDetail.totalAmount).toLocaleString(2)}
+                  ${ dashboardDetail.totalAmount === undefined
+                    ? parseInt(0).toLocaleString(2)
+                    : formatOrderValue(dashboardDetail.totalAmount ?? parseInt(0))}
                   </p>
                   <p className="text-[#999999] text-sm">Total Value of Orders</p>
                 </div>
@@ -190,7 +205,7 @@ function Dashboard() {
                   </div>
                 </Grid>
                 <Grid className="  s:grid-cols-1 md:grid-cols-3 xl:grid-cols-5">
-                  <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
+                  <div className="col-span-1 s:border-0 md:border-r xl:border-r s:bg-[none] md:bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] s:pr-0 md:pr-[1px] xl:pr-[1px]">
                     <div className="bg-white pl-2">
                       <div className="flex mb-4">
                         <img src={Administration} alt="Administration" />
@@ -199,14 +214,14 @@ function Dashboard() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-3xl font-bold">$5666159.00</p>
+                        <p className="text-3xl font-bold">$5,666,159.00</p>
                         <p className="text-base opacity-50 font-normal">
                           $10,000.00
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
+                  <div className="col-span-1 border-r s:border-0 md:border-r xl:border-r s:bg-[none] md:bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] s:pr-0 md:pr-[1px] xl:pr-[1px]">
                     <div className="bg-white pl-4">
                       <div className="flex mb-4">
                         <img src={Fronting} alt="Administration" />
@@ -215,14 +230,14 @@ function Dashboard() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-3xl font-bold">$232159.00</p>
+                        <p className="text-3xl font-bold">$232,159.00</p>
                         <p className="text-base opacity-50 font-normal">
                           $10,000.00
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
+                  <div className="col-span-1 s:border-0 md:border-r xl:border-r s:bg-[none] md:bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] s:pr-0 md:pr-[1px] xl:pr-[1px]">
                     <div className="bg-white pl-4">
                       <div className="flex mb-4">
                         <img src={insurance} alt="Administration" />
@@ -231,14 +246,14 @@ function Dashboard() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-3xl font-bold">$1523239.00</p>
+                        <p className="text-3xl font-bold">$1,523,239.00</p>
                         <p className="text-base opacity-50 font-normal">
                           $10,000.00
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
+                  <div className="col-span-1 s:border-0 md:border-r xl:border-r s:bg-[none] md:bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] s:pr-0 md:pr-[1px] xl:pr-[1px]">
                     <div className="bg-white pl-3">
                       <div className="flex mb-4">
                         <img src={Reserves} alt="Administration" />
@@ -247,7 +262,7 @@ function Dashboard() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-3xl font-bold">$123259.00</p>
+                        <p className="text-3xl font-bold">$123,259.00</p>
                         <p className="text-base opacity-50 font-normal">
                           $10,000.00
                         </p>
@@ -262,7 +277,7 @@ function Dashboard() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-3xl font-bold">$1552369.00</p>
+                      <p className="text-3xl font-bold">$1,552,369.00</p>
                       <p className="text-base opacity-50 font-normal">$10,000.00</p>
                     </div>
                   </div>

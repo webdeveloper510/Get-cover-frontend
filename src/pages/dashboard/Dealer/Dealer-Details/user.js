@@ -9,6 +9,9 @@ import assign from "../../../../assets/images/Unassign.png";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import shorting from "../../../../assets/images/icons/shorting.svg";
+import delete1 from "../../../../assets/images/delete.png";
+import make from "../../../../assets/images/star.png";
+import edit from "../../../../assets/images/edit-text.png";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
@@ -168,6 +171,7 @@ function UserList(props) {
   const closeModal12 = () => {
     setIsModalOpen12(false);
   };
+  
   const openModal12 = () => {
     setIsModalOpen12(true);
   };
@@ -321,6 +325,17 @@ function UserList(props) {
     },
   });
 
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
+
   const columns = [
     {
       name: "Name",
@@ -344,7 +359,7 @@ function UserList(props) {
     },
     {
       name: "Phone Number",
-      selector: (row) => row.phoneNumber,
+      selector: (row) => formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -401,31 +416,31 @@ function UserList(props) {
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${
                   !row.isPrimary ? "w-[120px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                } drop-shadow-5xl -right-3 mt-2 bg-white p-2 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 {!row.isPrimary && row.status && (
                   <div
-                    className="text-center py-2 cursor-pointer border-b"
-                    onClick={() => makeUserPrimary(row)}
+                  onClick={() => makeUserPrimary(row)}
+                  className="text-left cursor-pointer flex border-b hover:font-semibold py-1"
                   >
-                    Make Primary
+                   <img src={make} className="w-4 h-4 mr-2"/> <span className="self-center"> Make Primary </span>
                   </div>
                 )}
 
                 <div
-                  className="text-center py-2 cursor-pointer border-b"
                   onClick={() => editUser(row._id)}
-                >
-                  Edit
+                  className="text-left cursor-pointer flex border-b hover:font-semibold py-1"
+                  >
+                   <img src={edit} className="w-4 h-4 mr-2"/> <span className="self-center">Edit </span>
                 </div>
                 {!row.isPrimary && (
                   <div
-                    className="text-center text-red-500 py-2 cursor-pointer"
-                    onClick={() => openModal1(row._id)}
+                  onClick={() => openModal1(row._id)}
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
                   >
-                    Delete
+                   <img src={delete1} className="w-4 h-4 mr-2"/> <span className="self-center">Delete</span>
                   </div>
                 )}
               </div>
@@ -447,14 +462,14 @@ function UserList(props) {
       <div className="my-8">
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-5 self-center">
+            <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Users List</p>
             </div>
-            <div className="col-span-7">
+            <div className="col-span-9">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form className="" onSubmit={formikUSerFilter.handleSubmit}>
-                  <Grid className="!grid-cols-11">
-                    <div className="col-span-3 self-center">
+                  <Grid className="!grid-cols-9">
+                    <div className="col-span-2 self-center">
                       <Input
                         name="firstName"
                         type="text"
@@ -467,7 +482,20 @@ function UserList(props) {
                         onChange={formikUSerFilter.handleChange}
                       />
                     </div>
-                    <div className="col-span-3 self-center">
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="lastName"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Last Name"
+                        value={formikUSerFilter.values.lastName}
+                        onBlur={formikUSerFilter.handleBlur}
+                        onChange={formikUSerFilter.handleChange}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center">
                       <Input
                         name="email"
                         type="text"
@@ -480,7 +508,7 @@ function UserList(props) {
                         onChange={formikUSerFilter.handleChange}
                       />
                     </div>
-                    <div className="col-span-3 self-center">
+                    <div className="col-span-2 self-center">
                       <Input
                         name="phone"
                         type="tel"
@@ -505,7 +533,7 @@ function UserList(props) {
                         }}
                       />
                     </div>
-                    <div className="col-span-2 self-center flex justify-center">
+                    <div className="col-span-1 self-center flex justify-center">
                       <Button type="submit" className="!p-0">
                         <img
                           src={Search}

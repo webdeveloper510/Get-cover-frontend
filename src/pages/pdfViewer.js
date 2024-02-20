@@ -32,7 +32,16 @@ function PdfGenerator(props, className) {
       console.error("Error generating PDF:", error);
     }
   };
-
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   const generateHTML = (data) => {
     return `
       <div style="max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
@@ -67,7 +76,9 @@ function PdfGenerator(props, className) {
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
-                                    <td style="border: none; padding: 4px;">$  ${data?.totalOrderAmount?.toLocaleString()}</td>
+                                    <td style="border: none; padding: 4px;">$  ${data?.totalOrderAmount === undefined
+                                      ? parseInt(0).toLocaleString(2)
+                                      :  formatOrderValue(data?.totalOrderAmount)}</td>
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;">Currency Type:</td>
@@ -85,15 +96,17 @@ function PdfGenerator(props, className) {
                     <td style="text-align: left; width: 50%;">
                         <h4 style="margin: 0; padding: 0;"><b>Dealer Details: </b></h4>
                         <h4 style="margin: 0; padding: 0;"><b> ${
-                          props.data?.dealerName?.name
+                          data?.dealerName?.name
                         } </b></h4>
-                        <small style="margin: 0; padding: 0;">Bill To: ${
-                          props.data?.dealerName?.street
-                        } ${props.data?.dealerName?.city} ,${
-      props.data?.dealerName?.state
-    } ${props.data?.dealerName?.zip} <br/>
+                        <small style="margin: 0; padding: 0;">Bill To: ${data?.username?.firstName} ${data?.username?.lastName} <br/>
+                         ${
+                          data?.dealerName?.street
+                          } ${data?.dealerName?.city} ,${
+                          data?.dealerName?.state
+                        } ${data?.dealerName?.zip} <br/>
                            
                             </small>
+                            <small> ${data?.username?.phoneNumber} | ${data?.username?.email}  </small>
                     </td>
                     ${
                       data?.resellerId != null
@@ -102,13 +115,14 @@ function PdfGenerator(props, className) {
                     <h4 style="margin: 0; padding: 0;"><b>${
                       data?.resellerName?.name ?? ""
                     }</b></h4>
-                    <small style="margin: 0; padding: 0;">Bill To:
+                    <small style="margin: 0; padding: 0;">Bill To: ${data?.resellerUsername?.firstName} ${data?.resellerUsername?.lastName} <br/>
                       ${data?.resellerName?.street ?? ""} 
                       ${data?.resellerName?.city ?? ""}, 
                       ${data?.resellerName?.state ?? ""} 
                       ${data?.resellerName?.zip ?? ""} <br/>
                      
                     </small>
+                    <small>${data?.resellerUsername?.phoneNumber} | ${data?.resellerUsername?.email}  </small>
                   </td> `
                         : ""
                     }
@@ -120,8 +134,8 @@ function PdfGenerator(props, className) {
                   data?.customerName != null
                     ? `
                 <h4 style="margin: 0; padding: 0;"><b>Customer Details: </b></h4>
-                <h4 style="margin: 0; padding: 0;"><b> ${props.data?.customerName?.username} </b></h4>
-                <small style="margin: 0; padding: 0;">Address: ${props.data?.customerName?.street} ${props.data?.customerName?.city} ,${props.data?.customerName?.state} ${props.data?.customerName?.zip} <br/>
+                <h4 style="margin: 0; padding: 0;"><b> ${data?.customerName?.username} </b></h4>
+                <small style="margin: 0; padding: 0;">Address: ${data?.customerName?.street} ${data?.customerName?.city} ,${data?.customerName?.state} ${data?.customerName?.zip} <br/>
                    
                     </small>
             </td>
@@ -136,7 +150,7 @@ function PdfGenerator(props, className) {
         <tbody>
             <tr>
             <td colspan="2">
-        <p><b>Dealer Purchase Order #:</b> ${props.data.venderOrder}</p>
+        <p><b>Dealer Purchase Order #:</b> ${data.venderOrder}</p>
         </td>
         </tr>
         </tbody>
@@ -165,12 +179,12 @@ function PdfGenerator(props, className) {
               <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
                 product.noOfProducts
               }</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.unitPrice
-                .toFixed(2)
-                .toLocaleString()}</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.price
-                .toFixed(2)
-                .toLocaleString()}</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.unitPrice === undefined
+                ? parseInt(0).toLocaleString(2)
+                :  formatOrderValue(product.unitPrice)}</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.price === undefined
+                ? parseInt(0).toLocaleString(2)
+                :  formatOrderValue(product.price)}</td>
             </tr>
           `
             )
@@ -187,8 +201,16 @@ function PdfGenerator(props, className) {
                     total + product.noOfProducts * product.unitPrice,
                   0
                 )
-                .toFixed(2)
-            ).toLocaleString()}
+            )=== undefined
+            ? parseInt(0).toLocaleString(2)
+            :  formatOrderValue(Number(
+              data?.productsArray
+                .reduce(
+                  (total, product) =>
+                    total + product.noOfProducts * product.unitPrice,
+                  0
+                )
+            ))}
         
           </td>
           </tr>

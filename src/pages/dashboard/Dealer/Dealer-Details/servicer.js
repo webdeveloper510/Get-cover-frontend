@@ -15,6 +15,8 @@ import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
 import Modal from "../../../../common/model";
+import view from "../../../../assets/images/eye.png";
+import paper from "../../../../assets/images/paper.png";
 import {
   changeServicerStatus,
   getServicerListByDealerId,
@@ -203,6 +205,17 @@ function ServicerList(props) {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
   const columns =
     props.flag === "reseller"
       ? [
@@ -259,7 +272,7 @@ function ServicerList(props) {
           },
           {
             name: "Phone #",
-            selector: (row) => row.phoneNumber,
+            selector: (row) => formatPhoneNumber(row.phoneNumber),
             sortable: true,
           },
           {
@@ -302,23 +315,23 @@ function ServicerList(props) {
                     {selectedAction === row.servicerData.unique_key && (
                       <div
                         ref={dropdownRef}
-                        className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                        className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                           index
                         )}`}
                       >
                         <div
-                          className="text-center cursor-pointer py-1"
                           onClick={() => {
                             navigate(`/servicerDetails/${row.accountId}`);
                           }}
-                        >
-                          View
+                          className="text-left cursor-pointer border-b flex hover:font-semibold py-1"
+                          >
+                           <img src={view} className="w-4 h-4 mr-2"/> <span className="self-center"> View </span>
                         </div>
                         <div
-                          className="text-center py-3 cursor-pointer"
                           onClick={() => openModal(row)}
-                        >
-                          Unassigned
+                          className="text-left cursor-pointer flex hover:font-semibold py-1"
+                          >
+                           <img src={paper} className="w-4 h-4 mr-2"/> <span className="self-center">Unassigned </span>
                         </div>
                       </div>
                     )}

@@ -46,16 +46,16 @@ function Headbar({ className = "" }) {
 
   return (
     <div className="">
-      <Grid className={` right-[0%] s:relative md:absolute xl:absolute  top-[24px]  ${className}`}>
+      <Grid className={` md:right-[0%] xl:right-[0%] s:relative md:absolute xl:absolute s:top-[-12px] s:right-[20%]  md:top-[24px]  xl:top-[24px]  ${className}`}>
         <div className="col-span-4"></div>
         <div className="col-span-2"></div>
         <div className="col-span-6 ml-auto ">
           <Grid className="border-2 w-[250px] bg-white ms-auto border-[#D1D1D1] border-r-0 flex self-center py-2 pl-4 rounded-s-xl">
-            <div className="col-span-4 flex self-center justify-around border-r-2 border-[#D1D1D1]">
+            <div className="col-span-4  flex self-center justify-around border-r-2 border-[#D1D1D1]">
               {/* <div>
                 <img src={SearchImage} className='cursor-pointer' alt="SearchImage" />
               </div> */}
-              <div>
+              <div className="s:hidden md:block xl:block">
                 <Link to={"/notifications"} className="relative">
                   <img
                     src={NotificationImage}

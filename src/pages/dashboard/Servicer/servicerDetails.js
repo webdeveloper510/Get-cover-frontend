@@ -306,6 +306,18 @@ function ServicerDetails() {
       dealerForm.resetForm();
     },
   });
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
+  
   const servicerDetail = async () => {
     setLoading(true);
     const res = await getServicerDetailsByServicerId(servicerId);
@@ -478,9 +490,9 @@ function ServicerDetails() {
           </div>
         </div>
 
-        <Grid className="!grid-cols-4">
-          <div className="col-span-1">
-            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
+        <Grid className="!grid-cols-4 mt-5">
+          <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
+            <div className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -610,7 +622,7 @@ function ServicerDetails() {
                     Phone Number
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    +1 {servicerDetails?.phoneNumber}
+                    +1 { formatPhoneNumber(servicerDetails?.phoneNumber)}
                   </p>
                 </div>
               </div>
@@ -634,7 +646,7 @@ function ServicerDetails() {
               </Grid>
             </div>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!mt-5">
               <div className="col-span-8">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">

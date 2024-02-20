@@ -501,6 +501,28 @@ function DealerDetails() {
         console.log("Invalid data, no navigation");
     }
   };
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
   return (
     <>
       {loading && (
@@ -545,9 +567,9 @@ function DealerDetails() {
           </div>
         </div>
 
-        <Grid className="!grid-cols-4">
-          <div className="col-span-1">
-            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px] h-[85vh] overflow-y-auto">
+        <Grid className="!grid-cols-4 mt-5">
+          <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
+            <div className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -629,7 +651,7 @@ function DealerDetails() {
                     Phone Number
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    +1 {dealerDetails?.phoneNumber}
+                    +1 { formatPhoneNumber(dealerDetails?.phoneNumber)}
                   </p>
                 </div>
               </div>
@@ -647,10 +669,8 @@ function DealerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      ${" "}
-                      {dealerDetails?.ordersResult?.[0]?.orderAmount?.toLocaleString(
-                        2
-                      ) ?? parseInt(0).toLocaleString(2)}
+                      $ 
+                      {formatOrderValue(dealerDetails?.ordersResult?.[0]?.orderAmount ?? parseInt(0))}
                     </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
@@ -676,7 +696,7 @@ function DealerDetails() {
               </Grid>
             </div>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!mt-5">
               {activeTab !== "Contracts" ? (
                 <div

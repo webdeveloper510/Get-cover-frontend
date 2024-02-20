@@ -268,6 +268,18 @@ function CustomerDetails() {
         console.log("Invalid data, no navigation");
     }
   };
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
+
   const customerDetails = async () => {
     setLoading(true);
     console.log(customerId);
@@ -339,6 +351,17 @@ function CustomerDetails() {
     localStorage.removeItem("customer");
     navigate(-1);
   };
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   return (
     <>
       {loading && (
@@ -382,7 +405,7 @@ function CustomerDetails() {
         </div>
 
         <Grid className="!grid-cols-4">
-          <div className="col-span-1">
+          <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
             <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
@@ -520,7 +543,7 @@ function CustomerDetails() {
                     Phone Number
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    +1 {customerDetail?.primary?.phoneNumber}
+                    +1 { formatPhoneNumber(customerDetail?.primary?.phoneNumber)}
                   </p>
                 </div>
               </div>
@@ -540,9 +563,7 @@ function CustomerDetails() {
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
                       ${" "}
-                      {customerDetail?.orderData?.[0]?.orderAmount?.toLocaleString(
-                        2
-                      ) ?? parseInt(0).toLocaleString(2)}
+                      {formatOrderValue(customerDetail?.orderData?.[0]?.orderAmount ?? parseInt(0))}
                     </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
@@ -568,7 +589,7 @@ function CustomerDetails() {
               </Grid>
             </div>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!mt-5">
               <div className="col-span-6">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">

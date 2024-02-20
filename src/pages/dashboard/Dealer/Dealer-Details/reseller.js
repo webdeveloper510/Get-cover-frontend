@@ -13,6 +13,7 @@ import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
+import view from "../../../../assets/images/eye.png";
 import { getResellerListByDealerId } from "../../../../services/reSellerServices";
 function Reseller(props) {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -29,7 +30,27 @@ function Reseller(props) {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
   };
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   const columns = [
     {
       name: "ID",
@@ -50,7 +71,7 @@ function Reseller(props) {
     },
     {
       name: "Phone #",
-      selector: (row) => row.phoneNumber,
+      selector: (row) => formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -61,7 +82,7 @@ function Reseller(props) {
     {
       name: "Order Value",
       selector: (row) =>
-        "$" + (row?.orderData?.orderAmount ?? parseInt(0)).toLocaleString(2),
+        "$" + (formatOrderValue(row?.orderData?.orderAmount ?? parseInt(0))),
       sortable: true,
     },
     {
@@ -90,7 +111,7 @@ function Reseller(props) {
             {selectedAction === row.resellerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -99,9 +120,10 @@ function Reseller(props) {
                   onClick={() => {
                     localStorage.setItem("menu", "Reseller");
                   }}
-                  className="text-center py-3 cursor-pointer"
-                >
-                  <Link to={`/resellerDetails/${row.resellerData._id}`}>
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                  >
+                   <img src={view} className="w-4 h-4 mr-2"/> 
+                  <Link className="self-center" to={`/resellerDetails/${row.resellerData._id}`}>
                     View{" "}
                   </Link>
                 </div>
