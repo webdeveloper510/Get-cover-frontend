@@ -173,6 +173,17 @@ function DealerPriceList() {
     },
   });
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const columns = [
     {
       name: "ID",
@@ -207,13 +218,17 @@ function DealerPriceList() {
     },
     {
       name: "Wholesale Cost",
-      selector: (row) => "$" + row?.wholesalePrice?.toLocaleString(2),
+      selector: (row) => `$ ${ row?.wholesalePrice === undefined
+      ? parseInt(0).toLocaleString(2)
+      : formatOrderValue(row?.wholesalePrice ?? parseInt(0))} ` ,
       sortable: true,
       minWidth: "160px",
     },
     {
       name: "Retail Cost",
-      selector: (row) => "$" + row?.retailPrice?.toLocaleString(2),
+      selector: (row) => `$ ${ row?.retailPrice === undefined
+        ? parseInt(0).toLocaleString(2)
+        : formatOrderValue(row?.retailPrice ?? parseInt(0))} ` ,
       sortable: true,
       minWidth: "120px",
     },

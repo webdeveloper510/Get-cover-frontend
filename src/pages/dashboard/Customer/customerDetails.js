@@ -563,7 +563,7 @@ function CustomerDetails() {
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
                       ${" "}
-                      {formatOrderValue(customerDetail?.orderData?.[0]?.orderAmount ?? parseInt(0) )}
+                      {formatOrderValue(customerDetail?.orderData?.[0]?.orderAmount ?? parseInt(0))}
                     </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
