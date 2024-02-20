@@ -476,7 +476,7 @@ function UserList(props) {
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        placeholder="First Name"
+                        placeholder="Name"
                         value={formikUSerFilter.values.firstName}
                         onBlur={formikUSerFilter.handleBlur}
                         onChange={formikUSerFilter.handleChange}

@@ -90,14 +90,18 @@ function EditContract() {
   useEffect(() => {
     getContractDetails();
   }, []);
+
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   return (
     <>
       <div className="my-8 ml-3">
         <Headbar />
 
         <div className="flex mt-2">
-          <Link
-            to={"/contractList"}
+        <Link
+            onClick={handleGOBack}
             className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[20px]"
           >
             <img
@@ -176,8 +180,26 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-3 self-center pt-2 ">
                   <div className="flex">
+                    <div className="self-center backdrop-blur  mr-4">
+                      <img src={Eligibility} alt="product" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                        Status
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {contractDetails?.status}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+              </Grid>
+              <Grid className="mx-8 mt-2  mx-auto ">
+              <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                  <div className="flex border-r border-[#4e4e4e]">
                     <div className="self-center backdrop-blur  mr-4">
                       <img src={delaerName} alt="product" />
                     </div>
@@ -191,8 +213,6 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-              </Grid>
-              <Grid className="mx-8 mt-2  mx-auto ">
                 <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
                   <div className="flex w-full border-r border-[#4e4e4e]">
                     <div className="self-center backdrop-blur  mr-4">
@@ -224,7 +244,7 @@ function EditContract() {
                   </div>
                 </div>
                 <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                  <div className="flex w-full border-r border-[#4e4e4e]">
+                  <div className="flex w-full ">
                     <div className="self-center backdrop-blur   mr-4">
                       <img src={ServicerName} alt="dealer" />
                     </div>
@@ -238,21 +258,7 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                  <div className="flex">
-                    <div className="self-center backdrop-blur  mr-4">
-                      <img src={Eligibility} alt="product" />
-                    </div>
-                    <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
-                        Status
-                      </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                        {contractDetails?.status}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+               
               </Grid>
               <Grid className="mx-8 mt-2  mx-auto ">
                 <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
@@ -336,7 +342,7 @@ function EditContract() {
             <form className="mt-8 mr-4" onSubmit={formik.handleSubmit}>
               <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
                 <p className="pb-5 text-lg font-semibold">Contracts</p>
-                <Grid className="!grid-cols-4">
+                <Grid className="!grid-cols-5">
                   <div className="col-span-1">
                     <Input
                       type="text"
