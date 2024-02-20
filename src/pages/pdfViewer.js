@@ -7,26 +7,20 @@ import { orderDetailsById } from "../services/orderServices";
 import { useState } from "react";
 function PdfGenerator(props, className) {
   const [data, setData] = useState({});
-  const convertToPDF = async () => {
-    const result = await orderDetailsById(props.data);
-    let value = {
-      dealerName: result.orderUserData.dealerData,
-      customerName: result.orderUserData.customerData,
-      resellerName: result.orderUserData.resellerData,
-      totalOrderAmount: result.result.orderAmount,
-      ...result.result,
-    };
+  const convertToPDF = () => {
+    const result = props.data;
+   
 
     const opt = {
       margin: 0,
-      filename: `${value.unique_key}Invoice.pdf`,
+      filename: `${result.unique_key}Invoice.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
 
     try {
-      const pdf = html2pdf().from(generateHTML(value)).set(opt);
+      const pdf = html2pdf().from(generateHTML(result)).set(opt);
       pdf.save();
     } catch (error) {
       console.error("Error generating PDF:", error);
@@ -96,7 +90,7 @@ function PdfGenerator(props, className) {
                     <td style="text-align: left; width: 50%;">
                         <h4 style="margin: 0; padding: 0;"><b>Dealer Details: </b></h4>
                         <h4 style="margin: 0; padding: 0;"><b> ${
-                          data?.username?.firstName
+                          data?.dealerName?.name
                         } </b></h4>
                         <small style="margin: 0; padding: 0;">Bill To: ${data?.username?.firstName} 
                          ${data?.username?.lastName} <br/>

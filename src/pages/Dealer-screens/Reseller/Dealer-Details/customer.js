@@ -52,7 +52,7 @@ function CustomerList(props) {
     },
     {
       name: "Phone #",
-      selector: (row) => row.phoneNumber,
+      selector: (row) => formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -114,6 +114,17 @@ function CustomerList(props) {
     },
   ];
 
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  }; 
+
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
       <p>No records found.</p>
@@ -122,12 +133,14 @@ function CustomerList(props) {
 
   const getCustomerList = async () => {
     console.log(props.flag, "---------");
+    setLoading(true);
     const result =
       props.flag === "reseller"
         ? await getCustomerByDealerId(props.id, {})
         : await getCustomerListByDealerId(props.id, {});
     setCustomerList(result.result);
     console.log(result.result);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -149,8 +162,6 @@ function CustomerList(props) {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  const [DealserValue, setDealerValue] = useState(null);
 
   const filterDealerCustomer = async (data) => {
     try {

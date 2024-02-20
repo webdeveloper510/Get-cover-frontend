@@ -250,6 +250,11 @@ function DealerCustomerDetails() {
   const routeToPage = (data) => {
     // console.log(data, id.id);
     switch (data) {
+      case "Order":
+        // localStorage.setItem("menu", "Orders");
+        navigate(
+          `/dealer/addOrderforCustomer/${customerId}`
+        );
       case "Users":
         localStorage.getItem("Users");
         openUserModal();
@@ -276,6 +281,17 @@ function DealerCustomerDetails() {
       country: "USA",
     });
     setLoading(false);
+  };
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
   };
   useEffect(() => {
     localStorage.setItem("customer", activeTab);
@@ -504,7 +520,7 @@ function DealerCustomerDetails() {
                     Phone Number
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    +1 {customerDetail?.primary?.phoneNumber}
+                    +1 {formatPhoneNumber(customerDetail?.primary?.phoneNumber)}
                   </p>
                 </div>
               </div>

@@ -58,7 +58,6 @@ function DealerCustomerList() {
   };
   const getDealerList = async () => {
     let DealerArray = [];
-    setLoading(true);
     const result = await getDealersList();
     const Dealer = result?.data?.map((data) => {
       const datadealer = {
@@ -68,8 +67,18 @@ function DealerCustomerList() {
       DealerArray.push(datadealer);
     });
     setDealerList(DealerArray);
-    setLoading(false);
   };
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  }; 
 
   const formik = useFormik({
     initialValues: {
@@ -114,7 +123,7 @@ function DealerCustomerList() {
     },
     {
       name: "Phone #",
-      selector: (row) => row.phoneNumber,
+      selector: (row) => formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
