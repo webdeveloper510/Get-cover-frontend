@@ -250,6 +250,11 @@ function DealerCustomerDetails() {
   const routeToPage = (data) => {
     // console.log(data, id.id);
     switch (data) {
+      case "Order":
+        // localStorage.setItem("menu", "Orders");
+        navigate(
+          `/dealer/addOrderforCustomer/${customerId}`
+        );
       case "Users":
         localStorage.getItem("Users");
         openUserModal();

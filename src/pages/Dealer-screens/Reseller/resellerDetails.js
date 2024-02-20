@@ -502,6 +502,12 @@ function DealerResellerDetails() {
   const routeToPage = (data) => {
     console.log(data, id.resellerId);
     switch (data) {
+      case "Orders":
+        localStorage.setItem("menu", "Orders");
+        navigate(
+          `/dealer/addOrderforReseller/${id.resellerId}`
+        );
+        break;
       case "PriceBook":
         localStorage.setItem("menu", "PriceBook");
         navigate(`/dealer/addDealerBook/${id.resellerId}`);
