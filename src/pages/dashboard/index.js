@@ -199,7 +199,7 @@ function Dashboard() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-3xl font-bold">$5666159.00</p>
+                        <p className="text-3xl font-bold">$5,666,159.00</p>
                         <p className="text-base opacity-50 font-normal">
                           $10,000.00
                         </p>
@@ -215,7 +215,7 @@ function Dashboard() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-3xl font-bold">$232159.00</p>
+                        <p className="text-3xl font-bold">$232,159.00</p>
                         <p className="text-base opacity-50 font-normal">
                           $10,000.00
                         </p>
@@ -231,7 +231,7 @@ function Dashboard() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-3xl font-bold">$1523239.00</p>
+                        <p className="text-3xl font-bold">$1,523,239.00</p>
                         <p className="text-base opacity-50 font-normal">
                           $10,000.00
                         </p>
@@ -247,7 +247,7 @@ function Dashboard() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-3xl font-bold">$123259.00</p>
+                        <p className="text-3xl font-bold">$123,259.00</p>
                         <p className="text-base opacity-50 font-normal">
                           $10,000.00
                         </p>
@@ -262,7 +262,7 @@ function Dashboard() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-3xl font-bold">$1552369.00</p>
+                      <p className="text-3xl font-bold">$1,552,369.00</p>
                       <p className="text-base opacity-50 font-normal">$10,000.00</p>
                     </div>
                   </div>
