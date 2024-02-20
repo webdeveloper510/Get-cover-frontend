@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 function Contracts(props) {
   const [showTooltip, setShowTooltip] = useState(false);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [contractDetails, setContractDetails] = useState();
+  const [contractDetails, setContractDetails] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handlePageChange = async (page, rowsPerPage) => {
@@ -45,7 +45,36 @@ function Contracts(props) {
       console.error("Error fetching contracts:", error);
     }
   };
+  const findDate = (data, index, type) => {
+    if (contractDetails) {
+      let foundDate = "Date Not Found";
 
+      contractDetails.result.forEach((contract) => {
+        const productsArray = contract?.order[0]?.productsArray;
+
+        if (productsArray) {
+          const matchingProduct = productsArray.find(
+            (product) => product._id === data.orderProductId
+          );
+          console.log(productsArray);
+          if (matchingProduct) {
+            foundDate = format(
+              new Date(
+                type === "start"
+                  ? matchingProduct.coverageStartDate
+                  : matchingProduct.coverageEndDate
+              ),
+              "MM-dd-yyyy"
+            );
+          }
+        }
+      });
+
+      return foundDate;
+    }
+
+    return "Date Not Found";
+  };
   // useEffect(() => {
   //   if (props?.flag == "contracts") {
   //     getOrdersContracts();
@@ -125,7 +154,7 @@ function Contracts(props) {
               <>
                 {contractDetails &&
                   contractDetails.result &&
-                  contractDetails.result.map((res) => (
+                  contractDetails.result.map((res, index) => (
                     <div>
                       <Grid className="bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl">
                         <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
@@ -213,12 +242,7 @@ function Contracts(props) {
                               Coverage Start Date
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              {/* format(
-        new Date(
-          type === "start" ? product.coverageStartDate : product.coverageEndDate
-        ),
-        "MM-dd-yyyy"
-      );  {findDate(res, "start")} */}
+                              {findDate(res, index, "start")}
                             </p>
                           </div>
                         </div>
@@ -228,7 +252,7 @@ function Contracts(props) {
                               Coverage End Date
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              {/* {findDate(res, "end")} */}
+                              {findDate(res, index, "end")}
                             </p>
                           </div>
                         </div>
