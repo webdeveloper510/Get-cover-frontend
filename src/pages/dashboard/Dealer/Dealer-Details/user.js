@@ -9,6 +9,9 @@ import assign from "../../../../assets/images/Unassign.png";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import shorting from "../../../../assets/images/icons/shorting.svg";
+import delete1 from "../../../../assets/images/delete.png";
+import make from "../../../../assets/images/star.png";
+import edit from "../../../../assets/images/edit-text.png";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
@@ -413,31 +416,31 @@ function UserList(props) {
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${
                   !row.isPrimary ? "w-[120px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                } drop-shadow-5xl -right-3 mt-2 bg-white p-2 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 {!row.isPrimary && row.status && (
                   <div
-                    className="text-center py-2 cursor-pointer border-b"
-                    onClick={() => makeUserPrimary(row)}
+                  onClick={() => makeUserPrimary(row)}
+                  className="text-left cursor-pointer flex border-b hover:font-semibold py-1"
                   >
-                    Make Primary
+                   <img src={make} className="w-4 h-4 mr-2"/> <span className="self-center"> Make Primary </span>
                   </div>
                 )}
 
                 <div
-                  className="text-center py-2 cursor-pointer border-b"
                   onClick={() => editUser(row._id)}
-                >
-                  Edit
+                  className="text-left cursor-pointer flex border-b hover:font-semibold py-1"
+                  >
+                   <img src={edit} className="w-4 h-4 mr-2"/> <span className="self-center">Edit </span>
                 </div>
                 {!row.isPrimary && (
                   <div
-                    className="text-center text-red-500 py-2 cursor-pointer"
-                    onClick={() => openModal1(row._id)}
+                  onClick={() => openModal1(row._id)}
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
                   >
-                    Delete
+                   <img src={delete1} className="w-4 h-4 mr-2"/> <span className="self-center">Delete</span>
                   </div>
                 )}
               </div>

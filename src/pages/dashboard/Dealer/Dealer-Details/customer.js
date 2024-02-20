@@ -9,6 +9,7 @@ import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
+import view from "../../../../assets/images/eye.png";
 import DataTable from "react-data-table-component";
 import { getCustomerListByDealerId } from "../../../../services/customerServices";
 import { useFormik } from "formik";
@@ -111,9 +112,10 @@ function CustomerList(props) {
                   onClick={() => {
                     localStorage.setItem("menu", "Customer");
                   }}
-                  className="text-center py-3 cursor-pointer"
-                >
-                  <Link to={`/customerDetails/${row.customerData._id}`}>
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                  >
+                   <img src={view} className="w-4 h-4 mr-2"/> 
+                  <Link className="self-center" to={`/customerDetails/${row.customerData._id}`}>
                     View{" "}
                   </Link>
                 </div>
