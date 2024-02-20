@@ -44,6 +44,17 @@ function CustomerList(props) {
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const columns = [
     {
       name: "ID",
@@ -75,7 +86,7 @@ function CustomerList(props) {
     {
       name: "Order Value",
       selector: (row) =>
-        "$" + (row?.orderData?.orderAmount ?? parseInt(0)).toLocaleString(2),
+        "$" +  formatOrderValue(row?.order?.orderData ?? parseInt(0)),
 
       sortable: true,
     },
