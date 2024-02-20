@@ -428,14 +428,22 @@ function DealerResellerDetails() {
       label: "Orders",
       icons: Order,
       Activeicons: OrderActive,
-      content: <OrderList />,
+      content: (
+        <OrderList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
+      ),
     },
     {
       id: "Contracts",
       label: "Contracts",
       icons: Contract,
       Activeicons: ContractsActive,
-      content: <ContractList />,
+      content: (
+        <ContractList
+          flag={"reseller"}
+          id={id.resellerId}
+          activeTab={activeTab}
+        />
+      ),
     },
     {
       id: "Claims",
