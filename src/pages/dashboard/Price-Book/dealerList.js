@@ -505,7 +505,7 @@ function DealerPriceList() {
                 Wholesale Price($)
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-                ${dealerPriceBookDetail?.wholesalePrice?.toFixed(2)}
+                ${dealerPriceBookDetail?.wholesalePrice?.toLocaleString(2)}
               </p>
             </div>
             <div className="col-span-4">
@@ -513,7 +513,7 @@ function DealerPriceList() {
                 Retail Price ($)
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-                ${dealerPriceBookDetail?.retailPrice?.toFixed(2)}
+                ${dealerPriceBookDetail?.retailPrice?.toLocaleString(2)}
               </p>
             </div>
             <div className="col-span-4">
@@ -555,7 +555,7 @@ function DealerPriceList() {
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
                     {" "}
-                    {dealerPriceBookDetail?.priceBooks?.rangeStart?.toFixed(2)}
+                   ${dealerPriceBookDetail?.priceBooks?.rangeStart?.toLocaleString(2)}
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -564,7 +564,7 @@ function DealerPriceList() {
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
                     {" "}
-                    {dealerPriceBookDetail?.priceBooks?.rangeEnd?.toFixed(2)}
+                   ${dealerPriceBookDetail?.priceBooks?.rangeEnd?.toLocaleString(2)}
                   </p>
                 </div>
               </>
