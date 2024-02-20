@@ -372,7 +372,7 @@ function OrderList() {
 
         <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
           {" "}
-          <Link to={"/addOrder"} className="flex">
+          <Link to={"/dealer/addOrder"} className="flex">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
             <span className="text-black ml-3 text-[14px] font-Regular">

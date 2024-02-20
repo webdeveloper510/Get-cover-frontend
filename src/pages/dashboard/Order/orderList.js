@@ -222,6 +222,8 @@ function OrderList() {
       });
     }
   };
+
+  console.log('setSelectedAction ===============>>', selectedAction)
   
   const columns = [
     {
@@ -297,6 +299,7 @@ function OrderList() {
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
+                onClick={()=>setSelectedAction(null)}
                 className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
@@ -328,7 +331,7 @@ function OrderList() {
 
                     <>
                       <PdfGenerator
-                        data={row._id}
+                        data={row}
                         onClick={() => setSelectedAction(null)}
                       />
                     </>
@@ -348,7 +351,7 @@ function OrderList() {
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
                     <PdfGenerator
-                      data={row._id}
+                      data={row}
                       onClick={() => setSelectedAction(null)}
                     />
                     <PdfMake data={row._id} />

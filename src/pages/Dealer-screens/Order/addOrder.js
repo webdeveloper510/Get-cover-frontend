@@ -2104,56 +2104,6 @@ function DealerAddOrder() {
                   </p>
                 </div>
                 <div className="col-span-4">
-                  <Grid>
-                    {formik4.values.paymentStatus == "PartlyPaid" && (
-                      <>
-                        {
-                          <div className="col-span-6">
-                            <Input
-                              type="number"
-                              name="paidAmount"
-                              className="!bg-[#fff]"
-                              label="Paid Amount"
-                              maxLength={10}
-                              maxDecimalPlaces={2}
-                              disabled={formik4.values.paymentStatus === "Paid"}
-                              placeholder=""
-                              onChange={(e) => {
-                                formik4.handleChange(e);
-                                calculatePendingAmount(e.target.value);
-                              }}
-                              onBlur={formik4.handleBlur}
-                              value={formik4.values.paidAmount}
-                            />
-                            {formik4.errors.paidAmount &&
-                              formik4.touched.paidAmount && (
-                                <div className="text-red-500">
-                                  {formik4.errors.paidAmount}
-                                </div>
-                              )}
-                          </div>
-                        }
-
-                        {formik4.values.paymentStatus == "PartlyPaid" && (
-                          <div className="col-span-6">
-                            <Input
-                              type="number"
-                              name="pendingAmount"
-                              className="!bg-[#fff]"
-                              label="Pending Amount"
-                              maxLength={10}
-                              maxDecimalPlaces={2}
-                              disabled={true}
-                              placeholder=""
-                              onChange={formik4.handleChange}
-                              onBlur={formik4.handleBlur}
-                              value={formik4.values.pendingAmount}
-                            />
-                          </div>
-                        )}
-                      </>
-                    )}
-                  </Grid>
                 </div>
                 <div className="col-span-4 flex justify-center pt-4">
                   <p className="text-base pr-3">Total Amount :</p>

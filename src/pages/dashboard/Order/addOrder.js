@@ -270,7 +270,6 @@ function AddOrder() {
   }, []);
 
   const orderDetails = async () => {
-    // setLoading1(true);
     const result = await orderDetailsById(orderId);
     getResellerList(result?.result?.dealerId);
 
