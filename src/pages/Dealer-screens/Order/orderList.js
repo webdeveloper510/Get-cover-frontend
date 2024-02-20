@@ -19,7 +19,6 @@ import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
 import {
   archiveOrders,
-  getOrders,
   markPaid,
   processOrders,
 } from "../../../services/orderServices";
@@ -35,6 +34,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
+import { getOrdersForDealerPortal } from "../../../services/dealerServices/orderListServices";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -183,7 +183,7 @@ function OrderList() {
   const getOrderList = async (data = {}) => {
     closeDisapproved(false);
     setLoading(true);
-    const result = await getOrders(data);
+    const result = await getOrdersForDealerPortal(data);
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);

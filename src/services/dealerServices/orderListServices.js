@@ -35,3 +35,21 @@ export const getDealerOrderList = async (data) => {
     throw error;
   }
 };
+
+export const getOrdersForDealerPortal = async (data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/getDealerOrders`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
