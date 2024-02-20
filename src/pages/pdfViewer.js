@@ -98,13 +98,15 @@ function PdfGenerator(props, className) {
                         <h4 style="margin: 0; padding: 0;"><b> ${
                           data?.dealerName?.name
                         } </b></h4>
-                        <small style="margin: 0; padding: 0;">Bill To: ${
+                        <small style="margin: 0; padding: 0;">Bill To: ${data?.username?.firstName} ${data?.username?.lastName} <br/>
+                         ${
                           data?.dealerName?.street
-                        } ${data?.dealerName?.city} ,${
-                        data?.dealerName?.state
-                      } ${data?.dealerName?.zip} <br/>
+                          } ${data?.dealerName?.city} ,${
+                          data?.dealerName?.state
+                        } ${data?.dealerName?.zip} <br/>
                            
                             </small>
+                            <small> ${data?.username?.phoneNumber} | ${data?.username?.email}  </small>
                     </td>
                     ${
                       data?.resellerId != null
@@ -113,13 +115,14 @@ function PdfGenerator(props, className) {
                     <h4 style="margin: 0; padding: 0;"><b>${
                       data?.resellerName?.name ?? ""
                     }</b></h4>
-                    <small style="margin: 0; padding: 0;">Bill To:
+                    <small style="margin: 0; padding: 0;">Bill To: ${data?.resellerUsername?.firstName} ${data?.resellerUsername?.lastName} <br/>
                       ${data?.resellerName?.street ?? ""} 
                       ${data?.resellerName?.city ?? ""}, 
                       ${data?.resellerName?.state ?? ""} 
                       ${data?.resellerName?.zip ?? ""} <br/>
                      
                     </small>
+                    <small>${data?.resellerUsername?.phoneNumber} | ${data?.resellerUsername?.email}  </small>
                   </td> `
                         : ""
                     }
@@ -147,7 +150,7 @@ function PdfGenerator(props, className) {
         <tbody>
             <tr>
             <td colspan="2">
-        <p><b>Dealer Purchase Order #:</b> ${props.data.venderOrder}</p>
+        <p><b>Dealer Purchase Order #:</b> ${data.venderOrder}</p>
         </td>
         </tr>
         </tbody>
