@@ -551,6 +551,17 @@ function ResellerDetails() {
   
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   return (
     <>
       {loading && (
@@ -726,8 +737,10 @@ function ResellerDetails() {
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
                       ${" "}
-                      {resellerDetail?.orderData?.orderAmount?.toLocaleString(2) ??
-                        parseInt(0).toLocaleString(2)}
+                      {/* {resellerDetail?.orderData?.orderAmount?.toLocaleString(2) ??
+                        parseInt(0).toLocaleString(2)} */}
+                        { formatOrderValue(resellerDetail?.orderData?.orderAmount ??
+                        parseInt(0).toLocaleString(2))}
                     </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
