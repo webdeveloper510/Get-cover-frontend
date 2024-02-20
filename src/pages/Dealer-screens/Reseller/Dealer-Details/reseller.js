@@ -111,7 +111,7 @@ function Reseller(props) {
                   }}
                   className="text-center py-3 cursor-pointer"
                 >
-                  <Link to={`/resellerDetails/${row.resellerData._id}`}>
+                  <Link to={`/dealer/resellerDetails/${row.resellerData._id}`}>
                     View{" "}
                   </Link>
                 </div>
