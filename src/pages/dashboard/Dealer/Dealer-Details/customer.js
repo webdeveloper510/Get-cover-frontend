@@ -104,7 +104,7 @@ function CustomerList(props) {
             {selectedAction === row.customerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >

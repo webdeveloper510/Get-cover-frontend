@@ -144,7 +144,7 @@ function ClaimList() {
                   <p className='font-semibold leading-5 text-lg'> 12 Dec 2023  </p>
                   <p className='text-[#A3A3A3]'>Loss Date</p>
                 </div>
-                <div className='col-span-3 self-center justify-center flex relative'>
+                <div className='col-span-3 self-center justify-left pl-4 flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
                  <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
                 </div>
@@ -333,7 +333,7 @@ function ClaimList() {
                   <p className='font-semibold leading-5 text-lg'> 12 Dec 2023  </p>
                   <p className='text-[#A3A3A3]'>Loss Date</p>
                 </div>
-                <div className='col-span-3 self-center justify-center flex relative'>
+                <div className='col-span-3 self-center justify-left pl-4 flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
                  <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
                 </div>
@@ -522,7 +522,7 @@ function ClaimList() {
                   <p className='font-semibold leading-5 text-lg'> 12 Dec 2023  </p>
                   <p className='text-[#A3A3A3]'>Loss Date</p>
                 </div>
-                <div className='col-span-3 self-center justify-center flex relative'>
+                <div className='col-span-3 self-center justify-left pl-4 flex relative'>
                   <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
                  <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' /> 
                 </div>
