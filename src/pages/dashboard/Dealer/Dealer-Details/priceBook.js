@@ -9,6 +9,8 @@ import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import Cross from "../../../../assets/images/Cross.png";
+import view from "../../../../assets/images/eye.png";
+import edit from "../../../../assets/images/edit-text.png";
 import DataTable from "react-data-table-component";
 import {
   editDealerPriceBook,
@@ -233,24 +235,24 @@ function PriceBookList(props) {
                   {selectedAction === row.unique_key && (
                     <div
                       ref={dropdownRef}
-                      className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                      className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                         index
                       )}`}
                     >
                       {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                       <div
-                        className="text-center py-3 border-b cursor-pointer"
                         onClick={() => {
                           routeToEditPage(row);
                         }}
-                      >
-                        Edit
+                        className="text-left cursor-pointer flex border-b hover:font-semibold py-1"
+                        >
+                         <img src={edit} className="w-4 h-4 mr-2"/> Edit
                       </div>
                       <div
-                        className="text-center py-3 cursor-pointer"
                         onClick={() => openView(row._id)}
-                      >
-                        View
+                        className="text-left cursor-pointer flex hover:font-semibold py-1"
+                        >
+                         <img src={view} className="w-4 h-4 mr-2"/> View
                       </div>
                     </div>
                   )}

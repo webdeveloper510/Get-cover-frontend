@@ -13,6 +13,7 @@ import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
+import view from "../../../../assets/images/eye.png";
 import { getResellerListByDealerId } from "../../../../services/reSellerServices";
 function Reseller(props) {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -119,9 +120,10 @@ function Reseller(props) {
                   onClick={() => {
                     localStorage.setItem("menu", "Reseller");
                   }}
-                  className="text-center py-3 cursor-pointer"
-                >
-                  <Link to={`/resellerDetails/${row.resellerData._id}`}>
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                  >
+                   <img src={view} className="w-4 h-4 mr-2"/> 
+                  <Link className="self-center" to={`/resellerDetails/${row.resellerData._id}`}>
                     View{" "}
                   </Link>
                 </div>
