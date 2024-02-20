@@ -96,14 +96,14 @@ function PdfGenerator(props, className) {
                     <td style="text-align: left; width: 50%;">
                         <h4 style="margin: 0; padding: 0;"><b>Dealer Details: </b></h4>
                         <h4 style="margin: 0; padding: 0;"><b> ${
-                          data?.dealerName?.name
+                          data?.username?.firstName
                         } </b></h4>
-                        <small style="margin: 0; padding: 0;">Bill To: ${data?.username?.firstName} ${data?.username?.lastName} <br/>
-                         ${
-                          data?.dealerName?.street
-                          } ${data?.dealerName?.city} ,${
-                          data?.dealerName?.state
-                        } ${data?.dealerName?.zip} <br/>
+                        <small style="margin: 0; padding: 0;">Bill To: ${data?.username?.firstName} 
+                         ${data?.username?.lastName} <br/>
+                          ${data?.dealerName?.street} 
+                          ${data?.dealerName?.city} ,
+                          ${data?.dealerName?.state} 
+                          ${data?.dealerName?.zip} <br/>
                            
                             </small>
                             <small> ${data?.username?.phoneNumber} | ${data?.username?.email}  </small>
@@ -138,6 +138,7 @@ function PdfGenerator(props, className) {
                 <small style="margin: 0; padding: 0;">Address: ${data?.customerName?.street} ${data?.customerName?.city} ,${data?.customerName?.state} ${data?.customerName?.zip} <br/>
                    
                     </small>
+                    <small>${data?.customerUserData?.phoneNumber} | ${data?.customerUserData?.email}  </small>
             </td>
             `
                     : ""
