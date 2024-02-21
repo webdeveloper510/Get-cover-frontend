@@ -211,6 +211,18 @@ function OrderList() {
     SetOrderId(row._id);
     setIsArchiveOpen(true);
   };
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const columns = [
     {
       name: "ID",
@@ -243,7 +255,11 @@ function OrderList() {
     },
     {
       name: "Order Value",
-      selector: (row) => `$ ${row.orderAmount?.toLocaleString(2)}`,
+      selector: (row) =>   `$ ${
+        row?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          :  formatOrderValue(row?.orderAmount) 
+      }`,
       sortable: true,
       minWidth: "150px",
     },
@@ -284,6 +300,7 @@ function OrderList() {
             </div>
             {selectedAction === row.unique_key && (
               <div
+              onClick={()=> setSelectedAction(null)}
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
@@ -316,7 +333,7 @@ function OrderList() {
 
                     <>
                       <PdfGenerator
-                        data={row._id}
+                        data={row}
                         onClick={() => setSelectedAction(null)}
                       />
                     </>
@@ -369,6 +386,18 @@ function OrderList() {
             </ul>
           </div>
         </div>
+
+        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+          {" "}
+          <Link to={"/dealer/addOrder"} className="flex">
+            {" "}
+            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+            <span className="text-black ml-3 text-[14px] font-Regular">
+              {" "}
+              Add New Order{" "}
+            </span>{" "}
+          </Link>
+        </Button>
 
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">

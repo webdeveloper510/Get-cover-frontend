@@ -7,6 +7,7 @@ import { orderDetailsById } from "../services/orderServices";
 import { useState } from "react";
 function PdfGenerator(props, className) {
   const [data, setData] = useState({});
+  console.log('props', props)
   const convertToPDF = () => {
     const result = props.data;
    
@@ -125,7 +126,7 @@ function PdfGenerator(props, className) {
                 <tr>
                 <td style="text-align: left; width: 50%; padding-top: 20px;">
                 ${
-                  data?.customerName != null
+                  data?.customerId != null
                     ? `
                 <h4 style="margin: 0; padding: 0;"><b>Customer Details: </b></h4>
                 <h4 style="margin: 0; padding: 0;"><b> ${data?.customerName?.username} </b></h4>

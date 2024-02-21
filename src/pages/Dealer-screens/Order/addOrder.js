@@ -2001,13 +2001,13 @@ function DealerAddOrder() {
                         {formikStep2.values.dealerPurchaseOrder}
                       </p>
                     </div>
-                    <div className="col-span-4 py-4 border-r">
+                    <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Service Coverage</p>
                       <p className="font-bold text-sm">
                         {formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
-                    <div className="col-span-4 py-4">
+                    <div className="col-span-5 py-4">
                       <p className="text-[12px]">Coverage Type</p>
                       <p className="font-bold text-sm">
                         {formikStep2.values.coverageType}
@@ -2143,10 +2143,25 @@ function DealerAddOrder() {
                             )}
                           </Grid>
                           <Grid className=" px-4">
-                            <div className="col-span-12 py-4">
+                            <div className="col-span-8 py-4 border-r">
                               <p className="text-[12px]">Note</p>
                               <p className="font-bold text-sm">
                                 {data.additionalNotes}
+                              </p>
+                            </div>
+                            <div className="col-span-4 py-4">
+                            <p className="text-[12px]">Start Coverage Date</p>
+                              <p className="font-bold text-sm">
+                                {data?.coverageStartDate == "" ? (
+                                  <></>
+                                ) : (
+                                  <>
+                                    {format(
+                                      new Date(data?.coverageStartDate),
+                                      "MM/dd/yyyy"
+                                    )}
+                                  </>
+                                )}
                               </p>
                             </div>
                           </Grid>
@@ -2183,7 +2198,7 @@ function DealerAddOrder() {
               </Grid>
 
               <Grid className="mt-5">
-                <div className="col-span-4 pt-2">
+                <div className="col-span-5 pt-2">
                   <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
                     Do you want to sent notifications ?
                     <RadioButton
@@ -2202,11 +2217,11 @@ function DealerAddOrder() {
                     />
                   </p>
                 </div>
-                <div className="col-span-4"></div>
+                <div className="col-span-3"></div>
                 <div className="col-span-4 flex justify-center pt-4">
                   <p className="text-base pr-3">Total Amount :</p>
                   <p className="font-bold text-lg">
-                    ${calculateTotalAmount(formikStep3.values.productsArray)}
+                    $ {parseInt(calculateTotalAmount(formikStep3.values.productsArray)).toLocaleString(2)}
                   </p>
                 </div>
                 <div className="col-span-12"></div>
@@ -2227,12 +2242,16 @@ function DealerAddOrder() {
     );
   };
 
+  const handleGOBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="my-8 ml-3">
       <Headbar />
       <div className="flex mt-2">
-        <Link
-          to={"/dealer/orderList"}
+      <Link
+          onClick={handleGOBack}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
         >
           <img
