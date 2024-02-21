@@ -114,13 +114,28 @@ function ResellerList() {
   const handleStatusChange = async (row, newStatus) => {
     console.log("row", row);
     try {
+      getResellersList((dealerData) => {
+        return dealerData.map((data) => {
+          console.log(data);
+          if (data.accountId === row.accountId) {
+            return {
+              ...data,
+              dealerData: {
+                ...data.dealerData,
+                accountStatus: newStatus === "active" ? true : false,
+              },
+            };
+          }
+          return data;
+        });
+      });
 
       const result = await changeResellerStatus(row.accountId, {
         status: newStatus === "active" ? true : false,
       });
 
       console.log(result);
-      getResellersList();
+      // getResellersList();
     } catch (error) {
       console.error("Error in handleStatusChange:", error);
     }
