@@ -257,7 +257,10 @@ function OrderList() {
     },
     {
       name: "Order Value",
-      selector: (row) => `$ ${formatOrderValue(row?.orderAmount ?? parseInt(0))}`,
+      selector: (row) => `$${
+        row?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.orderAmount ?? parseInt(0))}`,
       sortable: true,
       minWidth: "150px",
     },

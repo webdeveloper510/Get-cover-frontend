@@ -702,7 +702,7 @@ function ServicerDetails() {
             {tabs.map((tab) => (
               <div
                 key={tab.id}
-                className={`${activeTab !== tab.id ? "hidden" : ""}`}
+                className={`${activeTab !== tab.id ? "hidden" : "pb-20"}`}
               >
                 {tab.content}
               </div>

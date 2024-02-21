@@ -131,7 +131,7 @@ function PriceBookList(props) {
           },
           {
             name: "WholeSale Cost",
-            selector: (row) => `$ ${
+            selector: (row) => `$${
               row?.wholesalePrice === undefined
                 ? parseInt(0).toLocaleString(2)
                 :  formatOrderValue(row?.wholesalePrice) 
@@ -140,7 +140,7 @@ function PriceBookList(props) {
           },
           {
             name: "Retail Cost",
-            selector: (row) => `$ ${
+            selector: (row) => `$${
               row?.retailPrice === undefined
                 ? parseInt(0).toLocaleString(2)
                 :  formatOrderValue(row?.retailPrice) 
@@ -201,7 +201,7 @@ function PriceBookList(props) {
           },
           {
             name: "WholeSale Cost",
-            selector: (row) => `$ ${
+            selector: (row) => `$${
               row?.wholesalePrice === undefined
                 ? parseInt(0).toLocaleString(2)
                 :  formatOrderValue(row?.wholesalePrice) 
@@ -210,7 +210,7 @@ function PriceBookList(props) {
           },
           {
             name: "Retail Cost",
-            selector: (row) => `$ ${
+            selector: (row) => `$${
               row?.retailPrice === undefined
                 ? parseInt(0).toLocaleString(2)
                 :  formatOrderValue(row?.retailPrice) 

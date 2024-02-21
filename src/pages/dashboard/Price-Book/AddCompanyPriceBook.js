@@ -220,6 +220,16 @@ function AddCompanyPriceBook() {
     formik.setFieldValue("quantityPriceDetail", updatedQuantity);
   };
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   const calculateTotal = () => {
     const frontingFee = parseFloat(formik.values.frontingFee) || 0;
     const reinsuranceFee = parseFloat(formik.values.reinsuranceFee) || 0;
@@ -228,7 +238,7 @@ function AddCompanyPriceBook() {
 
     const total = frontingFee + reinsuranceFee + reserveFutureFee + adminFee;
 
-    const roundedTotal = total.toFixed(2);
+    const roundedTotal = total;
     setTotalAmount(roundedTotal);
   };
   useEffect(() => {
@@ -920,7 +930,10 @@ function AddCompanyPriceBook() {
                 )}
               </Grid>
               <p className="mt-8 font-semibold text-lg">
-                Total Amount: <span> ${totalAmount}</span>
+                Total Amount: <span> ${
+          totalAmount === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(totalAmount ?? parseInt(0))}</span>
               </p>
               <Button
                 type="submit"

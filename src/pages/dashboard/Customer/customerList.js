@@ -150,7 +150,7 @@ function CustomerList() {
     {
       name: "Order Value",
       selector: (row) =>
-        `$ ${
+        `$${
           row?.order?.orderAmount === undefined
             ? parseInt(0).toLocaleString(2)
             : formatOrderValue(row?.order?.orderAmount ?? parseInt(0))
