@@ -329,6 +329,10 @@ const routes = [
         element: <PrivateRoute element={<AddOrder />} />,
       },
       {
+        path: "/editOrder/:orderId",
+        element: <PrivateRoute element={<AddOrder />} />,
+      },
+      {
         path: "/editOrder/:orderId?/:customerId?/customer",
         element: <PrivateRoute element={<AddOrder />} />,
       },
