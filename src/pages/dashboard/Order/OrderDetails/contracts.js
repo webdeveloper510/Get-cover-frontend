@@ -183,6 +183,13 @@ function Contracts(props) {
                               alt="edit"
                             />
                           </Link>
+                          <Link to={`/editContract/${res?._id}`}>
+                            <img
+                              src={Edit}
+                              className="ml-auto mr-2"
+                              alt="edit"
+                            />
+                          </Link>
                         </div>
                       </Grid>
 
