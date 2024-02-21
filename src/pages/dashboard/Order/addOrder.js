@@ -609,9 +609,7 @@ function AddOrder() {
     });
     let newValues = {
       ...data,
-      file: arr,
     };
-
     if (type == "Edit") {
       let dataValue = {
         ...data,
@@ -632,19 +630,16 @@ function AddOrder() {
       });
     } else {
       Object.entries(newValues).forEach(([key, value]) => {
-        if (key === "file") {
-          if (value) {
-            value.forEach((val, index) => {
-              formData.append(`file`, val);
-            });
-          } else {
-            formData.append(`file`, null);
-          }
-        } else if (key === "productsArray") {
+        if (key === "productsArray") {
           value.forEach((item, index) => {
             Object.entries(item).forEach(([key1, value1]) => {
-              if (key1 !== "file") {
+              if (key1 !== "orderFile") {
                 formData.append(`${key}[${index}][${key1}]`, value1);
+              } else {
+                formData.append(
+                  `${key}[${index}][${key1}]`,
+                  JSON.stringify(value1)
+                );
               }
             });
             if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
@@ -740,16 +735,15 @@ function AddOrder() {
         fileValue.message
       );
     } else {
-      if (type == "Edit") {
-        formikStep3.setFieldValue(
-          `productsArray[${index}].orderFile`,
-          fileValue.orderFile
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${index}].file`,
-          fileValue.orderFile
-        );
-      }
+      formikStep3.setFieldValue(
+        `productsArray[${index}].orderFile`,
+        fileValue.orderFile
+      );
+      formikStep3.setFieldValue(
+        `productsArray[${index}].file`,
+        fileValue.orderFile
+      );
+
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
     }
   };
@@ -806,20 +800,18 @@ function AddOrder() {
       const formData = new FormData();
 
       Object.entries(data).forEach(([key, value]) => {
-        if (key === "file") {
-          if (value) {
-            value.forEach((val, index) => {
-              formData.append(`file`, val);
-            });
-          } else {
-            formData.append(`file`, null);
-          }
-        } else if (key === "productsArray") {
+        if (key === "productsArray") {
           value.forEach((item, index) => {
             Object.entries(item).forEach(([key1, value1]) => {
               console.log(key1);
               if (key1 !== "file" && key1 !== "QuantityPricing") {
                 formData.append(`${key}[${index}][${key1}]`, value1);
+              }
+              if (key1 == "orderFile") {
+                formData.append(
+                  `${key}[${index}][${key1}]`,
+                  JSON.stringify(value1)
+                );
               }
               if (
                 key1 == "QuantityPricing" &&
@@ -2251,9 +2243,12 @@ function AddOrder() {
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Unit Price</p>
                               <p className="font-bold text-sm">
-                              ${ data.unitPrice === undefined
+                                $
+                                {data.unitPrice === undefined
                                   ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(data.unitPrice ?? parseInt(0))}
+                                  : formatOrderValue(
+                                      data.unitPrice ?? parseInt(0)
+                                    )}
                               </p>
                             </div>
                             <div className="col-span-3 py-4 border-r">
@@ -2267,9 +2262,13 @@ function AddOrder() {
                             <div className="col-span-3 py-4">
                               <p className="text-[12px]">Price</p>
                               <p className="font-bold text-sm">
-                              ${ data.price === undefined
+                                $
+                                {data.price === undefined
                                   ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(data.price ?? parseInt(0))} </p>
+                                  : formatOrderValue(
+                                      data.price ?? parseInt(0)
+                                    )}{" "}
+                              </p>
                             </div>
                           </Grid>
                           {data.priceType == "Flat Pricing" && (
@@ -2277,18 +2276,23 @@ function AddOrder() {
                               <div className="col-span-6 py-4 border-r">
                                 <p className="text-[12px]">Start Range</p>
                                 <p className="font-bold text-sm">
-                                  
-                                  ${ data.rangeStart === undefined
-                                  ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(data.rangeStart ?? parseInt(0))}
+                                  $
+                                  {data.rangeStart === undefined
+                                    ? parseInt(0).toLocaleString(2)
+                                    : formatOrderValue(
+                                        data.rangeStart ?? parseInt(0)
+                                      )}
                                 </p>
                               </div>
                               <div className="col-span-6 py-4">
                                 <p className="text-[12px]">End Range</p>
                                 <p className="font-bold text-sm">
-                                ${ data.rangeEnd === undefined
-                                  ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(data.rangeEnd ?? parseInt(0))}
+                                  $
+                                  {data.rangeEnd === undefined
+                                    ? parseInt(0).toLocaleString(2)
+                                    : formatOrderValue(
+                                        data.rangeEnd ?? parseInt(0)
+                                      )}
                                 </p>
                               </div>
                             </Grid>
@@ -2503,7 +2507,10 @@ function AddOrder() {
                 <div className="col-span-4 flex justify-center pt-4">
                   <p className="text-base pr-3">Total Amount :</p>
                   <p className="font-bold text-lg">
-                    ${calculateTotalAmount(formikStep3.values.productsArray).toLocaleString(2)}
+                    $
+                    {calculateTotalAmount(
+                      formikStep3.values.productsArray
+                    ).toLocaleString(2)}
                   </p>
                 </div>
                 <div className="col-span-12">
