@@ -17,7 +17,7 @@ import { getDealersList } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getResellerList } from "../../../services/reSellerServices";
+import { getResellerList, changeResellerStatus } from "../../../services/reSellerServices";
 // Declare the base URL of the API
 function ResellerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -110,6 +110,21 @@ function ResellerList() {
       });
     }
   };
+
+  const handleStatusChange = async (row, newStatus) => {
+    console.log("row", row);
+    try {
+
+      const result = await changeResellerStatus(row.accountId, {
+        status: newStatus === "active" ? true : false,
+      });
+
+      console.log(result);
+      getResellersList();
+    } catch (error) {
+      console.error("Error in handleStatusChange:", error);
+    }
+  };
   const columns = [
     {
       name: "ID",
@@ -166,7 +181,7 @@ function ResellerList() {
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
-            // onChange={(e) => handleStatusChange(row, e.target.value)}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>

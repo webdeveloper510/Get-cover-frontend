@@ -14,12 +14,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import view from "../../../../assets/images/eye.png";
-import { getResellerListByDealerId } from "../../../../services/reSellerServices";
+import { getResellerListByDealerId, changeResellerStatus } from "../../../../services/reSellerServices";
 function Reseller(props) {
   const [selectedAction, setSelectedAction] = useState(null);
   const [resellerList, setResellerList] = useState([]);
   const dropdownRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [dealerList, setDealerList] = useState([]);
 
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = resellerList.length - index <= 10000;
@@ -49,6 +50,21 @@ function Reseller(props) {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
+    }
+  };
+
+  const handleStatusChange = async (row, newStatus) => {
+    console.log("row", row);
+    try {
+
+      const result = await changeResellerStatus(row.accountId, {
+        status: newStatus === "active" ? true : false,
+      });
+
+      console.log(result);
+      getResellerList();
+    } catch (error) {
+      console.error("Error in handleStatusChange:", error);
     }
   };
   const columns = [
@@ -84,6 +100,34 @@ function Reseller(props) {
       selector: (row) =>
         `$${(formatOrderValue(row?.orderData?.orderAmount ?? parseInt(0)))}`,
       sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      sortable: true,
+      cell: (row) => (
+        <div className="relative">
+          <div
+            className={` 
+            ${
+              row.status === true
+                ? "bg-[#6BD133]"
+                : "bg-[#FF4747]"
+            }
+             absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+          ></div>
+          <select
+            value={
+              row.status === true ? "active" : "inactive"
+            }
+            onChange={(e) => handleStatusChange(row, e.target.value)}
+            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      ),
     },
     {
       name: "Action",
