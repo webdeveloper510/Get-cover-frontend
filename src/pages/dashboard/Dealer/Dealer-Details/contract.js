@@ -22,30 +22,36 @@ function ContractList(props) {
   const [loading, setLoading] = useState(false);
 
   const getContracts = async (page = 1, rowsPerPage = 10) => {
+    setLoading(true);
     let data = {
       page: page,
       pageLimit: rowsPerPage,
     };
-    setLoading(true);
-    console.log(props);
-    const result =
-      props.flag === "reseller"
-        ? await getContractsforReseller(props.id, data)
-        : props.flag === "dealer"
-        ? await getContractsforDealer(props.id, data)
-        : await getContractsforCustomer(props.id, data);
-
-    setContractList(result.result);
-    console.log(result);
-    setTotalRecords(result?.totalCount);
-    setLoading(false);
-  };
+    try {
+      let result;
+      if (props.flag === "reseller") {
+        result = await getContractsforReseller(props.id, data);
+      } else if (props.flag === "dealer") {
+        result = await getContractsforDealer(props.id, data);
+      } else {
+        result = await getContractsforCustomer(props.id, data);
+      }
+      setContractList(result.result);
+      console.log(result);
+      setTotalRecords(result?.totalCount);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching contracts:", error);
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
     if (props.activeTab === "Contracts") {
       getContracts();
     }
-  }, [props?.flag]);
+  }, [props]);
+  
 
   const handlePageChange = async (page, rowsPerPage) => {
     console.log(page, rowsPerPage);
@@ -146,7 +152,7 @@ function ContractList(props) {
               </div>
             </div>
           </Grid>
-          {contractList?.length == 0 ? (
+          {contractList?.length == 0  && !loading ? (
             <>
               <div className="text-center my-5">
                 <p>No records found.</p>
