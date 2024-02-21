@@ -24,7 +24,7 @@ function PdfGenerator(props, className) {
 
     const opt = {
       margin: 0,
-      filename: `${value.unique_key}Invoice.pdf`,
+      filename: `${value.unique_key}-Invoice.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },

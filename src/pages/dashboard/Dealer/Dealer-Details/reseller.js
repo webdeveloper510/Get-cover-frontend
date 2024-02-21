@@ -82,7 +82,7 @@ function Reseller(props) {
     {
       name: "Order Value",
       selector: (row) =>
-        "$" + (formatOrderValue(row?.orderData?.orderAmount ?? parseInt(0))),
+        `$${(formatOrderValue(row?.orderData?.orderAmount ?? parseInt(0)))}`,
       sortable: true,
     },
     {
