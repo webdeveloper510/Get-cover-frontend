@@ -76,7 +76,7 @@ function AddOrder() {
   const { orderId, dealerId, resellerId, dealerValue, customerId } =
     useParams();
   const location = useLocation();
-
+  console.log(useParams());
   const downloadCSVTemplate = async () => {
     window.open(
       "https://docs.google.com/spreadsheets/d/1BKGAJLFhjQXN8Wg4nYkUdFKpiPZ3h12-CMlrlkzAZE0/edit#gid=0",
