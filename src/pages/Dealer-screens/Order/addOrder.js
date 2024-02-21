@@ -427,6 +427,7 @@ function DealerAddOrder() {
           rangeEnd: "",
           checkNumberProducts: "",
           fileValue: "",
+          orderFile: {},
         },
       ],
     },
@@ -540,8 +541,13 @@ function DealerAddOrder() {
       } else if (key === "productsArray") {
         value.forEach((item, index) => {
           Object.entries(item).forEach(([key1, value1]) => {
-            if (key1 !== "file") {
+            if (key1 !== "orderFile") {
               formData.append(`${key}[${index}][${key1}]`, value1);
+            } else {
+              formData.append(
+                `${key}[${index}][${key1}]`,
+                JSON.stringify(value1)
+              );
             }
           });
           if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
@@ -634,6 +640,15 @@ function DealerAddOrder() {
         fileValue.message
       );
     } else {
+      formikStep3.setFieldValue(
+        `productsArray[${index}].orderFile`,
+        fileValue.orderFile
+      );
+      formikStep3.setFieldValue(
+        `productsArray[${index}].file`,
+        fileValue.orderFile
+      );
+
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
     }
   };
@@ -667,10 +682,7 @@ function DealerAddOrder() {
     onSubmit: (values) => {
       console.log(values);
       setLoading(true);
-      const arr = [];
-      formikStep3.values.productsArray.map((res, index) => {
-        arr.push(res.file);
-      });
+
       const totalAmount = calculateTotalAmount(
         formikStep3.values.productsArray
       );
@@ -680,7 +692,6 @@ function DealerAddOrder() {
         ...formikStep2.values,
         ...formikStep3.values,
         paidAmount: values.paidAmount,
-        file: arr,
         dueAmount: values.pendingAmount,
         sendNotification: sendNotification,
         paymentStatus: values.paymentStatus,
@@ -689,20 +700,18 @@ function DealerAddOrder() {
       const formData = new FormData();
 
       Object.entries(data).forEach(([key, value]) => {
-        if (key === "file") {
-          if (value) {
-            value.forEach((val, index) => {
-              formData.append(`file`, val);
-            });
-          } else {
-            formData.append(`file`, null);
-          }
-        } else if (key === "productsArray") {
+        if (key === "productsArray") {
           value.forEach((item, index) => {
             Object.entries(item).forEach(([key1, value1]) => {
               console.log(key1);
               if (key1 !== "file" && key1 !== "QuantityPricing") {
                 formData.append(`${key}[${index}][${key1}]`, value1);
+              }
+              if (key1 == "orderFile") {
+                formData.append(
+                  `${key}[${index}][${key1}]`,
+                  JSON.stringify(value1)
+                );
               }
               if (
                 key1 == "QuantityPricing" &&
@@ -730,26 +739,18 @@ function DealerAddOrder() {
       } else {
         addOrderforDealerPortal(formData).then((res) => {
           if (res.code == 200) {
+            setLoading(false);
             openModal();
 
             //  navigate('/orderList')
           } else {
+            setLoading(false);
             setError(res.message);
+            console.log("here", res);
           }
         });
       }
-      addOrderforDealerPortal(formData).then((res) => {
-        if (res.code == 200) {
-          setLoading(false);
-          openModal();
 
-          //  navigate('/orderList')
-        } else {
-          setLoading(false);
-          setError(res.message);
-          console.log("here", res);
-        }
-      });
       setLoading(false);
     },
   });
@@ -786,6 +787,7 @@ function DealerAddOrder() {
       rangeEnd: "",
       checkNumberProducts: "",
       fileValue: "",
+      orderFile: {},
     };
     getCategoryList(
       {
@@ -2150,7 +2152,7 @@ function DealerAddOrder() {
                               </p>
                             </div>
                             <div className="col-span-4 py-4">
-                            <p className="text-[12px]">Start Coverage Date</p>
+                              <p className="text-[12px]">Start Coverage Date</p>
                               <p className="font-bold text-sm">
                                 {data?.coverageStartDate == "" ? (
                                   <></>
@@ -2221,7 +2223,10 @@ function DealerAddOrder() {
                 <div className="col-span-4 flex justify-center pt-4">
                   <p className="text-base pr-3">Total Amount :</p>
                   <p className="font-bold text-lg">
-                    $ {parseInt(calculateTotalAmount(formikStep3.values.productsArray)).toLocaleString(2)}
+                    ${" "}
+                    {parseInt(
+                      calculateTotalAmount(formikStep3.values.productsArray)
+                    ).toLocaleString(2)}
                   </p>
                 </div>
                 <div className="col-span-12"></div>
@@ -2250,7 +2255,7 @@ function DealerAddOrder() {
     <div className="my-8 ml-3">
       <Headbar />
       <div className="flex mt-2">
-      <Link
+        <Link
           onClick={handleGOBack}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
         >
