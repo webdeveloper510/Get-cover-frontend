@@ -738,7 +738,7 @@ function PriceBookList(props) {
                     Range End
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
-                    {" "}
+                  
                     ${
               dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
                 ? parseInt(0).toLocaleString(2)
