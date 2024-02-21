@@ -16,7 +16,7 @@ import DataTable from "react-data-table-component";
 import Primary from "../../../assets/images/SetPrimary.png";
 import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
-import { getArchiveOrders, getOrders } from "../../../services/orderServices";
+import { getDealerArchiveOrders, getOrders } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import { useFormik } from "formik";
@@ -120,7 +120,7 @@ function DealerArchiveOrderList() {
   const getOrderList = async (data = {}) => {
     closeDisapproved();
     setLoading(true);
-    const result = await getArchiveOrders(data);
+    const result = await getDealerArchiveOrders(data);
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);
