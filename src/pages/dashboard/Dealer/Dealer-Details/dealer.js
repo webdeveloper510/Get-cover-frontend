@@ -203,6 +203,17 @@ function DealerDetailList(props) {
     setIsModalOpen(true);
   };
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const columns = [
     {
       name: "ID",
@@ -233,7 +244,11 @@ function DealerDetailList(props) {
     },
     {
       name: "Order Values",
-      selector: (row) => "$ 0.00",
+      selector: (row) => `$${
+        row?.orders?.orderData === undefined
+          ? parseInt(0).toLocaleString(2)
+          :  formatOrderValue(row?.orders?.orderData) 
+      }`,
       sortable: true,
     },
     // {

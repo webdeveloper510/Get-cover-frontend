@@ -146,7 +146,7 @@ function ResellerList() {
     {
       name: "Order Value",
       selector: (row) =>
-        `$ ${
+        `$${
           row?.orders?.orderAmount === undefined
             ? parseInt(0).toLocaleString(2)
             :  formatOrderValue(row?.orders?.orderAmount) 

@@ -191,7 +191,7 @@ function DealerList() {
     {
       name: "Order Values",
       selector: (row) =>
-        `$ ${
+        `$${
           row?.ordersData?.orderAmount === undefined
             ? parseInt(0).toLocaleString(2)
             : formatOrderValue(row?.ordersData?.orderAmount ?? parseInt(0))}`,
