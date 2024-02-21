@@ -77,7 +77,7 @@ function PriceBookList(props) {
       });
 
       const result = await editDealerPriceBook(row._id, {
-        retailPrice: row?.retailPrice?.toLocaleString(2),
+        retailPrice: row?.retailPrice?.toFixed(2),
         priceBook: row?.priceBook,
         dealerId: row?.dealerId,
         status: newStatus === "active" ? true : false,
@@ -90,6 +90,17 @@ function PriceBookList(props) {
       console.log(result);
     } catch (error) {
       console.error("Error in handleStatusChange:", error);
+    }
+  };
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
     }
   };
 
@@ -120,12 +131,20 @@ function PriceBookList(props) {
           },
           {
             name: "WholeSale Cost",
-            selector: (row) => "$ " + row.wholesalePrice.toLocaleString(2),
+            selector: (row) => `$ ${
+              row?.wholesalePrice === undefined
+                ? parseInt(0).toLocaleString(2)
+                :  formatOrderValue(row?.wholesalePrice) 
+            }`,
             sortable: true,
           },
           {
             name: "Retail Cost",
-            selector: (row) => "$  " + row.retailPrice.toLocaleString(2),
+            selector: (row) => `$ ${
+              row?.retailPrice === undefined
+                ? parseInt(0).toLocaleString(2)
+                :  formatOrderValue(row?.retailPrice) 
+            }`,
             sortable: true,
           },
           // {
@@ -182,12 +201,20 @@ function PriceBookList(props) {
           },
           {
             name: "WholeSale Cost",
-            selector: (row) => "$ " + row.wholesalePrice.toLocaleString(2),
+            selector: (row) => `$ ${
+              row?.wholesalePrice === undefined
+                ? parseInt(0).toLocaleString(2)
+                :  formatOrderValue(row?.wholesalePrice) 
+            }`,
             sortable: true,
           },
           {
             name: "Retail Cost",
-            selector: (row) => "$  " + row.retailPrice.toLocaleString(2),
+            selector: (row) => `$ ${
+              row?.retailPrice === undefined
+                ? parseInt(0).toLocaleString(2)
+                :  formatOrderValue(row?.retailPrice) 
+            }`,
             sortable: true,
           },
           {
@@ -639,7 +666,12 @@ function PriceBookList(props) {
                 Wholesale Price($)
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-                ${dealerPriceBookDetail?.wholesalePrice?.toLocaleString(2)}
+               ${
+              dealerPriceBookDetail?.wholesalePrice === undefined
+                ? parseInt(0).toLocaleString(2)
+                :  formatOrderValue(dealerPriceBookDetail?.wholesalePrice) 
+            }
+              
               </p>
             </div>
             <div className="col-span-4">
@@ -647,7 +679,11 @@ function PriceBookList(props) {
                 Retail Price ($)
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-                ${dealerPriceBookDetail?.retailPrice?.toLocaleString(2)}
+              ${
+              dealerPriceBookDetail?.retailPrice === undefined
+                ? parseInt(0).toLocaleString(2)
+                :  formatOrderValue(dealerPriceBookDetail?.retailPrice) 
+            }
               </p>
             </div>
             <div className="col-span-4">
@@ -689,7 +725,12 @@ function PriceBookList(props) {
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
                     {" "}
-                    {dealerPriceBookDetail?.priceBooks?.rangeStart?.toLocaleString(2)}
+                    ${
+              dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
+                ? parseInt(0).toLocaleString(2)
+                :  formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeStart) 
+            }
+                 
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -698,7 +739,11 @@ function PriceBookList(props) {
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
                     {" "}
-                    {dealerPriceBookDetail?.priceBooks?.rangeEnd?.toLocaleString(2)}
+                    ${
+              dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
+                ? parseInt(0).toLocaleString(2)
+                :  formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeEnd) 
+            }
                   </p>
                 </div>
               </>

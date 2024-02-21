@@ -8,9 +8,16 @@ import { useState } from "react";
 function PdfGenerator(props, className) {
   const [data, setData] = useState({});
   console.log('props', props)
-  const convertToPDF = () => {
-    const result = props.data;
+  const convertToPDF = async () => {
    
+    const result = await orderDetailsById(props.data);
+    let value = {
+      dealerName: result.orderUserData.dealerData,
+      customerName: result.orderUserData.customerData,
+      resellerName: result.orderUserData.resellerData,
+      totalOrderAmount: result.result.orderAmount,
+      ...result.result,
+    };
 
     const opt = {
       margin: 0,

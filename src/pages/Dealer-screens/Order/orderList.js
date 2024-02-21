@@ -333,7 +333,7 @@ function OrderList() {
 
                     <>
                       <PdfGenerator
-                        data={row}
+                        data={row._id}
                         onClick={() => setSelectedAction(null)}
                       />
                     </>
