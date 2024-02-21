@@ -16,6 +16,9 @@ function PdfGenerator(props, className) {
       customerName: result.orderUserData.customerData,
       resellerName: result.orderUserData.resellerData,
       totalOrderAmount: result.result.orderAmount,
+      customerUserData: result.orderUserData.customerUserData,
+      username: result.orderUserData.username,
+      resellerUsername: result.orderUserData.resellerUsername,
       ...result.result,
     };
 
@@ -28,7 +31,7 @@ function PdfGenerator(props, className) {
     };
 
     try {
-      const pdf = html2pdf().from(generateHTML(result)).set(opt);
+      const pdf = html2pdf().from(generateHTML(value)).set(opt);
       pdf.save();
     } catch (error) {
       console.error("Error generating PDF:", error);
