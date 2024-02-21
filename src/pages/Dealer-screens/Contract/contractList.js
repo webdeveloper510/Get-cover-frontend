@@ -54,7 +54,7 @@ function ContractList() {
       let foundDate = "Date Not Found";
 
       contractList.forEach((contract) => {
-        const productsArray = contract?.order[0]?.productsArray;
+        const productsArray = contract?.order?.productsArray;
 
         if (productsArray) {
           const matchingProduct = productsArray.find(
@@ -200,13 +200,13 @@ function ContractList() {
                           </div>
                           <div className="col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                             <p className="text-white py-2 font-Regular">
-                              Order ID : <b> {res?.order[0]?.unique_key} </b>
+                              Order ID : <b> {res?.order?.unique_key} </b>
                             </p>
                           </div>
                           <div className="col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                             <p className="text-white py-2 font-Regular">
                               Dealer P.O. No. :{" "}
-                              <b> {res?.order[0]?.venderOrder} </b>
+                              <b> {res?.order?.venderOrder} </b>
                             </p>
                           </div>
                           <div className="col-span-1 self-center justify-end"></div>
@@ -279,7 +279,7 @@ function ContractList() {
                                 Dealer Name
                               </p>
                               <p className="text-[#333333] text-base font-semibold">
-                                {res?.order[0]?.dealer[0]?.name}
+                                {res?.order?.dealer[0]?.name}
                               </p>
                             </div>
                           </div>
@@ -289,7 +289,7 @@ function ContractList() {
                                 Reseller Name
                               </p>
                               <p className="text-[#333333] text-base font-semibold">
-                                {res?.order[0]?.reseller[0]?.name}
+                                {res?.order?.reseller[0]?.name}
                               </p>
                             </div>
                           </div>
@@ -299,7 +299,7 @@ function ContractList() {
                                 Customer Name
                               </p>
                               <p className="text-[#333333] text-base font-semibold">
-                                {res?.order[0]?.customer[0]?.username}
+                                {res?.order?.customer[0]?.username}
                               </p>
                             </div>
                           </div>
@@ -309,7 +309,7 @@ function ContractList() {
                                 Servicer Name
                               </p>
                               <p className="text-[#333333] text-base font-semibold">
-                                {res?.order[0]?.servicer[0]?.name}
+                                {res?.order?.servicer[0]?.name}
                               </p>
                             </div>
                           </div>
