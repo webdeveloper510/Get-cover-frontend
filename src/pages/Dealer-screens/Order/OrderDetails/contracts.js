@@ -164,7 +164,7 @@ function Contracts(props) {
                         </div>
                         <div className="col-span-5"></div>
 
-                        <div className="col-span-1 self-center justify-end">
+                        {/* <div className="col-span-1 self-center justify-end">
                           <Link to={`/editContract/${res?._id}`}>
                             <img
                               src={Edit}
@@ -172,7 +172,7 @@ function Contracts(props) {
                               alt="edit"
                             />
                           </Link>
-                        </div>
+                        </div> */}
                       </Grid>
 
                       <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
