@@ -195,6 +195,17 @@ function OrderList(props) {
     setIsArchiveOpen(true);
   };
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const columns = [
     {
       name: "ID",
@@ -225,7 +236,11 @@ function OrderList(props) {
     },
     {
       name: "Order Value",
-      selector: (row) => "$" + (row?.orderAmount ?? 0).toLocaleString(2),
+      selector: (row) =>  `$ ${
+        row?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.orderAmount ?? parseInt(0))
+      }`,
       sortable: true,
     },
     {
