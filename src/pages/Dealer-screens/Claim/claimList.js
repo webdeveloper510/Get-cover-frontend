@@ -107,7 +107,7 @@ function DealerClaimList() {
         </div>
 
         <Link
-          to={"/addClaim"}
+          to={"/dealer/addClaim"}
           className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
         >
           {" "}
@@ -300,7 +300,7 @@ function DealerClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                          {/* <img src={DropActive} alt='DropActive' /> */}
                         </div>
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
@@ -479,7 +479,7 @@ function DealerClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                          {/* <img src={DropActive} alt='DropActive' /> */}
                         </div>
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
@@ -658,7 +658,7 @@ function DealerClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                          {/* <img src={DropActive} alt='DropActive' /> */}
                         </div>
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
@@ -1069,14 +1069,14 @@ function DealerClaimList() {
                <Input type='text' 
                          name="Order ID"
                         className="!bg-[#fff]"
-                        label="Order ID"
+                        label="Claim ID"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
-                         name="Dealer P.O. #."
+                         name="Service Type"
                         className="!bg-[#fff]"
-                        label="Dealer P.O. #."
+                        label="Service Type"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
@@ -1100,19 +1100,19 @@ function DealerClaimList() {
                         label="Servicer Name"
                         placeholder="" />
             </div>
-           
+            
+            <div className='col-span-6'>
+               <Input type='text' 
+                         name="Product Manufacturer"
+                        className="!bg-[#fff]"
+                        label="Product Manufacturer"
+                        placeholder="" />
+            </div>
+
             <div className='col-span-6'>
             <Select
                         name="Status"
                         label="Status"
-                        options={status}
-                        className="!bg-[#fff]"
-                        placeholder=""/>
-            </div>
-            <div className='col-span-6'>
-            <Select
-                        name="ClaimStatus"
-                        label="Claim Status"
                         options={status}
                         className="!bg-[#fff]"
                         placeholder=""/>
