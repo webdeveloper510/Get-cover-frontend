@@ -265,6 +265,7 @@ function OrderList(props) {
             </div>
             {selectedAction === row.unique_key && (
               <div
+              onClick={() => setSelectedAction(null)}
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[130px] drop-shadow-5xl px-3 py-2 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
