@@ -11,6 +11,16 @@ import { format, addMonths } from "date-fns";
 function OrderSummary(props) {
   console.log(props.data);
   const [showTooltip, setShowTooltip] = useState(false);
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   return (
     <>
       <div className="my-8">
@@ -85,7 +95,10 @@ function OrderSummary(props) {
                               Unit Price
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              $ {res.unitPrice}
+                              {/* $ {res.unitPrice} */}
+                              ${ res.unitPrice === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(res.unitPrice ?? parseInt(0))}
                             </p>
                           </div>
                         </div>
@@ -105,7 +118,10 @@ function OrderSummary(props) {
                               Price
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              ${res.price.toLocaleString(2)}
+                            ${ res.price === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(res.price ?? parseInt(0))}
+                              {/* ${res.price.toLocaleString(2)} */}
                             </p>
                           </div>
                         </div>
@@ -143,7 +159,10 @@ function OrderSummary(props) {
                                   Start Range
                                 </p>
                                 <p className="text-[#333333] text-base font-semibold">
-                                  ${res.rangeStart.toLocaleString(2)}
+                                  {/* ${res.rangeStart.toLocaleString(2)} */}
+                                  ${ res.rangeStart === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(res.rangeStart ?? parseInt(0))}
                                 </p>
                               </div>
                             </div>
@@ -153,7 +172,9 @@ function OrderSummary(props) {
                                   End Range
                                 </p>
                                 <p className="text-[#333333] text-base font-semibold">
-                                  ${res.rangeEnd.toLocaleString(2)}
+                                ${ res.rangeEnd === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(res.rangeEnd ?? parseInt(0))}
                                 </p>
                               </div>
                             </div>

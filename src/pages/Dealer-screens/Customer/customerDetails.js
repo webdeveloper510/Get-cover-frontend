@@ -40,8 +40,8 @@ import {
 import RadioButton from "../../../common/radio";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
-import OrderList from "../Order/orderList";
-import ContractList from "../Contract/contractList";
+import OrderList from "../Reseller/Dealer-Details/order";
+import ContractList from "../Reseller/Dealer-Details/contract";
 import ClaimList from "../Reseller/Dealer-Details/claim";
 import UserList from "../Reseller/Dealer-Details/user";
 

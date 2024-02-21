@@ -84,6 +84,17 @@ function AddOrder() {
     );
   };
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
   };
@@ -2240,7 +2251,9 @@ function AddOrder() {
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Unit Price</p>
                               <p className="font-bold text-sm">
-                                ${data.unitPrice}
+                              ${ data.unitPrice === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(data.unitPrice ?? parseInt(0))}
                               </p>
                             </div>
                             <div className="col-span-3 py-4 border-r">
@@ -2253,7 +2266,10 @@ function AddOrder() {
                             </div>
                             <div className="col-span-3 py-4">
                               <p className="text-[12px]">Price</p>
-                              <p className="font-bold text-sm">${data.price}</p>
+                              <p className="font-bold text-sm">
+                              ${ data.price === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(data.price ?? parseInt(0))} </p>
                             </div>
                           </Grid>
                           {data.priceType == "Flat Pricing" && (
@@ -2261,13 +2277,18 @@ function AddOrder() {
                               <div className="col-span-6 py-4 border-r">
                                 <p className="text-[12px]">Start Range</p>
                                 <p className="font-bold text-sm">
-                                  {data.rangeStart}
+                                  
+                                  ${ data.rangeStart === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(data.rangeStart ?? parseInt(0))}
                                 </p>
                               </div>
                               <div className="col-span-6 py-4">
                                 <p className="text-[12px]">End Range</p>
                                 <p className="font-bold text-sm">
-                                  {data.rangeEnd}
+                                ${ data.rangeEnd === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(data.rangeEnd ?? parseInt(0))}
                                 </p>
                               </div>
                             </Grid>
@@ -2482,7 +2503,7 @@ function AddOrder() {
                 <div className="col-span-4 flex justify-center pt-4">
                   <p className="text-base pr-3">Total Amount :</p>
                   <p className="font-bold text-lg">
-                    ${calculateTotalAmount(formikStep3.values.productsArray)}
+                    ${calculateTotalAmount(formikStep3.values.productsArray).toLocaleString(2)}
                   </p>
                 </div>
                 <div className="col-span-12">

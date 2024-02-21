@@ -344,6 +344,17 @@ function CompanyPriceBook() {
     }
   };
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   return (
     <>
       <div className="my-8 ml-3">
@@ -514,23 +525,38 @@ function CompanyPriceBook() {
                   </div>
                   <div className='col-span-4'>
                     <p className="text-lg text-light-black font-semibold">Fronting fee ($)</p>
-                    <p className="text-base text-neutral-grey font-semibold"> ${data?.frontingFee?.toLocaleString(2)}</p>
+                    <p className="text-base text-neutral-grey font-semibold">
+                    ${ data?.frontingFee === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(data?.frontingFee ?? parseInt(0))}</p>
                   </div>
                   <div className='col-span-4'>
                     <p className="text-lg text-light-black font-semibold">Re-insurance fee ($)</p>
-                    <p className="text-base text-neutral-grey font-semibold"> ${data?.reinsuranceFee?.toLocaleString(2)}</p>
+                    <p className="text-base text-neutral-grey font-semibold">
+                    ${ data?.reinsuranceFee === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(data?.reinsuranceFee ?? parseInt(0))} </p>
                   </div>
                   <div className='col-span-6'>
                     <p className="text-lg text-light-black font-semibold">Reserve for future claims ($)</p>
-                    <p className="text-base text-neutral-grey font-semibold"> ${data?.reserveFutureFee?.toLocaleString(2)}</p>
+                    <p className="text-base text-neutral-grey font-semibold">
+                     ${ data?.reserveFutureFee === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(data?.reserveFutureFee ?? parseInt(0))} </p>
                   </div>
                   <div className='col-span-6'>
                     <p className="text-lg text-light-black font-semibold">Administration fee ($)</p>
-                    <p className="text-base text-neutral-grey font-semibold"> ${data?.adminFee?.toLocaleString(2)}</p>
+                    <p className="text-base text-neutral-grey font-semibold">
+                    ${ data?.adminFee === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(data?.adminFee ?? parseInt(0))} </p>
                   </div>
                   <div className='col-span-4'>
                     <p className="text-lg text-light-black font-semibold">Wholesale Cost ($)</p>
-                    <p className="text-base text-neutral-grey font-semibold">{formattedCost}</p>
+                    <p className="text-base text-neutral-grey font-semibold">
+                    { formattedCost === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(formattedCost ?? parseInt(0))}</p>
                   </div>
                   <div className='col-span-4'>
                     <p className="text-lg text-light-black font-semibold">Status</p>
@@ -545,11 +571,16 @@ function CompanyPriceBook() {
                       <>
                         <div className='col-span-4'> 
                           <p className="text-lg text-light-black font-semibold">Range Start</p>
-                          <p className="text-base text-neutral-grey font-semibold"> {data?.rangeStart?.toLocaleString(2)}</p>
+                          <p className="text-base text-neutral-grey font-semibold"> 
+                          ${ data?.rangeStart === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(data?.rangeStart ?? parseInt(0))}</p>
                         </div>
                         <div className='col-span-4'>
                           <p className="text-lg text-light-black font-semibold">Range End</p>
-                          <p className="text-base text-neutral-grey font-semibold"> {data?.rangeEnd?.toLocaleString(2)}</p>
+                          <p className="text-base text-neutral-grey font-semibold"> ${ data?.rangeEnd === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(data?.rangeEnd ?? parseInt(0))}</p>
                         </div></>
                     )
                   }

@@ -75,6 +75,17 @@ function Contracts(props) {
 
     return "Date Not Found";
   };
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   // useEffect(() => {
   //   if (props?.flag == "contracts") {
   //     getOrdersContracts();
@@ -222,7 +233,10 @@ function Contracts(props) {
                               Retail Price
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              ${parseInt(res?.productValue).toLocaleString(2)}
+                            ${ res.productValue === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(res.productValue ?? parseInt(0))}
+                              {/* ${parseInt(res?.productValue).toLocaleString(2)} */}
                             </p>
                           </div>
                         </div>
