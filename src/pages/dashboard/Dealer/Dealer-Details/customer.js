@@ -86,7 +86,11 @@ function CustomerList(props) {
     {
       name: "Order Value",
       selector: (row) =>
-        "$" +  formatOrderValue(row?.order?.orderData ?? parseInt(0)),
+      `$ ${
+        row?.orders?.orderData === undefined
+          ? parseInt(0).toLocaleString(2)
+          :  formatOrderValue(row?.orders?.orderData) 
+      }`,
 
       sortable: true,
     },

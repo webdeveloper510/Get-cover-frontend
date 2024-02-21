@@ -8,20 +8,30 @@ import { useState } from "react";
 function PdfGenerator(props, className) {
   const [data, setData] = useState({});
   console.log('props', props)
-  const convertToPDF = () => {
-    const result = props.data;
+  const convertToPDF = async () => {
    
+    const result = await orderDetailsById(props.data);
+    let value = {
+      dealerName: result.orderUserData.dealerData,
+      customerName: result.orderUserData.customerData,
+      resellerName: result.orderUserData.resellerData,
+      totalOrderAmount: result.result.orderAmount,
+      customerUserData: result.orderUserData.customerUserData,
+      username: result.orderUserData.username,
+      resellerUsername: result.orderUserData.resellerUsername,
+      ...result.result,
+    };
 
     const opt = {
       margin: 0,
-      filename: `${result.unique_key}Invoice.pdf`,
+      filename: `${value.unique_key}Invoice.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
 
     try {
-      const pdf = html2pdf().from(generateHTML(result)).set(opt);
+      const pdf = html2pdf().from(generateHTML(value)).set(opt);
       pdf.save();
     } catch (error) {
       console.error("Error generating PDF:", error);
