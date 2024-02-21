@@ -56,27 +56,13 @@ function Reseller(props) {
   const handleStatusChange = async (row, newStatus) => {
     console.log("row", row);
     try {
-      setDealerList((dealerData) => {
-        return dealerData.map((data) => {
-          console.log(data);
-          if (data.accountId === row.accountId) {
-            return {
-              ...data,
-              dealerData: {
-                ...data.dealerData,
-                accountStatus: newStatus === "active" ? true : false,
-              },
-            };
-          }
-          return data;
-        });
-      });
 
       const result = await changeResellerStatus(row.accountId, {
         status: newStatus === "active" ? true : false,
       });
 
       console.log(result);
+      getResellerList();
     } catch (error) {
       console.error("Error in handleStatusChange:", error);
     }

@@ -67,7 +67,7 @@ export const changeResellerStatus = async (id, data) => {
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.put(
+    const response = await axios.post(
       `${url}/reseller/changeResellerStatus/${id}`,
       data,
       {
