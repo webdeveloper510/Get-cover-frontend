@@ -334,6 +334,7 @@ function CustomerList() {
                       <Input
                         label=""
                         name="dealerName"
+                        type='text'
                         placeholder="Dealer Name"
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
