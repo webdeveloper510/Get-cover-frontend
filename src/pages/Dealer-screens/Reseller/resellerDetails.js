@@ -593,9 +593,9 @@ function DealerResellerDetails() {
           </div>
         </div>
 
-        <Grid className="!grid-cols-4">
+        <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
+            <div className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -745,7 +745,7 @@ function DealerResellerDetails() {
             </div>
           </div>
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
-            <Grid className="!mt-5">
+            <Grid className="">
               <div className="col-span-10">
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!grid-cols-6 !gap-1">

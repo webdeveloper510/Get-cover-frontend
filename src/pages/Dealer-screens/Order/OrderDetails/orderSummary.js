@@ -85,7 +85,7 @@ function OrderSummary(props) {
                               Unit Price
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              $ {res.unitPrice}
+                              ${res.unitPrice.toLocaleString(2)}
                             </p>
                           </div>
                         </div>
