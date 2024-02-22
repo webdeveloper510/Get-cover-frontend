@@ -28,7 +28,7 @@ import Order from "../../../assets/images/Dealer/Orders.svg";
 import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
 import OrderList from "../Dealer/Dealer-Details/order";
-import ContractList from "../Dealer/Dealer-Details/contract";
+
 import {
   getCustomerDetailsById,
   updateCustomerDetailsById,
@@ -43,6 +43,7 @@ import {
 import RadioButton from "../../../common/radio";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
+import ContractList from "../Contract/contractList";
 
 function CustomerDetails() {
   const getInitialActiveTab = () => {
@@ -270,13 +271,13 @@ function CustomerDetails() {
   };
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
@@ -543,7 +544,7 @@ function CustomerDetails() {
                     Phone Number
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    +1 { formatPhoneNumber(customerDetail?.primary?.phoneNumber)}
+                    +1 {formatPhoneNumber(customerDetail?.primary?.phoneNumber)}
                   </p>
                 </div>
               </div>
@@ -563,7 +564,10 @@ function CustomerDetails() {
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
                       ${" "}
-                      {formatOrderValue(customerDetail?.orderData?.[0]?.orderAmount ?? parseInt(0))}
+                      {formatOrderValue(
+                        customerDetail?.orderData?.[0]?.orderAmount ??
+                          parseInt(0)
+                      )}
                     </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
