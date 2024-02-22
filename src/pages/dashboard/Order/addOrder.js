@@ -828,6 +828,7 @@ function AddOrder() {
       //     formData.append(key, value);
       //   }
       // });
+
       if (orderId != undefined) {
         editOrder(orderId, data).then((res) => {
           if (res.code == 200) {
@@ -847,6 +848,9 @@ function AddOrder() {
           }
         });
       } else {
+        console.log(data);
+       
+        
         addOrder(data).then((res) => {
           if (res.code == 200) {
             setLoading2(false);
