@@ -45,8 +45,8 @@ function DealerServicerList() {
   const getServicerList = async (value = {}) => {
     setLoading(true);
     const result = await getDealerServicers(value);
-    setServicerList(result.data);
-    console.log(result.data);
+    setServicerList(result.result);
+    console.log(result.result);
     setLoading(false);
   };
 
@@ -209,15 +209,15 @@ function DealerServicerList() {
   );
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  }; 
+  };
 
   return (
     <>

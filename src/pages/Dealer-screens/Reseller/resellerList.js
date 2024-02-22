@@ -72,6 +72,7 @@ function DealerResellerList() {
       name: "",
       email: "",
       phone: "",
+      status: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
@@ -79,6 +80,9 @@ function DealerResellerList() {
       phone: Yup.number(),
     }),
     onSubmit: async (values) => {
+      if (values.status === "true" || values.status === "false") {
+        values.status = values.status === "true";
+      }
       console.log("Form values:", values);
       getFilteredResellerList(values);
     },
