@@ -101,7 +101,7 @@ import CustomerOrderDetails from "../pages/Customer-screens/Order/order-details"
 import CustomerAddDealerBook from "../pages/Dealer-screens/Price-Book/addDealerBook";
 import ResellerOrderDetails from "../pages/Reseller-screens/Order/order-details";
 import DealerOrderDetails from "../pages/Dealer-screens/Order/order-details";
-import DealerArchiveOrderList from "../pages/Dealer-screens/Order/order-archive";
+// import DealerArchiveOrderList from "../pages/Dealer-screens/Order/order-archive";
 
 const routes = [
   {
@@ -441,7 +441,7 @@ const routes = [
         path: "/dealer/archiveOrder",
         element: (
           <PrivateRoute
-            element={<DealerArchiveOrderList />}
+            element={<ArchiveOrderList />}
             path="/dealer/archiveOrder"
           />
         ),

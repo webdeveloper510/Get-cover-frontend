@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -21,6 +21,7 @@ import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { getArchiveOrdersForDealerPortal } from "../../../services/dealerServices/orderListServices";
 
 function ArchiveOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -36,7 +37,7 @@ function ArchiveOrderList() {
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
-
+  const location = useLocation();
   const validationSchema = Yup.object().shape({});
 
   const initialValues = {
@@ -107,10 +108,11 @@ function ArchiveOrderList() {
       setSelectedAction(null);
     }
   };
-
   useEffect(() => {
     getOrderList();
+  }, [location]);
 
+  useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
@@ -120,7 +122,10 @@ function ArchiveOrderList() {
   const getOrderList = async (data = {}) => {
     closeDisapproved();
     setLoading(true);
-    const result = await getArchiveOrders(data);
+    const result =
+      location.pathname.includes("/dealer/archiveOrder") == true
+        ? await getArchiveOrdersForDealerPortal(data)
+        : await getArchiveOrders(data);
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);
@@ -224,7 +229,6 @@ function ArchiveOrderList() {
                 <form onSubmit={formik.handleSubmit}>
                   <Grid className="!grid-cols-7">
                     <div className="col-span-2 self-center">
-                    
                       <Input
                         name="Name"
                         type="text"

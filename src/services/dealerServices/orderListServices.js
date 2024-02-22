@@ -140,6 +140,23 @@ export const getCategoryAndPriceBooksforDealerPortal = async (data) => {
   }
 };
 
+export const getArchiveOrdersForDealerPortal = async (data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/getDealerArchievedOrders`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const addOrderforDealerPortal = async (data) => {
   const headers = createHeaders();
   console.log(headers);
