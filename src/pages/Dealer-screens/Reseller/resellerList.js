@@ -17,11 +17,12 @@ import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getResellerList } from "../../../services/dealerServices/priceBookServices";
+import { changeResellerStatus } from "../../../services/reSellerServices";
 // Declare the base URL of the API
 function DealerResellerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
-  const [customerList, setCustomerList] = useState([]);
+  const [resellerList, setResellerList] = useState([]);
   const [dealerList, setDealerList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ function DealerResellerList() {
     setLoading(true);
     const result = await getResellerList({});
     console.log(result.result);
-    setCustomerList(result.result);
+    setResellerList(result.result);
     setLoading(false);
   };
 
@@ -57,7 +58,7 @@ function DealerResellerList() {
   const dropdownRef = useRef(null);
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = customerList.length - index <= 10000;
+    const isCloseToBottom = resellerList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -79,7 +80,7 @@ function DealerResellerList() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      getFilteredCustomerList(values);
+      getFilteredResellerList(values);
     },
   });
 
@@ -88,6 +89,34 @@ function DealerResellerList() {
       <p>No records found.</p>
     </div>
   );
+
+  const handleStatusChange = async (row, newStatus) => {
+    try {
+      setResellerList((prevResellers) => {
+        return prevResellers.map((data) => {
+          if (data.accountId === row.accountId) {
+            return {
+              ...data,
+              resellerData: {
+                ...data.resellerData,
+                status: newStatus === "active" ? true : false,
+              },
+            };
+          }
+          return data;
+        });
+      });
+      const result = await changeResellerStatus(row.accountId, {
+        status: newStatus === "active" ? true : false,
+      });
+
+      console.log(result);
+      // getResellersList(); // You might want to refresh the data from the server if needed
+    } catch (error) {
+      console.error("Error in handleStatusChange:", error);
+    }
+  };
+
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -138,18 +167,18 @@ function DealerResellerList() {
     },
     {
       name: "Status",
-      selector: (row) => row.status,
+      selector: (row) => row.dealerData.accountStatus,
       sortable: true,
       cell: (row) => (
         <div className="relative">
           <div
             className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              row.resellerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
             } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
-            value={row.status === true ? "active" : "inactive"}
-            // onChange={(e) => handleStatusChange(row, e.target.value)}
+            value={row.resellerData.status === true ? "active" : "inactive"}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
@@ -208,6 +237,9 @@ function DealerResellerList() {
 
   useEffect(() => {
     getResellersList();
+  }, []);
+
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSelectedAction(null);
@@ -228,12 +260,12 @@ function DealerResellerList() {
     getResellersList();
   };
 
-  const getFilteredCustomerList = async (data) => {
+  const getFilteredResellerList = async (data) => {
     try {
       setLoading(true);
       const res = await getResellerList(data);
       console.log(res.result);
-      setCustomerList(res.result);
+      setResellerList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
@@ -380,7 +412,7 @@ function DealerResellerList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={customerList}
+                data={resellerList}
                 highlightOnHover
                 sortIcon={
                   <>

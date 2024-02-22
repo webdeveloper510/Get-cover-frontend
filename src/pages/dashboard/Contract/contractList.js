@@ -62,15 +62,15 @@ function ContractList(props) {
       getContract();
     }
   }, [props, flag]);
-  
+
   const getContract = async (orderId = null, page = 1, rowsPerPage = 10) => {
     let data = {
       page: page,
       pageLimit: rowsPerPage,
     };
-    console.log(orderId);
+    console.log(orderId == null, props?.flag == undefined);
     const result =
-      orderId == null && props?.flag == " "
+      orderId == null && props?.flag == undefined
         ? await getAllContractsForAdmin(data)
         : props?.flag == "dealer" && props?.id
         ? await getContractsforDealer(props.id, data)
@@ -159,19 +159,25 @@ function ContractList(props) {
       <div className="my-8 ml-3">
         <Headbar />
 
-        <div className="flex mt-2">
-          <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">Contracts</p>
-            <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Contracts /</Link>{" "}
-              </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1">
-                Contracts List
-              </li>
-            </ul>
+        {props.orderId == null && props?.flag == undefined ? (
+          <div className="flex mt-2">
+            <div className="pl-3">
+              <p className="font-bold text-[36px] leading-9	mb-[3px]">
+                Contracts
+              </p>
+              <ul className="flex self-center">
+                <li className="text-sm text-neutral-grey font-Regular">
+                  <Link to={"/"}>Contracts /</Link>{" "}
+                </li>
+                <li className="text-sm text-neutral-grey font-semibold ml-1">
+                  Contracts List
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
+        ) : (
+          <></>
+        )}
 
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
