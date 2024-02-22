@@ -26,6 +26,7 @@ import {
 } from "../../../services/orderServices";
 import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
+import ContractList from "../Contract/contractList";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -86,7 +87,7 @@ function OrderDetails() {
       label: "Contracts",
       icons: contract,
       Activeicons: contractActive,
-      content: <Contracts orderId={orderId} flag={"contracts"} />,
+      content: <ContractList orderId={orderId} flag={"contracts"} />,
     },
   ];
 

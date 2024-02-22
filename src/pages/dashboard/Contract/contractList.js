@@ -14,13 +14,17 @@ import Headbar from "../../../common/headBar";
 import { Link } from "react-router-dom";
 import Modal from "../../../common/model";
 import Select from "../../../common/select";
-import { getAllContractsForAdmin } from "../../../services/orderServices";
+import {
+  getAllContractsForAdmin,
+  getContracts,
+} from "../../../services/orderServices";
 import { format } from "date-fns";
 import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../pagination";
 import { getContractValues } from "../../../services/extraServices";
 
-function ContractList() {
+function ContractList(props) {
+  console.log(props);
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
@@ -48,7 +52,23 @@ function ContractList() {
     setLoading(false);
     console.log("by ID -------------------", result);
   };
-  
+
+  const getContract = async (orderId = null, page = 1, rowsPerPage = 10) => {
+    let data = {
+      page: page,
+      pageLimit: rowsPerPage,
+    };
+    // setLoading(true);
+    const result =
+      orderId == null
+        ? await getAllContractsForAdmin(data)
+        : await getContracts(orderId, data);
+    setContractList(result.result);
+    console.log(result);
+    setTotalRecords(result?.totalCount);
+    setLoading(false);
+  };
+
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -59,21 +79,6 @@ function ContractList() {
       });
     }
   };
-  const getContracts = async (page = 1, rowsPerPage = 10) => {
-    let data = {
-      page: page,
-      pageLimit: rowsPerPage,
-    };
-    // setLoading(true);
-    const result = await getAllContractsForAdmin(data);
-    setContractList(result.result);
-    console.log(result);
-    setTotalRecords(result?.totalCount);
-    setLoading(false);
-  };
-
- 
-
   // useEffect(() => {
   //   getContracts();
   // }, []);
@@ -116,7 +121,11 @@ function ContractList() {
     console.log(page, rowsPerPage);
     setLoading(true);
     try {
-      await getContracts(page, rowsPerPage);
+      if (props?.flag == "contracts") {
+        await getContract(props.orderId, page, rowsPerPage);
+      } else {
+        await getContract(page, rowsPerPage);
+      }
       setLoading(false);
     } finally {
       setLoading(false);
@@ -230,17 +239,23 @@ function ContractList() {
                               Contract ID : <b> {res.unique_key} </b>
                             </p>
                           </div>
-                          <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                            <p className="text-white py-2 font-Regular">
-                              Order ID : <b> {res?.order[0]?.unique_key} </b>
-                            </p>
-                          </div>
-                          <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                            <p className="text-white py-2 font-Regular">
-                              Dealer P.O. No. :{" "}
-                              <b> {res?.order[0]?.venderOrder} </b>
-                            </p>
-                          </div>
+                          {props.orderId == null && (
+                            <>
+                              <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                <p className="text-white py-2 font-Regular">
+                                  Order ID :{" "}
+                                  <b> {res?.order[0]?.unique_key} </b>
+                                </p>
+                              </div>
+                              <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                <p className="text-white py-2 font-Regular">
+                                  Dealer P.O. No. :{" "}
+                                  <b> {res?.order[0]?.venderOrder} </b>
+                                </p>
+                              </div>
+                            </>
+                          )}
+
                           <div className="col-span-1 self-center justify-end"></div>
                           <div className="col-span-1 self-center flex justify-end">
                             <div
@@ -494,75 +509,65 @@ function ContractList() {
                       </div>
                       <div className="col-span-1"></div>
                       <div className="col-span-1 self-center justify-end self-center ">
-                      <Link to={`/editContract/${contractDetails._id}`}>
-                              {" "}
-                              <img
-                                src={Edit}
-                                className="ml-auto mr-2"
-                                alt="edit"
-                              />{" "}
-                            </Link>
+                        <Link to={`/editContract/${contractDetails._id}`}>
+                          {" "}
+                          <img
+                            src={Edit}
+                            className="ml-auto mr-2"
+                            alt="edit"
+                          />{" "}
+                        </Link>
                       </div>
                     </Grid>
 
                     <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
-                    <div className="col-span-1 border border-[#D1D1D1]">
+                      <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                          Manufacturer
+                            Manufacturer
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            {
-                              contractDetails?.manufacture
-                            }
+                            {contractDetails?.manufacture}
                           </p>
                         </div>
                       </div>
                       <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                          Model
+                            Model
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            {
-                              contractDetails?.model
-                            }
+                            {contractDetails?.model}
                           </p>
                         </div>
                       </div>
                       <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                          Serial
+                            Serial
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            {
-                              contractDetails?.serial
-                            }
+                            {contractDetails?.serial}
                           </p>
                         </div>
                       </div>
                       <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                          Status
+                            Status
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            {
-                              contractDetails?.status
-                            }
+                            {contractDetails?.status}
                           </p>
                         </div>
                       </div>
                       <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                          Eligibility
+                            Eligibility
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            {
-                              contractDetails?.eligibilty
-                            }
+                            {contractDetails?.eligibilty}
                           </p>
                         </div>
                       </div>
@@ -690,7 +695,8 @@ function ContractList() {
                             Retail Price
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            ${contractDetails.productValue === undefined
+                            $
+                            {contractDetails.productValue === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
                                   contractDetails.productValue ?? parseInt(0)
