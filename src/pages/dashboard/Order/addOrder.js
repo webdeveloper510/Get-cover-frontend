@@ -799,35 +799,35 @@ function AddOrder() {
       };
       const formData = new FormData();
 
-      Object.entries(data).forEach(([key, value]) => {
-        if (key === "productsArray") {
-          value.forEach((item, index) => {
-            Object.entries(item).forEach(([key1, value1]) => {
-              console.log(key1);
-              if (key1 !== "file" && key1 !== "QuantityPricing") {
-                formData.append(`${key}[${index}][${key1}]`, value1);
-              }
-              if (key1 == "orderFile") {
-                formData.append(
-                  `${key}[${index}][${key1}]`,
-                  JSON.stringify(value1)
-                );
-              }
-              if (
-                key1 == "QuantityPricing" &&
-                Array.isArray(item.QuantityPricing)
-              ) {
-                formData.append(
-                  `${key}[${index}][QuantityPricing]`,
-                  JSON.stringify(item.QuantityPricing)
-                );
-              }
-            });
-          });
-        } else {
-          formData.append(key, value);
-        }
-      });
+      // Object.entries(data).forEach(([key, value]) => {
+      //   if (key === "productsArray") {
+      //     value.forEach((item, index) => {
+      //       Object.entries(item).forEach(([key1, value1]) => {
+      //         console.log(key1);
+      //         if (key1 !== "file" && key1 !== "QuantityPricing") {
+      //           formData.append(`${key}[${index}][${key1}]`, value1);
+      //         }
+      //         if (key1 == "orderFile") {
+      //           formData.append(
+      //             `${key}[${index}][${key1}]`,
+      //             JSON.stringify(value1)
+      //           );
+      //         }
+      //         if (
+      //           key1 == "QuantityPricing" &&
+      //           Array.isArray(item.QuantityPricing)
+      //         ) {
+      //           formData.append(
+      //             `${key}[${index}][QuantityPricing]`,
+      //             JSON.stringify(item.QuantityPricing)
+      //           );
+      //         }
+      //       });
+      //     });
+      //   } else {
+      //     formData.append(key, value);
+      //   }
+      // });
       if (orderId != undefined) {
         editOrder(orderId, data).then((res) => {
           if (res.code == 200) {
@@ -847,7 +847,7 @@ function AddOrder() {
           }
         });
       } else {
-        addOrder(formData).then((res) => {
+        addOrder(data).then((res) => {
           if (res.code == 200) {
             setLoading2(false);
             console.log(
