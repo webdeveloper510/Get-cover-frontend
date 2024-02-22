@@ -137,7 +137,7 @@ function OrderList(props) {
     if (props.activeTab === "Orders" || props.activeTab === "Order") {
       getOrderList();
     }
-  }, [props]);
+  }, [props?.flag]);
   const handleFilterIconClick = () => {
     formik.resetForm();
     getOrderList();
@@ -236,11 +236,12 @@ function OrderList(props) {
     },
     {
       name: "Order Value",
-      selector: (row) =>  `$ ${
-        row?.orderAmount === undefined
-          ? parseInt(0).toLocaleString(2)
-          : formatOrderValue(row?.orderAmount ?? parseInt(0))
-      }`,
+      selector: (row) =>
+        `$ ${
+          row?.orderAmount === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.orderAmount ?? parseInt(0))
+        }`,
       sortable: true,
     },
     {
@@ -280,7 +281,7 @@ function OrderList(props) {
             </div>
             {selectedAction === row.unique_key && (
               <div
-              onClick={() => setSelectedAction(null)}
+                onClick={() => setSelectedAction(null)}
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[130px] drop-shadow-5xl px-3 py-2 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
@@ -395,7 +396,7 @@ function OrderList(props) {
                       <Select
                         label=""
                         options={status}
-                        OptionName='Status'
+                        OptionName="Status"
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px] !bg-[#f7f7f7]"
