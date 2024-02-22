@@ -562,6 +562,10 @@ function ResellerDetails() {
       });
     }
   };
+
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   return (
     <>
       {loading && (
@@ -577,7 +581,7 @@ function ResellerDetails() {
         <div className="flex">
           <div onClick={() => localStorage.removeItem("menu")}>
             <Link
-              to={"/resellerList"}
+              onClick={handleGOBack}
               className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
             >
               <img
@@ -649,7 +653,7 @@ function ResellerDetails() {
                 <p className="text-[10px] mr-3 text-[#999999] font-Regular">
                   PRIMARY CONTACT DETAILS
                 </p>
-                <hr className="self-center border-[#999999] w-[50%]" />
+                <hr className="self-center border-[#999999] w-[40%]" />
               </div>
               <div className="flex mb-4">
                 <div className="relative">

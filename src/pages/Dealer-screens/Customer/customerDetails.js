@@ -447,32 +447,7 @@ function CustomerDetails() {
                 <p className="text-[10px] mr-3 text-[#999999] font-Regular">
                   PRIMARY CONTACT DETAILS
                 </p>
-                <hr className="self-center border-[#999999] w-[50%]" />
-              </div>
-              <div className="flex mb-4">
-                <div className="relative">
-                  <img
-                    src={DealerIcons}
-                    className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="DealerIcons"
-                  />
-                  <Link to={`/dealerDetails/${customerDetail?.meta?.dealerId}`}>
-                    {" "}
-                    <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
-                </div>
-                <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
-                    Dealer Name
-                  </p>
-                  <p className="text-base text-white font-semibold ">
-                    {customerDetail?.meta?.dealerName}
-                  </p>
-                </div>
+                <hr className="self-center border-[#999999] w-[40%]" />
               </div>
               {customerDetail?.meta?.resellerId && (
                 <div className="flex mb-4">

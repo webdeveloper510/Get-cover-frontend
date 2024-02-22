@@ -410,6 +410,7 @@ function OrderList(props) {
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         onChange={handleSelectChange}
+                        OptionName='Status'
                         name="status"
                         value={formik.values.status}
                       />
