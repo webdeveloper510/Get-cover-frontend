@@ -29,6 +29,7 @@ import { useMyContext } from "../../../../context/context";
 import { getResellerUsersById } from "../../../../services/reSellerServices";
 
 function UserList(props) {
+  console.log(props);
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
