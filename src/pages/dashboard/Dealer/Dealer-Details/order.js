@@ -53,6 +53,7 @@ function OrderList(props) {
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
@@ -61,7 +62,21 @@ function OrderList(props) {
     SetOrderId(id);
     setIsArchiveOpen(true);
   };
-
+  const getOrderList = async (data = {}) => {
+    setLoading(true);
+    let result = {};
+    if (props.flag == "reseller") {
+      result = await getOrderListByResellerId(props.id, data);
+    } else if (props.flag == "customer") {
+      result = await getOrderListByCustomerId(props.id, data);
+    } else if (props.flag == "dealer") {
+      result = await getOrderListByDealerId(props.id, data);
+    }
+    setOrderList(result.result);
+    setLoading(false);
+    setFlag(true);
+    console.log(result);
+  };
   const openModal = (id) => {
     processOrders(id).then((res) => {
       setProcessOrderErrors(res.result);
@@ -69,13 +84,6 @@ function OrderList(props) {
       console.log(res.result);
     });
     setIsModalOpen(true);
-  };
-
-  const orderDetails = async (id) => {
-    const result = await getContracts(id);
-    console.log(result);
-    setContractDetails(result);
-    // setSelectedAction(null);
   };
 
   const closeModal = () => {
@@ -134,10 +142,10 @@ function OrderList(props) {
     setIsArchiveOpen(false);
   };
   useEffect(() => {
-    if (props.activeTab === "Orders" || props.activeTab === "Order") {
+    if (props.activeTab === "Orders" || (props.activeTab === "Order" && flag)) {
       getOrderList();
     }
-  }, [props]);
+  }, [props.activeTab, flag, props.id, props.flag]);
   const handleFilterIconClick = () => {
     formik.resetForm();
     getOrderList();
@@ -161,21 +169,6 @@ function OrderList(props) {
     }
     return () => clearInterval(intervalId);
   }, [isModalOpen, isModalOpen1, timer]);
-
-  const getOrderList = async (data = {}) => {
-    setLoading(true);
-    let result = {};
-    if (props.flag == "reseller") {
-      result = await getOrderListByResellerId(props.id, data);
-    } else if (props.flag == "customer") {
-      result = await getOrderListByCustomerId(props.id, data);
-    } else if (props.flag == "dealer") {
-      result = await getOrderListByDealerId(props.id, data);
-    }
-    setOrderList(result.result);
-    setLoading(false);
-    console.log(result);
-  };
 
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
@@ -234,11 +227,12 @@ function OrderList(props) {
     },
     {
       name: "Order Value",
-      selector: (row) =>  `$${
-        row?.orderAmount === undefined
-          ? parseInt(0).toLocaleString(2)
-          : formatOrderValue(row?.orderAmount ?? parseInt(0))
-      }`,
+      selector: (row) =>
+        `$${
+          row?.orderAmount === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.orderAmount ?? parseInt(0))
+        }`,
       sortable: true,
     },
     {
@@ -267,7 +261,6 @@ function OrderList(props) {
             <div
               onClick={() => {
                 setSelectedAction(row.unique_key);
-                orderDetails(row._id);
               }}
             >
               <img
@@ -278,7 +271,7 @@ function OrderList(props) {
             </div>
             {selectedAction === row.unique_key && (
               <div
-              onClick={()=> setSelectedAction(null)}
+                onClick={() => setSelectedAction(null)}
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[130px] drop-shadow-5xl px-3 py-2 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
@@ -410,7 +403,7 @@ function OrderList(props) {
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         onChange={handleSelectChange}
-                        OptionName='Status'
+                        OptionName="Status"
                         name="status"
                         value={formik.values.status}
                       />

@@ -17,7 +17,6 @@ import Purchase from "../../../assets/images/order/Purchase.svg";
 import DealerList from "../../../assets/images/icons/dealerList.svg";
 import Name from "../../../assets/images/order/Name.svg";
 import { cityData } from "../../../stateCityJson";
-import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
 import {

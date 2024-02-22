@@ -22,6 +22,9 @@ import { format } from "date-fns";
 import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../pagination";
 import { getContractValues } from "../../../services/extraServices";
+import { getContractsforDealer } from "../../../services/dealerServices";
+import { getContractsforCustomer } from "../../../services/customerServices";
+import { getContractsforReseller } from "../../../services/reSellerServices";
 
 function ContractList(props) {
   console.log(props);
@@ -30,6 +33,7 @@ function ContractList(props) {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [flag, setFlag] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const closeDisapproved = () => {
@@ -53,20 +57,33 @@ function ContractList(props) {
     console.log("by ID -------------------", result);
   };
 
+  useEffect(() => {
+    if (props.activeTab === "Contracts" && flag) {
+      getContract();
+    }
+  }, [props, flag]);
+  
   const getContract = async (orderId = null, page = 1, rowsPerPage = 10) => {
     let data = {
       page: page,
       pageLimit: rowsPerPage,
     };
-    // setLoading(true);
+    console.log(orderId);
     const result =
-      orderId == null
+      orderId == null && props?.flag == " "
         ? await getAllContractsForAdmin(data)
+        : props?.flag == "dealer" && props?.id
+        ? await getContractsforDealer(props.id, data)
+        : props?.flag == "customer" && props?.id
+        ? await getContractsforCustomer(props.id, data)
+        : props?.flag == "reseller" && props?.id
+        ? await getContractsforReseller(props.id, data)
         : await getContracts(orderId, data);
+
     setContractList(result.result);
-    console.log(result);
     setTotalRecords(result?.totalCount);
     setLoading(false);
+    setFlag(true);
   };
 
   const formatOrderValue = (orderValue) => {
@@ -118,13 +135,15 @@ function ContractList(props) {
   };
 
   const handlePageChange = async (page, rowsPerPage) => {
-    console.log(page, rowsPerPage);
+    console.log(props, rowsPerPage);
     setLoading(true);
     try {
       if (props?.flag == "contracts") {
-        await getContract(props.orderId, page, rowsPerPage);
+        await getContract(props?.orderId, page, rowsPerPage);
+      } else if (props?.flag != "") {
+        await getContract(null, page, rowsPerPage);
       } else {
-        await getContract(page, rowsPerPage);
+        await getContract(null, page, rowsPerPage);
       }
       setLoading(false);
     } finally {
