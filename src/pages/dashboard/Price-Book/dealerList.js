@@ -520,7 +520,11 @@ function DealerPriceList() {
                 Wholesale Price($)
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-                ${dealerPriceBookDetail?.wholesalePrice?.toLocaleString(2)}
+              ${
+                  dealerPriceBookDetail?.wholesalePrice === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(dealerPriceBookDetail?.wholesalePrice ?? parseInt(0))}
+              
               </p>
             </div>
             <div className="col-span-4">
@@ -528,7 +532,10 @@ function DealerPriceList() {
                 Retail Price ($)
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-                ${dealerPriceBookDetail?.retailPrice?.toLocaleString(2)}
+              ${
+                  dealerPriceBookDetail?.retailPrice === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(dealerPriceBookDetail?.retailPrice ?? parseInt(0))}
               </p>
             </div>
             <div className="col-span-4">
@@ -569,8 +576,10 @@ function DealerPriceList() {
                     Range Start
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
-                    {" "}
-                   ${dealerPriceBookDetail?.priceBooks?.rangeStart?.toLocaleString(2)}
+                  ${
+                  dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeStart ?? parseInt(0))}
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -578,8 +587,10 @@ function DealerPriceList() {
                     Range End
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
-                    {" "}
-                   ${dealerPriceBookDetail?.priceBooks?.rangeEnd?.toLocaleString(2)}
+                  ${
+                  dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeEnd ?? parseInt(0))}
                   </p>
                 </div>
               </>
