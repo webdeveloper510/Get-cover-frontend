@@ -17,12 +17,15 @@ import { getDealersList } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getResellerList, changeResellerStatus } from "../../../services/reSellerServices";
+import {
+  getResellerList,
+  changeResellerStatus,
+} from "../../../services/reSellerServices";
 // Declare the base URL of the API
 function ResellerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
-  const [customerList, setCustomerList] = useState([]);
+  const [resellerList, setResellerList] = useState([]);
   const [dealerList, setDealerList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -31,13 +34,13 @@ function ResellerList() {
     setLoading(true);
     const result = await getResellerList({});
     // console.log(result.result);
-    setCustomerList(result.result);
+    setResellerList(result.result);
     setLoading(false);
   };
   const dropdownRef = useRef(null);
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = customerList.length - index <= 10000;
+    const isCloseToBottom = resellerList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -67,14 +70,14 @@ function ResellerList() {
       dealerName: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string() ,
+      name: Yup.string(),
       email: Yup.string(),
       phone: Yup.number(),
       dealerName: Yup.string(),
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      getFilteredCustomerList(values);
+      getFilteredResellerList(values);
     },
   });
 
@@ -85,15 +88,15 @@ function ResellerList() {
   );
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  }; 
+  };
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -105,32 +108,28 @@ function ResellerList() {
       });
     }
   };
-
   const handleStatusChange = async (row, newStatus) => {
-    console.log("row", row);
     try {
-      getResellersList((dealerData) => {
-        return dealerData.map((data) => {
-          console.log(data);
+      setResellerList((prevResellers) => {
+        return prevResellers.map((data) => {
           if (data.accountId === row.accountId) {
             return {
               ...data,
-              dealerData: {
-                ...data.dealerData,
-                accountStatus: newStatus === "active" ? true : false,
+              resellerData: {
+                ...data.resellerData,
+                status: newStatus === "active" ? true : false,
               },
             };
           }
           return data;
         });
       });
-
       const result = await changeResellerStatus(row.accountId, {
         status: newStatus === "active" ? true : false,
       });
 
       console.log(result);
-      // getResellersList();
+      // getResellersList(); // You might want to refresh the data from the server if needed
     } catch (error) {
       console.error("Error in handleStatusChange:", error);
     }
@@ -174,23 +173,23 @@ function ResellerList() {
         `$${
           row?.orders?.orderAmount === undefined
             ? parseInt(0).toLocaleString(2)
-            :  formatOrderValue(row?.orders?.orderAmount) 
+            : formatOrderValue(row?.orders?.orderAmount)
         }`,
       sortable: true,
     },
     {
       name: "Status",
-      selector: (row) => row.status,
+      selector: (row) => row.resellerData.status,
       sortable: true,
       cell: (row) => (
         <div className="relative">
           <div
             className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              row.resellerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
             } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
-            value={row.status === true ? "active" : "inactive"}
+            value={row.resellerData.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
@@ -237,8 +236,8 @@ function ResellerList() {
                     navigate(`/resellerDetails/${row?.accountId}`);
                   }}
                   className="text-left cursor-pointer flex hover:font-semibold py-1"
-                  >
-                   <img src={view} className="w-4 h-4 mr-2"/> View
+                >
+                  <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
               </div>
             )}
@@ -271,12 +270,12 @@ function ResellerList() {
     getResellersList();
   };
 
-  const getFilteredCustomerList = async (data) => {
+  const getFilteredResellerList = async (data) => {
     try {
       setLoading(true);
       const res = await getResellerList(data);
       console.log(res.result);
-      setCustomerList(res.result);
+      setResellerList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
@@ -378,7 +377,7 @@ function ResellerList() {
                       <Input
                         label=""
                         name="dealerName"
-                        type='text'
+                        type="text"
                         placeholder="Dealer Name"
                         color="text-[#1B1D21] opacity-50"
                         className="!text-[14px] !bg-[#f7f7f7]"
@@ -426,7 +425,7 @@ function ResellerList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={customerList}
+                data={resellerList}
                 highlightOnHover
                 sortIcon={
                   <>

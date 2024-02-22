@@ -14,7 +14,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import view from "../../../../assets/images/eye.png";
-import { getResellerListByDealerId, changeResellerStatus } from "../../../../services/reSellerServices";
+import {
+  getResellerListByDealerId,
+  changeResellerStatus,
+} from "../../../../services/reSellerServices";
 function Reseller(props) {
   const [selectedAction, setSelectedAction] = useState(null);
   const [resellerList, setResellerList] = useState([]);
@@ -32,13 +35,13 @@ function Reseller(props) {
     rangeSeparatorText: "of",
   };
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
@@ -54,15 +57,27 @@ function Reseller(props) {
   };
 
   const handleStatusChange = async (row, newStatus) => {
-    console.log("row", row);
     try {
-
+      setResellerList((prevResellers) => {
+        return prevResellers.map((data) => {
+          if (data.accountId === row.accountId) {
+            return {
+              ...data,
+              resellerData: {
+                ...data.resellerData,
+                status: newStatus === "active" ? true : false,
+              },
+            };
+          }
+          return data;
+        });
+      });
       const result = await changeResellerStatus(row.accountId, {
         status: newStatus === "active" ? true : false,
       });
 
       console.log(result);
-      getResellerList();
+      // getResellersList(); // You might want to refresh the data from the server if needed
     } catch (error) {
       console.error("Error in handleStatusChange:", error);
     }
@@ -98,28 +113,24 @@ function Reseller(props) {
     {
       name: "Order Value",
       selector: (row) =>
-        `$${(formatOrderValue(row?.orderData?.orderAmount ?? parseInt(0)))}`,
+        `$${formatOrderValue(row?.orderData?.orderAmount ?? parseInt(0))}`,
       sortable: true,
     },
     {
       name: "Status",
-      selector: (row) => row.status,
+      selector: (row) => row.resellerData.status,
       sortable: true,
       cell: (row) => (
         <div className="relative">
           <div
             className={` 
             ${
-              row.status === true
-                ? "bg-[#6BD133]"
-                : "bg-[#FF4747]"
+              row.resellerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
             }
              absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
-            value={
-              row.status === true ? "active" : "inactive"
-            }
+            value={row.resellerData.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
@@ -165,9 +176,12 @@ function Reseller(props) {
                     localStorage.setItem("menu", "Reseller");
                   }}
                   className="text-left cursor-pointer flex hover:font-semibold py-1"
+                >
+                  <img src={view} className="w-4 h-4 mr-2" />
+                  <Link
+                    className="self-center"
+                    to={`/resellerDetails/${row.resellerData._id}`}
                   >
-                   <img src={view} className="w-4 h-4 mr-2"/> 
-                  <Link className="self-center" to={`/resellerDetails/${row.resellerData._id}`}>
                     View{" "}
                   </Link>
                 </div>

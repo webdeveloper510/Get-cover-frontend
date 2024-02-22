@@ -113,6 +113,11 @@ function DealerResellerDetails() {
     setIsModalOpen(false);
     formik.resetForm();
   };
+  const getUserList = async () => {
+    const result = await getResellerUsersById(id.resellerId, {});
+    setRefreshUserList(result.data);
+    console.log(result.data);
+  };
   const closeModal10 = () => {
     setModalOpen(false);
   };
@@ -146,11 +151,7 @@ function DealerResellerDetails() {
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
-  const getUserList = async () => {
-    const result = await getResellerUsersById(id.resellerId, {});
-    setRefreshUserList(result.data);
-    console.log(result.data);
-  };
+
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
@@ -169,6 +170,7 @@ function DealerResellerDetails() {
     console.log(result.result);
   };
   useEffect(() => {
+    getUserList();
     resellerDetails();
     getServicerList();
   }, [id.resellerId, flag]);
@@ -504,9 +506,7 @@ function DealerResellerDetails() {
     switch (data) {
       case "Orders":
         localStorage.setItem("menu", "Orders");
-        navigate(
-          `/dealer/addOrderforReseller/${id.resellerId}`
-        );
+        navigate(`/dealer/addOrderforReseller/${id.resellerId}`);
         break;
       case "PriceBook":
         localStorage.setItem("menu", "PriceBook");
@@ -529,15 +529,15 @@ function DealerResellerDetails() {
   };
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  };  
+  };
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -711,7 +711,10 @@ function DealerResellerDetails() {
               <Grid className="mt-5">
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg font-semibold ">0</p>
+                    <p className="text-white text-lg font-semibold ">
+                      {" "}
+                      {resellerDetail?.orderData?.noOfOrders ?? 0}
+                    </p>
                     <p className="text-[#999999] text-sm font-Regular ">
                       Total Number of Orders
                     </p>
@@ -719,7 +722,13 @@ function DealerResellerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-white text-lg  !font-[600]">
+                      $
+                      {formatOrderValue(
+                        resellerDetail?.orderData?.orderAmount ??
+                          parseInt(0).toLocaleString(2)
+                      )}
+                    </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
                     </p>

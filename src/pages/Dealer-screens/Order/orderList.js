@@ -250,11 +250,12 @@ function OrderList() {
     },
     {
       name: "Order Value",
-      selector: (row) =>   `$ ${
-        row?.orderAmount === undefined
-          ? parseInt(0).toLocaleString(2)
-          :  formatOrderValue(row?.orderAmount) 
-      }`,
+      selector: (row) =>
+        `$ ${
+          row?.orderAmount === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.orderAmount)
+        }`,
       sortable: true,
       minWidth: "150px",
     },
@@ -295,7 +296,7 @@ function OrderList() {
             </div>
             {selectedAction === row.unique_key && (
               <div
-              onClick={()=> setSelectedAction(null)}
+                onClick={() => setSelectedAction(null)}
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
@@ -420,7 +421,7 @@ function OrderList() {
                       <Select
                         label=""
                         options={status}
-                        OptionName='Status'
+                        OptionName="Status"
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px] !bg-[#f7f7f7]"
@@ -497,7 +498,7 @@ function OrderList() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <Button
           onClick={() => {
-            navigate(`/editOrder/${data}`);
+            navigate(`/dealer/editOrder/${data}`);
           }}
           className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
         >

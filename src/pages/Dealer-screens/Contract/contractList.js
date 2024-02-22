@@ -7,7 +7,6 @@ import Input from "../../../common/input";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import Cross from "../../../assets/images/Cross.png";
-import view from "../../../assets/images/whiteView.png";
 import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Headbar from "../../../common/headBar";
@@ -19,13 +18,12 @@ import { format } from "date-fns";
 import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../pagination";
 import { getAllContractsForDealerPortal } from "../../../services/dealerServices/orderListServices";
-import { getContractValues } from "../../../services/extraServices";
 function ContractList() {
-  const [singleContract, setSingleContract] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [isViewOpen, setIsViewOpen] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
@@ -96,33 +94,6 @@ function ContractList() {
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
-  const closeView = () => {
-    setIsViewOpen(false);
-  };
-
-  const openView = (data) => {
-    setIsViewOpen(true);
-    getContractDetails(data);
-  };
-
-  const getContractDetails = async (data) => {
-    setLoading(true);
-    const result = await getContractValues(data);
-    setSingleContract(result.result);
-    setLoading(false);
-    console.log("by ID -------------------", result);
-  };
-  
-  const formatOrderValue = (orderValue) => {
-    if (Math.abs(orderValue) >= 1e6) {
-      return (orderValue / 1e6).toFixed(2) + "M";
-    } else {
-      return orderValue.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-    }
-  };
   return (
     <>
       <div className="my-8 ml-3">
@@ -221,7 +192,7 @@ function ContractList() {
                   return (
                     <div className="px-3 mt-5">
                       <div>
-                        <Grid className="bg-[#333333] !gap-2 !grid-cols-10 rounded-t-xl">
+                        <Grid className="bg-[#333333] !gap-2 !grid-cols-11 rounded-t-xl">
                           <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
                             <p className="text-white py-2 font-Regular">
                               Contract ID : <b> {res.unique_key} </b>
@@ -238,23 +209,21 @@ function ContractList() {
                               <b> {res?.order?.venderOrder} </b>
                             </p>
                           </div>
-                          <div className="col-span-1 self-center justify-end">
-                          <div
-                              onClick={() => openView(res._id)}
-                              className="self-center  rounded-full cursor-pointer mr-2 p-1 text-center"
-                            >
+                          <div className="col-span-1 self-center justify-end"></div>
+                          {/* <div className="col-span-1 self-center justify-end">
+                            <Link to={`/editContract/${res._id}`}>
                               {" "}
                               <img
-                                src={view}
-                                className="ml-auto w-[23px] h-[23px] "
+                                src={Edit}
+                                className="ml-auto mr-2"
                                 alt="edit"
                               />{" "}
-                            </div>
-                          </div>
+                            </Link>
+                          </div> */}
                         </Grid>
 
                         <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
-                          <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                          <div className="col-span-1 border border-[#D1D1D1]">
                             <div className="py-4 pl-3">
                               <p className="text-[#5D6E66] text-sm font-Regular">
                                 Manufacturer
@@ -281,6 +250,97 @@ function ContractList() {
                               </p>
                               <p className="text-[#333333] text-base font-semibold">
                                 {res.serial}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-span-1 border border-[#D1D1D1]">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                Retail Price
+                              </p>
+                              <p className="text-[#333333] text-base font-semibold">
+                                ${parseInt(res.productValue).toLocaleString(2)}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-span-1 border border-[#D1D1D1]">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                Condition
+                              </p>
+                              <p className="text-[#333333] text-base font-semibold">
+                                Used
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-span-1 border border-[#D1D1D1]">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                Dealer Name
+                              </p>
+                              <p className="text-[#333333] text-base font-semibold">
+                                {res?.order?.dealer[0]?.name}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-span-1 border border-[#D1D1D1]">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                Reseller Name
+                              </p>
+                              <p className="text-[#333333] text-base font-semibold">
+                                {res?.order?.reseller[0]?.name}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-span-1 border border-[#D1D1D1]">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                Customer Name
+                              </p>
+                              <p className="text-[#333333] text-base font-semibold">
+                                {res?.order?.customer[0]?.username}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-span-2 border border-[#D1D1D1]">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                Servicer Name
+                              </p>
+                              <p className="text-[#333333] text-base font-semibold">
+                                {res?.order?.servicer[0]?.name}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                Coverage Start Date
+                              </p>
+                              <p className="text-[#333333] text-base font-semibold">
+                                {findDate(res, index, "start")}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-span-1 border border-[#D1D1D1]">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                Coverage End Date
+                              </p>
+                              <p className="text-[#333333] text-base font-semibold">
+                                {findDate(res, index, "end")}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-span-1 border border-[#D1D1D1]">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                Claimed Value
+                              </p>
+                              <p className="text-[#333333] text-base font-semibold">
+                                ${parseInt(res.claimAmount).toLocaleString(2)}
                               </p>
                             </div>
                           </div>
@@ -438,7 +498,7 @@ function ContractList() {
           </Modal>
         </div>
       </div>
-
+      {/* 
       <Modal
             isOpen={isViewOpen}
             onClose={closeView}
@@ -454,7 +514,7 @@ function ContractList() {
               />
             </Button>
             <div className="text-center mt-2">
-              <p className="text-3xl font-semibold mb-4">Contract Details : </p>
+              <p className="text-3xl font-semibold mb-4">Contract Details </p>
               <div>
                 {loading ? (
                   <div className=" h-[400px] w-full flex py-5">
@@ -778,7 +838,7 @@ function ContractList() {
                 )}
               </div>
             </div>
-          </Modal>
+          </Modal> */}
     </>
   );
 }

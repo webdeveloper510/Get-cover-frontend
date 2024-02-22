@@ -41,6 +41,18 @@ function AddCustomer() {
   const navigate = useNavigate();
   const { dealerValueId, typeofUser } = useParams();
   console.log(dealerValueId, typeofUser);
+
+  useEffect(() => {
+    if (dealerValueId || typeofUser ) {
+      setLoading(true);
+
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [dealerValueId, typeofUser]);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerName: "",

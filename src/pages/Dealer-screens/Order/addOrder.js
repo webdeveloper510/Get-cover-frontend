@@ -348,13 +348,13 @@ function DealerAddOrder() {
     validationSchema: Yup.object().shape({}),
     onSubmit: (values) => {
       nextStep();
-       const findAndSetLabel = (list, id, setter) => {
-        const foundItem = list.find(data => data.value === id);
+      const findAndSetLabel = (list, id, setter) => {
+        const foundItem = list.find((data) => data.value === id);
         setter(foundItem ? foundItem.label : "");
-    };
-    findAndSetLabel(servicerData, values.servicerId, setServicerName);
-    findAndSetLabel(customerList, values.customerId, setCustomerName);
-    findAndSetLabel(resellerList, values.resellerId, setResellerName);
+      };
+      findAndSetLabel(servicerData, values.servicerId, setServicerName);
+      findAndSetLabel(customerList, values.customerId, setCustomerName);
+      findAndSetLabel(resellerList, values.resellerId, setResellerName);
     },
   });
 
@@ -650,23 +650,9 @@ function DealerAddOrder() {
   const formik4 = useFormik({
     initialValues: {
       paymentStatus: "Unpaid",
-      paidAmount: "",
-      pendingAmount: 0.0,
+      paidAmount: 0.0,
     },
-    validationSchema: Yup.object().shape({
-      paidAmount: Yup.number().when("paymentStatus", {
-        is: (status) => status === "PartlyPaid",
-        then: (schema) =>
-          schema
-            .min(1, "Paid amount cannot be less than 1")
-            .max(
-              calculateTotalAmount(formikStep3.values.productsArray),
-              "Paid amount cannot be more than the total amount"
-            )
-            .required("Paid Amount is required"),
-        otherwise: (schema) => schema.notRequired(),
-      }),
-    }),
+
     onSubmit: (values) => {
       console.log(values);
       setLoading(true);
@@ -680,42 +666,12 @@ function DealerAddOrder() {
         ...formikStep2.values,
         ...formikStep3.values,
         paidAmount: values.paidAmount,
-        dueAmount: values.pendingAmount,
+        dueAmount: parseFloat(totalAmount),
         sendNotification: sendNotification,
         paymentStatus: values.paymentStatus,
         orderAmount: parseFloat(totalAmount),
       };
-      const formData = new FormData();
 
-      Object.entries(data).forEach(([key, value]) => {
-        if (key === "productsArray") {
-          value.forEach((item, index) => {
-            Object.entries(item).forEach(([key1, value1]) => {
-              console.log(key1);
-              if (key1 !== "file" && key1 !== "QuantityPricing") {
-                formData.append(`${key}[${index}][${key1}]`, value1);
-              }
-              if (key1 == "orderFile") {
-                formData.append(
-                  `${key}[${index}][${key1}]`,
-                  JSON.stringify(value1)
-                );
-              }
-              if (
-                key1 == "QuantityPricing" &&
-                Array.isArray(item.QuantityPricing)
-              ) {
-                formData.append(
-                  `${key}[${index}][QuantityPricing]`,
-                  JSON.stringify(item.QuantityPricing)
-                );
-              }
-            });
-          });
-        } else {
-          formData.append(key, value);
-        }
-      });
       if (orderId != undefined) {
         editOrderforDealerPortal(orderId, data).then((res) => {
           if (res.code == 200) {
@@ -725,7 +681,7 @@ function DealerAddOrder() {
           }
         });
       } else {
-        addOrderforDealerPortal(formData).then((res) => {
+        addOrderforDealerPortal(data).then((res) => {
           if (res.code == 200) {
             setLoading(false);
             openModal();
@@ -955,10 +911,6 @@ function DealerAddOrder() {
         );
       }
     }
-    formik4.setFieldValue(
-      "paidAmount",
-      calculateTotalAmount(formikStep3.values.productsArray)
-    );
   }, [formikStep3.values.productsArray]);
 
   const handleSelectChange1 = (name, value) => {
@@ -967,7 +919,7 @@ function DealerAddOrder() {
 
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
-    console.log(name, value, 'onchange------------------->>')
+    console.log(name, value, "onchange------------------->>");
     if (name == "resellerId") {
       getCustomerList({
         resellerId: value,
@@ -1062,12 +1014,6 @@ function DealerAddOrder() {
         });
       }
     }
-  };
-
-  const calculatePendingAmount = (paidAmount) => {
-    const totalAmount = calculateTotalAmount(formikStep3.values.productsArray);
-    const pendingAmount = totalAmount - parseFloat(paidAmount) || 0; // Ensure a valid number
-    formik4.setFieldValue("pendingAmount", pendingAmount.toFixed(2));
   };
 
   const renderStep1 = () => {

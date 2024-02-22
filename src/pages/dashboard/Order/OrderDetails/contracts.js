@@ -1,60 +1,100 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "../../../../common/button";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 
 // Media Includes
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
-import view from "../../../../assets/images/whiteView.png";
-import Cross from "../../../../assets/images/Cross.png";
 import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
+import Cross from "../../../../assets/images/Cross.png";
+import view from "../../../../assets/images/whiteView.png";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import { Link } from "react-router-dom";
-import { getContractsforDealer } from "../../../../services/dealerServices";
-import { getContractsforReseller } from "../../../../services/reSellerServices";
-import { RotateLoader } from "react-spinners";
-import { format } from "date-fns";
+import { format, addMonths } from "date-fns";
 import CustomPagination from "../../../pagination";
-import { getContractsforCustomer } from "../../../../services/customerServices";
+// import { getContracts } from "../../../../services/orderServices";
+import { useEffect } from "react";
+import { RotateLoader } from "react-spinners";
+import { Link } from "react-router-dom";
 import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
-function ContractList(props) {
-  console.log(props, "-------------------->>>");
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [contractList, setContractList] = useState([]);
-  const [totalRecords, setTotalRecords] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [isViewOpen, setIsViewOpen] = useState(false);
-  const [singleContract, setSingleContract] = useState([]);
+import Select from "../../../../common/select";
 
-  const getContracts = async (page = 1, rowsPerPage = 10) => {
+function Contracts(props) {
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [singleContract, setSingleContract] = useState([]);
+  const [contractDetails, setContractDetails] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const handlePageChange = async (page, rowsPerPage) => {
+    setLoading(true);
+    try {
+      await getOrdersContracts(page, rowsPerPage);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const [isViewOpen, setIsViewOpen] = useState(false);
+  const closeView = () => {
+    setIsViewOpen(false);
+  };
+
+  const openView = (data) => {
+    setIsViewOpen(true);
+    getContractDetails(data);
+  };
+
+  const getContractDetails = async (data) => {
+    setLoading(true);
+    const result = await getContractValues(data);
+    setSingleContract(result.result);
+    setLoading(false);
+    console.log("by ID -------------------", result);
+  };
+  const getOrdersContracts = async (page = 1, rowsPerPage = 10) => {
     let data = {
       page: page,
       pageLimit: rowsPerPage,
     };
-    setLoading(true);
-    console.log(props);
-    const result =
-      props.flag === "reseller"
-        ? await getContractsforReseller(props.id, data)
-        : props.flag === "dealer"
-        ? await getContractsforDealer(props.id, data)
-        : await getContractsforCustomer(props.id, data);
 
-    setContractList(result.result);
-    console.log(result);
-    setTotalRecords(result?.totalCount);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    if (props.activeTab === "Contracts") {
-      getContracts();
+    try {
+      // const result = await getContracts(props.orderId, data);
+      // setContractDetails(result);
+      // setTotalRecords(result?.contractCount);
+      // console.log(result);
+    } catch (error) {
+      console.error("Error fetching contracts:", error);
     }
-  }, [props]);
+  };
+  const findDate = (data, index, type) => {
+    if (contractDetails) {
+      let foundDate = "Date Not Found";
 
-  const closeView = () => {
-    setIsViewOpen(false);
+      contractDetails.result.forEach((contract) => {
+        const productsArray = contract?.order[0]?.productsArray;
+
+        if (productsArray) {
+          const matchingProduct = productsArray.find(
+            (product) => product._id === data.orderProductId
+          );
+          console.log(productsArray);
+          if (matchingProduct) {
+            foundDate = format(
+              new Date(
+                type === "start"
+                  ? matchingProduct.coverageStartDate
+                  : matchingProduct.coverageEndDate
+              ),
+              "MM-dd-yyyy"
+            );
+          }
+        }
+      });
+
+      return foundDate;
+    }
+
+    return "Date Not Found";
   };
 
   const formatOrderValue = (orderValue) => {
@@ -67,57 +107,17 @@ function ContractList(props) {
       });
     }
   };
-
-  const openView = (data) => {
-    setIsViewOpen(true);
-    getsingleContract(data);
-  };
-
-  const getsingleContract = async (data) => {
-    setLoading(true);
-    const result = await getContractValues(data);
-    setSingleContract(result.result);
-    setLoading(false);
-    console.log("by ID -------------------", result);
-  };
-  const handlePageChange = async (page, rowsPerPage) => {
-    console.log(page, rowsPerPage);
-    setLoading(true);
-    try {
-      await getContracts(page, rowsPerPage);
-      setLoading(false);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    if (props?.flag == "contracts") {
+      getOrdersContracts();
     }
-  };
+  }, [props?.flag]);
 
-  const findDate = (data, type) => {
-    const product = contractList?.find((contract) => {
-      return contract.order;
-    });
-
-    if (product) {
-      const selectedProduct = product.order.find(
-        (res) => res._id === data.orderId
-      );
-
-      if (selectedProduct && selectedProduct.productsArray) {
-        const formattedDates = selectedProduct.productsArray.map((res) => {
-          return format(
-            new Date(
-              type === "start" ? res.coverageStartDate : res.coverageEndDate
-            ),
-            "MM-dd-yyyy"
-          );
-        });
-
-        return formattedDates[0];
-      }
-    }
-
-    return "";
-  };
-
+  const status = [
+    { label: "Active", value: "Active" },
+    { label: "Pending", value: "Pending" },
+    { label: "Waiting", value: "waiting" },
+  ];
   return (
     <>
       <div className="my-8">
@@ -146,17 +146,20 @@ function ContractList(props) {
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
-                      placeholder="Dealer Order no."
+                      placeholder="Serial #"
                     />
                   </div>
                   <div className="col-span-3 self-center">
-                    <Input
-                      name="PhoneNo."
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                    <Select
                       label=""
-                      placeholder="Customer Name"
+                      options={status}
+                      color="text-[#1B1D21] opacity-50"
+                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px] !bg-[#f7f7f7]"
+                      // onChange={handleSelectChange}
+                      OptionName="Status"
+                      name="status"
+                      // value={formik.values.status}
                     />
                   </div>
                   <div className="col-span-2 self-center flex justify-center">
@@ -179,127 +182,178 @@ function ContractList(props) {
               </div>
             </div>
           </Grid>
-          {contractList?.length == 0 && !loading ? (
-            <>
-              <div className="text-center my-5">
-                <p>No records found.</p>
-              </div>
-            </>
-          ) : (
-            <div>
-              {loading ? (
-                <div className=" h-[400px] w-full flex py-5">
-                  <div className="self-center mx-auto">
-                    <RotateLoader color="#333" />
-                  </div>
-                </div>
-              ) : (
-                <>
-                  {contractList &&
-                    contractList.map((res) => {
-                      console.log(res);
-                      return (
-                        <div className="px-3 mt-5">
-                          <div>
-                            <Grid className="bg-[#333333] !gap-2 !grid-cols-10 rounded-t-xl">
-                              <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
-                                <p className="text-white py-2 font-Regular">
-                                  Contract ID : <b> {res.unique_key} </b>
-                                </p>
-                              </div>
-                              <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                                <p className="text-white py-2 font-Regular">
-                                  Order ID :{" "}
-                                  <b> {res?.order[0]?.unique_key} </b>
-                                </p>
-                              </div>
-                              <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                                <p className="text-white py-2 font-Regular">
-                                  Dealer P.O. No. :{" "}
-                                  <b> {res?.order[0]?.venderOrder} </b>
-                                </p>
-                              </div>
-                              <div className="col-span-1 self-center justify-end">
-                                <div
-                                  onClick={() => openView(res._id)}
-                                  className="self-center rounded-full cursor-pointer mr-2 p-1 text-center"
-                                >
-                                  {" "}
-                                  <img
-                                    src={view}
-                                    className="ml-auto w-[23px] h-[23px] "
-                                    alt="edit"
-                                  />{" "}
-                                </div>
-                              </div>
-                            </Grid>
 
-                            <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
-                              <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
-                                <div className="py-4 pl-3">
-                                  <p className="text-[#5D6E66] text-sm font-Regular">
-                                    Manufacturer
-                                  </p>
-                                  <p className="text-[#333333] text-base font-semibold">
-                                    {res.manufacture}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="col-span-1 border border-[#D1D1D1]">
-                                <div className="py-4 pl-3">
-                                  <p className="text-[#5D6E66] text-sm font-Regular">
-                                    Model
-                                  </p>
-                                  <p className="text-[#333333] text-base font-semibold">
-                                    {res.model}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="col-span-1 border border-[#D1D1D1]">
-                                <div className="py-4 pl-3">
-                                  <p className="text-[#5D6E66] text-sm font-Regular">
-                                    Serial
-                                  </p>
-                                  <p className="text-[#333333] text-base font-semibold">
-                                    {res.serial}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="col-span-1 border border-[#D1D1D1]">
-                                <div className="py-4 pl-3">
-                                  <p className="text-[#5D6E66] text-sm font-Regular">
-                                    Status
-                                  </p>
-                                  <p className="text-[#333333] text-base font-semibold">
-                                    {res.status}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
-                                <div className="py-4 pl-3">
-                                  <p className="text-[#5D6E66] text-sm font-Regular">
-                                    Eligibility
-                                  </p>
-                                  <p className="text-[#333333] text-base font-semibold">
-                                    {res.eligibilty}
-                                  </p>
-                                </div>
-                              </div>
-                            </Grid>
+          <div className="px-3 mt-5">
+            {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
+              <>
+                {contractDetails &&
+                  contractDetails.result &&
+                  contractDetails.result.map((res, index) => (
+                    <div>
+                      <Grid className="bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl">
+                        <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
+                          <p className="text-white py-2 font-Regular">
+                            Contract ID : <b>{res?.unique_key} </b>
+                          </p>
+                        </div>
+                        <div className="col-span-5"></div>
+
+                        <div className="col-span-1 self-center flex justify-end">
+                          <div
+                            onClick={() => openView(res._id)}
+                            className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center"
+                          >
+                            {" "}
+                            <img
+                              src={view}
+                              className="ml-auto w-[23px] h-[23px] "
+                              alt="edit"
+                            />{" "}
+                          </div>
+                          <Link to={`/editContract/${res?._id}`}>
+                            <img
+                              src={Edit}
+                              className="ml-auto mr-2"
+                              alt="edit"
+                            />
+                          </Link>
+                        </div>
+                      </Grid>
+
+                      <Grid className="!gap-0 !grid-cols-8 bg-[#F9F9F9] mb-5">
+                        <div className="col-span-2 border border-[#D1D1D1] rounded-es-xl">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Manufacturer
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res?.manufacture}
+                            </p>
                           </div>
                         </div>
-                      );
-                    })}
-                </>
-              )}
-
-              <CustomPagination
-                totalRecords={totalRecords}
-                rowsPerPageOptions={[10, 20, 50, 100]}
-                onPageChange={handlePageChange}
-              />
-            </div>
-          )}
+                        <div className="col-span-2 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Model
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res?.model}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-2 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Serial
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res?.serial}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-2 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Product Description
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              Laptops are designed to be portable computers.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Retail Price
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              $
+                              {res.productValue === undefined
+                                ? parseInt(0).toLocaleString(2)
+                                : formatOrderValue(
+                                    res.productValue ?? parseInt(0)
+                                  )}
+                              {/* ${parseInt(res?.productValue).toLocaleString(2)} */}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Condition
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res?.condition}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Coverage Start Date
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {findDate(res, index, "start")}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Coverage End Date
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {findDate(res, index, "end")}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Claim Amount
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              $ {parseInt(res?.claimAmount).toLocaleString(2)}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl	">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Status
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res?.status}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Eligibility
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {res?.eligibilty}
+                            </p>
+                          </div>
+                        </div>
+                      </Grid>
+                    </div>
+                  ))}
+              </>
+            )}
+          </div>
+          <CustomPagination
+            totalRecords={contractDetails?.contractCount}
+            rowsPerPageOptions={[10, 20, 50, 100]}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
 
@@ -314,7 +368,7 @@ function ContractList(props) {
           />
         </Button>
         <div className="text-center mt-2">
-          <p className="text-3xl font-semibold mb-4">Contract Details : </p>
+          <p className="text-3xl font-semibold mb-4">Contract Details </p>
           <div>
             {loading ? (
               <div className=" h-[400px] w-full flex py-5">
@@ -327,7 +381,7 @@ function ContractList(props) {
                 <Grid className="bg-[#333333] !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
                   <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                     <p className="text-white py-2 font-Regular">
-                      Contract ID : <b> {singleContract.unique_key} </b>
+                      Contract ID : <b> {singleContract?.unique_key} </b>
                     </p>
                   </div>
                   <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
@@ -343,66 +397,17 @@ function ContractList(props) {
                     </p>
                   </div>
                   <div className="col-span-1"></div>
-                  <div className="col-span-1 self-center justify-end self-center ">
-                    {/* <Link to={`/editContract/${singleContract._id}`}>
-                              {" "}
-                              <img
-                                src={Edit}
-                                className="ml-auto mr-2"
-                                alt="edit"
-                              />{" "}
-                            </Link> */}
-                  </div>
+                  <div className="col-span-1 self-center justify-end self-center rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat"></div>
                 </Grid>
 
                 <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Manufacturer
+                        Dealer Name
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                        {singleContract?.manufacture}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Model
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {singleContract?.model}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Serial
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {singleContract?.serial}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Status
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {singleContract?.status}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Eligibility
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {singleContract?.eligibilty}
+                        {singleContract?.order?.[0]?.customer?.[0]?.dealerName}
                       </p>
                     </div>
                   </div>
@@ -491,7 +496,7 @@ function ContractList(props) {
                         {
                           singleContract?.order?.[0]?.productsArray?.[0]
                             ?.priceType
-                        }
+                        }{" "}
                       </p>
                     </div>
                   </div>
@@ -505,7 +510,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Retail Price
@@ -562,7 +567,7 @@ function ContractList(props) {
                     ""
                   )}
 
-                  <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                  <div className="col-span-1 border border-[#D1D1D1] ">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage Start Date
@@ -634,4 +639,4 @@ function ContractList(props) {
   );
 }
 
-export default ContractList;
+export default Contracts;
