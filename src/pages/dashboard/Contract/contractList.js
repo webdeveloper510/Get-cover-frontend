@@ -48,7 +48,17 @@ function ContractList() {
     setLoading(false);
     console.log("by ID -------------------", result);
   };
-
+  
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   const getContracts = async (page = 1, rowsPerPage = 10) => {
     let data = {
       page: page,
@@ -62,16 +72,7 @@ function ContractList() {
     setLoading(false);
   };
 
-  const formatOrderValue = (orderValue) => {
-    if (Math.abs(orderValue) >= 1e6) {
-      return (orderValue / 1e6).toFixed(2) + "M";
-    } else {
-      return orderValue.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-    }
-  };
+ 
 
   // useEffect(() => {
   //   getContracts();
