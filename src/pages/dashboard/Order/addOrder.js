@@ -1150,6 +1150,7 @@ function AddOrder() {
 
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
+    console.log(name, value, 'onchange------------------->>')
     if (name == "dealerId") {
       setProductNameOptions([]);
       formikStep3.resetForm();

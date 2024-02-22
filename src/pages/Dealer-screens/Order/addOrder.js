@@ -979,6 +979,7 @@ function DealerAddOrder() {
 
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
+    console.log(name, value, 'onchange------------------->>')
     if (name == "resellerId") {
       getCustomerList({
         resellerId: value,
@@ -1115,7 +1116,6 @@ function DealerAddOrder() {
                     placeholder=""
                     className="!bg-white"
                     isDisabled={resellerId}
-                    // onChange={handleSelectChange}
                     onChange={handleSelectChange}
                     options={resellerList}
                     value={
