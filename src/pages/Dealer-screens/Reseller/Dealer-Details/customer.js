@@ -31,7 +31,17 @@ function CustomerList(props) {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
   };
-
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+  
   const columns = [
     {
       name: "ID",
@@ -57,13 +67,16 @@ function CustomerList(props) {
     },
     {
       name: "# of Orders",
-      selector: (row) => row?.orderData.noOfOrders,
+      selector: (row) => row?.orderData?.noOfOrders ?? 0,
       sortable: true,
     },
     {
       name: "Order Value",
       selector: (row) =>
-        "$" + (row?.orderData.totalOrderAmount ?? 0).toFixed(2),
+      `$${
+        row?.orderData?.orderAmount === undefined
+          ? parseInt(0).toFixed(2)
+          : formatOrderValue(row?.orderData?.orderAmount ?? parseInt(0))}`,
 
       sortable: true,
     },

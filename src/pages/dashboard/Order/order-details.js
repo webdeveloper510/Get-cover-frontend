@@ -17,7 +17,6 @@ import Purchase from "../../../assets/images/order/Purchase.svg";
 import DealerList from "../../../assets/images/icons/dealerList.svg";
 import Name from "../../../assets/images/order/Name.svg";
 import { cityData } from "../../../stateCityJson";
-import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
 import {
@@ -26,6 +25,7 @@ import {
 } from "../../../services/orderServices";
 import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
+import ContractList from "../Contract/contractList";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -86,7 +86,7 @@ function OrderDetails() {
       label: "Contracts",
       icons: contract,
       Activeicons: contractActive,
-      content: <Contracts orderId={orderId} flag={"contracts"} />,
+      content: <ContractList orderId={orderId} flag={"contracts"} />,
     },
   ];
 

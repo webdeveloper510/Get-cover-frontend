@@ -26,7 +26,6 @@ import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
 import OrderList from "./Dealer-Details/order";
-import ContractList from "./Dealer-Details/contract";
 import ClaimList from "./Dealer-Details/claim";
 import ServicerList from "./Dealer-Details/servicer";
 import UserList from "./Dealer-Details/user";
@@ -58,6 +57,7 @@ import {
   getServicerListForDealer,
 } from "../../../services/servicerServices";
 import Reseller from "./Dealer-Details/reseller";
+import ContractList from "../Contract/contractList";
 
 function DealerDetails() {
   const getInitialActiveTab = () => {
@@ -514,13 +514,13 @@ function DealerDetails() {
   };
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
   return (
@@ -651,7 +651,7 @@ function DealerDetails() {
                     Phone Number
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    +1 { formatPhoneNumber(dealerDetails?.phoneNumber)}
+                    +1 {formatPhoneNumber(dealerDetails?.phoneNumber)}
                   </p>
                 </div>
               </div>
@@ -669,8 +669,11 @@ function DealerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      $ 
-                      {formatOrderValue(dealerDetails?.ordersResult?.[0]?.orderAmount ?? parseInt(0))}
+                      $
+                      {formatOrderValue(
+                        dealerDetails?.ordersResult?.[0]?.orderAmount ??
+                          parseInt(0)
+                      )}
                     </p>
                     <p className="text-[#999999] text-sm font-Regular">
                       Total Value of Orders
