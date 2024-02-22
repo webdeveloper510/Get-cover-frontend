@@ -63,6 +63,18 @@ function AddReseller() {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    if (dealerValueId ) {
+      setLoading(true);
+
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [dealerValueId]);
+
   const handleServiceChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
      setServicerCreateAccountOption(valueAsBoolean)
