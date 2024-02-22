@@ -199,31 +199,6 @@ function OrderDetails() {
                 </p>
                 <hr className="self-center border-[#999999] w-[70%]" />
               </div>
-              <div className="flex mb-4">
-                <div className="relative">
-                  <img
-                    src={Name}
-                    className="mr-3 bg-[#383838] rounded-[14px]"
-                    alt="Name"
-                  />
-                  <Link to={`/dealerDetails/${orderDetails.dealerId}`}>
-                    {" "}
-                    <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
-                </div>
-                <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
-                    Dealer Name
-                  </p>
-                  <p className="text-base text-white font-semibold ">
-                    {userDetails?.dealerData?.name}
-                  </p>
-                </div>
-              </div>
               {userDetails?.resellerData?.name == null ? (
                 <></>
               ) : (

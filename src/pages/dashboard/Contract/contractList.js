@@ -79,7 +79,6 @@ function ContractList(props) {
       });
     }
   };
-
   // useEffect(() => {
   //   getContracts();
   // }, []);
@@ -509,10 +508,69 @@ function ContractList(props) {
                         </p>
                       </div>
                       <div className="col-span-1"></div>
-                      <div className="col-span-1 self-center justify-end self-center rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat"></div>
+                      <div className="col-span-1 self-center justify-end self-center ">
+                        <Link to={`/editContract/${contractDetails._id}`}>
+                          {" "}
+                          <img
+                            src={Edit}
+                            className="ml-auto mr-2"
+                            alt="edit"
+                          />{" "}
+                        </Link>
+                      </div>
                     </Grid>
 
                     <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Manufacturer
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {contractDetails?.manufacture}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Model
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {contractDetails?.model}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Serial
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {contractDetails?.serial}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Status
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {contractDetails?.status}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Eligibility
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {contractDetails?.eligibilty}
+                          </p>
+                        </div>
+                      </div>
                       <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
@@ -617,7 +675,7 @@ function ContractList(props) {
                             {
                               contractDetails?.order?.[0]?.productsArray?.[0]
                                 ?.priceType
-                            }{" "}
+                            }
                           </p>
                         </div>
                       </div>

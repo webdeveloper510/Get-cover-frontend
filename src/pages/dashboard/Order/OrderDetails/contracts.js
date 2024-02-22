@@ -17,6 +17,7 @@ import { RotateLoader } from "react-spinners";
 import { Link } from "react-router-dom";
 import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
+import Select from "../../../../common/select";
 
 function Contracts(props) {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -112,6 +113,11 @@ function Contracts(props) {
     }
   }, [props?.flag]);
 
+  const status = [
+    { label: "Active", value: "Active" },
+    { label: "Pending", value: "Pending" },
+    { label: "Waiting", value: "waiting" },
+  ];
   return (
     <>
       <div className="my-8">
@@ -130,7 +136,7 @@ function Contracts(props) {
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
-                      placeholder="Order ID"
+                      placeholder="Contract ID"
                     />
                   </div>
                   <div className="col-span-3 self-center">
@@ -140,17 +146,20 @@ function Contracts(props) {
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
-                      placeholder="Dealer Order no."
+                      placeholder="Serial #"
                     />
                   </div>
                   <div className="col-span-3 self-center">
-                    <Input
-                      name="PhoneNo."
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                    <Select
                       label=""
-                      placeholder="Customer Name"
+                      options={status}
+                      color="text-[#1B1D21] opacity-50"
+                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px] !bg-[#f7f7f7]"
+                      // onChange={handleSelectChange}
+                      OptionName="Status"
+                      name="status"
+                      // value={formik.values.status}
                     />
                   </div>
                   <div className="col-span-2 self-center flex justify-center">
@@ -217,8 +226,8 @@ function Contracts(props) {
                         </div>
                       </Grid>
 
-                      <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
-                        <div className="col-span-1 border border-[#D1D1D1]">
+                      <Grid className="!gap-0 !grid-cols-8 bg-[#F9F9F9] mb-5">
+                        <div className="col-span-2 border border-[#D1D1D1] rounded-es-xl">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Manufacturer
@@ -228,7 +237,7 @@ function Contracts(props) {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="col-span-2 border border-[#D1D1D1]">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Model
@@ -238,7 +247,7 @@ function Contracts(props) {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="col-span-2 border border-[#D1D1D1]">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Serial
@@ -324,7 +333,7 @@ function Contracts(props) {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Eligibility
@@ -334,7 +343,6 @@ function Contracts(props) {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-3 border border-[#D1D1D1] rounded-ee-xl"></div>
                       </Grid>
                     </div>
                   ))}

@@ -238,11 +238,6 @@ function OrderList() {
       minWidth: "180px",
     },
     {
-      name: "Dealer Name",
-      selector: (row) => row.dealerName.name,
-      sortable: true,
-    },
-    {
       name: "Customer",
       selector: (row) => row.customerName.username,
       sortable: true,
@@ -322,15 +317,6 @@ function OrderList() {
                       <img src={process} className="w-4 h-4 mr-2" /> Process
                       Order
                     </div>
-                    {row.flag && (
-                      <div
-                        className="text-center py-1 border-b flex cursor-pointer"
-                        onClick={() => markasPaid(row)}
-                      >
-                        <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
-                      </div>
-                    )}
-
                     <>
                       <PdfGenerator
                         data={row._id}
@@ -434,6 +420,7 @@ function OrderList() {
                       <Select
                         label=""
                         options={status}
+                        OptionName='Status'
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px] !bg-[#f7f7f7]"

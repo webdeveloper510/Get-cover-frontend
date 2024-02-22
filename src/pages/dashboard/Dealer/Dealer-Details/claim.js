@@ -1031,18 +1031,10 @@ function ClaimList() {
                         placeholder="" />
             </div>
           
-            <div className='col-span-6'>
+            <div className='col-span-12'>
             <Select
                         name="Status"
                         label="Status"
-                        options={status}
-                        className="!bg-[#fff]"
-                        placeholder=""/>
-            </div>
-            <div className='col-span-6'>
-            <Select
-                        name="ClaimStatus"
-                        label="Claim Status"
                         options={status}
                         className="!bg-[#fff]"
                         placeholder=""/>
