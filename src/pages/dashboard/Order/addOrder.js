@@ -83,6 +83,18 @@ function AddOrder() {
       "_blank"
     );
   };
+  
+  useEffect(() => {
+    if (orderId || dealerId || resellerId || dealerValue || customerId) {
+      setLoading(true);
+
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [orderId, dealerId, resellerId, dealerValue, customerId]);
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -214,6 +226,7 @@ function AddOrder() {
       setType("Add");
     }
     if (dealerId) {
+      
       formik.setFieldValue("dealerId", dealerId);
       getResellerList(dealerId);
       getCustomerList({
@@ -281,6 +294,7 @@ function AddOrder() {
   }, []);
 
   const orderDetails = async () => {
+    
     const result = await orderDetailsById(orderId);
     getResellerList(result?.result?.dealerId);
 
@@ -375,7 +389,7 @@ function AddOrder() {
       setLoading1(true);
     }
     if (location.pathname == "/addOrder") {
-      // setLoading1(true)
+
       setType("Add");
       setCurrentStep(1);
       formik.resetForm();
@@ -1257,11 +1271,18 @@ function AddOrder() {
     const pendingAmount = totalAmount - parseFloat(paidAmount) || 0; // Ensure a valid number
     formik4.setFieldValue("pendingAmount", pendingAmount.toFixed(2));
   };
-
+console.log(dealerId, 'dealerId=======================>>>>>>>>>>>')
   const renderStep1 = () => {
     return (
       <>
-        <form onSubmit={formik.handleSubmit}>
+      {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : ( <>
+             <form onSubmit={formik.handleSubmit}>
           <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
             <p className="text-2xl font-bold mb-4">Order Details</p>
             <Grid>
@@ -1425,6 +1446,8 @@ function AddOrder() {
             </Button>
           </div>
         </form>
+            </> ) }
+       
       </>
     );
   };
