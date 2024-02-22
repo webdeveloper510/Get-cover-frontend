@@ -551,19 +551,6 @@ function ContractList() {
                       <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                            Dealer Name
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                            {
-                              singleContract?.order?.[0]?.customer?.[0]
-                                ?.dealerName
-                            }
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-span-1 border border-[#D1D1D1]">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
                             Reseller Name
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
@@ -666,7 +653,7 @@ function ContractList() {
                           </p>
                         </div>
                       </div>
-                      <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                      <div className="col-span-1 border border-[#D1D1D1] ">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Retail Price
@@ -683,7 +670,7 @@ function ContractList() {
                       {singleContract?.order?.[0]?.productsArray?.[0]
                         ?.priceType == "Flat Pricing" ? (
                         <>
-                          <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="col-span-1 border border-[#D1D1D1] ">
                             <div className="py-4 pl-3">
                               <p className="text-[#5D6E66] text-sm font-Regular">
                                 Start Range
@@ -724,7 +711,7 @@ function ContractList() {
                         ""
                       )}
 
-                      <div className="col-span-1 border border-[#D1D1D1] ">
+                      <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Coverage Start Date
