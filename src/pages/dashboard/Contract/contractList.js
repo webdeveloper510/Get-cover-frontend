@@ -18,8 +18,10 @@ import { getAllContractsForAdmin } from "../../../services/orderServices";
 import { format } from "date-fns";
 import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../pagination";
+import { getContractValues } from "../../../services/extraServices";
+
 function ContractList() {
-  const [contractData, setContractData] = useState({});
+  const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [contractList, setContractList] = useState([]);
@@ -34,10 +36,17 @@ function ContractList() {
     setIsViewOpen(false);
   };
 
-  const openView = (res) => {
-    console.log(res);
-    setContractData(res);
+  const openView = (data) => {
     setIsViewOpen(true);
+    getContractDetails(data);
+  };
+
+  const getContractDetails = async (data) => {
+    setLoading(true);
+    const result = await getContractValues(data);
+    setContractDetails(result.result);
+    setLoading(false);
+    console.log("by ID -------------------", result);
   };
 
   const getContracts = async (page = 1, rowsPerPage = 10) => {
@@ -51,6 +60,17 @@ function ContractList() {
     console.log(result);
     setTotalRecords(result?.totalCount);
     setLoading(false);
+  };
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
   };
 
   // useEffect(() => {
@@ -223,7 +243,7 @@ function ContractList() {
                           <div className="col-span-1 self-center justify-end"></div>
                           <div className="col-span-1 self-center flex justify-end">
                             <div
-                              onClick={() => openView(res)}
+                              onClick={() => openView(res._id)}
                               className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center"
                             >
                               {" "}
@@ -445,178 +465,279 @@ function ContractList() {
             <div className="text-center mt-2">
               <p className="text-3xl font-semibold mb-4">Contract Details : </p>
               <div>
-                <Grid className="bg-[#333333] !gap-2 !grid-cols-9 !px-3 rounded-t-xl">
-                  <div className="col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                    <p className="text-white py-2 font-Regular">
-                      Contract ID : <b> {} </b>
-                    </p>
+                {loading ? (
+                  <div className=" h-[400px] w-full flex py-5">
+                    <div className="self-center mx-auto">
+                      <RotateLoader color="#333" />
+                    </div>
                   </div>
-                  <div className="col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="text-white py-2 font-Regular">
-                      Order ID : <b> 315174 </b>
-                    </p>
-                  </div>
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="text-white py-2 font-Regular">
-                      Dealer P.O. # : <b> MC-10554 </b>
-                    </p>
-                  </div>
-                  <div className="col-span-1"></div>
-                  <div className="col-span-1 self-center justify-end self-center rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat"></div>
-                </Grid>
+                ) : (
+                  <>
+                    <Grid className="bg-[#333333] !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
+                      <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                        <p className="text-white py-2 font-Regular">
+                          Contract ID : <b> {contractDetails.unique_key} </b>
+                        </p>
+                      </div>
+                      <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                        <p className="text-white py-2 font-Regular">
+                          Order ID :{" "}
+                          <b> {contractDetails?.order?.[0]?.unique_key} </b>
+                        </p>
+                      </div>
+                      <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                        <p className="text-white py-2 font-Regular">
+                          Dealer P.O. # :{" "}
+                          <b> {contractDetails?.order?.[0]?.venderOrder} </b>
+                        </p>
+                      </div>
+                      <div className="col-span-1"></div>
+                      <div className="col-span-1 self-center justify-end self-center rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat"></div>
+                    </Grid>
 
-                <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Manufacturer
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        Apple iPad
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Model
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        Apple iPad 5th Gen, 30GB
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Serial
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        GG7W212JHLF12
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Retail Price
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        $182
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Condition
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        Used
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Dealer Name
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        Edward Wilson
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Reseller Name
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        Ankush Grover
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Customer Name
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        Ankush Grover
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Servicer Name
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        Jameson Wills
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Claim Amount
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        $0.00
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Category
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        Adani
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Name
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        solar
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Description
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        regular solar product
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1] ">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Coverage Start Date
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        11/09/2026
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Coverage End Date
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        09/11/2030
-                      </p>
-                    </div>
-                  </div>
-                </Grid>
+                    <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Dealer Name
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {
+                              contractDetails?.order?.[0]?.customer?.[0]
+                                ?.dealerName
+                            }
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Reseller Name
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {contractDetails?.order?.[0]?.reseller?.[0]?.name}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Customer Name
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {
+                              contractDetails?.order?.[0]?.customer?.[0]
+                                ?.username
+                            }
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Servicer Name
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {
+                              contractDetails?.order?.[0]?.servicer?.[0]
+                                ?.username
+                            }
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Claim Amount
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            $0.00
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1] ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Product Category
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {
+                              contractDetails?.order?.[0]?.productsArray?.[0]
+                                ?.priceType
+                            }
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Product Name
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {contractDetails?.productName}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Product Description
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {
+                              contractDetails?.order?.[0]?.productsArray?.[0]
+                                ?.description
+                            }
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Price Type
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {
+                              contractDetails?.order?.[0]?.productsArray?.[0]
+                                ?.priceType
+                            }{" "}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1] ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Condition
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {contractDetails.condition}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Retail Price
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            $
+                            {contractDetails.productValue === undefined
+                              ? parseInt(0).toLocaleString(2)
+                              : formatOrderValue(
+                                  contractDetails.productValue ?? parseInt(0)
+                                )}
+                          </p>
+                        </div>
+                      </div>
+                      {contractDetails?.order?.[0]?.productsArray?.[0]
+                        ?.priceType == "Flat Pricing" ? (
+                        <>
+                          <div className="col-span-1 border border-[#D1D1D1]">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                Start Range
+                              </p>
+                              <p className="text-[#333333] text-base font-semibold">
+                                $
+                                {contractDetails?.order?.[0]?.productsArray?.[0]
+                                  ?.rangeStart === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(
+                                      contractDetails?.order?.[0]
+                                        ?.productsArray?.[0]?.rangeStart ??
+                                        parseInt(0)
+                                    )}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-span-1 border border-[#D1D1D1]">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                End Range
+                              </p>
+                              <p className="text-[#333333] text-base font-semibold">
+                                $
+                                {contractDetails?.order?.[0]?.productsArray?.[0]
+                                  ?.rangeEnd === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(
+                                      contractDetails?.order?.[0]
+                                        ?.productsArray?.[0]?.rangeEnd ??
+                                        parseInt(0)
+                                    )}{" "}
+                              </p>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        ""
+                      )}
+
+                      <div className="col-span-1 border border-[#D1D1D1] ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Coverage Start Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {new Date(
+                              contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Coverage End Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {new Date(
+                              contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      {contractDetails?.order?.[0]?.productsArray?.[0]
+                        ?.priceType == "Quantity Pricing" ? (
+                        <>
+                          <div className="col-soan-5">
+                            <table className="w-full border text-center">
+                              <tr className="border bg-[#9999]">
+                                <th colSpan={"2"}>Quantity Pricing List </th>
+                              </tr>
+                              <tr className="border bg-[#9999]">
+                                <th>Name</th>
+                                <th> Quantity Per Unit</th>
+                                <th> Quantity</th>
+                              </tr>
+                              {contractDetails?.order?.[0].productsArray?.[0]
+                                ?.QuantityPricing.length !== 0 &&
+                                contractDetails?.order?.[0].productsArray?.[0]?.QuantityPricing.map(
+                                  (item, index) => (
+                                    <tr key={index} className="border">
+                                      <td>{item.name}</td>
+                                      <td>{item.quantity}</td>
+                                      <td>{item.enterQuantity}</td>
+                                    </tr>
+                                  )
+                                )}
+                            </table>
+                          </div>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                    </Grid>
+                  </>
+                )}
               </div>
             </div>
           </Modal>
