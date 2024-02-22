@@ -81,7 +81,7 @@ function PdfGenerator(props, className) {
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
-                                    <td style="border: none; padding: 4px;">$  ${data?.totalOrderAmount === undefined
+                                    <td style="border: none; padding: 4px;">$${data?.totalOrderAmount === undefined
                                       ? parseInt(0).toLocaleString(2)
                                       :  formatOrderValue(data?.totalOrderAmount)}</td>
                                 </tr>

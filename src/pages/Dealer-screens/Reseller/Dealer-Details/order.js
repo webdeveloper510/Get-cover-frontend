@@ -301,15 +301,6 @@ function OrderList(props) {
                       <img src={process} className="w-4 h-4 mr-2" /> Process
                       Order
                     </div>
-                    {row.flag && (
-                      <div
-                        className="text-center py-1 border-b flex hover:font-semibold cursor-pointer"
-                        onClick={() => markasPaid(row)}
-                      >
-                        <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
-                      </div>
-                    )}
-
                     <>
                       <PdfGenerator data={row._id} />
                     </>
@@ -323,7 +314,7 @@ function OrderList(props) {
                 ) : (
                   <>
                     <Link
-                      to={`/orderDetails/${row._id}`}
+                      to={`/dealer/orderDetails/${row._id}`}
                       className="text-left py-1 cursor-pointer border-b hover:font-semibold w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
@@ -404,6 +395,7 @@ function OrderList(props) {
                       <Select
                         label=""
                         options={status}
+                        OptionName='Status'
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px] !bg-[#f7f7f7]"
