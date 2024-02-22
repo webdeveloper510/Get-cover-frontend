@@ -347,26 +347,14 @@ function DealerAddOrder() {
     },
     validationSchema: Yup.object().shape({}),
     onSubmit: (values) => {
-      console.log("values", values);
       nextStep();
-      if (values.servicerId) {
-        const foundServicer = servicerData.find(
-          (data) => data.value === values.servicerId
-        );
-        setServicerName(foundServicer ? foundServicer.label : "");
-      }
-      if (values.customerId) {
-        const foundCustomer = customerList.find(
-          (data) => data.value === values.customerId
-        );
-        setCustomerName(foundCustomer ? foundCustomer.label : "");
-      }
-      if (values.resellerId) {
-        const foundReseller = resellerList.find(
-          (data) => data.value === values.resellerId
-        );
-        setResellerName(foundReseller ? foundReseller.label : "");
-      }
+       const findAndSetLabel = (list, id, setter) => {
+        const foundItem = list.find(data => data.value === id);
+        setter(foundItem ? foundItem.label : "");
+    };
+    findAndSetLabel(servicerData, values.servicerId, setServicerName);
+    findAndSetLabel(customerList, values.customerId, setCustomerName);
+    findAndSetLabel(resellerList, values.resellerId, setResellerName);
     },
   });
 
