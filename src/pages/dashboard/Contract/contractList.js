@@ -498,7 +498,7 @@ function ContractList(props) {
               />
             </Button>
             <div className="text-center mt-2">
-              <p className="text-3xl font-semibold mb-4">Contract Details : </p>
+              <p className="text-3xl font-semibold mb-4">Contract Details </p>
               <div>
                 {loading ? (
                   <div className=" h-[400px] w-full flex py-5">
