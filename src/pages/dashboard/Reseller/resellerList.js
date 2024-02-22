@@ -26,16 +26,11 @@ function ResellerList() {
   const [dealerList, setDealerList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const handleSelectChange1 = (name, value) => {
-    console.log(value);
-    setSelectedProduct(value);
-    formik.setFieldValue(name, value);
-  };
 
   const getResellersList = async () => {
     setLoading(true);
     const result = await getResellerList({});
-    console.log(result.result);
+    // console.log(result.result);
     setCustomerList(result.result);
     setLoading(false);
   };
@@ -388,8 +383,9 @@ function ResellerList() {
                         color="text-[#1B1D21] opacity-50"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        value={formik.dealerName}
+                        value={formik.values.dealerName}
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                       />
                     </div>
 
