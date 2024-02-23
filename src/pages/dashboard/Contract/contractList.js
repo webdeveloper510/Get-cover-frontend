@@ -96,9 +96,9 @@ function ContractList(props) {
       });
     }
   };
-  useEffect(() => {
-    getContract();
-  }, []);
+  // useEffect(() => {
+  //   getContracts();
+  // }, []);
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
   };
@@ -233,9 +233,9 @@ function ContractList(props) {
                       />
                     </Button>
                   </div>
-                  <div className="col-span-2 self-center justify-center">
+                  <div className="col-span-2 self-center">
                     <Button
-                      className="!text-[13px] !px-2"
+                      className="!text-sm"
                       onClick={() => openDisapproved()}
                     >
                       Advance Search
@@ -361,15 +361,13 @@ function ContractList(props) {
                     </div>
                   );
                 })}
-                      </>
-                    )}
-          {contractList?.length > 0 ? (
+            </>
+          )}
           <CustomPagination
             totalRecords={totalRecords}
             rowsPerPageOptions={[10, 20, 50, 100]}
             onPageChange={handlePageChange}
           />
-          ) : ('')}
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button
               onClick={closeDisapproved}
@@ -722,7 +720,8 @@ function ContractList(props) {
                             Retail Price
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            ${contractDetails.productValue === undefined
+                            $
+                            {contractDetails.productValue === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
                                   contractDetails.productValue ?? parseInt(0)
@@ -739,7 +738,8 @@ function ContractList(props) {
                                 Start Range
                               </p>
                               <p className="text-[#333333] text-base font-semibold">
-                                ${contractDetails?.order?.[0]?.productsArray?.[0]
+                                $
+                                {contractDetails?.order?.[0]?.productsArray?.[0]
                                   ?.rangeStart === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
@@ -756,7 +756,8 @@ function ContractList(props) {
                                 End Range
                               </p>
                               <p className="text-[#333333] text-base font-semibold">
-                                ${contractDetails?.order?.[0]?.productsArray?.[0]
+                                $
+                                {contractDetails?.order?.[0]?.productsArray?.[0]
                                   ?.rangeEnd === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
