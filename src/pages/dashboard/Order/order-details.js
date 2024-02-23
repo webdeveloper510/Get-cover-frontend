@@ -12,6 +12,7 @@ import orderActive from "../../../assets/images/order/orderSummaryActive.svg";
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Csv from "../../../assets/images/icons/csvWhite.svg";
 import Coverage from "../../../assets/images/order/Coverage.svg";
+import Cross from "../../../assets/images/Cross.png";
 import CoverageType from "../../../assets/images/order/CoverageType.svg";
 import Purchase from "../../../assets/images/order/Purchase.svg";
 import DealerList from "../../../assets/images/icons/dealerList.svg";
@@ -23,9 +24,12 @@ import {
   getContracts,
   orderDetailsById,
 } from "../../../services/orderServices";
+import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
 import ContractList from "../Contract/contractList";
+import Modal from "../../../common/model";
+import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -33,7 +37,6 @@ function OrderDetails() {
   const [orderDetails, setOrderDetails] = useState({});
   const [userDetails, setUserDetails] = useState({});
   const [invoiceData, setInvoiceData] = useState({});
-  const [contractDetails, setContractDetails] = useState();
   const { orderId } = useParams();
   const navigate = useNavigate();
   const getInitialActiveTab = () => {
@@ -43,6 +46,14 @@ function OrderDetails() {
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const state = cityData;
+  const [isServicerModal, setIsServicerModal] = useState(false);
+
+  const openServicer = () => {
+    setIsServicerModal(true);
+  };
+  const closeServicer = () => {
+    setIsServicerModal(false);
+  };
 
   useEffect(() => {
     getOrderDetails();
@@ -73,6 +84,8 @@ function OrderDetails() {
     navigate(-1);
   };
 
+ 
+
   const tabs = [
     {
       id: "Order Summary",
@@ -93,6 +106,8 @@ function OrderDetails() {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
+
+
   return (
     <>
       {loading1 && (
@@ -281,10 +296,6 @@ function OrderDetails() {
                   </p>
                 </div>
               </div>
-              {userDetails?.servicerData?.name == null ? (
-                ""
-              ) : (
-                <>
                   <div className="flex mb-4">
                     <div className="relative">
                       <img
@@ -301,17 +312,26 @@ function OrderDetails() {
                         />{" "}
                       </Link>
                     </div>
-                    <div>
-                      <p className="text-sm text-neutral-grey font-Regular">
-                        Servicer Name
-                      </p>
-                      <p className="text-base text-white font-semibold ">
-                        {userDetails?.servicerData?.name}
-                      </p>
+                    <div className="flex justify-between w-[85%] ml-auto">
+                      <div >
+                        <p className="text-sm text-neutral-grey font-Regular">
+                          Servicer Name
+                        </p>
+                        <p className="text-base text-white font-semibold ">
+                          {userDetails?.servicerData?.name}
+                        </p>
+                      </div>
+                      <div className="self-center">
+                        <div onClick={()=> openServicer()}>
+                          <img
+                              src={Edit}
+                              className="mr-3 bg-[#383838] cursor-pointer rounded-[14px]"
+                              alt="DealerList"
+                            />{" "}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </>
-              )}
 
               <Grid className="!py-5">
                 <div className="col-span-6">
@@ -383,6 +403,36 @@ function OrderDetails() {
           </div>
         </Grid>
       </div>
+      <Modal isOpen={isServicerModal} onClose={closeServicer}>
+        <Button
+          onClick={closeServicer}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <form >
+          <div className="py-3 px-12">
+            <p className="text-center text-3xl font-semibold ">
+              Add Servicer Name
+            </p>
+            <div className="my-5">
+            <SelectBoxWithSearch
+              label="Servicer Name"
+              name="servicerId"
+              placeholder=""
+              className='!bg-[#fff]'
+              options={state}/>
+            </div>
+            <div className="text-right">
+              <Button>Save</Button>
+            </div>
+          
+          </div>
+        </form>
+      </Modal>
     </>
   );
 }
