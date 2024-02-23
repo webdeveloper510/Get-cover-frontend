@@ -235,7 +235,7 @@ function ContractList(props) {
                   </div>
                   <div className="col-span-2 self-center">
                     <Button
-                      className="!text-sm"
+                      className="!text-[13px] !px-2"
                       onClick={() => openDisapproved()}
                     >
                       Advance Search
@@ -392,7 +392,8 @@ function ContractList(props) {
                     placeholder=""
                   />
                 </div>
-                <div className="col-span-6">
+                {props.orderId == null && props?.flag == undefined ? ( <>
+                  <div className="col-span-6">
                   <Input
                     type="text"
                     name="Order ID"
@@ -409,7 +410,8 @@ function ContractList(props) {
                     label="Dealer P.O. No."
                     placeholder=""
                   />
-                </div>
+                </div></>) : ( '') }
+               
                 <div className="col-span-6">
                   <Input
                     type="text"
@@ -428,7 +430,7 @@ function ContractList(props) {
                     placeholder=""
                   />
                 </div>
-                <div className="col-span-6">
+                {props.orderId == null && props?.flag == undefined ? ( <>  <div className="col-span-6">
                   <Input
                     type="text"
                     name="Dealer Name"
@@ -454,7 +456,8 @@ function ContractList(props) {
                     label="Servicer Name"
                     placeholder=""
                   />
-                </div>
+                </div></>) :('') }
+               
                 <div className="col-span-6">
                   <Input
                     type="text"
@@ -473,7 +476,7 @@ function ContractList(props) {
                     placeholder=""
                   />
                 </div>
-                <div className="col-span-12">
+                <div className="col-span-6">
                   <Select
                     name="Status"
                     label="Status"
