@@ -11,7 +11,7 @@ import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import view from "../../../assets/images/whiteView.png";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Headbar from "../../../common/headBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "../../../common/model";
 import Select from "../../../common/select";
 import {
@@ -34,7 +34,7 @@ function ContractList(props) {
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [flag, setFlag] = useState(false);
-
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
@@ -494,6 +494,9 @@ function ContractList(props) {
             onClose={closeView}
             className="!w-[1100px]"
           >
+              <Button onClick={() => { navigate(`/editContract/${contractDetails._id}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+              <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
+            </Button>
             <Button
               onClick={closeView}
               className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
@@ -533,16 +536,7 @@ function ContractList(props) {
                         </p>
                       </div>
                       <div className="col-span-1"></div>
-                      <div className="col-span-1 self-center justify-end self-center ">
-                        <Link to={`/editContract/${contractDetails._id}`}>
-                          {" "}
-                          <img
-                            src={Edit}
-                            className="ml-auto mr-2"
-                            alt="edit"
-                          />{" "}
-                        </Link>
-                      </div>
+                      <div className="col-span-1 self-center justify-end self-center"></div>
                     </Grid>
 
                     <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
@@ -576,23 +570,28 @@ function ContractList(props) {
                           </p>
                         </div>
                       </div>
-                      <div className="col-span-1 border border-[#D1D1D1]">
+                      <div className="col-span-1 border border-[#D1D1D1] ">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                            Status
+                            Condition
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            {contractDetails?.status}
+                            {contractDetails.condition}
                           </p>
                         </div>
                       </div>
-                      <div className="col-span-1 border border-[#D1D1D1]">
+                      <div className="col-span-1 border border-[#D1D1D1] ">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                            Eligibility
+                            Retail Price
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            {contractDetails?.eligibilty}
+                            $
+                            {contractDetails.productValue === undefined
+                              ? parseInt(0).toLocaleString(2)
+                              : formatOrderValue(
+                                  contractDetails.productValue ?? parseInt(0)
+                                )}
                           </p>
                         </div>
                       </div>
@@ -648,14 +647,14 @@ function ContractList(props) {
                       <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                            Claim Amount
+                            Status
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            $0.00
+                            {contractDetails?.status}
                           </p>
                         </div>
                       </div>
-                      <div className="col-span-1 border border-[#D1D1D1] ">
+                      <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Product Category
@@ -704,28 +703,23 @@ function ContractList(props) {
                           </p>
                         </div>
                       </div>
-                      <div className="col-span-1 border border-[#D1D1D1] ">
+                      <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                            Condition
+                            Eligibility
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            {contractDetails.condition}
+                            {contractDetails?.eligibilty}
                           </p>
                         </div>
                       </div>
                       <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                            Retail Price
+                            Claim Amount
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            $
-                            {contractDetails.productValue === undefined
-                              ? parseInt(0).toLocaleString(2)
-                              : formatOrderValue(
-                                  contractDetails.productValue ?? parseInt(0)
-                                )}
+                            $0.00
                           </p>
                         </div>
                       </div>
@@ -773,6 +767,7 @@ function ContractList(props) {
                         ""
                       )}
 
+                    
                       <div className="col-span-1 border border-[#D1D1D1] ">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
