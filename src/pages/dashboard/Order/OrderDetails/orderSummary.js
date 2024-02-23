@@ -21,6 +21,18 @@ function OrderSummary(props) {
       });
     }
   };
+
+  const handleDownloadClick = (file) => {
+    const fileUrl = `http://15.207.221.207:3002/uploads/orderFile/${file}`;
+    const fileName = file;
+
+    const a = document.createElement("a");
+    a.href = fileUrl;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
   return (
     <>
       <div className="my-8">
@@ -95,10 +107,12 @@ function OrderSummary(props) {
                               Unit Price
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              {/* $ {res.unitPrice} */}
-                              ${ res.unitPrice === undefined
-                                  ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(res.unitPrice ?? parseInt(0))}
+                              {/* $ {res.unitPrice} */}$
+                              {res.unitPrice === undefined
+                                ? parseInt(0).toLocaleString(2)
+                                : formatOrderValue(
+                                    res.unitPrice ?? parseInt(0)
+                                  )}
                             </p>
                           </div>
                         </div>
@@ -118,9 +132,10 @@ function OrderSummary(props) {
                               Price
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                            ${ res.price === undefined
-                                  ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(res.price ?? parseInt(0))}
+                              $
+                              {res.price === undefined
+                                ? parseInt(0).toLocaleString(2)
+                                : formatOrderValue(res.price ?? parseInt(0))}
                               {/* ${res.price.toLocaleString(2)} */}
                             </p>
                           </div>
@@ -159,10 +174,12 @@ function OrderSummary(props) {
                                   Start Range
                                 </p>
                                 <p className="text-[#333333] text-base font-semibold">
-                                  {/* ${res.rangeStart.toLocaleString(2)} */}
-                                  ${ res.rangeStart === undefined
-                                  ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(res.rangeStart ?? parseInt(0))}
+                                  {/* ${res.rangeStart.toLocaleString(2)} */}$
+                                  {res.rangeStart === undefined
+                                    ? parseInt(0).toLocaleString(2)
+                                    : formatOrderValue(
+                                        res.rangeStart ?? parseInt(0)
+                                      )}
                                 </p>
                               </div>
                             </div>
@@ -172,9 +189,12 @@ function OrderSummary(props) {
                                   End Range
                                 </p>
                                 <p className="text-[#333333] text-base font-semibold">
-                                ${ res.rangeEnd === undefined
-                                  ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(res.rangeEnd ?? parseInt(0))}
+                                  $
+                                  {res.rangeEnd === undefined
+                                    ? parseInt(0).toLocaleString(2)
+                                    : formatOrderValue(
+                                        res.rangeEnd ?? parseInt(0)
+                                      )}
                                 </p>
                               </div>
                             </div>
@@ -240,7 +260,12 @@ function OrderSummary(props) {
                               </div>
                             </div>
                             <div className="col-span-3 self-center justify-end flex pr-4">
-                              <Button className="!bg-white !text-light-black border flex">
+                              <Button
+                                className="!bg-white !text-light-black border flex"
+                                onClick={() => {
+                                  handleDownloadClick(res.orderFile.fileName);
+                                }}
+                              >
                                 <img
                                   src={Csv}
                                   className="mr-3 self-center"
