@@ -220,7 +220,7 @@ function OrderDetails() {
                         className="mr-3 bg-[#383838] rounded-[14px]"
                         alt="Name"
                       />
-                      <Link to={`/resellerDetails/${orderDetails.resellerId}`}>
+                      <Link to={`/dealer/resellerDetails/${orderDetails.resellerId}`}>
                         {" "}
                         <img
                           src={DealerList}
@@ -248,7 +248,7 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
-                  <Link to={`/customerDetails/${orderDetails.customerId}`}>
+                  <Link to={`/dealer/customerDetails/${orderDetails.customerId}`}>
                     {" "}
                     <img
                       src={DealerList}
@@ -277,7 +277,7 @@ function OrderDetails() {
                         className="mr-3 bg-[#383838] rounded-[14px]"
                         alt="Name"
                       />
-                      <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
+                      <Link to={`/dealer/servicerDetails/${orderDetails.servicerId}`}>
                         {" "}
                         <img
                           src={DealerList}
