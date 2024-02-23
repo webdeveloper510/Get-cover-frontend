@@ -434,6 +434,7 @@ function OrderList() {
                     <div className="col-span-2 self-center">
                       <Select
                         label=""
+                        OptionName='Status'
                         options={status}
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"

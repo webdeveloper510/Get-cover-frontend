@@ -606,7 +606,7 @@ function ServicerDetails() {
                   <p className="text-sm text-neutral-grey font-Regular">
                     Email
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base text-white font-semibold break-words">
                     {servicerDetails?.email}
                   </p>
                 </div>
