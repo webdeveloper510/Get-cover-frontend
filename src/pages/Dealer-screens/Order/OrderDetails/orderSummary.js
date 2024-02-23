@@ -11,6 +11,19 @@ import { format, addMonths } from "date-fns";
 function OrderSummary(props) {
   console.log(props.data);
   const [showTooltip, setShowTooltip] = useState(false);
+
+  const handleDownloadClick = (file) => {
+    const fileUrl = `http://15.207.221.207:3002/uploads/orderFile/${file}`;
+    const fileName = file;
+
+    const a = document.createElement("a");
+    a.href = fileUrl;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   return (
     <>
       <div className="my-8">
@@ -219,7 +232,12 @@ function OrderSummary(props) {
                               </div>
                             </div>
                             <div className="col-span-3 self-center justify-end flex pr-4">
-                              <Button className="!bg-white !text-light-black border flex">
+                              <Button
+                                className="!bg-white !text-light-black border flex"
+                                onClick={() => {
+                                  handleDownloadClick(res.orderFile.fileName);
+                                }}
+                              >
                                 <img
                                   src={Csv}
                                   className="mr-3 self-center"
