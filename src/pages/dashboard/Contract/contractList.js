@@ -235,7 +235,7 @@ function ContractList(props) {
                   </div>
                   <div className="col-span-2 self-center">
                     <Button
-                      className="!text-sm"
+                      className="!text-[13px] !px-2"
                       onClick={() => openDisapproved()}
                     >
                       Advance Search
@@ -264,7 +264,7 @@ function ContractList(props) {
                               Contract ID : <b> {res.unique_key} </b>
                             </p>
                           </div>
-                          {props.orderId == null && (
+                          {props.orderId == null ? (
                             <>
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
@@ -279,7 +279,7 @@ function ContractList(props) {
                                 </p>
                               </div>
                             </>
-                          )}
+                          ) : (<div className="col-span-6 self-center justify-end"></div>)}
 
                           <div className="col-span-1 self-center justify-end"></div>
                           <div className="col-span-1 self-center flex justify-end">
@@ -392,7 +392,8 @@ function ContractList(props) {
                     placeholder=""
                   />
                 </div>
-                <div className="col-span-6">
+                {props.orderId == null && props?.flag == undefined ? ( <>
+                  <div className="col-span-6">
                   <Input
                     type="text"
                     name="Order ID"
@@ -409,7 +410,8 @@ function ContractList(props) {
                     label="Dealer P.O. No."
                     placeholder=""
                   />
-                </div>
+                </div></>) : ( '') }
+               
                 <div className="col-span-6">
                   <Input
                     type="text"
@@ -428,7 +430,7 @@ function ContractList(props) {
                     placeholder=""
                   />
                 </div>
-                <div className="col-span-6">
+                {props.orderId == null && props?.flag == undefined ? ( <>  <div className="col-span-6">
                   <Input
                     type="text"
                     name="Dealer Name"
@@ -454,7 +456,8 @@ function ContractList(props) {
                     label="Servicer Name"
                     placeholder=""
                   />
-                </div>
+                </div></>) : ('') }
+               
                 <div className="col-span-6">
                   <Input
                     type="text"
@@ -473,7 +476,7 @@ function ContractList(props) {
                     placeholder=""
                   />
                 </div>
-                <div className="col-span-12">
+                <div className="col-span-6">
                   <Select
                     name="Status"
                     label="Status"
