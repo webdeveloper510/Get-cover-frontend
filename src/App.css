@@ -1,3 +1,22 @@
 .transforms {
     transform: translate(-50%, -6%);
 }
+
+.focused label,
+.react-select__control--is-focused label {
+  transform: translateY(-1.25rem) scale(0.75);
+  color: #4a90e2; /* Change the color to match your design */
+}
+
+.gradient-border {
+  border-image: linear-gradient(to right, #FFFFFF00, #AAAAAA, #FFFFFF00); /* Adjust colors as needed */
+  border-image-slice: 1;
+}
+
+.css-b62m3t-container div:hover {
+  border-color: #80808085 !important;
+}
+
+.koyZDM , .bsLmP {
+  overflow: unset !important;
+}
