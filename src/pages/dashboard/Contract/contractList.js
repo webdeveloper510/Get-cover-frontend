@@ -264,7 +264,7 @@ function ContractList(props) {
                               Contract ID : <b> {res.unique_key} </b>
                             </p>
                           </div>
-                          {props.orderId == null && (
+                          {props.orderId == null ? (
                             <>
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
@@ -279,7 +279,7 @@ function ContractList(props) {
                                 </p>
                               </div>
                             </>
-                          )}
+                          ) : (<div className="col-span-6 self-center justify-end"></div>)}
 
                           <div className="col-span-1 self-center justify-end"></div>
                           <div className="col-span-1 self-center flex justify-end">
@@ -456,7 +456,7 @@ function ContractList(props) {
                     label="Servicer Name"
                     placeholder=""
                   />
-                </div></>) :('') }
+                </div></>) : ('') }
                
                 <div className="col-span-6">
                   <Input

@@ -222,7 +222,7 @@ function OrderList(props) {
     },
     {
       name: "# of Contracts",
-      selector: (row) => row.noOfProducts,
+      selector: (row) => row.noOfProducts.toLocaleString(2),
       sortable: true,
     },
     {

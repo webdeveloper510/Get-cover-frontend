@@ -251,7 +251,7 @@ function OrderList() {
     },
     {
       name: "# Contracts",
-      selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts),
+      selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts.toLocaleString(2)),
       sortable: true,
       minWidth: "100px",
     },
