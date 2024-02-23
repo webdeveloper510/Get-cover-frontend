@@ -361,17 +361,15 @@ function ContractList(props) {
                     </div>
                   );
                 })}
-            </>
-          )}
+                      </>
+                    )}
           {contractList?.length > 0 ? (
           <CustomPagination
             totalRecords={totalRecords}
             rowsPerPageOptions={[10, 20, 50, 100]}
             onPageChange={handlePageChange}
           />
-          ) : ( <div className="text-center py-3"> 
-            <p className="text-base">No records found.</p>
-             </div>)}
+          ) : ('')}
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button
               onClick={closeDisapproved}
