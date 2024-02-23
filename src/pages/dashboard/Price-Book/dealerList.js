@@ -218,7 +218,7 @@ function DealerPriceList() {
     },
     {
       name: "Wholesale Cost",
-      selector: (row) => `$ ${ row?.wholesalePrice === undefined
+      selector: (row) => `$${ row?.wholesalePrice === undefined
       ? parseInt(0).toLocaleString(2)
       : formatOrderValue(row?.wholesalePrice ?? parseInt(0))} ` ,
       sortable: true,
@@ -226,7 +226,7 @@ function DealerPriceList() {
     },
     {
       name: "Retail Cost",
-      selector: (row) => `$ ${ row?.retailPrice === undefined
+      selector: (row) => `$${ row?.retailPrice === undefined
         ? parseInt(0).toLocaleString(2)
         : formatOrderValue(row?.retailPrice ?? parseInt(0))} ` ,
       sortable: true,
