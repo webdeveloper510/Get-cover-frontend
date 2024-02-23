@@ -2204,13 +2204,13 @@ console.log(dealerId, 'dealerId=======================>>>>>>>>>>>')
                         {formikStep2.values.dealerPurchaseOrder}
                       </p>
                     </div>
-                    <div className="col-span-4 py-4 border-r">
+                    <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Service Coverage</p>
                       <p className="font-bold text-sm">
                         {formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
-                    <div className="col-span-4 py-4">
+                    <div className="col-span-5 py-4">
                       <p className="text-[12px]">Coverage Type</p>
                       <p className="font-bold text-sm">
                         {formikStep2.values.coverageType}
