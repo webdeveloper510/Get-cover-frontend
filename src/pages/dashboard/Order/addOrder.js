@@ -2177,19 +2177,19 @@ console.log(dealerId, 'dealerId=======================>>>>>>>>>>>')
                   <Grid className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 ">
                     <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Dealer Name</p>
-                      <p className="font-bold text-sm">{dealerName}</p>
+                      <p className="font-bold text-sm break-words">{dealerName}</p>
                     </div>
                     <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Reseller Name</p>
-                      <p className="font-bold text-sm">{resellerName}</p>
+                      <p className="font-bold text-sm break-words">{resellerName}</p>
                     </div>
                     <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Customer Name</p>
-                      <p className="font-bold text-sm">{customerName}</p>
+                      <p className="font-bold text-sm break-words">{customerName}</p>
                     </div>
                     <div className="col-span-3 py-4 ">
                       <p className="text-[12px]">Servicer Name</p>
-                      <p className="font-bold text-sm">{servicerName}</p>
+                      <p className="font-bold text-sm break-words">{servicerName}</p>
                     </div>
                   </Grid>
                 </div>
@@ -2204,13 +2204,13 @@ console.log(dealerId, 'dealerId=======================>>>>>>>>>>>')
                         {formikStep2.values.dealerPurchaseOrder}
                       </p>
                     </div>
-                    <div className="col-span-4 py-4 border-r">
+                    <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Service Coverage</p>
                       <p className="font-bold text-sm">
                         {formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
-                    <div className="col-span-4 py-4">
+                    <div className="col-span-5 py-4">
                       <p className="text-[12px]">Coverage Type</p>
                       <p className="font-bold text-sm">
                         {formikStep2.values.coverageType}
@@ -2410,7 +2410,7 @@ console.log(dealerId, 'dealerId=======================>>>>>>>>>>>')
                               </p>
 
                               <p className="self-center">
-                                {data?.file === ""
+                                {data?.file === "" || data?.file?.name === ""
                                   ? ""
                                   : (data?.file?.size / 1000)?.toFixed(2) +
                                     "kb"}

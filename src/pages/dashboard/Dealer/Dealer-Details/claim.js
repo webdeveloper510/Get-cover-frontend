@@ -265,7 +265,7 @@ function ClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                          {/* <img src={DropActive} alt='DropActive' /> */}
                         </div>
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
@@ -277,7 +277,7 @@ function ClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                          {/* <img src={DropActive} alt='DropActive' /> */}
                         </div>
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
@@ -289,7 +289,7 @@ function ClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                          {/* <img src={DropActive} alt='DropActive' /> */}
                         </div>
                       </div>
                     </div>
@@ -454,7 +454,7 @@ function ClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                          {/* <img src={DropActive} alt='DropActive' /> */}
                         </div>
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
@@ -466,7 +466,7 @@ function ClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                          {/* <img src={DropActive} alt='DropActive' /> */}
                         </div>
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
@@ -478,7 +478,7 @@ function ClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                          {/* <img src={DropActive} alt='DropActive' /> */}
                         </div>
                       </div>
                     </div>
@@ -643,7 +643,7 @@ function ClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                          {/* <img src={DropActive} alt='DropActive' /> */}
                         </div>
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
@@ -655,7 +655,7 @@ function ClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                          {/* <img src={DropActive} alt='DropActive' /> */}
                         </div>
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
@@ -667,7 +667,7 @@ function ClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                           {/* <img src={DropActive} alt='DropActive' /> */}
                         </div>
                       </div>
                     </div>
