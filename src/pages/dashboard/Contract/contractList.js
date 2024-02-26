@@ -152,7 +152,7 @@ function ContractList(props) {
   };
   const status = [
     { label: "Active", value: true },
-    { label: "Inactive", value: false },
+    { label: "Waiting", value: false },
   ];
   return (
     <>
