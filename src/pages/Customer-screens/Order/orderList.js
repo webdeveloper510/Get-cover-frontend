@@ -417,7 +417,7 @@ function CustomerOrderList() {
                 type="text"
                 name="Dealer P.O. #"
                 className="!bg-[#fff]"
-                label="Dealer P.O. No."
+                label="Dealer P.O. #"
                 placeholder=""
               />
             </div>
@@ -426,7 +426,7 @@ function CustomerOrderList() {
                 type="text"
                 name="Serial No."
                 className="!bg-[#fff]"
-                label="Serial No."
+                label="Serial #"
                 placeholder=""
               />
             </div>

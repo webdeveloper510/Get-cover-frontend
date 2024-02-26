@@ -184,7 +184,7 @@ function Account() {
              <div className='col-span-4'>
                  <Input 
                      type='tel'
-                     label='Phone No.'
+                     label='Phone #'
                      className='!bg-[#fff]'
                  />
              </div>

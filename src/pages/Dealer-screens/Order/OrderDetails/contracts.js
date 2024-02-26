@@ -137,7 +137,7 @@ function Contracts(props) {
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
-                      placeholder="Dealer Order no."
+                      placeholder="Dealer Order #"
                     />
                   </div>
                   <div className="col-span-3 self-center">

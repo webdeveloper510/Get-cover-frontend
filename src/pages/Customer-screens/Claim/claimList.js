@@ -1056,7 +1056,7 @@ function CustomerClaimList() {
                <Input type='text' 
                   name="Dealer P.O. No."
                 className="!bg-[#fff]"
-                label="Dealer P.O. No."
+                label="Dealer P.O. #"
                 placeholder="" />
             </div>
             <div className='col-span-6'>

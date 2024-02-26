@@ -596,7 +596,7 @@ function OrderList() {
                   type="text"
                   id="venderOrder"
                   className="!bg-[#fff]"
-                  label="Dealer P.O. No."
+                  label="Dealer P.O. #"
                   placeholder=""
                   {...formik.getFieldProps("venderOrder")}
                 />

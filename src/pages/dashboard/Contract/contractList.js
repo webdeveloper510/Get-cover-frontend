@@ -214,7 +214,7 @@ function ContractList(props) {
                       className="!text-[14px] !bg-[#f7f7f7]"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                       label=""
-                      placeholder="Dealer P.O. No."
+                      placeholder="Dealer P.O. #"
                     />
                   </div>
                   <div className="col-span-1 self-center flex justify-center">
@@ -274,7 +274,7 @@ function ContractList(props) {
                               </div>
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
-                                  Dealer P.O. No. :{" "}
+                                  Dealer P.O. # :{" "}
                                   <b> {res?.order[0]?.venderOrder} </b>
                                 </p>
                               </div>
@@ -407,7 +407,7 @@ function ContractList(props) {
                     type="text"
                     name="Dealer P.O. No."
                     className="!bg-[#fff]"
-                    label="Dealer P.O. No."
+                    label="Dealer P.O. #"
                     placeholder=""
                   />
                 </div></>) : ( '') }
@@ -417,7 +417,7 @@ function ContractList(props) {
                     type="text"
                     name="Serial No."
                     className="!bg-[#fff]"
-                    label="Serial No."
+                    label="Serial #"
                     placeholder=""
                   />
                 </div>

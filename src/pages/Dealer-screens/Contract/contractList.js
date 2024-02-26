@@ -205,7 +205,7 @@ function ContractList() {
                           </div>
                           <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                             <p className="text-white py-2 font-Regular">
-                              Dealer P.O. No. :{" "}
+                              Dealer P.O. # :{" "}
                               <b> {res?.order?.venderOrder} </b>
                             </p>
                           </div>
@@ -414,7 +414,7 @@ function ContractList() {
                     type="text"
                     name="Dealer P.O. No."
                     className="!bg-[#fff]"
-                    label="Dealer P.O. No."
+                    label="Dealer P.O. #"
                     placeholder=""
                   />
                 </div>
@@ -423,7 +423,7 @@ function ContractList() {
                     type="text"
                     name="Serial No."
                     className="!bg-[#fff]"
-                    label="Serial No."
+                    label="Serial #"
                     placeholder=""
                   />
                 </div>
