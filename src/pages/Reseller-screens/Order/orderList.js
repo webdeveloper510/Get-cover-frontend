@@ -289,7 +289,7 @@ function ResellerOrderList() {
 
   return (
     <>
-      <div className="my-8 ml-3">
+      <div className="mb-8 ml-3">
         <Headbar />
 
         <div className="flex mt-2">

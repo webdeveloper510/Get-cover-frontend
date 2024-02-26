@@ -70,7 +70,7 @@ function ClaimList() {
 
   return (
     <>
-      <div className="my-8 ml-3">
+      <div className="mb-8 ml-3">
           <div className='bg-white my-8 border-[1px] border-[#D1D1D1] rounded-xl'>
           <Grid className='!p-[26px] !pt-[14px] !pb-0'>
             <div className='col-span-2 self-center'>

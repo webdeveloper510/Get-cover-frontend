@@ -740,7 +740,7 @@ function DealerDetails() {
                   className="col-span-2 self-center"
                   onClick={() => routeToPage(activeTab)}
                 >
-                  <Button className="!bg-white flex self-center h-[40px] mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                  <Button className="!bg-white flex self-center h-[60px] rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
                     {" "}
                     <img
                       src={AddItem}

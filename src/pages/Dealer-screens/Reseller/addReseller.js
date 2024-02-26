@@ -341,7 +341,7 @@ function DealerAddReseller() {
     setDealerList(arr);
   };
   return (
-    <div className="my-8 ml-3">
+    <div className="mb-8 ml-3">
       {loading && (
         <div className=" h-[400px] w-full flex py-5">
           <div className="self-center mx-auto">

@@ -180,7 +180,7 @@ function AddBulkClaim() {
   };
 
   return (
-    <div className="my-8 ml-3">
+    <div className="mb-8 ml-3">
       <Headbar />
       {loader == true ? (
         <div className=" h-screen w-full flex py-5">
