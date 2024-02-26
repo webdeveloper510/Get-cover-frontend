@@ -676,6 +676,7 @@ function AddOrder() {
   };
 
   const fileInputRef = useRef([]);
+  
   const handleInputClick = (index, event) => {
     setFileValues((prevFileValues) => {
       const newArray = [...prevFileValues];
@@ -686,6 +687,7 @@ function AddOrder() {
     event.currentTarget.value = null;
     formikStep3.setFieldValue(`productsArray[${index}].file`, "");
   };
+
   const handleFileSelect = (event, index) => {
     const file = event.target.files[0];
     console.log(file, event.target);
@@ -747,6 +749,7 @@ function AddOrder() {
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
     }
   };
+
   const calculateTotalAmount = (data) => {
     let totalAmount = 0;
     data?.map((product, index) => {
@@ -754,6 +757,7 @@ function AddOrder() {
     });
     return totalAmount.toFixed(2);
   };
+
   const formik4 = useFormik({
     initialValues: {
       paymentStatus: "Unpaid",
@@ -1262,7 +1266,7 @@ function AddOrder() {
     const pendingAmount = totalAmount - parseFloat(paidAmount) || 0; // Ensure a valid number
     formik4.setFieldValue("pendingAmount", pendingAmount.toFixed(2));
   };
-console.log(dealerId, 'dealerId=======================>>>>>>>>>>>')
+
   const renderStep1 = () => {
     return (
       <>
@@ -1334,7 +1338,6 @@ console.log(dealerId, 'dealerId=======================>>>>>>>>>>>')
                   </div>
 
                   <div className="col-span-6">
-                    {/* <Select */}
                     <SelectBoxWIthSerach
                       label="Customer Name"
                       name="customerId"
@@ -1352,8 +1355,6 @@ console.log(dealerId, 'dealerId=======================>>>>>>>>>>>')
                     />
                   </div>
                   <div className="col-span-6">
-                    {/* <Select */}
-
                     <SelectBoxWIthSerach
                       label="Servicer Name"
                       name="servicerId"
