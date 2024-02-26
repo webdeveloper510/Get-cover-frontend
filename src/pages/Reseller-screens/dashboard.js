@@ -8,7 +8,7 @@ import Input from '../../common/input'
 import drop from '../../assets/images/icons/dropwhite.svg'
 
 function ResellerDashboard() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isRangeOpen, setIsRangeOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -24,36 +24,36 @@ function ResellerDashboard() {
     useEffect(() => {
         console.log("yes")
     })
-  return (
-    <>
-     <div className='my-8 ml-3'>
-        <Headbar/>
-        <div className='flex mt-2'>
-          <div className='pl-3'>
-            <p className='font-bold text-[36px] leading-9	mb-[3px]'>Dashboard</p>
-          </div>
-        </div>
-        <div className='mt-5'>
-          <Grid className='s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12'>
-            <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
-               <p className='text-2xl font-bold'>6,359</p>
-               <p className='text-[#999999] text-sm'>Total Number of Orders</p>
-            </div>
-            <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
-               <p className='text-2xl font-bold'>$96,859.00</p>
-               <p className='text-[#999999] text-sm'>Total Value of Orders</p>
-            </div>
-            <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
-               <p className='text-2xl font-bold'>6,359</p>
-               <p className='text-[#999999] text-sm'>Total Number of Claims</p>
-            </div>
-            <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
-               <p className='text-2xl font-bold'>$35,859.00</p>
-               <p className='text-[#999999] text-sm'>Total Value of Claims</p>
-            </div>
-          </Grid>
+    return (
+        <>
+            <div className='my-8 ml-3'>
+                <Headbar />
+                <div className='flex mt-2'>
+                    <div className='pl-3'>
+                        <p className='font-bold text-[36px] leading-9	mb-[3px]'>Dashboard</p>
+                    </div>
+                </div>
+                <div className='mt-5'>
+                    <Grid className='s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12'>
+                        <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
+                            <p className='text-2xl font-bold'>6,359</p>
+                            <p className='text-[#999999] text-sm'>Total Number of Orders</p>
+                        </div>
+                        <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
+                            <p className='text-2xl font-bold'>$96,859.00</p>
+                            <p className='text-[#999999] text-sm'>Total Value of Orders</p>
+                        </div>
+                        <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
+                            <p className='text-2xl font-bold'>6,359</p>
+                            <p className='text-[#999999] text-sm'>Total Number of Claims</p>
+                        </div>
+                        <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
+                            <p className='text-2xl font-bold'>$35,859.00</p>
+                            <p className='text-[#999999] text-sm'>Total Value of Claims</p>
+                        </div>
+                    </Grid>
 
-          <Grid className='s:hidden md:block xl:block'>
+                    <Grid className='s:hidden md:block xl:block'>
                         <div className='col-span-12'>
                             <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
                                 <Grid>
@@ -100,11 +100,11 @@ function ResellerDashboard() {
                                                             <div className='bg-[#fff] w-[350px] p-3 text-light-black border rounded-xl py-2 px-4'>
                                                                 <p className='font-semibold text-base border-b pb-2 mb-3'>Date Range</p>
                                                                 <Grid>
-                                                                    <div className='col-span-6'>
-                                                                        <Input type='date' />
+                                                                    <div className="col-span-6">
+                                                                        <Input type="date" className1='!pt-2.5' />
                                                                     </div>
-                                                                    <div className='col-span-6'>
-                                                                        <Input type='date' />
+                                                                    <div className="col-span-6">
+                                                                        <Input type="date" className1='!pt-2.5' />
                                                                     </div>
                                                                 </Grid>
                                                                 <div className='mt-4'>
@@ -123,10 +123,10 @@ function ResellerDashboard() {
                             </div>
                         </div>
                     </Grid>
-        </div>
-     </div>
-    </>
-  )
+                </div>
+            </div>
+        </>
+    )
 }
 
 export default ResellerDashboard
