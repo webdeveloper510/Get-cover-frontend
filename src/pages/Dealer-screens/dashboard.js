@@ -55,7 +55,7 @@ function DealerDashboard() {
   };
   return (
     <>
-      <div className="my-8 ml-3">
+      <div className="mb-8 ml-3">
         <Headbar />
         <div className="flex mt-2">
           <div className="pl-3">
