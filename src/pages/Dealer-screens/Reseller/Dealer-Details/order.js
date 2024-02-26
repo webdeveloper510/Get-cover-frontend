@@ -237,7 +237,7 @@ function OrderList(props) {
     {
       name: "Order Value",
       selector: (row) =>
-        `$ ${
+        `$${
           row?.orderAmount === undefined
             ? parseInt(0).toLocaleString(2)
             : formatOrderValue(row?.orderAmount ?? parseInt(0))

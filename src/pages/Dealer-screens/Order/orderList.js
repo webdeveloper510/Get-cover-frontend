@@ -244,14 +244,14 @@ function OrderList() {
     },
     {
       name: "# Contracts",
-      selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts),
+      selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts.toLocaleString(0)),
       sortable: true,
       minWidth: "100px",
     },
     {
       name: "Order Value",
       selector: (row) =>
-        `$ ${
+        `$${
           row?.orderAmount === undefined
             ? parseInt(0).toLocaleString(2)
             : formatOrderValue(row?.orderAmount)

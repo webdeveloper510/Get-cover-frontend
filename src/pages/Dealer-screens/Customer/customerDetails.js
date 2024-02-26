@@ -458,7 +458,7 @@ function CustomerDetails() {
                       alt="DealerIcons"
                     />
                     <Link
-                      to={`/resellerDetails/${customerDetail?.meta?.resellerId}`}
+                      to={`/dealer/resellerDetails/${customerDetail?.meta?.resellerId}`}
                     >
                       {" "}
                       <img

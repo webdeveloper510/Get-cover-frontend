@@ -230,7 +230,7 @@ function DealerDetailList(props) {
     },
     {
       name: "Order Values",
-      selector: (row) => "$ 0.00",
+      selector: (row) => "$0.00",
       sortable: true,
     },
     // {

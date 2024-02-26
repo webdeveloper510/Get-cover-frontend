@@ -511,8 +511,7 @@ function ContractList(props) {
                         Retail Price
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                        $
-                        {singleContract.productValue === undefined
+                        ${singleContract.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
                               singleContract.productValue ?? parseInt(0)
@@ -529,8 +528,7 @@ function ContractList(props) {
                             Start Range
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            $
-                            {singleContract?.order?.[0]?.productsArray?.[0]
+                            ${singleContract?.order?.[0]?.productsArray?.[0]
                               ?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
@@ -546,8 +544,7 @@ function ContractList(props) {
                             End Range
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            $
-                            {singleContract?.order?.[0]?.productsArray?.[0]
+                            ${singleContract?.order?.[0]?.productsArray?.[0]
                               ?.rangeEnd === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(

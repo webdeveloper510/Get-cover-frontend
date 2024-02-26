@@ -103,7 +103,7 @@ function DealerPriceBook(props) {
     },
     {
       name: "Retail Cost",
-      selector: (row) =>  `$ ${
+      selector: (row) =>  `$${
         row.retailPrice === undefined
           ? parseInt(0).toLocaleString(2)
           : formatOrderValue(row.retailPrice ?? parseInt(0))}`,

@@ -5,6 +5,7 @@ import Button from "../../../common/button";
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
+import view from "../../../assets/images/eye.png";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
@@ -143,7 +144,7 @@ function DealerCustomerList() {
     {
       name: "Order Value",
       selector: (row) =>
-        `$ ${
+        `$${
           row?.order?.orderAmount === undefined
             ? parseInt(0).toLocaleString(2)
             : formatOrderValue(row?.order?.orderAmount ?? parseInt(0))
@@ -182,12 +183,12 @@ function DealerCustomerList() {
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
-                  className="text-center cursor-pointer py-1"
                   onClick={() => {
                     navigate(`/dealer/customerDetails/${row.customerData._id}`);
                   }}
+                  className="text-left cursor-pointer flex hover:font-semibold py-1"
                 >
-                  View
+                 <img src={view} className="w-4 h-4 mr-2"/> View
                 </div>
               </div>
             )}

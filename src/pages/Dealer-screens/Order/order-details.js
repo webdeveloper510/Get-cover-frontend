@@ -20,12 +20,15 @@ import { cityData } from "../../../stateCityJson";
 import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
+import Cross from "../../../assets/images/Cross.png";
 import {
   getContracts,
   orderDetailsById,
 } from "../../../services/orderServices";
 import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
+import Modal from "../../../common/model";
+import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -43,7 +46,14 @@ function OrderDetails() {
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const state = cityData;
+  const [isServicerModal, setIsServicerModal] = useState(false);
 
+  const openServicer = () => {
+    setIsServicerModal(true);
+  };
+  const closeServicer = () => {
+    setIsServicerModal(false);
+  };
   useEffect(() => {
     getOrderDetails();
   }, [orderId]);
@@ -210,7 +220,7 @@ function OrderDetails() {
                         className="mr-3 bg-[#383838] rounded-[14px]"
                         alt="Name"
                       />
-                      <Link to={`/resellerDetails/${orderDetails.resellerId}`}>
+                      <Link to={`/dealer/resellerDetails/${orderDetails.resellerId}`}>
                         {" "}
                         <img
                           src={DealerList}
@@ -238,7 +248,7 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
-                  <Link to={`/customerDetails/${orderDetails.customerId}`}>
+                  <Link to={`/dealer/customerDetails/${orderDetails.customerId}`}>
                     {" "}
                     <img
                       src={DealerList}
@@ -267,7 +277,7 @@ function OrderDetails() {
                         className="mr-3 bg-[#383838] rounded-[14px]"
                         alt="Name"
                       />
-                      <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
+                      <Link to={`/dealer/servicerDetails/${orderDetails.servicerId}`}>
                         {" "}
                         <img
                           src={DealerList}
@@ -358,6 +368,37 @@ function OrderDetails() {
           </div>
         </Grid>
       </div>
+
+      <Modal isOpen={isServicerModal} onClose={closeServicer}>
+        <Button
+          onClick={closeServicer}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <form >
+          <div className="py-3 px-12">
+            <p className="text-center text-3xl font-semibold ">
+              Add Servicer Name
+            </p>
+            <div className="my-5">
+            <SelectBoxWithSearch
+              label="Servicer Name"
+              name="servicerId"
+              placeholder=""
+              className='!bg-[#fff]'
+              options={state}/>
+            </div>
+            <div className="text-right">
+              <Button>Save</Button>
+            </div>
+          
+          </div>
+        </form>
+      </Modal>
     </>
   );
 }
