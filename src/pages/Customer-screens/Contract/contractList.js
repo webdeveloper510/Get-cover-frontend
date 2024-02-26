@@ -63,7 +63,7 @@ function CustomerContractList() {
                       <Input name='Email' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder=' Order ID' />
                     </div>
                     <div className='col-span-2 self-center'>
-                      <Input name='PhoneNo.' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Dealer P.O. No.' />
+                      <Input name='PhoneNo.' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Dealer P.O. #' />
                     </div>
                     <div className='col-span-1 self-center flex justify-center'>
                     <Button
@@ -366,7 +366,7 @@ function CustomerContractList() {
                <Input type='text' 
                          name="Dealer P.O. No."
                         className="!bg-[#fff]"
-                        label="Dealer P.O. No."
+                        label="Dealer P.O. #"
                         placeholder="" />
             </div>
             <div className='col-span-6'>

@@ -67,7 +67,8 @@ function ClaimList() {
 
    const status = [
     { label: "Active", value: true },
-    { label: "Inactive", value: false },
+    { label: "Waiting", value: false },
+    { label: "Expired", value: false },
   ];
 
   const CoverageStartDate = [
@@ -992,14 +993,14 @@ function ClaimList() {
                <Input type='text' 
                          name="Dealer P.O. No."
                         className="!bg-[#fff]"
-                        label="Dealer P.O. No."
+                        label="Dealer P.O. #"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
                          name="Serial No."
                         className="!bg-[#fff]"
-                        label="Serial No."
+                        label="Serial #"
                         placeholder="" />
             </div>
             <div className='col-span-6'>

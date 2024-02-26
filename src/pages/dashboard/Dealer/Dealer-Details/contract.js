@@ -220,7 +220,7 @@ function ContractList(props) {
                               </div>
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
-                                  Dealer P.O. No. :{" "}
+                                  Dealer P.O. # :{" "}
                                   <b> {res?.order[0]?.venderOrder} </b>
                                 </p>
                               </div>

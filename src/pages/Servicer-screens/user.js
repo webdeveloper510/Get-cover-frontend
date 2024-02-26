@@ -609,7 +609,7 @@ function ServicerUser() {
               <Input type="text" label="Last Name" className="!bg-[#fff]" />
             </div>
             <div className="col-span-4">
-              <Input type="tel" label="Phone No." className="!bg-[#fff]" />
+              <Input type="tel" label="Phone #" className="!bg-[#fff]" />
             </div>
             <div className="col-span-4">
               <Input type="text" label="Postion" className="!bg-[#fff]" />
