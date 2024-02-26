@@ -416,7 +416,7 @@ function OrderDetails() {
         <form >
           <div className="py-3 px-12">
             <p className="text-center text-3xl font-semibold ">
-              Add Servicer Name
+              Update Servicer Name
             </p>
             <div className="my-5">
             <SelectBoxWithSearch

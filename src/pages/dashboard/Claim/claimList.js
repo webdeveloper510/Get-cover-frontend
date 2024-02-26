@@ -73,7 +73,8 @@ function ClaimList() {
 
   const status = [
     { label: "Active", value: true },
-    { label: "Inactive", value: false },
+    { label: "Waiting", value: false },
+    { label: "Expired", value: false },
   ];
 
   const state = [

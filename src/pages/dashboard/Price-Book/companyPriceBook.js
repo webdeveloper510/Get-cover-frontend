@@ -492,7 +492,7 @@ function CompanyPriceBook() {
             <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
               <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
             </Button>
-            <Button onClick={() => { navigate(`/editCompanyPriceBook/${data._id}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#343434]">
+            <Button onClick={() => { navigate(`/editCompanyPriceBook/${data._id}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] !bg-gradient-to-t !from-[#5f5f5f] !to-[#575757] mt-[-9px] !rounded-full">
               <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
             </Button>
             {loading1 ? (<>

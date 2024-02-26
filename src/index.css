@@ -74,6 +74,9 @@ code {
   color: #727378 !important;
 }
 
+.react-datepicker-wrapper {
+  width: 100% !important;
+}
 
 
 .Diagnosis::-webkit-scrollbar-track {
