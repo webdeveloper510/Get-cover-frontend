@@ -497,7 +497,7 @@ function ContractList(props) {
             onClose={closeView}
             className="!w-[1100px]"
           >
-              <Button onClick={() => { navigate(`/editContract/${contractDetails._id}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#343434]">
+              <Button onClick={() => { navigate(`/editContract/${contractDetails._id}`) }} className={`absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined ? ('!bg-[#343434]') : ('!bg-gradient-to-t !from-[#454545] !to-[#575757]') } `}>
               <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
             </Button>
             <Button

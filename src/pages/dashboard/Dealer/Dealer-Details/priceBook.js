@@ -640,7 +640,7 @@ function PriceBookList(props) {
           onClick={() => {
             navigte(`/editDealerBook/${dealerPriceBookDetail._id}`);
           }}
-          className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-gradient-to-r !from-[#424242] !to-[#5c5c5c]"
         >
           <img
             src={Edit}

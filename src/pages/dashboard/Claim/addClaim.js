@@ -242,8 +242,8 @@ function AddClaim() {
               </div>
               <div className='col-span-1'>
                 <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                  <p className='text-sm m-0 p-0'>Serial</p>
-                  <p className='font-semibold'>Serial</p>
+                  <p className='text-sm m-0 p-0'>Serial #</p>
+                  <p className='font-semibold'>Serial #</p>
                 </div>
               </div>
               <div className='col-span-1'>

@@ -169,10 +169,10 @@ function Dashboard() {
                                     </p>
                                     <Grid>
                                       <div className="col-span-6">
-                                        <Input type="date" />
+                                        <Input type="date" className1='!pt-2.5' />
                                       </div>
                                       <div className="col-span-6">
-                                        <Input type="date" />
+                                        <Input type="date" className1='!pt-2.5' />
                                       </div>
                                     </Grid>
                                     <div className="mt-4">

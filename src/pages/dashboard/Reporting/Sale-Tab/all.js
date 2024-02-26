@@ -80,12 +80,12 @@ function All() {
                                     <div className='bg-[#fff] w-[350px] p-3 text-light-black border rounded-xl py-2 px-4'>
                                         <p className='font-semibold text-base border-b pb-2 mb-3'>Date Range</p>
                                         <Grid>
-                                            <div className='col-span-6'>
-                                                <Input type='date' />
-                                            </div>
-                                            <div className='col-span-6'>
-                                                <Input type='date' />
-                                            </div>
+                                        <div className="col-span-6">
+                                        <Input type="date" className1='!pt-2.5' />
+                                      </div>
+                                      <div className="col-span-6">
+                                        <Input type="date" className1='!pt-2.5' />
+                                      </div>
                                         </Grid>
                                         <div className='mt-4'>
                                            <Button>Show Results</Button>
