@@ -359,7 +359,7 @@ function AddClaim() {
    
   
     return (
-      <div className='my-8 ml-3'>
+      <div className='mb-8 ml-3'>
         <Headbar/>
         <div className='flex mt-2'>
         <Link to={'/claimList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
