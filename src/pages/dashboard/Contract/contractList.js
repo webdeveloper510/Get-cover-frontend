@@ -153,6 +153,7 @@ function ContractList(props) {
   const status = [
     { label: "Active", value: true },
     { label: "Waiting", value: false },
+    { label: "Expired", value: false },
   ];
   return (
     <>
