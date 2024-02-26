@@ -355,9 +355,6 @@ function AddClaim() {
       );
     };
 
-  
-   
-  
     return (
       <div className='mb-8 ml-3'>
         <Headbar/>
