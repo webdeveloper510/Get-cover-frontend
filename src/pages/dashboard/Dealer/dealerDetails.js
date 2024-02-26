@@ -700,30 +700,11 @@ function DealerDetails() {
             </div>
           </div>
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
-            <Grid className="!mt-5">
-              {activeTab !== "Contracts" ? (
-                <div
-                  className="col-span-12"
-                  onClick={() => routeToPage(activeTab)}
-                >
-                  <Button className="!bg-white flex self-center h-[40px] absolute right-[6px] mt-[-44px] mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-                    {" "}
-                    <img
-                      src={AddItem}
-                      className="self-center"
-                      alt="AddItem"
-                    />{" "}
-                    <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
-                      Add {activeTab}
-                    </span>{" "}
-                  </Button>
-                </div>
-              ) : (
-                <></>
-              )}
-              <div className="col-span-12">
+            <Grid className="">
+             
+              <div className="col-span-10">
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-8 !gap-1">
+                  <Grid className="!grid-cols-5 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
@@ -754,6 +735,26 @@ function DealerDetails() {
                   </Grid>
                 </div>
               </div>
+              {activeTab !== "Contracts" ? (
+                <div
+                  className="col-span-2 self-center"
+                  onClick={() => routeToPage(activeTab)}
+                >
+                  <Button className="!bg-white flex self-center h-[40px] mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                    {" "}
+                    <img
+                      src={AddItem}
+                      className="self-center"
+                      alt="AddItem"
+                    />{" "}
+                    <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                      Add {activeTab}
+                    </span>{" "}
+                  </Button>
+                </div>
+              ) : (
+                <></>
+              )}
             </Grid>
 
             {tabs.map((tab) => (

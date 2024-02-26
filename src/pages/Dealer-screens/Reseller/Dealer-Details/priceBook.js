@@ -91,6 +91,17 @@ function PriceBookList(props) {
     }
   };
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const columns =
     props.flag === "reseller"
       ? [
@@ -118,12 +129,20 @@ function PriceBookList(props) {
           },
           {
             name: "WholeSale Cost",
-            selector: (row) => "$ " + row.wholesalePrice.toFixed(2),
+            selector: (row) => `$${
+              row?.wholesalePrice === undefined
+                ? parseInt(0).toLocaleString(2)
+                : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
+            }`,
             sortable: true,
           },
           {
             name: "Retail Cost",
-            selector: (row) => "$  " + row.retailPrice.toFixed(2),
+            selector: (row) => `$${
+              row?.retailPrice === undefined
+                ? parseInt(0).toLocaleString(2)
+                : formatOrderValue(row?.retailPrice ?? parseInt(0))
+            }`,
             sortable: true,
           },
           // {
