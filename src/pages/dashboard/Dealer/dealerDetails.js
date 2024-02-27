@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Headbar from "../../../common/headBar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Grid from "../../../common/grid";
@@ -7,6 +7,8 @@ import Button from "../../../common/button";
 // Media Import
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import address from "../../../assets/images/Dealer/Address.svg";
+import rightArrow from "../../../assets/images/arrow-right.png";
+import leftArrow from "../../../assets/images/arrow-left.png";
 import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
@@ -106,6 +108,23 @@ function DealerDetails() {
   });
 
   const state = cityData;
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const containerRef = React.useRef(null);
+
+ 
+ const handleScrollLeft = () => {
+    console.log("Scrolling left");
+    if (containerRef.current) {
+      containerRef.current.scrollLeft -= 150;
+    }
+  };
+
+  const handleScrollRight = () => {
+    console.log("Scrolling right");
+    if (containerRef.current) {
+      containerRef.current.scrollLeft += 150;
+    }
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -700,13 +719,12 @@ function DealerDetails() {
             </div>
           </div>
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
-            <Grid className="">
-             
-              <div className="col-span-10">
-                <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-5 !gap-1">
+            <Grid className="!gap-2">          
+              <div className="col-span-10 relative">
+                <div className=" no-scrollbar bg-[#fff] rounded-[30px] w-[100%] max-w-[100%] overflow-x-scroll p-3 border-[1px] border-[#D1D1D1]">
+                  <div className="flex !gap-1 w-[71vw]">
                     {tabs.map((tab) => (
-                      <div className="col-span-1" key={tab.id}>
+                      <div className="tabs w-[150px]" key={tab.id}>
                         <Button
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
                             activeTab === tab.id
@@ -732,7 +750,11 @@ function DealerDetails() {
                         </Button>
                       </div>
                     ))}
-                  </Grid>
+                  </div>
+                  <div className="absolute h-full bg-[#f9f9f9] right-0 flex top-0 self-center  shadow-6xl">
+                    <img src={leftArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer" onClick={handleScrollLeft} />
+                    <img src={rightArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer"  onClick={handleScrollRight} /> 
+                  </div>
                 </div>
               </div>
               {activeTab !== "Contracts" ? (

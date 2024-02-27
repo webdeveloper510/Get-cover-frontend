@@ -25,9 +25,11 @@ function Dashboard() {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+  
   const toggleRange = () => {
     setIsRangeOpen(!isRangeOpen);
   };
+
   const dashboardDetails = async () => {
     try {
       setLoading(true)
@@ -39,10 +41,12 @@ function Dashboard() {
       console.error(error);
     }
   };
+
   const time = [
     { label: "march 2024", value: true },
-    { label: "Inactive", value: false },
+    { label: "April 2024", value: false },
   ];
+
   useEffect(() => {
     dashboardDetails();
   }, []);
