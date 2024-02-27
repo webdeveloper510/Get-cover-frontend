@@ -541,6 +541,7 @@ function DealerDetails() {
   };
   return (
     <>
+    
       {loading && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
@@ -548,7 +549,9 @@ function DealerDetails() {
           </div>
         </div>
       )}
+
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
+
         <Headbar />
 
         <div className="flex">
@@ -786,6 +789,7 @@ function DealerDetails() {
             ))}
           </div>
         </Grid>
+
       </div>
 
       {/* Modal Email Popop */}
@@ -929,8 +933,6 @@ function DealerDetails() {
           </form>
         </div>
       </Modal>
-
-      {/* Modal Primary Popop */}
 
       {/* Modal Primary Popop */}
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
@@ -1151,6 +1153,7 @@ function DealerDetails() {
           </p>
         </div>
       </Modal>
+
     </>
   );
 }
