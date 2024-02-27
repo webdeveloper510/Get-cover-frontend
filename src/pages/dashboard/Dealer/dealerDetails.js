@@ -722,7 +722,7 @@ function DealerDetails() {
             <Grid className="!gap-2">          
               <div className="col-span-10 relative">
                 <div className=" no-scrollbar bg-[#fff] rounded-[30px] w-[100%] max-w-[100%] overflow-x-scroll p-3 border-[1px] border-[#D1D1D1]">
-                  <div className="flex !gap-1 w-[71vw]">
+                  <div className="flex !gap-1 w-[77vw] pr-[84px]">
                     {tabs.map((tab) => (
                       <div className="tabs w-[150px]" key={tab.id}>
                         <Button
