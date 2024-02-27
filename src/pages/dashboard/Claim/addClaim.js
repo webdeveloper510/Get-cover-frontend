@@ -335,7 +335,7 @@ function AddClaim() {
                             <img src={Cross} className='w-6 rounded-[16px] cursor-pointer' alt='Cross' />
                           </div>
                         </div>
-                        <p>file-1708682464698.xlsx</p>
+                        <p> <b>1.</b> file-1708682464698.xlsx</p>
                       </div>
                       <div className='relative pl-3 pb-3'>
                         <div>
@@ -343,7 +343,7 @@ function AddClaim() {
                             <img src={Cross} className='w-6 rounded-[16px] cursor-pointer' alt='Cross' />
                           </div>
                         </div>
-                        <p>file-1708682464698.xlsx</p>
+                        <p><b>2.</b> file-1708682464698.xlsx</p>
                       </div>
                     </Grid>
                 </div>
