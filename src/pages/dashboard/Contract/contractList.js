@@ -374,7 +374,7 @@ function ContractList(props) {
                   )}
               </>
 
-                  {/* {contractList?.length === 0   ? (
+                  {/* {contractList?.length > 0   ? (
                     <div className="text-center my-5">
                       <p>No records found.</p>
                     </div>
