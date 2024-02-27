@@ -7,9 +7,8 @@ import { orderDetailsById } from "../services/orderServices";
 import { useState } from "react";
 function PdfGenerator(props, className) {
   const [data, setData] = useState({});
-  console.log('props', props)
+  console.log("props", props);
   const convertToPDF = async () => {
-   
     const result = await orderDetailsById(props.data);
     let value = {
       dealerName: result.orderUserData.dealerData,
@@ -25,7 +24,7 @@ function PdfGenerator(props, className) {
     const opt = {
       margin: 0,
       filename: `${value.unique_key}-Invoice.pdf`,
-      image: { type: "jpeg", quality: 0.98 },
+      image: { type: "jpeg", quality: 0.1 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
@@ -81,9 +80,13 @@ function PdfGenerator(props, className) {
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
-                                    <td style="border: none; padding: 4px;">$${data?.totalOrderAmount === undefined
-                                      ? parseInt(0).toLocaleString(2)
-                                      :  formatOrderValue(data?.totalOrderAmount)}</td>
+                                    <td style="border: none; padding: 4px;">$${
+                                      data?.totalOrderAmount === undefined
+                                        ? parseInt(0).toLocaleString(2)
+                                        : formatOrderValue(
+                                            data?.totalOrderAmount
+                                          )
+                                    }</td>
                                 </tr>
                                 <tr>
                                     <td style="border: none; padding: 4px;">Currency Type:</td>
@@ -103,7 +106,9 @@ function PdfGenerator(props, className) {
                         <h4 style="margin: 0; padding: 0;"><b> ${
                           data?.dealerName?.name
                         } </b></h4>
-                        <small style="margin: 0; padding: 0;">Bill To: ${data?.username?.firstName} 
+                        <small style="margin: 0; padding: 0;">Bill To: ${
+                          data?.username?.firstName
+                        } 
                          ${data?.username?.lastName} <br/>
                           ${data?.dealerName?.street} 
                           ${data?.dealerName?.city} ,
@@ -111,7 +116,9 @@ function PdfGenerator(props, className) {
                           ${data?.dealerName?.zip} <br/>
                            
                             </small>
-                            <small> ${data?.username?.phoneNumber} | ${data?.username?.email}  </small>
+                            <small> ${data?.username?.phoneNumber} | ${
+      data?.username?.email
+    }  </small>
                     </td>
                     ${
                       data?.resellerId != null
@@ -120,14 +127,18 @@ function PdfGenerator(props, className) {
                     <h4 style="margin: 0; padding: 0;"><b>${
                       data?.resellerName?.name ?? ""
                     }</b></h4>
-                    <small style="margin: 0; padding: 0;">Bill To: ${data?.resellerUsername?.firstName} ${data?.resellerUsername?.lastName} <br/>
+                    <small style="margin: 0; padding: 0;">Bill To: ${
+                      data?.resellerUsername?.firstName
+                    } ${data?.resellerUsername?.lastName} <br/>
                       ${data?.resellerName?.street ?? ""} 
                       ${data?.resellerName?.city ?? ""}, 
                       ${data?.resellerName?.state ?? ""} 
                       ${data?.resellerName?.zip ?? ""} <br/>
                      
                     </small>
-                    <small>${data?.resellerUsername?.phoneNumber} | ${data?.resellerUsername?.email}  </small>
+                    <small>${data?.resellerUsername?.phoneNumber} | ${
+                            data?.resellerUsername?.email
+                          }  </small>
                   </td> `
                         : ""
                     }
@@ -185,12 +196,16 @@ function PdfGenerator(props, className) {
               <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
                 product.noOfProducts
               }</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.unitPrice === undefined
-                ? parseInt(0).toLocaleString(2)
-                :  formatOrderValue(product.unitPrice)}</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.price === undefined
-                ? parseInt(0).toLocaleString(2)
-                :  formatOrderValue(product.price)}</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${
+                product.unitPrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(product.unitPrice)
+              }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${
+                product.price === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(product.price)
+              }</td>
             </tr>
           `
             )
@@ -200,23 +215,25 @@ function PdfGenerator(props, className) {
           <tr>
             <td colspan="4" style="font-weight: bold; padding: 8px; text-align: right;">Total:</td>
             <td style={{ fontWeight: 'bold', padding: '8px' }}>
-            $${Number(
-              data?.productsArray
-                .reduce(
+            $${
+              Number(
+                data?.productsArray.reduce(
                   (total, product) =>
                     total + product.noOfProducts * product.unitPrice,
                   0
                 )
-            )=== undefined
-            ? parseInt(0).toLocaleString(2)
-            :  formatOrderValue(Number(
-              data?.productsArray
-                .reduce(
-                  (total, product) =>
-                    total + product.noOfProducts * product.unitPrice,
-                  0
-                )
-            ))}
+              ) === undefined
+                ? parseInt(0).toLocaleString(2)
+                : formatOrderValue(
+                    Number(
+                      data?.productsArray.reduce(
+                        (total, product) =>
+                          total + product.noOfProducts * product.unitPrice,
+                        0
+                      )
+                    )
+                  )
+            }
         
           </td>
           </tr>
