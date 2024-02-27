@@ -127,9 +127,11 @@ function DealerDetails() {
     setIsModalOpen(false);
     formik.resetForm();
   };
+  
   const closeModal10 = () => {
     setModalOpen(false);
   };
+
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -155,29 +157,35 @@ function DealerDetails() {
       clearInterval(intervalId);
     };
   }, [modalOpen, timer]);
+
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
+
   const getUserList = async () => {
     const result = await getUserListByDealerId(id.id, {});
     setRefreshUserList(result.result);
   };
+
   const closeModal1 = () => {
     setActiveTab("Servicer");
     setIsModalOpen1(false);
   };
+
   const modalOpen1 = () => {
     getServicerList();
     setActiveTab("Servicer123");
     setIsModalOpen1(true);
   };
+
   const closeUserModal = () => {
     setIsUserModalOpen(false);
     setActiveTab("Users");
     userValues.resetForm();
   };
+
   const getServicerList = async () => {
     const result = await getServicerListForDealer(id.id);
     setServicerList(result.result);
@@ -189,6 +197,7 @@ function DealerDetails() {
     // getServicerListData()
     getServicerList();
   }, [id.id, flag]);
+
   useEffect(() => {
     localStorage.setItem("menu", activeTab);
   }, [activeTab]);
@@ -211,14 +220,17 @@ function DealerDetails() {
     });
     setLoading(false);
   };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
+
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
   };
+
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -358,6 +370,7 @@ function DealerDetails() {
       }
     },
   });
+
   const openUserModal = () => {
     userValues.resetForm();
     setActiveTab("Users123");
@@ -488,6 +501,7 @@ function DealerDetails() {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
+
   const routeToPage = (data) => {
     console.log(data, id.id);
     switch (data) {
@@ -541,7 +555,7 @@ function DealerDetails() {
   };
   return (
     <>
-    
+
       {loading && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
