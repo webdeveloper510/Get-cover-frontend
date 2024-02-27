@@ -246,13 +246,21 @@ function ContractList(props) {
               </div>
             </div>
           </Grid>
-          {loading ? (
-            <div className=" h-[400px] w-full flex py-5">
-              <div className="self-center mx-auto">
-                <RotateLoader color="#333" />
+          {contractList?.length == 0  && loading == false ? (
+            <>
+              <div className="text-center my-5">
+                <p>No records found.</p>
               </div>
-            </div>
+            </>
           ) : (
+            <>
+              {loading ? (
+                <div className=" h-[400px] w-full flex py-5">
+                  <div className="self-center mx-auto">
+                    <RotateLoader color="#333" />
+                  </div>
+                </div>
+              ) : (
             <>
               {contractList &&
                 contractList.map((res, index) => {
@@ -369,6 +377,9 @@ function ContractList(props) {
             rowsPerPageOptions={[10, 20, 50, 100]}
             onPageChange={handlePageChange}
           />
+            </>  )
+                }
+        
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button
               onClick={closeDisapproved}
