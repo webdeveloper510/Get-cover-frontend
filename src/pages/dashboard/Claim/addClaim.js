@@ -8,7 +8,7 @@ import Input from '../../../common/input';
 // Media Include
 import BackImage from '../../../assets/images/icons/backArrow.svg'
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
-import Edit from '../../../assets/images/Dealer/EditIcon.svg';
+import dummyImage from '../../../assets/images/attachment.png';
 import Cross from "../../../assets/images/Cross.png";
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -63,6 +63,30 @@ function AddClaim() {
     { label: "Option 4", value: "option4" },
     { label: "Option 5", value: "option5" },
   ];
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
+  const handleDropdownClick = () => {
+     if (fileInputRef) {
+      fileInputRef.current.click();
+      setSelectedFile(null)
+    }
+  };
+
+  console.log(selectedFile);
+  const handleFileSelect = (event) => { 
+    const file = event.target.files[0];
+    console.log(file);
+    console.log(selectedFile, '------------------')
+    if (file) {
+      setSelectedFile(file);
+    } else {
+      setSelectedFile(null)
+    }
+
+    event.target.value = null;
+  };
+
 
   const handleSelect = (selectedOption) => {
     console.log('Selected Option:', selectedOption);
@@ -290,26 +314,38 @@ function AddClaim() {
                         className="!bg-[#fff]" />
                     </div>
                   </Grid>
-                  <div className='border border-dashed w-full  relative py-2'>
+                  <div className='w-full  relative py-2'>
                   <div className='self-center text-center'>
-                  <FileDropdown
-                    className="!bg-transparent !border-0"
-                   
-                  />
+                    <div className='bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed px-8	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent cursor-pointer'  onClick={handleDropdownClick}>
+                    <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
+                      <p>Accepted Max. file size: 5 MB.</p>
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        style={{ display: "none" }}
+                        onChange={handleFileSelect}
+                      />
+                    </div>
                   </div>
                     </div>
-                    <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
-                    Please click on file option and make a copy. Upload the list
-                    of Product Name and Price using our provided Google Sheets
-                    template, by{" "}
-                    <span
-                      className="underline cursor-pointer"
-                      // onClick={downloadCSVTemplate}
-                    >
-                      Clicking here
-                    </span>
-                    The file must be saved with csv , xls and xlsx Format.
-                  </p>
+                    <Grid className='!grid-cols-2 mt-4'>
+                      <div className='relative pl-3 pb-3'>
+                        <div>
+                          <div className='absolute right-0'>
+                            <img src={Cross} className='w-6 rounded-[16px] cursor-pointer' alt='Cross' />
+                          </div>
+                        </div>
+                        <p>file-1708682464698.xlsx</p>
+                      </div>
+                      <div className='relative pl-3 pb-3'>
+                        <div>
+                          <div className='absolute right-0'>
+                            <img src={Cross} className='w-6 rounded-[16px] cursor-pointer' alt='Cross' />
+                          </div>
+                        </div>
+                        <p>file-1708682464698.xlsx</p>
+                      </div>
+                    </Grid>
                 </div>
                 <div className='col-span-6'>
                     <div className="relative">
