@@ -306,7 +306,7 @@ function OrderList() {
                 onClick={()=>setSelectedAction(null)}
                 className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md top-[1rem]`}
               >
-                <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/>
+                {/* <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 {row.status == "Pending" ? (
                   <>
                     <div
