@@ -108,21 +108,18 @@ function DealerDetails() {
   });
 
   const state = cityData;
-  const [scrollLeft, setScrollLeft] = useState(0);
-  const containerRef = React.useRef(null);
+  const containerRef = useRef(null);
 
  
- const handleScrollLeft = () => {
-    console.log("Scrolling left");
+  const handleScrollLeft = () => {
     if (containerRef.current) {
-      containerRef.current.scrollLeft -= 150;
+      containerRef.current.scrollLeft -= 100; // Adjust scroll distance as needed
     }
   };
 
   const handleScrollRight = () => {
-    console.log("Scrolling right");
     if (containerRef.current) {
-      containerRef.current.scrollLeft += 150;
+      containerRef.current.scrollLeft += 100; // Adjust scroll distance as needed
     }
   };
 
@@ -721,7 +718,7 @@ function DealerDetails() {
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!gap-2">          
               <div className="col-span-10 relative">
-                <div className=" no-scrollbar bg-[#fff] rounded-[30px] w-[100%] max-w-[100%] overflow-x-scroll p-3 border-[1px] border-[#D1D1D1]">
+                <div className=" no-scrollbar bg-[#fff] rounded-[30px] w-[100%] max-w-[100%] overflow-x-scroll p-3 border-[1px] border-[#D1D1D1] " ref={containerRef}>
                   <div className="flex !gap-1 w-[77vw] pr-[84px]">
                     {tabs.map((tab) => (
                       <div className="tabs w-[150px]" key={tab.id}>
