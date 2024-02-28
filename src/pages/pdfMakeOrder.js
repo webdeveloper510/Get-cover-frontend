@@ -15,7 +15,7 @@ const PdfMake = (props) => {
       const opt = {
         margin: 0.5,
         filename: `${response?.orderWithContracts?.[0]?.unique_key}-Export-Order.pdf`,
-        image: { type: "jpeg", quality: 0.98 },
+        image: { type: "jpeg", quality: 0.1 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
       };
@@ -35,7 +35,7 @@ const PdfMake = (props) => {
         onClick={downloadAsPDF}
       >
         <img src={download} className="w-4 h-4 mr-2" />{" "}
-        <button className="">   {loading ? 'Downloading' :'Order'}</button>
+        <button className=""> {loading ? "Downloading" : "Order"}</button>
       </div>
     </div>
   );
