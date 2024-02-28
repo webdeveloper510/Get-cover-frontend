@@ -110,8 +110,8 @@ function AddClaim() {
         pageLimit: 10,
       };
       const response = await getContractList(data);
-      //console.log(response);
-      setContractList(response.result);
+      console.log(response);
+      setContractList(response);
     },
   });
 
@@ -193,8 +193,8 @@ function AddClaim() {
       };
       try {
         const response = await getContractList(data);
-        // console.log(response);
-        setContractList(response.result);
+        console.log(response);
+        setContractList(response);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -299,9 +299,8 @@ function AddClaim() {
                   </tr>
                 </thead>
                 <tbody>
-                  {contractList.length != 0 &&
-                    contractList.map((res, index) => {
-                      // console.log(res);
+                  {contractList?.result?.length != 0 &&
+                    contractList?.result?.map((res, index) => {
                       return (
                         <tr>
                           <td className="py-1">{res.unique_key}</td>
@@ -344,7 +343,7 @@ function AddClaim() {
                 </tbody>
               </table>
               <CustomPagination
-                totalRecords={100}
+                totalRecords={contractList?.totalCount}
                 rowsPerPageOptions={[10, 20, 50, 100]}
                 onPageChange={handlePageChange}
               />
