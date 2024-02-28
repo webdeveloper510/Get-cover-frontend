@@ -9,6 +9,8 @@ import BackImage from "../../../assets/images/icons/backArrow.svg";
 import address from "../../../assets/images/Dealer/Address.svg";
 import rightArrow from "../../../assets/images/arrow-right.png";
 import leftArrow from "../../../assets/images/arrow-left.png";
+import leftActive from "../../../assets/images/activeLeft.png";
+import rightActive from "../../../assets/images/activeRight.png";
 import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
@@ -72,6 +74,7 @@ function DealerDetails() {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
+  const [scrolling, setScrolling] = useState(false);
   const [refreshList1, setRefreshList1] = useState([]);
   const [dealerDetails, setDealerDetails] = useState([]);
   const [firstMessage, setFirstMessage] = useState("");
@@ -113,13 +116,24 @@ function DealerDetails() {
  
   const handleScrollLeft = () => {
     if (containerRef.current) {
-      containerRef.current.scrollLeft -= 100; // Adjust scroll distance as needed
+      containerRef.current.classList.add('scroll-transition');
+      containerRef.current.scrollLeft -= 120; // Adjust scroll distance as needed
+      setScrolling(true);
     }
   };
 
   const handleScrollRight = () => {
     if (containerRef.current) {
-      containerRef.current.scrollLeft += 100; // Adjust scroll distance as needed
+      containerRef.current.classList.add('scroll-transition');
+      containerRef.current.scrollLeft += 120; // Adjust scroll distance as needed
+      setScrolling(true);
+    }
+  };
+
+  const handleTransitionEnd = () => {
+    if (containerRef.current) {
+      containerRef.current.classList.remove('scroll-transition');
+      setScrolling(false);
     }
   };
 
@@ -735,10 +749,10 @@ function DealerDetails() {
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!gap-2">          
               <div className="col-span-10 relative">
-                <div className=" no-scrollbar bg-[#fff] rounded-[30px] w-[100%] max-w-[100%] overflow-x-scroll p-3 border-[1px] border-[#D1D1D1] " ref={containerRef}>
-                  <div className="flex !gap-1 w-[77vw] pr-[84px]">
+              <div className={`no-scrollbar bg-[#fff] rounded-[30px] w-[100%] max-w-[100%] overflow-x-scroll p-3 border-[1px] border-[#D1D1D1] ${scrolling ? 'scrolling' : ''}`} ref={containerRef} onTransitionEnd={handleTransitionEnd}>
+                  <div className="flex !gap-1 w-[72vw] ">
                     {tabs.map((tab) => (
-                      <div className="tabs w-[150px]" key={tab.id}>
+                      <div className="tabs w-[110px]" key={tab.id}>
                         <Button
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
                             activeTab === tab.id
@@ -765,9 +779,15 @@ function DealerDetails() {
                       </div>
                     ))}
                   </div>
-                  <div className="absolute h-full bg-[#f9f9f9] right-0 flex top-0 self-center  shadow-6xl">
-                    <img src={leftArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer" onClick={handleScrollLeft} />
-                    <img src={rightArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer"  onClick={handleScrollRight} /> 
+                  <div className="absolute h-full bg-[#f9f9f9] right-[-30px] flex top-0 self-center  shadow-6xl">
+                  <div onClick={handleScrollLeft} className="relative self-center">
+                    <img src={leftArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer hover:opacity-0" />
+                    <img src={leftActive} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer absolute top-0 left-0 opacity-0 hover:opacity-100" />
+                  </div> 
+                  <div onClick={handleScrollRight} className="relative self-center">
+                    <img src={rightArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer hover:opacity-0" />
+                    <img src={rightActive} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer absolute top-0 left-0 opacity-0 hover:opacity-100" />
+                  </div> 
                   </div>
                 </div>
               </div>
