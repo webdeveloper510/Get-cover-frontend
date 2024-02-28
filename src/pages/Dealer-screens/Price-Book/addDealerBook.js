@@ -303,10 +303,10 @@ function CustomerAddDealerBook() {
                     </div>
                     <div className="self-center">
                       <p className="text-[#FFF] text-base font-medium leading-5	">
-                        Wholesale Price($)
+                        Wholesale Price
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                        $ {priceBookById?.wholesalePrice?.toFixed(2)}
+                        ${priceBookById?.wholesalePrice?.toFixed(2)}
                       </p>
                     </div>
                   </div>

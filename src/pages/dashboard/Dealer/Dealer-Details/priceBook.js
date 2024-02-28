@@ -663,7 +663,7 @@ function PriceBookList(props) {
             </div>
             <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
-                Wholesale Price($)
+                Wholesale Price
               </p>
               <p className="text-base text-neutral-grey font-semibold">
                ${
@@ -676,7 +676,7 @@ function PriceBookList(props) {
             </div>
             <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
-                Retail Price ($)
+                Retail Price
               </p>
               <p className="text-base text-neutral-grey font-semibold">
               ${
