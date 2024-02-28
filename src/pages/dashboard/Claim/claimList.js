@@ -296,6 +296,19 @@ function ClaimList() {
                             /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
+                      <div className='my-4'>
+                        <Grid className='!grid-cols-2'>
+                          <Select
+                          name='claimType'
+                          label='Claim Type'
+                          className1='!p-1 !mb-3 !bg-[#f9f9f9] !text-[13px]' />
+                          
+                          <Select
+                          name='claimType'
+                          label='Claim Type'
+                          className1='!p-1 !bg-[#f9f9f9] !text-[13px]' />
+                        </Grid>
+                      </div>
                     </div>
                     <div className='col-span-4 self-center'>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
@@ -307,7 +320,7 @@ function ClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          {/* <img src={DropActive} alt='DropActive' /> */}
+                          <img src={DropActive} alt='DropActive' />
                         </div>
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
@@ -319,7 +332,7 @@ function ClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          {/* <img src={DropActive} alt='DropActive' /> */}
+                          <img src={DropActive} alt='DropActive' />
                         </div>
                       </div>
                       <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
@@ -331,7 +344,7 @@ function ClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                          {/* <img src={DropActive} alt='DropActive' /> */}
+                          <img src={DropActive} alt='DropActive' />
                         </div>
                       </div>
                     </div>

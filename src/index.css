@@ -20,6 +20,8 @@ font-size: 11px !important;
   font-weight: 400;
   /* font-family: 'Gilroy-Regular' !important; */
 }
+
+
 /* .font-light {
   font-family: 'Gilroy-Light';
   font-weight: 300;
@@ -69,7 +71,9 @@ code {
   font-size: 14px;
   border-top: 1px solid #dbdbdb;
 }
-
+.scroll-transition {
+  transition: transform 0.3s ease; /* Adjust the duration and easing function as needed */
+}
 .rdt_TableRow {
   color: #727378 !important;
 }
