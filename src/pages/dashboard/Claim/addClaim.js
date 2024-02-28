@@ -11,7 +11,8 @@ import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import dummyImage from "../../../assets/images/attachment.png";
 import Cross from "../../../assets/images/Cross.png";
-import Delete from "../../../assets/images/icons/DeleteIcon.svg";
+import selectIcon from "../../../assets/images/select.png";
+import View from "../../../assets/images/eye.png";
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import check from "../../../assets/images/icons/check.svg";
 import Button from "../../../common/button";
@@ -329,20 +330,20 @@ function AddClaim() {
                                 />
                               </div>
                               {selectedActions[index] && (
-                                <div className="absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
+                                <div className="absolute z-[2] w-[90px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
                                   <div
-                                    className="text-center pb-1 border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                    className="text-left pb-1 border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
                                     onClick={() => {
                                       handleSelectValue(res);
                                     }}
                                   >
-                                    <p>Select</p>
+                                    <p className="flex hover:font-semibold"> <img src={selectIcon} className="w-4 h-4 mr-2" alt="selectIcon" /> Select</p>
                                   </div>
                                   <div
                                     className="text-center pt-1 text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
                                     onClick={() => openModal(res)}
                                   >
-                                    <p>View</p>
+                                    <p className="flex hover:font-semibold">  <img src={View} className="w-4 h-4 mr-2" alt="View" /> View</p>
                                   </div>
                                 </div>
                               )}
