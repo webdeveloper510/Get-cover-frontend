@@ -257,7 +257,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -276,7 +276,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -295,7 +295,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -338,7 +338,7 @@ function ClaimList() {
                           <p className='text-white text-sm'>Shipping Label received</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2' onClick={handleToggleDropdown}>
+                        <div className='self-center ml-auto mr-2 h-full' onClick={handleToggleDropdown}>
                           <img src={DropActive} className={`cursor-pointer ${dropdownVisible ? 'rotate-180	' : ''}`} alt='DropActive' />
                           <div className={`absolute z-[2] w-[140px]  ${dropdownVisible ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md top-[2rem]`}>
                             <div>
@@ -484,7 +484,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -503,7 +503,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -522,7 +522,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -673,7 +673,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -692,7 +692,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -711,7 +711,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -1052,7 +1052,7 @@ function ClaimList() {
                           <div className="flex h-full bg-[#EBEBEB]  justify-center">
                             <img
                               src={DeleteImage}
-                              className="self-center p-1 cursor-pointer"
+                              className="self-center p-1 py-[14px] cursor-pointer"
                               alt="Delete Icon"
                             />
                           </div>
@@ -1087,7 +1087,7 @@ function ClaimList() {
                           <div className="flex h-full bg-[#EBEBEB]  justify-center">
                             <img
                               src={DeleteImage}
-                              className="self-center p-1 cursor-pointer"
+                              className="self-center p-1 py-[14px] cursor-pointer"
                               alt="Delete Icon"
                             />
                           </div>
@@ -1121,7 +1121,7 @@ function ClaimList() {
                           <div className="flex h-full bg-[#EBEBEB]  justify-center">
                             <img
                               src={DeleteImage}
-                              className="self-center p-1 cursor-pointer"
+                              className="self-center p-1 py-[14px] cursor-pointer"
                               alt="Delete Icon"
                             />
                           </div>

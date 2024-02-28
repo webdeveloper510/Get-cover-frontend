@@ -304,10 +304,9 @@ function OrderList(props) {
                         <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
                       </div>
                     )}
-
-                    <>
+                    <div className="border-b">
                       <PdfGenerator data={row._id} />
-                    </>
+                    </div>
                     <div
                       className="text-left py-1 flex cursor-pointer hover:font-semibold"
                       onClick={() => openArchive(row._id)}
@@ -323,7 +322,9 @@ function OrderList(props) {
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                    <PdfGenerator data={row._id} />
+                    <div className="border-b">
+                      <PdfGenerator data={row._id} />
+                    </div>
 
                     <PdfMake data={row._id} />
                   </>
