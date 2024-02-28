@@ -11,6 +11,7 @@ const Select = ({
   className1,
   name,
   OptionName,
+  classBox,
   color,
   error,
   defaultValue,
@@ -38,7 +39,7 @@ const Select = ({
     setLocalDefaultValue(value);
   }, [value]);
   return (
-    <div className="relative">
+    <div className={`relative ${classBox} `}>
       <div className="select-container relative">
         <select
           id={label}

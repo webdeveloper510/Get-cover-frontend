@@ -7,14 +7,20 @@ import Input from '../../../common/input'
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import Search from '../../../assets/images/icons/SearchIcon.svg';
 import productName from '../../../assets/images/icons/productName1.svg';
-import attach from '../../../assets/images/Attachments.svg';
+import Track from '../../../assets/images/track.png';
+import Complete from '../../../assets/images/completed.png';
+import Reject from '../../../assets/images/reject.png';
+import Open from '../../../assets/images/open.png';
+import Sendto from '../../../assets/images/double-arrow.png';
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import model from '../../../assets/images/icons/ProductModel.svg';
 import serial from '../../../assets/images/icons/ProductSerial.svg';
 import Manufacturer from '../../../assets/images/icons/ProductManufacturer.svg';
 import Edit from '../../../assets/images/icons/editIcon.svg';
 import download from '../../../assets/images/download.png';
-import Attachment from '../../../assets/images/attachment.png';
+import shiping from '../../../assets/images/shiping.png';
+import labor from '../../../assets/images/labor.png';
+import parts from '../../../assets/images/parts.png';
 import chat from '../../../assets/images/icons/chatIcon.svg';
 import DropActive from '../../../assets/images/icons/DropActive.svg';
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
@@ -33,7 +39,19 @@ function ClaimList() {
   const [activeIndex, setActiveIndex] = useState(null);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [dropdownVisible2, setDropdownVisible2] = useState(false);
+  const [dropdownVisible1, setDropdownVisible1] = useState(false);
 
+  const handleToggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+  const handleToggleDropdown1 = () => {
+    setDropdownVisible1(!dropdownVisible1);
+  };
+  const handleToggleDropdown2 = () => {
+    setDropdownVisible2(!dropdownVisible2);
+  };
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
@@ -173,7 +191,7 @@ function ClaimList() {
 
           <div className=' px-3 mt-5'>
 
-            <CollapsibleDiv index={1} activeIndex={activeIndex} setActiveIndex={setActiveIndex}  title={ <> <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
+            <CollapsibleDiv index={1} activeIndex={activeIndex} setActiveIndex={setActiveIndex}  title={ <>    <Grid className='border-[#474747] border !gap-2 rounded-t-[22px]'>
                 <div className='col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5'>
                   <p className='font-semibold leading-5 text-lg'> 861910  </p>
                   <p className='text-[#A3A3A3]'>Claim ID</p>
@@ -296,8 +314,8 @@ function ClaimList() {
                             /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
-                      <div className='my-4'>
-                        <Grid className='!grid-cols-2'>
+                      <div className='mt-5'>
+                        <Grid className='!grid-cols-1 mb-2'>
                           <Select
                           name='claimType'
                           label='Claim Type'
@@ -305,13 +323,14 @@ function ClaimList() {
                           
                           <Select
                           name='claimType'
-                          label='Claim Type'
+                          label='Damage Code'
                           className1='!p-1 !bg-[#f9f9f9] !text-[13px]' />
                         </Grid>
+                        
                       </div>
                     </div>
-                    <div className='col-span-4 self-center'>
-                      <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
+                    <div className='col-span-4 pt-4'>
+                      <div className='border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
                           <p className='text-white text-[11px] p-4'>Customer Status</p>
                         </div>
@@ -319,11 +338,18 @@ function ClaimList() {
                           <p className='text-white text-sm'>Shipping Label received</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                        <div className='self-center ml-auto mr-2' onClick={handleToggleDropdown}>
+                          <img src={DropActive} className={`cursor-pointer ${dropdownVisible ? 'rotate-180	' : ''}`} alt='DropActive' />
+                          <div className={`absolute z-[2] w-[140px]  ${dropdownVisible ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md top-[2rem]`}>
+                            <div>
+                            <p className='border-b text-sm hover:font-semibold cursor-pointer flex'> <img src={shiping} className='w-4 h-4 mr-2' alt='Open'/> Shipping</p>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={labor} className='w-4 h-4 mr-2' alt='Open'/>Labor</p>
+                              <p className='text-sm hover:font-semibold cursor-pointer flex'><img src={parts} className='w-4 h-4 mr-2' alt='Open'/>Parts</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
+                      <div className='border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
                           <p className='text-white text-[11px] p-4'>Claim Status</p>
                         </div>
@@ -331,11 +357,18 @@ function ClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                        <div className='self-center ml-auto mr-2' onClick={handleToggleDropdown2}>
+                          <img src={DropActive} className={`cursor-pointer ${dropdownVisible2 ? 'rotate-180	' : ''}`} alt='DropActive' />
+                          <div className={`absolute z-[2] w-[140px]  ${dropdownVisible2 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md top-[2rem]`}>
+                            <div>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'> <img src={Open} className='w-4 h-4 mr-2' alt='Open'/> Open</p>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Complete} className='w-4 h-4 mr-2' alt='Open'/> Completed</p>
+                              <p className='text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/> Rejected</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div className='border border-[#FFFFFF1A] p-1 rounded-lg flex w-full'>
+                      <div className='border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full'>
                         <div className='bg-[#474747] w-[40%] rounded-s-lg'>
                           <p className='text-white text-[11px] p-4'>Repair Status</p>
                         </div>
@@ -343,15 +376,25 @@ function ClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2'>
-                          <img src={DropActive} alt='DropActive' />
+                        <div className='self-center ml-auto mr-2' onClick={handleToggleDropdown1}>
+                          <img src={DropActive} className={`cursor-pointer ${dropdownVisible1 ? 'rotate-180	' : ''}`} alt='DropActive' />
+                          <div className={`absolute z-[2] w-[140px]  ${dropdownVisible1 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md top-[2rem]`}>
+                            <div>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'> <img src={Open} className='w-4 h-4 mr-2' alt='Open'/> Open</p>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Complete} className='w-4 h-4 mr-2' alt='Open'/>Completed</p>
+                              <p className='text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Rejected</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
+                      <div className='mt-2'>
+                           <Button className='!bg-[#fff] !text-light-black !text-[14px] flex' onClick={()=>openAttachments()}><img src={Track} className='w-5 h-5 mr-2' alt="Track" /> Track Status</Button>
+                        </div>
                     </div>
-                    <div className='col-span-3 self-center'>
+                    <div className='col-span-3 pt-2'>
                       <div className='m-2 p-2 bg-[#3C3C3C] '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
+                        <div className='h-[200px] max-h-[200px] overflow-y-scroll Diagnosis'>
                         <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
@@ -909,7 +952,7 @@ function ClaimList() {
              
               </div>
               <div >
-                <p className='text-sm my-3'><b> Attachment : </b>  <span className='text-neutral-grey'> Accepted file types: jpg, gif, png, Max. file size: 50 MB. </span></p>
+                <p className='text-sm my-3'><b> Attachment : </b>  <span className='text-neutral-grey'> Accepted file types: jpg, pdf, jpeg, doc, xls, xlxs, png, Max. file size: 50 MB. </span></p>
               </div>
               <Grid>
                 <div className='col-span-1'> 
@@ -926,13 +969,15 @@ function ClaimList() {
                     className="block px-2.5 pb-2.5 pt-2 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
                   ></textarea>
                 </div>
-                <div className='col-span-3'>
+                <div className='col-span-3 flex'>
+                  <img src={Sendto} className='self-center w-6 h-6 mr-2' alt='Sendto'/>
                   <Select 
                    name="state"
                    options={state}
                    placeholder=""
                    className="!bg-white "
-                   className1='!p-2'
+                   classBox="w-full"
+                   className1='!p-2 w-full'
                    />
                 </div>
                 <div className=''><Button>Submit</Button></div>
@@ -941,19 +986,20 @@ function ClaimList() {
             </div>
           </Modal>
 
-          <Modal  isOpen={isEditOpen} onClose={closeEdit}>
+          <Modal  isOpen={isEditOpen} onClose={closeEdit} className='!w-[1100px]'>
             <Button onClick={closeEdit} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-[#5f5f5f]">
                 <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
             </Button>
             <div className='py-1'>
             <p className='text-center text-3xl font-semibold '>
-              Edit Claim</p>
+              Edit Claim
+            </p>
             <form className="mt-3 mr-4">
                   <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1]  rounded-3xl">
                     <p className='pb-5 text-lg font-semibold'>Repair Parts</p>
                     <div className='w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden'>
                       <Grid className='mb-5'>
-                        <div className='col-span-3'>
+                        <div className='col-span-2'>
                         <Select
                           name="ServiceType"
                           label="Service Type"
@@ -962,25 +1008,24 @@ function ClaimList() {
                           className="!bg-[#fff]"
                           placeholder=""/>
                         </div>
-                        <div className='col-span-5'>
+                        <div className='col-span-8'>
                           <Input type='text' 
                           name="description"
                           className="!bg-[#fff]"
                           label="Description"
                           placeholder="" />
                         </div>
-                        <div className='col-span-4'>
+                        <div className='col-span-2'>
                           <Input type='number' 
                           name="price"
                           className="!bg-[#fff]"
                           label="Price ($)"
                           placeholder="" />
                         </div>
-                      
                       </Grid>
                       <hr className='my-4'/>
                       <Grid className='mb-5'>
-                        <div className='col-span-3'>
+                        <div className='col-span-2'>
                         <Select
                           name="ServiceType"
                           label="Service Type"
@@ -989,14 +1034,14 @@ function ClaimList() {
                           className="!bg-[#fff]"
                           placeholder=""/>
                         </div>
-                        <div className='col-span-5'>
+                        <div className='col-span-7'>
                           <Input type='text' 
                           name="description"
                           className="!bg-[#fff]"
                           label="Description"
                           placeholder="" />
                         </div>
-                        <div className='col-span-3'>
+                        <div className='col-span-2'>
                           <Input type='number' 
                           name="price"
                           className="!bg-[#fff]"
@@ -1015,7 +1060,7 @@ function ClaimList() {
                       </Grid>
                       <hr className='my-4'/>
                       <Grid className='mb-5'>
-                        <div className='col-span-3'>
+                      <div className='col-span-2'>
                         <Select
                           name="ServiceType"
                           label="Service Type"
@@ -1024,14 +1069,48 @@ function ClaimList() {
                           className="!bg-[#fff]"
                           placeholder=""/>
                         </div>
-                        <div className='col-span-5'>
+                        <div className='col-span-7'>
                           <Input type='text' 
                           name="description"
                           className="!bg-[#fff]"
                           label="Description"
                           placeholder="" />
                         </div>
-                        <div className='col-span-3'>
+                        <div className='col-span-2'>
+                          <Input type='number' 
+                          name="price"
+                          className="!bg-[#fff]"
+                          label="Price ($)"
+                          placeholder="" />
+                        </div>
+                        <div className='col-span-1 self-center bg-[#EBEBEB] rounded-[4px] flex justify-center'>
+                          <div className="flex h-full bg-[#EBEBEB]  justify-center">
+                            <img
+                              src={DeleteImage}
+                              className="self-center p-1 cursor-pointer"
+                              alt="Delete Icon"
+                            />
+                          </div>
+                        </div>
+                      </Grid>
+                       <Grid className='mb-5'>
+                      <div className='col-span-2'>
+                        <Select
+                          name="ServiceType"
+                          label="Service Type"
+                          options={CoverageStartDate}
+                          required={true}
+                          className="!bg-[#fff]"
+                          placeholder=""/>
+                        </div>
+                        <div className='col-span-7'>
+                          <Input type='text' 
+                          name="description"
+                          className="!bg-[#fff]"
+                          label="Description"
+                          placeholder="" />
+                        </div>
+                        <div className='col-span-2'>
                           <Input type='number' 
                           name="price"
                           className="!bg-[#fff]"
@@ -1082,14 +1161,14 @@ function ClaimList() {
           </Modal>
 
           <Modal  isOpen={isAttachmentsOpen} onClose={closeAttachments}>
-            <Button onClick={closeAttachments} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+            <Button onClick={closeAttachments} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-[#333434]">
                 <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
             </Button>
             <div className='py-1'>
             <p className='text-center text-3xl font-semibold '>
-              View Attachment</p>
+              Track Status</p>
 
-              <img src={Attachment} className='p-4' alt='Attachment' /> 
+             
             </div>
           </Modal>
 
