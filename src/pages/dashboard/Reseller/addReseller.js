@@ -14,8 +14,9 @@ import RadioButton from "../../../common/radio";
 import Modal from "../../../common/model";
 import { cityData } from "../../../stateCityJson";
 import { useFormik } from "formik";
-import disapprove from "../../../assets/images/Disapproved.png";
 import * as Yup from "yup";
+import disapprove from "../../../assets/images/Disapproved.png";
+
 import {
   checkDealersEmailValidation,
   getDealersList,

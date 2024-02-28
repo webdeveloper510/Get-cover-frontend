@@ -17,12 +17,14 @@ import CoverageType from "../../../assets/images/order/CoverageType.svg";
 import Purchase from "../../../assets/images/order/Purchase.svg";
 import DealerList from "../../../assets/images/icons/dealerList.svg";
 import Name from "../../../assets/images/order/Name.svg";
-import { cityData } from "../../../stateCityJson";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
 import {
   getContracts,
   orderDetailsById,
+  updateOrderServicer,
 } from "../../../services/orderServices";
 import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import PdfGenerator from "../../pdfViewer";
@@ -35,6 +37,7 @@ function OrderDetails() {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
+  const [servicerList, setServicerList] = useState([]);
   const [userDetails, setUserDetails] = useState({});
   const [invoiceData, setInvoiceData] = useState({});
   const { orderId } = useParams();
@@ -45,10 +48,9 @@ function OrderDetails() {
   };
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab());
-  const state = cityData;
   const [isServicerModal, setIsServicerModal] = useState(false);
 
-  const openServicer = () => {
+  const openServicer = (data) => {
     setIsServicerModal(true);
   };
   const closeServicer = () => {
@@ -64,10 +66,40 @@ function OrderDetails() {
     setLoading(false);
   }, [activeTab]);
 
+  const validationSchema = Yup.object({
+    servicerId: Yup.string().required("Servicer Name is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      servicerId: "",
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      setLoading(true);
+      console.log(orderDetails);
+      const res = updateOrderServicer(orderDetails._id, values).then((res) => {
+        console.log(res);
+        setLoading(false);
+      });
+      setLoading(false);
+    },
+  });
   const getOrderDetails = async () => {
     setLoading1(true);
     const result = await orderDetailsById(orderId);
     setUserDetails(result.orderUserData);
+    formik.setFieldValue("servicerId", result.result.servicerId);
+    const filteredServicer = result.servicers.filter(
+      (data) => data.servicerData.status === true
+    );
+
+    let arr = filteredServicer.map((data) => ({
+      label: data.name,
+      value: data._id,
+    }));
+    console.log(arr);
+    setServicerList(arr);
     setOrderDetails(result.result);
     let data = {
       dealerName: result.orderUserData.dealerData,
@@ -84,8 +116,9 @@ function OrderDetails() {
     navigate(-1);
   };
 
- 
-
+  const handleSelectChange = async (name, value) => {
+    formik.setFieldValue(name, value);
+  };
   const tabs = [
     {
       id: "Order Summary",
@@ -107,10 +140,8 @@ function OrderDetails() {
     setActiveTab(tabId);
   };
 
-
   return (
     <>
-    
       {loading1 && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
@@ -298,42 +329,44 @@ function OrderDetails() {
                   </p>
                 </div>
               </div>
-                  <div className="flex mb-4">
-                    <div className="relative">
+              <div className="flex mb-4">
+                <div className="relative">
+                  <img
+                    src={Name}
+                    className="mr-3 bg-[#383838] rounded-[14px]"
+                    alt="Name"
+                  />
+                  <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
+                    {" "}
+                    <img
+                      src={DealerList}
+                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                      alt="DealerList"
+                    />{" "}
+                  </Link>
+                </div>
+                <div className="flex justify-between w-[85%] ml-auto">
+                  <div>
+                    <p className="text-sm text-neutral-grey font-Regular">
+                      Servicer Name
+                    </p>
+                    <p className="text-base text-white font-semibold ">
+                      {userDetails?.servicerData?.name}
+                    </p>
+                  </div>
+                  <div className="self-center">
+                    <div
+                      onClick={() => openServicer(userDetails?.servicerData)}
+                    >
                       <img
-                        src={Name}
-                        className="mr-3 bg-[#383838] rounded-[14px]"
-                        alt="Name"
-                      />
-                      <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
-                        {" "}
-                        <img
-                          src={DealerList}
-                          className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                          alt="DealerList"
-                        />{" "}
-                      </Link>
-                    </div>
-                    <div className="flex justify-between w-[85%] ml-auto">
-                      <div >
-                        <p className="text-sm text-neutral-grey font-Regular">
-                          Servicer Name
-                        </p>
-                        <p className="text-base text-white font-semibold ">
-                          {userDetails?.servicerData?.name}
-                        </p>
-                      </div>
-                      <div className="self-center">
-                        <div onClick={()=> openServicer()}>
-                          <img
-                              src={Edit}
-                              className="mr-3 bg-[#383838] cursor-pointer rounded-[14px]"
-                              alt="DealerList"
-                            />{" "}
-                        </div>
-                      </div>
+                        src={Edit}
+                        className="mr-3 bg-[#383838] cursor-pointer rounded-[14px]"
+                        alt="DealerList"
+                      />{" "}
                     </div>
                   </div>
+                </div>
+              </div>
 
               <Grid className="!py-5">
                 <div className="col-span-6">
@@ -416,23 +449,28 @@ function OrderDetails() {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-        <form >
+        <form onSubmit={formik.handleSubmit}>
           <div className="py-3 px-12">
-            <p className="text-center text-3xl font-semibold ">
+            <p className="text-center text-3xl font-semibold">
               Update Servicer Name
             </p>
             <div className="my-5">
-            <SelectBoxWithSearch
-              label="Servicer Name"
-              name="servicerId"
-              placeholder=""
-              className='!bg-[#fff]'
-              options={state}/>
+              <SelectBoxWithSearch
+                label="Servicer Name"
+                name="servicerId"
+                onChange={handleSelectChange}
+                options={servicerList} // Make sure to define servicerList
+                value={formik.values.servicerId}
+                onBlur={formik.handleBlur}
+                error={formik.touched.servicerId && formik.errors.servicerId}
+              />
+              {formik.touched.servicerId && formik.errors.servicerId && (
+                <div className="text-red-500">{formik.errors.servicerId}</div>
+              )}
             </div>
             <div className="text-right">
-              <Button>Save</Button>
+              <Button type="submit">Save</Button>
             </div>
-          
           </div>
         </form>
       </Modal>

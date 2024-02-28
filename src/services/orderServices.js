@@ -285,3 +285,20 @@ export const getExportOrderHtml = async (id, data = {}) => {
     throw error;
   }
 };
+
+export const updateOrderServicer = async (id, data = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(
+      `${url}/order/updateServicerByOrder/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
