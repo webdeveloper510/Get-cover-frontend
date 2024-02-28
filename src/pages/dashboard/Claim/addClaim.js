@@ -196,8 +196,8 @@ function AddClaim() {
       };
       try {
         const response = await getContractList(data);
-        // console.log(response);
-        setContractList(response.result);
+        console.log(response);
+        setContractList(response);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -310,9 +310,8 @@ function AddClaim() {
                   </tr>
                 </thead>
                 <tbody>
-                  {contractList.length != 0 &&
-                    contractList.map((res, index) => {
-                      // console.log(res);
+                  {contractList?.result?.length != 0 &&
+                    contractList?.result?.map((res, index) => {
                       return (
                         <tr>
                           <td className="py-1">{res.unique_key}</td>
@@ -357,7 +356,7 @@ function AddClaim() {
               <div className="mt-5">
 
               <CustomPagination
-                totalRecords={100}
+                totalRecords={contractList?.totalCount}
                 rowsPerPageOptions={[10, 20, 50, 100]}
                 onPageChange={handlePageChange}
               />
@@ -380,6 +379,14 @@ function AddClaim() {
         <Grid>
           <div className="col-span-12">
             <Grid>
+            <div className="col-span-3">
+                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                  <p className="text-sm m-0 p-0">Contract ID</p>
+                  <p className="font-semibold">
+                    {contractDetail?.unique_key}
+                  </p>
+                </div>
+              </div>
               <div className="col-span-3">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Dealer Name</p>
@@ -406,7 +413,22 @@ function AddClaim() {
                   </p>
                 </div>
               </div>
-              <div className="col-span-3">
+              
+            </Grid>
+            <Grid className="!grid-cols-8 mt-3">
+              <div className="col-span-2">
+                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                  <p className="text-sm m-0 p-0">Model</p>
+                  <p className="font-semibold"> {contractDetail?.model}</p>
+                </div>
+              </div>
+              <div className="col-span-2">
+                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                  <p className="text-sm m-0 p-0">Serial #</p>
+                  <p className="font-semibold"> {contractDetail?.serial}</p>
+                </div>
+              </div>
+              <div className="col-span-2">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Manufacturer</p>
                   <p className="font-semibold">
@@ -415,34 +437,16 @@ function AddClaim() {
                   </p>
                 </div>
               </div>
-            </Grid>
-            <Grid className="!grid-cols-5 mt-3">
+             
               <div className="col-span-1">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Model</p>
-                  <p className="font-semibold"> {contractDetail?.model}</p>
-                </div>
-              </div>
-              <div className="col-span-1">
-                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Serial #</p>
-                  <p className="font-semibold"> {contractDetail?.serial}</p>
-                </div>
-              </div>
-              <div className="col-span-1">
-                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Order ID</p>
-                  <p className="font-semibold">
-                    {contractDetail?.order?.[0]?.unique_key}
-                  </p>
-                </div>
-              </div>
-              <div className="col-span-1">
-                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Retail Price ($)</p>
+                  <p className="text-sm m-0 p-0">Retail Price</p>
                   <p className="font-semibold">
                     {" "}
-                    ${contractDetail?.productValue}
+                    ${contractDetail?.productValue === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(contractDetail?.productValue ?? parseInt(0))
+                      }
                   </p>
                 </div>
               </div>
@@ -485,7 +489,7 @@ function AddClaim() {
 
               <div>
                 <div>
-                  <div className="border border-dashed w-full relative py-2">
+                  <div className="border border-dashed w-full relative py-8">
                     <input
                       type="file"
                       multiple
@@ -498,11 +502,12 @@ function AddClaim() {
                       htmlFor="fileInput"
                       className="self-center text-center cursor-pointer"
                     >
-                      <span>Click to add images</span>
+                       <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
+                      <p>Accepted Max. file size: 5 MB.</p>
                     </label>
                   </div>
 
-                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     {images.map((image, index) => (
                       <div key={index} className="relative">
                         <img
@@ -512,29 +517,14 @@ function AddClaim() {
                         />
                         <button
                           onClick={() => handleRemoveImage(index)}
-                          className="absolute top-2 right-2 text-red-500"
-                        >
-                          &#10006;
+                         className='absolute -top-2 -right-2'>
+                            <img src={Cross} className='w-6 rounded-[16px] cursor-pointer' alt='Cross' />
                         </button>
                       </div>
                     ))}
                   </div>
                 </div>
-                );
               </div>
-
-              <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
-                Please click on file option and make a copy. Upload the list of
-                Product Name and Price using our provided Google Sheets
-                template, by{" "}
-                <span
-                  className="underline cursor-pointer"
-                  // onClick={downloadCSVTemplate}
-                >
-                  Clicking here
-                </span>
-                The file must be saved with csv , xls and xlsx Format.
-              </p>
             </div>
             <div className="col-span-6">
               <div className="relative">
@@ -552,6 +542,7 @@ function AddClaim() {
                   className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
                 ></textarea>
               </div>
+              <p className="text-[10px] text-neutral-grey"> <span className="text-red-500"> Note : </span> Max Claim amount is $123.00</p>
             </div>
             <div className="col-span-6">
               <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
@@ -688,9 +679,9 @@ function AddClaim() {
                 </p>
               </div>
               <div className="col-span-1"></div>
-              <div className="col-span-1 self-center justify-end self-center rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat">
+              <div className="col-span-1 self-center justify-end self-center rounded-[20px] text-center">
                 <Button
-                  className="!bg-[transparent] !text-white !py-2 !font-Regular"
+                  className="!bg-[#817f7f] !text-white !py-[5px] !px-[20px] !rounded-[30px] !my-[4px] !font-Regular"
                   onClick={() => {
                     handleSelectValue(contractDetail);
                   }}
