@@ -30,9 +30,10 @@ import {
   getContractValues,
 } from "../../../services/claimServices";
 import { getServicerListInOrders } from "../../../services/orderServices";
+import { RotateLoader } from "react-spinners";
 
 function AddClaim() {
-  const [selectedValue, setSelectedValue] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -103,6 +104,7 @@ function AddClaim() {
       contractId: Yup.string().required("Contract ID is required"),
     }),
     onSubmit: async (values) => {
+      setLoading(true);
       setShowTable(true);
       let data = {
         ...values,
@@ -112,6 +114,7 @@ function AddClaim() {
       const response = await getContractList(data);
       //console.log(response);
       setContractList(response.result);
+      setLoading(false);
     },
   });
 
@@ -211,7 +214,15 @@ function AddClaim() {
   const renderStep1 = () => {
     // Step 1 content
     return (
-      <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+      <>
+       {loading ? (
+        <div className=" h-[400px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div>
+      ): (
+       <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
         <p className="text-xl font-bold mb-4">Step 1</p>
         <Grid>
           <div className="col-span-12">
@@ -246,7 +257,7 @@ function AddClaim() {
                 </div>
                 <div className="col-span-4">
                   <Input
-                    label="serial Number"
+                    label="Serial Number"
                     name="serial"
                     placeholder=""
                     className="!bg-white"
@@ -343,15 +354,21 @@ function AddClaim() {
                     })}
                 </tbody>
               </table>
+              <div className="mt-5">
+
               <CustomPagination
                 totalRecords={100}
                 rowsPerPageOptions={[10, 20, 50, 100]}
                 onPageChange={handlePageChange}
               />
+              </div>
             </div>
           )}
         </Grid>
       </div>
+      )}
+      </>
+     
     );
   };
 
