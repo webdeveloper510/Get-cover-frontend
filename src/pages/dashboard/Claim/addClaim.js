@@ -328,8 +328,8 @@ function AddClaim() {
                     </div>
                   </div>
                     </div>
-                    <Grid className='!grid-cols-2 mt-4'>
-                      <div className='relative pl-3 pb-3'>
+                    <Grid className='!grid-cols-1 mt-4 !gap-2'>
+                      <div className='relative pl-3 pb-1'>
                         <div>
                           <div className='absolute right-0'>
                             <img src={Cross} className='w-6 rounded-[16px] cursor-pointer' alt='Cross' />
@@ -337,7 +337,7 @@ function AddClaim() {
                         </div>
                         <p> <b>1.</b> file-1708682464698.xlsx</p>
                       </div>
-                      <div className='relative pl-3 pb-3'>
+                      <div className='relative pl-3 pb-1'>
                         <div>
                           <div className='absolute right-0'>
                             <img src={Cross} className='w-6 rounded-[16px] cursor-pointer' alt='Cross' />
@@ -357,7 +357,7 @@ function AddClaim() {
                   </label>
                     <textarea
                     id="note"
-                    rows="11"
+                    rows="13"
                     name="Note"
                     maxLength={150}
                     className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
@@ -453,7 +453,7 @@ function AddClaim() {
                 <p className='text-white py-2 font-Regular'>Dealer P.O. # : <b> MC-10554 </b></p>
               </div>
               <div className='col-span-1'></div>
-              <div className='col-span-1 self-center justify-end self-center rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat'>
+              <div className='col-span-1 self-center justify-end self-center rounded-[20px] text-center'>
                 <Button className='!bg-[transparent] !text-white !py-2 !font-Regular' onClick={nextStep}>Select</Button>
               </div>
             </Grid>
@@ -489,7 +489,6 @@ function AddClaim() {
                   <p className='text-[#333333] text-base font-semibold'>$182</p>
                 </div>
               </div>
-             
               <div className='col-span-1 border border-[#D1D1D1]'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Dealer Name</p>
@@ -580,7 +579,7 @@ function AddClaim() {
                   <p className='text-[#333333] text-base font-semibold'>09/11/2030</p>
                 </div>
               </div>
-              <div className='col-span-5 border border-[#D1D1D1] '>
+              <div className='col-span-5 border border-[#D1D1D1] rounded-b-xl'>
                 <table className='w-full'>
                   <thead>
                     <tr className='border-b'>
