@@ -96,7 +96,7 @@ function OrderDetails() {
 
     let arr = filteredServicer.map((data) => ({
       label: data.name,
-      value: data.servicerData._id,
+      value: data._id,
     }));
     console.log(arr);
     setServicerList(arr);

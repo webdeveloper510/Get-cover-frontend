@@ -57,6 +57,10 @@ function AddClaim() {
     setIsModalOpen(false);
   };
 
+  const isFormEmpty = () => {
+    return Object.values(formik.values).every((value) => !value);
+  };
+
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -101,9 +105,7 @@ function AddClaim() {
       orderId: "",
       venderOrder: "",
     },
-    validationSchema: Yup.object({
-      contractId: Yup.string().required("Contract ID is required"),
-    }),
+
     onSubmit: async (values) => {
       setLoading(true);
       setShowTable(true);
@@ -216,159 +218,185 @@ function AddClaim() {
     // Step 1 content
     return (
       <>
-       {loading ? (
-        <div className=" h-[400px] w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#333" />
-          </div>
-        </div>
-      ): (
-       <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
-        <p className="text-xl font-bold mb-4">Step 1</p>
-        <Grid>
-          <div className="col-span-12">
-            <form onSubmit={formik.handleSubmit}>
-              <Grid>
-                <div className="col-span-4">
-                  <Input
-                    label="Contract ID"
-                    name="contractId"
-                    placeholder=""
-                    className="!bg-white"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.contractId}
-                  />
-                  {formik.touched.contractId && formik.errors.contractId ? (
-                    <div className="text-red-500">
-                      {formik.errors.contractId}
-                    </div>
-                  ) : null}
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    label="Customer Name"
-                    name="customerName"
-                    placeholder=""
-                    className="!bg-white"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.customerName}
-                  />
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    label="Serial Number"
-                    name="serial"
-                    placeholder=""
-                    className="!bg-white"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.serial}
-                  />
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    label="Order #"
-                    name="orderId"
-                    placeholder=""
-                    className="!bg-white"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.orderId}
-                  />
-                </div>
-
-                <div className="col-span-4">
-                  <Input
-                    label="Dealer P.O. #"
-                    name="venderOrder"
-                    placeholder=""
-                    className="!bg-white"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.venderOrder}
-                  />
-                </div>
-
-                <div className="col-span-4 self-end justify-end flex">
-                  <Button type="submit">Search</Button>
-                </div>
-              </Grid>
-            </form>
-          </div>
-          {showTable && (
-            <div className="col-span-12">
-              <table className="w-full border text-center">
-                <thead className="bg-[#F9F9F9] ">
-                  <tr className="py-2">
-                    <th>Contract ID</th>
-                    <th className="!py-2">Customer Name</th>
-                    <th>Serial Number</th>
-                    <th>Order #</th>
-                    <th>Dealer P.O. #</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {contractList?.result?.length != 0 &&
-                    contractList?.result?.map((res, index) => {
-                      return (
-                        <tr>
-                          <td className="py-1">{res.unique_key}</td>
-                          <td>{res.order.customers.username}</td>
-                          <td> {res.serial}</td>
-                          <td>{res.order.unique_key}</td>
-                          <td>{res.order.venderOrder}</td>
-                          <td>
-                            <div className="relative">
-                              <div onClick={() => handleToggleDropdown(index)}>
-                                <img
-                                  src={ActiveIcon}
-                                  className="cursor-pointer w-[35px] mx-auto"
-                                  alt="Active Icon"
-                                />
-                              </div>
-                              {selectedActions[index] && (
-                                <div className="absolute z-[2] w-[90px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
-                                  <div
-                                    className="text-left pb-1 border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                                    onClick={() => {
-                                      handleSelectValue(res);
-                                    }}
-                                  >
-                                    <p className="flex hover:font-semibold"> <img src={selectIcon} className="w-4 h-4 mr-2" alt="selectIcon" /> Select</p>
-                                  </div>
-                                  <div
-                                    className="text-center pt-1 text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                                    onClick={() => openModal(res)}
-                                  >
-                                    <p className="flex hover:font-semibold">  <img src={View} className="w-4 h-4 mr-2" alt="View" /> View</p>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
-              <div className="mt-5">
-
-              <CustomPagination
-                totalRecords={contractList?.totalCount}
-                rowsPerPageOptions={[10, 20, 50, 100]}
-                onPageChange={handlePageChange}
-              />
-              </div>
+        {loading ? (
+          <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
             </div>
-          )}
-        </Grid>
-      </div>
-      )}
+          </div>
+        ) : (
+          <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+            <p className="text-xl font-bold mb-4">Step 1</p>
+            <Grid>
+              <div className="col-span-12">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (!isFormEmpty()) {
+                      formik.handleSubmit(e);
+                      setShowTable(true);
+                    }
+                  }}
+                >
+                  <Grid>
+                    <div className="col-span-4">
+                      <Input
+                        label="Contract ID"
+                        name="contractId"
+                        placeholder=""
+                        className="!bg-white"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.contractId}
+                      />
+                      {formik.touched.contractId && formik.errors.contractId ? (
+                        <div className="text-red-500">
+                          {formik.errors.contractId}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        label="Customer Name"
+                        name="customerName"
+                        placeholder=""
+                        className="!bg-white"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.customerName}
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        label="Serial Number"
+                        name="serial"
+                        placeholder=""
+                        className="!bg-white"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.serial}
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        label="Order #"
+                        name="orderId"
+                        placeholder=""
+                        className="!bg-white"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.orderId}
+                      />
+                    </div>
+
+                    <div className="col-span-4">
+                      <Input
+                        label="Dealer P.O. #"
+                        name="venderOrder"
+                        placeholder=""
+                        className="!bg-white"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.venderOrder}
+                      />
+                    </div>
+
+                    <div className="col-span-4 self-end justify-end flex">
+                      <Button type="submit" disabled={isFormEmpty()}>
+                        Search
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
+              </div>
+              {showTable && (
+                <div className="col-span-12">
+                  <table className="w-full border text-center">
+                    <thead className="bg-[#F9F9F9] ">
+                      <tr className="py-2">
+                        <th>Contract ID</th>
+                        <th className="!py-2">Customer Name</th>
+                        <th>Serial Number</th>
+                        <th>Order #</th>
+                        <th>Dealer P.O. #</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {contractList?.result?.length != 0 &&
+                        contractList?.result?.map((res, index) => {
+                          return (
+                            <tr>
+                              <td className="py-1">{res.unique_key}</td>
+                              <td>{res.order.customers.username}</td>
+                              <td> {res.serial}</td>
+                              <td>{res.order.unique_key}</td>
+                              <td>{res.order.venderOrder}</td>
+                              <td>
+                                <div className="relative">
+                                  <div
+                                    onClick={() => handleToggleDropdown(index)}
+                                  >
+                                    <img
+                                      src={ActiveIcon}
+                                      className="cursor-pointer w-[35px] mx-auto"
+                                      alt="Active Icon"
+                                    />
+                                  </div>
+                                  {selectedActions[index] && (
+                                    <div className="absolute z-[2] w-[90px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
+                                      <div
+                                        className="text-left pb-1 border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                        onClick={() => {
+                                          handleSelectValue(res);
+                                        }}
+                                      >
+                                        <p className="flex hover:font-semibold">
+                                          {" "}
+                                          <img
+                                            src={selectIcon}
+                                            className="w-4 h-4 mr-2"
+                                            alt="selectIcon"
+                                          />{" "}
+                                          Select
+                                        </p>
+                                      </div>
+                                      <div
+                                        className="text-center pt-1 text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                        onClick={() => openModal(res)}
+                                      >
+                                        <p className="flex hover:font-semibold">
+                                          {" "}
+                                          <img
+                                            src={View}
+                                            className="w-4 h-4 mr-2"
+                                            alt="View"
+                                          />{" "}
+                                          View
+                                        </p>
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                  <div className="mt-5">
+                    <CustomPagination
+                      totalRecords={contractList?.totalCount}
+                      rowsPerPageOptions={[10, 20, 50, 100]}
+                      onPageChange={handlePageChange}
+                    />
+                  </div>
+                </div>
+              )}
+            </Grid>
+          </div>
+        )}
       </>
-     
     );
   };
 
@@ -380,12 +408,10 @@ function AddClaim() {
         <Grid>
           <div className="col-span-12">
             <Grid>
-            <div className="col-span-3">
+              <div className="col-span-3">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Contract ID</p>
-                  <p className="font-semibold">
-                    {contractDetail?.unique_key}
-                  </p>
+                  <p className="font-semibold">{contractDetail?.unique_key}</p>
                 </div>
               </div>
               <div className="col-span-3">
@@ -414,7 +440,6 @@ function AddClaim() {
                   </p>
                 </div>
               </div>
-              
             </Grid>
             <Grid className="!grid-cols-8 mt-3">
               <div className="col-span-2">
@@ -438,16 +463,18 @@ function AddClaim() {
                   </p>
                 </div>
               </div>
-             
+
               <div className="col-span-1">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Retail Price</p>
                   <p className="font-semibold">
                     {" "}
-                    ${contractDetail?.productValue === undefined
-                          ? parseInt(0).toLocaleString(2)
-                          : formatOrderValue(contractDetail?.productValue ?? parseInt(0))
-                      }
+                    $
+                    {contractDetail?.productValue === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                          contractDetail?.productValue ?? parseInt(0)
+                        )}
                   </p>
                 </div>
               </div>
@@ -503,7 +530,11 @@ function AddClaim() {
                       htmlFor="fileInput"
                       className="self-center text-center cursor-pointer"
                     >
-                       <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
+                      <img
+                        src={Dropbox}
+                        className="mx-auto mb-3"
+                        alt="Dropbox"
+                      />
                       <p>Accepted Max. file size: 5 MB.</p>
                     </label>
                   </div>
@@ -518,8 +549,13 @@ function AddClaim() {
                         />
                         <button
                           onClick={() => handleRemoveImage(index)}
-                         className='absolute -top-2 -right-2'>
-                            <img src={Cross} className='w-6 rounded-[16px] cursor-pointer' alt='Cross' />
+                          className="absolute -top-2 -right-2"
+                        >
+                          <img
+                            src={Cross}
+                            className="w-6 rounded-[16px] cursor-pointer"
+                            alt="Cross"
+                          />
                         </button>
                       </div>
                     ))}
@@ -543,7 +579,11 @@ function AddClaim() {
                   className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
                 ></textarea>
               </div>
-              <p className="text-[10px] text-neutral-grey"> <span className="text-red-500"> Note : </span> Max Claim amount is $123.00</p>
+              <p className="text-[10px] text-neutral-grey">
+                {" "}
+                <span className="text-red-500"> Note : </span> Max Claim amount
+                is $123.00
+              </p>
             </div>
             <div className="col-span-6">
               <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
