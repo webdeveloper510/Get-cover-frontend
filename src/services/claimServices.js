@@ -30,3 +30,16 @@ export const getContractList = async (data = {}) => {
     throw error;
   }
 };
+
+export const getContractValues = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/claim/getContractById/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

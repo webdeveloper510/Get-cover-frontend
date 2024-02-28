@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Headbar from "../../../common/headBar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Grid from "../../../common/grid";
@@ -7,6 +7,8 @@ import Button from "../../../common/button";
 // Media Import
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import address from "../../../assets/images/Dealer/Address.svg";
+import rightArrow from "../../../assets/images/arrow-right.png";
+import leftArrow from "../../../assets/images/arrow-left.png";
 import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
@@ -106,14 +108,30 @@ function DealerDetails() {
   });
 
   const state = cityData;
+  const containerRef = useRef(null);
+
+ 
+  const handleScrollLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft -= 100; // Adjust scroll distance as needed
+    }
+  };
+
+  const handleScrollRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft += 100; // Adjust scroll distance as needed
+    }
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
     formik.resetForm();
   };
+  
   const closeModal10 = () => {
     setModalOpen(false);
   };
+
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -139,29 +157,35 @@ function DealerDetails() {
       clearInterval(intervalId);
     };
   }, [modalOpen, timer]);
+
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
+
   const getUserList = async () => {
     const result = await getUserListByDealerId(id.id, {});
     setRefreshUserList(result.result);
   };
+
   const closeModal1 = () => {
     setActiveTab("Servicer");
     setIsModalOpen1(false);
   };
+
   const modalOpen1 = () => {
     getServicerList();
     setActiveTab("Servicer123");
     setIsModalOpen1(true);
   };
+
   const closeUserModal = () => {
     setIsUserModalOpen(false);
     setActiveTab("Users");
     userValues.resetForm();
   };
+
   const getServicerList = async () => {
     const result = await getServicerListForDealer(id.id);
     setServicerList(result.result);
@@ -173,6 +197,7 @@ function DealerDetails() {
     // getServicerListData()
     getServicerList();
   }, [id.id, flag]);
+
   useEffect(() => {
     localStorage.setItem("menu", activeTab);
   }, [activeTab]);
@@ -195,14 +220,17 @@ function DealerDetails() {
     });
     setLoading(false);
   };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
+
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
   };
+
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -342,6 +370,7 @@ function DealerDetails() {
       }
     },
   });
+
   const openUserModal = () => {
     userValues.resetForm();
     setActiveTab("Users123");
@@ -472,6 +501,7 @@ function DealerDetails() {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
+
   const routeToPage = (data) => {
     console.log(data, id.id);
     switch (data) {
@@ -525,6 +555,7 @@ function DealerDetails() {
   };
   return (
     <>
+
       {loading && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
@@ -532,7 +563,9 @@ function DealerDetails() {
           </div>
         </div>
       )}
+
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
+
         <Headbar />
 
         <div className="flex">
@@ -700,13 +733,12 @@ function DealerDetails() {
             </div>
           </div>
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
-            <Grid className="">
-             
-              <div className="col-span-10">
-                <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-5 !gap-1">
+            <Grid className="!gap-2">          
+              <div className="col-span-10 relative">
+                <div className=" no-scrollbar bg-[#fff] rounded-[30px] w-[100%] max-w-[100%] overflow-x-scroll p-3 border-[1px] border-[#D1D1D1] " ref={containerRef}>
+                  <div className="flex !gap-1 w-[77vw] pr-[84px]">
                     {tabs.map((tab) => (
-                      <div className="col-span-1" key={tab.id}>
+                      <div className="tabs w-[150px]" key={tab.id}>
                         <Button
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
                             activeTab === tab.id
@@ -732,7 +764,11 @@ function DealerDetails() {
                         </Button>
                       </div>
                     ))}
-                  </Grid>
+                  </div>
+                  <div className="absolute h-full bg-[#f9f9f9] right-0 flex top-0 self-center  shadow-6xl">
+                    <img src={leftArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer" onClick={handleScrollLeft} />
+                    <img src={rightArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer"  onClick={handleScrollRight} /> 
+                  </div>
                 </div>
               </div>
               {activeTab !== "Contracts" ? (
@@ -767,6 +803,7 @@ function DealerDetails() {
             ))}
           </div>
         </Grid>
+
       </div>
 
       {/* Modal Email Popop */}
@@ -910,8 +947,6 @@ function DealerDetails() {
           </form>
         </div>
       </Modal>
-
-      {/* Modal Primary Popop */}
 
       {/* Modal Primary Popop */}
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
@@ -1132,6 +1167,7 @@ function DealerDetails() {
           </p>
         </div>
       </Modal>
+
     </>
   );
 }

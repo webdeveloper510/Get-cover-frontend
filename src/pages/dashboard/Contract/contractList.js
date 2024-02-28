@@ -246,129 +246,148 @@ function ContractList(props) {
               </div>
             </div>
           </Grid>
-          {loading ? (
-            <div className=" h-[400px] w-full flex py-5">
-              <div className="self-center mx-auto">
-                <RotateLoader color="#333" />
+          {/* {contractList?.length == 0   ? (
+           
+              <div className="text-center my-5">
+                <p>No records found.</p>
               </div>
-            </div>
-          ) : (
-            <>
-              {contractList &&
-                contractList.map((res, index) => {
-                  return (
-                    <div className="px-3 mt-5">
-                      <div>
-                        <Grid className="bg-[#333333] !gap-2 !grid-cols-11 rounded-t-xl">
-                          <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
-                            <p className="text-white py-2 font-Regular">
-                              Contract ID : <b> {res.unique_key} </b>
-                            </p>
-                          </div>
-                          {props.orderId == null ? (
-                            <>
-                              <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                                <p className="text-white py-2 font-Regular">
-                                  Order ID :{" "}
-                                  <b> {res?.order[0]?.unique_key} </b>
-                                </p>
-                              </div>
-                              <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                                <p className="text-white py-2 font-Regular">
-                                  Dealer P.O. # :{" "}
-                                  <b> {res?.order[0]?.venderOrder} </b>
-                                </p>
-                              </div>
-                            </>
-                          ) : (<div className="col-span-6 self-center justify-end"></div>)}
-
-                          <div className="col-span-1 self-center justify-end"></div>
-                          <div className="col-span-1 self-center flex justify-end">
-                            <div
-                              onClick={() => openView(res._id)}
-                              className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center"
-                            >
-                              {" "}
-                              <img
-                                src={view}
-                                className="ml-auto w-[23px] h-[23px] "
-                                alt="edit"
-                              />{" "}
-                            </div>
-                            <Link to={`/editContract/${res._id}`}>
-                              {" "}
-                              <img
-                                src={Edit}
-                                className="ml-auto mr-2"
-                                alt="edit"
-                              />{" "}
-                            </Link>
-                          </div>
-                        </Grid>
-
-                        <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
-                          <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
-                            <div className="py-4 pl-3">
-                              <p className="text-[#5D6E66] text-sm font-Regular">
-                                Manufacturer
-                              </p>
-                              <p className="text-[#333333] text-base font-semibold">
-                                {res.manufacture}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="col-span-1 border border-[#D1D1D1]">
-                            <div className="py-4 pl-3">
-                              <p className="text-[#5D6E66] text-sm font-Regular">
-                                Model
-                              </p>
-                              <p className="text-[#333333] text-base font-semibold">
-                                {res.model}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="col-span-1 border border-[#D1D1D1]">
-                            <div className="py-4 pl-3">
-                              <p className="text-[#5D6E66] text-sm font-Regular">
-                                Serial
-                              </p>
-                              <p className="text-[#333333] text-base font-semibold">
-                                {res.serial}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="col-span-1 border border-[#D1D1D1]">
-                            <div className="py-4 pl-3">
-                              <p className="text-[#5D6E66] text-sm font-Regular">
-                                Status
-                              </p>
-                              <p className="text-[#333333] text-base font-semibold">
-                                {res.status}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
-                            <div className="py-4 pl-3">
-                              <p className="text-[#5D6E66] text-sm font-Regular">
-                                Eligibility
-                              </p>
-                              <p className="text-[#333333] text-base font-semibold">
-                                {res.eligibilty}
-                              </p>
-                            </div>
-                          </div>
-                        </Grid>
-                      </div>
+          ) : ( */}
+            <div>
+              <>
+                {loading ? (
+                  <div className=" h-[400px] w-full flex py-5">
+                    <div className="self-center mx-auto">
+                      <RotateLoader color="#333" />
                     </div>
-                  );
-                })}
-            </>
-          )}
-          <CustomPagination
-            totalRecords={totalRecords}
-            rowsPerPageOptions={[10, 20, 50, 100]}
-            onPageChange={handlePageChange}
-          />
+                  </div>
+                ) : (
+                  <>
+                    {contractList &&
+                      contractList.map((res, index) => {
+                        return (
+                          <div className="px-3 mt-5">
+                            <div>
+                              <Grid className="bg-[#333333] !gap-2 !grid-cols-11 rounded-t-xl">
+                                <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
+                                  <p className="text-white py-2 font-Regular">
+                                    Contract ID : <b> {res.unique_key} </b>
+                                  </p>
+                                </div>
+                                {props.orderId == null ? (
+                                  <>
+                                    <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                      <p className="text-white py-2 font-Regular">
+                                        Order ID :{" "}
+                                        <b> {res?.order[0]?.unique_key} </b>
+                                      </p>
+                                    </div>
+                                    <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                      <p className="text-white py-2 font-Regular">
+                                        Dealer P.O. # :{" "}
+                                        <b> {res?.order[0]?.venderOrder} </b>
+                                      </p>
+                                    </div>
+                                  </>
+                                ) : (<div className="col-span-6 self-center justify-end"></div>)}
+
+                                <div className="col-span-1 self-center justify-end"></div>
+                                <div className="col-span-1 self-center flex justify-end">
+                                  <div
+                                    onClick={() => openView(res._id)}
+                                    className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center"
+                                  >
+                                    {" "}
+                                    <img
+                                      src={view}
+                                      className="ml-auto w-[23px] h-[23px] "
+                                      alt="edit"
+                                    />{" "}
+                                  </div>
+                                  <Link to={`/editContract/${res._id}`}>
+                                    {" "}
+                                    <img
+                                      src={Edit}
+                                      className="ml-auto mr-2"
+                                      alt="edit"
+                                    />{" "}
+                                  </Link>
+                                </div>
+                              </Grid>
+
+                              <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
+                                <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                                  <div className="py-4 pl-3">
+                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                      Manufacturer
+                                    </p>
+                                    <p className="text-[#333333] text-base font-semibold">
+                                      {res.manufacture}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="col-span-1 border border-[#D1D1D1]">
+                                  <div className="py-4 pl-3">
+                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                      Model
+                                    </p>
+                                    <p className="text-[#333333] text-base font-semibold">
+                                      {res.model}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="col-span-1 border border-[#D1D1D1]">
+                                  <div className="py-4 pl-3">
+                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                      Serial #
+                                    </p>
+                                    <p className="text-[#333333] text-base font-semibold">
+                                      {res.serial}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="col-span-1 border border-[#D1D1D1]">
+                                  <div className="py-4 pl-3">
+                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                      Status
+                                    </p>
+                                    <p className="text-[#333333] text-base font-semibold">
+                                      {res.status}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
+                                  <div className="py-4 pl-3">
+                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                      Eligibility
+                                    </p>
+                                    <p className="text-[#333333] text-base font-semibold">
+                                      {res.eligibilty}
+                                    </p>
+                                  </div>
+                                </div>
+                              </Grid>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </>
+                  )}
+              </>
+
+                  {/* {contractList?.length > 0   ? (
+                    <div className="text-center my-5">
+                      <p>No records found.</p>
+                    </div>
+                    ) :( */}
+                          <CustomPagination
+                            totalRecords={totalRecords}
+                            rowsPerPageOptions={[10, 20, 50, 100]}
+                            onPageChange={handlePageChange}
+                          />
+                     {/* )} */}
+              </div>
+          {/* )} */}
+          
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button
               onClick={closeDisapproved}
@@ -503,7 +522,7 @@ function ContractList(props) {
             </Button>
             <Button
               onClick={closeView}
-              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+              className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined ? ('!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]') : ('!bg-[#5f5f5f]') } `}
             >
               <img
                 src={Cross}
@@ -567,7 +586,7 @@ function ContractList(props) {
                       <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                            Serial
+                            Serial #
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
                             {contractDetails?.serial}

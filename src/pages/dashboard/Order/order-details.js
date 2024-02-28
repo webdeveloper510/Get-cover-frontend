@@ -110,6 +110,7 @@ function OrderDetails() {
 
   return (
     <>
+    
       {loading1 && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
@@ -117,6 +118,7 @@ function OrderDetails() {
           </div>
         </div>
       )}
+
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
         <div className="flex">
@@ -403,6 +405,7 @@ function OrderDetails() {
           </div>
         </Grid>
       </div>
+
       <Modal isOpen={isServicerModal} onClose={closeServicer}>
         <Button
           onClick={closeServicer}

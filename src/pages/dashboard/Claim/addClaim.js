@@ -9,6 +9,7 @@ import Input from "../../../common/input";
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import Edit from "../../../assets/images/Dealer/EditIcon.svg";
+import dummyImage from "../../../assets/images/attachment.png";
 import Cross from "../../../assets/images/Cross.png";
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -21,8 +22,14 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Modal from "../../../common/model";
 import { date } from "yup";
-import { getContractList } from "../../../services/dealerServices/claimServices";
+
 import CustomPagination from "../../pagination";
+
+import {
+  getContractList,
+  getContractValues,
+} from "../../../services/claimServices";
+import { getServicerListInOrders } from "../../../services/orderServices";
 
 function AddClaim() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -30,6 +37,9 @@ function AddClaim() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [contractList, setContractList] = useState([]);
+  const [contractDetail, setContractDetails] = useState({});
+  const [servicerData, setServicerData] = useState([]);
+  const [images, setImages] = useState([]);
 
   const dropdownRef = useRef(null);
 
@@ -43,6 +53,38 @@ function AddClaim() {
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
     setIsModalOpen(false);
+  };
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const files = e.target.files;
+
+    if (files) {
+      const newImages = Array.from(files)
+        .slice(0, 5 - images.length)
+        .map((file) => ({
+          file,
+          preview: URL.createObjectURL(file),
+        }));
+
+      setImages((prevImages) => [...prevImages, ...newImages]);
+    }
+  };
+
+  const handleRemoveImage = (index) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImages(newImages);
   };
 
   const prevStep = () => {
@@ -68,7 +110,7 @@ function AddClaim() {
         pageLimit: 10,
       };
       const response = await getContractList(data);
-      console.log(response);
+      //console.log(response);
       setContractList(response.result);
     },
   });
@@ -83,14 +125,6 @@ function AddClaim() {
         return null;
     }
   };
-
-  const options = [
-    { label: "Option 1", value: "option1" },
-    { label: "Option 2", value: "option2" },
-    { label: "Option 3", value: "option3" },
-    { label: "Option 4", value: "option4" },
-    { label: "Option 5", value: "option5" },
-  ];
 
   const handleSelect = (selectedOption) => {
     console.log("Selected Option:", selectedOption);
@@ -109,10 +143,47 @@ function AddClaim() {
     setIsModalOpen(false);
   };
 
-  const openModal = () => {
+  const openModal = (res) => {
+    // setContractDetails(res);
+    console.log(res._id);
+    getContractValues(res._id).then((res) => {
+      console.log(res.result);
+      getServicerList({
+        dealerId: res.result.order[0].dealerId,
+        resellerId: res.result.order[0].resellerId,
+      });
+      setContractDetails(res.result);
+    });
     setIsModalOpen(true);
   };
 
+  const getServicerList = async (data) => {
+    let arr = [];
+
+    const result = await getServicerListInOrders(data);
+
+    const filteredServicers = result.result;
+    filteredServicers?.map((res) => {
+      arr.push({
+        label: res.name,
+        value: res._id,
+      });
+    });
+    setServicerData(arr);
+  };
+
+  const handleSelectValue = (res) => {
+    getContractValues(res._id).then((res) => {
+      console.log(res.result);
+      getServicerList({
+        dealerId: res.result.order[0].dealerId,
+        resellerId: res.result.order[0].resellerId,
+      });
+      setContractDetails(res.result);
+
+      nextStep();
+    });
+  };
   const handlePageChange = async (page, rowsPerPage) => {
     if (formik.values.contractId !== "") {
       let data = {
@@ -122,7 +193,7 @@ function AddClaim() {
       };
       try {
         const response = await getContractList(data);
-        console.log(response);
+        // console.log(response);
         setContractList(response.result);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -230,7 +301,7 @@ function AddClaim() {
                 <tbody>
                   {contractList.length != 0 &&
                     contractList.map((res, index) => {
-                      console.log(res);
+                      // console.log(res);
                       return (
                         <tr>
                           <td className="py-1">{res.unique_key}</td>
@@ -251,13 +322,15 @@ function AddClaim() {
                                 <div className="absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
                                   <div
                                     className="text-center pb-1 border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                                    onClick={nextStep}
+                                    onClick={() => {
+                                      handleSelectValue(res);
+                                    }}
                                   >
                                     <p>Select</p>
                                   </div>
                                   <div
                                     className="text-center pt-1 text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                                    onClick={() => openModal()}
+                                    onClick={() => openModal(res)}
                                   >
                                     <p>View</p>
                                   </div>
@@ -293,25 +366,36 @@ function AddClaim() {
               <div className="col-span-3">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Dealer Name</p>
-                  <p className="font-semibold">Dealer Name</p>
+                  <p className="font-semibold">
+                    {contractDetail?.order?.[0]?.dealer?.[0]?.name}
+                  </p>
                 </div>
               </div>
               <div className="col-span-3">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Reseller Name</p>
-                  <p className="font-semibold">Reseller Name</p>
+                  <p className="font-semibold">
+                    {" "}
+                    {contractDetail?.order?.[0]?.reseller?.[0]?.name}
+                  </p>
                 </div>
               </div>
               <div className="col-span-3">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Customer Name</p>
-                  <p className="font-semibold">Customer Name</p>
+                  <p className="font-semibold">
+                    {" "}
+                    {contractDetail?.order?.[0]?.customer?.[0]?.username}
+                  </p>
                 </div>
               </div>
               <div className="col-span-3">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Manufacturer</p>
-                  <p className="font-semibold">Manufacturer</p>
+                  <p className="font-semibold">
+                    {" "}
+                    {contractDetail?.manufacture}
+                  </p>
                 </div>
               </div>
             </Grid>
@@ -319,31 +403,36 @@ function AddClaim() {
               <div className="col-span-1">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Model</p>
-                  <p className="font-semibold">Model</p>
+                  <p className="font-semibold"> {contractDetail?.model}</p>
                 </div>
               </div>
               <div className="col-span-1">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Serial #</p>
-                  <p className="font-semibold">Serial #</p>
+                  <p className="font-semibold"> {contractDetail?.serial}</p>
                 </div>
               </div>
               <div className="col-span-1">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Order ID</p>
-                  <p className="font-semibold">Order ID</p>
+                  <p className="font-semibold">
+                    {contractDetail?.order?.[0]?.unique_key}
+                  </p>
                 </div>
               </div>
               <div className="col-span-1">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Retail Price ($)</p>
-                  <p className="font-semibold">Retail Price ($)</p>
+                  <p className="font-semibold">
+                    {" "}
+                    ${contractDetail?.productValue}
+                  </p>
                 </div>
               </div>
               <div className="col-span-1">
                 <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                   <p className="text-sm m-0 p-0">Condition</p>
-                  <p className="font-semibold">Condition</p>
+                  <p className="font-semibold"> {contractDetail?.condition}</p>
                 </div>
               </div>
             </Grid>
@@ -357,7 +446,7 @@ function AddClaim() {
               <Grid className="my-3">
                 <div className="col-span-6">
                   <SelectBoxWIthSerach
-                    options={options}
+                    options={servicerData}
                     label="Servicer Name"
                     name="servicerName"
                     className="!bg-[#fff]"
@@ -376,11 +465,47 @@ function AddClaim() {
                   />
                 </div>
               </Grid>
-              <div className="border border-dashed w-full  relative py-2">
-                <div className="self-center text-center">
-                  <FileDropdown className="!bg-transparent !border-0" />
+
+              <div>
+                <div>
+                  <div className="border border-dashed w-full relative py-2">
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                      id="fileInput"
+                    />
+                    <label
+                      htmlFor="fileInput"
+                      className="self-center text-center cursor-pointer"
+                    >
+                      <span>Click to add images</span>
+                    </label>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {images.map((image, index) => (
+                      <div key={index} className="relative">
+                        <img
+                          src={image.preview}
+                          alt={`Preview ${index}`}
+                          className="w-full h-auto"
+                        />
+                        <button
+                          onClick={() => handleRemoveImage(index)}
+                          className="absolute top-2 right-2 text-red-500"
+                        >
+                          &#10006;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
+                );
               </div>
+
               <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
                 Please click on file option and make a copy. Upload the list of
                 Product Name and Price using our provided Google Sheets
@@ -531,38 +656,41 @@ function AddClaim() {
             <Grid className="bg-[#333333] !gap-2 !grid-cols-9 !px-3 rounded-t-xl">
               <div className="col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                 <p className="text-white py-2 font-Regular">
-                  Contract ID : <b> 861910 </b>
+                  Contract ID : <b> {contractDetail.unique_key} </b>
                 </p>
               </div>
               <div className="col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
                 <p className="text-white py-2 font-Regular">
-                  Order ID : <b> 315174 </b>
+                  Order ID : <b> {contractDetail?.order?.[0]?.unique_key} </b>
                 </p>
               </div>
               <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
                 <p className="text-white py-2 font-Regular">
-                  Dealer P.O. # : <b> MC-10554 </b>
+                  Dealer P.O. # :{" "}
+                  <b> {contractDetail?.order?.[0]?.venderOrder} </b>
                 </p>
               </div>
               <div className="col-span-1"></div>
               <div className="col-span-1 self-center justify-end self-center rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat">
                 <Button
                   className="!bg-[transparent] !text-white !py-2 !font-Regular"
-                  onClick={nextStep}
+                  onClick={() => {
+                    handleSelectValue(contractDetail);
+                  }}
                 >
                   Select
                 </Button>
               </div>
             </Grid>
 
-            <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
+            <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5 h-[400px] wax-h-[400px] overflow-y-scroll no-scrollbar">
               <div className="col-span-1 border border-[#D1D1D1]">
                 <div className="py-4 pl-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Manufacturer
                   </p>
                   <p className="text-[#333333] text-base font-semibold">
-                    Apple iPad
+                    {contractDetail?.manufacture}
                   </p>
                 </div>
               </div>
@@ -570,7 +698,7 @@ function AddClaim() {
                 <div className="py-4 pl-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">Model</p>
                   <p className="text-[#333333] text-base font-semibold">
-                    Apple iPad 5th Gen, 30GB
+                    {contractDetail?.model}
                   </p>
                 </div>
               </div>
@@ -578,7 +706,7 @@ function AddClaim() {
                 <div className="py-4 pl-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">Serial</p>
                   <p className="text-[#333333] text-base font-semibold">
-                    GG7W212JHLF12
+                    {contractDetail?.serial}
                   </p>
                 </div>
               </div>
@@ -587,7 +715,9 @@ function AddClaim() {
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Condition
                   </p>
-                  <p className="text-[#333333] text-base font-semibold">Used</p>
+                  <p className="text-[#333333] text-base font-semibold">
+                    {contractDetail?.condition}
+                  </p>
                 </div>
               </div>
               <div className="col-span-1 border border-[#D1D1D1]">
@@ -595,7 +725,9 @@ function AddClaim() {
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Retail Price
                   </p>
-                  <p className="text-[#333333] text-base font-semibold">$182</p>
+                  <p className="text-[#333333] text-base font-semibold">
+                    ${contractDetail?.productValue}
+                  </p>
                 </div>
               </div>
 
@@ -605,7 +737,7 @@ function AddClaim() {
                     Dealer Name
                   </p>
                   <p className="text-[#333333] text-base font-semibold">
-                    Edward Wilson
+                    {contractDetail?.order?.[0]?.dealer?.[0]?.name}
                   </p>
                 </div>
               </div>
@@ -615,7 +747,7 @@ function AddClaim() {
                     Reseller Name
                   </p>
                   <p className="text-[#333333] text-base font-semibold">
-                    Ankush Grover
+                    {contractDetail?.order?.[0]?.reseller?.[0]?.name}
                   </p>
                 </div>
               </div>
@@ -625,7 +757,7 @@ function AddClaim() {
                     Customer Name
                   </p>
                   <p className="text-[#333333] text-base font-semibold">
-                    Ankush Grover
+                    {contractDetail?.order?.[0]?.customer?.[0]?.username}
                   </p>
                 </div>
               </div>
@@ -635,7 +767,7 @@ function AddClaim() {
                     Servicer Name
                   </p>
                   <p className="text-[#333333] text-base font-semibold">
-                    Jameson Wills
+                    {contractDetail?.order?.[0]?.servicer?.[0]?.username}
                   </p>
                 </div>
               </div>
@@ -643,7 +775,7 @@ function AddClaim() {
                 <div className="py-4 pl-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">Status</p>
                   <p className="text-[#333333] text-base font-semibold">
-                    Waiting
+                    {contractDetail.status}
                   </p>
                 </div>
               </div>
@@ -653,7 +785,10 @@ function AddClaim() {
                     Product Category
                   </p>
                   <p className="text-[#333333] text-base font-semibold">
-                    Regular Pricing
+                    {
+                      contractDetail?.order?.[0]?.productsArray?.[0]
+                        ?.priceBook?.[0]?.category?.name
+                    }
                   </p>
                 </div>
               </div>
@@ -663,7 +798,10 @@ function AddClaim() {
                     Product Name
                   </p>
                   <p className="text-[#333333] text-base font-semibold">
-                    solar
+                    {
+                      contractDetail?.order?.[0]?.productsArray?.[0]
+                        ?.priceBook?.[0]?.name
+                    }
                   </p>
                 </div>
               </div>
@@ -673,7 +811,10 @@ function AddClaim() {
                     Product Description
                   </p>
                   <p className="text-[#333333] text-base font-semibold">
-                    solar
+                    {
+                      contractDetail?.order?.[0]?.productsArray?.[0]
+                        ?.priceBook?.[0]?.description
+                    }
                   </p>
                 </div>
               </div>
@@ -683,7 +824,7 @@ function AddClaim() {
                     Price Type
                   </p>
                   <p className="text-[#333333] text-base font-semibold">
-                    Regular Pricing
+                    {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType}
                   </p>
                 </div>
               </div>
@@ -695,7 +836,7 @@ function AddClaim() {
                   <p className="text-[#333333] text-base font-semibold"></p>
                 </div>
               </div>
-              <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+              <div className="col-span-1 border border-[#D1D1D1]">
                 <div className="py-4 pl-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Claim Amount
@@ -705,69 +846,114 @@ function AddClaim() {
                   </p>
                 </div>
               </div>
-              <div className="col-span-1 border border-[#D1D1D1]">
-                <div className="py-4 pl-3">
-                  <p className="text-[#5D6E66] text-sm font-Regular">
-                    Start Range
-                  </p>
-                  <p className="text-[#333333] text-base font-semibold">
-                    $3434.00
-                  </p>
-                </div>
-              </div>
-              <div className="col-span-1 border border-[#D1D1D1]">
-                <div className="py-4 pl-3">
-                  <p className="text-[#5D6E66] text-sm font-Regular">
-                    End Range
-                  </p>
-                  <p className="text-[#333333] text-base font-semibold">
-                    $4343.00
-                  </p>
-                </div>
-              </div>
+
+              {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
+              "Flat Pricing" ? (
+                <>
+                  <div className="col-span-1 border border-[#D1D1D1]">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Start Range
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        $
+                        {contractDetail?.order?.[0]?.productsArray?.[0]
+                          ?.rangeStart === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(
+                              contractDetail?.order?.[0]?.productsArray?.[0]
+                                ?.rangeStart ?? parseInt(0)
+                            )}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-1 border border-[#D1D1D1]">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        End Range
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        $
+                        {contractDetail?.order?.[0]?.productsArray?.[0]
+                          ?.rangeEnd === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(
+                              contractDetail?.order?.[0]?.productsArray?.[0]
+                                ?.rangeEnd ?? parseInt(0)
+                            )}{" "}
+                      </p>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
               <div className="col-span-1 border border-[#D1D1D1] ">
                 <div className="py-4 pl-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Coverage Start Date
                   </p>
                   <p className="text-[#333333] text-base font-semibold">
-                    11/09/2026
+                    {new Date(
+                      contractDetail?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                    ).toLocaleDateString("en-US", {
+                      month: "2-digit",
+                      day: "2-digit",
+                      year: "numeric",
+                    })}
                   </p>
                 </div>
               </div>
-              <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
+              <div className="col-span-1 border border-[#D1D1D1]">
                 <div className="py-4 pl-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Coverage End Date
                   </p>
                   <p className="text-[#333333] text-base font-semibold">
-                    09/11/2030
+                    {new Date(
+                      contractDetail?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                    ).toLocaleDateString("en-US", {
+                      month: "2-digit",
+                      day: "2-digit",
+                      year: "numeric",
+                    })}
                   </p>
                 </div>
               </div>
-              <div className="col-span-5 mt-3 border border-[#D1D1D1] ">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b">
-                      <th colSpan={4}>Quantity Pricing List</th>
-                    </tr>
-                    <tr>
-                      <th>S.#</th>
-                      <th>Name</th>
-                      <th>Max Quantity Per Unit</th>
-                      <th>Quantity</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>nexon</td>
-                      <td>46</td>
-                      <td>30</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
+              "Quantity Pricing" ? (
+                <>
+                  <div className="col-span-5 border border-[#D1D1D1] ">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b">
+                          <th colSpan={4}>Quantity Pricing List</th>
+                        </tr>
+                        <tr>
+                          <th>S.#</th>
+                          <th>Name</th>
+                          <th>Max Quantity Per Unit</th>
+                          <th>Quantity</th>
+                        </tr>
+                      </thead>
+                      {contractDetail?.order?.[0].productsArray?.[0]
+                        ?.QuantityPricing.length !== 0 &&
+                        contractDetail?.order?.[0].productsArray?.[0]?.QuantityPricing.map(
+                          (item, index) => (
+                            <tr key={index} className="border">
+                              <td>{index + 1}</td>
+                              <td>{item.name}</td>
+                              <td>{item.quantity}</td>
+                              <td>{item.enterQuantity}</td>
+                            </tr>
+                          )
+                        )}
+                    </table>
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
             </Grid>
           </div>
         </div>
