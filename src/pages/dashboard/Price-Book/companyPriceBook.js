@@ -524,35 +524,35 @@ function CompanyPriceBook() {
                     <p className="text-base text-neutral-grey font-semibold"> {data.term} Months</p>
                   </div>
                   <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Fronting fee ($)</p>
+                    <p className="text-lg text-light-black font-semibold">Fronting fee</p>
                     <p className="text-base text-neutral-grey font-semibold">
                     ${ data?.frontingFee === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(data?.frontingFee ?? parseInt(0))}</p>
                   </div>
                   <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Re-insurance fee ($)</p>
+                    <p className="text-lg text-light-black font-semibold">Re-insurance fee</p>
                     <p className="text-base text-neutral-grey font-semibold">
                     ${ data?.reinsuranceFee === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(data?.reinsuranceFee ?? parseInt(0))} </p>
                   </div>
                   <div className='col-span-6'>
-                    <p className="text-lg text-light-black font-semibold">Reserve for future claims ($)</p>
+                    <p className="text-lg text-light-black font-semibold">Reserve for future claims</p>
                     <p className="text-base text-neutral-grey font-semibold">
                      ${ data?.reserveFutureFee === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(data?.reserveFutureFee ?? parseInt(0))} </p>
                   </div>
                   <div className='col-span-6'>
-                    <p className="text-lg text-light-black font-semibold">Administration fee ($)</p>
+                    <p className="text-lg text-light-black font-semibold">Administration fee</p>
                     <p className="text-base text-neutral-grey font-semibold">
                     ${ data?.adminFee === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(data?.adminFee ?? parseInt(0))} </p>
                   </div>
                   <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Wholesale Cost ($)</p>
+                    <p className="text-lg text-light-black font-semibold">Wholesale Cost</p>
                     <p className="text-base text-neutral-grey font-semibold">
                     { formattedCost === undefined
                       ? parseInt(0).toLocaleString(2)
