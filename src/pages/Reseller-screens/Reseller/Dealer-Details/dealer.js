@@ -273,12 +273,12 @@ function DealerDetailList(props) {
             {selectedAction === row.dealerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 <div
-                  className="text-center cursor-pointer py-1"
+                  className="text-center cursor-pointer py-1 px-2"
                   onClick={() => {
                     navigate(`/dealerDetails/${row.accountId}`);
                   }}
@@ -286,7 +286,7 @@ function DealerDetailList(props) {
                   View
                 </div>
                 <div
-                  className="text-center py-3 cursor-pointer"
+                  className="text-center py-1 px-2 cursor-pointer"
                   onClick={() => openModal(row)}
                 >
                   Unassigned

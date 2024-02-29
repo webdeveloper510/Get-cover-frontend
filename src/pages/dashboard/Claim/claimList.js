@@ -342,11 +342,11 @@ function ClaimList() {
                         </div>
                         <div className='self-center ml-auto mr-2 py-3 cursor-pointer h-full' onClick={handleToggleDropdown}>
                           <img src={DropActive} className={`cursor-pointer ${dropdownVisible ? 'rotate-180	' : ''}`} alt='DropActive' />
-                          <div className={`absolute z-[2] w-[140px]  ${dropdownVisible ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md top-[2rem]`}>
+                          <div className={`absolute z-[2] w-[140px]  ${dropdownVisible ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[2rem]`}>
                             <div>
-                            <p className='border-b text-sm hover:font-semibold cursor-pointer flex'> <img src={shiping} className='w-4 h-4 mr-2' alt='Open'/> Shipping</p>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={labor} className='w-4 h-4 mr-2' alt='Open'/>Labor</p>
-                              <p className='text-sm hover:font-semibold cursor-pointer flex'><img src={parts} className='w-4 h-4 mr-2' alt='Open'/>Parts</p>
+                            <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'> <img src={shiping} className='w-4 h-4 mr-2' alt='Open'/> Shipping</p>
+                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={labor} className='w-4 h-4 mr-2' alt='Open'/>Labor</p>
+                              <p className='text-sm hover:font-semibold py-1 px-2 cursor-pointer flex'><img src={parts} className='w-4 h-4 mr-2' alt='Open'/>Parts</p>
                             </div>
                           </div>
                         </div>
@@ -361,11 +361,11 @@ function ClaimList() {
                         </div>
                         <div className='self-center ml-auto mr-2 cursor-pointer py-3' onClick={handleToggleDropdown2}>
                           <img src={DropActive} className={`cursor-pointer ${dropdownVisible2 ? 'rotate-180	' : ''}`} alt='DropActive' />
-                          <div className={`absolute z-[2] w-[140px]  ${dropdownVisible2 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md top-[2rem]`}>
+                          <div className={`absolute z-[2] w-[140px]  ${dropdownVisible2 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[2rem]`}>
                             <div>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'> <img src={Open} className='w-4 h-4 mr-2' alt='Open'/> Open</p>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Complete} className='w-4 h-4 mr-2' alt='Open'/> Completed</p>
-                              <p className='text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/> Rejected</p>
+                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'> <img src={Open} className='w-4 h-4 mr-2' alt='Open'/> Open</p>
+                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Complete} className='w-4 h-4 mr-2' alt='Open'/> Completed</p>
+                              <p className='text-sm hover:font-semibold py-1 px-2 cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/> Rejected</p>
                             </div>
                           </div>
                         </div>
@@ -380,18 +380,18 @@ function ClaimList() {
                         </div>
                         <div className='self-center ml-auto mr-2 cursor-pointer py-3' onClick={handleToggleDropdown1}>
                           <img src={DropActive} className={`cursor-pointer ${dropdownVisible1 ? 'rotate-180	' : ''}`} alt='DropActive' />
-                          <div className={`absolute z-[999] w-[180px]  ${dropdownVisible1 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md bottom-[2.5rem]`}>
+                          <div className={`absolute z-[999] w-[180px]  ${dropdownVisible1 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-[2.5rem]`}>
                             <div>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'> <img src={Open} className='w-4 h-4 mr-2' alt='Open'/> Request Approved</p>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Complete} className='w-4 h-4 mr-2' alt='Open'/>Product Received</p>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Repair in Process</p>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Parts Needed</p>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Parts Ordered</p>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Parts Received</p>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Repair Complete</p>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Servicer Shipped</p>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Invoice Sent</p>
-                              <p className='text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Invoice Paid</p>
+                              <p className='border-b py-1 px-2 text-sm hover:font-semibold cursor-pointer flex'> <img src={Open} className='w-4 h-4 mr-2' alt='Open'/> Request Approved</p>
+                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Complete} className='w-4 h-4 mr-2' alt='Open'/>Product Received</p>
+                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Repair in Process</p>
+                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Parts Needed</p>
+                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Parts Ordered</p>
+                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Parts Received</p>
+                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Repair Complete</p>
+                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Servicer Shipped</p>
+                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Invoice Sent</p>
+                              <p className='text-sm hover:font-semibold py-1 px-2 cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Invoice Paid</p>
 
                             </div>
                           </div>

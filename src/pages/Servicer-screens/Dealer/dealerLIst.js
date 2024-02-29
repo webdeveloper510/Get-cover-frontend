@@ -17,6 +17,7 @@ import {
 } from "../../../services/dealerServices";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Loader from "../../../assets/images/Loader.gif";
+import view from "../../../assets/images/eye.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
@@ -214,7 +215,7 @@ function ServicerDealerList() {
             {selectedAction === row.dealerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-3 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -227,9 +228,9 @@ function ServicerDealerList() {
                 /> */}
                 <Link
                   to={`/dealerDetails/${row?.dealerData._id}`}
-                  className="text-center p-3"
+                  className="text-center py-1 px-2"
                 >
-                  View
+                  <img src={view} className="w-4 h-4 mr-2" />  View
                 </Link>
               </div>
             )}

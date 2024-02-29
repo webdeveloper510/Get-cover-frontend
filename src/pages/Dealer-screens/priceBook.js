@@ -127,12 +127,12 @@ function DealerPriceBook(props) {
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[70px] justify-center drop-shadow-5xl -right-3 px-2 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[70px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 <div
-                  className="text-center py-2 cursor-pointer"
+                  className="text-center py-2 px-2 cursor-pointer"
                   onClick={() => openView(row._id)}
                 >
                   View

@@ -19,6 +19,7 @@
 
 .hover\:font-semibold:hover {
   font-weight: 600;
+  color: #333333 !important;
   background: #9d9191;
 }
 

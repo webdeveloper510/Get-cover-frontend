@@ -252,13 +252,13 @@ function PriceBookList(props) {
                   {selectedAction === row.unique_key && (
                     <div
                       ref={dropdownRef}
-                      className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                      className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                         index
                       )}`}
                     >
                       {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                       <div
-                        className="text-center py-3 border-b cursor-pointer"
+                        className="text-center py-2 px-2 border-b cursor-pointer"
                         onClick={() => {
                           routeToEditPage(row);
                         }}
@@ -266,7 +266,7 @@ function PriceBookList(props) {
                         Edit
                       </div>
                       <div
-                        className="text-center py-3 cursor-pointer"
+                        className="text-center py-2 px-2 cursor-pointer"
                         onClick={() => openView(row._id)}
                       >
                         View

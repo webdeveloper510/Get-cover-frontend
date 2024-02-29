@@ -167,11 +167,11 @@ function CustomerAddClaim() {
                                 <img src={ActiveIcon} className="cursor-pointer w-[35px] mx-auto" alt="Active Icon" />
                             </div>
                             {selectedActions[index] && (
-                                <div  className="absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
-                                    <div className="text-center pb-1 border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer" onClick={nextStep}>
+                                <div  className="absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-3 bg-white border rounded-lg shadow-md top-[1rem]">
+                                    <div className="text-center pb-1 border-b text-[12px] px-3 border-[#E6E6E6] text-light-black cursor-pointer" onClick={nextStep}>
                                         <p>Select</p>
                                     </div>
-                                    <div className="text-center pt-1 text-[12px] border-[#E6E6E6] text-light-black cursor-pointer" onClick={() => openModal()}>
+                                    <div className="text-center pt-1 text-[12px] px-3 border-[#E6E6E6] text-light-black cursor-pointer" onClick={() => openModal()}>
                                         <p>View</p>
                                     </div>
                                 </div>
