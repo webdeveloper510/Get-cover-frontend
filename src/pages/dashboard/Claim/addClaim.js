@@ -314,7 +314,7 @@ function AddClaim() {
       selector: (row) => row.unique_key,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "120px",
+      maxWidth: "150px",
     },
     {
       name: "Customer Name",
@@ -334,11 +334,6 @@ function AddClaim() {
     {
       name: "Dealer P.O. #",
       selector: (row) => row.order.venderOrder,
-      sortable: true,
-    },
-    {
-      name: "# of Orders",
-      selector: (row) => row?.order?.noOfOrders ?? 0,
       sortable: true,
     },
     {
