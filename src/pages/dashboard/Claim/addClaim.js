@@ -644,8 +644,8 @@ function AddClaim() {
         console.log(res);
         if (res.code == 200) {
           setIsCreateOpen(true);
-          setMessage("New Claim Created Successfully");
           setTimer(3);
+          setMessage("New Claim Created Successfully");
           navigate("/claimList");
           setLoading1(false);
         }
