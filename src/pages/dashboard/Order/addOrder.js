@@ -2477,7 +2477,7 @@ function AddOrder() {
                               type="number"
                               name="paidAmount"
                               className="!bg-[#fff]"
-                              label="Paid Amount"
+                              label="Paid Amount($)"
                               maxLength={10}
                               maxDecimalPlaces={2}
                               disabled={formik4.values.paymentStatus === "Paid"}
@@ -2504,7 +2504,7 @@ function AddOrder() {
                               type="number"
                               name="pendingAmount"
                               className="!bg-[#fff]"
-                              label="Pending Amount"
+                              label="Pending Amount ($)"
                               maxLength={10}
                               maxDecimalPlaces={2}
                               disabled={true}

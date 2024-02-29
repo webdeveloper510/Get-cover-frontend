@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Button from '../../../common/button'
 import Grid from '../../../common/grid'
 import Input from '../../../common/input'
@@ -18,9 +18,10 @@ import serial from '../../../assets/images/icons/ProductSerial.svg';
 import Manufacturer from '../../../assets/images/icons/ProductManufacturer.svg';
 import Edit from '../../../assets/images/icons/editIcon.svg';
 import download from '../../../assets/images/download.png';
-import shiping from '../../../assets/images/shiping.png';
+import request from '../../../assets/images/quote-request.png';
+import productSent from '../../../assets/images/product.png';
 import labor from '../../../assets/images/labor.png';
-import parts from '../../../assets/images/parts.png';
+import productReceived from '../../../assets/images/received.png';
 import chat from '../../../assets/images/icons/chatIcon.svg';
 import DropActive from '../../../assets/images/icons/DropActive.svg';
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
@@ -42,6 +43,7 @@ function ClaimList() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleToggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
@@ -52,6 +54,22 @@ function ClaimList() {
   const handleToggleDropdown2 = () => {
     setDropdownVisible2(!dropdownVisible2);
   };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownVisible(false);
+        setDropdownVisible1(false);
+        setDropdownVisible2(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownRef]);
+
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
@@ -104,6 +122,19 @@ function ClaimList() {
   ];
 
   const claim = [
+    { label: "Breakdown", value: true },
+    { label: "Accidental", value: false },
+  ];
+
+  const RepairStatus = [
+    { label: "Breakdown", value: true },
+    { label: "Accidental", value: false },
+  ];
+  const CustomerStatus = [
+    { label: "Breakdown", value: true },
+    { label: "Accidental", value: false },
+  ];
+  const ClaimStatus = [
     { label: "Breakdown", value: true },
     { label: "Accidental", value: false },
   ];
@@ -320,23 +351,30 @@ function ClaimList() {
                           className1='!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]'
                             /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
-                        <Grid className='!grid-cols-1 mt-2 !gap-1'>
+                        <div className='flex mt-3'>
+                          <div className='self-center  mr-8'>
+                          <p className='text-[#999999] text-[11px] font-Regular'>Claim Type :</p>
+                          </div>
                           <Select
                           name='claimType'
-                          label='Claim Type'
+                          label=''
                           white
+                          classBox="w-[55%]"
                           options={claim}
-                          className='!bg-[#3C3C3C] !text-white'
-                          className1='!p-1 !mb-3 !bg-[#3C3C3C] !text-[13px] !text-white' />
-                          
+                          className1='!py-0 text-white mb-2 !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]' />
+                          </div>
+                          <div className='flex mt-2'>
+                          <div className='self-center  mr-3'>
+                          <p className='text-[#999999] text-[11px] font-Regular'>Damage Code :</p>
+                          </div>
                           <Select
                           name='claimType'
-                          label='Damage Code'
+                          label=''
                           white
+                          classBox="w-[55%]"
                           options={state}
-                          className='!bg-[#3C3C3C] !text-white'
-                          className1='!p-1 !bg-[#3C3C3C] !text-[13px] !text-white' />
-                        </Grid>
+                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]' />
+                        </div>
                       </div>
                     </div>
                     <div className='col-span-4 pt-4'>
@@ -348,14 +386,14 @@ function ClaimList() {
                           <p className='text-white text-sm'>Shipping Label received</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto w-[10%] mr-2 cursor-pointer py-6' onClick={handleToggleDropdown}>
+                        <div className='self-center ml-auto w-[10%] mr-2 cursor-pointer py-6'  ref={dropdownRef} onClick={handleToggleDropdown}>
                           <img src={DropActive} className={`cursor-pointer ml-auto ${dropdownVisible ? 'rotate-180	' : ''}`} alt='DropActive' />
                           <div className={`absolute z-[2] w-[200px]  ${dropdownVisible ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[2rem]`}>
                             <div>
-                            <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'> <img src={shiping} className='w-4 h-4 mr-2' alt='Open'/> Request Submitted</p>
+                            <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'> <img src={request} className='w-4 h-4 mr-2' alt='Open'/> Request Submitted</p>
                               <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={labor} className='w-4 h-4 mr-2' alt='Open'/>Shipping Label received </p>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={labor} className='w-4 h-4 mr-2' alt='Open'/>Product sent </p>
-                              <p className='text-sm hover:font-semibold py-1 px-2 cursor-pointer flex'><img src={parts} className='w-4 h-4 mr-2' alt='Open'/>Product received</p>
+                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={productSent} className='w-4 h-4 mr-2' alt='Open'/>Product sent </p>
+                              <p className='text-sm hover:font-semibold py-1 px-2 cursor-pointer flex'><img src={productReceived} className='w-4 h-4 mr-2' alt='Open'/>Product received</p>
                             </div>
                           </div>
                         </div>
@@ -368,7 +406,7 @@ function ClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto w-[10%] mr-2 cursor-pointer py-6' onClick={handleToggleDropdown2}>
+                        <div className='self-center ml-auto w-[10%] mr-2 cursor-pointer py-6' ref={dropdownRef} onClick={handleToggleDropdown2}>
                           <img src={DropActive} className={`ml-auto cursor-pointer ${dropdownVisible2 ? 'rotate-180	' : ''}`} alt='DropActive' />
                           <div className={`absolute z-[2] w-[140px]  ${dropdownVisible2 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[2rem]`}>
                             <div>
@@ -387,7 +425,7 @@ function ClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto w-[10%] mr-2 cursor-pointer py-6' onClick={handleToggleDropdown1}>
+                        <div className='self-center ml-auto w-[10%] mr-2 cursor-pointer py-6' ref={dropdownRef} onClick={handleToggleDropdown1}>
                           <img src={DropActive} className={`cursor-pointer ${dropdownVisible1 ? 'rotate-180	' : ''} ml-auto`}  alt='DropActive' />
                           <div className={`absolute z-[999] w-[180px]  ${dropdownVisible1 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-[2.5rem]`}>
                             <div>
@@ -410,22 +448,20 @@ function ClaimList() {
                     <div className='col-span-5 pt-2'>
                       <div className='m-2 p-2 bg-[#3C3C3C] '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[140px] max-h-[140px] overflow-y-scroll Diagnosis'>
-                        <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
-                          placeholder. In publishing and graphic design, Lorem ipsum
-                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
-                          placeholder. In publishing and graphic design, Lorem ipsum
-                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
+                        <div className='h-[130px] max-h-[130px] overflow-y-scroll Diagnosis'>
+                          <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum  is a placeholder. In publishing and graphic design, Lorem ipsum
+                            is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design, Lorem ipsum
+                            is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
                         </div>
                       </div>
                       <div>
-                      <Grid className='!grid-cols-12 px-3'>
-                      <Button className='!bg-[#fff] col-span-5 !rounded-[11px] !text-light-black !text-[14px] flex' onClick={()=>openAttachments()}><img src={Track} className='w-5 h-5 mr-1' alt="Track" /> Track Status</Button>
-                      <Button className='!bg-[#fff] col-span-7 !rounded-[11px] !text-light-black !text-[14px] flex'>
-                          <img src={download} className='w-5 h-5 mr-2' alt='download'/>
-                          <p className='text-sm font-semibold text-center'>Download Attachments</p>
-                      </Button>
-                      </Grid>
+                        <Grid className='!grid-cols-12 px-3 mb-3'>
+                          <Button className='!bg-[#fff] col-span-5 !rounded-[11px] !text-light-black !text-[14px] flex' onClick={()=>openAttachments()}><img src={Track} className='w-5 h-5 mr-1' alt="Track" /> Track Status</Button>
+                          <Button className='!bg-[#fff] col-span-7 !rounded-[11px] !text-light-black !text-[14px] flex'>
+                            <img src={download} className='w-5 h-5 mr-2' alt='download'/>
+                            <p className='text-sm font-semibold text-center'>Download Attachments</p>
+                          </Button>
+                        </Grid>
                       </div>
                     </div>
                   </Grid>
@@ -1198,6 +1234,13 @@ function ClaimList() {
            <Grid className='mt-5 px-6'>
             <div className='col-span-6'>
                <Input type='text' 
+                         name="Claim ID"
+                        className="!bg-[#fff]"
+                        label="Claim ID"
+                        placeholder="" />
+            </div>
+            <div className='col-span-6'>
+               <Input type='text' 
                          name="Contract ID"
                         className="!bg-[#fff]"
                         label="Contract ID"
@@ -1226,16 +1269,16 @@ function ClaimList() {
             </div>
             <div className='col-span-6'>
                <Input type='text' 
-                         name="Product Name"
+                         name="Dealer Name"
                         className="!bg-[#fff]"
-                        label="Product Name"
+                        label="Dealer Name"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
-                         name="Dealer Name"
+                         name="resellerName"
                         className="!bg-[#fff]"
-                        label="Dealer Name"
+                        label="Reseller Name"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
@@ -1252,19 +1295,26 @@ function ClaimList() {
                         label="Servicer Name"
                         placeholder="" />
             </div>
-           
             <div className='col-span-6'>
-            <Select
-                        name="Status"
-                        label="Status"
+                <Select
+                        name="ClaimStatus"
+                        label="Claim Status"
                         options={status}
                         className="!bg-[#fff]"
                         placeholder=""/>
             </div>
             <div className='col-span-6'>
-            <Select
-                        name="ClaimStatus"
-                        label="Claim Status"
+                <Select
+                        name="CustomerStatus"
+                        label="Customer Status"
+                        options={status}
+                        className="!bg-[#fff]"
+                        placeholder=""/>
+            </div>
+            <div className='col-span-6'>
+                <Select
+                        name="RepairStatus"
+                        label="Repair Status"
                         options={status}
                         className="!bg-[#fff]"
                         placeholder=""/>

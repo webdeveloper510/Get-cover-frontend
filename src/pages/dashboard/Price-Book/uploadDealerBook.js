@@ -145,7 +145,7 @@ function UploadDealerBook() {
       file: null,
     },
     validationSchema: Yup.object({
-      dealerId: Yup.string().required("Dealer Name is required"),
+      dealerId: Yup.string().required("Dealer name is required"),
       email: Yup.array()
         .of(
           Yup.string()
