@@ -84,6 +84,23 @@ function AddClaim() {
     setIsCreateOpen(false);
   };
 
+  useEffect(() => {
+    let intervalId;
+    if (isCreateOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      closeCreate();
+      navigate("/claimList");
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isCreateOpen, timer]);
+
   const isFormEmpty = () => {
     return Object.values(formik.values).every((value) => !value);
   };
@@ -646,7 +663,6 @@ function AddClaim() {
           setIsCreateOpen(true);
           setTimer(3);
           setMessage("New Claim Created Successfully");
-          navigate("/claimList");
           setLoading1(false);
         }
         setLoading1(false);
