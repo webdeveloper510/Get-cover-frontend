@@ -31,7 +31,7 @@ const PdfMake = (props) => {
     <div>
       <div id="pdfContent" />
       <div
-        className="text-left py-1 flex cursor-pointer hover:font-semibold"
+        className="text-left py-1 px-2 flex cursor-pointer hover:font-semibold"
         onClick={downloadAsPDF}
       >
         <img src={download} className="w-4 h-4 mr-2" />{" "}
