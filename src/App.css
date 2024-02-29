@@ -18,9 +18,9 @@
 }
 
 .hover\:font-semibold:hover {
-  font-weight: 600;
+  font-weight: 600 !important;
   color: #333333 !important;
-  background: #9d9191;
+  background: #dedddd !important;
 }
 
 .koyZDM , .bsLmP {
