@@ -102,6 +102,11 @@ function ClaimList() {
     { label: "Servicer", value: false },
     { label: "Customer", value: false },
   ];
+
+  const claim = [
+    { label: "Breakdown", value: true },
+    { label: "Accidental", value: false },
+  ];
   
   return (
     <>
@@ -308,9 +313,10 @@ function ClaimList() {
                         Servicer Name : </span>   <Select 
                           name="state"
                           options={state}
+                          white
                           placeholder=""
                           className=""
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
+                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-0 !font-[400]'
                             /></p>
                         <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
@@ -319,14 +325,18 @@ function ClaimList() {
                           <Select
                           name='claimType'
                           label='Claim Type'
+                          white
+                          options={claim}
                           className='!bg-[#333333] !text-white'
-                          className1='!p-1 !mb-3 !bg-[transparent] !text-[13px] !text-white' />
+                          className1='!p-1 !mb-3 !bg-[#333333] !text-[13px] !text-white' />
                           
                           <Select
                           name='claimType'
                           label='Damage Code'
+                          white
+                          options={state}
                           className='!bg-[#333333] !text-white'
-                          className1='!p-1 !mb-3 !bg-[transparent] !text-[13px] !text-white' />
+                          className1='!p-1 !mb-3 !bg-[#333333] !text-[13px] !text-white' />
                         </Grid>
                         
                       </div>
