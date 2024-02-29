@@ -17,6 +17,11 @@
   border-color: #80808085 !important;
 }
 
+.hover\:font-semibold:hover {
+  font-weight: 600;
+  background: #9d9191;
+}
+
 .koyZDM , .bsLmP {
   overflow: unset !important;
 }

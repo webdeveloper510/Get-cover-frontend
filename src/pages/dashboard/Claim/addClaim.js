@@ -10,11 +10,13 @@ import Headbar from "../../../common/headBar";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
+import AddDealer from "../../../assets/images/dealer-book.svg";
 import Input from "../../../common/input";
 
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
+import shorting from "../../../assets/images/icons/shorting.svg";
 import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import dummyImage from "../../../assets/images/attachment.png";
 import Cross from "../../../assets/images/Cross.png";
@@ -42,11 +44,16 @@ import {
 import { getServicerListInOrders } from "../../../services/orderServices";
 import { RotateLoader } from "react-spinners";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
+import DataTable from "react-data-table-component";
 
 function AddClaim() {
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [timer, setTimer] = useState(3);
   const [currentStep, setCurrentStep] = useState(1);
   const [contractList, setContractList] = useState([]);
   const [contractDetail, setContractDetails] = useState({});
@@ -54,7 +61,7 @@ function AddClaim() {
   const [images, setImages] = useState([]);
   const [sendNotifications, setSendNotifications] = useState(true);
   const navigate = useNavigate();
-
+  const [selectedAction, setSelectedAction] = useState(null);
   const dropdownRef = useRef(null);
 
   const [selectedActions, setSelectedActions] = useState([]);
@@ -71,6 +78,10 @@ function AddClaim() {
 
   const handleRadioChange = (value) => {
     setSendNotifications(value);
+  };
+
+  const closeCreate = () => {
+    setIsCreateOpen(false);
   };
 
   const isFormEmpty = () => {
@@ -206,16 +217,16 @@ function AddClaim() {
     setIsModalOpen(false);
   };
 
-  const openModal = (res) => {
+  const openModal = (row) => {
     // setContractDetails(res);
-    console.log(res._id);
-    getContractValues(res._id).then((res) => {
-      console.log(res.result);
+    console.log(row._id);
+    getContractValues(row._id).then((row) => {
+      console.log(row.result);
       getServicerList({
-        dealerId: res.result.order[0].dealerId,
-        resellerId: res.result.order[0].resellerId,
+        dealerId: row.result.order[0].dealerId,
+        resellerId: row.result.order[0].resellerId,
       });
-      setContractDetails(res.result);
+      setContractDetails(row.result);
     });
     setIsModalOpen(true);
   };
@@ -266,11 +277,127 @@ function AddClaim() {
   };
 
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setSelectedAction(null);
+      }
+    };
+
     document.addEventListener("click", handleClickOutside);
+
     return () => {
+      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  const columns = [
+    {
+      name: "Contract ID",
+      selector: (row) => row.unique_key,
+      sortable: true,
+      minWidth: "auto",
+      maxWidth: "120px",
+    },
+    {
+      name: "Customer Name",
+      selector: (row) => row.order.customers.username,
+      sortable: true,
+    },
+    {
+      name: "Serial Number",
+      selector: (row) => row.serial,
+      sortable: true,
+    },
+    {
+      name: "Order #",
+      selector: (row) => row.order.unique_key,
+      sortable: true,
+    },
+    {
+      name: "Dealer P.O. #",
+      selector: (row) => row.order.venderOrder,
+      sortable: true,
+    },
+    {
+      name: "# of Orders",
+      selector: (row) => row?.order?.noOfOrders ?? 0,
+      sortable: true,
+    },
+    {
+      name: "Action",
+      minWidth: "auto",
+      maxWidth: "90px",
+      cell: (row, index) => {
+        // console.log(index, index % 10 == 9)
+        return (
+          <div className="relative">
+            <div
+              onClick={() =>
+                setSelectedAction(
+                  selectedAction === row.unique_key
+                    ? null
+                    : row.unique_key
+                )
+              }
+            >
+              <img
+                src={ActiveIcon}
+                className="cursor-pointer	w-[35px]"
+                alt="Active Icon"
+              />
+            </div>
+            {selectedAction === row.unique_key && (
+              <div
+                ref={dropdownRef} className="absolute z-[2] w-[90px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
+                                      <div
+                                        className="text-left pb-1 border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                        onClick={() => {
+                                          handleSelectValue(row);
+                                        }}
+                                      >
+                                        <p className="flex hover:font-semibold">
+                                          {" "}
+                                          <img
+                                            src={selectIcon}
+                                            className="w-4 h-4 mr-2"
+                                            alt="selectIcon"
+                                          />{" "}
+                                          Select
+                                        </p>
+                                      </div>
+                                      <div
+                                        className="text-center pt-1 text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                        onClick={() => openModal(row)}
+                                      >
+                                        <p className="flex hover:font-semibold">
+                                          {" "}
+                                          <img
+                                            src={View}
+                                            className="w-4 h-4 mr-2"
+                                            alt="View"
+                                          />{" "}
+                                          View
+                                        </p>
+                                      </div>
+                                    </div>
+            )}
+          </div>
+        );
+      },
+    },
+  ];
+
+  const paginationOptions = {
+    rowsPerPageText: "Rows per page:",
+    rangeSeparatorText: "of",
+  };
+
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
 
   const renderStep1 = () => {
     // Step 1 content
@@ -368,15 +495,34 @@ function AddClaim() {
                 </form>
               </div>
               {showTable && (
-                <div className="col-span-12">
+                <>
+                 <div className="col-span-12 relative pb-24">
+                 <DataTable
+                 columns={columns}
+                 data={contractList}
+                 highlightOnHover
+                 sortIcon={
+                   <>
+                     {" "}
+                     <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                   </>
+                 }
+                 noDataComponent={<CustomNoDataComponent />}
+                 pagination
+                 paginationPerPage={10}
+                 paginationComponentOptions={paginationOptions}
+                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
+               />
+                 </div>
+                {/* <div className="col-span-12">
                   <table className="w-full border text-center">
                     <thead className="bg-[#F9F9F9] ">
                       <tr className="py-2">
-                        <th>Contract ID</th>
-                        <th className="!py-2">Customer Name</th>
-                        <th>Serial Number</th>
-                        <th>Order #</th>
-                        <th>Dealer P.O. #</th>
+                        <th></th>
+                        <th className="!py-2"></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -385,11 +531,11 @@ function AddClaim() {
                         contractList?.result?.map((res, index) => {
                           return (
                             <tr>
-                              <td className="py-1">{res.unique_key}</td>
-                              <td>{res.order.customers.username}</td>
-                              <td> {res.serial}</td>
-                              <td>{res.order.unique_key}</td>
-                              <td>{res.order.venderOrder}</td>
+                              <td className="py-1">{res}</td>
+                              <td>{res}</td>
+                              <td> {res}</td>
+                              <td>{res}</td>
+                              <td>{res}</td>
                               <td>
                                 <div className="relative">
                                   <div
@@ -449,7 +595,8 @@ function AddClaim() {
                       onPageChange={handlePageChange}
                     />
                   </div>
-                </div>
+                </div> */}
+                </>
               )}
             </Grid>
           </div>
@@ -489,14 +636,19 @@ function AddClaim() {
     },
     validationSchema: validationSchemaStep2,
     onSubmit: (values) => {
+      setLoading1(true);
       values.servicePaymentStatus = sendNotifications;
       values.contractId = contractDetail?._id;
       console.log(values);
       addClaim(values).then((res) => {
         console.log(res);
         if (res.code == 200) {
+          setMessage("New Claim Created Successfully");
+          setTimer(3);
           navigate("/claimList");
+          setLoading1(false);
         }
+        setLoading1(false);
       });
     },
   });
@@ -524,7 +676,8 @@ function AddClaim() {
                     </p>
                   </div>
                 </div>
-                <div className="col-span-3">
+                {contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? ('') : (
+                  <div className="col-span-3">
                   <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                     <p className="text-sm m-0 p-0">Reseller Name</p>
                     <p className="font-semibold">
@@ -533,6 +686,8 @@ function AddClaim() {
                     </p>
                   </div>
                 </div>
+                )}
+                
                 <div className="col-span-3">
                   <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                     <p className="text-sm m-0 p-0">Customer Name</p>
@@ -602,6 +757,7 @@ function AddClaim() {
                     <SelectBoxWithSearch
                       label="Servicer Name"
                       name="servicerId"
+                      className='!bg-[#fff]'
                       onChange={handleChange}
                       options={servicerData} // Make sure to define servicerList
                       value={formik.values.servicerId}
@@ -838,8 +994,60 @@ function AddClaim() {
           </p>
         </div>
       </div>
+        {loading1 ? (
+            <div className=" h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
+              </div>
+            </div>
+          ) : (
+            <>
+            {renderStep()}
+            </>
+        )}
 
-      {renderStep()}
+        {/* Modal Email Popop */}
+
+      <Modal isOpen={isCreateOpen} onClose={closeCreate}>
+      
+            <Button
+              onClick={closeCreate}
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+            >
+              <img
+                src={Cross}
+                className="w-full h-full text-black rounded-full p-0"
+              />
+            </Button>
+        
+        <div className="text-center py-3">
+          {/* {message === "New Dealer Created Successfully" ? (
+            <> */}
+              <img src={AddDealer} alt="email Image" className="mx-auto" />
+              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                Submitted
+                <span className="text-light-black"> Successfully </span>
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                {message}
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                Redirecting you on Dealer Page {timer} seconds.
+              </p>
+            {/* </>
+          ) : (
+            <>
+              <img src={disapprove} alt="email Image" className="mx-auto" />
+              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                Error
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                {message}
+              </p>
+            </>
+          )} */}
+        </div>
+      </Modal>
 
       <Modal isOpen={isModalOpen} onClose={closeModal} className="!w-[1100px]">
         <Button
