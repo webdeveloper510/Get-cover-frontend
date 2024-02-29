@@ -6,6 +6,16 @@ import { format } from "date-fns";
 import { orderDetailsById } from "../services/orderServices";
 import { useState } from "react";
 function PdfGenerator(props, className) {
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  }; 
   const [data, setData] = useState({});
   console.log("props", props);
   const convertToPDF = async () => {
@@ -116,7 +126,7 @@ function PdfGenerator(props, className) {
                           ${data?.dealerName?.zip} <br/>
                            
                             </small>
-                            <small> ${data?.username?.phoneNumber} | ${
+                            <small> ${formatPhoneNumber(data?.username?.phoneNumber)} | ${
       data?.username?.email
     }  </small>
                     </td>
@@ -136,7 +146,7 @@ function PdfGenerator(props, className) {
                       ${data?.resellerName?.zip ?? ""} <br/>
                      
                     </small>
-                    <small>${data?.resellerUsername?.phoneNumber} | ${
+                    <small>${formatPhoneNumber(data?.resellerUsername?.phoneNumber)} | ${
                             data?.resellerUsername?.email
                           }  </small>
                   </td> `
@@ -153,7 +163,7 @@ function PdfGenerator(props, className) {
                 <small style="margin: 0; padding: 0;">Address: ${data?.customerName?.street} ${data?.customerName?.city} ,${data?.customerName?.state} ${data?.customerName?.zip} <br/>
                    
                     </small>
-                    <small>${data?.customerUserData?.phoneNumber} | ${data?.customerUserData?.email}  </small>
+                    <small>${formatPhoneNumber(data?.customerUserData?.phoneNumber)} | ${data?.customerUserData?.email}  </small>
             </td>
             `
                     : ""
