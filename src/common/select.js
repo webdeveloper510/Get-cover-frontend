@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import DropdownArrowImage from "../assets/images/icons/Drop.svg";
-
+import DropActive from '../assets/images/icons/DropActive.svg';
 const Select = ({
   label,
   options,
   selectedValue,
+  white,
   onChange,
   className,
   required,
@@ -67,8 +68,9 @@ const Select = ({
           <img
             src={DropdownArrowImage}
             alt="DropdownArrowImage"
-            className="w-4 h-4"
+            className={`w-4 h-4 ${white ? 'hidden' : 'block'}`}
           />
+          <img src={DropActive} className={`p-1 w-4 h-4 ${white ? 'block' : 'hidden'}`} alt='DropActive' />
         </div>
         <label
           className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${className} ${
