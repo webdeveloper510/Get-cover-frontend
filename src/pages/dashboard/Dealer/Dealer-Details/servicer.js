@@ -327,7 +327,7 @@ function ServicerList(props) {
                     {selectedAction === row.servicerData.unique_key && (
                       <div
                         ref={dropdownRef}
-                        className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                        className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                           index
                         )}`}
                       >
