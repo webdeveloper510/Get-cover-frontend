@@ -468,7 +468,7 @@ function ClaimList() {
                                 Price
                               </p>
                               <p className="text-[#5D6E66] text-base font-semibold">
-                                ${parseInt(part?.price).toFixed(2)}
+                                ${part.price}
                               </p>
                             </div>
                           </div>

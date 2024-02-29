@@ -84,6 +84,23 @@ function AddClaim() {
     setIsCreateOpen(false);
   };
 
+  useEffect(() => {
+    let intervalId;
+    if (isCreateOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      closeCreate();
+      navigate("/claimList");
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isCreateOpen, timer]);
+
   const isFormEmpty = () => {
     return Object.values(formik.values).every((value) => !value);
   };
@@ -297,7 +314,7 @@ function AddClaim() {
       selector: (row) => row.unique_key,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "120px",
+      maxWidth: "150px",
     },
     {
       name: "Customer Name",
@@ -317,11 +334,6 @@ function AddClaim() {
     {
       name: "Dealer P.O. #",
       selector: (row) => row.order.venderOrder,
-      sortable: true,
-    },
-    {
-      name: "# of Orders",
-      selector: (row) => row?.order?.noOfOrders ?? 0,
       sortable: true,
     },
     {
@@ -644,7 +656,6 @@ function AddClaim() {
           setIsCreateOpen(true);
           setTimer(3);
           setMessage("New Claim Created Successfully");
-          navigate("/claimList");
           setLoading1(false);
         }
         setLoading1(false);
@@ -1052,13 +1063,13 @@ function AddClaim() {
         <div className="text-center mt-2">
           <p className="text-3xl font-semibold mb-4">Contract Details</p>
           <div>
-            <Grid className="bg-[#333333] !gap-2 !grid-cols-9 !px-3 rounded-t-xl">
-              <div className="col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+            <Grid className="bg-[#333333] !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
+              <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                 <p className="text-white py-2 font-Regular">
                   Contract ID : <b> {contractDetail.unique_key} </b>
                 </p>
               </div>
-              <div className="col-span-2 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+              <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
                 <p className="text-white py-2 font-Regular">
                   Order ID : <b> {contractDetail?.order?.[0]?.unique_key} </b>
                 </p>
