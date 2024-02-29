@@ -1,13 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileImage,
+  faFilePdf,
+  faFileWord,
+  faFileExcel,
+} from "@fortawesome/free-solid-svg-icons";
 import Headbar from "../../../common/headBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
+import AddDealer from "../../../assets/images/dealer-book.svg";
 import Input from "../../../common/input";
 
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
+import shorting from "../../../assets/images/icons/shorting.svg";
 import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import dummyImage from "../../../assets/images/attachment.png";
 import Cross from "../../../assets/images/Cross.png";
@@ -27,22 +36,32 @@ import { date } from "yup";
 import CustomPagination from "../../pagination";
 
 import {
+  addClaim,
   getContractList,
   getContractValues,
+  uploadClaimEvidence,
 } from "../../../services/claimServices";
 import { getServicerListInOrders } from "../../../services/orderServices";
 import { RotateLoader } from "react-spinners";
+import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
+import DataTable from "react-data-table-component";
 
 function AddClaim() {
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [timer, setTimer] = useState(3);
   const [currentStep, setCurrentStep] = useState(1);
   const [contractList, setContractList] = useState([]);
   const [contractDetail, setContractDetails] = useState({});
   const [servicerData, setServicerData] = useState([]);
   const [images, setImages] = useState([]);
-
+  const [sendNotifications, setSendNotifications] = useState(true);
+  const navigate = useNavigate();
+  const [selectedAction, setSelectedAction] = useState(null);
   const dropdownRef = useRef(null);
 
   const [selectedActions, setSelectedActions] = useState([]);
@@ -57,9 +76,20 @@ function AddClaim() {
     setIsModalOpen(false);
   };
 
+  const handleRadioChange = (value) => {
+    setSendNotifications(value);
+  };
+
+  const closeCreate = () => {
+    setIsCreateOpen(false);
+  };
+
   const isFormEmpty = () => {
     return Object.values(formik.values).every((value) => !value);
   };
+
+  const todayDate = new Date().toISOString().split("T")[0];
+  console.log(todayDate);
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -76,23 +106,61 @@ function AddClaim() {
     const files = e.target.files;
 
     if (files) {
-      const newImages = Array.from(files)
-        .slice(0, 5 - images.length)
+      const newFiles = Array.from(files)
+        .slice(0, 5 - formikStep2.values.images.length)
         .map((file) => ({
           file,
           preview: URL.createObjectURL(file),
+          fileType: getFileType(file.type),
         }));
 
-      setImages((prevImages) => [...prevImages, ...newImages]);
+      const updatedImages = [...formikStep2.values.images, ...newFiles];
+      formikStep2.setFieldValue("images", updatedImages);
+      setImages(updatedImages);
+
+      // Call uploadEvidence directly with the combined array
+      uploadEvidence(updatedImages);
+    }
+  };
+
+  const getFileType = (fileType) => {
+    if (fileType.includes("image")) {
+      return "image";
+    } else if (fileType.includes("pdf")) {
+      return "pdf";
+    } else if (
+      fileType.includes("spreadsheetml.sheet") ||
+      fileType.includes("excel")
+    ) {
+      return "xlsx";
+    } else if (fileType.includes("csv")) {
+      return "csv";
+    } else if (fileType.includes("ms-excel")) {
+      return "xls";
+    } else {
+      return "other";
     }
   };
 
   const handleRemoveImage = (index) => {
     const newImages = [...images];
     newImages.splice(index, 1);
+    formikStep2.setFieldValue("images", newImages);
+    uploadEvidence(newImages);
     setImages(newImages);
   };
 
+  const uploadEvidence = async (d) => {
+    const formData = new FormData();
+    d.forEach((file, index) => {
+      console.log(file);
+      formData.append(`file`, file.file);
+    });
+
+    const data = await uploadClaimEvidence(formData);
+    console.log(data.file);
+    formikStep2.setFieldValue("file", data.file);
+  };
   const prevStep = () => {
     setCurrentStep(currentStep - 1);
   };
@@ -149,16 +217,16 @@ function AddClaim() {
     setIsModalOpen(false);
   };
 
-  const openModal = (res) => {
+  const openModal = (row) => {
     // setContractDetails(res);
-    console.log(res._id);
-    getContractValues(res._id).then((res) => {
-      console.log(res.result);
+    console.log(row._id);
+    getContractValues(row._id).then((row) => {
+      console.log(row.result);
       getServicerList({
-        dealerId: res.result.order[0].dealerId,
-        resellerId: res.result.order[0].resellerId,
+        dealerId: row.result.order[0].dealerId,
+        resellerId: row.result.order[0].resellerId,
       });
-      setContractDetails(res.result);
+      setContractDetails(row.result);
     });
     setIsModalOpen(true);
   };
@@ -170,6 +238,7 @@ function AddClaim() {
 
     const filteredServicers = result.result;
     filteredServicers?.map((res) => {
+      console.log(res);
       arr.push({
         label: res.name,
         value: res._id,
@@ -208,11 +277,127 @@ function AddClaim() {
   };
 
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setSelectedAction(null);
+      }
+    };
+
     document.addEventListener("click", handleClickOutside);
+
     return () => {
+      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  const columns = [
+    {
+      name: "Contract ID",
+      selector: (row) => row.unique_key,
+      sortable: true,
+      minWidth: "auto",
+      maxWidth: "120px",
+    },
+    {
+      name: "Customer Name",
+      selector: (row) => row.order.customers.username,
+      sortable: true,
+    },
+    {
+      name: "Serial Number",
+      selector: (row) => row.serial,
+      sortable: true,
+    },
+    {
+      name: "Order #",
+      selector: (row) => row.order.unique_key,
+      sortable: true,
+    },
+    {
+      name: "Dealer P.O. #",
+      selector: (row) => row.order.venderOrder,
+      sortable: true,
+    },
+    {
+      name: "# of Orders",
+      selector: (row) => row?.order?.noOfOrders ?? 0,
+      sortable: true,
+    },
+    {
+      name: "Action",
+      minWidth: "auto",
+      maxWidth: "90px",
+      cell: (row, index) => {
+        // console.log(index, index % 10 == 9)
+        return (
+          <div className="relative">
+            <div
+              onClick={() =>
+                setSelectedAction(
+                  selectedAction === row.unique_key
+                    ? null
+                    : row.unique_key
+                )
+              }
+            >
+              <img
+                src={ActiveIcon}
+                className="cursor-pointer	w-[35px]"
+                alt="Active Icon"
+              />
+            </div>
+            {selectedAction === row.unique_key && (
+              <div
+                ref={dropdownRef} className="absolute z-[2] w-[90px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
+                                      <div
+                                        className="text-left pb-1 border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                        onClick={() => {
+                                          handleSelectValue(row);
+                                        }}
+                                      >
+                                        <p className="flex hover:font-semibold">
+                                          {" "}
+                                          <img
+                                            src={selectIcon}
+                                            className="w-4 h-4 mr-2"
+                                            alt="selectIcon"
+                                          />{" "}
+                                          Select
+                                        </p>
+                                      </div>
+                                      <div
+                                        className="text-center pt-1 text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                        onClick={() => openModal(row)}
+                                      >
+                                        <p className="flex hover:font-semibold">
+                                          {" "}
+                                          <img
+                                            src={View}
+                                            className="w-4 h-4 mr-2"
+                                            alt="View"
+                                          />{" "}
+                                          View
+                                        </p>
+                                      </div>
+                                    </div>
+            )}
+          </div>
+        );
+      },
+    },
+  ];
+
+  const paginationOptions = {
+    rowsPerPageText: "Rows per page:",
+    rangeSeparatorText: "of",
+  };
+
+  const CustomNoDataComponent = () => (
+    <div className="text-center my-5">
+      <p>No records found.</p>
+    </div>
+  );
 
   const renderStep1 = () => {
     // Step 1 content
@@ -310,15 +495,34 @@ function AddClaim() {
                 </form>
               </div>
               {showTable && (
-                <div className="col-span-12">
+                <>
+                 <div className="col-span-12 relative pb-24">
+                 <DataTable
+                 columns={columns}
+                 data={contractList}
+                 highlightOnHover
+                 sortIcon={
+                   <>
+                     {" "}
+                     <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                   </>
+                 }
+                 noDataComponent={<CustomNoDataComponent />}
+                 pagination
+                 paginationPerPage={10}
+                 paginationComponentOptions={paginationOptions}
+                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
+               />
+                 </div>
+                {/* <div className="col-span-12">
                   <table className="w-full border text-center">
                     <thead className="bg-[#F9F9F9] ">
                       <tr className="py-2">
-                        <th>Contract ID</th>
-                        <th className="!py-2">Customer Name</th>
-                        <th>Serial Number</th>
-                        <th>Order #</th>
-                        <th>Dealer P.O. #</th>
+                        <th></th>
+                        <th className="!py-2"></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -327,11 +531,11 @@ function AddClaim() {
                         contractList?.result?.map((res, index) => {
                           return (
                             <tr>
-                              <td className="py-1">{res.unique_key}</td>
-                              <td>{res.order.customers.username}</td>
-                              <td> {res.serial}</td>
-                              <td>{res.order.unique_key}</td>
-                              <td>{res.order.venderOrder}</td>
+                              <td className="py-1">{res}</td>
+                              <td>{res}</td>
+                              <td> {res}</td>
+                              <td>{res}</td>
+                              <td>{res}</td>
                               <td>
                                 <div className="relative">
                                   <div
@@ -391,7 +595,8 @@ function AddClaim() {
                       onPageChange={handlePageChange}
                     />
                   </div>
-                </div>
+                </div> */}
+                </>
               )}
             </Grid>
           </div>
@@ -400,216 +605,319 @@ function AddClaim() {
     );
   };
 
+  const validationSchemaStep2 = Yup.object({
+    servicerId: Yup.string().required("Servicer Name is required"),
+    lossDate: Yup.date().required("Loss Date is required"),
+    images: Yup.array()
+      .min(1, "At least one image is required")
+      .test("fileSize", "File size is too large", (value) => {
+        if (!value || value.length === 0) return true;
+
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        return value.every((image) => image.file.size <= maxSize);
+      }),
+    diagnosis: Yup.string().required("Diagnosis is required"),
+  });
+
+  const handleChange = (name, value) => {
+    console.log(contractDetail);
+    formikStep2.setFieldValue(name, value);
+  };
+  const formikStep2 = useFormik({
+    initialValues: {
+      servicerId: "",
+      lossDate: "",
+      images: [],
+      diagnosis: "",
+      file: [],
+      claimType: "New",
+      servicePaymentStatus: true,
+      contractId: contractDetail?._id,
+    },
+    validationSchema: validationSchemaStep2,
+    onSubmit: (values) => {
+      setLoading1(true);
+      values.servicePaymentStatus = sendNotifications;
+      values.contractId = contractDetail?._id;
+      console.log(values);
+      addClaim(values).then((res) => {
+        console.log(res);
+        if (res.code == 200) {
+          setMessage("New Claim Created Successfully");
+          setTimer(3);
+          navigate("/claimList");
+          setLoading1(false);
+        }
+        setLoading1(false);
+      });
+    },
+  });
   const renderStep2 = () => {
-    // Step 2 content
     return (
       <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
         <p className="text-2xl font-bold mb-4">Enter Required Info</p>
-        <Grid>
-          <div className="col-span-12">
-            <Grid>
-              <div className="col-span-3">
-                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Contract ID</p>
-                  <p className="font-semibold">{contractDetail?.unique_key}</p>
-                </div>
-              </div>
-              <div className="col-span-3">
-                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Dealer Name</p>
-                  <p className="font-semibold">
-                    {contractDetail?.order?.[0]?.dealer?.[0]?.name}
-                  </p>
-                </div>
-              </div>
-              <div className="col-span-3">
-                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Reseller Name</p>
-                  <p className="font-semibold">
-                    {" "}
-                    {contractDetail?.order?.[0]?.reseller?.[0]?.name}
-                  </p>
-                </div>
-              </div>
-              <div className="col-span-3">
-                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Customer Name</p>
-                  <p className="font-semibold">
-                    {" "}
-                    {contractDetail?.order?.[0]?.customer?.[0]?.username}
-                  </p>
-                </div>
-              </div>
-            </Grid>
-            <Grid className="!grid-cols-8 mt-3">
-              <div className="col-span-2">
-                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Model</p>
-                  <p className="font-semibold"> {contractDetail?.model}</p>
-                </div>
-              </div>
-              <div className="col-span-2">
-                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Serial #</p>
-                  <p className="font-semibold"> {contractDetail?.serial}</p>
-                </div>
-              </div>
-              <div className="col-span-2">
-                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Manufacturer</p>
-                  <p className="font-semibold">
-                    {" "}
-                    {contractDetail?.manufacture}
-                  </p>
-                </div>
-              </div>
-
-              <div className="col-span-1">
-                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Retail Price</p>
-                  <p className="font-semibold">
-                    {" "}
-                    $
-                    {contractDetail?.productValue === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(
-                          contractDetail?.productValue ?? parseInt(0)
-                        )}
-                  </p>
-                </div>
-              </div>
-              <div className="col-span-1">
-                <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                  <p className="text-sm m-0 p-0">Condition</p>
-                  <p className="font-semibold"> {contractDetail?.condition}</p>
-                </div>
-              </div>
-            </Grid>
-          </div>
-        </Grid>
-
-        <div className="my-4">
-          <p className="text-2xl font-bold mb-4"> Upload Receipt or Image </p>
+        <form onSubmit={formikStep2.handleSubmit}>
           <Grid>
-            <div className="col-span-6">
-              <Grid className="my-3">
-                <div className="col-span-6">
-                  <SelectBoxWIthSerach
-                    options={servicerData}
-                    label="Servicer Name"
-                    name="servicerName"
-                    className="!bg-[#fff]"
-                    onChange={handleSelect}
-                  />
+            <div className="col-span-12">
+              <Grid>
+                <div className="col-span-3">
+                  <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                    <p className="text-sm m-0 p-0">Contract ID</p>
+                    <p className="font-semibold">
+                      {contractDetail?.unique_key}
+                    </p>
+                  </div>
                 </div>
-                <div className="col-span-6">
-                  <Input
-                    label="Loss Date"
-                    type="date"
-                    name="lossDate"
-                    required
-                    item={item}
-                    setItem={setItem}
-                    className="!bg-[#fff]"
-                  />
+                <div className="col-span-3">
+                  <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                    <p className="text-sm m-0 p-0">Dealer Name</p>
+                    <p className="font-semibold">
+                      {contractDetail?.order?.[0]?.dealer?.[0]?.name}
+                    </p>
+                  </div>
+                </div>
+                {contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? ('') : (
+                  <div className="col-span-3">
+                  <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                    <p className="text-sm m-0 p-0">Reseller Name</p>
+                    <p className="font-semibold">
+                      {" "}
+                      {contractDetail?.order?.[0]?.reseller?.[0]?.name}
+                    </p>
+                  </div>
+                </div>
+                )}
+                
+                <div className="col-span-3">
+                  <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                    <p className="text-sm m-0 p-0">Customer Name</p>
+                    <p className="font-semibold">
+                      {" "}
+                      {contractDetail?.order?.[0]?.customer?.[0]?.username}
+                    </p>
+                  </div>
                 </div>
               </Grid>
-
-              <div>
-                <div>
-                  <div className="border border-dashed w-full relative py-8">
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      className="hidden"
-                      id="fileInput"
-                    />
-                    <label
-                      htmlFor="fileInput"
-                      className="self-center text-center cursor-pointer"
-                    >
-                      <img
-                        src={Dropbox}
-                        className="mx-auto mb-3"
-                        alt="Dropbox"
-                      />
-                      <p>Accepted Max. file size: 5 MB.</p>
-                    </label>
+              <Grid className="!grid-cols-8 mt-3">
+                <div className="col-span-2">
+                  <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                    <p className="text-sm m-0 p-0">Model</p>
+                    <p className="font-semibold"> {contractDetail?.model}</p>
                   </div>
+                </div>
+                <div className="col-span-2">
+                  <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                    <p className="text-sm m-0 p-0">Serial #</p>
+                    <p className="font-semibold"> {contractDetail?.serial}</p>
+                  </div>
+                </div>
+                <div className="col-span-2">
+                  <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                    <p className="text-sm m-0 p-0">Manufacturer</p>
+                    <p className="font-semibold">
+                      {" "}
+                      {contractDetail?.manufacture}
+                    </p>
+                  </div>
+                </div>
 
-                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    {images.map((image, index) => (
-                      <div key={index} className="relative">
-                        <img
-                          src={image.preview}
-                          alt={`Preview ${index}`}
-                          className="w-full h-auto"
-                        />
-                        <button
-                          onClick={() => handleRemoveImage(index)}
-                          className="absolute -top-2 -right-2"
-                        >
-                          <img
-                            src={Cross}
-                            className="w-6 rounded-[16px] cursor-pointer"
-                            alt="Cross"
-                          />
-                        </button>
+                <div className="col-span-1">
+                  <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                    <p className="text-sm m-0 p-0">Retail Price</p>
+                    <p className="font-semibold">
+                      {" "}
+                      $
+                      {contractDetail?.productValue === undefined
+                        ? parseInt(0).toLocaleString(2)
+                        : formatOrderValue(
+                            contractDetail?.productValue ?? parseInt(0)
+                          )}
+                    </p>
+                  </div>
+                </div>
+                <div className="col-span-1">
+                  <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                    <p className="text-sm m-0 p-0">Condition</p>
+                    <p className="font-semibold">
+                      {" "}
+                      {contractDetail?.condition}
+                    </p>
+                  </div>
+                </div>
+              </Grid>
+            </div>
+          </Grid>
+
+          <div className="my-4">
+            <p className="text-2xl font-bold mb-4"> Upload Receipt or Image </p>
+            <Grid>
+              <div className="col-span-6">
+                <Grid className="my-3">
+                  <div className="col-span-6">
+                    <SelectBoxWithSearch
+                      label="Servicer Name"
+                      name="servicerId"
+                      className='!bg-[#fff]'
+                      onChange={handleChange}
+                      options={servicerData} // Make sure to define servicerList
+                      value={formik.values.servicerId}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.servicerId && formik.errors.servicerId
+                      }
+                    />
+                    {formik.touched.servicerId && formik.errors.servicerId && (
+                      <div className="text-red-500">
+                        {formik.errors.servicerId}
                       </div>
-                    ))}
+                    )}
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      label="Loss Date"
+                      type="date"
+                      name="lossDate"
+                      max={new Date().toISOString().split("T")[0]}
+                      required
+                      onChange={formikStep2.handleChange}
+                      onBlur={formikStep2.handleBlur}
+                      value={formikStep2.values.lossDate}
+                      className="!bg-[#fff]"
+                    />
+                    {formikStep2.touched.lossDate &&
+                      formikStep2.errors.lossDate && (
+                        <div className="text-red-500">
+                          {formikStep2.errors.lossDate}
+                        </div>
+                      )}
+                  </div>
+                </Grid>
+
+                <div>
+                  <div>
+                    <div className="border border-dashed w-full relative py-8">
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*,application/pdf,.xlsx,.xls,.csv"
+                        onChange={handleImageChange}
+                        className="hidden"
+                        id="fileInput"
+                      />
+
+                      <label
+                        htmlFor="fileInput"
+                        className="self-center text-center cursor-pointer"
+                      >
+                        <img
+                          src={Dropbox}
+                          className="mx-auto mb-3"
+                          alt="Dropbox"
+                        />
+                        <p>Accepted Max. file size: 5 MB.</p>
+                      </label>
+                    </div>
+                    {formikStep2.touched.images &&
+                      formikStep2.errors.images && (
+                        <div className="text-red-500">
+                          {formikStep2.errors.images}
+                        </div>
+                      )}
+                    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                      {formikStep2.values.images.map((file, index) => (
+                        <div key={index} className="relative">
+                          {file.fileType === "image" && (
+                            <img
+                              src={file.preview}
+                              alt={`Preview ${index}`}
+                              className="w-full h-auto"
+                            />
+                          )}
+                          {file.fileType === "pdf" && (
+                            <FontAwesomeIcon icon={faFilePdf} size="4x" />
+                          )}
+                          {file.fileType === "csv" && (
+                            <FontAwesomeIcon icon={faFileImage} size="4x" />
+                          )}
+                          {file.fileType === "word" && (
+                            <FontAwesomeIcon icon={faFileWord} size="4x" />
+                          )}
+                          {file.fileType === "excel" && (
+                            <FontAwesomeIcon icon={faFileExcel} size="4x" />
+                          )}
+                          <button
+                            onClick={() => handleRemoveImage(index)}
+                            className="absolute -top-2 -right-2"
+                          >
+                            <img
+                              src={Cross}
+                              className="w-6 rounded-[16px] cursor-pointer"
+                              alt="Cross"
+                            />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="col-span-6">
-              <div className="relative">
-                <label
-                  htmlFor="description"
-                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                >
-                  Diagonsis <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="note"
-                  rows="11"
-                  name="Note"
-                  maxLength={150}
-                  className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
-                ></textarea>
+              <div className="col-span-6">
+                <div className="relative">
+                  <label
+                    htmlFor="description"
+                    className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  >
+                    Diagonsis <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    id="description"
+                    rows="11"
+                    name="diagnosis"
+                    maxLength={150}
+                    className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none"
+                    onChange={formikStep2.handleChange}
+                    onBlur={formikStep2.handleBlur}
+                    value={formikStep2.values.diagnosis}
+                  ></textarea>
+                </div>
+                {formikStep2.touched.diagnosis &&
+                  formikStep2.errors.diagnosis && (
+                    <div className="text-red-500">
+                      {formikStep2.errors.diagnosis}
+                    </div>
+                  )}
+                <p className="text-[10px] text-neutral-grey">
+                  {" "}
+                  <span className="text-red-500"> Note : </span> Max Claim
+                  amount is $123.00
+                </p>
               </div>
-              <p className="text-[10px] text-neutral-grey">
-                {" "}
-                <span className="text-red-500"> Note : </span> Max Claim amount
-                is $123.00
-              </p>
-            </div>
-            <div className="col-span-6">
-              <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                Do you want to send notifications?
-                <RadioButton
-                  id="yes-create-account"
-                  label="Yes"
-                  value="yes"
-                  // checked={createAccountOption === "yes"}
-                  // onChange={handleRadioChange}
-                />
-                <RadioButton
-                  id="no-create-account"
-                  label="No"
-                  value="no"
-                  // checked={createAccountOption === "no"}
-                  // onChange={handleRadioChange}
-                />
-              </p>
-            </div>
-          </Grid>
-          <Button className="!bg-white !text-black" onClick={prevStep}>
-            Previous
-          </Button>
-          <Button>Submit</Button>
-        </div>
+              <div className="col-span-6">
+                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  Do you want to send notifications?
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value={true}
+                    checked={sendNotifications === true}
+                    onChange={() => handleRadioChange(true)}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value={false}
+                    checked={sendNotifications === false}
+                    onChange={() => handleRadioChange(false)}
+                  />
+                </p>
+              </div>
+            </Grid>
+            <Button className="!bg-white !text-black" onClick={prevStep}>
+              Previous
+            </Button>
+            <Button type="submit">Submit</Button>
+          </div>
+        </form>
       </div>
     );
   };
@@ -686,8 +994,60 @@ function AddClaim() {
           </p>
         </div>
       </div>
+        {loading1 ? (
+            <div className=" h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
+              </div>
+            </div>
+          ) : (
+            <>
+            {renderStep()}
+            </>
+        )}
 
-      {renderStep()}
+        {/* Modal Email Popop */}
+
+      <Modal isOpen={isCreateOpen} onClose={closeCreate}>
+      
+            <Button
+              onClick={closeCreate}
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+            >
+              <img
+                src={Cross}
+                className="w-full h-full text-black rounded-full p-0"
+              />
+            </Button>
+        
+        <div className="text-center py-3">
+          {/* {message === "New Dealer Created Successfully" ? (
+            <> */}
+              <img src={AddDealer} alt="email Image" className="mx-auto" />
+              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                Submitted
+                <span className="text-light-black"> Successfully </span>
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                {message}
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                Redirecting you on Dealer Page {timer} seconds.
+              </p>
+            {/* </>
+          ) : (
+            <>
+              <img src={disapprove} alt="email Image" className="mx-auto" />
+              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                Error
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                {message}
+              </p>
+            </>
+          )} */}
+        </div>
+      </Modal>
 
       <Modal isOpen={isModalOpen} onClose={closeModal} className="!w-[1100px]">
         <Button

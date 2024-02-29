@@ -331,12 +331,12 @@ function OrderList() {
                       </div>
                     )}
 
-                    <>
+                    <div className="border-b">
                       <PdfGenerator
                         data={row._id}
                         onClick={() => setSelectedAction(null)}
                       />
-                    </>
+                    </div>
                     <div
                       className="text-left py-1 flex cursor-pointer hover:font-semibold"
                       onClick={() => openArchive(row._id)}
@@ -352,10 +352,12 @@ function OrderList() {
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
+                    <div className="border-b">
                     <PdfGenerator
                       data={row._id}
                       onClick={() => setSelectedAction(null)}
                     />
+                    </div>
                     <PdfMake data={row._id} />
                   </>
                 )}

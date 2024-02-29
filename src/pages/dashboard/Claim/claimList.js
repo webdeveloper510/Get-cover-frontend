@@ -257,7 +257,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -276,7 +276,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -295,7 +295,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -319,12 +319,14 @@ function ClaimList() {
                           <Select
                           name='claimType'
                           label='Claim Type'
-                          className1='!p-1 !mb-3 !bg-[#f9f9f9] !text-[13px]' />
+                          className='!bg-[#333333] !text-white'
+                          className1='!p-1 !mb-3 !bg-[transparent] !text-[13px] !text-white' />
                           
                           <Select
                           name='claimType'
                           label='Damage Code'
-                          className1='!p-1 !bg-[#f9f9f9] !text-[13px]' />
+                          className='!bg-[#333333] !text-white'
+                          className1='!p-1 !mb-3 !bg-[transparent] !text-[13px] !text-white' />
                         </Grid>
                         
                       </div>
@@ -338,7 +340,7 @@ function ClaimList() {
                           <p className='text-white text-sm'>Shipping Label received</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2' onClick={handleToggleDropdown}>
+                        <div className='self-center ml-auto mr-2 py-3 cursor-pointer h-full' onClick={handleToggleDropdown}>
                           <img src={DropActive} className={`cursor-pointer ${dropdownVisible ? 'rotate-180	' : ''}`} alt='DropActive' />
                           <div className={`absolute z-[2] w-[140px]  ${dropdownVisible ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md top-[2rem]`}>
                             <div>
@@ -357,7 +359,7 @@ function ClaimList() {
                           <p className='text-white text-sm'>Open</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2' onClick={handleToggleDropdown2}>
+                        <div className='self-center ml-auto mr-2 cursor-pointer py-3' onClick={handleToggleDropdown2}>
                           <img src={DropActive} className={`cursor-pointer ${dropdownVisible2 ? 'rotate-180	' : ''}`} alt='DropActive' />
                           <div className={`absolute z-[2] w-[140px]  ${dropdownVisible2 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md top-[2rem]`}>
                             <div>
@@ -376,13 +378,21 @@ function ClaimList() {
                           <p className='text-white text-sm'>Parts Needed</p>
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
-                        <div className='self-center ml-auto mr-2' onClick={handleToggleDropdown1}>
+                        <div className='self-center ml-auto mr-2 cursor-pointer py-3' onClick={handleToggleDropdown1}>
                           <img src={DropActive} className={`cursor-pointer ${dropdownVisible1 ? 'rotate-180	' : ''}`} alt='DropActive' />
-                          <div className={`absolute z-[2] w-[140px]  ${dropdownVisible1 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md top-[2rem]`}>
+                          <div className={`absolute z-[999] w-[180px]  ${dropdownVisible1 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md bottom-[2.5rem]`}>
                             <div>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'> <img src={Open} className='w-4 h-4 mr-2' alt='Open'/> Open</p>
-                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Complete} className='w-4 h-4 mr-2' alt='Open'/>Completed</p>
-                              <p className='text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Rejected</p>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'> <img src={Open} className='w-4 h-4 mr-2' alt='Open'/> Request Approved</p>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Complete} className='w-4 h-4 mr-2' alt='Open'/>Product Received</p>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Repair in Process</p>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Parts Needed</p>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Parts Ordered</p>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Parts Received</p>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Repair Complete</p>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Servicer Shipped</p>
+                              <p className='border-b text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Invoice Sent</p>
+                              <p className='text-sm hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Invoice Paid</p>
+
                             </div>
                           </div>
                         </div>
@@ -484,7 +494,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -503,7 +513,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -522,7 +532,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -673,7 +683,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -692,7 +702,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -711,7 +721,7 @@ function ClaimList() {
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
+                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -1052,7 +1062,7 @@ function ClaimList() {
                           <div className="flex h-full bg-[#EBEBEB]  justify-center">
                             <img
                               src={DeleteImage}
-                              className="self-center p-1 cursor-pointer"
+                              className="self-center p-1 py-[14px] cursor-pointer"
                               alt="Delete Icon"
                             />
                           </div>
@@ -1087,7 +1097,7 @@ function ClaimList() {
                           <div className="flex h-full bg-[#EBEBEB]  justify-center">
                             <img
                               src={DeleteImage}
-                              className="self-center p-1 cursor-pointer"
+                              className="self-center p-1 py-[14px] cursor-pointer"
                               alt="Delete Icon"
                             />
                           </div>
@@ -1121,7 +1131,7 @@ function ClaimList() {
                           <div className="flex h-full bg-[#EBEBEB]  justify-center">
                             <img
                               src={DeleteImage}
-                              className="self-center p-1 cursor-pointer"
+                              className="self-center p-1 py-[14px] cursor-pointer"
                               alt="Delete Icon"
                             />
                           </div>

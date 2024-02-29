@@ -43,3 +43,38 @@ export const getContractValues = async (id) => {
     throw error;
   }
 };
+
+export const uploadClaimEvidence = async (data) => {
+  const accessToken = getAccessToken(); // Assuming getAccessToken returns the access token
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+
+  if (accessToken) {
+    headers["x-access-token"] = accessToken;
+  }
+
+  try {
+    const response = await axios.post(`${url}/claim/uploadReceipt`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addClaim = async (data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/claim/createClaim`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
