@@ -349,14 +349,14 @@ function AddClaim() {
             </div>
             {selectedAction === row.unique_key && (
               <div
-                ref={dropdownRef} className="absolute z-[2] w-[90px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
+                ref={dropdownRef} className="absolute z-[2] w-[90px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]">
                                       <div
-                                        className="text-left pb-1 border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                        className="text-left  border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
                                         onClick={() => {
                                           handleSelectValue(row);
                                         }}
                                       >
-                                        <p className="flex hover:font-semibold">
+                                        <p className="flex px-3 py-1 hover:font-semibold ">
                                           {" "}
                                           <img
                                             src={selectIcon}
@@ -367,10 +367,10 @@ function AddClaim() {
                                         </p>
                                       </div>
                                       <div
-                                        className="text-center pt-1 text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                        className="text-center  text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
                                         onClick={() => openModal(row)}
                                       >
-                                        <p className="flex hover:font-semibold">
+                                        <p className="flex hover:font-semibold py-1 px-3">
                                           {" "}
                                           <img
                                             src={View}
@@ -643,6 +643,7 @@ function AddClaim() {
       addClaim(values).then((res) => {
         console.log(res);
         if (res.code == 200) {
+          setIsCreateOpen(true);
           setMessage("New Claim Created Successfully");
           setTimer(3);
           navigate("/claimList");

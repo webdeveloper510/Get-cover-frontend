@@ -115,7 +115,7 @@ function CustomerList(props) {
             {selectedAction === row.customerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -123,7 +123,7 @@ function CustomerList(props) {
                   onClick={() => {
                     localStorage.setItem("menu", "Customer");
                   }}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                   >
                    <img src={view} className="w-4 h-4 mr-2"/> 
                   <Link className="self-center" to={`/customerDetails/${row.customerData._id}`}>

@@ -200,19 +200,19 @@ function NewDealerList() {
           </div>
           {isDropdownOpen && selectedAction === index && (
             <div
-              className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 p-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}
               onClick={(e) => e.stopPropagation()}
             >
               <div
-                className="text-center py-2 border-b text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer"
+                className="text-center py-1 px-2 border-b text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer"
                 onClick={() => handleActionChange("Approved", row.accountId)}
               >
                 Approve
               </div>
               <div
-                className="text-center py-2 text-[#FF4747] text-[12px] cursor-pointer"
+                className="text-center py-1 px-2 text-[#FF4747] text-[12px] cursor-pointer"
                 onClick={() => handleActionChange("Rejected", row.accountId)}
               >
                 Disapprove

@@ -210,11 +210,11 @@ function CustomerOrderList() {
             {selectedAction === row.id && (
               <div
               ref={dropdownRef}
-              className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md bottom-1`}
+              className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-1`}
             >
               {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
               
-                <div className="text-center py-1 cursor-pointer">
+                <div className="text-center py-1 px-3 cursor-pointer">
                   <Link to={'/customer/orderDetails'} className="text-center py-1 cursor-pointer w-full flex justify-center"
                 >
                   View

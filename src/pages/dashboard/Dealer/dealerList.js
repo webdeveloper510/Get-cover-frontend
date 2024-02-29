@@ -243,13 +243,13 @@ function DealerList() {
             {selectedAction === row.dealerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-3 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 <Link
                   to={`/dealerDetails/${row?.dealerData._id}`}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                   >
                    <img src={view} className="w-4 h-4 mr-2"/> View
                 </Link>

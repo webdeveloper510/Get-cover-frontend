@@ -201,26 +201,26 @@ function OrderList(props) {
                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-center py-1 px-2 border-b cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
                       Edit
                     </div>
                     <div
-                      className="text-center py-1 border-b cursor-pointer"
+                      className="text-center py-1 px-2 border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       Process Order
                     </div>
                     <div
-                      className="text-center py-1 cursor-pointer"
+                      className="text-center py-1 px-2 cursor-pointer"
                       onClick={() => openArchive(row._id)}
                     >
                       Archive
                     </div>
                   </>
                 ) : (
-                    <Link to={`/orderDetails/${row._id}`} className="text-center py-1 cursor-pointer w-full flex justify-center">View</Link>
+                    <Link to={`/orderDetails/${row._id}`} className="text-center py-1 px-2 cursor-pointer w-full flex justify-center">View</Link>
                 
                 )}
               </div>

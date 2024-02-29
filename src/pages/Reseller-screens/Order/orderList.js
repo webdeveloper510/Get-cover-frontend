@@ -233,35 +233,35 @@ function ResellerOrderList() {
             {selectedAction === row.id && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md bottom-1`}
+                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-1`}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-left py-1 flex border-b cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b cursor-pointer"
                       onClick={() => navigate(`/reseller/editOrder/${row._id}`)}
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
                     <div
-                      className="text-left py-1 flex border-b cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       <img src={process} className="w-4 h-4 mr-2" /> Process
                       Order
                     </div>
                     <div
-                      className="text-left py-1 flex border-b cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
                     </div>
-                    <>
+                    <div className="border-b">
                       <PdfGenerator data={row._id} />
-                    </>
+                    </div>
                     <div
-                      className="text-left py-1 flex cursor-pointer"
+                      className="text-left py-1 px-2 flex cursor-pointer"
                       onClick={() => openArchive(row._id)}
                     >
                       <img src={remove} className="w-4 h-4 mr-2" /> Archive
@@ -271,11 +271,13 @@ function ResellerOrderList() {
                   <>
                     <Link
                       to={`/orderDetails/${row._id}`}
-                      className="text-left py-1 cursor-pointer border-b w-full flex justify-start"
+                      className="text-left py-1 px-2 cursor-pointer border-b w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                    <PdfGenerator data={row._id} />
+                    <div className="border-b">
+                      <PdfGenerator data={row._id} />
+                    </div>
                     <PdfMake data={row._id} />
                   </>
                 )}
