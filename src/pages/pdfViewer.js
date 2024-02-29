@@ -175,7 +175,7 @@ function PdfGenerator(props, className) {
         <table style="width: 100%; border-collapse: collapse;">
         <thead style="background-color: #f4f4f4; text-align: left;">
           <tr>
-            <th style="border-bottom: 1px solid #ddd; padding: 8px;">S.no.</th>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">S.No.</th>
             <th style="border-bottom: 1px solid #ddd; padding: 8px;">Product Warranty Details</th>
             <th style="border-bottom: 1px solid #ddd; padding: 8px;">Qty</th>
             <th style="border-bottom: 1px solid #ddd; padding: 8px;">Unit Price</th>
