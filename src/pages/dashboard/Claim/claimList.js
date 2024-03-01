@@ -346,9 +346,9 @@ function ClaimList() {
           <div className="px-3 mt-5">
             {claimList?.result &&
               claimList?.result?.length !== 0 &&
-              claimList?.result?.map((res) => (
+              claimList?.result?.map((res, index) => (
                 <CollapsibleDiv
-                  index={1}
+                  index={index}
                   activeIndex={activeIndex}
                   setActiveIndex={setActiveIndex}
                   title={

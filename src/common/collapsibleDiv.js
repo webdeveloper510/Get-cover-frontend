@@ -34,11 +34,11 @@ const CollapsibleDiv = ({ title, children, index, activeIndex, setActiveIndex })
         </div>
       </div>
       <div
-        className={` overflow-hidden transition-duration-${isCollapsed ? '500' : '2000'} ease-in-out`}
+        className={`transition-duration-${isCollapsed ? '500 overflow-hidden' : '2000 overflow-visible'} ease-in-out`}
         ref={contentRef}
         style={{
           maxHeight: isCollapsed ? '0px' : 'auto',
-          transition: 'max-height 0.5s ease-in-out', // Animation on opening and closing
+          transition: 'max-height 0.5s ease-in-out', 
         }}
       >
         {children}
