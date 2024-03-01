@@ -347,9 +347,7 @@ function AddClaim() {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.unique_key
-                    ? null
-                    : row.unique_key
+                  selectedAction === row.unique_key ? null : row.unique_key
                 )
               }
             >
@@ -361,38 +359,35 @@ function AddClaim() {
             </div>
             {selectedAction === row.unique_key && (
               <div
-                ref={dropdownRef} className="absolute z-[2] w-[90px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]">
-                                      <div
-                                        className="text-left  border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                                        onClick={() => {
-                                          handleSelectValue(row);
-                                        }}
-                                      >
-                                        <p className="flex px-3 py-1 hover:font-semibold ">
-                                          {" "}
-                                          <img
-                                            src={selectIcon}
-                                            className="w-4 h-4 mr-2"
-                                            alt="selectIcon"
-                                          />{" "}
-                                          Select
-                                        </p>
-                                      </div>
-                                      <div
-                                        className="text-center  text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                                        onClick={() => openModal(row)}
-                                      >
-                                        <p className="flex hover:font-semibold py-1 px-3">
-                                          {" "}
-                                          <img
-                                            src={View}
-                                            className="w-4 h-4 mr-2"
-                                            alt="View"
-                                          />{" "}
-                                          View
-                                        </p>
-                                      </div>
-                                    </div>
+                ref={dropdownRef}
+                className="absolute z-[2] w-[90px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]"
+              >
+                <div
+                  className="text-left  border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                  onClick={() => {
+                    handleSelectValue(row);
+                  }}
+                >
+                  <p className="flex px-3 py-1 hover:font-semibold ">
+                    {" "}
+                    <img
+                      src={selectIcon}
+                      className="w-4 h-4 mr-2"
+                      alt="selectIcon"
+                    />{" "}
+                    Select
+                  </p>
+                </div>
+                <div
+                  className="text-center  text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                  onClick={() => openModal(row)}
+                >
+                  <p className="flex hover:font-semibold py-1 px-3">
+                    {" "}
+                    <img src={View} className="w-4 h-4 mr-2" alt="View" /> View
+                  </p>
+                </div>
+              </div>
             )}
           </div>
         );
@@ -508,25 +503,29 @@ function AddClaim() {
               </div>
               {showTable && (
                 <>
-                 <div className="col-span-12 relative pb-24">
-                 <DataTable
-                 columns={columns}
-                 data={contractList}
-                 highlightOnHover
-                 sortIcon={
-                   <>
-                     {" "}
-                     <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                   </>
-                 }
-                 noDataComponent={<CustomNoDataComponent />}
-                 pagination
-                 paginationPerPage={10}
-                 paginationComponentOptions={paginationOptions}
-                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
-               />
-                 </div>
-                {/* <div className="col-span-12">
+                  <div className="col-span-12 relative pb-24">
+                    <DataTable
+                      columns={columns}
+                      data={contractList}
+                      highlightOnHover
+                      sortIcon={
+                        <>
+                          {" "}
+                          <img
+                            src={shorting}
+                            className="ml-2"
+                            alt="shorting"
+                          />{" "}
+                        </>
+                      }
+                      noDataComponent={<CustomNoDataComponent />}
+                      pagination
+                      paginationPerPage={10}
+                      paginationComponentOptions={paginationOptions}
+                      paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                    />
+                  </div>
+                  {/* <div className="col-span-12">
                   <table className="w-full border text-center">
                     <thead className="bg-[#F9F9F9] ">
                       <tr className="py-2">
@@ -618,7 +617,6 @@ function AddClaim() {
   };
 
   const validationSchemaStep2 = Yup.object({
-    servicerId: Yup.string().required("Servicer Name is required"),
     lossDate: Yup.date().required("Loss Date is required"),
     images: Yup.array()
       .min(1, "At least one image is required")
@@ -688,18 +686,20 @@ function AddClaim() {
                     </p>
                   </div>
                 </div>
-                {contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? ('') : (
+                {contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? (
+                  ""
+                ) : (
                   <div className="col-span-3">
-                  <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                    <p className="text-sm m-0 p-0">Reseller Name</p>
-                    <p className="font-semibold">
-                      {" "}
-                      {contractDetail?.order?.[0]?.reseller?.[0]?.name}
-                    </p>
+                    <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                      <p className="text-sm m-0 p-0">Reseller Name</p>
+                      <p className="font-semibold">
+                        {" "}
+                        {contractDetail?.order?.[0]?.reseller?.[0]?.name}
+                      </p>
+                    </div>
                   </div>
-                </div>
                 )}
-                
+
                 <div className="col-span-3">
                   <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                     <p className="text-sm m-0 p-0">Customer Name</p>
@@ -769,20 +769,12 @@ function AddClaim() {
                     <SelectBoxWithSearch
                       label="Servicer Name"
                       name="servicerId"
-                      className='!bg-[#fff]'
+                      className="!bg-[#fff]"
                       onChange={handleChange}
                       options={servicerData} // Make sure to define servicerList
                       value={formik.values.servicerId}
                       onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.servicerId && formik.errors.servicerId
-                      }
                     />
-                    {formik.touched.servicerId && formik.errors.servicerId && (
-                      <div className="text-red-500">
-                        {formik.errors.servicerId}
-                      </div>
-                    )}
                   </div>
                   <div className="col-span-6">
                     <Input
@@ -1006,47 +998,44 @@ function AddClaim() {
           </p>
         </div>
       </div>
-        {loading1 ? (
-            <div className=" h-[400px] w-full flex py-5">
-              <div className="self-center mx-auto">
-                <RotateLoader color="#333" />
-              </div>
-            </div>
-          ) : (
-            <>
-            {renderStep()}
-            </>
-        )}
+      {loading1 ? (
+        <div className=" h-[400px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div>
+      ) : (
+        <>{renderStep()}</>
+      )}
 
-        {/* Modal Email Popop */}
+      {/* Modal Email Popop */}
 
       <Modal isOpen={isCreateOpen} onClose={closeCreate}>
-      
-            <Button
-              onClick={closeCreate}
-              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
-            >
-              <img
-                src={Cross}
-                className="w-full h-full text-black rounded-full p-0"
-              />
-            </Button>
-        
+        <Button
+          onClick={closeCreate}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+
         <div className="text-center py-3">
           {/* {message === "New Dealer Created Successfully" ? (
             <> */}
-              <img src={AddDealer} alt="email Image" className="mx-auto" />
-              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-                Submitted
-                <span className="text-light-black"> Successfully </span>
-              </p>
-              <p className="text-neutral-grey text-base font-medium mt-2">
-                {message}
-              </p>
-              <p className="text-neutral-grey text-base font-medium mt-2">
-                Redirecting you on Dealer Page {timer} seconds.
-              </p>
-            {/* </>
+          <img src={AddDealer} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+            Submitted
+            <span className="text-light-black"> Successfully </span>
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            {message}
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting you on Dealer Page {timer} seconds.
+          </p>
+          {/* </>
           ) : (
             <>
               <img src={disapprove} alt="email Image" className="mx-auto" />

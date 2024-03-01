@@ -78,3 +78,31 @@ export const addClaim = async (data) => {
     throw error;
   }
 };
+
+export const getClaimList = async (data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/claim/getAllClaims`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addClaimsRepairParts = async (id, data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.put(`${url}/claim/editClaim/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
