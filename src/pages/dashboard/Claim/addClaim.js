@@ -1003,7 +1003,7 @@ function AddClaim() {
         </div>
       </div>
       {loading1 ? (
-        <div className=" h-[400px] w-full flex py-5">
+        <div className="h-[400px] w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#333" />
           </div>
