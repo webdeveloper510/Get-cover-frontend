@@ -318,7 +318,7 @@ function AddClaim() {
       selector: (row) => row.unique_key,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "150px",
+      maxWidth: "160px",
     },
     {
       name: "Customer Name",
