@@ -326,7 +326,7 @@ function AddClaim() {
       sortable: true,
     },
     {
-      name: "Serial Number",
+      name: "Serial #",
       selector: (row) => row.serial,
       sortable: true,
     },
