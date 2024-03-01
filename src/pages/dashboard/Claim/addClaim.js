@@ -818,7 +818,7 @@ function AddClaim() {
                           className="mx-auto mb-3"
                           alt="Dropbox"
                         />
-                        <p>Accepted Max. file size: 5 MB.</p>
+                        <p>Accepted Max. # of files : 5, file size: 5 MB.</p>
                       </label>
                     </div>
                     {formikStep2.touched.images &&
@@ -866,6 +866,8 @@ function AddClaim() {
                 </div>
               </div>
               <div className="col-span-6">
+                 <p className=" mb-2"> Max Claim
+                  amount is $123.00</p>
                 <div className="relative">
                   <label
                     htmlFor="description"
