@@ -71,6 +71,17 @@ function ClaimList() {
     console.log(result.result);
   };
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const handleToggleDropdown1 = () => {
     setDropdownVisible1(!dropdownVisible1);
   };
@@ -354,15 +365,15 @@ function ClaimList() {
           <div className="px-3 mt-5">
             {claimList?.result &&
               claimList?.result?.length !== 0 &&
-              claimList?.result?.map((res) => (
+              claimList?.result?.map((res, index) => (
                 <CollapsibleDiv
-                  index={1}
+                  index={index}
                   activeIndex={activeIndex}
                   setActiveIndex={setActiveIndex}
                   title={
                     <>
                       {" "}
-                      <Grid className="border-[#474747] border !gap-2 rounded-t-[22px]">
+                      <Grid className="border-[#474747] border !gap-2 bg-[#fff] rounded-t-[22px]">
                         <div className="col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5">
                           <p className="font-semibold leading-5 text-lg">
                             {" "}
@@ -494,7 +505,10 @@ function ClaimList() {
                                 Price
                               </p>
                               <p className="text-[#5D6E66] text-base font-semibold">
-                                ${part.price}
+                                ${
+                                    part.price === undefined
+                                    ? parseInt(0).toLocaleString(2)
+                                    : formatOrderValue(part.price ?? parseInt(0))}
                               </p>
                             </div>
                           </div>
@@ -1157,58 +1171,6 @@ function ClaimList() {
         </Button>
         <div className="py-1">
           <p className="text-center text-3xl font-semibold ">Edit Claim</p>
-          {/* <form className="mt-3 mr-4">
-            <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1]  rounded-3xl">
-              <p className="pb-5 text-lg font-semibold">Repair Parts</p>
-              <div className="w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">
-                <Grid className="mb-5">
-                  <div className="col-span-2">
-                    <Select
-                      name="ServiceType"
-                      label="Service Type"
-                      options={CoverageStartDate}
-                      required={true}
-                      className="!bg-[#fff]"
-                      placeholder=""
-                    />
-                  </div>
-                  <div className="col-span-8">
-                    <Input
-                      type="text"
-                      name="description"
-                      className="!bg-[#fff]"
-                      label="Description"
-                      placeholder=""
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <Input
-                      type="number"
-                      name="price"
-                      className="!bg-[#fff]"
-                      label="Price ($)"
-                      placeholder=""
-                    />
-                  </div>
-                </Grid>
-                <hr className="my-4" />
-              </div>
-
-              <div className="text-right">
-                <Button className="!text-sm" onClick={handleAddMore}>
-                  + Add More
-                </Button>
-              </div>
-            </div>
-            <div className="px-5 pb-5 pt-5 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
-              <div className="relative">
-                <label
-                  htmlFor="description"
-                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                >
-                  Note
-                </label>
-             */}
           <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1] rounded-3xl">
               <p className="pb-5 text-lg font-semibold">Repair Parts</p>
@@ -1325,7 +1287,10 @@ function ClaimList() {
                 })}
               </div>
 
-              <div className="text-right">
+              <div className="flex justify-between">
+                <div>
+                  <p className="text-red-500">Error </p>
+                </div>
                 <Button
                   type="button"
                   className="!text-sm "
