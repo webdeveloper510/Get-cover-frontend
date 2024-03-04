@@ -6,7 +6,8 @@ import { format } from "date-fns";
 import { orderDetailsById } from "../services/orderServices";
 import { useState } from "react";
 function PdfGenerator(props, className) {
-  
+  const {setLoading} = props
+   
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
@@ -20,6 +21,7 @@ function PdfGenerator(props, className) {
   const [data, setData] = useState({});
   console.log("props", props);
   const convertToPDF = async () => {
+    setLoading(true)
     const result = await orderDetailsById(props.data);
     let value = {
       dealerName: result.orderUserData.dealerData,
@@ -46,6 +48,7 @@ function PdfGenerator(props, className) {
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
+    setLoading(false)
   };
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
