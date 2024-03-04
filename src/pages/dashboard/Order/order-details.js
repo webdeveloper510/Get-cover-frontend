@@ -32,6 +32,7 @@ import PdfMake from "../../pdfMakeOrder";
 import ContractList from "../Contract/contractList";
 import Modal from "../../../common/model";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
+import DocMakeOrderContainer from "../../docMakeOrder";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -374,7 +375,7 @@ function OrderDetails() {
                     {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
                     <span className="self-center">
                       {" "}
-                      <PdfGenerator data={orderDetails._id} />
+                      <PdfGenerator setLoading={setLoading1} data={orderDetails._id} />
                     </span>
                   </Button>
                 </div>
@@ -383,7 +384,7 @@ function OrderDetails() {
                     {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
                     <span className="self-center">
                       {" "}
-                      <PdfMake data={orderId} />
+                      <DocMakeOrderContainer setLoading={setLoading1} data={orderId} />
                     </span>
                   </Button>
                 </div>

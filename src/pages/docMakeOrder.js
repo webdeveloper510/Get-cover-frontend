@@ -1,10 +1,7 @@
 import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 import React from 'react';
-import { saveAs } from 'file-saver';
 import download from "../assets/images/download.png";
-// import { Document, Packer, Paragraph } from 'docx';
-// import { createDocx } from 'html-to-docx';
 import { getExportOrderHtml } from "../services/orderServices";
 
 const DocMakeOrder = async (props) => {
