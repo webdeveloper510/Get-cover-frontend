@@ -106,7 +106,7 @@ function SidebarItem({
       <Link
         to={item.url}
         className={`flex cursor-pointer d-flex ps-[20px] relative z-[2] mb-[3px] py-[19px] pe-3 ${
-          isActive ? "bg-[#FFF] text-[#000] rounded-s-[30px]" : "text-neutral-grey"
+          isActive ? "bg-[#FFF] text-[#000] rounded-s-[30px]" : "text-light-grey"
         }`}
         onClick={() => {
           onLinkClick(item.url);
@@ -183,7 +183,7 @@ function SidebarItem({
                 className={`rounded-[25px] flex ${
                   active === subItem.url
                     ? "text-white font-medium"
-                    : "text-neutral-grey"
+                    : "text-light-grey"
                 }`}
                 onClick={() => {
                   onLinkClick(subItem.url, item.name);
@@ -896,7 +896,7 @@ function SideBar() {
                     className="w-[22px] h-[22px] text-black"
                     alt={LogoutImage}
                   />
-                  <span className="self-center text-[14px] font-light text-left w-full pl-[12px] text-neutral-grey ml-1">
+                  <span className="self-center text-[14px] font-light text-left w-full pl-[12px] text-light-grey ml-1">
                     Logout
                   </span>
                 </div>
