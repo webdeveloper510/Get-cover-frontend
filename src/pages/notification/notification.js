@@ -100,8 +100,8 @@ function Notification() {
                   <p
                     className={`${
                       data.notificationData.status !== true
-                        ? "mb-6 text-base text-[#999999] font-semibold"
-                        : "mb-6 text-base text-[#999999] font-Regular"
+                        ? "mb-6 text-base text-neutral-grey font-semibold"
+                        : "mb-6 text-base text-neutral-grey font-Regular"
                     }  `}
                   >
                     {data?.notificationData.description}

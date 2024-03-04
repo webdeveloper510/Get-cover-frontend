@@ -243,7 +243,7 @@ function OrderDetails() {
                 </div>
               </div>
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-[#999999] font-Regular">
+                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
                   Other Details
                 </p>
                 <hr className="self-center border-[#999999] w-[70%]" />

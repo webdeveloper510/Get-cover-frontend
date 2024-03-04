@@ -241,8 +241,8 @@ function ClaimList() {
                   <Grid className=''>
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
+                        <p className='text-neutral-grey mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
+                        <p className='text-neutral-grey mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
                         Servicer Name : </span>   <Select 
                           name="state"
                           options={state}
@@ -250,7 +250,7 @@ function ClaimList() {
                           className=""
                           className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
                             /></p>
-                        <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
+                        <p className='text-neutral-grey text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
                     <div className='col-span-4 self-center'>
@@ -430,8 +430,8 @@ function ClaimList() {
                   <Grid className=''>
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
+                        <p className='text-neutral-grey mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
+                        <p className='text-neutral-grey mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
                         Servicer Name : </span>   <Select 
                           name="state"
                           options={state}
@@ -439,7 +439,7 @@ function ClaimList() {
                           className=""
                           className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
                             /></p>
-                        <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
+                        <p className='text-neutral-grey text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
                     <div className='col-span-4 self-center'>
@@ -619,8 +619,8 @@ function ClaimList() {
                   <Grid className=''>
                     <div className='col-span-3 py-4 pl-1 '>
                       <div className='bg-[#3C3C3C] py-4 px-2'>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
+                        <p className='text-neutral-grey mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
+                        <p className='text-neutral-grey mb-3 text-[11px] font-Regular flex self-center'> <span className='self-center mr-3'>
                         Servicer Name : </span>   <Select 
                           name="state"
                           options={state}
@@ -628,7 +628,7 @@ function ClaimList() {
                           className=""
                           className1='!py-0 text-white !bg-[#3C3C3C] !text-[11px] !font-[400]'
                             /></p>
-                        <p className='text-[#999999] text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
+                        <p className='text-neutral-grey text-[11px] font-Regular'>Claim Cost :  <span className='font-semibold text-white'> $18.00  </span></p>
                       </div>
                     </div>
                     <div className='col-span-4 self-center'>

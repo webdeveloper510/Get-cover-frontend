@@ -37,19 +37,19 @@ function ResellerDashboard() {
                     <Grid className='s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12'>
                         <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
                             <p className='text-2xl font-bold'>6,359</p>
-                            <p className='text-[#999999] text-sm'>Total Number of Orders</p>
+                            <p className='text-neutral-grey text-sm'>Total Number of Orders</p>
                         </div>
                         <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
                             <p className='text-2xl font-bold'>$96,859.00</p>
-                            <p className='text-[#999999] text-sm'>Total Value of Orders</p>
+                            <p className='text-neutral-grey text-sm'>Total Value of Orders</p>
                         </div>
                         <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
                             <p className='text-2xl font-bold'>6,359</p>
-                            <p className='text-[#999999] text-sm'>Total Number of Claims</p>
+                            <p className='text-neutral-grey text-sm'>Total Number of Claims</p>
                         </div>
                         <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
                             <p className='text-2xl font-bold'>$35,859.00</p>
-                            <p className='text-[#999999] text-sm'>Total Value of Claims</p>
+                            <p className='text-neutral-grey text-sm'>Total Value of Claims</p>
                         </div>
                     </Grid>
 

@@ -85,7 +85,7 @@ function Dashboard() {
                   <p className="text-2xl font-bold">
                     {dashboardDetail?.totalOrder}
                   </p>
-                  <p className="text-[#999999] text-sm">Total Number of Orders</p>
+                  <p className="text-neutral-grey text-sm">Total Number of Orders</p>
                 </div>
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
                   <p className="text-2xl font-bold">
@@ -93,15 +93,15 @@ function Dashboard() {
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(dashboardDetail.totalAmount ?? parseInt(0))}
                   </p>
-                  <p className="text-[#999999] text-sm">Total Value of Orders</p>
+                  <p className="text-neutral-grey text-sm">Total Value of Orders</p>
                 </div>
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
                   <p className="text-2xl font-bold">6,359</p>
-                  <p className="text-[#999999] text-sm">Total Number of Claims</p>
+                  <p className="text-neutral-grey text-sm">Total Number of Claims</p>
                 </div>
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
                   <p className="text-2xl font-bold">$35,859.00</p>
-                  <p className="text-[#999999] text-sm">Total Value of Claims</p>
+                  <p className="text-neutral-grey text-sm">Total Value of Claims</p>
                 </div>
               </Grid>
               <Grid className="s:hidden md:block ">
