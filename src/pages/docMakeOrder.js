@@ -8,6 +8,8 @@ import { getExportOrderHtml } from "../services/orderServices";
 
 const DocMakeOrder = async (props) => {
   try {
+    const {setLoading} = props
+    setLoading(true)
     const response = await getExportOrderHtml(props?.data);
 
     // Check if response and response.result are defined
@@ -46,6 +48,7 @@ const DocMakeOrder = async (props) => {
         }
 
         document.body.removeChild(downloadLink);
+        setLoading(false)
     //     function createDocxFromHtml(htmlContent) {
     //         const zip = new PizZip(htmlContent);
     //         const doc = new Docxtemplater(zip);
