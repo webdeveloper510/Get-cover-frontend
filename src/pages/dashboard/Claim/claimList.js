@@ -484,7 +484,7 @@ function ClaimList() {
                               <p className="text-[#fff] text-sm font-Regular">
                                 Service Type
                               </p>
-                              <p className="text-[#5D6E66] text-base font-semibold">
+                              <p className="text-[#c1c1c1] text-base font-semibold">
                                 {part.serviceType}
                               </p>
                             </div>
@@ -494,7 +494,7 @@ function ClaimList() {
                               <p className="text-[#fff] text-sm font-Regular">
                                 Description
                               </p>
-                              <p className="text-[#5D6E66] text-base font-semibold">
+                              <p className="text-[#c1c1c1] text-base font-semibold">
                                 {part.description}
                               </p>
                             </div>
@@ -504,7 +504,7 @@ function ClaimList() {
                               <p className="text-[#fff] text-sm font-Regular">
                                 Price
                               </p>
-                              <p className="text-[#5D6E66] text-base font-semibold">
+                              <p className="text-[#c1c1c1] text-base font-semibold">
                                 ${
                                     part.price === undefined
                                     ? parseInt(0).toLocaleString(2)
@@ -594,7 +594,7 @@ function ClaimList() {
                               <p className="text-white text-sm">
                                 Shipping Label received
                               </p>
-                              <p className="text-[#686868]">16 Dec 2024</p>
+                              <p className="text-[#c1c1c1]">16 Dec 2024</p>
                             </div>
                             <div
                               className="self-center ml-auto w-[10%] mr-2 cursor-pointer py-6"
@@ -662,7 +662,7 @@ function ClaimList() {
                               onClick={handleToggleDropdown2}
                             >
                               <p className="text-white text-sm">Open</p>
-                              <p className="text-[#686868]">16 Dec 2024</p>
+                              <p className="text-[#c1c1c1]">16 Dec 2024</p>
                             </div>
                             <div
                               className="self-center ml-auto w-[10%] mr-2 cursor-pointer py-6"
@@ -722,7 +722,7 @@ function ClaimList() {
                               onClick={handleToggleDropdown1}
                             >
                               <p className="text-white text-sm"> Request Sent </p>
-                              <p className="text-[#686868]">16 Dec 2024</p>
+                              <p className="text-[#c1c1c1]">16 Dec 2024</p>
                             </div>
                             <div
                               className="self-center ml-auto w-[10%] mr-2 cursor-pointer py-6"
@@ -825,7 +825,7 @@ function ClaimList() {
                           <div className="m-2 p-2 bg-[#3C3C3C] ">
                             <p className="text-[11px] text-white">Diagnosis</p>
                             <div className="h-[130px] max-h-[130px] overflow-y-scroll Diagnosis">
-                              <p className="text-sm text-[#686868]">
+                              <p className="text-sm text-[#c1c1c1]">
                                 In publishing and graphic design, Lorem ipsum is
                                 a placeholder. In publishing and graphic design,
                                 Lorem ipsum is a placeholder. In publishing and
@@ -1297,7 +1297,7 @@ function ClaimList() {
               <div className="relative">
                 <label
                   htmlFor="description"
-                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  className="absolute text-base text-[#e1e1e1] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
                 >
                   Note
                 </label>
