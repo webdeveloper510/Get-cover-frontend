@@ -519,21 +519,21 @@ function ClaimList() {
                       <Grid className="">
                         <div className="col-span-3 py-4 pl-1 ">
                           <div className="bg-[#3C3C3C] py-4 px-2">
-                            <p className="text-[#999999] mb-3 text-[11px] font-Regular ">
+                            <p className="text-neutral-grey mb-3 text-[11px] font-Regular ">
                               Customer Name :{" "}
                               <span className="font-semibold text-white">
                                 {" "}
                                 Ankush Grover{" "}
                               </span>
                             </p>
-                            <p className="text-[#999999] text-[11px] mb-3 font-Regular">
+                            <p className="text-neutral-grey text-[11px] mb-3 font-Regular">
                               Claim Cost :{" "}
                               <span className="font-semibold text-white ml-3">
                                 {" "}
                                 $18.00{" "}
                               </span>
                             </p>
-                            <p className="text-[#999999] mb-4 text-[11px] font-Regular flex self-center">
+                            <p className="text-neutral-grey mb-4 text-[11px] font-Regular flex self-center">
                               {" "}
                               <span className="self-center mr-4">
                                 Servicer Name :{" "}
@@ -550,7 +550,7 @@ function ClaimList() {
 
                             <div className="flex mt-3">
                               <div className="self-center  mr-8">
-                                <p className="text-[#999999] text-[11px] font-Regular">
+                                <p className="text-neutral-grey text-[11px] font-Regular">
                                   Claim Type :
                                 </p>
                               </div>
@@ -565,7 +565,7 @@ function ClaimList() {
                             </div>
                             <div className="flex mt-2">
                               <div className="self-center  mr-3">
-                                <p className="text-[#999999] text-[11px] font-Regular">
+                                <p className="text-neutral-grey text-[11px] font-Regular">
                                   Damage Code :
                                 </p>
                               </div>

@@ -578,7 +578,7 @@ function ServicerDetails() {
               </div>
             </div> */}
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-[#999999] font-Regular">
+                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
                   PRIMARY CONTACT DETAILS
                 </p>
                 <hr className="self-center border-[#999999] w-[40%]" />
@@ -630,7 +630,7 @@ function ServicerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg !font-[600]">0</p>
-                    <p className="text-[#999999] text-sm font-Regular">
+                    <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
                   </div>
@@ -638,7 +638,7 @@ function ServicerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">$0.00</p>
-                    <p className="text-[#999999] text-sm font-Regular">
+                    <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>
                   </div>
@@ -879,7 +879,7 @@ function ServicerDetails() {
 
         {/* <div className="col-span-12">
               <div className="flex w-full my-2">
-                <p className="text-sm mr-3 text-[#999999] font-Regular">
+                <p className="text-sm mr-3 text-neutral-grey font-Regular">
                   BANK DETAILS
                 </p>
                 <hr className="self-center border-[#999999] w-[80%]" />
