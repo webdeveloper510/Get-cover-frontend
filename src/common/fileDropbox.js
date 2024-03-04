@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 // media imports
 import Dropbox from "../assets/images/icons/dropBox.svg";
 import csvFile from "../assets/images/icons/csvFile.svg";
-const FileDropdown = ({ className = "", accept, onFileSelect }) => {
+const FileDropdown = ({ className = "", accept, onFileSelect, label, className1, labelAccept }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
   const handleDropdownClick = () => {
@@ -34,7 +34,7 @@ const FileDropdown = ({ className = "", accept, onFileSelect }) => {
       <button
         type="button"
         onClick={handleDropdownClick}
-        className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed px-8	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 ${className}`}
+        className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed px-8	py-10 w-full rounded-md focus:outline-none focus:border-gray-300 ${className}`}
       >
         {selectedFile ? (
          <div className='self-center flex text-center relative bg-white border w-full p-3'>
@@ -48,13 +48,22 @@ const FileDropdown = ({ className = "", accept, onFileSelect }) => {
         ) : (
           <>
             <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
-            <p className="text-[#5D6E66]">
-              Accepted file types: csv, xlsx, xls Max. file size: 50 MB.
+            <p className={`text-[#5D6E66]`}>
+              Accepted file types: {labelAccept == null ? ('csv, xlsx, xls') : (<> 
+                {labelAccept}
+              </>)} <br/> Max. file size: 50 MB.
             </p>
           </>
         )}
       </button>
-
+      {label == null ? ('') : (
+        <label
+        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${className1}  `}
+      >
+        {label}
+      </label>
+      )}
+      
       {/* Hidden file input */}
       <input
         type="file"

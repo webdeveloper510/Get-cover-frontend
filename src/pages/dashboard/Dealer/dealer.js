@@ -696,7 +696,7 @@ function Dealer() {
                   </div>
                   <div className="col-span-12">
                     <div className="flex">
-                      <p className="text-neutral-grey text-sm">ADDRESS</p>
+                      <p className="text-[#5D6E66] text-sm">ADDRESS</p>
                       <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
                     </div>
                   </div>
@@ -952,7 +952,7 @@ function Dealer() {
                     </p>
                   </div>
                   <div className="col-span-6">
-                    <FileDropdown label="Terms and Conditions" />
+                    <FileDropdown className1='!bg-[white]' labelAccept='pdf only' className="!bg-[white] !py-[10px]" label="Terms and Conditions" />
                     {/* <Input
                       type="file"
                       name="term"
