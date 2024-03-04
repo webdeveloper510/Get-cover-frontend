@@ -2,6 +2,7 @@ import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 import React from 'react';
 import { saveAs } from 'file-saver';
+import download from "../assets/images/download.png";
 // import { Document, Packer, Paragraph } from 'docx';
 // import { createDocx } from 'html-to-docx';
 import { getExportOrderHtml } from "../services/orderServices";
@@ -91,7 +92,7 @@ const DocMakeOrder = async (props) => {
   }
 };
 
-const DocMakeOrderContainer = (props) => {
+const DocMakeOrderContainer = (props, className) => {
   const handleButtonClick = async () => {
     try {
       // Call the asynchronous function to generate the DOCX file
@@ -102,8 +103,9 @@ const DocMakeOrderContainer = (props) => {
   };
 
   return (
-    <div>
-      <button onClick={handleButtonClick}>Generate DOCX</button>
+    <div className={`text-left flex py-1 px-2 cursor-pointer hover:font-semibold  ${className}`} onClick={handleButtonClick}>
+        <img src={download} className="w-4 h-4 mr-2" />
+      <button >Order</button>
     </div>
   );
 };
