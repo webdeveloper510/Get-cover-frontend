@@ -1128,7 +1128,7 @@ function ClaimList() {
           <div>
             <p className="text-sm my-3">
               <b> Attachment : </b>{" "}
-              <span className="text-neutral-grey">
+              <span className="text-black">
                 {" "}
                 Accepted file types: jpg, pdf, jpeg, doc, xls, xlxs, png, Max.
                 file size: 50 MB.{" "}
@@ -1317,7 +1317,7 @@ function ClaimList() {
               <div className="relative">
                 <label
                   htmlFor="description"
-                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  className="absolute text-base text-[#e1e1e1] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
                 >
                   Note
                 </label>

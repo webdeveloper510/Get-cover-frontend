@@ -696,7 +696,7 @@ function Dealer() {
                   </div>
                   <div className="col-span-12">
                     <div className="flex">
-                      <p className="text-neutral-grey text-sm">ADDRESS</p>
+                      <p className="text-[#5D6E66] text-sm">ADDRESS</p>
                       <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
                     </div>
                   </div>
@@ -907,6 +907,7 @@ function Dealer() {
                       name="position"
                       label="Position"
                       className="!bg-white"
+                      className1='!mb-4'
                       placeholder=""
                       maxLength={"50"}
                       value={formik.values.position}
@@ -914,9 +915,7 @@ function Dealer() {
                       onChange={formik.handleChange}
                       error={formik.touched.position && formik.errors.position}
                     />
-                  </div>
-                  <div className="col-span-6">
-                    <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                      <p className="text-light-black flex my-5 text-[12px] font-semibold ">
                       Do you want to create an account?
                       <RadioButton
                         id="yes-create-account"
@@ -933,29 +932,7 @@ function Dealer() {
                         onChange={handleRadioChange}
                       />
                     </p>
-                  </div>
-                  <div className="col-span-12 mt-1">
-                    <p className="text-light-black flex text-[12px] font-semibold mt-2 ">
-                      Does this Dealer's Customer will have a separate account?
-                      <RadioButton
-                        id="yes-separate-account"
-                        label="Yes"
-                        value="yes"
-                        checked={separateAccountOption === "yes"}
-                        disabled={createAccountOption === "no"}
-                        onChange={handleSeparateAccountRadioChange}
-                      />
-                      <RadioButton
-                        id="no-separate-account"
-                        label="No"
-                        value="no"
-                        checked={separateAccountOption === "no"}
-                        onChange={handleSeparateAccountRadioChange}
-                      />
-                    </p>
-                  </div>
-                  <div className="col-span-12 self-center mt-1">
-                    <p className="text-light-black flex text-[12px]  font-semibold self-center">
+                    <p className="text-light-black flex text-[12px] mt-5 font-semibold self-center">
                       {" "}
                       Do you want work as a servicer ?
                       <RadioButton
@@ -974,9 +951,44 @@ function Dealer() {
                       />
                     </p>
                   </div>
+                  <div className="col-span-6">
+                    <FileDropdown className1='!bg-[white]' labelAccept='pdf only' className="!bg-[white] !py-[10px]" label="Terms and Conditions" />
+                    {/* <Input
+                      type="file"
+                      name="term"
+                      label="Terms and Conditions"
+                      className="!bg-white"
+                      className1='!pt-[9px]'
+                      placeholder=""
+                      value={formik.values.position}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={formik.touched.position && formik.errors.position}
+                    /> */}
+                  </div>
+                  <div className="col-span-12">
+                    <p className="text-light-black flex text-[12px] font-semibold">
+                      Does this Dealer's Customer will have a separate account?
+                      <RadioButton
+                        id="yes-separate-account"
+                        label="Yes"
+                        value="yes"
+                        checked={separateAccountOption === "yes"}
+                        disabled={createAccountOption === "no"}
+                        onChange={handleSeparateAccountRadioChange}
+                      />
+                      <RadioButton
+                        id="no-separate-account"
+                        label="No"
+                        value="no"
+                        checked={separateAccountOption === "no"}
+                        onChange={handleSeparateAccountRadioChange}
+                      />
+                    </p>
+                  </div>
                 </Grid>
 
-                <div className="mt-14">
+                <div className="mt-5">
                   <Grid>
                     <div className="col-span-4">
                       <Button

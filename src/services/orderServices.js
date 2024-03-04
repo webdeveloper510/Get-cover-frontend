@@ -33,6 +33,7 @@ export const getOrders = async (data) => {
   }
 };
 export const getContracts = async (id, data = {}) => {
+  console.log(id,data)
   const headers = createHeaders();
   console.log(headers);
   try {
