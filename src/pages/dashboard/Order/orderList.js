@@ -36,6 +36,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
+import HtmlToDocConverter from "../../docMakeOrder";
+import DocMakeOrderContainer from "../../docMakeOrder";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -352,11 +354,12 @@ function OrderList() {
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                    <div className="border-b">
                     <PdfGenerator
                       data={row._id}
                       onClick={() => setSelectedAction(null)}
                     />
+                    <div className="border-b">
+                      <DocMakeOrderContainer data={row._id} />
                     </div>
                     <PdfMake data={row._id} />
                   </>
