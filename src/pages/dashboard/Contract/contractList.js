@@ -236,7 +236,7 @@ function ContractList(props) {
                   </div>
                   <div className="col-span-2 self-center">
                     <Button
-                      className="!text-[13px] !px-2"
+                      className="!text-[13px]"
                       onClick={() => openDisapproved()}
                     >
                       Advance Search
