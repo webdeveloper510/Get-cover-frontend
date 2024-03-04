@@ -721,7 +721,7 @@ function ClaimList() {
                               className="pl-1 cursor-pointer w-[50%]"
                               onClick={handleToggleDropdown1}
                             >
-                              <p className="text-white text-sm">Parts Needed</p>
+                              <p className="text-white text-sm"> Request Sent </p>
                               <p className="text-[#686868]">16 Dec 2024</p>
                             </div>
                             <div
@@ -742,6 +742,15 @@ function ClaimList() {
                                 } drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-[2.5rem]`}
                               >
                                 <div>
+                                <p className="border-b py-1 px-2 text-sm hover:font-semibold cursor-pointer flex">
+                                    {" "}
+                                    <img
+                                      src={Open}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />{" "}
+                                    Request Sent
+                                  </p>
                                   <p className="border-b py-1 px-2 text-sm hover:font-semibold cursor-pointer flex">
                                     {" "}
                                     <img
@@ -799,29 +808,13 @@ function ClaimList() {
                                     />
                                     Repair Complete
                                   </p>
-                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                  <p className="text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
                                     <img
                                       src={Reject}
                                       className="w-4 h-4 mr-2"
                                       alt="Open"
                                     />
                                     Servicer Shipped
-                                  </p>
-                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
-                                    <img
-                                      src={Reject}
-                                      className="w-4 h-4 mr-2"
-                                      alt="Open"
-                                    />
-                                    Invoice Sent
-                                  </p>
-                                  <p className="text-sm hover:font-semibold py-1 px-2 cursor-pointer flex">
-                                    <img
-                                      src={Reject}
-                                      className="w-4 h-4 mr-2"
-                                      alt="Open"
-                                    />
-                                    Invoice Paid
                                   </p>
                                 </div>
                               </div>
@@ -1115,7 +1108,7 @@ function ClaimList() {
           <div>
             <p className="text-sm my-3">
               <b> Attachment : </b>{" "}
-              <span className="text-neutral-grey">
+              <span className="text-black">
                 {" "}
                 Accepted file types: jpg, pdf, jpeg, doc, xls, xlxs, png, Max.
                 file size: 50 MB.{" "}
