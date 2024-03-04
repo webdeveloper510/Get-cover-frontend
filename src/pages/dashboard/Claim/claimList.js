@@ -18,12 +18,12 @@ import serial from "../../../assets/images/icons/ProductSerial.svg";
 import Manufacturer from "../../../assets/images/icons/ProductManufacturer.svg";
 import Edit from "../../../assets/images/icons/editIcon.svg";
 import download from "../../../assets/images/download.png";
-import request from '../../../assets/images/quote-request.png';
-import productSent from '../../../assets/images/product.png';
+import request from "../../../assets/images/quote-request.png";
+import productSent from "../../../assets/images/product.png";
 import shiping from "../../../assets/images/shiping.png";
 import labor from "../../../assets/images/labor.png";
 import parts from "../../../assets/images/parts.png";
-import productReceived from '../../../assets/images/received.png';
+import productReceived from "../../../assets/images/received.png";
 import chat from "../../../assets/images/icons/chatIcon.svg";
 import DropActive from "../../../assets/images/icons/DropActive.svg";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
@@ -109,9 +109,9 @@ function ClaimList() {
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
 
@@ -169,24 +169,32 @@ function ClaimList() {
   const openView = () => {
     setIsViewOpen(true);
   };
-  const handleSelectChange = (label, value) => {
-    setSelectedValue(value);
-  };
 
-  const CoverageStartDate = [
-    { label: "11/09/2026", value: true },
-    { label: "12/09/2026", value: false },
-  ];
+  // Conditionally define initialValues based on repairParts length
+  useEffect(() => {
+    console.log(claimList);
+    if (claimList?.result?.repairParts?.length !== 0) {
+      const mappedValues = claimList?.result?.repairParts?.map((part) => ({
+        serviceType: part.serviceType,
+        description: part.description,
+        price: part.price,
+      }));
 
+      setInitialValues({
+        repairParts: mappedValues,
+        note: "",
+      });
+    } else {
+      setInitialValues({
+        repairParts: [{ serviceType: "", description: "", price: "" }],
+        note: "",
+      });
+    }
+  }, [claimList]);
+  console.log(initialValues);
+  // Use useFormik with the correct initialValues
   const formik = useFormik({
-    initialValues: {
-      repairParts: claimList?.result?.repairParts?.map((part) => ({
-        serviceType: part.serviceType || "",
-        description: part.description || "",
-        price: part.price || "",
-      })) || [{ serviceType: "", description: "", price: "" }],
-      note: claimList?.result?.note || " ",
-    },
+    initialValues: initialValues,
     validationSchema: Yup.object().shape({
       repairParts: Yup.array().of(
         Yup.object().shape({
@@ -508,134 +516,363 @@ function ClaimList() {
                       ))}
 
                     <div className="col-span-12 ">
-                    <Grid className=''>
-                    <div className='col-span-3 py-4 pl-1 '>
-                      <div className='bg-[#3C3C3C] py-4 px-2'>
-                        <p className='text-[#999999] mb-3 text-[11px] font-Regular '>Customer Name : <span className='font-semibold text-white'> Ankush Grover </span></p>
-                        <p className='text-[#999999] text-[11px] mb-3 font-Regular'>Claim Cost :  <span className='font-semibold text-white ml-3'> $18.00  </span></p>
-                        <p className='text-[#999999] mb-4 text-[11px] font-Regular flex self-center'> <span className='self-center mr-4'>
-                        Servicer Name : </span>   
-                        <Select 
-                          name="state"
-                          options={state}
-                          white
-                          placeholder=""
-                          classBox="w-[55%]"
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]'
-                            /></p>
-                       
-                        <div className='flex mt-3'>
-                          <div className='self-center  mr-8'>
-                          <p className='text-[#999999] text-[11px] font-Regular'>Claim Type :</p>
-                          </div>
-                          <Select
-                          name='claimType'
-                          label=''
-                          white
-                          classBox="w-[55%]"
-                          options={claim}
-                          className1='!py-0 text-white mb-2 !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]' />
-                          </div>
-                          <div className='flex mt-2'>
-                          <div className='self-center  mr-3'>
-                          <p className='text-[#999999] text-[11px] font-Regular'>Damage Code :</p>
-                          </div>
-                          <Select
-                          name='claimType'
-                          label=''
-                          white
-                          classBox="w-[55%]"
-                          options={state}
-                          className1='!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]' />
-                        </div>
-                      </div>
-                    </div>
-                    <div className='col-span-4 pt-4'>
-                      <div className='border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full'>
-                        <div className='bg-[#474747] w-[40%] rounded-s-lg'>
-                          <p className='text-white text-[11px] p-4'>Customer Status</p>
-                        </div>
-                        <div className='pl-1 self-center cursor-pointer w-[50%]' onClick={handleToggleDropdown}>
-                          <p className='text-white text-sm'>Shipping Label received</p>
-                          <p className='text-[#686868]'>16 Dec 2024</p>
-                        </div>
-                        <div className='self-center ml-auto w-[10%] mr-2 cursor-pointer py-6'  ref={dropdownRef} onClick={handleToggleDropdown}>
-                          <img src={DropActive} className={`cursor-pointer ml-auto ${dropdownVisible ? 'rotate-180	' : ''}`} alt='DropActive' />
-                          <div className={`absolute z-[2] w-[200px]  ${dropdownVisible ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[2rem]`}>
-                            <div>
-                            <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'> <img src={request} className='w-4 h-4 mr-2' alt='Open'/> Request Submitted</p>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={labor} className='w-4 h-4 mr-2' alt='Open'/>Shipping Label received </p>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={productSent} className='w-4 h-4 mr-2' alt='Open'/>Product sent </p>
-                              <p className='text-sm hover:font-semibold py-1 px-2 cursor-pointer flex'><img src={productReceived} className='w-4 h-4 mr-2' alt='Open'/>Product received</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className='border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full'>
-                        <div className='bg-[#474747] w-[40%] rounded-s-lg'>
-                          <p className='text-white text-[11px] p-4'>Claim Status</p>
-                        </div>
-                        <div className='pl-1 self-center w-[50%] cursor-pointer ' onClick={handleToggleDropdown2}>
-                          <p className='text-white text-sm'>Open</p>
-                          <p className='text-[#686868]'>16 Dec 2024</p>
-                        </div>
-                        <div className='self-center ml-auto w-[10%] mr-2 cursor-pointer py-6' ref={dropdownRef} onClick={handleToggleDropdown2}>
-                          <img src={DropActive} className={`ml-auto cursor-pointer ${dropdownVisible2 ? 'rotate-180	' : ''}`} alt='DropActive' />
-                          <div className={`absolute z-[2] w-[140px]  ${dropdownVisible2 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[2rem]`}>
-                            <div>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'> <img src={Open} className='w-4 h-4 mr-2' alt='Open'/> Open</p>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Complete} className='w-4 h-4 mr-2' alt='Open'/> Completed</p>
-                              <p className='text-sm hover:font-semibold py-1 px-2 cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/> Rejected</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className='border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full'>
-                        <div className='bg-[#474747] w-[40%] rounded-s-lg'>
-                          <p className='text-white text-[11px] p-4'>Repair Status</p>
-                        </div>
-                        <div className='pl-1 cursor-pointer w-[50%]' onClick={handleToggleDropdown1}>
-                          <p className='text-white text-sm'>Parts Needed</p>
-                          <p className='text-[#686868]'>16 Dec 2024</p>
-                        </div>
-                        <div className='self-center ml-auto w-[10%] mr-2 cursor-pointer py-6' ref={dropdownRef} onClick={handleToggleDropdown1}>
-                          <img src={DropActive} className={`cursor-pointer ${dropdownVisible1 ? 'rotate-180	' : ''} ml-auto`}  alt='DropActive' />
-                          <div className={`absolute z-[999] w-[180px]  ${dropdownVisible1 ? 'block' : 'hidden'} drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-[2.5rem]`}>
-                            <div>
-                              <p className='border-b py-1 px-2 text-sm hover:font-semibold cursor-pointer flex'> <img src={Open} className='w-4 h-4 mr-2' alt='Open'/> Request Approved</p>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Complete} className='w-4 h-4 mr-2' alt='Open'/>Product Received</p>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Repair in Process</p>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Parts Needed</p>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Parts Ordered</p>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Parts Received</p>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Repair Complete</p>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Servicer Shipped</p>
-                              <p className='border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Invoice Sent</p>
-                              <p className='text-sm hover:font-semibold py-1 px-2 cursor-pointer flex'><img src={Reject} className='w-4 h-4 mr-2' alt='Open'/>Invoice Paid</p>
+                      <Grid className="">
+                        <div className="col-span-3 py-4 pl-1 ">
+                          <div className="bg-[#3C3C3C] py-4 px-2">
+                            <p className="text-[#999999] mb-3 text-[11px] font-Regular ">
+                              Customer Name :{" "}
+                              <span className="font-semibold text-white">
+                                {" "}
+                                Ankush Grover{" "}
+                              </span>
+                            </p>
+                            <p className="text-[#999999] text-[11px] mb-3 font-Regular">
+                              Claim Cost :{" "}
+                              <span className="font-semibold text-white ml-3">
+                                {" "}
+                                $18.00{" "}
+                              </span>
+                            </p>
+                            <p className="text-[#999999] mb-4 text-[11px] font-Regular flex self-center">
+                              {" "}
+                              <span className="self-center mr-4">
+                                Servicer Name :{" "}
+                              </span>
+                              <Select
+                                name="state"
+                                options={state}
+                                white
+                                placeholder=""
+                                classBox="w-[55%]"
+                                className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                              />
+                            </p>
 
+                            <div className="flex mt-3">
+                              <div className="self-center  mr-8">
+                                <p className="text-[#999999] text-[11px] font-Regular">
+                                  Claim Type :
+                                </p>
+                              </div>
+                              <Select
+                                name="claimType"
+                                label=""
+                                white
+                                classBox="w-[55%]"
+                                options={claim}
+                                className1="!py-0 text-white mb-2 !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                              />
+                            </div>
+                            <div className="flex mt-2">
+                              <div className="self-center  mr-3">
+                                <p className="text-[#999999] text-[11px] font-Regular">
+                                  Damage Code :
+                                </p>
+                              </div>
+                              <Select
+                                name="claimType"
+                                label=""
+                                white
+                                classBox="w-[55%]"
+                                options={state}
+                                className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                              />
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div className='col-span-5 pt-2'>
-                      <div className='m-2 p-2 bg-[#3C3C3C] '>
-                        <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[130px] max-h-[130px] overflow-y-scroll Diagnosis'>
-                          <p className='text-sm text-[#686868]'>{res.diagnosis}</p>
+                        <div className="col-span-4 pt-4">
+                          <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                            <div className="bg-[#474747] w-[40%] rounded-s-lg">
+                              <p className="text-white text-[11px] p-4">
+                                Customer Status
+                              </p>
+                            </div>
+                            <div
+                              className="pl-1 self-center cursor-pointer w-[50%]"
+                              onClick={handleToggleDropdown}
+                            >
+                              <p className="text-white text-sm">
+                                Shipping Label received
+                              </p>
+                              <p className="text-[#686868]">16 Dec 2024</p>
+                            </div>
+                            <div
+                              className="self-center ml-auto w-[10%] mr-2 cursor-pointer py-6"
+                              ref={dropdownRef}
+                              onClick={handleToggleDropdown}
+                            >
+                              <img
+                                src={DropActive}
+                                className={`cursor-pointer ml-auto ${
+                                  dropdownVisible ? "rotate-180	" : ""
+                                }`}
+                                alt="DropActive"
+                              />
+                              <div
+                                className={`absolute z-[2] w-[200px]  ${
+                                  dropdownVisible ? "block" : "hidden"
+                                } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[2rem]`}
+                              >
+                                <div>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    {" "}
+                                    <img
+                                      src={request}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />{" "}
+                                    Request Submitted
+                                  </p>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    <img
+                                      src={labor}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />
+                                    Shipping Label received{" "}
+                                  </p>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    <img
+                                      src={productSent}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />
+                                    Product sent{" "}
+                                  </p>
+                                  <p className="text-sm hover:font-semibold py-1 px-2 cursor-pointer flex">
+                                    <img
+                                      src={productReceived}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />
+                                    Product received
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                            <div className="bg-[#474747] w-[40%] rounded-s-lg">
+                              <p className="text-white text-[11px] p-4">
+                                Claim Status
+                              </p>
+                            </div>
+                            <div
+                              className="pl-1 self-center w-[50%] cursor-pointer "
+                              onClick={handleToggleDropdown2}
+                            >
+                              <p className="text-white text-sm">Open</p>
+                              <p className="text-[#686868]">16 Dec 2024</p>
+                            </div>
+                            <div
+                              className="self-center ml-auto w-[10%] mr-2 cursor-pointer py-6"
+                              ref={dropdownRef}
+                              onClick={handleToggleDropdown2}
+                            >
+                              <img
+                                src={DropActive}
+                                className={`ml-auto cursor-pointer ${
+                                  dropdownVisible2 ? "rotate-180	" : ""
+                                }`}
+                                alt="DropActive"
+                              />
+                              <div
+                                className={`absolute z-[2] w-[140px]  ${
+                                  dropdownVisible2 ? "block" : "hidden"
+                                } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[2rem]`}
+                              >
+                                <div>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    {" "}
+                                    <img
+                                      src={Open}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />{" "}
+                                    Open
+                                  </p>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    <img
+                                      src={Complete}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />{" "}
+                                    Completed
+                                  </p>
+                                  <p className="text-sm hover:font-semibold py-1 px-2 cursor-pointer flex">
+                                    <img
+                                      src={Reject}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />{" "}
+                                    Rejected
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
+                            <div className="bg-[#474747] w-[40%] rounded-s-lg">
+                              <p className="text-white text-[11px] p-4">
+                                Repair Status
+                              </p>
+                            </div>
+                            <div
+                              className="pl-1 cursor-pointer w-[50%]"
+                              onClick={handleToggleDropdown1}
+                            >
+                              <p className="text-white text-sm">Parts Needed</p>
+                              <p className="text-[#686868]">16 Dec 2024</p>
+                            </div>
+                            <div
+                              className="self-center ml-auto w-[10%] mr-2 cursor-pointer py-6"
+                              ref={dropdownRef}
+                              onClick={handleToggleDropdown1}
+                            >
+                              <img
+                                src={DropActive}
+                                className={`cursor-pointer ${
+                                  dropdownVisible1 ? "rotate-180	" : ""
+                                } ml-auto`}
+                                alt="DropActive"
+                              />
+                              <div
+                                className={`absolute z-[999] w-[180px]  ${
+                                  dropdownVisible1 ? "block" : "hidden"
+                                } drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-[2.5rem]`}
+                              >
+                                <div>
+                                  <p className="border-b py-1 px-2 text-sm hover:font-semibold cursor-pointer flex">
+                                    {" "}
+                                    <img
+                                      src={Open}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />{" "}
+                                    Request Approved
+                                  </p>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    <img
+                                      src={Complete}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />
+                                    Product Received
+                                  </p>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    <img
+                                      src={Reject}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />
+                                    Repair in Process
+                                  </p>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    <img
+                                      src={Reject}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />
+                                    Parts Needed
+                                  </p>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    <img
+                                      src={Reject}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />
+                                    Parts Ordered
+                                  </p>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    <img
+                                      src={Reject}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />
+                                    Parts Received
+                                  </p>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    <img
+                                      src={Reject}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />
+                                    Repair Complete
+                                  </p>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    <img
+                                      src={Reject}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />
+                                    Servicer Shipped
+                                  </p>
+                                  <p className="border-b text-sm py-1 px-2 hover:font-semibold cursor-pointer flex">
+                                    <img
+                                      src={Reject}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />
+                                    Invoice Sent
+                                  </p>
+                                  <p className="text-sm hover:font-semibold py-1 px-2 cursor-pointer flex">
+                                    <img
+                                      src={Reject}
+                                      className="w-4 h-4 mr-2"
+                                      alt="Open"
+                                    />
+                                    Invoice Paid
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div>
-                        <Grid className='!grid-cols-12 px-3 mb-3'>
-                          <Button className='!bg-[#fff] col-span-5 !rounded-[11px] !text-light-black !text-[14px] flex' onClick={()=>openAttachments()}><img src={Track} className='w-5 h-5 mr-1' alt="Track" /> Track Status</Button>
-                          <Button className='!bg-[#fff] col-span-7 !rounded-[11px] !text-light-black !text-[14px] flex'>
-                            <img src={download} className='w-5 h-5 mr-2' alt='download'/>
-                            <p className='text-sm font-semibold text-center'>Download Attachments</p>
-                          </Button>
-                        </Grid>
-                      </div>
-                    </div>
-                  </Grid>
+                        <div className="col-span-5 pt-2">
+                          <div className="m-2 p-2 bg-[#3C3C3C] ">
+                            <p className="text-[11px] text-white">Diagnosis</p>
+                            <div className="h-[130px] max-h-[130px] overflow-y-scroll Diagnosis">
+                              <p className="text-sm text-[#686868]">
+                                In publishing and graphic design, Lorem ipsum is
+                                a placeholder. In publishing and graphic design,
+                                Lorem ipsum is a placeholder. In publishing and
+                                graphic design, Lorem ipsum is a placeholder. In
+                                publishing and graphic design In publishing and
+                                graphic design, Lorem ipsum is a placeholder. In
+                                publishing and graphic design, Lorem ipsum is a
+                                placeholder. In publishing and graphic design,
+                                Lorem ipsum is a placeholder. In publishing and
+                                graphic design
+                              </p>
+                            </div>
+                          </div>
+                          <div>
+                            <Grid className="!grid-cols-12 px-3 mb-3">
+                              <Button
+                                className="!bg-[#fff] col-span-5 !rounded-[11px] !text-light-black !text-[14px] flex"
+                                onClick={() => openAttachments()}
+                              >
+                                <img
+                                  src={Track}
+                                  className="w-5 h-5 mr-1"
+                                  alt="Track"
+                                />{" "}
+                                Track Status
+                              </Button>
+                              <Button className="!bg-[#fff] col-span-7 !rounded-[11px] !text-light-black !text-[14px] flex">
+                                <img
+                                  src={download}
+                                  className="w-5 h-5 mr-2"
+                                  alt="download"
+                                />
+                                <p className="text-sm font-semibold text-center">
+                                  Download Attachments
+                                </p>
+                              </Button>
+                            </Grid>
+                          </div>
+                        </div>
+                      </Grid>
                     </div>
                   </Grid>
                 </CollapsibleDiv>
@@ -937,100 +1174,117 @@ function ClaimList() {
           <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1] rounded-3xl">
               <p className="pb-5 text-lg font-semibold">Repair Parts</p>
-              <div className="w-full h-[140px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">
-                {formik.values.repairParts.map((part, index) => (
-                  <div key={index} className="mb-5 grid grid-cols-12 gap-4">
-                    <div className="col-span-2">
-                      {/* <label htmlFor={`serviceType-${index}`}>
-                        Service Type
-                      </label> */}
-                      <Select
-                        id={`serviceType-${index}`}
-                        label='Service Type'
-                        options={serviceType}
-                        name={`repairParts[${index}].serviceType`}
-                        onChange={handleChange}
-                        onBlur={formik.handleBlur}
-                         className='!bg-[#fff]'
-                        value={part.serviceType}
-                        className1="w-full border rounded-md !p-2"
-                      >
-                        {/* Add your options for Service Type here */}
-                      </Select>
-                      {formik.touched.repairParts &&
-                        formik.touched.repairParts[index] &&
-                        formik.errors.repairParts &&
-                        formik.errors.repairParts[index]?.serviceType && (
-                          <div className="text-red-500">
-                            {formik.errors.repairParts[index].serviceType}
-                          </div>
-                        )}
-                    </div>
-
-                    <div className="col-span-7">
-                      {/* <label htmlFor={`description-${index}`}>
-                        Description
-                      </label> */}
-                      <Input
-                        type="text"
-                        label='Description'
-                        id={`description-${index}`}
-                        name={`repairParts[${index}].description`}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={part.description}
-                        className='!bg-[#fff]'
-                        className1="w-full !p-2 border rounded-md"
-                      />
-                      {formik.touched.repairParts &&
-                        formik.touched.repairParts[index] &&
-                        formik.errors.repairParts &&
-                        formik.errors.repairParts[index]?.description && (
-                          <div className="text-red-500">
-                            {formik.errors.repairParts[index].description}
-                          </div>
-                        )}
-                    </div>
-
-                    <div className={`${index > 0 ? 'col-span-2' : 'col-span-3'}  `}>
-                      {/* <label htmlFor={`price-${index}`}>Price ($)</label> */}
-                      <Input
-                        type="number"
-                        id={`price-${index}`}
-                        label='Price ($)'
-                        name={`repairParts[${index}].price`}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={part.price}
-                        className='!bg-[#fff]'
-                        className1="w-full !p-2 border rounded-md"
-                      />
-                      {formik.touched.repairParts &&
-                        formik.touched.repairParts[index] &&
-                        formik.errors.repairParts &&
-                        formik.errors.repairParts[index]?.price && (
-                          <div className="text-red-500">
-                            {formik.errors.repairParts[index].price}
-                          </div>
-                        )}
-                    </div>
-
-                    {index > 0 && (
-                      <div className="col-span-1 self-center bg-[#EBEBEB] rounded-[4px] flex justify-center">
-                        <div
-                          className="flex h-full bg-[#EBEBEB] justify-center cursor-pointer"
-                          onClick={() => handleRemove(index)}
+              <div className="w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">
+                {formik.values.repairParts.map((part, index) => {
+                  console.log(part, index);
+                  return (
+                    <div className="mb-5 grid grid-cols-12 gap-4">
+                      <div className="col-span-2">
+                        {/* <label htmlFor={`serviceType-${index}`}>
+                          Service Type
+                        </label> */}
+                        <Select
+                          name={`repairParts[${index}].serviceType`}
+                          label="Service Type"
+                          options={serviceType}
+                          required={true}
+                          className="!bg-[#fff]"
+                          placeholder=""
+                          maxLength={"30"}
+                          value={
+                            formik.values.repairParts[index].serviceType || ""
+                          }
+                          onChange={handleChange}
+                          onBlur={formik.handleBlur}
+                          error={
+                            formik.touched.repairParts &&
+                            formik.touched.repairParts[index] &&
+                            formik.errors.repairParts &&
+                            formik.errors.repairParts[index] &&
+                            formik.errors.repairParts[index].serviceType
+                          }
                         >
-                          <img
-                            src={DeleteImage}
-                            className="self-center p-1 py-[8px] cursor-pointer"
-                            alt="Delete Icon"
-                          />
-                        </div>
+                          {/* Add your options for Service Type here */}
+                        </Select>
+                        {formik.touched.repairParts &&
+                          formik.touched.repairParts[index] &&
+                          formik.errors.repairParts &&
+                          formik.errors.repairParts[index]?.serviceType && (
+                            <div className="text-red-500">
+                              {formik.errors.repairParts[index].serviceType}
+                            </div>
+                          )}
                       </div>
-                    )}
-                  </div>
-                ))}
+
+                      <div className="col-span-7">
+                        {/* <label htmlFor={`description-${index}`}>
+                          Description
+                        </label> */}
+                        <Input
+                          type="text"
+                          label="Description"
+                          id={`description-${index}`}
+                          name={`repairParts[${index}].description`}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.repairParts[index].description}
+                          className="!bg-[#fff]"
+                          className1="w-full !p-2 border rounded-md"
+                        />
+                        {formik.touched.repairParts &&
+                          formik.touched.repairParts[index] &&
+                          formik.errors.repairParts &&
+                          formik.errors.repairParts[index]?.description && (
+                            <div className="text-red-500">
+                              {formik.errors.repairParts[index].description}
+                            </div>
+                          )}
+                      </div>
+
+                      <div
+                        className={`${
+                          index > 0 ? "col-span-2" : "col-span-3"
+                        }  `}
+                      >
+                        {/* <label htmlFor={`price-${index}`}>Price ($)</label> */}
+                        <Input
+                          type="number"
+                          id={`price-${index}`}
+                          label="Price ($)"
+                          name={`repairParts[${index}].price`}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.repairParts[index].price}
+                          className="!bg-[#fff]"
+                          className1="w-full !p-2 border rounded-md"
+                        />
+                        {formik.touched.repairParts &&
+                          formik.touched.repairParts[index] &&
+                          formik.errors.repairParts &&
+                          formik.errors.repairParts[index]?.price && (
+                            <div className="text-red-500">
+                              {formik.errors.repairParts[index].price}
+                            </div>
+                          )}
+                      </div>
+
+                      {index > 0 && (
+                        <div className="col-span-1 self-center bg-[#EBEBEB] rounded-[4px] flex justify-center">
+                          <div
+                            className="flex h-full bg-[#EBEBEB] justify-center cursor-pointer"
+                            onClick={() => handleRemove(index)}
+                          >
+                            <img
+                              src={DeleteImage}
+                              className="self-center p-1 py-[8px] cursor-pointer"
+                              alt="Delete Icon"
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
 
               <div className="flex justify-between">
@@ -1047,25 +1301,25 @@ function ClaimList() {
               </div>
             </div>
             <div className="px-5 pb-5 pt-5 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
-                  <div className="relative">
-                      <label
-                        htmlFor="description"
-                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                      >
-                        Note
-                      </label>
-                      <textarea
-                        id="note"
-                        rows="3"
-                        name="Note"
-                        maxLength={150}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.note}
-                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
-                      ></textarea>
-                    </div>
-                    </div>
+              <div className="relative">
+                <label
+                  htmlFor="description"
+                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                >
+                  Note
+                </label>
+                <textarea
+                  id="note"
+                  rows="3"
+                  name="note"
+                  maxLength={150}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.note}
+                  className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
+                ></textarea>
+              </div>
+            </div>
 
             <div className="mt-3">
               <Button className="!bg-white !text-black" onClick={closeEdit}>
