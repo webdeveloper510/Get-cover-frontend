@@ -619,7 +619,7 @@ function ClaimList() {
                               alt="productName"
                             />
                             <div className="py-4 pl-3 self-center">
-                              <p className="text-light-green text-[11px] font-Regular">
+                              <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                 Product Name
                               </p>
                               <p className="text-[#333333] text-sm font-semibold">
@@ -634,7 +634,7 @@ function ClaimList() {
                               alt=""
                             />
                             <div className="py-4 pl-3 self-center">
-                              <p className="text-light-green text-[11px] font-Regular">
+                              <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                 Product Manufacturer
                               </p>
                               <p className="text-[#333333] text-sm font-semibold">
@@ -649,7 +649,7 @@ function ClaimList() {
                               alt=""
                             />
                             <div className="py-4 pl-3 self-center">
-                              <p className="text-light-green text-[11px] font-Regular">
+                              <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                 Product Model
                               </p>
                               <p className="text-[#333333] text-sm font-semibold">
@@ -664,7 +664,7 @@ function ClaimList() {
                               alt=""
                             />
                             <div className="py-4 pl-3 self-center">
-                              <p className="text-light-green text-[11px] font-Regular">
+                              <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                 Product Serial
                               </p>
                               <p className="text-[#333333] text-sm font-semibold">
