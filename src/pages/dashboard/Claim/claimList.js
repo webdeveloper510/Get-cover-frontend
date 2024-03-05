@@ -397,6 +397,10 @@ function ClaimList() {
 
   const repairValue = [
     {
+      value: "Request Sent",
+      label: "Request Sent",
+    },
+    {
       value: "Request Approved",
       label: "Request Approved",
     },
@@ -427,15 +431,7 @@ function ClaimList() {
     {
       value: "Servicer Shipped",
       label: "Servicer Shipped",
-    },
-    {
-      value: "Invoice Sent",
-      label: "Invoice Sent",
-    },
-    {
-      value: "Invoice Paid",
-      label: "Invoice Paid",
-    },
+    }
   ];
   const claimvalues = [
     {
@@ -753,6 +749,7 @@ function ClaimList() {
                                   value={servicer}
                                   onChange={handleSelectChange}
                                   white
+                                  className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
                                   classBox="w-[55%]"
                                   options={servicerList}
                                 />
@@ -806,7 +803,7 @@ function ClaimList() {
                                 <p className="text-white text-sm">
                                   {customerStatus.status}
                                 </p>
-
+                                 <span className="text-[#686868]">
                                 {format(
                                   new Date(
                                     repairStatus.date
@@ -815,26 +812,27 @@ function ClaimList() {
                                   ),
                                   "MMM-dd-yyyy"
                                 )}
+                                 </span>
                               </div>
                               <div
-                                className="self-center ml-auto w-[10%] mr-2 cursor-pointer py-6"
+                                className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
                                 ref={dropdownRef}
                                 onClick={handleToggleDropdown}
                               >
-                                <img
+                                {/* <img
                                   src={DropActive}
                                   className={`cursor-pointer ml-auto ${
                                     dropdownVisible ? "rotate-180 " : ""
                                   }`}
                                   alt="DropActive"
-                                />
+                                /> */}
                                 <Select
                                   name="customerStatus"
                                   label=""
                                   value={customerStatus.status}
                                   onChange={handleSelectChange}
                                   white
-                                  classBox="w-[55%]"
+                                  className1="!border-0"
                                   options={customerValue}
                                   visible={dropdownVisible}
                                 />
@@ -868,7 +866,7 @@ function ClaimList() {
                               </div>
 
                               <div
-                                className="self-center ml-auto w-[10%] mr-2 cursor-pointer py-6"
+                                className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
                                 ref={dropdownRef}
                               >
                                 <Select
@@ -877,7 +875,7 @@ function ClaimList() {
                                   value={claimStatus.status}
                                   onChange={handleSelectChange}
                                   white
-                                  classBox="w-[55%]"
+                                  className1="!border-0"
                                   options={claimvalues}
                                   visible={dropdownVisible}
                                 />
@@ -908,7 +906,7 @@ function ClaimList() {
                                 </p>
                               </div>
                               <div
-                                className="self-center ml-auto w-[10%] mr-2 cursor-pointer py-6"
+                                className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
                                 ref={dropdownRef}
                                 onClick={handleToggleDropdown1}
                               >
@@ -918,7 +916,7 @@ function ClaimList() {
                                   value={repairStatus.status}
                                   onChange={handleSelectChange}
                                   white
-                                  classBox="w-[55%]"
+                                  className1="!border-0"
                                   options={repairValue}
                                   visible={dropdownVisible}
                                 />
