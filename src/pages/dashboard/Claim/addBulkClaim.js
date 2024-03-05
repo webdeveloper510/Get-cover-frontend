@@ -174,7 +174,7 @@ function AddBulkClaim() {
 
   const downloadCSVTemplate = async () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1CAsu13q4T9i7dGpzVRvE9KYmt2xM0JNGeswKtRONnG0/edit?usp=sharing",
+      "https://docs.google.com/spreadsheets/d/1Ae_vSKkFgPg8B0jIPvPU3zw7Ln3EW19rSUKdKRLkGC4/edit?pli=1#gid=0",
       "_blank"
     );
   };
@@ -227,11 +227,11 @@ function AddBulkClaim() {
               )}
 
               <Grid className="">
-                {/* <div className="col-span-12">
+                <div className="col-span-12">
                   <div className="col-span-12">
                     <Select
-                      label="Dealer Name*"
-                      name="dealerId"
+                      label="Servicer Name*"
+                      name="servicerId"
                       placeholder=""
                       onChange={handleSelectChange}
                       className="!bg-[#fff]"
@@ -246,7 +246,7 @@ function AddBulkClaim() {
                       </div>
                     )}
                   </div>
-                </div> */}
+                </div>
                 <div className="col-span-12">
               <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
                 <ReactTags

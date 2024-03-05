@@ -11,6 +11,7 @@ import orderSummary from "../../../assets/images/order/orderSummary.svg";
 import orderActive from "../../../assets/images/order/orderSummaryActive.svg";
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Csv from "../../../assets/images/icons/csvWhite.svg";
+import Primary from "../../../assets/images/SetPrimary.png";
 import Coverage from "../../../assets/images/order/Coverage.svg";
 import Cross from "../../../assets/images/Cross.png";
 import CoverageType from "../../../assets/images/order/CoverageType.svg";
@@ -37,10 +38,12 @@ import DocMakeOrderContainer from "../../docMakeOrder";
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
   const [servicerList, setServicerList] = useState([]);
   const [userDetails, setUserDetails] = useState({});
   const [invoiceData, setInvoiceData] = useState({});
+  const [timer, setTimer] = useState(3);
   const { orderId } = useParams();
   const navigate = useNavigate();
   const getInitialActiveTab = () => {
@@ -58,9 +61,29 @@ function OrderDetails() {
     setIsServicerModal(false);
   };
 
+  const openModel = () => {
+    setModalOpen(true);
+  };
+  const closeModel = () => {
+    setModalOpen(false);
+  };
+
   useEffect(() => {
+    let intervalId;
     getOrderDetails();
-  }, [orderId]);
+    if (timer === 0) {
+      closeModel();
+    }
+
+    if (!modalOpen) {
+      clearInterval(intervalId);
+      setTimer(3);
+      closeModel();
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [orderId], timer);
   useEffect(() => {
     setLoading(true);
     localStorage.setItem("orderMenu", activeTab);
@@ -77,12 +100,16 @@ function OrderDetails() {
     },
     validationSchema,
     onSubmit: (values) => {
+      closeServicer();
       setLoading(true);
       console.log(orderDetails);
       const res = updateOrderServicer(orderDetails._id, values).then((res) => {
         console.log(res);
         setLoading(false);
+        openModel();
+        setTimer(3);
       });
+      
       setLoading(false);
     },
   });
@@ -475,6 +502,19 @@ function OrderDetails() {
           </div>
         </form>
       </Modal>
+
+      <Modal isOpen={modalOpen} onClose={closeModel}>
+          <div className="text-center py-3">
+            <img src={Primary} alt="email Image" className="mx-auto" />
+            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+              Servicer Updated Successfully
+            </p>
+            <p className="text-neutral-grey text-base font-medium mt-4">
+               Redirecting Back to Order Detail page in{" "}
+              {timer} Seconds
+            </p>
+          </div>
+        </Modal>
     </>
   );
 }

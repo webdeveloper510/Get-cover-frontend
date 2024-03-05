@@ -765,7 +765,7 @@ function AddClaim() {
           <div className="my-4">
             <p className="text-2xl font-bold mb-4"> Upload Receipt or Image </p>
             <Grid>
-              <div className="col-span-6">
+              <div className="col-span-6 mt-5">
                 <Grid className="my-3">
                   <div className="col-span-6">
                     <SelectBoxWithSearch
@@ -802,9 +802,15 @@ function AddClaim() {
                 <div>
                   <div>
                     <div className="border border-dashed w-full relative py-8">
+                    <label
+                      className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75   `}
+                    >
+                      Add Files <span className="text-red-500">*</span>  (max 5 files )
+                    </label>
                       <input
                         type="file"
                         multiple
+                       
                         accept="image/*,application/pdf,.xlsx,.xls,.csv"
                         onChange={handleImageChange}
                         className="hidden"
