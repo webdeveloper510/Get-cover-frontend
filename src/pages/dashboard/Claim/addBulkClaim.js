@@ -61,15 +61,16 @@ function AddBulkClaim() {
       clearInterval(intervalId);
     };
   }, [isModalOpen, timer]);
-  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-  const KeyCodes = {
-    comma: 188,
-    enter: 13,
-  };
-  const delimiters = [KeyCodes.comma, KeyCodes.enter];
   useEffect(() => {
     getDealerDetails();
   }, []);
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  const KeyCodes = {
+    comma: 188,
+    space: 32,
+    enter: 13,
+  };
+  const delimiters = [KeyCodes.comma, KeyCodes.enter, KeyCodes.space];
   const handleDelete = (i) => {
     const updatedTags = [...tags];
     updatedTags.splice(i, 1);
@@ -227,8 +228,7 @@ function AddBulkClaim() {
               )}
 
               <Grid className="">
-                <div className="col-span-12">
-                  <div className="col-span-12">
+                  {/* <div className="col-span-12">
                     <Select
                       label="Servicer Name*"
                       name="servicerId"
@@ -245,8 +245,7 @@ function AddBulkClaim() {
                         {formik.errors.dealerId}
                       </div>
                     )}
-                  </div>
-                </div>
+                  </div> */}
                 <div className="col-span-12">
               <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
                 <ReactTags
