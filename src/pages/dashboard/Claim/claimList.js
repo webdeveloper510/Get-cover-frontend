@@ -257,31 +257,27 @@ function ClaimList() {
 
   const downloadAttachments = (res) => {
     const attachments = res || [];
-    const container = document.createElement("div");
 
     attachments.forEach((attachment, index) => {
-      const anchor = document.createElement("a");
-      anchor.href = `http://15.207.221.207:3002/uploads/claimFile/${attachment.filename}`;
-      anchor.download = `file_${index + 1}`;
+      const url = `http://15.207.221.207:3002/uploads/claimFile/${attachment.filename}`;
 
-      if (
-        attachment.contentType &&
-        !attachment.contentType.startsWith("image")
-      ) {
-        anchor.type = attachment.contentType;
-      }
-      anchor.target = "_blank";
+      fetch(url)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const blobUrl = URL.createObjectURL(blob);
 
-      container.appendChild(anchor);
+          const anchor = document.createElement("a");
+          anchor.href = blobUrl;
+          anchor.download = `file_${index + 1}`;
+          document.body.appendChild(anchor);
+          anchor.click();
+          document.body.removeChild(anchor);
+          URL.revokeObjectURL(blobUrl);
+        })
+        .catch((error) => {
+          console.error("Error fetching the file:", error);
+        });
     });
-
-    document.body.appendChild(container);
-
-    container.childNodes.forEach((anchor) => {
-      anchor.click();
-    });
-
-    document.body.removeChild(container);
   };
 
   useEffect(() => {
@@ -431,7 +427,7 @@ function ClaimList() {
     {
       value: "Servicer Shipped",
       label: "Servicer Shipped",
-    }
+    },
   ];
   const claimvalues = [
     {
@@ -824,16 +820,16 @@ function ClaimList() {
                                 <p className="text-white text-sm">
                                   {customerStatus.status}
                                 </p>
-                                 <span className="text-light-green">
-                                {format(
-                                  new Date(
-                                    repairStatus.date
-                                      ? customerStatus?.date
-                                      : new Date()
-                                  ),
-                                  "MMM-dd-yyyy"
-                                )}
-                                 </span>
+                                <span className="text-light-green">
+                                  {format(
+                                    new Date(
+                                      repairStatus.date
+                                        ? customerStatus?.date
+                                        : new Date()
+                                    ),
+                                    "MMM-dd-yyyy"
+                                  )}
+                                </span>
                               </div>
                               <div
                                 className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
