@@ -451,6 +451,27 @@ function ClaimList() {
   const handleChange = (name, value) => {
     formik.setFieldValue(name, value);
   };
+
+  const fileInputRef = useRef(null);
+  const [previewImage, setPreviewImage] = useState(null);
+
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        // Get the data URL of the selected file
+        const imageDataUrl = event.target.result;
+        // Update the preview image state
+        setPreviewImage(imageDataUrl);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <>
       <div className="mb-8 ml-3">
@@ -1218,8 +1239,34 @@ function ClaimList() {
           </div>
           <Grid>
             <div className="col-span-1">
-              <div className="border flex h-full justify-center">
-                <img src={upload} className="self-center" alt="upload" />
+              <div className="border flex h-full justify-center relative">
+              {previewImage ? (
+                <>
+                <div className="absolute -top-2 -right-2">
+                <img
+                src={Cross}
+                alt="Preview"
+                className="cursor-pointer"
+                style={{ width: '20px', height: '20px', marginTop:'5px' }}
+              />
+                </div>
+              <img
+                src={previewImage}
+                alt="Preview"
+                style={{ width: '100px', height: '40px', marginTop:'5px' }}
+              />
+                </>
+            ) : (<img src={upload} className="self-center" alt="upload"  onClick={handleImageClick}/>)}
+
+
+      {/* Hidden file input */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
+
               </div>
             </div>
             <div className="col-span-6">
@@ -1232,11 +1279,12 @@ function ClaimList() {
               ></textarea>
             </div>
             <div className="col-span-3 flex">
-              <img
-                src={Sendto}
-                className="self-center w-6 h-6 mr-2"
-                alt="Sendto"
-              />
+                {/* Image */}
+      <img
+        src={Sendto}
+        className="self-center w-6 h-6 mr-2"
+        alt="Sendto"
+      />
               <Select
                 name="state"
                 options={state}
