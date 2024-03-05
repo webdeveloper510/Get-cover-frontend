@@ -221,7 +221,7 @@ function SidebarItem({
 
                 <span
                   className={`self-center text-left text-[12px] font-medium w-full ${
-                    active === subItem.url ? "opacity-1" : "opacity-50"
+                    active === subItem.url ? "opacity-1" : "opacity-80"
                   } pl-0 ml-[10px] p-[19px] pr-0 ${
                     subIndex == item.items.length - 1
                       ? ""

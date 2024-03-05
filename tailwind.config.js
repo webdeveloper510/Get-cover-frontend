@@ -6,10 +6,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'neutral-grey': '#999999',
+        'neutral-grey': '#999',
         'light-grey': '#ebe4e4',
         'light-black' : '#333',
-        'light-white' : '#5D6E66'
+        'light-white' : '#5D6E66',
+        'light-green' : '#c1c5c3'
       },
       backgroundColor : {
         'light-black' : '#333',
