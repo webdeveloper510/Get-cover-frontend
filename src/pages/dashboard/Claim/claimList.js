@@ -257,31 +257,27 @@ function ClaimList() {
 
   const downloadAttachments = (res) => {
     const attachments = res || [];
-    const container = document.createElement("div");
 
     attachments.forEach((attachment, index) => {
-      const anchor = document.createElement("a");
-      anchor.href = `http://15.207.221.207:3002/uploads/claimFile/${attachment.filename}`;
-      anchor.download = `file_${index + 1}`;
+      const url = `http://15.207.221.207:3002/uploads/claimFile/${attachment.filename}`;
 
-      if (
-        attachment.contentType &&
-        !attachment.contentType.startsWith("image")
-      ) {
-        anchor.type = attachment.contentType;
-      }
-      anchor.target = "_blank";
+      fetch(url)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const blobUrl = URL.createObjectURL(blob);
 
-      container.appendChild(anchor);
+          const anchor = document.createElement("a");
+          anchor.href = blobUrl;
+          anchor.download = `file_${index + 1}`;
+          document.body.appendChild(anchor);
+          anchor.click();
+          document.body.removeChild(anchor);
+          URL.revokeObjectURL(blobUrl);
+        })
+        .catch((error) => {
+          console.error("Error fetching the file:", error);
+        });
     });
-
-    document.body.appendChild(container);
-
-    container.childNodes.forEach((anchor) => {
-      anchor.click();
-    });
-
-    document.body.removeChild(container);
   };
 
   useEffect(() => {
@@ -431,7 +427,7 @@ function ClaimList() {
     {
       value: "Servicer Shipped",
       label: "Servicer Shipped",
-    }
+    },
   ];
   const claimvalues = [
     {
@@ -450,6 +446,27 @@ function ClaimList() {
 
   const handleChange = (name, value) => {
     formik.setFieldValue(name, value);
+  };
+
+  const fileInputRef = useRef(null);
+  const [previewImage, setPreviewImage] = useState(null);
+
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        // Get the data URL of the selected file
+        const imageDataUrl = event.target.result;
+        // Update the preview image state
+        setPreviewImage(imageDataUrl);
+      };
+      reader.readAsDataURL(file);
+    }
   };
   return (
     <>
@@ -803,16 +820,16 @@ function ClaimList() {
                                 <p className="text-white text-sm">
                                   {customerStatus.status}
                                 </p>
-                                 <span className="text-light-green">
-                                {format(
-                                  new Date(
-                                    repairStatus.date
-                                      ? customerStatus?.date
-                                      : new Date()
-                                  ),
-                                  "MMM-dd-yyyy"
-                                )}
-                                 </span>
+                                <span className="text-light-green">
+                                  {format(
+                                    new Date(
+                                      repairStatus.date
+                                        ? customerStatus?.date
+                                        : new Date()
+                                    ),
+                                    "MMM-dd-yyyy"
+                                  )}
+                                </span>
                               </div>
                               <div
                                 className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
@@ -1218,8 +1235,34 @@ function ClaimList() {
           </div>
           <Grid>
             <div className="col-span-1">
-              <div className="border flex h-full justify-center">
-                <img src={upload} className="self-center" alt="upload" />
+              <div className="border flex h-full justify-center relative">
+              {previewImage ? (
+                <>
+                <div className="absolute -top-2 -right-2">
+                <img
+                src={Cross}
+                alt="Preview"
+                className="cursor-pointer"
+                style={{ width: '20px', height: '20px', marginTop:'5px' }}
+              />
+                </div>
+              <img
+                src={previewImage}
+                alt="Preview"
+                style={{ width: '100px', height: '40px', marginTop:'5px' }}
+              />
+                </>
+            ) : (<img src={upload} className="self-center" alt="upload"  onClick={handleImageClick}/>)}
+
+
+      {/* Hidden file input */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
+
               </div>
             </div>
             <div className="col-span-6">
@@ -1232,11 +1275,12 @@ function ClaimList() {
               ></textarea>
             </div>
             <div className="col-span-3 flex">
-              <img
-                src={Sendto}
-                className="self-center w-6 h-6 mr-2"
-                alt="Sendto"
-              />
+                {/* Image */}
+      <img
+        src={Sendto}
+        className="self-center w-6 h-6 mr-2"
+        alt="Sendto"
+      />
               <Select
                 name="state"
                 options={state}

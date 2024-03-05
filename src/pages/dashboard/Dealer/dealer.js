@@ -993,7 +993,7 @@ function Dealer() {
                   </div>
                 </Grid>
 
-                <div className="mt-5">
+                <div className="mt-16">
                   <Grid>
                     <div className="col-span-4">
                       <Button
