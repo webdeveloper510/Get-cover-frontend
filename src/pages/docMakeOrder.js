@@ -29,7 +29,7 @@ const DocMakeOrder = async (props) => {
         var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
 
 
-        let filename ='document.doc';
+        let filename ='document.docx';
 
 
         var downloadLink = document.createElement("a");
