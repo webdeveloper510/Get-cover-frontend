@@ -901,13 +901,12 @@ function Dealer() {
                         </div>
                       )}
                   </div>
-                  <div className="col-span-6">
+                  <div className="col-span-6 mb-0">
                     <Input
                       type="text"
                       name="position"
                       label="Position"
                       className="!bg-white"
-                      className1='!mb-4'
                       placeholder=""
                       maxLength={"50"}
                       value={formik.values.position}
@@ -915,7 +914,25 @@ function Dealer() {
                       onChange={formik.handleChange}
                       error={formik.touched.position && formik.errors.position}
                     />
-                      <p className="text-light-black flex my-5 text-[12px] font-semibold ">
+                 
+                  </div>
+                  <div className="col-span-6">
+                    {/* <FileDropdown className1='!bg-[white]' labelAccept='pdf only' className="!bg-[white] !py-[10px]" label="Terms and Conditions" /> */}
+                    <Input
+                      type="file"
+                      name="term"
+                      label="Terms and Conditions"
+                      className="!bg-white"
+                      className1='!pt-[9px]'
+                      placeholder=""
+                      value={formik.values.position}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={formik.touched.position && formik.errors.position}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                  <p className="text-light-black flex text-[12px] mb-3 font-semibold ">
                       Do you want to create an account?
                       <RadioButton
                         id="yes-create-account"
@@ -932,9 +949,9 @@ function Dealer() {
                         onChange={handleRadioChange}
                       />
                     </p>
-                    <p className="text-light-black flex text-[12px] mt-5 font-semibold self-center">
+                    <p className="text-light-black flex text-[12px]  font-semibold self-center">
                       {" "}
-                      Do you want work as a servicer ?
+                      <span className="mr-[1.1rem]"> Do you want work as a servicer?</span>
                       <RadioButton
                         id="yes"
                         label="Yes"
@@ -952,27 +969,14 @@ function Dealer() {
                     </p>
                   </div>
                   <div className="col-span-6">
-                    <FileDropdown className1='!bg-[white]' labelAccept='pdf only' className="!bg-[white] !py-[10px]" label="Terms and Conditions" />
-                    {/* <Input
-                      type="file"
-                      name="term"
-                      label="Terms and Conditions"
-                      className="!bg-white"
-                      className1='!pt-[9px]'
-                      placeholder=""
-                      value={formik.values.position}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      error={formik.touched.position && formik.errors.position}
-                    /> */}
-                  </div>
-                  <div className="col-span-12">
-                    <p className="text-light-black flex text-[12px] font-semibold">
+                    <p className="text-light-black  text-[12px] font-semibold">
                       Does this Dealer's Customer will have a separate account?
+                      <div className="flex mt-3 ml-0">
                       <RadioButton
                         id="yes-separate-account"
                         label="Yes"
                         value="yes"
+                        className='!pl-0'
                         checked={separateAccountOption === "yes"}
                         disabled={createAccountOption === "no"}
                         onChange={handleSeparateAccountRadioChange}
@@ -984,6 +988,7 @@ function Dealer() {
                         checked={separateAccountOption === "no"}
                         onChange={handleSeparateAccountRadioChange}
                       />
+                      </div>
                     </p>
                   </div>
                 </Grid>

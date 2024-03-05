@@ -78,6 +78,7 @@ function OrderDetails() {
     if (!modalOpen) {
       clearInterval(intervalId);
       setTimer(3);
+      closeModel();
     }
     return () => {
       clearInterval(intervalId);
@@ -107,8 +108,8 @@ function OrderDetails() {
         setLoading(false);
         openModel();
         setTimer(3);
-        closeModel();
       });
+      
       setLoading(false);
     },
   });
