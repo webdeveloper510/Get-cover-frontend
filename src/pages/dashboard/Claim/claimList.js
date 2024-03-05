@@ -207,7 +207,7 @@ function ClaimList() {
           ];
       }
     };
-    setServiceType(getServiceType(res.action));
+    setServiceType(getServiceType(res.contracts.orders.serviceCoverageType));
     setClaimId(res._id);
     setIsEditOpen(true);
   };
@@ -338,17 +338,28 @@ function ClaimList() {
   });
 
   console.log(initialValues);
+
   const handleRemove = (index) => {
+    const updatedErrors = { ...formik.errors };
+    if (updatedErrors.repairParts) {
+      const updatedRepairPartsErrors = updatedErrors.repairParts.slice();
+      updatedRepairPartsErrors.splice(index, 1);
+      updatedErrors.repairParts = updatedRepairPartsErrors;
+    }
+    formik.setErrors(updatedErrors);
     const updatedRepairParts = [...formik.values.repairParts];
     updatedRepairParts.splice(index, 1);
     formik.setFieldValue("repairParts", updatedRepairParts);
   };
+
   const handleAddMore = () => {
+    // Update the formik values with the new item
     formik.setFieldValue("repairParts", [
       ...formik.values.repairParts,
       { serviceType: "", description: "", price: "" },
     ]);
   };
+
   const status = [
     { label: "Active", value: true },
     { label: "Waiting", value: false },
@@ -1236,33 +1247,46 @@ function ClaimList() {
           <Grid>
             <div className="col-span-1">
               <div className="border flex h-full justify-center relative">
-              {previewImage ? (
-                <>
-                <div className="absolute -top-2 -right-2">
-                <img
-                src={Cross}
-                alt="Preview"
-                className="cursor-pointer"
-                style={{ width: '20px', height: '20px', marginTop:'5px' }}
-              />
-                </div>
-              <img
-                src={previewImage}
-                alt="Preview"
-                style={{ width: '100px', height: '40px', marginTop:'5px' }}
-              />
-                </>
-            ) : (<img src={upload} className="self-center" alt="upload"  onClick={handleImageClick}/>)}
+                {previewImage ? (
+                  <>
+                    <div className="absolute -top-2 -right-2">
+                      <img
+                        src={Cross}
+                        alt="Preview"
+                        className="cursor-pointer"
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          marginTop: "5px",
+                        }}
+                      />
+                    </div>
+                    <img
+                      src={previewImage}
+                      alt="Preview"
+                      style={{
+                        width: "100px",
+                        height: "40px",
+                        marginTop: "5px",
+                      }}
+                    />
+                  </>
+                ) : (
+                  <img
+                    src={upload}
+                    className="self-center"
+                    alt="upload"
+                    onClick={handleImageClick}
+                  />
+                )}
 
-
-      {/* Hidden file input */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-      />
-
+                {/* Hidden file input */}
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
               </div>
             </div>
             <div className="col-span-6">
@@ -1275,12 +1299,12 @@ function ClaimList() {
               ></textarea>
             </div>
             <div className="col-span-3 flex">
-                {/* Image */}
-      <img
-        src={Sendto}
-        className="self-center w-6 h-6 mr-2"
-        alt="Sendto"
-      />
+              {/* Image */}
+              <img
+                src={Sendto}
+                className="self-center w-6 h-6 mr-2"
+                alt="Sendto"
+              />
               <Select
                 name="state"
                 options={state}
@@ -1424,14 +1448,23 @@ function ClaimList() {
                   );
                 })}
               </div>
-
               <div className="flex justify-between">
-                <div>
-                  <p className="text-red-500">Error </p>
-                </div>
+                {Object.keys(formik.errors).some(
+                  (key) =>
+                    Array.isArray(formik.touched[key]) &&
+                    formik.touched[key].some((t) => t) &&
+                    Array.isArray(formik.errors[key]) &&
+                    formik.errors[key].some((e) => Boolean(e))
+                ) ? (
+                  <div>
+                    <p className="text-red-500">
+                      Error Please Check the Repair Parts Form
+                    </p>
+                  </div>
+                ) : null}
                 <Button
                   type="button"
-                  className="!text-sm "
+                  className="!text-sm"
                   onClick={handleAddMore}
                 >
                   + Add More

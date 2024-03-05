@@ -56,6 +56,8 @@ function AddClaim() {
   const [message, setMessage] = useState("");
   const [timer, setTimer] = useState(3);
   const [currentStep, setCurrentStep] = useState(1);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [currentRowsPerPage, setCurrentRowsPerPage] = useState(10);
   const [contractList, setContractList] = useState([]);
   const [contractDetail, setContractDetails] = useState({});
   const [servicerData, setServicerData] = useState([]);
@@ -200,12 +202,27 @@ function AddClaim() {
         page: 1,
         pageLimit: 10,
       };
-      const response = await getContractList(data);
-      //console.log(response);
-      setContractList(response.result);
-      setLoading(false);
+      getClaimList(data);
     },
   });
+
+  const getClaimList = async (data) => {
+    const response = await getContractList(data);
+
+    setTotalRecords(response.totalCount);
+    setContractList(response.result);
+    setLoading(false);
+  };
+
+  const handlePerRowsChange = async (newPerPage, page) => {
+    setCurrentRowsPerPage(newPerPage);
+    let data = {
+      ...formik.values,
+      page: page,
+      pageLimit: newPerPage,
+    };
+    getClaimList(data);
+  };
 
   const renderStep = () => {
     switch (currentStep) {
@@ -238,7 +255,7 @@ function AddClaim() {
   const openModal = (row) => {
     // setContractDetails(res);
     console.log(row._id);
-    
+
     setLoading2(true);
     setIsModalOpen(true);
     getContractValues(row._id).then((row) => {
@@ -280,20 +297,15 @@ function AddClaim() {
       nextStep();
     });
   };
-  const handlePageChange = async (page, rowsPerPage) => {
+  const handlePageChange = async (page) => {
+    console.log(page);
     if (formik.values.contractId !== "") {
       let data = {
         ...formik.values,
         page: page,
-        pageLimit: rowsPerPage,
+        pageLimit: currentRowsPerPage,
       };
-      try {
-        const response = await getContractList(data);
-        console.log(response);
-        setContractList(response);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+      getClaimList(data);
     }
   };
 
@@ -404,6 +416,10 @@ function AddClaim() {
     rangeSeparatorText: "of",
   };
 
+  // const handlePaginationChange = (page, rowsPerPage) => {
+  //   setCurrentPage(page);
+  //   fetchData(page, rowsPerPage);
+  // };
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
       <p>No records found.</p>
@@ -497,7 +513,11 @@ function AddClaim() {
                       />
                     </div>
 
-                    <div className="col-span-4 self-end justify-end flex">
+                    <div
+                      className={`col-span-4 self-end justify-end flex ${
+                        isFormEmpty() == true ? "opacity-0" : "opacity-1"
+                      }`}
+                    >
                       <Button type="submit" disabled={isFormEmpty()}>
                         Search
                       </Button>
@@ -508,25 +528,41 @@ function AddClaim() {
               {showTable && (
                 <>
                   <div className="col-span-12 relative pb-24">
-                    <DataTable
+                    {/* <DataTable
                       columns={columns}
                       data={contractList}
                       highlightOnHover
                       sortIcon={
-                        <>
-                          {" "}
-                          <img
-                            src={shorting}
-                            className="ml-2"
-                            alt="shorting"
-                          />{" "}
-                        </>
+                        <img src={shorting} className="ml-2" alt="shorting" />
                       }
                       noDataComponent={<CustomNoDataComponent />}
                       pagination
                       paginationPerPage={10}
                       paginationComponentOptions={paginationOptions}
+                      paginationTotalRows={totalRecords}
                       paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                      onChangeRowsPerPage={() => {
+                        alert("here");
+                      }}
+                      // onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
+                      //   handlePaginationChange(currentPage, currentRowsPerPage)
+                      // }
+                      onChangePage={(currentPage) =>
+                        handlePaginationChange(currentPage, 10)
+                      } */}
+                    {/* /> */}
+                    <DataTable
+                      columns={columns}
+                      data={contractList}
+                      progressPending={loading}
+                      pagination
+                      paginationServer
+                      paginationTotalRows={totalRecords}
+                      paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                      onChangeRowsPerPage={handlePerRowsChange}
+                      onChangePage={(currentPage) => {
+                        handlePageChange(currentPage);
+                      }}
                     />
                   </div>
                   {/* <div className="col-span-12">
@@ -741,7 +777,8 @@ function AddClaim() {
                   <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                     <p className="text-sm m-0 p-0">Retail Price</p>
                     <p className="font-semibold">
-                      ${contractDetail?.productValue === undefined
+                      $
+                      {contractDetail?.productValue === undefined
                         ? parseInt(0).toLocaleString(2)
                         : formatOrderValue(
                             contractDetail?.productValue ?? parseInt(0)
@@ -802,15 +839,14 @@ function AddClaim() {
                 <div>
                   <div>
                     <div className="border border-dashed w-full relative py-8">
-                    <label
-                      className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75   `}
-                    >
-                      Add Files <span className="text-red-500">*</span>
-                    </label>
+                      <label
+                        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75   `}
+                      >
+                        Add Files <span className="text-red-500">*</span>
+                      </label>
                       <input
                         type="file"
                         multiple
-                       
                         accept="image/*,application/pdf,.xlsx,.xls,.csv"
                         onChange={handleImageChange}
                         className="hidden"
@@ -874,8 +910,7 @@ function AddClaim() {
                 </div>
               </div>
               <div className="col-span-6">
-                 <p className=" mb-2"> Max Claim
-                  amount is $123.00</p>
+                <p className=" mb-2"> Max Claim amount is $123.00</p>
                 <div className="relative">
                   <label
                     htmlFor="description"
@@ -1070,17 +1105,17 @@ function AddClaim() {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-        
-          <div className="text-center mt-2">
-            <p className="text-3xl font-semibold mb-4">Contract Details</p>
-            <div>
+
+        <div className="text-center mt-2">
+          <p className="text-3xl font-semibold mb-4">Contract Details</p>
+          <div>
             {loading2 ? (
               <div className="h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
                 </div>
               </div>
-              ) : ( 
+            ) : (
               <>
                 <Grid className="bg-[#333333] !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
                   <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
@@ -1090,7 +1125,8 @@ function AddClaim() {
                   </div>
                   <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
                     <p className="text-white py-2 font-Regular">
-                      Order ID : <b> {contractDetail?.order?.[0]?.unique_key} </b>
+                      Order ID :{" "}
+                      <b> {contractDetail?.order?.[0]?.unique_key} </b>
                     </p>
                   </div>
                   <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
@@ -1111,7 +1147,7 @@ function AddClaim() {
                     </Button>
                   </div>
                 </Grid>
-    
+
                 <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5 h-[400px] wax-h-[400px] overflow-y-scroll no-scrollbar">
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
@@ -1125,7 +1161,9 @@ function AddClaim() {
                   </div>
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">Model</p>
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Model
+                      </p>
                       <p className="text-[#333333] text-base font-semibold">
                         {contractDetail?.model}
                       </p>
@@ -1133,7 +1171,9 @@ function AddClaim() {
                   </div>
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">Serial</p>
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Serial
+                      </p>
                       <p className="text-[#333333] text-base font-semibold">
                         {contractDetail?.serial}
                       </p>
@@ -1159,7 +1199,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-    
+
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
@@ -1202,7 +1242,9 @@ function AddClaim() {
                   </div>
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">Status</p>
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Status
+                      </p>
                       <p className="text-[#333333] text-base font-semibold">
                         {contractDetail.status}
                       </p>
@@ -1253,7 +1295,10 @@ function AddClaim() {
                         Price Type
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                        {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType}
+                        {
+                          contractDetail?.order?.[0]?.productsArray?.[0]
+                            ?.priceType
+                        }
                       </p>
                     </div>
                   </div>
@@ -1262,7 +1307,11 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Eligibility
                       </p>
-                      <p className="text-[#333333] text-base font-semibold"></p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {contractDetail?.eligibilty === true
+                          ? "Eligible"
+                          : "Not Eligible "}
+                      </p>
                     </div>
                   </div>
                   <div className="col-span-1 border border-[#D1D1D1]">
@@ -1275,7 +1324,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-    
+
                   {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
                   "Flat Pricing" ? (
                     <>
@@ -1385,9 +1434,9 @@ function AddClaim() {
                   )}
                 </Grid>
               </>
-              )}
-            </div>
+            )}
           </div>
+        </div>
       </Modal>
     </div>
   );

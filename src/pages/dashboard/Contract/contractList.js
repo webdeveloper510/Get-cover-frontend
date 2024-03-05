@@ -32,6 +32,7 @@ function ContractList(props) {
   console.log(props);
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState("");
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -65,14 +66,20 @@ function ContractList(props) {
     }
   }, [props, flag]);
 
+  const handleSelectChange1 = (label, value) => {
+    console.log(label, value, "selected");
+    formik.setFieldValue("status", value);
+    setSelectedProduct(value);
+  };
+
   const getContract = async (orderId = null, page = 1, rowsPerPage = 10) => {
     setLoading(true);
     let data = {
       page: page,
       pageLimit: rowsPerPage,
-      ...formik.values
+      ...formik.values,
     };
-    console.log(orderId , props?.flag == undefined);
+    console.log(orderId, props?.flag == undefined);
     const result =
       orderId == null && props?.flag == undefined
         ? await getAllContractsForAdmin(data)
@@ -125,7 +132,7 @@ function ContractList(props) {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      getContract(null,1,10);
+      getContract(null, 1, 10);
       console.log(values);
       setIsDisapprovedOpen(false);
     },
@@ -179,9 +186,9 @@ function ContractList(props) {
     }
   };
   const status = [
-    { label: "Active", value: true },
-    { label: "Waiting", value: false },
-    { label: "Expired", value: false },
+    { label: "Active", value: "Active" },
+    { label: "Waiting", value: "Waiting" },
+    { label: "Expired", value: "Expired" },
   ];
 
   const handleSelectChange = (name, selectedValue) => {
@@ -224,69 +231,73 @@ function ContractList(props) {
             </div>
             <div className="col-span-9">
               <form onSubmit={formik.handleSubmit}>
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-9">
-                  <div className="col-span-2 self-center">
-                    <Input
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Contract ID"
-                      name="contractId"
-                      {...formik.getFieldProps("contractId")}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="orderId"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder=" Order ID"
-                      {...formik.getFieldProps("orderId")}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="venderOrder"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Dealer P.O. #"
-                      {...formik.getFieldProps("venderOrder")}
-                    />
-                  </div>
-                  <div className="col-span-1 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer "
-                        alt="Search"
+                <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                  <Grid className="!grid-cols-9">
+                    <div className="col-span-2 self-center">
+                      <Input
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Contract ID"
+                        name="contractId"
+                        {...formik.getFieldProps("contractId")}
                       />
-                    </Button>
-                    <Button type="submit" className="!bg-transparent !p-0" onClick={() => {
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="orderId"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder=" Order ID"
+                        {...formik.getFieldProps("orderId")}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="venderOrder"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Dealer P.O. #"
+                        {...formik.getFieldProps("venderOrder")}
+                      />
+                    </div>
+                    <div className="col-span-1 self-center flex justify-center">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer "
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="!bg-transparent !p-0"
+                        onClick={() => {
                           handleFilterIconClick();
-                        }}>
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
-                      />
-                    </Button>
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Button
-                      className="!text-[13px]"
-                      onClick={() => openDisapproved()}
-                    >
-                      Advance Search
-                    </Button>
-                  </div>
-                </Grid>
-              </div>
+                        }}
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Button
+                        className="!text-[13px]"
+                        onClick={() => openDisapproved()}
+                      >
+                        Advance Search
+                      </Button>
+                    </div>
+                  </Grid>
+                </div>
               </form>
             </div>
           </Grid>
@@ -296,142 +307,146 @@ function ContractList(props) {
                 <p>No records found.</p>
               </div>
           ) : ( */}
-            <div>
-              <>
-                {loading ? (
-                  <div className=" h-[400px] w-full flex py-5">
-                    <div className="self-center mx-auto">
-                      <RotateLoader color="#333" />
-                    </div>
+          <div>
+            <>
+              {loading ? (
+                <div className=" h-[400px] w-full flex py-5">
+                  <div className="self-center mx-auto">
+                    <RotateLoader color="#333" />
                   </div>
-                ) : (
-                  <>
-                    {contractList &&
-                      contractList.map((res, index) => {
-                        return (
-                          <div className="px-3 mt-5">
-                            <div>
-                              <Grid className="bg-[#333333] !gap-2 !grid-cols-11 rounded-t-xl">
-                                <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
-                                  <p className="text-white py-2 font-Regular">
-                                    Contract ID : <b> {res.unique_key} </b>
+                </div>
+              ) : (
+                <>
+                  {contractList &&
+                    contractList.map((res, index) => {
+                      return (
+                        <div className="px-3 mt-5">
+                          <div>
+                            <Grid className="bg-[#333333] !gap-2 !grid-cols-11 rounded-t-xl">
+                              <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
+                                <p className="text-white py-2 font-Regular">
+                                  Contract ID : <b> {res.unique_key} </b>
+                                </p>
+                              </div>
+                              {props.orderId == null ? (
+                                <>
+                                  <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                    <p className="text-white py-2 font-Regular">
+                                      Order ID :{" "}
+                                      <b> {res?.order?.unique_key} </b>
+                                    </p>
+                                  </div>
+                                  <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                    <p className="text-white py-2 font-Regular">
+                                      Dealer P.O. # :{" "}
+                                      <b> {res?.order?.venderOrder} </b>
+                                    </p>
+                                  </div>
+                                </>
+                              ) : (
+                                <div className="col-span-6 self-center justify-end"></div>
+                              )}
+
+                              <div className="col-span-1 self-center justify-end"></div>
+                              <div className="col-span-1 self-center flex justify-end">
+                                <div
+                                  onClick={() => openView(res._id)}
+                                  className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center"
+                                >
+                                  {" "}
+                                  <img
+                                    src={view}
+                                    className="ml-auto w-[23px] h-[23px] "
+                                    alt="edit"
+                                  />{" "}
+                                </div>
+                                <Link to={`/editContract/${res._id}`}>
+                                  {" "}
+                                  <img
+                                    src={Edit}
+                                    className="ml-auto mr-2"
+                                    alt="edit"
+                                  />{" "}
+                                </Link>
+                              </div>
+                            </Grid>
+
+                            <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
+                              <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                                <div className="py-4 pl-3">
+                                  <p className="text-[#5D6E66] text-sm font-Regular">
+                                    Manufacturer
+                                  </p>
+                                  <p className="text-[#333333] text-base font-semibold">
+                                    {res.manufacture}
                                   </p>
                                 </div>
-                                {props.orderId == null ? (
-                                  <>
-                                    <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                                      <p className="text-white py-2 font-Regular">
-                                        Order ID :{" "}
-                                        <b> {res?.order[0]?.unique_key} </b>
-                                      </p>
-                                    </div>
-                                    <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                                      <p className="text-white py-2 font-Regular">
-                                        Dealer P.O. # :{" "}
-                                        <b> {res?.order[0]?.venderOrder} </b>
-                                      </p>
-                                    </div>
-                                  </>
-                                ) : (<div className="col-span-6 self-center justify-end"></div>)}
-
-                                <div className="col-span-1 self-center justify-end"></div>
-                                <div className="col-span-1 self-center flex justify-end">
-                                  <div
-                                    onClick={() => openView(res._id)}
-                                    className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center"
-                                  >
-                                    {" "}
-                                    <img
-                                      src={view}
-                                      className="ml-auto w-[23px] h-[23px] "
-                                      alt="edit"
-                                    />{" "}
-                                  </div>
-                                  <Link to={`/editContract/${res._id}`}>
-                                    {" "}
-                                    <img
-                                      src={Edit}
-                                      className="ml-auto mr-2"
-                                      alt="edit"
-                                    />{" "}
-                                  </Link>
+                              </div>
+                              <div className="col-span-1 border border-[#D1D1D1]">
+                                <div className="py-4 pl-3">
+                                  <p className="text-[#5D6E66] text-sm font-Regular">
+                                    Model
+                                  </p>
+                                  <p className="text-[#333333] text-base font-semibold">
+                                    {res.model}
+                                  </p>
                                 </div>
-                              </Grid>
-
-                              <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
-                                <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
-                                      Manufacturer
-                                    </p>
-                                    <p className="text-[#333333] text-base font-semibold">
-                                      {res.manufacture}
-                                    </p>
-                                  </div>
+                              </div>
+                              <div className="col-span-1 border border-[#D1D1D1]">
+                                <div className="py-4 pl-3">
+                                  <p className="text-[#5D6E66] text-sm font-Regular">
+                                    Serial #
+                                  </p>
+                                  <p className="text-[#333333] text-base font-semibold">
+                                    {res.serial}
+                                  </p>
                                 </div>
-                                <div className="col-span-1 border border-[#D1D1D1]">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
-                                      Model
-                                    </p>
-                                    <p className="text-[#333333] text-base font-semibold">
-                                      {res.model}
-                                    </p>
-                                  </div>
+                              </div>
+                              <div className="col-span-1 border border-[#D1D1D1]">
+                                <div className="py-4 pl-3">
+                                  <p className="text-[#5D6E66] text-sm font-Regular">
+                                    Status
+                                  </p>
+                                  <p className="text-[#333333] text-base font-semibold">
+                                    {res.status}
+                                  </p>
                                 </div>
-                                <div className="col-span-1 border border-[#D1D1D1]">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
-                                      Serial #
-                                    </p>
-                                    <p className="text-[#333333] text-base font-semibold">
-                                      {res.serial}
-                                    </p>
-                                  </div>
+                              </div>
+                              <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
+                                <div className="py-4 pl-3">
+                                  <p className="text-[#5D6E66] text-sm font-Regular">
+                                    Eligibility
+                                  </p>
+                                  <p className="text-[#333333] text-base font-semibold">
+                                    {res?.eligibilty === true
+                                      ? "Eligible"
+                                      : "Not Eligible "}
+                                  </p>
                                 </div>
-                                <div className="col-span-1 border border-[#D1D1D1]">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
-                                      Status
-                                    </p>
-                                    <p className="text-[#333333] text-base font-semibold">
-                                      {res.status}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
-                                      Eligibility
-                                    </p>
-                                    <p className="text-[#333333] text-base font-semibold">
-                                      {res.eligibilty}
-                                    </p>
-                                  </div>
-                                </div>
-                              </Grid>
-                            </div>
+                              </div>
+                            </Grid>
                           </div>
-                        );
-                      })}
-                  </>
-                  )}
-              </>
+                        </div>
+                      );
+                    })}
+                </>
+              )}
+            </>
 
-                  {/* {contractList?.length > 0   ? (
+            {/* {contractList?.length > 0   ? (
                     <div className="text-center my-5">
                       <p>No records found.</p>
                     </div>
                     ) :( */}
-                          <CustomPagination
-                            totalRecords={totalRecords}
-                            rowsPerPageOptions={[10, 20, 50, 100]}
-                            onPageChange={handlePageChange}
-                          />
-                     {/* )} */}
-              </div>
+            <CustomPagination
+              totalRecords={totalRecords}
+              rowsPerPageOptions={[10, 20, 50, 100]}
+              onPageChange={handlePageChange}
+            />
+            {/* )} */}
+          </div>
           {/* )} */}
-          
+
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button
               onClick={closeDisapproved}
@@ -458,28 +473,33 @@ function ContractList(props) {
                       {...formik.getFieldProps("contractId")}
                     />
                   </div>
-                  {props.orderId == null && props?.flag == undefined ? ( <>
-                    <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="orderId"
-                      className="!bg-[#fff]"
-                      label="Order ID"
-                      {...formik.getFieldProps("orderId")}
-                      placeholder=""
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="venderOrder"
-                      className="!bg-[#fff]"
-                      label="Dealer P.O. #"
-                      {...formik.getFieldProps("venderOrder")}
-                      placeholder=""
-                    />
-                  </div></>) : ( '') }
-                
+                  {props.orderId == null && props?.flag == undefined ? (
+                    <>
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="orderId"
+                          className="!bg-[#fff]"
+                          label="Order ID"
+                          {...formik.getFieldProps("orderId")}
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="venderOrder"
+                          className="!bg-[#fff]"
+                          label="Dealer P.O. #"
+                          {...formik.getFieldProps("venderOrder")}
+                          placeholder=""
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
                   <div className="col-span-6">
                     <Input
                       type="text"
@@ -500,37 +520,44 @@ function ContractList(props) {
                       {...formik.getFieldProps("productName")}
                     />
                   </div>
-                  {props.orderId == null && props?.flag == undefined ? ( <>  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="dealerName"
-                      className="!bg-[#fff]"
-                      label="Dealer Name"
-                      {...formik.getFieldProps("dealerName")}
-                      placeholder=""
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="customerName"
-                      className="!bg-[#fff]"
-                      label="Customer Name"
-                      {...formik.getFieldProps("customerName")}
-                      placeholder=""
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="Servicer Name"
-                      className="!bg-[#fff]"
-                      label="Servicer Name"
-                      {...formik.getFieldProps("orderId")}
-                      placeholder=""
-                    />
-                  </div></>) : ('') }
-                
+                  {props.orderId == null && props?.flag == undefined ? (
+                    <>
+                      {" "}
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="dealerName"
+                          className="!bg-[#fff]"
+                          label="Dealer Name"
+                          {...formik.getFieldProps("dealerName")}
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="customerName"
+                          className="!bg-[#fff]"
+                          label="Customer Name"
+                          {...formik.getFieldProps("customerName")}
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="Servicer Name"
+                          className="!bg-[#fff]"
+                          label="Servicer Name"
+                          {...formik.getFieldProps("orderId")}
+                          placeholder=""
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
                   <div className="col-span-6">
                     <Input
                       type="text"
@@ -553,16 +580,19 @@ function ContractList(props) {
                   </div>
                   <div className="col-span-6">
                     <Select
-                      name="status"
-                      label="Status"
+                      label=""
                       options={status}
-                      className="!bg-[#fff]"
-                      {...formik.getFieldProps("status")}
-                      placeholder=""
+                      color="text-[#1B1D21] opacity-50"
+                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px] !bg-[#f7f7f7]"
+                      selectedValue={selectedProduct}
+                      onChange={handleSelectChange1}
                     />
                   </div>
                   <div className="col-span-12">
-                    <Button type='submit' className={"w-full"}>Search</Button>
+                    <Button type="submit" className={"w-full"}>
+                      Search
+                    </Button>
                   </div>
                 </Grid>
               </div>
@@ -574,12 +604,28 @@ function ContractList(props) {
             onClose={closeView}
             className="!w-[1100px]"
           >
-              <Button onClick={() => { navigate(`/editContract/${contractDetails._id}`) }} className={`absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined ? ('!bg-[#343434]') : ('!bg-gradient-to-t !from-[#454545] !to-[#575757]') } `}>
-              <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
+            <Button
+              onClick={() => {
+                navigate(`/editContract/${contractDetails._id}`);
+              }}
+              className={`absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${
+                props?.orderId == null && props?.flag == undefined
+                  ? "!bg-[#343434]"
+                  : "!bg-gradient-to-t !from-[#454545] !to-[#575757]"
+              } `}
+            >
+              <img
+                src={Edit}
+                className="w-full h-full text-black rounded-full p-0"
+              />
             </Button>
             <Button
               onClick={closeView}
-              className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined ? ('!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]') : ('!bg-[#5f5f5f]') } `}
+              className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${
+                props?.orderId == null && props?.flag == undefined
+                  ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
+                  : "!bg-[#5f5f5f]"
+              } `}
             >
               <img
                 src={Cross}
@@ -789,7 +835,9 @@ function ContractList(props) {
                             Eligibility
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            {contractDetails?.eligibilty}
+                            {contractDetails?.eligibilty === true
+                              ? "Eligible"
+                              : "Not Eligible "}
                           </p>
                         </div>
                       </div>
@@ -847,7 +895,6 @@ function ContractList(props) {
                         ""
                       )}
 
-                    
                       <div className="col-span-1 border border-[#D1D1D1] ">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
