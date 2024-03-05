@@ -99,10 +99,10 @@ function ClaimList() {
   const updateAndSetStatus = (statusObject, name, res) => {
     if (res.code === 200) {
       const resultData = res.result || {};
-      console.log(resultData[`${name}`][0]);
+      console.log(resultData[`${name}`][resultData[`${name}`].length - 1]);
       statusObject({
-        status: resultData[`${name}`][0].status,
-        date: resultData[`${name}`][0].date,
+        status: resultData[`${name}`][resultData[`${name}`].length - 1].status,
+        date: resultData[`${name}`][resultData[`${name}`].length - 1].date,
       });
     }
   };
