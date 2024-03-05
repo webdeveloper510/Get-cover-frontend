@@ -106,3 +106,21 @@ export const addClaimsRepairParts = async (id, data) => {
     throw error;
   }
 };
+
+export const editClaimStatus = async (id, data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.put(
+      `${url}/claim/editClaimStatus/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
