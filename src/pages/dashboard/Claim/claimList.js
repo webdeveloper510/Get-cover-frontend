@@ -619,7 +619,7 @@ function ClaimList() {
                               alt="productName"
                             />
                             <div className="py-4 pl-3 self-center">
-                              <p className="text-[#5D6E66] text-[11px] font-Regular">
+                              <p className="text-light-green text-[11px] font-Regular">
                                 Product Name
                               </p>
                               <p className="text-[#333333] text-sm font-semibold">
@@ -634,7 +634,7 @@ function ClaimList() {
                               alt=""
                             />
                             <div className="py-4 pl-3 self-center">
-                              <p className="text-[#5D6E66] text-[11px] font-Regular">
+                              <p className="text-light-green text-[11px] font-Regular">
                                 Product Manufacturer
                               </p>
                               <p className="text-[#333333] text-sm font-semibold">
@@ -649,7 +649,7 @@ function ClaimList() {
                               alt=""
                             />
                             <div className="py-4 pl-3 self-center">
-                              <p className="text-[#5D6E66] text-[11px] font-Regular">
+                              <p className="text-light-green text-[11px] font-Regular">
                                 Product Model
                               </p>
                               <p className="text-[#333333] text-sm font-semibold">
@@ -664,7 +664,7 @@ function ClaimList() {
                               alt=""
                             />
                             <div className="py-4 pl-3 self-center">
-                              <p className="text-[#5D6E66] text-[11px] font-Regular">
+                              <p className="text-light-green text-[11px] font-Regular">
                                 Product Serial
                               </p>
                               <p className="text-[#333333] text-sm font-semibold">
@@ -685,7 +685,7 @@ function ClaimList() {
                                 <p className="text-[#fff] text-sm font-Regular">
                                   Service Type
                                 </p>
-                                <p className="text-[#5D6E66] text-base font-semibold">
+                                <p className="text-light-green text-base font-semibold">
                                   {part.serviceType}
                                 </p>
                               </div>
@@ -695,7 +695,7 @@ function ClaimList() {
                                 <p className="text-[#fff] text-sm font-Regular">
                                   Description
                                 </p>
-                                <p className="text-[#5D6E66] text-base font-semibold">
+                                <p className="text-light-green text-base font-semibold">
                                   {part.description}
                                 </p>
                               </div>
@@ -705,7 +705,7 @@ function ClaimList() {
                                 <p className="text-[#fff] text-sm font-Regular">
                                   Price
                                 </p>
-                                <p className="text-[#5D6E66] text-base font-semibold">
+                                <p className="text-light-green text-base font-semibold">
                                   $
                                   {part.price === undefined
                                     ? parseInt(0).toLocaleString(2)
@@ -722,7 +722,7 @@ function ClaimList() {
                         <Grid className="">
                           <div className="col-span-3 py-4 pl-1 ">
                             <div className="bg-[#3C3C3C] py-4 px-2">
-                              <p className="text-neutral-grey mb-3 text-[11px] font-Regular ">
+                              <p className="text-light-green mb-3 text-[11px] font-Regular ">
                                 Customer Name :{" "}
                                 <span className="font-semibold text-white">
                                   {" "}
@@ -731,14 +731,14 @@ function ClaimList() {
                                   }{" "}
                                 </span>
                               </p>
-                              <p className="text-neutral-grey text-[11px] mb-3 font-Regular">
+                              <p className="text-light-green text-[11px] mb-3 font-Regular">
                                 Claim Cost :{" "}
                                 <span className="font-semibold text-white ml-3">
                                   {" "}
                                   ${calculateTotalCost(res.repairParts)}{" "}
                                 </span>
                               </p>
-                              <p className="text-neutral-grey mb-4 text-[11px] font-Regular flex self-center">
+                              <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                 {" "}
                                 <span className="self-center mr-4">
                                   Servicer Name :{" "}
@@ -757,7 +757,7 @@ function ClaimList() {
 
                               <div className="flex mt-3">
                                 <div className="self-center  mr-8">
-                                  <p className="text-neutral-grey text-[11px] font-Regular">
+                                  <p className="text-light-green text-[11px] font-Regular">
                                     Claim Type :
                                   </p>
                                 </div>
@@ -774,7 +774,7 @@ function ClaimList() {
                               </div>
                               <div className="flex mt-2">
                                 <div className="self-center  mr-3">
-                                  <p className="text-neutral-grey text-[11px] font-Regular">
+                                  <p className="text-light-green text-[11px] font-Regular">
                                     Damage Code :
                                   </p>
                                 </div>
@@ -803,7 +803,7 @@ function ClaimList() {
                                 <p className="text-white text-sm">
                                   {customerStatus.status}
                                 </p>
-                                 <span className="text-[#686868]">
+                                 <span className="text-light-green">
                                 {format(
                                   new Date(
                                     repairStatus.date
@@ -852,7 +852,7 @@ function ClaimList() {
                                   {" "}
                                   {claimStatus.status}
                                 </p>
-                                <p className="text-[#686868]">
+                                <p className="text-light-green">
                                   {" "}
                                   {format(
                                     new Date(
@@ -894,7 +894,7 @@ function ClaimList() {
                                 <p className="text-white text-sm">
                                   {repairStatus.status}
                                 </p>
-                                <p className="text-[#686868]">
+                                <p className="text-light-green">
                                   {format(
                                     new Date(
                                       repairStatus.date
@@ -929,7 +929,7 @@ function ClaimList() {
                                 Diagnosis
                               </p>
                               <div className="h-[130px] max-h-[130px] overflow-y-scroll Diagnosis">
-                                <p className="text-sm text-[#686868]">
+                                <p className="text-sm text-light-green">
                                   {res.diagnosis}
                                 </p>
                               </div>
