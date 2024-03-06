@@ -139,8 +139,8 @@ function ServicerAddClaim() {
               </div>
               <div className='col-span-1'>
                 <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
-                  <p className='text-sm m-0 p-0'>Retail Price ($)</p>
-                  <p className='font-semibold'>Retail Price ($)</p>
+                  <p className='text-sm m-0 p-0'>Retail Price($)</p>
+                  <p className='font-semibold'>Retail Price($)</p>
                 </div>
               </div>
               <div className='col-span-1'>

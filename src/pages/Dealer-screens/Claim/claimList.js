@@ -929,7 +929,7 @@ function DealerClaimList() {
                           <Input type='number' 
                           name="price"
                           className="!bg-[#fff]"
-                          label="Price ($)"
+                          label="Price($)"
                           placeholder="" />
                         </div>
                       
@@ -956,7 +956,7 @@ function DealerClaimList() {
                           <Input type='number' 
                           name="price"
                           className="!bg-[#fff]"
-                          label="Price ($)"
+                          label="Price($)"
                           placeholder="" />
                         </div>
                         <div className='col-span-1 self-center bg-[#EBEBEB] rounded-[4px] flex justify-center'>
@@ -991,7 +991,7 @@ function DealerClaimList() {
                           <Input type='number' 
                           name="price"
                           className="!bg-[#fff]"
-                          label="Price ($)"
+                          label="Price($)"
                           placeholder="" />
                         </div>
                         <div className='col-span-1 self-center bg-[#EBEBEB] rounded-[4px] flex justify-center'>
