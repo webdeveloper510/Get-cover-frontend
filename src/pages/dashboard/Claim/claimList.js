@@ -870,7 +870,7 @@ function ClaimList() {
                                         ? customerStatus?.date
                                         : new Date()
                                     ),
-                                    "MMM-dd-yyyy"
+                                    "MM/dd/yyyy"
                                   )}
                                 </span>
                               </div>
@@ -920,7 +920,7 @@ function ClaimList() {
                                         ? claimStatus?.date
                                         : new Date()
                                     ),
-                                    "MMM-dd-yyyy"
+                                    "MM/dd/yyyy"
                                   )}
                                 </p>
                               </div>
@@ -961,7 +961,7 @@ function ClaimList() {
                                         ? repairStatus.date
                                         : new Date()
                                     ),
-                                    "MMM-dd-yyyy"
+                                    "MM/dd/yyyy"
                                   )}
                                 </p>
                               </div>
@@ -1385,6 +1385,7 @@ function ClaimList() {
                           className="!bg-[#fff]"
                           placeholder=""
                           maxLength={"30"}
+                          className1='!pt-[0.4rem]'
                           value={
                             formik.values.repairParts[index].serviceType || ""
                           }
@@ -1404,7 +1405,7 @@ function ClaimList() {
                           formik.touched.repairParts[index] &&
                           formik.errors.repairParts &&
                           formik.errors.repairParts[index]?.serviceType && (
-                            <div className="text-red-500">
+                            <div className="text-red-500 text-[13px]">
                               {formik.errors.repairParts[index].serviceType}
                             </div>
                           )}
@@ -1429,7 +1430,7 @@ function ClaimList() {
                           formik.touched.repairParts[index] &&
                           formik.errors.repairParts &&
                           formik.errors.repairParts[index]?.description && (
-                            <div className="text-red-500">
+                            <div className="text-red-500 text-[13px]">
                               {formik.errors.repairParts[index].description}
                             </div>
                           )}
@@ -1456,7 +1457,7 @@ function ClaimList() {
                           formik.touched.repairParts[index] &&
                           formik.errors.repairParts &&
                           formik.errors.repairParts[index]?.price && (
-                            <div className="text-red-500">
+                            <div className="text-red-500 text-[13px]">
                               {formik.errors.repairParts[index].price}
                             </div>
                           )}
@@ -1480,7 +1481,8 @@ function ClaimList() {
                   );
                 })}
               </div>
-              <div className="flex justify-between">
+              <Grid>
+              <div className="col-span-6">
                 {Object.keys(formik.errors).some(
                   (key) =>
                     Array.isArray(formik.touched[key]) &&
@@ -1494,6 +1496,8 @@ function ClaimList() {
                     </p>
                   </div>
                 ) : null}
+                 </div>
+                 <div className="col-span-6 text-end">
                 <Button
                   type="button"
                   className="!text-sm"
@@ -1502,6 +1506,7 @@ function ClaimList() {
                   + Add More
                 </Button>
               </div>
+              </Grid>
             </div>
             <div className="px-5 pb-5 pt-5 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
               <div className="relative">
