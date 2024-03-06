@@ -580,11 +580,11 @@ function ContractList(props) {
                   </div>
                   <div className="col-span-6">
                     <Select
-                      label=""
+                      label="Status"
                       options={status}
                       color="text-[#1B1D21] opacity-50"
-                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                      className="!text-[14px] !bg-[#f7f7f7]"
+                      // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px] !bg-[#fff]"
                       selectedValue={selectedProduct}
                       onChange={handleSelectChange1}
                     />

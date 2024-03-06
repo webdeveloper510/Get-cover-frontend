@@ -546,7 +546,7 @@ function CustomerAddDealerBook() {
                     type="number"
                     name="retailPrice"
                     className="!bg-[#fff]"
-                    label="Retail Price ($)"
+                    label="Retail Price($)"
                     placeholder=""
                     required={true}
                     maxLength={"10"}

@@ -196,7 +196,7 @@ function ResellerOrderList() {
     },
     {
       name: "Order Value",
-      selector: (row) => `$ 100.00`,
+      selector: (row) => `$100.00`,
       sortable: true,
       minWidth: "150px",
     },

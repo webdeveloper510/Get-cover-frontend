@@ -36,6 +36,7 @@ import {
 } from "../../../../services/orderServices";
 import PdfMake from "../../../pdfMakeOrder";
 import PdfGenerator from "../../../pdfViewer";
+import DocMakeOrderContainer from "../../../docMakeOrder";
 function OrderList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -323,10 +324,10 @@ function OrderList(props) {
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
                     <div className="border-b">
-                      <PdfGenerator data={row._id} />
+                      <PdfGenerator setLoading={setLoading} data={row._id} />
                     </div>
 
-                    <PdfMake data={row._id} />
+                    <DocMakeOrderContainer setLoading={setLoading} data={row._id} />
                   </>
                 )}
               </div>

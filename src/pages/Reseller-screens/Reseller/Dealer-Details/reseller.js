@@ -60,7 +60,7 @@ function Reseller(props) {
     },
     {
       name: "Order Value",
-      selector: (row) => "$ 0.00",
+      selector: (row) => "$0.00",
       sortable: true,
     },
     {

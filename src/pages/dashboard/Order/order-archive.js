@@ -178,7 +178,7 @@ function ArchiveOrderList() {
     },
     {
       name: "Order Value",
-      selector: (row) => `$ ${row.orderAmount?.toLocaleString(2)}`,
+      selector: (row) => `$${row.orderAmount?.toLocaleString(2)}`,
       sortable: true,
       minWidth: "150px",
     },

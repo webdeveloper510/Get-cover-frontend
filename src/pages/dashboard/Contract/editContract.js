@@ -32,6 +32,7 @@ function EditContract() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+
   console.log(id);
 
   const validationSchema = Yup.object().shape({
@@ -450,7 +451,7 @@ function EditContract() {
                 </Grid>
 
                 <div className="mt-8">
-                  <Button className="!bg-white !text-black">Cancel</Button>
+                  <Button className="!bg-white !text-black"  onClick={handleGOBack}>Cancel</Button>
                   <Button type="submit">Update</Button>
                 </div>
               </div>

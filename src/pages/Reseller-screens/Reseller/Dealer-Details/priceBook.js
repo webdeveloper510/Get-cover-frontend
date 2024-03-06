@@ -118,12 +118,12 @@ function PriceBookList(props) {
           },
           {
             name: "WholeSale Cost",
-            selector: (row) => "$ " + row.wholesalePrice.toFixed(2),
+            selector: (row) => "$" + row.wholesalePrice.toFixed(2),
             sortable: true,
           },
           {
             name: "Retail Cost",
-            selector: (row) => "$  " + row.retailPrice.toFixed(2),
+            selector: (row) => "$" + row.retailPrice.toFixed(2),
             sortable: true,
           },
           // {
@@ -180,12 +180,12 @@ function PriceBookList(props) {
           },
           {
             name: "WholeSale Cost",
-            selector: (row) => "$ " + row.wholesalePrice.toFixed(2),
+            selector: (row) => "$" + row.wholesalePrice.toFixed(2),
             sortable: true,
           },
           {
             name: "Retail Cost",
-            selector: (row) => "$  " + row.retailPrice.toFixed(2),
+            selector: (row) => "$" + row.retailPrice.toFixed(2),
             sortable: true,
           },
           {
@@ -644,7 +644,7 @@ function PriceBookList(props) {
             </div>
             <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
-                Retail Price ($)
+                Retail Price($)
               </p>
               <p className="text-base text-neutral-grey font-semibold">
                 ${dealerPriceBookDetail?.retailPrice?.toFixed(2)}
