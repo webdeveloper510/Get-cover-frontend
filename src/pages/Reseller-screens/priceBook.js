@@ -133,12 +133,12 @@ function ResellerPriceBook(props) {
     },
     {
       name: "WholeSale Cost",
-      selector: (row) => "$ 80.00" ,
+      selector: (row) => "$80.00" ,
       sortable: true,
     },
     {
       name: "Retail Cost",
-      selector: (row) => "$ 120.00 ",
+      selector: (row) => "$120.00 ",
       sortable: true,
     },
 

@@ -35,8 +35,6 @@ import process from "../../../assets/images/return.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import PdfGenerator from "../../pdfViewer";
-import PdfMake from "../../pdfMakeOrder";
-import HtmlToDocConverter from "../../docMakeOrder";
 import DocMakeOrderContainer from "../../docMakeOrder";
 
 function OrderList() {
@@ -336,6 +334,7 @@ function OrderList() {
                     <div className="border-b">
                       <PdfGenerator
                         data={row._id}
+                        setLoading={setLoading}
                         onClick={() => setSelectedAction(null)}
                       />
                     </div>
@@ -358,7 +357,6 @@ function OrderList() {
                     <PdfGenerator
                       data={row._id}
                       setLoading={setLoading}
-                      onClick={() => setSelectedAction(null)}
                     />
                     </div>
                       <DocMakeOrderContainer setLoading={setLoading} data={row._id} />

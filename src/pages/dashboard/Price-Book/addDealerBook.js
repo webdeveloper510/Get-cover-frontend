@@ -306,7 +306,7 @@ function AddDealerBook() {
                         Wholesale Price
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                        $ {priceBookById?.wholesalePrice?.toFixed(2)}
+                        ${priceBookById?.wholesalePrice?.toFixed(2)}
                       </p>
                     </div>
                   </div>
