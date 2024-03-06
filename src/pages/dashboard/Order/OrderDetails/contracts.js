@@ -319,7 +319,7 @@ function Contracts(props) {
                               Claim Amount
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              $ {parseInt(res?.claimAmount).toLocaleString(2)}
+                              ${parseInt(res?.claimAmount).toLocaleString(2)}
                             </p>
                           </div>
                         </div>
