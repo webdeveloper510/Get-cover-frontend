@@ -925,10 +925,10 @@ function Dealer() {
                       className="!bg-white"
                       className1='!pt-[9px]'
                       placeholder=""
-                      value={formik.values.position}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      error={formik.touched.position && formik.errors.position}
+                      // value={formik.values.position}
+                      // onBlur={formik.handleBlur}
+                      // onChange={formik.handleChange}
+                      // error={formik.touched.position && formik.errors.position}
                     />
                   </div>
                   <div className="col-span-6">
