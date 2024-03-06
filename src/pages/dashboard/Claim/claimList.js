@@ -360,10 +360,10 @@ function ClaimList() {
     ]);
   };
 
-  const status = [
-    { label: "Active", value: true },
-    { label: "Waiting", value: false },
-    { label: "Expired", value: false },
+  const Claimstatus = [
+    { label: "Open", value: 'open' },
+    { label: "Completed", value: 'completed' },
+    { label: "Rejected", value: 'rejected' },
   ];
 
   useEffect(() => {
@@ -483,10 +483,10 @@ function ClaimList() {
   const validationSchema = Yup.object().shape({});
 
   const initialValues1 = {
-    orderId: "",
-    venderOrder: "",
+    repairStatus: "",
+    claimId: "",
     contractId: "",
-    dealerName: "",
+    customerStatus: "",
     customerName: "",
     manufacture: "",
     status: "",
@@ -565,7 +565,7 @@ function ClaimList() {
                             className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                             label=""
                             placeholder="Claim ID"
-                            {...formik1.getFieldProps("contractId")}
+                            {...formik1.getFieldProps("claimId")}
                           />
                         </div>
                         <div className="col-span-3 self-center">
@@ -576,7 +576,7 @@ function ClaimList() {
                             className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                             label=""
                             placeholder="Customer Status"
-                            {...formik1.getFieldProps("contractId")}
+                            {...formik1.getFieldProps("repairStatus")}
                           />
                         </div>
                         <div className="col-span-3 self-center">
@@ -587,7 +587,7 @@ function ClaimList() {
                             className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                             label=""
                             placeholder="Repair Status"
-                            {...formik1.getFieldProps("contractId")}
+                            {...formik1.getFieldProps("customerStatus")}
                           />
                         </div>
                       </Grid>
@@ -1648,22 +1648,11 @@ function ClaimList() {
                   {...formik1.getFieldProps("contractId")}
                 />
               </div>
-
-              <div className="col-span-6">
-                <Select
-                  name="Status"
-                  label="Status"
-                  options={status}
-                  className="!bg-[#fff]"
-                  placeholder=""
-                  {...formik1.getFieldProps("contractId")}
-                />
-              </div>
               <div className="col-span-6">
                 <Select
                   name="ClaimStatus"
                   label="Claim Status"
-                  options={status}
+                  options={Claimstatus}
                   className="!bg-[#fff]"
                   placeholder=""
                   {...formik1.getFieldProps("contractId")}
