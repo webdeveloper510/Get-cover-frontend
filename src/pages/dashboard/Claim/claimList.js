@@ -499,9 +499,8 @@ function ClaimList() {
     initialValues1,
     validationSchema,
     onSubmit: (values) => {
-      getAllClaims(null, 1, 10);
+      getAllClaims(values);
       console.log(values);
-      // setIsDisapprovedOpen(false);
     },
   });
 
@@ -892,7 +891,7 @@ function ClaimList() {
                                   value={customerStatus.status}
                                   onChange={handleSelectChange}
                                   white
-                                  className1="!border-0"
+                                  className1="!border-0 !text-[#333333]"
                                   options={customerValue}
                                   visible={dropdownVisible}
                                 />
@@ -935,7 +934,7 @@ function ClaimList() {
                                   value={claimStatus.status}
                                   onChange={handleSelectChange}
                                   white
-                                  className1="!border-0"
+                                  className1="!border-0 !text-[#333333]"
                                   options={claimvalues}
                                   visible={dropdownVisible}
                                 />
@@ -976,7 +975,7 @@ function ClaimList() {
                                   value={repairStatus.status}
                                   onChange={handleSelectChange}
                                   white
-                                  className1="!border-0"
+                                  className1="!border-0 !text-[#333333]"
                                   options={repairValue}
                                   visible={dropdownVisible}
                                 />
