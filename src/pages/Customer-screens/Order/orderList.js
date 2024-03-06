@@ -61,10 +61,12 @@ function CustomerOrderList() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   const handleSelectChange1 = (label, value) => {
     console.log(label, value, "selected");
     setSelectedProduct(value);
   };
+
   const [loading, setLoading] = useState(false);
 
   const status = [
@@ -90,49 +92,49 @@ function CustomerOrderList() {
     };
   }, []);
 
-  const data =[
+  const data = [
     {
-      id : '1',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
+      id: "1",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1000",
     },
     {
-      id : '2',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
+      id: "2",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1000",
     },
     {
-      id : '3',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
+      id: "3",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1000",
     },
     {
-      id : '4',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
+      id: "4",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      orderValue: "1000",
     },
     {
-      id : '5',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      status : "Pending",
-      orderValue :'1000'
-    }
-  ]
+      id: "5",
+      name: "custmore001",
+      email: " customer001@yopmail.com",
+      phone: "3456789098",
+      order: "8",
+      status: "Pending",
+      orderValue: "1000",
+    },
+  ];
 
   const getOrderList = async () => {
     setLoading(true);
@@ -196,9 +198,7 @@ function CustomerOrderList() {
           <div className="relative">
             <div
               onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.id ? null : row.id
-                )
+                setSelectedAction(selectedAction === row.id ? null : row.id)
               }
             >
               <img
@@ -209,18 +209,20 @@ function CustomerOrderList() {
             </div>
             {selectedAction === row.id && (
               <div
-              ref={dropdownRef}
-              className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-1`}
-            >
-              {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-              
+                ref={dropdownRef}
+                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-1`}
+              >
+                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+
                 <div className="text-center py-1 px-3 cursor-pointer">
-                  <Link to={'/customer/orderDetails'} className="text-center py-1 cursor-pointer w-full flex justify-center"
-                >
-                  View
-                </Link>
+                  <Link
+                    to={"/customer/orderDetails"}
+                    className="text-center py-1 cursor-pointer w-full flex justify-center"
+                  >
+                    View
+                  </Link>
                 </div>
-            </div>
+              </div>
             )}
           </div>
         );
@@ -430,7 +432,7 @@ function CustomerOrderList() {
                 placeholder=""
               />
             </div>
-           
+
             <div className="col-span-6">
               <Input
                 type="text"

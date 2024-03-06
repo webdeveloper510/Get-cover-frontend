@@ -1426,7 +1426,7 @@ function CustomerAddOrder() {
                         type="text"
                         name={`productsArray[${index}].unitPrice`}
                         className="!bg-[#fff]"
-                        label="Unit Price ($)"
+                        label="Unit Price($)"
                         placeholder=""
                         value={
                           formikStep3.values.productsArray[index].unitPrice
@@ -1502,7 +1502,7 @@ function CustomerAddOrder() {
                         type="number"
                         name={`productsArray[${index}].price`}
                         className="!bg-[#fff]"
-                        label="Price ($)"
+                        label="Price($)"
                         placeholder=""
                         value={formikStep3.values.productsArray[index].price}
                         onChange={formikStep3.handleChange}

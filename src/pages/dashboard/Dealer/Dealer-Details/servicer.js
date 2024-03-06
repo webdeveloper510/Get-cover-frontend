@@ -294,7 +294,7 @@ function ServicerList(props) {
           },
           {
             name: "Total Claims Value",
-            selector: (row) => "$ 0.00",
+            selector: (row) => "$0.00",
             sortable: true,
           },
 

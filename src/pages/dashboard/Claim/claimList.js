@@ -99,10 +99,10 @@ function ClaimList() {
   const updateAndSetStatus = (statusObject, name, res) => {
     if (res.code === 200) {
       const resultData = res.result || {};
-      console.log(resultData[`${name}`][0]);
+      console.log(resultData[`${name}`][resultData[`${name}`].length - 1]);
       statusObject({
-        status: resultData[`${name}`][0].status,
-        date: resultData[`${name}`][0].date,
+        status: resultData[`${name}`][resultData[`${name}`].length - 1].status,
+        date: resultData[`${name}`][resultData[`${name}`].length - 1].date,
       });
     }
   };
@@ -207,7 +207,7 @@ function ClaimList() {
           ];
       }
     };
-    setServiceType(getServiceType(res.action));
+    setServiceType(getServiceType(res.contracts.orders.serviceCoverageType));
     setClaimId(res._id);
     setIsEditOpen(true);
   };
@@ -338,17 +338,28 @@ function ClaimList() {
   });
 
   console.log(initialValues);
+
   const handleRemove = (index) => {
+    const updatedErrors = { ...formik.errors };
+    if (updatedErrors.repairParts) {
+      const updatedRepairPartsErrors = updatedErrors.repairParts.slice();
+      updatedRepairPartsErrors.splice(index, 1);
+      updatedErrors.repairParts = updatedRepairPartsErrors;
+    }
+    formik.setErrors(updatedErrors);
     const updatedRepairParts = [...formik.values.repairParts];
     updatedRepairParts.splice(index, 1);
     formik.setFieldValue("repairParts", updatedRepairParts);
   };
+
   const handleAddMore = () => {
+    // Update the formik values with the new item
     formik.setFieldValue("repairParts", [
       ...formik.values.repairParts,
       { serviceType: "", description: "", price: "" },
     ]);
   };
+
   const status = [
     { label: "Active", value: true },
     { label: "Waiting", value: false },
@@ -468,6 +479,32 @@ function ClaimList() {
       reader.readAsDataURL(file);
     }
   };
+
+  const validationSchema = Yup.object().shape({});
+
+  const initialValues1 = {
+    orderId: "",
+    venderOrder: "",
+    contractId: "",
+    dealerName: "",
+    customerName: "",
+    manufacture: "",
+    status: "",
+    model: "",
+    serial: "",
+    productName: "",
+  };
+
+  const formik1 = useFormik({
+    initialValues1,
+    validationSchema,
+    onSubmit: (values) => {
+      getAllClaims(null, 1, 10);
+      console.log(values);
+      // setIsDisapprovedOpen(false);
+    },
+  });
+
   return (
     <>
       <div className="mb-8 ml-3">
@@ -507,48 +544,54 @@ function ClaimList() {
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <Grid className="">
                   <div className="col-span-8">
-                    <Grid className="">
-                      <div className="col-span-3 self-center">
-                        <Input
-                          name="Name"
-                          type="text"
-                          className="!text-[14px] !bg-[#f7f7f7]"
-                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                          label=""
-                          placeholder="Contract ID"
-                        />
-                      </div>
-                      <div className="col-span-3 self-center">
-                        <Input
-                          name="Email"
-                          type="email"
-                          className="!text-[14px] !bg-[#f7f7f7]"
-                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                          label=""
-                          placeholder="Claim"
-                        />
-                      </div>
-                      <div className="col-span-3 self-center">
-                        <Input
-                          name="PhoneNo."
-                          type="text"
-                          className="!text-[14px] !bg-[#f7f7f7]"
-                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                          label=""
-                          placeholder="Customer Status"
-                        />
-                      </div>
-                      <div className="col-span-3 self-center">
-                        <Input
-                          name="PhoneNo."
-                          type="text"
-                          className="!text-[14px] !bg-[#f7f7f7]"
-                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                          label=""
-                          placeholder="Repair Status"
-                        />
-                      </div>
-                    </Grid>
+                    <form onSubmit={formik1.handleSubmit}>
+                      <Grid className="">
+                        <div className="col-span-3 self-center">
+                          <Input
+                            name="Name"
+                            type="text"
+                            className="!text-[14px] !bg-[#f7f7f7]"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            label=""
+                            placeholder="Contract ID"
+                            {...formik1.getFieldProps("contractId")}
+                          />
+                        </div>
+                        <div className="col-span-3 self-center">
+                          <Input
+                            name="Email"
+                            type="email"
+                            className="!text-[14px] !bg-[#f7f7f7]"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            label=""
+                            placeholder="Claim"
+                            {...formik1.getFieldProps("contractId")}
+                          />
+                        </div>
+                        <div className="col-span-3 self-center">
+                          <Input
+                            name="PhoneNo."
+                            type="text"
+                            className="!text-[14px] !bg-[#f7f7f7]"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            label=""
+                            placeholder="Customer Status"
+                            {...formik1.getFieldProps("contractId")}
+                          />
+                        </div>
+                        <div className="col-span-3 self-center">
+                          <Input
+                            name="PhoneNo."
+                            type="text"
+                            className="!text-[14px] !bg-[#f7f7f7]"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            label=""
+                            placeholder="Repair Status"
+                            {...formik1.getFieldProps("contractId")}
+                          />
+                        </div>
+                      </Grid>
+                    </form>
                   </div>
 
                   <div className="col-span-4 self-center flex justify-center">
@@ -827,7 +870,7 @@ function ClaimList() {
                                         ? customerStatus?.date
                                         : new Date()
                                     ),
-                                    "MMM-dd-yyyy"
+                                    "MM/dd/yyyy"
                                   )}
                                 </span>
                               </div>
@@ -877,7 +920,7 @@ function ClaimList() {
                                         ? claimStatus?.date
                                         : new Date()
                                     ),
-                                    "MMM-dd-yyyy"
+                                    "MM/dd/yyyy"
                                   )}
                                 </p>
                               </div>
@@ -918,7 +961,7 @@ function ClaimList() {
                                         ? repairStatus.date
                                         : new Date()
                                     ),
-                                    "MMM-dd-yyyy"
+                                    "MM/dd/yyyy"
                                   )}
                                 </p>
                               </div>
@@ -1236,33 +1279,46 @@ function ClaimList() {
           <Grid>
             <div className="col-span-1">
               <div className="border flex h-full justify-center relative">
-              {previewImage ? (
-                <>
-                <div className="absolute -top-2 -right-2">
-                <img
-                src={Cross}
-                alt="Preview"
-                className="cursor-pointer"
-                style={{ width: '20px', height: '20px', marginTop:'5px' }}
-              />
-                </div>
-              <img
-                src={previewImage}
-                alt="Preview"
-                style={{ width: '100px', height: '40px', marginTop:'5px' }}
-              />
-                </>
-            ) : (<img src={upload} className="self-center" alt="upload"  onClick={handleImageClick}/>)}
+                {previewImage ? (
+                  <>
+                    <div className="absolute -top-2 -right-2">
+                      <img
+                        src={Cross}
+                        alt="Preview"
+                        className="cursor-pointer"
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          marginTop: "5px",
+                        }}
+                      />
+                    </div>
+                    <img
+                      src={previewImage}
+                      alt="Preview"
+                      style={{
+                        width: "100px",
+                        height: "40px",
+                        marginTop: "5px",
+                      }}
+                    />
+                  </>
+                ) : (
+                  <img
+                    src={upload}
+                    className="self-center"
+                    alt="upload"
+                    onClick={handleImageClick}
+                  />
+                )}
 
-
-      {/* Hidden file input */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-      />
-
+                {/* Hidden file input */}
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
               </div>
             </div>
             <div className="col-span-6">
@@ -1275,12 +1331,12 @@ function ClaimList() {
               ></textarea>
             </div>
             <div className="col-span-3 flex">
-                {/* Image */}
-      <img
-        src={Sendto}
-        className="self-center w-6 h-6 mr-2"
-        alt="Sendto"
-      />
+              {/* Image */}
+              <img
+                src={Sendto}
+                className="self-center w-6 h-6 mr-2"
+                alt="Sendto"
+              />
               <Select
                 name="state"
                 options={state}
@@ -1329,6 +1385,7 @@ function ClaimList() {
                           className="!bg-[#fff]"
                           placeholder=""
                           maxLength={"30"}
+                          className1='!pt-[0.4rem]'
                           value={
                             formik.values.repairParts[index].serviceType || ""
                           }
@@ -1348,7 +1405,7 @@ function ClaimList() {
                           formik.touched.repairParts[index] &&
                           formik.errors.repairParts &&
                           formik.errors.repairParts[index]?.serviceType && (
-                            <div className="text-red-500">
+                            <div className="text-red-500 text-[13px]">
                               {formik.errors.repairParts[index].serviceType}
                             </div>
                           )}
@@ -1373,7 +1430,7 @@ function ClaimList() {
                           formik.touched.repairParts[index] &&
                           formik.errors.repairParts &&
                           formik.errors.repairParts[index]?.description && (
-                            <div className="text-red-500">
+                            <div className="text-red-500 text-[13px]">
                               {formik.errors.repairParts[index].description}
                             </div>
                           )}
@@ -1400,7 +1457,7 @@ function ClaimList() {
                           formik.touched.repairParts[index] &&
                           formik.errors.repairParts &&
                           formik.errors.repairParts[index]?.price && (
-                            <div className="text-red-500">
+                            <div className="text-red-500 text-[13px]">
                               {formik.errors.repairParts[index].price}
                             </div>
                           )}
@@ -1424,25 +1481,38 @@ function ClaimList() {
                   );
                 })}
               </div>
-
-              <div className="flex justify-between">
-                <div>
-                  <p className="text-red-500">Error </p>
-                </div>
+              <Grid>
+              <div className="col-span-6">
+                {Object.keys(formik.errors).some(
+                  (key) =>
+                    Array.isArray(formik.touched[key]) &&
+                    formik.touched[key].some((t) => t) &&
+                    Array.isArray(formik.errors[key]) &&
+                    formik.errors[key].some((e) => Boolean(e))
+                ) ? (
+                  <div>
+                    <p className="text-red-500">
+                      Error Please Check the Repair Parts Form
+                    </p>
+                  </div>
+                ) : null}
+                 </div>
+                 <div className="col-span-6 text-end">
                 <Button
                   type="button"
-                  className="!text-sm "
+                  className="!text-sm"
                   onClick={handleAddMore}
                 >
                   + Add More
                 </Button>
               </div>
+              </Grid>
             </div>
             <div className="px-5 pb-5 pt-5 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
               <div className="relative">
                 <label
                   htmlFor="description"
-                  className="absolute text-base text-[#e1e1e1] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  className="absolute text-base text-[#999] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
                 >
                   Note
                 </label>
@@ -1496,102 +1566,114 @@ function ClaimList() {
         </Button>
         <div className="py-3">
           <p className="text-center text-3xl font-semibold ">Advance Search</p>
-          <Grid className="mt-5 px-6">
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Contract ID"
-                className="!bg-[#fff]"
-                label="Contract ID"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Order ID"
-                className="!bg-[#fff]"
-                label="Order ID"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Dealer P.O. #."
-                className="!bg-[#fff]"
-                label="Dealer P.O. #."
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Serial No."
-                className="!bg-[#fff]"
-                label="Serial #"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Product Name"
-                className="!bg-[#fff]"
-                label="Product Name"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Dealer Name"
-                className="!bg-[#fff]"
-                label="Dealer Name"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Customer Name"
-                className="!bg-[#fff]"
-                label="Customer Name"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Servicer Name"
-                className="!bg-[#fff]"
-                label="Servicer Name"
-                placeholder=""
-              />
-            </div>
+          <form onSubmit={formik1.handleSubmit}>
+            <Grid className="mt-5 px-6">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="Contract ID"
+                  className="!bg-[#fff]"
+                  label="Contract ID"
+                  placeholder=""
+                  {...formik1.getFieldProps("contractId")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="Order ID"
+                  className="!bg-[#fff]"
+                  label="Order ID"
+                  placeholder=""
+                  {...formik1.getFieldProps("contractId")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="Dealer P.O. #."
+                  className="!bg-[#fff]"
+                  label="Dealer P.O. #."
+                  placeholder=""
+                  {...formik1.getFieldProps("contractId")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="Serial No."
+                  className="!bg-[#fff]"
+                  label="Serial #"
+                  placeholder=""
+                  {...formik1.getFieldProps("contractId")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="Product Name"
+                  className="!bg-[#fff]"
+                  label="Product Name"
+                  placeholder=""
+                  {...formik1.getFieldProps("contractId")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="Dealer Name"
+                  className="!bg-[#fff]"
+                  label="Dealer Name"
+                  placeholder=""
+                  {...formik1.getFieldProps("contractId")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="Customer Name"
+                  className="!bg-[#fff]"
+                  label="Customer Name"
+                  placeholder=""
+                  {...formik1.getFieldProps("contractId")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="Servicer Name"
+                  className="!bg-[#fff]"
+                  label="Servicer Name"
+                  placeholder=""
+                  {...formik1.getFieldProps("contractId")}
+                />
+              </div>
 
-            <div className="col-span-6">
-              <Select
-                name="Status"
-                label="Status"
-                options={status}
-                className="!bg-[#fff]"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Select
-                name="ClaimStatus"
-                label="Claim Status"
-                options={status}
-                className="!bg-[#fff]"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-12">
-              <Button className={"w-full"}>Search</Button>
-            </div>
-          </Grid>
+              <div className="col-span-6">
+                <Select
+                  name="Status"
+                  label="Status"
+                  options={status}
+                  className="!bg-[#fff]"
+                  placeholder=""
+                  {...formik1.getFieldProps("contractId")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  name="ClaimStatus"
+                  label="Claim Status"
+                  options={status}
+                  className="!bg-[#fff]"
+                  placeholder=""
+                  {...formik1.getFieldProps("contractId")}
+                />
+              </div>
+              <div className="col-span-12">
+                <Button className={"w-full"}>Search</Button>
+              </div>
+            </Grid>
+          </form>
         </div>
       </Modal>
     </>

@@ -839,7 +839,7 @@ function ClaimList() {
                         <Input type='number' 
                          name="price"
                         className="!bg-[#fff]"
-                        label="Price ($)"
+                        label="Price($)"
                         placeholder="" />
                       </div>
                     
@@ -866,7 +866,7 @@ function ClaimList() {
                         <Input type='number' 
                          name="price"
                         className="!bg-[#fff]"
-                        label="Price ($)"
+                        label="Price($)"
                         placeholder="" />
                       </div>
                       <div className='col-span-1 self-center  flex justify-center'>
