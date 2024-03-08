@@ -69,20 +69,23 @@ function OrderDetails() {
   };
 
   useEffect(() => {
-    let intervalId;
     getOrderDetails();
-   
-    if (!modalOpen) {
-      clearInterval(intervalId);
-      setTimer(3);
+  }, [orderId]);
+
+  useEffect(() => {
+    let intervalId;
+    if (modalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
     }
-    if (timer === 0) {
+    if (timer <= 0) {
       closeModel();
     }
     return () => {
       clearInterval(intervalId);
     };
-  }, [orderId], timer);
+  },[modalOpen,timer]);
   useEffect(() => {
     setLoading(true);
     localStorage.setItem("orderMenu", activeTab);
