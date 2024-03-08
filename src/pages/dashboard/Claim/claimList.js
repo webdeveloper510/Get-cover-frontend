@@ -1050,7 +1050,7 @@ function ClaimList() {
                                     className="w-5 h-5 mr-1"
                                     alt="Track"
                                   />{" "}
-                                  Track Status
+                                  Track Repair Status
                                 </Button>
                                 <Button
                                   className="!bg-[#fff] col-span-7 !rounded-[11px] !text-light-black !text-[14px] flex"
