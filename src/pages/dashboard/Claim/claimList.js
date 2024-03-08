@@ -53,6 +53,7 @@ import * as Yup from "yup";
 
 function ClaimList() {
   const [selectedValue, setSelectedValue] = useState("");
+  const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -158,6 +159,10 @@ function ClaimList() {
   const closeEdit = () => {
     // formik.resetForm();
     setIsEditOpen(false);
+  };
+
+  const handleToggle = () => {
+    setShowDetails(!showDetails);
   };
 
   useEffect(() => {
@@ -1040,10 +1045,11 @@ function ClaimList() {
                               </div>
                             </div>
                             <div>
-                              <Grid className="!grid-cols-12 px-3 mb-3">
+                              <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
                                 <Button
-                                  className="!bg-[#fff] col-span-5 !rounded-[11px] !text-light-black !text-[14px] flex"
-                                  onClick={() => openAttachments()}
+                                  className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
+                                  onClick={handleToggle}
+                                  // onClick={() => openAttachments()}
                                 >
                                   <img
                                     src={Track}
@@ -1053,7 +1059,7 @@ function ClaimList() {
                                   Track Repair Status
                                 </Button>
                                 <Button
-                                  className="!bg-[#fff] col-span-7 !rounded-[11px] !text-light-black !text-[14px] flex"
+                                  className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[13px] flex"
                                   onClick={() => {
                                     downloadAttachments(res.receiptImage);
                                   }}
@@ -1063,7 +1069,7 @@ function ClaimList() {
                                     className="w-5 h-5 mr-2"
                                     alt="download"
                                   />
-                                  <p className="text-sm font-semibold text-center">
+                                  <p className="text-[13px] font-semibold text-center">
                                     Download Attachments
                                   </p>
                                 </Button>
@@ -1072,6 +1078,37 @@ function ClaimList() {
                           </div>
                         </Grid>
                       </div>
+
+                      {showDetails && ( <div className="col-span-12 mb-4 px-2">
+                          <p className="text-white text-center mb-3 font-semibold">Track Repair Status</p>
+
+                        <div className="flex text-white flex-wrap justify-around">
+                          <div>
+                            <p>Request Sent</p>
+                            <p>03/02/2024</p>
+                          </div>
+                          <div>
+                            <p>Request Approved</p>
+                            <p>03/02/2024</p>
+                          </div>
+                          <div>
+                            <p>Product Received</p>
+                            <p>03/02/2024</p>
+                          </div>
+                          <div>
+                            <p>Parts Ordered</p>
+                            <p>03/02/2024</p>
+                          </div>
+                          <div>
+                            <p>Parts Needed</p>
+                            <p>03/02/2024</p>
+                          </div>
+                          <div>
+                            <p>Repair In Progress</p>
+                            <p>03/02/2024</p>
+                          </div>
+                        </div>
+                      </div> )}
                     </Grid>
                   </CollapsibleDiv>
                 );

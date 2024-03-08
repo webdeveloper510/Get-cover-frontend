@@ -71,13 +71,12 @@ function OrderDetails() {
   useEffect(() => {
     let intervalId;
     getOrderDetails();
-    if (timer === 0) {
-      closeModel();
-    }
-
+   
     if (!modalOpen) {
       clearInterval(intervalId);
       setTimer(3);
+    }
+    if (timer === 0) {
       closeModel();
     }
     return () => {
@@ -489,6 +488,7 @@ function OrderDetails() {
                 onChange={handleSelectChange}
                 options={servicerList} // Make sure to define servicerList
                 value={formik.values.servicerId}
+                className='!bg-[#fff]'
                 onBlur={formik.handleBlur}
                 error={formik.touched.servicerId && formik.errors.servicerId}
               />
