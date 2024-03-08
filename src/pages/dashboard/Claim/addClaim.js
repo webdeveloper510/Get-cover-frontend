@@ -40,6 +40,7 @@ import {
   getContractList,
   getContractValues,
   uploadClaimEvidence,
+  getContractPrice,
 } from "../../../services/claimServices";
 import { getServicerListInOrders } from "../../../services/orderServices";
 import { RotateLoader } from "react-spinners";
@@ -59,6 +60,7 @@ function AddClaim() {
   const [totalRecords, setTotalRecords] = useState(0);
   const [currentRowsPerPage, setCurrentRowsPerPage] = useState(10);
   const [contractList, setContractList] = useState([]);
+  const [price, setPrice] = useState(null);
   const [contractDetail, setContractDetails] = useState({});
   const [servicerData, setServicerData] = useState([]);
   const [images, setImages] = useState([]);
@@ -213,6 +215,12 @@ function AddClaim() {
     setContractList(response.result);
     setLoading(false);
   };
+console.log(price, '-------------------->>>>>>>>>')
+  const getClaimPrice = async (id) => {
+    const response = await getContractPrice(id);
+    setPrice(response.result);
+    setLoading(false);
+  };
 
   const handlePerRowsChange = async (newPerPage, page) => {
     setCurrentRowsPerPage(newPerPage);
@@ -253,9 +261,7 @@ function AddClaim() {
   };
 
   const openModal = (row) => {
-    // setContractDetails(res);
     console.log(row._id);
-
     setLoading2(true);
     setIsModalOpen(true);
     getContractValues(row._id).then((row) => {
@@ -286,6 +292,7 @@ function AddClaim() {
   };
 
   const handleSelectValue = (res) => {
+    getClaimPrice(res._id);
     getContractValues(res._id).then((res) => {
       console.log(res.result);
       getServicerList({
@@ -911,7 +918,11 @@ function AddClaim() {
                 </div>
               </div>
               <div className="col-span-6">
-                <p className=" mb-2"> Max Claim amount is $123.00</p>
+                <p className=" mb-2"> Max Claim amount is ${ price == null
+                              ? parseInt(0).toLocaleString(2)
+                              : formatOrderValue(
+                                  price ?? parseInt(0)
+                                )}</p>
                 <div className="relative">
                   <label
                     htmlFor="description"

@@ -31,6 +31,19 @@ export const getContractList = async (data = {}) => {
   }
 };
 
+export const getContractPrice = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/claim/getMaxClaimAmount/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getContractValues = async (id) => {
   const headers = createHeaders();
   try {
