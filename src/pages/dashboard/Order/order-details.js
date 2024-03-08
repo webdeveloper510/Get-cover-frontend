@@ -29,7 +29,6 @@ import {
 } from "../../../services/orderServices";
 import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import PdfGenerator from "../../pdfViewer";
-import PdfMake from "../../pdfMakeOrder";
 import ContractList from "../Contract/contractList";
 import Modal from "../../../common/model";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
@@ -61,8 +60,8 @@ function OrderDetails() {
     setIsServicerModal(false);
   };
 
-  const openModel = () => {
-    getOrderDetails(false);
+  const openModel = () => {   
+    getOrderDetails(true);
     setModalOpen(true);
   };
   const closeModel = () => {
@@ -118,7 +117,9 @@ function OrderDetails() {
     },
   });
   const getOrderDetails = async (showLoader) => {
-    if(showLoader )setLoading1(true);
+    if (!showLoader) {
+      setLoading1(true);
+  }
     const result = await orderDetailsById(orderId);
     setUserDetails(result.orderUserData);
     formik.setFieldValue("servicerId", result.result.servicerId);
