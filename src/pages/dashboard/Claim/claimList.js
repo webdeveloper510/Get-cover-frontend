@@ -710,7 +710,7 @@ function ClaimList() {
                           <div className="col-span-3 self-center border-[#474747] border-r p-5">
                             <p className="font-semibold leading-5 text-lg">
                               {" "}
-                              {format(new Date(res.lossDate), "yyyy-MM-dd")}
+                              {format(new Date(res.lossDate), "MM/dd/yyyy")}
                             </p>
                             <p className="text-[#A3A3A3]">Loss Date</p>
                           </div>
