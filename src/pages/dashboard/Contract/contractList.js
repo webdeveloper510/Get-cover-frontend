@@ -35,7 +35,6 @@ function ContractList(props) {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [contractList, setContractList] = useState([]);
-  const [contractCount, setContractCount] = useState(null);
   const [totalRecords, setTotalRecords] = useState(0);
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
@@ -93,8 +92,6 @@ function ContractList(props) {
         : await getContracts(orderId, data);
 
     setContractList(result.result);
-    setContractCount(result.totalCount);
-    
     setTotalRecords(result?.totalCount);
     setLoading(false);
     setFlag(true);
@@ -434,21 +431,19 @@ function ContractList(props) {
                     })}
                 </>
               )}
+            </>
 
-               {contractCount == 0   ? (
+            {/* {contractList?.length > 0   ? (
                     <div className="text-center my-5">
                       <p>No records found.</p>
                     </div>
-                    ) : ( 
+                    ) :( */}
             <CustomPagination
               totalRecords={totalRecords}
               rowsPerPageOptions={[10, 20, 50, 100]}
               onPageChange={handlePageChange}
             />
-            )} 
-            </>
-
-           
+            {/* )} */}
           </div>
           {/* )} */}
 
@@ -934,11 +929,11 @@ function ContractList(props) {
                       </div>
                       {contractDetails?.order?.[0]?.productsArray?.[0]
                         ?.priceType == "Quantity Pricing" ? (
-                     
-                          <div className="col-span-5">
+                        <>
+                          <div className="col-soan-5">
                             <table className="w-full border text-center">
                               <tr className="border bg-[#9999]">
-                                <th colSpan={"3"}>Quantity Pricing List </th>
+                                <th colSpan={"2"}>Quantity Pricing List </th>
                               </tr>
                               <tr className="border bg-[#9999]">
                                 <th>Name</th>
@@ -958,7 +953,7 @@ function ContractList(props) {
                                 )}
                             </table>
                           </div>
-                    
+                        </>
                       ) : (
                         ""
                       )}
