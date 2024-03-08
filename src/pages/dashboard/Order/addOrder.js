@@ -1814,7 +1814,7 @@ function AddOrder() {
                                     index
                                   ].coverageStartDate
                                 ),
-                                "yyyy-MM-dd"
+                                "MM/dd/yyyy"
                               )
                         }
                         onChange={(e) => {
