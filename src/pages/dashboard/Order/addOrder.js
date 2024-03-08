@@ -1291,7 +1291,7 @@ function AddOrder() {
                             resellerId ||
                             dealerValue ||
                             customerId
-                              ? "!bg-[#f2f2f2]"
+                              ? "!bg-[transparent]"
                               : "!bg-white"
                           }`}
                           onChange={handleSelectChange}
