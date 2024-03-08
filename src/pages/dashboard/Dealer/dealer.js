@@ -951,7 +951,7 @@ function Dealer() {
                     </p>
                     <p className="text-light-black flex text-[12px]  font-semibold self-center">
                       {" "}
-                      <span className="mr-[1.1rem]">
+                      <span className="mr-[0.2rem]">
                         {" "}
                         Do you want to work as a servicer?
                       </span>
@@ -974,7 +974,7 @@ function Dealer() {
                   <div className="col-span-6"></div>
                   <div className="col-span-6">
                     <p className="text-light-black flex text-[12px] font-semibold">
-                      Do you want to create separate account for customer?
+                     <span className="w-[60%]"> Do you want to create separate account for customer? </span> 
                       <RadioButton
                         id="yes-separate-account"
                         label="Yes"
