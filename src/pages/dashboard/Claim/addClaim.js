@@ -820,9 +820,9 @@ function AddClaim() {
                       label="Loss Date"
                       type="date"
                       name="lossDate"
-                      max={new Date().toISOString().split("T")[0]}
+                      maxDate={new Date().toISOString().split("T")[0]}
                       required
-                      maxDate
+                      
                       onChange={formikStep2.handleChange}
                       onBlur={formikStep2.handleBlur}
                       value={formikStep2.values.lossDate}

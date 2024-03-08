@@ -631,7 +631,7 @@ function AddCompanyPriceBook() {
                   <Input
                     type="number"
                     name="reinsuranceFee"
-                    className="!bg-[#fff] !px-0 w-[180px]"
+                    className="!bg-[#fff] !px-0 w-[155px]"
                     label="Re-insurance fee($)"
                     minLength={"1"}
                     maxLength={"10"}
@@ -690,7 +690,7 @@ function AddCompanyPriceBook() {
                     required={true}
                     minLength={"1"}
                     maxLength={"10"}
-                    className="!bg-[#fff] !px-0 w-[180px]"
+                    className="!bg-[#fff] !px-0 w-[160px]"
                     label="Administration fee($)"
                     placeholder=""
                     onChange={formik.handleChange}
@@ -781,7 +781,7 @@ function AddCompanyPriceBook() {
                         required={true}
                         minLength={"1"}
                         maxLength={"10"}
-                        className="!bg-[#fff] !px-0 w-[180px]"
+                        className="!bg-[#fff]"
                         label="Start Range($)"
                         placeholder=""
                         onChange={formik.handleChange}
@@ -810,7 +810,7 @@ function AddCompanyPriceBook() {
                         required={true}
                         minLength={"1"}
                         maxLength={"10"}
-                        className="!bg-[#fff] !px-0 w-[180px]"
+                        className="!bg-[#fff]"
                         label="End Range($)"
                         placeholder=""
                         onChange={formik.handleChange}
