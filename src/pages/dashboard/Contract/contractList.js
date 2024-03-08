@@ -431,19 +431,21 @@ function ContractList(props) {
                     })}
                 </>
               )}
-            </>
 
-            {/* {contractList?.length > 0   ? (
+               {contractList?.length == 0   ? (
                     <div className="text-center my-5">
                       <p>No records found.</p>
                     </div>
-                    ) :( */}
+                    ) : (
             <CustomPagination
               totalRecords={totalRecords}
               rowsPerPageOptions={[10, 20, 50, 100]}
               onPageChange={handlePageChange}
             />
-            {/* )} */}
+            )}
+            </>
+
+           
           </div>
           {/* )} */}
 

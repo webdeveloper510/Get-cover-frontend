@@ -206,9 +206,11 @@ function UserList(props) {
     validationSchema: Yup.object({
       firstName: Yup.string()
         .required("Required")
+        .transform((originalValue) => originalValue.trim())
         .max(30, "Must be exactly 30 characters"),
       lastName: Yup.string()
         .required("Required")
+        .transform((originalValue) => originalValue.trim())
         .max(30, "Must be exactly 30 characters"),
       phoneNumber: Yup.string()
         .required("Required")

@@ -1121,6 +1121,16 @@ function ClaimList() {
                   </CollapsibleDiv>
                 );
               })}
+
+              <div>
+                {claimList?.result?.length == 0 ? (
+                  <>
+                     <div className="text-center my-5">
+                        <p>No records found.</p>
+                     </div>
+                  </>
+                ) : ('')}
+              </div>
           </div>
         </div>
       </div>
