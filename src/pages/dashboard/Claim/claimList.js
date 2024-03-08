@@ -56,6 +56,7 @@ function ClaimList() {
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
@@ -159,6 +160,13 @@ function ClaimList() {
   const closeEdit = () => {
     // formik.resetForm();
     setIsEditOpen(false);
+  };
+
+  const openReject = () => {
+    setIsRejectOpen(true);
+  };
+  const closeReject = () => {
+    setIsRejectOpen(false);
   };
 
   const handleToggle = () => {
@@ -1049,13 +1057,12 @@ function ClaimList() {
                                 <Button
                                   className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
                                   onClick={handleToggle}
-                                  // onClick={() => openAttachments()}
                                 >
                                   <img
                                     src={Track}
                                     className="w-5 h-5 mr-1"
                                     alt="Track"
-                                  />{" "}
+                                  />
                                   Track Repair Status
                                 </Button>
                                 <Button
@@ -1109,6 +1116,7 @@ function ClaimList() {
                           </div>
                         </div>
                       </div> )}
+
                     </Grid>
                   </CollapsibleDiv>
                 );
@@ -1116,6 +1124,23 @@ function ClaimList() {
           </div>
         </div>
       </div>
+
+      <Modal isOpen={isRejectOpen} onClose={closeReject}>
+        <Button
+          onClick={closeReject}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="py-3">
+          <p className="text-center text-3xl font-semibold ">
+            Comments Details
+          </p>
+        </div>
+      </Modal>
 
       <Modal isOpen={isViewOpen} onClose={closeView}>
         <Button
