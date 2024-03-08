@@ -2,6 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "../../../common/button";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
+import {
+  faFileImage,
+  faFilePdf,
+  faFileWord,
+  faFileExcel,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Media Includes
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
@@ -99,7 +106,7 @@ function ClaimList() {
   const updateAndSetStatus = (statusObject, name, res) => {
     if (res.code === 200) {
       const resultData = res.result || {};
-      console.log(resultData[`${name}`][resultData[`${name}`].length - 1]);
+
       statusObject({
         status: resultData[`${name}`][resultData[`${name}`].length - 1].status,
         date: resultData[`${name}`][resultData[`${name}`].length - 1].date,
@@ -110,7 +117,7 @@ function ClaimList() {
     let data = {
       [statusType]: statusValue,
     };
-    console.log(data);
+
     editClaimStatus(claimId, data).then((res) => {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
       updateAndSetStatus(setRepairStatus, "repairStatus", res);
@@ -121,7 +128,6 @@ function ClaimList() {
   const getAllClaims = async () => {
     const result = await getClaimList();
     setClaimList(result);
-    console.log(result.result);
   };
 
   const formatOrderValue = (orderValue) => {
@@ -187,7 +193,6 @@ function ClaimList() {
       });
     }
     const getServiceType = (coverageType) => {
-      console.log(coverageType);
       switch (coverageType) {
         case "Parts":
           return [
@@ -247,7 +252,7 @@ function ClaimList() {
         description: part.description || "",
         price: part.price || "",
       }));
-      console.log(mappedValues);
+
       setInitialValues({
         repairParts: mappedValues,
         note: "",
@@ -279,10 +284,35 @@ function ClaimList() {
         });
     });
   };
+  const initialValues2 = {
+    note: "",
+    file: {},
+  };
+  const formik2 = useFormik({
+    initialValues: initialValues2,
+    validationSchema: Yup.object({
+      note: Yup.string().required(),
+    }),
+
+    onSubmit: (values) => {
+      // addClaimsRepairParts(claimId, values).then((res) => {
+      //   console.log(res);
+      //   closeEdit();
+      //   getAllClaims();
+      // });
+      // Handle form submission here
+
+      formik2.setFieldValue("note", "");
+    },
+  });
+
+  // const handleFileChange = (event) => {
+  //   // Handle file change and set it in formik2
+  //   formik2.setFieldValue("file", event.currentTarget.files[0]);
+  // };
 
   useEffect(() => {
     if (activeIndex != null) {
-      console.log(claimList.result[activeIndex].bdAdh);
       const bdAdhValue = claimList.result[activeIndex]?.bdAdh;
       const customerValue = claimList.result[activeIndex]?.customerStatus[0];
       const claimStatus = claimList.result[activeIndex]?.claimStatus[0];
@@ -297,10 +327,6 @@ function ClaimList() {
       }));
 
       setServicerList(filterServicer);
-      console.log(
-        claimList.result[activeIndex].contracts.allServicer,
-        filterServicer
-      );
 
       setClaimType({ bdAdh: bdAdhValue });
       setCustomerStatus({
@@ -328,16 +354,12 @@ function ClaimList() {
     }),
     onSubmit: (values) => {
       addClaimsRepairParts(claimId, values).then((res) => {
-        console.log(res);
         closeEdit();
         getAllClaims();
       });
       // Handle form submission here
-      console.log(values);
     },
   });
-
-  console.log(initialValues);
 
   const handleRemove = (index) => {
     const updatedErrors = { ...formik.errors };
@@ -361,9 +383,9 @@ function ClaimList() {
   };
 
   const Claimstatus = [
-    { label: "Open", value: 'open' },
-    { label: "Completed", value: 'completed' },
-    { label: "Rejected", value: 'rejected' },
+    { label: "Open", value: "open" },
+    { label: "Completed", value: "completed" },
+    { label: "Rejected", value: "rejected" },
   ];
 
   useEffect(() => {
@@ -461,6 +483,7 @@ function ClaimList() {
 
   const fileInputRef = useRef(null);
   const [previewImage, setPreviewImage] = useState(null);
+  const [fileType, setFileType] = useState(null);
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -473,10 +496,33 @@ function ClaimList() {
       reader.onload = (event) => {
         // Get the data URL of the selected file
         const imageDataUrl = event.target.result;
+
         // Update the preview image state
         setPreviewImage(imageDataUrl);
+        const fileType = getFileType(file.type);
+
+        setFileType(fileType);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const getFileType = (fileType) => {
+    if (fileType.includes("image")) {
+      return "image";
+    } else if (fileType.includes("pdf")) {
+      return "pdf";
+    } else if (
+      fileType.includes("spreadsheetml.sheet") ||
+      fileType.includes("excel")
+    ) {
+      return "xlsx";
+    } else if (fileType.includes("csv")) {
+      return "csv";
+    } else if (fileType.includes("ms-excel")) {
+      return "xls";
+    } else {
+      return "file";
     }
   };
 
@@ -1091,264 +1137,116 @@ function ClaimList() {
                 </div>
               </div>
             </Grid>
-
-            <Grid className="my-3">
-              <div className="col-span-1">
-                <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full">
-                  <p className="text-white text-2xl self-center">D</p>
-                </div>
-              </div>
-              <div className="col-span-11">
-                <div className="bg-white rounded-md relative p-1">
-                  <img
-                    src={arrowImage}
-                    className="absolute -left-3 rotate-[270deg] top-2	"
-                    alt="arrowImage"
-                  />
-                  <Grid>
-                    <div className="col-span-6">
-                      <p className="text-xl font-semibold">
-                        Alison <span className="text-[12px]">(Dealer)</span>
-                      </p>
-                    </div>
-                    <div className="col-span-5 self-center flex justify-end">
-                      <p className="text-sm pr-3">9:30 am</p>
-                      <p className="text-sm">12 Nov 2023</p>
-                    </div>
-                    <div className="col-span-1 self-center text-center">
-                      <img
-                        src={download}
-                        className="w-5 h-5 mx-auto cursor-pointer"
-                        alt="download"
-                      />
-                    </div>
-                  </Grid>
-                  <hr className="my-2" />
-                  <p className="text-sm">
-                    In publishing and graphic design, Lorem ipsum is a
-                    placeholder text commonly used to demonstrate the visual.
-                  </p>
-                  <p className="text-right">
-                    <span className="text-[11px]">(To Admin)</span>
-                  </p>
-                </div>
-              </div>
-            </Grid>
-
-            <Grid className="my-3">
-              <div className="col-span-1">
-                <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full">
-                  <p className="text-white text-2xl self-center">S</p>
-                </div>
-              </div>
-              <div className="col-span-11">
-                <div className="bg-white rounded-md relative p-1">
-                  <img
-                    src={arrowImage}
-                    className="absolute -left-3 rotate-[270deg] top-2	"
-                    alt="arrowImage"
-                  />
-                  <Grid>
-                    <div className="col-span-6">
-                      <p className="text-xl font-semibold">
-                        Veronica{" "}
-                        <span className="text-[12px]"> (Servicer) </span>
-                      </p>
-                    </div>
-                    <div className="col-span-5 self-center flex justify-end">
-                      <p className="text-sm pr-3">9:30 am</p>
-                      <p className="text-sm">12 Nov 2023</p>
-                    </div>
-                    <div className="col-span-1 self-center text-center">
-                      <img
-                        src={download}
-                        className="w-5 h-5 mx-auto cursor-pointer"
-                        alt="download"
-                      />
-                    </div>
-                  </Grid>
-                  <hr className="my-2" />
-                  <p className="text-sm">
-                    In publishing and graphic design, Lorem ipsum is a
-                    placeholder text commonly used to demonstrate the visual.
-                  </p>
-                  <p className="text-right">
-                    <span className="text-[11px]">(To Admin)</span>
-                  </p>
-                </div>
-              </div>
-            </Grid>
-
-            <Grid className="my-3">
-              <div className="col-span-1">
-                <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full">
-                  <p className="text-white text-2xl self-center">A</p>
-                </div>
-              </div>
-              <div className="col-span-11">
-                <div className="bg-white rounded-md relative p-1">
-                  <img
-                    src={arrowImage}
-                    className="absolute -left-3 rotate-[270deg] top-2	"
-                    alt="arrowImage"
-                  />
-                  <Grid>
-                    <div className="col-span-6">
-                      <p className="text-xl font-semibold">
-                        Angela <span className="text-[12px]">(Admin)</span>{" "}
-                      </p>
-                    </div>
-                    <div className="col-span-5 self-center flex justify-end">
-                      <p className="text-sm pr-3">9:30 am</p>
-                      <p className="text-sm">12 Nov 2023</p>
-                    </div>
-                    <div className="col-span-1 self-center text-center">
-                      <img
-                        src={download}
-                        className="w-5 h-5 mx-auto cursor-pointer"
-                        alt="download"
-                      />
-                    </div>
-                  </Grid>
-                  <hr className="my-2" />
-                  <p className="text-sm">
-                    In publishing and graphic design, Lorem ipsum is a
-                    placeholder text commonly used to demonstrate the visual.
-                  </p>
-                  <p className="text-right">
-                    <span className="text-[11px]">(To Admin)</span>
-                  </p>
-                </div>
-              </div>
-            </Grid>
-
-            <Grid className="my-3">
-              <div className="col-span-1">
-                <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full">
-                  <p className="text-white text-2xl self-center">A</p>
-                </div>
-              </div>
-              <div className="col-span-11">
-                <div className="bg-white rounded-md relative p-1">
-                  <img
-                    src={arrowImage}
-                    className="absolute -left-3 rotate-[270deg] top-2	"
-                    alt="arrowImage"
-                  />
-                  <Grid>
-                    <div className="col-span-6">
-                      <p className="text-xl font-semibold">
-                        Angela <span className="text-[12px]">(Admin)</span>{" "}
-                      </p>
-                    </div>
-                    <div className="col-span-5 self-center flex justify-end">
-                      <p className="text-sm pr-3">9:30 am</p>
-                      <p className="text-sm">12 Nov 2023</p>
-                    </div>
-                    <div className="col-span-1 self-center text-center">
-                      <img
-                        src={download}
-                        className="w-5 h-5 mx-auto cursor-pointer"
-                        alt="download"
-                      />
-                    </div>
-                  </Grid>
-                  <hr className="my-2" />
-                  <p className="text-sm">
-                    In publishing and graphic design, Lorem ipsum is a
-                    placeholder text commonly used to demonstrate the visual.
-                  </p>
-                  <p className="text-right">
-                    <span className="text-[11px]">(To Admin)</span>
-                  </p>
-                </div>
-              </div>
-            </Grid>
           </div>
-          <div>
-            <p className="text-sm my-3">
-              <b> Attachment : </b>{" "}
-              <span className="text-black">
-                {" "}
-                Accepted file types: jpg, pdf, jpeg, doc, xls, xlxs, png, Max.
-                file size: 50 MB.{" "}
-              </span>
-            </p>
-          </div>
-          <Grid>
-            <div className="col-span-1">
-              <div className="border flex h-full justify-center relative">
-                {previewImage ? (
-                  <>
-                    <div className="absolute -top-2 -right-2">
-                      <img
-                        src={Cross}
-                        alt="Preview"
-                        className="cursor-pointer"
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                          marginTop: "5px",
-                        }}
-                      />
-                    </div>
+          <form onSubmit={formik2.handleSubmit}>
+            <div>
+              <p className="text-sm my-3">
+                <b> Attachment : </b>{" "}
+                <span className="text-black">
+                  {" "}
+                  Accepted file types: jpg, pdf, jpeg, doc, xls, xlxs, png, Max.
+                  file size: 50 MB.{" "}
+                </span>
+              </p>
+            </div>
+            <Grid>
+              <div className="col-span-1">
+                <div className="border flex h-full justify-center relative">
+                  {previewImage ? (
+                    <>
+                      <div className="absolute -top-2 -right-2">
+                        <img
+                          src={Cross}
+                          alt="Preview"
+                          className="cursor-pointer"
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            marginTop: "5px",
+                          }}
+                          onClick={() => {
+                            setPreviewImage("");
+                          }}
+                        />
+                      </div>
+                      {fileType === "image" && (
+                        <img
+                          src={previewImage}
+                          alt="Preview"
+                          style={{
+                            width: "100px",
+                            height: "40px",
+                            marginTop: "5px",
+                          }}
+                        />
+                      )}
+                      {fileType === "pdf" && (
+                        <FontAwesomeIcon icon={faFilePdf} size="3x" />
+                      )}
+                      {(fileType === "csv" ||
+                        fileType === "xlsx" ||
+                        fileType === "xls") && (
+                        <FontAwesomeIcon icon={faFileImage} size="3x" />
+                      )}
+                      {fileType === "word" && (
+                        <FontAwesomeIcon icon={faFileWord} size="3x" />
+                      )}
+                      {fileType === "excel" && (
+                        <FontAwesomeIcon icon={faFileExcel} size="3x" />
+                      )}
+                    </>
+                  ) : (
                     <img
-                      src={previewImage}
-                      alt="Preview"
-                      style={{
-                        width: "100px",
-                        height: "40px",
-                        marginTop: "5px",
-                      }}
+                      src={upload}
+                      className="self-center"
+                      alt="upload"
+                      onClick={handleImageClick}
                     />
-                  </>
-                ) : (
-                  <img
-                    src={upload}
-                    className="self-center"
-                    alt="upload"
-                    onClick={handleImageClick}
-                  />
-                )}
+                  )}
 
-                {/* Hidden file input */}
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
+                  {/* Hidden file input */}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept=".jpg, .jpeg, .png, .csv, .pdf, .xls, .xlsx"
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                  />
+                </div>
+              </div>
+              <div className="col-span-6">
+                <textarea
+                  id="note"
+                  rows="2"
+                  name="note"
+                  maxLength={150}
+                  className={`block px-2.5 pb-2.5 pt-1.5 w-full text-[11px] font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none `}
+                  value={formik2.values.note}
+                  onChange={formik2.handleChange}
+                  onBlur={formik2.handleBlur}
+                ></textarea>
+              </div>
+              <div className="col-span-3 flex">
+                {/* Image */}
+                <img
+                  src={Sendto}
+                  className="self-center w-6 h-6 mr-2"
+                  alt="Sendto"
+                />
+                <Select
+                  name="state"
+                  options={state}
+                  placeholder=""
+                  className="!bg-white "
+                  classBox="w-full"
+                  className1="!p-2 w-full"
                 />
               </div>
-            </div>
-            <div className="col-span-6">
-              <textarea
-                id="note"
-                rows="2"
-                name="Note"
-                maxLength={150}
-                className="block px-2.5 pb-2.5 pt-1.5 w-full text-[11px] font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
-              ></textarea>
-            </div>
-            <div className="col-span-3 flex">
-              {/* Image */}
-              <img
-                src={Sendto}
-                className="self-center w-6 h-6 mr-2"
-                alt="Sendto"
-              />
-              <Select
-                name="state"
-                options={state}
-                placeholder=""
-                className="!bg-white "
-                classBox="w-full"
-                className1="!p-2 w-full"
-              />
-            </div>
-            <div className="">
-              <Button>Submit</Button>
-            </div>
-          </Grid>
+              <div className="">
+                <Button type="submit">Submit</Button>
+              </div>
+            </Grid>
+          </form>
         </div>
       </Modal>
 
@@ -1369,7 +1267,6 @@ function ClaimList() {
               <p className="pb-5 text-lg font-semibold">Repair Parts</p>
               <div className="w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">
                 {formik?.values?.repairParts?.map((part, index) => {
-                  console.log(part, index);
                   return (
                     <div className="mb-5 grid grid-cols-12 gap-4">
                       <div className="col-span-2">
@@ -1384,7 +1281,7 @@ function ClaimList() {
                           className="!bg-[#fff]"
                           placeholder=""
                           maxLength={"30"}
-                          className1='!pt-[0.4rem]'
+                          className1="!pt-[0.4rem]"
                           value={
                             formik.values.repairParts[index].serviceType || ""
                           }
@@ -1481,30 +1378,30 @@ function ClaimList() {
                 })}
               </div>
               <Grid>
-              <div className="col-span-6">
-                {Object.keys(formik.errors).some(
-                  (key) =>
-                    Array.isArray(formik.touched[key]) &&
-                    formik.touched[key].some((t) => t) &&
-                    Array.isArray(formik.errors[key]) &&
-                    formik.errors[key].some((e) => Boolean(e))
-                ) ? (
-                  <div>
-                    <p className="text-red-500">
-                      Error Please Check the Repair Parts Form
-                    </p>
-                  </div>
-                ) : null}
-                 </div>
-                 <div className="col-span-6 text-end">
-                <Button
-                  type="button"
-                  className="!text-sm"
-                  onClick={handleAddMore}
-                >
-                  + Add More
-                </Button>
-              </div>
+                <div className="col-span-6">
+                  {Object.keys(formik.errors).some(
+                    (key) =>
+                      Array.isArray(formik.touched[key]) &&
+                      formik.touched[key].some((t) => t) &&
+                      Array.isArray(formik.errors[key]) &&
+                      formik.errors[key].some((e) => Boolean(e))
+                  ) ? (
+                    <div>
+                      <p className="text-red-500">
+                        Error Please Check the Repair Parts Form
+                      </p>
+                    </div>
+                  ) : null}
+                </div>
+                <div className="col-span-6 text-end">
+                  <Button
+                    type="button"
+                    className="!text-sm"
+                    onClick={handleAddMore}
+                  >
+                    + Add More
+                  </Button>
+                </div>
               </Grid>
             </div>
             <div className="px-5 pb-5 pt-5 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">

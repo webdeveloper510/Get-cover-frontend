@@ -35,7 +35,8 @@ function Dealer() {
   const [category, setCategoryList] = useState([]);
   const [termList, setTermList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
-  const [createServicerAccountOption, setServicerCreateAccountOption] = useState(false);
+  const [createServicerAccountOption, setServicerCreateAccountOption] =
+    useState(false);
   const [separateAccountOption, setSeparateAccountOption] = useState("yes");
   const [selectedOption, setSelectedOption] = useState("yes");
   const [loading, setLoading] = useState(false);
@@ -79,23 +80,23 @@ function Dealer() {
     file: "",
     oldName: "",
     oldEmail: "",
-    isServicer: createServicerAccountOption
+    isServicer: createServicerAccountOption,
   });
 
   const navigate = useNavigate();
   const { id } = useParams();
   const handleDropdownClick = () => {
     // setSelectedFile(null)
-    // formik.setFieldValue("file", "") 
+    // formik.setFieldValue("file", "")
     if (fileInputRef) {
       fileInputRef.current.click();
-      setSelectedFile(null)
-      formik.setFieldValue("file", "")
-      console.log('-fun trigger------------------------------------')
+      setSelectedFile(null);
+      formik.setFieldValue("file", "");
+      console.log("-fun trigger------------------------------------");
     }
   };
 
-  console.log(selectedFile, '-------------------------------------')
+  console.log(selectedFile, "-------------------------------------");
 
   const status = [
     { label: "Active", value: true },
@@ -201,7 +202,7 @@ function Dealer() {
             file: "",
             isAccountCreate: false,
             customerAccountCreated: false,
-            isServicer: createServicerAccountOption
+            isServicer: createServicerAccountOption,
           });
         }
       });
@@ -254,8 +255,8 @@ function Dealer() {
 
   const handleServiceChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
-    setServicerCreateAccountOption(valueAsBoolean)
-  }
+    setServicerCreateAccountOption(valueAsBoolean);
+  };
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     setCreateAccountOption(selectedValue);
@@ -420,17 +421,17 @@ function Dealer() {
         selectedOption === "no"
           ? Yup.array().notRequired()
           : Yup.array().of(
-            Yup.object().shape({
-              priceBookId: Yup.string().required("Required"),
-              categoryId: Yup.string().required("Required"),
-              retailPrice: Yup.number()
-                .typeError("Required")
-                .required("Required")
-                .min(0, "Retail Price cannot be negative")
-                .nullable(),
-              status: Yup.boolean().required("Required"),
-            })
-          ),
+              Yup.object().shape({
+                priceBookId: Yup.string().required("Required"),
+                categoryId: Yup.string().required("Required"),
+                retailPrice: Yup.number()
+                  .typeError("Required")
+                  .required("Required")
+                  .min(0, "Retail Price cannot be negative")
+                  .nullable(),
+                status: Yup.boolean().required("Required"),
+              })
+            ),
       file:
         selectedOption === "yes"
           ? Yup.string().notRequired()
@@ -441,16 +442,16 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-            {
-              priceBookId: "",
-              categoryId: "",
-              wholesalePrice: "",
-              terms: "",
-              description: "",
-              retailPrice: "",
-              status: "",
-            },
-          ]
+              {
+                priceBookId: "",
+                categoryId: "",
+                wholesalePrice: "",
+                terms: "",
+                description: "",
+                retailPrice: "",
+                status: "",
+              },
+            ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
@@ -496,7 +497,7 @@ function Dealer() {
         position: values.position,
         status: true,
       };
-      values.isServicer = createServicerAccountOption
+      values.isServicer = createServicerAccountOption;
 
       values.customerAccountCreated =
         separateAccountOption === "yes" ? true : false;
@@ -914,7 +915,6 @@ function Dealer() {
                       onChange={formik.handleChange}
                       error={formik.touched.position && formik.errors.position}
                     />
-                 
                   </div>
                   <div className="col-span-6">
                     {/* <FileDropdown className1='!bg-[white]' labelAccept='pdf only' className="!bg-[white] !py-[10px]" label="Terms and Conditions" /> */}
@@ -923,7 +923,7 @@ function Dealer() {
                       name="term"
                       label="Terms and Conditions"
                       className="!bg-white"
-                      className1='!pt-[9px]'
+                      className1="!pt-[9px]"
                       placeholder=""
                       // value={formik.values.position}
                       // onBlur={formik.handleBlur}
@@ -932,7 +932,7 @@ function Dealer() {
                     />
                   </div>
                   <div className="col-span-6">
-                  <p className="text-light-black flex text-[12px] mb-3 font-semibold ">
+                    <p className="text-light-black flex text-[12px] mb-3 font-semibold ">
                       Do you want to create an account?
                       <RadioButton
                         id="yes-create-account"
@@ -951,7 +951,10 @@ function Dealer() {
                     </p>
                     <p className="text-light-black flex text-[12px]  font-semibold self-center">
                       {" "}
-                      <span className="mr-[1.1rem]"> Do you want work as a servicer?</span>
+                      <span className="mr-[1.1rem]">
+                        {" "}
+                        Do you want to work as a servicer?
+                      </span>
                       <RadioButton
                         id="yes"
                         label="Yes"
@@ -968,15 +971,15 @@ function Dealer() {
                       />
                     </p>
                   </div>
+                  <div className="col-span-6"></div>
                   <div className="col-span-6">
-                    <p className="text-light-black  text-[12px] font-semibold">
-                      Does this Dealer's Customer will have a separate account?
-                      <div className="flex mt-3 ml-0">
+                    <p className="text-light-black flex text-[12px] font-semibold">
+                      Do you want to create separate account for customer?
                       <RadioButton
                         id="yes-separate-account"
                         label="Yes"
                         value="yes"
-                        className='!pl-0'
+                        className="!pl-2"
                         checked={separateAccountOption === "yes"}
                         disabled={createAccountOption === "no"}
                         onChange={handleSeparateAccountRadioChange}
@@ -988,7 +991,6 @@ function Dealer() {
                         checked={separateAccountOption === "no"}
                         onChange={handleSeparateAccountRadioChange}
                       />
-                      </div>
                     </p>
                   </div>
                 </Grid>
@@ -1508,15 +1510,16 @@ function Dealer() {
                     className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
                   >
                     {selectedFile ? (
-                      <div className='self-center flex text-center relative bg-white border w-[80%] mx-auto p-3'>
+                      <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
                         {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
                         <img src={csvFile} className="mr-2" alt="Dropbox" />
-                        <div className='flex justify-between w-full'>
-                          <p className='self-center'>{selectedFile.name}</p>
-                          <p className='self-center'>{(selectedFile.size / 1000).toFixed(2)} kb</p>
+                        <div className="flex justify-between w-full">
+                          <p className="self-center">{selectedFile.name}</p>
+                          <p className="self-center">
+                            {(selectedFile.size / 1000).toFixed(2)} kb
+                          </p>
                         </div>
                       </div>
-
                     ) : (
                       <>
                         <img
