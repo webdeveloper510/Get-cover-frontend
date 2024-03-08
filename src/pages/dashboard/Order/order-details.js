@@ -41,7 +41,7 @@ function OrderDetails() {
   const [modalOpen, setModalOpen] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
   const [servicerList, setServicerList] = useState([]);
-  const [userDetails, setUserDetails] = useState({});
+  const [userDetails, setUserDetails] = useState(null);
   const [invoiceData, setInvoiceData] = useState({});
   const [timer, setTimer] = useState(3);
   const { orderId } = useParams();
@@ -62,6 +62,7 @@ function OrderDetails() {
   };
 
   const openModel = () => {
+    getOrderDetails(false);
     setModalOpen(true);
   };
   const closeModel = () => {
@@ -80,6 +81,7 @@ function OrderDetails() {
       }, 1000);
     }
     if (timer <= 0) {
+      
       closeModel();
     }
     return () => {
@@ -115,8 +117,8 @@ function OrderDetails() {
       setLoading(false);
     },
   });
-  const getOrderDetails = async () => {
-    setLoading1(true);
+  const getOrderDetails = async (showLoader) => {
+    if(showLoader )setLoading1(true);
     const result = await orderDetailsById(orderId);
     setUserDetails(result.orderUserData);
     formik.setFieldValue("servicerId", result.result.servicerId);
@@ -366,14 +368,15 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
+                  {userDetails?.servicerData?.name == null ? (<></> ) : (
                   <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
-                    {" "}
                     <img
                       src={DealerList}
                       className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
                       alt="DealerList"
                     />{" "}
                   </Link>
+                  )}
                 </div>
                 <div className="flex justify-between w-[85%] ml-auto">
                   <div>
