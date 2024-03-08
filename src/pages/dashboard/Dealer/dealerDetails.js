@@ -779,7 +779,7 @@ function DealerDetails() {
                       </div>
                     ))}
                   </div>
-                  <div className="absolute h-full bg-[#f9f9f9] right-[-30px] flex top-0 self-center  shadow-6xl">
+                  <div className="absolute h-full bg-[#f9f9f9] right-[-15px] flex top-0 self-center  shadow-6xl">
                   <div onClick={handleScrollLeft} className="relative self-center">
                     <img src={leftArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer hover:opacity-0" />
                     <img src={leftActive} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer absolute top-0 left-0 opacity-0 hover:opacity-100" />

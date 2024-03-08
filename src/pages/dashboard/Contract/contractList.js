@@ -35,6 +35,7 @@ function ContractList(props) {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [contractList, setContractList] = useState([]);
+  const [contractCount, setContractCount] = useState(null);
   const [totalRecords, setTotalRecords] = useState(0);
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
@@ -92,6 +93,8 @@ function ContractList(props) {
         : await getContracts(orderId, data);
 
     setContractList(result.result);
+    setContractCount(result.totalCount);
+    
     setTotalRecords(result?.totalCount);
     setLoading(false);
     setFlag(true);
@@ -432,17 +435,17 @@ function ContractList(props) {
                 </>
               )}
 
-               {contractList?.length == 0   ? (
+               {contractCount == 0   ? (
                     <div className="text-center my-5">
                       <p>No records found.</p>
                     </div>
-                    ) : (
+                    ) : ( 
             <CustomPagination
               totalRecords={totalRecords}
               rowsPerPageOptions={[10, 20, 50, 100]}
               onPageChange={handlePageChange}
             />
-            )}
+            )} 
             </>
 
            
