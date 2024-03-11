@@ -154,7 +154,7 @@ function ResellerDetails() {
     setIsModalOpen1(false);
   };
   const modalOpen1 = () => {
-    getServicerList();
+    resellerDetails(true)
     setIsModalOpen1(true);
   };
   const closeUserModal = () => {
@@ -174,8 +174,10 @@ function ResellerDetails() {
     localStorage.setItem("Resellermenu", activeTab);
   }, [activeTab]);
 
-  const resellerDetails = async () => {
-    setLoading(true);
+  const resellerDetails = async (showLoader) => {
+    if (!showLoader) {
+      setLoading(true);
+  }
     const result = await getResellerListByResellerId(id.resellerId);
     setResllerDetails(result.reseller[0]);
     setInitialFormValues({
@@ -209,6 +211,7 @@ function ResellerDetails() {
   //   setLoading(false);
   // };
   const openModal = () => {
+    
     setIsModalOpen(true);
   };
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -251,6 +254,7 @@ function ResellerDetails() {
       if (result.code == 200) {
         setLoading(false);
         setModalOpen(true);
+        resellerDetails(true);
         // dealerData();
         setIsModalOpen(false);
         setFirstMessage("Edited Successfully");

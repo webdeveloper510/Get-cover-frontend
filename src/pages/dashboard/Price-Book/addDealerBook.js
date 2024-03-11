@@ -128,11 +128,14 @@ function AddDealerBook() {
       console.log("Navigating to /dealerDetails/" + dealerIdValue);
       navigate(`/dealerDetails/${dealerIdValue}`);
     } else {
-      navigate(-1);
+      // console.log("Navigating to /dealerbook/" + dealerIdValue);
+      //navigate(-1);
+      navigate(`/dealerPriceList`);
     }
   };
   const closeModal = () => {
     setIsModalOpen(false);
+
   };
   const handleSelectChange = async (name, value) => {
     setError("");
