@@ -137,3 +137,22 @@ export const editClaimStatus = async (id, data) => {
     throw error;
   }
 };
+
+
+export const editClaimServicerValue = async (id, data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.put(
+      `${url}/claim/editServicer/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

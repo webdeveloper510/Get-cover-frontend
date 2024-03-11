@@ -137,7 +137,7 @@ function AddReseller() {
       email: "",
       phoneNumber: "",
       position: "",
-      status: true,
+      status: createAccountOption === "no"?false:true,
       isPrimary: false,
     };
 

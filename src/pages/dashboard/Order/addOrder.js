@@ -381,22 +381,22 @@ function AddOrder() {
 
     // setLoading1(false);
   };
-  useEffect(() => {
-    console.log(location);
-    if (location.pathname.includes("/editOrder")) {
-      setLoading1(true);
-    }
-    if (location.pathname == "/addOrder") {
-      setType("Add");
-      setCurrentStep(1);
-      formik.resetForm();
-      setNumberOfOrders([]);
-      setFileValues([]);
-      formikStep2.resetForm();
-      formikStep3.resetForm();
-      formik4.resetForm();
-    }
-  }, [location]);
+  // useEffect(() => {
+  //   console.log(location);
+  //   if (location.pathname.includes("/editOrder")) {
+  //     setLoading1(true);
+  //   }
+  //   if (location.pathname == "/addOrder") {
+  //     setType("Add");
+  //     setCurrentStep(1);
+  //     formik.resetForm();
+  //     setNumberOfOrders([]);
+  //     setFileValues([]);
+  //     formikStep2.resetForm();
+  //     formikStep3.resetForm();
+  //     formik4.resetForm();
+  //   }
+  // }, [location]);
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -977,7 +977,9 @@ function AddOrder() {
   };
 
   const handleSelectChange2 = async (name, selectedValue) => {
+    console.log(name)
     if (name.includes("categoryId")) {
+      setProductNameOptions([]);
       const match = name.match(/\[(\d+)\]/);
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].categoryId`,
@@ -1010,6 +1012,7 @@ function AddOrder() {
       }
     }
     if (name.includes("priceBookId")) {
+      // setCategoryList([])
       const match = name.match(/\[(\d+)\]/);
       formikStep3.setFieldValue(`productsArray[${match[1]}].noOfProducts`, "");
       const data = productNameOptions[match[1]].data.find((value) => {
@@ -1139,6 +1142,7 @@ function AddOrder() {
     if (name == "dealerId") {
       setProductNameOptions([]);
       formikStep3.resetForm();
+      setFileValues([])
       formik.setFieldValue("servicerId", "");
       formik.setFieldValue("customerId", "");
       formik.setFieldValue("resellerId", "");
