@@ -177,12 +177,12 @@ function Reseller(props) {
                   }}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                 >
-                  <img src={view} className="w-4 h-4 mr-2" />
                   <Link
-                    className="self-center"
+                    className="self-center flex"
                     to={`/resellerDetails/${row.resellerData._id}`}
                   >
-                    View{" "}
+                  <img src={view} className="w-4 h-4 mr-2" />
+                    View
                   </Link>
                 </div>
               </div>

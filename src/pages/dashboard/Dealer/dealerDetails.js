@@ -218,8 +218,10 @@ function DealerDetails() {
     localStorage.setItem("menu", activeTab);
   }, [activeTab]);
 
-  const dealerData = async () => {
-    setLoading(true);
+  const dealerData = async (showLoader) => {
+    if (!showLoader) {
+      setLoading(true);
+  }
     console.log(id);
     const result = await getDealersDetailsByid(id?.id);
     setDealerDetails(result.result[0]);
@@ -282,7 +284,7 @@ function DealerDetails() {
       if (result.code == 200) {
         setLoading(false);
         setModalOpen(true);
-        dealerData();
+        dealerData(true);
         setIsModalOpen(false);
         setFirstMessage("Edited Successfully");
         setSecondMessage("Dealer edited Successfully");

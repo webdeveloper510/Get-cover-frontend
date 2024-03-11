@@ -826,13 +826,11 @@ function ClaimList() {
                                   Price
                                 </p>
                                 <p className="text-light-green text-base font-semibold">
-                                  $
-                                  {part.price === undefined
-                                    ? parseInt(0).toLocaleString(2)
-                                    : formatOrderValue(
-                                        part.price ?? parseInt(0)
-                                      )}
-                                </p>
+                                    $
+                                    {part.price === undefined
+                                      ? (0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                                      : parseFloat(part.price === undefined ? 0 : part.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                  </p>
                               </div>
                             </div>
                           </>
