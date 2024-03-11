@@ -121,6 +121,7 @@ function ContractList(props) {
     contractId: "",
     dealerName: "",
     customerName: "",
+    servicerName: "",
     manufacture: "",
     status: "",
     model: "",
@@ -433,17 +434,18 @@ function ContractList(props) {
               )}
             </>
 
-            {/* {contractList?.length > 0   ? (
-                    <div className="text-center my-5">
-                      <p>No records found.</p>
-                    </div>
-                    ) :( */}
-            <CustomPagination
-              totalRecords={totalRecords}
-              rowsPerPageOptions={[10, 20, 50, 100]}
-              onPageChange={handlePageChange}
-            />
-            {/* )} */}
+            {totalRecords == 0   ? (
+              <div className="text-center my-5">
+              <p>No records found</p>
+            </div>
+                    ) : (
+                     
+                     <CustomPagination
+                     totalRecords={totalRecords}
+                     rowsPerPageOptions={[10, 20, 50, 100]}
+                     onPageChange={handlePageChange}
+                   />
+             )} 
           </div>
           {/* )} */}
 
@@ -546,10 +548,10 @@ function ContractList(props) {
                       <div className="col-span-6">
                         <Input
                           type="text"
-                          name="Servicer Name"
+                          name="servicerName"
                           className="!bg-[#fff]"
                           label="Servicer Name"
-                          {...formik.getFieldProps("orderId")}
+                          {...formik.getFieldProps("servicerName")}
                           placeholder=""
                         />
                       </div>
