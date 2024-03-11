@@ -325,7 +325,7 @@ console.log(rowsPerPage)
                   {contractList &&
                     contractList.map((res, index) => {
                       return (
-                        <div className="px-3 mt-5">
+                        <div className="px-3 mt-5" key={index}>
                           <div>
                             <Grid className="bg-[#333333] !gap-2 !grid-cols-11 rounded-t-xl">
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
@@ -439,18 +439,18 @@ console.log(rowsPerPage)
             </>
 
             {totalRecords === 0 && !loading ? (
-  <div className="text-center my-5">
-    <p>No records found</p>
-  </div>
-) : (
+                <div className="text-center my-5">
+                  <p>No records found</p>
+                </div>
+              ) : (
 
-    <CustomPagination
-      totalRecords={totalRecords}
-      rowsPerPageOptions={[10, 20, 50, 100]}
-      onPageChange={handlePageChange}
-    />
-  
-)}
+                  <CustomPagination
+                    totalRecords={totalRecords}
+                    rowsPerPageOptions={[10, 20, 50, 100]}
+                    onPageChange={handlePageChange}
+                  />
+                
+              )}
           </div>
           {/* )} */}
 

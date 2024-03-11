@@ -148,7 +148,7 @@ function OrderSummary(props) {
                             <p className="text-[#333333] text-base font-semibold">
                               {format(
                                 new Date(res.coverageStartDate),
-                                "MM-dd-yyyy"
+                                "MM/dd/yyyy"
                               )}
                             </p>
                           </div>
@@ -161,7 +161,7 @@ function OrderSummary(props) {
                             <p className="text-[#333333] text-base font-semibold">
                               {format(
                                 new Date(res.coverageEndDate),
-                                "MM-dd-yyyy"
+                                "MM/dd/yyyy"
                               )}
                             </p>
                           </div>
