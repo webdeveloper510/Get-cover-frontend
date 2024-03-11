@@ -706,9 +706,7 @@ function AddOrder() {
         }
         return newArray;
       });
-
       fileInputRef.current[index].current.file = file;
-
       checkFileError(file, index);
     } else {
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
@@ -2273,7 +2271,7 @@ function AddOrder() {
                                 {data.unitPrice === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
-                                      data.unitPrice ?? parseInt(0)
+                                      Number(data.unitPrice) ?? parseInt(0)
                                     )}
                               </p>
                             </div>
@@ -2292,7 +2290,7 @@ function AddOrder() {
                                 {data.price === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
-                                      data.price ?? parseInt(0)
+                                      Number(data.price) ?? parseInt(0)
                                     )}{" "}
                               </p>
                             </div>
@@ -2306,7 +2304,7 @@ function AddOrder() {
                                   {data.rangeStart === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                        data.rangeStart ?? parseInt(0)
+                                        Number(data.rangeStart) ?? parseInt(0)
                                       )}
                                 </p>
                               </div>
@@ -2534,9 +2532,9 @@ function AddOrder() {
                   <p className="text-base pr-3">Total Amount :</p>
                   <p className="font-bold text-lg">
                     $
-                    {calculateTotalAmount(
+                    {formatOrderValue(Number(calculateTotalAmount(
                       formikStep3.values.productsArray
-                    ).toLocaleString(2)}
+                    ))).toLocaleString(2)}
                   </p>
                 </div>
                 <div className="col-span-12">
