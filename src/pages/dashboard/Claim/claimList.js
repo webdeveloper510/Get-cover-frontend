@@ -845,7 +845,7 @@ function ClaimList() {
                                 <span className="font-semibold text-white">
                                   {" "}
                                   {
-                                    res?.contracts?.orders?.customer.username
+                                    res?.contracts?.orders?.customer?.username
                                   }{" "}
                                 </span>
                               </p>

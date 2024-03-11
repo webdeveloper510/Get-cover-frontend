@@ -27,7 +27,7 @@ import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
 import OrderList from "../Dealer/Dealer-Details/order";
-import ContractList from "../Dealer/Dealer-Details/contract";
+import ContractList from "../Contract/contractList";
 import ClaimList from "../Dealer/Dealer-Details/claim";
 import ServicerList from "../Dealer/Dealer-Details/servicer";
 import UserList from "../Dealer/Dealer-Details/user";
