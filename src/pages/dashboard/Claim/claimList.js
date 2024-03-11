@@ -475,6 +475,7 @@ function ClaimList() {
       label: "Servicer Shipped",
     },
   ];
+
   const claimvalues = [
     {
       value: "Open",
@@ -542,16 +543,17 @@ function ClaimList() {
   const validationSchema = Yup.object().shape({});
 
   const initialValues1 = {
-    repairStatus: "",
-    claimId: "",
     contractId: "",
-    customerStatus: "",
-    customerName: "",
-    manufacture: "",
-    status: "",
-    model: "",
+    claimId: "",
+    unique_key: "",
     serial: "",
     productName: "",
+    dealerName: "",
+    customerName: "",
+    servicerName: "",
+    repairStatus: "",
+    customerStatus: "",
+    claimStatus: "",
   };
 
   const formik1 = useFormik({
@@ -594,16 +596,16 @@ function ClaimList() {
         </Link>
 
         <div className="bg-white my-4 pb-4 border-[1px] border-[#D1D1D1] rounded-xl">
-          <Grid className="!p-[26px] !pt-[14px] !pb-0">
+          <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
             <div className="col-span-2 self-center">
               <p className="text-xl font-semibold">Claims List</p>
             </div>
             <div className="col-span-10">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="">
-                  <div className="col-span-8">
+                <Grid className="!gap-1">
+                  <div className="col-span-9 self-center">
                     <form onSubmit={formik1.handleSubmit}>
-                      <Grid className="">
+                      <Grid className="!gap-2">
                         <div className="col-span-3 self-center">
                           <Input
                             name="Name"
@@ -627,33 +629,33 @@ function ClaimList() {
                           />
                         </div>
                         <div className="col-span-3 self-center">
-                          <Input
-                            name="PhoneNo."
-                            type="text"
+                        <Select
+                            options={Claimstatus}
+                            name="customerStatus"
                             className="!text-[14px] !bg-[#f7f7f7]"
                             className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                             label=""
-                            placeholder="Customer Status"
-                            {...formik1.getFieldProps("repairStatus")}
+                            OptionName="Customer"
+                            {...formik1.getFieldProps("customerStatus")}
                           />
                         </div>
                         <div className="col-span-3 self-center">
-                          <Input
-                            name="PhoneNo."
-                            type="text"
+                        <Select
+                            options={repairValue}
+                            name="repairStatus"
                             className="!text-[14px] !bg-[#f7f7f7]"
                             className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                             label=""
-                            placeholder="Repair Status"
-                            {...formik1.getFieldProps("customerStatus")}
+                            OptionName="Repair"
+                            {...formik1.getFieldProps("repairStatus")}
                           />
                         </div>
                       </Grid>
                     </form>
                   </div>
 
-                  <div className="col-span-4 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
+                  <div className="col-span-3 self-center flex justify-center">
+                    <Button type="submit" className="!p-0 !bg-transparent">
                       <img
                         src={Search}
                         className="cursor-pointer "
@@ -669,7 +671,7 @@ function ClaimList() {
                     </Button>
                     <Button
                       type="submit"
-                      className="ml-2 !text-sm"
+                      className="ml-2 !text-[12px]"
                       onClick={() => openDisapproved()}
                     >
                       Advance Search
@@ -1539,7 +1541,7 @@ function ClaimList() {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="Contract ID"
+                  name="contractId"
                   className="!bg-[#fff]"
                   label="Contract ID"
                   placeholder=""
@@ -1549,11 +1551,11 @@ function ClaimList() {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="Order ID"
+                  name="orderId"
                   className="!bg-[#fff]"
                   label="Order ID"
                   placeholder=""
-                  {...formik1.getFieldProps("contractId")}
+                  {...formik1.getFieldProps("orderId")}
                 />
               </div>
               <div className="col-span-6">
@@ -1583,7 +1585,7 @@ function ClaimList() {
                   className="!bg-[#fff]"
                   label="Product Name"
                   placeholder=""
-                  {...formik1.getFieldProps("contractId")}
+                  {...formik1.getFieldProps("productName")}
                 />
               </div>
               <div className="col-span-6">
@@ -1593,7 +1595,7 @@ function ClaimList() {
                   className="!bg-[#fff]"
                   label="Dealer Name"
                   placeholder=""
-                  {...formik1.getFieldProps("contractId")}
+                  {...formik1.getFieldProps("dealerName")}
                 />
               </div>
               <div className="col-span-6">
@@ -1603,7 +1605,7 @@ function ClaimList() {
                   className="!bg-[#fff]"
                   label="Customer Name"
                   placeholder=""
-                  {...formik1.getFieldProps("contractId")}
+                  {...formik1.getFieldProps("customerName")}
                 />
               </div>
               <div className="col-span-6">
@@ -1613,21 +1615,40 @@ function ClaimList() {
                   className="!bg-[#fff]"
                   label="Servicer Name"
                   placeholder=""
-                  {...formik1.getFieldProps("contractId")}
+                  {...formik1.getFieldProps("servicerName")}
                 />
               </div>
               <div className="col-span-6">
                 <Select
+                  options={Claimstatus}
                   name="ClaimStatus"
                   label="Claim Status"
-                  options={Claimstatus}
                   className="!bg-[#fff]"
                   placeholder=""
-                  {...formik1.getFieldProps("contractId")}
+                  {...formik1.getFieldProps("claimStatus")}
                 />
               </div>
+              <div className="col-span-6">
+              <Select
+                  options={customerValue}
+                  name="customerStatus"
+                  label="Customer Status"
+                  className="!bg-[#fff]"
+                  {...formik1.getFieldProps("customerStatus")}
+                />
+              </div>
+              <div className="col-span-6">
+              <Select
+                  options={repairValue}
+                  name="repairStatus"
+                  label="Repair Status"
+                  className="!bg-[#fff]"
+                  // OptionName="Repair"
+                  {...formik1.getFieldProps("repairStatus")}
+                />
+                </div>
               <div className="col-span-12">
-                <Button className={"w-full"}>Search</Button>
+                <Button type='submit' className={"w-full"}>Search</Button>
               </div>
             </Grid>
           </form>

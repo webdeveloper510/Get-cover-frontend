@@ -706,9 +706,7 @@ function AddOrder() {
         }
         return newArray;
       });
-
       fileInputRef.current[index].current.file = file;
-
       checkFileError(file, index);
     } else {
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
