@@ -8,6 +8,22 @@
   color: #4a90e2; /* Change the color to match your design */
 }
 
+button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
+  right: -20px;
+  min-width: 30px !important;
+  left: unset;
+  min-height: 30px !important;
+}
+button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
+  right: -20px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+}
+
+.react-multi-carousel-list {
+  position: unset !important;
+}
+
 .gradient-border {
   border-image: linear-gradient(to right, #FFFFFF00, #AAAAAA, #FFFFFF00); /* Adjust colors as needed */
   border-image-slice: 1;
