@@ -28,7 +28,8 @@ import Reserves from "./Sale-Tab/reserves";
 import ReInsurance from "./Sale-Tab/reInsurance";
 import Fronting from "./Sale-Tab/fronting";
 import Broker from "./Sale-Tab/broker";
-
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 function Sale() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("SaleMenu");
@@ -106,6 +107,24 @@ function Sale() {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
+
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 5,
+      slidesToSlide: 1 // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 4,
+      slidesToSlide: 1 // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1 // optional, default to 1.
+    }
+  };
   return (
     <>
       {/* {loading && (
@@ -141,6 +160,11 @@ function Sale() {
             <Grid className="!mt-5">
               
               <div className="col-span-10">
+                  {/* <Carousel responsive={responsive}>
+                  {tabs.map((tab) => (
+                      <div>{tab.label}</div>
+                      ))}
+                    </Carousel> */}
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!gap-1 !grid-cols-11">
                     {tabs.map((tab) => (

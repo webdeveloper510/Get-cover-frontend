@@ -62,6 +62,8 @@ import {
 } from "../../../services/servicerServices";
 import Reseller from "./Dealer-Details/reseller";
 import ContractList from "../Contract/contractList";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 function DealerDetails() {
   const getInitialActiveTab = () => {
@@ -567,6 +569,24 @@ function DealerDetails() {
 
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
+
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 6,
+      slidesToSlide: 2 // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 4,
+      slidesToSlide: 1 // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1 // optional, default to 1.
+    }
+  };
   return (
     <>
 
@@ -749,8 +769,35 @@ function DealerDetails() {
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!gap-2">          
               <div className="col-span-10 relative">
-              <div className={`no-scrollbar bg-[#fff] rounded-[30px] w-[100%] max-w-[100%] overflow-x-scroll p-3 border-[1px] border-[#D1D1D1] ${scrolling ? 'scrolling' : ''}`} ref={containerRef} onTransitionEnd={handleTransitionEnd}>
-                  <div className="flex !gap-1 w-[77vw] ">
+              <div className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1]`} ref={containerRef} onTransitionEnd={handleTransitionEnd}>
+              <Carousel className="!gap-1" ssr={true} responsive={responsive}>
+                  {tabs.map((tab) => (
+                       <Button
+                       className={`flex self-center mr-2 w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                         activeTab === tab.id
+                           ? "!bg-[#2A2A2A] !text-white"
+                           : "!bg-[#F9F9F9] !text-black"
+                       }`}
+                       onClick={() => handleTabClick(tab.id)}
+                     >
+                       <img
+                         src={
+                           activeTab === tab.id ? tab.Activeicons : tab.icons
+                         }
+                         className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
+                         alt={tab.label}
+                       />
+                       <span
+                         className={`ml-1 py-1 text-sm font-Regular ${
+                           activeTab === tab.id ? "text-white" : "text-black"
+                         }`}
+                       >
+                         {tab.label}
+                       </span>
+                     </Button>
+                      ))}
+                    </Carousel>
+                  {/* <div className="flex !gap-1 w-[77vw] ">
                     {tabs.map((tab) => (
                       <div className="tabs w-[110px]" key={tab.id}>
                         <Button
@@ -778,9 +825,9 @@ function DealerDetails() {
                         </Button>
                       </div>
                     ))}
-                  </div>
-                  <div className="absolute h-full bg-[#f9f9f9] right-[-15px] flex top-0 self-center  shadow-6xl">
-                  <div onClick={handleScrollLeft} className="relative self-center">
+                  </div> */}
+                  <div className="absolute h-full bg-[#f9f9f9] right-[-15px] flex top-0 self-center  shadow-6xl"> </div>
+                  {/* <div onClick={handleScrollLeft} className="relative self-center">
                     <img src={leftArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer hover:opacity-0" />
                     <img src={leftActive} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer absolute top-0 left-0 opacity-0 hover:opacity-100" />
                   </div> 
@@ -788,7 +835,7 @@ function DealerDetails() {
                     <img src={rightArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer hover:opacity-0" />
                     <img src={rightActive} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer absolute top-0 left-0 opacity-0 hover:opacity-100" />
                   </div> 
-                  </div>
+                  </div> */}
                 </div>
               </div>
               {activeTab !== "Contracts" ? (
