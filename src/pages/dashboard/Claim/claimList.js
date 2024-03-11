@@ -326,10 +326,14 @@ function ClaimList() {
 
   useEffect(() => {
     if (activeIndex != null) {
+      console.log()
       const bdAdhValue = claimList.result[activeIndex]?.bdAdh;
-      const customerValue = claimList.result[activeIndex]?.customerStatus[0];
-      const claimStatus = claimList.result[activeIndex]?.claimStatus[0];
-      const repairStatus = claimList.result[activeIndex]?.repairStatus[0];
+      const getLastItem = (array) => array?.[array.length - 1];
+
+      const customerValue = getLastItem(claimList.result[activeIndex]?.customerStatus);
+      const claimStatus = getLastItem(claimList.result[activeIndex]?.claimStatus);
+      const repairStatus = getLastItem(claimList.result[activeIndex]?.repairStatus);
+      
       setServicer(claimList.result[activeIndex].servicerId);
       let arr = [];
       const filterServicer = claimList.result[
