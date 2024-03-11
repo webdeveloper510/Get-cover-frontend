@@ -36,6 +36,7 @@ function ContractList(props) {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [recordsPerPage, setRecordsPerPage] = useState(10);
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -73,7 +74,8 @@ function ContractList(props) {
   };
 
   const getContract = async (orderId = null, page = 1, rowsPerPage = 10) => {
-
+rowsPerPage=recordsPerPage
+console.log(rowsPerPage)
     setLoading(true);
     let data = {
       page: page,
@@ -140,39 +142,39 @@ function ContractList(props) {
     },
   });
 
-  const findDate = (data, index, type) => {
-    if (contractList) {
-      let foundDate = "Date Not Found";
+  // const findDate = (data, index, type) => {
+  //   if (contractList) {
+  //     let foundDate = "Date Not Found";
 
-      contractList.forEach((contract) => {
-        const productsArray = contract?.order[0]?.productsArray;
+  //     contractList.forEach((contract) => {
+  //       const productsArray = contract?.order[0]?.productsArray;
 
-        if (productsArray) {
-          const matchingProduct = productsArray.find(
-            (product) => product._id === data.orderProductId
-          );
-          console.log(productsArray);
-          if (matchingProduct) {
-            foundDate = format(
-              new Date(
-                type === "start"
-                  ? matchingProduct.coverageStartDate
-                  : matchingProduct.coverageEndDate
-              ),
-              "MM-dd-yyyy"
-            );
-          }
-        }
-      });
+  //       if (productsArray) {
+  //         const matchingProduct = productsArray.find(
+  //           (product) => product._id === data.orderProductId
+  //         );
+  //         console.log(productsArray);
+  //         if (matchingProduct) {
+  //           foundDate = format(
+  //             new Date(
+  //               type === "start"
+  //                 ? matchingProduct.coverageStartDate
+  //                 : matchingProduct.coverageEndDate
+  //             ),
+  //             "MM-dd-yyyy"
+  //           );
+  //         }
+  //       }
+  //     });
 
-      return foundDate;
-    }
+  //     return foundDate;
+  //   }
 
-    return "Date Not Found";
-  };
+  //   return "Date Not Found";
+  // };
 
   const handlePageChange = async (page, rowsPerPage) => {
-    console.log(props, rowsPerPage);
+    setRecordsPerPage(rowsPerPage)
     setLoading(true);
     try {
       if (props?.flag == "contracts") {
@@ -199,7 +201,8 @@ function ContractList(props) {
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
-    getContract();
+    setSelectedProduct("")
+    // getContract();
   };
   return (
     <>
@@ -587,6 +590,7 @@ function ContractList(props) {
                       label="Status"
                       options={status}
                       color="text-[#1B1D21] opacity-50"
+                      value={selectedProduct}
                       // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                       className="!text-[14px] !bg-[#fff]"
                       selectedValue={selectedProduct}
