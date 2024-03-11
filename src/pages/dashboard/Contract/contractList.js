@@ -60,11 +60,11 @@ function ContractList(props) {
     console.log("by ID -------------------", result);
   };
 
-  useEffect(() => {
-    if (props.activeTab === "Contracts" && flag) {
-      getContract();
-    }
-  }, [props, flag]);
+ useEffect(() => {
+  if ((props.activeTab === "Contracts" && flag) || !flag) {
+    getContract();
+  }
+}, [props, flag]);
 
   const handleSelectChange1 = (label, value) => {
     console.log(label, value, "selected");
@@ -73,13 +73,14 @@ function ContractList(props) {
   };
 
   const getContract = async (orderId = null, page = 1, rowsPerPage = 10) => {
+
     setLoading(true);
     let data = {
       page: page,
       pageLimit: rowsPerPage,
       ...formik.values,
     };
-    console.log(orderId, props?.flag == undefined);
+    console.log(orderId, props?.flag);
     const result =
       orderId == null && props?.flag == undefined
         ? await getAllContractsForAdmin(data)
@@ -91,10 +92,10 @@ function ContractList(props) {
         ? await getContractsforReseller(props.id, data)
         : await getContracts(orderId, data);
 
-    setContractList(result.result);
-    setTotalRecords(result?.totalCount);
-    setLoading(false);
-    setFlag(true);
+     setContractList(result.result);
+     setTotalRecords(result?.totalCount);
+     setLoading(false);
+     setFlag(true);
   };
 
   const formatOrderValue = (orderValue) => {
@@ -434,17 +435,19 @@ function ContractList(props) {
               )}
             </>
 
-            {totalRecords == 0   ? (
-                    <div className="text-center my-5">
-                      <p>No records found</p>
-                    </div>
-                    ) : (
-                     <CustomPagination
-                     totalRecords={totalRecords}
-                     rowsPerPageOptions={[10, 20, 50, 100]}
-                     onPageChange={handlePageChange}
-                   />
-             )} 
+            {totalRecords === 0 && !loading ? (
+  <div className="text-center my-5">
+    <p>No records found</p>
+  </div>
+) : (
+
+    <CustomPagination
+      totalRecords={totalRecords}
+      rowsPerPageOptions={[10, 20, 50, 100]}
+      onPageChange={handlePageChange}
+    />
+  
+)}
           </div>
           {/* )} */}
 
