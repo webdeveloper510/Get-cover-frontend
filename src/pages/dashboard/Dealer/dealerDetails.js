@@ -877,11 +877,11 @@ function DealerDetails() {
 
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="text-center p-8">
+        <div className="text-center px-8 py-4">
           <p className="text-3xl font-semibold mb-4">Edit Dealer Details</p>
-          <form className="mt-8" onSubmit={formik.handleSubmit}>
+          <form className="mt-4" onSubmit={formik.handleSubmit}>
             <Grid>
-              <div className="col-span-12">
+              <div className="col-span-6">
                 <Input
                   type="text"
                   name="accountName"
@@ -903,7 +903,7 @@ function DealerDetails() {
                   </div>
                 )}
               </div>
-              <div className="col-span-12">
+              <div className="col-span-6">
                 <Input
                   type="text"
                   name="street"
