@@ -47,6 +47,7 @@ import {
   editClaimServicerValue,
   editClaimStatus,
   getClaimList,
+  getMessage,
 } from "../../../services/claimServices";
 import { format } from "date-fns";
 import { useFormik } from "formik";
@@ -145,6 +146,11 @@ function ClaimList() {
 
   const getAllClaims = async () => {
     const result = await getClaimList();
+    setClaimList(result);
+  };
+
+  const getMessages = async (id) => {
+    const result = await getMessage(id);
     setClaimList(result);
   };
 
@@ -269,7 +275,8 @@ function ClaimList() {
     setIsAttachmentsOpen(false);
   };
 
-  const openView = () => {
+  const openView = (id) => {
+    getMessages(id);
     setIsViewOpen(true);
   };
 
@@ -743,7 +750,7 @@ function ClaimList() {
                             <img
                               src={chat}
                               className=" mr-2 cursor-pointer"
-                              onClick={() => openView()}
+                              onClick={() => openView(res?.contracts?._id)}
                               alt="chat"
                             />
                             <img
