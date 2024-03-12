@@ -48,7 +48,7 @@ import {
   editClaimServicerValue,
   editClaimStatus,
   getClaimList,
-  getClaimMessages,
+  getClaimMessages
 } from "../../../services/claimServices";
 import { format } from "date-fns";
 import { useFormik } from "formik";
@@ -279,6 +279,7 @@ function ClaimList() {
     getClaimMessage(claim._id)
      setIsViewOpen(true);
   };
+  
   const getClaimMessage = (claimId) => {
     getClaimMessages(claimId).then((res) => {
       setMessageList(res.result);

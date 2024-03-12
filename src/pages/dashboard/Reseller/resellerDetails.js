@@ -583,7 +583,7 @@ function ResellerDetails() {
         <Headbar />
 
         <div className="flex">
-          <div onClick={() => localStorage.removeItem("menu")}>
+          <div onClick={() => localStorage.removeItem("Resellermenu")}>
             <Link
               onClick={handleGOBack}
               className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
@@ -839,8 +839,8 @@ function ResellerDetails() {
 
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="text-center p-8">
-          <p className="text-3xl font-semibold mb-4">Edit Reseller Details</p>
+        <div className="p-8">
+          <p className="text-3xl text-center font-semibold mb-4">Edit Reseller Details</p>
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <Grid>
               <div className="col-span-12">

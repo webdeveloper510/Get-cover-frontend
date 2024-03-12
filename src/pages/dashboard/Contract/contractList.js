@@ -773,7 +773,7 @@ console.log(rowsPerPage)
                           <p className="text-[#333333] text-base font-semibold">
                             {
                               contractDetails?.order?.[0]?.servicer?.[0]
-                                ?.username
+                                ?.name
                             }
                           </p>
                         </div>
@@ -938,15 +938,15 @@ console.log(rowsPerPage)
                       {contractDetails?.order?.[0]?.productsArray?.[0]
                         ?.priceType == "Quantity Pricing" ? (
                         <>
-                          <div className="col-soan-5">
+                          <div className="col-span-5">
                             <table className="w-full border text-center">
                               <tr className="border bg-[#9999]">
-                                <th colSpan={"2"}>Quantity Pricing List </th>
+                                <th colSpan={"3"}>Quantity Pricing List </th>
                               </tr>
                               <tr className="border bg-[#9999]">
-                                <th>Name</th>
-                                <th> Quantity Per Unit</th>
-                                <th> Quantity</th>
+                                <th className="w-1/3">Name</th>
+                                <th className="w-1/3"> Quantity Per Unit</th>
+                                <th className="w-1/3"> Quantity</th>
                               </tr>
                               {contractDetails?.order?.[0].productsArray?.[0]
                                 ?.QuantityPricing.length !== 0 &&

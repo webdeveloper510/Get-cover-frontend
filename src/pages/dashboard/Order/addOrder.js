@@ -42,7 +42,7 @@ import {
 import Modal from "../../../common/model";
 import { getResellerListByDealerId } from "../../../services/reSellerServices";
 import Cross from "../../../assets/images/Cross.png";
-import { RotateLoader } from "react-spinners";
+import { BeatLoader, RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
 
 function AddOrder() {
@@ -53,6 +53,7 @@ function AddOrder() {
   const [resellerName, setResellerName] = useState("");
   const [termList, setTermList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [productLoading, setProductLoading] = useState(false);
   const [isErrorOpen, setIsErrorOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [dealerList, setDealerList] = useState([]);
@@ -549,7 +550,6 @@ function AddOrder() {
     }),
     onSubmit: (values) => {
       checkMultipleEmailCheck(values);
-
       let arr = [];
       let arr1 = [];
 
@@ -1213,12 +1213,16 @@ function AddOrder() {
   ];
 
   const getCategoryList = async (value, data, index) => {
+    if(data?.priceBookId == data?.priceBookId) {setProductLoading(true)}
+    console.log('-------------------->>>>>>>>>>>>>>>>', productLoading)
     const result = await getCategoryAndPriceBooks(value, data);
+    if(data?.priceBookId == data?.priceBookId) {setProductLoading(false)}
     if (data.priceBookId !== "" && data.priceCatId === "") {
       formikStep3.setFieldValue(
         `productsArray[${index}].categoryId`,
         result.result.selectedCategory._id
       );
+     
       getCategoryList(
         formik.values?.dealerId,
         {
@@ -1228,7 +1232,7 @@ function AddOrder() {
         index
       );
     }
-
+    
     setCategoryList(
       result.result?.priceCategories.map((item) => ({
         label: item.name,
@@ -1624,6 +1628,14 @@ function AddOrder() {
                         )}
                     </div>
                     <div className="col-span-6">
+                    {productLoading ? (
+                        <div className=" w-full h-[60px] flex py-5">
+                          <div className="self-center mx-auto">
+                            <BeatLoader color="#333" />
+                          </div>
+                        </div>
+                      ) : (
+                        <>
                       <Select
                         name={`productsArray[${index}].priceBookId`}
                         label="Product Name"
@@ -1656,6 +1668,8 @@ function AddOrder() {
                                 .priceBookId}
                           </div>
                         )}
+                        </>
+                           )}
                     </div>
                     <div className="col-span-12">
                       <Input

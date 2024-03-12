@@ -106,6 +106,8 @@ export const getClaimList = async (data) => {
   }
 };
 
+
+
 export const addClaimsRepairParts = async (id, data) => {
   const headers = createHeaders();
 

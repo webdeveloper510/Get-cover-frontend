@@ -17,6 +17,8 @@ import Dealer from "../../../assets/images/icons/dealer.svg";
 import view from "../../../assets/images/eye.png";
 import Unpaid from "../../../assets/images/icons/Unpaid.svg";
 import UnpaidActive from "../../../assets/images/icons/unpaidActive.svg";
+import Paid from "../../../assets/images/icons/Paid.svg";
+import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 import Claim from "../../../assets/images/Dealer/Claim.svg";
 import User from "../../../assets/images/Dealer/Users.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
@@ -250,7 +252,14 @@ function ServicerDetails() {
       label: "Unpaid Claims",
       icons: Unpaid,
       Activeicons: UnpaidActive,
-      content: <UserList />,
+      content: <ClaimList />,
+    },
+    {
+      id: "Paid Claims",
+      label: "Paid Claims",
+      icons: Paid,
+      Activeicons: ActivePaid,
+      content: <ClaimList />,
     },
   ];
   const handleSelectChange = async (name, value) => {
@@ -648,9 +657,9 @@ function ServicerDetails() {
           </div>
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!mt-5">
-              <div className="col-span-8">
+              <div className="col-span-9">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-4 !gap-1">
+                  <Grid className="!grid-cols-5 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
@@ -681,7 +690,7 @@ function ServicerDetails() {
                   </Grid>
                 </div>
               </div>
-              <div className="col-span-4">
+              <div className="col-span-3">
                 <Button
                   onClick={() => routeToPage(activeTab)}
                   className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
@@ -712,7 +721,7 @@ function ServicerDetails() {
         {/* user popup */}
         <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
           <div className="py-3">
-            <p className="text-center  text-3xl mb-5 mt-2 font-bold text-light-black">
+            <p className="text-center text-3xl mb-5 mt-2 font-bold text-light-black">
               Add New User
             </p>
             <form onSubmit={userValues.handleSubmit}>
@@ -919,8 +928,8 @@ function ServicerDetails() {
             </div> */}
         {/* Modal Email Popop */}
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <div className="text-center px-8 py-4">
-            <p className="text-3xl font-bold mb-8">Edit Servicer Details</p>
+          <div className=" px-8 py-4">
+            <p className="text-3xl text-center font-bold mb-8">Edit Servicer Details</p>
             <form className="mt-8" onSubmit={formik.handleSubmit}>
               <Grid>
                 <div className="col-span-12">

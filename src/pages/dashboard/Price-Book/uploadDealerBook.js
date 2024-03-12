@@ -91,7 +91,9 @@ function UploadDealerBook() {
     if (fileInputRef) {
       fileInputRef.current.click();
       setSelectedFile(null);
+      console.log("formik value becmes empty")
       formik.setFieldValue("file", "");
+      formik.setFieldTouched("file",false)
     }
   };
 
@@ -99,6 +101,7 @@ function UploadDealerBook() {
     const file = event.target.files[0];
     setSelectedFile(file);
     formik.setFieldValue("file", file);
+    console.log("value becmes null")
     event.target.value = null;
   };
   const handleAddition = (tag) => {
@@ -169,13 +172,13 @@ function UploadDealerBook() {
 
       try {
         const errors = await formik.validateForm(values);
+        console.log("errors====>",errors)
         const result = await uploadDealerBookInBulk(formData);
         console.log(result.message);
         setError(result.message);
         if (result.code === 200) {
           if (Object.keys(errors).length === 0) {
             console.log("Form Data:", formData);
-            // navigate("/dealerPriceList");
             setLoader(false);
             openModal();
             setTimer(3);
@@ -231,11 +234,7 @@ function UploadDealerBook() {
           </div>
 
           {/* Form Start */}
-          {/* {error && (
-            <p className="text-red-500 text-sm pl-2">
-              <span className="font-semibold"> {error} </span>
-            </p>
-          )} */}
+          
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-8 pt-5 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-xl">
               {error ? (
@@ -265,48 +264,11 @@ function UploadDealerBook() {
                     />
                     {formik.touched.dealerId && formik.errors.dealerId && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.dealerId}
+                        <span className="font-semibold"> {formik.errors.dealerId} </span>
                       </div>
                     )}
                   </div>
                 </div>
-                {/* <div className="col-span-6">
-              <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
-                <ReactTags
-                  tags={tags}
-                  delimiters={delimiters}
-                  name="email"
-                  handleDelete={handleDelete}
-                  handleAddition={handleAddition}
-                  handleDrag={handleDrag}
-                  handleTagClick={handleTagClick}
-                  inputFieldPosition="bottom"
-                  autocomplete
-                  editable
-                  placeholder=""
-                />
-                <label
-                  htmlFor="email"
-                  className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-1 left-2 px-1 -translate-y-4 scale-75 bg-[#fff] text-[#5D6E66] "
-                >
-                  Email Confirmations
-                  <span className="text-red-500">*</span>
-                </label>
-              </div>
-              {formik.errors.email && (
-                <p className="text-red-500 text-[10px] mt-1 font-medium">
-                 {formik.errors.email &&
-                    (Array.isArray(formik.errors.email)
-                      ? formik.errors.email.map((error, index) => (
-                          <span key={index}>
-                            {index > 0 && ' '} {/* Add space if not the first element */}
-                {/* {error}
-                          </span>
-                        ))
-                      : formik.errors.email)}
-                </p>
-              )}
-            </div> */}
                 <div className="col-span-12">
                   <p className="text-light-black text-base mb-2 font-semibold">
                     Upload In Bulk
@@ -319,7 +281,6 @@ function UploadDealerBook() {
                     >
                       {selectedFile ? (
                         <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
-                          {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
                           <img src={csvFile} className="mr-2" alt="Dropbox" />
                           <div className="flex justify-between w-full">
                             <p className="self-center">{selectedFile.name}</p>
@@ -342,8 +303,6 @@ function UploadDealerBook() {
                         </>
                       )}
                     </button>
-
-                    {/* Hidden file input */}
                     <input
                       type="file"
                       ref={fileInputRef}
@@ -353,8 +312,8 @@ function UploadDealerBook() {
                     />
                   </div>
                   {formik.touched.file && formik.errors.file && (
-                    <p className="text-red-500 text-base mt-1 font-medium">
-                      {formik.errors.file}
+                    <p className="text-red-500 text-sm pl-2 pt-2">
+                      <span className="font-semibold">{formik.errors.file} </span>
                     </p>
                   )}
                   <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
@@ -384,15 +343,6 @@ function UploadDealerBook() {
         </>
       )}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {/* <Button
-        onClick={closeModal}
-        className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
-      >
-        <img
-          src={Cross}
-          className="w-full h-full text-black rounded-full p-0"
-        />
-      </Button> */}
         <div className="text-center py-1">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
