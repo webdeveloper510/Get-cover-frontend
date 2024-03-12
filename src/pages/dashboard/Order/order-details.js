@@ -80,13 +80,14 @@ function OrderDetails() {
       }, 1000);
     }
     if (timer <= 0) {
-      
+      getOrderDetails()
       closeModel();
     }
     return () => {
       clearInterval(intervalId);
     };
   },[modalOpen,timer]);
+
   useEffect(() => {
     setLoading(true);
     localStorage.setItem("orderMenu", activeTab);
@@ -103,13 +104,14 @@ function OrderDetails() {
     },
     validationSchema,
     onSubmit: (values) => {
-      closeServicer();
+      
       setLoading(true);
       console.log(orderDetails);
       const res = updateOrderServicer(orderDetails._id, values).then((res) => {
         console.log(res);
         setLoading(false);
         openModel();
+        closeServicer();
         setTimer(3);
       });
       

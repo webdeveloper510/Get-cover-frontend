@@ -44,6 +44,7 @@ import Modal from "../../../common/model";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import {
   addClaimsRepairParts,
+  editClaimServicerValue,
   editClaimStatus,
   getClaimList,
 } from "../../../services/claimServices";
@@ -87,7 +88,13 @@ function ClaimList() {
   const handleSelectChange = (selectedValue, value) => {
     const updateAndCallAPI = (setter) => {
       setter((prevRes) => ({ ...prevRes, status: value }));
-      editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
+      if(selectedValue==='servicer'){
+        editClaimServicer(claimList.result[activeIndex]._id, selectedValue, value);
+      }
+      else{
+        editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
+
+      }
     };
 
     switch (selectedValue) {
@@ -124,6 +131,15 @@ function ClaimList() {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
       updateAndSetStatus(setRepairStatus, "repairStatus", res);
       updateAndSetStatus(setCustomerStatus, "customerStatus", res);
+    });
+  };
+  const editClaimServicer = (claimId, statusType, statusValue) => {
+    let data = {
+      servicerId: statusValue,
+    };
+
+    editClaimServicerValue(claimId, data).then((res) => {
+     setServicer(res.result.servicerId)
     });
   };
 
@@ -334,7 +350,6 @@ function ClaimList() {
       const claimStatus = getLastItem(claimList.result[activeIndex]?.claimStatus);
       const repairStatus = getLastItem(claimList.result[activeIndex]?.repairStatus);
       
-      setServicer(claimList.result[activeIndex].servicerId);
       let arr = [];
       const filterServicer = claimList.result[
         activeIndex
@@ -344,6 +359,9 @@ function ClaimList() {
       }));
 
       setServicerList(filterServicer);
+      if(filterServicer.length!=0){
+        setServicer(claimList.result[activeIndex].servicerId);
+      }
 
       setClaimType({ bdAdh: bdAdhValue });
       setCustomerStatus({
@@ -352,6 +370,7 @@ function ClaimList() {
       });
       setClaimStatus({ status: claimStatus.status, date: claimStatus.date });
       setRepairStatus({ status: repairStatus.status, date: repairStatus.date });
+
     }
   }, [activeIndex]);
 

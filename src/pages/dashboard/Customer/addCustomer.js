@@ -298,13 +298,14 @@ function AddCustomer() {
   }, [isModalOpen, timer, closeModal, message]);
 
   const handleAddTeamMember = () => {
+    
     const members = {
       firstName: "",
       lastName: "",
       email: "",
       phoneNumber: "",
       position: "",
-      status: true,
+      status: createAccountOption === "no"?false:true,
       isPrimary: false,
     };
 

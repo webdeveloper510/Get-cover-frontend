@@ -197,7 +197,6 @@ function AddClaim() {
     },
 
     onSubmit: async (values) => {
-      setLoading(true);
       setShowTable(true);
       let data = {
         ...values,
@@ -209,6 +208,7 @@ function AddClaim() {
   });
 
   const getClaimList = async (data) => {
+    // setLoading(true);
     const response = await getContractList(data);
 
     setTotalRecords(response.totalCount);
@@ -223,6 +223,7 @@ console.log(price, '-------------------->>>>>>>>>')
   };
 
   const handlePerRowsChange = async (newPerPage, page) => {
+    console.log(newPerPage)
     setCurrentRowsPerPage(newPerPage);
     let data = {
       ...formik.values,
@@ -306,14 +307,14 @@ console.log(price, '-------------------->>>>>>>>>')
   };
   const handlePageChange = async (page) => {
     console.log(page);
-    if (formik.values.contractId !== "") {
+    // if (formik.values.contractId !== "") {
       let data = {
         ...formik.values,
         page: page,
         pageLimit: currentRowsPerPage,
       };
       getClaimList(data);
-    }
+    // }
   };
 
   useEffect(() => {
