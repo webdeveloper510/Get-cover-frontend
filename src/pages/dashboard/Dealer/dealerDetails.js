@@ -79,6 +79,9 @@ function DealerDetails() {
   const [scrolling, setScrolling] = useState(false);
   const [refreshList1, setRefreshList1] = useState([]);
   const [dealerDetails, setDealerDetails] = useState([]);
+  const [createServicerAccountOption, setServicerCreateAccountOption] =
+    useState(false);
+  const [separateAccountOption, setSeparateAccountOption] = useState("yes");
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -115,6 +118,14 @@ function DealerDetails() {
   const state = cityData;
   const containerRef = useRef(null);
 
+  const handleSeparateAccountRadioChange = (event) => {
+    console.log(event.target.value);
+    setSeparateAccountOption(event.target.value);
+  };
+  const handleServiceChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    setServicerCreateAccountOption(valueAsBoolean);
+  };
  
   const handleScrollLeft = () => {
     if (containerRef.current) {
@@ -589,6 +600,22 @@ function DealerDetails() {
       slidesToSlide: 1 // optional, default to 1.
     }
   };
+
+  const handleSelectChange1 = (name, value) => {
+    formik.setFieldValue(name, value);
+  };
+
+  const coverage = [
+    { label: "Breakdown", value: "Breakdown" },
+    { label: "Accidental", value: "Accidental" },
+    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+  ];
+
+  const serviceCoverage = [
+    { label: "Parts", value: "Parts" },
+    { label: "Labour", value: "Labour" },
+    { label: "Parts & Labour", value: "Parts & Labour" },
+  ];
   return (
     <>
 
@@ -876,9 +903,9 @@ function DealerDetails() {
       </div>
 
       {/* Modal Email Popop */}
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="text-center px-8 py-4">
-          <p className="text-3xl font-semibold mb-4">Edit Dealer Details</p>
+      <Modal isOpen={isModalOpen} className='!w-[730px]' onClose={closeModal}>
+        <div className="px-8 py-4">
+          <p className="text-3xl text-center font-semibold mb-4">Edit Dealer Details</p>
           <form className="mt-4" onSubmit={formik.handleSubmit}>
             <Grid>
               <div className="col-span-6">
@@ -988,6 +1015,7 @@ function DealerDetails() {
                   type="text"
                   name="country"
                   label="Country"
+                  className="!bg-white"
                   required={true}
                   placeholder=""
                   value={formik.values.country}
@@ -998,6 +1026,145 @@ function DealerDetails() {
                   disabled
                 />
               </div>
+              <div className="col-span-6 ">
+                    <Grid>
+                    <div className="col-span-12">
+                  <Select
+                    label="Service Coverage"
+                    name="serviceCoverageType"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                    onChange={handleSelectChange1}
+                    options={serviceCoverage}
+                    value={formik.values.serviceCoverageType}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.serviceCoverageType &&
+                      formik.errors.serviceCoverageType
+                    }
+                  />
+                  {formik.touched.serviceCoverageType &&
+                    formik.errors.serviceCoverageType && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.serviceCoverageType}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-12">
+                  <Select
+                    label="Coverage Type"
+                    name="coverageType"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                    onChange={handleSelectChange1}
+                    options={coverage}
+                    value={formik.values.coverageType}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.coverageType &&
+                      formik.errors.coverageType
+                    }
+                  />
+                  {formik.touched.coverageType &&
+                    formik.errors.coverageType && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.coverageType}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-12">
+                  <Input
+                      type="file"
+                      name="term"
+                      label="Terms and Conditions"
+                      className="!bg-white"
+                      className1="!pt-[9px]"
+                      placeholder=""
+                    />
+                  </div>
+                    </Grid>
+                    
+                  </div>
+                  <div className="col-span-6">
+                    <p className="text-light-black flex text-[11px] mb-3 font-semibold ">
+                      Do you want to create an account?
+                      <RadioButton
+                        id="yes-create-account"
+                        label="Yes"
+                        value="yes"
+                        checked={createAccountOption === "yes"}
+                        onChange={handleRadioChange}
+                      />
+                      <RadioButton
+                        id="no-create-account"
+                        label="No"
+                        value="no"
+                        checked={createAccountOption === "no"}
+                        onChange={handleRadioChange}
+                      />
+                    </p>
+                    <p className="text-light-black flex text-[11px] mb-3 font-semibold ">
+                    <span className="mr-[0.58rem]">
+                      Do you want to Provide Shipping?
+                    </span>
+                      <RadioButton
+                        id="yes-create-account"
+                        label="Yes"
+                        value="yes"
+                        checked={createAccountOption === "yes"}
+                        onChange={handleRadioChange}
+                      />
+                      <RadioButton
+                        id="no-create-account"
+                        label="No"
+                        value="no"
+                        checked={createAccountOption === "no"}
+                        onChange={handleRadioChange}
+                      />
+                    </p>
+                    <p className="text-light-black flex text-[11px] mb-3 font-semibold self-center">
+                      {" "}
+                      <span className="mr-[0.2rem]">
+                        {" "}
+                        Do you want to work as a servicer?
+                      </span>
+                      <RadioButton
+                        id="yes"
+                        label="Yes"
+                        value={true}
+                        checked={createServicerAccountOption === true}
+                        onChange={handleServiceChange}
+                      />
+                      <RadioButton
+                        id="no"
+                        label="No"
+                        value={false}
+                        checked={createServicerAccountOption === false}
+                        onChange={handleServiceChange}
+                      />
+                    </p>
+                    <p className="text-light-black flex text-[11px] font-semibold">
+                     <span className="w-[60%]"> Do you want to create separate account for customer? </span> 
+                      <RadioButton
+                        id="yes-separate-account"
+                        label="Yes"
+                        value="yes"
+                        className="!pl-2"
+                        checked={separateAccountOption === "yes"}
+                        disabled={createAccountOption === "no"}
+                        onChange={handleSeparateAccountRadioChange}
+                      />
+                      <RadioButton
+                        id="no-separate-account"
+                        label="No"
+                        value="no"
+                        checked={separateAccountOption === "no"}
+                        onChange={handleSeparateAccountRadioChange}
+                      />
+                    </p>
+                  </div>
               <div className="col-span-4">
                 <Button
                   type="button"

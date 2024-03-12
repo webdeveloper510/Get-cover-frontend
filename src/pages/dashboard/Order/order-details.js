@@ -148,6 +148,7 @@ function OrderDetails() {
     setLoading1(false);
   };
   const handleGOBack = () => {
+    localStorage.removeItem("orderMenu")
     navigate(-1);
   };
 

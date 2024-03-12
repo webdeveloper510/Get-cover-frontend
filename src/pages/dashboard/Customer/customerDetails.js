@@ -829,8 +829,8 @@ function CustomerDetails() {
         </Modal>
         {/* Modal Email Popop */}
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <div className="text-center px-8 py-4">
-            <p className="text-3xl font-bold mb-8">Edit Customer Details</p>
+          <div className="px-8 py-4">
+            <p className="text-3xl text-center font-bold mb-8">Edit Customer Details</p>
             <form className="mt-8" onSubmit={formik.handleSubmit}>
               <Grid>
                 <div className="col-span-12">
