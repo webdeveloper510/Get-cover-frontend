@@ -156,3 +156,39 @@ export const editClaimServicerValue = async (id, data) => {
     throw error;
   }
 };
+
+export const getClaimMessages = async (id) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.get(
+      `${url}/claim/getMessages/${id}`,
+     
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addClaimMessages = async (id,data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(
+      `${url}/claim/sendMessages/${id}`,
+     data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
