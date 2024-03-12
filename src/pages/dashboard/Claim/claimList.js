@@ -750,7 +750,7 @@ function ClaimList() {
                             <img
                               src={chat}
                               className=" mr-2 cursor-pointer"
-                              onClick={() => openView(res?.contracts?._id)}
+                              onClick={() => openView(res?._id)}
                               alt="chat"
                             />
                             <img
