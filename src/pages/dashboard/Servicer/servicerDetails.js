@@ -252,14 +252,14 @@ function ServicerDetails() {
       label: "Unpaid Claims",
       icons: Unpaid,
       Activeicons: UnpaidActive,
-      content: <UserList />,
+      content: <ClaimList />,
     },
     {
       id: "Paid Claims",
       label: "Paid Claims",
       icons: Paid,
       Activeicons: ActivePaid,
-      content: <UserList />,
+      content: <ClaimList />,
     },
   ];
   const handleSelectChange = async (name, value) => {
