@@ -478,7 +478,7 @@ function AddDealerBook() {
                         name="wholesalePrice"
                         className="!bg-[#fff]"
                         label="Wholesale Price($)"
-                        required={true}
+                        // required={true}
                         placeholder=""
                         value={formik.values.wholesalePrice}
                         onChange={formik.handleChange}
@@ -496,7 +496,7 @@ function AddDealerBook() {
                         name="description"
                         className="!bg-[#fff]"
                         label="Description"
-                        required={true}
+                        // required={true}
                         placeholder=""
                         value={formik.values.description}
                         onChange={formik.handleChange}
@@ -513,7 +513,7 @@ function AddDealerBook() {
                         name="term"
                         className="!bg-[#fff]"
                         label="Term"
-                        required={true}
+                        // required={true}
                         placeholder=""
                         value={formik.values.term}
                         onChange={formik.handleChange}
@@ -530,7 +530,7 @@ function AddDealerBook() {
                         name="priceType"
                         className="!bg-[#fff]"
                         label="Price Type"
-                        required={true}
+                        // required={true}
                         placeholder=""
                         value={formik.values.priceType}
                         onChange={formik.handleChange}

@@ -125,7 +125,7 @@ function AddCompanyPriceBook() {
                 .typeError("Required")
                 .required("Required")
                 .nullable()
-                .min(1, "quantity cannot be less then Zero"),
+                .min(1, "quantity cannot be less then One"),
             })
           )
 

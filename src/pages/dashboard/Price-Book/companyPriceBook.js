@@ -593,7 +593,7 @@ function CompanyPriceBook() {
                               <th colSpan={'2'}>Quantity Pricing List </th>
                             </tr>
                             <tr className="border bg-[#9999]">
-                              <th>Name</th>
+                              <th className="w-[50%]">Name</th>
                               <th>Max Quantity</th>
                             </tr>
                             {
