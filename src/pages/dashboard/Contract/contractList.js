@@ -773,7 +773,7 @@ console.log(rowsPerPage)
                           <p className="text-[#333333] text-base font-semibold">
                             {
                               contractDetails?.order?.[0]?.servicer?.[0]
-                                ?.username
+                                ?.name
                             }
                           </p>
                         </div>
