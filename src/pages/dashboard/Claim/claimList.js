@@ -1112,7 +1112,8 @@ function ClaimList() {
                               </div>
                               <div>
                                 <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
-                                  <Button
+                                  <div className="col-span-6"></div>
+                                  {/* <Button
                                     className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
                                     onClick={handleToggle}
                                   >
@@ -1122,7 +1123,7 @@ function ClaimList() {
                                       alt="Track"
                                     />
                                     Track Repair Status
-                                  </Button>
+                                  </Button> */}
                                   <Button
                                     className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[13px] flex"
                                     onClick={() => {
