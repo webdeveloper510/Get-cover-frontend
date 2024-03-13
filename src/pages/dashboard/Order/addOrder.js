@@ -1213,10 +1213,10 @@ function AddOrder() {
   ];
 
   const getCategoryList = async (value, data, index) => {
-    if(data?.priceBookId == data?.priceBookId) {setProductLoading(true)}
-    console.log('-------------------->>>>>>>>>>>>>>>>', productLoading)
+    // if(data?.priceBookId == data?.priceBookId) {setProductLoading(true)}
+    // console.log('-------------------->>>>>>>>>>>>>>>>', productLoading)
     const result = await getCategoryAndPriceBooks(value, data);
-    if(data?.priceBookId == data?.priceBookId) {setProductLoading(false)}
+    // if(data?.priceBookId == data?.priceBookId) {setProductLoading(false)}
     if (data.priceBookId !== "" && data.priceCatId === "") {
       formikStep3.setFieldValue(
         `productsArray[${index}].categoryId`,
@@ -1628,13 +1628,13 @@ function AddOrder() {
                         )}
                     </div>
                     <div className="col-span-6">
-                    {productLoading ? (
+                    {/* {productLoading ? (
                         <div className=" w-full h-[60px] flex py-5">
                           <div className="self-center mx-auto">
                             <BeatLoader color="#333" />
                           </div>
                         </div>
-                      ) : (
+                      ) : ( */}
                         <>
                       <Select
                         name={`productsArray[${index}].priceBookId`}
@@ -1669,7 +1669,7 @@ function AddOrder() {
                           </div>
                         )}
                         </>
-                           )}
+                           {/* )} */}
                     </div>
                     <div className="col-span-12">
                       <Input
