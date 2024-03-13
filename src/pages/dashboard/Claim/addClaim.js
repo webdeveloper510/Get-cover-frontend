@@ -1003,7 +1003,7 @@ console.log(price, '-------------------->>>>>>>>>')
           <p className="font-bold text-[36px] leading-9 mb-[3px]">Add Claim</p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Claim </Link> /{" "}
+              <Link to={"/"}>Claim </Link>/{" "}
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
               {" "}
