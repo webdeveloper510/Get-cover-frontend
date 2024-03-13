@@ -43,11 +43,12 @@ import { Link } from "react-router-dom";
 import Modal from "../../../common/model";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import {
+  addClaimMessages,
   addClaimsRepairParts,
   editClaimServicerValue,
   editClaimStatus,
   getClaimList,
-  getMessage,
+  getClaimMessages
 } from "../../../services/claimServices";
 import { format } from "date-fns";
 import { useFormik } from "formik";
@@ -71,6 +72,8 @@ function ClaimList() {
   const [claimType, setClaimType] = useState({ bdAdh: "" });
   const [servicer, setServicer] = useState("");
   const [servicerList, setServicerList] = useState([]);
+  const [messageList, setMessageList] = useState([]);
+  const [claimDetail, setClaimDetail] = useState({});
   const [customerStatus, setCustomerStatus] = useState({
     status: "",
     date: "",
@@ -146,11 +149,6 @@ function ClaimList() {
 
   const getAllClaims = async () => {
     const result = await getClaimList();
-    setClaimList(result);
-  };
-
-  const getMessages = async (id) => {
-    const result = await getMessage(id);
     setClaimList(result);
   };
 
@@ -275,11 +273,20 @@ function ClaimList() {
     setIsAttachmentsOpen(false);
   };
 
-  const openView = (id) => {
-    getMessages(id);
-    setIsViewOpen(true);
+  const openView = (claim) => {
+    console.log(claim)
+    setClaimDetail(claim)
+    getClaimMessage(claim._id)
+     setIsViewOpen(true);
   };
-
+  
+  const getClaimMessage = (claimId) => {
+    getClaimMessages(claimId).then((res) => {
+      setMessageList(res.result);
+      console.log(res.result);
+    });
+  };
+  
   // Conditionally define initialValues based on repairParts length
   useEffect(() => {
     if (claimList?.result?.repairParts?.length !== 0) {
@@ -321,24 +328,30 @@ function ClaimList() {
     });
   };
   const initialValues2 = {
-    note: "",
-    file: {},
+    content: "",
+    orderId:"",
+    type:"",
+    messageFile: {},
   };
   const formik2 = useFormik({
     initialValues: initialValues2,
     validationSchema: Yup.object({
-      note: Yup.string().required(),
+      content: Yup.string().required(),
     }),
 
     onSubmit: (values) => {
-      // addClaimsRepairParts(claimId, values).then((res) => {
-      //   console.log(res);
-      //   closeEdit();
-      //   getAllClaims();
-      // });
+      values.orderId=claimDetail?.contracts?.orders?._id
+      console.log(values,claimDetail)
+      addClaimMessages(claimDetail?._id, values).then((res) => {
+        console.log(res);
+        getClaimMessage(claimDetail._id)
+        
+        // closeEdit();
+        // getAllClaims();
+      });
       // Handle form submission here
 
-      formik2.setFieldValue("note", "");
+      formik2.setFieldValue("content", "");
     },
   });
 
@@ -436,11 +449,11 @@ function ClaimList() {
   }, []);
 
   const state = [
-    { label: "Admin", value: "65e030feb6c38c56a9951fc8" },
-    { label: "Dealer", value: false },
-    { label: "Reseller", value: false },
-    { label: "Servicer", value: false },
-    { label: "Customer", value: false },
+    { label: "Admin", value: "Admin" },
+    { label: "Dealer", value: "Dealer" },
+    { label: "Reseller", value: "Reseller" },
+    { label: "Servicer", value: "Servicer" },
+    { label: "Customer", value: "Customer" },
   ];
 
   const claim = [
@@ -525,6 +538,9 @@ function ClaimList() {
     formik.setFieldValue(name, value);
   };
 
+  const handleChange2 = (name, value) => {
+    formik2.setFieldValue(name, value);
+  };
   const fileInputRef = useRef(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [fileType, setFileType] = useState(null);
@@ -750,7 +766,7 @@ function ClaimList() {
                             <img
                               src={chat}
                               className=" mr-2 cursor-pointer"
-                              onClick={() => openView(res?._id)}
+                              onClick={() => openView(res)}
                               alt="chat"
                             />
                             <img
@@ -1197,48 +1213,56 @@ function ClaimList() {
             Comments Details
           </p>
           <div className="h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-[#D1D1D1] bg-[#F0F0F0] border rounded-xl">
-            <Grid className="my-3">
-              <div className="col-span-1">
-                <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full">
-                  <p className="text-white text-2xl self-center">A</p>
-                </div>
-              </div>
-              <div className="col-span-11">
-                <div className="bg-white rounded-md relative p-1">
-                  <img
-                    src={arrowImage}
-                    className="absolute -left-3 rotate-[270deg] top-2	"
-                    alt="arrowImage"
-                  />
-                  <Grid>
-                    <div className="col-span-6">
-                      <p className="text-xl font-semibold">
-                        Angela <span className="text-[12px]">(Admin)</span>{" "}
-                      </p>
-                    </div>
-                    <div className="col-span-5 self-center flex justify-end">
-                      <p className="text-sm pr-3">9:30 am</p>
-                      <p className="text-sm">12 Nov 2023</p>
-                    </div>
-                    <div className="col-span-1 self-center text-center">
-                      <img
-                        src={download}
-                        className="w-5 h-5 mx-auto cursor-pointer"
-                        alt="download"
-                      />
-                    </div>
-                  </Grid>
-                  <hr className="my-2" />
-                  <p className="text-sm">
-                    In publishing and graphic design, Lorem ipsum is a
-                    placeholder text commonly used to demonstrate the visual.
-                  </p>
-                  <p className="text-right">
-                    <span className="text-[11px]">(To Admin)</span>
-                  </p>
-                </div>
-              </div>
-            </Grid>
+    {
+      messageList && messageList.length !=0 ? (
+messageList.map((msg,key)=>(
+  <Grid className="my-3">
+  <div className="col-span-1">
+    <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full">
+      <p className="text-white text-2xl self-center">A</p>
+    </div>
+  </div>
+  <div className="col-span-11">
+    <div className="bg-white rounded-md relative p-1">
+      <img
+        src={arrowImage}
+        className="absolute -left-3 rotate-[270deg] top-2	"
+        alt="arrowImage"
+      />
+      <Grid>
+        <div className="col-span-6">
+          <p className="text-xl font-semibold">
+            {msg.commentBy.firstName}  {msg.commentBy.lastName}<span className="text-[12px]">({msg.commentBy.roles.role})</span>{" "}
+          </p>
+        </div>
+        <div className="col-span-5 self-center flex justify-end">
+          <p className="text-sm pr-3">9:30 am</p>
+          <p className="text-sm">12 Nov 2023</p>
+        </div>
+        <div className="col-span-1 self-center text-center">
+          <img
+            src={download}
+            className="w-5 h-5 mx-auto cursor-pointer"
+            alt="download"
+          />
+        </div>
+      </Grid>
+      <hr className="my-2" />
+      <p className="text-sm">
+       {msg.content}
+      </p>
+      <p className="text-right">
+        <span className="text-[11px]">(To {msg.type})</span>
+      </p>
+    </div>
+  </div>
+</Grid>
+))
+      ):(
+        <p>No Record Found</p>
+      )
+    }
+        
           </div>
           <form onSubmit={formik2.handleSubmit}>
             <div>
@@ -1318,12 +1342,12 @@ function ClaimList() {
               </div>
               <div className="col-span-6">
                 <textarea
-                  id="note"
+                  id="content"
                   rows="2"
-                  name="note"
+                  name="content"
                   maxLength={150}
                   className={`block px-2.5 pb-2.5 pt-1.5 w-full text-[11px] font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none `}
-                  value={formik2.values.note}
+                  value={formik2.values.content}
                   onChange={formik2.handleChange}
                   onBlur={formik2.handleBlur}
                 ></textarea>
@@ -1336,12 +1360,17 @@ function ClaimList() {
                   alt="Sendto"
                 />
                 <Select
-                  name="state"
+                  name="type"
                   options={state}
                   placeholder=""
                   className="!bg-white "
                   classBox="w-full"
                   className1="!p-2 w-full"
+                  value={
+                    formik2.values.type || ""
+                  }
+                  onChange={handleChange2}
+                  onBlur={formik2.handleBlur}
                 />
               </div>
               <div className="">
