@@ -531,7 +531,7 @@ function AddOrder() {
                     enterQuantity: Yup.number()
                       .typeError("Required")
                       .required("Required")
-                      .min(1, "Quantity cannot be Less Then Zero")
+                      .min(1, "Quantity cannot be Less Then One")
                       .nullable(),
                   })
                 )
@@ -765,7 +765,7 @@ function AddOrder() {
         is: (status) => status === "PartlyPaid",
         then: (schema) =>
           schema
-            .min(1, "Paid amount cannot be less than 1")
+            .min(1, "Paid amount cannot be less than One")
             .max(
               calculateTotalAmount(formikStep3.values.productsArray),
               "Paid amount cannot be more than the total amount"
