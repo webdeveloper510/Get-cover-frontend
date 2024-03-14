@@ -14,10 +14,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import productName from "../../../assets/images/icons/productName1.svg";
-import Track from "../../../assets/images/track.png";
-import Complete from "../../../assets/images/completed.png";
-import Reject from "../../../assets/images/reject.png";
-import Open from "../../../assets/images/open.png";
 import Sendto from "../../../assets/images/double-arrow.png";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import model from "../../../assets/images/icons/ProductModel.svg";
@@ -1371,8 +1367,19 @@ function ClaimList() {
                         </p>
                       </div>
                       <div className="col-span-5 self-center flex justify-end">
-                        <p className="text-sm pr-3">9:30 am</p>
-                        <p className="text-sm">12 Nov 2023</p>
+                      <p className="text-sm pr-3">
+                            {" "}
+                            {format(
+                              new Date(msg.date ? msg?.date : new Date()),
+                              "hh:mm aaaaa'm'"
+                            )}
+                          </p>
+                          <p className="text-sm">
+                            {format(
+                              new Date(msg.date ? msg?.date : new Date()),
+                              "MM/dd/yyyy"
+                            )}
+                          </p>
                       </div>
                       <div className="col-span-1 self-center text-center">
                         <img
@@ -1399,7 +1406,7 @@ function ClaimList() {
                   }
                   </>)}
          
-    <div ref={messagesEndRef} />
+               <div ref={messagesEndRef} />
         
           </div>
           <form onSubmit={formik2.handleSubmit}>
