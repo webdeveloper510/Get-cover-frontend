@@ -675,7 +675,7 @@ console.log(price, '-------------------->>>>>>>>>')
         const maxSize = 5 * 1024 * 1024; // 5MB
         return value.every((image) => image.file.size <= maxSize);
       }),
-    diagnosis: Yup.string().required("Diagnosis is required"),
+    diagnosis: Yup.string().transform((originalValue) => originalValue.trim()).required("Diagnosis is required"),
   });
 
   const handleChange = (name, value) => {

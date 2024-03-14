@@ -26,7 +26,7 @@ const CollapsibleDiv = ({ title, children, index, activeIndex, setActiveIndex })
   }, [index, activeIndex]);
 
   return (
-    <div className="mt-8">
+    <div className="my-8">
       <div className={`w-full justify-between items-center relative ${isCollapsed ? 'border-b border-black' : ''}`}>
         {title}
         <div className='absolute top-0 right-0' onClick={handleToggleCollapse}>

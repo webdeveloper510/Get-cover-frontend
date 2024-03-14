@@ -61,11 +61,11 @@ function ContractList(props) {
     console.log("by ID -------------------", result);
   };
 
- useEffect(() => {
-  if ((props.activeTab === "Contracts" && flag) || !flag) {
-    getContract();
-  }
-}, [props, flag]);
+  useEffect(() => {
+    if ((props.activeTab === "Contracts" && flag) || !flag) {
+      getContract();
+    }
+  }, [props, flag]);
 
   const handleSelectChange1 = (label, value) => {
     console.log(label, value, "selected");
@@ -74,8 +74,8 @@ function ContractList(props) {
   };
 
   const getContract = async (orderId = null, page = 1, rowsPerPage = 10) => {
-rowsPerPage=recordsPerPage
-console.log(rowsPerPage)
+    // rowsPerPage = recordsPerPage;
+    console.log(recordsPerPage);
     setLoading(true);
     let data = {
       page: page,
@@ -94,10 +94,10 @@ console.log(rowsPerPage)
         ? await getContractsforReseller(props.id, data)
         : await getContracts(orderId, data);
 
-     setContractList(result.result);
-     setTotalRecords(result?.totalCount);
-     setLoading(false);
-     setFlag(true);
+    setContractList(result.result);
+    setTotalRecords(result?.totalCount);
+    setLoading(false);
+    setFlag(true);
   };
 
   const formatOrderValue = (orderValue) => {
@@ -110,9 +110,7 @@ console.log(rowsPerPage)
       });
     }
   };
-  // useEffect(() => {
-  //   getContracts();
-  // }, []);
+
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
   };
@@ -142,39 +140,8 @@ console.log(rowsPerPage)
     },
   });
 
-  // const findDate = (data, index, type) => {
-  //   if (contractList) {
-  //     let foundDate = "Date Not Found";
-
-  //     contractList.forEach((contract) => {
-  //       const productsArray = contract?.order[0]?.productsArray;
-
-  //       if (productsArray) {
-  //         const matchingProduct = productsArray.find(
-  //           (product) => product._id === data.orderProductId
-  //         );
-  //         console.log(productsArray);
-  //         if (matchingProduct) {
-  //           foundDate = format(
-  //             new Date(
-  //               type === "start"
-  //                 ? matchingProduct.coverageStartDate
-  //                 : matchingProduct.coverageEndDate
-  //             ),
-  //             "MM-dd-yyyy"
-  //           );
-  //         }
-  //       }
-  //     });
-
-  //     return foundDate;
-  //   }
-
-  //   return "Date Not Found";
-  // };
-
   const handlePageChange = async (page, rowsPerPage) => {
-    setRecordsPerPage(rowsPerPage)
+    // setRecordsPerPage(rowsPerPage);
     setLoading(true);
     try {
       if (props?.flag == "contracts") {
@@ -189,6 +156,7 @@ console.log(rowsPerPage)
       setLoading(false);
     }
   };
+
   const status = [
     { label: "Active", value: "Active" },
     { label: "Waiting", value: "Waiting" },
@@ -201,7 +169,7 @@ console.log(rowsPerPage)
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
-    setSelectedProduct("")
+    setSelectedProduct("");
     // getContract();
   };
   return (
@@ -439,18 +407,17 @@ console.log(rowsPerPage)
             </>
 
             {totalRecords === 0 && !loading ? (
-                <div className="text-center my-5">
-                  <p>No records found</p>
-                </div>
-              ) : (
-
-                  <CustomPagination
-                    totalRecords={totalRecords}
-                    rowsPerPageOptions={[10, 20, 50, 100]}
-                    onPageChange={handlePageChange}
-                  />
-                
-              )}
+              <div className="text-center my-5">
+                <p>No records found</p>
+              </div>
+            ) : (
+              <CustomPagination
+                totalRecords={totalRecords}
+                rowsPerPageOptions={[10, 20, 50, 100]}
+                onPageChange={handlePageChange}
+                setRecordsPerPage={setRecordsPerPage}
+              />
+            )}
           </div>
           {/* )} */}
 
@@ -771,10 +738,7 @@ console.log(rowsPerPage)
                             Servicer Name
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            {
-                              contractDetails?.order?.[0]?.servicer?.[0]
-                                ?.name
-                            }
+                            {contractDetails?.order?.[0]?.servicer?.[0]?.name}
                           </p>
                         </div>
                       </div>
