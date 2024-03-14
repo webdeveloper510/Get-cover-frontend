@@ -205,7 +205,7 @@ export const getPriceBookByDealerId = async (id) => {
 };
 
 export const uploadDealerBookInBulk = async (data) => {
-  const accessToken = getAccessToken(); // Assuming getAccessToken returns the access token
+  const accessToken = getAccessToken(); 
   const headers = {
     "Content-Type": "multipart/form-data",
   };
@@ -217,7 +217,7 @@ export const uploadDealerBookInBulk = async (data) => {
   try {
     const response = await axios.post(
       `${url}/dealer/uploadDealerPriceBook`,
-      data, // Assuming `data` is FormData or a structure that Axios can handle for form data
+      data,
       {
         headers,
       }

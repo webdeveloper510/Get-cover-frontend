@@ -27,6 +27,7 @@ function ContractList(props) {
   const [loading, setLoading] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [singleContract, setSingleContract] = useState([]);
+  
   const getContracts = async (page = 1, rowsPerPage = 10) => {
     setLoading(true);
     let data = {

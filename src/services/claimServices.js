@@ -200,3 +200,24 @@ export const addUploadCommentImage = async (data) => {
     throw error;
   }
 };
+
+export const uploadClaimInBulk = async (data) => {
+  const accessToken = getAccessToken();
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+
+  if (accessToken) {
+    headers["x-access-token"] = accessToken;
+  }
+
+  try {
+    const response = await axios.post(`${url}/claim/saveBulkClaim`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

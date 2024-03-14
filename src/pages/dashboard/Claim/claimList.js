@@ -86,7 +86,9 @@ function ClaimList(props) {
   const [initialValues, setInitialValues] = useState({
     repairParts: [{ serviceType: "", description: "", price: "" }],
     note: "",
+    totalAmount: "",
   });
+  const [sendto, setSendto] = useState([]);
 
   const dropdownRef = useRef(null);
   const handleToggleDropdown = (value) => {
@@ -190,24 +192,30 @@ function ClaimList(props) {
     });
   };
 
-  const getAllClaims = async () => {
-    setLoader(true);
-    const result = await getClaimList();
+  const getAllClaims = async (page = 1, rowsPerPage = 10) => {
+    setLoading(true);
+    let data = {
+      page: page,
+      pageLimit: rowsPerPage,
+      ...formik1.values,
+    };
+    const result = await getClaimList(data);
     setClaimList(result);
     setTotalRecords(result?.totalCount);
     setLoader(false);
   };
   const [recordsPerPage, setRecordsPerPage] = useState(10);
+
   const handlePageChange = async (page, rowsPerPage) => {
     setRecordsPerPage(rowsPerPage);
     setLoading(true);
     try {
       if (props?.flag == "claim") {
-        await getClaimList();
+        await getAllClaims(page, rowsPerPage);
       } else if (props?.flag != "") {
-        await getClaimList();
+        await getAllClaims(page, rowsPerPage);
       } else {
-        await getClaimList();
+        await getAllClaims(page, rowsPerPage);
       }
       setLoading(false);
     } finally {
@@ -337,6 +345,15 @@ function ClaimList(props) {
   };
 
   const openView = (claim) => {
+    let isValidReseller =
+      claim?.contracts.orders.resellerId != null ? true : false;
+    console.log(isValidReseller);
+    setSendto([
+      { label: "Dealer", value: "Dealer" },
+      isValidReseller ? { label: "Reseller", value: "Reseller" } : null,
+      { label: "Servicer", value: "Servicer" },
+      { label: "Customer", value: "Customer" },
+    ]);
     console.log(claim);
     setClaimDetail(claim);
     getClaimMessage(claim._id);
@@ -458,7 +475,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     if (activeIndex != null) {
-      console.log();
+      console.log(claimList.result[activeIndex]);
       const bdAdhValue = claimList.result[activeIndex]?.bdAdh;
       const getLastItem = (array) => array?.[array.length - 1];
 
@@ -510,11 +527,15 @@ function ClaimList(props) {
       ),
     }),
     onSubmit: (values) => {
+      let totalPrice = 0;
+      values.repairParts.forEach((part) => {
+        totalPrice += Number(part.price);
+      });
+      values.totalAmount = totalPrice;
       addClaimsRepairParts(claimId, values).then((res) => {
         closeEdit();
         getAllClaims();
       });
-      // Handle form submission here
     },
   });
 
@@ -722,7 +743,7 @@ function ClaimList(props) {
     initialValues1,
     validationSchema,
     onSubmit: (values) => {
-      getAllClaims(values);
+      getAllClaims();
       console.log(values);
     },
   });
@@ -856,6 +877,7 @@ function ClaimList(props) {
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
                   claimList?.result?.map((res, index) => {
+                    // console.log(res);
                     return (
                       <CollapsibleDiv
                         index={index}
@@ -1015,7 +1037,6 @@ function ClaimList(props) {
                                 </div>
                               </>
                             ))}
-
                           <div className="col-span-12 ">
                             <Grid className="">
                               <div className="col-span-3 py-4 pl-1 ">
@@ -1055,7 +1076,6 @@ function ClaimList(props) {
                                       options={servicerList}
                                     />
                                   </p>
-
                                   <div className="flex mt-3">
                                     <div className="self-center  mr-8">
                                       <p className="text-light-green text-[11px] font-Regular">
@@ -1165,7 +1185,6 @@ function ClaimList(props) {
                                       )}
                                     </p>
                                   </div>
-
                                   <div
                                     className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
                                     ref={dropdownRef}
@@ -1269,13 +1288,11 @@ function ClaimList(props) {
                               </div>
                             </Grid>
                           </div>
-
                           {showDetails && (
                             <div className="col-span-12 mb-4 px-2">
                               <p className="text-white text-center mb-3 font-semibold">
                                 Track Repair Status
                               </p>
-
                               <div className="flex text-white flex-wrap justify-around">
                                 <div>
                                   <p>Request Sent</p>
@@ -1412,13 +1429,18 @@ function ClaimList(props) {
                                 )}
                               </p>
                             </div>
-                            <div className="col-span-1 self-center text-center">
-                              <img
-                                src={download}
-                                className="w-5 h-5 mx-auto cursor-pointer"
-                                alt="download"
-                              />
-                            </div>
+                            {msg.messageFile.originalName !== "" && (
+                              <div
+                                className="col-span-1 self-center text-center"
+                                onClick={() => downloadImage(msg)}
+                              >
+                                <img
+                                  src={download}
+                                  className="w-5 h-5 mx-auto cursor-pointer"
+                                  alt="download"
+                                />
+                              </div>
+                            )}
                           </Grid>
                           <hr className="my-2" />
                           <p className="text-sm">{msg.content}</p>
@@ -1536,7 +1558,7 @@ function ClaimList(props) {
                 />
                 <Select
                   name="type"
-                  options={state}
+                  options={sendto}
                   placeholder=""
                   className="!bg-white "
                   classBox="w-full self-center"
@@ -1547,7 +1569,9 @@ function ClaimList(props) {
                 />
               </div>
               <div className="col-span-2 self-center">
-                <Button type="submit" className='self-center'>Submit</Button>
+                <Button type="submit" className="self-center">
+                  Submit
+                </Button>
               </div>
             </Grid>
           </form>

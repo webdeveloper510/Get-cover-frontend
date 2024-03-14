@@ -194,6 +194,7 @@ function AddClaim() {
       serial: "",
       orderId: "",
       venderOrder: "",
+      servicerId: "",
     },
 
     onSubmit: async (values) => {
@@ -215,7 +216,7 @@ function AddClaim() {
     setContractList(response.result);
     setLoading(false);
   };
-console.log(price, '-------------------->>>>>>>>>')
+  console.log(price, "-------------------->>>>>>>>>");
   const getClaimPrice = async (id) => {
     const response = await getContractPrice(id);
     setPrice(response.result);
@@ -223,7 +224,7 @@ console.log(price, '-------------------->>>>>>>>>')
   };
 
   const handlePerRowsChange = async (newPerPage, page) => {
-    console.log(newPerPage)
+    console.log(newPerPage);
     setCurrentRowsPerPage(newPerPage);
     let data = {
       ...formik.values,
@@ -275,6 +276,16 @@ console.log(price, '-------------------->>>>>>>>>')
       setLoading2(false);
     });
   };
+  // Get the current date
+  const currentDate = new Date();
+
+  // Get the year, month, and day components of the current date
+  const year = currentDate.getFullYear();
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Month is zero-indexed
+  const day = currentDate.getDate().toString().padStart(2, "0");
+
+  // Format the date as "YYYY-MM-DD"
+  const maxDate = `${year}-${month}-${day}`;
 
   const getServicerList = async (data) => {
     let arr = [];
@@ -296,6 +307,7 @@ console.log(price, '-------------------->>>>>>>>>')
     getClaimPrice(res._id);
     getContractValues(res._id).then((res) => {
       console.log(res.result);
+      formik.setFieldValue("servicerId", res.result.order[0].servicerId);
       getServicerList({
         dealerId: res.result.order[0].dealerId,
         resellerId: res.result.order[0].resellerId,
@@ -308,12 +320,12 @@ console.log(price, '-------------------->>>>>>>>>')
   const handlePageChange = async (page) => {
     console.log(page);
     // if (formik.values.contractId !== "") {
-      let data = {
-        ...formik.values,
-        page: page,
-        pageLimit: currentRowsPerPage,
-      };
-      getClaimList(data);
+    let data = {
+      ...formik.values,
+      page: page,
+      pageLimit: currentRowsPerPage,
+    };
+    getClaimList(data);
     // }
   };
 
@@ -675,7 +687,9 @@ console.log(price, '-------------------->>>>>>>>>')
         const maxSize = 5 * 1024 * 1024; // 5MB
         return value.every((image) => image.file.size <= maxSize);
       }),
-    diagnosis: Yup.string().transform((originalValue) => originalValue.trim()).required("Diagnosis is required"),
+    diagnosis: Yup.string()
+      .transform((originalValue) => originalValue.trim())
+      .required("Diagnosis is required"),
   });
 
   const handleChange = (name, value) => {
@@ -695,6 +709,10 @@ console.log(price, '-------------------->>>>>>>>>')
     },
     validationSchema: validationSchemaStep2,
     onSubmit: (values) => {
+      const selectedDate = new Date(values.lossDate);
+      selectedDate.setDate(selectedDate.getDate() + 1);
+      const formattedDate = selectedDate.toISOString().split("T")[0];
+      values.lossDate = formattedDate;
       setLoading1(true);
       values.servicePaymentStatus = sendNotifications;
       values.contractId = contractDetail?._id;
@@ -829,9 +847,8 @@ console.log(price, '-------------------->>>>>>>>>')
                       label="Loss Date"
                       type="date"
                       name="lossDate"
-                      maxDate={new Date().toISOString().split("T")[0]}
+                      maxDate={maxDate}
                       required
-                      
                       onChange={formikStep2.handleChange}
                       onBlur={formikStep2.handleBlur}
                       value={formikStep2.values.lossDate}
@@ -920,11 +937,13 @@ console.log(price, '-------------------->>>>>>>>>')
                 </div>
               </div>
               <div className="col-span-6">
-                <p className=" mb-2"> Max Claim amount is ${ price == null
-                              ? parseInt(0).toLocaleString(2)
-                              : formatOrderValue(
-                                  price ?? parseInt(0)
-                                )}</p>
+                <p className=" mb-2">
+                  {" "}
+                  Max Claim amount is $
+                  {price == null
+                    ? parseInt(0).toLocaleString(2)
+                    : formatOrderValue(price ?? parseInt(0))}
+                </p>
                 <div className="relative">
                   <label
                     htmlFor="description"
