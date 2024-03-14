@@ -433,7 +433,6 @@ function AddOrder() {
         const foundItem = list.find((data) => data.value === id);
         setter(foundItem ? foundItem.label : "");
       };
-      
 
       findAndSetLabel(dealerList, values.dealerId, setDealerName);
       findAndSetLabel(servicerData, values.servicerId, setServicerName);
@@ -977,109 +976,137 @@ function AddOrder() {
   };
 
   const handleSelectChange2 = async (name, selectedValue) => {
-    console.log(name)
-    if (name.includes("categoryId")) {
-      setProductNameOptions([]);
-      const match = name.match(/\[(\d+)\]/);
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].categoryId`,
-        selectedValue
-      );
-      formikStep3.setFieldValue(`productsArray[${match[1]}].priceBookId`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].term`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].price`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].noOfProducts`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].unitPrice`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].description`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].rangeEnd`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].rangeStart`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].priceType`, "");
-      if (match) {
-        setNumberOfOrders((prevFileValues) => {
-          const newArray = [...prevFileValues];
-          newArray.splice(match[1], 1);
+    const match = name.match(/\[(\d+)\]/);
 
-          return newArray;
-        });
-        getCategoryList(
-          formik.values.dealerId,
-          {
-            priceCatId: selectedValue,
-            priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
-          },
-          match[1]
+    if (!match) {
+      return;
+    }
+
+    const productIndex = match[1];
+
+    const clearProductFields = () => {
+      formikStep3.setFieldValue(
+        `productsArray[${productIndex}].priceBookId`,
+        ""
+      );
+      formikStep3.setFieldValue(`productsArray[${productIndex}].term`, "");
+      formikStep3.setFieldValue(`productsArray[${productIndex}].price`, "");
+      formikStep3.setFieldValue(
+        `productsArray[${productIndex}].noOfProducts`,
+        ""
+      );
+      formikStep3.setFieldValue(`productsArray[${productIndex}].unitPrice`, "");
+      formikStep3.setFieldValue(
+        `productsArray[${productIndex}].description`,
+        ""
+      );
+      formikStep3.setFieldValue(`productsArray[${productIndex}].rangeEnd`, "");
+      formikStep3.setFieldValue(
+        `productsArray[${productIndex}].rangeStart`,
+        ""
+      );
+      formikStep3.setFieldValue(`productsArray[${productIndex}].priceType`, "");
+    };
+
+    const updateQuantityPricing = (quantityPriceDetail) => {
+      return quantityPriceDetail.map((item) => ({
+        ...item,
+        enterQuantity: "",
+      }));
+    };
+
+    const updateProductFields = (selectedValue) => {
+      const data = productNameOptions[productIndex]?.data.find(
+        (value) => value.value === selectedValue
+      );
+
+      if (data) {
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].noOfProducts`,
+          ""
+        );
+
+        // Update QuantityPricing
+        const updatedQuantityPricing = updateQuantityPricing(
+          data.quantityPriceDetail
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].QuantityPricing`,
+          updatedQuantityPricing
+        );
+
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].price`,
+          data.price
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].priceType`,
+          data.priceType
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].description`,
+          data.description
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].rangeEnd`,
+          data.rangeEnd
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].rangeStart`,
+          data.rangeStart
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].unitPrice`,
+          data.wholesalePrice
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].term`,
+          data.term
         );
       }
-    }
-    if (name.includes("priceBookId")) {
-      // setCategoryList([])
-      const match = name.match(/\[(\d+)\]/);
-      formikStep3.setFieldValue(`productsArray[${match[1]}].noOfProducts`, "");
-      const data = productNameOptions[match[1]].data.find((value) => {
-        return value.value === selectedValue;
-      });
+    };
+
+    setNumberOfOrders((prevFileValues) => {
+      const newArray = [...prevFileValues];
+      newArray.splice(productIndex, 1);
+      return newArray;
+    });
+
+    if (name.includes("categoryId")) {
+      formikStep3.setFieldValue(
+        `productsArray[${productIndex}].categoryId`,
+        selectedValue
+      );
+      clearProductFields();
       getCategoryList(
         formik.values.dealerId,
         {
-          priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
+          priceCatId: selectedValue,
+          priceBookId:
+            selectedValue == ""
+              ? ""
+              : formikStep3.values.productsArray[productIndex].priceBookId,
+        },
+        productIndex
+      );
+    }
+
+    if (name.includes("priceBookId")) {
+      const data = productNameOptions[productIndex]?.data.find(
+        (value) => value.value === selectedValue
+      );
+      clearProductFields();
+      updateProductFields(selectedValue);
+      getCategoryList(
+        formik.values.dealerId,
+        {
+          priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId: selectedValue,
         },
-        match[1]
+        productIndex
       );
-
-      // formikStep3.setFieldValue(
-      //   `productsArray[${match[1]}].QuantityPricing`,
-      //   data.quantityPriceDetail
-      // );
-      const updatedQuantityPricing = data.quantityPriceDetail.map(
-        (item, index) => {
-          console.log(data, "------");
-          const updatedItem = {
-            ...item,
-            enterQuantity: "",
-          };
-
-          formikStep3.setFieldError(
-            `productsArray[${match[1]}].QuantityPricing[${index}].enterQuantity`,
-            ""
-          );
-          return updatedItem;
-        }
-      );
-
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].QuantityPricing`,
-        updatedQuantityPricing
-      );
-      formikStep3.setFieldValue(`productsArray[${match[1]}].price`, "");
-      formikStep3.setFieldValue(`productsArray[${match[1]}].noOfProducts`, NaN);
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].priceType`,
-        data.priceType
-      );
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].priceType`,
-        data.priceType
-      );
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].description`,
-        data.description
-      );
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].rangeEnd`,
-        data.rangeEnd
-      );
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].rangeStart`,
-        data.rangeStart
-      );
-
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].unitPrice`,
-        data.wholesalePrice
-      );
-      formikStep3.setFieldValue(`productsArray[${match[1]}].term`, data.term);
     }
+
     formikStep3.setFieldValue(name, selectedValue);
   };
 
@@ -1142,7 +1169,7 @@ function AddOrder() {
     if (name == "dealerId") {
       setProductNameOptions([]);
       formikStep3.resetForm();
-      setFileValues([])
+      setFileValues([]);
       formik.setFieldValue("servicerId", "");
       formik.setFieldValue("customerId", "");
       formik.setFieldValue("resellerId", "");
@@ -1222,7 +1249,7 @@ function AddOrder() {
         `productsArray[${index}].categoryId`,
         result.result.selectedCategory._id
       );
-     
+
       getCategoryList(
         formik.values?.dealerId,
         {
@@ -1232,7 +1259,7 @@ function AddOrder() {
         index
       );
     }
-    
+
     setCategoryList(
       result.result?.priceCategories.map((item) => ({
         label: item.name,
@@ -1628,48 +1655,48 @@ function AddOrder() {
                         )}
                     </div>
                     <div className="col-span-6">
-                    {/* {productLoading ? (
+                      {/* {productLoading ? (
                         <div className=" w-full h-[60px] flex py-5">
                           <div className="self-center mx-auto">
                             <BeatLoader color="#333" />
                           </div>
                         </div>
                       ) : ( */}
-                        <>
-                      <Select
-                        name={`productsArray[${index}].priceBookId`}
-                        label="Product Name"
-                        options={productNameOptions[index]?.data}
-                        required={true}
-                        className="!bg-[#fff]"
-                        placeholder=""
-                        value={
-                          formikStep3.values.productsArray[index].priceBookId
-                        }
-                        onBlur={formikStep3.handleBlur}
-                        onChange={handleSelectChange2}
-                        index={index}
-                        error={
-                          formikStep3.values.productsArray &&
-                          formikStep3.values.productsArray[index] &&
-                          formikStep3.values.productsArray &&
-                          formikStep3.values.productsArray[index] &&
-                          formikStep3.values.productsArray[index].priceBookId
-                        }
-                      />
-                      {formikStep3.touched.productsArray &&
-                        formikStep3.touched.productsArray[index] &&
-                        formikStep3.touched.productsArray[index]
-                          .priceBookId && (
-                          <div className="text-red-500 text-sm pl-2 pt-2">
-                            {formikStep3.errors.productsArray &&
-                              formikStep3.errors.productsArray[index] &&
-                              formikStep3.errors.productsArray[index]
-                                .priceBookId}
-                          </div>
-                        )}
-                        </>
-                           {/* )} */}
+                      <>
+                        <Select
+                          name={`productsArray[${index}].priceBookId`}
+                          label="Product Name"
+                          options={productNameOptions[index]?.data}
+                          required={true}
+                          className="!bg-[#fff]"
+                          placeholder=""
+                          value={
+                            formikStep3.values.productsArray[index].priceBookId
+                          }
+                          onBlur={formikStep3.handleBlur}
+                          onChange={handleSelectChange2}
+                          index={index}
+                          error={
+                            formikStep3.values.productsArray &&
+                            formikStep3.values.productsArray[index] &&
+                            formikStep3.values.productsArray &&
+                            formikStep3.values.productsArray[index] &&
+                            formikStep3.values.productsArray[index].priceBookId
+                          }
+                        />
+                        {formikStep3.touched.productsArray &&
+                          formikStep3.touched.productsArray[index] &&
+                          formikStep3.touched.productsArray[index]
+                            .priceBookId && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formikStep3.errors.productsArray &&
+                                formikStep3.errors.productsArray[index] &&
+                                formikStep3.errors.productsArray[index]
+                                  .priceBookId}
+                            </div>
+                          )}
+                      </>
+                      {/* )} */}
                     </div>
                     <div className="col-span-12">
                       <Input
@@ -2551,9 +2578,11 @@ function AddOrder() {
                   <p className="text-base pr-3">Total Amount :</p>
                   <p className="font-bold text-lg">
                     $
-                    {formatOrderValue(Number(calculateTotalAmount(
-                      formikStep3.values.productsArray
-                    ))).toLocaleString(2)}
+                    {formatOrderValue(
+                      Number(
+                        calculateTotalAmount(formikStep3.values.productsArray)
+                      )
+                    ).toLocaleString(2)}
                   </p>
                 </div>
                 <div className="col-span-12">

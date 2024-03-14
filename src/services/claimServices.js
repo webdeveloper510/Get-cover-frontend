@@ -106,8 +106,6 @@ export const getClaimList = async (data) => {
   }
 };
 
-
-
 export const addClaimsRepairParts = async (id, data) => {
   const headers = createHeaders();
 
@@ -140,18 +138,13 @@ export const editClaimStatus = async (id, data) => {
   }
 };
 
-
 export const editClaimServicerValue = async (id, data) => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.put(
-      `${url}/claim/editServicer/${id}`,
-      data,
-      {
-        headers,
-      }
-    );
+    const response = await axios.put(`${url}/claim/editServicer/${id}`, data, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {
@@ -165,7 +158,7 @@ export const getClaimMessages = async (id) => {
   try {
     const response = await axios.get(
       `${url}/claim/getMessages/${id}`,
-     
+
       {
         headers,
       }
@@ -177,17 +170,30 @@ export const getClaimMessages = async (id) => {
   }
 };
 
-export const addClaimMessages = async (id,data) => {
+export const addClaimMessages = async (id, data) => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.post(
-      `${url}/claim/sendMessages/${id}`,
-     data,
-      {
-        headers,
-      }
-    );
+    const response = await axios.post(`${url}/claim/sendMessages/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addUploadCommentImage = async (data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/claim/uploadCommentImage`, data, {
+      headers: {
+        ...headers,
+        "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data
+      },
+    });
 
     return response.data;
   } catch (error) {
