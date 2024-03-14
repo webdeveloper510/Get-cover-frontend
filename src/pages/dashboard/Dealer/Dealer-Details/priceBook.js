@@ -134,7 +134,7 @@ function PriceBookList(props) {
             selector: (row) => `$${
               row?.wholesalePrice === undefined
                 ? parseInt(0).toLocaleString(2)
-                :  formatOrderValue(row?.wholesalePrice) 
+                :  formatOrderValue(row?.wholesalePrice ?? parseInt(0)) 
             }`,
             sortable: true,
           },
@@ -143,7 +143,7 @@ function PriceBookList(props) {
             selector: (row) => `$${
               row?.retailPrice === undefined
                 ? parseInt(0).toLocaleString(2)
-                :  formatOrderValue(row?.retailPrice) 
+                :  formatOrderValue(row?.retailPrice ?? parseInt(0)) 
             }`,
             sortable: true,
           },
@@ -669,7 +669,7 @@ function PriceBookList(props) {
                ${
               dealerPriceBookDetail?.wholesalePrice === undefined
                 ? parseInt(0).toLocaleString(2)
-                :  formatOrderValue(dealerPriceBookDetail?.wholesalePrice) 
+                :  formatOrderValue(dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)) 
             }
               
               </p>
@@ -682,7 +682,7 @@ function PriceBookList(props) {
               ${
               dealerPriceBookDetail?.retailPrice === undefined
                 ? parseInt(0).toLocaleString(2)
-                :  formatOrderValue(dealerPriceBookDetail?.retailPrice) 
+                :  formatOrderValue(dealerPriceBookDetail?.retailPrice ?? parseInt(0)) 
             }
               </p>
             </div>
@@ -728,7 +728,7 @@ function PriceBookList(props) {
                     ${
               dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
                 ? parseInt(0).toLocaleString(2)
-                :  formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeStart) 
+                :  formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeStart ?? parseInt(0)) 
             }
                  
                   </p>
@@ -742,7 +742,7 @@ function PriceBookList(props) {
                     ${
               dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
                 ? parseInt(0).toLocaleString(2)
-                :  formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeEnd) 
+                :  formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeEnd ?? parseInt(0)) 
             }
                   </p>
                 </div>
