@@ -17,9 +17,10 @@ import { uploadDealerBookInBulk } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
 import DealerList from "../Dealer/dealerList";
 import Button from "../../../common/button";
+import { uploadClaimInBulk } from "../../../services/claimServices";
 
 function AddBulkClaim() {
-  const [selectedValue, setSelectedValue] = useState("");
+  const [selectFile, setSelectFileValue] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loader, setLoader] = useState(false);
   const [activeDealers, SetActiveDealers] = useState([]);
@@ -44,6 +45,7 @@ function AddBulkClaim() {
     });
     formik.setFieldValue(name, selectedValue);
   };
+
   useEffect(() => {
     let intervalId;
     if (isModalOpen && timer > 0) {
@@ -54,13 +56,13 @@ function AddBulkClaim() {
 
     if (timer === 0) {
       closeModal();
-      navigate(`/dealerPriceList`);
-      // navigate(`/dealerPriceList/${dealerName}`);
+      navigate(`/claimList`);
     }
     return () => {
       clearInterval(intervalId);
     };
   }, [isModalOpen, timer]);
+
   useEffect(() => {
     getDealerDetails();
   }, []);
@@ -119,28 +121,25 @@ function AddBulkClaim() {
 
   const formik = useFormik({
     initialValues: {
-      dealerId: "",
-      email: [],
+      email: [""],
       file: null,
     },
     validationSchema: Yup.object({
-      dealerId: Yup.string().required("Dealer Name is required"),
       email: Yup.array()
         .of(
           Yup.string()
             .matches(emailValidationRegex, "Invalid email address")
             .required("Required")
         )
-        .required("At least one email is required"),
+        .min(1, "At least one email is required"),
       file: Yup.mixed().test("file", "CSV file is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
       }),
     }),
     onSubmit: async (values) => {
       setLoader(true);
-      console.log("values", values.dealerId);
+      console.log("values", values);
       const formData = new FormData();
-      formData.append("dealerId", values.dealerId);
       formData.append("email", JSON.stringify(values.email));
       formData.append("file", values.file);
       var data = { formData };
@@ -148,13 +147,13 @@ function AddBulkClaim() {
 
       try {
         const errors = await formik.validateForm(values);
-        const result = await uploadDealerBookInBulk(formData);
+        const result = await uploadClaimInBulk(formData);
         console.log(result.message);
         setError(result.message);
         if (result.code === 200) {
           if (Object.keys(errors).length === 0) {
             console.log("Form Data:", formData);
-            // navigate("/dealerPriceList");
+            // navigate("/claimList");
             setLoader(false);
             openModal();
             setTimer(3);
@@ -193,17 +192,14 @@ function AddBulkClaim() {
         <>
           <div className="flex mt-2">
             <div className="pl-3">
-              <p className="font-bold text-[36px] leading-9 mb-[3px]">
-               Claim
-              </p>
+              <p className="font-bold text-[36px] leading-9 mb-[3px]">Claim</p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/"}>Claim </Link>{" "}
-                  <span className="mx-2"> /</span>
+                  <Link to={"/"}>Claim </Link> <span className="mx-2"> /</span>
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-1">
                   {" "}
-                 Add Bulk Claim
+                  Add Bulk Claim
                 </li>
               </ul>
             </div>
@@ -228,7 +224,7 @@ function AddBulkClaim() {
               )}
 
               <Grid className="">
-                  {/* <div className="col-span-12">
+                {/* <div className="col-span-12">
                     <Select
                       label="Servicer Name*"
                       name="servicerId"
@@ -247,52 +243,55 @@ function AddBulkClaim() {
                     )}
                   </div> */}
                 <div className="col-span-12">
-              <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
-                <ReactTags
-                  tags={tags}
-                  delimiters={delimiters}
-                  name="email"
-                  handleDelete={handleDelete}
-                  handleAddition={handleAddition}
-                  handleDrag={handleDrag}
-                  handleTagClick={handleTagClick}
-                  inputFieldPosition="bottom"
-                  autocomplete
-                  editable
-                  placeholder=""
-                />
-                <label
-                  htmlFor="email"
-                  className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-1 left-2 px-1 -translate-y-4 scale-75 bg-[#fff] text-[#5D6E66] "
-                >
-                  Email Confirmations
-                  <span className="text-red-500">*</span>
-                </label>
-              </div>
-              {formik.errors.email && (
-                <p className="text-red-500 text-[10px] mt-1 font-medium">
-                 {formik.errors.email &&
-                    (Array.isArray(formik.errors.email)
-                      ? formik.errors.email.map((error, index) => (
-                          <span key={index}>
-                            {index > 0 && ' '} 
-                {error}
-                          </span>
-                        ))
-                      : formik.errors.email)}
-                </p>
-              )}
-            </div>
+                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
+                    <ReactTags
+                      tags={tags}
+                      delimiters={delimiters}
+                      name="email"
+                      handleDelete={handleDelete}
+                      handleAddition={handleAddition}
+                      handleDrag={handleDrag}
+                      handleTagClick={handleTagClick}
+                      inputFieldPosition="bottom"
+                      autocomplete
+                      editable
+                      placeholder=""
+                    />
+                    <label
+                      htmlFor="email"
+                      className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-1 left-2 px-1 -translate-y-4 scale-75 bg-[#fff] text-[#5D6E66] "
+                    >
+                      Email Confirmations
+                      <span className="text-red-500">*</span>
+                    </label>
+                  </div>
+                  {formik.errors.email && (
+                    <p className="text-red-500 text-[10px] mt-1 font-medium">
+                      {formik.errors.email &&
+                        (Array.isArray(formik.errors.email)
+                          ? formik.errors.email.map((error, index) => (
+                              <span key={index}>
+                                {index > 0 && " "}
+                                {error}
+                              </span>
+                            ))
+                          : formik.errors.email)}
+                    </p>
+                  )}
+                </div>
                 <div className="col-span-12">
                   <p className="text-light-black text-base mb-2 font-semibold">
-                     Bulk Claim Details
+                    Bulk Claim Details
                   </p>
                   <FileDropdown
                     className="!bg-transparent"
                     accept={
                       ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     }
-                    onFileSelect={(file) => formik.setFieldValue("file", file)}
+                    value={formik.values.file}
+                    onFileSelect={(file) => {
+                      formik.setFieldValue("file", file);
+                    }}
                   />
                   {formik.touched.file && formik.errors.file && (
                     <p className="text-red-500 text-[10px] mt-1 font-medium">
@@ -342,8 +341,8 @@ function AddBulkClaim() {
             <span className="text-light-black"> Successfully </span>
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            You have successfully uploaded & saved the <br />{" "}
-            <b> Claim </b> with the new data <br /> you have entered.{" "}
+            You have successfully uploaded & saved the <br /> <b> Claim </b>{" "}
+            with the new data <br /> you have entered.{" "}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Claim List {timer} seconds.

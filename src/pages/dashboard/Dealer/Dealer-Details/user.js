@@ -59,29 +59,34 @@ function UserList(props) {
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
 
-  const getUserList = async () => {
+  const getUserList = async (data = {}) => {
     setLoading(true);
-    console.log(props.flag);
-    if (props.flag == "customer") {
-      const result = await getCustomerUsersById(props.id, {});
-      console.log(result.result);
-      setUserList(result.result);
-    } else if (props.flag == "servicer") {
-      const result = await getServicerUsersById(props.id, {});
-      console.log(result);
-      setServiceStatus(result.servicerStatus);
-      setUserList(result.result);
-    } else if (props.flag == "reseller") {
-      const result = await getResellerUsersById(props.id, {});
-      console.log(result);
-      setServiceStatus(result.servicerStatus);
-      setUserList(result.data);
-    } else {
-      const result = await getUserListByDealerId(props.id, {});
-      console.log(result.result);
-      setServiceStatus(result.dealerStatus);
-      setUserList(result.result);
+    switch (props.flag) {
+      case "customer":
+        const customerResult = await getCustomerUsersById(props.id, data);
+        console.log(customerResult.result);
+        setUserList(customerResult.result);
+        break;
+      case "servicer":
+        const servicerResult = await getServicerUsersById(props.id, data);
+        console.log(servicerResult);
+        setServiceStatus(servicerResult.servicerStatus);
+        setUserList(servicerResult.result);
+        break;
+      case "reseller":
+        const resellerResult = await getResellerUsersById(props.id, data);
+        console.log(resellerResult);
+        setServiceStatus(resellerResult.servicerStatus);
+        setUserList(resellerResult.data);
+        break;
+      default:
+        const defaultResult = await getUserListByDealerId(props.id, data);
+        console.log(defaultResult.result);
+        setServiceStatus(defaultResult.dealerStatus);
+        setUserList(defaultResult.result);
+        break;
     }
+
     setLoading(false);
   };
   const handleClickOutside = (event) => {
@@ -90,10 +95,11 @@ function UserList(props) {
     }
   };
   useEffect(() => {
+    console.log(props.activeTab);
     if (props.activeTab === "Users") {
       getUserList();
     }
-  }, [props]);
+  }, []);
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
@@ -108,6 +114,7 @@ function UserList(props) {
       getUserList();
     }
   }, [props?.data]);
+
   useEffect(() => {
     let intervalId;
 
@@ -171,7 +178,7 @@ function UserList(props) {
   const closeModal12 = () => {
     setIsModalOpen12(false);
   };
-  
+
   const openModal12 = () => {
     setIsModalOpen12(true);
   };
@@ -294,23 +301,12 @@ function UserList(props) {
     }
   };
 
-  const filterUserDetails = async (data) => {
-    try {
-      setLoading(true);
-      const res = await getUserListByDealerId(props.id, data);
-      setUserList(res.result);
-    } catch (error) {
-      console.error("Error fetching category list:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleFilterIconClick = () => {
     formikUSerFilter.resetForm();
     console.log(formikUSerFilter.values);
     getUserList();
   };
+
   const formikUSerFilter = useFormik({
     initialValues: {
       firstName: "",
@@ -323,18 +319,18 @@ function UserList(props) {
       phone: Yup.number(),
     }),
     onSubmit: async (values) => {
-      filterUserDetails(values);
+      getUserList(values);
     },
   });
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
@@ -424,25 +420,28 @@ function UserList(props) {
               >
                 {!row.isPrimary && row.status && (
                   <div
-                  onClick={() => makeUserPrimary(row)}
-                  className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                    onClick={() => makeUserPrimary(row)}
+                    className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
                   >
-                   <img src={make} className="w-4 h-4 mr-2"/> <span className="self-center"> Make Primary </span>
+                    <img src={make} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center"> Make Primary </span>
                   </div>
                 )}
 
                 <div
                   onClick={() => editUser(row._id)}
                   className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
-                  >
-                   <img src={edit} className="w-4 h-4 mr-2"/> <span className="self-center">Edit </span>
+                >
+                  <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                  <span className="self-center">Edit </span>
                 </div>
                 {!row.isPrimary && (
                   <div
-                  onClick={() => openModal1(row._id)}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                    onClick={() => openModal1(row._id)}
+                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                   >
-                   <img src={delete1} className="w-4 h-4 mr-2"/> <span className="self-center">Delete</span>
+                    <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center">Delete</span>
                   </div>
                 )}
               </div>
@@ -544,7 +543,7 @@ function UserList(props) {
                         />
                       </Button>
                       <Button
-                        type="submit"
+                        type="button"
                         onClick={() => {
                           handleFilterIconClick();
                         }}

@@ -31,15 +31,13 @@ import OrderList from "../Dealer/Dealer-Details/order";
 
 import {
   getCustomerDetailsById,
+  getUserListByCustomerId,
   updateCustomerDetailsById,
 } from "../../../services/customerServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { cityData } from "../../../stateCityJson";
-import {
-  addUserToCustomer,
-  getUserListByDealerId,
-} from "../../../services/userServices";
+import { addUserToCustomer } from "../../../services/userServices";
 import RadioButton from "../../../common/radio";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
@@ -129,7 +127,7 @@ function CustomerDetails() {
     userValues.resetForm();
   };
   const getUserList = async () => {
-    const result = await getUserListByDealerId(customerId, {});
+    const result = await getUserListByCustomerId(customerId, {});
     console.log(result.result, "----------");
     setRefreshUserList(result.result);
   };
@@ -563,7 +561,8 @@ function CustomerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      ${formatOrderValue(
+                      $
+                      {formatOrderValue(
                         customerDetail?.orderData?.[0]?.orderAmount ??
                           parseInt(0)
                       )}
@@ -830,7 +829,9 @@ function CustomerDetails() {
         {/* Modal Email Popop */}
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className="px-8 py-4">
-            <p className="text-3xl text-center font-bold mb-8">Edit Customer Details</p>
+            <p className="text-3xl text-center font-bold mb-8">
+              Edit Customer Details
+            </p>
             <form className="mt-8" onSubmit={formik.handleSubmit}>
               <Grid>
                 <div className="col-span-12">
