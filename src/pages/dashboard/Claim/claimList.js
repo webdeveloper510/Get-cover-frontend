@@ -1540,15 +1540,15 @@ function ClaimList(props) {
                   options={state}
                   placeholder=""
                   className="!bg-white "
-                  classBox="w-full"
+                  classBox="w-full self-center"
                   className1="!p-2 w-full"
                   value={formik2.values.type || ""}
                   onChange={handleChange2}
                   onBlur={formik2.handleBlur}
                 />
               </div>
-              <div className="">
-                <Button type="submit">Submit</Button>
+              <div className="col-span-2 self-center">
+                <Button type="submit" className='self-center'>Submit</Button>
               </div>
             </Grid>
           </form>
