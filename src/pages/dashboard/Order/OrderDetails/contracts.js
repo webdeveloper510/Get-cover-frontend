@@ -25,6 +25,7 @@ function Contracts(props) {
   const [singleContract, setSingleContract] = useState([]);
   const [contractDetails, setContractDetails] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [recordsPerPage, setRecordsPerPage] = useState(10);
 
   const handlePageChange = async (page, rowsPerPage) => {
     setLoading(true);
@@ -353,6 +354,7 @@ function Contracts(props) {
             totalRecords={contractDetails?.contractCount}
             rowsPerPageOptions={[10, 20, 50, 100]}
             onPageChange={handlePageChange}
+            setRecordsPerPage={setRecordsPerPage}
           />
         </div>
       </div>

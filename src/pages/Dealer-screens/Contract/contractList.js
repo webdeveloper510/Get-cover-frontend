@@ -23,6 +23,7 @@ function ContractList() {
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [recordsPerPage, setRecordsPerPage] = useState(10);
 
   const [loading, setLoading] = useState(false);
   const closeDisapproved = () => {
@@ -205,8 +206,7 @@ function ContractList() {
                           </div>
                           <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                             <p className="text-white py-2 font-Regular">
-                              Dealer P.O. # :{" "}
-                              <b> {res?.order?.venderOrder} </b>
+                              Dealer P.O. # : <b> {res?.order?.venderOrder} </b>
                             </p>
                           </div>
                           <div className="col-span-1 self-center justify-end"></div>
@@ -375,6 +375,7 @@ function ContractList() {
             totalRecords={totalRecords}
             rowsPerPageOptions={[10, 20, 50, 100]}
             onPageChange={handlePageChange}
+            setRecordsPerPage={setRecordsPerPage}
           />
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button
