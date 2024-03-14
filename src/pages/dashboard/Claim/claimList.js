@@ -51,8 +51,10 @@ import { format } from "date-fns";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
+import CustomPagination from "../../pagination";
 
-function ClaimList() {
+function ClaimList(props) {
+  console.log(props);
   const [selectedValue, setSelectedValue] = useState("");
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
@@ -67,6 +69,7 @@ function ClaimList() {
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
   const [claimList, setClaimList] = useState({});
+  const [totalRecords, setTotalRecords] = useState(0);
   const [serviceType, setServiceType] = useState([]);
   const [claimId, setClaimId] = useState("");
   const [claimType, setClaimType] = useState({ bdAdh: "" });
@@ -84,6 +87,7 @@ function ClaimList() {
     repairParts: [{ serviceType: "", description: "", price: "" }],
     note: "",
   });
+  
   const dropdownRef = useRef(null);
   const handleToggleDropdown = (value) => {
     setDropdownVisible(!dropdownVisible);
@@ -190,8 +194,28 @@ function ClaimList() {
     setLoader(true);
     const result = await getClaimList();
     setClaimList(result);
+    setTotalRecords(result?.totalCount);
     setLoader(false);
   };
+  const [recordsPerPage, setRecordsPerPage] = useState(10);
+  const handlePageChange = async (page, rowsPerPage) => {
+    setRecordsPerPage(rowsPerPage)
+    setLoading(true);
+    try {
+      if (props?.flag == "claim") {
+        await getClaimList();
+      } else if (props?.flag != "") {
+        await getClaimList();
+      } else {
+        await getClaimList();
+      }
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -1300,6 +1324,11 @@ function ClaimList() {
                 </div>
               </>
             )}
+              <CustomPagination
+                    totalRecords={totalRecords}
+                    rowsPerPageOptions={[10, 20, 50, 100]}
+                    onPageChange={handlePageChange}
+                  />
           </div>
         </div>
       </div>
