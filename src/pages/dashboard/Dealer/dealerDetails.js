@@ -1087,8 +1087,8 @@ function DealerDetails() {
                     </Grid>
                     
                   </div>
-                  <div className="col-span-6">
-                    <p className="text-light-black flex text-[11px] mb-3 font-semibold ">
+                  <div className="col-span-6 pt-2">
+                    <p className="text-light-black flex text-[11px] mb-7 font-semibold ">
                       Do you want to create an account?
                       <RadioButton
                         id="yes-create-account"
@@ -1105,8 +1105,8 @@ function DealerDetails() {
                         onChange={handleRadioChange}
                       />
                     </p>
-                    <p className="text-light-black flex text-[11px] mb-3 font-semibold ">
-                    <span className="mr-[0.58rem]">
+                    <p className="text-light-black flex text-[11px] mb-7 font-semibold ">
+                    <span className="mr-[0.6rem]">
                       Do you want to Provide Shipping?
                     </span>
                       <RadioButton
@@ -1124,9 +1124,9 @@ function DealerDetails() {
                         onChange={handleRadioChange}
                       />
                     </p>
-                    <p className="text-light-black flex text-[11px] mb-3 font-semibold self-center">
+                    <p className="text-light-black flex text-[11px] mb-7 font-semibold self-center">
                       {" "}
-                      <span className="mr-[0.2rem]">
+                      <span className="mr-[0.3rem]">
                         {" "}
                         Do you want to work as a servicer?
                       </span>

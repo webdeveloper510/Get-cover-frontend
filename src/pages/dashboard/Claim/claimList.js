@@ -60,6 +60,7 @@ function ClaimList() {
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -90,6 +91,15 @@ function ClaimList() {
   const handleToggleDropdown = (value) => {
     setDropdownVisible(!dropdownVisible);
   };
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
   const handleSelectChange = (selectedValue, value) => {
     const updateAndCallAPI = (setter) => {
@@ -285,10 +295,12 @@ function ClaimList() {
   };
   
   const getClaimMessage = (claimId) => {
+    setLoading(true);
     getClaimMessages(claimId).then((res) => {
       setMessageList(res.result);
       console.log(res.result);
     });
+    setLoading(false)
   };
   
   // Conditionally define initialValues based on repairParts length
@@ -1231,55 +1243,66 @@ function ClaimList() {
             Comments Details
           </p>
           <div className="h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-[#D1D1D1] bg-[#F0F0F0] border rounded-xl">
-    {
-      messageList && messageList.length !=0 ? (
-messageList.map((msg,key)=>(
-  <Grid className="my-3">
-  <div className="col-span-1">
-    <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full">
-      <p className="text-white text-2xl self-center">A</p>
-    </div>
-  </div>
-  <div className="col-span-11">
-    <div className="bg-white rounded-md relative p-1">
-      <img
-        src={arrowImage}
-        className="absolute -left-3 rotate-[270deg] top-2	"
-        alt="arrowImage"
-      />
-      <Grid>
-        <div className="col-span-6">
-          <p className="text-xl font-semibold">
-            {msg.commentBy.firstName}  {msg.commentBy.lastName}<span className="text-[12px]">({msg.commentBy.roles.role})</span>{" "}
-          </p>
-        </div>
-        <div className="col-span-5 self-center flex justify-end">
-          <p className="text-sm pr-3">9:30 am</p>
-          <p className="text-sm">12 Nov 2023</p>
-        </div>
-        <div className="col-span-1 self-center text-center">
-          <img
-            src={download}
-            className="w-5 h-5 mx-auto cursor-pointer"
-            alt="download"
-          />
-        </div>
-      </Grid>
-      <hr className="my-2" />
-      <p className="text-sm">
-       {msg.content}
-      </p>
-      <p className="text-right">
-        <span className="text-[11px]">(To {msg.type})</span>
-      </p>
-    </div>
-  </div>
-</Grid>
-))
-      ):(
-        <p>No Record Found</p>
-      )
-    }
+            {loading ? (
+               <div className=" h-[350px] w-full flex py-5">
+               <div className="self-center mx-auto">
+                 <RotateLoader color="#333" />
+               </div>
+             </div>
+            ) : ( 
+            <>
+             {messageList && messageList.length !=0 ? 
+             (
+              messageList.map((msg,key)=>(
+                <Grid className="my-3">
+                <div className="col-span-1">
+                  <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full">
+                    <p className="text-white text-2xl self-center">A</p>
+                  </div>
+                </div>
+                <div className="col-span-11">
+                  <div className="bg-white rounded-md relative p-1">
+                    <img
+                      src={arrowImage}
+                      className="absolute -left-3 rotate-[270deg] top-2	"
+                      alt="arrowImage"
+                    />
+                    <Grid>
+                      <div className="col-span-6">
+                        <p className="text-xl font-semibold">
+                          {msg.commentBy.firstName}  {msg.commentBy.lastName}<span className="text-[12px]">({msg.commentBy.roles.role})</span>{" "}
+                        </p>
+                      </div>
+                      <div className="col-span-5 self-center flex justify-end">
+                        <p className="text-sm pr-3">9:30 am</p>
+                        <p className="text-sm">12 Nov 2023</p>
+                      </div>
+                      <div className="col-span-1 self-center text-center">
+                        <img
+                          src={download}
+                          className="w-5 h-5 mx-auto cursor-pointer"
+                          alt="download"
+                        />
+                      </div>
+                    </Grid>
+                    <hr className="my-2" />
+                    <p className="text-sm">
+                    {msg.content}
+                    </p>
+                    <p className="text-right">
+                      <span className="text-[11px]">(To {msg.type})</span>
+                    </p>
+                  </div>
+                </div>
+                </Grid>
+              ))
+                    ):(
+                      <p className="text-center">No Record Found</p>
+                    )
+                  }
+                  </>)}
+         
+    <div ref={messagesEndRef} />
         
           </div>
           <form onSubmit={formik2.handleSubmit}>
