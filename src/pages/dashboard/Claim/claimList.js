@@ -14,10 +14,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import productName from "../../../assets/images/icons/productName1.svg";
-import Track from "../../../assets/images/track.png";
-import Complete from "../../../assets/images/completed.png";
-import Reject from "../../../assets/images/reject.png";
-import Open from "../../../assets/images/open.png";
 import Sendto from "../../../assets/images/double-arrow.png";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import model from "../../../assets/images/icons/ProductModel.svg";
@@ -55,12 +51,15 @@ import { format } from "date-fns";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
+import CustomPagination from "../../pagination";
 
-function ClaimList() {
+function ClaimList(props) {
+  console.log(props);
   const [selectedValue, setSelectedValue] = useState("");
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -70,6 +69,7 @@ function ClaimList() {
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
   const [claimList, setClaimList] = useState({});
+  const [totalRecords, setTotalRecords] = useState(0);
   const [serviceType, setServiceType] = useState([]);
   const [claimId, setClaimId] = useState("");
   const [claimType, setClaimType] = useState({ bdAdh: "" });
@@ -87,10 +87,20 @@ function ClaimList() {
     repairParts: [{ serviceType: "", description: "", price: "" }],
     note: "",
   });
+  
   const dropdownRef = useRef(null);
   const handleToggleDropdown = (value) => {
     setDropdownVisible(!dropdownVisible);
   };
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
   const downloadImage = (file) => {
     const url = `http://15.207.221.207:3002/uploads/claimFile/${file.messageFile.fileName}`;
@@ -184,8 +194,28 @@ function ClaimList() {
     setLoader(true);
     const result = await getClaimList();
     setClaimList(result);
+    setTotalRecords(result?.totalCount);
     setLoader(false);
   };
+  const [recordsPerPage, setRecordsPerPage] = useState(10);
+  const handlePageChange = async (page, rowsPerPage) => {
+    setRecordsPerPage(rowsPerPage)
+    setLoading(true);
+    try {
+      if (props?.flag == "claim") {
+        await getClaimList();
+      } else if (props?.flag != "") {
+        await getClaimList();
+      } else {
+        await getClaimList();
+      }
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -316,10 +346,12 @@ function ClaimList() {
   };
 
   const getClaimMessage = (claimId) => {
+    setLoading(true);
     getClaimMessages(claimId).then((res) => {
       setMessageList(res.result);
       console.log(res.result);
     });
+    setLoading(false)
   };
 
   // Conditionally define initialValues based on repairParts length
@@ -1207,7 +1239,8 @@ function ClaimList() {
                                 </div>
                                 <div>
                                   <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
-                                    <Button
+                                    <div className="col-span-6"></div>
+                                    {/* <Button
                                       className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
                                       onClick={handleToggle}
                                     >
@@ -1217,7 +1250,7 @@ function ClaimList() {
                                         alt="Track"
                                       />
                                       Track Repair Status
-                                    </Button>
+                                    </Button> */}
                                     <Button
                                       className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[13px] flex"
                                       onClick={() => {
@@ -1291,6 +1324,11 @@ function ClaimList() {
                 </div>
               </>
             )}
+              <CustomPagination
+                    totalRecords={totalRecords}
+                    rowsPerPageOptions={[10, 20, 50, 100]}
+                    onPageChange={handlePageChange}
+                  />
           </div>
         </div>
       </div>
@@ -1327,32 +1365,38 @@ function ClaimList() {
             Comments Details
           </p>
           <div className="h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-[#D1D1D1] bg-[#F0F0F0] border rounded-xl">
-            {messageList && messageList.length != 0 ? (
-              messageList.map((msg, key) => (
+            {loading ? (
+               <div className=" h-[350px] w-full flex py-5">
+               <div className="self-center mx-auto">
+                 <RotateLoader color="#333" />
+               </div>
+             </div>
+            ) : ( 
+            <>
+             {messageList && messageList.length !=0 ? 
+             (
+              messageList.map((msg,key)=>(
                 <Grid className="my-3">
-                  <div className="col-span-1">
-                    <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full">
-                      <p className="text-white text-2xl self-center">A</p>
-                    </div>
+                <div className="col-span-1">
+                  <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full">
+                    <p className="text-white text-2xl self-center">A</p>
                   </div>
-                  <div className="col-span-11">
-                    <div className="bg-white rounded-md relative p-1">
-                      <img
-                        src={arrowImage}
-                        className="absolute -left-3 rotate-[270deg] top-2	"
-                        alt="arrowImage"
-                      />
-                      <Grid>
-                        <div className="col-span-6">
-                          <p className="text-xl font-semibold">
-                            {msg.commentBy.firstName} {msg.commentBy.lastName}
-                            <span className="text-[12px]">
-                              ({msg.commentBy.roles.role})
-                            </span>{" "}
-                          </p>
-                        </div>
-                        <div className="col-span-5 self-center flex justify-end">
-                          <p className="text-sm pr-3">
+                </div>
+                <div className="col-span-11">
+                  <div className="bg-white rounded-md relative p-1">
+                    <img
+                      src={arrowImage}
+                      className="absolute -left-3 rotate-[270deg] top-2	"
+                      alt="arrowImage"
+                    />
+                    <Grid>
+                      <div className="col-span-6">
+                        <p className="text-xl font-semibold">
+                          {msg.commentBy.firstName}  {msg.commentBy.lastName}<span className="text-[12px]">({msg.commentBy.roles.role})</span>{" "}
+                        </p>
+                      </div>
+                      <div className="col-span-5 self-center flex justify-end">
+                      <p className="text-sm pr-3">
                             {" "}
                             {format(
                               new Date(msg.date ? msg?.date : new Date()),
@@ -1365,32 +1409,34 @@ function ClaimList() {
                               "MM/dd/yyyy"
                             )}
                           </p>
-                        </div>
-                        {msg.messageFile.originalName !== "" && (
-                          <div
-                            className="col-span-1 self-center text-center"
-                            onClick={() => downloadImage(msg)}
-                          >
-                            <img
-                              src={download}
-                              className="w-5 h-5 mx-auto cursor-pointer"
-                              alt="download"
-                            />
-                          </div>
-                        )}
-                      </Grid>
-                      <hr className="my-2" />
-                      <p className="text-sm">{msg.content}</p>
-                      <p className="text-right">
-                        <span className="text-[11px]">(To {msg.type})</span>
-                      </p>
-                    </div>
+                      </div>
+                      <div className="col-span-1 self-center text-center">
+                        <img
+                          src={download}
+                          className="w-5 h-5 mx-auto cursor-pointer"
+                          alt="download"
+                        />
+                      </div>
+                    </Grid>
+                    <hr className="my-2" />
+                    <p className="text-sm">
+                    {msg.content}
+                    </p>
+                    <p className="text-right">
+                      <span className="text-[11px]">(To {msg.type})</span>
+                    </p>
                   </div>
+                </div>
                 </Grid>
               ))
-            ) : (
-              <p>No Record Found</p>
-            )}
+                    ):(
+                      <p className="text-center">No Record Found</p>
+                    )
+                  }
+                  </>)}
+         
+               <div ref={messagesEndRef} />
+        
           </div>
           <form onSubmit={formik2.handleSubmit}>
             <div>
