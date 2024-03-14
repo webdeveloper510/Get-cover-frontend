@@ -1328,6 +1328,7 @@ function ClaimList(props) {
                     totalRecords={totalRecords}
                     rowsPerPageOptions={[10, 20, 50, 100]}
                     onPageChange={handlePageChange}
+                    setRecordsPerPage={setRecordsPerPage}
                   />
           </div>
         </div>
