@@ -683,6 +683,7 @@ function AddOrder() {
     });
     event.currentTarget.value = null;
     formikStep3.setFieldValue(`productsArray[${index}].file`, "");
+    formikStep3.setFieldValue(`productsArray[${index}].orderFile`, {});
   };
 
   const handleFileSelect = (event, index) => {
@@ -696,6 +697,7 @@ function AddOrder() {
       return newArray;
     });
     formikStep3.setFieldValue(`productsArray[${index}].file`, {});
+    formikStep3.setFieldValue(`productsArray[${index}].orderFile`, {});
     if (file) {
       setFileValues((prevFileValues) => {
         const newArray = [...prevFileValues];
@@ -710,7 +712,7 @@ function AddOrder() {
       checkFileError(file, index);
     } else {
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
-      formikStep3.setFieldValue(`productsArray[${index}].file`, "");
+      formikStep3.setFieldValue(`productsArray[${index}].orderFile`, {});
       setFileValues((prevFileValues) => {
         const newArray = [...prevFileValues];
         newArray[index] = null;

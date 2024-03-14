@@ -4,11 +4,14 @@ const CustomPagination = ({
   totalRecords,
   rowsPerPageOptions,
   onPageChange,
+  setRecordsPerPage,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
 
   useEffect(() => {
+    console.log(currentPage, rowsPerPage);
+    setRecordsPerPage(rowsPerPage);
     onPageChange(currentPage, rowsPerPage);
     window.scrollTo(0, 0);
   }, [currentPage, rowsPerPage]);
