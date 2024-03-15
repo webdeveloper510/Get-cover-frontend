@@ -2777,7 +2777,7 @@ function AddOrder() {
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            {type == "Edit" ? "Edit" : "Added"}
+            {type == "Edit" ? "Edit" : "Added"} Order
             <span className="text-light-black"> Successfully </span>
           </p>
 

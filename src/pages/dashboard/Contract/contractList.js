@@ -691,7 +691,7 @@ function ContractList(props) {
                             {contractDetails.productValue === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  contractDetails.productValue ?? parseInt(0)
+                                Number(contractDetails.productValue) ?? parseInt(0)
                                 )}
                           </p>
                         </div>
