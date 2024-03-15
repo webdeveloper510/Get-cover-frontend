@@ -803,88 +803,88 @@ function ClaimList(props) {
             </div>
             <div className="col-span-10">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!gap-1">
-                  <div className="col-span-9 self-center">
-                    <form onSubmit={formik1.handleSubmit}>
-                      <Grid className="!gap-2">
-                        <div className="col-span-3 self-center">
-                          <Input
-                            name="contractId"
-                            type="text"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                            label=""
-                            placeholder="Contract ID"
-                            {...formik1.getFieldProps("contractId")}
-                          />
-                        </div>
-                        <div className="col-span-3 self-center">
-                          <Input
-                            name="claimId"
-                            type="text"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                            label=""
-                            placeholder="Claim ID"
-                            {...formik1.getFieldProps("claimId")}
-                          />
-                        </div>
-                        <div className="col-span-3 self-center">
-                          <Select
-                            name="claimStatus"
-                            label=""
-                            options={Claimstatus}
-                            OptionName="Customer"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                            onChange={handleSelectChange2}
-                            value={formik1.values.claimStatus}
-                          />
-                        </div>
-                        <div className="col-span-3 self-center">
-                          <Select
-                            name="repairStatus"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                            label=""
-                            OptionName="Repair"
-                            options={repairValue}
-                            onChange={handleSelectChange2}
-                            value={formik1.values.repairStatus}
-                          />
-                        </div>
-                      </Grid>
-                      <div className="col-span-3 self-center flex justify-center">
-                        <Button type="submit" className="!p-0 !bg-transparent">
-                          <img
-                            src={Search}
-                            className="cursor-pointer "
-                            alt="Search"
-                          />
-                        </Button>
-                        <Button
-                          className="!bg-transparent !p-0"
-                          onClick={() => {
-                            handleFilterIconClick();
-                          }}
-                        >
-                          <img
-                            src={clearFilter}
-                            className="cursor-pointer	mx-auto"
-                            alt="clearFilter"
-                          />
-                        </Button>
-                        <Button
-                          type="button"
-                          className="ml-2 !text-[12px]"
-                          onClick={() => openDisapproved()}
-                        >
-                          Advance Search
-                        </Button>
-                      </div>
-                    </form>
-                  </div>
-                </Grid>
+                <form onSubmit={formik1.handleSubmit}>
+                  <Grid className="!gap-1">
+                    <div className="col-span-9 self-center">
+                        <Grid className="!gap-2">
+                          <div className="col-span-3 self-center">
+                            <Input
+                              name="contractId"
+                              type="text"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              label=""
+                              placeholder="Contract ID"
+                              {...formik1.getFieldProps("contractId")}
+                            />
+                          </div>
+                          <div className="col-span-3 self-center">
+                            <Input
+                              name="claimId"
+                              type="text"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              label=""
+                              placeholder="Claim ID"
+                              {...formik1.getFieldProps("claimId")}
+                            />
+                          </div>
+                          <div className="col-span-3 self-center">
+                            <Select
+                              name="claimStatus"
+                              label=""
+                              options={Claimstatus}
+                              OptionName="Customer"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              onChange={handleSelectChange2}
+                              value={formik1.values.claimStatus}
+                            />
+                          </div>
+                          <div className="col-span-3 self-center">
+                            <Select
+                              name="repairStatus"
+                              className="!text-[14px] !bg-[#f7f7f7]"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                              label=""
+                              OptionName="Repair"
+                              options={repairValue}
+                              onChange={handleSelectChange2}
+                              value={formik1.values.repairStatus}
+                            />
+                          </div>
+                        </Grid>
+                    </div>
+                    <div className="col-span-3 self-center flex justify-center">
+                    <Button type="submit" className="!p-0 !bg-transparent">
+                      <img
+                        src={Search}
+                        className="cursor-pointer "
+                        alt="Search"
+                      />
+                    </Button>
+                    <Button
+                      className="!bg-transparent !p-0"
+                      onClick={() => {
+                        handleFilterIconClick();
+                      }}
+                    >
+                      <img
+                        src={clearFilter}
+                        className="cursor-pointer	mx-auto"
+                        alt="clearFilter"
+                      />
+                    </Button>
+                    <Button
+                      type="button"
+                      className="ml-2 !text-[12px]"
+                      onClick={() => openDisapproved()}
+                    >
+                      Advance Search
+                    </Button>
+                    </div> 
+                  </Grid>
+                </form>
               </div>
             </div>
           </Grid>
@@ -1312,39 +1312,6 @@ function ClaimList(props) {
                               </div>
                             </Grid>
                           </div>
-                          {showDetails && (
-                            <div className="col-span-12 mb-4 px-2">
-                              <p className="text-white text-center mb-3 font-semibold">
-                                Track Repair Status
-                              </p>
-                              <div className="flex text-white flex-wrap justify-around">
-                                <div>
-                                  <p>Request Sent</p>
-                                  <p>03/02/2024</p>
-                                </div>
-                                <div>
-                                  <p>Request Approved</p>
-                                  <p>03/02/2024</p>
-                                </div>
-                                <div>
-                                  <p>Product Received</p>
-                                  <p>03/02/2024</p>
-                                </div>
-                                <div>
-                                  <p>Parts Ordered</p>
-                                  <p>03/02/2024</p>
-                                </div>
-                                <div>
-                                  <p>Parts Needed</p>
-                                  <p>03/02/2024</p>
-                                </div>
-                                <div>
-                                  <p>Repair In Progress</p>
-                                  <p>03/02/2024</p>
-                                </div>
-                              </div>
-                            </div>
-                          )}
                         </Grid>
                       </CollapsibleDiv>
                     );
@@ -1358,17 +1325,17 @@ function ClaimList(props) {
                       </div>
                     </>
                   ) : (
-                    ""
-                  )}
-                </div>
-              </>
-            )}
-            <CustomPagination
+                    <CustomPagination
               totalRecords={totalRecords}
               rowsPerPageOptions={[10, 20, 50, 100]}
               onPageChange={handlePageChange}
               setRecordsPerPage={setRecordsPerPage}
             />
+                  )}
+                </div>
+              </>
+            )}
+           
           </div>
         </div>
       </div>
