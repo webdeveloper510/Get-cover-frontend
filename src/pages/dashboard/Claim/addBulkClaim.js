@@ -174,7 +174,7 @@ function AddBulkClaim() {
 
   const downloadCSVTemplate = async () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1Ae_vSKkFgPg8B0jIPvPU3zw7Ln3EW19rSUKdKRLkGC4/edit?pli=1#gid=0",
+      "https://docs.google.com/spreadsheets/d/1T0wqhbLkgxwi38nyFnN7SduKZFlDjr89LD77sp-qekU/edit#gid=0",
       "_blank"
     );
   };

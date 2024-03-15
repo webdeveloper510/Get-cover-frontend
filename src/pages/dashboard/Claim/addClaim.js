@@ -889,7 +889,7 @@ function AddClaim() {
                           className="mx-auto mb-3"
                           alt="Dropbox"
                         />
-                        <p>Accepted Max. # of files : 5, file size: 5 MB.</p>
+                        <p>Max. # of files : 5, file size: 5 MB<small> (each) </small>.</p>
                       </label>
                     </div>
                     {formikStep2.touched.images &&
