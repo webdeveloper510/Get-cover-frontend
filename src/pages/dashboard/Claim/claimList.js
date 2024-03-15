@@ -55,10 +55,9 @@ import CustomPagination from "../../pagination";
 
 function ClaimList(props) {
   console.log(props);
-  const [selectedValue, setSelectedValue] = useState("");
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
-  const [loader, setLoader] = useState(false);
+  const [loaderType, setLoaderType] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
@@ -198,17 +197,24 @@ function ClaimList(props) {
   };
 
   const getAllClaims = async (page = 1, rowsPerPage = 10) => {
-    setLoading(true);
+    setLoaderType(true);
     let data = {
       page: page,
       pageLimit: rowsPerPage,
       ...formik1.values,
     };
-    const result = await getClaimList(data);
-    setClaimList(result);
-    setTotalRecords(result?.totalCount);
-    setLoader(false);
+    getClaimList(data).then((res) => {
+      console.log(res);
+      if (res) {
+        setClaimList(res);
+        setTotalRecords(res?.totalCount);
+        setLoaderType(false);
+      } else {
+        setLoaderType(false);
+      }
+    });
   };
+
   const [recordsPerPage, setRecordsPerPage] = useState(10);
 
   const handlePageChange = async (page, rowsPerPage) => {
@@ -807,83 +813,83 @@ function ClaimList(props) {
                 <form onSubmit={formik1.handleSubmit}>
                   <Grid className="!gap-1">
                     <div className="col-span-9 self-center">
-                        <Grid className="!gap-2">
-                          <div className="col-span-3 self-center">
-                            <Input
-                              name="contractId"
-                              type="text"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="Contract ID"
-                              {...formik1.getFieldProps("contractId")}
-                            />
-                          </div>
-                          <div className="col-span-3 self-center">
-                            <Input
-                              name="claimId"
-                              type="text"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="Claim ID"
-                              {...formik1.getFieldProps("claimId")}
-                            />
-                          </div>
-                          <div className="col-span-3 self-center">
-                            <Select
-                              name="claimStatus"
-                              label=""
-                              options={Claimstatus}
-                              OptionName="Customer"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              onChange={handleSelectChange2}
-                              value={formik1.values.claimStatus}
-                            />
-                          </div>
-                          <div className="col-span-3 self-center">
-                            <Select
-                              name="repairStatus"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              OptionName="Repair"
-                              options={repairValue}
-                              onChange={handleSelectChange2}
-                              value={formik1.values.repairStatus}
-                            />
-                          </div>
-                        </Grid>
+                      <Grid className="!gap-2">
+                        <div className="col-span-3 self-center">
+                          <Input
+                            name="contractId"
+                            type="text"
+                            className="!text-[14px] !bg-[#f7f7f7]"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            label=""
+                            placeholder="Contract ID"
+                            {...formik1.getFieldProps("contractId")}
+                          />
+                        </div>
+                        <div className="col-span-3 self-center">
+                          <Input
+                            name="claimId"
+                            type="text"
+                            className="!text-[14px] !bg-[#f7f7f7]"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            label=""
+                            placeholder="Claim ID"
+                            {...formik1.getFieldProps("claimId")}
+                          />
+                        </div>
+                        <div className="col-span-3 self-center">
+                          <Select
+                            name="claimStatus"
+                            label=""
+                            options={Claimstatus}
+                            OptionName="Customer"
+                            className="!text-[14px] !bg-[#f7f7f7]"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            onChange={handleSelectChange2}
+                            value={formik1.values.claimStatus}
+                          />
+                        </div>
+                        <div className="col-span-3 self-center">
+                          <Select
+                            name="repairStatus"
+                            className="!text-[14px] !bg-[#f7f7f7]"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            label=""
+                            OptionName="Repair"
+                            options={repairValue}
+                            onChange={handleSelectChange2}
+                            value={formik1.values.repairStatus}
+                          />
+                        </div>
+                      </Grid>
                     </div>
                     <div className="col-span-3 self-center flex justify-center">
-                    <Button type="submit" className="!p-0 !bg-transparent">
-                      <img
-                        src={Search}
-                        className="cursor-pointer "
-                        alt="Search"
-                      />
-                    </Button>
-                    <Button
-                      className="!bg-transparent !p-0"
-                      onClick={() => {
-                        handleFilterIconClick();
-                      }}
-                    >
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
-                      />
-                    </Button>
-                    <Button
-                      type="button"
-                      className="ml-2 !text-[12px]"
-                      onClick={() => openDisapproved()}
-                    >
-                      Advance Search
-                    </Button>
-                    </div> 
+                      <Button type="submit" className="!p-0 !bg-transparent">
+                        <img
+                          src={Search}
+                          className="cursor-pointer "
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button
+                        className="!bg-transparent !p-0"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                      <Button
+                        type="button"
+                        className="ml-2 !text-[12px]"
+                        onClick={() => openDisapproved()}
+                      >
+                        Advance Search
+                      </Button>
+                    </div>
                   </Grid>
                 </form>
               </div>
@@ -891,7 +897,7 @@ function ClaimList(props) {
           </Grid>
 
           <div className="px-3 mt-5">
-            {loader ? (
+            {loaderType == true ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
@@ -1317,26 +1323,24 @@ function ClaimList(props) {
                       </CollapsibleDiv>
                     );
                   })}
-
-                <div>
-                  {claimList?.result?.length == 0 ? (
-                    <>
-                      <div className="text-center my-5">
-                        <p>No records found.</p>
-                      </div>
-                    </>
-                  ) : (
-                    <CustomPagination
-              totalRecords={totalRecords}
-              rowsPerPageOptions={[10, 20, 50, 100]}
-              onPageChange={handlePageChange}
-              setRecordsPerPage={setRecordsPerPage}
-            />
-                  )}
-                </div>
               </>
             )}
-           
+          </div>
+          <div>
+            {claimList?.result?.length == 0 ? (
+              <>
+                <div className="text-center my-5">
+                  <p>No records found.</p>
+                </div>
+              </>
+            ) : (
+              <CustomPagination
+                totalRecords={totalRecords}
+                rowsPerPageOptions={[10, 20, 50, 100]}
+                onPageChange={handlePageChange}
+                setRecordsPerPage={setRecordsPerPage}
+              />
+            )}
           </div>
         </div>
       </div>
