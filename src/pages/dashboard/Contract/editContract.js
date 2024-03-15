@@ -331,7 +331,10 @@ function EditContract() {
                         Eligibility
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                        {contractDetails?.eligibilty}
+                       
+                        {contractDetails?.eligibilty === true
+                              ? "Eligible"
+                              : "Not Eligible "}
                       </p>
                     </div>
                   </div>
