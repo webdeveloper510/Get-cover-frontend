@@ -554,6 +554,7 @@ function ClaimList(props) {
       addClaimsRepairParts(claimId, values).then((res) => {
         closeEdit();
         getAllClaims();
+        setActiveIndex(null)
       });
     },
   });
@@ -1404,12 +1405,12 @@ function ClaimList(props) {
                               <p className="text-xl font-semibold">
                                 {msg.commentBy.firstName}{" "}
                                 {msg.commentBy.lastName}
-                                <span className="text-[12px]">
+                                <span className="text-[12px] pl-1">
                                   ({msg.commentBy.roles.role})
                                 </span>{" "}
                               </p>
                             </div>
-                            <div className="col-span-5 self-center flex justify-end">
+                            <div className={` self-center flex justify-end ${msg.messageFile.originalName !== "" ? 'col-span-5' : 'col-span-6 text-right'}`}>
                               <p className="text-sm pr-3">
                                 {" "}
                                 {format(
@@ -1538,7 +1539,7 @@ function ClaimList(props) {
                   rows="2"
                   name="content"
                   maxLength={150}
-                  className={`block px-2.5 pb-2.5 pt-1.5 w-full text-[11px] font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none `}
+                  className={`block px-2.5 pb-2.5 pt-1.5 w-full text-[11px] font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm`}
                   value={formik2.values.content}
                   onChange={formik2.handleChange}
                   onBlur={formik2.handleBlur}
