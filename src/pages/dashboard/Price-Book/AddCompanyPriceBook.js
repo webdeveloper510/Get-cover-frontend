@@ -123,6 +123,7 @@ function AddCompanyPriceBook() {
               name: Yup.string().required("Required").transform((originalValue) => originalValue.trim()),
               quantity: Yup.number()
                 .typeError("Required")
+                .integer("Quantity must be an integer")
                 .required("Required")
                 .nullable()
                 .min(1, "quantity cannot be less then One"),

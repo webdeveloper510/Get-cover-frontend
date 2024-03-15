@@ -29,7 +29,7 @@ import { getContractsforCustomer } from "../../../services/customerServices";
 import { getContractsforReseller } from "../../../services/reSellerServices";
 
 function ContractList(props) {
-  console.log(props);
+  console.log(props, '----------------->>>>>>>>>>>');
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -447,7 +447,7 @@ function ContractList(props) {
                       {...formik.getFieldProps("contractId")}
                     />
                   </div>
-                  {props.orderId == null && props?.flag == undefined ? (
+                  {props.orderId == null ? (
                     <>
                       <div className="col-span-6">
                         <Input
@@ -494,7 +494,7 @@ function ContractList(props) {
                       {...formik.getFieldProps("productName")}
                     />
                   </div>
-                  {props.orderId == null && props?.flag == undefined ? (
+                  {props.orderId == null ? (
                     <>
                       {" "}
                       <div className="col-span-6">

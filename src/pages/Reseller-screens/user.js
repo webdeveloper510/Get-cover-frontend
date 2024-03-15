@@ -475,16 +475,14 @@ function ResellerUser() {
               <div className="col-span-2"></div>
             </Grid>
             <Grid className="mt-5">
-              <div className="col-span-5 self-center">
-                <hr />
-              </div>
+              
               <div className="col-span-2 text-center">
                 <p className="text-base text-white font-semibold">
                   {" "}
                   My Details
                 </p>
               </div>
-              <div className="col-span-5 self-center">
+              <div className="col-span-10 self-center">
                 <hr />
               </div>
             </Grid>

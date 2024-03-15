@@ -249,7 +249,7 @@ function CustomerDetails() {
   const routeToPage = (data) => {
     // console.log(data, id.id);
     switch (data) {
-      case "Order":
+      case "Orders":
         const resellerIdParam = customerDetail?.meta?.resellerId
           ? `/${customerDetail?.meta?.resellerId}`
           : "";
