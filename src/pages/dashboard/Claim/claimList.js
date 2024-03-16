@@ -11,6 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Media Includes
+import AddDealer from "../../../assets/images/dealer-book.svg";
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import productName from "../../../assets/images/icons/productName1.svg";
@@ -55,6 +56,7 @@ import CustomPagination from "../../pagination";
 
 function ClaimList(props) {
   console.log(props);
+  const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [loaderType, setLoaderType] = useState(false);
@@ -67,6 +69,7 @@ function ClaimList(props) {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
+  const [claimLoading, setClaimLoading] = useState(false);
   const [claimList, setClaimList] = useState({});
   const [totalRecords, setTotalRecords] = useState(0);
   const [serviceType, setServiceType] = useState([]);
@@ -131,6 +134,23 @@ function ClaimList(props) {
         console.error("Error fetching the file:", error);
       });
   };
+
+  useEffect(() => {
+    
+    let intervalId;
+    if (isAttachmentsOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      setIsAttachmentsOpen(false);
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isAttachmentsOpen, timer]);
 
   const handleSelectChange2 = (selectedValue, value) => {
     formik1.setFieldValue(selectedValue, value);
@@ -352,6 +372,7 @@ function ClaimList(props) {
 
   const openAttachments = () => {
     setIsAttachmentsOpen(true);
+    setIsEditOpen(false)
   };
   const closeAttachments = () => {
     setIsAttachmentsOpen(false);
@@ -443,6 +464,7 @@ function ClaimList(props) {
     }),
 
     onSubmit: (values) => {
+      openAttachments()
       values.orderId = claimDetail?.contracts?.orders?._id;
       console.log(values, claimDetail);
       const userInfo = JSON.parse(localStorage.getItem("userDetails"));
@@ -482,7 +504,7 @@ function ClaimList(props) {
         console.log(res);
         getClaimMessage(claimDetail._id, false);
       });
-
+      
       formik2.resetForm();
       formik2.setFieldValue("content", "");
       setPreviewImage(null);
@@ -1290,13 +1312,14 @@ function ClaimList(props) {
                                   <p className="text-[11px] text-white">
                                     Diagnosis
                                   </p>
-                                  <div className="h-[130px] max-h-[130px] overflow-y-scroll Diagnosis">
+                                  <div className={` overflow-y-scroll Diagnosis ${res?.receiptImage == '' ? 'h-[164px] max-h-[164px]' : 'h-[130px] max-h-[130px]'}`}>
                                     <p className="text-sm text-light-green">
                                       {res.diagnosis}
                                     </p>
                                   </div>
                                 </div>
-                                <div>
+                                {res?.receiptImage == '' ? '' : (
+                                  <div>
                                   <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
                                     <div className="col-span-6"></div>
                                     {/* <Button
@@ -1326,7 +1349,9 @@ function ClaimList(props) {
                                       </p>
                                     </Button>
                                   </Grid>
-                                </div>
+                                  </div>
+                                )}
+                               
                               </div>
                             </Grid>
                           </div>
@@ -1601,8 +1626,9 @@ function ClaimList(props) {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-        <div className="py-1">
+        <div className="">
           <p className="text-center text-3xl font-semibold ">Edit Claim</p>
+         
           <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1] rounded-3xl">
               <p className="pb-5 text-lg font-semibold">Repair Parts</p>
@@ -1744,7 +1770,7 @@ function ClaimList(props) {
                 </div>
               </Grid>
             </div>
-            <div className="px-5 pb-5 pt-5 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+            <div className="px-5 pb-5 pt-3 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
               <div className="relative">
                 <label
                   htmlFor="description"
@@ -1772,6 +1798,7 @@ function ClaimList(props) {
               <Button type="submit">Update</Button>
             </div>
           </form>
+          
         </div>
       </Modal>
 
@@ -1786,7 +1813,17 @@ function ClaimList(props) {
           />
         </Button>
         <div className="py-1">
-          <p className="text-center text-3xl font-semibold ">Track Status</p>
+          <img src={AddDealer} alt="email Image" className="mx-auto" />
+                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                  Submitted
+                  <span className="text-light-black"> Successfully </span>
+                </p>
+                <p className="text-neutral-grey text-base font-medium mt-2">
+                Edit Claim  Successfully
+                </p>
+                <p className="text-neutral-grey text-base font-medium mt-2">
+                  Redirecting you on Claim Page {timer} seconds.
+                </p>
         </div>
       </Modal>
 
