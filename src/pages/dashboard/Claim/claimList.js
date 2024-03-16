@@ -76,6 +76,7 @@ function ClaimList(props) {
   const [servicerList, setServicerList] = useState([]);
   const [messageList, setMessageList] = useState([]);
   const [claimDetail, setClaimDetail] = useState({});
+  const [error, setError] = useState("");
   const [customerStatus, setCustomerStatus] = useState({
     status: "",
     date: "",
@@ -261,6 +262,7 @@ function ClaimList(props) {
   };
   const closeEdit = () => {
     // formik.resetForm();
+    setError("");
     setIsEditOpen(false);
   };
 
@@ -494,6 +496,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     if (activeIndex != null) {
+      setError("");
       console.log(claimList.result[activeIndex]);
       const bdAdhValue = claimList.result[activeIndex]?.bdAdh;
       const getLastItem = (array) => array?.[array.length - 1];
@@ -546,20 +549,27 @@ function ClaimList(props) {
       ),
     }),
     onSubmit: (values) => {
+      setError("");
       let totalPrice = 0;
       values.repairParts.forEach((part) => {
         totalPrice += Number(part.price);
       });
       values.totalAmount = totalPrice;
       addClaimsRepairParts(claimId, values).then((res) => {
-        closeEdit();
-        getAllClaims();
-        setActiveIndex(null)
+        console.log(res);
+        if (res.code == 401) {
+          setError(res.message);
+        } else {
+          closeEdit();
+          getAllClaims();
+          setActiveIndex(null);
+        }
       });
     },
   });
 
   const handleRemove = (index) => {
+    setError("");
     const updatedErrors = { ...formik.errors };
     if (updatedErrors.repairParts) {
       const updatedRepairPartsErrors = updatedErrors.repairParts.slice();
@@ -574,6 +584,7 @@ function ClaimList(props) {
 
   const handleAddMore = () => {
     // Update the formik values with the new item
+    setError("");
     formik.setFieldValue("repairParts", [
       ...formik.values.repairParts,
       { serviceType: "", description: "", price: "" },
@@ -1410,7 +1421,13 @@ function ClaimList(props) {
                                 </span>{" "}
                               </p>
                             </div>
-                            <div className={` self-center flex justify-end ${msg.messageFile.originalName !== "" ? 'col-span-5' : 'col-span-6 text-right'}`}>
+                            <div
+                              className={` self-center flex justify-end ${
+                                msg.messageFile.originalName !== ""
+                                  ? "col-span-5"
+                                  : "col-span-6 text-right"
+                              }`}
+                            >
                               <p className="text-sm pr-3">
                                 {" "}
                                 {format(
@@ -1594,9 +1611,6 @@ function ClaimList(props) {
                   return (
                     <div className="mb-5 grid grid-cols-12 gap-4">
                       <div className="col-span-2">
-                        {/* <label htmlFor={`serviceType-${index}`}>
-                          Service Type
-                        </label> */}
                         <Select
                           name={`repairParts[${index}].serviceType`}
                           label="Service Type"
@@ -1716,7 +1730,9 @@ function ClaimList(props) {
                       </p>
                     </div>
                   ) : null}
+                  {error && <p className="text-red-500">{error}</p>}
                 </div>
+
                 <div className="col-span-6 text-end">
                   <Button
                     type="button"
