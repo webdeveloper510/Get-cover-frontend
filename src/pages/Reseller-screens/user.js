@@ -422,27 +422,6 @@ function ResellerUser() {
     </div>
   );
 
-  const tabsData = [
-    {
-      id: 1,
-      label: "Details",
-      content: (
-        <>
-          
-        </>
-      ),
-    },
-    {
-      id: 2,
-      label: "Change Password",
-      content: (
-        <>
-        
-        </>
-      ),
-    },
-  ];
-
   return (
     <>
       {loading && (
