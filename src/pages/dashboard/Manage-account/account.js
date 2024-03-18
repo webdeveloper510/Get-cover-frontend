@@ -218,6 +218,15 @@ function Account() {
 
   return (
     <>
+     {loading ? (
+            <>
+              <div className="  fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            </>
+          ) : (
       <div className="my-8 ml-3">
         <Headbar />
         <div className="flex mt-2">
@@ -246,15 +255,7 @@ function Account() {
 
         <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
           <p className="text-xl font-semibold mb-3">My Account</p>
-          {loading ? (
-            <>
-              <div className=" h-[250px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
-              </div>
-            </>
-          ) : (
+         
             <>
               <Grid>
                 <Formik
@@ -373,7 +374,6 @@ function Account() {
                 </Formik>
               </Grid>
             </>
-          )}
 
           <p className="text-xl font-semibold mb-3">Change Password</p>
           <Grid>
@@ -433,6 +433,7 @@ function Account() {
           </div>
         )}
       </div>
+          )}
 
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
         <div className=" py-3">
