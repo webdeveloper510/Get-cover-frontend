@@ -531,6 +531,7 @@ function AddOrder() {
                       .typeError("Required")
                       .required("Required")
                       .min(1, "Quantity cannot be Less Then One")
+                      .integer("Quantity must be an integer")
                       .nullable(),
                   })
                 )

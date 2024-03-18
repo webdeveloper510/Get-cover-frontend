@@ -11,6 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Media Includes
+import AddDealer from "../../../assets/images/dealer-book.svg";
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import productName from "../../../assets/images/icons/productName1.svg";
@@ -55,10 +56,12 @@ import CustomPagination from "../../pagination";
 
 function ClaimList(props) {
   console.log(props);
+  const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [loaderType, setLoaderType] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [modelLoading, setModelLoading] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -67,6 +70,7 @@ function ClaimList(props) {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
+  const [claimLoading, setClaimLoading] = useState(false);
   const [claimList, setClaimList] = useState({});
   const [totalRecords, setTotalRecords] = useState(0);
   const [serviceType, setServiceType] = useState([]);
@@ -76,6 +80,7 @@ function ClaimList(props) {
   const [servicerList, setServicerList] = useState([]);
   const [messageList, setMessageList] = useState([]);
   const [claimDetail, setClaimDetail] = useState({});
+  const [error, setError] = useState("");
   const [customerStatus, setCustomerStatus] = useState({
     status: "",
     date: "",
@@ -130,6 +135,23 @@ function ClaimList(props) {
         console.error("Error fetching the file:", error);
       });
   };
+
+  useEffect(() => {
+    
+    let intervalId;
+    if (isAttachmentsOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      setIsAttachmentsOpen(false);
+    }
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isAttachmentsOpen, timer]);
 
   const handleSelectChange2 = (selectedValue, value) => {
     formik1.setFieldValue(selectedValue, value);
@@ -261,6 +283,7 @@ function ClaimList(props) {
   };
   const closeEdit = () => {
     // formik.resetForm();
+    setError("");
     setIsEditOpen(false);
   };
 
@@ -350,6 +373,7 @@ function ClaimList(props) {
 
   const openAttachments = () => {
     setIsAttachmentsOpen(true);
+    setIsEditOpen(false)
   };
   const closeAttachments = () => {
     setIsAttachmentsOpen(false);
@@ -361,6 +385,7 @@ function ClaimList(props) {
     console.log(isValidReseller);
     setSendto(
       [
+        { label: "Admin", value: "Admin" },
         { label: "Dealer", value: "Dealer" },
         isValidReseller ? { label: "Reseller", value: "Reseller" } : null,
         { label: "Servicer", value: "Servicer" },
@@ -374,7 +399,7 @@ function ClaimList(props) {
   };
 
   const getClaimMessage = (claimId, loader = true) => {
-    setLoading(loader);
+    setModelLoading(loader);
     getClaimMessages(claimId)
       .then((res) => {
         setMessageList(res.result);
@@ -384,7 +409,7 @@ function ClaimList(props) {
         console.error("Error fetching claim messages:", error);
       })
       .finally(() => {
-        setLoading(false);
+        setModelLoading(false);
       });
   };
 
@@ -431,7 +456,7 @@ function ClaimList(props) {
   const initialValues2 = {
     content: "",
     orderId: "",
-    type: "",
+    type: "Admin",
     messageFile: {},
   };
   const formik2 = useFormik({
@@ -447,7 +472,7 @@ function ClaimList(props) {
       const temporaryMessage = {
         _id: "temp-id",
         content: values.content,
-        type: values.type, // Adjust accordingly
+        type: values.type || 'Admin', 
         messageFile: {
           fileName: values.fileName || "",
           originalName: values.originalName || "",
@@ -480,10 +505,11 @@ function ClaimList(props) {
         console.log(res);
         getClaimMessage(claimDetail._id, false);
       });
-
+      
       formik2.resetForm();
       formik2.setFieldValue("content", "");
       setPreviewImage(null);
+
     },
   });
 
@@ -494,6 +520,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     if (activeIndex != null) {
+      setError("");
       console.log(claimList.result[activeIndex]);
       const bdAdhValue = claimList.result[activeIndex]?.bdAdh;
       const getLastItem = (array) => array?.[array.length - 1];
@@ -546,20 +573,27 @@ function ClaimList(props) {
       ),
     }),
     onSubmit: (values) => {
+      setError("");
       let totalPrice = 0;
       values.repairParts.forEach((part) => {
         totalPrice += Number(part.price);
       });
       values.totalAmount = totalPrice;
       addClaimsRepairParts(claimId, values).then((res) => {
-        closeEdit();
-        getAllClaims();
-        setActiveIndex(null)
+        console.log(res);
+        if (res.code == 401) {
+          setError(res.message);
+        } else {
+          openAttachments()
+          getAllClaims();
+          setActiveIndex(null);
+        }
       });
     },
   });
 
   const handleRemove = (index) => {
+    setError("");
     const updatedErrors = { ...formik.errors };
     if (updatedErrors.repairParts) {
       const updatedRepairPartsErrors = updatedErrors.repairParts.slice();
@@ -574,6 +608,7 @@ function ClaimList(props) {
 
   const handleAddMore = () => {
     // Update the formik values with the new item
+    setError("");
     formik.setFieldValue("repairParts", [
       ...formik.values.repairParts,
       { serviceType: "", description: "", price: "" },
@@ -1279,13 +1314,14 @@ function ClaimList(props) {
                                   <p className="text-[11px] text-white">
                                     Diagnosis
                                   </p>
-                                  <div className="h-[130px] max-h-[130px] overflow-y-scroll Diagnosis">
+                                  <div className={` overflow-y-scroll Diagnosis ${res?.receiptImage == '' ? 'h-[164px] max-h-[164px]' : 'h-[130px] max-h-[130px]'}`}>
                                     <p className="text-sm text-light-green">
                                       {res.diagnosis}
                                     </p>
                                   </div>
                                 </div>
-                                <div>
+                                {res?.receiptImage == '' ? '' : (
+                                  <div>
                                   <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
                                     <div className="col-span-6"></div>
                                     {/* <Button
@@ -1315,7 +1351,9 @@ function ClaimList(props) {
                                       </p>
                                     </Button>
                                   </Grid>
-                                </div>
+                                  </div>
+                                )}
+                               
                               </div>
                             </Grid>
                           </div>
@@ -1377,7 +1415,7 @@ function ClaimList(props) {
             Comments Details
           </p>
           <div className="h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-[#D1D1D1] bg-[#F0F0F0] border rounded-xl">
-            {loading ? (
+            {modelLoading ? (
               <div className=" h-[350px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
@@ -1410,7 +1448,13 @@ function ClaimList(props) {
                                 </span>{" "}
                               </p>
                             </div>
-                            <div className={` self-center flex justify-end ${msg.messageFile.originalName !== "" ? 'col-span-5' : 'col-span-6 text-right'}`}>
+                            <div
+                              className={` self-center flex justify-end ${
+                                msg.messageFile.originalName !== ""
+                                  ? "col-span-5"
+                                  : "col-span-6 text-right"
+                              }`}
+                            >
                               <p className="text-sm pr-3">
                                 {" "}
                                 {format(
@@ -1559,7 +1603,7 @@ function ClaimList(props) {
                   className="!bg-white "
                   classBox="w-full self-center"
                   className1="!p-2 w-full"
-                  value={formik2.values.type || ""}
+                  value={formik2.values.type}
                   onChange={handleChange2}
                   onBlur={formik2.handleBlur}
                 />
@@ -1584,8 +1628,9 @@ function ClaimList(props) {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-        <div className="py-1">
+        <div className="">
           <p className="text-center text-3xl font-semibold ">Edit Claim</p>
+         
           <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1] rounded-3xl">
               <p className="pb-5 text-lg font-semibold">Repair Parts</p>
@@ -1594,9 +1639,6 @@ function ClaimList(props) {
                   return (
                     <div className="mb-5 grid grid-cols-12 gap-4">
                       <div className="col-span-2">
-                        {/* <label htmlFor={`serviceType-${index}`}>
-                          Service Type
-                        </label> */}
                         <Select
                           name={`repairParts[${index}].serviceType`}
                           label="Service Type"
@@ -1716,7 +1758,9 @@ function ClaimList(props) {
                       </p>
                     </div>
                   ) : null}
+                  {error && <p className="text-red-500">{error}</p>}
                 </div>
+
                 <div className="col-span-6 text-end">
                   <Button
                     type="button"
@@ -1728,7 +1772,7 @@ function ClaimList(props) {
                 </div>
               </Grid>
             </div>
-            <div className="px-5 pb-5 pt-5 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+            <div className="px-5 pb-5 pt-3 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
               <div className="relative">
                 <label
                   htmlFor="description"
@@ -1756,6 +1800,7 @@ function ClaimList(props) {
               <Button type="submit">Update</Button>
             </div>
           </form>
+          
         </div>
       </Modal>
 
@@ -1769,8 +1814,18 @@ function ClaimList(props) {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-        <div className="py-1">
-          <p className="text-center text-3xl font-semibold ">Track Status</p>
+        <div className="py-1 text-center">
+          <img src={AddDealer} alt="email Image" className="mx-auto" />
+                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                  Submitted
+                  <span className="text-light-black"> Successfully </span>
+                </p>
+                <p className="text-neutral-grey text-base font-medium mt-2">
+                Edit Claim  Successfully
+                </p>
+                <p className="text-neutral-grey text-base font-medium mt-2">
+                  Redirecting you on Claim Page {timer} seconds.
+                </p>
         </div>
       </Modal>
 
