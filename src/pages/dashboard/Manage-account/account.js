@@ -231,44 +231,44 @@ function Account() {
   };
   return (
     <>
-     {loading ? (
-            <>
-              <div className=" h-[500px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
-              </div>
-            </>
-          ) : (
-      <div className="my-8 ml-3">
-        <Headbar />
-        <div className="flex mt-2">
-          <Link
-            to={"/dashboard"}
-            className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
-          >
-            <img
-              src={BackImage}
-              className="m-auto my-auto self-center bg-white"
-              alt="BackImage"
-            />
-          </Link>
-          <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9 mb-[3px]">
-              Manage Account
-            </p>
-            <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-                {" "}
-                Edit Account{" "}
-              </li>
-            </ul>
+      {loading ? (
+        <>
+          <div className=" h-[500px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
           </div>
-        </div>
+        </>
+      ) : (
+        <div className="my-8 ml-3">
+          <Headbar />
+          <div className="flex mt-2">
+            <Link
+              to={"/dashboard"}
+              className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+            >
+              <img
+                src={BackImage}
+                className="m-auto my-auto self-center bg-white"
+                alt="BackImage"
+              />
+            </Link>
+            <div className="pl-3">
+              <p className="font-bold text-[36px] leading-9 mb-[3px]">
+                Manage Account
+              </p>
+              <ul className="flex self-center">
+                <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                  {" "}
+                  Edit Account{" "}
+                </li>
+              </ul>
+            </div>
+          </div>
 
-        <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-          <p className="text-xl font-semibold mb-3">My Account</p>
-         
+          <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+            <p className="text-xl font-semibold mb-3">My Account</p>
+
             <>
               <Grid>
                 <Formik
@@ -388,65 +388,119 @@ function Account() {
               </Grid>
             </>
 
-          <p className="text-xl font-semibold mb-3">Change Password</p>
-          <Grid>
-            <div className="col-span-4">
-              <Input
-                type="password"
-                label="Old Password"
-                className="!bg-[#fff]"
-              />
-            </div>
-            <div className="col-span-4">
-              <Input
-                type="password"
-                label="New Password"
-                className="!bg-[#fff]"
-              />
-            </div>
-            <div className="col-span-4">
-              <Input
-                type="password"
-                label="Confirm Password"
-                className="!bg-[#fff]"
-              />
-            </div>
-          </Grid>
-          <div className="mt-4 text-right">
-            <Button>Change Password</Button>
+            <p className="text-xl font-semibold mb-3">Change Password</p>
+            <Formik
+              initialValues={initialValues2}
+              validationSchema={validationSchema2}
+              onSubmit={(values, { setSubmitting }) => {
+                // Handle form submission here
+                console.log(values);
+                setSubmitting(false);
+              }}
+            >
+              <Form>
+                <Grid>
+                  <div className="col-span-4">
+                    <div className="relative">
+                      <label
+                        htmlFor="Position"
+                        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                      >
+                        Position
+                      </label>
+                      <Field
+                        type="password"
+                        name="oldPassword"
+                        label="Old Password"
+                        className="!bg-[#fff]"
+                      />
+                      <ErrorMessage
+                        name="oldPassword"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-span-4">
+                    <div className="relative">
+                      <label
+                        htmlFor="Position"
+                        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                      >
+                        Position
+                      </label>
+                      <Field
+                        type="password"
+                        name="newPassword"
+                        label="New Password"
+                        className="!bg-[#fff]"
+                      />
+                      <ErrorMessage
+                        name="newPassword"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-span-4">
+                    <div className="relative">
+                      <label
+                        htmlFor="Position"
+                        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                      >
+                        Position
+                      </label>
+                      <Field
+                        type="password"
+                        name="confirmPassword"
+                        label="Confirm Password"
+                        className="!bg-[#fff]"
+                      />
+                      <ErrorMessage
+                        name="confirmPassword"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                  </div>
+                </Grid>
+                <div className="mt-4 text-right">
+                  <button type="submit">Change Password</button>
+                </div>
+              </Form>
+            </Formik>
           </div>
-        </div>
-        {loading ? (
-          <div className=" h-[400px] w-full flex py-5">
-            <div className="self-center mx-auto">
-              <RotateLoader color="#333" />
+          {loading ? (
+            <div className=" h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-            <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-              <Button onClick={() => openUserModal()}> + Add Member</Button>
-            </div>
-            <p className="text-xl font-semibold mb-3">
-              Other Super admin details
-            </p>
+          ) : (
+            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+              <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                <Button onClick={() => openUserModal()}> + Add Member</Button>
+              </div>
+              <p className="text-xl font-semibold mb-3">
+                Other Super admin details
+              </p>
 
-            <DataTable
-              columns={columns}
-              data={Data}
-              highlightOnHover
-              sortIcon={
-                <>
-                  {" "}
-                  <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                </>
-              }
-              noDataComponent={<CustomNoDataComponent />}
-            />
-          </div>
-        )}
-      </div>
+              <DataTable
+                columns={columns}
+                data={Data}
+                highlightOnHover
+                sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                  </>
+                }
+                noDataComponent={<CustomNoDataComponent />}
+              />
+            </div>
           )}
+        </div>
+      )}
 
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
         <div className=" py-3">
