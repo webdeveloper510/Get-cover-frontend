@@ -12,7 +12,10 @@ import Modal from "../../../common/model";
 import RadioButton from "../../../common/radio";
 import { RotateLoader } from "react-spinners";
 import Tabs from "../../../common/tabs";
-import { getUserDetailsbyToken } from "../../../services/extraServices";
+import {
+  editUserDetailsbyToken,
+  getUserDetailsbyToken,
+} from "../../../services/extraServices";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -49,9 +52,6 @@ function Account() {
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
     phone: Yup.string()
       .matches(/^[0-9]{10}$/, "Invalid phone number")
       .required("Phone number is required"),
@@ -60,7 +60,7 @@ function Account() {
   const initialValues = {
     firstName: "",
     lastName: "",
-    email: "dsadads", // Setting default email
+    email: "super@codenomad.net", // Setting default email
     phone: "",
     position: "",
   };
@@ -173,6 +173,10 @@ function Account() {
     </div>
   );
 
+  const editDetail = (values) => {
+    console.log(values);
+  };
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
@@ -227,8 +231,8 @@ function Account() {
               validationSchema={validationSchema}
               onSubmit={(values, { setSubmitting }) => {
                 // Handle form submission here
-                // console.log(values);
-              
+                console.log(values);
+                editDetail(values);
                 setSubmitting(false);
               }}
             >

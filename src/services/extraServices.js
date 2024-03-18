@@ -127,3 +127,20 @@ export const getUserDetailsbyToken = async () => {
     throw error;
   }
 };
+
+export const editUserDetailsbyToken = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(
+      `${url}/user/updateProfile`,
+      { data },
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
