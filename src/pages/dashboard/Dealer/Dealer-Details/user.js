@@ -110,6 +110,7 @@ function UserList(props) {
   }, []);
 
   useEffect(() => {
+    console.log(props);
     if (props?.data?.length !== 0) {
       getUserList();
     }
