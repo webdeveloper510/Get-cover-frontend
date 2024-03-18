@@ -62,7 +62,6 @@ import DealerResellerList from "../pages/Dealer-screens/Reseller/resellerList";
 import DealerAddOrder from "../pages/Dealer-screens/Order/addOrder";
 import DealerOrderList from "../pages/Dealer-screens/Order/orderList";
 import DealerContractList from "../pages/Dealer-screens/Contract/contractList";
-import DealerEditContract from "../pages/Dealer-screens/Contract/editContract";
 import DealerAddServicer from "../pages/Dealer-screens/Servicer/addServicer";
 import DealerServicerList from "../pages/Dealer-screens/Servicer/servicerList";
 import DealerServicerDetails from "../pages/Dealer-screens/Servicer/servicerDetails";
@@ -83,7 +82,6 @@ import ResellerServicerList from "../pages/Reseller-screens/Servicer/servicerLis
 import ResellerAddServicer from "../pages/Reseller-screens/Servicer/addServicer";
 import ResellerOrderList from "../pages/Reseller-screens/Order/orderList";
 import ResellerAddOrder from "../pages/Reseller-screens/Order/addOrder";
-import ResellerEditContract from "../pages/Reseller-screens/Contract/editContract";
 import ResellerCustomerList from "../pages/Reseller-screens/Customer/customerList";
 import ResellerAddCustomer from "../pages/Reseller-screens/Customer/addCustomer";
 import ResellerUser from "../pages/Reseller-screens/user";
@@ -94,7 +92,6 @@ import CustomerAddClaim from "../pages/Customer-screens/Claim/addClaim";
 import CustomerClaimList from "../pages/Customer-screens/Claim/claimList";
 import CustomerContractList from "../pages/Customer-screens/Contract/contractList";
 import CustomerAddBulkClaim from "../pages/Customer-screens/Claim/addBulkClaim";
-import CustomerEditContract from "../pages/Customer-screens/Contract/editContract";
 import CustomerOrderList from "../pages/Customer-screens/Order/orderList";
 import CustomerAddOrder from "../pages/Customer-screens/Order/addOrder";
 import CustomerOrderDetails from "../pages/Customer-screens/Order/order-details";
@@ -456,15 +453,6 @@ const routes = [
         ),
       },
       {
-        path: "/dealer/editContract",
-        element: (
-          <PrivateRoute
-            element={<DealerEditContract />}
-            path="/dealer/editContract"
-          />
-        ),
-      },
-      {
         path: "/dealer/editOrder/:orderId?",
         element: <PrivateRoute element={<DealerAddOrder />} />,
       },
@@ -701,15 +689,6 @@ const routes = [
         ),
       },
       {
-        path: "/reseller/editContract",
-        element: (
-          <PrivateRoute
-            element={<ResellerEditContract />}
-            path="/reseller/editContract"
-          />
-        ),
-      },
-      {
         path: "/reseller/addOrder",
         element: (
           <PrivateRoute
@@ -880,15 +859,6 @@ const routes = [
           <PrivateRoute
             element={<CustomerContractList />}
             path="/customer/contractList"
-          />
-        ),
-      },
-      {
-        path: "/customer/editContract",
-        element: (
-          <PrivateRoute
-            element={<CustomerEditContract />}
-            path="/customer/editContract"
           />
         ),
       },
