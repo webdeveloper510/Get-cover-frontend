@@ -109,6 +109,7 @@ function ClaimList(props) {
   }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
   const downloadImage = (file) => {
+    console.log('hello')
     const url = `http://15.207.221.207:3002/uploads/claimFile/${file.messageFile.fileName}`;
 
     fetch(url)
@@ -430,6 +431,7 @@ function ClaimList(props) {
   }, [claimList]);
 
   const downloadAttachments = (res) => {
+    console.log('hello')
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
@@ -439,7 +441,6 @@ function ClaimList(props) {
         .then((response) => response.blob())
         .then((blob) => {
           const blobUrl = URL.createObjectURL(blob);
-
           const anchor = document.createElement("a");
           anchor.href = blobUrl;
           anchor.download = `file_${index + 1}`;
