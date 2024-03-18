@@ -131,13 +131,9 @@ export const getUserDetailsbyToken = async () => {
 export const editUserDetailsbyToken = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.put(
-      `${url}/user/updateProfile`,
-      { data },
-      {
-        headers,
-      }
-    );
+    const response = await axios.post(`${url}/user/updateProfile`, data, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {

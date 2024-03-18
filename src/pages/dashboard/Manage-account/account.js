@@ -24,6 +24,13 @@ function Account() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [initialValues, setInitialValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    position: "",
+  });
   const [userDetails, setUserDetails] = useState({});
   const dropdownRef = useRef(null);
   const handleClickOutside = (event) => {
@@ -51,18 +58,19 @@ function Account() {
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
-    phone: Yup.string()
+    phoneNumber: Yup.string()
       .matches(/^[0-9]{10}$/, "Invalid phone number")
       .required("Phone number is required"),
-    position: Yup.string().required("Position is required"),
+    // position: Yup.string().required("Position is required"),
   });
-  const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "super@codenomad.net", // Setting default email
-    phone: "",
-    position: "",
-  };
+
+  // const initialValues = {
+  //   firstName: "",
+  //   lastName: "",
+  //   email: "super@codenomad.net", // Setting default email
+  //   phone: "",
+  //   position: "",
+  // };
 
   const Data = [
     {
@@ -173,7 +181,12 @@ function Account() {
   );
 
   const editDetail = (values) => {
+    // setLoading(true);
     console.log(values);
+    editUserDetailsbyToken(values).then((res) => {
+      console.log(res);
+      // setLoading(false);
+    });
   };
 
   useEffect(() => {
@@ -192,6 +205,13 @@ function Account() {
     setLoading(true);
     const result = await getUserDetailsbyToken();
     console.log(result);
+    setInitialValues({
+      firstName: result.result.firstName,
+      lastName: result.result.lastName,
+      email: result.result.email,
+      phoneNumber: result.result.phoneNumber,
+      position: result.result.position,
+    });
     setUserDetails(result.result);
     setLoading(false);
   };
@@ -309,12 +329,12 @@ function Account() {
                             </label>
                             <Field
                               type="tel"
-                              name="phone"
+                              name="phoneNumber"
                               placeholder=""
                               className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                             />
                             <ErrorMessage
-                              name="phone"
+                              name="phoneNumber"
                               component="div"
                               className="text-red-500"
                             />
