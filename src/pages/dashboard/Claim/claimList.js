@@ -61,6 +61,7 @@ function ClaimList(props) {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [loaderType, setLoaderType] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [modelLoading, setModelLoading] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -397,7 +398,7 @@ function ClaimList(props) {
   };
 
   const getClaimMessage = (claimId, loader = true) => {
-    setLoading(loader);
+    setModelLoading(loader);
     getClaimMessages(claimId)
       .then((res) => {
         setMessageList(res.result);
@@ -407,7 +408,7 @@ function ClaimList(props) {
         console.error("Error fetching claim messages:", error);
       })
       .finally(() => {
-        setLoading(false);
+        setModelLoading(false);
       });
   };
 
@@ -464,7 +465,6 @@ function ClaimList(props) {
     }),
 
     onSubmit: (values) => {
-      openAttachments()
       values.orderId = claimDetail?.contracts?.orders?._id;
       console.log(values, claimDetail);
       const userInfo = JSON.parse(localStorage.getItem("userDetails"));
@@ -508,6 +508,7 @@ function ClaimList(props) {
       formik2.resetForm();
       formik2.setFieldValue("content", "");
       setPreviewImage(null);
+
     },
   });
 
@@ -582,7 +583,7 @@ function ClaimList(props) {
         if (res.code == 401) {
           setError(res.message);
         } else {
-          closeEdit();
+          openAttachments()
           getAllClaims();
           setActiveIndex(null);
         }
@@ -1413,7 +1414,7 @@ function ClaimList(props) {
             Comments Details
           </p>
           <div className="h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-[#D1D1D1] bg-[#F0F0F0] border rounded-xl">
-            {loading ? (
+            {modelLoading ? (
               <div className=" h-[350px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
@@ -1812,7 +1813,7 @@ function ClaimList(props) {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-        <div className="py-1">
+        <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
                 <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
                   Submitted
