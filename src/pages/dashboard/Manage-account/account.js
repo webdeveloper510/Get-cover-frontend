@@ -21,7 +21,7 @@ function Account() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
-  const [userDetails, setUserDetails] = useState(null);
+  const [userDetails, setUserDetails] = useState({});
   const dropdownRef = useRef(null);
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -60,7 +60,7 @@ function Account() {
   const initialValues = {
     firstName: "",
     lastName: "",
-    email: "Super@codenomad.net", // Setting default email
+    email: "", // Setting default email
     phone: "",
     position: "",
   };
@@ -237,7 +237,7 @@ function Account() {
                     <div className="col-span-4">
                       <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                         <p className="text-sm m-0 p-0">Email</p>
-                        <p className="font-semibold">Super@codenomad.net</p>
+                        <p className="font-semibold">{userDetails.email}</p>
                       </div>
                     </div>
                     <div className="col-span-4">
