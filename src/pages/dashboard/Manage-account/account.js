@@ -232,7 +232,7 @@ function Account() {
               }}
             >
               {({ isSubmitting }) => (
-                <Form>
+                <Form className="col-span-12">
                   <Grid>
                     <div className="col-span-4">
                       <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
@@ -241,24 +241,40 @@ function Account() {
                       </div>
                     </div>
                     <div className="col-span-4">
+                      <div className="relative">
+                    <label
+                        htmlFor='First Name'
+                        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                      >
+                        First Name
+                      </label>
+                    
                       <Field
                         type="text"
                         name="firstName"
-                        placeholder="First Name"
-                        className="!bg-[#fff]"
+                        placeholder=""
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                       />
                       <ErrorMessage
                         name="firstName"
                         component="div"
                         className="text-red-500"
                       />
+                      </div>
                     </div>
                     <div className="col-span-4">
+                    <div className="relative">
+                    <label
+                        htmlFor='Last Name'
+                        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                      >
+                        Last Name
+                      </label>
                       <Field
                         type="text"
                         name="lastName"
-                        placeholder="Last Name"
-                        className="!bg-[#fff]"
+                        placeholder=""
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                       />
                       <ErrorMessage
                         name="lastName"
@@ -266,12 +282,20 @@ function Account() {
                         className="text-red-500"
                       />
                     </div>
+                    </div>
                     <div className="col-span-4">
+                    <div className="relative">
+                    <label
+                        htmlFor='Phone #'
+                        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                      >
+                        Phone #
+                      </label>
                       <Field
                         type="tel"
                         name="phone"
-                        placeholder="Phone #"
-                        className="!bg-[#fff]"
+                        placeholder=""
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                       />
                       <ErrorMessage
                         name="phone"
@@ -279,24 +303,33 @@ function Account() {
                         className="text-red-500"
                       />
                     </div>
+                    </div>
                     <div className="col-span-4">
+                    <div className="relative">
+                    <label
+                        htmlFor='Position'
+                        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                      >
+                        Position
+                      </label>
                       <Field
                         type="text"
                         name="position"
-                        placeholder="Position"
-                        className="!bg-[#fff]"
+                        placeholder=""
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                       />
                       <ErrorMessage
                         name="position"
                         component="div"
                         className="text-red-500"
                       />
+                      </div>
                     </div>
                     <div className="col-span-4 text-right"></div>
                     <div className="col-span-12 text-right">
-                      <button type="submit" disabled={isSubmitting}>
+                      <Button type="submit" disabled={isSubmitting}>
                         Save Changes
-                      </button>
+                      </Button>
                     </div>
                   </Grid>
                 </Form>
