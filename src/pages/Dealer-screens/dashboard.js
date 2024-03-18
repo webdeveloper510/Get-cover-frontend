@@ -99,7 +99,7 @@ function DealerDashboard() {
               </div>
             </Grid>
 
-            <Grid className="s:hidden md:block xl:block">
+            {/* <Grid className="s:hidden md:block xl:block">
               <div className="col-span-12">
                 <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
                   <Grid>
@@ -191,7 +191,7 @@ function DealerDashboard() {
                   <BarChart />
                 </div>
               </div>
-            </Grid>
+            </Grid> */}
           </div>
         )}
       </div>

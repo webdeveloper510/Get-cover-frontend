@@ -226,58 +226,58 @@ function DealerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-light-green text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Description</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
+                    <p className='text-light-green text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
+                    <p className='text-light-green text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-light-green text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Description</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
+                    <p className='text-light-green text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
+                    <p className='text-light-green text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-light-green text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Description</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
+                    <p className='text-light-green text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
+                    <p className='text-light-green text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-12 '>
@@ -297,7 +297,7 @@ function DealerClaimList() {
                         </div>
                         <div className='pl-1 self-center'>
                           <p className='text-white text-sm'>Shipping Label received</p>
-                          <p className='text-[#686868]'>16 Dec 2024</p>
+                          <p className='text-light-green'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
                           {/* <img src={DropActive} alt='DropActive' /> */}
@@ -309,7 +309,7 @@ function DealerClaimList() {
                         </div>
                         <div className='pl-1 self-center'>
                           <p className='text-white text-sm'>Open</p>
-                          <p className='text-[#686868]'>16 Dec 2024</p>
+                          <p className='text-light-green'>16 Dec 2024</p>
                         </div>
                       
                       </div>
@@ -319,32 +319,33 @@ function DealerClaimList() {
                         </div>
                         <div className='pl-1'>
                           <p className='text-white text-sm'>Parts Needed</p>
-                          <p className='text-[#686868]'>16 Dec 2024</p>
+                          <p className='text-light-green'>16 Dec 2024</p>
                         </div>
                       
                       </div>
                     </div>
-                    <div className='col-span-3 self-center'>
+                    <div className='col-span-5 self-center'>
                       <div className='m-2 p-2 bg-[#3C3C3C] '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
-                        <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
-                        <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
+                        <div className='h-[130px] max-h-[130px] overflow-y-scroll Diagnosis'>
+                        <p className='text-sm text-light-green'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
                         </div>
                       </div>
-                    </div>
-                    <div className='col-span-2 self-center h-full p-3 pl-0'>
-                      {/* <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div>  */}
-                      <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
-                        <div className='self-center'>
-                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
-                          <p className='text-sm font-semibold text-center'>Download <br/>
+                      <Grid className='!gap-1 px-3 mb-3'>
+                        <div className='col-span-6'></div>
+                      <div className=' col-span-6 justify-center self-center bg-[white] h-full rounded-md'>
+                        <Button className='!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[13px] flex'>
+                          <img src={download} className='w-5 h-5 mr-2 cursor-pointer' alt='download'/>
+                          <p className='text-[13px] font-semibold text-center'>Download
                              Attachments</p>
-                        </div>
+                        </Button>
                       </div>
+                      </Grid>
+                     
                     </div>
                   </Grid>
                 </div>
@@ -405,58 +406,58 @@ function DealerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-light-green text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Description</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
+                    <p className='text-light-green text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
+                    <p className='text-light-green text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-light-green text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Description</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
+                    <p className='text-light-green text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
+                    <p className='text-light-green text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-light-green text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Description</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
+                    <p className='text-light-green text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
+                    <p className='text-light-green text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-12 '>
@@ -476,7 +477,7 @@ function DealerClaimList() {
                         </div>
                         <div className='pl-1 self-center'>
                           <p className='text-white text-sm'>Shipping Label received</p>
-                          <p className='text-[#686868]'>16 Dec 2024</p>
+                          <p className='text-light-green'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
                           {/* <img src={DropActive} alt='DropActive' /> */}
@@ -488,7 +489,7 @@ function DealerClaimList() {
                         </div>
                         <div className='pl-1 self-center'>
                           <p className='text-white text-sm'>Open</p>
-                          <p className='text-[#686868]'>16 Dec 2024</p>
+                          <p className='text-light-green'>16 Dec 2024</p>
                         </div>
                        
                       </div>
@@ -498,7 +499,7 @@ function DealerClaimList() {
                         </div>
                         <div className='pl-1'>
                           <p className='text-white text-sm'>Parts Needed</p>
-                          <p className='text-[#686868]'>16 Dec 2024</p>
+                          <p className='text-light-green'>16 Dec 2024</p>
                         </div>
                         
                       </div>
@@ -507,7 +508,7 @@ function DealerClaimList() {
                       <div className='m-2 p-2 bg-[#3C3C3C]'>
                         <p className='text-[11px] text-white'>Diagnosis</p>
                         <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
-                        <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
+                        <p className='text-sm text-light-green'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
@@ -584,58 +585,58 @@ function DealerClaimList() {
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-light-green text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Description</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
+                    <p className='text-light-green text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
+                    <p className='text-light-green text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-light-green text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Description</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
+                    <p className='text-light-green text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
+                    <p className='text-light-green text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
+                    <p className='text-light-green text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Description</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
+                    <p className='text-light-green text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-[#474747]'>
                   <div className='py-4 pl-3'>
                     <p className='text-[#fff] text-sm font-Regular'>Price($)</p>
-                    <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
+                    <p className='text-light-green text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-12 '>
@@ -655,7 +656,7 @@ function DealerClaimList() {
                         </div>
                         <div className='pl-1 self-center'>
                           <p className='text-white text-sm'>Shipping Label received</p>
-                          <p className='text-[#686868]'>16 Dec 2024</p>
+                          <p className='text-light-green'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
                           {/* <img src={DropActive} alt='DropActive' /> */}
@@ -667,7 +668,7 @@ function DealerClaimList() {
                         </div>
                         <div className='pl-1 self-center'>
                           <p className='text-white text-sm'>Open</p>
-                          <p className='text-[#686868]'>16 Dec 2024</p>
+                          <p className='text-light-green'>16 Dec 2024</p>
                         </div>
                        
                       </div>
@@ -677,7 +678,7 @@ function DealerClaimList() {
                         </div>
                         <div className='pl-1'>
                           <p className='text-white text-sm'>Parts Needed</p>
-                          <p className='text-[#686868]'>16 Dec 2024</p>
+                          <p className='text-light-green'>16 Dec 2024</p>
                         </div>
                        
                       </div>
@@ -686,7 +687,7 @@ function DealerClaimList() {
                       <div className='m-2 p-2 bg-[#3C3C3C]'>
                         <p className='text-[11px] text-white'>Diagnosis</p>
                         <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
-                        <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
+                        <p className='text-sm text-light-green'>In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
                           is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
                           placeholder. In publishing and graphic design, Lorem ipsum
