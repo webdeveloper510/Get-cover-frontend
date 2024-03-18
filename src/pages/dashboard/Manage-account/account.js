@@ -64,14 +64,6 @@ function Account() {
     // position: Yup.string().required("Position is required"),
   });
 
-  // const initialValues = {
-  //   firstName: "",
-  //   lastName: "",
-  //   email: "super@codenomad.net", // Setting default email
-  //   phone: "",
-  //   position: "",
-  // };
-
   const Data = [
     {
       id: 1,
@@ -216,6 +208,21 @@ function Account() {
     setLoading(false);
   };
 
+  const validationSchema2 = Yup.object().shape({
+    oldPassword: Yup.string().required("Old Password is required"),
+    newPassword: Yup.string()
+      .min(6, "New Password must be at least 6 characters")
+      .required("New Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
+      .required("Confirm Password is required"),
+  });
+
+  const initialValues2 = {
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  };
   return (
     <>
      {loading ? (
@@ -376,32 +383,62 @@ function Account() {
             </>
 
           <p className="text-xl font-semibold mb-3">Change Password</p>
-          <Grid>
-            <div className="col-span-4">
-              <Input
-                type="password"
-                label="Old Password"
-                className="!bg-[#fff]"
-              />
-            </div>
-            <div className="col-span-4">
-              <Input
-                type="password"
-                label="New Password"
-                className="!bg-[#fff]"
-              />
-            </div>
-            <div className="col-span-4">
-              <Input
-                type="password"
-                label="Confirm Password"
-                className="!bg-[#fff]"
-              />
-            </div>
-          </Grid>
-          <div className="mt-4 text-right">
-            <Button>Change Password</Button>
-          </div>
+          <Formik
+            initialValues={initialValues2}
+            validationSchema={validationSchema2}
+            onSubmit={(values, { setSubmitting }) => {
+              // Handle form submission here
+              console.log(values);
+              setSubmitting(false);
+            }}
+          >
+            <Form>
+              <Grid>
+                <div className="col-span-4">
+                  <Field
+                    type="password"
+                    name="oldPassword"
+                    label="Old Password"
+                    className="!bg-[#fff]"
+                  />
+                  <ErrorMessage
+                    name="oldPassword"
+                    component="div"
+                    className="text-red-500"
+                  />
+                </div>
+                <div className="col-span-4">
+                  <Field
+                    type="password"
+                    name="newPassword"
+                    label="New Password"
+                    className="!bg-[#fff]"
+                  />
+                  <ErrorMessage
+                    name="newPassword"
+                    component="div"
+                    className="text-red-500"
+                  />
+                </div>
+                <div className="col-span-4">
+                  <Field
+                    type="password"
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    className="!bg-[#fff]"
+                  />
+                  <ErrorMessage
+                    name="confirmPassword"
+                    component="div"
+                    className="text-red-500"
+                  />
+                </div>
+              </Grid>
+              <div className="mt-4 text-right">
+                <button type="submit">Change Password</button>
+              </div>
+            </Form>
+          </Formik>
         </div>
         {loading ? (
           <div className=" h-[400px] w-full flex py-5">
