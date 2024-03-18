@@ -28,7 +28,6 @@ function Account() {
   const dropdownRef = useRef(null);
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      // Close the dropdown if the click is outside of it
       setSelectedAction(null);
     }
   };
@@ -190,9 +189,11 @@ function Account() {
   }, []);
 
   const getUserDetails = async () => {
+    setLoading(true);
     const result = await getUserDetailsbyToken();
     console.log(result);
     setUserDetails(result.result);
+    setLoading(false);
   };
 
   return (
@@ -225,112 +226,135 @@ function Account() {
 
         <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
           <p className="text-xl font-semibold mb-3">My Account</p>
-          <Grid>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={(values, { setSubmitting }) => {
-                // Handle form submission here
-                console.log(values);
-                editDetail(values);
-                setSubmitting(false);
-              }}
-            >
-              {({ isSubmitting }) => (
-                <Form>
-                  <Grid>
-                    <div className="col-span-4">
-                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                        <p className="text-sm m-0 p-0">Email</p>
-                        <p className="font-semibold">{userDetails.email}</p>
-                      </div>
-                    </div>
-                    <div className="col-span-4">
-                      <Field
-                        type="text"
-                        name="firstName"
-                        placeholder="First Name"
-                        className="!bg-[#fff]"
-                      />
-                      <ErrorMessage
-                        name="firstName"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-                    <div className="col-span-4">
-                      <Field
-                        type="text"
-                        name="lastName"
-                        placeholder="Last Name"
-                        className="!bg-[#fff]"
-                      />
-                      <ErrorMessage
-                        name="lastName"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-                    <div className="col-span-4">
-                      <Field
-                        type="tel"
-                        name="phone"
-                        placeholder="Phone #"
-                        className="!bg-[#fff]"
-                      />
-                      <ErrorMessage
-                        name="phone"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-                    <div className="col-span-4">
-                      <Field
-                        type="text"
-                        name="position"
-                        placeholder="Position"
-                        className="!bg-[#fff]"
-                      />
-                      <ErrorMessage
-                        name="position"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-                    <div className="col-span-4 text-right"></div>
-                    <div className="col-span-12 text-right">
-                      <button type="submit" disabled={isSubmitting}>
-                        Save Changes
-                      </button>
-                    </div>
-                  </Grid>
-                </Form>
-              )}
-            </Formik>
-            {/* <div className="col-span-4">
-              <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                <p className="text-sm m-0 p-0">Email</p>
-                <p className="font-semibold">Super@codenomad.net</p>
+          {loading ? (
+            <>
+              <div className=" h-[250px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
               </div>
-            </div>
+            </>
+          ) : (
+            <>
+              <Grid>
+                <Formik
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={(values, { setSubmitting }) => {
+                    // Handle form submission here
+                    // console.log(values);
+                    editDetail(values);
+                    setSubmitting(false);
+                  }}
+                >
+                  {({ isSubmitting }) => (
+                    <Form className="col-span-12">
+                      <Grid>
+                        <div className="col-span-4">
+                          <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                            <p className="text-sm m-0 p-0">Email</p>
+                            <p className="font-semibold">{userDetails.email}</p>
+                          </div>
+                        </div>
+                        <div className="col-span-4">
+                          <div className="relative">
+                            <label
+                              htmlFor="First Name"
+                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                            >
+                              First Name
+                            </label>
 
-            <div className="col-span-4">
-              <Input type="text" label="First Name" className="!bg-[#fff]" />
-            </div>
-            <div className="col-span-4">
-              <Input type="text" label="Last Name" className="!bg-[#fff]" />
-            </div>
-            <div className="col-span-4">
-              <Input type="tel" label="Phone #" className="!bg-[#fff]" />
-            </div>
-            <div className="col-span-4">
-              <Input type="text" label="Postion" className="!bg-[#fff]" />
-            </div>
-            <div className="col-span-4 text-right"></div>
-            <div className="col-span-12 text-right">
-              <Button> Save Changes</Button>
-            </div> */}
-          </Grid>
+                            <Field
+                              type="text"
+                              name="firstName"
+                              placeholder=""
+                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                            />
+                            <ErrorMessage
+                              name="firstName"
+                              component="div"
+                              className="text-red-500"
+                            />
+                          </div>
+                        </div>
+                        <div className="col-span-4">
+                          <div className="relative">
+                            <label
+                              htmlFor="Last Name"
+                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                            >
+                              Last Name
+                            </label>
+                            <Field
+                              type="text"
+                              name="lastName"
+                              placeholder=""
+                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                            />
+                            <ErrorMessage
+                              name="lastName"
+                              component="div"
+                              className="text-red-500"
+                            />
+                          </div>
+                        </div>
+                        <div className="col-span-4">
+                          <div className="relative">
+                            <label
+                              htmlFor="Phone #"
+                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                            >
+                              Phone #
+                            </label>
+                            <Field
+                              type="tel"
+                              name="phone"
+                              placeholder=""
+                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                            />
+                            <ErrorMessage
+                              name="phone"
+                              component="div"
+                              className="text-red-500"
+                            />
+                          </div>
+                        </div>
+                        <div className="col-span-4">
+                          <div className="relative">
+                            <label
+                              htmlFor="Position"
+                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                            >
+                              Position
+                            </label>
+                            <Field
+                              type="text"
+                              name="position"
+                              placeholder=""
+                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                            />
+                            <ErrorMessage
+                              name="position"
+                              component="div"
+                              className="text-red-500"
+                            />
+                          </div>
+                        </div>
+                        <div className="col-span-4 text-right"></div>
+                        <div className="col-span-12 text-right">
+                          <Button type="submit" disabled={isSubmitting}>
+                            Save Changes
+                          </Button>
+                        </div>
+                      </Grid>
+                    </Form>
+                  )}
+                </Formik>
+              </Grid>
+            </>
+          )}
+
           <p className="text-xl font-semibold mb-3">Change Password</p>
           <Grid>
             <div className="col-span-4">
