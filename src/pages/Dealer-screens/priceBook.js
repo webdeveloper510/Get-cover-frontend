@@ -21,6 +21,7 @@ import { RotateLoader } from "react-spinners";
 import Modal from "../../common/model";
 import { getPriceBookListByResellerId } from "../../services/reSellerServices";
 import Headbar from "../../common/headBar";
+import view from "../../assets/images/eye.png";
 import {
   getPriceBookDetailsForDealerPortal,
   getPriceBookForDealer,
@@ -127,15 +128,15 @@ function DealerPriceBook(props) {
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[70px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 <div
-                  className="text-center py-2 px-2 cursor-pointer"
+                  className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
                   onClick={() => openView(row._id)}
                 >
-                  View
+                  <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
               </div>
             )}

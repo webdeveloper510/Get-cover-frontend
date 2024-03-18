@@ -428,7 +428,57 @@ function ServicerUser() {
       label: "Details",
       content: (
         <>
-          <div className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
+       
+        </>
+      ),
+    },
+    {
+      id: 2,
+      label: "My Account",
+      content: (
+        <>
+         
+        </>
+      ),
+    },
+    {
+      id: 3,
+      label: "Change Password",
+      content: (
+        <>
+        
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <>
+      {loading && (
+        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#fff" />
+          </div>
+        </div>
+      )}
+      <div className="my-8">
+        <Headbar />
+        <div className="flex mt-2">
+          <div className="pl-3">
+            <p className="font-bold text-[36px] leading-9	mb-[3px]">
+              Manage Users
+            </p>
+            <ul className="flex self-center">
+              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                {" "}
+                Users{" "}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+        <div className="bg-Edit bg-cover px-8 py-4 rounded-[30px]">
             <Grid>
               <div className="col-span-2 text-left">
                 <p className="text-base text-white font-semibold mb-3 mr-3 mt-5">
@@ -441,7 +491,7 @@ function ServicerUser() {
               </div>
             </Grid>
 
-            <Grid className="mx-8 mx-auto mt-4">
+            <Grid className="mx-8 mx-auto">
               <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
               <div className="col-span-3 border-r border-[#4e4e4e]">
                 <div className="flex">
@@ -475,6 +525,63 @@ function ServicerUser() {
               </div>
               <div className="col-span-2"></div>
             </Grid>
+          </div>
+          <div className="px-8 pb-4 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+              <p className='text-xl font-semibold mb-5'>My Details</p>
+              <Grid>
+                <div className="col-span-4">
+                  <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                    <p className="text-sm m-0 p-0">Email</p>
+                    <p className="font-semibold">Super@codenomad.net</p>
+                  </div>
+                </div>
+
+                <div className="col-span-4">
+                  <Input type="text" label="First Name" className="!bg-[#fff]" />
+                </div>
+                <div className="col-span-4">
+                  <Input type="text" label="Last Name" className="!bg-[#fff]" />
+                </div>
+                <div className="col-span-4">
+                  <Input type="tel" label="Phone #" className="!bg-[#fff]" />
+                </div>
+                <div className="col-span-4">
+                  <Input type="text" label="Postion" className="!bg-[#fff]" />
+                </div>
+                <div className="col-span-4 text-right"></div>
+                <div className="col-span-12 text-right">
+                  <Button> Save Changes</Button>
+                </div>
+              </Grid>
+          </div>
+          <div className="px-8 pb-4 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+              <p className='text-xl font-semibold mb-5'>Change Password</p>
+              <Grid>
+                <div className="col-span-4">
+                  <Input
+                    type="password"
+                    label="Old Password"
+                    className="!bg-[#fff]"
+                  />
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="password"
+                    label="New Password"
+                    className="!bg-[#fff]"
+                  />
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="password"
+                    label="Confirm Password"
+                    className="!bg-[#fff]"
+                  />
+                </div>
+              </Grid>
+              <div className="mt-4 text-right">
+                <Button>Change Password</Button>
+              </div>
           </div>
           {loading ? (
           <div className=" h-[400px] w-full flex py-5">
@@ -586,105 +693,6 @@ function ServicerUser() {
             />
           </div>
         )}
-        </>
-      ),
-    },
-    {
-      id: 2,
-      label: "My Account",
-      content: (
-        <>
-          <Grid>
-            <div className="col-span-4">
-              <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                <p className="text-sm m-0 p-0">Email</p>
-                <p className="font-semibold">Super@codenomad.net</p>
-              </div>
-            </div>
-
-            <div className="col-span-4">
-              <Input type="text" label="First Name" className="!bg-[#fff]" />
-            </div>
-            <div className="col-span-4">
-              <Input type="text" label="Last Name" className="!bg-[#fff]" />
-            </div>
-            <div className="col-span-4">
-              <Input type="tel" label="Phone #" className="!bg-[#fff]" />
-            </div>
-            <div className="col-span-4">
-              <Input type="text" label="Postion" className="!bg-[#fff]" />
-            </div>
-            <div className="col-span-4 text-right"></div>
-            <div className="col-span-12 text-right">
-              <Button> Save Changes</Button>
-            </div>
-          </Grid>
-        </>
-      ),
-    },
-    {
-      id: 3,
-      label: "Change Password",
-      content: (
-        <>
-          <Grid>
-            <div className="col-span-4">
-              <Input
-                type="password"
-                label="Old Password"
-                className="!bg-[#fff]"
-              />
-            </div>
-            <div className="col-span-4">
-              <Input
-                type="password"
-                label="New Password"
-                className="!bg-[#fff]"
-              />
-            </div>
-            <div className="col-span-4">
-              <Input
-                type="password"
-                label="Confirm Password"
-                className="!bg-[#fff]"
-              />
-            </div>
-          </Grid>
-          <div className="mt-4 text-right">
-            <Button>Change Password</Button>
-          </div>
-        </>
-      ),
-    },
-  ];
-
-  return (
-    <>
-      {loading && (
-        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#fff" />
-          </div>
-        </div>
-      )}
-      <div className="my-8">
-        <Headbar />
-        <div className="flex mt-2">
-          <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">
-              Manage Users
-            </p>
-            <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-                {" "}
-                Users{" "}
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-          <Tabs tabs={tabsData} />
         </div>
      
       </div>

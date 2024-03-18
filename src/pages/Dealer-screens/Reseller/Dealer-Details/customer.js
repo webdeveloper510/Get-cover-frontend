@@ -8,6 +8,7 @@ import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import Grid from "../../../../common/grid";
+import view from "../../../../assets/images/eye.png";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
 import { getCustomerListByDealerId } from "../../../../services/customerServices";
@@ -113,10 +114,11 @@ function CustomerList(props) {
                   onClick={() => {
                     localStorage.setItem("menu", "Customer");
                   }}
-                  className="text-center py-3 cursor-pointer"
+                  className="text-center py-1 cursor-pointer"
                 >
-                  <Link to={`/dealer/customerDetails/${row.customerData._id}`}>
-                    View{" "}
+                  <Link to={`/dealer/customerDetails/${row.customerData._id}`} className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start self-center"
+                    >
+                      <img src={view} className="w-4 h-4 mr-2" /> <span className="self-center"> View </span> 
                   </Link>
                 </div>
               </div>
