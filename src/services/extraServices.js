@@ -114,3 +114,16 @@ export const editContractById = async (id, data) => {
     throw error;
   }
 };
+
+export const getUserDetailsbyToken = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/user/getUserByToken`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

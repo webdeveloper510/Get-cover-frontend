@@ -29,7 +29,7 @@ import { getContractsforCustomer } from "../../../services/customerServices";
 import { getContractsforReseller } from "../../../services/reSellerServices";
 
 function ContractList(props) {
-  console.log(props, '----------------->>>>>>>>>>>');
+  console.log(props, "----------------->>>>>>>>>>>");
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -691,7 +691,8 @@ function ContractList(props) {
                             {contractDetails.productValue === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                Number(contractDetails.productValue) ?? parseInt(0)
+                                  Number(contractDetails.productValue) ??
+                                    parseInt(0)
                                 )}
                           </p>
                         </div>
