@@ -769,6 +769,7 @@ function UserList(props) {
                   onBlur={formik.handleBlur}
                   error={formik.touched.status && formik.errors.status}
                 />
+
                 {formik.touched.status && formik.errors.status && (
                   <div className="text-red-500 text-sm pl-2 pt-2">
                     {formik.errors.status}

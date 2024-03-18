@@ -116,6 +116,7 @@ function CustomerDetails() {
       clearInterval(intervalId);
     };
   }, [modalOpen, timer]);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -179,7 +180,6 @@ function CustomerDetails() {
         console.log(result);
         console.log("here");
         if (result.code === 401) {
-          console.log("here12");
           setFieldError("email", "Email already in use");
         }
         setLoading(false);
