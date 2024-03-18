@@ -60,7 +60,7 @@ function Account() {
   const initialValues = {
     firstName: "",
     lastName: "",
-    email: "", // Setting default email
+    email: "dsadads", // Setting default email
     phone: "",
     position: "",
   };
@@ -227,7 +227,8 @@ function Account() {
               validationSchema={validationSchema}
               onSubmit={(values, { setSubmitting }) => {
                 // Handle form submission here
-                console.log(values);
+                // console.log(values);
+              
                 setSubmitting(false);
               }}
             >
