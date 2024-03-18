@@ -450,7 +450,7 @@ function ResellerUser() {
         <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
         <div className="bg-Edit bg-cover px-8 py-4 rounded-[30px]">
             <Grid>
-              <div className="col-span-2 text-center">
+              <div className="col-span-2 text-left">
                 <p className="text-base text-white font-semibold my-3">
                   {" "}
                   Dealer Details
@@ -496,7 +496,7 @@ function ResellerUser() {
             </Grid>
             <Grid className="mt-5">
               
-              <div className="col-span-2 text-center">
+              <div className="col-span-2 text-left">
                 <p className="text-base text-white font-semibold">
                   {" "}
                   My Details
