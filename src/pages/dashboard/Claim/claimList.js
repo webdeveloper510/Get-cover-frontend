@@ -1396,8 +1396,30 @@ function ClaimList(props) {
         </Button>
         <div className="py-3">
           <p className="text-center text-3xl font-semibold ">
-            Comments Details
+           Are you sure ?
           </p>
+          <Grid>
+            <div className="col-span-12">
+            <textarea
+                  id="content"
+                  rows="4"
+                  name="content"
+                  maxLength={150}
+                  className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm`}
+                  value={formik2.values.content}
+                  onChange={formik2.handleChange}
+                  onBlur={formik2.handleBlur}
+                ></textarea>
+            </div>
+            <div className="col-span-4"></div>
+            <div className="col-span-2">
+              <Button>Yes</Button>
+            </div>
+            <div className="col-span-2">
+            <Button type='button'  onClick={closeReject}>No</Button>
+            </div>
+            <div className="col-span-4"></div>
+          </Grid>
         </div>
       </Modal>
 
