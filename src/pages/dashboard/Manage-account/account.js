@@ -216,6 +216,19 @@ function Account() {
     setLoading(false);
   };
 
+  const validationSchema2 = Yup.object().shape({
+    oldPassword: Yup.string().required("Old Password is required"),
+    newPassword: Yup.string().required("New Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
+      .required("Confirm Password is required"),
+  });
+
+  const initialValues2 = {
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  };
   return (
     <>
      {loading ? (
