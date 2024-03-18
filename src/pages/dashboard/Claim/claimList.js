@@ -385,6 +385,7 @@ function ClaimList(props) {
     console.log(isValidReseller);
     setSendto(
       [
+        { label: "Admin", value: "Admin" },
         { label: "Dealer", value: "Dealer" },
         isValidReseller ? { label: "Reseller", value: "Reseller" } : null,
         { label: "Servicer", value: "Servicer" },
@@ -455,7 +456,7 @@ function ClaimList(props) {
   const initialValues2 = {
     content: "",
     orderId: "",
-    type: "",
+    type: "Admin",
     messageFile: {},
   };
   const formik2 = useFormik({
@@ -471,7 +472,7 @@ function ClaimList(props) {
       const temporaryMessage = {
         _id: "temp-id",
         content: values.content,
-        type: values.type, // Adjust accordingly
+        type: values.type || 'Admin', 
         messageFile: {
           fileName: values.fileName || "",
           originalName: values.originalName || "",
@@ -1602,7 +1603,7 @@ function ClaimList(props) {
                   className="!bg-white "
                   classBox="w-full self-center"
                   className1="!p-2 w-full"
-                  value={formik2.values.type || ""}
+                  value={formik2.values.type}
                   onChange={handleChange2}
                   onBlur={formik2.handleBlur}
                 />
