@@ -386,7 +386,7 @@ function ClaimList(props) {
     console.log(isValidReseller);
     setSendto(
       [
-        { label: "Admin", value: "Admin" },
+        { label: "Admin (By Self)", value: "Admin" },
         { label: "Dealer", value: "Dealer" },
         isValidReseller ? { label: "Reseller", value: "Reseller" } : null,
         { label: "Servicer", value: "Servicer" },
