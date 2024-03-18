@@ -1603,7 +1603,7 @@ function ClaimList(props) {
                   placeholder=""
                   className="!bg-white "
                   classBox="w-full self-center"
-                  className1="!p-2 w-full"
+                  className1="!p-2 w-full !pr-[40px]"
                   value={formik2.values.type}
                   onChange={handleChange2}
                   onBlur={formik2.handleBlur}
