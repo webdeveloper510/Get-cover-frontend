@@ -159,7 +159,37 @@ function Account() {
       const tabsData = [
         { id: 1, label: 'My Account', content: (
           <>
-          <Grid >
+         
+           
+          </>
+        ) },
+        { id: 2, label: 'Change Password', content: (
+          <>
+       
+          </>
+        ) },
+      ];
+
+  return (
+    <>
+     <div className='my-8 ml-3'>
+        <Headbar/>
+            <div className='flex mt-2'>
+            <Link to={'/dashboard'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
+                <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
+            </Link>
+            <div className='pl-3'>
+                <p className='font-bold text-[36px] leading-9 mb-[3px]'>Manage Account</p>
+                <ul className='flex self-center'>
+                <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Edit Account  </li>
+                </ul>
+            </div>
+            </div>
+
+            <div className='px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
+                 
+            <p className='text-xl font-semibold mb-3'>My Account</p>
+            <Grid >
           <div className='col-span-4'>
                <div className='bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1'>
                  <p className='text-sm m-0 p-0'>Email</p>
@@ -202,11 +232,7 @@ function Account() {
                <Button> Save Changes</Button>
              </div>
           </Grid>
-           
-          </>
-        ) },
-        { id: 2, label: 'Change Password', content: (
-          <>
+          <p className='text-xl font-semibold mb-3'>Change Password</p>
           <Grid>
              <div className='col-span-4'>
                  <Input 
@@ -233,30 +259,6 @@ function Account() {
           <div className='mt-4 text-right'>
              <Button>Change Password</Button>
           </div>
-          </>
-        ) },
-      ];
-
-  return (
-    <>
-     <div className='my-8 ml-3'>
-        <Headbar/>
-            <div className='flex mt-2'>
-            <Link to={'/dashboard'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
-                <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
-            </Link>
-            <div className='pl-3'>
-                <p className='font-bold text-[36px] leading-9 mb-[3px]'>Manage Account</p>
-                <ul className='flex self-center'>
-                <li className='text-sm text-neutral-grey font-semibold ml-2 pt-[1px]'> Edit Account  </li>
-                </ul>
-            </div>
-            </div>
-
-            <div className='px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative'>
-                 
-           
-                  <Tabs tabs={tabsData} />
             </div>
             {loading ? (
               <div className=" h-[400px] w-full flex py-5">
