@@ -140,3 +140,63 @@ export const editUserDetailsbyToken = async (data) => {
     throw error;
   }
 };
+
+export const changePasswordbyToken = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(`${url}/user/updatePassword`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addSuperAdminMembers = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/user/addMember`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getSuperAdminMembers = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/user/getMembers`,
+      {},
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const changePrimaryById = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(
+      `${url}/user/changePrimaryUser/${id}`,
+      {},
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
