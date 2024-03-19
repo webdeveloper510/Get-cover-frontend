@@ -10,6 +10,7 @@ import Headbar from "../../../common/headBar";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
+import disapprove from "../../../assets/images/Disapproved.png";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import Input from "../../../common/input";
 
@@ -55,6 +56,7 @@ function AddClaim() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [code, setCode] = useState("");
   const [timer, setTimer] = useState(3);
   const [currentStep, setCurrentStep] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -679,23 +681,22 @@ function AddClaim() {
 
   const validationSchemaStep2 = Yup.object({
     lossDate: Yup.date().required("Loss Date is required"),
-    images: Yup.array()
-      .min(1, "At least one image is required")
-      .test("fileSize", "File size is too large", (value) => {
-        if (!value || value.length === 0) return true;
+    images: Yup.array().test("fileSize", "File size is too large", (value) => {
+      if (!value || value.length === 0) return true;
 
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        return value.every((image) => image.file.size <= maxSize);
-      }),
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      return value.every((image) => image.file.size <= maxSize);
+    }),
     diagnosis: Yup.string()
       .transform((originalValue) => originalValue.trim())
       .required("Diagnosis is required"),
   });
 
   const handleChange = (name, value) => {
-    console.log(contractDetail);
+    console.log(name, value);
     formikStep2.setFieldValue(name, value);
   };
+
   const formikStep2 = useFormik({
     initialValues: {
       servicerId: "",
@@ -720,10 +721,16 @@ function AddClaim() {
       addClaim(values).then((res) => {
         console.log(res);
         if (res.code == 200) {
+          setCode("200");
           setIsCreateOpen(true);
           setTimer(3);
           setMessage("New Claim Created Successfully");
           setLoading1(false);
+        } else {
+          setTimer(null);
+          setCode(res.code);
+          setIsCreateOpen(true);
+          setMessage(res.message);
         }
         setLoading1(false);
       });
@@ -838,8 +845,8 @@ function AddClaim() {
                       className="!bg-[#fff]"
                       onChange={handleChange}
                       options={servicerData} // Make sure to define servicerList
-                      value={formik.values.servicerId}
-                      onBlur={formik.handleBlur}
+                      value={formikStep2.values.servicerId}
+                      onBlur={formikStep2.handleBlur}
                     />
                   </div>
                   <div className="col-span-6">
@@ -889,7 +896,10 @@ function AddClaim() {
                           className="mx-auto mb-3"
                           alt="Dropbox"
                         />
-                        <p>Max. # of files : 5, file size: 5 MB<small> (each) </small>.</p>
+                        <p>
+                          Max. # of files : 5, file size: 5 MB
+                          <small> (each) </small>.
+                        </p>
                       </label>
                     </div>
                     {formikStep2.touched.images &&
@@ -1100,20 +1110,20 @@ function AddClaim() {
         </Button>
 
         <div className="text-center py-3">
-          {/* {message === "New Dealer Created Successfully" ? (
-            <> */}
-          <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            Submitted
-            <span className="text-light-black"> Successfully </span>
-          </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            {message}
-          </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            Redirecting you on Dealer Page {timer} seconds.
-          </p>
-          {/* </>
+          {code === "200" ? (
+            <>
+              <img src={AddDealer} alt="email Image" className="mx-auto" />
+              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                Submitted
+                <span className="text-light-black"> Successfully </span>
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                {message}
+              </p>
+              <p className="text-neutral-grey text-base font-medium mt-2">
+                Redirecting you on Dealer Page {timer} seconds.
+              </p>
+            </>
           ) : (
             <>
               <img src={disapprove} alt="email Image" className="mx-auto" />
@@ -1124,7 +1134,7 @@ function AddClaim() {
                 {message}
               </p>
             </>
-          )} */}
+          )}
         </div>
       </Modal>
 
