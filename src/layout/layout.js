@@ -17,11 +17,8 @@ function Layout() {
   const { id, customerId, servicerId, resellerId, orderId } = useParams();
   const checkUrl = Location.pathname + "/" + id;
 
-  console.log(checkUrl, "yes, Got here----------------");
-
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -39,7 +36,7 @@ function Layout() {
         Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
         Location.pathname !== "/notifications" &&
         Location.pathname !== "/reseller/orderDetails" &&
-        Location.pathname !== "/customer/orderDetails" &&
+        Location.pathname !== "/customer/orderDetails" + orderId &&
         Location.pathname !== "/dealer/orderDetails/" + orderId
           ? "p-4 "
           : "p-0 max-h-[100vh] overflow-hidden"
@@ -54,7 +51,7 @@ function Layout() {
       Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
       Location.pathname !== "/notifications" &&
       Location.pathname !== "/reseller/orderDetails" &&
-      Location.pathname !== "/customer/orderDetails" &&
+      Location.pathname !== "/customer/orderDetails"+ orderId &&
       Location.pathname !== "/dealer/orderDetails/" + orderId ? (
         <div
           className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full s:hidden md:block xl:block `}
@@ -75,7 +72,7 @@ function Layout() {
           Location.pathname !== "/resellerDetails/" + resellerId &&
           Location.pathname !== "/notifications" &&
           Location.pathname !== "/reseller/orderDetails" &&
-          Location.pathname !== "/customer/orderDetails" &&
+          Location.pathname !== "/customer/orderDetails" + orderId &&
           Location.pathname !== "/dealer/orderDetails/" + orderId
             ? "w-[calc(100%-10px)] pl-3"
             : "w-[100%]"

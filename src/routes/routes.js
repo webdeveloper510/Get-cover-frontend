@@ -881,7 +881,7 @@ const routes = [
         ),
       },
       {
-        path: "/customer/orderDetails",
+        path: "/customer/orderDetails/:customerId",
         element: (
           <PrivateRoute
             element={<CustomerOrderDetails />}
