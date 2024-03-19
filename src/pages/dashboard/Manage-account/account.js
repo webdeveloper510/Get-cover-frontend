@@ -186,7 +186,7 @@ function Account() {
       position: result?.result?.position,
       status: result?.result?.status,
     });
-
+    setIsUserModalOpen(false)
     openModal2();
   };
 
@@ -255,6 +255,8 @@ function Account() {
         setSecondMessage("user added successfully ");
         setModalOpen(true);
         setTimer(3);
+        setIsModalOpen1(false);
+        setIsUserModalOpen(false)
         // getUserList();
       } else {
         setLoading(false);
