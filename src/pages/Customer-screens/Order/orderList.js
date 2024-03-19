@@ -81,6 +81,7 @@ function CustomerOrderList() {
     }
   };
 
+  
   useEffect(() => {
     getOrderList();
 
@@ -91,51 +92,7 @@ function CustomerOrderList() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  const data = [
-    {
-      id: "1",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1000",
-    },
-    {
-      id: "2",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1000",
-    },
-    {
-      id: "3",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1000",
-    },
-    {
-      id: "4",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1000",
-    },
-    {
-      id: "5",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      status: "Pending",
-      orderValue: "1000",
-    },
-  ];
-
+  
   const getOrderList = async () => {
     setLoading(true);
     const result = await getOrderCustomer({});
@@ -212,8 +169,6 @@ function CustomerOrderList() {
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-1`}
               >
-                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-
                 <div className="text-center py-1 px-3 cursor-pointer">
                   <Link
                     to={`/customer/orderDetails/${row._id}`}

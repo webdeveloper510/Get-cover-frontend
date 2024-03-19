@@ -26,7 +26,7 @@ import {
   updateUserDetailsById,
 } from "../../services/userServices";
 import Select from "../../common/select";
-import { getCustomerUsersById } from "../../services/customerServices";
+import { getCustomerUsersByIdCustomerPortal } from "../../services/customerServices";
 import { useMyContext } from "../../context/context";
 import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
@@ -61,7 +61,7 @@ function CustomerUser() {
   const [loading, setLoading] = useState(false);
 
   const getUserList = async () => {
-    const result = await getCustomerUsersById("", {});
+    const result = await getCustomerUsersByIdCustomerPortal();
     console.log(result.result);
     setUserList(result.result);
   };

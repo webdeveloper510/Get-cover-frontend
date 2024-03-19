@@ -320,15 +320,13 @@ export const getOrderCustomer = async ( data = {}) => {
     throw error;
   }
 };
-export const getOrderDetailCustomer = async (id, data = {}) => {
+
+
+export const getOrderDetailCustomer = async (id) => {
   const headers = createHeaders();                                                                 
   try {
     const response = await axios.get(
-      `${url}/customerPortal/getOrderById/${id}`,
-      data,
-      {
-        headers,
-      }
+      `${url}/customerPortal/getOrderById/${id}`,{headers}
     );
 
     return response.data;

@@ -71,6 +71,23 @@ export const getAllContractsForDealerPortal = async (data = {}) => {
   }
 };
 
+export const getAllContractsForCustomerPortal = async (data = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/customerPortal/getCustomerContract`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getResellerListforDealerPortal = async (data) => {
   const headers = createHeaders();
   try {
