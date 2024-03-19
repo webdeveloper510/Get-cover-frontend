@@ -62,10 +62,15 @@ function ContractList(props) {
   };
 
   useEffect(() => {
-    if ((props.activeTab === "Contracts" && flag) || !flag) {
+    if (props.activeTab === "Contracts") {
       getContract();
     }
-  }, [props, flag]);
+  }, [props]);
+  useEffect(() => {
+    if (!flag) {
+      getContract();
+    }
+  }, [flag]);
 
   const handleSelectChange1 = (label, value) => {
     console.log(label, value, "selected");
@@ -97,7 +102,7 @@ function ContractList(props) {
     setContractList(result.result);
     setTotalRecords(result?.totalCount);
     setLoading(false);
-    setFlag(true);
+    // setFlag(true);
   };
 
   const formatOrderValue = (orderValue) => {
