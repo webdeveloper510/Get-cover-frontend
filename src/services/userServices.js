@@ -52,6 +52,23 @@ export const changePrimaryByUserId = async (id) => {
   }
 };
 
+export const changePrimaryByUserIdCustomerPortal = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/customerPortal/changePrimaryUser/${id}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 export const deleteUserByUserId = async (id) => {
   const headers = createHeaders();
   try {
@@ -108,6 +125,23 @@ export const addUserToCustomer = async (data) => {
   try {
     const response = await axios.post(
       `${url}/customer/addCustomerUser`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addUserToCustomerPortal = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/customerPortal/addCustomerUser`,
       data,
       {
         headers,

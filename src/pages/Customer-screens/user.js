@@ -19,10 +19,11 @@ import Modal from "../../common/model";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
-  changePrimaryByUserId,
+  changePrimaryByUserIdCustomerPortal,
   deleteUserByUserId,
   getUserListByDealerId,
   userDetailsById,
+  addUserToCustomerPortal,
   updateUserDetailsById,
 } from "../../services/userServices";
 import Select from "../../common/select";
@@ -197,7 +198,7 @@ function CustomerUser() {
     onSubmit: async (values) => {
       console.log("Form values:", values);
       setLoading(true);
-      const result = await updateUserDetailsById(values);
+      const result = await addUserToCustomerPortal(values);
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
@@ -259,7 +260,7 @@ function CustomerUser() {
 
   const makeUserPrimary = async (row) => {
     console.log(row._id);
-    const result = await changePrimaryByUserId(row._id);
+    const result = await changePrimaryByUserIdCustomerPortal(row._id);
     console.log(result);
     if (result.code === 200) {
       SetPrimaryText("It's set to Primary");
