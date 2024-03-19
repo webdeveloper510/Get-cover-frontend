@@ -120,6 +120,9 @@ function ServicerDetails() {
   }, [activeTab]);
 
   useEffect(() => {
+    getUserList();
+  }, []);
+  useEffect(() => {
     setLoading(true);
     let intervalId;
 
@@ -236,7 +239,13 @@ function ServicerDetails() {
       label: "Dealer",
       icons: Dealer,
       Activeicons: DealerActive,
-      content: <DealerDetailList id={servicerId} flag={flagValue} activeTab={activeTab} />,
+      content: (
+        <DealerDetailList
+          id={servicerId}
+          flag={flagValue}
+          activeTab={activeTab}
+        />
+      ),
     },
     {
       id: "Users",
@@ -244,7 +253,12 @@ function ServicerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList flag={"servicer"} id={servicerId} data={refreshList} activeTab={activeTab} />
+        <UserList
+          flag={"servicer"}
+          id={servicerId}
+          data={refreshList}
+          activeTab={activeTab}
+        />
       ),
     },
     {
@@ -317,16 +331,16 @@ function ServicerDetails() {
   });
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
-  
+
   const servicerDetail = async () => {
     setLoading(true);
     const res = await getServicerDetailsByServicerId(servicerId);
@@ -631,7 +645,7 @@ function ServicerDetails() {
                     Phone Number
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    +1 { formatPhoneNumber(servicerDetails?.phoneNumber)}
+                    +1 {formatPhoneNumber(servicerDetails?.phoneNumber)}
                   </p>
                 </div>
               </div>
@@ -929,7 +943,9 @@ function ServicerDetails() {
         {/* Modal Email Popop */}
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className=" px-8 py-4">
-            <p className="text-3xl text-center font-bold mb-8">Edit Servicer Details</p>
+            <p className="text-3xl text-center font-bold mb-8">
+              Edit Servicer Details
+            </p>
             <form className="mt-8" onSubmit={formik.handleSubmit}>
               <Grid>
                 <div className="col-span-12">

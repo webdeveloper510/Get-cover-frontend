@@ -229,6 +229,10 @@ function DealerDetails() {
     localStorage.setItem("menu", activeTab);
   }, [activeTab]);
 
+  useEffect(() => {
+    getUserList();
+  }, []);
+
   const dealerData = async (showLoader) => {
     if (!showLoader) {
       setLoading(true);

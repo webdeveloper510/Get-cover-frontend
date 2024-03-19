@@ -114,7 +114,7 @@ function UserList(props) {
     if (props?.data?.length !== 0) {
       getUserList();
     }
-  }, [props?.data]);
+  }, [props.data]);
 
   useEffect(() => {
     let intervalId;
