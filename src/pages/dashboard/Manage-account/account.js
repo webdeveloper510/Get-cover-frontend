@@ -743,16 +743,16 @@ function Account() {
                   <div className="col-span-4">
                     <div className="relative">
                       <label
-                        htmlFor="Position"
+                        htmlFor="Old Password"
                         className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
                       >
-                        Position
+                        Old Password
                       </label>
                       <Field
                         type="password"
                         name="oldPassword"
                         label="Old Password"
-                        className="!bg-[#fff]"
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                       />
                       <ErrorMessage
                         name="oldPassword"
@@ -764,16 +764,16 @@ function Account() {
                   <div className="col-span-4">
                     <div className="relative">
                       <label
-                        htmlFor="Position"
+                        htmlFor="New Password"
                         className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
                       >
-                        Position
+                        New Password
                       </label>
                       <Field
                         type="password"
                         name="newPassword"
                         label="New Password"
-                        className="!bg-[#fff]"
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                       />
                       <ErrorMessage
                         name="newPassword"
@@ -785,16 +785,16 @@ function Account() {
                   <div className="col-span-4">
                     <div className="relative">
                       <label
-                        htmlFor="Position"
+                        htmlFor="Confirm Password"
                         className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
                       >
-                        Position
+                        Confirm Password
                       </label>
                       <Field
                         type="password"
                         name="confirmPassword"
                         label="Confirm Password"
-                        className="!bg-[#fff]"
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                       />
                       <ErrorMessage
                         name="confirmPassword"
@@ -805,7 +805,7 @@ function Account() {
                   </div>
                 </Grid>
                 <div className="mt-4 text-right">
-                  <button type="submit">Change Password</button>
+                  <Button type="submit">Change Password</Button>
                 </div>
               </Form>
             </Formik>
