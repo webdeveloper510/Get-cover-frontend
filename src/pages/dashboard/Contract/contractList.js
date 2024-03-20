@@ -304,7 +304,7 @@ function ContractList(props) {
                             <Grid className="bg-[#333333] !gap-2 !grid-cols-11 rounded-t-xl">
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
                                 <p className="text-white py-2 font-Regular">
-                                  Contract ID : <b> {res.unique_key} </b>
+                                  Contract ID : <b> {res?.unique_key} </b>
                                 </p>
                               </div>
                               {props.orderId == null ? (

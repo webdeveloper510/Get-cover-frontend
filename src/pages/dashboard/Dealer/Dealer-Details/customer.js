@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../../common/button";
 
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
@@ -22,6 +22,7 @@ function CustomerList(props) {
   const [customerList, setCustomerList] = useState([]);
   const dropdownRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = customerList.length - index <= 10000;
@@ -121,14 +122,14 @@ function CustomerList(props) {
               >
                 <div
                   onClick={() => {
+                      navigate(`/customerDetails/${row.customerData._id}`);
                     localStorage.setItem("menu", "Customer");
                   }}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                   >
                    <img src={view} className="w-4 h-4 mr-2"/> 
-                  <Link className="self-center" to={`/customerDetails/${row.customerData._id}`}>
-                    View{" "}
-                  </Link>
+                  
+                    View
                 </div>
               </div>
             )}

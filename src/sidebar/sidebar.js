@@ -273,6 +273,93 @@ function SideBar() {
       active: ActiveDashboard,
     },
     {
+      name: "Order",
+      image: OrderImage,
+      active: ActiveOrder,
+      items: [
+        {
+          name: "Order List",
+          url: "/orderList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Order",
+          url: "/addOrder",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+        {
+          name: "Archive Order List",
+          url: "/archiveOrder",
+          image: Dropdown2,
+          active: ForthActive,
+        },
+      ],
+    },
+    {
+      name: "Contract",
+      url: "/contractList",
+      active: ActiveProduct,
+      image: ProductImage,
+    },
+    {
+      name: "Claim",
+      image: ClaimImage,
+      active: ActiveClaim,
+      items: [
+        {
+          name: "Claim Listing",
+          url: "/claimList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Claim",
+          url: "/addClaim",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+        {
+          name: "Add Bulk Claim",
+          url: "/addBulkClaim",
+          image: Dropdown2,
+          active: ForthActive,
+        },
+      ],
+    },
+    {
+      name: "Price Book",
+      image: PriceImage,
+      active: ActivePriceBook,
+      items: [
+        {
+          name: "Dealer Book",
+          url: "/dealerPriceList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Company Price Book",
+          url: "/companyPriceBook",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+        {
+          name: "Upload Dealer Price Book",
+          url: "/uploadDealerBook",
+          image: Dropdown2,
+          active: ForthActive,
+        },
+        {
+          name: "Category",
+          url: "/category",
+          image: Dropdown2,
+          active: lastActive,
+        },
+      ],
+    },
+    {
       name: "Dealer",
       image: DealerImage,
       active: ActiveDealer,
@@ -361,93 +448,6 @@ function SideBar() {
       ],
     },
     {
-      name: "Order",
-      image: OrderImage,
-      active: ActiveOrder,
-      items: [
-        {
-          name: "Order List",
-          url: "/orderList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Add Order",
-          url: "/addOrder",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-        {
-          name: "Archive Order List",
-          url: "/archiveOrder",
-          image: Dropdown2,
-          active: ForthActive,
-        },
-      ],
-    },
-    {
-      name: "Contract",
-      url: "/contractList",
-      active: ActiveProduct,
-      image: ProductImage,
-    },
-    {
-      name: "Claim",
-      image: ClaimImage,
-      active: ActiveClaim,
-      items: [
-        {
-          name: "Claim Listing",
-          url: "/claimList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Add Claim",
-          url: "/addClaim",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-        {
-          name: "Add Bulk Claim",
-          url: "/addBulkClaim",
-          image: Dropdown2,
-          active: ForthActive,
-        },
-      ],
-    },
-    {
-      name: "Price Book",
-      image: PriceImage,
-      active: ActivePriceBook,
-      items: [
-        {
-          name: "Dealer Book",
-          url: "/dealerPriceList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Company Price Book",
-          url: "/companyPriceBook",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-        {
-          name: "Upload Dealer Price Book",
-          url: "/uploadDealerBook",
-          image: Dropdown2,
-          active: ForthActive,
-        },
-        {
-          name: "Category",
-          url: "/category",
-          image: Dropdown2,
-          active: lastActive,
-        },
-      ],
-    },
-    {
       name: "Reporting",
       image: ReportImage,
       active: ActiveReport,
@@ -486,50 +486,6 @@ function SideBar() {
       url: "/dealer/dashboard",
       image: DashboardImage,
       active: ActiveDashboard,
-    },
-    {
-      name: "Reseller",
-      image: DealerImage,
-      active: ActiveDealer,
-      items: [
-        {
-          name: "Reseller List",
-          url: "/dealer/resellerList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Add Reseller",
-          url: "/dealer/addReseller",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
-    {
-      name: "Customer",
-      image: CustomerImage,
-      active: ActiveCustomer,
-      items: [
-        {
-          name: "Customer List",
-          url: "/dealer/customerList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Add Customer",
-          url: "/dealer/addCustomer",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
-    {
-      name: "Servicer List",
-      image: ServicerImage,
-      active: ActiveServicer,
-      url: "/dealer/servicerList",
     },
     {
       name: "Order",
@@ -595,6 +551,50 @@ function SideBar() {
       active: ActivePriceBook,
     },
     {
+      name: "Reseller",
+      image: DealerImage,
+      active: ActiveDealer,
+      items: [
+        {
+          name: "Reseller List",
+          url: "/dealer/resellerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Reseller",
+          url: "/dealer/addReseller",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
+      name: "Customer",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      items: [
+        {
+          name: "Customer List",
+          url: "/dealer/customerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Customer",
+          url: "/dealer/addCustomer",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
+      name: "Servicer List",
+      image: ServicerImage,
+      active: ActiveServicer,
+      url: "/dealer/servicerList",
+    },
+    {
       name: "Reporting",
       image: ReportImage,
       active: ActiveReport,
@@ -626,31 +626,6 @@ function SideBar() {
       url: "/reseller/dashboard",
       image: DashboardImage,
       active: ActiveDashboard,
-    },
-    {
-      name: "Customer",
-      image: CustomerImage,
-      active: ActiveCustomer,
-      items: [
-        {
-          name: "Customer List",
-          url: "/reseller/customerList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Add Customer",
-          url: "/reseller/addCustomer",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
-    {
-      name: "Servicer List",
-      image: ServicerImage,
-      active: ActiveServicer,
-      url: "/reseller/servicerList",
     },
     {
       name: "Order",
@@ -708,6 +683,31 @@ function SideBar() {
       url: "/reseller/priceBook",
       image: PriceImage,
       active: ActivePriceBook,
+    },
+    {
+      name: "Customer",
+      image: CustomerImage,
+      active: ActiveCustomer,
+      items: [
+        {
+          name: "Customer List",
+          url: "/reseller/customerList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Add Customer",
+          url: "/reseller/addCustomer",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
+    {
+      name: "Servicer List",
+      image: ServicerImage,
+      active: ActiveServicer,
+      url: "/reseller/servicerList",
     },
     {
       name: "Reporting",

@@ -233,10 +233,14 @@ function Account() {
     validationSchema: Yup.object({
       firstName: Yup.string()
         .required("Required")
+        .transform((originalValue) => originalValue.trim())
         .max(30, "Must be exactly 30 characters"),
       lastName: Yup.string()
         .required("Required")
+        .transform((originalValue) => originalValue.trim())
         .max(30, "Must be exactly 30 characters"),
+        email: Yup.string().required("Required")
+        .transform((originalValue) => originalValue.trim()),
       phoneNumber: Yup.string()
         .required("Required")
         .min(10, "Must be at least 10 characters")
@@ -309,7 +313,7 @@ function Account() {
     },
   });
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = Data.length - index <= 10000;
+    const isCloseToBottom = memberList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -320,8 +324,9 @@ function Account() {
     setCreateAccountOption(selectedValue);
   };
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("First Name is required"),
-    lastName: Yup.string().required("Last Name is required"),
+    firstName: Yup.string()
+    .transform((originalValue) => originalValue.trim()).required("First Name is required"),
+    lastName: Yup.string().transform((originalValue) => originalValue.trim()).required("Last Name is required"),
     phoneNumber: Yup.string()
       .matches(/^[0-9]{10}$/, "Invalid phone number")
       .required("Phone number is required"),
@@ -335,25 +340,6 @@ function Account() {
   //   phone: "",
   //   position: "",
   // };
-
-  const Data = [
-    {
-      id: 1,
-      name: "Super Admin",
-      email: "Super@codenomad.net",
-      phoneNumber: "9876543210",
-      position: "Admin",
-      status: "active",
-    },
-    {
-      id: 2,
-      name: "Super Admin 1",
-      email: "Super1@codenomad.net",
-      phoneNumber: "9871065432",
-      position: "Admin",
-      status: "active",
-    },
-  ];
 
   const columns = [
     {
@@ -441,7 +427,7 @@ function Account() {
                   index
                 )}`}
               >
-                {!row.isPrimary && row.status && (
+                {/* {!row.isPrimary && row.status && (
                   <div
                     onClick={() => makeUserPrimary(row)}
                     className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
@@ -449,7 +435,7 @@ function Account() {
                     <img src={make} className="w-4 h-4 mr-2" />{" "}
                     <span className="self-center"> Make Primary </span>
                   </div>
-                )}
+                )} */}
 
                 <div
                   onClick={() => editUser(row._id)}
