@@ -7,7 +7,7 @@ import {
   faFileExcel,
 } from "@fortawesome/free-solid-svg-icons";
 import Headbar from "../../../common/headBar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import disapprove from "../../../assets/images/Disapproved.png";
@@ -70,7 +70,8 @@ function AddClaim() {
   const navigate = useNavigate();
   const [selectedAction, setSelectedAction] = useState(null);
   const dropdownRef = useRef(null);
-
+  const location = useLocation();
+  console.log(location.pathname.includes("/dealer"));
   const [selectedActions, setSelectedActions] = useState([]);
 
   const handleToggleDropdown = (index) => {
@@ -101,7 +102,11 @@ function AddClaim() {
 
     if (timer === 0) {
       closeCreate();
-      navigate("/claimList");
+      if (location.pathname.includes("/dealer")) {
+        navigate("/dealer/claimList");
+      } else {
+        navigate("/claimList");
+      }
     }
     return () => {
       clearInterval(intervalId);

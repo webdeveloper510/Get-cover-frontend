@@ -36,7 +36,7 @@ import upload from "../../../assets/images/icons/upload.svg";
 import Select from "../../../common/select";
 import Cross from "../../../assets/images/Cross.png";
 import Headbar from "../../../common/headBar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Modal from "../../../common/model";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import {
@@ -56,6 +56,7 @@ import CustomPagination from "../../pagination";
 
 function ClaimList(props) {
   console.log(props);
+  const location = useLocation();
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
@@ -81,6 +82,7 @@ function ClaimList(props) {
   const [messageList, setMessageList] = useState([]);
   const [claimDetail, setClaimDetail] = useState({});
   const [error, setError] = useState("");
+  const [userType, setUserType] = useState("");
   const [customerStatus, setCustomerStatus] = useState({
     status: "",
     date: "",
@@ -94,6 +96,13 @@ function ClaimList(props) {
   });
   const [sendto, setSendto] = useState([]);
 
+  useEffect(() => {
+    if (location.pathname.includes("/dealer")) {
+      setUserType("dealer");
+    } else {
+      setUserType(""); // Reset userType if condition doesn't match
+    }
+  }, [location.pathname]);
   const dropdownRef = useRef(null);
   const handleToggleDropdown = (value) => {
     setDropdownVisible(!dropdownVisible);
@@ -109,7 +118,7 @@ function ClaimList(props) {
   }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
   const downloadImage = (file) => {
-    console.log('hello')
+    console.log("hello");
     const url = `http://15.207.221.207:3002/uploads/claimFile/${file.messageFile.fileName}`;
 
     fetch(url)
@@ -138,7 +147,6 @@ function ClaimList(props) {
   };
 
   useEffect(() => {
-    
     let intervalId;
     if (isAttachmentsOpen && timer > 0) {
       intervalId = setInterval(() => {
@@ -374,7 +382,7 @@ function ClaimList(props) {
 
   const openAttachments = () => {
     setIsAttachmentsOpen(true);
-    setIsEditOpen(false)
+    setIsEditOpen(false);
   };
   const closeAttachments = () => {
     setIsAttachmentsOpen(false);
@@ -431,7 +439,7 @@ function ClaimList(props) {
   }, [claimList]);
 
   const downloadAttachments = (res) => {
-    console.log('hello')
+    console.log("hello");
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
@@ -473,7 +481,7 @@ function ClaimList(props) {
       const temporaryMessage = {
         _id: "temp-id",
         content: values.content,
-        type: values.type || 'Admin', 
+        type: values.type || "Admin",
         messageFile: {
           fileName: values.fileName || "",
           originalName: values.originalName || "",
@@ -506,11 +514,10 @@ function ClaimList(props) {
         console.log(res);
         getClaimMessage(claimDetail._id, false);
       });
-      
+
       formik2.resetForm();
       formik2.setFieldValue("content", "");
       setPreviewImage(null);
-
     },
   });
 
@@ -585,7 +592,7 @@ function ClaimList(props) {
         if (res.code == 401) {
           setError(res.message);
         } else {
-          openAttachments()
+          openAttachments();
           getAllClaims();
           setActiveIndex(null);
         }
@@ -1132,16 +1139,20 @@ function ClaimList(props) {
                                     <span className="self-center mr-4">
                                       Servicer Name :{" "}
                                     </span>
-                                    <Select
-                                      name="servicer"
-                                      label=""
-                                      value={servicer}
-                                      onChange={handleSelectChange}
-                                      white
-                                      className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                      classBox="w-[55%]"
-                                      options={servicerList}
-                                    />
+                                    {userType != "dealer" ? (
+                                      <Select
+                                        name="servicer"
+                                        label=""
+                                        value={servicer}
+                                        onChange={handleSelectChange}
+                                        white
+                                        className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                        classBox="w-[55%]"
+                                        options={servicerList}
+                                      />
+                                    ) : (
+                                      <>{servicer}</>
+                                    )}
                                   </p>
                                   <div className="flex mt-3">
                                     <div className="self-center  mr-8">
@@ -1315,17 +1326,25 @@ function ClaimList(props) {
                                   <p className="text-[11px] text-white">
                                     Diagnosis
                                   </p>
-                                  <div className={` overflow-y-scroll Diagnosis ${res?.receiptImage == '' ? 'h-[164px] max-h-[164px]' : 'h-[130px] max-h-[130px]'}`}>
+                                  <div
+                                    className={` overflow-y-scroll Diagnosis ${
+                                      res?.receiptImage == ""
+                                        ? "h-[164px] max-h-[164px]"
+                                        : "h-[130px] max-h-[130px]"
+                                    }`}
+                                  >
                                     <p className="text-sm text-light-green">
                                       {res.diagnosis}
                                     </p>
                                   </div>
                                 </div>
-                                {res?.receiptImage == '' ? '' : (
+                                {res?.receiptImage == "" ? (
+                                  ""
+                                ) : (
                                   <div>
-                                  <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
-                                    <div className="col-span-6"></div>
-                                    {/* <Button
+                                    <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
+                                      <div className="col-span-6"></div>
+                                      {/* <Button
                                       className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
                                       onClick={handleToggle}
                                     >
@@ -1336,25 +1355,24 @@ function ClaimList(props) {
                                       />
                                       Track Repair Status
                                     </Button> */}
-                                    <Button
-                                      className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[13px] flex"
-                                      onClick={() => {
-                                        downloadAttachments(res.receiptImage);
-                                      }}
-                                    >
-                                      <img
-                                        src={download}
-                                        className="w-5 h-5 mr-2"
-                                        alt="download"
-                                      />
-                                      <p className="text-[13px] font-semibold text-center">
-                                        Download Attachments
-                                      </p>
-                                    </Button>
-                                  </Grid>
+                                      <Button
+                                        className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[13px] flex"
+                                        onClick={() => {
+                                          downloadAttachments(res.receiptImage);
+                                        }}
+                                      >
+                                        <img
+                                          src={download}
+                                          className="w-5 h-5 mr-2"
+                                          alt="download"
+                                        />
+                                        <p className="text-[13px] font-semibold text-center">
+                                          Download Attachments
+                                        </p>
+                                      </Button>
+                                    </Grid>
                                   </div>
                                 )}
-                               
                               </div>
                             </Grid>
                           </div>
@@ -1395,28 +1413,28 @@ function ClaimList(props) {
           />
         </Button>
         <div className="py-3">
-          <p className="text-center text-3xl font-semibold ">
-           Are you sure ?
-          </p>
+          <p className="text-center text-3xl font-semibold ">Are you sure ?</p>
           <Grid>
             <div className="col-span-12">
-            <textarea
-                  id="content"
-                  rows="4"
-                  name="content"
-                  maxLength={150}
-                  className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm`}
-                  value={formik2.values.content}
-                  onChange={formik2.handleChange}
-                  onBlur={formik2.handleBlur}
-                ></textarea>
+              <textarea
+                id="content"
+                rows="4"
+                name="content"
+                maxLength={150}
+                className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm`}
+                value={formik2.values.content}
+                onChange={formik2.handleChange}
+                onBlur={formik2.handleBlur}
+              ></textarea>
             </div>
             <div className="col-span-4"></div>
             <div className="col-span-2">
               <Button>Yes</Button>
             </div>
             <div className="col-span-2">
-            <Button type='button'  onClick={closeReject}>No</Button>
+              <Button type="button" onClick={closeReject}>
+                No
+              </Button>
             </div>
             <div className="col-span-4"></div>
           </Grid>
@@ -1653,7 +1671,7 @@ function ClaimList(props) {
         </Button>
         <div className="">
           <p className="text-center text-3xl font-semibold ">Edit Claim</p>
-         
+
           <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1] rounded-3xl">
               <p className="pb-5 text-lg font-semibold">Repair Parts</p>
@@ -1823,7 +1841,6 @@ function ClaimList(props) {
               <Button type="submit">Update</Button>
             </div>
           </form>
-          
         </div>
       </Modal>
 
@@ -1839,16 +1856,16 @@ function ClaimList(props) {
         </Button>
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
-                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-                  Submitted
-                  <span className="text-light-black"> Successfully </span>
-                </p>
-                <p className="text-neutral-grey text-base font-medium mt-2">
-                Edit Claim  Successfully
-                </p>
-                <p className="text-neutral-grey text-base font-medium mt-2">
-                  Redirecting you on Claim Page {timer} seconds.
-                </p>
+          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+            Submitted
+            <span className="text-light-black"> Successfully </span>
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Edit Claim Successfully
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting you on Claim Page {timer} seconds.
+          </p>
         </div>
       </Modal>
 
