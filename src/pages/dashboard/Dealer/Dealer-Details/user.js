@@ -95,10 +95,10 @@ function UserList(props) {
     }
   };
   useEffect(() => {
-    console.log(props.activeTab);
-    if (props.activeTab === "Users") {
+    // console.log(props.activeTab, '-----------------active----->');
+    // if (props.activeTab === "Users") {
       getUserList();
-    }
+    // }
   }, []);
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -109,12 +109,12 @@ function UserList(props) {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(props);
-    if (props?.data?.length !== 0) {
-      getUserList();
-    }
-  }, [props.data]);
+  // useEffect(() => {
+  //   console.log(props);
+  //   if (props?.data?.length !== 0) {
+  //     getUserList();
+  //   }
+  // }, [props.data]);
 
   useEffect(() => {
     let intervalId;
@@ -238,16 +238,10 @@ function UserList(props) {
         SetSecondaryText("user edited successfully ");
         openModal();
         toggleFlag();
-        // setIsModalOpen3(true);
-
-        // setError(result.message);
         setTimer(3);
         getUserList();
       } else {
         setLoading(false);
-        // setError(false);
-        // setIsModalOpen(true);
-        // setTimer(3);
       }
       closeModal2();
     },
