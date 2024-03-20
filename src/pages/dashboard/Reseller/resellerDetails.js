@@ -70,6 +70,7 @@ function ResellerDetails() {
   console.log(id);
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isStatus, setIsStatus] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
@@ -185,6 +186,7 @@ function ResellerDetails() {
     }
     const result = await getResellerListByResellerId(id.resellerId);
     setResllerDetails(result.reseller[0]);
+    setIsStatus(result?.reseller[0]?.status);
     setInitialFormValues({
       accountName: result?.reseller[0]?.resellerData?.name,
       oldName: result?.reseller[0]?.resellerData?.name,
@@ -780,7 +782,7 @@ function ResellerDetails() {
           </div>
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!mt-5">
-              <div className="col-span-10">
+              <div className={`${isStatus == true ? 'col-span-10' : 'col-span-12'}`}>
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!grid-cols-7 !gap-1">
                     {tabs.map((tab) => (
@@ -813,23 +815,28 @@ function ResellerDetails() {
                   </Grid>
                 </div>
               </div>
-              {activeTab !== "Servicer" &&
-              activeTab !== "PriceBook" &&
-              activeTab !== "Contracts" ? (
-                <div
-                  className="col-span-2"
-                  onClick={() => routeToPage(activeTab)}
-                >
-                  <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-                    <img src={AddItem} className="self-center" alt="AddItem" />
-                    <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
-                      Add {activeTab}
-                    </span>
-                  </Button>
-                </div>
-              ) : (
+              {isStatus == true ? (<>{activeTab !== "Servicer" &&
+                activeTab !== "PriceBook" &&
+                activeTab !== "Contracts" ? (
+                  <div
+                    className="col-span-2"
+                    onClick={() => routeToPage(activeTab)}
+                  >
+                    <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                      <img src={AddItem} className="self-center" alt="AddItem" />
+                      <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                        Add {activeTab}
+                      </span>
+                    </Button>
+                  </div>
+                ) : (
+                  <></>
+                )}
+                </>)
+               : (
                 <></>
               )}
+              
             </Grid>
 
             {tabs.map((tab) => (
