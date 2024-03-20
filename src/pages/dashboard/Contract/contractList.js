@@ -314,7 +314,7 @@ function ContractList(props) {
                                       <b> {res?.order?.unique_key} </b>
                                     </p>
                                   </div>
-                                  <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                  <div className="col-span-4 self-center text-le bg-contract bg-cover bg-right bg-no-repeat ">
                                     <p className="text-white py-2 font-Regular">
                                       Dealer P.O. # :{" "}
                                       <b> {res?.order?.venderOrder} </b>
@@ -322,10 +322,10 @@ function ContractList(props) {
                                   </div>
                                 </>
                               ) : (
-                                <div className="col-span-6 self-center justify-end"></div>
+                                <div className="col-span-7 self-center justify-end"></div>
                               )}
 
-                              <div className="col-span-1 self-center justify-end"></div>
+                              {/* <div className="col-span-1 self-center justify-end"></div> */}
                               <div className="col-span-1 self-center flex justify-end">
                                 <div
                                   onClick={() => openView(res._id)}
@@ -635,13 +635,12 @@ function ContractList(props) {
                           <b> {contractDetails?.order?.[0]?.unique_key} </b>
                         </p>
                       </div>
-                      <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                      <div className="col-span-4 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
                         <p className="text-white py-2 font-Regular">
                           Dealer P.O. # :{" "}
                           <b> {contractDetails?.order?.[0]?.venderOrder} </b>
                         </p>
                       </div>
-                      <div className="col-span-1"></div>
                       <div className="col-span-1 self-center justify-end self-center"></div>
                     </Grid>
 

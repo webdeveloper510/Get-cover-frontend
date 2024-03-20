@@ -1177,13 +1177,13 @@ function AddClaim() {
                       <b> {contractDetail?.order?.[0]?.unique_key} </b>
                     </p>
                   </div>
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                  <div className="col-span-4 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
                     <p className="text-white py-2 font-Regular">
                       Dealer P.O. # :{" "}
                       <b> {contractDetail?.order?.[0]?.venderOrder} </b>
                     </p>
                   </div>
-                  <div className="col-span-1"></div>
+                  {/* <div className="col-span-1"></div> */}
                   <div className="col-span-1 self-center justify-end self-center rounded-[20px] text-center">
                     <Button
                       className="!bg-[#817f7f] !text-white !py-[5px] !px-[20px] !rounded-[30px] !my-[4px] !font-Regular"

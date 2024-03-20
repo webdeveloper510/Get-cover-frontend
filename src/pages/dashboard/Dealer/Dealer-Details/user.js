@@ -238,16 +238,10 @@ function UserList(props) {
         SetSecondaryText("user edited successfully ");
         openModal();
         toggleFlag();
-        // setIsModalOpen3(true);
-
-        // setError(result.message);
         setTimer(3);
         getUserList();
       } else {
         setLoading(false);
-        // setError(false);
-        // setIsModalOpen(true);
-        // setTimer(3);
       }
       closeModal2();
     },
