@@ -71,6 +71,23 @@ export const getAllContractsForDealerPortal = async (data = {}) => {
   }
 };
 
+export const getAllContractsForCustomerPortal = async (data = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/customerPortal/getCustomerContract`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getResellerListforDealerPortal = async (data) => {
   const headers = createHeaders();
   try {
@@ -177,6 +194,24 @@ export const editOrderforDealerPortal = async (id, data) => {
   try {
     const response = await axios.post(
       `${url}/dealerPortal/editOrderDetail/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getContractByIdCustomerPortal = async (id, data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.get(
+      `${url}/customerPortal/getContractById/${id}`,
       data,
       {
         headers,

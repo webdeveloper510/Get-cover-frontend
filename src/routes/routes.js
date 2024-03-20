@@ -878,11 +878,11 @@ const routes = [
         ),
       },
       {
-        path: "/customer/orderDetails",
+        path: "/customer/orderDetails/:orderId",
         element: (
           <PrivateRoute
             element={<CustomerOrderDetails />}
-            path="/customer/orderDetails"
+            path="/customer/orderDetails/:orderId"
           />
         ),
       },

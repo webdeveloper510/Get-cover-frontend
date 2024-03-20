@@ -436,7 +436,7 @@ function Account() {
               <div
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${
-                  !row.isPrimary ? "w-[120px]" : "w-[80px]"
+                  !row.isPrimary ? "w-[130px]" : "w-[80px]"
                 } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
