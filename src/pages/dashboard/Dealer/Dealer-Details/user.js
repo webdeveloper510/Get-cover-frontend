@@ -95,10 +95,10 @@ function UserList(props) {
     }
   };
   useEffect(() => {
-    console.log(props.activeTab);
-    if (props.activeTab === "Users") {
+    // console.log(props.activeTab, '-----------------active----->');
+    // if (props.activeTab === "Users") {
       getUserList();
-    }
+    // }
   }, []);
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
