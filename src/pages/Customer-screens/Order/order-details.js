@@ -22,10 +22,13 @@ import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
 import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
+import { getOrderDetailCustomer } from "../../../services/orderServices";
 
 
 function CustomerOrderDetails() {
   const [loading, setLoading] = useState(false);
+  const [orderList, setOrderList] = useState();
+  const { orderId } = useParams();
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("orderMenu");
     return storedTab ? storedTab : "Contracts";
@@ -40,7 +43,16 @@ function CustomerOrderDetails() {
     setLoading(false);
   }, [activeTab]);
 
-
+  const getOrderdetails = async () => {
+    setLoading(true);
+    const result = await getOrderDetailCustomer([orderId]);
+    console.log(result.result);
+    setOrderList(result.result);
+    setLoading(false);
+  };
+  useEffect(() => {
+    getOrderdetails();
+  }, [orderId]);
 
   const tabs = [
     {
@@ -48,7 +60,7 @@ function CustomerOrderDetails() {
       label: "Contracts",
       icons: contract,
       Activeicons: contractActive,
-      content: <Contracts />,
+      content: <Contracts orderId={orderId} flag={"contracts"} />,
     }
   ];
 
@@ -95,16 +107,16 @@ function CustomerOrderDetails() {
           </div>
         </div>
 
-        <Grid className="!grid-cols-4">
-          <div className="col-span-1 ">
-            <div className=" bg-Dealer-details bg-cover h-[100vh] mt-5 p-5 rounded-[20px]">
+        <Grid className="!grid-cols-4 mt-5">
+          <div className="col-span-1 max-h-[84vh] overflow-y-scroll" >
+            <div className=" bg-Dealer-details bg-cover h-[100vh]  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
                     Order ID
                   </p>
                   <p className="text-xl text-white font-semibold">
-                    315174
+                  {orderList?.unique_key}
                   </p>
                 </div>
                 <div className="col-span-3 text-end">
@@ -126,7 +138,7 @@ function CustomerOrderDetails() {
                     Dealer Purchase Order
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                    12345678900987
+                  {orderList?.venderOrder}
                   </p>
                 </div>
               </div>
@@ -141,7 +153,7 @@ function CustomerOrderDetails() {
                     Service Coverage
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                    Parts
+                  {orderList?.serviceCoverageType}
                   </p>
                 </div>
               </div>
@@ -156,13 +168,13 @@ function CustomerOrderDetails() {
                   Coverage Type
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                  Breakdown (BD)
+                  {orderList?.coverageType}
                   </p>
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!mt-5">
               <div className="col-span-4">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">

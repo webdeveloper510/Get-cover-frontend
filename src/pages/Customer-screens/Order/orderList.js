@@ -16,7 +16,7 @@ import DataTable from "react-data-table-component";
 import Primary from "../../../assets/images/SetPrimary.png";
 import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
-import { getOrders } from "../../../services/orderServices";
+import { getOrderCustomer } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 
@@ -81,6 +81,7 @@ function CustomerOrderList() {
     }
   };
 
+  
   useEffect(() => {
     getOrderList();
 
@@ -91,54 +92,10 @@ function CustomerOrderList() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  const data = [
-    {
-      id: "1",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1000",
-    },
-    {
-      id: "2",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1000",
-    },
-    {
-      id: "3",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1000",
-    },
-    {
-      id: "4",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1000",
-    },
-    {
-      id: "5",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      status: "Pending",
-      orderValue: "1000",
-    },
-  ];
-
+  
   const getOrderList = async () => {
     setLoading(true);
-    const result = await getOrders({});
+    const result = await getOrderCustomer({});
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);
@@ -162,30 +119,30 @@ function CustomerOrderList() {
   const columns = [
     {
       name: "ID",
-      selector: (row) => row?.id,
+      selector: (row) => row?.unique_key,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "140px",
     },
     {
       name: "Dealer P.O #",
-      selector: (row) => row.name,
+      selector: (row) => row.venderOrder,
       sortable: true,
       minWidth: "180px",
     },
     {
       name: "Dealer Name",
-      selector: (row) => row.name,
+      selector: (row) => row.dealerName.name,
       sortable: true,
     },
     {
       name: "Reseller Name",
-      selector: (row) => row.name,
+      selector: (row) => row.customerName.username,
       sortable: true,
     },
     {
       name: "# of Contract",
-      selector: (row) => (row?.order == null ? 0 : row.order),
+      selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts.toLocaleString(2)),
       sortable: true,
       minWidth: "150px",
     },
@@ -198,7 +155,7 @@ function CustomerOrderList() {
           <div className="relative">
             <div
               onClick={() =>
-                setSelectedAction(selectedAction === row.id ? null : row.id)
+                setSelectedAction(selectedAction === row.unique_key ? null : row.unique_key)
               }
             >
               <img
@@ -207,16 +164,14 @@ function CustomerOrderList() {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.id && (
+            {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-1`}
               >
-                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-
                 <div className="text-center py-1 px-3 cursor-pointer">
                   <Link
-                    to={"/customer/orderDetails"}
+                    to={`/customer/orderDetails/${row._id}`}
                     className="text-center py-1 cursor-pointer w-full flex justify-center"
                   >
                     View
@@ -321,7 +276,7 @@ function CustomerOrderList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={data}
+                data={orderList}
                 highlightOnHover
                 sortIcon={
                   <>

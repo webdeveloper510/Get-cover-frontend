@@ -77,7 +77,7 @@ function DealerDetails() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [scrolling, setScrolling] = useState(false);
-  const [refreshList1, setRefreshList1] = useState([]);
+  const [isStatus, setIsStatus] = useState(null);
   const [dealerDetails, setDealerDetails] = useState([]);
   const [createServicerAccountOption, setServicerCreateAccountOption] =
     useState(false);
@@ -114,7 +114,7 @@ function DealerDetails() {
     country: "USA",
     oldName: "",
   });
-
+console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
   const state = cityData;
   const containerRef = useRef(null);
 
@@ -241,6 +241,7 @@ function DealerDetails() {
     const result = await getDealersDetailsByid(id?.id);
     setDealerDetails(result.result[0]);
     console.log(result.result[0].dealerData);
+    setIsStatus(result?.result[0]?.status)
     setInitialFormValues({
       accountName: result?.result[0]?.dealerData?.name,
       oldName: result?.result[0]?.dealerData?.name,
@@ -836,50 +837,16 @@ function DealerDetails() {
                       </Button>
                     ))}
                   </Carousel>
-                  {/* <div className="flex !gap-1 w-[77vw] ">
-                    {tabs.map((tab) => (
-                      <div className="tabs w-[110px]" key={tab.id}>
-                        <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
-                            activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-[#F9F9F9] !text-black"
-                          }`}
-                          onClick={() => handleTabClick(tab.id)}
-                        >
-                          <img
-                            src={
-                              activeTab === tab.id ? tab.Activeicons : tab.icons
-                            }
-                            className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
-                            alt={tab.label}
-                          />
-                          <span
-                            className={`ml-1 py-1 text-sm font-Regular ${
-                              activeTab === tab.id ? "text-white" : "text-black"
-                            }`}
-                          >
-                            {tab.label}
-                          </span>
-                        </Button>
-                      </div>
-                    ))}
-                  </div> */}
                   <div className="absolute h-full bg-[#f9f9f9] right-[-15px] flex top-0 self-center  shadow-6xl">
                     {" "}
                   </div>
-                  {/* <div onClick={handleScrollLeft} className="relative self-center">
-                    <img src={leftArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer hover:opacity-0" />
-                    <img src={leftActive} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer absolute top-0 left-0 opacity-0 hover:opacity-100" />
-                  </div> 
-                  <div onClick={handleScrollRight} className="relative self-center">
-                    <img src={rightArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer hover:opacity-0" />
-                    <img src={rightActive} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer absolute top-0 left-0 opacity-0 hover:opacity-100" />
-                  </div> 
-                  </div> */}
                 </div>
               </div>
-              {activeTab !== "Contracts" ? (
+              {isStatus == false ? (
+                ''
+              ) : (
+                <>
+                {activeTab !== "Contracts" ? (
                 <div
                   className="col-span-2 self-center"
                   onClick={() => routeToPage(activeTab)}
@@ -899,6 +866,9 @@ function DealerDetails() {
               ) : (
                 <></>
               )}
+                </>
+              )}
+              
             </Grid>
 
             {tabs.map((tab) => (

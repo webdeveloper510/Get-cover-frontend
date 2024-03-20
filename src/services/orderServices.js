@@ -303,3 +303,34 @@ export const updateOrderServicer = async (id, data = {}) => {
     throw error;
   }
 };
+
+export const getOrderCustomer = async ( data = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/customerPortal/getCustomerOrder`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const getOrderDetailCustomer = async (id) => {
+  const headers = createHeaders();                                                                 
+  try {
+    const response = await axios.get(
+      `${url}/customerPortal/getOrderById/${id}`,{headers}
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
