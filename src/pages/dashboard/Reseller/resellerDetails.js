@@ -150,11 +150,16 @@ function ResellerDetails() {
     const result = await getResellerUsersById(id.resellerId, {});
     setRefreshUserList(result.result);
   };
+
+  useEffect(() => {
+    getUserList();
+  }, []);
+
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
   const modalOpen1 = () => {
-    resellerDetails(true)
+    resellerDetails(true);
     setIsModalOpen1(true);
   };
   const closeUserModal = () => {
@@ -177,7 +182,7 @@ function ResellerDetails() {
   const resellerDetails = async (showLoader) => {
     if (!showLoader) {
       setLoading(true);
-  }
+    }
     const result = await getResellerListByResellerId(id.resellerId);
     setResllerDetails(result.reseller[0]);
     setInitialFormValues({
@@ -211,7 +216,6 @@ function ResellerDetails() {
   //   setLoading(false);
   // };
   const openModal = () => {
-    
     setIsModalOpen(true);
   };
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -546,13 +550,13 @@ function ResellerDetails() {
   };
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
@@ -725,7 +729,7 @@ function ResellerDetails() {
                     Phone Number
                   </p>
                   <p className="text-base text-white font-semibold ">
-                    +1 { formatPhoneNumber(resellerDetail?.phoneNumber)}
+                    +1 {formatPhoneNumber(resellerDetail?.phoneNumber)}
                   </p>
                 </div>
               </div>
@@ -744,8 +748,11 @@ function ResellerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      ${ formatOrderValue(resellerDetail?.orderData?.orderAmount ??
-                        parseInt(0).toLocaleString(2))}
+                      $
+                      {formatOrderValue(
+                        resellerDetail?.orderData?.orderAmount ??
+                          parseInt(0).toLocaleString(2)
+                      )}
                     </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Orders
@@ -840,7 +847,9 @@ function ResellerDetails() {
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="p-8">
-          <p className="text-3xl text-center font-semibold mb-4">Edit Reseller Details</p>
+          <p className="text-3xl text-center font-semibold mb-4">
+            Edit Reseller Details
+          </p>
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <Grid>
               <div className="col-span-12">

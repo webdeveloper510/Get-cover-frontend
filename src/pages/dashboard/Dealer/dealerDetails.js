@@ -126,10 +126,10 @@ function DealerDetails() {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
     setServicerCreateAccountOption(valueAsBoolean);
   };
- 
+
   const handleScrollLeft = () => {
     if (containerRef.current) {
-      containerRef.current.classList.add('scroll-transition');
+      containerRef.current.classList.add("scroll-transition");
       containerRef.current.scrollLeft -= 120; // Adjust scroll distance as needed
       setScrolling(true);
     }
@@ -137,7 +137,7 @@ function DealerDetails() {
 
   const handleScrollRight = () => {
     if (containerRef.current) {
-      containerRef.current.classList.add('scroll-transition');
+      containerRef.current.classList.add("scroll-transition");
       containerRef.current.scrollLeft += 120; // Adjust scroll distance as needed
       setScrolling(true);
     }
@@ -145,7 +145,7 @@ function DealerDetails() {
 
   const handleTransitionEnd = () => {
     if (containerRef.current) {
-      containerRef.current.classList.remove('scroll-transition');
+      containerRef.current.classList.remove("scroll-transition");
       setScrolling(false);
     }
   };
@@ -154,7 +154,7 @@ function DealerDetails() {
     setIsModalOpen(false);
     formik.resetForm();
   };
-  
+
   const closeModal10 = () => {
     setModalOpen(false);
   };
@@ -229,10 +229,14 @@ function DealerDetails() {
     localStorage.setItem("menu", activeTab);
   }, [activeTab]);
 
+  useEffect(() => {
+    getUserList();
+  }, []);
+
   const dealerData = async (showLoader) => {
     if (!showLoader) {
       setLoading(true);
-  }
+    }
     console.log(id);
     const result = await getDealersDetailsByid(id?.id);
     setDealerDetails(result.result[0]);
@@ -587,18 +591,18 @@ function DealerDetails() {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 6,
-      slidesToSlide: 2 // optional, default to 1.
+      slidesToSlide: 2, // optional, default to 1.
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
       items: 4,
-      slidesToSlide: 1 // optional, default to 1.
+      slidesToSlide: 1, // optional, default to 1.
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
       items: 1,
-      slidesToSlide: 1 // optional, default to 1.
-    }
+      slidesToSlide: 1, // optional, default to 1.
+    },
   };
 
   const handleSelectChange1 = (name, value) => {
@@ -618,7 +622,6 @@ function DealerDetails() {
   ];
   return (
     <>
-
       {loading && (
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
@@ -628,7 +631,6 @@ function DealerDetails() {
       )}
 
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
-
         <Headbar />
 
         <div className="flex">
@@ -796,36 +798,44 @@ function DealerDetails() {
             </div>
           </div>
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
-            <Grid className="!gap-2">          
+            <Grid className="!gap-2">
               <div className="col-span-10 relative">
-              <div className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1]`} ref={containerRef} onTransitionEnd={handleTransitionEnd}>
-              <Carousel className="!gap-1" ssr={true} responsive={responsive}>
-                  {tabs.map((tab) => (
-                       <Button
-                       className={`flex self-center mr-2 w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
-                         activeTab === tab.id
-                           ? "!bg-[#2A2A2A] !text-white"
-                           : "!bg-[#F9F9F9] !text-black"
-                       }`}
-                       onClick={() => handleTabClick(tab.id)}
-                     >
-                       <img
-                         src={
-                           activeTab === tab.id ? tab.Activeicons : tab.icons
-                         }
-                         className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
-                         alt={tab.label}
-                       />
-                       <span
-                         className={`ml-1 py-1 text-sm font-Regular ${
-                           activeTab === tab.id ? "text-white" : "text-black"
-                         }`}
-                       >
-                         {tab.label}
-                       </span>
-                     </Button>
-                      ))}
-                    </Carousel>
+                <div
+                  className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1]`}
+                  ref={containerRef}
+                  onTransitionEnd={handleTransitionEnd}
+                >
+                  <Carousel
+                    className="!gap-1"
+                    ssr={true}
+                    responsive={responsive}
+                  >
+                    {tabs.map((tab) => (
+                      <Button
+                        className={`flex self-center mr-2 w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                          activeTab === tab.id
+                            ? "!bg-[#2A2A2A] !text-white"
+                            : "!bg-[#F9F9F9] !text-black"
+                        }`}
+                        onClick={() => handleTabClick(tab.id)}
+                      >
+                        <img
+                          src={
+                            activeTab === tab.id ? tab.Activeicons : tab.icons
+                          }
+                          className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
+                          alt={tab.label}
+                        />
+                        <span
+                          className={`ml-1 py-1 text-sm font-Regular ${
+                            activeTab === tab.id ? "text-white" : "text-black"
+                          }`}
+                        >
+                          {tab.label}
+                        </span>
+                      </Button>
+                    ))}
+                  </Carousel>
                   {/* <div className="flex !gap-1 w-[77vw] ">
                     {tabs.map((tab) => (
                       <div className="tabs w-[110px]" key={tab.id}>
@@ -855,7 +865,9 @@ function DealerDetails() {
                       </div>
                     ))}
                   </div> */}
-                  <div className="absolute h-full bg-[#f9f9f9] right-[-15px] flex top-0 self-center  shadow-6xl"> </div>
+                  <div className="absolute h-full bg-[#f9f9f9] right-[-15px] flex top-0 self-center  shadow-6xl">
+                    {" "}
+                  </div>
                   {/* <div onClick={handleScrollLeft} className="relative self-center">
                     <img src={leftArrow} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer hover:opacity-0" />
                     <img src={leftActive} alt="" className="w-6 h-6 mr-2 self-center cursor-pointer absolute top-0 left-0 opacity-0 hover:opacity-100" />
@@ -899,13 +911,14 @@ function DealerDetails() {
             ))}
           </div>
         </Grid>
-
       </div>
 
       {/* Modal Email Popop */}
-      <Modal isOpen={isModalOpen} className='!w-[730px]' onClose={closeModal}>
+      <Modal isOpen={isModalOpen} className="!w-[730px]" onClose={closeModal}>
         <div className="px-8 py-4">
-          <p className="text-3xl text-center font-semibold mb-4">Edit Dealer Details</p>
+          <p className="text-3xl text-center font-semibold mb-4">
+            Edit Dealer Details
+          </p>
           <form className="mt-4" onSubmit={formik.handleSubmit}>
             <Grid>
               <div className="col-span-6">
@@ -1027,55 +1040,55 @@ function DealerDetails() {
                 />
               </div>
               <div className="col-span-6 ">
-                    <Grid>
-                    <div className="col-span-12">
-                  <Select
-                    label="Service Coverage"
-                    name="serviceCoverageType"
-                    placeholder=""
-                    className="!bg-white"
-                    required={true}
-                    onChange={handleSelectChange1}
-                    options={serviceCoverage}
-                    value={formik.values.serviceCoverageType}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.serviceCoverageType &&
-                      formik.errors.serviceCoverageType
-                    }
-                  />
-                  {formik.touched.serviceCoverageType &&
-                    formik.errors.serviceCoverageType && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.serviceCoverageType}
-                      </div>
-                    )}
+                <Grid>
+                  <div className="col-span-12">
+                    <Select
+                      label="Service Coverage"
+                      name="serviceCoverageType"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      onChange={handleSelectChange1}
+                      options={serviceCoverage}
+                      value={formik.values.serviceCoverageType}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.serviceCoverageType &&
+                        formik.errors.serviceCoverageType
+                      }
+                    />
+                    {formik.touched.serviceCoverageType &&
+                      formik.errors.serviceCoverageType && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.serviceCoverageType}
+                        </div>
+                      )}
                   </div>
                   <div className="col-span-12">
-                  <Select
-                    label="Coverage Type"
-                    name="coverageType"
-                    placeholder=""
-                    className="!bg-white"
-                    required={true}
-                    onChange={handleSelectChange1}
-                    options={coverage}
-                    value={formik.values.coverageType}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.coverageType &&
-                      formik.errors.coverageType
-                    }
-                  />
-                  {formik.touched.coverageType &&
-                    formik.errors.coverageType && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.coverageType}
-                      </div>
-                    )}
+                    <Select
+                      label="Coverage Type"
+                      name="coverageType"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      onChange={handleSelectChange1}
+                      options={coverage}
+                      value={formik.values.coverageType}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.coverageType &&
+                        formik.errors.coverageType
+                      }
+                    />
+                    {formik.touched.coverageType &&
+                      formik.errors.coverageType && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.coverageType}
+                        </div>
+                      )}
                   </div>
                   <div className="col-span-12">
-                  <Input
+                    <Input
                       type="file"
                       name="term"
                       label="Terms and Conditions"
@@ -1084,87 +1097,89 @@ function DealerDetails() {
                       placeholder=""
                     />
                   </div>
-                    </Grid>
-                    
-                  </div>
-                  <div className="col-span-6 pt-2">
-                    <p className="text-light-black flex text-[11px] mb-7 font-semibold ">
-                      Do you want to create an account?
-                      <RadioButton
-                        id="yes-create-account"
-                        label="Yes"
-                        value="yes"
-                        checked={createAccountOption === "yes"}
-                        onChange={handleRadioChange}
-                      />
-                      <RadioButton
-                        id="no-create-account"
-                        label="No"
-                        value="no"
-                        checked={createAccountOption === "no"}
-                        onChange={handleRadioChange}
-                      />
-                    </p>
-                    <p className="text-light-black flex text-[11px] mb-7 font-semibold ">
-                    <span className="mr-[0.6rem]">
-                      Do you want to Provide Shipping?
-                    </span>
-                      <RadioButton
-                        id="yes-create-account"
-                        label="Yes"
-                        value="yes"
-                        checked={createAccountOption === "yes"}
-                        onChange={handleRadioChange}
-                      />
-                      <RadioButton
-                        id="no-create-account"
-                        label="No"
-                        value="no"
-                        checked={createAccountOption === "no"}
-                        onChange={handleRadioChange}
-                      />
-                    </p>
-                    <p className="text-light-black flex text-[11px] mb-7 font-semibold self-center">
-                      {" "}
-                      <span className="mr-[0.3rem]">
-                        {" "}
-                        Do you want to work as a servicer?
-                      </span>
-                      <RadioButton
-                        id="yes"
-                        label="Yes"
-                        value={true}
-                        checked={createServicerAccountOption === true}
-                        onChange={handleServiceChange}
-                      />
-                      <RadioButton
-                        id="no"
-                        label="No"
-                        value={false}
-                        checked={createServicerAccountOption === false}
-                        onChange={handleServiceChange}
-                      />
-                    </p>
-                    <p className="text-light-black flex text-[11px] font-semibold">
-                     <span className="w-[60%]"> Do you want to create separate account for customer? </span> 
-                      <RadioButton
-                        id="yes-separate-account"
-                        label="Yes"
-                        value="yes"
-                        className="!pl-2"
-                        checked={separateAccountOption === "yes"}
-                        disabled={createAccountOption === "no"}
-                        onChange={handleSeparateAccountRadioChange}
-                      />
-                      <RadioButton
-                        id="no-separate-account"
-                        label="No"
-                        value="no"
-                        checked={separateAccountOption === "no"}
-                        onChange={handleSeparateAccountRadioChange}
-                      />
-                    </p>
-                  </div>
+                </Grid>
+              </div>
+              <div className="col-span-6 pt-2">
+                <p className="text-light-black flex text-[11px] mb-7 font-semibold ">
+                  Do you want to create an account?
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value="yes"
+                    checked={createAccountOption === "yes"}
+                    onChange={handleRadioChange}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value="no"
+                    checked={createAccountOption === "no"}
+                    onChange={handleRadioChange}
+                  />
+                </p>
+                <p className="text-light-black flex text-[11px] mb-7 font-semibold ">
+                  <span className="mr-[0.6rem]">
+                    Do you want to Provide Shipping?
+                  </span>
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value="yes"
+                    checked={createAccountOption === "yes"}
+                    onChange={handleRadioChange}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value="no"
+                    checked={createAccountOption === "no"}
+                    onChange={handleRadioChange}
+                  />
+                </p>
+                <p className="text-light-black flex text-[11px] mb-7 font-semibold self-center">
+                  {" "}
+                  <span className="mr-[0.3rem]">
+                    {" "}
+                    Do you want to work as a servicer?
+                  </span>
+                  <RadioButton
+                    id="yes"
+                    label="Yes"
+                    value={true}
+                    checked={createServicerAccountOption === true}
+                    onChange={handleServiceChange}
+                  />
+                  <RadioButton
+                    id="no"
+                    label="No"
+                    value={false}
+                    checked={createServicerAccountOption === false}
+                    onChange={handleServiceChange}
+                  />
+                </p>
+                <p className="text-light-black flex text-[11px] font-semibold">
+                  <span className="w-[60%]">
+                    {" "}
+                    Do you want to create separate account for customer?{" "}
+                  </span>
+                  <RadioButton
+                    id="yes-separate-account"
+                    label="Yes"
+                    value="yes"
+                    className="!pl-2"
+                    checked={separateAccountOption === "yes"}
+                    disabled={createAccountOption === "no"}
+                    onChange={handleSeparateAccountRadioChange}
+                  />
+                  <RadioButton
+                    id="no-separate-account"
+                    label="No"
+                    value="no"
+                    checked={separateAccountOption === "no"}
+                    onChange={handleSeparateAccountRadioChange}
+                  />
+                </p>
+              </div>
               <div className="col-span-4">
                 <Button
                   type="button"
@@ -1403,7 +1418,6 @@ function DealerDetails() {
           </p>
         </div>
       </Modal>
-
     </>
   );
 }
