@@ -186,6 +186,9 @@ function CustomerDetails() {
       }
     },
   });
+  useEffect(() => {
+    getUserList();
+  }, []);
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);

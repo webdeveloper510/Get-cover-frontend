@@ -105,7 +105,7 @@ function AddBulkClaim() {
     const data = await getDealerList();
     console.log(data.data);
     let arr = [];
-    const filteredDealers = data.data.filter(
+    const filteredDealers = data?.data?.filter(
       (data) => data.dealerData.accountStatus === true
     );
     console.log(filteredDealers);

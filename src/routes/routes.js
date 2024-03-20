@@ -553,23 +553,20 @@ const routes = [
       {
         path: "/dealer/claimList",
         element: (
-          <PrivateRoute
-            element={<DealerClaimList />}
-            path="/dealer/claimList"
-          />
+          <PrivateRoute element={<ClaimList />} path="/dealer/claimList" />
         ),
       },
       {
         path: "/dealer/addClaim",
         element: (
-          <PrivateRoute element={<DealerAddClaim />} path="/dealer/addClaim" />
+          <PrivateRoute element={<AddClaim />} path="/dealer/addClaim" />
         ),
       },
       {
         path: "/dealer/addBulkClaim",
         element: (
           <PrivateRoute
-            element={<DealerAddBulkClaim />}
+            element={<AddBulkClaim />}
             path="/dealer/addBulkClaim"
           />
         ),
