@@ -44,6 +44,7 @@ function AddBulkClaim() {
       }
     });
     formik.setFieldValue(name, selectedValue);
+    
   };
 
   useEffect(() => {
@@ -142,6 +143,7 @@ function AddBulkClaim() {
       const formData = new FormData();
       formData.append("email", JSON.stringify(values.email));
       formData.append("file", values.file);
+      formik.setFieldTouched("file",false)
       var data = { formData };
       console.log(formData);
 
@@ -266,13 +268,14 @@ function AddBulkClaim() {
                     </label>
                   </div>
                   {formik.errors.email && (
-                    <p className="text-red-500 text-[10px] mt-1 font-medium">
+                    <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
+                    
                       {formik.errors.email &&
                         (Array.isArray(formik.errors.email)
                           ? formik.errors.email.map((error, index) => (
-                              <span key={index}>
+                            <span key={index}>
                                 {index > 0 && " "}
-                                {error}
+                                <span className="font-semibold"> {error} </span>
                               </span>
                             ))
                           : formik.errors.email)}
@@ -294,9 +297,9 @@ function AddBulkClaim() {
                     }}
                   />
                   {formik.touched.file && formik.errors.file && (
-                    <p className="text-red-500 text-[10px] mt-1 font-medium">
-                      {formik.errors.file}
-                    </p>
+                    <p className="text-red-500 text-sm pl-2 mt-3 mb-5	">
+                      <span className="font-semibold">  {formik.errors.file} </span>
+                    </p> 
                   )}
                   <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
                     Please click on file option and make a copy. Upload the list

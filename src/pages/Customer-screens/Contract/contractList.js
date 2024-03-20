@@ -18,7 +18,7 @@ import { getAllContractsForAdmin } from "../../../services/orderServices";
 import { format } from "date-fns";
 import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../pagination";
-import { getAllContractsForCustomerPortal, getAllContractsForDealerPortal } from "../../../services/dealerServices/orderListServices";
+import { getAllContractsForCustomerPortal, getContractByIdCustomerPortal } from "../../../services/dealerServices/orderListServices";
 function CustomerContractList(props) {
   const [contractDetails, setContractDetails] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
@@ -38,7 +38,15 @@ function CustomerContractList(props) {
 
   const openView = (data) => {
     setIsViewOpen(true);
-    // getContractDetails(data);
+    getContractDetails(data);
+  };
+
+  const getContractDetails = async (data) => {
+    setLoading(true);
+    const result = await getContractByIdCustomerPortal(data);
+    setContractDetails(result.result);
+    setLoading(false);
+    console.log("by ID -------------------", result);
   };
 
   const formatOrderValue = (orderValue) => {
