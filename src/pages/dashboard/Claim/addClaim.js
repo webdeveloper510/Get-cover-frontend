@@ -52,6 +52,7 @@ function AddClaim() {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
+  const [loading123, setLoading123] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -216,12 +217,12 @@ function AddClaim() {
   });
 
   const getClaimList = async (data) => {
-    // setLoading(true);
+    setLoading123(true);
     const response = await getContractList(data);
 
     setTotalRecords(response.totalCount);
     setContractList(response.result);
-    setLoading(false);
+    setLoading123(false);
   };
   console.log(price, "-------------------->>>>>>>>>");
   const getClaimPrice = async (id) => {
@@ -555,43 +556,29 @@ function AddClaim() {
               {showTable && (
                 <>
                   <div className="col-span-12 relative pb-24">
-                    {/* <DataTable
-                      columns={columns}
-                      data={contractList}
-                      highlightOnHover
-                      sortIcon={
-                        <img src={shorting} className="ml-2" alt="shorting" />
-                      }
-                      noDataComponent={<CustomNoDataComponent />}
-                      pagination
-                      paginationPerPage={10}
-                      paginationComponentOptions={paginationOptions}
-                      paginationTotalRows={totalRecords}
-                      paginationRowsPerPageOptions={[10, 20, 50, 100]}
-                      onChangeRowsPerPage={() => {
-                        alert("here");
-                      }}
-                      // onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
-                      //   handlePaginationChange(currentPage, currentRowsPerPage)
-                      // }
-                      onChangePage={(currentPage) =>
-                        handlePaginationChange(currentPage, 10)
-                      } */}
-                    {/* /> */}
-                    <DataTable
-                      columns={columns}
-                      data={contractList}
-                      progressPending={loading}
-                      pagination
-                      paginationServer
-                      noDataComponent={<CustomNoDataComponent />}
-                      paginationTotalRows={totalRecords}
-                      paginationRowsPerPageOptions={[10, 20, 50, 100]}
-                      onChangeRowsPerPage={handlePerRowsChange}
-                      onChangePage={(currentPage) => {
-                        handlePageChange(currentPage);
-                      }}
-                    />
+                   {loading123 ? (
+                     <div className="h-[400px] w-full flex py-5">
+                     <div className="self-center mx-auto">
+                       <RotateLoader color="#333" />
+                     </div>
+                   </div>
+                   ) : (
+                     <DataTable
+                     columns={columns}
+                     data={contractList}
+                     progressPending={loading}
+                     pagination
+                     paginationServer
+                     noDataComponent={<CustomNoDataComponent />}
+                     paginationTotalRows={totalRecords}
+                     paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                     onChangeRowsPerPage={handlePerRowsChange}
+                     onChangePage={(currentPage) => {
+                       handlePageChange(currentPage);
+                     }}
+                   />
+                   )}
+                   
                   </div>
                   {/* <div className="col-span-12">
                   <table className="w-full border text-center">
