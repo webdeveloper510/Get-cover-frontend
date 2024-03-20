@@ -204,7 +204,7 @@ function PdfGenerator(props, className) {
                 index + 1
               }</td>
               <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
-                product.description
+                product.name
               }</td>
               <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
                 product.noOfProducts

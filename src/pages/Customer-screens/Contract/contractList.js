@@ -65,7 +65,6 @@ function CustomerContractList(props) {
       page: page,
       pageLimit: rowsPerPage,
     };
-    // setLoading(true);
     const result = await getAllContractsForCustomerPortal(data);
     setContractList(result.result);
     console.log(result);
@@ -241,17 +240,17 @@ function CustomerContractList(props) {
                           </div>
                           <div className="col-span-1 self-center justify-end"></div>
                           <div className="col-span-1 self-center ">
-                          <div
-                                  onClick={() => openView(res._id)}
-                                  className="self-center ml-auto bg-[#464646] w-[38%] rounded-full cursor-pointer mr-2 p-1 text-center"
-                                >
-                                  {" "}
-                                  <img
-                                    src={view}
-                                    className="mx-auto  w-[23px] h-[23px] "
-                                    alt="edit"
-                                  />{" "}
-                                </div>
+                            <div
+                              onClick={() => openView(res._id)}
+                              className="self-center ml-auto bg-[#464646] w-[38%] rounded-full cursor-pointer mr-2 p-1 text-center"
+                            >
+                              {" "}
+                              <img
+                                src={view}
+                                className="mx-auto  w-[23px] h-[23px] "
+                                alt="edit"
+                              />{" "}
+                            </div>
                           </div>
                         </Grid>
 
@@ -302,7 +301,10 @@ function CustomerContractList(props) {
                                 Eligibility
                               </p>
                               <p className="text-[#333333] text-base font-semibold">
-                                {res.eligibilty}
+                              
+                                {res?.eligibilty === true
+                              ? "Eligible"
+                              : "Not Eligible "}
                               </p>
                             </div>
                           </div>
@@ -441,7 +443,7 @@ function CustomerContractList(props) {
           </Modal>
         </div>
       </div>
-      <Modal
+          <Modal
             isOpen={isViewOpen}
             onClose={closeView}
             className="!w-[1100px]"
@@ -473,7 +475,7 @@ function CustomerContractList(props) {
                     <Grid className="bg-[#333333] !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
                       <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                         <p className="text-white py-2 font-Regular">
-                          Contract ID : <b> {contractDetails.unique_key} </b>
+                          Contract ID : <b> {contractDetails?.unique_key} </b>
                         </p>
                       </div>
                       <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
@@ -529,7 +531,7 @@ function CustomerContractList(props) {
                             Condition
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            {contractDetails.condition}
+                            {contractDetails?.condition}
                           </p>
                         </div>
                       </div>
@@ -540,10 +542,10 @@ function CustomerContractList(props) {
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
                             $
-                            {contractDetails.productValue === undefined
+                            {contractDetails?.productValue === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                Number(contractDetails.productValue) ?? parseInt(0)
+                                Number(contractDetails?.productValue) ?? parseInt(0)
                                 )}
                           </p>
                         </div>

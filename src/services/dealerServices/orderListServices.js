@@ -206,13 +206,12 @@ export const editOrderforDealerPortal = async (id, data) => {
   }
 };
 
-export const getContractByIdCustomerPortal = async (id, data) => {
+export const getContractByIdCustomerPortal = async (id) => {
   const headers = createHeaders();
   console.log(headers);
   try {
     const response = await axios.get(
       `${url}/customerPortal/getContractById/${id}`,
-      data,
       {
         headers,
       }
