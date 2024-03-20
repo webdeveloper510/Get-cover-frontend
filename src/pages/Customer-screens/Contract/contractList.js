@@ -65,7 +65,6 @@ function CustomerContractList(props) {
       page: page,
       pageLimit: rowsPerPage,
     };
-    // setLoading(true);
     const result = await getAllContractsForCustomerPortal(data);
     setContractList(result.result);
     console.log(result);
