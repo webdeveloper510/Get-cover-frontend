@@ -881,14 +881,14 @@ function ClaimList(props) {
                         </div>
                         <div className="col-span-3 self-center">
                           <Select
-                            name="claimStatus"
+                            name="customerStatusValue"
                             label=""
                             options={customerValue}
                             OptionName="Customer Status"
                             className="!text-[14px] !bg-[#f7f7f7]"
                             className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                             onChange={handleSelectChange2}
-                            value={formik1.values.claimStatus}
+                            value={formik1.values.customerStatusValue}
                           />
                         </div>
                         <div className="col-span-3 self-center">
