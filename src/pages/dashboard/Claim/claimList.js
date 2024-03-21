@@ -22,6 +22,7 @@ import serial from "../../../assets/images/icons/ProductSerial.svg";
 import Manufacturer from "../../../assets/images/icons/ProductManufacturer.svg";
 import Edit from "../../../assets/images/icons/editIcon.svg";
 import download from "../../../assets/images/download.png";
+import disapproved from "../../../assets/images/Disapproved.png";
 import request from "../../../assets/images/quote-request.png";
 import productSent from "../../../assets/images/product.png";
 import shiping from "../../../assets/images/shiping.png";
@@ -1464,10 +1465,18 @@ function ClaimList(props) {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-        <div className="py-3">
+        <div className=" text-center py-3">
+        <img src={disapproved} alt="email Image" className="mx-auto" />
           <p className="text-center text-3xl font-semibold ">Are you sure ?</p>
           <Grid>
             <div className="col-span-12">
+            <div className="relative my-4">
+                  <label
+                    htmlFor="description"
+                    className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  >
+                    Enter Your Reason  <span className="text-red-500">*</span>
+                  </label>
               <textarea
                 id="content"
                 rows="4"
@@ -1479,16 +1488,17 @@ function ClaimList(props) {
                 onBlur={formik2.handleBlur}
               ></textarea>
             </div>
-            <div className="col-span-4"></div>
-            <div className="col-span-2">
+            </div>
+            <div className="col-span-1"></div>
+            <div className="col-span-5">
               <Button>Yes</Button>
             </div>
-            <div className="col-span-2">
-              <Button type="button" onClick={closeReject}>
+            <div className="col-span-5">
+              <Button type="button" className='!bg-white !text-black border-[black] border-[1px] hover:!bg-light-black hover:!text-white' onClick={closeReject}>
                 No
               </Button>
             </div>
-            <div className="col-span-4"></div>
+            <div className="col-span-1"></div>
           </Grid>
         </div>
       </Modal>
