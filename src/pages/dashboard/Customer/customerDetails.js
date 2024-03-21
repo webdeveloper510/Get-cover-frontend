@@ -56,6 +56,7 @@ function CustomerDetails() {
   const [customerDetail, setCustomerDetail] = useState({});
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [isStatus, setIsStatus] = useState(true);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
@@ -83,7 +84,7 @@ function CustomerDetails() {
   });
   const { flag } = useMyContext();
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-
+console.log(isStatus , 'isStatus')
   const state = cityData;
   console.log(customerId);
 
@@ -287,6 +288,7 @@ function CustomerDetails() {
     console.log(customerId);
     const result = await getCustomerDetailsById(customerId);
     setCustomerDetail(result.result);
+    setIsStatus(result.result.dealerStatus)
     console.log(result.result);
     setInitialFormValues({
       username: result?.result?.meta?.username,
@@ -631,7 +633,7 @@ function CustomerDetails() {
               </div>
               <div className="col-span-4"></div>
               <div className="col-span-2">
-                {activeTab !== "Contracts" ? (
+              {activeTab !== 'Contracts' && !(activeTab === 'Orders' && isStatus === false) && (
                   <Button
                     className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
                     onClick={() => routeToPage(activeTab)}
@@ -646,8 +648,6 @@ function CustomerDetails() {
                       Add {activeTab}
                     </span>{" "}
                   </Button>
-                ) : (
-                  <></>
                 )}
               </div>
             </Grid>

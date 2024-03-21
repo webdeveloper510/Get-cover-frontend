@@ -881,14 +881,14 @@ function ClaimList(props) {
                         </div>
                         <div className="col-span-3 self-center">
                           <Select
-                            name="claimStatus"
+                            name="customerStatusValue"
                             label=""
-                            options={Claimstatus}
-                            OptionName="Customer"
+                            options={customerValue}
+                            OptionName="Customer Status"
                             className="!text-[14px] !bg-[#f7f7f7]"
                             className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                             onChange={handleSelectChange2}
-                            value={formik1.values.claimStatus}
+                            value={formik1.values.customerStatusValue}
                           />
                         </div>
                         <div className="col-span-3 self-center">
@@ -897,7 +897,7 @@ function ClaimList(props) {
                             className="!text-[14px] !bg-[#f7f7f7]"
                             className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                             label=""
-                            OptionName="Repair"
+                            OptionName="Repair Status"
                             options={repairValue}
                             onChange={handleSelectChange2}
                             value={formik1.values.repairStatus}
@@ -989,12 +989,26 @@ function ClaimList(props) {
                                   onClick={() => openView(res)}
                                   alt="chat"
                                 />
-                                <img
-                                  src={Edit}
-                                  className=" mr-2 cursor-pointer"
-                                  onClick={() => openEdit(res, index)}
-                                  alt="edit"
-                                />
+                                {userType === "admin" &&
+                                  res?.claimStatus?.[0]?.status === "Open" && (
+                                    <img
+                                      src={Edit}
+                                      className="mr-2 cursor-pointer"
+                                      onClick={() => openEdit(res, index)}
+                                      alt="edit"
+                                    />
+                                  )}
+
+                                {userType !== "admin" &&
+                                  res.selfServicer &&
+                                  res?.claimStatus?.[0]?.status === "Open" && (
+                                    <img
+                                      src={Edit}
+                                      className="mr-2 cursor-pointer"
+                                      onClick={() => openEdit(res, index)}
+                                      alt="edit"
+                                    />
+                                  )}
                               </div>
                             </Grid>
                             <Grid className="!gap-0 bg-[#F9F9F9] border-[#474747] border-x">
@@ -1144,6 +1158,10 @@ function ClaimList(props) {
                                         name="servicer"
                                         label=""
                                         value={servicer}
+                                        disabled={
+                                          claimStatus.status == "Rejected" ||
+                                          claimStatus.status == "Completed"
+                                        }
                                         onChange={handleSelectChange}
                                         white
                                         className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
@@ -1235,6 +1253,10 @@ function ClaimList(props) {
                                       label=""
                                       value={customerStatus.status}
                                       onChange={handleSelectChange}
+                                      disabled={
+                                        claimStatus.status == "Rejected" ||
+                                        claimStatus.status == "Completed"
+                                      }
                                       white
                                       className1="!border-0 !text-[#333333]"
                                       options={customerValue}
@@ -1276,6 +1298,10 @@ function ClaimList(props) {
                                       name="claimStatus"
                                       label=""
                                       value={claimStatus.status}
+                                      disabled={
+                                        claimStatus.status == "Rejected" ||
+                                        claimStatus.status == "Completed"
+                                      }
                                       onChange={handleSelectChange}
                                       white
                                       className1="!border-0 !text-[#333333]"
@@ -1318,6 +1344,10 @@ function ClaimList(props) {
                                       label=""
                                       value={repairStatus.status}
                                       onChange={handleSelectChange}
+                                      disabled={
+                                        claimStatus.status == "Rejected" ||
+                                        claimStatus.status == "Completed"
+                                      }
                                       white
                                       className1="!border-0 !text-[#333333]"
                                       options={repairValue}
