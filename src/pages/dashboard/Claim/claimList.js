@@ -83,6 +83,7 @@ function ClaimList(props) {
   const [claimDetail, setClaimDetail] = useState({});
   const [error, setError] = useState("");
   const [userType, setUserType] = useState("");
+  const [selfServicer, setSelfServicer] = useState("");
   const [customerStatus, setCustomerStatus] = useState({
     status: "",
     date: "",
@@ -100,7 +101,7 @@ function ClaimList(props) {
     if (location.pathname.includes("/dealer")) {
       setUserType("dealer");
     } else {
-      setUserType(""); // Reset userType if condition doesn't match
+      setUserType("admin"); // Reset userType if condition doesn't match
     }
   }, [location.pathname]);
   const dropdownRef = useRef(null);
@@ -439,7 +440,7 @@ function ClaimList(props) {
   }, [claimList]);
 
   const downloadAttachments = (res) => {
-    console.log("hello");
+    console.log("hello", res);
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
@@ -529,10 +530,9 @@ function ClaimList(props) {
   useEffect(() => {
     if (activeIndex != null) {
       setError("");
-      console.log(claimList.result[activeIndex]);
       const bdAdhValue = claimList.result[activeIndex]?.bdAdh;
       const getLastItem = (array) => array?.[array.length - 1];
-
+      setSelfServicer(claimList.result[activeIndex]?.selfServicer);
       const customerValue = getLastItem(
         claimList.result[activeIndex]?.customerStatus
       );
@@ -1151,41 +1151,46 @@ function ClaimList(props) {
                                         options={servicerList}
                                       />
                                     ) : (
-                                      <>{servicer}</>
+                                      <>{res?.servicerData?.name}</>
                                     )}
                                   </p>
-                                  <div className="flex mt-3">
-                                    <div className="self-center  mr-8">
-                                      <p className="text-light-green text-[11px] font-Regular">
-                                        Claim Type :
-                                      </p>
-                                    </div>
-                                    <Select
-                                      name="claimType"
-                                      label=""
-                                      value={claimType.bdAdh}
-                                      onChange={handleSelectChange}
-                                      white
-                                      classBox="w-[55%]"
-                                      options={claim}
-                                      className1="!py-0 text-white mb-2 !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                    />
-                                  </div>
-                                  <div className="flex mt-2">
-                                    <div className="self-center  mr-3">
-                                      <p className="text-light-green text-[11px] font-Regular">
-                                        Damage Code :
-                                      </p>
-                                    </div>
-                                    <Select
-                                      name="claimType"
-                                      label=""
-                                      white
-                                      classBox="w-[55%]"
-                                      options={state}
-                                      className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                    />
-                                  </div>
+
+                                  {userType == "admin" && (
+                                    <>
+                                      <div className="flex mt-3">
+                                        <div className="self-center  mr-8">
+                                          <p className="text-light-green text-[11px] font-Regular">
+                                            Claim Type :
+                                          </p>
+                                        </div>
+                                        <Select
+                                          name="claimType"
+                                          label=""
+                                          value={claimType.bdAdh}
+                                          onChange={handleSelectChange}
+                                          white
+                                          classBox="w-[55%]"
+                                          options={claim}
+                                          className1="!py-0 text-white mb-2 !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                        />
+                                      </div>
+                                      <div className="flex mt-2">
+                                        <div className="self-center  mr-3">
+                                          <p className="text-light-green text-[11px] font-Regular">
+                                            Damage Code :
+                                          </p>
+                                        </div>
+                                        <Select
+                                          name="claimType"
+                                          label=""
+                                          white
+                                          classBox="w-[55%]"
+                                          options={state}
+                                          className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                        />
+                                      </div>
+                                    </>
+                                  )}
                                 </div>
                               </div>
                               <div className="col-span-4 pt-4">
@@ -1355,21 +1360,25 @@ function ClaimList(props) {
                                       />
                                       Track Repair Status
                                     </Button> */}
-                                      <Button
-                                        className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[13px] flex"
-                                        onClick={() => {
-                                          downloadAttachments(res.receiptImage);
-                                        }}
-                                      >
-                                        <img
-                                          src={download}
-                                          className="w-5 h-5 mr-2"
-                                          alt="download"
-                                        />
-                                        <p className="text-[13px] font-semibold text-center">
-                                          Download Attachments
-                                        </p>
-                                      </Button>
+                                      {res.receiptImage != null && (
+                                        <Button
+                                          className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[13px] flex"
+                                          onClick={() => {
+                                            downloadAttachments(
+                                              res.receiptImage
+                                            );
+                                          }}
+                                        >
+                                          <img
+                                            src={download}
+                                            className="w-5 h-5 mr-2"
+                                            alt="download"
+                                          />
+                                          <p className="text-[13px] font-semibold text-center">
+                                            Download Attachments
+                                          </p>
+                                        </Button>
+                                      )}
                                     </Grid>
                                   </div>
                                 )}

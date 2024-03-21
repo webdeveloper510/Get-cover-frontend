@@ -800,7 +800,7 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
           </div>
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!gap-2">
-              <div className="col-span-10 relative">
+              <div className={` ${isStatus == true ? 'col-span-10 relative' : 'col-span-12 mr-[30px] relative'}`}>
                 <div
                   className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1]`}
                   ref={containerRef}

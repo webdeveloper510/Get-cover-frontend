@@ -220,7 +220,9 @@ function OrderDetails() {
                         className="mr-3 bg-[#383838] rounded-[14px]"
                         alt="Name"
                       />
-                      <Link to={`/dealer/resellerDetails/${orderDetails.resellerId}`}>
+                      <Link
+                        to={`/dealer/resellerDetails/${orderDetails.resellerId}`}
+                      >
                         {" "}
                         <img
                           src={DealerList}
@@ -248,7 +250,9 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
-                  <Link to={`/dealer/customerDetails/${orderDetails.customerId}`}>
+                  <Link
+                    to={`/dealer/customerDetails/${orderDetails.customerId}`}
+                  >
                     {" "}
                     <img
                       src={DealerList}
@@ -277,14 +281,14 @@ function OrderDetails() {
                         className="mr-3 bg-[#383838] rounded-[14px]"
                         alt="Name"
                       />
-                      <Link to={`/dealer/servicerDetails/${orderDetails.servicerId}`}>
+                      {/* <Link to={`/dealer/servicerDetails/${orderDetails.servicerId}`}>
                         {" "}
                         <img
                           src={DealerList}
                           className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
                           alt="DealerList"
                         />{" "}
-                      </Link>
+                      </Link> */}
                     </div>
                     <div>
                       <p className="text-sm text-neutral-grey font-Regular">
@@ -379,23 +383,23 @@ function OrderDetails() {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-        <form >
+        <form>
           <div className="py-3 px-12">
             <p className="text-center text-3xl font-semibold ">
               Add Servicer Name
             </p>
             <div className="my-5">
-            <SelectBoxWithSearch
-              label="Servicer Name"
-              name="servicerId"
-              placeholder=""
-              className='!bg-[#fff]'
-              options={state}/>
+              <SelectBoxWithSearch
+                label="Servicer Name"
+                name="servicerId"
+                placeholder=""
+                className="!bg-[#fff]"
+                options={state}
+              />
             </div>
             <div className="text-right">
               <Button>Save</Button>
             </div>
-          
           </div>
         </form>
       </Modal>
