@@ -35,3 +35,19 @@ export const getDashboardDetails = async () => {
     throw error;
   }
 };
+
+export const getCustomerDashboardDetails = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/customerPortal/getDashboardData`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -6,24 +6,32 @@ import BarChart from '../../common/barChart'
 import Button from '../../common/button'
 import Input from '../../common/input'
 import drop from '../../assets/images/icons/dropwhite.svg'
-
+import { getCustomerDashboardDetails } from '../../services/dashboardServices'
 function CustomerDashboard() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isRangeOpen, setIsRangeOpen] = useState(false);
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
+    const [loading, setLoading] = useState(false);
+    const [customerDashboardDetail, setCustomerDashboardDetail] = useState({});
+    const customerDashboardDetails = async () => {
+      try {
+        setLoading(true)
+        const result = await getCustomerDashboardDetails();
+        console.log(result);
+        setCustomerDashboardDetail(result.result);
+        setLoading(false)
+      } catch (error) {
+        console.error(error);
+      }
     };
-    const toggleRange = () => {
-        setIsRangeOpen(!isRangeOpen);
+    const formatOrderValue = (orderValue) => {
+      if (Math.abs(orderValue) >= 1e6) {
+        return (orderValue / 1e6).toFixed(2) + "M";
+      } else {
+        return orderValue.toLocaleString(0);
+      }
     };
-    const time = [
-        { label: "march 2024", value: true },
-        { label: "Inactive", value: false },
-    ];
     useEffect(() => {
-        console.log("yes")
-    })
+      customerDashboardDetails();
+    }, []);
   return (
     <>
      <div className='my-8 ml-3'>
@@ -36,11 +44,11 @@ function CustomerDashboard() {
         <div className='mt-5'>
           <Grid className='s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12'>
             <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
-               <p className='text-2xl font-bold'>6,359</p>
+               <p className='text-2xl font-bold'>{customerDashboardDetail?.ordersCount}</p>
                <p className='text-neutral-grey text-sm'>Total Number of Orders</p>
             </div>
             <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
-               <p className='text-2xl font-bold'>9,359</p>
+               <p className='text-2xl font-bold'>{ formatOrderValue(customerDashboardDetail?.contractCount ?? parseInt(0))}</p>
                <p className='text-neutral-grey text-sm'>Total Numbers of Contracts</p>
             </div>
             <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
