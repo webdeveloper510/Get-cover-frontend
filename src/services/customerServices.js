@@ -166,6 +166,22 @@ export const getCustomerUsersByIdCustomerPortal = async (id, data) => {
     throw error;
   }
 };
+
+export const getCustomerDetailsByIdCustomerPortal = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/customerPortal/getCustomerDetails`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const getOrderListByCustomerId = async (id, data = {}) => {
   const headers = createHeaders();
   try {
