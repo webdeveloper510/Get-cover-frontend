@@ -178,7 +178,20 @@ function ClaimList(props) {
           value
         );
       } else {
-        editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
+        if (selectedValue == "claimStatus") {
+          if (value == "Rejected") {
+            console.log(value);
+            setIsRejectOpen(true);
+          }
+        } else {
+          editClaimValue(
+            claimList.result[activeIndex]._id,
+            selectedValue,
+            value
+          );
+        }
+        console.log(selectedValue);
+        //
       }
     };
 
