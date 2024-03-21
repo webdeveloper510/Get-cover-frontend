@@ -9,6 +9,7 @@ import {
   faFileExcel,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 // Media Includes
 import AddDealer from "../../../assets/images/dealer-book.svg";
@@ -97,6 +98,7 @@ function ClaimList(props) {
     totalAmount: "",
   });
   const [sendto, setSendto] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     if (location.pathname.includes("/dealer")) {
@@ -170,47 +172,80 @@ function ClaimList(props) {
   };
 
   const handleSelectChange = (selectedValue, value) => {
-    const updateAndCallAPI = (setter) => {
-      setter((prevRes) => ({ ...prevRes, status: value }));
-      if (selectedValue === "servicer") {
-        editClaimServicer(
-          claimList.result[activeIndex]._id,
-          selectedValue,
-          value
-        );
+    console.log(selectedValue);
+    if (selectedValue == "claimStatus") {
+      if (value == "Rejected") {
+        setIsRejectOpen(true);
+      } else if (value?.content) {
+        console.log(value);
+        value.claimStatus = "Rejected";
+        editClaimRejectedValue(claimList.result[activeIndex]._id, value);
       } else {
-        if (selectedValue == "claimStatus") {
-          if (value == "Rejected") {
-            console.log(value);
-            setIsRejectOpen(true);
-          }
+        const updateAndCallAPI = (setter) => {
+          setter((prevRes) => ({ ...prevRes, status: value }));
+
+          editClaimValue(
+            claimList.result[activeIndex]._id,
+            selectedValue,
+            value
+          );
+
+          console.log(selectedValue);
+        };
+
+        switch (selectedValue) {
+          case "claimStatus":
+            updateAndCallAPI(setClaimStatus);
+            break;
+          default:
+            updateAndCallAPI(setClaimType);
+        }
+      }
+    } else {
+      const updateAndCallAPI = (setter) => {
+        setter((prevRes) => ({ ...prevRes, status: value }));
+        if (selectedValue === "servicer") {
+          editClaimServicer(
+            claimList.result[activeIndex]._id,
+            selectedValue,
+            value
+          );
         } else {
           editClaimValue(
             claimList.result[activeIndex]._id,
             selectedValue,
             value
           );
-        }
-        console.log(selectedValue);
-        //
-      }
-    };
 
-    switch (selectedValue) {
-      case "customerStatus":
-        updateAndCallAPI(setCustomerStatus);
-        break;
-      case "claimStatus":
-        updateAndCallAPI(setClaimStatus);
-        break;
-      case "repairStatus":
-        updateAndCallAPI(setRepairStatus);
-        break;
-      default:
-        updateAndCallAPI(setClaimType);
+          console.log(selectedValue);
+          //
+        }
+      };
+
+      switch (selectedValue) {
+        case "customerStatus":
+          updateAndCallAPI(setCustomerStatus);
+          break;
+        case "claimStatus":
+          updateAndCallAPI(setClaimStatus);
+          break;
+        case "repairStatus":
+          updateAndCallAPI(setRepairStatus);
+          break;
+        default:
+          updateAndCallAPI(setClaimType);
+      }
     }
   };
 
+  const editClaimRejectedValue = (claimId, data) => {
+    editClaimStatus(claimId, data).then((res) => {
+      updateAndSetStatus(setClaimStatus, "claimStatus", res);
+      updateAndSetStatus(setRepairStatus, "repairStatus", res);
+      updateAndSetStatus(setCustomerStatus, "customerStatus", res);
+    });
+    closeReject();
+  };
   const updateAndSetStatus = (statusObject, name, res) => {
     if (res.code === 200) {
       const resultData = res.result || {};
@@ -316,6 +351,10 @@ function ClaimList(props) {
   };
   const closeReject = () => {
     setIsRejectOpen(false);
+    setShowForm(false); // Reset the form state
+  };
+  const handleYesClick = () => {
+    setShowForm(true);
   };
 
   const handleToggle = () => {
@@ -1454,52 +1493,85 @@ function ClaimList(props) {
           </div>
         </div>
       </div>
-
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
-        <Button
-          onClick={closeReject}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
-        >
+        <Button onClick={closeReject}>
           <img
             src={Cross}
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-        <div className=" text-center py-3">
-        <img src={disapproved} alt="email Image" className="mx-auto" />
-          <p className="text-center text-3xl font-semibold ">Are you sure ?</p>
-          <Grid>
+        <div className="text-center py-3">
+          <img src={disapproved} alt="email Image" className="mx-auto" />
+
+          {!showForm ? (
+            <Grid>
+              <p className="text-center text-3xl font-semibold ">
+                Are you sure ?
+              </p>
+              <div className="col-span-1"></div>
+              <div className="col-span-5">
+                <Button onClick={handleYesClick}>Yes</Button>
+              </div>
+              <div className="col-span-5">
+                <Button type="button" onClick={closeReject}>
+                  No
+                </Button>
+              </div>
+              <div className="col-span-1"></div>
+            </Grid>
+          ) : (
             <div className="col-span-12">
-            <div className="relative my-4">
-                  <label
-                    htmlFor="description"
-                    className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                  >
-                    Enter Your Reason  <span className="text-red-500">*</span>
-                  </label>
-              <textarea
-                id="content"
-                rows="4"
-                name="content"
-                maxLength={150}
-                className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm`}
-                value={formik2.values.content}
-                onChange={formik2.handleChange}
-                onBlur={formik2.handleBlur}
-              ></textarea>
+              <div className="relative my-4">
+                <label
+                  htmlFor="content"
+                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                >
+                  Enter Your Reason <span className="text-red-500">*</span>
+                </label>
+                <Formik
+                  initialValues={{ content: "" }}
+                  validate={(values) => {
+                    const errors = {};
+                    if (!values.content) {
+                      errors.content = "Required";
+                    }
+                    return errors;
+                  }}
+                  onSubmit={(values, { setSubmitting }) => {
+                    handleSelectChange("claimStatus", values);
+                    // Submit logic here
+                    console.log(values);
+                    setSubmitting(false);
+                  }}
+                >
+                  {({ isSubmitting, errors, touched }) => (
+                    <Form>
+                      <Field
+                        as="textarea"
+                        id="content"
+                        rows="4"
+                        name="content"
+                        maxLength={150}
+                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${
+                          errors.content && touched.content && "border-red-500"
+                        }`}
+                      />
+                      <ErrorMessage
+                        name="content"
+                        component="div"
+                        className="text-red-500"
+                      />
+                      <div className="mt-4">
+                        <Button type="submit" disabled={isSubmitting}>
+                          Submit
+                        </Button>
+                      </div>
+                    </Form>
+                  )}
+                </Formik>
+              </div>
             </div>
-            </div>
-            <div className="col-span-1"></div>
-            <div className="col-span-5">
-              <Button>Yes</Button>
-            </div>
-            <div className="col-span-5">
-              <Button type="button" className='!bg-white !text-black border-[black] border-[1px] hover:!bg-light-black hover:!text-white' onClick={closeReject}>
-                No
-              </Button>
-            </div>
-            <div className="col-span-1"></div>
-          </Grid>
+          )}
         </div>
       </Modal>
 
@@ -1720,7 +1792,6 @@ function ClaimList(props) {
           </form>
         </div>
       </Modal>
-
       <Modal isOpen={isEditOpen} onClose={closeEdit} className="!w-[1100px]">
         <Button
           onClick={closeEdit}
@@ -1905,7 +1976,6 @@ function ClaimList(props) {
           </form>
         </div>
       </Modal>
-
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
         <Button
           onClick={closeAttachments}
@@ -1930,7 +2000,6 @@ function ClaimList(props) {
           </p>
         </div>
       </Modal>
-
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
           onClick={closeDisapproved}
