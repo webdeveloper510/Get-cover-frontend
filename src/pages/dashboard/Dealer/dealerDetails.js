@@ -66,12 +66,12 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 function DealerDetails() {
-  const getInitialActiveTab = () => {
-    const storedTab = localStorage.getItem("menu");
-    return storedTab ? storedTab : "Orders";
-  };
+  // const getInitialActiveTab = () => {
+  //   const storedTab = localStorage.getItem("menu");
+  //   return storedTab ? storedTab : "Orders";
+  // };
   const id = useParams();
-  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState('Orders'); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
