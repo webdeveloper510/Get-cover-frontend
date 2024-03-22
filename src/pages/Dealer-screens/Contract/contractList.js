@@ -71,7 +71,7 @@ function ContractList(props) {
 
   const getContracts = async (page = 1, rowsPerPage = 10) => {
     console.log(page, rowsPerPage);
-    return false;
+    // return false;
     let data = {
       page: page,
       pageLimit: rowsPerPage,
