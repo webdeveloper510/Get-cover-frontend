@@ -1494,7 +1494,7 @@ function ClaimList(props) {
         </div>
       </div>
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
-        <Button onClick={closeReject}>
+        <Button onClick={closeReject}  className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
           <img
             src={Cross}
             className="w-full h-full text-black rounded-full p-0"
@@ -1505,9 +1505,15 @@ function ClaimList(props) {
 
           {!showForm ? (
             <Grid>
-              <p className="text-center text-3xl font-semibold ">
-                Are you sure ?
+              <div className="col-span-12">
+              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+              {" "}
+              <span className="text-light-black"> Reject </span>
+            </p>
+              <p className="text-neutral-grey text-base font-medium mt-2 ">
+              Do you really want to Reject the Claim ?
               </p>
+              </div>
               <div className="col-span-1"></div>
               <div className="col-span-5">
                 <Button onClick={handleYesClick}>Yes</Button>
