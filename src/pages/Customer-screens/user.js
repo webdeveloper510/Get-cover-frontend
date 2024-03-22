@@ -27,7 +27,7 @@ import {
   updateUserDetailsById,
 } from "../../services/userServices";
 import Select from "../../common/select";
-import { getCustomerUsersByIdCustomerPortal } from "../../services/customerServices";
+import { getCustomerDetailsByIdCustomerPortal, getCustomerUsersByIdCustomerPortal } from "../../services/customerServices";
 import { useMyContext } from "../../context/context";
 import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
@@ -66,6 +66,11 @@ function CustomerUser() {
     console.log(result.result);
     setUserList(result.result);
   };
+  const getCustomerDetails = async () => {
+    const result = await getCustomerDetailsByIdCustomerPortal();
+    console.log(result.result);
+    setUserList(result.result);
+  };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       // Close the dropdown if the click is outside of it
@@ -74,6 +79,7 @@ function CustomerUser() {
   };
   useEffect(() => {
     getUserList();
+    getCustomerDetails();
   }, []);
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
