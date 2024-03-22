@@ -45,12 +45,12 @@ function OrderDetails() {
   const [timer, setTimer] = useState(3);
   const { orderId } = useParams();
   const navigate = useNavigate();
-  const getInitialActiveTab = () => {
-    const storedTab = localStorage.getItem("orderMenu");
-    return storedTab ? storedTab : "Order Summary";
-  };
+  // const getInitialActiveTab = () => {
+  //   const storedTab = localStorage.getItem("orderMenu");
+  //   return storedTab ? storedTab : "Order Summary";
+  // };
   const id = useParams();
-  const [activeTab, setActiveTab] = useState(getInitialActiveTab());
+  const [activeTab, setActiveTab] = useState("Order Summary");
   const [isServicerModal, setIsServicerModal] = useState(false);
 
   const openServicer = (data) => {
