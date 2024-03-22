@@ -78,6 +78,17 @@ function DealerAddOrder() {
     }
   }, [orderId, resellerId, customerId]);
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const downloadCSVTemplate = async () => {
     window.open(
       "https://docs.google.com/spreadsheets/d/1BKGAJLFhjQXN8Wg4nYkUdFKpiPZ3h12-CMlrlkzAZE0/edit#gid=0",
@@ -1562,6 +1573,7 @@ function DealerAddOrder() {
                           onChange={(e) => {
                             formikStep3.handleChange(e);
                             const selectedDate = new Date(e.target.value);
+                          selectedDate.setDate(selectedDate.getDate() + 1);
                             const gmtDate = selectedDate.toISOString();
                             formikStep3.setFieldValue(
                               `productsArray[${index}].coverageStartDate`,
@@ -2179,8 +2191,11 @@ function DealerAddOrder() {
                 <div className="col-span-4 flex justify-center pt-4">
                   <p className="text-base pr-3">Total Amount :</p>
                   <p className="font-bold text-lg">
-                    ${parseInt(
-                      calculateTotalAmount(formikStep3.values.productsArray)
+                  $
+                    {formatOrderValue(
+                      Number(
+                        calculateTotalAmount(formikStep3.values.productsArray)
+                      )
                     ).toLocaleString(2)}
                   </p>
                 </div>
