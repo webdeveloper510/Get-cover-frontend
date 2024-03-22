@@ -41,6 +41,7 @@ function CustomerUser() {
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
+  const [details, setDetails] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
 
@@ -69,7 +70,7 @@ function CustomerUser() {
   const getCustomerDetails = async () => {
     const result = await getCustomerDetailsByIdCustomerPortal();
     console.log(result.result);
-    setUserList(result.result);
+    setDetails(result.result);
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -479,7 +480,7 @@ function CustomerUser() {
                       Account Name
                     </p>
                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                      Nikhil Reseller
+                     {details?.dealerName}
                     </p>
                   </div>
                 </div>
@@ -494,7 +495,8 @@ function CustomerUser() {
                       Address
                     </p>
                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                      Hno 353, Kurali, Georgia 140101, USA
+                    {details?.dealer.street} {", "}{details?.dealer.city}{", "}{details?.dealer.state}{" "}{details?.dealer.zip}
+                    {", "}{details?.dealer.country}
                     </p>
                   </div>
                 </div>

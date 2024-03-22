@@ -83,25 +83,34 @@ function Dashboard() {
               <Grid className=" s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12">
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-8">
                   <p className="text-2xl font-bold">
-                    {dashboardDetail?.orderData?.totalOrder}
+                  {dashboardDetail?.orderData?.totalOrder ? (
+                    dashboardDetail.orderData.totalOrder
+                  ) : (
+                    0
+                  )}
                   </p>
                   <p className="text-neutral-grey text-sm">Total Number of Orders</p>
                 </div>
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
                   <p className="text-2xl font-bold">
-                  ${ dashboardDetail?.orderData?.totalAmount === undefined
+                  ${ dashboardDetail?.orderData?.totalAmount
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(dashboardDetail?.orderData?.totalAmount ?? parseInt(0))}
                   </p>
                   <p className="text-neutral-grey text-sm">Total Value of Orders</p>
                 </div>
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
-                  <p className="text-2xl font-bold"> {dashboardDetail?.claimData?.numberOfClaims}</p>
+                  <p className="text-2xl font-bold"> 
+                  {dashboardDetail?.claimData?.numberOfClaims ? (
+                        dashboardDetail?.claimData?.numberOfClaims
+                      ) : (
+                        0
+                      )}</p>
                   <p className="text-neutral-grey text-sm">Total Number of Claims</p>
                 </div>
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
                   <p className="text-2xl font-bold">
-                  ${ dashboardDetail?.claimData?.valueClaim === undefined
+                  ${ dashboardDetail?.claimData?.valueClaim
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(dashboardDetail?.claimData?.valueClaim ?? parseInt(0))}
                   </p>
