@@ -62,13 +62,13 @@ import {
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
 function ResellerDetails() {
-  const getInitialActiveTab = () => {
-    const storedTab = localStorage.getItem("Resellermenu");
-    return storedTab ? storedTab : "Orders";
-  };
+  // const getInitialActiveTab = () => {
+  //   const storedTab = localStorage.getItem("Resellermenu");
+  //   return storedTab ? storedTab : "Orders";
+  // };
   const id = useParams();
   console.log(id);
-  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState('Orders'); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStatus, setIsStatus] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
