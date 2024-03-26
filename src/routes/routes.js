@@ -53,8 +53,7 @@ import ServicerClaimList from "../pages/Servicer-screens/Claim/claimList";
 import ServicerClaims from "../pages/Servicer-screens/Reporting/claims";
 import ServicerAddClaim from "../pages/Servicer-screens/Claim/addClaim";
 import ServicerAddBulkClaim from "../pages/Servicer-screens/Claim/addBulkClaim";
-import DealerAddClaim from "../pages/Dealer-screens/Claim/addClaim";
-import DealerAddBulkClaim from "../pages/Dealer-screens/Claim/addBulkClaim";
+import NotFoundPage from './notFoundPage';
 import DealerAddCustomer from "../pages/Dealer-screens/Customer/addCustomer";
 import DealerCustomerList from "../pages/Dealer-screens/Customer/customerList";
 import DealerAddReseller from "../pages/Dealer-screens/Reseller/addReseller";
@@ -361,7 +360,7 @@ const routes = [
         element: <PrivateRoute element={<AddClaim />} path="/addClaim" />,
       },
       {
-        path: "/singleView/dealer/addClaim",
+        path: "/customer/addClaim/:username",
         element: <PrivateRoute element={<AddClaim />} />,
       },
       {
@@ -810,7 +809,10 @@ const routes = [
           />
         ),
       },
-
+      {
+        path: '*',
+        element: <NotFoundPage />,
+      },
       // Customer Routs ---------------------------------------------------------------
 
       {

@@ -7,7 +7,7 @@ import {
   faFileExcel,
 } from "@fortawesome/free-solid-svg-icons";
 import Headbar from "../../../common/headBar";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import disapprove from "../../../assets/images/Disapproved.png";
@@ -73,6 +73,8 @@ function AddClaim() {
   const dropdownRef = useRef(null);
   const location = useLocation();
   const [selectedActions, setSelectedActions] = useState([]);
+const {username} =useParams();
+console.log(username)
 
   const handleToggleDropdown = (index) => {
     const newSelectedActions = [...selectedActions];
@@ -209,7 +211,11 @@ function AddClaim() {
       getClaimList(data);
     },
   });
-
+  useEffect(() => {
+    if (username) {
+      formik.setFieldValue("customerName", `${username}`);
+    }
+  }, [username]);
   const getClaimList = async (data) => {
     setLoading123(true);
     const response = await getContractList(data);

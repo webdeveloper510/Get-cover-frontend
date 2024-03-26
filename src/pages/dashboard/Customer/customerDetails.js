@@ -264,6 +264,13 @@ console.log(isStatus , 'isStatus')
           `/addOrderforCustomer/${customerId}/${customerDetail?.meta?.dealerId}${resellerIdParam}`
         );
         break;
+        case "Claims":
+          localStorage.getItem("Users");
+          navigate(
+            `/customer/addClaim/${customerDetail?.meta?.username}`
+          );
+          
+          break;
       case "Users":
         localStorage.getItem("Users");
         openUserModal();
@@ -345,47 +352,6 @@ console.log(isStatus , 'isStatus')
     },
   ];
   
-  // const tabs = [
-  //   {
-  //     id: "Orders",
-  //     label: "Orders",
-  //     icons: Order,
-  //     Activeicons: OrderActive,
-  //     content: (
-  //       <OrderList flag={"customer"} id={customerId} activeTab={activeTab} />
-  //     ),
-  //   },
-  //   {
-  //     id: "Contracts",
-  //     label: "Contracts",
-  //     icons: Dealer,
-  //     Activeicons: DealerActive,
-  //     content: (
-  //       <ContractList flag={"customer"} id={customerId} activeTab={activeTab} />
-  //     ),
-  //   },
-  //   {
-  //     id: "Claims",
-  //     label: "Claims",
-  //     icons: Claim,
-  //     Activeicons: ClaimActive,
-  //     content: <ClaimList id={customerId} flag={"customer"} activeTab={activeTab} />,
-  //   },
-  //   {
-  //     id: "Users",
-  //     label: "Users",
-  //     icons: User,
-  //     Activeicons: UserActive,
-  //     content: (
-  //       <UserList
-  //         flag={"customer"}
-  //         id={customerId}
-  //         data={refreshList}
-  //         activeTab={activeTab}
-  //       />
-  //     ),
-  //   },
-  // ];
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
