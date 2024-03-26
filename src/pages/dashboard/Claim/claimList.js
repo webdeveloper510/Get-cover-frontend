@@ -1496,6 +1496,16 @@ function ClaimList(props) {
                                 )}
                               </div>
                             </Grid>
+                            {res.claimFile == "Rejected" && (
+                              <div className="px-3 mb-4"> 
+                                <Grid>
+                                  <div className="col-span-12">
+                                    <p className="text-white"><b>Reason For Rejection : </b> <span>{res.reason}</span></p>
+                                  </div>
+                                </Grid>
+                              </div>
+                            
+                            )}
                           </div>
                         </Grid>
                       </CollapsibleDiv>
