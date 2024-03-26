@@ -35,6 +35,7 @@ import * as Yup from "yup";
 import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
 import { getOrdersForDealerPortal } from "../../../services/dealerServices/orderListServices";
+import DocMakeOrderContainer from "../../docMakeOrder";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -342,10 +343,10 @@ function OrderList() {
                     <div className="border-b">
                     <PdfGenerator
                       data={row._id}
-                      onClick={() => setSelectedAction(null)}
+                      setLoading={setLoading}
                     />
                     </div>
-                    <PdfMake data={row._id} />
+                      <DocMakeOrderContainer setLoading={setLoading} data={row._id} />
                   </>
                 )}
               </div>
@@ -613,7 +614,7 @@ function OrderList() {
                     {...formik.getFieldProps("serialNo")}
                   />
                 </div> */}
-              <div className="col-span-6">
+              {/* <div className="col-span-6">
                 <Input
                   type="text"
                   id="dealerName"
@@ -622,7 +623,7 @@ function OrderList() {
                   placeholder=""
                   {...formik.getFieldProps("dealerName")}
                 />
-              </div>
+              </div> */}
               <div className="col-span-6">
                 <Input
                   type="text"
