@@ -26,12 +26,17 @@ import {
 import Select from "../../common/select";
 import { getCustomerUsersById } from "../../services/customerServices";
 import { useMyContext } from "../../context/context";
+import make from "../../assets/images/star.png";
+import edit from "../../assets/images/edit-text.png";
+import delete1 from "../../assets/images/delete.png";
 import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
 import terms from "../../assets/images/Dealer/Address.svg";
 import dealer from "../../assets/images/Dealer/Name.svg";
 import RadioButton from "../../common/radio";
 import Tabs from "../../common/tabs";
+import PasswordInput from "../../common/passwordInput";
+import { getSuperAdminMembers } from "../../services/extraServices";
 
 function DealerUser() {
   const { toggleFlag } = useMyContext();
@@ -61,7 +66,7 @@ function DealerUser() {
   const [loading, setLoading] = useState(false);
 
   const getUserList = async () => {
-    const result = await getCustomerUsersById("", {});
+    const result = await getSuperAdminMembers("", {});
     console.log(result.result);
     setUserList(result.result);
   };
@@ -380,32 +385,35 @@ function DealerUser() {
               <div
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${
-                  !row.isPrimary ? "w-[120px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  !row.isPrimary ? "w-[140px]" : "w-[80px]"
+                } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 {!row.isPrimary && row.status && (
                   <div
-                    className="text-center py-2 cursor-pointer border-b"
+                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
                     onClick={() => makeUserPrimary(row)}
                   >
-                    Make Primary
+                   <img src={make} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center"> Make Primary </span>
                   </div>
                 )}
 
                 <div
-                  className="text-center py-2 cursor-pointer border-b"
+                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
                   onClick={() => editUser(row._id)}
                 >
-                  Edit
+                   <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                  <span className="self-center">Edit </span>
                 </div>
                 {!row.isPrimary && (
                   <div
-                    className="text-center text-red-500 py-2 cursor-pointer"
+                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                     onClick={() => openModal1(row._id)}
                   >
-                    Delete
+                   <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center">Delete</span>
                   </div>
                 )}
               </div>
@@ -421,27 +429,6 @@ function DealerUser() {
       <p>No records found.</p>
     </div>
   );
-
-  const tabsData = [
-    {
-      id: 1,
-      label: "Details",
-      content: (
-        <>
-       
-        </>
-      ),
-    },
-    {
-      id: 2,
-      label: "Change Password",
-      content: (
-        <>
-       
-        </>
-      ),
-    },
-  ];
 
   return (
     <>
@@ -521,22 +508,28 @@ function DealerUser() {
           <p className='text-xl font-semibold mb-5'>Change Password</p>
           <Grid>
             <div className="col-span-4">
-              <Input
+              <PasswordInput
                 type="password"
+                name="oldPassword"
+                isPassword
                 label="Old Password"
                 className="!bg-[#fff]"
               />
             </div>
             <div className="col-span-4">
-              <Input
-                type="password"
-                label="New Password"
+              <PasswordInput
+               type="password"
+               label="New Password"
+               name="newPassword"
+               isPassword
                 className="!bg-[#fff]"
               />
             </div>
             <div className="col-span-4">
-              <Input
+              <PasswordInput
                 type="password"
+                name="confirmPassword"
+                isPassword
                 label="Confirm Password"
                 className="!bg-[#fff]"
               />

@@ -102,13 +102,7 @@ function AddClaim() {
 
     if (timer === 0) {
       closeCreate();
-      if(location.pathname.includes('singleView')){
-        navigate(-1)
-      }
-      else{
         navigate('/claimList')
-      }
-   
     }
     return () => {
       clearInterval(intervalId);

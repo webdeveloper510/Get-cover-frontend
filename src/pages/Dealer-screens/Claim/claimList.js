@@ -26,6 +26,8 @@ import Headbar from '../../../common/headBar';
 import { Link } from 'react-router-dom';
 import Modal from '../../../common/model';
 import CollapsibleDiv from '../../../common/collapsibleDiv';
+import SelectSearch from '../../../common/selectSearch';
+import { useFormik } from 'formik';
 function DealerClaimList() {
   const [selectedValue, setSelectedValue] = useState('');
   const [isViewOpen, setIsViewOpen] = useState(false);
@@ -75,7 +77,92 @@ function DealerClaimList() {
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
+  const handleSelectChange2 = (selectedValue, value) => {
+    formik1.setFieldValue(selectedValue, value);
+    console.log(selectedValue, value);
+  };
 
+  const customerValue = [
+    {
+      value: "Request Submitted",
+      label: "Request Submitted",
+    },
+    {
+      value: "Shipping Label Received",
+      label: "Shipping Label Received",
+    },
+    {
+      value: "Product Sent",
+      label: "Product Sent",
+    },
+    {
+      value: "Product Received",
+      label: "Product Received",
+    },
+  ];
+
+  const repairValue = [
+    {
+      value: "Request Sent",
+      label: "Request Sent",
+    },
+    {
+      value: "Request Approved",
+      label: "Request Approved",
+    },
+    {
+      value: "Product Received",
+      label: "Product Received",
+    },
+    {
+      value: "Repair in Process",
+      label: "Repair in Process",
+    },
+    {
+      value: "Parts Needed",
+      label: "Parts Needed",
+    },
+    {
+      value: "Parts Ordered",
+      label: "Parts Ordered",
+    },
+    {
+      value: "Parts Received",
+      label: "Parts Received",
+    },
+    {
+      value: "Repair Complete",
+      label: "Repair Complete",
+    },
+    {
+      value: "Servicer Shipped",
+      label: "Servicer Shipped",
+    },
+  ];
+
+
+  const formik1 = useFormik({
+    initialValues: {
+      contractId: "",
+      claimId: "",
+      venderOrder: "",
+      serial: "",
+      productName: "",
+      dealerName: "",
+      customerName: "",
+      servicerName: "",
+      repairStatus: "",
+      customerStatusValue: "",
+      claimStatus: "",
+      orderId: "",
+    },
+    // validationSchema,
+    onSubmit: (values) => {
+      setIsDisapprovedOpen(false);
+      // getAllClaims();
+      console.log(values);
+    },
+  });
   const state = [
     { label: "Admin", value: true },
     { label: "Dealer", value: false },
@@ -134,12 +221,30 @@ function DealerClaimList() {
                       <div className='col-span-3 self-center'>
                         <Input name='Email' type='email' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Claim' />
                       </div>
-                      <div className='col-span-3 self-center'>
-                        <Input name='PhoneNo.' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Customer Status' />
-                      </div>
-                      <div className='col-span-3 self-center'>
-                        <Input name='PhoneNo.' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Repair Status' />
-                      </div>
+                      <div className="col-span-3 self-center">
+                          <SelectSearch
+                            name="customerStatusValue"
+                            label=""
+                            options={customerValue}
+                            OptionName="Customer Status"
+                            className="!text-[14px] !bg-[#f7f7f7]"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            onChange={handleSelectChange2}
+                            value={formik1.values.customerStatusValue}
+                          />
+                        </div>
+                        <div className="col-span-3 self-center">
+                          <SelectSearch
+                            name="repairStatus"
+                            className="!text-[14px] !bg-[#f7f7f7]"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            label=""
+                            OptionName="Repair Status"
+                            options={repairValue}
+                            onChange={handleSelectChange2}
+                            value={formik1.values.repairStatus}
+                          />
+                        </div>
 
                     </Grid>
 

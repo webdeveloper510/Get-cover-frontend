@@ -211,13 +211,13 @@ function ContractList(props) {
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
                                   Order ID :{" "}
-                                  <b> {res?.order[0]?.unique_key} </b>
+                                  <b> {res?.order?.unique_key} </b>
                                 </p>
                               </div>
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
                                   Dealer P.O. # :{" "}
-                                  <b> {res?.order[0]?.venderOrder} </b>
+                                  <b> {res?.order?.venderOrder} </b>
                                 </p>
                               </div>
                               <div className="col-span-1 self-center justify-end">
@@ -599,10 +599,10 @@ function ContractList(props) {
                   {singleContract?.order?.[0]?.productsArray?.[0]?.priceType ==
                   "Quantity Pricing" ? (
                     <>
-                      <div className="col-soan-5">
+                      <div className="col-span-5">
                         <table className="w-full border text-center">
                           <tr className="border bg-[#9999]">
-                            <th colSpan={"2"}>Quantity Pricing List </th>
+                            <th colSpan={"3"}>Quantity Pricing List </th>
                           </tr>
                           <tr className="border bg-[#9999]">
                             <th>Name</th>
