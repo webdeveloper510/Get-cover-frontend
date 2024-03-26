@@ -33,6 +33,7 @@ import { getServicerUsersById } from "../../../../services/servicerServices";
 import { getResellerUsersById } from "../../../../services/reSellerServices";
 
 function UserList(props) {
+  console.log(props)
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
@@ -95,11 +96,11 @@ function UserList(props) {
     }
   };
   useEffect(() => {
-    // console.log(props.activeTab, '-----------------active----->');
-    // if (props.activeTab === "Users") {
       getUserList();
-    // }
   }, []);
+
+
+  
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
@@ -109,12 +110,6 @@ function UserList(props) {
     };
   }, []);
 
-  // useEffect(() => {
-  //   console.log(props);
-  //   if (props?.data?.length !== 0) {
-  //     getUserList();
-  //   }
-  // }, [props.data]);
 
   useEffect(() => {
     let intervalId;
@@ -228,10 +223,8 @@ function UserList(props) {
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
-      console.log("Form values:", values);
       setLoading(true);
       const result = await updateUserDetailsById(values);
-      console.log(result);
       if (result.code == 200) {
         setLoading(false);
         SetPrimaryText("User Edited Successfully ");
@@ -239,7 +232,7 @@ function UserList(props) {
         openModal();
         toggleFlag();
         setTimer(3);
-        getUserList();
+        // getUserList();
       } else {
         setLoading(false);
       }
@@ -261,7 +254,7 @@ function UserList(props) {
     const result = await deleteUserByUserId(deleteId);
     console.log(result);
     if (result.code === 200) {
-      getUserList();
+      // getUserList();
       setIsModalOpen12(true);
       // closeModal1();
     }

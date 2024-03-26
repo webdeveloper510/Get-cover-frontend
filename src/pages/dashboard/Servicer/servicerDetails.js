@@ -23,7 +23,7 @@ import Claim from "../../../assets/images/Dealer/Claim.svg";
 import User from "../../../assets/images/Dealer/Users.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
-import ClaimList from "../Dealer/Dealer-Details/claim";
+import ClaimList from "../../dashboard/Claim/claimList";
 import UserList from "../Dealer/Dealer-Details/user";
 import Modal from "../../../common/model";
 import Input from "../../../common/input";
@@ -41,6 +41,7 @@ import {
   createRelationWithServicer,
   getDealerListByServicerId,
   getServicerDetailsByServicerId,
+  getServicerUsersById,
 } from "../../../services/servicerServices";
 import { RotateLoader } from "react-spinners";
 import Primary from "../../.././assets/images/SetPrimary.png";
@@ -164,7 +165,7 @@ function ServicerDetails() {
     userValues.resetForm();
   };
   const getUserList = async () => {
-    const result = await getUserListByDealerId(servicerId, {});
+    const result = await getServicerUsersById(servicerId, {});
     console.log(result.result, "----------");
     setRefreshUserList(result.result);
   };
@@ -232,14 +233,20 @@ function ServicerDetails() {
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList />,
+      content: activeTab === "Claims" && (
+        <ClaimList
+          id={servicerId}
+          flag="servicer"
+          activeTab={activeTab}
+        />
+      ),
     },
     {
       id: "Dealer",
       label: "Dealer",
       icons: Dealer,
       Activeicons: DealerActive,
-      content: (
+      content: activeTab === "Dealer" && (
         <DealerDetailList
           id={servicerId}
           flag={flagValue}
@@ -252,11 +259,11 @@ function ServicerDetails() {
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: (
+      content:  (
         <UserList
           flag={"servicer"}
           id={servicerId}
-          data={refreshList}
+    
           activeTab={activeTab}
         />
       ),
@@ -266,16 +273,17 @@ function ServicerDetails() {
       label: "Unpaid Claims",
       icons: Unpaid,
       Activeicons: UnpaidActive,
-      content: <ClaimList />,
+      content: activeTab === "Unpaid Claims" && <ClaimList />,
     },
     {
       id: "Paid Claims",
       label: "Paid Claims",
       icons: Paid,
       Activeicons: ActivePaid,
-      content: <ClaimList />,
+      content: activeTab === "Paid Claims" && <ClaimList />,
     },
   ];
+  
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
   };
@@ -391,18 +399,18 @@ function ServicerDetails() {
       const result = await addUserByServicerId(values, servicerId);
       console.log(result.code);
       if (result.code == 200) {
+      setActiveTab("Dealer")
         getUserList();
         setLoading(false);
         closeUserModal();
         setTimer(3);
         setModalOpen(true);
-        setFirstMessage("New User Added Successfully");
+        setFirstMessage("New Users Added Successfully");
         setSecondMessage("New User Added Successfully");
+        setActiveTab("Users")
       } else {
         console.log(result);
-        console.log("here");
         if (result.code === 401) {
-          console.log("here12");
           setFieldError("email", "Email already in use");
         }
         setLoading(false);

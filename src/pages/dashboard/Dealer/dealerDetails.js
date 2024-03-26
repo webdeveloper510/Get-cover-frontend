@@ -542,11 +542,9 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
     console.log(data, id.id);
     switch (data) {
       case "PriceBook":
-        localStorage.setItem("menu", "PriceBook");
         navigate(`/addDealerBook/${id.id}`);
         break;
       case "Customer":
-        localStorage.setItem("menu", "Customer");
         navigate(`/addCustomer/${id.id}`);
         break;
       case "Users":
@@ -556,15 +554,12 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
         modalOpen1();
         break;
       case "Reseller":
-        localStorage.setItem("menu", "Reseller");
         navigate(`/addReseller/${id.id}`);
         break;
       case "Orders":
-        localStorage.setItem("menu", "Orders");
         navigate(`/addOrder/${id.id}`);
         break;
         case "Claims":
-          // localStorage.setItem("menu", "Orders");
           navigate(`/singleView/dealer/addClaim`);
           break;
         

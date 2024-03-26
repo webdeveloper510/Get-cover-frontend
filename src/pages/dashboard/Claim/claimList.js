@@ -49,6 +49,7 @@ import {
   editClaimStatus,
   getClaimList,
   getClaimListForDealer,
+  getClaimListForServicer,
   getClaimMessages,
 } from "../../../services/claimServices";
 import { format } from "date-fns";
@@ -281,37 +282,33 @@ function ClaimList(props) {
   const getAllClaims = async (page = 1, rowsPerPage = 10) => {
     setLoaderType(true);
     let data = {
-      page: page,
+      page,
       pageLimit: rowsPerPage,
       ...formik1.values,
     };
-    if(props.flag == "dealer")
-    {
-      getClaimListForDealer(props.id,data).then((res) => {
-        console.log(res);
-        if (res) {
-          setClaimList(res);
-          setTotalRecords(res?.totalCount);
-          setLoaderType(false);
-        } else {
-          setLoaderType(false);
-        }
-      });
+  
+    let getClaimListPromise;
+  
+    if (props.flag === "dealer") {
+      getClaimListPromise = getClaimListForDealer(props.id, data);
+    } else if (props.flag === "servicer") {
+      getClaimListPromise = getClaimListForServicer(props.id, data);
+    } else {
+      getClaimListPromise = getClaimList(data);
     }
-    else{
-      getClaimList(data).then((res) => {
-        console.log(res);
-        if (res) {
-          setClaimList(res);
-          setTotalRecords(res?.totalCount);
-          setLoaderType(false);
-        } else {
-          setLoaderType(false);
-        }
-      });
-    }
-   
+  
+    getClaimListPromise.then((res) => {
+      console.log(res);
+      if (res) {
+        setClaimList(res);
+        setTotalRecords(res?.totalCount);
+      }
+      setLoaderType(false);
+    }).catch(() => {
+      setLoaderType(false);
+    });
   };
+  
 
   const [recordsPerPage, setRecordsPerPage] = useState(10);
 
@@ -699,17 +696,17 @@ function ClaimList(props) {
     { label: "Rejected", value: "rejected" },
   ];
 
-  useEffect(() => {
-    getAllClaims();
-  }, []);
+  // useEffect(() => {
+  //   getAllClaims();
+  // }, []);
 
-  useEffect(() => {
-    if(props.activeTab == "Claims")
-    {
-      
-    }
-    getAllClaims();
-  }, [props]);
+  // useEffect(() => {
+  //   if(props.activeTab == "Claims")
+  //   {
+  //     // getAllClaims();
+  //   }
+
+  // }, [props]);
 
   const state = [
     { label: "Admin", value: "Admin" },
