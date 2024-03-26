@@ -120,6 +120,21 @@ export const getClaimListForDealer = async (id,data) => {
   }
 };
 
+export const getClaimListForServicer = async (id,data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/servicer/getServicerClaims/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 export const addClaimsRepairParts = async (id, data) => {
   const headers = createHeaders();
 

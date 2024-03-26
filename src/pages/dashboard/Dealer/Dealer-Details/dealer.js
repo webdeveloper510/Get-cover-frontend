@@ -92,6 +92,7 @@ function DealerDetailList(props) {
       servicerDealers();
     }
   }, [props?.flag]);
+  
   useEffect(() => {
     setLoading(true);
     let intervalId;
