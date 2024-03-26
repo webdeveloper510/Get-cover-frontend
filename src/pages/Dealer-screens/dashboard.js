@@ -74,27 +74,31 @@ function DealerDashboard() {
               <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold">
                   {" "}
-                  {dashboardDetail?.totalOrder}
+                  {dashboardDetail?.orderData?.totalOrder}
                 </p>
                 <p className="text-neutral-grey text-sm">Total Number of Orders</p>
               </div>
               <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold">
                   {" "}
-                  ${dashboardDetail.totalAmount === undefined
+                  ${dashboardDetail?.orderData?.totalAmount === undefined
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(
-                        dashboardDetail.totalAmount ?? parseInt(0)
+                        dashboardDetail?.orderData?.totalAmount ?? parseInt(0)
                       )}
                 </p>
                 <p className="text-neutral-grey text-sm">Total Value of Orders</p>
               </div>
               <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
-                <p className="text-2xl font-bold">6,359</p>
+                <p className="text-2xl font-bold"> {dashboardDetail?.claimData?.numberOfClaims}</p>
                 <p className="text-neutral-grey text-sm">Total Number of Claims</p>
               </div>
               <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
-                <p className="text-2xl font-bold">$35,859.00</p>
+                <p className="text-2xl font-bold"> ${dashboardDetail?.claimData?.valueClaim === undefined
+                    ? parseInt(0).toLocaleString(2)
+                    : formatOrderValue(
+                        dashboardDetail?.claimData?.valueClaim ?? parseInt(0)
+                      )}</p>
                 <p className="text-neutral-grey text-sm">Total Value of Claims</p>
               </div>
             </Grid>

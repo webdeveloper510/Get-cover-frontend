@@ -15,8 +15,8 @@ import Primary from "../../.././assets/images/SetPrimary.png";
 import deleteUser10 from "../../../assets/images/deleteUser.svg";
 import make from "../../../assets/images/star.png";
 import edit from "../../../assets/images/edit-text.png";
-import assign from "../../../assets/images/Unassign.png";
 import delete1 from "../../../assets/images/delete.png";
+import assign from "../../../assets/images/Unassign.png";
 import {
   addSuperAdminMembers,
   changePasswordbyToken,

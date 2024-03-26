@@ -255,7 +255,9 @@ function Contracts(props) {
                               Eligibility
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              {res?.eligibilty}
+                            {res?.eligibilty === true
+                                      ? "Eligible"
+                                      : "Not Eligible "}
                             </p>
                           </div>
                         </div>
@@ -578,10 +580,10 @@ function Contracts(props) {
                   {singleContract?.order?.[0]?.productsArray?.[0]?.priceType ==
                   "Quantity Pricing" ? (
                     <>
-                      <div className="col-soan-5">
+                      <div className="col-span-5">
                         <table className="w-full border text-center">
                           <tr className="border bg-[#9999]">
-                            <th colSpan={"2"}>Quantity Pricing List </th>
+                            <th colSpan={"3"}>Quantity Pricing List </th>
                           </tr>
                           <tr className="border bg-[#9999]">
                             <th>Name</th>
