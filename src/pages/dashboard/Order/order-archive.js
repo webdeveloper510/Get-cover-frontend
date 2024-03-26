@@ -403,7 +403,7 @@ function ArchiveOrderList() {
                   {...formik.getFieldProps("venderOrder")}
                 />
               </div>
-              <div className="col-span-6">
+              {location.pathname.includes("/dealer/archiveOrder") !== true ? ( <div className="col-span-6">
                 <Input
                   type="text"
                   id="dealerName"
@@ -412,7 +412,9 @@ function ArchiveOrderList() {
                   placeholder=""
                   {...formik.getFieldProps("dealerName")}
                 />
-              </div>
+              </div>) : (<>
+              </>)}
+             
               <div className="col-span-6">
                 <Input
                   type="text"

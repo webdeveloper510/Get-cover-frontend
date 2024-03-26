@@ -820,7 +820,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  {/* <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Dealer Name
@@ -829,7 +829,7 @@ function ContractList(props) {
                         {contractDetails?.order?.[0]?.customer?.[0]?.dealerName}
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
@@ -931,7 +931,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                  <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Claim Amount
@@ -1001,7 +1001,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
+                  <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage End Date

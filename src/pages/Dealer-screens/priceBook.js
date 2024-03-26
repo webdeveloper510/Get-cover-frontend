@@ -10,7 +10,7 @@ import Grid from "../../common/grid";
 import Input from "../../common/input";
 import Cross from "../../assets/images/Cross.png";
 import DataTable from "react-data-table-component";
-import { getDealerPricebookDetailById } from "../../services/dealerServices";
+import { getDealerPricebookDetailById, getTermList } from "../../services/dealerServices";
 import { getCategoryList } from "../../services/priceBookService";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -34,6 +34,7 @@ function DealerPriceBook(props) {
   const [priceBookList, setPriceBookList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [termList, setTermList] = useState([]);
   const [dealerPriceBookDetail, setDealerPriceBookDetail] = useState({});
   const [error, setError] = useState("");
   const dropdownRef = useRef(null);
@@ -185,10 +186,29 @@ function DealerPriceBook(props) {
     setIsViewOpen(true);
   };
 
-  const navigte = useNavigate();
+  const getTermListData = async () => {
+    try {
+      const res = await getTermList();
+      console.log(res.result.terms, "==============");
+      setTermList(
+        res.result.terms.map((item) => ({
+          label: item.terms + " Months",
+          value: item.terms,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
 
+  const navigte = useNavigate();
+  const pricetype = [
+    { label: "Regular Pricing", value: "Regular Pricing" },
+    { label: "Flat Pricing", value: "Flat Pricing" },
+    { label: "Quantity Pricing", value: "Quantity Pricing" },
+  ];
   useEffect(() => {
-    
+    getTermListData()
     priceBookData();
   }, [props]);
 
@@ -299,28 +319,28 @@ function DealerPriceBook(props) {
                     </div>
                     <div className="col-span-2 self-center">
                       <Select
-                        name="category"
+                        name="term"
                         label=""
-                        options={categoryList}
+                        options={termList}
                         OptionName="Term"
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px]  !bg-[#f7f7f7]"
-                        value={formik.values.category}
+                        value={formik.values.term}
                         onChange={formik.setFieldValue}
                       />
                     </div>
 
                     <div className="col-span-2 self-center">
                       <Select
-                        name="category"
+                        name="priceType"
                         label=""
-                        options={categoryList}
+                        options={pricetype}
                         OptionName="Price Type"
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                         className="!text-[14px]  !bg-[#f7f7f7]"
-                        value={formik.values.category}
+                        value={formik.values.priceType}
                         onChange={formik.setFieldValue}
                       />
                     </div>
