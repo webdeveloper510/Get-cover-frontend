@@ -120,6 +120,34 @@ export const getClaimListForDealer = async (id,data) => {
   }
 };
 
+export const getClaimListForReseller = async (id,data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/reseller/getResellerClaims/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getClaimListForCustomer = async (id,data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/customer/customerClaims/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getClaimListForServicer = async (id,data) => {
   const headers = createHeaders();
 
