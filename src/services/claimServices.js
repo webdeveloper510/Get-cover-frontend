@@ -106,6 +106,20 @@ export const getClaimList = async (data) => {
   }
 };
 
+export const getClaimListForDealer = async (id,data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/dealer/getDealerClaims/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const addClaimsRepairParts = async (id, data) => {
   const headers = createHeaders();
 
