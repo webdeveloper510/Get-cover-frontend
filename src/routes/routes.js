@@ -355,9 +355,14 @@ const routes = [
         path: "/claimList",
         element: <PrivateRoute element={<ClaimList />} path="/claimList" />,
       },
+      
       {
         path: "/addClaim",
         element: <PrivateRoute element={<AddClaim />} path="/addClaim" />,
+      },
+      {
+        path: "/singleView/dealer/addClaim",
+        element: <PrivateRoute element={<AddClaim />} />,
       },
       {
         path: "/resellerList",

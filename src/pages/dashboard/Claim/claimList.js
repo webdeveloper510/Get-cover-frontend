@@ -48,6 +48,7 @@ import {
   editClaimServicerValue,
   editClaimStatus,
   getClaimList,
+  getClaimListForDealer,
   getClaimMessages,
 } from "../../../services/claimServices";
 import { format } from "date-fns";
@@ -284,16 +285,32 @@ function ClaimList(props) {
       pageLimit: rowsPerPage,
       ...formik1.values,
     };
-    getClaimList(data).then((res) => {
-      console.log(res);
-      if (res) {
-        setClaimList(res);
-        setTotalRecords(res?.totalCount);
-        setLoaderType(false);
-      } else {
-        setLoaderType(false);
-      }
-    });
+    if(props.flag == "dealer")
+    {
+      getClaimListForDealer(props.id,data).then((res) => {
+        console.log(res);
+        if (res) {
+          setClaimList(res);
+          setTotalRecords(res?.totalCount);
+          setLoaderType(false);
+        } else {
+          setLoaderType(false);
+        }
+      });
+    }
+    else{
+      getClaimList(data).then((res) => {
+        console.log(res);
+        if (res) {
+          setClaimList(res);
+          setTotalRecords(res?.totalCount);
+          setLoaderType(false);
+        } else {
+          setLoaderType(false);
+        }
+      });
+    }
+   
   };
 
   const [recordsPerPage, setRecordsPerPage] = useState(10);
@@ -686,6 +703,14 @@ function ClaimList(props) {
     getAllClaims();
   }, []);
 
+  useEffect(() => {
+    if(props.activeTab == "Claims")
+    {
+      
+    }
+    getAllClaims();
+  }, [props]);
+
   const state = [
     { label: "Admin", value: "Admin" },
     { label: "Dealer", value: "Dealer" },
@@ -872,7 +897,10 @@ function ClaimList(props) {
   return (
     <>
       <div className="mb-8 ml-3">
-        <Headbar />
+      {
+        props && Object.keys(props).length === 0 && (
+          <>
+            <Headbar />
         <div className="flex mt-2">
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">Claim</p>
@@ -898,6 +926,9 @@ function ClaimList(props) {
             Add Claim{" "}
           </span>{" "}
         </Link>
+          </>
+        )
+      }
 
         <div className="bg-white my-4 pb-4 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
@@ -2081,16 +2112,21 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("productName")}
                 />
               </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="dealerName"
-                  className="!bg-[#fff]"
-                  label="Dealer Name"
-                  placeholder=""
-                  {...formik1.getFieldProps("dealerName")}
-                />
-              </div>
+              {
+                 props?.flag == "" && (
+                  <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="dealerName"
+                    className="!bg-[#fff]"
+                    label="Dealer Name"
+                    placeholder=""
+                    {...formik1.getFieldProps("dealerName")}
+                  />
+                </div>
+                 )
+              }
+            
               <div className="col-span-6">
                 <Input
                   type="text"
