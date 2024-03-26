@@ -1016,7 +1016,7 @@ function ClaimList(props) {
                       </Button>
                       <Button
                         type="button"
-                        className="ml-2 !text-[12px]"
+                        className="ml-2 !text-[11px] !px-2"
                         onClick={() => openDisapproved()}
                       >
                         Advance Search

@@ -19,7 +19,6 @@ import Claim from "../../../assets/images/Dealer/Claim.svg";
 import User from "../../../assets/images/Dealer/Users.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
-import ClaimList from "../Dealer/Dealer-Details/claim";
 import UserList from "../Dealer/Dealer-Details/user";
 import Modal from "../../../common/model";
 import Input from "../../../common/input";
@@ -42,6 +41,7 @@ import RadioButton from "../../../common/radio";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
 import ContractList from "../Contract/contractList";
+import ClaimList from "../Claim/claimList";
 
 function CustomerDetails() {
   // const getInitialActiveTab = () => {
@@ -329,7 +329,7 @@ console.log(isStatus , 'isStatus')
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList />,
+      content: <ClaimList id={customerId} flag={"customer"} activeTab={activeTab} />,
     },
     {
       id: "Users",

@@ -28,7 +28,6 @@ import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
 import OrderList from "../Dealer/Dealer-Details/order";
 import ContractList from "../Contract/contractList";
-import ClaimList from "../Dealer/Dealer-Details/claim";
 import ServicerList from "../Dealer/Dealer-Details/servicer";
 import UserList from "../Dealer/Dealer-Details/user";
 import PriceBookList from "../Dealer/Dealer-Details/priceBook";
@@ -59,6 +58,7 @@ import {
   getResellerListByResellerId,
   getResellerUsersById,
 } from "../../../services/reSellerServices";
+import ClaimList from "../Claim/claimList";
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
 function ResellerDetails() {
@@ -452,7 +452,7 @@ function ResellerDetails() {
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList />,
+      content: <ClaimList id={id.id} flag={"reseller"} activeTab={activeTab} />,
     },
     // {
     //   id: "Reseller",
