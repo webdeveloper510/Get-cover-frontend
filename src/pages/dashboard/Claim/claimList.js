@@ -48,7 +48,9 @@ import {
   editClaimServicerValue,
   editClaimStatus,
   getClaimList,
+  getClaimListForCustomer,
   getClaimListForDealer,
+  getClaimListForReseller,
   getClaimListForServicer,
   getClaimMessages,
 } from "../../../services/claimServices";
@@ -266,6 +268,7 @@ function ClaimList(props) {
       });
     }
   };
+
   const editClaimValue = (claimId, statusType, statusValue) => {
     let data = {
       [statusType]: statusValue,
@@ -277,6 +280,7 @@ function ClaimList(props) {
       updateAndSetStatus(setCustomerStatus, "customerStatus", res);
     });
   };
+
   const editClaimServicer = (claimId, statusType, statusValue) => {
     let data = {
       servicerId: statusValue,
@@ -301,6 +305,10 @@ function ClaimList(props) {
       getClaimListPromise = getClaimListForDealer(props.id, data);
     } else if (props.flag === "servicer") {
       getClaimListPromise = getClaimListForServicer(props.id, data);
+    } else if (props.flag === "reseller") {
+      getClaimListPromise = getClaimListForReseller(props.id, data);
+    } else if (props.flag === "customer") {
+      getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {
       getClaimListPromise = getClaimList(data);
     }
@@ -498,7 +506,6 @@ function ClaimList(props) {
       });
   };
 
-  // Conditionally define initialValues based on repairParts length
   useEffect(() => {
     if (claimList?.result?.repairParts?.length !== 0) {
       const mappedValues = claimList?.result?.repairParts?.map((part) => ({

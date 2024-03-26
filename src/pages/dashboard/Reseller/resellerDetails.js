@@ -452,7 +452,7 @@ function ResellerDetails() {
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList id={id.id} flag={"reseller"} activeTab={activeTab} />,
+      content: <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />,
     },
     // {
     //   id: "Reseller",
