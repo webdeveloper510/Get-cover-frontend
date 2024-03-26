@@ -72,7 +72,6 @@ function AddClaim() {
   const [selectedAction, setSelectedAction] = useState(null);
   const dropdownRef = useRef(null);
   const location = useLocation();
-  console.log(location.pathname.includes("/dealer"));
   const [selectedActions, setSelectedActions] = useState([]);
 
   const handleToggleDropdown = (index) => {
@@ -103,11 +102,13 @@ function AddClaim() {
 
     if (timer === 0) {
       closeCreate();
-      if (location.pathname.includes("/dealer")) {
-        navigate("/dealer/claimList");
-      } else {
-        navigate("/claimList");
+      if(location.pathname.includes('singleView')){
+        navigate(-1)
       }
+      else{
+        navigate('/claimList')
+      }
+   
     }
     return () => {
       clearInterval(intervalId);
@@ -119,7 +120,6 @@ function AddClaim() {
   };
 
   const todayDate = new Date().toISOString().split("T")[0];
-  console.log(todayDate);
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -183,12 +183,12 @@ function AddClaim() {
   const uploadEvidence = async (d) => {
     const formData = new FormData();
     d.forEach((file, index) => {
-      console.log(file);
+
       formData.append(`file`, file.file);
     });
 
     const data = await uploadClaimEvidence(formData);
-    console.log(data.file);
+    
     formikStep2.setFieldValue("file", data.file);
   };
   const prevStep = () => {
@@ -224,7 +224,7 @@ function AddClaim() {
     setContractList(response.result);
     setLoading123(false);
   };
-  console.log(price, "-------------------->>>>>>>>>");
+
   const getClaimPrice = async (id) => {
     const response = await getContractPrice(id);
     setPrice(response.result);
@@ -232,7 +232,7 @@ function AddClaim() {
   };
 
   const handlePerRowsChange = async (newPerPage, page) => {
-    console.log(newPerPage);
+  
     setCurrentRowsPerPage(newPerPage);
     let data = {
       ...formik.values,
@@ -271,16 +271,15 @@ function AddClaim() {
   };
 
   const openModal = (row) => {
-    console.log(row._id);
+
     setLoading2(true);
     setIsModalOpen(true);
     getContractValues(row._id).then((row) => {
-      console.log(row.result);
+      setContractDetails(row.result);
       getServicerList({
         dealerId: row.result.order[0].dealerId,
         resellerId: row.result.order[0].resellerId,
-      });
-      setContractDetails(row.result);
+      },row.result.order[0].servicerId); 
       setLoading2(false);
     });
   };
@@ -295,38 +294,40 @@ function AddClaim() {
   // Format the date as "YYYY-MM-DD"
   const maxDate = `${year}-${month}-${day}`;
 
-  const getServicerList = async (data) => {
+  const getServicerList = async (data,servicerId) => {
     let arr = [];
 
     const result = await getServicerListInOrders(data);
 
     const filteredServicers = result.result;
     filteredServicers?.map((res) => {
-      console.log(res);
+      
       arr.push({
         label: res.name,
         value: res._id,
       });
     });
     setServicerData(arr);
+    console.log(servicerId)
+    formikStep2.setFieldValue("servicerId", servicerId);
+
   };
 
   const handleSelectValue = (res) => {
     getClaimPrice(res._id);
     getContractValues(res._id).then((res) => {
-      console.log(res.result);
-      formik.setFieldValue("servicerId", res.result.order[0].servicerId);
+      setContractDetails(res.result);
       getServicerList({
         dealerId: res.result.order[0].dealerId,
         resellerId: res.result.order[0].resellerId,
-      });
-      setContractDetails(res.result);
+      },res.result.order[0].servicerId);
+   
 
       nextStep();
     });
   };
   const handlePageChange = async (page) => {
-    console.log(page);
+  
     // if (formik.values.contractId !== "") {
     let data = {
       ...formik.values,
@@ -385,7 +386,7 @@ function AddClaim() {
       minWidth: "auto",
       maxWidth: "90px",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
+    
         return (
           <div className="relative">
             <div
@@ -685,10 +686,17 @@ function AddClaim() {
   });
 
   const handleChange = (name, value) => {
-    console.log(name, value);
     formikStep2.setFieldValue(name, value);
   };
 
+  const back =()=>{
+    if(location.pathname.includes('singleView')){
+      navigate(-1)
+    }
+    else{
+      navigate('/claimList')
+    }
+  }
   const formikStep2 = useFormik({
     initialValues: {
       servicerId: "",
@@ -709,9 +717,9 @@ function AddClaim() {
       setLoading1(true);
       values.servicePaymentStatus = sendNotifications;
       values.contractId = contractDetail?._id;
-      console.log(values);
+      
       addClaim(values).then((res) => {
-        console.log(res);
+     
         if (res.code == 200) {
           setCode("200");
           setIsCreateOpen(true);
@@ -1010,16 +1018,16 @@ function AddClaim() {
     <div className="my-8 ml-3">
       <Headbar />
       <div className="flex mt-2">
-        <Link
-          to={"/claimList"}
+        <div
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
         >
           <img
             src={BackImage}
             className="m-auto my-auto self-center bg-white"
             alt="BackImage"
+            onClick={back}
           />
-        </Link>
+        </div>
         <div className="pl-3">
           <p className="font-bold text-[36px] leading-9 mb-[3px]">Add Claim</p>
           <ul className="flex self-center">
@@ -1271,7 +1279,7 @@ function AddClaim() {
                         Servicer Name
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                        {contractDetail?.order?.[0]?.servicer?.[0]?.username}
+                        {contractDetail?.order?.[0]?.servicer?.[0]?.name}
                       </p>
                     </div>
                   </div>

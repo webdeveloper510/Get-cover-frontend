@@ -30,7 +30,6 @@ import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
 import OrderList from "./Dealer-Details/order";
-import ClaimList from "./Dealer-Details/claim";
 import ServicerList from "./Dealer-Details/servicer";
 import UserList from "./Dealer-Details/user";
 import PriceBookList from "./Dealer-Details/priceBook";
@@ -64,6 +63,7 @@ import Reseller from "./Dealer-Details/reseller";
 import ContractList from "../Contract/contractList";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import ClaimList from "../Claim/claimList";
 
 function DealerDetails() {
   // const getInitialActiveTab = () => {
@@ -483,7 +483,9 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList />,
+      content: (
+        <ClaimList id={id.id} flag={"dealer"} activeTab={activeTab} />
+      ),
     },
     {
       id: "Reseller",
@@ -561,6 +563,11 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
         localStorage.setItem("menu", "Orders");
         navigate(`/addOrder/${id.id}`);
         break;
+        case "Claims":
+          // localStorage.setItem("menu", "Orders");
+          navigate(`/singleView/dealer/addClaim`);
+          break;
+        
       default:
         console.log("Invalid data, no navigation");
     }
