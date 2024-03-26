@@ -263,7 +263,6 @@ function ServicerDetails() {
         <UserList
           flag={"servicer"}
           id={servicerId}
-    
           activeTab={activeTab}
         />
       ),

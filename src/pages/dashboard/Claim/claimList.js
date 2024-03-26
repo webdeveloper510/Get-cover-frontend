@@ -251,7 +251,14 @@ function ClaimList(props) {
   const updateAndSetStatus = (statusObject, name, res) => {
     if (res.code === 200) {
       const resultData = res.result || {};
+     
+      const updatedClaimListCopy = { ...claimList };
+      if (updatedClaimListCopy.result) {
+        updatedClaimListCopy.result[activeIndex] = resultData;
+      }
+      setClaimList(updatedClaimListCopy);
 
+      console.log( updatedClaimListCopy)
       statusObject({
         status: resultData[`${name}`][resultData[`${name}`].length - 1].status,
         date: resultData[`${name}`][resultData[`${name}`].length - 1].date,
