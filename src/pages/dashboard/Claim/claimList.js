@@ -56,6 +56,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../pagination";
+import SelectSearch from "../../../common/selectSearch";
 
 function ClaimList(props) {
   console.log(props);
@@ -964,7 +965,7 @@ function ClaimList(props) {
                           />
                         </div>
                         <div className="col-span-3 self-center">
-                          <Select
+                          <SelectSearch
                             name="customerStatusValue"
                             label=""
                             options={customerValue}
@@ -976,7 +977,7 @@ function ClaimList(props) {
                           />
                         </div>
                         <div className="col-span-3 self-center">
-                          <Select
+                          <SelectSearch
                             name="repairStatus"
                             className="!text-[14px] !bg-[#f7f7f7]"
                             className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
