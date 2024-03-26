@@ -467,60 +467,53 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
       label: "Orders",
       icons: Order,
       Activeicons: OrderActive,
-      content: <OrderList id={id.id} flag={"dealer"} activeTab={activeTab} />,
+      content: (activeTab === "Orders" && <OrderList id={id.id} flag={"dealer"} activeTab={activeTab} />),
     },
     {
       id: "Contracts",
       label: "Contracts",
       icons: Contract,
       Activeicons: ContractsActive,
-      content: (
-        <ContractList id={id.id} flag={"dealer"} activeTab={activeTab} />
-      ),
+      content: activeTab === "Contracts" && <ContractList id={id.id} flag={"dealer"} />,
     },
     {
       id: "Claims",
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: (
-        <ClaimList id={id.id} flag={"dealer"} activeTab={activeTab} />
-      ),
+      content: activeTab === "Claims" && <ClaimList id={id.id} flag={"dealer"} />,
     },
     {
       id: "Reseller",
       label: "Reseller",
       icons: User,
       Activeicons: UserActive,
-      content: <Reseller id={id.id} activeTab={activeTab} />,
+      content: activeTab === "Reseller" && <Reseller id={id.id} activeTab={activeTab} />,
     },
     {
       id: "Servicer",
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: (
-        <ServicerList id={id.id} flag={flagValue} activeTab={activeTab} />
-      ),
+      content: activeTab === "Servicer" && <ServicerList id={id.id} flag={flagValue} />,
     },
     {
       id: "Customer",
       label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
-      content: <CustomerList id={id.id} activeTab={activeTab} />,
+      content: activeTab === "Customer" && <CustomerList id={id.id} activeTab={activeTab} />,
     },
-
     {
       id: "Users",
       label: "Users",
       icons: User,
       Activeicons: UserActive,
       content: (
+   
         <UserList
           flag={"dealer"}
           id={id.id}
-          data={refreshList}
           activeTab={activeTab}
         />
       ),
@@ -530,9 +523,10 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
       label: "PriceBook",
       icons: PriceBook,
       Activeicons: PriceBookActive,
-      content: <PriceBookList id={id.id} activeTab={activeTab} />,
+      content: activeTab === "PriceBook" &&  <PriceBookList id={id.id} activeTab={activeTab} />,
     },
   ];
+  
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);

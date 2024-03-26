@@ -148,7 +148,9 @@ function ServicerDetails() {
       clearInterval(intervalId);
     };
   }, [modalOpen, timer]);
+
   const openUserModal = () => {
+    setActiveTab("Users123");
     setIsUserModalOpen(true);
   };
   const closeModal10 = () => {
@@ -162,6 +164,7 @@ function ServicerDetails() {
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
+    setActiveTab("Users");
     userValues.resetForm();
   };
   const getUserList = async () => {
@@ -398,7 +401,6 @@ function ServicerDetails() {
       const result = await addUserByServicerId(values, servicerId);
       console.log(result.code);
       if (result.code == 200) {
-      setActiveTab("Dealer")
         getUserList();
         setLoading(false);
         closeUserModal();
@@ -406,7 +408,7 @@ function ServicerDetails() {
         setModalOpen(true);
         setFirstMessage("New Users Added Successfully");
         setSecondMessage("New User Added Successfully");
-        setActiveTab("Users")
+     
       } else {
         console.log(result);
         if (result.code === 401) {

@@ -691,6 +691,7 @@ function AddClaim() {
       navigate('/claimList')
     }
   }
+  
   const formikStep2 = useFormik({
     initialValues: {
       servicerId: "",
