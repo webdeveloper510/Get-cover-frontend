@@ -42,6 +42,17 @@ function ServicerList() {
     getServicerList();
   }, []);
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const getServicerList = async () => {
     setLoading(true);
     const result = await addNewServicerRequest("Approved", {});
@@ -149,13 +160,13 @@ function ServicerList() {
     },
     {
       name: "# of Claims",
-      selector: (row) => 0,
+      selector: (row) => row.claimNumber?.noOfOrders ?? 0,
       sortable: true,
       minWidth: "150px",
     },
     {
       name: "Total Claims Value",
-      selector: (row) => "$0.00",
+      selector: (row) =>`$${(formatOrderValue(row?.claimValue?.totalAmount ?? parseInt(0)))}`,
       sortable: true,
       minWidth: "180px",
     },

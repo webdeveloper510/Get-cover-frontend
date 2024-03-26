@@ -142,11 +142,13 @@ function OrderList(props) {
   const closeArchive = () => {
     setIsArchiveOpen(false);
   };
+  
   useEffect(() => {
     if (props.activeTab === "Orders" || (props.activeTab === "Order" && flag)) {
       getOrderList();
     }
-  }, [props.activeTab, flag, props.id, props.flag]);
+  }, [props.activeTab]);
+
   const handleFilterIconClick = () => {
     formik.resetForm();
     getOrderList();
