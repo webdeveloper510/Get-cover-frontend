@@ -502,8 +502,11 @@ function ContractList(props) {
                   </div>
                   {props.orderId == null ? (
                     <>
-                      {" "}
-                      <div className="col-span-6">
+                    {props.flag === "customer" ? (<> </>) : (
+                      <> 
+                      {props.flag === "reseller" ? (<> </>) : (
+                        <>
+                       {props.flag === "dealer" ? (<> </>) : ( <div className="col-span-6">
                         <Input
                           type="text"
                           name="dealerName"
@@ -512,7 +515,19 @@ function ContractList(props) {
                           {...formik.getFieldProps("dealerName")}
                           placeholder=""
                         />
+                      </div>)}
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="resellerName"
+                          className="!bg-[#fff]"
+                          label="Reseller Name"
+                          {...formik.getFieldProps("resellerName")}
+                          placeholder=""
+                        />
                       </div>
+                      </> )}
+                     
                       <div className="col-span-6">
                         <Input
                           type="text"
@@ -523,6 +538,9 @@ function ContractList(props) {
                           placeholder=""
                         />
                       </div>
+                       </>
+                    )}
+                     
                       <div className="col-span-6">
                         <Input
                           type="text"
