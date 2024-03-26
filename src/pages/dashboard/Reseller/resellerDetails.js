@@ -186,7 +186,7 @@ function ResellerDetails() {
     }
     const result = await getResellerListByResellerId(id.resellerId);
     setResllerDetails(result.reseller[0]);
-    setIsStatus(result?.reseller[0]?.status);
+    setIsStatus(result?.dealerStatus);
     setInitialFormValues({
       accountName: result?.reseller[0]?.resellerData?.name,
       oldName: result?.reseller[0]?.resellerData?.name,

@@ -868,7 +868,7 @@ function AddClaim() {
                       <label
                         className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75   `}
                       >
-                        Add Files <span className="text-red-500">*</span>
+                        Add Files
                       </label>
                       <input
                         type="file"
@@ -1113,7 +1113,7 @@ function AddClaim() {
                 {message}
               </p>
               <p className="text-neutral-grey text-base font-medium mt-2">
-                Redirecting you on Dealer Page {timer} seconds.
+                Redirecting you on Claim List Page {timer} seconds.
               </p>
             </>
           ) : (
