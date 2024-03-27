@@ -43,7 +43,7 @@ function ContractList(props) {
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
-
+// console.log()
   const closeView = () => {
     setIsViewOpen(false);
   };
@@ -61,13 +61,18 @@ function ContractList(props) {
     console.log("by ID -------------------", result);
   };
 
-  useEffect(() => {
-    if (props.flag === "contracts") {
-       getContract(props.orderId);
-    }
-  }, [props.flag]);
+  // useEffect(() => {
+  //   if (props.activeTab === "Contracts") {
+  //     getContract();
+  //   }
+  // }, [props.activeTab]);
 
- 
+  useEffect(() => {
+    if (!flag) {
+    
+      getContract(props?.orderId ?? null);
+    }
+  }, [flag]);
 
   const handleSelectChange1 = (label, value) => {
     console.log(label, value, "selected");
@@ -102,12 +107,12 @@ function ContractList(props) {
       setTotalRecords(result?.totalCount);
     } catch (error) {
       console.error('Error fetching contracts:', error);
-      // Handle the error, such as displaying an error message to the user
+     
     } finally {
       setLoading(false);
+
     }
   };
-  
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -143,13 +148,28 @@ function ContractList(props) {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      getContract(null, 1, 10);
+      getContract(props?.orderId ?? null, 1, 10);
       console.log(values);
       setIsDisapprovedOpen(false);
     },
   });
 
-
+  const handlePageChange = async (page, rowsPerPage) => {
+    // setRecordsPerPage(rowsPerPage);
+    setLoading(true);
+    try {
+      if (props?.flag == "contracts") {
+        await getContract(props?.orderId, page, rowsPerPage);
+      } else if (props?.flag != "") {
+        await getContract(null, page, rowsPerPage);
+      } else {
+        await getContract(null, page, rowsPerPage);
+      }
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const status = [
     { label: "Active", value: "Active" },
@@ -166,21 +186,6 @@ function ContractList(props) {
     setSelectedProduct("");
     // getContract();
   };
-
-  const handlePageChange = async (page, rowsPerPage) => {
-    setLoading(true);
-    try {
-      if (props.flag === "contracts") {
-        await getContract(props.orderId, page, rowsPerPage);
-      } else {
-        await getContract(null, page, rowsPerPage);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  
   return (
     <>
       <div className="mb-8 ml-3">
@@ -226,17 +231,22 @@ function ContractList(props) {
                         {...formik.getFieldProps("contractId")}
                       />
                     </div>
-                    <div className="col-span-2 self-center">
-                      <Input
-                        name="orderId"
-                        type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder=" Order ID"
-                        {...formik.getFieldProps("orderId")}
-                      />
-                    </div>
+                    {
+                      props.orderId == null && (
+                        <div className="col-span-2 self-center">
+                        <Input
+                          name="orderId"
+                          type="text"
+                          className="!text-[14px] !bg-[#f7f7f7]"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                          label=""
+                          placeholder=" Order ID"
+                          {...formik.getFieldProps("orderId")}
+                        />
+                      </div>
+                      )
+                    }
+                  
                     <div className="col-span-2 self-center">
                       <Input
                         name="venderOrder"
@@ -283,7 +293,12 @@ function ContractList(props) {
               </form>
             </div>
           </Grid>
-       
+          {/* {contractList?.length == 0   ? (
+           
+              <div className="text-center my-5">
+                <p>No records found.</p>
+              </div>
+          ) : ( */}
           <div>
             <>
               {loading ? (
@@ -423,7 +438,7 @@ function ContractList(props) {
               />
             )}
           </div>
-
+          {/* )} */}
 
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button
