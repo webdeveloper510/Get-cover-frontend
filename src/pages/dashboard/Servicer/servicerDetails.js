@@ -275,14 +275,21 @@ function ServicerDetails() {
       label: "Unpaid Claims",
       icons: Unpaid,
       Activeicons: UnpaidActive,
-      content: activeTab === "Unpaid Claims" && <ClaimList />,
+      content: activeTab === "Unpaid Claims" && <ClaimList
+      id={servicerId}
+      flag="servicer"
+      activeTab={activeTab}
+       />,
     },
     {
       id: "Paid Claims",
       label: "Paid Claims",
       icons: Paid,
       Activeicons: ActivePaid,
-      content: activeTab === "Paid Claims" && <ClaimList />,
+      content: activeTab === "Paid Claims" && <ClaimList
+      id={servicerId}
+      flag="servicer"
+      activeTab={activeTab}  />,
     },
   ];
   

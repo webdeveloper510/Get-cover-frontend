@@ -96,7 +96,17 @@ function UserList(props) {
     }
   };
   useEffect(() => {
+    if(props.activeTab == "Users")
+    {
       getUserList();
+    }
+    else {
+      getUserList();
+    }
+  //   {
+  //     // getAllClaims();
+  //   }
+      
   }, []);
 
   useEffect(()=>{
