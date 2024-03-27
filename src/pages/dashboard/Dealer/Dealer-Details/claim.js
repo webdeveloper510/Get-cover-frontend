@@ -1115,7 +1115,7 @@ function ClaimList(props) {
                                   onClick={() => openView(res)}
                                   alt="chat"
                                 />
-                                  <div key={index}>
+                                  <div key={index} className="self-center">
                                     <input
                                         id={`push-nothing-${index}`}
                                         name={`push-notifications-${index}`}
