@@ -47,7 +47,7 @@ function OrderList(props) {
   const [processOrderErrors, setProcessOrderErrors] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [timer, setTimer] = useState(3);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(null);
   const [primaryMessage, setPrimaryMessage] = useState("");
   const [secondaryMessage, setSecondaryMessage] = useState("");
   const [contractDetails, setContractDetails] = useState();
