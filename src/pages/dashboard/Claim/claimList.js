@@ -711,17 +711,17 @@ function ClaimList(props) {
     { label: "Rejected", value: "rejected" },
   ];
 
-  // useEffect(() => {
-  //   getAllClaims();
-  // }, []);
+  useEffect(() => {
+    getAllClaims();
+  }, []);
 
-  // useEffect(() => {
-  //   if(props.activeTab == "Claims")
-  //   {
-  //     // getAllClaims();
-  //   }
+  useEffect(() => {
+    if(props.activeTab == "Claims")
+    {
+      // getAllClaims();
+    }
 
-  // }, [props]);
+  }, [props]);
 
   const state = [
     { label: "Admin", value: "Admin" },
