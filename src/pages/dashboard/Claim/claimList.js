@@ -181,7 +181,7 @@ function ClaimList(props) {
     if (selectedValue == "claimStatus") {
       if (value == "Rejected") {
         setIsRejectOpen(true);
-      } else if (value?.content) {
+      } else if (value?.reason) {
         console.log(value);
         value.claimStatus = "Rejected";
         editClaimRejectedValue(claimList.result[activeIndex]._id, value);
@@ -1509,6 +1509,16 @@ function ClaimList(props) {
                                 )}
                               </div>
                             </Grid>
+                            {res.reason != "" && (
+                              <div className="px-3 mb-4"> 
+                                <Grid>
+                                  <div className="col-span-12">
+                                    <p className="text-white"><b>Reason For Rejection : </b> <span>{res.reason}</span></p>
+                                  </div>
+                                </Grid>
+                              </div>
+                            
+                            )}
                           </div>
                         </Grid>
                       </CollapsibleDiv>
@@ -1571,17 +1581,17 @@ function ClaimList(props) {
             <div className="col-span-12">
               <div className="relative my-4">
                 <label
-                  htmlFor="content"
+                  htmlFor="reason"
                   className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
                 >
                   Enter Your Reason <span className="text-red-500">*</span>
                 </label>
                 <Formik
-                  initialValues={{ content: "" }}
+                  initialValues={{ reason: "" }}
                   validate={(values) => {
                     const errors = {};
-                    if (!values.content) {
-                      errors.content = "Required";
+                    if (!values.reason) {
+                      errors.reason = "Required";
                     }
                     return errors;
                   }}
@@ -1596,16 +1606,16 @@ function ClaimList(props) {
                     <Form>
                       <Field
                         as="textarea"
-                        id="content"
+                        id="reason"
                         rows="4"
-                        name="content"
+                        name="reason"
                         maxLength={150}
                         className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${
-                          errors.content && touched.content && "border-red-500"
+                          errors.reason && touched.reason && "border-red-500"
                         }`}
                       />
                       <ErrorMessage
-                        name="content"
+                        name="reason"
                         component="div"
                         className="text-red-500"
                       />
