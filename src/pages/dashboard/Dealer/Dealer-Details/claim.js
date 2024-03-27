@@ -720,6 +720,13 @@ function ClaimList(props) {
     { label: "Customer", value: "Customer" },
   ];
 
+  const days = [
+    { label: "30 Days", value: "30" },
+    { label: "60 Days", value: "60" },
+    { label: "90 Days", value: "90" },
+    { label: "120 Days", value: "120" },
+  ];
+
   const claim = [
     { label: "Breakdown", value: "Breakdown" },
     { label: "Accidental", value: "Accidental" },
@@ -1067,7 +1074,7 @@ function ClaimList(props) {
               <div className="col-span-5">
               <div className="flex justify-end">
                   <Button className='!text-[14px] !py-[4px]' onClick={handleSelectAll}>Select All</Button>
-                  <Button className='mx-3 !text-[14px] !py-[4px]' onClick={() => openPay()}>Pay</Button>
+                  <Button className='mx-3 !text-[14px] !py-[4px]' onClick={() => openPay()}>Marked Paid</Button>
                   <Button onClick={handleUnselectAll} className='!bg-[white] border-[1px] !text-light-black hover:!bg-light-black hover:!text-[white] transition-colors duration-300 focus:outline-none !text-[14px] !py-[4px]'>Unselect</Button>
                 </div>
               </div>
@@ -1572,7 +1579,7 @@ function ClaimList(props) {
           <img src={disapproved} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
               {" "}
-              <span className="text-light-black"> Pay  </span>
+              <span className="text-light-black"> Marked As Paid  </span>
             </p>
               <p className="text-neutral-grey text-base font-medium mt-2 ">
               Do you really want to Marked as Paid ?
@@ -2244,6 +2251,16 @@ function ClaimList(props) {
                   className="!bg-[#fff]"
                   onChange={handleSelectChange2}
                   value={formik1.values.repairStatus}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  options={days}
+                  name="noOfDays"
+                  label="No Of Days"
+                  className="!bg-[#fff]"
+                  onChange={handleSelectChange2}
+                  value={formik1.values.noOfDays}
                 />
               </div>
               <div className="col-span-12">
