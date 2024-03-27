@@ -24,6 +24,7 @@ import User from "../../../assets/images/Dealer/Users.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
 import ClaimList from "../../dashboard/Claim/claimList";
+import ClaimList12 from "../../dashboard/Dealer/Dealer-Details/claim";
 import UserList from "../Dealer/Dealer-Details/user";
 import Modal from "../../../common/model";
 import Input from "../../../common/input";
@@ -275,7 +276,7 @@ function ServicerDetails() {
       label: "Unpaid Claims",
       icons: Unpaid,
       Activeicons: UnpaidActive,
-      content: activeTab === "Unpaid Claims" && <ClaimList
+      content: activeTab === "Unpaid Claims" && <ClaimList12
       id={servicerId}
       flag="servicer"
       activeTab={activeTab}
