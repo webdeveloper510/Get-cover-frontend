@@ -109,6 +109,13 @@ function UserList(props) {
       
   }, []);
 
+  useEffect(()=>{
+    if(props.activeTab == 'Users')
+    {
+    getUserList();
+      
+    }
+  },[props.activeTab])
 
   
   useEffect(() => {

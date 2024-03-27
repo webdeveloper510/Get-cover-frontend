@@ -467,60 +467,53 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
       label: "Orders",
       icons: Order,
       Activeicons: OrderActive,
-      content: <OrderList id={id.id} flag={"dealer"} activeTab={activeTab} />,
+      content: (activeTab === "Orders" && <OrderList id={id.id} flag={"dealer"} activeTab={activeTab} />),
     },
     {
       id: "Contracts",
       label: "Contracts",
       icons: Contract,
       Activeicons: ContractsActive,
-      content: (
-        <ContractList id={id.id} flag={"dealer"} activeTab={activeTab} />
-      ),
+      content: activeTab === "Contracts" && <ContractList id={id.id} flag={"dealer"} />,
     },
     {
       id: "Claims",
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: (
-        <ClaimList id={id.id} flag={"dealer"} activeTab={activeTab} />
-      ),
+      content: activeTab === "Claims" && <ClaimList id={id.id} flag={"dealer"} />,
     },
     {
       id: "Reseller",
       label: "Reseller",
       icons: User,
       Activeicons: UserActive,
-      content: <Reseller id={id.id} activeTab={activeTab} />,
+      content: activeTab === "Reseller" && <Reseller id={id.id} activeTab={activeTab} />,
     },
     {
       id: "Servicer",
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: (
-        <ServicerList id={id.id} flag={flagValue} activeTab={activeTab} />
-      ),
+      content: activeTab === "Servicer" && <ServicerList id={id.id} flag={flagValue} />,
     },
     {
       id: "Customer",
       label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
-      content: <CustomerList id={id.id} activeTab={activeTab} />,
+      content: activeTab === "Customer" && <CustomerList id={id.id} activeTab={activeTab} />,
     },
-
     {
       id: "Users",
       label: "Users",
       icons: User,
       Activeicons: UserActive,
       content: (
+   
         <UserList
           flag={"dealer"}
           id={id.id}
-          data={refreshList}
           activeTab={activeTab}
         />
       ),
@@ -530,9 +523,10 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
       label: "PriceBook",
       icons: PriceBook,
       Activeicons: PriceBookActive,
-      content: <PriceBookList id={id.id} activeTab={activeTab} />,
+      content: activeTab === "PriceBook" &&  <PriceBookList id={id.id} activeTab={activeTab} />,
     },
   ];
+  
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -560,7 +554,7 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
         navigate(`/addOrder/${id.id}`);
         break;
         case "Claims":
-          navigate(`/singleView/dealer/addClaim`);
+          navigate(`/addClaim`);
           break;
         
       default:
@@ -783,7 +777,7 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">0</p>
+                    <p className="text-white text-lg !font-[600]">{dealerDetails?.claimData?.numberOfClaims ?? 0}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
@@ -791,7 +785,11 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-white text-lg  !font-[600]"> $
+                      {formatOrderValue(
+                        dealerDetails?.claimData?.valueClaim ??
+                          parseInt(0)
+                      )}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>
