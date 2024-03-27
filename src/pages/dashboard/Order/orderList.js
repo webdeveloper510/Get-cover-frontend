@@ -550,7 +550,7 @@ function OrderList() {
       <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
         <div className="text-center py-3">
           <img src={unassign} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800] px-10 text-light-black">
             {message}
           </p>
           <Grid className="!grid-cols-4 my-5 ">

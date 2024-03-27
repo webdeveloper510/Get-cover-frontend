@@ -47,7 +47,7 @@ function OrderList(props) {
   const [processOrderErrors, setProcessOrderErrors] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [timer, setTimer] = useState(3);
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState("");
   const [primaryMessage, setPrimaryMessage] = useState("");
   const [secondaryMessage, setSecondaryMessage] = useState("");
   const [contractDetails, setContractDetails] = useState();
@@ -57,7 +57,13 @@ function OrderList(props) {
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
-
+  const markasPaid = async (row) => {
+    setMessage(
+      `Would you prefer to make the full payment $ ${row.orderAmount} ?`
+    );
+    SetOrderId(row._id);
+    setIsArchiveOpen(true);
+  };
   const openArchive = (id) => {
     setMessage("Would you like to Archive it?");
     SetOrderId(id);
@@ -118,6 +124,7 @@ function OrderList(props) {
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
+  console.log(message , '------------------------->>>>> ')
   const openModal1 = () => {
     if (message == "Would you like to Archive it?") {
       archiveOrders(orderId).then((res) => {
@@ -183,13 +190,7 @@ function OrderList(props) {
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
-  const markasPaid = async (row) => {
-    setMessage(
-      `Would you prefer to make the full payment $ ${row.orderAmount} ?`
-    );
-    SetOrderId(row._id);
-    setIsArchiveOpen(true);
-  };
+ 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -473,8 +474,8 @@ function OrderList(props) {
       <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
         <div className="text-center py-3">
           <img src={unassign} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
-            Would you like to Archive it?
+          <p className="text-3xl mb-0 mt-2 font-[800] px-10 text-light-black">
+           {message}
           </p>
           <Grid className="!grid-cols-4 my-5 ">
             <div className="col-span-1"></div>
