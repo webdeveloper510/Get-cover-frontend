@@ -85,7 +85,7 @@ function Claims() {
           </div>
         </div>
       )} */}
-      <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
+      <div className="pb-8 mt-2 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
 
         <div className="flex">

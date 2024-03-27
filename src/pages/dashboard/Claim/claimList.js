@@ -1223,7 +1223,7 @@ function ClaimList(props) {
                             ))}
                           <div className="col-span-12 ">
                             <Grid className="">
-                              <div className="col-span-3 py-4 pl-1 ">
+                              <div className="col-span-4 py-4 pl-1 ">
                                 <div className="bg-[#3C3C3C] py-4 px-2">
                                   <p className="text-light-green mb-3 text-[11px] font-Regular ">
                                     Customer Name :{" "}
@@ -1271,38 +1271,34 @@ function ClaimList(props) {
 
                                   {userType == "admin" && (
                                     <>
-                                      <div className="flex mt-3">
-                                        <div className="self-center  mr-8">
-                                          <p className="text-light-green text-[11px] font-Regular">
+                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                        <span className="self-center mr-8">
                                             Claim Type :
-                                          </p>
-                                        </div>
+                                        </span>
                                         <Select
                                           name="claimType"
                                           label=""
                                           value={claimType.bdAdh}
                                           onChange={handleSelectChange}
                                           white
-                                          classBox="w-[55%]"
                                           options={claim}
-                                          className1="!py-0 text-white mb-2 !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[55%]"
                                         />
-                                      </div>
-                                      <div className="flex mt-2">
-                                        <div className="self-center  mr-3">
-                                          <p className="text-light-green text-[11px] font-Regular">
+                                      </p>
+                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                        <span className="self-center  mr-3">
                                             Damage Code :
-                                          </p>
-                                        </div>
+                                        </span>
                                         <Select
                                           name="claimType"
                                           label=""
                                           white
-                                          classBox="w-[55%]"
                                           options={state}
                                           className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[55%]"
                                         />
-                                      </div>
+                                      </p>
                                     </>
                                   )}
                                 </div>
@@ -1337,13 +1333,6 @@ function ClaimList(props) {
                                     ref={dropdownRef}
                                     onClick={handleToggleDropdown}
                                   >
-                                    {/* <img
-                                    src={DropActive}
-                                    className={`cursor-pointer ml-auto ${
-                                      dropdownVisible ? "rotate-180 " : ""
-                                    }`}
-                                    alt="DropActive"
-                                  /> */}
                                     <Select
                                       name="customerStatus"
                                       label=""
@@ -1452,7 +1441,7 @@ function ClaimList(props) {
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-span-5 pt-2">
+                              <div className="col-span-4 pt-2">
                                 <div className="m-2 p-2 bg-[#3C3C3C] ">
                                   <p className="text-[11px] text-white">
                                     Diagnosis
