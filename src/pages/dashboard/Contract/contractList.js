@@ -30,7 +30,6 @@ import { getContractsforCustomer } from "../../../services/customerServices";
 import { getContractsforReseller } from "../../../services/reSellerServices";
 
 function ContractList(props) {
-  console.log(props, "----------------->>>>>>>>>>>");
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -62,14 +61,16 @@ function ContractList(props) {
     console.log("by ID -------------------", result);
   };
 
-  useEffect(() => {
-    if (props.activeTab === "Contracts") {
-      getContract();
-    }
-  }, [props]);
+  // useEffect(() => {
+  //   if (props.activeTab === "Contracts") {
+  //     getContract();
+  //   }
+  // }, [props.activeTab]);
+
   useEffect(() => {
     if (!flag) {
-      getContract();
+    
+       getContract();
     }
   }, [flag]);
 
@@ -502,8 +503,11 @@ function ContractList(props) {
                   </div>
                   {props.orderId == null ? (
                     <>
-                      {" "}
-                      <div className="col-span-6">
+                    {props.flag === "customer" ? (<> </>) : (
+                      <> 
+                      {props.flag === "reseller" ? (<> </>) : (
+                        <>
+                       {props.flag === "dealer" ? (<> </>) : ( <div className="col-span-6">
                         <Input
                           type="text"
                           name="dealerName"
@@ -512,7 +516,19 @@ function ContractList(props) {
                           {...formik.getFieldProps("dealerName")}
                           placeholder=""
                         />
+                      </div>)}
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="resellerName"
+                          className="!bg-[#fff]"
+                          label="Reseller Name"
+                          {...formik.getFieldProps("resellerName")}
+                          placeholder=""
+                        />
                       </div>
+                      </> )}
+                     
                       <div className="col-span-6">
                         <Input
                           type="text"
@@ -523,6 +539,9 @@ function ContractList(props) {
                           placeholder=""
                         />
                       </div>
+                       </>
+                    )}
+                     
                       <div className="col-span-6">
                         <Input
                           type="text"

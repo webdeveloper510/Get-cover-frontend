@@ -48,7 +48,9 @@ import {
   editClaimServicerValue,
   editClaimStatus,
   getClaimList,
+  getClaimListForCustomer,
   getClaimListForDealer,
+  getClaimListForReseller,
   getClaimListForServicer,
   getClaimMessages,
 } from "../../../services/claimServices";
@@ -57,7 +59,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../pagination";
-import SelectSearch from "../../../common/selectSearch";
 
 function ClaimList(props) {
   console.log(props);
@@ -252,13 +253,20 @@ function ClaimList(props) {
   const updateAndSetStatus = (statusObject, name, res) => {
     if (res.code === 200) {
       const resultData = res.result || {};
-
+      const updatedClaimListCopy = { ...claimList };
+      console.log( resultData[`${name}`],updatedClaimListCopy.result[activeIndex][name])
+      
+      if (updatedClaimListCopy.result) {
+        updatedClaimListCopy.result[activeIndex][name]=resultData[`${name}`]
+      }
+      setClaimList(updatedClaimListCopy);
       statusObject({
         status: resultData[`${name}`][resultData[`${name}`].length - 1].status,
         date: resultData[`${name}`][resultData[`${name}`].length - 1].date,
       });
     }
   };
+
   const editClaimValue = (claimId, statusType, statusValue) => {
     let data = {
       [statusType]: statusValue,
@@ -270,6 +278,7 @@ function ClaimList(props) {
       updateAndSetStatus(setCustomerStatus, "customerStatus", res);
     });
   };
+
   const editClaimServicer = (claimId, statusType, statusValue) => {
     let data = {
       servicerId: statusValue,
@@ -294,6 +303,10 @@ function ClaimList(props) {
       getClaimListPromise = getClaimListForDealer(props.id, data);
     } else if (props.flag === "servicer") {
       getClaimListPromise = getClaimListForServicer(props.id, data);
+    } else if (props.flag === "reseller") {
+      getClaimListPromise = getClaimListForReseller(props.id, data);
+    } else if (props.flag === "customer") {
+      getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {
       getClaimListPromise = getClaimList(data);
     }
@@ -491,7 +504,6 @@ function ClaimList(props) {
       });
   };
 
-  // Conditionally define initialValues based on repairParts length
   useEffect(() => {
     if (claimList?.result?.repairParts?.length !== 0) {
       const mappedValues = claimList?.result?.repairParts?.map((part) => ({
@@ -962,7 +974,7 @@ function ClaimList(props) {
                           />
                         </div>
                         <div className="col-span-3 self-center">
-                          <SelectSearch
+                          <Select
                             name="customerStatusValue"
                             label=""
                             options={customerValue}
@@ -974,7 +986,7 @@ function ClaimList(props) {
                           />
                         </div>
                         <div className="col-span-3 self-center">
-                          <SelectSearch
+                          <Select
                             name="repairStatus"
                             className="!text-[14px] !bg-[#f7f7f7]"
                             className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
@@ -1009,7 +1021,7 @@ function ClaimList(props) {
                       </Button>
                       <Button
                         type="button"
-                        className="ml-2 !text-[12px]"
+                        className="ml-2 !text-[11px] !px-2"
                         onClick={() => openDisapproved()}
                       >
                         Advance Search
@@ -1496,16 +1508,6 @@ function ClaimList(props) {
                                 )}
                               </div>
                             </Grid>
-                            {res.claimFile == "Rejected" && (
-                              <div className="px-3 mb-4"> 
-                                <Grid>
-                                  <div className="col-span-12">
-                                    <p className="text-white"><b>Reason For Rejection : </b> <span>{res.reason}</span></p>
-                                  </div>
-                                </Grid>
-                              </div>
-                            
-                            )}
                           </div>
                         </Grid>
                       </CollapsibleDiv>

@@ -28,7 +28,6 @@ import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
 import OrderList from "../Dealer/Dealer-Details/order";
 import ContractList from "../Contract/contractList";
-import ClaimList from "../Dealer/Dealer-Details/claim";
 import ServicerList from "../Dealer/Dealer-Details/servicer";
 import UserList from "../Dealer/Dealer-Details/user";
 import PriceBookList from "../Dealer/Dealer-Details/priceBook";
@@ -59,6 +58,7 @@ import {
   getResellerListByResellerId,
   getResellerUsersById,
 } from "../../../services/reSellerServices";
+import ClaimList from "../Claim/claimList";
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
 function ResellerDetails() {
@@ -452,7 +452,7 @@ function ResellerDetails() {
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList />,
+      content: <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />,
     },
     // {
     //   id: "Reseller",
@@ -531,6 +531,12 @@ function ResellerDetails() {
           `/addOrderforReseller/${id.resellerId}/${resellerDetail?.resellerData?.dealerId}`
         );
         break;
+        case "Claims":
+          localStorage.setItem("Resellermenu", "Orders");
+          navigate(
+            `/addClaim`
+          );
+          break;
       case "PriceBook":
         localStorage.setItem("Resellermenu", "PriceBook");
         navigate(`/addDealerBook/${id.resellerId}`);
@@ -763,7 +769,7 @@ function ResellerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">0</p>
+                    <p className="text-white text-lg !font-[600]">{resellerDetail?.claimData?.numberOfClaims ?? 0}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
@@ -771,7 +777,11 @@ function ResellerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-white text-lg  !font-[600]">  $
+                      {formatOrderValue(
+                        resellerDetail?.claimData?.valueClaim ??
+                          parseInt(0).toLocaleString(2)
+                      )}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>

@@ -19,7 +19,6 @@ import Claim from "../../../assets/images/Dealer/Claim.svg";
 import User from "../../../assets/images/Dealer/Users.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
-import ClaimList from "../Dealer/Dealer-Details/claim";
 import UserList from "../Dealer/Dealer-Details/user";
 import Modal from "../../../common/model";
 import Input from "../../../common/input";
@@ -42,6 +41,7 @@ import RadioButton from "../../../common/radio";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
 import ContractList from "../Contract/contractList";
+import ClaimList from "../Claim/claimList";
 
 function CustomerDetails() {
   // const getInitialActiveTab = () => {
@@ -126,10 +126,11 @@ console.log(isStatus , 'isStatus')
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
+    setActiveTab("Users");
     userValues.resetForm();
   };
   const getUserList = async () => {
-    const result = await getUserListByCustomerId(customerId, {});
+    const result = await getUserListByCustomerId({},customerId);
     console.log(result.result, "----------");
     setRefreshUserList(result.result);
   };
@@ -245,6 +246,7 @@ console.log(isStatus , 'isStatus')
     },
   });
   const openUserModal = () => {
+    setActiveTab("Users123");
     setIsUserModalOpen(true);
   };
   useEffect(() => {
@@ -262,6 +264,13 @@ console.log(isStatus , 'isStatus')
           `/addOrderforCustomer/${customerId}/${customerDetail?.meta?.dealerId}${resellerIdParam}`
         );
         break;
+        case "Claims":
+          localStorage.getItem("Users");
+          navigate(
+            `/customer/addClaim/${customerDetail?.meta?.username}`
+          );
+          
+          break;
       case "Users":
         localStorage.getItem("Users");
         openUserModal();
@@ -305,31 +314,28 @@ console.log(isStatus , 'isStatus')
   useEffect(() => {
     localStorage.setItem("customer", activeTab);
   }, [activeTab]);
+
   const tabs = [
     {
       id: "Orders",
       label: "Orders",
       icons: Order,
       Activeicons: OrderActive,
-      content: (
-        <OrderList flag={"customer"} id={customerId} activeTab={activeTab} />
-      ),
+      content: activeTab === "Orders" &&  <OrderList flag={"customer"} id={customerId} activeTab={activeTab} />,
     },
     {
       id: "Contracts",
       label: "Contracts",
       icons: Dealer,
       Activeicons: DealerActive,
-      content: (
-        <ContractList flag={"customer"} id={customerId} activeTab={activeTab} />
-      ),
+      content: activeTab === "Contracts" &&  <ContractList flag={"customer"} id={customerId} activeTab={activeTab} />,
     },
     {
       id: "Claims",
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList />,
+      content: activeTab === "Claims" && <ClaimList id={customerId} flag={"customer"} activeTab={activeTab} />  ,
     },
     {
       id: "Users",
@@ -340,12 +346,12 @@ console.log(isStatus , 'isStatus')
         <UserList
           flag={"customer"}
           id={customerId}
-          data={refreshList}
           activeTab={activeTab}
         />
       ),
     },
   ];
+  
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -579,7 +585,7 @@ console.log(isStatus , 'isStatus')
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">0</p>
+                    <p className="text-white text-lg !font-[600]">{customerDetail?.claimData?.numberOfClaims ?? 0}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
@@ -587,7 +593,10 @@ console.log(isStatus , 'isStatus')
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-white text-lg  !font-[600]">$ {formatOrderValue(
+                        customerDetail?.claimData?.valueClaim ??
+                          parseInt(0)
+                      )}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>

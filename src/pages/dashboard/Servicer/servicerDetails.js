@@ -148,7 +148,9 @@ function ServicerDetails() {
       clearInterval(intervalId);
     };
   }, [modalOpen, timer]);
+
   const openUserModal = () => {
+    setActiveTab("Users123");
     setIsUserModalOpen(true);
   };
   const closeModal10 = () => {
@@ -162,6 +164,7 @@ function ServicerDetails() {
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
+    setActiveTab("Users");
     userValues.resetForm();
   };
   const getUserList = async () => {
@@ -263,7 +266,6 @@ function ServicerDetails() {
         <UserList
           flag={"servicer"}
           id={servicerId}
-    
           activeTab={activeTab}
         />
       ),
@@ -399,7 +401,6 @@ function ServicerDetails() {
       const result = await addUserByServicerId(values, servicerId);
       console.log(result.code);
       if (result.code == 200) {
-      setActiveTab("Dealer")
         getUserList();
         setLoading(false);
         closeUserModal();
@@ -407,7 +408,7 @@ function ServicerDetails() {
         setModalOpen(true);
         setFirstMessage("New Users Added Successfully");
         setSecondMessage("New User Added Successfully");
-        setActiveTab("Users")
+     
       } else {
         console.log(result);
         if (result.code === 401) {
@@ -417,6 +418,17 @@ function ServicerDetails() {
       }
     },
   });
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
@@ -660,7 +672,7 @@ function ServicerDetails() {
               <Grid className="mt-5">
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">0</p>
+                    <p className="text-white text-lg !font-[600]">{servicerDetails?.claimData?.numberOfClaims ?? 0}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
@@ -668,7 +680,11 @@ function ServicerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-white text-lg  !font-[600]">$
+                      {formatOrderValue(
+                        servicerDetails?.claimData?.valueClaim ??
+                          parseInt(0)
+                      )}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>

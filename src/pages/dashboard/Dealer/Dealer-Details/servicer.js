@@ -253,14 +253,14 @@ function ServicerList(props) {
             selector: (row) => row.phoneNumber,
             sortable: true,
           },
-          {
-            name: "# of Claims",
-            selector: (row) => 0,
-            sortable: true,
-          },
+        {
+          name: "# of Claims",
+          selector: (row) =>row.claimNumber?.noOfOrders ?? 0,
+          sortable: true,
+        },
           {
             name: "Total Claims Value",
-            selector: (row) => `$${(formatOrderValue(row?.orderData?.orderAmount ?? parseInt(0)))}`,
+            selector: (row) => `$${(formatOrderValue(row?.claimValue?.totalAmount ?? parseInt(0)))}`,
             sortable: true,
           },
         ]
