@@ -68,6 +68,7 @@ function ClaimList(props) {
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
+  const [isPayOpen, setIsPayOpen] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
@@ -704,17 +705,12 @@ function ClaimList(props) {
     { label: "Rejected", value: "rejected" },
   ];
 
-  // useEffect(() => {
-  //   getAllClaims();
-  // }, []);
-
-  // useEffect(() => {
-  //   if(props.activeTab == "Claims")
-  //   {
-  //     // getAllClaims();
-  //   }
-
-  // }, [props]);
+  const openPay = () => {
+    setIsPayOpen(true);
+  };
+  const closePay = () => {
+    setIsPayOpen(false);
+  };
 
   const state = [
     { label: "Admin", value: "Admin" },
@@ -899,21 +895,30 @@ function ClaimList(props) {
     formik1.resetForm();
     getAllClaims();
   };
-  const [checkedItems, setCheckedItems] = useState([]);
-  const [showButtons, setShowButtons] = useState(false);
+  const [checkboxStates, setCheckboxStates] = useState([]);
 
   const handleCheckboxChange = (index) => {
-    // Toggle the checkbox state
-    const isChecked = checkedItems.includes(index);
-    if (isChecked) {
-      setCheckedItems(checkedItems.filter((item) => item !== index));
-    } else {
-      setCheckedItems([...checkedItems, index]);
-    }
-  
-    // Show buttons if at least one checkbox is checked
-    setShowButtons(checkedItems.length > 0);
+    const newCheckboxStates = [...checkboxStates];
+    newCheckboxStates[index] = !newCheckboxStates[index];
+    setCheckboxStates(newCheckboxStates);
   };
+
+  const handleSelectAll = () => {
+    const newCheckboxStates = Array.from({ length: claimList.result.length }, () => true);
+    setCheckboxStates(newCheckboxStates);
+  };
+
+  const handleUnselectAll = () => {
+    const newCheckboxStates = Array.from({ length: claimList.result.length }, () => false);
+    setCheckboxStates(newCheckboxStates);
+  };
+
+  const anyCheckboxChecked = () => {
+    return checkboxStates.some((isChecked) => isChecked);
+  };
+
+  const selectedCount = checkboxStates.filter((isChecked) => isChecked).length;
+  const totalCount = claimList?.result?.length || 0;
   return (
     <>
       <div className="mb-8 ml-3">
@@ -1044,15 +1049,7 @@ function ClaimList(props) {
           </Grid>
 
           <div className="px-3 mt-5">
-          {showButtons && (
-        <>
-        <div className="flex w-full">
-          <Button>Select</Button>
-          <Button>Pay</Button>
-          <Button>Unselect</Button>
-        </div>
-        </>
-      )}
+         
             {loaderType == true ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
@@ -1061,7 +1058,22 @@ function ClaimList(props) {
               </div>
             ) : (
               <>
-            
+             {anyCheckboxChecked() && (
+            <Grid>
+              <div className="col-span-3">
+              <p>{selectedCount} Of {totalCount}</p>
+              </div>
+              <div className="col-span-4"></div>
+              <div className="col-span-5">
+              <div className="flex justify-end">
+                  <Button className='!text-[14px] !py-[4px]' onClick={handleSelectAll}>Select All</Button>
+                  <Button className='mx-3 !text-[14px] !py-[4px]' onClick={() => openPay()}>Pay</Button>
+                  <Button onClick={handleUnselectAll} className='!bg-[white] border-[1px] !text-light-black hover:!bg-light-black hover:!text-[white] transition-colors duration-300 focus:outline-none !text-[14px] !py-[4px]'>Unselect</Button>
+                </div>
+              </div>
+                
+            </Grid>
+              )}
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
                   claimList?.result?.map((res, index) => {
@@ -1103,10 +1115,16 @@ function ClaimList(props) {
                                   onClick={() => openView(res)}
                                   alt="chat"
                                 />
-                                   <Checkbox
-                                      onChange={() => handleCheckboxChange(index)}
-                                      checked={checkedItems.includes(index)}
-                                    />
+                                  <div key={index}>
+                                    <input
+                                        id={`push-nothing-${index}`}
+                                        name={`push-notifications-${index}`}
+                                        type="checkbox"
+                                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600 cursor-pointer"
+                                        onChange={() => handleCheckboxChange(index)}
+                                        checked={checkboxStates[index] || false}
+                                      />
+                                  </div>
                               </div>
                             </Grid>
                             <Grid className="!gap-0 bg-[#F9F9F9] border-[#474747] border-x">
@@ -1225,8 +1243,8 @@ function ClaimList(props) {
                             ))}
                           <div className="col-span-12 ">
                             <Grid className="">
-                              <div className="col-span-3 py-4 pl-1 ">
-                                <div className="bg-[#3C3C3C] py-4 px-2">
+                              <div className="col-span-4 py-4 pl-1 ">
+                                <div className="bg-[#3C3C3C] py-2 px-2">
                                   <p className="text-light-green mb-3 text-[11px] font-Regular ">
                                     Customer Name :{" "}
                                     <span className="font-semibold text-white">
@@ -1273,38 +1291,34 @@ function ClaimList(props) {
 
                                   {userType == "admin" && (
                                     <>
-                                      <div className="flex mt-3">
-                                        <div className="self-center  mr-8">
-                                          <p className="text-light-green text-[11px] font-Regular">
+                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                        <span className="self-center mr-8">
                                             Claim Type :
-                                          </p>
-                                        </div>
+                                        </span>
                                         <Select
                                           name="claimType"
                                           label=""
                                           value={claimType.bdAdh}
                                           onChange={handleSelectChange}
                                           white
-                                          classBox="w-[55%]"
                                           options={claim}
-                                          className1="!py-0 text-white mb-2 !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[55%]"
                                         />
-                                      </div>
-                                      <div className="flex mt-2">
-                                        <div className="self-center  mr-3">
-                                          <p className="text-light-green text-[11px] font-Regular">
+                                      </p>
+                                      <p className="text-light-green mb-2 text-[11px] font-Regular flex self-center">
+                                        <span className="self-center  mr-3">
                                             Damage Code :
-                                          </p>
-                                        </div>
+                                        </span>
                                         <Select
                                           name="claimType"
                                           label=""
                                           white
-                                          classBox="w-[55%]"
                                           options={state}
                                           className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[55%]"
                                         />
-                                      </div>
+                                      </p>
                                     </>
                                   )}
                                 </div>
@@ -1334,18 +1348,12 @@ function ClaimList(props) {
                                       )}
                                     </span>
                                   </div>
-                                  <div
+                                  {/* <div
                                     className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
                                     ref={dropdownRef}
                                     onClick={handleToggleDropdown}
                                   >
-                                    {/* <img
-                                    src={DropActive}
-                                    className={`cursor-pointer ml-auto ${
-                                      dropdownVisible ? "rotate-180 " : ""
-                                    }`}
-                                    alt="DropActive"
-                                  /> */}
+                                    
                                     <Select
                                       name="customerStatus"
                                       label=""
@@ -1360,7 +1368,7 @@ function ClaimList(props) {
                                       options={customerValue}
                                       visible={dropdownVisible}
                                     />
-                                  </div>
+                                  </div> */}
                                 </div>
                                 <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                   <div className="bg-[#474747] w-[40%] rounded-s-lg">
@@ -1388,7 +1396,7 @@ function ClaimList(props) {
                                       )}
                                     </p>
                                   </div>
-                                  <div
+                                  {/* <div
                                     className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
                                     ref={dropdownRef}
                                   >
@@ -1406,7 +1414,7 @@ function ClaimList(props) {
                                       options={claimvalues}
                                       visible={dropdownVisible}
                                     />
-                                  </div>
+                                  </div> */}
                                 </div>
                                 <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                   <div className="bg-[#474747] w-[40%] rounded-s-lg">
@@ -1432,7 +1440,7 @@ function ClaimList(props) {
                                       )}
                                     </p>
                                   </div>
-                                  <div
+                                  {/* <div
                                     className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
                                     ref={dropdownRef}
                                     onClick={handleToggleDropdown1}
@@ -1451,10 +1459,10 @@ function ClaimList(props) {
                                       options={repairValue}
                                       visible={dropdownVisible}
                                     />
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
-                              <div className="col-span-5 pt-2">
+                              <div className="col-span-4 pt-2">
                                 <div className="m-2 p-2 bg-[#3C3C3C] ">
                                   <p className="text-[11px] text-white">
                                     Diagnosis
@@ -1548,6 +1556,43 @@ function ClaimList(props) {
           </div>
         </div>
       </div>
+   
+
+      <Modal isOpen={isPayOpen} onClose={closePay}>
+        <Button
+          onClick={closePay}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+          <div className="p-3 text-center">
+          <img src={disapproved} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+              {" "}
+              <span className="text-light-black"> Pay  </span>
+            </p>
+              <p className="text-neutral-grey text-base font-medium mt-2 ">
+              Do you really want to Marked as Paid ?
+              </p>
+                <div className="mt-4">
+                  <Grid>
+                  <div className="col-span-2"></div>
+                    <div className="col-span-2">
+                      <Button >Yes</Button>
+                    </div>
+                    <div className="col-span-4"></div>
+                    <div className="col-span-2">
+                      <Button>No</Button>
+                    </div>
+                    <div className="col-span-2"></div>
+                  </Grid>
+                </div>
+          </div>
+      </Modal>
+
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
         <Button onClick={closeReject}  className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
           <img
