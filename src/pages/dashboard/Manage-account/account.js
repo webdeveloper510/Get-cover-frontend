@@ -889,7 +889,7 @@ function Account() {
               </div>
               <div className="col-span-6">
                 <Input
-                  type="text"
+                  type="email"
                   name="email"
                   label="Email"
                   placeholder=""
