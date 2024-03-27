@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const CustomPagination = ({
   totalRecords,
@@ -10,11 +10,18 @@ const CustomPagination = ({
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
 
   useEffect(() => {
-    console.log(currentPage, rowsPerPage);
-    setRecordsPerPage(rowsPerPage);
-    onPageChange(currentPage, rowsPerPage);
-    window.scrollTo(0, 0);
+    if (!isInitialMount.current) { 
+      console.log(currentPage, rowsPerPage);
+      setRecordsPerPage(rowsPerPage);
+      onPageChange(currentPage, rowsPerPage);
+      window.scrollTo(0, 0);
+    } else {
+      isInitialMount.current = false; 
+    }
   }, [currentPage, rowsPerPage]);
+  
+  const isInitialMount = useRef(true); 
+  
 
   const totalPages = Math.ceil(totalRecords / rowsPerPage);
 

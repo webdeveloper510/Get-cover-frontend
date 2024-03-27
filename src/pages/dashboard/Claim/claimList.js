@@ -255,10 +255,11 @@ function ClaimList(props) {
     if (res.code === 200) {
       const resultData = res.result || {};
       const updatedClaimListCopy = { ...claimList };
-      console.log( resultData[`${name}`],updatedClaimListCopy.result[activeIndex][name])
+      console.log( resultData,updatedClaimListCopy.result[activeIndex][name])
       
       if (updatedClaimListCopy.result) {
         updatedClaimListCopy.result[activeIndex][name]=resultData[`${name}`]
+        updatedClaimListCopy.result[activeIndex][`reason`]=resultData.reason
       }
       setClaimList(updatedClaimListCopy);
       statusObject({

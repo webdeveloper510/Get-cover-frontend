@@ -61,18 +61,13 @@ function ContractList(props) {
     console.log("by ID -------------------", result);
   };
 
-  // useEffect(() => {
-  //   if (props.activeTab === "Contracts") {
-  //     getContract();
-  //   }
-  // }, [props.activeTab]);
-
   useEffect(() => {
-    if (!flag) {
-    
-       getContract();
+    if (props.flag === "contracts") {
+       getContract(props.orderId);
     }
-  }, [flag]);
+  }, [props.flag]);
+
+ 
 
   const handleSelectChange1 = (label, value) => {
     console.log(label, value, "selected");
@@ -81,31 +76,38 @@ function ContractList(props) {
   };
 
   const getContract = async (orderId = null, page = 1, rowsPerPage = 10) => {
-    // rowsPerPage = recordsPerPage;
-    console.log(recordsPerPage);
     setLoading(true);
+    console.log(props);
+    console.log(recordsPerPage);
+  
     let data = {
       page: page,
       pageLimit: rowsPerPage,
       ...formik.values,
     };
-    console.log(orderId, props?.flag);
-    const result =
-      orderId == null && props?.flag == undefined
-        ? await getAllContractsForAdmin(data)
-        : props?.flag == "dealer" && props?.id
-        ? await getContractsforDealer(props.id, data)
-        : props?.flag == "customer" && props?.id
-        ? await getContractsforCustomer(props.id, data)
-        : props?.flag == "reseller" && props?.id
-        ? await getContractsforReseller(props.id, data)
-        : await getContracts(orderId, data);
-
-    setContractList(result.result);
-    setTotalRecords(result?.totalCount);
-    setLoading(false);
-    // setFlag(true);
+  
+    try {
+      const result =
+        orderId == null && props?.flag == undefined
+          ? await getAllContractsForAdmin(data)
+          : props?.flag == "dealer" && props?.id
+          ? await getContractsforDealer(props.id, data)
+          : props?.flag == "customer" && props?.id
+          ? await getContractsforCustomer(props.id, data)
+          : props?.flag == "reseller" && props?.id
+          ? await getContractsforReseller(props.id, data)
+          : await getContracts(orderId, data);
+  
+      setContractList(result.result);
+      setTotalRecords(result?.totalCount);
+    } catch (error) {
+      console.error('Error fetching contracts:', error);
+      // Handle the error, such as displaying an error message to the user
+    } finally {
+      setLoading(false);
+    }
   };
+  
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -147,22 +149,7 @@ function ContractList(props) {
     },
   });
 
-  const handlePageChange = async (page, rowsPerPage) => {
-    // setRecordsPerPage(rowsPerPage);
-    setLoading(true);
-    try {
-      if (props?.flag == "contracts") {
-        await getContract(props?.orderId, page, rowsPerPage);
-      } else if (props?.flag != "") {
-        await getContract(null, page, rowsPerPage);
-      } else {
-        await getContract(null, page, rowsPerPage);
-      }
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+
 
   const status = [
     { label: "Active", value: "Active" },
@@ -179,6 +166,21 @@ function ContractList(props) {
     setSelectedProduct("");
     // getContract();
   };
+
+  const handlePageChange = async (page, rowsPerPage) => {
+    setLoading(true);
+    try {
+      if (props.flag === "contracts") {
+        await getContract(props.orderId, page, rowsPerPage);
+      } else {
+        await getContract(null, page, rowsPerPage);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
   return (
     <>
       <div className="mb-8 ml-3">
@@ -281,12 +283,7 @@ function ContractList(props) {
               </form>
             </div>
           </Grid>
-          {/* {contractList?.length == 0   ? (
-           
-              <div className="text-center my-5">
-                <p>No records found.</p>
-              </div>
-          ) : ( */}
+       
           <div>
             <>
               {loading ? (
@@ -426,7 +423,7 @@ function ContractList(props) {
               />
             )}
           </div>
-          {/* )} */}
+
 
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button

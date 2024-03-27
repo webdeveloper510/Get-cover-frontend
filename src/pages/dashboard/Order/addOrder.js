@@ -21,7 +21,7 @@ import {
   getProductListbyProductCategoryId,
 } from "../../../services/dealerServices";
 import { getServicerListByDealerId } from "../../../services/servicerServices";
-import { getCustomerListByDealerIdAndResellerId } from "../../../services/customerServices";
+import { getCustomerListByDealerIdAndResellerId, getServiceCoverageDetails } from "../../../services/customerServices";
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import {
   getCategoryListActiveData,
@@ -63,6 +63,9 @@ function AddOrder() {
   const [resellerList, setResllerList] = useState([]);
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
+  const [coverage, setCoverage] = useState([]);
+  const [serviceCoverage, setServiceCoverage] = useState([]);
+  
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [loading2, setLoading2] = useState(false);
@@ -218,7 +221,6 @@ function AddOrder() {
     setResllerList(arr);
   };
 
-  console.log(loading1, "--------------");
   useEffect(() => {
     if (orderId != undefined) {
       orderDetails();
@@ -228,6 +230,7 @@ function AddOrder() {
     }
     if (dealerId) {
       formik.setFieldValue("dealerId", dealerId);
+      getServiceCoverage(dealerId)
       getResellerList(dealerId);
       getCustomerList({
         dealerId: dealerId,
@@ -292,6 +295,46 @@ function AddOrder() {
     getDealerListData();
     getTermListData();
   }, []);
+
+  const getServiceCoverage = async (value) => {
+    const result = await getServiceCoverageDetails(value);
+  
+    switch (result.result.coverageType) {
+      case "Breakdown & Accidental":
+        setCoverage([
+          { label: "Breakdown", value: "Breakdown" },
+          { label: "Accidental", value: "Accidental" },
+          { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+        ]);
+        break;
+      case "Breakdown":
+        setCoverage([{ label: "Accidental", value: "Accidental" }]);
+        break;
+      default:
+        setCoverage([{ label: "Breakdown", value: "Breakdown" }]);
+        break;
+    }
+  
+    switch (result.result.serviceCoverageType) {
+      case "Parts & Labour":
+        setServiceCoverage([
+          { label: "Parts", value: "Parts" },
+          { label: "Labour", value: "Labour" },
+          { label: "Parts & Labour", value: "Parts & Labour" },
+        ]);
+        break;
+      case "Labour":
+        setServiceCoverage([{ label: "Labour", value: "Labour" }]);
+        break;
+      case "Parts":
+        setServiceCoverage([{ label: "Parts", value: "Parts" }]);
+        break;
+      default:
+        setServiceCoverage([{ label: "Parts", value: "Parts" }]);
+        break;
+    }
+  };
+  
 
   const orderDetails = async () => {
     const result = await orderDetailsById(orderId);
@@ -424,6 +467,7 @@ function AddOrder() {
       customerId: "",
       resellerId: "",
     },
+
     validationSchema: Yup.object().shape({
       dealerId: Yup.string().required("Dealer Name is required"),
     }),
@@ -1182,6 +1226,7 @@ function AddOrder() {
         resellerId: formik.values.resellerId,
       };
       getServicerList(data);
+      getServiceCoverage(value)
       getCustomerList({
         dealerId: value,
         resellerId: formik.values.resellerId,
@@ -1230,17 +1275,17 @@ function AddOrder() {
     }
   };
 
-  const coverage = [
-    { label: "Breakdown", value: "Breakdown" },
-    { label: "Accidental", value: "Accidental" },
-    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-  ];
+  // const coverage = [
+  //   { label: "Breakdown", value: "Breakdown" },
+  //   { label: "Accidental", value: "Accidental" },
+  //   { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+  // ];
 
-  const serviceCoverage = [
-    { label: "Parts", value: "Parts" },
-    { label: "Labour", value: "Labour" },
-    { label: "Parts & Labour", value: "Parts & Labour" },
-  ];
+  // const serviceCoverage = [
+  //   { label: "Parts", value: "Parts" },
+  //   { label: "Labour", value: "Labour" },
+  //   { label: "Parts & Labour", value: "Parts & Labour" },
+  // ];
 
   const getCategoryList = async (value, data, index) => {
     // if(data?.priceBookId == data?.priceBookId) {setProductLoading(true)}

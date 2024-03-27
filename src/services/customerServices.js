@@ -89,6 +89,19 @@ export const getCustomerListByDealerIdAndResellerId = async (data) => {
     throw error;
   }
 };
+
+export const getServiceCoverageDetails = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/order/getServiceCoverage/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const getUserListByCustomerId = async (data, id) => {
   const headers = createHeaders();
   try {

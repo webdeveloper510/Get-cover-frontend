@@ -35,6 +35,7 @@ function Dealer() {
   const [category, setCategoryList] = useState([]);
   const [termList, setTermList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [shipping, setShipping] = useState("yes");
   const [createServicerAccountOption, setServicerCreateAccountOption] =
     useState(false);
   const [separateAccountOption, setSeparateAccountOption] = useState("yes");
@@ -77,6 +78,10 @@ function Dealer() {
     ],
     isAccountCreate: false,
     customerAccountCreated: false,
+    serviceCoverageType : "",
+coverageType: "",
+isShippingAllowed: false,
+termCondition: [],
     file: "",
     oldName: "",
     oldEmail: "",
@@ -145,6 +150,10 @@ function Dealer() {
         createdBy: "Super admin",
         role: "dealer",
         savePriceBookType: selectedOption,
+        serviceCoverageType : "",
+        coverageType: "",
+        isShippingAllowed: false,
+        termCondition: [],
         dealers: [],
         priceBook: [
           {
@@ -188,6 +197,10 @@ function Dealer() {
             role: "dealer",
             dealers: [],
             savePriceBookType: selectedOption,
+            serviceCoverageType : "",
+            coverageType: "",
+            isShippingAllowed: false,
+            termCondition: [],
             priceBook: [
               {
                 priceBookId: "",
@@ -257,6 +270,7 @@ function Dealer() {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
     setServicerCreateAccountOption(valueAsBoolean);
   };
+ 
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     setCreateAccountOption(selectedValue);
@@ -278,8 +292,11 @@ function Dealer() {
   };
 
   const handleSeparateAccountRadioChange = (event) => {
-    console.log(event.target.value);
     setSeparateAccountOption(event.target.value);
+  };
+  
+  const handleRadio = (event) => {
+    setShipping(event.target.value)
   };
 
   const handleRadioChangeforBulk = (event) => {
@@ -374,6 +391,15 @@ function Dealer() {
     initialValues: initialFormValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
+      serviceCoverageType: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      coverageType: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      isShippingAllowed: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
       name: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required")
@@ -435,17 +461,17 @@ function Dealer() {
         selectedOption === "no"
           ? Yup.array().notRequired()
           : Yup.array().of(
-              Yup.object().shape({
-                priceBookId: Yup.string().required("Required"),
-                categoryId: Yup.string().required("Required"),
-                retailPrice: Yup.number()
-                  .typeError("Required")
-                  .required("Required")
-                  .min(0, "Retail Price cannot be negative")
-                  .nullable(),
-                status: Yup.boolean().required("Required"),
-              })
-            ),
+            Yup.object().shape({
+              priceBookId: Yup.string().required("Required"),
+              categoryId: Yup.string().required("Required"),
+              retailPrice: Yup.number()
+                .typeError("Required")
+                .required("Required")
+                .min(0, "Retail Price cannot be negative")
+                .nullable(),
+              status: Yup.boolean().required("Required"),
+            })
+          ),
       file:
         selectedOption === "yes"
           ? Yup.string().notRequired()
@@ -456,19 +482,20 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-              {
-                priceBookId: "",
-                categoryId: "",
-                wholesalePrice: "",
-                terms: "",
-                description: "",
-                retailPrice: "",
-                status: "",
-              },
-            ]
+            {
+              priceBookId: "",
+              categoryId: "",
+              wholesalePrice: "",
+              terms: "",
+              description: "",
+              retailPrice: "",
+              status: "",
+            },
+          ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
+       
 
       if (formik.values.dealers.length > 0) {
         console.log(formik.values.dealers.length);
@@ -512,7 +539,7 @@ function Dealer() {
         status: true,
       };
       values.isServicer = createServicerAccountOption;
-
+      values.isShippingAllowed = shipping === "yes" ? true : false;
       values.customerAccountCreated =
         separateAccountOption === "yes" ? true : false;
       if (createAccountOption === "yes" || createAccountOption === "no") {
@@ -525,7 +552,6 @@ function Dealer() {
         ...values,
         dealers: [newObject, ...values.dealers],
       };
-
       const formData = new FormData();
       Object.entries(newValues).forEach(([key, value]) => {
         if (Array.isArray(value)) {
@@ -798,70 +824,70 @@ function Dealer() {
                 </Grid>
               </div>
               <div className="col-span-8">
-              <p className="text-light-black text-lg mb-3 font-semibold">
+                <p className="text-light-black text-lg mb-3 font-semibold">
                   Dealer Information
                 </p>
                 <Grid className="mt-5">
-                <div className="col-span-6 ">
+                  <div className="col-span-6 ">
                     <Grid>
-                    <div className="col-span-12">
-                  <Select
-                    label="Service Coverage"
-                    name="serviceCoverageType"
-                    placeholder=""
-                    className="!bg-white"
-                    required={true}
-                    onChange={handleSelectChange1}
-                    options={serviceCoverage}
-                    value={formik.values.serviceCoverageType}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.serviceCoverageType &&
-                      formik.errors.serviceCoverageType
-                    }
-                  />
-                  {formik.touched.serviceCoverageType &&
-                    formik.errors.serviceCoverageType && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.serviceCoverageType}
+                      <div className="col-span-12">
+                        <Select
+                          label="Service Coverage"
+                          name="serviceCoverageType"
+                          placeholder=""
+                          className="!bg-white"
+                          required={true}
+                          onChange={handleSelectChange1}
+                          options={serviceCoverage}
+                          value={formik.values.serviceCoverageType}
+                          onBlur={formik.handleBlur}
+                          error={
+                            formik.touched.serviceCoverageType &&
+                            formik.errors.serviceCoverageType
+                          }
+                        />
+                        {formik.touched.serviceCoverageType &&
+                          formik.errors.serviceCoverageType && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.serviceCoverageType}
+                            </div>
+                          )}
                       </div>
-                    )}
-                  </div>
-                  <div className="col-span-12">
-                  <Select
-                    label="Coverage Type"
-                    name="coverageType"
-                    placeholder=""
-                    className="!bg-white"
-                    required={true}
-                    onChange={handleSelectChange1}
-                    options={coverage}
-                    value={formik.values.coverageType}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.coverageType &&
-                      formik.errors.coverageType
-                    }
-                  />
-                  {formik.touched.coverageType &&
-                    formik.errors.coverageType && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.coverageType}
+                      <div className="col-span-12">
+                        <Select
+                          label="Coverage Type"
+                          name="coverageType"
+                          placeholder=""
+                          className="!bg-white"
+                          required={true}
+                          onChange={handleSelectChange1}
+                          options={coverage}
+                          value={formik.values.coverageType}
+                          onBlur={formik.handleBlur}
+                          error={
+                            formik.touched.coverageType &&
+                            formik.errors.coverageType
+                          }
+                        />
+                        {formik.touched.coverageType &&
+                          formik.errors.coverageType && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.coverageType}
+                            </div>
+                          )}
                       </div>
-                    )}
-                  </div>
-                  <div className="col-span-12">
-                  <Input
-                      type="file"
-                      name="term"
-                      label="Terms and Conditions"
-                      className="!bg-white"
-                      className1="!pt-[9px]"
-                      placeholder=""
-                    />
-                  </div>
+                      <div className="col-span-12">
+                        <Input
+                          type="file"
+                          name="term"
+                          label="Terms and Conditions"
+                          className="!bg-white"
+                          className1="!pt-[9px]"
+                          placeholder=""
+                        />
+                      </div>
                     </Grid>
-                    
+
                   </div>
                   <div className="col-span-6 pt-2">
                     <p className="text-light-black flex text-[12px] mb-7 font-semibold ">
@@ -882,24 +908,24 @@ function Dealer() {
                       />
                     </p>
                     <p className="text-light-black flex text-[12px] mb-7 font-semibold ">
-                    <span className="mr-[0.58rem]">
-                      Do you want to Provide Shipping?
-                    </span>
-                      <RadioButton
-                        id="yes-create-account"
-                        label="Yes"
-                        value="yes"
-                        checked={createAccountOption === "yes"}
-                        onChange={handleRadioChange}
-                      />
-                      <RadioButton
-                        id="no-create-account"
-                        label="No"
-                        value="no"
-                        checked={createAccountOption === "no"}
-                        onChange={handleRadioChange}
-                      />
-                    </p>
+  <span className="mr-[0.58rem]">Do you want to Provide Shipping?</span>
+  <RadioButton
+  id="yes-create-account"
+  label="Yes"
+  value="yes"
+  checked={shipping === "yes"}
+  onChange={handleRadio}
+/>
+<RadioButton
+  id="no-create-account"
+  label="No"
+  value="no"
+  checked={shipping === "no"}
+  onChange={handleRadio}
+/>
+
+</p>
+
                     <p className="text-light-black flex text-[12px] mb-7 font-semibold self-center">
                       {" "}
                       <span className="mr-[0.2rem]">
@@ -922,7 +948,7 @@ function Dealer() {
                       />
                     </p>
                     <p className="text-light-black flex text-[12px] font-semibold">
-                     <span className="w-[60%]"> Do you want to create separate account for customer? </span> 
+                      <span className="w-[60%]"> Do you want to create separate account for customer? </span>
                       <RadioButton
                         id="yes-separate-account"
                         label="Yes"
@@ -941,8 +967,8 @@ function Dealer() {
                       />
                     </p>
                   </div>
-                  
-                  </Grid>
+
+                </Grid>
                 <p className="text-light-black mt-4 text-lg mb-3 font-semibold">
                   Primary Contact Information
                 </p>
@@ -1075,16 +1101,16 @@ function Dealer() {
                       error={formik.touched.position && formik.errors.position}
                     />
                   </div>
-                 
+
                   <div className="col-span-2 mb-0"> </div>
                   <div className="col-span-4 self-end mb-0">
-                  <Button
-                        type="button"
-                        className="text-sm self-end !font-light w-full"
-                        onClick={handleAddTeamMember}
-                      >
-                        + Add More Team Members
-                      </Button>
+                    <Button
+                      type="button"
+                      className="text-sm self-end !font-light w-full"
+                      onClick={handleAddTeamMember}
+                    >
+                      + Add More Team Members
+                    </Button>
                   </div>
                 </Grid>
 
