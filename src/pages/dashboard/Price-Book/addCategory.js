@@ -104,7 +104,7 @@ function AddCategory() {
     if (type === "Edit" && Object.keys(categoryDetails).length > 0) {
       formik.setValues((prevValues) => ({
         ...prevValues,
-        name: categoryDetails.name,
+        name: categoryDetails.name.replace(/\s+/g, ' '),
         description: categoryDetails.description,
         status: categoryDetails.status,
       }));
