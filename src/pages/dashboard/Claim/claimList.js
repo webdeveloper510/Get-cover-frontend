@@ -255,11 +255,11 @@ function ClaimList(props) {
     if (res.code === 200) {
       const resultData = res.result || {};
       const updatedClaimListCopy = { ...claimList };
-      console.log( resultData,updatedClaimListCopy.result[activeIndex][name])
-      
+      console.log(resultData, updatedClaimListCopy.result[activeIndex][name]);
+
       if (updatedClaimListCopy.result) {
-        updatedClaimListCopy.result[activeIndex][name]=resultData[`${name}`]
-        updatedClaimListCopy.result[activeIndex][`reason`]=resultData.reason
+        updatedClaimListCopy.result[activeIndex][name] = resultData[`${name}`];
+        updatedClaimListCopy.result[activeIndex][`reason`] = resultData.reason;
       }
       setClaimList(updatedClaimListCopy);
       statusObject({
@@ -298,9 +298,9 @@ function ClaimList(props) {
       pageLimit: rowsPerPage,
       ...formik1.values,
     };
-  
+
     let getClaimListPromise;
-  
+
     if (props.flag === "dealer") {
       getClaimListPromise = getClaimListForDealer(props.id, data);
     } else if (props.flag === "servicer") {
@@ -312,19 +312,20 @@ function ClaimList(props) {
     } else {
       getClaimListPromise = getClaimList(data);
     }
-  
-    getClaimListPromise.then((res) => {
-      console.log(res);
-      if (res) {
-        setClaimList(res);
-        setTotalRecords(res?.totalCount);
-      }
-      setLoaderType(false);
-    }).catch(() => {
-      setLoaderType(false);
-    });
+
+    getClaimListPromise
+      .then((res) => {
+        console.log(res);
+        if (res) {
+          setClaimList(res);
+          setTotalRecords(res?.totalCount);
+        }
+        setLoaderType(false);
+      })
+      .catch(() => {
+        setLoaderType(false);
+      });
   };
-  
 
   const [recordsPerPage, setRecordsPerPage] = useState(10);
 
@@ -423,27 +424,41 @@ function ClaimList(props) {
         note: claimList.result[index].note || " ",
       });
     }
-    const getServiceType = (coverageType) => {
+    const getServiceType = (coverageType, shipping) => {
       switch (coverageType) {
         case "Parts":
-          return [
-            { label: "Parts", value: "Parts" },
-            { label: "Shipping", value: "Shipping" },
-          ];
+          return shipping
+            ? [
+                { label: "Parts", value: "Parts" },
+                { label: "Shipping", value: "Shipping" },
+              ]
+            : [{ label: "Parts", value: "Parts" }];
         case "Labour":
-          return [
-            { label: "Labour", value: "Labour" },
-            { label: "Shipping", value: "Shipping" },
-          ];
+          return shipping
+            ? [
+                { label: "Labour", value: "Labour" },
+                { label: "Shipping", value: "Shipping" },
+              ]
+            : [{ label: "Labour", value: "Labour" }];
         default:
-          return [
-            { label: "Parts", value: "Parts" },
-            { label: "Labour", value: "Labour" },
-            { label: "Shipping", value: "Shipping" },
-          ];
+          return shipping
+            ? [
+                { label: "Parts", value: "Parts" },
+                { label: "Labour", value: "Labour" },
+                { label: "Shipping", value: "Shipping" },
+              ]
+            : [
+                { label: "Parts", value: "Parts" },
+                { label: "Labour", value: "Labour" },
+              ];
       }
     };
-    setServiceType(getServiceType(res.contracts.orders.serviceCoverageType));
+    setServiceType(
+      getServiceType(
+        res.contracts.orders.serviceCoverageType,
+        res.contracts.orders.dealers.isShippingAllowed
+      )
+    );
     setClaimId(res._id);
     setIsEditOpen(true);
   };
@@ -716,11 +731,9 @@ function ClaimList(props) {
   }, []);
 
   useEffect(() => {
-    if(props.activeTab == "Claims")
-    {
+    if (props.activeTab == "Claims") {
       // getAllClaims();
     }
-
   }, [props]);
 
   const state = [
@@ -909,38 +922,38 @@ function ClaimList(props) {
   return (
     <>
       <div className="mb-8 ml-3">
-      {
-        props && Object.keys(props).length === 0 && (
+        {props && Object.keys(props).length === 0 && (
           <>
             <Headbar />
-        <div className="flex mt-2">
-          <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9 mb-[3px]">Claim</p>
-            <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Claim </Link> /
-              </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1">
-                {" "}
-                Claim Listing
-              </li>
-            </ul>
-          </div>
-        </div>
+            <div className="flex mt-2">
+              <div className="pl-3">
+                <p className="font-bold text-[36px] leading-9 mb-[3px]">
+                  Claim
+                </p>
+                <ul className="flex self-center">
+                  <li className="text-sm text-neutral-grey font-Regular">
+                    <Link to={"/"}>Claim </Link> /
+                  </li>
+                  <li className="text-sm text-neutral-grey font-semibold ml-1">
+                    {" "}
+                    Claim Listing
+                  </li>
+                </ul>
+              </div>
+            </div>
 
-        <Link
-          to={"/addClaim"}
-          className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            Add Claim{" "}
-          </span>{" "}
-        </Link>
+            <Link
+              to={"/addClaim"}
+              className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+            >
+              {" "}
+              <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+              <span className="text-black ml-3 text-[14px] font-Regular">
+                Add Claim{" "}
+              </span>{" "}
+            </Link>
           </>
-        )
-      }
+        )}
 
         <div className="bg-white my-4 pb-4 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
@@ -1273,7 +1286,7 @@ function ClaimList(props) {
                                     <>
                                       <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                         <span className="self-center mr-8">
-                                            Claim Type :
+                                          Claim Type :
                                         </span>
                                         <Select
                                           name="claimType"
@@ -1288,7 +1301,7 @@ function ClaimList(props) {
                                       </p>
                                       <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                         <span className="self-center  mr-3">
-                                            Damage Code :
+                                          Damage Code :
                                         </span>
                                         <Select
                                           name="claimType"
@@ -1328,29 +1341,31 @@ function ClaimList(props) {
                                       )}
                                     </span>
                                   </div>
-                                  { claimStatus.status == "Rejected" ||
-                                        claimStatus.status == "Completed" ? (<></>) : (
-                                  <div
-                                    className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                    ref={dropdownRef}
-                                    onClick={handleToggleDropdown}
-                                  >
-                                    <Select
-                                      name="customerStatus"
-                                      label=""
-                                      value={customerStatus.status}
-                                      onChange={handleSelectChange}
-                                      disabled={
-                                        claimStatus.status == "Rejected" ||
-                                        claimStatus.status == "Completed"
-                                      }
-                                      white
-                                      className1="!border-0 !text-[#333333]"
-                                      options={customerValue}
-                                      visible={dropdownVisible}
-                                    />
-                                  </div>
-                                        )}
+                                  {claimStatus.status == "Rejected" ||
+                                  claimStatus.status == "Completed" ? (
+                                    <></>
+                                  ) : (
+                                    <div
+                                      className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                      ref={dropdownRef}
+                                      onClick={handleToggleDropdown}
+                                    >
+                                      <Select
+                                        name="customerStatus"
+                                        label=""
+                                        value={customerStatus.status}
+                                        onChange={handleSelectChange}
+                                        disabled={
+                                          claimStatus.status == "Rejected" ||
+                                          claimStatus.status == "Completed"
+                                        }
+                                        white
+                                        className1="!border-0 !text-[#333333]"
+                                        options={customerValue}
+                                        visible={dropdownVisible}
+                                      />
+                                    </div>
+                                  )}
                                 </div>
                                 <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                   <div className="bg-[#474747] w-[40%] rounded-s-lg">
@@ -1378,29 +1393,30 @@ function ClaimList(props) {
                                       )}
                                     </p>
                                   </div>
-                                  { claimStatus.status == "Rejected" ||
-                                        claimStatus.status == "Completed" ? (<></>) : (
-                                          <div
-                                          className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                          ref={dropdownRef}
-                                        >
-                                          <Select
-                                            name="claimStatus"
-                                            label=""
-                                            value={claimStatus.status}
-                                            disabled={
-                                              claimStatus.status == "Rejected" ||
-                                              claimStatus.status == "Completed"
-                                            }
-                                            onChange={handleSelectChange}
-                                            white
-                                            className1="!border-0 !text-[#333333]"
-                                            options={claimvalues}
-                                            visible={dropdownVisible}
-                                          />
-                                        </div>
-                                        )}
-                                
+                                  {claimStatus.status == "Rejected" ||
+                                  claimStatus.status == "Completed" ? (
+                                    <></>
+                                  ) : (
+                                    <div
+                                      className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                      ref={dropdownRef}
+                                    >
+                                      <Select
+                                        name="claimStatus"
+                                        label=""
+                                        value={claimStatus.status}
+                                        disabled={
+                                          claimStatus.status == "Rejected" ||
+                                          claimStatus.status == "Completed"
+                                        }
+                                        onChange={handleSelectChange}
+                                        white
+                                        className1="!border-0 !text-[#333333]"
+                                        options={claimvalues}
+                                        visible={dropdownVisible}
+                                      />
+                                    </div>
+                                  )}
                                 </div>
                                 <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                   <div className="bg-[#474747] w-[40%] rounded-s-lg">
@@ -1426,28 +1442,31 @@ function ClaimList(props) {
                                       )}
                                     </p>
                                   </div>
-                                  { claimStatus.status == "Rejected" ||
-                                        claimStatus.status == "Completed" ? (<></>) : (
-                                  <div
-                                    className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                    ref={dropdownRef}
-                                    onClick={handleToggleDropdown1}
-                                  >
-                                    <Select
-                                      name="repairStatus"
-                                      label=""
-                                      value={repairStatus.status}
-                                      onChange={handleSelectChange}
-                                      disabled={
-                                        claimStatus.status == "Rejected" ||
-                                        claimStatus.status == "Completed"
-                                      }
-                                      white
-                                      className1="!border-0 !text-[#333333]"
-                                      options={repairValue}
-                                      visible={dropdownVisible}
-                                    />
-                                  </div> )}
+                                  {claimStatus.status == "Rejected" ||
+                                  claimStatus.status == "Completed" ? (
+                                    <></>
+                                  ) : (
+                                    <div
+                                      className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                      ref={dropdownRef}
+                                      onClick={handleToggleDropdown1}
+                                    >
+                                      <Select
+                                        name="repairStatus"
+                                        label=""
+                                        value={repairStatus.status}
+                                        onChange={handleSelectChange}
+                                        disabled={
+                                          claimStatus.status == "Rejected" ||
+                                          claimStatus.status == "Completed"
+                                        }
+                                        white
+                                        className1="!border-0 !text-[#333333]"
+                                        options={repairValue}
+                                        visible={dropdownVisible}
+                                      />
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                               <div className="col-span-4 pt-2">
@@ -1457,8 +1476,8 @@ function ClaimList(props) {
                                   </p>
                                   <div
                                     className={` overflow-y-scroll Diagnosis ${
-                                      res?.receiptImage != ''
-                                        ? "h-[130px] max-h-[130px]" 
+                                      res?.receiptImage != ""
+                                        ? "h-[130px] max-h-[130px]"
                                         : "h-[164px] max-h-[164px]"
                                     }`}
                                   >
@@ -1509,14 +1528,16 @@ function ClaimList(props) {
                               </div>
                             </Grid>
                             {res.reason != "" && (
-                              <div className="px-3 mb-4"> 
+                              <div className="px-3 mb-4">
                                 <Grid>
                                   <div className="col-span-12">
-                                    <p className="text-white"><b>Reason For Rejection : </b> <span>{res.reason}</span></p>
+                                    <p className="text-white">
+                                      <b>Reason For Rejection : </b>{" "}
+                                      <span>{res.reason}</span>
+                                    </p>
                                   </div>
                                 </Grid>
                               </div>
-                            
                             )}
                           </div>
                         </Grid>
@@ -1545,7 +1566,10 @@ function ClaimList(props) {
         </div>
       </div>
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
-        <Button onClick={closeReject}  className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+        <Button
+          onClick={closeReject}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
           <img
             src={Cross}
             className="w-full h-full text-black rounded-full p-0"
@@ -1557,13 +1581,13 @@ function ClaimList(props) {
           {!showForm ? (
             <Grid>
               <div className="col-span-12">
-              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-              {" "}
-              <span className="text-light-black"> Reject </span>
-            </p>
-              <p className="text-neutral-grey text-base font-medium mt-2 ">
-              Do you really want to Reject the Claim ?
-              </p>
+                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                  {" "}
+                  <span className="text-light-black"> Reject </span>
+                </p>
+                <p className="text-neutral-grey text-base font-medium mt-2 ">
+                  Do you really want to Reject the Claim ?
+                </p>
               </div>
               <div className="col-span-1"></div>
               <div className="col-span-5">
@@ -2132,9 +2156,8 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("productName")}
                 />
               </div>
-              {
-                 props?.flag == "" && (
-                  <div className="col-span-6">
+              {props?.flag == "" && (
+                <div className="col-span-6">
                   <Input
                     type="text"
                     name="dealerName"
@@ -2144,9 +2167,8 @@ function ClaimList(props) {
                     {...formik1.getFieldProps("dealerName")}
                   />
                 </div>
-                 )
-              }
-            
+              )}
+
               <div className="col-span-6">
                 <Input
                   type="text"

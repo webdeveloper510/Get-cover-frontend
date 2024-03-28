@@ -29,6 +29,7 @@ function ContractList(props) {
   const [totalRecords, setTotalRecords] = useState(0);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
+  const [pageValue, setPageValue] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -71,6 +72,7 @@ function ContractList(props) {
 
   const getContracts = async (page = 1, rowsPerPage = 10) => {
     console.log(page, rowsPerPage);
+    setPageValue(page);
     // return false;
     let data = {
       page: page,
@@ -434,14 +436,16 @@ function ContractList(props) {
                     </div>
                   );
                 })}
+              <CustomPagination
+                totalRecords={totalRecords}
+                page={pageValue}
+                rowsPerPageOptions={[10, 20, 50, 100]}
+                onPageChange={handlePageChange}
+                setRecordsPerPage={setRecordsPerPage}
+              />
             </>
           )}
-          <CustomPagination
-            totalRecords={totalRecords}
-            rowsPerPageOptions={[10, 20, 50, 100]}
-            onPageChange={handlePageChange}
-            setRecordsPerPage={setRecordsPerPage}
-          />
+
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button
               onClick={closeDisapproved}

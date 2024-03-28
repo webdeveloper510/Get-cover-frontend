@@ -36,6 +36,7 @@ function ContractList(props) {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [pageValue, setPageValue] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ function ContractList(props) {
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
-// console.log()
+  // console.log()
   const closeView = () => {
     setIsViewOpen(false);
   };
@@ -69,7 +70,6 @@ function ContractList(props) {
 
   useEffect(() => {
     if (!flag) {
-    
       getContract(props?.orderId ?? null);
     }
   }, [flag]);
@@ -84,13 +84,14 @@ function ContractList(props) {
     setLoading(true);
     console.log(props);
     console.log(recordsPerPage);
-  
+    setPageValue(page);
+
     let data = {
       page: page,
       pageLimit: rowsPerPage,
       ...formik.values,
     };
-  
+
     try {
       const result =
         orderId == null && props?.flag == undefined
@@ -102,15 +103,13 @@ function ContractList(props) {
           : props?.flag == "reseller" && props?.id
           ? await getContractsforReseller(props.id, data)
           : await getContracts(orderId, data);
-  
+
       setContractList(result.result);
       setTotalRecords(result?.totalCount);
     } catch (error) {
-      console.error('Error fetching contracts:', error);
-     
+      console.error("Error fetching contracts:", error);
     } finally {
       setLoading(false);
-
     }
   };
 
@@ -231,9 +230,8 @@ function ContractList(props) {
                         {...formik.getFieldProps("contractId")}
                       />
                     </div>
-                    {
-                      props.orderId == null && (
-                        <div className="col-span-2 self-center">
+                    {props.orderId == null && (
+                      <div className="col-span-2 self-center">
                         <Input
                           name="orderId"
                           type="text"
@@ -244,9 +242,8 @@ function ContractList(props) {
                           {...formik.getFieldProps("orderId")}
                         />
                       </div>
-                      )
-                    }
-                  
+                    )}
+
                     <div className="col-span-2 self-center">
                       <Input
                         name="venderOrder"
@@ -432,6 +429,7 @@ function ContractList(props) {
             ) : (
               <CustomPagination
                 totalRecords={totalRecords}
+                page={pageValue}
                 rowsPerPageOptions={[10, 20, 50, 100]}
                 onPageChange={handlePageChange}
                 setRecordsPerPage={setRecordsPerPage}
@@ -515,45 +513,54 @@ function ContractList(props) {
                   </div>
                   {props.orderId == null ? (
                     <>
-                    {props.flag === "customer" ? (<> </>) : (
-                      <> 
-                      {props.flag === "reseller" ? (<> </>) : (
+                      {props.flag === "customer" ? (
+                        <> </>
+                      ) : (
                         <>
-                       {props.flag === "dealer" ? (<> </>) : ( <div className="col-span-6">
-                        <Input
-                          type="text"
-                          name="dealerName"
-                          className="!bg-[#fff]"
-                          label="Dealer Name"
-                          {...formik.getFieldProps("dealerName")}
-                          placeholder=""
-                        />
-                      </div>)}
-                      <div className="col-span-6">
-                        <Input
-                          type="text"
-                          name="resellerName"
-                          className="!bg-[#fff]"
-                          label="Reseller Name"
-                          {...formik.getFieldProps("resellerName")}
-                          placeholder=""
-                        />
-                      </div>
-                      </> )}
-                     
-                      <div className="col-span-6">
-                        <Input
-                          type="text"
-                          name="customerName"
-                          className="!bg-[#fff]"
-                          label="Customer Name"
-                          {...formik.getFieldProps("customerName")}
-                          placeholder=""
-                        />
-                      </div>
-                       </>
-                    )}
-                     
+                          {props.flag === "reseller" ? (
+                            <> </>
+                          ) : (
+                            <>
+                              {props.flag === "dealer" ? (
+                                <> </>
+                              ) : (
+                                <div className="col-span-6">
+                                  <Input
+                                    type="text"
+                                    name="dealerName"
+                                    className="!bg-[#fff]"
+                                    label="Dealer Name"
+                                    {...formik.getFieldProps("dealerName")}
+                                    placeholder=""
+                                  />
+                                </div>
+                              )}
+                              <div className="col-span-6">
+                                <Input
+                                  type="text"
+                                  name="resellerName"
+                                  className="!bg-[#fff]"
+                                  label="Reseller Name"
+                                  {...formik.getFieldProps("resellerName")}
+                                  placeholder=""
+                                />
+                              </div>
+                            </>
+                          )}
+
+                          <div className="col-span-6">
+                            <Input
+                              type="text"
+                              name="customerName"
+                              className="!bg-[#fff]"
+                              label="Customer Name"
+                              {...formik.getFieldProps("customerName")}
+                              placeholder=""
+                            />
+                          </div>
+                        </>
+                      )}
+
                       <div className="col-span-6">
                         <Input
                           type="text"
