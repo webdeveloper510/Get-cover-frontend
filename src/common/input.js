@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Dropbox from "../assets/images/icons/dropBox.svg";
+import csvFile from "../assets/images/icons/csvFile.svg";
 const Input = ({
   type,
   error,
@@ -102,7 +103,10 @@ const Input = ({
                Choose File
               </>
             ) : (
-              selectedFile.name
+              <>
+              <img src={csvFile} className=" w-6 h-6 mr-2" alt="Dropbox" />
+              {selectedFile.name}
+              </>
             )}
              
             </label>
