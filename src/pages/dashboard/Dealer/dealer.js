@@ -1648,12 +1648,12 @@ termCondition: [],
                   />
                 </div>
                 {formik.touched.file && formik.errors.file && (
-                  <p className="text-red-500 text-[10px] mt-1 font-medium">
+                  <p className="text-red-500 text-sm mt-1 font-medium">
                     {formik.errors.file}
                   </p>
                 )}
                 {formik.touched.file && fileError && (
-                  <p className="text-red-500 text-[10px] mt-1 font-medium">
+                  <p className="text-red-500 text-sm mt-1 font-medium">
                     {fileError}
                   </p>
                 )}
