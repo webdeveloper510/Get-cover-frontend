@@ -23,7 +23,7 @@ const Input = ({
 }) => {
   const [inputValue, setInputValue] = useState(formatDate(value));
   const [selectedDate, setSelectedDate] = useState(new Date());
-
+  const [selectedFile, setSelectedFile] = useState(value);
   
   function formatDate(dateString) {
     if (!dateString || typeof dateString !== 'string') {
@@ -48,10 +48,13 @@ const Input = ({
       });
     }
   };
+  console.log(selectedFile);
   const handleChange = (e) => {
     // Handle file selection logic here
     console.log(e.target.files);
+    setSelectedFile(e.target.files[0])
   };
+
   const handleInput = (event) => {
     let inputValue = event.target.value;
 
@@ -92,9 +95,16 @@ const Input = ({
             <label
               htmlFor="file-upload"
               className="cursor-pointer px-2.5 pb-2.5 flex pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none"
-            >
-              <img src={Dropbox} className="  w-6 h-6 mr-5" />
-              Choose File
+            > 
+            {!selectedFile ? (
+              <>
+               <img src={Dropbox} className="  w-6 h-6 mr-5" />
+               Choose File
+              </>
+            ) : (
+              selectedFile.name
+            )}
+             
             </label>
             <input
               id="file-upload"
