@@ -1477,9 +1477,9 @@ function ClaimList(props) {
                                   </p>
                                   <div
                                     className={` overflow-y-scroll Diagnosis ${
-                                      res?.receiptImage == ""
-                                        ? "h-[164px] max-h-[164px]"
-                                        : "h-[130px] max-h-[130px]"
+                                      res?.receiptImage != ''
+                                        ? "h-[130px] max-h-[130px]" 
+                                        : "h-[164px] max-h-[164px]"
                                     }`}
                                   >
                                     <p className="text-sm text-light-green">
