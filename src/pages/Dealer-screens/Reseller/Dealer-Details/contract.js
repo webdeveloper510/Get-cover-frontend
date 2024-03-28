@@ -14,24 +14,32 @@ import { getContractsforDealer } from "../../../../services/dealerServices";
 import { getContractsforReseller } from "../../../../services/reSellerServices";
 import { RotateLoader } from "react-spinners";
 import { format } from "date-fns";
+import * as Yup from "yup";
 import CustomPagination from "../../../pagination";
 import { getContractsforCustomer } from "../../../../services/customerServices";
 import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
+import { useFormik } from "formik";
 function ContractList(props) {
   console.log(props, "-------------------->>>");
   const [showTooltip, setShowTooltip] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [pageValue, setPageValue] = useState(1);
+  const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [singleContract, setSingleContract] = useState([]);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
 
   const getContracts = async (page = 1, rowsPerPage = 10) => {
+    setPageValue(page);
+    // return false;
     let data = {
       page: page,
       pageLimit: rowsPerPage,
+      ...formik.values,
     };
     setLoading(true);
     console.log(props);
@@ -118,66 +126,120 @@ function ContractList(props) {
 
     return "";
   };
+  const validationSchema = Yup.object().shape({});
+
+  const initialValues = {
+    orderId: "",
+    venderOrder: "",
+    contractId: "",
+    dealerName: "",
+    customerName: "",
+    servicerName: "",
+    manufacture: "",
+    status: "",
+    model: "",
+    serial: "",
+    productName: "",
+  };
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      getContracts(1, 10);
+      console.log(values);
+      setIsDisapprovedOpen(false);
+    },
+  });
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    setSelectedProduct("");
+    // getContract();
+  };
+
+  const openDisapproved = () => {
+    setIsDisapprovedOpen(true);
+  };
 
   return (
     <>
       <div className="my-8">
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-5 self-center">
+            <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Contracts List</p>
             </div>
-            <div className="col-span-7">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Contract ID"
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Email"
-                      type="email"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Dealer Order no."
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="PhoneNo."
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Customer Name"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer "
-                        alt="Search"
+            <div className="col-span-9">
+              <form onSubmit={formik.handleSubmit}>
+                <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                  <Grid className="!grid-cols-9">
+                    <div className="col-span-2 self-center">
+                      <Input
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Contract ID"
+                        name="contractId"
+                        {...formik.getFieldProps("contractId")}
                       />
-                    </Button>
-                    <Button type="submit" className="!bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="orderId"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder=" Order ID"
+                        {...formik.getFieldProps("orderId")}
                       />
-                    </Button>
-                  </div>
-                </Grid>
-              </div>
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="venderOrder"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Dealer P.O. #"
+                        {...formik.getFieldProps("venderOrder")}
+                      />
+                    </div>
+                    <div className="col-span-1 self-center flex justify-center">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer "
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="!bg-transparent !p-0"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Button
+                        className="!text-[13px]"
+                        onClick={() => openDisapproved()}
+                      >
+                        Advance Search
+                      </Button>
+                    </div>
+                  </Grid>
+                </div>
+              </form>
             </div>
           </Grid>
           {contractList?.length == 0 && !loading ? (
@@ -296,6 +358,7 @@ function ContractList(props) {
 
               <CustomPagination
                 totalRecords={totalRecords}
+                page={pageValue}
                 rowsPerPageOptions={[10, 20, 50, 100]}
                 onPageChange={handlePageChange}
                 setRecordsPerPage={setRecordsPerPage}

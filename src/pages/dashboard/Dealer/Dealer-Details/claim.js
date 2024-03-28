@@ -46,6 +46,8 @@ import {
   getClaimListForReseller,
   getClaimListForServicer,
   getClaimMessages,
+  getPaidClaims,
+  getUnpaidClaims,
 } from "../../../../services/claimServices";
 import { format } from "date-fns";
 import { useFormik } from "formik";
@@ -294,30 +296,18 @@ function ClaimList(props) {
       ...formik1.values,
     };
   
-    let getClaimListPromise;
-  
-    if (props.flag === "dealer") {
-      getClaimListPromise = getClaimListForDealer(props.id, data);
-    } else if (props.flag === "servicer") {
-      getClaimListPromise = getClaimListForServicer(props.id, data);
-    } else if (props.flag === "reseller") {
-      getClaimListPromise = getClaimListForReseller(props.id, data);
-    } else if (props.flag === "customer") {
-      getClaimListPromise = getClaimListForCustomer(props.id, data);
+    let res;
+    if (props.activeTab === "Unpaid Claims") {
+      res = await getUnpaidClaims(props.id);
     } else {
-      getClaimListPromise = getClaimList(data);
+      res = await getPaidClaims(props.id);
     }
   
-    getClaimListPromise.then((res) => {
-      console.log(res);
-      if (res) {
-        setClaimList(res);
-        setTotalRecords(res?.totalCount);
-      }
-      setLoaderType(false);
-    }).catch(() => {
-      setLoaderType(false);
-    });
+    console.log(res);
+    setClaimList(res);
+    setTotalRecords(res?.totalCount);
+  
+    setLoaderType(false);
   };
   
 
@@ -1125,16 +1115,21 @@ function ClaimList(props) {
                                   onClick={() => openView(res)}
                                   alt="chat"
                                 />
+                                {props.activeTab == "Unpaid Claims" ? (
                                   <div key={index} className="self-center">
-                                    <input
-                                        id={`push-nothing-${index}`}
-                                        name={`push-notifications-${index}`}
-                                        type="checkbox"
-                                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600 cursor-pointer"
-                                        onChange={() => handleCheckboxChange(index)}
-                                        checked={checkboxStates[index] || false}
-                                      />
+                                  <input
+                                      id={`push-nothing-${index}`}
+                                      name={`push-notifications-${index}`}
+                                      type="checkbox"
+                                      className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600 cursor-pointer"
+                                      onChange={() => handleCheckboxChange(index)}
+                                      checked={checkboxStates[index] || false}
+                                    />
                                   </div>
+                                ) : (
+                                  <></>
+                                )}
+                                 
                               </div>
                             </Grid>
                             <Grid className="!gap-0 bg-[#F9F9F9] border-[#474747] border-x">
@@ -2189,51 +2184,6 @@ function ClaimList(props) {
                   label="Product Name"
                   placeholder=""
                   {...formik1.getFieldProps("productName")}
-                />
-              </div>
-              {
-                 props?.flag == "" && (
-                  <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="dealerName"
-                    className="!bg-[#fff]"
-                    label="Dealer Name"
-                    placeholder=""
-                    {...formik1.getFieldProps("dealerName")}
-                  />
-                </div>
-                 )
-              }
-            
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="customerName"
-                  className="!bg-[#fff]"
-                  label="Customer Name"
-                  placeholder=""
-                  {...formik1.getFieldProps("customerName")}
-                />
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="servicerName"
-                  className="!bg-[#fff]"
-                  label="Servicer Name"
-                  placeholder=""
-                  {...formik1.getFieldProps("servicerName")}
-                />
-              </div>
-              <div className="col-span-6">
-                <Select
-                  name="claimStatus"
-                  label="Claim Status"
-                  options={Claimstatus}
-                  className="!bg-[#fff]"
-                  onChange={handleSelectChange2}
-                  value={formik1.values.claimStatus}
                 />
               </div>
               <div className="col-span-6">

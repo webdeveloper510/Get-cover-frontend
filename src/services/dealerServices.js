@@ -112,6 +112,7 @@ export const checkDealersEmailValidation = async (email) => {
     throw error;
   }
 };
+
 export const getProductListbyProductCategoryId = async (categoryId) => {
   const headers = createHeaders();
   console.log(headers);
@@ -259,6 +260,31 @@ export const editDealerData = async (data) => {
     throw error;
   }
 };
+export const uploadTermsandCondition = async (data) => {
+  const accessToken = getAccessToken();
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+
+  if (accessToken) {
+    headers["x-access-token"] = accessToken;
+  }
+
+  try {
+    const response = await axios.post(
+      `${url}/dealer/uploadTermAndCondition`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getDealerPriceBookByDealerId = async (id) => {
   const headers = createHeaders();
   console.log(headers);

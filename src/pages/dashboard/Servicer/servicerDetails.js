@@ -287,7 +287,7 @@ function ServicerDetails() {
       label: "Paid Claims",
       icons: Paid,
       Activeicons: ActivePaid,
-      content: activeTab === "Paid Claims" && <ClaimList
+      content: activeTab === "Paid Claims" && <ClaimList12
       id={servicerId}
       flag="servicer"
       activeTab={activeTab}  />,

@@ -44,6 +44,7 @@ import {
   createRelationWithDealer,
   editDealerData,
   getDealersDetailsByid,
+  uploadTermsandCondition,
 } from "../../../services/dealerServices";
 import { cityData } from "../../../stateCityJson";
 import { RotateLoader } from "react-spinners";
@@ -71,7 +72,7 @@ function DealerDetails() {
   //   return storedTab ? storedTab : "Orders";
   // };
   const id = useParams();
-  const [activeTab, setActiveTab] = useState('Orders'); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -93,6 +94,10 @@ function DealerDetails() {
   const navigate = useNavigate();
   const { servicerId } = useParams();
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [createAccount, setCreateAccount] = useState(false);
+  const [shipping, setShipping] = useState("yes");
+  const inputRef = useRef(null);
+  const [selectedFile2, setSelectedFile2] = useState(null);
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -113,26 +118,34 @@ function DealerDetails() {
     state: "",
     country: "USA",
     oldName: "",
+    serviceCoverageType: "",
+    coverageType: "",
+    isShippingAllowed: "",
+    isServicer: createServicerAccountOption,
+    accountStatus: createAccount,
+    termCondition: {
+      fileName: "",
+      name: "",
+      size: "",
+    },
   });
-console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
+
   const state = cityData;
   const containerRef = useRef(null);
 
   const handleSeparateAccountRadioChange = (event) => {
-    console.log(event.target.value);
     setSeparateAccountOption(event.target.value);
   };
   const handleServiceChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
     setServicerCreateAccountOption(valueAsBoolean);
+    formik.setFieldValue("isServicer", valueAsBoolean);
   };
 
-  const handleScrollLeft = () => {
-    if (containerRef.current) {
-      containerRef.current.classList.add("scroll-transition");
-      containerRef.current.scrollLeft -= 120; // Adjust scroll distance as needed
-      setScrolling(true);
-    }
+  const handleAccountChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    setCreateAccount(valueAsBoolean);
+    formik.setFieldValue("accountStatus", valueAsBoolean);
   };
 
   const handleScrollRight = () => {
@@ -190,6 +203,9 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
+  const handleRadio = (event) => {
+    setShipping(event.target.value);
+  };
 
   const getUserList = async () => {
     const result = await getUserListByDealerId(id.id, {});
@@ -216,7 +232,6 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
   const getServicerList = async () => {
     const result = await getServicerListForDealer(id.id);
     setServicerList(result.result);
-    console.log(result.result);
   };
 
   useEffect(() => {
@@ -237,11 +252,11 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
     if (!showLoader) {
       setLoading(true);
     }
-    console.log(id);
+
     const result = await getDealersDetailsByid(id?.id);
     setDealerDetails(result.result[0]);
     console.log(result.result[0].dealerData);
-    setIsStatus(result?.result[0]?.status)
+    setIsStatus(result?.result[0]?.status);
     setInitialFormValues({
       accountName: result?.result[0]?.dealerData?.name,
       oldName: result?.result[0]?.dealerData?.name,
@@ -251,7 +266,22 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
       zip: result?.result[0]?.dealerData?.zip,
       state: result?.result[0]?.dealerData?.state,
       country: "USA",
+      serviceCoverageType: result?.result[0]?.dealerData?.serviceCoverageType,
+      coverageType: result?.result[0]?.dealerData?.coverageType,
+      isShippingAllowed:
+        result?.result[0]?.dealerData?.isShippingAllowed === true
+          ? "yes"
+          : "no",
+      isServicer: result?.result[0]?.dealerData?.isServicer,
+      termCondition: result?.result[0]?.dealerData?.termCondition,
+      accountStatus: result?.result[0]?.dealerData?.accountStatus,
     });
+    setServicerCreateAccountOption(result?.result[0]?.dealerData?.isServicer);
+    setSelectedFile2(result?.result[0]?.dealerData?.termCondition);
+    setCreateAccountOption(
+      result?.result[0]?.dealerData?.accountStatus === false ? "no" : "yes"
+    );
+    setCreateAccount(result?.result[0]?.dealerData?.accountStatus);
     setLoading(false);
   };
 
@@ -285,6 +315,15 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
         .transform((originalValue) => originalValue.trim())
         .required("Required"),
       country: Yup.string().required("Required"),
+      serviceCoverageType: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      coverageType: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      isShippingAllowed: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
       zip: Yup.string()
         .required("Required")
         .min(5, "Must be at least 5 characters")
@@ -292,11 +331,11 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
     }),
 
     onSubmit: async (values) => {
-      console.log(values);
+      values.isShippingAllowed = shipping === "yes" ? true : false;
+
       setLoading(true);
       const result = await editDealerData(values);
 
-      console.log(result);
       if (result.code == 200) {
         setLoading(false);
         setModalOpen(true);
@@ -314,6 +353,34 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
     },
   });
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    const result = uploadTermsandCondition(formData).then((res) => {
+      console.log(res?.file);
+      formik.setFieldValue("termCondition", {
+        fileName: res.file.filename,
+        name: res.file.originalname,
+        size: res.file.size,
+      });
+    });
+    setSelectedFile2(file);
+
+    console.log("Selected file:", file);
+  };
+
+  const handleRemoveFile = () => {
+    if (inputRef) {
+      inputRef.current.click();
+      formik.setFieldValue("termCondition", {
+        fileName: "",
+        name: "",
+        size: "",
+      });
+      setSelectedFile2(null);
+    }
+  };
   const servicerForm = useFormik({
     initialValues: {
       selectedItems: [],
@@ -327,12 +394,10 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
         status: values.selectedItems.includes(item._id) || item.check,
       }));
 
-      console.log("Selected Data: ", selectedData);
-
       const result = await createRelationWithDealer(id.id, {
         servicers: selectedData,
       });
-      console.log(result);
+
       if (result.code === 200) {
         setLoading(false);
         setFlagValue(true);
@@ -376,13 +441,13 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
 
     onSubmit: async (values, { setFieldError }) => {
       localStorage.setItem("menu", "Users");
-      console.log(values);
+
       if (values.status === "yes") {
         values.status = true;
       }
       setLoading(true);
       const result = await addUserByDealerId(values);
-      console.log(result.code);
+
       if (result.code == 200) {
         getUserList();
         dealerData();
@@ -397,7 +462,6 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
         // setIsModalOpen(false);
       } else {
         if (result.code === 401) {
-          console.log("here12");
           setFieldError("email", "Email already in use");
         }
         setLoading(false);
@@ -467,73 +531,78 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
       label: "Orders",
       icons: Order,
       Activeicons: OrderActive,
-      content: (activeTab === "Orders" && <OrderList id={id.id} flag={"dealer"} activeTab={activeTab} />),
+      content: activeTab === "Orders" && (
+        <OrderList id={id.id} flag={"dealer"} activeTab={activeTab} />
+      ),
     },
     {
       id: "Contracts",
       label: "Contracts",
       icons: Contract,
       Activeicons: ContractsActive,
-      content: activeTab === "Contracts" && <ContractList id={id.id} flag={"dealer"} />,
+      content: activeTab === "Contracts" && (
+        <ContractList id={id.id} flag={"dealer"} />
+      ),
     },
     {
       id: "Claims",
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: activeTab === "Claims" && <ClaimList id={id.id} flag={"dealer"} />,
+      content: activeTab === "Claims" && (
+        <ClaimList id={id.id} flag={"dealer"} />
+      ),
     },
     {
       id: "Reseller",
       label: "Reseller",
       icons: User,
       Activeicons: UserActive,
-      content: activeTab === "Reseller" && <Reseller id={id.id} activeTab={activeTab} />,
+      content: activeTab === "Reseller" && (
+        <Reseller id={id.id} activeTab={activeTab} />
+      ),
     },
     {
       id: "Servicer",
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: activeTab === "Servicer" && <ServicerList id={id.id} flag={flagValue} />,
+      content: activeTab === "Servicer" && (
+        <ServicerList id={id.id} flag={flagValue} />
+      ),
     },
     {
       id: "Customer",
       label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
-      content: activeTab === "Customer" && <CustomerList id={id.id} activeTab={activeTab} />,
+      content: activeTab === "Customer" && (
+        <CustomerList id={id.id} activeTab={activeTab} />
+      ),
     },
     {
       id: "Users",
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: (
-   
-        <UserList
-          flag={"dealer"}
-          id={id.id}
-          activeTab={activeTab}
-        />
-      ),
+      content: <UserList flag={"dealer"} id={id.id} activeTab={activeTab} />,
     },
     {
       id: "PriceBook",
       label: "PriceBook",
       icons: PriceBook,
       Activeicons: PriceBookActive,
-      content: activeTab === "PriceBook" &&  <PriceBookList id={id.id} activeTab={activeTab} />,
+      content: activeTab === "PriceBook" && (
+        <PriceBookList id={id.id} activeTab={activeTab} />
+      ),
     },
   ];
-  
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
 
   const routeToPage = (data) => {
-    console.log(data, id.id);
     switch (data) {
       case "PriceBook":
         navigate(`/addDealerBook/${id.id}`);
@@ -553,10 +622,10 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
       case "Orders":
         navigate(`/addOrder/${id.id}`);
         break;
-        case "Claims":
-          navigate(`/addClaim`);
-          break;
-        
+      case "Claims":
+        navigate(`/addClaim`);
+        break;
+
       default:
         console.log("Invalid data, no navigation");
     }
@@ -777,7 +846,9 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">{dealerDetails?.claimData?.numberOfClaims ?? 0}</p>
+                    <p className="text-white text-lg !font-[600]">
+                      {dealerDetails?.claimData?.numberOfClaims ?? 0}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
@@ -785,11 +856,13 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]"> $
+                    <p className="text-white text-lg  !font-[600]">
+                      {" "}
+                      $
                       {formatOrderValue(
-                        dealerDetails?.claimData?.valueClaim ??
-                          parseInt(0)
-                      )}</p>
+                        dealerDetails?.claimData?.valueClaim ?? parseInt(0)
+                      )}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>
@@ -800,7 +873,13 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
           </div>
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!gap-2">
-              <div className={` ${isStatus == true ? 'col-span-10 relative' : 'col-span-12 mr-[30px] relative'}`}>
+              <div
+                className={` ${
+                  isStatus == true
+                    ? "col-span-10 relative"
+                    : "col-span-12 mr-[30px] relative"
+                }`}
+              >
                 <div
                   className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1]`}
                   ref={containerRef}
@@ -843,32 +922,31 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                 </div>
               </div>
               {isStatus == false ? (
-                ''
+                ""
               ) : (
                 <>
-                {activeTab !== "Contracts" ? (
-                <div
-                  className="col-span-2 self-center"
-                  onClick={() => routeToPage(activeTab)}
-                >
-                  <Button className="!bg-white flex self-center h-[60px] rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-                    {" "}
-                    <img
-                      src={AddItem}
-                      className="self-center"
-                      alt="AddItem"
-                    />{" "}
-                    <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
-                      Add {activeTab}
-                    </span>{" "}
-                  </Button>
-                </div>
-              ) : (
-                <></>
-              )}
+                  {activeTab !== "Contracts" ? (
+                    <div
+                      className="col-span-2 self-center"
+                      onClick={() => routeToPage(activeTab)}
+                    >
+                      <Button className="!bg-white flex self-center h-[60px] rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                        {" "}
+                        <img
+                          src={AddItem}
+                          className="self-center"
+                          alt="AddItem"
+                        />{" "}
+                        <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                          Add {activeTab}
+                        </span>{" "}
+                      </Button>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </>
               )}
-              
             </Grid>
 
             {tabs.map((tab) => (
@@ -1058,14 +1136,19 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                       )}
                   </div>
                   <div className="col-span-12">
-                    <Input
+                    <input
                       type="file"
                       name="term"
-                      label="Terms and Conditions"
-                      className="!bg-white"
-                      className1="!pt-[9px]"
-                      placeholder=""
+                      className="hidden"
+                      onChange={handleFileChange}
+                      accept="application/pdf"
+                      ref={inputRef}
                     />
+
+                    <button type="button" onClick={handleRemoveFile}>
+                      {selectedFile2 ? "Remove File" : "Select File"}
+                    </button>
+                    {selectedFile2 && <span>{selectedFile2.name}</span>}
                   </div>
                 </Grid>
               </div>
@@ -1075,16 +1158,16 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                   <RadioButton
                     id="yes-create-account"
                     label="Yes"
-                    value="yes"
-                    checked={createAccountOption === "yes"}
-                    onChange={handleRadioChange}
+                    value={true}
+                    checked={createAccount === true}
+                    onChange={handleAccountChange}
                   />
                   <RadioButton
                     id="no-create-account"
                     label="No"
-                    value="no"
-                    checked={createAccountOption === "no"}
-                    onChange={handleRadioChange}
+                    value={false}
+                    checked={createAccount === false}
+                    onChange={handleAccountChange}
                   />
                 </p>
                 <p className="text-light-black flex text-[11px] mb-7 font-semibold ">
@@ -1095,15 +1178,15 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
-                    checked={createAccountOption === "yes"}
-                    onChange={handleRadioChange}
+                    checked={shipping === "yes"}
+                    onChange={handleRadio}
                   />
                   <RadioButton
                     id="no-create-account"
                     label="No"
                     value="no"
-                    checked={createAccountOption === "no"}
-                    onChange={handleRadioChange}
+                    checked={shipping === "no"}
+                    onChange={handleRadio}
                   />
                 </p>
                 <p className="text-light-black flex text-[11px] mb-7 font-semibold self-center">
@@ -1116,6 +1199,7 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                     id="yes"
                     label="Yes"
                     value={true}
+                    disabled={dealerDetails.dealerData?.isServicer === true}
                     checked={createServicerAccountOption === true}
                     onChange={handleServiceChange}
                   />
@@ -1123,11 +1207,12 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                     id="no"
                     label="No"
                     value={false}
+                    disabled={dealerDetails.dealerData?.isServicer === true}
                     checked={createServicerAccountOption === false}
                     onChange={handleServiceChange}
                   />
                 </p>
-                <p className="text-light-black flex text-[11px] font-semibold">
+                {/* <p className="text-light-black flex text-[11px] font-semibold">
                   <span className="w-[60%]">
                     {" "}
                     Do you want to create separate account for customer?{" "}
@@ -1148,7 +1233,7 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                     checked={separateAccountOption === "no"}
                     onChange={handleSeparateAccountRadioChange}
                   />
-                </p>
+                </p> */}
               </div>
               <div className="col-span-4">
                 <Button
@@ -1296,7 +1381,7 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                       /[^0-9]/g,
                       ""
                     );
-                    console.log(sanitizedValue);
+
                     userValues.handleChange({
                       target: {
                         name: "phoneNumber",
@@ -1343,6 +1428,7 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
+                    disabled={dealerDetails.dealerData?.accountStatus === false}
                     checked={createAccountOption === "yes"}
                     onChange={handleRadioChange}
                   />
@@ -1351,6 +1437,7 @@ console.log(isStatus , 'Status===================>>>>>>>>>>>>>')
                     label="No"
                     value="no"
                     checked={createAccountOption === "no"}
+                    disabled={dealerDetails.dealerData?.accountStatus === false}
                     onChange={handleRadioChange}
                   />
                 </p>

@@ -120,6 +120,33 @@ export const getClaimListForDealer = async (id,data) => {
   }
 };
 
+export const getUnpaidClaims = async (id,data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/claim/getPaidUnpaidClaims/1`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getPaidClaims = async (id,data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/claim/getPaidUnpaidClaims/0`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getClaimListForReseller = async (id,data) => {
   const headers = createHeaders();
 

@@ -5,24 +5,27 @@ const CustomPagination = ({
   rowsPerPageOptions,
   onPageChange,
   setRecordsPerPage,
+  page,
 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(page);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
 
   useEffect(() => {
-    if (!isInitialMount.current) { 
-      console.log(currentPage, rowsPerPage);
+    setCurrentPage(page);
+  }, [page]);
+
+  useEffect(() => {
+    if (!isInitialMount.current) {
       setRecordsPerPage(rowsPerPage);
       onPageChange(currentPage, rowsPerPage);
       window.scrollTo(0, 0);
     } else {
-      isInitialMount.current = false; 
+      isInitialMount.current = false;
     }
   }, [currentPage, rowsPerPage]);
-  
-  const isInitialMount = useRef(true); 
-  
 
+  const isInitialMount = useRef(true);
+  console.log(currentPage);
   const totalPages = Math.ceil(totalRecords / rowsPerPage);
 
   const handleFirstPage = () => setCurrentPage(1);

@@ -187,7 +187,7 @@ function Account() {
       position: result?.result?.position,
       status: result?.result?.status,
     });
-    setIsUserModalOpen(false)
+    setIsUserModalOpen(false);
     openModal2();
   };
 
@@ -227,7 +227,7 @@ function Account() {
       console.error("Error in handleStatusChange:", error);
     }
   };
-
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const userValues = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -240,7 +240,9 @@ function Account() {
         .required("Required")
         .transform((originalValue) => originalValue.trim())
         .max(30, "Must be exactly 30 characters"),
-        email: Yup.string().required("Required")
+      email: Yup.string()
+        .required("Required")
+        .matches(emailValidationRegex, "Invalid email address")
         .transform((originalValue) => originalValue.trim()),
       phoneNumber: Yup.string()
         .required("Required")
@@ -261,7 +263,7 @@ function Account() {
         setModalOpen(true);
         setTimer(3);
         setIsModalOpen1(false);
-        setIsUserModalOpen(false)
+        setIsUserModalOpen(false);
         // getUserList();
       } else {
         setLoading(false);
@@ -313,6 +315,31 @@ function Account() {
       closeModal2();
     },
   });
+
+  const initialValues2 = {
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  };
+
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log(values);
+    passwordChange(values);
+    setSubmitting(false);
+  };
+
+  const passwordChnageForm = useFormik({
+    initialValues: initialValues2,
+    validationSchema: Yup.object({
+      oldPassword: Yup.string().required("Required"),
+      newPassword: Yup.string().required("Required"),
+      confirmPassword: Yup.string()
+        .required("Required")
+        .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
+    }),
+    onSubmit: handleSubmit,
+  });
+
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = memberList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
@@ -326,8 +353,11 @@ function Account() {
   };
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
-    .transform((originalValue) => originalValue.trim()).required("First Name is required"),
-    lastName: Yup.string().transform((originalValue) => originalValue.trim()).required("Last Name is required"),
+      .transform((originalValue) => originalValue.trim())
+      .required("First Name is required"),
+    lastName: Yup.string()
+      .transform((originalValue) => originalValue.trim())
+      .required("Last Name is required"),
     phoneNumber: Yup.string()
       .matches(/^[0-9]{10}$/, "Invalid phone number")
       .required("Phone number is required"),
@@ -528,20 +558,6 @@ function Account() {
     }
   };
 
-  const validationSchema2 = Yup.object().shape({
-    oldPassword: Yup.string().required("Old Password is required"),
-    newPassword: Yup.string().required("New Password is required"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
-      .required("Confirm Password is required"),
-  });
-
-  const initialValues2 = {
-    oldPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  };
-
   const passwordChange = async (value) => {
     setLoading(true);
     delete value.confirmPassword;
@@ -718,92 +734,69 @@ function Account() {
             </>
 
             <p className="text-xl font-semibold mb-3">Change Password</p>
-            <Formik
-              initialValues={initialValues2}
-              validationSchema={validationSchema2}
-              onSubmit={(values, { setSubmitting }) => {
-                // Handle form submission here
-                passwordChange(values);
-                setSubmitting(false);
-              }}
-            >
-              <Form>
-                <Grid>
-                  <div className="col-span-4">
-                    {/* <div className="relative">
-                      <label
-                        htmlFor="Old Password"
-                        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
-                      >
-                        Old Password
-                      </label> */}
-                      <PasswordInput
-                        type="password"
-                        name="oldPassword"
-                        label="Old Password"
-                        isPassword
-                        className='!bg-white'
-                        // className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                      />
-                      <ErrorMessage
-                        name="oldPassword"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-                  {/* </div> */}
-                  <div className="col-span-4">
-                    {/* <div className="relative">
-                      <label
-                        htmlFor="New Password"
-                        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
-                      >
-                        New Password
-                      </label> */}
-                      <PasswordInput
-                        type="password"
-                        name="newPassword"
-                        label="New Password"
-                        isPassword
-                        className='!bg-white'
-                        // className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                      />
-                      <ErrorMessage
-                        name="newPassword"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    </div>
-                  {/* </div> */}
-                  <div className="col-span-4">
-                    {/* <div className="relative">
-                      <label
-                        htmlFor="Confirm Password"
-                        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
-                      >
-                        Confirm Password
-                      </label> */}
-                      <PasswordInput
-                        type="password"
-                        name="confirmPassword"
-                        label="Confirm Password"
-                        isPassword
-                        className='!bg-white'
-                        // className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                      />
-                      <ErrorMessage
-                        name="confirmPassword"
-                        component="div"
-                        className="text-red-500"
-                      />
-                    {/* </div> */}
-                  </div>
-                </Grid>
-                <div className="mt-4 text-right">
-                  <Button type="submit">Change Password</Button>
+
+            <form onSubmit={passwordChnageForm.handleSubmit}>
+              <Grid>
+                <div className="col-span-4">
+                  <PasswordInput
+                    type="password"
+                    name="oldPassword"
+                    label="Old Password"
+                    value={passwordChnageForm.values.oldPassword}
+                    onChange={passwordChnageForm.handleChange}
+                    onBlur={passwordChnageForm.handleBlur}
+                    isPassword
+                    className="!bg-white"
+                  />
+                  {passwordChnageForm.touched.oldPassword &&
+                    passwordChnageForm.errors.oldPassword && (
+                      <div className="text-red-500">
+                        {passwordChnageForm.errors.oldPassword}
+                      </div>
+                    )}
                 </div>
-              </Form>
-            </Formik>
+
+                <div className="col-span-4">
+                  <PasswordInput
+                    type="password"
+                    name="newPassword"
+                    label="New Password"
+                    isPassword
+                    className="!bg-white"
+                    value={passwordChnageForm.values.newPassword}
+                    onChange={passwordChnageForm.handleChange}
+                    onBlur={passwordChnageForm.handleBlur}
+                  />
+                  {passwordChnageForm.touched.newPassword &&
+                    passwordChnageForm.errors.newPassword && (
+                      <div className="text-red-500">
+                        {passwordChnageForm.errors.newPassword}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-4">
+                  <PasswordInput
+                    type="password"
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    isPassword
+                    className="!bg-white"
+                    value={passwordChnageForm.values.confirmPassword}
+                    onChange={passwordChnageForm.handleChange}
+                    onBlur={passwordChnageForm.handleBlur}
+                  />
+                  {passwordChnageForm.touched.confirmPassword &&
+                    passwordChnageForm.errors.confirmPassword && (
+                      <div className="text-red-500">
+                        {passwordChnageForm.errors.confirmPassword}
+                      </div>
+                    )}
+                </div>
+              </Grid>
+              <div className="mt-4 text-right">
+                <Button type="submit">Change Password</Button>
+              </div>
+            </form>
           </div>
           {userDetails?.isPrimary &&
             (loading ? (
