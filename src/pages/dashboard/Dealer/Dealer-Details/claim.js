@@ -54,6 +54,7 @@ import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../../pagination";
 import SelectSearch from "../../../../common/selectSearch";
 import Checkbox from "../../../../common/checkbox";
+import request from "../../../../assets/images/request.png";
 
 function ClaimList(props) {
   console.log(props);
@@ -1576,7 +1577,7 @@ function ClaimList(props) {
           />
         </Button>
           <div className="p-3 text-center">
-          <img src={disapproved} alt="email Image" className="mx-auto" />
+          <img src={request} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
               {" "}
               <span className="text-light-black"> Marked As Paid  </span>
