@@ -908,23 +908,23 @@ termCondition: [],
                       />
                     </p>
                     <p className="text-light-black flex text-[12px] mb-7 font-semibold ">
-  <span className="mr-[0.58rem]">Do you want to Provide Shipping?</span>
-  <RadioButton
-  id="yes-create-account"
-  label="Yes"
-  value="yes"
-  checked={shipping === "yes"}
-  onChange={handleRadio}
-/>
-<RadioButton
-  id="no-create-account"
-  label="No"
-  value="no"
-  checked={shipping === "no"}
-  onChange={handleRadio}
-/>
+                      <span className="mr-[0.58rem]">Do you want to Provide Shipping?</span>
+                      <RadioButton
+                      id="yes-create-account"
+                      label="Yes"
+                      value="yes"
+                      checked={shipping === "yes"}
+                      onChange={handleRadio}
+                    />
+                    <RadioButton
+                      id="no-create-account"
+                      label="No"
+                      value="no"
+                      checked={shipping === "no"}
+                      onChange={handleRadio}
+                    />
 
-</p>
+                    </p>
 
                     <p className="text-light-black flex text-[12px] mb-7 font-semibold self-center">
                       {" "}

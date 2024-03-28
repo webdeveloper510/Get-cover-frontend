@@ -930,11 +930,15 @@ function AddOrder() {
         calculateTotalAmount(formikStep3.values.productsArray)
       );
     } else if (newPaymentStatus === "Paid") {
-      console.log(calculateTotalAmount(formikStep3.values.productsArray));
-      formik4.setFieldValue(
-        "paidAmount",
-        calculateTotalAmount(formikStep3.values.productsArray)
-      );
+      if (type === "Edit") {
+        formik4.setFieldValue("paidAmount", order.dueAmount);
+      } else {
+        formik4.setFieldValue(
+          "paidAmount",
+          calculateTotalAmount(formikStep3.values.productsArray)
+        );
+      }
+
       formik4.setFieldValue("pendingAmount", 0.0);
     } else if (newPaymentStatus === "PartlyPaid") {
       if (type === "Edit") {

@@ -370,7 +370,9 @@ function ClaimList(props) {
     setError("");
     setIsEditOpen(false);
   };
-
+  useEffect(() => {
+    getAllClaims();
+  }, []);
   const openReject = () => {
     setIsRejectOpen(true);
   };
