@@ -2186,51 +2186,6 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("productName")}
                 />
               </div>
-              {
-                 props?.flag == "" && (
-                  <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="dealerName"
-                    className="!bg-[#fff]"
-                    label="Dealer Name"
-                    placeholder=""
-                    {...formik1.getFieldProps("dealerName")}
-                  />
-                </div>
-                 )
-              }
-            
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="customerName"
-                  className="!bg-[#fff]"
-                  label="Customer Name"
-                  placeholder=""
-                  {...formik1.getFieldProps("customerName")}
-                />
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="servicerName"
-                  className="!bg-[#fff]"
-                  label="Servicer Name"
-                  placeholder=""
-                  {...formik1.getFieldProps("servicerName")}
-                />
-              </div>
-              <div className="col-span-6">
-                <Select
-                  name="claimStatus"
-                  label="Claim Status"
-                  options={Claimstatus}
-                  className="!bg-[#fff]"
-                  onChange={handleSelectChange2}
-                  value={formik1.values.claimStatus}
-                />
-              </div>
               <div className="col-span-6">
                 <Select
                   options={customerValue}
