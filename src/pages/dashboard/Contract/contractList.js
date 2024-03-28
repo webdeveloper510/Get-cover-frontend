@@ -218,7 +218,7 @@ function ContractList(props) {
             <div className="col-span-9">
               <form onSubmit={formik.handleSubmit}>
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-9">
+                  <Grid className={`${props.orderId == null ? '!grid-cols-9' : '!grid-cols-7' }`}>
                     <div className="col-span-2 self-center">
                       <Input
                         type="text"
@@ -277,7 +277,7 @@ function ContractList(props) {
                         />
                       </Button>
                     </div>
-                    <div className="col-span-2 self-center">
+                    <div className={`${props.orderId == null ? '' : 'text-center' } col-span-2 self-center`}>
                       <Button
                         className="!text-[13px]"
                         onClick={() => openDisapproved()}

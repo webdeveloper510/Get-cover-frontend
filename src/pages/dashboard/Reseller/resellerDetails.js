@@ -430,8 +430,7 @@ function ResellerDetails() {
       label: "Orders",
       icons: Order,
       Activeicons: OrderActive,
-      content: (
-        <OrderList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
+      content: ( activeTab === "Orders" && <OrderList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
       ),
     },
     {
@@ -439,8 +438,7 @@ function ResellerDetails() {
       label: "Contracts",
       icons: Contract,
       Activeicons: ContractsActive,
-      content: (
-        <ContractList
+      content: ( activeTab === "Contracts" && <ContractList
           flag={"reseller"}
           id={id.resellerId}
           activeTab={activeTab}
@@ -452,7 +450,7 @@ function ResellerDetails() {
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />,
+      content: (activeTab === "Claims" && <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />),
     },
     // {
     //   id: "Reseller",
@@ -466,7 +464,7 @@ function ResellerDetails() {
       label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
-      content: (
+      content: ( activeTab === "Customer" &&
         <CustomerList
           flag={"reseller"}
           id={id.resellerId}
@@ -479,7 +477,7 @@ function ResellerDetails() {
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: (
+      content: ( activeTab === "Servicer" &&
         <ServicerList
           flag={"reseller"}
           id={id.resellerId}
@@ -493,7 +491,7 @@ function ResellerDetails() {
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: (
+      content: ( activeTab === "Users" &&
         <UserList
           flag={"reseller"}
           id={id.resellerId}
@@ -507,7 +505,7 @@ function ResellerDetails() {
       label: "PriceBook",
       icons: PriceBook,
       Activeicons: PriceBookActive,
-      content: (
+      content: ( activeTab === "PriceBook" &&
         <PriceBookList
           id={id.resellerId}
           flag={"reseller"}

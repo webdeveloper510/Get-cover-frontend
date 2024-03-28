@@ -227,7 +227,7 @@ function Account() {
       console.error("Error in handleStatusChange:", error);
     }
   };
-
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const userValues = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -240,7 +240,8 @@ function Account() {
         .required("Required")
         .transform((originalValue) => originalValue.trim())
         .max(30, "Must be exactly 30 characters"),
-        email: Yup.string().required("Required")
+      email: Yup.string().required("Required")
+      .matches(emailValidationRegex, "Invalid email address")
         .transform((originalValue) => originalValue.trim()),
       phoneNumber: Yup.string()
         .required("Required")
