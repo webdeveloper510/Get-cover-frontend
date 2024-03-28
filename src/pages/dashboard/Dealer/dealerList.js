@@ -120,13 +120,14 @@ function DealerList() {
       // status: categoryDetails.status ? categoryDetails.status : true,
     },
     validationSchema: Yup.object({
-      name: Yup.string(),
+      name: Yup.string().trim(),
       email: Yup.string(),
       phoneNumber: Yup.number(),
     }),
     onSubmit: async (values) => {
-      console.log("Form values:", values);
-      filterDealerListGet(values);
+      console.log("Form values:", values.name.replace(/\s+/g, " "));
+
+      // filterDealerListGet(values);
     },
   });
 
@@ -136,17 +137,16 @@ function DealerList() {
     </div>
   );
 
-
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  }; 
+  };
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -169,7 +169,7 @@ function DealerList() {
     },
     {
       name: "Name",
-      selector: (row) => row?.dealerData.name,
+      selector: (row) => row?.dealerData.name.trim(),
       sortable: true,
     },
     {
@@ -194,7 +194,8 @@ function DealerList() {
         `$${
           row?.ordersData?.orderAmount === undefined
             ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.ordersData?.orderAmount ?? parseInt(0))}`,
+            : formatOrderValue(row?.ordersData?.orderAmount ?? parseInt(0))
+        }`,
       sortable: true,
       minWidth: "auto",
       maxWidth: "170px",
@@ -250,8 +251,8 @@ function DealerList() {
                 <Link
                   to={`/dealerDetails/${row?.dealerData._id}`}
                   className="text-left cursor-pointer flex hover:font-semibold py-2 px-2"
-                  >
-                   <img src={view} className="w-4 h-4 mr-2"/> View
+                >
+                  <img src={view} className="w-4 h-4 mr-2" /> View
                 </Link>
               </div>
             )}
