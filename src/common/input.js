@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,20 +19,20 @@ const Input = ({
   disabled,
   maxDecimalPlaces,
   placeholder,
-  maxDate
+  maxDate,
 }) => {
   const [inputValue, setInputValue] = useState(formatDate(value));
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedFile, setSelectedFile] = useState(value);
-  
+
   function formatDate(dateString) {
-    if (!dateString || typeof dateString !== 'string') {
+    if (!dateString || typeof dateString !== "string") {
       return dateString; // Return the original value if it's null, undefined, or not a string
     }
-    const parts = dateString.split('/');
+    const parts = dateString.split("/");
     if (parts.length === 3) {
       const [year, month, day] = parts;
-      return `${year}/${month.padStart(2, '0')}/${day.padStart(2, '0')}`;
+      return `${year}/${month.padStart(2, "0")}/${day.padStart(2, "0")}`;
     }
     return dateString;
   }
@@ -49,11 +48,11 @@ const Input = ({
       });
     }
   };
-  console.log(selectedFile);
+
   const handleChange = (e) => {
     // Handle file selection logic here
     console.log(e.target.files);
-    setSelectedFile(e.target.files[0])
+    setSelectedFile(e.target.files[0]);
   };
 
   const handleInput = (event) => {
@@ -78,70 +77,73 @@ const Input = ({
   return (
     <>
       <div className="relative">
-      {type === "date" ? (
-         <DatePicker
-         selected={inputValue ? new Date(inputValue) : null}
-         onChange={handleDateChange}
-         dateFormat="MM/dd/yyyy"
-         maxDate={maxDate ? new Date() : null} 
-         placeholderText="mm/dd/yyyy"
-         className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
-           error ? "border-[red]" : "border-gray-300 "
-         } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
-       />
+        {type === "date" ? (
+          <DatePicker
+            selected={inputValue ? new Date(inputValue) : null}
+            onChange={handleDateChange}
+            dateFormat="MM/dd/yyyy"
+            maxDate={maxDate ? new Date() : null}
+            placeholderText="mm/dd/yyyy"
+            className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
+              error ? "border-[red]" : "border-gray-300 "
+            } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
+          />
         ) : (
           <>
-          {type === "file" ? (
-            <div className="relative">
-            <label
-              htmlFor="file-upload"
-              className="cursor-pointer px-2.5 pb-2.5 flex pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none"
-            > 
-            {!selectedFile ? (
-              <>
-               <img src={Dropbox} className="  w-6 h-6 mr-5" />
-               Choose File
-              </>
+            {type === "file" ? (
+              <div className="relative">
+                <label
+                  htmlFor="file-upload"
+                  className="cursor-pointer px-2.5 pb-2.5 flex pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none"
+                >
+                  {!selectedFile ? (
+                    <>
+                      <img src={Dropbox} className="  w-6 h-6 mr-5" />
+                      Choose File
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        src={csvFile}
+                        className=" w-6 h-6 mr-2"
+                        alt="Dropbox"
+                      />
+                      {selectedFile.name}
+                    </>
+                  )}
+                </label>
+                <input
+                  id="file-upload"
+                  type="file"
+                  className="absolute hidden"
+                  onChange={handleChange}
+                />
+              </div>
             ) : (
-              <>
-              <img src={csvFile} className=" w-6 h-6 mr-2" alt="Dropbox" />
-              {selectedFile.name}
-              </>
+              <input
+                type={type}
+                name={name}
+                value={type == "date" ? inputValue : value}
+                id={name}
+                onBlur={onBlur}
+                minLength={minLength}
+                maxLength={maxLength}
+                pattern={type === "number" ? "[0-9]*" : undefined}
+                className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
+                  error ? "border-[red]" : " border-gray-300 "
+                } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
+                onChange={handleInput}
+                disabled={disabled}
+                placeholder={placeholder}
+                onWheel={(e) => e.target.blur()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    // Optionally, you can add additional logic here if needed
+                  }
+                }}
+              />
             )}
-             
-            </label>
-            <input
-              id="file-upload"
-              type="file"
-              className="absolute hidden"
-              onChange={handleChange}
-            />
-          </div>
-          ) : ( <input
-            type={type}
-            name={name}
-            value={type=='date'? inputValue : value}
-            id={name}
-            onBlur={onBlur}
-            minLength={minLength}
-            maxLength={maxLength}
-            pattern={type === "number" ? "[0-9]*" : undefined}
-            className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
-              error ? "border-[red]" : " border-gray-300 "
-            } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
-            onChange={handleInput}
-            disabled={disabled}
-            placeholder={placeholder}
-            onWheel={(e) => e.target.blur()}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                // Optionally, you can add additional logic here if needed
-              }
-            }}
-          />)}
-          
-       
           </>
         )}
         <label

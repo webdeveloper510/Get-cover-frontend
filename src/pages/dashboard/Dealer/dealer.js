@@ -283,7 +283,6 @@ function Dealer() {
   };
 
   const handleRemoveFile = () => {
-    console.log();
     if (inputRef) {
       inputRef.current.click();
       formik.setFieldValue("termCondition", {});

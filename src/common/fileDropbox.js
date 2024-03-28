@@ -23,7 +23,6 @@ const FileDropdown = ({
     }
   };
 
-  console.log(selectedFile);
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
     console.log(file);
