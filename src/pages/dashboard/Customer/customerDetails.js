@@ -342,7 +342,7 @@ console.log(isStatus , 'isStatus')
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: (
+      content: ( activeTab === "Users" &&
         <UserList
           flag={"customer"}
           id={customerId}
