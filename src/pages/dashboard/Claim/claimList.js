@@ -67,6 +67,7 @@ function ClaimList(props) {
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
+  const [pageValue, setPageValue] = useState(1);
   const [loaderType, setLoaderType] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modelLoading, setModelLoading] = useState(false);
@@ -293,6 +294,7 @@ function ClaimList(props) {
 
   const getAllClaims = async (page = 1, rowsPerPage = 10) => {
     setLoaderType(true);
+    setPageValue(page);
     let data = {
       page,
       pageLimit: rowsPerPage,
@@ -1557,10 +1559,17 @@ function ClaimList(props) {
             ) : (
               <CustomPagination
                 totalRecords={totalRecords}
+                page={pageValue}
                 rowsPerPageOptions={[10, 20, 50, 100]}
                 onPageChange={handlePageChange}
                 setRecordsPerPage={setRecordsPerPage}
               />
+              // <CustomPagination
+              //   totalRecords={totalRecords}
+              //   rowsPerPageOptions={[10, 20, 50, 100]}
+              //   onPageChange={handlePageChange}
+              //   setRecordsPerPage={setRecordsPerPage}
+              // />
             )}
           </div>
         </div>

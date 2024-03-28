@@ -72,13 +72,15 @@ function ContractList(props) {
 
   const getContracts = async (page = 1, rowsPerPage = 10) => {
     console.log(page, rowsPerPage);
+    setLoading(true)
     setPageValue(page);
     // return false;
     let data = {
       page: page,
       pageLimit: rowsPerPage,
+      ...formik.values,
     };
-    // setLoading(true);
+
     const result = await getAllContractsForDealerPortal(data);
     setContractList(result.result);
     console.log(result);
@@ -456,111 +458,6 @@ function ContractList(props) {
                 className="w-full h-full text-black rounded-full p-0"
               />
             </Button>
-
-            {/* <Grid className="mt-5 px-6">
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Contract ID"
-                    className="!bg-[#fff]"
-                    label="Contract ID"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Order ID"
-                    className="!bg-[#fff]"
-                    label="Order ID"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Dealer P.O. No."
-                    className="!bg-[#fff]"
-                    label="Dealer P.O. #"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Serial No."
-                    className="!bg-[#fff]"
-                    label="Serial #"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Product Name"
-                    className="!bg-[#fff]"
-                    label="Product Name"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Dealer Name"
-                    className="!bg-[#fff]"
-                    label="Dealer Name"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Customer Name"
-                    className="!bg-[#fff]"
-                    label="Customer Name"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Servicer Name"
-                    className="!bg-[#fff]"
-                    label="Servicer Name"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Model"
-                    className="!bg-[#fff]"
-                    label="Model"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Manufacturer"
-                    className="!bg-[#fff]"
-                    label="Manufacturer"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-12">
-                  <Select
-                    name="Status"
-                    label="Status"
-                    options={status}
-                    className="!bg-[#fff]"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-12">
-                  <Button className={"w-full"}>Search</Button>
-                </div>
-              </Grid> */}
             <form onSubmit={formik.handleSubmit}>
               <div className="py-3">
                 <p className="text-center text-3xl font-semibold ">
