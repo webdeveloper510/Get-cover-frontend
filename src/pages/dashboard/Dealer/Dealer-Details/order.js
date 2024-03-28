@@ -13,6 +13,7 @@ import mark from "../../../../assets/images/pay.png";
 import process from "../../../../assets/images/return.png";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import shorting from "../../../../assets/images/icons/shorting.svg";
+import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
@@ -507,6 +508,17 @@ function OrderList(props) {
       </Modal>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
+      <Button
+          // onClick={() => {
+          //   navigate(`/editOrder/${orderList._id}/${props.id}/${props.flag}`);
+          // }}
+          className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Edit}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
         <Button
           onClick={closeModal}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
