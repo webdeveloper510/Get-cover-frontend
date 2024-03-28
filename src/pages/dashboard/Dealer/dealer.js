@@ -39,6 +39,7 @@ function Dealer() {
   const [createServicerAccountOption, setServicerCreateAccountOption] =
     useState(false);
   const [separateAccountOption, setSeparateAccountOption] = useState("yes");
+  const [selectedFile2, setSelectedFile2] = useState(null);
   const [selectedOption, setSelectedOption] = useState("yes");
   const [loading, setLoading] = useState(false);
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
@@ -49,6 +50,7 @@ function Dealer() {
   const [fileError, setFileError] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
+  const inputRef = useRef(null);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
     street: "",
@@ -78,10 +80,10 @@ function Dealer() {
     ],
     isAccountCreate: false,
     customerAccountCreated: false,
-    serviceCoverageType : "",
-coverageType: "",
-isShippingAllowed: false,
-termCondition: [],
+    serviceCoverageType: "",
+    coverageType: "",
+    isShippingAllowed: false,
+    termCondition: [],
     file: "",
     oldName: "",
     oldEmail: "",
@@ -150,7 +152,7 @@ termCondition: [],
         createdBy: "Super admin",
         role: "dealer",
         savePriceBookType: selectedOption,
-        serviceCoverageType : "",
+        serviceCoverageType: "",
         coverageType: "",
         isShippingAllowed: false,
         termCondition: [],
@@ -197,7 +199,7 @@ termCondition: [],
             role: "dealer",
             dealers: [],
             savePriceBookType: selectedOption,
-            serviceCoverageType : "",
+            serviceCoverageType: "",
             coverageType: "",
             isShippingAllowed: false,
             termCondition: [],
@@ -270,7 +272,25 @@ termCondition: [],
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
     setServicerCreateAccountOption(valueAsBoolean);
   };
- 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Get the first selected file
+    setSelectedFile2(file);
+    // Call your API here with the selected file
+    console.log("Selected file:", file);
+  };
+
+  const handleRemoveFile = () => {
+    // setSelectedFile(null)
+    // formik.setFieldValue("file", "")
+    console.log();
+    if (inputRef) {
+      inputRef.current.click();
+      setSelectedFile2(null);
+      // formik.setFieldValue("file", "");
+      console.log("-fun trigger------------------------------------");
+    }
+  };
+
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     setCreateAccountOption(selectedValue);
@@ -294,9 +314,9 @@ termCondition: [],
   const handleSeparateAccountRadioChange = (event) => {
     setSeparateAccountOption(event.target.value);
   };
-  
+
   const handleRadio = (event) => {
-    setShipping(event.target.value)
+    setShipping(event.target.value);
   };
 
   const handleRadioChangeforBulk = (event) => {
@@ -461,17 +481,17 @@ termCondition: [],
         selectedOption === "no"
           ? Yup.array().notRequired()
           : Yup.array().of(
-            Yup.object().shape({
-              priceBookId: Yup.string().required("Required"),
-              categoryId: Yup.string().required("Required"),
-              retailPrice: Yup.number()
-                .typeError("Required")
-                .required("Required")
-                .min(0, "Retail Price cannot be negative")
-                .nullable(),
-              status: Yup.boolean().required("Required"),
-            })
-          ),
+              Yup.object().shape({
+                priceBookId: Yup.string().required("Required"),
+                categoryId: Yup.string().required("Required"),
+                retailPrice: Yup.number()
+                  .typeError("Required")
+                  .required("Required")
+                  .min(0, "Retail Price cannot be negative")
+                  .nullable(),
+                status: Yup.boolean().required("Required"),
+              })
+            ),
       file:
         selectedOption === "yes"
           ? Yup.string().notRequired()
@@ -482,20 +502,19 @@ termCondition: [],
       values.priceBook =
         selectedOption === "no"
           ? [
-            {
-              priceBookId: "",
-              categoryId: "",
-              wholesalePrice: "",
-              terms: "",
-              description: "",
-              retailPrice: "",
-              status: "",
-            },
-          ]
+              {
+                priceBookId: "",
+                categoryId: "",
+                wholesalePrice: "",
+                terms: "",
+                description: "",
+                retailPrice: "",
+                status: "",
+              },
+            ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
-       
 
       if (formik.values.dealers.length > 0) {
         console.log(formik.values.dealers.length);
@@ -877,17 +896,19 @@ termCondition: [],
                           )}
                       </div>
                       <div className="col-span-12">
-                        <Input
+                        <input
                           type="file"
                           name="term"
-                          label="Terms and Conditions"
-                          className="!bg-white"
-                          className1="!pt-[9px]"
-                          placeholder=""
+                          className="hidden"
+                          onChange={handleFileChange}
+                          ref={inputRef}
                         />
+                        <button onClick={handleRemoveFile}>
+                          {selectedFile2 ? "Remove File" : "Select File"}
+                        </button>
+                        {selectedFile2 && <span>{selectedFile2.name}</span>}
                       </div>
                     </Grid>
-
                   </div>
                   <div className="col-span-6 pt-2">
                     <p className="text-light-black flex text-[12px] mb-7 font-semibold ">
@@ -908,22 +929,23 @@ termCondition: [],
                       />
                     </p>
                     <p className="text-light-black flex text-[12px] mb-7 font-semibold ">
-                      <span className="mr-[0.58rem]">Do you want to Provide Shipping?</span>
+                      <span className="mr-[0.58rem]">
+                        Do you want to Provide Shipping?
+                      </span>
                       <RadioButton
-                      id="yes-create-account"
-                      label="Yes"
-                      value="yes"
-                      checked={shipping === "yes"}
-                      onChange={handleRadio}
-                    />
-                    <RadioButton
-                      id="no-create-account"
-                      label="No"
-                      value="no"
-                      checked={shipping === "no"}
-                      onChange={handleRadio}
-                    />
-
+                        id="yes-create-account"
+                        label="Yes"
+                        value="yes"
+                        checked={shipping === "yes"}
+                        onChange={handleRadio}
+                      />
+                      <RadioButton
+                        id="no-create-account"
+                        label="No"
+                        value="no"
+                        checked={shipping === "no"}
+                        onChange={handleRadio}
+                      />
                     </p>
 
                     <p className="text-light-black flex text-[12px] mb-7 font-semibold self-center">
@@ -948,7 +970,10 @@ termCondition: [],
                       />
                     </p>
                     <p className="text-light-black flex text-[12px] font-semibold">
-                      <span className="w-[60%]"> Do you want to create separate account for customer? </span>
+                      <span className="w-[60%]">
+                        {" "}
+                        Do you want to create separate account for customer?{" "}
+                      </span>
                       <RadioButton
                         id="yes-separate-account"
                         label="Yes"
@@ -967,7 +992,6 @@ termCondition: [],
                       />
                     </p>
                   </div>
-
                 </Grid>
                 <p className="text-light-black mt-4 text-lg mb-3 font-semibold">
                   Primary Contact Information
@@ -1113,7 +1137,6 @@ termCondition: [],
                     </Button>
                   </div>
                 </Grid>
-
               </div>
             </Grid>
           </div>
