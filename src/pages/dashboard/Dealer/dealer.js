@@ -83,11 +83,12 @@ function Dealer() {
     serviceCoverageType: "",
     coverageType: "",
     isShippingAllowed: false,
-    termCondition: [],
+
     file: "",
     oldName: "",
     oldEmail: "",
     isServicer: createServicerAccountOption,
+    termCondition: {},
   });
 
   const navigate = useNavigate();
@@ -155,7 +156,7 @@ function Dealer() {
         serviceCoverageType: "",
         coverageType: "",
         isShippingAllowed: false,
-        termCondition: [],
+
         dealers: [],
         priceBook: [
           {
@@ -172,6 +173,7 @@ function Dealer() {
         customerAccountCreated: false,
         isServicer: createServicerAccountOption,
         file: "",
+        termCondition: {},
       });
     }
 
@@ -202,7 +204,7 @@ function Dealer() {
             serviceCoverageType: "",
             coverageType: "",
             isShippingAllowed: false,
-            termCondition: [],
+
             priceBook: [
               {
                 priceBookId: "",
@@ -218,6 +220,7 @@ function Dealer() {
             isAccountCreate: false,
             customerAccountCreated: false,
             isServicer: createServicerAccountOption,
+            termCondition: {},
           });
         }
       });
@@ -273,21 +276,18 @@ function Dealer() {
     setServicerCreateAccountOption(valueAsBoolean);
   };
   const handleFileChange = (event) => {
-    const file = event.target.files[0]; // Get the first selected file
+    const file = event.target.files[0];
     setSelectedFile2(file);
-    // Call your API here with the selected file
+    formik.setFieldValue("termCondition", file);
     console.log("Selected file:", file);
   };
 
   const handleRemoveFile = () => {
-    // setSelectedFile(null)
-    // formik.setFieldValue("file", "")
     console.log();
     if (inputRef) {
       inputRef.current.click();
+      formik.setFieldValue("termCondition", {});
       setSelectedFile2(null);
-      // formik.setFieldValue("file", "");
-      console.log("-fun trigger------------------------------------");
     }
   };
 
@@ -336,6 +336,7 @@ function Dealer() {
     setFileError(null);
     event.target.value = null;
   };
+
   const handleRadioChangeDealers = (value, index) => {
     const updatedDealers = [...formik.values.dealers];
     updatedDealers[index].status = value === "yes" ? true : false;
@@ -571,6 +572,7 @@ function Dealer() {
         ...values,
         dealers: [newObject, ...values.dealers],
       };
+
       const formData = new FormData();
       Object.entries(newValues).forEach(([key, value]) => {
         if (Array.isArray(value)) {
@@ -901,9 +903,11 @@ function Dealer() {
                           name="term"
                           className="hidden"
                           onChange={handleFileChange}
+                          accept="application/pdf"
                           ref={inputRef}
                         />
-                        <button onClick={handleRemoveFile}>
+
+                        <button type="button" onClick={handleRemoveFile}>
                           {selectedFile2 ? "Remove File" : "Select File"}
                         </button>
                         {selectedFile2 && <span>{selectedFile2.name}</span>}

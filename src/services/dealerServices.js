@@ -112,6 +112,8 @@ export const checkDealersEmailValidation = async (email) => {
     throw error;
   }
 };
+
+
 export const getProductListbyProductCategoryId = async (categoryId) => {
   const headers = createHeaders();
   console.log(headers);
