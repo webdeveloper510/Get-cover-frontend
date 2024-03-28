@@ -43,7 +43,7 @@ function ContractList(props) {
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
-
+// console.log()
   const closeView = () => {
     setIsViewOpen(false);
   };
@@ -70,7 +70,7 @@ function ContractList(props) {
   useEffect(() => {
     if (!flag) {
     
-       getContract();
+      getContract(props?.orderId ?? null);
     }
   }, [flag]);
 
@@ -81,30 +81,37 @@ function ContractList(props) {
   };
 
   const getContract = async (orderId = null, page = 1, rowsPerPage = 10) => {
-    // rowsPerPage = recordsPerPage;
-    console.log(recordsPerPage);
     setLoading(true);
+    console.log(props);
+    console.log(recordsPerPage);
+  
     let data = {
       page: page,
       pageLimit: rowsPerPage,
       ...formik.values,
     };
-    console.log(orderId, props?.flag);
-    const result =
-      orderId == null && props?.flag == undefined
-        ? await getAllContractsForAdmin(data)
-        : props?.flag == "dealer" && props?.id
-        ? await getContractsforDealer(props.id, data)
-        : props?.flag == "customer" && props?.id
-        ? await getContractsforCustomer(props.id, data)
-        : props?.flag == "reseller" && props?.id
-        ? await getContractsforReseller(props.id, data)
-        : await getContracts(orderId, data);
+  
+    try {
+      const result =
+        orderId == null && props?.flag == undefined
+          ? await getAllContractsForAdmin(data)
+          : props?.flag == "dealer" && props?.id
+          ? await getContractsforDealer(props.id, data)
+          : props?.flag == "customer" && props?.id
+          ? await getContractsforCustomer(props.id, data)
+          : props?.flag == "reseller" && props?.id
+          ? await getContractsforReseller(props.id, data)
+          : await getContracts(orderId, data);
+  
+      setContractList(result.result);
+      setTotalRecords(result?.totalCount);
+    } catch (error) {
+      console.error('Error fetching contracts:', error);
+     
+    } finally {
+      setLoading(false);
 
-    setContractList(result.result);
-    setTotalRecords(result?.totalCount);
-    setLoading(false);
-    // setFlag(true);
+    }
   };
 
   const formatOrderValue = (orderValue) => {
@@ -141,7 +148,7 @@ function ContractList(props) {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      getContract(null, 1, 10);
+      getContract(props?.orderId ?? null, 1, 10);
       console.log(values);
       setIsDisapprovedOpen(false);
     },
@@ -224,17 +231,22 @@ function ContractList(props) {
                         {...formik.getFieldProps("contractId")}
                       />
                     </div>
-                    <div className="col-span-2 self-center">
-                      <Input
-                        name="orderId"
-                        type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder=" Order ID"
-                        {...formik.getFieldProps("orderId")}
-                      />
-                    </div>
+                    {
+                      props.orderId == null && (
+                        <div className="col-span-2 self-center">
+                        <Input
+                          name="orderId"
+                          type="text"
+                          className="!text-[14px] !bg-[#f7f7f7]"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                          label=""
+                          placeholder=" Order ID"
+                          {...formik.getFieldProps("orderId")}
+                        />
+                      </div>
+                      )
+                    }
+                  
                     <div className="col-span-2 self-center">
                       <Input
                         name="venderOrder"

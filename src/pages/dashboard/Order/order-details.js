@@ -161,16 +161,17 @@ function OrderDetails() {
       label: "Order Summary",
       icons: orderSummary,
       Activeicons: orderActive,
-      content: <OrderSummary data={orderDetails.productsArray} />,
+      content: activeTab === "Order Summary" && <OrderSummary data={orderDetails.productsArray} />,
     },
     {
       id: "Contracts",
       label: "Contracts",
       icons: contract,
       Activeicons: contractActive,
-      content: <ContractList orderId={orderId} flag={"contracts"} />,
+      content: activeTab === "Contracts" &&  <ContractList orderId={orderId} flag={"contracts"} />,
     },
   ];
+  
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
