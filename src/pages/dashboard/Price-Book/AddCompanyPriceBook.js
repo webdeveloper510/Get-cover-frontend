@@ -148,7 +148,7 @@ function AddCompanyPriceBook() {
               console.log(item);
               try {
                 Yup.object().shape({
-                  name: Yup.string().required("Required").transform((originalValue) => originalValue.trim()),
+                  name: Yup.string().required("Required").transform((originalValue) => originalValue.replace(/\s+/g, ' ').trim()),
                   quantity: Yup.number()
                     .typeError("Required")
                     .required("Required")

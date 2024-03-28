@@ -54,6 +54,7 @@ import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../../pagination";
 import SelectSearch from "../../../../common/selectSearch";
 import Checkbox from "../../../../common/checkbox";
+import request from "../../../../assets/images/request.png";
 
 function ClaimList(props) {
   console.log(props);
@@ -1476,9 +1477,9 @@ function ClaimList(props) {
                                   </p>
                                   <div
                                     className={` overflow-y-scroll Diagnosis ${
-                                      res?.receiptImage == ""
-                                        ? "h-[164px] max-h-[164px]"
-                                        : "h-[130px] max-h-[130px]"
+                                      res?.receiptImage != ''
+                                        ? "h-[130px] max-h-[130px]" 
+                                        : "h-[164px] max-h-[164px]"
                                     }`}
                                   >
                                     <p className="text-sm text-light-green">
@@ -1576,7 +1577,7 @@ function ClaimList(props) {
           />
         </Button>
           <div className="p-3 text-center">
-          <img src={disapproved} alt="email Image" className="mx-auto" />
+          <img src={request} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
               {" "}
               <span className="text-light-black"> Marked As Paid  </span>
