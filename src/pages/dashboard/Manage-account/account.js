@@ -40,6 +40,7 @@ function Account() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isPrimary, setIsPrimary] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
@@ -428,67 +429,124 @@ function Account() {
         </div>
       ),
     },
-    {
+   {
       name: "Action",
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "90px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "90px",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
-        return (
-          <div className="relative">
-            <div
-              onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.email ? null : row.email
-                )
-              }
-            >
-              <img
-                src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
-                alt="Active Icon"
-              />
-            </div>
-            {selectedAction === row.email && (
+          // console.log(index, index % 10 == 9)
+          return (
+            <div className="relative">
               <div
-                ref={dropdownRef}
-                className={`absolute z-[9999] ${
-                  !row.isPrimary ? "w-[130px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
+                onClick={() =>
+                  setSelectedAction(
+                    selectedAction === row.email ? null : row.email
+                  )
+                }
               >
-                {/* {!row.isPrimary && row.status && (
+                <img
+                  src={ActiveIcon}
+                  className="cursor-pointer w-[35px]"
+                  alt="Active Icon"
+                />
+              </div>
+              {selectedAction === row.email && (
+                <div
+                  ref={dropdownRef}
+                  className={`absolute z-[9999] ${
+                    !row.isPrimary ? "w-[130px]" : "w-[80px]"
+                  } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
+                    index
+                  )}`}
+                >
+                  {/* {!row.isPrimary && row.status && (
+                      <div
+                        onClick={() => makeUserPrimary(row)}
+                        className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                      >
+                        <img src={make} className="w-4 h-4 mr-2" />{" "}
+                        <span className="self-center"> Make Primary </span>
+                      </div>
+                    )} */}
+    
                   <div
-                    onClick={() => makeUserPrimary(row)}
+                    onClick={() => editUser(row._id)}
                     className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
                   >
-                    <img src={make} className="w-4 h-4 mr-2" />{" "}
-                    <span className="self-center"> Make Primary </span>
+                    <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center">Edit </span>
                   </div>
-                )} */}
-
-                <div
-                  onClick={() => editUser(row._id)}
-                  className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
-                >
-                  <img src={edit} className="w-4 h-4 mr-2" />{" "}
-                  <span className="self-center">Edit </span>
+                  {!row.isPrimary && (
+                    <div
+                      onClick={() => openModal1(row._id)}
+                      className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                    >
+                      <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                      <span className="self-center">Delete</span>
+                    </div>
+                  )}
                 </div>
-                {!row.isPrimary && (
-                  <div
-                    onClick={() => openModal1(row._id)}
-                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                  >
-                    <img src={delete1} className="w-4 h-4 mr-2" />{" "}
-                    <span className="self-center">Delete</span>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        );
-      },
+              )}
+            </div>
+          );
+        },
+      }
+  ];
+  const columns1 = [
+    {
+      name: "Name",
+      selector: "name",
+      sortable: true,
+      cell: (row) => (
+        <div className="flex relative">
+          {row.isPrimary && (
+            <img src={star} alt="" className="absolute -left-3 top-0" />
+          )}
+          <span className="self-center pt-2 ml-3">
+            {row.firstName} {row.lastName}
+          </span>
+        </div>
+      ),
+    },
+
+    {
+      name: "Email",
+      selector: (row) => row?.email,
+      sortable: true,
+      minWidth: "220px",
+    },
+    {
+      name: "Phone #",
+      selector: (row) => row?.phoneNumber,
+      sortable: true,
+    },
+    {
+      name: "Position",
+      selector: (row) => row.position,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      sortable: true,
+      cell: (row) => (
+        <div className="relative">
+          <div
+            className={` ${
+              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+          ></div>
+          <select
+            disabled={true}
+            value={row.status === true ? "active" : "inactive"}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
+            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      ),
     },
   ];
 
@@ -523,11 +581,11 @@ function Account() {
     setLoading(true);
 
     try {
-      const userDetails = await getUserDetailsbyToken();
-      console.log(userDetails);
-
+      const userDetails = await getSuperAdminMembers();
+      console.log(userDetails , '---------------->>>>>>>>>>>>');
+      setIsPrimary(userDetails.loginMember.isPrimary)
       const { firstName, lastName, email, phoneNumber, position } =
-        userDetails.result;
+        userDetails.loginMember;
 
       setInitialValues({
         firstName,
@@ -632,7 +690,7 @@ function Account() {
                         <div className="col-span-4">
                           <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                             <p className="text-sm m-0 p-0">Email</p>
-                            <p className="font-semibold">{userDetails.email}</p>
+                            <p className="font-semibold">{userDetails?.loginMember?.email}</p>
                           </div>
                         </div>
                         <div className="col-span-4">
@@ -798,7 +856,7 @@ function Account() {
               </div>
             </form>
           </div>
-          {userDetails?.isPrimary &&
+          {
             (loading ? (
               <div className="h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
@@ -807,15 +865,16 @@ function Account() {
               </div>
             ) : (
               <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1] rounded-xl relative">
-                <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                {isPrimary && <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                   <Button onClick={() => openUserModal()}>+ Add Member</Button>
-                </div>
+                </div>}
+                
                 <p className="text-xl font-semibold mb-3">
                   Other Super admin details
                 </p>
 
                 <DataTable
-                  columns={columns}
+                  columns={isPrimary ? (columns) : (columns1)}
                   data={memberList}
                   highlightOnHover
                   sortIcon={
