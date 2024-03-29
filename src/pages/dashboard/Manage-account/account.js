@@ -856,8 +856,7 @@ function Account() {
               </div>
             </form>
           </div>
-          {
-            (loading ? (
+          {loading ? (
               <div className="h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
@@ -883,7 +882,7 @@ function Account() {
                   noDataComponent={<CustomNoDataComponent />}
                 />
               </div>
-            ))}
+            )}
         </div>
       )}
 
