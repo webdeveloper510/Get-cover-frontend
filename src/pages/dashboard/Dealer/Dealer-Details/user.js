@@ -33,7 +33,7 @@ import { getServicerUsersById } from "../../../../services/servicerServices";
 import { getResellerUsersById } from "../../../../services/reSellerServices";
 
 function UserList(props) {
-  console.log(props)
+  // console.log(props)
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
@@ -65,7 +65,7 @@ function UserList(props) {
     switch (props.flag) {
       case "customer":
         const customerResult = await getCustomerUsersById(props.id, data);
-        console.log(customerResult.result);
+        setServiceStatus(true);
         setUserList(customerResult.result);
         break;
       case "servicer":
@@ -77,7 +77,7 @@ function UserList(props) {
       case "reseller":
         const resellerResult = await getResellerUsersById(props.id, data);
         console.log(resellerResult);
-        setServiceStatus(resellerResult.servicerStatus);
+        setServiceStatus(resellerResult.resellerStatus);
         setUserList(resellerResult.data);
         break;
       default:
@@ -96,28 +96,22 @@ function UserList(props) {
     }
   };
   useEffect(() => {
-    if(props.activeTab == "Users")
-    {
+    if (props.activeTab == "Users") {
+      getUserList();
+    } else {
       getUserList();
     }
-    else {
-      getUserList();
-    }
-  //   {
-  //     // getAllClaims();
-  //   }
-      
+    //   {
+    //     // getAllClaims();
+    //   }
   }, []);
 
-  useEffect(()=>{
-    if(props.activeTab == 'Users')
-    {
-    getUserList();
-      
+  useEffect(() => {
+    if (props.activeTab == "Users") {
+      getUserList();
     }
-  },[props.activeTab])
+  }, [props.activeTab]);
 
-  
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
@@ -126,7 +120,6 @@ function UserList(props) {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
 
   useEffect(() => {
     let intervalId;
