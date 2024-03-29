@@ -43,7 +43,7 @@ import {
   orderDetailsById,
 } from "../../../services/orderServices";
 import Modal from "../../../common/model";
-import { getResellerListByDealerId } from "../../../services/reSellerServices";
+import { getResellerListOrderByDealerId } from "../../../services/reSellerServices";
 import Cross from "../../../assets/images/Cross.png";
 import { BeatLoader, RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
@@ -213,9 +213,9 @@ function AddOrder() {
     setCustomerList(arr);
   };
 
-  const getResellerList = async (id) => {
+  const getResellerList = async (dealerId) => {
     let arr = [];
-    const result = await getResellerListByDealerId({}, id);
+    const result = await getResellerListOrderByDealerId({dealerId} );
     result?.result?.map((res) => {
       arr.push({
         label: res.resellerData.name,

@@ -244,17 +244,6 @@ console.log(contractList, "-------------contractList------------------>>>")
     setLoading(false);
   };
 
-  const handlePerRowsChange = async (newPerPage, page) => {
-  
-    setCurrentRowsPerPage(newPerPage);
-    let data = {
-      ...formik.values,
-      page: page,
-      pageLimit: newPerPage,
-    };
-    getClaimList(data);
-  };
-
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -266,13 +255,6 @@ console.log(contractList, "-------------contractList------------------>>>")
     }
   };
   const [recordsPerPage, setRecordsPerPage] = useState(10);
-  const handleSelect = (selectedOption) => {
-    console.log("Selected Option:", selectedOption);
-  };
-  const [item, setItem] = useState({
-    requested_order_ship_date: "2024-01-25",
-  });
-
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setSelectedActions(null);
@@ -339,13 +321,13 @@ console.log(contractList, "-------------contractList------------------>>>")
       nextStep();
     });
   };
-  const handlePageChange = async (page) => {
-  
+  const handlePageChange = async (page, rowsPerPage) => {
+    setRecordsPerPage(rowsPerPage);
     // if (formik.values.contractId !== "") {
     let data = {
       ...formik.values,
       page: page,
-      pageLimit: currentRowsPerPage,
+      pageLimit: rowsPerPage,
     };
     getClaimList(data);
     // }
@@ -364,22 +346,6 @@ console.log(contractList, "-------------contractList------------------>>>")
     };
   }, []);
 
- 
-
-  const paginationOptions = {
-    rowsPerPageText: "Rows per page:",
-    rangeSeparatorText: "of",
-  };
-
-  // const handlePaginationChange = (page, rowsPerPage) => {
-  //   setCurrentPage(page);
-  //   fetchData(page, rowsPerPage);
-  // };
-  const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
-      <p>No records found.</p>
-    </div>
-  );
 
   const renderStep1 = () => {
     // Step 1 content
@@ -482,7 +448,7 @@ console.log(contractList, "-------------contractList------------------>>>")
               </div>
               {showTable && (
                 <>
-                  <div className="col-span-12 relative pb-24">
+                  <div className="col-span-12 relative ">
                    {loading123 ? (
                      <div className="h-[400px] w-full flex py-5">
                      <div className="self-center mx-auto">
@@ -491,80 +457,72 @@ console.log(contractList, "-------------contractList------------------>>>")
                    </div>
                    ) : (
                     <>
-<table className="w-full border text-center table-auto">
-      <thead className="bg-[#F9F9F9]">
-        <tr className="py-3">
-          <th>Contract ID</th>
-          <th className="!py-3">Customer Name</th>
-          <th>Serial #</th>
-          <th>Order #</th>
-          <th>Dealer P.O. #</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {contractList?.length !== 0 &&
-          contractList?.map((res, index) => (
-            <tr key={res.unique_key}>
-              <td className="py-2">{res.unique_key}</td>
-              <td>{res.order.customers.username}</td>
-              <td>{res.serial}</td>
-              <td>{res.order.unique_key}</td>
-              <td>{res.order.venderOrder}</td>
-              <td>
-                <div className="relative">
-                  <div
-                    onClick={() =>
-                      setSelectedAction(selectedAction === res.unique_key ? null : res.unique_key)
-                    }
-                  >
-                    <img src={ActiveIcon} className="cursor-pointer w-[35px]" alt="Active Icon" />
-                  </div>
-                  {selectedAction === res.unique_key && (
-                    <div
-                      ref={dropdownRef}
-                      className="absolute z-[2] w-[90px] drop-shadow-5xl right-0 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]"
-                    >
-                      <div
-                        className="text-left border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                        onClick={() => {
-                          handleSelectValue(res);
-                          setSelectedAction(null); // Close dropdown after action
-                        }}
-                      >
-                        <p className="flex px-3 py-1 hover:font-semibold">
-                          <img src={selectIcon} className="w-4 h-4 mr-2" alt="selectIcon" />
-                          Select
-                        </p>
-                      </div>
-                      <div
-                        className="text-center text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                        onClick={() => {
-                          openModal(res);
-                          setSelectedAction(null); // Close dropdown after action
-                        }}
-                      >
-                        <p className="flex hover:font-semibold py-1 px-3">
-                          <img src={View} className="w-4 h-4 mr-2" alt="View" /> View
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </td>
-            </tr>
-          ))}
+                  <table className="w-full border text-center table-auto">
+                  <thead className="bg-[#F9F9F9]">
+                    <tr className="py-3">
+                      <th>Contract ID</th>
+                      <th className="!py-3">Customer Name</th>
+                      <th>Serial #</th>
+                      <th>Order #</th>
+                      <th>Dealer P.O. #</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {contractList?.length !== 0 &&
+                      contractList?.map((res, index) => (
+                        <tr key={res.unique_key}>
+                          <td className="py-2">{res.unique_key}</td>
+                          <td>{res.order.customers.username}</td>
+                          <td>{res.serial}</td>
+                          <td>{res.order.unique_key}</td>
+                          <td>{res.order.venderOrder}</td>
+                          <td className="mx-auto">
+                            <div className="relative">
+                              <div
+                                onClick={() =>
+                                  setSelectedAction(selectedAction === res.unique_key ? null : res.unique_key)
+                                }
+                              >
+                                <img src={ActiveIcon} className="cursor-pointer w-[35px] mx-auto" alt="Active Icon" />
+                              </div>
+                              {selectedAction === res.unique_key && (
+                                <div
+                                  ref={dropdownRef}
+                                  className="absolute z-[2] w-[90px] drop-shadow-5xl right-0 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]"
+                                >
+                                  <div
+                                    className="text-left border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                    onClick={() => {
+                                      handleSelectValue(res);
+                                      setSelectedAction(null); // Close dropdown after action
+                                    }}
+                                  >
+                                    <p className="flex px-3 py-1 hover:font-semibold">
+                                      <img src={selectIcon} className="w-4 h-4 mr-2" alt="selectIcon" />
+                                      Select
+                                    </p>
+                                  </div>
+                                  <div
+                                    className="text-center text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                    onClick={() => {
+                                      openModal(res);
+                                      setSelectedAction(null); // Close dropdown after action
+                                    }}
+                                  >
+                                    <p className="flex hover:font-semibold py-1 px-3">
+                                      <img src={View} className="w-4 h-4 mr-2" alt="View" /> View
+                                    </p>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
-                  <div className="mt-5">
-                    <CustomPagination
-                     totalRecords={totalRecords}
-                     page={pageValue}
-                     rowsPerPageOptions={[10, 20, 50, 100]}
-                     onPageChange={handlePageChange}
-                     setRecordsPerPage={setRecordsPerPage}
-                    />
-                  </div>
+                 
                   </>
                 //      <DataTable
                 //      columns={columns}
@@ -590,7 +548,26 @@ console.log(contractList, "-------------contractList------------------>>>")
                    
                   </div>
                   <div className="col-span-12">
-                
+                  {contractList?.length !== 0 ? (
+<>
+                  <div className="mt-2">
+                    <CustomPagination
+                     totalRecords={totalRecords}
+                     page={pageValue}
+                     rowsPerPageOptions={[10, 20, 50, 100]}
+                     onPageChange={handlePageChange}
+                     setRecordsPerPage={setRecordsPerPage}
+                    />
+                  </div>
+</>
+                  ) : (
+<>
+                  <div className="mt-2">
+                   <p>No records</p>
+                  </div>
+</>
+                  )}
+                 
                 </div>
                 </>
               )}
@@ -1121,7 +1098,7 @@ console.log(contractList, "-------------contractList------------------>>>")
                   </div>
                 </Grid>
 
-                <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5 h-[400px] wax-h-[400px] overflow-y-scroll no-scrollbar">
+                <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5 ">
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">

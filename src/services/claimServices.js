@@ -124,7 +124,7 @@ export const getUnpaidClaims = async (id,data) => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.post(`${url}/claim/getPaidUnpaidClaims/${id}`, data, {
+    const response = await axios.post(`${url}/servicer/getPaidUnpaidClaims/${id}`, data, {
       headers,
     });
 
@@ -137,7 +137,7 @@ export const getPaidClaims = async (id,data) => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.post(`${url}/claim/getPaidUnpaidClaims/${id}`, data, {
+    const response = await axios.post(`${url}/servicer/getPaidUnpaidClaims/${id}`, data, {
       headers,
     });
 
