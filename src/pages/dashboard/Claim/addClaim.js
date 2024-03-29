@@ -574,9 +574,9 @@ console.log(username)
                      paginationTotalRows={totalRecords}
                      paginationRowsPerPageOptions={[10, 20, 50, 100]}
                      onChangeRowsPerPage={handlePerRowsChange}
-                     onChangePage={(currentPage) => {
-                       handlePageChange(currentPage);
-                     }}
+                     onChangePage={
+                       handlePageChange
+                    }
                    />
                    )}
                    
