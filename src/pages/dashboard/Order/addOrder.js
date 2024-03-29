@@ -256,6 +256,7 @@ function AddOrder() {
     if (resellerId) {
       formik.setFieldValue("resellerId", resellerId);
       formik.setFieldValue("dealerId", dealerValue);
+      getServiceCoverage(dealerValue);
       getResellerList(dealerValue);
       getCustomerList({
         dealerId: dealerValue,
@@ -279,6 +280,7 @@ function AddOrder() {
       formik.setFieldValue("dealerId", dealerValue);
       formik.setFieldValue("resellerId", resellerId);
       getResellerList(dealerValue);
+      getServiceCoverage(dealerValue);
       getCustomerList({
         dealerId: dealerValue,
         resellerId: resellerId,
