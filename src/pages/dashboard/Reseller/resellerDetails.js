@@ -67,8 +67,8 @@ function ResellerDetails() {
   //   return storedTab ? storedTab : "Orders";
   // };
   const id = useParams();
-  console.log(id);
-  const [activeTab, setActiveTab] = useState('Orders'); // Set the initial active tab
+  // console.log(id);
+  const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStatus, setIsStatus] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -164,6 +164,7 @@ function ResellerDetails() {
     setIsModalOpen1(true);
   };
   const closeUserModal = () => {
+    setActiveTab("Users");
     setIsUserModalOpen(false);
     userValues.resetForm();
   };
@@ -370,6 +371,7 @@ function ResellerDetails() {
     },
   });
   const openUserModal = () => {
+    setActiveTab("Users123");
     userValues.resetForm();
     setIsUserModalOpen(true);
   };
@@ -430,7 +432,8 @@ function ResellerDetails() {
       label: "Orders",
       icons: Order,
       Activeicons: OrderActive,
-      content: ( activeTab === "Orders" && <OrderList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
+      content: activeTab === "Orders" && (
+        <OrderList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
       ),
     },
     {
@@ -438,7 +441,8 @@ function ResellerDetails() {
       label: "Contracts",
       icons: Contract,
       Activeicons: ContractsActive,
-      content: ( activeTab === "Contracts" && <ContractList
+      content: activeTab === "Contracts" && (
+        <ContractList
           flag={"reseller"}
           id={id.resellerId}
           activeTab={activeTab}
@@ -450,7 +454,9 @@ function ResellerDetails() {
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: (activeTab === "Claims" && <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />),
+      content: activeTab === "Claims" && (
+        <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />
+      ),
     },
     // {
     //   id: "Reseller",
@@ -464,7 +470,7 @@ function ResellerDetails() {
       label: "Customer",
       icons: Customer,
       Activeicons: CustomerActive,
-      content: ( activeTab === "Customer" &&
+      content: activeTab === "Customer" && (
         <CustomerList
           flag={"reseller"}
           id={id.resellerId}
@@ -477,7 +483,7 @@ function ResellerDetails() {
       label: "Servicer",
       icons: Servicer,
       Activeicons: ServicerActive,
-      content: ( activeTab === "Servicer" &&
+      content: activeTab === "Servicer" && (
         <ServicerList
           flag={"reseller"}
           id={id.resellerId}
@@ -485,27 +491,35 @@ function ResellerDetails() {
         />
       ),
     },
-
     {
       id: "Users",
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: ( activeTab === "Users" &&
-        <UserList
-          flag={"reseller"}
-          id={id.resellerId}
-          data={refreshList}
-          activeTab={activeTab}
-        />
+      content: (
+        <UserList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
       ),
     },
+    // {
+    //   id: "Users",
+    //   label: "Users",
+    //   icons: User,
+    //   Activeicons: UserActive,
+    //   content: ( activeTab === "Users" &&
+    //     <UserList
+    //       flag={"reseller"}
+    //       id={id.resellerId}
+    //       data={refreshList}
+    //       activeTab={activeTab}
+    //     />
+    //   ),
+    // },
     {
       id: "PriceBook",
       label: "PriceBook",
       icons: PriceBook,
       Activeicons: PriceBookActive,
-      content: ( activeTab === "PriceBook" &&
+      content: activeTab === "PriceBook" && (
         <PriceBookList
           id={id.resellerId}
           flag={"reseller"}
@@ -529,12 +543,10 @@ function ResellerDetails() {
           `/addOrderforReseller/${id.resellerId}/${resellerDetail?.resellerData?.dealerId}`
         );
         break;
-        case "Claims":
-          localStorage.setItem("Resellermenu", "Orders");
-          navigate(
-            `/addClaim`
-          );
-          break;
+      case "Claims":
+        localStorage.setItem("Resellermenu", "Orders");
+        navigate(`/addClaim`);
+        break;
       case "PriceBook":
         localStorage.setItem("Resellermenu", "PriceBook");
         navigate(`/addDealerBook/${id.resellerId}`);
@@ -767,7 +779,9 @@ function ResellerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">{resellerDetail?.claimData?.numberOfClaims ?? 0}</p>
+                    <p className="text-white text-lg !font-[600]">
+                      {resellerDetail?.claimData?.numberOfClaims ?? 0}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
@@ -775,11 +789,14 @@ function ResellerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">  $
+                    <p className="text-white text-lg  !font-[600]">
+                      {" "}
+                      $
                       {formatOrderValue(
                         resellerDetail?.claimData?.valueClaim ??
                           parseInt(0).toLocaleString(2)
-                      )}</p>
+                      )}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>
@@ -790,7 +807,11 @@ function ResellerDetails() {
           </div>
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
             <Grid className="!mt-5">
-              <div className={`${isStatus == true ? 'col-span-10' : 'col-span-12'}`}>
+              <div
+                className={`${
+                  isStatus == true ? "col-span-10" : "col-span-12"
+                }`}
+              >
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!grid-cols-7 !gap-1">
                     {tabs.map((tab) => (
@@ -823,28 +844,33 @@ function ResellerDetails() {
                   </Grid>
                 </div>
               </div>
-              {isStatus == true ? (<>{activeTab !== "Servicer" &&
-                activeTab !== "PriceBook" &&
-                activeTab !== "Contracts" ? (
-                  <div
-                    className="col-span-2"
-                    onClick={() => routeToPage(activeTab)}
-                  >
-                    <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-                      <img src={AddItem} className="self-center" alt="AddItem" />
-                      <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
-                        Add {activeTab}
-                      </span>
-                    </Button>
-                  </div>
-                ) : (
-                  <></>
-                )}
-                </>)
-               : (
+              {isStatus == true ? (
+                <>
+                  {activeTab !== "Servicer" &&
+                  activeTab !== "PriceBook" &&
+                  activeTab !== "Contracts" ? (
+                    <div
+                      className="col-span-2"
+                      onClick={() => routeToPage(activeTab)}
+                    >
+                      <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                        <img
+                          src={AddItem}
+                          className="self-center"
+                          alt="AddItem"
+                        />
+                        <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                          Add {activeTab}
+                        </span>
+                      </Button>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              ) : (
                 <></>
               )}
-              
             </Grid>
 
             {tabs.map((tab) => (
