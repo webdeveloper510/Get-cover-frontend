@@ -43,7 +43,7 @@ import {
   orderDetailsById,
 } from "../../../services/orderServices";
 import Modal from "../../../common/model";
-import { getResellerListByDealerId } from "../../../services/reSellerServices";
+import { getResellerListOrderByDealerId } from "../../../services/reSellerServices";
 import Cross from "../../../assets/images/Cross.png";
 import { BeatLoader, RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
@@ -213,9 +213,9 @@ function AddOrder() {
     setCustomerList(arr);
   };
 
-  const getResellerList = async (id) => {
+  const getResellerList = async (dealerId) => {
     let arr = [];
-    const result = await getResellerListByDealerId({}, id);
+    const result = await getResellerListOrderByDealerId({dealerId} );
     result?.result?.map((res) => {
       arr.push({
         label: res.resellerData.name,
@@ -256,6 +256,7 @@ function AddOrder() {
     if (resellerId) {
       formik.setFieldValue("resellerId", resellerId);
       formik.setFieldValue("dealerId", dealerValue);
+      getServiceCoverage(dealerValue);
       getResellerList(dealerValue);
       getCustomerList({
         dealerId: dealerValue,
@@ -279,6 +280,7 @@ function AddOrder() {
       formik.setFieldValue("dealerId", dealerValue);
       formik.setFieldValue("resellerId", resellerId);
       getResellerList(dealerValue);
+      getServiceCoverage(dealerValue);
       getCustomerList({
         dealerId: dealerValue,
         resellerId: resellerId,

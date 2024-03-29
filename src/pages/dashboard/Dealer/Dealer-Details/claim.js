@@ -66,6 +66,7 @@ function ClaimList(props) {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [loaderType, setLoaderType] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pageValue, setPageValue] = useState(1);
   const [modelLoading, setModelLoading] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
@@ -287,10 +288,11 @@ function ClaimList(props) {
       setServicer(res.result.servicerId);
     });
   };
-
   const getAllClaims = async (page = 1, rowsPerPage = 10) => {
     setLoaderType(true);
+    setPageValue(page);
     let data = {
+      flag : props.activeTab === "Unpaid Claims" ? 0 : 1 ,
       page,
       pageLimit: rowsPerPage,
       ...formik1.values,
@@ -298,9 +300,9 @@ function ClaimList(props) {
   
     let res;
     if (props.activeTab === "Unpaid Claims") {
-      res = await getUnpaidClaims(props.id);
+      res = await getUnpaidClaims(props.id, data);
     } else {
-      res = await getPaidClaims(props.id);
+      res = await getPaidClaims(props.id, data);
     }
   
     console.log(res);
@@ -1553,6 +1555,7 @@ function ClaimList(props) {
             ) : (
               <CustomPagination
                 totalRecords={totalRecords}
+                page={pageValue}
                 rowsPerPageOptions={[10, 20, 50, 100]}
                 onPageChange={handlePageChange}
                 setRecordsPerPage={setRecordsPerPage}

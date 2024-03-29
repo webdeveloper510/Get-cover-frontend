@@ -40,6 +40,7 @@ function Account() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isPrimary, setIsPrimary] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
@@ -51,6 +52,7 @@ function Account() {
   const [memberList, setMemberList] = useState([]);
   const [mainStatus, setMainStatus] = useState(true);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [email, setEmail] = useState("");
 
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialValues, setInitialValues] = useState({
@@ -86,6 +88,38 @@ function Account() {
       id: "",
     });
   };
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
+
+  const fetchUserDetails = async () => {
+    setLoading(true);
+
+    try {
+      const userDetails = await getSuperAdminMembers();
+      console.log(userDetails?.loginMember, "---------------->>>>>>>>>>>>");
+      setIsPrimary(userDetails.loginMember.isPrimary);
+      const { firstName, lastName, email, phoneNumber, position } =
+        userDetails.loginMember;
+
+      setInitialValues({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        position,
+      });
+      setEmail(userDetails?.loginMember.email);
+      console.log(userDetails.result);
+      setUserDetails(userDetails.result);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    } finally {
+      fetchUserMembers();
+    }
+  };
+
   const openUserModal = () => {
     setInitialFormValues({
       lastName: "",
@@ -162,16 +196,16 @@ function Account() {
     setModalOpen(false);
   };
 
-  const makeUserPrimary = async (row) => {
-    console.log(row._id);
-    const result = await changePrimaryById(row._id);
-    console.log(result);
-    if (result.code == 200) {
-      setFirstMessage("It's set to Primary");
-      setSecondMessage("We have successfully made this user primary");
-      setModalOpen(true);
-    }
-  };
+  // const makeUserPrimary = async (row) => {
+  //   console.log(row._id);
+  //   const result = await changePrimaryById(row._id);
+  //   console.log(result);
+  //   if (result.code == 200) {
+  //     setFirstMessage("It's set to Primary");
+  //     setSecondMessage("We have successfully made this user primary");
+  //     setModalOpen(true);
+  //   }
+  // };
 
   const editUser = async (id) => {
     console.log(id);
@@ -430,8 +464,8 @@ function Account() {
     },
     {
       name: "Action",
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "90px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "90px",
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (
@@ -445,7 +479,7 @@ function Account() {
             >
               <img
                 src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
+                className="cursor-pointer w-[35px]"
                 alt="Active Icon"
               />
             </div>
@@ -459,14 +493,14 @@ function Account() {
                 )}`}
               >
                 {/* {!row.isPrimary && row.status && (
-                  <div
-                    onClick={() => makeUserPrimary(row)}
-                    className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
-                  >
-                    <img src={make} className="w-4 h-4 mr-2" />{" "}
-                    <span className="self-center"> Make Primary </span>
-                  </div>
-                )} */}
+                      <div
+                        onClick={() => makeUserPrimary(row)}
+                        className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                      >
+                        <img src={make} className="w-4 h-4 mr-2" />{" "}
+                        <span className="self-center"> Make Primary </span>
+                      </div>
+                    )} */}
 
                 <div
                   onClick={() => editUser(row._id)}
@@ -489,6 +523,63 @@ function Account() {
           </div>
         );
       },
+    },
+  ];
+  const columns1 = [
+    {
+      name: "Name",
+      selector: "name",
+      sortable: true,
+      cell: (row) => (
+        <div className="flex relative">
+          {row.isPrimary && (
+            <img src={star} alt="" className="absolute -left-3 top-0" />
+          )}
+          <span className="self-center pt-2 ml-3">
+            {row.firstName} {row.lastName}
+          </span>
+        </div>
+      ),
+    },
+
+    {
+      name: "Email",
+      selector: (row) => row?.email,
+      sortable: true,
+      minWidth: "220px",
+    },
+    {
+      name: "Phone #",
+      selector: (row) => row?.phoneNumber,
+      sortable: true,
+    },
+    {
+      name: "Position",
+      selector: (row) => row.position,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      sortable: true,
+      cell: (row) => (
+        <div className="relative">
+          <div
+            className={` ${
+              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+          ></div>
+          <select
+            disabled={true}
+            value={row.status === true ? "active" : "inactive"}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
+            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      ),
     },
   ];
 
@@ -514,36 +605,6 @@ function Account() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  useEffect(() => {
-    fetchUserDetails();
-  }, []);
-
-  const fetchUserDetails = async () => {
-    setLoading(true);
-
-    try {
-      const userDetails = await getUserDetailsbyToken();
-      console.log(userDetails);
-
-      const { firstName, lastName, email, phoneNumber, position } =
-        userDetails.result;
-
-      setInitialValues({
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        position,
-      });
-      console.log(userDetails.result);
-      setUserDetails(userDetails.result);
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    } finally {
-      fetchUserMembers();
-    }
-  };
 
   const fetchUserMembers = async () => {
     setLoading(true);
@@ -632,7 +693,7 @@ function Account() {
                         <div className="col-span-4">
                           <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                             <p className="text-sm m-0 p-0">Email</p>
-                            <p className="font-semibold">{userDetails.email}</p>
+                            <p className="font-semibold">{email}</p>
                           </div>
                         </div>
                         <div className="col-span-4">
@@ -798,33 +859,35 @@ function Account() {
               </div>
             </form>
           </div>
-          {userDetails?.isPrimary &&
-            (loading ? (
-              <div className="h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
+          {loading ? (
+            <div className="h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
               </div>
-            ) : (
-              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1] rounded-xl relative">
+            </div>
+          ) : (
+            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1] rounded-xl relative">
+              {isPrimary && (
                 <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                   <Button onClick={() => openUserModal()}>+ Add Member</Button>
                 </div>
-                <p className="text-xl font-semibold mb-3">
-                  Other Super admin details
-                </p>
+              )}
 
-                <DataTable
-                  columns={columns}
-                  data={memberList}
-                  highlightOnHover
-                  sortIcon={
-                    <img src={shorting} className="ml-2" alt="shorting" />
-                  }
-                  noDataComponent={<CustomNoDataComponent />}
-                />
-              </div>
-            ))}
+              <p className="text-xl font-semibold mb-3">
+                Other Super admin details
+              </p>
+
+              <DataTable
+                columns={isPrimary ? columns : columns1}
+                data={memberList}
+                highlightOnHover
+                sortIcon={
+                  <img src={shorting} className="ml-2" alt="shorting" />
+                }
+                noDataComponent={<CustomNoDataComponent />}
+              />
+            </div>
+          )}
         </div>
       )}
 

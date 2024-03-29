@@ -54,6 +54,7 @@ function AddClaim() {
   const [loading2, setLoading2] = useState(false);
   const [loading123, setLoading123] = useState(false);
   const [showTable, setShowTable] = useState(false);
+  const [pageValue, setPageValue] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -90,10 +91,21 @@ console.log(username)
     setSendNotifications(value);
   };
 
+  useEffect(() => {
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Cleanup the event listener on component unmount
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+ 
   const closeCreate = () => {
     setIsCreateOpen(false);
   };
-
+console.log(contractList, "-------------contractList------------------>>>")
   useEffect(() => {
     let intervalId;
     if (isCreateOpen && timer > 0) {
@@ -218,6 +230,7 @@ console.log(username)
   }, [username]);
   const getClaimList = async (data) => {
     setLoading123(true);
+    setPageValue(data.page)
     const response = await getContractList(data);
 
     setTotalRecords(response.totalCount);
@@ -231,17 +244,6 @@ console.log(username)
     setLoading(false);
   };
 
-  const handlePerRowsChange = async (newPerPage, page) => {
-  
-    setCurrentRowsPerPage(newPerPage);
-    let data = {
-      ...formik.values,
-      page: page,
-      pageLimit: newPerPage,
-    };
-    getClaimList(data);
-  };
-
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -252,14 +254,7 @@ console.log(username)
         return null;
     }
   };
-
-  const handleSelect = (selectedOption) => {
-    console.log("Selected Option:", selectedOption);
-  };
-  const [item, setItem] = useState({
-    requested_order_ship_date: "2024-01-25",
-  });
-
+  const [recordsPerPage, setRecordsPerPage] = useState(10);
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setSelectedActions(null);
@@ -326,13 +321,13 @@ console.log(username)
       nextStep();
     });
   };
-  const handlePageChange = async (page) => {
-  
+  const handlePageChange = async (page, rowsPerPage) => {
+    setRecordsPerPage(rowsPerPage);
     // if (formik.values.contractId !== "") {
     let data = {
       ...formik.values,
       page: page,
-      pageLimit: currentRowsPerPage,
+      pageLimit: rowsPerPage,
     };
     getClaimList(data);
     // }
@@ -345,115 +340,12 @@ console.log(username)
       }
     };
 
-    document.addEventListener("click", handleClickOutside);
-
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      // Cleanup the event listener on component unmount
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
-  const columns = [
-    {
-      name: "Contract ID",
-      selector: (row) => row.unique_key,
-      sortable: true,
-      minWidth: "auto",
-      maxWidth: "160px",
-    },
-    {
-      name: "Customer Name",
-      selector: (row) => row.order.customers.username,
-      sortable: true,
-    },
-    {
-      name: "Serial #",
-      selector: (row) => row.serial,
-      sortable: true,
-    },
-    {
-      name: "Order #",
-      selector: (row) => row.order.unique_key,
-      sortable: true,
-    },
-    {
-      name: "Dealer P.O. #",
-      selector: (row) => row.order.venderOrder,
-      sortable: true,
-    },
-    {
-      name: "Action",
-      minWidth: "auto",
-      maxWidth: "90px",
-      cell: (row, index) => {
-    
-        return (
-          <div className="relative">
-            <div
-              onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.unique_key ? null : row.unique_key
-                )
-              }
-            >
-              <img
-                src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
-                alt="Active Icon"
-              />
-            </div>
-            {selectedAction === row.unique_key && (
-              <div
-                ref={dropdownRef}
-                className="absolute z-[2] w-[90px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]"
-              >
-                <div
-                  className="text-left  border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                  onClick={() => {
-                    handleSelectValue(row);
-                  }}
-                >
-                  <p className="flex px-3 py-1 hover:font-semibold ">
-                    {" "}
-                    <img
-                      src={selectIcon}
-                      className="w-4 h-4 mr-2"
-                      alt="selectIcon"
-                    />{" "}
-                    Select
-                  </p>
-                </div>
-                <div
-                  className="text-center  text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                  onClick={() => openModal(row)}
-                >
-                  <p className="flex hover:font-semibold py-1 px-3">
-                    {" "}
-                    <img src={View} className="w-4 h-4 mr-2" alt="View" /> View
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      },
-    },
-  ];
-
-  const paginationOptions = {
-    rowsPerPageText: "Rows per page:",
-    rangeSeparatorText: "of",
-  };
-
-  // const handlePaginationChange = (page, rowsPerPage) => {
-  //   setCurrentPage(page);
-  //   fetchData(page, rowsPerPage);
-  // };
-  const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
-      <p>No records found.</p>
-    </div>
-  );
 
   const renderStep1 = () => {
     // Step 1 content
@@ -556,7 +448,7 @@ console.log(username)
               </div>
               {showTable && (
                 <>
-                  <div className="col-span-12 relative pb-24">
+                  <div className="col-span-12 relative ">
                    {loading123 ? (
                      <div className="h-[400px] w-full flex py-5">
                      <div className="self-center mx-auto">
@@ -564,111 +456,119 @@ console.log(username)
                      </div>
                    </div>
                    ) : (
-                     <DataTable
-                     columns={columns}
-                     data={contractList}
-                     progressPending={loading}
-                     pagination
-                     paginationServer
-                      sortIcon={
-                  <>
-                    {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                    <>
+                  <table className="w-full border text-center table-auto">
+                  <thead className="bg-[#F9F9F9]">
+                    <tr className="py-3">
+                      <th>Contract ID</th>
+                      <th className="!py-3">Customer Name</th>
+                      <th>Serial #</th>
+                      <th>Order #</th>
+                      <th>Dealer P.O. #</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {contractList?.length !== 0 &&
+                      contractList?.map((res, index) => (
+                        <tr key={res.unique_key}>
+                          <td className="py-2">{res.unique_key}</td>
+                          <td>{res.order.customers.username}</td>
+                          <td>{res.serial}</td>
+                          <td>{res.order.unique_key}</td>
+                          <td>{res.order.venderOrder}</td>
+                          <td className="mx-auto">
+                            <div className="relative">
+                              <div
+                                onClick={() =>
+                                  setSelectedAction(selectedAction === res.unique_key ? null : res.unique_key)
+                                }
+                              >
+                                <img src={ActiveIcon} className="cursor-pointer w-[35px] mx-auto" alt="Active Icon" />
+                              </div>
+                              {selectedAction === res.unique_key && (
+                                <div
+                                  ref={dropdownRef}
+                                  className="absolute z-[2] w-[90px] drop-shadow-5xl right-0 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]"
+                                >
+                                  <div
+                                    className="text-left border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                    onClick={() => {
+                                      handleSelectValue(res);
+                                      setSelectedAction(null); // Close dropdown after action
+                                    }}
+                                  >
+                                    <p className="flex px-3 py-1 hover:font-semibold">
+                                      <img src={selectIcon} className="w-4 h-4 mr-2" alt="selectIcon" />
+                                      Select
+                                    </p>
+                                  </div>
+                                  <div
+                                    className="text-center text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                    onClick={() => {
+                                      openModal(res);
+                                      setSelectedAction(null); // Close dropdown after action
+                                    }}
+                                  >
+                                    <p className="flex hover:font-semibold py-1 px-3">
+                                      <img src={View} className="w-4 h-4 mr-2" alt="View" /> View
+                                    </p>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                 
                   </>
-                }
-                     noDataComponent={<CustomNoDataComponent />}
-                     paginationTotalRows={totalRecords}
-                     paginationRowsPerPageOptions={[10, 20, 50, 100]}
-                     onChangeRowsPerPage={handlePerRowsChange}
-                     onChangePage={
-                       handlePageChange
-                    }
-                   />
+                //      <DataTable
+                //      columns={columns}
+                //      data={contractList}
+                //      progressPending={loading}
+                //      pagination
+                //      paginationServer
+                //       sortIcon={
+                //   <>
+                //     {" "}
+                //     <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                //   </>
+                // }
+                //      noDataComponent={<CustomNoDataComponent />}
+                //      paginationTotalRows={totalRecords}
+                //      paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                //      onChangeRowsPerPage={handlePerRowsChange}
+                //      onChangePage={
+                //        handlePageChange
+                //     }
+                //    /> 
                    )}
                    
                   </div>
-                  {/* <div className="col-span-12">
-                  <table className="w-full border text-center">
-                    <thead className="bg-[#F9F9F9] ">
-                      <tr className="py-2">
-                        <th></th>
-                        <th className="!py-2"></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {contractList?.result?.length != 0 &&
-                        contractList?.result?.map((res, index) => {
-                          return (
-                            <tr>
-                              <td className="py-1">{res}</td>
-                              <td>{res}</td>
-                              <td> {res}</td>
-                              <td>{res}</td>
-                              <td>{res}</td>
-                              <td>
-                                <div className="relative">
-                                  <div
-                                    onClick={() => handleToggleDropdown(index)}
-                                  >
-                                    <img
-                                      src={ActiveIcon}
-                                      className="cursor-pointer w-[35px] mx-auto"
-                                      alt="Active Icon"
-                                    />
-                                  </div>
-                                  {selectedActions[index] && (
-                                    <div className="absolute z-[2] w-[90px] drop-shadow-5xl -right-3 mt-2 p-3 bg-white border rounded-lg shadow-md top-[1rem]">
-                                      <div
-                                        className="text-left pb-1 border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                                        onClick={() => {
-                                          handleSelectValue(res);
-                                        }}
-                                      >
-                                        <p className="flex hover:font-semibold">
-                                          {" "}
-                                          <img
-                                            src={selectIcon}
-                                            className="w-4 h-4 mr-2"
-                                            alt="selectIcon"
-                                          />{" "}
-                                          Select
-                                        </p>
-                                      </div>
-                                      <div
-                                        className="text-center pt-1 text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                                        onClick={() => openModal(res)}
-                                      >
-                                        <p className="flex hover:font-semibold">
-                                          {" "}
-                                          <img
-                                            src={View}
-                                            className="w-4 h-4 mr-2"
-                                            alt="View"
-                                          />{" "}
-                                          View
-                                        </p>
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
-                  <div className="mt-5">
+                  <div className="col-span-12">
+                  {contractList?.length !== 0 ? (
+<>
+                  <div className="mt-2">
                     <CustomPagination
-                      totalRecords={contractList?.totalCount}
-                      rowsPerPageOptions={[10, 20, 50, 100]}
-                      onPageChange={handlePageChange}
+                     totalRecords={totalRecords}
+                     page={pageValue}
+                     rowsPerPageOptions={[10, 20, 50, 100]}
+                     onPageChange={handlePageChange}
+                     setRecordsPerPage={setRecordsPerPage}
                     />
                   </div>
-                </div> */}
+</>
+                  ) : (
+<>
+                  <div className="mt-2">
+                   <p>No records</p>
+                  </div>
+</>
+                  )}
+                 
+                </div>
                 </>
               )}
             </Grid>
@@ -1198,7 +1098,7 @@ console.log(username)
                   </div>
                 </Grid>
 
-                <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5 h-[400px] wax-h-[400px] overflow-y-scroll no-scrollbar">
+                <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5 ">
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
