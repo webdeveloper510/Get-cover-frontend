@@ -52,6 +52,7 @@ function Account() {
   const [memberList, setMemberList] = useState([]);
   const [mainStatus, setMainStatus] = useState(true);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [email, setEmail] = useState("");
 
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialValues, setInitialValues] = useState({
@@ -87,6 +88,38 @@ function Account() {
       id: "",
     });
   };
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
+
+  const fetchUserDetails = async () => {
+    setLoading(true);
+
+    try {
+      const userDetails = await getSuperAdminMembers();
+      console.log(userDetails?.loginMember, "---------------->>>>>>>>>>>>");
+      setIsPrimary(userDetails.loginMember.isPrimary);
+      const { firstName, lastName, email, phoneNumber, position } =
+        userDetails.loginMember;
+
+      setInitialValues({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        position,
+      });
+      setEmail(userDetails?.loginMember.email);
+      console.log(userDetails.result);
+      setUserDetails(userDetails.result);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    } finally {
+      fetchUserMembers();
+    }
+  };
+
   const openUserModal = () => {
     setInitialFormValues({
       lastName: "",
@@ -163,16 +196,16 @@ function Account() {
     setModalOpen(false);
   };
 
-  const makeUserPrimary = async (row) => {
-    console.log(row._id);
-    const result = await changePrimaryById(row._id);
-    console.log(result);
-    if (result.code == 200) {
-      setFirstMessage("It's set to Primary");
-      setSecondMessage("We have successfully made this user primary");
-      setModalOpen(true);
-    }
-  };
+  // const makeUserPrimary = async (row) => {
+  //   console.log(row._id);
+  //   const result = await changePrimaryById(row._id);
+  //   console.log(result);
+  //   if (result.code == 200) {
+  //     setFirstMessage("It's set to Primary");
+  //     setSecondMessage("We have successfully made this user primary");
+  //     setModalOpen(true);
+  //   }
+  // };
 
   const editUser = async (id) => {
     console.log(id);
@@ -429,37 +462,37 @@ function Account() {
         </div>
       ),
     },
-   {
+    {
       name: "Action",
       minWidth: "auto",
       maxWidth: "90px",
       cell: (row, index) => {
-          // console.log(index, index % 10 == 9)
-          return (
-            <div className="relative">
+        // console.log(index, index % 10 == 9)
+        return (
+          <div className="relative">
+            <div
+              onClick={() =>
+                setSelectedAction(
+                  selectedAction === row.email ? null : row.email
+                )
+              }
+            >
+              <img
+                src={ActiveIcon}
+                className="cursor-pointer w-[35px]"
+                alt="Active Icon"
+              />
+            </div>
+            {selectedAction === row.email && (
               <div
-                onClick={() =>
-                  setSelectedAction(
-                    selectedAction === row.email ? null : row.email
-                  )
-                }
+                ref={dropdownRef}
+                className={`absolute z-[9999] ${
+                  !row.isPrimary ? "w-[130px]" : "w-[80px]"
+                } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
+                  index
+                )}`}
               >
-                <img
-                  src={ActiveIcon}
-                  className="cursor-pointer w-[35px]"
-                  alt="Active Icon"
-                />
-              </div>
-              {selectedAction === row.email && (
-                <div
-                  ref={dropdownRef}
-                  className={`absolute z-[9999] ${
-                    !row.isPrimary ? "w-[130px]" : "w-[80px]"
-                  } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
-                    index
-                  )}`}
-                >
-                  {/* {!row.isPrimary && row.status && (
+                {/* {!row.isPrimary && row.status && (
                       <div
                         onClick={() => makeUserPrimary(row)}
                         className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
@@ -468,29 +501,29 @@ function Account() {
                         <span className="self-center"> Make Primary </span>
                       </div>
                     )} */}
-    
-                  <div
-                    onClick={() => editUser(row._id)}
-                    className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
-                  >
-                    <img src={edit} className="w-4 h-4 mr-2" />{" "}
-                    <span className="self-center">Edit </span>
-                  </div>
-                  {!row.isPrimary && (
-                    <div
-                      onClick={() => openModal1(row._id)}
-                      className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                    >
-                      <img src={delete1} className="w-4 h-4 mr-2" />{" "}
-                      <span className="self-center">Delete</span>
-                    </div>
-                  )}
+
+                <div
+                  onClick={() => editUser(row._id)}
+                  className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                >
+                  <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                  <span className="self-center">Edit </span>
                 </div>
-              )}
-            </div>
-          );
-        },
-      }
+                {!row.isPrimary && (
+                  <div
+                    onClick={() => openModal1(row._id)}
+                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                  >
+                    <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center">Delete</span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      },
+    },
   ];
   const columns1 = [
     {
@@ -572,36 +605,6 @@ function Account() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  useEffect(() => {
-    fetchUserDetails();
-  }, []);
-
-  const fetchUserDetails = async () => {
-    setLoading(true);
-
-    try {
-      const userDetails = await getSuperAdminMembers();
-      console.log(userDetails , '---------------->>>>>>>>>>>>');
-      setIsPrimary(userDetails.loginMember.isPrimary)
-      const { firstName, lastName, email, phoneNumber, position } =
-        userDetails.loginMember;
-
-      setInitialValues({
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        position,
-      });
-      console.log(userDetails.result);
-      setUserDetails(userDetails.result);
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    } finally {
-      fetchUserMembers();
-    }
-  };
 
   const fetchUserMembers = async () => {
     setLoading(true);
@@ -690,7 +693,7 @@ function Account() {
                         <div className="col-span-4">
                           <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                             <p className="text-sm m-0 p-0">Email</p>
-                            <p className="font-semibold">{userDetails?.loginMember?.email}</p>
+                            <p className="font-semibold">{email}</p>
                           </div>
                         </div>
                         <div className="col-span-4">
@@ -856,34 +859,35 @@ function Account() {
               </div>
             </form>
           </div>
-          {
-            (loading ? (
-              <div className="h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
+          {loading ? (
+            <div className="h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
               </div>
-            ) : (
-              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1] rounded-xl relative">
-                {isPrimary && <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+            </div>
+          ) : (
+            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1] rounded-xl relative">
+              {isPrimary && (
+                <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                   <Button onClick={() => openUserModal()}>+ Add Member</Button>
-                </div>}
-                
-                <p className="text-xl font-semibold mb-3">
-                  Other Super admin details
-                </p>
+                </div>
+              )}
 
-                <DataTable
-                  columns={isPrimary ? (columns) : (columns1)}
-                  data={memberList}
-                  highlightOnHover
-                  sortIcon={
-                    <img src={shorting} className="ml-2" alt="shorting" />
-                  }
-                  noDataComponent={<CustomNoDataComponent />}
-                />
-              </div>
-            ))}
+              <p className="text-xl font-semibold mb-3">
+                Other Super admin details
+              </p>
+
+              <DataTable
+                columns={isPrimary ? columns : columns1}
+                data={memberList}
+                highlightOnHover
+                sortIcon={
+                  <img src={shorting} className="ml-2" alt="shorting" />
+                }
+                noDataComponent={<CustomNoDataComponent />}
+              />
+            </div>
+          )}
         </div>
       )}
 
