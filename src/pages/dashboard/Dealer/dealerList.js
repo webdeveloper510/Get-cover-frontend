@@ -127,7 +127,7 @@ function DealerList() {
     onSubmit: async (values) => {
       console.log("Form values:", values.name.replace(/\s+/g, " "));
 
-      // filterDealerListGet(values);
+      filterDealerListGet(values);
     },
   });
 
