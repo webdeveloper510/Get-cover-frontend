@@ -165,7 +165,7 @@ function AddServicer() {
       email: "",
       phoneNumber: "",
       position: "",
-      status: true,
+      status: createAccountOption == "yes" ? true : false,
       isPrimary: false,
     };
 
