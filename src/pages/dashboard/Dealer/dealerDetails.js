@@ -54,7 +54,7 @@ import {
   addUserByDealerId,
   getUserListByDealerId,
 } from "../../../services/userServices";
-import Primary from "../../.././assets/images/SetPrimary.png";
+import Primary from "../../../assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
 import {
   getServicerListByDealerId,
@@ -65,6 +65,7 @@ import ContractList from "../Contract/contractList";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ClaimList from "../Claim/claimList";
+import Cross from "../../../assets/images/Cross_Button.png";
 
 function DealerDetails() {
   // const getInitialActiveTab = () => {
@@ -1136,7 +1137,29 @@ function DealerDetails() {
                       )}
                   </div>
                   <div className="col-span-12">
-                    <input
+                  <div className="relative">
+                        <label
+                            htmlFor='term'
+                            className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75 `}
+                          >
+                        Term And Condition
+                        </label>
+                        <input
+                          type="file"
+                          name="term"
+                          className="hidden"
+                          onChange={handleFileChange}
+                          accept="application/pdf"
+                          ref={inputRef}
+                        />
+                      <div className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}>
+                        {selectedFile2 &&  <button type="button" onClick={handleRemoveFile} className="absolute -right-2 -top-2 mx-auto mb-3">
+                          <img src={Cross} className="w-6 h-6" alt="Dropbox" />
+                          </button>}
+                          {selectedFile2 ? <p className="w-full">{selectedFile2.name}</p> : <p className="w-full cursor-pointer" onClick={handleRemoveFile}> Select File</p>}
+                      </div>
+                      </div>
+                    {/* <input
                       type="file"
                       name="term"
                       className="hidden"
@@ -1148,7 +1171,7 @@ function DealerDetails() {
                     <button type="button" onClick={handleRemoveFile}>
                       {selectedFile2 ? "Remove File" : "Select File"}
                     </button>
-                    {selectedFile2 && <span>{selectedFile2.name}</span>}
+                    {selectedFile2 && <span>{selectedFile2.name}</span>} */}
                   </div>
                 </Grid>
               </div>

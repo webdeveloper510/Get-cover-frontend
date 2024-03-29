@@ -10,7 +10,7 @@ import * as Yup from "yup";
 // Media Include
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import disapprove from "../../../assets/images/Disapproved.png";
-import Cross from "../../../assets/images/Cross.png";
+import Cross from "../../../assets/images/Cross_Button.png";
 import Button from "../../../common/button";
 import csvFile from "../../../assets/images/icons/csvFile.svg";
 import RadioButton from "../../../common/radio";
@@ -897,6 +897,13 @@ function Dealer() {
                           )}
                       </div>
                       <div className="col-span-12">
+                      <div className="relative">
+                        <label
+                            htmlFor='term'
+                            className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75 `}
+                          >
+                        Term And Condition
+                        </label>
                         <input
                           type="file"
                           name="term"
@@ -905,11 +912,13 @@ function Dealer() {
                           accept="application/pdf"
                           ref={inputRef}
                         />
-
-                        <button type="button" onClick={handleRemoveFile}>
-                          {selectedFile2 ? "Remove File" : "Select File"}
-                        </button>
-                        {selectedFile2 && <span>{selectedFile2.name}</span>}
+                      <div className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}>
+                        {selectedFile2 &&  <button type="button" onClick={handleRemoveFile} className="absolute -right-2 -top-2 mx-auto mb-3">
+                          <img src={Cross} className="w-6 h-6" alt="Dropbox" />
+                          </button>}
+                          {selectedFile2 ? <p className="w-full">{selectedFile2.name}</p> : <p className="w-full cursor-pointer" onClick={handleRemoveFile}> Select File</p>}
+                      </div>
+                      </div>
                       </div>
                     </Grid>
                   </div>
