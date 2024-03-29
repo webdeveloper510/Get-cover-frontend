@@ -570,12 +570,12 @@ console.log(username)
                      progressPending={loading}
                      pagination
                      paginationServer
-                     sortIcon={
-                      <>
-                        {" "}
-                        <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                      </>
-                    }
+                      sortIcon={
+                  <>
+                    {" "}
+                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                  </>
+                }
                      noDataComponent={<CustomNoDataComponent />}
                      paginationTotalRows={totalRecords}
                      paginationRowsPerPageOptions={[10, 20, 50, 100]}
