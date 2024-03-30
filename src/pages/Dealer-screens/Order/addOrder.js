@@ -20,6 +20,7 @@ import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import { getTermList } from "../../../services/priceBookService";
 import RadioButton from "../../../common/radio";
 import {
+  checkEditFileValidations,
   checkMultipleFileValidation,
   fileValidation,
   getStep2Validation,
@@ -37,6 +38,7 @@ import {
   getResellerListforDealerPortal,
   getServicerListInOrdersforDealerPortal,
 } from "../../../services/dealerServices/orderListServices";
+import { getServiceCoverageDetails } from "../../../services/customerServices";
 
 function DealerAddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -66,6 +68,8 @@ function DealerAddOrder() {
   const navigate = useNavigate();
   const { orderId, resellerId, customerId } = useParams();
   const location = useLocation();
+  const [serviceCoverage, setServiceCoverage] = useState([]);
+  const [coverage, setCoverage] = useState([]);
 
   useEffect(() => {
     if (orderId || resellerId || customerId) {
@@ -275,6 +279,7 @@ function DealerAddOrder() {
     }
     // getProductList()
     getTermListData();
+    getServiceCoverage();
   }, [orderId, resellerId, customerId]);
 
   const orderDetails = async () => {
@@ -525,89 +530,93 @@ function DealerAddOrder() {
   });
 
   const checkMultipleEmailCheck = (data) => {
-    // setLoading(true);
     const formData = new FormData();
-    const arr = [];
-    let arrayOfObjects = data.productsArray.map((res, index) => {
-      console.log(res);
-      arr.push(res.file);
+    const arr = data.productsArray.map((res) => res.file);
+    data.productsArray.forEach((res, index) => {
+      data.productsArray[index].fileValue =
+        res.file !== "" && res.file?.name !== " ";
     });
-    data.productsArray.map((res, index) => {
+    data.productsArray.forEach((res, index) => {
       let sumOfValues = 0;
-      if (res.priceType == "Quantity Pricing") {
-        res.QuantityPricing.map((data) => {
-          let value = parseInt(data.enterQuantity);
-
-          sumOfValues += value;
-          console.log(parseInt(sumOfValues));
-        });
-
-        data.productsArray[index][`checkNumberProducts`] = sumOfValues;
-      } else {
-        data.productsArray[index][`checkNumberProducts`] = parseInt(
-          res.noOfProducts
+      if (res.priceType === "Quantity Pricing") {
+        sumOfValues = res.QuantityPricing.reduce(
+          (sum, data) => sum + parseInt(data.enterQuantity),
+          0
         );
+      } else {
+        sumOfValues = parseInt(res.noOfProducts);
       }
+      data.productsArray[index].checkNumberProducts = sumOfValues;
     });
+
     let newValues = {
       ...data,
       file: arr,
     };
 
-    Object.entries(newValues).forEach(([key, value]) => {
-      if (key === "file") {
-        if (value) {
-          value.forEach((val, index) => {
-            formData.append(`file`, val);
-          });
+    if (type == "Edit") {
+      let dataValue = {
+        ...data,
+      };
+      checkEditFileValidations(dataValue).then((res) => {
+        if (res.code == 200) {
+          nextStep();
         } else {
-          formData.append(`file`, null);
+          for (let key of res.message) {
+            console.log("res", res.message);
+            setIsErrorOpen(true);
+            formikStep3.setFieldError(
+              `productsArray[${key.key}].file`,
+              key.message
+            );
+          }
         }
-      } else if (key === "productsArray") {
-        value.forEach((item, index) => {
-          Object.entries(item).forEach(([key1, value1]) => {
-            if (key1 !== "orderFile") {
-              formData.append(`${key}[${index}][${key1}]`, value1);
-            } else {
-              formData.append(
-                `${key}[${index}][${key1}]`,
-                JSON.stringify(value1)
-              );
+      });
+    } else {
+      Object.entries(newValues).forEach(([key, value]) => {
+        if (key === "productsArray") {
+          value.forEach((item, index) => {
+            Object.entries(item).forEach(([key1, value1]) => {
+              if (key1 !== "orderFile") {
+                formData.append(`${key}[${index}][${key1}]`, value1);
+              } else {
+                formData.append(
+                  `${key}[${index}][${key1}]`,
+                  JSON.stringify(value1)
+                );
+              }
+            });
+            if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
+              item.QuantityPricing.forEach((qpItem, qpIndex) => {
+                Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
+                  formData.append(
+                    `${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`,
+                    qpValue
+                  );
+                });
+              });
             }
           });
-          if (item.QuantityPricing && Array.isArray(item.QuantityPricing)) {
-            item.QuantityPricing.forEach((qpItem, qpIndex) => {
-              Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
-                formData.append(
-                  `${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`,
-                  qpValue
-                );
-              });
-            });
-          }
-        });
-      } else {
-        formData.append(key, value);
-      }
-    });
-
-    checkMultipleFileValidation(formData).then((res) => {
-      if (res.code == 200) {
-        console.log(data);
-        nextStep();
-      } else {
-        for (let key of res.message) {
-          console.log(key.key);
-          setIsErrorOpen(true);
-          // setLoading(false);
-          formikStep3.setFieldError(
-            `productsArray[${key.key - 1}].file`,
-            key.message
-          );
+        } else {
+          formData.append(key, value);
         }
-      }
-    });
-    // console.log(data)
+      });
+
+      checkMultipleFileValidation(formData).then((res) => {
+        if (res.code == 200) {
+          nextStep();
+        } else {
+          for (let key of res.message) {
+            console.log("res", res.message);
+            setIsErrorOpen(true);
+            formikStep3.setFieldError(
+              `productsArray[${key.key}].file`,
+              key.message
+            );
+          }
+        }
+      });
+    }
   };
 
   const fileInputRef = useRef([]);
@@ -988,76 +997,103 @@ function DealerAddOrder() {
     }
   };
 
-  const coverage = [
-    { label: "Breakdown", value: "Breakdown" },
-    { label: "Accidental", value: "Accidental" },
-    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-  ];
+  const getServiceCoverage = async (value) => {
+    const result = await getServiceCoverageDetails(value);
 
-  const serviceCoverage = [
-    { label: "Parts", value: "Parts" },
-    { label: "Labour", value: "Labour" },
-    { label: "Parts & Labour", value: "Parts & Labour" },
-  ];
+    switch (result.result.coverageType) {
+      case "Breakdown & Accidental":
+        setCoverage([
+          { label: "Breakdown", value: "Breakdown" },
+          { label: "Accidental", value: "Accidental" },
+          { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+        ]);
+        break;
+      case "Breakdown":
+        setCoverage([{ label: "Accidental", value: "Accidental" }]);
+        break;
+      default:
+        setCoverage([{ label: "Breakdown", value: "Breakdown" }]);
+        break;
+    }
+
+    switch (result.result.serviceCoverageType) {
+      case "Parts & Labour":
+        setServiceCoverage([
+          { label: "Parts", value: "Parts" },
+          { label: "Labour", value: "Labour" },
+          { label: "Parts & Labour", value: "Parts & Labour" },
+        ]);
+        break;
+      case "Labour":
+        setServiceCoverage([{ label: "Labour", value: "Labour" }]);
+        break;
+      case "Parts":
+        setServiceCoverage([{ label: "Parts", value: "Parts" }]);
+        break;
+      default:
+        setServiceCoverage([{ label: "Parts", value: "Parts" }]);
+        break;
+    }
+  };
 
   const getCategoryList = async (data, index) => {
     try {
-    setLoading3(true);
-    const result = await getCategoryAndPriceBooksforDealerPortal(data);
-    if (data.priceBookId !== "" && data.priceCatId === "") {
-      formikStep3.setFieldValue(
-        `productsArray[${index}].categoryId`,
-        result.result.selectedCategory._id
-      );
-      getCategoryList(
-        {
-          priceBookId: data.priceBookId,
-          priceCatId: result.result.selectedCategory._id,
-        },
-        index
-      );
-    }
-    console.log(result.result);
-    setCategoryList(
-      result.result?.priceCategories.map((item) => ({
-        label: item.name,
-        value: item._id,
-      }))
-    );
-    if (formikStep3.values.productsArray.length !== 0) {
-      console.log(
-        "formikStep3.values.productsArray.length",
-        formikStep3.values.productsArray.length
-      );
-      for (let i = 0; i < index + 1; i++) {
-        console.log(i, index);
-        setProductNameOptions((prevOptions) => {
-          const newOptions = [...prevOptions];
-          console.log(newOptions);
-
-          newOptions[index] = {
-            data: result.result?.priceBooks.map((item) => ({
-              label: item.name,
-              value: item._id,
-              description: item.description,
-              term: item.term,
-              priceType: item.priceType,
-              quantityPriceDetail: item.quantityPriceDetail,
-              wholesalePrice: item?.retailPrice?.toFixed(2),
-              status: item.status,
-              rangeStart: item?.rangeStart?.toFixed(2),
-              rangeEnd: item?.rangeEnd?.toFixed(2),
-            })),
-          };
-          return newOptions;
-        });
+      setLoading3(true);
+      const result = await getCategoryAndPriceBooksforDealerPortal(data);
+      if (data.priceBookId !== "" && data.priceCatId === "") {
+        formikStep3.setFieldValue(
+          `productsArray[${index}].categoryId`,
+          result.result.selectedCategory._id
+        );
+        getCategoryList(
+          {
+            priceBookId: data.priceBookId,
+            priceCatId: result.result.selectedCategory._id,
+          },
+          index
+        );
       }
+      console.log(result.result);
+      setCategoryList(
+        result.result?.priceCategories.map((item) => ({
+          label: item.name,
+          value: item._id,
+        }))
+      );
+      if (formikStep3.values.productsArray.length !== 0) {
+        console.log(
+          "formikStep3.values.productsArray.length",
+          formikStep3.values.productsArray.length
+        );
+        for (let i = 0; i < index + 1; i++) {
+          console.log(i, index);
+          setProductNameOptions((prevOptions) => {
+            const newOptions = [...prevOptions];
+            console.log(newOptions);
+
+            newOptions[index] = {
+              data: result.result?.priceBooks.map((item) => ({
+                label: item.name,
+                value: item._id,
+                description: item.description,
+                term: item.term,
+                priceType: item.priceType,
+                quantityPriceDetail: item.quantityPriceDetail,
+                wholesalePrice: item?.retailPrice?.toFixed(2),
+                status: item.status,
+                rangeStart: item?.rangeStart?.toFixed(2),
+                rangeEnd: item?.rangeEnd?.toFixed(2),
+              })),
+            };
+            return newOptions;
+          });
+        }
+      }
+    } catch (error) {
+      setLoading3(false);
+    } finally {
+      setLoading3(false);
     }
-  } catch (error) {
-    setLoading3(false);
-  } finally {
-    setLoading3(false);
-  }
   };
 
   const renderStep1 = () => {

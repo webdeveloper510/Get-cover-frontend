@@ -168,6 +168,18 @@ function AddOrder() {
         value: res._id,
       });
     });
+    const isResellerIdEmpty = data?.resellerId === "";
+    formik.setFieldValue("servicerId", isResellerIdEmpty ? "" : "");
+
+    if (!isResellerIdEmpty) {
+      const matchedServicer = filteredServicers.find(
+        (res) => res._id === formik.values.servicerId
+      );
+      formik.setFieldValue(
+        "servicerId",
+        matchedServicer ? matchedServicer._id : ""
+      );
+    }
     setServicerData(arr);
     setLoading1(false);
   };
@@ -215,7 +227,7 @@ function AddOrder() {
 
   const getResellerList = async (dealerId) => {
     let arr = [];
-    const result = await getResellerListOrderByDealerId({dealerId} );
+    const result = await getResellerListOrderByDealerId({ dealerId });
     result?.result?.map((res) => {
       arr.push({
         label: res.resellerData.name,
@@ -617,7 +629,6 @@ function AddOrder() {
   });
 
   const checkMultipleEmailCheck = (data) => {
-    // setLoading(true);
     const formData = new FormData();
     const arr = [];
     data.productsArray.map((res, index) => {
@@ -848,37 +859,6 @@ function AddOrder() {
         orderAmount: parseFloat(totalAmount),
       };
       const formData = new FormData();
-
-      // Object.entries(data).forEach(([key, value]) => {
-      //   if (key === "productsArray") {
-      //     value.forEach((item, index) => {
-      //       Object.entries(item).forEach(([key1, value1]) => {
-      //         console.log(key1);
-      //         if (key1 !== "file" && key1 !== "QuantityPricing") {
-      //           formData.append(`${key}[${index}][${key1}]`, value1);
-      //         }
-      //         if (key1 == "orderFile") {
-      //           formData.append(
-      //             `${key}[${index}][${key1}]`,
-      //             JSON.stringify(value1)
-      //           );
-      //         }
-      //         if (
-      //           key1 == "QuantityPricing" &&
-      //           Array.isArray(item.QuantityPricing)
-      //         ) {
-      //           formData.append(
-      //             `${key}[${index}][QuantityPricing]`,
-      //             JSON.stringify(item.QuantityPricing)
-      //           );
-      //         }
-      //       });
-      //     });
-      //   } else {
-      //     formData.append(key, value);
-      //   }
-      // });
-
       if (orderId != undefined) {
         editOrder(orderId, data).then((res) => {
           if (res.code == 200) {
