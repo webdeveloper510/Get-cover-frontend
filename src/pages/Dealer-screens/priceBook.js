@@ -27,6 +27,7 @@ import {
   getPriceBookForDealer,
   priceBookFilter,
 } from "../../services/dealerServices/priceBookServices";
+import { getCategoryAndPriceBooksforDealerPortal } from "../../services/dealerServices/orderListServices";
 function DealerPriceBook(props) {
   console.log(props);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
@@ -160,7 +161,7 @@ function DealerPriceBook(props) {
 
   const getCategoryListData = async () => {
     try {
-      const res = await getCategoryList();
+      const res = await getCategoryAndPriceBooksforDealerPortal();
       let arr = [];
       res?.result?.length > 0 &&
         res?.result?.map((item) => {

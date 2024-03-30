@@ -125,7 +125,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messageList]); // Assuming messageList is the dependency that triggers data loading
+  }, [messageList, claimId]); // Assuming messageList is the dependency that triggers data loading
 
   const downloadImage = (file) => {
     console.log("hello");
@@ -410,6 +410,7 @@ function ClaimList(props) {
   }, [dropdownRef]);
 
   const openEdit = (res, index) => {
+    scrollToBottom()
     if (res.repairParts.length != 0) {
       const repairPartsValues = res?.repairParts?.map((part) => ({
         serviceType: part.serviceType || "",
@@ -459,10 +460,13 @@ function ClaimList(props) {
       getServiceType(
         res.contracts.orders.serviceCoverageType,
         res.contracts.orders.dealers.isShippingAllowed
-      )
-    );
+        )
+        );
+    
     setClaimId(res._id);
+   
     setIsEditOpen(true);
+    
   };
 
   const calculateTotalCost = (repairParts) => {
@@ -2006,6 +2010,7 @@ function ClaimList(props) {
                     </div>
                   );
                 })}
+                <div ref={messagesEndRef} />
               </div>
               <Grid>
                 <div className="col-span-6">
