@@ -458,18 +458,18 @@ console.log(contractList, "-------------contractList------------------>>>")
                    ) : (
                     <>
                   <table className="w-full border text-center table-auto">
-                  <thead className="bg-[#F9F9F9]">
-                    <tr className="py-3">
-                      <th>Contract ID</th>
-                      <th className="!py-3">Customer Name</th>
-                      <th>Serial #</th>
-                      <th>Order #</th>
-                      <th>Dealer P.O. #</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
+                    <thead className="bg-[#F9F9F9]">
+                      <tr className="py-3">
+                        <th>Contract ID</th>
+                        <th className="!py-3">Customer Name</th>
+                        <th>Serial #</th>
+                        <th>Order #</th>
+                        <th>Dealer P.O. #</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
                   <tbody>
-                    {contractList?.length !== 0 &&
+                    {contractList?.length !== 0 ? (
                       contractList?.map((res, index) => (
                         <tr key={res.unique_key}>
                           <td className="py-2">{res.unique_key}</td>
@@ -519,7 +519,13 @@ console.log(contractList, "-------------contractList------------------>>>")
                             </div>
                           </td>
                         </tr>
-                      ))}
+                      ))) : (
+                        <tr >
+                          <td colspan="6" className="py-3 text-center">
+                          <p>No Record Found</p>
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                  
@@ -549,23 +555,21 @@ console.log(contractList, "-------------contractList------------------>>>")
                   </div>
                   <div className="col-span-12">
                   {contractList?.length !== 0 ? (
-<>
-                  <div className="mt-2">
-                    <CustomPagination
-                     totalRecords={totalRecords}
-                     page={pageValue}
-                     rowsPerPageOptions={[10, 20, 50, 100]}
-                     onPageChange={handlePageChange}
-                     setRecordsPerPage={setRecordsPerPage}
-                    />
-                  </div>
-</>
+                    <>
+                      <div className="mt-2">
+                        <CustomPagination
+                        totalRecords={totalRecords}
+                        page={pageValue}
+                        rowsPerPageOptions={[10, 20, 50, 100]}
+                        onPageChange={handlePageChange}
+                        setRecordsPerPage={setRecordsPerPage}
+                        />
+                      </div>
+                    </>
                   ) : (
-<>
-                  <div className="mt-2">
-                   <p>No records</p>
-                  </div>
-</>
+                    <>
+
+                  </>
                   )}
                  
                 </div>
@@ -1270,7 +1274,13 @@ console.log(contractList, "-------------contractList------------------>>>")
                         Claim Amount
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                        $0.00
+                      ${
+                           contractDetail.claimAmount === undefined
+                            ? parseInt(0).toLocaleString(2)
+                            : formatOrderValue(
+                              contractDetail.claimAmount ??
+                                  parseInt(0)
+                              )}
                       </p>
                     </div>
                   </div>

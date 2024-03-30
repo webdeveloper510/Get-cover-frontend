@@ -863,7 +863,13 @@ function ContractList(props) {
                             Claim Amount
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            $0.00
+                            ${
+                           contractDetails.claimAmount === undefined
+                            ? parseInt(0).toLocaleString(2)
+                            : formatOrderValue(
+                                contractDetails.claimAmount ??
+                                  parseInt(0)
+                              )}
                           </p>
                         </div>
                       </div>
