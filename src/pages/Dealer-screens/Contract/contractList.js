@@ -24,7 +24,6 @@ import { getContractValues } from "../../../services/extraServices";
 function ContractList(props) {
   const [contractDetails, setContractDetails] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
-  const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [isViewOpen, setIsViewOpen] = useState(false);
@@ -33,6 +32,7 @@ function ContractList(props) {
   const [selectedProduct, setSelectedProduct] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };

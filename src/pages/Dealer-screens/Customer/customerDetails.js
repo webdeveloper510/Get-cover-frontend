@@ -307,7 +307,7 @@ function CustomerDetails() {
       label: "Order",
       icons: Order,
       Activeicons: OrderActive,
-      content: (
+      content: (activeTab === "Order" &&
         <OrderList flag={"customer"} id={customerId} activeTab={activeTab} />
       ),
     },
@@ -316,7 +316,7 @@ function CustomerDetails() {
       label: "Contracts",
       icons: Dealer,
       Activeicons: DealerActive,
-      content: (
+      content: (activeTab === "Contracts" &&
         <ContractList flag={"customer"} id={customerId} activeTab={activeTab} />
       ),
     },
@@ -325,7 +325,7 @@ function CustomerDetails() {
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList />,
+      content: activeTab === "Claims" && <ClaimList id={customerId} flag={"customer"} activeTab={activeTab} /> ,
     },
     {
       id: "Users",
