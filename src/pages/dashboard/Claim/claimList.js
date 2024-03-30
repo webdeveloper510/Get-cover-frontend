@@ -2072,15 +2072,7 @@ function ClaimList(props) {
         </div>
       </Modal>
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
-        <Button
-          onClick={closeAttachments}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-[#333434]"
-        >
-          <img
-            src={Cross}
-            className="w-full h-full text-black rounded-full p-0"
-          />
-        </Button>
+       
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
