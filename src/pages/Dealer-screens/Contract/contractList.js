@@ -137,8 +137,9 @@ function ContractList(props) {
     }
   };
   const status = [
-    { label: "Active", value: true },
-    { label: "Inactive", value: false },
+    { label: "Active", value: "Active" },
+    { label: "Waiting", value: "Waiting" },
+    { label: "Expired", value: "Expired" },
   ];
 
   const validationSchema = Yup.object().shape({});
@@ -844,7 +845,13 @@ function ContractList(props) {
                         Claim Amount
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                        $0.00
+                      ${
+                           contractDetails?.claimAmount === undefined
+                            ? parseInt(0).toLocaleString(2)
+                            : formatOrderValue(
+                              contractDetails?.claimAmount ??
+                                  parseInt(0)
+                              )}
                       </p>
                     </div>
                   </div>

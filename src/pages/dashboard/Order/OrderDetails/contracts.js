@@ -449,7 +449,13 @@ function Contracts(props) {
                         Claim Amount
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                        $0.00
+                      ${
+                           singleContract?.claimAmount === undefined
+                            ? parseInt(0).toLocaleString(2)
+                            : formatOrderValue(
+                              singleContract?.claimAmount ??
+                                  parseInt(0)
+                              )}
                       </p>
                     </div>
                   </div>
