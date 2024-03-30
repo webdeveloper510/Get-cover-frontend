@@ -45,6 +45,7 @@ function OrderList() {
   const [orderList, setOrderList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+  const [markLoader, setMarkLoarder] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [processOrderErrors, setProcessOrderErrors] = useState([]);
   const [errorList, SetErrorList] = useState([]);
@@ -96,17 +97,21 @@ function OrderList() {
   }, [isModalOpen1, timer]);
 
   const openModal1 = () => {
+    setMarkLoarder(true);
     console.log(orderId);
     if (message == "Would you like to Archive it?") {
       archiveOrders(orderId).then((res) => {
         setPrimaryMessage("Archive Order Successfully");
         setSecondaryMessage("You have successfully archive the order");
         // console.log(res);
+        setMarkLoarder(false);
         setTimer(3);
         setIsModalOpen1(true);
+        
       });
     } else {
       markPaid(orderId).then((res) => {
+        setMarkLoarder(false);
         if (res.code == 200) {
           setPrimaryMessage("Order Successfully Paid.");
           setSecondaryMessage("You have successfully marked the order as paid");
@@ -548,6 +553,15 @@ function OrderList() {
       </Modal>
 
       <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
+        {markLoader ? (
+          <>
+           <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+          </>
+        ) : (<> 
         <div className="text-center py-3">
           <img src={unassign} alt="email Image" className="mx-auto my-4" />
           <p className="text-3xl mb-0 mt-2 font-[800] px-10 text-light-black">
@@ -565,6 +579,7 @@ function OrderList() {
             <div className="col-span-1"></div>
           </Grid>
         </div>
+        </>)}
       </Modal>
 
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>

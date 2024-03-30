@@ -59,6 +59,10 @@ function UserList(props) {
   });
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
+  
+  useEffect(() => {
+    getUserList();
+}, []);
 
   const getUserList = async (data = {}) => {
     setLoading(true);
@@ -95,28 +99,11 @@ function UserList(props) {
       setSelectedAction(null);
     }
   };
-  useEffect(() => {
-    if (props.activeTab == "Users") {
-      getUserList();
-    } else {
-      getUserList();
-    }
-    //   {
-    //     // getAllClaims();
-    //   }
-  }, []);
-
-  useEffect(() => {
-    if (props.activeTab == "Users") {
-      getUserList();
-    }
-  }, [props.activeTab]);
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
