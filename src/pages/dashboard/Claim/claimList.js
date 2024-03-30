@@ -1550,7 +1550,7 @@ function ClaimList(props) {
             )}
           </div>
           <div>
-            {claimList?.result?.length == 0 ? (
+            {totalRecords === 0 && !loaderType ?(
               <>
                 <div className="text-center my-5">
                   <p>No records found.</p>
