@@ -56,6 +56,7 @@ function DealerAddOrder() {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [fileValues, setFileValues] = useState([]);
+  const [loading3, setLoading3] = useState(false);
   const [timer, setTimer] = useState(3);
   const [sendNotification, setSendNotification] = useState(true);
   const [numberOfOrders, setNumberOfOrders] = useState([]);
@@ -134,19 +135,30 @@ function DealerAddOrder() {
   };
 
   const getServicerList = async (data) => {
-    let arr = [];
-
+    console.log(data);
     const result = await getServicerListInOrdersforDealerPortal(data);
     console.log(result);
 
     const filteredServicers = result.result;
     console.log(filteredServicers);
-    filteredServicers?.map((res) => {
-      arr.push({
-        label: res.name,
-        value: res._id,
-      });
-    });
+
+    const isResellerIdEmpty = data?.resellerId === "";
+    formik.setFieldValue("servicerId", isResellerIdEmpty ? "" : "");
+
+    if (!isResellerIdEmpty) {
+      const matchedServicer = filteredServicers.find(
+        (res) => res._id === formik.values.servicerId
+      );
+      formik.setFieldValue(
+        "servicerId",
+        matchedServicer ? matchedServicer._id : ""
+      );
+    }
+
+    const arr = filteredServicers.map((res) => ({
+      label: res.name,
+      value: res._id,
+    }));
     setServicerData(arr);
   };
 
@@ -264,6 +276,7 @@ function DealerAddOrder() {
     // getProductList()
     getTermListData();
   }, [orderId, resellerId, customerId]);
+
   const orderDetails = async () => {
     const result = await orderDetailsById(orderId);
     console.log(result.result);
@@ -949,6 +962,7 @@ function DealerAddOrder() {
         resellerId: value,
       });
       formik.setFieldValue("customerId", "");
+
       let data = {
         resellerId: value,
       };
@@ -962,7 +976,6 @@ function DealerAddOrder() {
       customerList.length &&
         customerList.find((res) => {
           if (res.value == value) {
-            console.log("----", res.customerData.resellerId);
             if (res.customerData.resellerId != null);
             formik.setFieldValue("resellerId", res.customerData.resellerId);
             let data = {
@@ -988,6 +1001,8 @@ function DealerAddOrder() {
   ];
 
   const getCategoryList = async (data, index) => {
+    try {
+    setLoading3(true);
     const result = await getCategoryAndPriceBooksforDealerPortal(data);
     if (data.priceBookId !== "" && data.priceCatId === "") {
       formikStep3.setFieldValue(
@@ -1038,93 +1053,92 @@ function DealerAddOrder() {
         });
       }
     }
+  } catch (error) {
+    setLoading3(false);
+  } finally {
+    setLoading3(false);
+  }
   };
 
   const renderStep1 = () => {
     return (
       <>
-      {loading1 ? (<div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
-              </div>) : (
+        {loading1 ? (
+          <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div>
+        ) : (
           <form onSubmit={formik.handleSubmit}>
-          <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
-            <p className="text-2xl font-bold mb-4">Order Details</p>
-            <Grid>
-              <div className="col-span-6">
-                <Grid>
-                  {/* <div className="col-span-6">
-                    <SelectBoxWIthSerach
-                      label="Dealer Name"
-                      name="dealerId"
-                      className="!bg-[#fff]"
-                      onChange={handleSelectChange}
-                      value={formik.values?.dealerId}
-                      onBlur={formik.handleBlur}
-                      error={formik.touched.dealerId && formik.errors.dealerId}
-                      options={dealerList}
-                    />
+            <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+              <p className="text-2xl font-bold mb-4">Order Details</p>
+              <Grid>
+                <div className="col-span-6">
+                  <Grid>
+                    <div className="col-span-6">
+                      <SelectBoxWIthSerach
+                        // <Select
+                        label="Reseller Name"
+                        name="resellerId"
+                        placeholder=""
+                        className="!bg-white"
+                        isDisabled={resellerId}
+                        onChange={handleSelectChange}
+                        options={resellerList}
+                        value={
+                          resellerList.length == 0
+                            ? ""
+                            : formik.values?.resellerId
+                        }
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
 
-                    {formik.touched.dealerId && formik.errors.dealerId && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.dealerId}
-                      </div>
-                    )}
-                  </div> */}
-                  <div className="col-span-6">
-                    <SelectBoxWIthSerach
-                      // <Select
-                      label="Reseller Name"
-                      name="resellerId"
-                      placeholder=""
-                      className="!bg-white"
-                      isDisabled={resellerId}
-                      onChange={handleSelectChange}
-                      options={resellerList}
-                      value={
-                        resellerList.length == 0 ? "" : formik.values?.resellerId
-                      }
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
+                    <div className="col-span-6">
+                      {/* <Select */}
+                      <SelectBoxWIthSerach
+                        label="Customer Name"
+                        name="customerId"
+                        placeholder=""
+                        isDisabled={customerId}
+                        className="!bg-white"
+                        // onChange={handleSelectChange}
+                        onChange={handleSelectChange}
+                        options={customerList}
+                        value={
+                          customerList.length == 0
+                            ? ""
+                            : formik.values.customerId
+                        }
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-6">
+                      {/* <Select */}
+                      {console.log(
+                        servicerData.length,
+                        "length ",
+                        servicerData
+                      )}
+                      <SelectBoxWIthSerach
+                        label="Servicer Name"
+                        name="servicerId"
+                        placeholder=""
+                        className="!bg-white"
+                        onChange={handleSelectChange}
+                        // onChange={handleSelectChange}
+                        options={servicerData}
+                        value={
+                          servicerData.length == 0
+                            ? ""
+                            : formik.values.servicerId
+                        }
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
 
-                  <div className="col-span-6">
-                    {/* <Select */}
-                    <SelectBoxWIthSerach
-                      label="Customer Name"
-                      name="customerId"
-                      placeholder=""
-                      isDisabled={customerId}
-                      className="!bg-white"
-                      // onChange={handleSelectChange}
-                      onChange={handleSelectChange}
-                      options={customerList}
-                      value={
-                        customerList.length == 0 ? "" : formik.values.customerId
-                      }
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    {/* <Select */}
-                    {console.log(servicerData.length, "length ", servicerData)}
-                    <SelectBoxWIthSerach
-                      label="Servicer Name"
-                      name="servicerId"
-                      placeholder=""
-                      className="!bg-white"
-                      onChange={handleSelectChange}
-                      // onChange={handleSelectChange}
-                      options={servicerData}
-                      value={
-                        servicerData.length == 0 ? "" : formik.values.servicerId
-                      }
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-
-                  {/* <div className="col-span-6">
+                    {/* <div className="col-span-6">
                     <Select
                       label="Dealer Name"
                       name="dealerId"
@@ -1177,24 +1191,23 @@ function DealerAddOrder() {
                       onBlur={formik.handleBlur}
                     />
                   </div> */}
-                </Grid>
-              </div>
-            </Grid>
-          </div>
-          <div className="flex">
-            <Button
-              type="submit"
-              onClick={() => {
-                console.log(formik.values);
-              }}
-            >
-              Next
-            </Button>
-          </div>
+                  </Grid>
+                </div>
+              </Grid>
+            </div>
+            <div className="flex">
+              <Button
+                type="submit"
+                onClick={() => {
+                  console.log(formik.values);
+                }}
+              >
+                Next
+              </Button>
+            </div>
           </form>
-      ) }
+        )}
       </>
-    
     );
   };
 
@@ -1297,14 +1310,13 @@ function DealerAddOrder() {
   const renderStep3 = () => {
     return (
       <>
-        {/* {loading ? (
-              <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
-              </div>
-            ) : ( */}
-        <form onSubmit={formikStep3.handleSubmit}>
+        {loading3 ? (
+          <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div>
+        ) : (
           <div className="mb-3">
             {formikStep3?.values?.productsArray.map((data, index) => (
               <div
@@ -1374,38 +1386,50 @@ function DealerAddOrder() {
                           )}
                       </div>
                       <div className="col-span-6">
-                        <Select
-                          name={`productsArray[${index}].priceBookId`}
-                          label="Product Name"
-                          options={productNameOptions[index]?.data}
-                          required={true}
-                          className="!bg-[#fff]"
-                          placeholder=""
-                          value={
-                            formikStep3.values.productsArray[index].priceBookId
-                          }
-                          onBlur={formikStep3.handleBlur}
-                          onChange={handleSelectChange2}
-                          index={index}
-                          error={
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray[index].priceBookId
-                          }
-                        />
-                        {formikStep3.touched.productsArray &&
-                          formikStep3.touched.productsArray[index] &&
-                          formikStep3.touched.productsArray[index]
-                            .priceBookId && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formikStep3.errors.productsArray &&
-                                formikStep3.errors.productsArray[index] &&
-                                formikStep3.errors.productsArray[index]
-                                  .priceBookId}
-                            </div>
-                          )}
+                        {/* {productLoading ? (
+                        <div className=" w-full h-[60px] flex py-5">
+                          <div className="self-center mx-auto">
+                            <BeatLoader color="#333" />
+                          </div>
+                        </div>
+                      ) : ( */}
+                        <>
+                          <Select
+                            name={`productsArray[${index}].priceBookId`}
+                            label="Product Name"
+                            options={productNameOptions[index]?.data}
+                            required={true}
+                            className="!bg-[#fff]"
+                            placeholder=""
+                            value={
+                              formikStep3.values.productsArray[index]
+                                .priceBookId
+                            }
+                            onBlur={formikStep3.handleBlur}
+                            onChange={handleSelectChange2}
+                            index={index}
+                            error={
+                              formikStep3.values.productsArray &&
+                              formikStep3.values.productsArray[index] &&
+                              formikStep3.values.productsArray &&
+                              formikStep3.values.productsArray[index] &&
+                              formikStep3.values.productsArray[index]
+                                .priceBookId
+                            }
+                          />
+                          {formikStep3.touched.productsArray &&
+                            formikStep3.touched.productsArray[index] &&
+                            formikStep3.touched.productsArray[index]
+                              .priceBookId && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formikStep3.errors.productsArray &&
+                                  formikStep3.errors.productsArray[index] &&
+                                  formikStep3.errors.productsArray[index]
+                                    .priceBookId}
+                              </div>
+                            )}
+                        </>
+                        {/* )} */}
                       </div>
                       <div className="col-span-12">
                         <Input
@@ -1500,7 +1524,7 @@ function DealerAddOrder() {
                             setNumberOfOrders((prevFileValues) => {
                               const newArray = [...prevFileValues];
                               newArray[index] = enteredValue;
-                              console.log(newArray);
+
                               return newArray;
                             });
                             formikStep3.setFieldValue(
@@ -1567,13 +1591,14 @@ function DealerAddOrder() {
                                       index
                                     ].coverageStartDate
                                   ),
-                                  "yyyy-MM-dd"
+                                  "MM/dd/yyyy"
                                 )
                           }
                           onChange={(e) => {
                             formikStep3.handleChange(e);
                             const selectedDate = new Date(e.target.value);
-                          selectedDate.setDate(selectedDate.getDate() + 1);
+                            selectedDate.setDate(selectedDate.getDate() + 1);
+
                             const gmtDate = selectedDate.toISOString();
                             formikStep3.setFieldValue(
                               `productsArray[${index}].coverageStartDate`,
@@ -1876,7 +1901,9 @@ function DealerAddOrder() {
                           ref={fileInputRef.current[index]}
                           accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                           style={{ display: "none" }}
-                          onChange={(e) => handleFileSelect(e, index)}
+                          onChange={(e) => {
+                            handleFileSelect(e, index);
+                          }}
                           onClick={(event) => handleInputClick(index, event)}
                           disabled={
                             Boolean(numberOfOrders[index]) === true
@@ -1918,11 +1945,10 @@ function DealerAddOrder() {
             >
               Previous
             </Button>
-            <Button type="submit">Next</Button>
+            <Button onClick={formikStep3.handleSubmit}>Next</Button>
             {/* <Button className="ml-2" onClick={()=>openError()}>Error</Button> */}
           </div>
-        </form>
-        {/* )} */}
+        )}
       </>
     );
   };
@@ -2191,7 +2217,7 @@ function DealerAddOrder() {
                 <div className="col-span-4 flex justify-center pt-4">
                   <p className="text-base pr-3">Total Amount :</p>
                   <p className="font-bold text-lg">
-                  $
+                    $
                     {formatOrderValue(
                       Number(
                         calculateTotalAmount(formikStep3.values.productsArray)
@@ -2348,14 +2374,15 @@ function DealerAddOrder() {
           </p>
         </div>
       </div>
-      {loading ? (<div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
-              </div>) : ( <>
-                {renderStep()}
-              </>
-       )}
+      {loading ? (
+        <div className=" h-[400px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div>
+      ) : (
+        <>{renderStep()}</>
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
