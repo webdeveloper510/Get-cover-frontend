@@ -48,6 +48,7 @@ import {
   getClaimMessages,
   getPaidClaims,
   getUnpaidClaims,
+  markasPaidClaims,
 } from "../../../../services/claimServices";
 import { format } from "date-fns";
 import { useFormik } from "formik";
@@ -59,7 +60,6 @@ import Checkbox from "../../../../common/checkbox";
 import request from "../../../../assets/images/request.png";
 
 function ClaimList(props) {
-  console.log(props);
   const location = useLocation();
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
@@ -254,10 +254,13 @@ function ClaimList(props) {
     if (res.code === 200) {
       const resultData = res.result || {};
       const updatedClaimListCopy = { ...claimList };
-      console.log( resultData[`${name}`],updatedClaimListCopy.result[activeIndex][name])
-      
+      console.log(
+        resultData[`${name}`],
+        updatedClaimListCopy.result[activeIndex][name]
+      );
+
       if (updatedClaimListCopy.result) {
-        updatedClaimListCopy.result[activeIndex][name]=resultData[`${name}`]
+        updatedClaimListCopy.result[activeIndex][name] = resultData[`${name}`];
       }
       setClaimList(updatedClaimListCopy);
       statusObject({
@@ -288,30 +291,37 @@ function ClaimList(props) {
       setServicer(res.result.servicerId);
     });
   };
+
+  const markClaimsasPaid = async (data) => {
+    const apiResponse = await markasPaidClaims(data);
+    console.log(apiResponse);
+    if (apiResponse) {
+      getAllClaims();
+    }
+  };
   const getAllClaims = async (page = 1, rowsPerPage = 10) => {
     setLoaderType(true);
     setPageValue(page);
     let data = {
-      flag : props.activeTab === "Unpaid Claims" ? 0 : 1 ,
+      flag: props.activeTab === "Unpaid Claims" ? 0 : 1,
       page,
       pageLimit: rowsPerPage,
       ...formik1.values,
     };
-  
+
     let res;
     if (props.activeTab === "Unpaid Claims") {
       res = await getUnpaidClaims(props.id, data);
     } else {
       res = await getPaidClaims(props.id, data);
     }
-  
+
     console.log(res);
     setClaimList(res);
     setTotalRecords(res?.totalCount);
-  
+
     setLoaderType(false);
   };
-  
 
   const [recordsPerPage, setRecordsPerPage] = useState(10);
 
@@ -899,20 +909,28 @@ function ClaimList(props) {
   };
   const [checkboxStates, setCheckboxStates] = useState([]);
 
-  const handleCheckboxChange = (index) => {
-    const newCheckboxStates = [...checkboxStates];
-    newCheckboxStates[index] = !newCheckboxStates[index];
-    setCheckboxStates(newCheckboxStates);
+  const handleCheckboxChange = (id) => {
+    const isChecked = checkboxStates.includes(id);
+    if (isChecked) {
+      const newCheckboxStates = checkboxStates.filter(
+        (checkboxId) => checkboxId !== id
+      );
+      setCheckboxStates(newCheckboxStates);
+    } else {
+      setCheckboxStates([...checkboxStates, id]);
+    }
+    console.log("checkboxStates", checkboxStates);
   };
 
-  const handleSelectAll = () => {
-    const newCheckboxStates = Array.from({ length: claimList.result.length }, () => true);
-    setCheckboxStates(newCheckboxStates);
+  const handleSelectAll = (claimList) => {
+    const ids = claimList.result.map((item) => item._id);
+    const newCheckboxStates = [...checkboxStates, ...ids];
+    const uniqueCheckboxStates = Array.from(new Set(newCheckboxStates));
+    setCheckboxStates(uniqueCheckboxStates);
   };
 
   const handleUnselectAll = () => {
-    const newCheckboxStates = Array.from({ length: claimList.result.length }, () => false);
-    setCheckboxStates(newCheckboxStates);
+    setCheckboxStates([]);
   };
 
   const anyCheckboxChecked = () => {
@@ -924,38 +942,38 @@ function ClaimList(props) {
   return (
     <>
       <div className="mb-8 ml-3">
-      {
-        props && Object.keys(props).length === 0 && (
+        {props && Object.keys(props).length === 0 && (
           <>
             <Headbar />
-        <div className="flex mt-2">
-          <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9 mb-[3px]">Claim</p>
-            <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Claim </Link> /
-              </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1">
-                {" "}
-                Claim Listing
-              </li>
-            </ul>
-          </div>
-        </div>
+            <div className="flex mt-2">
+              <div className="pl-3">
+                <p className="font-bold text-[36px] leading-9 mb-[3px]">
+                  Claim
+                </p>
+                <ul className="flex self-center">
+                  <li className="text-sm text-neutral-grey font-Regular">
+                    <Link to={"/"}>Claim </Link> /
+                  </li>
+                  <li className="text-sm text-neutral-grey font-semibold ml-1">
+                    {" "}
+                    Claim Listing
+                  </li>
+                </ul>
+              </div>
+            </div>
 
-        <Link
-          to={"/addClaim"}
-          className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            Add Claim{" "}
-          </span>{" "}
-        </Link>
+            <Link
+              to={"/addClaim"}
+              className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+            >
+              {" "}
+              <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+              <span className="text-black ml-3 text-[14px] font-Regular">
+                Add Claim{" "}
+              </span>{" "}
+            </Link>
           </>
-        )
-      }
+        )}
 
         <div className="bg-white my-4 pb-4 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
@@ -1051,7 +1069,6 @@ function ClaimList(props) {
           </Grid>
 
           <div className="px-3 mt-5">
-         
             {loaderType == true ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
@@ -1060,22 +1077,38 @@ function ClaimList(props) {
               </div>
             ) : (
               <>
-             {anyCheckboxChecked() && (
-            <Grid>
-              <div className="col-span-3">
-              <p>{selectedCount} Of {totalCount}</p>
-              </div>
-              <div className="col-span-4"></div>
-              <div className="col-span-5">
-              <div className="flex justify-end">
-                  <Button className='!text-[14px] !py-[4px]' onClick={handleSelectAll}>Select All</Button>
-                  <Button className='mx-3 !text-[14px] !py-[4px]' onClick={() => openPay()}>Marked Paid</Button>
-                  <Button onClick={handleUnselectAll} className='!bg-[white] border-[1px] !text-light-black hover:!bg-light-black hover:!text-[white] transition-colors duration-300 focus:outline-none !text-[14px] !py-[4px]'>Unselect</Button>
-                </div>
-              </div>
-                
-            </Grid>
-              )}
+                {anyCheckboxChecked() && (
+                  <Grid>
+                    <div className="col-span-3">
+                      <p>
+                        {selectedCount} Of {totalCount}
+                      </p>
+                    </div>
+                    <div className="col-span-4"></div>
+                    <div className="col-span-5">
+                      <div className="flex justify-end">
+                        <Button
+                          className="!text-[14px] !py-[4px]"
+                          onClick={() => handleSelectAll(claimList)}
+                        >
+                          Select All
+                        </Button>
+                        <Button
+                          className="mx-3 !text-[14px] !py-[4px]"
+                          onClick={() => openPay()}
+                        >
+                          Marked Paid
+                        </Button>
+                        <Button
+                          onClick={handleUnselectAll}
+                          className="!bg-[white] border-[1px] !text-light-black hover:!bg-light-black hover:!text-[white] transition-colors duration-300 focus:outline-none !text-[14px] !py-[4px]"
+                        >
+                          Unselect
+                        </Button>
+                      </div>
+                    </div>
+                  </Grid>
+                )}
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
                   claimList?.result?.map((res, index) => {
@@ -1119,19 +1152,20 @@ function ClaimList(props) {
                                 />
                                 {props.activeTab == "Unpaid Claims" ? (
                                   <div key={index} className="self-center">
-                                  <input
+                                    <input
                                       id={`push-nothing-${index}`}
                                       name={`push-notifications-${index}`}
                                       type="checkbox"
                                       className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600 cursor-pointer"
-                                      onChange={() => handleCheckboxChange(index)}
-                                      checked={checkboxStates[index] || false}
+                                      onChange={() =>
+                                        handleCheckboxChange(res._id)
+                                      }
+                                      checked={checkboxStates.includes(res._id)}
                                     />
                                   </div>
                                 ) : (
                                   <></>
                                 )}
-                                 
                               </div>
                             </Grid>
                             <Grid className="!gap-0 bg-[#F9F9F9] border-[#474747] border-x">
@@ -1300,7 +1334,7 @@ function ClaimList(props) {
                                     <>
                                       <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                         <span className="self-center mr-8">
-                                            Claim Type :
+                                          Claim Type :
                                         </span>
                                         <Select
                                           name="claimType"
@@ -1315,7 +1349,7 @@ function ClaimList(props) {
                                       </p>
                                       <p className="text-light-green mb-2 text-[11px] font-Regular flex self-center">
                                         <span className="self-center  mr-3">
-                                            Damage Code :
+                                          Damage Code :
                                         </span>
                                         <Select
                                           name="claimType"
@@ -1476,8 +1510,8 @@ function ClaimList(props) {
                                   </p>
                                   <div
                                     className={` overflow-y-scroll Diagnosis ${
-                                      res?.receiptImage != ''
-                                        ? "h-[130px] max-h-[130px]" 
+                                      res?.receiptImage != ""
+                                        ? "h-[130px] max-h-[130px]"
                                         : "h-[164px] max-h-[164px]"
                                     }`}
                                   >
@@ -1528,14 +1562,16 @@ function ClaimList(props) {
                               </div>
                             </Grid>
                             {res.claimFile == "Rejected" && (
-                              <div className="px-3 mb-4"> 
+                              <div className="px-3 mb-4">
                                 <Grid>
                                   <div className="col-span-12">
-                                    <p className="text-white"><b>Reason For Rejection : </b> <span>{res.reason}</span></p>
+                                    <p className="text-white">
+                                      <b>Reason For Rejection : </b>{" "}
+                                      <span>{res.reason}</span>
+                                    </p>
                                   </div>
                                 </Grid>
                               </div>
-                            
                             )}
                           </div>
                         </Grid>
@@ -1564,7 +1600,6 @@ function ClaimList(props) {
           </div>
         </div>
       </div>
-   
 
       <Modal isOpen={isPayOpen} onClose={closePay}>
         <Button
@@ -1576,33 +1611,42 @@ function ClaimList(props) {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-          <div className="p-3 text-center">
+        <div className="p-3 text-center">
           <img src={request} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-              {" "}
-              <span className="text-light-black"> Marked As Paid  </span>
-            </p>
-              <p className="text-neutral-grey text-base font-medium mt-2 ">
-              Do you really want to Marked as Paid ?
-              </p>
-                <div className="mt-4">
-                  <Grid>
-                  <div className="col-span-2"></div>
-                    <div className="col-span-2">
-                      <Button >Yes</Button>
-                    </div>
-                    <div className="col-span-4"></div>
-                    <div className="col-span-2">
-                      <Button>No</Button>
-                    </div>
-                    <div className="col-span-2"></div>
-                  </Grid>
-                </div>
+            {" "}
+            <span className="text-light-black"> Marked As Paid </span>
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2 ">
+            Do you really want to Marked as Paid ?
+          </p>
+          <div className="mt-4">
+            <Grid>
+              <div className="col-span-2"></div>
+              <div className="col-span-2">
+                <Button
+                  onClick={() => {
+                    markClaimsasPaid(checkboxStates);
+                  }}
+                >
+                  Yes
+                </Button>
+              </div>
+              <div className="col-span-4"></div>
+              <div className="col-span-2">
+                <Button>No</Button>
+              </div>
+              <div className="col-span-2"></div>
+            </Grid>
           </div>
+        </div>
       </Modal>
 
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
-        <Button onClick={closeReject}  className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+        <Button
+          onClick={closeReject}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
           <img
             src={Cross}
             className="w-full h-full text-black rounded-full p-0"
@@ -1614,13 +1658,13 @@ function ClaimList(props) {
           {!showForm ? (
             <Grid>
               <div className="col-span-12">
-              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-              {" "}
-              <span className="text-light-black"> Reject </span>
-            </p>
-              <p className="text-neutral-grey text-base font-medium mt-2 ">
-              Do you really want to Reject the Claim ?
-              </p>
+                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                  {" "}
+                  <span className="text-light-black"> Reject </span>
+                </p>
+                <p className="text-neutral-grey text-base font-medium mt-2 ">
+                  Do you really want to Reject the Claim ?
+                </p>
               </div>
               <div className="col-span-1"></div>
               <div className="col-span-5">
@@ -2232,4 +2276,4 @@ function ClaimList(props) {
   );
 }
 
-export default ClaimList
+export default ClaimList;

@@ -106,13 +106,17 @@ export const getClaimList = async (data) => {
   }
 };
 
-export const getClaimListForDealer = async (id,data) => {
+export const getClaimListForDealer = async (id, data) => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.post(`${url}/dealer/getDealerClaims/${id}`, data, {
-      headers,
-    });
+    const response = await axios.post(
+      `${url}/dealer/getDealerClaims/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -120,40 +124,34 @@ export const getClaimListForDealer = async (id,data) => {
   }
 };
 
-export const getUnpaidClaims = async (id,data) => {
+export const getUnpaidClaims = async (id, data) => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.post(`${url}/servicer/getPaidUnpaidClaims/${id}`, data, {
-      headers,
-    });
+    const response = await axios.post(
+      `${url}/servicer/getPaidUnpaidClaims/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
     throw error;
   }
 };
-export const getPaidClaims = async (id,data) => {
+export const getPaidClaims = async (id, data) => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.post(`${url}/servicer/getPaidUnpaidClaims/${id}`, data, {
-      headers,
-    });
-
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const getClaimListForReseller = async (id,data) => {
-  const headers = createHeaders();
-
-  try {
-    const response = await axios.post(`${url}/reseller/getResellerClaims/${id}`, data, {
-      headers,
-    });
+    const response = await axios.post(
+      `${url}/servicer/getPaidUnpaidClaims/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -161,13 +159,17 @@ export const getClaimListForReseller = async (id,data) => {
   }
 };
 
-export const getClaimListForCustomer = async (id,data) => {
+export const getClaimListForReseller = async (id, data) => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.post(`${url}/customer/customerClaims/${id}`, data, {
-      headers,
-    });
+    const response = await axios.post(
+      `${url}/reseller/getResellerClaims/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -175,13 +177,17 @@ export const getClaimListForCustomer = async (id,data) => {
   }
 };
 
-export const getClaimListForServicer = async (id,data) => {
+export const getClaimListForCustomer = async (id, data) => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.post(`${url}/servicer/getServicerClaims/${id}`, data, {
-      headers,
-    });
+    const response = await axios.post(
+      `${url}/customer/customerClaims/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -189,6 +195,23 @@ export const getClaimListForServicer = async (id,data) => {
   }
 };
 
+export const getClaimListForServicer = async (id, data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(
+      `${url}/servicer/getServicerClaims/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const addClaimsRepairParts = async (id, data) => {
   const headers = createHeaders();
@@ -229,6 +252,25 @@ export const editClaimServicerValue = async (id, data) => {
     const response = await axios.put(`${url}/claim/editServicer/${id}`, data, {
       headers,
     });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const markasPaidClaims = async (data) => {
+  const headers = createHeaders();
+  let claimIds = data;
+
+  try {
+    const response = await axios.post(
+      `${url}/servicer/paidUnpaidClaim`,
+      { claimIds },
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
