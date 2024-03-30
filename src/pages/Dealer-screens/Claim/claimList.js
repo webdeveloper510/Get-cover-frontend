@@ -1113,7 +1113,7 @@ function DealerClaimList() {
                     </div>
                     
                       <div className='text-right'>
-                    <Button className='!text-sm'>+ Add More</Button>
+                         <Button className='!text-sm'>+ Add More</Button>
                       </div>
                    
                   </div>
