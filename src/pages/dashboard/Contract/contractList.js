@@ -107,6 +107,7 @@ function ContractList(props) {
       setContractList(result.result);
       setTotalRecords(result?.totalCount);
     } catch (error) {
+      setTotalRecords(0);
       console.error("Error fetching contracts:", error);
     } finally {
       setLoading(false);
@@ -422,7 +423,7 @@ function ContractList(props) {
               )}
             </>
 
-            {totalRecords === 0 && !loading ? (
+            {totalRecords == 0 && !loading ? (
               <div className="text-center my-5">
                 <p>No records found</p>
               </div>

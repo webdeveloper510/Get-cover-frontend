@@ -212,7 +212,7 @@ function OrderList() {
 
   const markasPaid = async (row) => {
     setMessage(
-      `Would you prefer to make the full payment $ ${row.orderAmount} ?`
+      `Would you prefer to make the full payment $ ${row.orderAmount-row.paidAmount} ?`
     );
     SetOrderId(row._id);
     setIsArchiveOpen(true);

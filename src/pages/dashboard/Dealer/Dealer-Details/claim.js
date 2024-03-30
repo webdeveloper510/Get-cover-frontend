@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-
+import Primary from "../../../../assets/images/SetPrimary.png";
 // Media Includes
 import AddDealer from "../../../../assets/images/dealer-book.svg";
 import DeleteImage from "../../../../assets/images/icons/Delete.svg";
@@ -68,6 +68,8 @@ function ClaimList(props) {
   const [loading, setLoading] = useState(false);
   const [pageValue, setPageValue] = useState(1);
   const [modelLoading, setModelLoading] = useState(false);
+  const [markLoader, setMarkLoader] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -156,7 +158,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     let intervalId;
-    if (isAttachmentsOpen && timer > 0) {
+    if (isAttachmentsOpen || isSuccessOpen && timer > 0) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
@@ -164,11 +166,12 @@ function ClaimList(props) {
 
     if (timer === 0) {
       setIsAttachmentsOpen(false);
+      setIsSuccessOpen(false);
     }
     return () => {
       clearInterval(intervalId);
     };
-  }, [isAttachmentsOpen, timer]);
+  }, [isAttachmentsOpen,isSuccessOpen, timer]);
 
   const handleSelectChange2 = (selectedValue, value) => {
     formik1.setFieldValue(selectedValue, value);
@@ -294,10 +297,14 @@ function ClaimList(props) {
 
   const markClaimsasPaid = async (data) => {
     const apiResponse = await markasPaidClaims(data);
+    setMarkLoader(true);
+    setIsPayOpen(false)
+    setIsSuccessOpen(true);
     console.log(apiResponse);
     if (apiResponse) {
       getAllClaims();
     }
+    setMarkLoader(false);
   };
   const getAllClaims = async (page = 1, rowsPerPage = 10) => {
     setLoaderType(true);
@@ -362,6 +369,11 @@ function ClaimList(props) {
   };
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
+  };
+
+  const closeModal1 = () => {
+    getAllClaims();
+    setIsSuccessOpen(false);
   };
 
   const openDisapproved = () => {
@@ -1611,37 +1623,62 @@ function ClaimList(props) {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-        <div className="p-3 text-center">
-          <img src={request} alt="email Image" className="mx-auto" />
+          {markLoader ? (
+            <>
+            <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+              </>
+          ) : (
+             <div className="p-3 text-center">
+             <img src={request} alt="email Image" className="mx-auto" />
+             <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+               {" "}
+               <span className="text-light-black"> Marked As Paid </span>
+             </p>
+             <p className="text-neutral-grey text-base font-medium mt-2 ">
+               Do you really want to Marked as Paid ?
+             </p>
+             <div className="mt-4">
+               <Grid>
+                 <div className="col-span-2"></div>
+                 <div className="col-span-2">
+                   <Button
+                     onClick={() => {
+                       markClaimsasPaid(checkboxStates);
+                     }}
+                   >
+                     Yes
+                   </Button>
+                 </div>
+                 <div className="col-span-4"></div>
+                 <div className="col-span-2">
+                   <Button>No</Button>
+                 </div>
+                 <div className="col-span-2"></div>
+               </Grid>
+             </div>
+           </div>
+          )}
+       
+      </Modal>
+      <Modal isOpen={isSuccessOpen} onClose={closeModal1}>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto my-4" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            {" "}
-            <span className="text-light-black"> Marked As Paid </span>
+              
+               <span className="text-light-black"> Claim Successfully Paid </span>
+             </p>
+             <p className="text-neutral-grey text-base font-medium mt-2 ">
+             You have successfully marked the Claim as paid
+             </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting you on Claim List Page {timer} seconds.
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2 ">
-            Do you really want to Marked as Paid ?
-          </p>
-          <div className="mt-4">
-            <Grid>
-              <div className="col-span-2"></div>
-              <div className="col-span-2">
-                <Button
-                  onClick={() => {
-                    markClaimsasPaid(checkboxStates);
-                  }}
-                >
-                  Yes
-                </Button>
-              </div>
-              <div className="col-span-4"></div>
-              <div className="col-span-2">
-                <Button>No</Button>
-              </div>
-              <div className="col-span-2"></div>
-            </Grid>
-          </div>
         </div>
       </Modal>
-
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
         <Button
           onClick={closeReject}
@@ -2135,15 +2172,6 @@ function ClaimList(props) {
         </div>
       </Modal>
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
-        <Button
-          onClick={closeAttachments}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-[#333434]"
-        >
-          <img
-            src={Cross}
-            className="w-full h-full text-black rounded-full p-0"
-          />
-        </Button>
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
