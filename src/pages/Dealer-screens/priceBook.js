@@ -258,12 +258,14 @@ function DealerPriceBook(props) {
   const formik = useFormik({
     initialValues: {
       name: "",
-      status: "",
+      term: "",
+      priceType: "",
       category: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
-      status: Yup.boolean(),
+      term: Yup.string(),
+      priceType: Yup.string(),
       category: Yup.string(),
     }),
     onSubmit: (values) => {
