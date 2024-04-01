@@ -35,6 +35,7 @@ function ContractList(props) {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [contractList, setContractList] = useState([]);
+  const [contractCount, setContractCount] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
   const [pageValue, setPageValue] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
@@ -103,7 +104,7 @@ function ContractList(props) {
           : props?.flag == "reseller" && props?.id
           ? await getContractsforReseller(props.id, data)
           : await getContracts(orderId, data);
-
+      setContractCount(result.contractCount)
       setContractList(result.result);
       setTotalRecords(result?.totalCount);
     } catch (error) {
@@ -423,7 +424,7 @@ function ContractList(props) {
               )}
             </>
 
-            {totalRecords == 0 && !loading ? (
+            {totalRecords == 0 || contractCount == 0 && !loading ? (
               <div className="text-center my-5">
                 <p>No records found</p>
               </div>
