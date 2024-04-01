@@ -22,6 +22,7 @@ import {
   getUserListByDealerId,
   userDetailsById,
   updateUserDetailsById,
+  UserDetailAccount,
 } from "../../services/userServices";
 import Select from "../../common/select";
 import { getCustomerUsersById } from "../../services/customerServices";
@@ -36,12 +37,13 @@ import dealer from "../../assets/images/Dealer/Name.svg";
 import RadioButton from "../../common/radio";
 import Tabs from "../../common/tabs";
 import PasswordInput from "../../common/passwordInput";
-import { getSuperAdminMembers } from "../../services/extraServices";
+import { addSuperAdminMembers, getSuperAdminMembers } from "../../services/extraServices";
 
 function DealerUser() {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
+  const [loginDetails, setLoginDetails] = useState([]);
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
@@ -70,6 +72,11 @@ function DealerUser() {
     console.log(result.result);
     setUserList(result.result);
   };
+  const getLoginUser = async () => {
+    const result = await UserDetailAccount("", {});
+    console.log(result.result,'------------------Login--------------->>>>');
+    setLoginDetails(result.result);
+  };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       // Close the dropdown if the click is outside of it
@@ -78,7 +85,10 @@ function DealerUser() {
   };
   useEffect(() => {
     getUserList();
+    getLoginUser();
   }, []);
+
+  
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
@@ -182,16 +192,23 @@ function DealerUser() {
       console.error("Error in handleStatusChange:", error);
     }
   };
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
       firstName: Yup.string()
         .required("Required")
+        .transform((originalValue) => originalValue.trim())
         .max(30, "Must be exactly 30 characters"),
       lastName: Yup.string()
         .required("Required")
+        .transform((originalValue) => originalValue.trim())
         .max(30, "Must be exactly 30 characters"),
+      email: Yup.string()
+        .required("Required")
+        .matches(emailValidationRegex, "Invalid email address")
+        .transform((originalValue) => originalValue.trim()),
       phoneNumber: Yup.string()
         .required("Required")
         .min(10, "Must be at least 10 characters")
@@ -202,7 +219,7 @@ function DealerUser() {
     onSubmit: async (values) => {
       console.log("Form values:", values);
       setLoading(true);
-      const result = await updateUserDetailsById(values);
+      const result = await addSuperAdminMembers(values);
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
@@ -210,16 +227,14 @@ function DealerUser() {
         SetSecondaryText("user edited successfully ");
         openModal();
         toggleFlag();
-        // setIsModalOpen3(true);
-
-        // setError(result.message);
         setTimer(3);
         getUserList();
       } else {
         setLoading(false);
-        // setError(false);
-        // setIsModalOpen(true);
-        // setTimer(3);
+        SetPrimaryText("Error ");
+        SetSecondaryText(result.message);
+        SetIsModalOpen(true);
+        setTimer(3);
       }
       closeModal2();
     },
@@ -481,7 +496,7 @@ function DealerUser() {
                       Account Name
                     </p>
                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                      Nikhil Reseller
+                     {loginDetails.name}
                     </p>
                   </div>
                 </div>
@@ -496,7 +511,10 @@ function DealerUser() {
                       Address
                     </p>
                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                      Hno 353, Kurali, Georgia 140101, USA
+                    {loginDetails?.street},{" "}
+                    {loginDetails?.city},{" "}
+                    {loginDetails?.state}{" "}
+                    {loginDetails?.zip}, {loginDetails?.country}
                     </p>
                   </div>
                 </div>
@@ -760,17 +778,17 @@ function DealerUser() {
               </div>
               <div className="col-span-6">
                 <Input
-                  type="text"
+                  type="email"
                   name="email"
                   label="Email"
                   className="!bg-[#fff]"
                   required={true}
                   placeholder=""
                   maxLength={"30"}
-                  value={formik.values.position}
+                  value={formik.values.email}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  error={formik.touched.position && formik.errors.position}
+                  error={formik.touched.email && formik.errors.email}
                 />
                 {/* {formik.touched.position && formik.errors.position && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
