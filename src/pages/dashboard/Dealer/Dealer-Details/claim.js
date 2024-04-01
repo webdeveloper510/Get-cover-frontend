@@ -2313,16 +2313,17 @@ function ClaimList(props) {
                   value={formik1.values.repairStatus}
                 />
               </div>
+              {props.activeTab == "Unpaid Claims" &&
               <div className="col-span-6">
                 <Select
                   options={days}
                   name="noOfDays"
-                  label="No Of Days"
+                  label="No Of Days Passed"
                   className="!bg-[#fff]"
                   onChange={handleSelectChange2}
                   value={formik1.values.noOfDays}
                 />
-              </div>
+              </div>}
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search
