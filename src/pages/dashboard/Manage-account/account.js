@@ -681,10 +681,10 @@ function Account() {
                   initialValues={initialValues}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setSubmitting }) => {
-                    // Handle form submission here
-                    // console.log(values);
+                   
                     editDetail(values);
                     setSubmitting(false);
+                    fetchUserDetails()
                   }}
                 >
                   {({ isSubmitting }) => (

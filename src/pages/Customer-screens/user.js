@@ -495,8 +495,8 @@ function CustomerUser() {
                       Address
                     </p>
                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                    {details?.dealer.street} {", "}{details?.dealer.city}{", "}{details?.dealer.state}{" "}{details?.dealer.zip}
-                    {", "}{details?.dealer.country}
+                    {details?.dealer?.street} {", "}{details?.dealer?.city}{", "}{details?.dealer?.state}{" "}{details?.dealer?.zip}
+                    {", "}{details?.dealer?.country}
                     </p>
                   </div>
                 </div>
