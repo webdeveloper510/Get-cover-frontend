@@ -353,6 +353,94 @@ function AddOrder() {
     }
   };
 
+  const formik4 = useFormik({
+    initialValues: {
+      paymentStatus: "Unpaid",
+      paidAmount: 0.0,
+      pendingAmount: 0.0,
+    },
+    validationSchema: Yup.object().shape({
+      paidAmount: Yup.number().when(["paymentStatus", "type"], {
+        is: (status, type) => status === "PartlyPaid" && type !== "Edit",
+        then: (schema) =>
+          schema
+            .min(1, "Paid amount cannot be less than One")
+            .max(
+              calculateTotalAmount(formikStep3.values.productsArray),
+              "Paid amount cannot be more than the total amount"
+            )
+            .required("Paid Amount is required"),
+        otherwise: (schema) => schema.notRequired(),
+      }),
+    }),
+
+    onSubmit: (values) => {
+      setLoading2(true);
+      console.log(loading2, "===========================================>>");
+      console.log(values);
+      const arr = [];
+      formikStep3.values.productsArray.map((res, index) => {
+        arr.push(res.file);
+      });
+      const totalAmount = calculateTotalAmount(
+        formikStep3.values.productsArray
+      );
+
+      const data = {
+        ...formik.values,
+        ...formikStep2.values,
+        ...formikStep3.values,
+        paidAmount: values.paidAmount,
+        file: arr,
+        dueAmount: values.pendingAmount,
+        sendNotification: sendNotification,
+        paymentStatus: values.paymentStatus,
+        orderAmount: parseFloat(totalAmount),
+      };
+      const formData = new FormData();
+      if (orderId != undefined) {
+        editOrder(orderId, data).then((res) => {
+          if (res.code == 200) {
+            setLoading2(false);
+            console.log(
+              loading2,
+              "===========================================>>1"
+            );
+            openModal();
+          } else {
+            setLoading2(false);
+            console.log(
+              loading2,
+              "====================2=======================>>"
+            );
+            setError(res.message);
+          }
+        });
+      } else {
+        console.log(data);
+
+        addOrder(data).then((res) => {
+          if (res.code == 200) {
+            setLoading2(false);
+            console.log(
+              loading2,
+              "======================3=====================>>"
+            );
+            openModal();
+
+            //  navigate('/orderList')
+          } else {
+            setLoading2(false);
+            console.log(
+              loading2,
+              "=====================4======================>>"
+            );
+            setError(res.message);
+          }
+        });
+      }
+    },
+  });
   const orderDetails = async () => {
     const result = await orderDetailsById(orderId);
     getResellerList(result?.result?.dealerId);
@@ -397,7 +485,7 @@ function AddOrder() {
         return newArray;
       });
     });
-    console.log(result.result);
+    console.log(result.result.paidAmount);
     orderDetail(result.result);
     formikStep3.setValues({
       ...formikStep3.values,
@@ -426,7 +514,11 @@ function AddOrder() {
     formik.setFieldValue("dealerId", result?.result?.dealerId);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
     formik.setFieldValue("customerId", result?.result?.customerId);
-    formik4.setFieldValue("pendingAmount", result.result.dueAmount.toFixed(2));
+    formik4.setFieldValue(
+      "pendingAmount",
+      result.result.orderAmount - result.result.paidAmount
+    );
+
     formik4.setFieldError("paidAmount", "");
     formikStep2.setFieldValue(
       "dealerPurchaseOrder",
@@ -438,6 +530,7 @@ function AddOrder() {
     );
     formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
     formik4.setFieldValue("paymentStatus", result?.result?.paymentStatus);
+    formik4.setFieldValue("paidAmount", result.result.paidAmount);
     // setLoading1(false);
   };
   // useEffect(() => {
@@ -814,95 +907,6 @@ function AddOrder() {
     return totalAmount.toFixed(2);
   };
 
-  const formik4 = useFormik({
-    initialValues: {
-      paymentStatus: "Unpaid",
-      paidAmount: "",
-      pendingAmount: 0.0,
-    },
-    validationSchema: Yup.object().shape({
-      paidAmount: Yup.number().when(["paymentStatus", "type"], {
-        is: (status, type) => status === "PartlyPaid" && type !== "Edit",
-        then: (schema) =>
-          schema
-            .min(1, "Paid amount cannot be less than One")
-            .max(
-              calculateTotalAmount(formikStep3.values.productsArray),
-              "Paid amount cannot be more than the total amount"
-            )
-            .required("Paid Amount is required"),
-        otherwise: (schema) => schema.notRequired(),
-      }),
-    }),
-
-    onSubmit: (values) => {
-      setLoading2(true);
-      console.log(loading2, "===========================================>>");
-      console.log(values);
-      const arr = [];
-      formikStep3.values.productsArray.map((res, index) => {
-        arr.push(res.file);
-      });
-      const totalAmount = calculateTotalAmount(
-        formikStep3.values.productsArray
-      );
-
-      const data = {
-        ...formik.values,
-        ...formikStep2.values,
-        ...formikStep3.values,
-        paidAmount: values.paidAmount,
-        file: arr,
-        dueAmount: values.pendingAmount,
-        sendNotification: sendNotification,
-        paymentStatus: values.paymentStatus,
-        orderAmount: parseFloat(totalAmount),
-      };
-      const formData = new FormData();
-      if (orderId != undefined) {
-        editOrder(orderId, data).then((res) => {
-          if (res.code == 200) {
-            setLoading2(false);
-            console.log(
-              loading2,
-              "===========================================>>1"
-            );
-            openModal();
-          } else {
-            setLoading2(false);
-            console.log(
-              loading2,
-              "====================2=======================>>"
-            );
-            setError(res.message);
-          }
-        });
-      } else {
-        console.log(data);
-
-        addOrder(data).then((res) => {
-          if (res.code == 200) {
-            setLoading2(false);
-            console.log(
-              loading2,
-              "======================3=====================>>"
-            );
-            openModal();
-
-            //  navigate('/orderList')
-          } else {
-            setLoading2(false);
-            console.log(
-              loading2,
-              "=====================4======================>>"
-            );
-            setError(res.message);
-          }
-        });
-      }
-    },
-  });
-
   const handlePaymentStatusChange = (e) => {
     const newPaymentStatus = e.target.value;
     if (newPaymentStatus === "Unpaid") {
@@ -914,19 +918,22 @@ function AddOrder() {
     } else if (newPaymentStatus === "Paid") {
       if (type === "Edit") {
         formik4.setFieldValue("paidAmount", order.dueAmount);
+        formik4.setFieldValue("pendingAmount", 0.0);
       } else {
         formik4.setFieldValue(
           "paidAmount",
           calculateTotalAmount(formikStep3.values.productsArray)
         );
+        formik4.setFieldValue("pendingAmount", 0.0);
       }
 
-      formik4.setFieldValue("pendingAmount", 0.0);
+      //
     } else if (newPaymentStatus === "PartlyPaid") {
       if (type === "Edit") {
+        const pendingAmount = order.orderAmount - order.paidAmount;
         formik4.setFieldError("paidAmount", "");
-        formik4.setFieldValue("paidAmount", 0);
-        formik4.setFieldValue("pendingAmount", order.dueAmount.toFixed(2));
+        formik4.setFieldValue("paidAmount", order.paidAmount);
+        formik4.setFieldValue("pendingAmount", pendingAmount);
       } else {
         formik4.setFieldValue("paidAmount", 0);
         formik4.setFieldError("paidAmount", "");
@@ -1194,12 +1201,12 @@ function AddOrder() {
       }
     }
     if (type != "Edit") {
-      formik4.setFieldValue(
-        "pendingAmount",
-        calculateTotalAmount(formikStep3.values.productsArray)
-      );
+      // formik4.setFieldValue(
+      //   "pendingAmount",
+      //   calculateTotalAmount(formikStep3.values.productsArray)
+      // );
     }
-    formik4.setFieldValue("paidAmount", 0.0);
+    // formik4.setFieldValue("paidAmount", 0.0);
   }, [formikStep3.values.productsArray]);
 
   const handleSelectChange1 = (name, value) => {
@@ -1328,10 +1335,10 @@ function AddOrder() {
   };
 
   const calculatePendingAmount = (paidAmount) => {
-    console.log(paidAmount);
+    console.log(order.orderAmount);
     const totalAmount =
       type === "Edit"
-        ? order.dueAmount
+        ? order.orderAmount
         : calculateTotalAmount(formikStep3.values.productsArray);
     const pendingAmount = totalAmount - parseFloat(paidAmount || 0);
     formik4.setFieldValue("pendingAmount", pendingAmount.toFixed(2));
