@@ -925,9 +925,7 @@ function DealerDetails() {
                   </div>
                 </div>
               </div>
-              {isStatus == false ? (
-                ""
-              ) : (
+              {isStatus == true && (
                 <>
                   {activeTab !== "Contracts" ? (
                     <div
