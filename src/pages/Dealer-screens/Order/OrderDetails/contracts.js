@@ -25,6 +25,7 @@ function Contracts(props) {
   const [loading, setLoading] = useState(false);
   const [singleContract, setSingleContract] = useState([]);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
+  const [pageValue, setPageValue] = useState(1);
 
   const handlePageChange = async (page, rowsPerPage) => {
     console.log(page, rowsPerPage);
@@ -48,6 +49,7 @@ function Contracts(props) {
   };
 
   const getOrdersContracts = async (page = 1, rowsPerPage = 10) => {
+    setPageValue(page);
     let data = {
       page: page,
       pageLimit: rowsPerPage,
@@ -56,7 +58,7 @@ function Contracts(props) {
     try {
       const result = await getContracts(props.orderId, data);
       setContractDetails(result);
-      setTotalRecords(result?.contractCount);
+      setTotalRecords(result?.totalCount);
       console.log(result);
     } catch (error) {
       console.error("Error fetching contracts:", error);
@@ -102,6 +104,9 @@ function Contracts(props) {
     getContractDetails(data);
   };
 
+  useEffect(() => {
+    getOrdersContracts(1, 10);
+  }, []);
   const getContractDetails = async (data) => {
     setLoading(true);
     const result = await getContractValues(data);
@@ -267,12 +272,19 @@ function Contracts(props) {
               </>
             )}
           </div>
-          <CustomPagination
-            totalRecords={contractDetails?.contractCount}
-            rowsPerPageOptions={[10, 20, 50, 100]}
-            onPageChange={handlePageChange}
-            setRecordsPerPage={setRecordsPerPage}
-          />
+          {totalRecords === 0 && !loading ? (
+              <div className="text-center my-5">
+                <p>No records found</p>
+              </div>
+            ) : (
+              <CustomPagination
+                totalRecords={totalRecords}
+                page={pageValue}
+                rowsPerPageOptions={[10, 20, 50, 100]}
+                onPageChange={handlePageChange}
+                setRecordsPerPage={setRecordsPerPage}
+              />
+            )}
         </div>
       </div>
 
