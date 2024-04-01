@@ -248,6 +248,7 @@ function DealerDetails() {
   useEffect(() => {
     getUserList();
   }, []);
+  console.log(isStatus , '----------------isStatus--------->>')
 
   const dealerData = async (showLoader) => {
     if (!showLoader) {
@@ -257,7 +258,7 @@ function DealerDetails() {
     const result = await getDealersDetailsByid(id?.id);
     setDealerDetails(result.result[0]);
     console.log(result.result[0].dealerData);
-    setIsStatus(result?.result[0]?.status);
+    setIsStatus(result?.result[0]?.dealerData.accountStatus);
     setInitialFormValues({
       accountName: result?.result[0]?.dealerData?.name,
       oldName: result?.result[0]?.dealerData?.name,

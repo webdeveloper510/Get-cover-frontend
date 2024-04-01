@@ -34,12 +34,12 @@ export const getPriceBookForDealer = async () => {
   }
 };
 
-export const priceBookFilter = async (filterData = {}) => {
+export const priceBookFilter = async (data) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
       `${url}/dealerPortal/getAllPriceBooksByFilter`,
-      { filterData },
+      data,
       { headers }
     );
 
