@@ -20,6 +20,7 @@ import Sendto from "../../../../assets/images/double-arrow.png";
 import AddItem from "../../../../assets/images/icons/addItem.svg";
 import model from "../../../../assets/images/icons/ProductModel.svg";
 import serial from "../../../../assets/images/icons/ProductSerial.svg";
+import Money from "../../../../assets/images/icons/money.svg";
 import Manufacturer from "../../../../assets/images/icons/ProductManufacturer.svg";
 import Edit from "../../../../assets/images/icons/editIcon.svg";
 import download from "../../../../assets/images/download.png";
@@ -64,6 +65,7 @@ function ClaimList(props) {
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
+  const [isCheckBox, setIsCheckbox] = useState(false);
   const [loaderType, setLoaderType] = useState(false);
   const [loading, setLoading] = useState(false);
   const [pageValue, setPageValue] = useState(1);
@@ -998,7 +1000,7 @@ function ClaimList(props) {
                   <Grid className="!gap-1">
                     <div className="col-span-9 self-center">
                       <Grid className="!gap-2">
-                        <div className="col-span-3 self-center">
+                        <div className="col-span-4 self-center">
                           <Input
                             name="contractId"
                             type="text"
@@ -1009,7 +1011,7 @@ function ClaimList(props) {
                             {...formik1.getFieldProps("contractId")}
                           />
                         </div>
-                        <div className="col-span-3 self-center">
+                        <div className="col-span-4 self-center">
                           <Input
                             name="claimId"
                             type="text"
@@ -1020,19 +1022,19 @@ function ClaimList(props) {
                             {...formik1.getFieldProps("claimId")}
                           />
                         </div>
-                        <div className="col-span-3 self-center">
+                        <div className="col-span-4 self-center">
                           <SelectSearch
-                            name="customerStatusValue"
+                            name="claimStatus"
                             label=""
-                            options={customerValue}
-                            OptionName="Customer Status"
+                            options={Claimstatus}
+                            OptionName="Claim Status"
                             className="!text-[14px] !bg-[#f7f7f7]"
                             className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                             onChange={handleSelectChange2}
-                            value={formik1.values.customerStatusValue}
+                            value={formik1.values.claimStatus}
                           />
                         </div>
-                        <div className="col-span-3 self-center">
+                        {/* <div className="col-span-3 self-center">
                           <SelectSearch
                             name="repairStatus"
                             className="!text-[14px] !bg-[#f7f7f7]"
@@ -1043,7 +1045,7 @@ function ClaimList(props) {
                             onChange={handleSelectChange2}
                             value={formik1.values.repairStatus}
                           />
-                        </div>
+                        </div> */}
                       </Grid>
                     </div>
                     <div className="col-span-3 self-center flex justify-center">
@@ -1081,6 +1083,17 @@ function ClaimList(props) {
           </Grid>
 
           <div className="px-3 mt-5">
+             {props.activeTab == "Unpaid Claims" && (<>
+              {!isCheckBox &&  <div className="text-right mt-8">
+                      <Button
+                          className="mx-3 !text-[14px] !py-[4px]"
+                          onClick={() => setIsCheckbox(true)}
+                        >
+                          Pay Now
+                        </Button>
+            </div>}
+             </> ) }
+           
             {loaderType == true ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
@@ -1109,7 +1122,7 @@ function ClaimList(props) {
                           className="mx-3 !text-[14px] !py-[4px]"
                           onClick={() => openPay()}
                         >
-                          Marked Paid
+                          Mark As Paid
                         </Button>
                         <Button
                           onClick={handleUnselectAll}
@@ -1163,18 +1176,21 @@ function ClaimList(props) {
                                   alt="chat"
                                 />
                                 {props.activeTab == "Unpaid Claims" ? (
-                                  <div key={index} className="self-center">
-                                    <input
-                                      id={`push-nothing-${index}`}
-                                      name={`push-notifications-${index}`}
-                                      type="checkbox"
-                                      className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600 cursor-pointer"
-                                      onChange={() =>
-                                        handleCheckboxChange(res._id)
-                                      }
-                                      checked={checkboxStates.includes(res._id)}
-                                    />
-                                  </div>
+                                  isCheckBox ?  <>
+                                    <div key={index} className="border p-[11px] px-[18px] rounded-3xl self-center">
+                                  <input
+                                    id={`push-nothing-${index}`}
+                                    name={`push-notifications-${index}`}
+                                    type="checkbox"
+                                    className="dark:text-gray-300 font-medium h-4 mt-[6px] py-4 text-gray-900 text-sm w-4"
+                                    onChange={() =>
+                                      handleCheckboxChange(res._id)
+                                    }
+                                    checked={checkboxStates.includes(res._id)}
+                                  />
+                                </div> 
+                                    </> :<></> 
+                                 
                                 ) : (
                                   <></>
                                 )}
@@ -1211,7 +1227,7 @@ function ClaimList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-4 flex">
+                              <div className="col-span-2 flex">
                                 <img
                                   src={model}
                                   className="self-center h-[50px] w-[50px] ml-3"
@@ -1226,7 +1242,7 @@ function ClaimList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-3 flex">
+                              <div className="col-span-2 flex">
                                 <img
                                   src={serial}
                                   className="self-center h-[50px] w-[50px] ml-3"
@@ -1238,6 +1254,23 @@ function ClaimList(props) {
                                   </p>
                                   <p className="text-[#333333] text-sm font-semibold">
                                     {res?.contracts?.serial}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="col-span-2 flex">
+                                <img
+                                  src={Money}
+                                  className="self-center h-[50px] p-1 w-[50px] ml-3"
+                                  alt=""
+                                />
+                                <div className="py-4 pl-3 self-center">
+                                  <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                   Claim Amount
+                                  </p>
+                                  <p className="text-[#333333] text-sm font-semibold">
+                                  ${calculateTotalCost(
+                                        res.repairParts
+                                      )}
                                   </p>
                                 </div>
                               </div>
@@ -1634,16 +1667,16 @@ function ClaimList(props) {
           ) : (
              <div className="p-3 text-center">
              <img src={request} alt="email Image" className="mx-auto" />
-             <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+             <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey">
                {" "}
                <span className="text-light-black"> Marked As Paid </span>
              </p>
-             <p className="text-neutral-grey text-base font-medium mt-2 ">
-               Do you really want to Marked as Paid ?
+             <p className="text-neutral-grey text-2xl font-semibold mt-2 ">
+             You have <span className="text-light-black">11 unpaid</span> claim with <span className="text-light-black">$12222</span> amount.<br/> Do you want to paid ?
              </p>
              <div className="mt-4">
                <Grid>
-                 <div className="col-span-2"></div>
+                 <div className="col-span-4"></div>
                  <div className="col-span-2">
                    <Button
                      onClick={() => {
@@ -1653,11 +1686,10 @@ function ClaimList(props) {
                      Yes
                    </Button>
                  </div>
-                 <div className="col-span-4"></div>
                  <div className="col-span-2">
                    <Button>No</Button>
                  </div>
-                 <div className="col-span-2"></div>
+                 <div className="col-span-4"></div>
                </Grid>
              </div>
            </div>
@@ -2281,16 +2313,17 @@ function ClaimList(props) {
                   value={formik1.values.repairStatus}
                 />
               </div>
+              {props.activeTab == "Unpaid Claims" &&
               <div className="col-span-6">
                 <Select
                   options={days}
                   name="noOfDays"
-                  label="No Of Days"
+                  label="No Of Days Passed"
                   className="!bg-[#fff]"
                   onChange={handleSelectChange2}
                   value={formik1.values.noOfDays}
                 />
-              </div>
+              </div>}
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search

@@ -825,7 +825,7 @@ function AddOrder() {
         is: (status, type) => status === "PartlyPaid" && type !== "Edit",
         then: (schema) =>
           schema
-            .min(1, "Paid amount cannot be less than One")
+            .min(1, "Paid amount cannot be less than $1.00")
             .max(
               calculateTotalAmount(formikStep3.values.productsArray),
               "Paid amount cannot be more than the total amount"
@@ -2536,8 +2536,8 @@ function AddOrder() {
                             <Input
                               type="number"
                               name="paidAmount"
-                              className="!bg-[#fff]"
-                              label="Paid Amount($)"
+                              className="!bg-[#fff] !w-[168px]"
+                              label="Total Paid Amount($)"
                               maxLength={10}
                               maxDecimalPlaces={2}
                               disabled={formik4.values.paymentStatus === "Paid"}
