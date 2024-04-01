@@ -2543,8 +2543,8 @@ function AddOrder() {
                             <Input
                               type="number"
                               name="paidAmount"
-                              className="!bg-[#fff]"
-                              label="Paid Amount($)"
+                              className="!bg-[#fff] !w-[168px]"
+                              label="Total Paid Amount($)"
                               maxLength={10}
                               maxDecimalPlaces={2}
                               disabled={formik4.values.paymentStatus === "Paid"}

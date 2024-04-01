@@ -52,6 +52,23 @@ export const changePrimaryByUserId = async (id) => {
   }
 };
 
+
+export const UserDetailAccount = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/user/getAccountInfo`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const changePrimaryByUserIdCustomerPortal = async (id) => {
   const headers = createHeaders();
   try {

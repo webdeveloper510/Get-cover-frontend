@@ -972,7 +972,7 @@ function ClaimList(props) {
                   <Grid className="!gap-1">
                     <div className="col-span-9 self-center">
                       <Grid className="!gap-2">
-                        <div className="col-span-3 self-center">
+                        <div className="col-span-4 self-center">
                           <Input
                             name="contractId"
                             type="text"
@@ -983,7 +983,7 @@ function ClaimList(props) {
                             {...formik1.getFieldProps("contractId")}
                           />
                         </div>
-                        <div className="col-span-3 self-center">
+                        <div className="col-span-4 self-center">
                           <Input
                             name="claimId"
                             type="text"
@@ -994,28 +994,16 @@ function ClaimList(props) {
                             {...formik1.getFieldProps("claimId")}
                           />
                         </div>
-                        <div className="col-span-3 self-center">
-                          <SelectSearch
-                            name="customerStatusValue"
+                        <div className="col-span-4 self-center">
+                        <SelectSearch
+                            name="claimStatus"
                             label=""
-                            options={customerValue}
-                            OptionName="Customer Status"
+                            options={Claimstatus}
+                            OptionName="Claim Status"
                             className="!text-[14px] !bg-[#f7f7f7]"
                             className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                             onChange={handleSelectChange2}
-                            value={formik1.values.customerStatusValue}
-                          />
-                        </div>
-                        <div className="col-span-3 self-center">
-                          <SelectSearch
-                            name="repairStatus"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                            label=""
-                            OptionName="Repair Status"
-                            options={repairValue}
-                            onChange={handleSelectChange2}
-                            value={formik1.values.repairStatus}
+                            value={formik1.values.claimStatus}
                           />
                         </div>
                       </Grid>
