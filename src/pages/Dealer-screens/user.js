@@ -54,6 +54,7 @@ function DealerUser() {
   const [secondaryText, SetSecondaryText] = useState("");
   const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
+  const [isPrimary, setIsPrimary] = useState(false);
 
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({
@@ -366,6 +367,7 @@ function DealerUser() {
       setLoading(true);
       const res = await getUserListByDealerId("", data);
       setUserList(res.result);
+      setIsPrimary(res.result.loginMember.isPrimary);
     } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
@@ -381,11 +383,13 @@ function DealerUser() {
   const formikUSerFilter = useFormik({
     initialValues: {
       firstName: "",
+      lastName: "",
       email: "",
       phone: "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string(),
+      lastName: Yup.string(),
       email: Yup.string(),
       phone: Yup.number(),
     }),
@@ -511,6 +515,62 @@ function DealerUser() {
     },
   ];
 
+  const columns1 = [
+    {
+      name: "Name",
+      selector: "name",
+      sortable: true,
+      cell: (row) => (
+        <div className="flex relative">
+          {row.isPrimary && (
+            <img src={star} alt="" className="absolute -left-3 top-0" />
+          )}
+          <span className="self-center pt-2 ml-3">
+            {row.firstName} {row.lastName}
+          </span>
+        </div>
+      ),
+    },
+    {
+      name: "Email Address",
+      selector: (row) => row.email,
+      sortable: true,
+    },
+    {
+      name: "Phone Number",
+      selector: (row) => row.phoneNumber,
+      sortable: true,
+    },
+    {
+      name: "Position",
+      selector: (row) => row.position,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      sortable: true,
+      cell: (row) => (
+        <div className="relative">
+          <div
+            className={` ${
+              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+          ></div>
+          <select
+            disabled={true}
+            value={row.status === true ? "active" : "inactive"}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
+            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      ),
+    },
+  ];
+
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
       <p>No records found.</p>
@@ -631,17 +691,18 @@ function DealerUser() {
           </div>
         
           <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-            <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+            {isPrimary &&  <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
               <Button onClick={() => openUserModal()}> + Add Member</Button>
-            </div>
+            </div>}
+           
             <p className="text-xl font-semibold mb-3">Users List</p>
             <Grid className="!p-[2px] !pt-[14px] !pb-0">
-              <div className="col-span-5 self-center"></div>
-              <div className="col-span-7">
+              <div className="col-span-3 self-center"></div>
+              <div className="col-span-9">
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <form className="" onSubmit={formikUSerFilter.handleSubmit}>
-                    <Grid className="!grid-cols-11">
-                      <div className="col-span-3 self-center">
+                    <Grid className="!grid-cols-9">
+                      <div className="col-span-2 self-center">
                         <Input
                           name="firstName"
                           type="text"
@@ -654,7 +715,20 @@ function DealerUser() {
                           onChange={formikUSerFilter.handleChange}
                         />
                       </div>
-                      <div className="col-span-3 self-center">
+                      <div className="col-span-2 self-center">
+                        <Input
+                          name="lastName"
+                          type="text"
+                          className="!text-[14px] !bg-[#f7f7f7]"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                          label=""
+                          placeholder="Last Name"
+                          value={formikUSerFilter.values.lastName}
+                          onBlur={formikUSerFilter.handleBlur}
+                          onChange={formikUSerFilter.handleChange}
+                        />
+                      </div>
+                      <div className="col-span-2 self-center">
                         <Input
                           name="email"
                           type="text"
@@ -667,7 +741,7 @@ function DealerUser() {
                           onChange={formikUSerFilter.handleChange}
                         />
                       </div>
-                      <div className="col-span-3 self-center">
+                      <div className="col-span-2 self-center">
                         <Input
                           name="phone"
                           type="tel"
@@ -692,7 +766,7 @@ function DealerUser() {
                           }}
                         />
                       </div>
-                      <div className="col-span-2 self-center flex justify-center">
+                      <div className="col-span-1 self-center flex justify-center">
                         <Button type="submit" className="!p-0">
                           <img
                             src={Search}
@@ -720,7 +794,7 @@ function DealerUser() {
               </div>
             </Grid>
             <DataTable
-              columns={columns}
+              columns={isPrimary ? columns : columns1}
               data={userList}
               highlightOnHover
               sortIcon={
