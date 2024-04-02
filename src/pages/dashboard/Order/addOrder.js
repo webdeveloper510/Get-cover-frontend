@@ -84,7 +84,7 @@ function AddOrder() {
   const { orderId, dealerId, resellerId, dealerValue, customerId } =
     useParams();
   const location = useLocation();
-  console.log(useParams());
+
   const downloadCSVTemplate = async () => {
     window.open(
       "https://docs.google.com/spreadsheets/d/1BKGAJLFhjQXN8Wg4nYkUdFKpiPZ3h12-CMlrlkzAZE0/edit#gid=0",
@@ -168,19 +168,21 @@ function AddOrder() {
         value: res._id,
       });
     });
-    const isResellerIdEmpty = data?.resellerId === "";
-    formik.setFieldValue("servicerId", isResellerIdEmpty ? "" : "");
 
-    if (!isResellerIdEmpty) {
+    setServicerData(arr);
+    const isResellerIdEmpty = data?.resellerId == "";
+    console.log(formik.values.servicerId);
+
+    if (!isResellerIdEmpty && formik.values.servicerId) {
       const matchedServicer = filteredServicers.find(
         (res) => res._id === formik.values.servicerId
       );
+
       formik.setFieldValue(
         "servicerId",
         matchedServicer ? matchedServicer._id : ""
       );
     }
-    setServicerData(arr);
     setLoading1(false);
   };
 
@@ -485,8 +487,9 @@ function AddOrder() {
         return newArray;
       });
     });
-    console.log(result.result.paidAmount);
+    console.log(result.result.servicerId);
     orderDetail(result.result);
+    formik.setFieldValue("servicerId", result?.result?.servicerId);
     formikStep3.setValues({
       ...formikStep3.values,
       productsArray: result?.result?.productsArray?.map((product, index) => ({
@@ -512,7 +515,7 @@ function AddOrder() {
     });
     formik.setFieldValue("resellerId", result?.result?.resellerId);
     formik.setFieldValue("dealerId", result?.result?.dealerId);
-    formik.setFieldValue("servicerId", result?.result?.servicerId);
+
     formik.setFieldValue("customerId", result?.result?.customerId);
     formik4.setFieldValue(
       "pendingAmount",
