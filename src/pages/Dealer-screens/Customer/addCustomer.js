@@ -293,7 +293,7 @@ function DealerAddCustomer() {
       email: "",
       phoneNumber: "",
       position: "",
-      status: true,
+      status: createAccountOption === "no"?false:true,
       isPrimary: false,
     };
 
@@ -708,6 +708,7 @@ function DealerAddCustomer() {
                       checked={createAccountOption === "yes"}
                       onChange={handleRadioChange}
                     />
+
                     <RadioButton
                       id="no"
                       label="No"

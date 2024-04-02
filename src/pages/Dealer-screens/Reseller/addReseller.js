@@ -84,6 +84,7 @@ function DealerAddReseller() {
     const selectedValue = event.target.value;
     setCreateAccountOption(selectedValue);
 
+    
     if (selectedValue === "no") {
       const updatedMembers = formik.values.members.map((service) => ({
         ...service,
@@ -128,7 +129,7 @@ function DealerAddReseller() {
       email: "",
       phoneNumber: "",
       position: "",
-      status: true,
+      status: createAccountOption === "no"?false:true,
       isPrimary: false,
     };
 
