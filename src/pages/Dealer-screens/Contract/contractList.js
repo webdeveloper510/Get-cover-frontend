@@ -19,6 +19,7 @@ import * as Yup from "yup";
 import { format } from "date-fns";
 import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../pagination";
+
 import { getAllContractsForDealerPortal } from "../../../services/dealerServices/orderListServices";
 import { getContractValues } from "../../../services/extraServices";
 function ContractList(props) {
@@ -26,6 +27,7 @@ function ContractList(props) {
   const [showTooltip, setShowTooltip] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [contractCount, setContractCount] = useState(0);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
   const [pageValue, setPageValue] = useState(1);
@@ -72,7 +74,7 @@ function ContractList(props) {
 
   const getContracts = async (page = 1, rowsPerPage = 10) => {
     console.log(page, rowsPerPage);
-    setLoading(true)
+    setLoading(true);
     setPageValue(page);
     // return false;
     let data = {
@@ -83,6 +85,7 @@ function ContractList(props) {
 
     const result = await getAllContractsForDealerPortal(data);
     setContractList(result.result);
+    setContractCount(result.contractCount);
     console.log(result);
     setTotalRecords(result?.totalCount);
     setLoading(false);
@@ -128,6 +131,7 @@ function ContractList(props) {
 
   const handlePageChange = async (page, rowsPerPage) => {
     console.log(page, rowsPerPage);
+    setRecordsPerPage(rowsPerPage);
     setLoading(true);
     try {
       await getContracts(page, rowsPerPage);
@@ -136,6 +140,7 @@ function ContractList(props) {
       setLoading(false);
     }
   };
+
   const status = [
     { label: "Active", value: "Active" },
     { label: "Waiting", value: "Waiting" },
@@ -437,20 +442,20 @@ function ContractList(props) {
                     </div>
                   );
                 })}
-               {totalRecords === 0 && !loading ? (
-              <div className="text-center my-5">
-                <p>No records found</p>
-              </div>
-            ) : (
-              <CustomPagination
-                totalRecords={totalRecords}
-                page={pageValue}
-                rowsPerPageOptions={[10, 20, 50, 100]}
-                onPageChange={handlePageChange}
-                setRecordsPerPage={setRecordsPerPage}
-              />
-            )}
             </>
+          )}
+          {totalRecords == 0 || (contractCount == 0 && !loading) ? (
+            <div className="text-center my-5">
+              <p>No records found</p>
+            </div>
+          ) : (
+            <CustomPagination
+              totalRecords={totalRecords}
+              page={pageValue}
+              rowsPerPageOptions={[10, 20, 50, 100]}
+              onPageChange={handlePageChange}
+              setRecordsPerPage={setRecordsPerPage}
+            />
           )}
 
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
@@ -843,13 +848,12 @@ function ContractList(props) {
                         Claim Amount
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                      ${
-                           contractDetails?.claimAmount === undefined
-                            ? parseInt(0).toLocaleString(2)
-                            : formatOrderValue(
-                              contractDetails?.claimAmount ??
-                                  parseInt(0)
-                              )}
+                        $
+                        {contractDetails?.claimAmount === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(
+                              contractDetails?.claimAmount ?? parseInt(0)
+                            )}
                       </p>
                     </div>
                   </div>

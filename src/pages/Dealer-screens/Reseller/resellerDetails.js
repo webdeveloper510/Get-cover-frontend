@@ -52,12 +52,13 @@ import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
 import OrderList from "./Dealer-Details/order";
-import ContractList from "./Dealer-Details/contract";
+
 import ClaimList from "./Dealer-Details/claim";
 import ServicerList from "./Dealer-Details/servicer";
 import UserList from "./Dealer-Details/user";
 import PriceBookList from "../../dashboard/Dealer/Dealer-Details/priceBook";
 import CustomerList from "./Dealer-Details/customer";
+import ContractList from "../../dashboard/Contract/contractList";
 
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
@@ -68,7 +69,7 @@ function DealerResellerDetails() {
   };
   const id = useParams();
   console.log(id);
-  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -162,6 +163,7 @@ function DealerResellerDetails() {
   const closeUserModal = () => {
     setIsUserModalOpen(false);
     setActiveTab("Users");
+    setCreateAccountOption("yes");
     userValues.resetForm();
   };
   const getServicerList = async () => {
@@ -335,36 +337,31 @@ function DealerResellerDetails() {
         .matches(emailValidationRegex, "Invalid email address")
         .required("Required"),
     }),
-
     onSubmit: async (values, { setFieldError }) => {
-      localStorage.setItem("menu", "Users");
-      console.log(values);
       if (values.status === "yes") {
         values.status = true;
       }
-      // setLoading(true);
-      const result = await addUserByResellerId(values);
-      console.log(result.code);
-      if (result.code == 200) {
-        getUserList();
-        // dealerData();
-        setModalOpen(true);
-        setFirstMessage("New User Added Successfully");
-        setSecondMessage("New User Added Successfully");
-        setMessage("Dealer updated Successfully");
-        setLoading(false);
-        closeUserModal();
-        setTimer(3);
-        // window.location.reload();
-        // setIsModalOpen(false);
-      } else {
-        console.log(result);
-        console.log("here");
-        if (result.code === 401) {
-          console.log("here12");
+      setLoading(true);
+      try {
+        const result = await addUserByResellerId(values);
+        console.log(result.code);
+        if (result.code === 200) {
+          getUserList();
+          setModalOpen(true);
+          setFirstMessage("New User Added Successfully");
+          setSecondMessage("New User Added Successfully");
+          setMessage("Dealer updated Successfully");
+          closeUserModal();
+          setTimer(3);
+          // window.location.reload(); // Consider if this is necessary
+        } else if (result.code === 401) {
           setFieldError("email", "Email already in use");
         }
-        setLoading(false);
+      } catch (error) {
+        console.error("Error:", error);
+        // Handle any other errors here
+      } finally {
+        setLoading(false); // Ensure loading state is always updated
       }
     },
   });
@@ -444,6 +441,7 @@ function DealerResellerDetails() {
           flag={"reseller"}
           id={id.resellerId}
           activeTab={activeTab}
+          isShown={false}
         />
       ),
     },
@@ -723,8 +721,11 @@ function DealerResellerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      ${formatOrderValue(resellerDetail?.orderData?.orderAmount ??
-                          parseInt(0).toLocaleString(2))}
+                      $
+                      {formatOrderValue(
+                        resellerDetail?.orderData?.orderAmount ??
+                          parseInt(0).toLocaleString(2)
+                      )}
                     </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Orders
@@ -733,7 +734,9 @@ function DealerResellerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">0</p>
+                    <p className="text-white text-lg !font-[600]">
+                      {resellerDetail?.claimData?.numberOfClaims}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
@@ -741,7 +744,13 @@ function DealerResellerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$<span className="ml-1"></span>0.00</p>
+                    <p className="text-white text-lg  !font-[600]">
+                      $<span className="ml-1"></span>
+                      {formatOrderValue(
+                        resellerDetail?.claimData?.valueClaim ??
+                          parseInt(0).toLocaleString(2)
+                      )}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>
@@ -792,12 +801,19 @@ function DealerResellerDetails() {
                   className="col-span-2"
                   onClick={() => routeToPage(activeTab)}
                 >
-                  <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-                    <img src={AddItem} className="self-center" alt="AddItem" />
-                    <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
-                      Add {activeTab}
-                    </span>
-                  </Button>
+                  {(activeTab === "Orders" && resellerDetail.status === true) ||
+                  activeTab !== "Orders" ? (
+                    <Button className="!bg-white flex self-center h-full mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                      <img
+                        src={AddItem}
+                        className="self-center"
+                        alt="AddItem"
+                      />
+                      <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                        Add {activeTab}
+                      </span>
+                    </Button>
+                  ) : null}
                 </div>
               ) : (
                 <></>

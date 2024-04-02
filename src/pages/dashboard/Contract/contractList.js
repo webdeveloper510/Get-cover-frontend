@@ -45,7 +45,7 @@ function ContractList(props) {
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
-  // console.log()
+
   const closeView = () => {
     setIsViewOpen(false);
   };
@@ -104,7 +104,7 @@ function ContractList(props) {
           : props?.flag == "reseller" && props?.id
           ? await getContractsforReseller(props.id, data)
           : await getContracts(orderId, data);
-      setContractCount(result.contractCount)
+      setContractCount(result.contractCount);
       setContractList(result.result);
       setTotalRecords(result?.totalCount);
     } catch (error) {
@@ -156,7 +156,7 @@ function ContractList(props) {
   });
 
   const handlePageChange = async (page, rowsPerPage) => {
-    // setRecordsPerPage(rowsPerPage);
+    setRecordsPerPage(rowsPerPage);
     setLoading(true);
     try {
       if (props?.flag == "contracts") {
@@ -220,7 +220,11 @@ function ContractList(props) {
             <div className="col-span-9">
               <form onSubmit={formik.handleSubmit}>
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className={`${props.orderId == null ? '!grid-cols-9' : '!grid-cols-7' }`}>
+                  <Grid
+                    className={`${
+                      props.orderId == null ? "!grid-cols-9" : "!grid-cols-7"
+                    }`}
+                  >
                     <div className="col-span-2 self-center">
                       <Input
                         type="text"
@@ -279,7 +283,11 @@ function ContractList(props) {
                         />
                       </Button>
                     </div>
-                    <div className={`${props.orderId == null ? '' : 'text-center' } col-span-2 self-center`}>
+                    <div
+                      className={`${
+                        props.orderId == null ? "" : "text-center"
+                      } col-span-2 self-center`}
+                    >
                       <Button
                         className="!text-[13px]"
                         onClick={() => openDisapproved()}
@@ -351,14 +359,16 @@ function ContractList(props) {
                                     alt="edit"
                                   />{" "}
                                 </div>
-                                <Link to={`/editContract/${res._id}`}>
-                                  {" "}
-                                  <img
-                                    src={Edit}
-                                    className="ml-auto mr-2"
-                                    alt="edit"
-                                  />{" "}
-                                </Link>
+                                {props.shownEdit ? (
+                                  <Link to={`/editContract/${res._id}`}>
+                                    {" "}
+                                    <img
+                                      src={Edit}
+                                      className="ml-auto mr-2"
+                                      alt="edit"
+                                    />{" "}
+                                  </Link>
+                                ) : null}
                               </div>
                             </Grid>
 
@@ -420,7 +430,11 @@ function ContractList(props) {
                         </div>
                       );
                     })}
-                     {totalRecords == 0 || contractCount == 0 && !loading ? (
+                </>
+              )}
+            </>
+
+            {totalRecords == 0 || (contractCount == 0 && !loading) ? (
               <div className="text-center my-5">
                 <p>No records found</p>
               </div>
@@ -433,11 +447,6 @@ function ContractList(props) {
                 setRecordsPerPage={setRecordsPerPage}
               />
             )}
-                </>
-              )}
-            </>
-
-           
           </div>
           {/* )} */}
 
@@ -626,21 +635,24 @@ function ContractList(props) {
             onClose={closeView}
             className="!w-[1100px]"
           >
-            <Button
-              onClick={() => {
-                navigate(`/editContract/${contractDetails._id}`);
-              }}
-              className={`absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${
-                props?.orderId == null && props?.flag == undefined
-                  ? "!bg-[#343434]"
-                  : "!bg-gradient-to-t !from-[#454545] !to-[#575757]"
-              } `}
-            >
-              <img
-                src={Edit}
-                className="w-full h-full text-black rounded-full p-0"
-              />
-            </Button>
+            {props.shownEdit ? (
+              <Button
+                onClick={() => {
+                  navigate(`/editContract/${contractDetails._id}`);
+                }}
+                className={`absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${
+                  props?.orderId == null && props?.flag == undefined
+                    ? "!bg-[#343434]"
+                    : "!bg-gradient-to-t !from-[#454545] !to-[#575757]"
+                } `}
+              >
+                <img
+                  src={Edit}
+                  className="w-full h-full text-black rounded-full p-0"
+                />
+              </Button>
+            ) : null}
+
             <Button
               onClick={closeView}
               className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${
@@ -743,29 +755,33 @@ function ContractList(props) {
                           </p>
                         </div>
                       </div>
-                      <div className="col-span-1 border border-[#D1D1D1]">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Dealer Name
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                            {
-                              contractDetails?.order?.[0]?.customer?.[0]
-                                ?.dealerName
-                            }
-                          </p>
+                      {props.shownEdit ? (
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Dealer Name
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {
+                                contractDetails?.order?.[0]?.customer?.[0]
+                                  ?.dealerName
+                              }
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-span-1 border border-[#D1D1D1]">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Reseller Name
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                            {contractDetails?.order?.[0]?.reseller?.[0]?.name}
-                          </p>
+                      ) : null}
+                      {props.isShown ? (
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Reseller Name
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {contractDetails?.order?.[0]?.reseller?.[0]?.name}
+                            </p>
+                          </div>
                         </div>
-                      </div>
+                      ) : null}
                       <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
@@ -866,13 +882,12 @@ function ContractList(props) {
                             Claim Amount
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            ${
-                           contractDetails.claimAmount === undefined
-                            ? parseInt(0).toLocaleString(2)
-                            : formatOrderValue(
-                                contractDetails.claimAmount ??
-                                  parseInt(0)
-                              )}
+                            $
+                            {contractDetails.claimAmount === undefined
+                              ? parseInt(0).toLocaleString(2)
+                              : formatOrderValue(
+                                  contractDetails.claimAmount ?? parseInt(0)
+                                )}
                           </p>
                         </div>
                       </div>

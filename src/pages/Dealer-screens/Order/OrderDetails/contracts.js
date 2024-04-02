@@ -1,40 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../../../common/button";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 
 // Media Includes
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
-import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
-import Cross from "../../../../assets/images/Cross.png";
 import view from "../../../../assets/images/whiteView.png";
+import Cross from "../../../../assets/images/Cross.png";
+import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import { format, addMonths } from "date-fns";
-import CustomPagination from "../../../pagination";
-import { getContracts } from "../../../../services/orderServices";
-import { useEffect } from "react";
-import { RotateLoader } from "react-spinners";
 import { Link } from "react-router-dom";
+import { getContractsforDealer } from "../../../../services/dealerServices";
+import { getContractsforReseller } from "../../../../services/reSellerServices";
+import { RotateLoader } from "react-spinners";
+import { format } from "date-fns";
+import * as Yup from "yup";
+import CustomPagination from "../../../pagination";
+import { getContractsforCustomer } from "../../../../services/customerServices";
 import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
-
-function Contracts(props) {
+import { useFormik } from "formik";
+import Select from "../../../../common/select";
+function ContractList(props) {
+  console.log(props, "-------------------->>>");
   const [showTooltip, setShowTooltip] = useState(false);
+  const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [contractDetails, setContractDetails] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [pageValue, setPageValue] = useState(1);
+  const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
+  const [isViewOpen, setIsViewOpen] = useState(false);
   const [singleContract, setSingleContract] = useState([]);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
-  const [pageValue, setPageValue] = useState(1);
-
-  const handlePageChange = async (page, rowsPerPage) => {
-    console.log(page, rowsPerPage);
+  const closeDisapproved = () => {
+    setIsDisapprovedOpen(false);
+  };
+  const getContracts = async (page = 1, rowsPerPage = 10) => {
+    setPageValue(page);
+    // return false;
+    let data = {
+      page: page,
+      pageLimit: rowsPerPage,
+      ...formik.values,
+    };
     setLoading(true);
-    try {
-      await getOrdersContracts(page, rowsPerPage);
-    } finally {
-      setLoading(false);
+    console.log(props);
+    const result =
+      props.flag === "reseller"
+        ? await getContractsforReseller(props.id, data)
+        : props.flag === "dealer"
+        ? await getContractsforDealer(props.id, data)
+        : await getContractsforCustomer(props.id, data);
+
+    setContractList(result.result);
+    console.log(result);
+    setTotalRecords(result?.totalCount);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (props.activeTab === "Contracts") {
+      getContracts();
     }
+  }, [props]);
+
+  const closeView = () => {
+    setIsViewOpen(false);
   };
 
   const formatOrderValue = (orderValue) => {
@@ -48,71 +80,101 @@ function Contracts(props) {
     }
   };
 
-  const getOrdersContracts = async (page = 1, rowsPerPage = 10) => {
-    setPageValue(page);
-    let data = {
-      page: page,
-      pageLimit: rowsPerPage,
-    };
-
-    try {
-      const result = await getContracts(props.orderId, data);
-      setContractDetails(result);
-      setTotalRecords(result?.totalCount);
-      console.log(result);
-    } catch (error) {
-      console.error("Error fetching contracts:", error);
-    }
-  };
-  const findDate = (data, index, type) => {
-    if (contractDetails) {
-      let foundDate = "Date Not Found";
-
-      contractDetails.result.forEach((contract) => {
-        const productsArray = contract?.order[0]?.productsArray;
-
-        if (productsArray) {
-          const matchingProduct = productsArray.find(
-            (product) => product._id === data.orderProductId
-          );
-          console.log(productsArray);
-          if (matchingProduct) {
-            foundDate = format(
-              new Date(
-                type === "start"
-                  ? matchingProduct.coverageStartDate
-                  : matchingProduct.coverageEndDate
-              ),
-              "MM-dd-yyyy"
-            );
-          }
-        }
-      });
-
-      return foundDate;
-    }
-
-    return "Date Not Found";
-  };
-  const [isViewOpen, setIsViewOpen] = useState(false);
-  const closeView = () => {
-    setIsViewOpen(false);
-  };
-
   const openView = (data) => {
     setIsViewOpen(true);
-    getContractDetails(data);
+    getsingleContract(data);
   };
 
-  useEffect(() => {
-    getOrdersContracts(1, 10);
-  }, []);
-  const getContractDetails = async (data) => {
+  const getsingleContract = async (data) => {
     setLoading(true);
     const result = await getContractValues(data);
     setSingleContract(result.result);
     setLoading(false);
     console.log("by ID -------------------", result);
+  };
+  const handlePageChange = async (page, rowsPerPage) => {
+    console.log(page, rowsPerPage);
+    setLoading(true);
+    try {
+      await getContracts(page, rowsPerPage);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const findDate = (data, type) => {
+    const product = contractList?.find((contract) => {
+      return contract.order;
+    });
+
+    if (product) {
+      const selectedProduct = product.order.find(
+        (res) => res._id === data.orderId
+      );
+
+      if (selectedProduct && selectedProduct.productsArray) {
+        const formattedDates = selectedProduct.productsArray.map((res) => {
+          return format(
+            new Date(
+              type === "start" ? res.coverageStartDate : res.coverageEndDate
+            ),
+            "MM-dd-yyyy"
+          );
+        });
+
+        return formattedDates[0];
+      }
+    }
+
+    return "";
+  };
+  const validationSchema = Yup.object().shape({});
+
+  const initialValues = {
+    orderId: "",
+    venderOrder: "",
+    contractId: "",
+    dealerName: "",
+    customerName: "",
+    servicerName: "",
+    manufacture: "",
+    status: "",
+    model: "",
+    serial: "",
+    productName: "",
+  };
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      getContracts(1, 10);
+      console.log(values);
+      setIsDisapprovedOpen(false);
+    },
+  });
+
+  const handleSelectChange1 = (label, value) => {
+    console.log(label, value, "selected");
+    formik.setFieldValue("status", value);
+    setSelectedProduct(value);
+  };
+
+  const status = [
+    { label: "Active", value: "Active" },
+    { label: "Waiting", value: "Waiting" },
+    { label: "Expired", value: "Expired" },
+  ];
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    setSelectedProduct("");
+    // getContract();
+  };
+
+  const openDisapproved = () => {
+    setIsDisapprovedOpen(true);
   };
 
   return (
@@ -120,163 +182,197 @@ function Contracts(props) {
       <div className="my-8">
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-5 self-center">
+            <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Contracts List</p>
             </div>
-            <div className="col-span-7">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Order ID"
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Email"
-                      type="email"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Dealer Order #"
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="PhoneNo."
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Customer Name"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer "
-                        alt="Search"
+            <div className="col-span-9">
+              <form onSubmit={formik.handleSubmit}>
+                <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                  <Grid className="!grid-cols-9">
+                    <div className="col-span-2 self-center">
+                      <Input
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Contract ID"
+                        name="contractId"
+                        {...formik.getFieldProps("contractId")}
                       />
-                    </Button>
-                    <Button type="submit" className="!bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="orderId"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder=" Order ID"
+                        {...formik.getFieldProps("orderId")}
                       />
-                    </Button>
-                  </div>
-                </Grid>
-              </div>
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="venderOrder"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Dealer P.O. #"
+                        {...formik.getFieldProps("venderOrder")}
+                      />
+                    </div>
+                    <div className="col-span-1 self-center flex justify-center">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer "
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="!bg-transparent !p-0"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Button
+                        className="!text-[13px]"
+                        onClick={() => openDisapproved()}
+                      >
+                        Advance Search
+                      </Button>
+                    </div>
+                  </Grid>
+                </div>
+              </form>
             </div>
           </Grid>
-
-          <div className="px-3 mt-5">
-            {loading ? (
-              <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
-              </div>
-            ) : (
-              <>
-                {contractDetails &&
-                  contractDetails.result &&
-                  contractDetails.result.map((res, index) => (
-                    <div>
-                      <Grid className="bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl ">
-                        <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
-                          <p className="text-white py-2 font-Regular">
-                            Contract ID : <b>{res?.unique_key} </b>
-                          </p>
-                        </div>
-                        <div className="col-span-5"></div>
-
-                        <div className="col-span-1 self-center flex justify-end">
-                          <div
-                            onClick={() => openView(res._id)}
-                            className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center"
-                          >
-                            {" "}
-                            <img
-                              src={view}
-                              className="ml-auto w-[23px] h-[23px] "
-                              alt="edit"
-                            />{" "}
-                          </div>
-                        </div>
-                      </Grid>
-
-                      <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
-                        <div className="col-span-1 border border-[#D1D1D1]  rounded-es-xl">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Manufacturer
-                            </p>
-                            <p className="text-[#333333] text-base font-semibold">
-                              {res?.manufacture}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="col-span-1 border border-[#D1D1D1]">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Model
-                            </p>
-                            <p className="text-[#333333] text-base font-semibold">
-                              {res?.model}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="col-span-1 border border-[#D1D1D1]">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Serial
-                            </p>
-                            <p className="text-[#333333] text-base font-semibold">
-                              {res?.serial}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="col-span-1 border border-[#D1D1D1]	">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Status
-                            </p>
-                            <p className="text-[#333333] text-base font-semibold">
-                              {res?.status}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="col-span-1 border border-[#D1D1D1]  rounded-ee-xl">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Eligibility
-                            </p>
-                            <p className="text-[#333333] text-base font-semibold">
-                            {res?.eligibilty === true
-                                      ? "Eligible"
-                                      : "Not Eligible "}
-                            </p>
-                          </div>
-                        </div>
-                      </Grid>
-                    </div>
-                  ))}
-              </>
-            )}
-          </div>
-          {totalRecords === 0 && !loading ? (
+          {contractList?.length == 0 && !loading ? (
+            <>
               <div className="text-center my-5">
-                <p>No records found</p>
+                <p>No records found.</p>
               </div>
-            ) : (
+            </>
+          ) : (
+            <div>
+              {loading ? (
+                <div className=" h-[400px] w-full flex py-5">
+                  <div className="self-center mx-auto">
+                    <RotateLoader color="#333" />
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {contractList &&
+                    contractList.map((res) => {
+                      console.log(res);
+                      return (
+                        <div className="px-3 mt-5">
+                          <div>
+                            <Grid className="bg-[#333333] !gap-2 !grid-cols-10 rounded-t-xl">
+                              <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
+                                <p className="text-white py-2 font-Regular">
+                                  Contract ID : <b> {res.unique_key} </b>
+                                </p>
+                              </div>
+                              <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                <p className="text-white py-2 font-Regular">
+                                  Order ID :{" "}
+                                  <b> {res?.order?.unique_key} </b>
+                                </p>
+                              </div>
+                              <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                <p className="text-white py-2 font-Regular">
+                                  Dealer P.O. # :{" "}
+                                  <b> {res?.order?.venderOrder} </b>
+                                </p>
+                              </div>
+                              <div className="col-span-1 self-center justify-end">
+                                <div
+                                  onClick={() => openView(res._id)}
+                                  className="self-center rounded-full cursor-pointer mr-2 p-1 text-center"
+                                >
+                                  {" "}
+                                  <img
+                                    src={view}
+                                    className="ml-auto w-[23px] h-[23px] "
+                                    alt="edit"
+                                  />{" "}
+                                </div>
+                              </div>
+                            </Grid>
+
+                            <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
+                              <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                                <div className="py-4 pl-3">
+                                  <p className="text-[#5D6E66] text-sm font-Regular">
+                                    Manufacturer
+                                  </p>
+                                  <p className="text-[#333333] text-base font-semibold">
+                                    {res.manufacture}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="col-span-1 border border-[#D1D1D1]">
+                                <div className="py-4 pl-3">
+                                  <p className="text-[#5D6E66] text-sm font-Regular">
+                                    Model
+                                  </p>
+                                  <p className="text-[#333333] text-base font-semibold">
+                                    {res.model}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="col-span-1 border border-[#D1D1D1]">
+                                <div className="py-4 pl-3">
+                                  <p className="text-[#5D6E66] text-sm font-Regular">
+                                    Serial
+                                  </p>
+                                  <p className="text-[#333333] text-base font-semibold">
+                                    {res.serial}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="col-span-1 border border-[#D1D1D1]">
+                                <div className="py-4 pl-3">
+                                  <p className="text-[#5D6E66] text-sm font-Regular">
+                                    Status
+                                  </p>
+                                  <p className="text-[#333333] text-base font-semibold">
+                                    {res.status}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
+                                <div className="py-4 pl-3">
+                                  <p className="text-[#5D6E66] text-sm font-Regular">
+                                    Eligibility
+                                  </p>
+                                  <p className="text-[#333333] text-base font-semibold">
+                                  {res?.eligibilty === true
+                                  ? "Eligible"
+                                  : "Not Eligible "}
+                                  </p>
+                                </div>
+                              </div>
+                            </Grid>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </>
+              )}
+
               <CustomPagination
                 totalRecords={totalRecords}
                 page={pageValue}
@@ -284,7 +380,8 @@ function Contracts(props) {
                 onPageChange={handlePageChange}
                 setRecordsPerPage={setRecordsPerPage}
               />
-            )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -299,7 +396,7 @@ function Contracts(props) {
           />
         </Button>
         <div className="text-center mt-2">
-          <p className="text-3xl font-semibold mb-4">Contract Details </p>
+          <p className="text-3xl font-semibold mb-4">Contract Details : </p>
           <div>
             {loading ? (
               <div className=" h-[400px] w-full flex py-5">
@@ -387,17 +484,10 @@ function Contracts(props) {
                         Eligibility
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                        {singleContract?.eligibilty}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Dealer Name
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {singleContract?.order?.[0]?.customer?.[0]?.dealerName}
+                        
+                        {singleContract?.eligibilty === true
+                                  ? "Eligible"
+                                  : "Not Eligible "}
                       </p>
                     </div>
                   </div>
@@ -431,6 +521,19 @@ function Contracts(props) {
                       </p>
                     </div>
                   </div>
+                  <div className="col-span-1 border border-[#D1D1D1] ">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Product Category
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {
+                          singleContract?.order?.[0]?.productsArray?.[0]
+                            ?.priceType
+                        }
+                      </p>
+                    </div>
+                  </div>
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
@@ -447,19 +550,7 @@ function Contracts(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1] ">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Category
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {
-                          singleContract?.order?.[0]?.productsArray?.[0]
-                            ?.priceType
-                        }
-                      </p>
-                    </div>
-                  </div>
+                 
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
@@ -506,7 +597,7 @@ function Contracts(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                  <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Retail Price
@@ -563,7 +654,7 @@ function Contracts(props) {
                     ""
                   )}
 
-                  <div className="col-span-1 border border-[#D1D1D1] ">
+                  <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage Start Date
@@ -631,8 +722,161 @@ function Contracts(props) {
           </div>
         </div>
       </Modal>
+
+      <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
+            <Button
+              onClick={closeDisapproved}
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+            >
+              <img
+                src={Cross}
+                className="w-full h-full text-black rounded-full p-0"
+              />
+            </Button>
+            <form onSubmit={formik.handleSubmit}>
+              <div className="py-3">
+                <p className="text-center text-3xl font-semibold ">
+                  Advance Search
+                </p>
+                <Grid className="mt-5 px-6">
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="contractId"
+                      className="!bg-[#fff]"
+                      label="Contract ID"
+                      placeholder=""
+                      {...formik.getFieldProps("contractId")}
+                    />
+                  </div>
+                  {props.orderId == null ? (
+                    <>
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="orderId"
+                          className="!bg-[#fff]"
+                          label="Order ID"
+                          {...formik.getFieldProps("orderId")}
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="venderOrder"
+                          className="!bg-[#fff]"
+                          label="Dealer P.O. #"
+                          {...formik.getFieldProps("venderOrder")}
+                          placeholder=""
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="serial"
+                      className="!bg-[#fff]"
+                      label="Serial #"
+                      placeholder=""
+                      {...formik.getFieldProps("serial")}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="productName"
+                      className="!bg-[#fff]"
+                      label="Product Name"
+                      placeholder=""
+                      {...formik.getFieldProps("productName")}
+                    />
+                  </div>
+                  {props.orderId == null ? (
+                    <>
+                      {" "}
+                      {/* <div className="col-span-6">
+                          <Input
+                            type="text"
+                            name="dealerName"
+                            className="!bg-[#fff]"
+                            label="Dealer Name"
+                            {...formik.getFieldProps("dealerName")}
+                            placeholder=""
+                          />
+                        </div> */}
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="customerName"
+                          className="!bg-[#fff]"
+                          label="Customer Name"
+                          {...formik.getFieldProps("customerName")}
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="servicerName"
+                          className="!bg-[#fff]"
+                          label="Servicer Name"
+                          {...formik.getFieldProps("servicerName")}
+                          placeholder=""
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="model"
+                      className="!bg-[#fff]"
+                      label="Model"
+                      placeholder=""
+                      {...formik.getFieldProps("model")}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="manufacture"
+                      className="!bg-[#fff]"
+                      label="Manufacturer"
+                      placeholder=""
+                      {...formik.getFieldProps("manufacture")}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Select
+                      label="Status"
+                      options={status}
+                      color="text-[#1B1D21] opacity-50"
+                      value={selectedProduct}
+                      // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px] !bg-[#fff]"
+                      selectedValue={selectedProduct}
+                      onChange={handleSelectChange1}
+                    />
+                  </div>
+                  <div className="col-span-12">
+                    <Button type="submit" className={"w-full"}>
+                      Search
+                    </Button>
+                  </div>
+                </Grid>
+              </div>
+            </form>
+          </Modal>
     </>
   );
 }
 
-export default Contracts;
+export default ContractList;

@@ -10,7 +10,10 @@ import Grid from "../../common/grid";
 import Input from "../../common/input";
 import Cross from "../../assets/images/Cross.png";
 import DataTable from "react-data-table-component";
-import { getDealerPricebookDetailById, getTermList } from "../../services/dealerServices";
+import {
+  getDealerPricebookDetailById,
+  getTermList,
+} from "../../services/dealerServices";
 import { getCategoryList } from "../../services/priceBookService";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -106,10 +109,12 @@ function DealerPriceBook(props) {
     },
     {
       name: "Retail Cost",
-      selector: (row) =>  `$${
-        row.retailPrice === undefined
-          ? parseInt(0).toLocaleString(2)
-          : formatOrderValue(row.retailPrice ?? parseInt(0))}`,
+      selector: (row) =>
+        `$${
+          row.retailPrice === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row.retailPrice ?? parseInt(0))
+        }`,
       sortable: true,
     },
 
@@ -163,13 +168,14 @@ function DealerPriceBook(props) {
     try {
       const res = await getCategoryAndPriceBooksforDealerPortal();
       let arr = [];
+      console.log(res);
       res?.result?.priceCategories.length > 0 &&
-        res?.result?.priceCategories.map((item) => {
+        res?.result?.priceCategories?.map((item) => {
           arr.push({ label: item.name, value: item.name });
         });
 
       setCategoryList(arr);
-      console.log(res, '----------------------->>>>>>>>>>>>>')
+      console.log(res, "----------------------->>>>>>>>>>>>>");
     } catch (error) {
       console.error("Error fetching category list:", error);
     }
@@ -210,7 +216,7 @@ function DealerPriceBook(props) {
     { label: "Quantity Pricing", value: "Quantity Pricing" },
   ];
   useEffect(() => {
-    getTermListData()
+    getTermListData();
     priceBookData();
   }, [props]);
 
@@ -430,7 +436,7 @@ function DealerPriceBook(props) {
             {dealerPriceBookDetail?.priceBooks?.name}
           </p>
           <Grid className="mt-5 px-6">
-          <div className="col-span-4">
+            <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
                 Price Type
               </p>
@@ -451,10 +457,12 @@ function DealerPriceBook(props) {
                 Retail Price
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-              ${
-        dealerPriceBookDetail?.retailPrice === undefined
-          ? parseInt(0).toLocaleString(2)
-          : formatOrderValue(dealerPriceBookDetail?.retailPrice ?? parseInt(0))}
+                $
+                {dealerPriceBookDetail?.retailPrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(
+                      dealerPriceBookDetail?.retailPrice ?? parseInt(0)
+                    )}
               </p>
             </div>
             <div className="col-span-4">
@@ -463,7 +471,7 @@ function DealerPriceBook(props) {
                 {dealerPriceBookDetail?.priceBooks?.term} Months
               </p>
             </div>
-           
+
             <div className="col-span-8">
               <p className="text-lg text-light-black font-semibold">
                 Description
@@ -476,26 +484,31 @@ function DealerPriceBook(props) {
               <>
                 <div className="col-span-4">
                   <p className="text-lg text-light-black font-semibold">
-                  Start Range 
+                    Start Range
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
                     {" "}
-                    ${
-        dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
-          ? parseInt(0).toLocaleString(2)
-          : formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeStart ?? parseInt(0))}
+                    $
+                    {dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                          dealerPriceBookDetail?.priceBooks?.rangeStart ??
+                            parseInt(0)
+                        )}
                   </p>
                 </div>
                 <div className="col-span-4">
                   <p className="text-lg text-light-black font-semibold">
-                  End Range 
+                    End Range
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
-                  ${
-        dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
-          ? parseInt(0).toLocaleString(2)
-          : formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeEnd ?? parseInt(0))}
-                
+                    $
+                    {dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                          dealerPriceBookDetail?.priceBooks?.rangeEnd ??
+                            parseInt(0)
+                        )}
                   </p>
                 </div>
               </>

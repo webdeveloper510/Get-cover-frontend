@@ -53,6 +53,7 @@ function AddOrder() {
   const [dealerName, setDealerName] = useState("");
   const [servicerName, setServicerName] = useState("");
   const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
   const [resellerName, setResellerName] = useState("");
   const [termList, setTermList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -216,6 +217,7 @@ function AddOrder() {
       ...data,
       resellerId: resellerId,
     });
+    console.log(result, '----customer')
 
     result?.result?.map((res) => {
       arr.push({
@@ -225,6 +227,7 @@ function AddOrder() {
       });
     });
     setCustomerList(arr);
+
   };
 
   const getResellerList = async (dealerId) => {
@@ -593,6 +596,7 @@ function AddOrder() {
       findAndSetLabel(servicerData, values.servicerId, setServicerName);
       findAndSetLabel(customerList, values.customerId, setCustomerName);
       findAndSetLabel(resellerList, values.resellerId, setResellerName);
+    
     },
   });
 
@@ -1219,6 +1223,7 @@ function AddOrder() {
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
     console.log(name, value, "onchange------------------->>");
+   
     if (name == "dealerId") {
       setProductNameOptions([]);
       formikStep3.resetForm();
@@ -1259,6 +1264,7 @@ function AddOrder() {
       };
       getServicerList(data);
     }
+    
     if (name == "customerId") {
       let data = {
         dealerId: formik.values.dealerId,
@@ -1278,6 +1284,19 @@ function AddOrder() {
             getCustomerList(data);
           }
         });
+        
+        let customerEmail = null;
+        console.log("customerId:", formik.values.customerId);
+        customerList.forEach(customer => {
+          console.log("Customer ID in the list:", customerList); 
+          if (customer.customerData._id === formik.values.customerId) {
+            customerEmail = customer.customerData.email;
+          }
+        });
+        console.log("customerEmail:", customerEmail);
+        
+        setCustomerEmail(customerEmail);
+
     }
   };
 
@@ -1453,11 +1472,11 @@ function AddOrder() {
                               : formik.values.customerId
                           }
                           onBlur={formik.handleBlur}
+                          
                         />
+                        <span className="ml-3 mt-2">{}</span>
                       </div>
-                      <div className="col-span-8 self-center ">
-                        <p className="self-center">Customer Email : <span className="font-bold">customer@yupmail.com</span></p>
-                      </div>
+                     
                     
                     </Grid>
                   </div>
@@ -2293,7 +2312,6 @@ function AddOrder() {
                   </Grid>
                 </div>
                 {formikStep3.values.productsArray.map((data, index) => {
-                  console.log(data);
                   return (
                     <>
                       <div className="col-span-8">
