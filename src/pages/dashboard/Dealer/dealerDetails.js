@@ -123,7 +123,7 @@ function DealerDetails() {
     coverageType: "",
     isShippingAllowed: "",
     isServicer: createServicerAccountOption,
-    accountStatus: createAccount,
+    isAccountCreate: createAccount,
     termCondition: {
       fileName: "",
       name: "",
@@ -276,17 +276,17 @@ function DealerDetails() {
           : "no",
       isServicer: result?.result[0]?.dealerData?.isServicer,
       termCondition: result?.result[0]?.dealerData?.termCondition,
-      accountStatus: result?.result[0]?.dealerData?.accountStatus,
+      isAccountCreate: result?.result[0]?.dealerData?.isAccountCreate,
     });
     setServicerCreateAccountOption(result?.result[0]?.dealerData?.isServicer);
     setSelectedFile2(result?.result[0]?.dealerData?.termCondition);
     setCreateAccountOption(
-      result?.result[0]?.dealerData?.accountStatus === false ? "no" : "yes"
+      result?.result[0]?.dealerData?.isAccountCreate === false ? "no" : "yes"
     );
     setShipping(
       result?.result[0]?.dealerData?.isShippingAllowed === false ? "no" : "yes"
     );
-    setCreateAccount(result?.result[0]?.dealerData?.accountStatus);
+    setCreateAccount(result?.result[0]?.dealerData?.isAccountCreate);
     setLoading(false);
   };
 
@@ -1475,7 +1475,7 @@ function DealerDetails() {
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
-                    disabled={dealerDetails.dealerData?.accountStatus === false}
+                    disabled={dealerDetails.dealerData?.isAccountCreate === false}
                     checked={createAccountOption === "yes"}
                     onChange={handleRadioChange}
                   />
@@ -1484,7 +1484,7 @@ function DealerDetails() {
                     label="No"
                     value="no"
                     checked={createAccountOption === "no"}
-                    disabled={dealerDetails.dealerData?.accountStatus === false}
+                    disabled={dealerDetails.dealerData?.isAccountCreate === false}
                     onChange={handleRadioChange}
                   />
                 </p>
