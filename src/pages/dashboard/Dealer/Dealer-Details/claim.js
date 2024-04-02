@@ -1687,7 +1687,7 @@ function ClaimList(props) {
                    </Button>
                  </div>
                  <div className="col-span-2">
-                   <Button>No</Button>
+                   <Button onClick={closePay}>No</Button>
                  </div>
                  <div className="col-span-4"></div>
                </Grid>

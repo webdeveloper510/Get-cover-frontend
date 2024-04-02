@@ -163,12 +163,13 @@ function DealerPriceBook(props) {
     try {
       const res = await getCategoryAndPriceBooksforDealerPortal();
       let arr = [];
-      res?.result?.length > 0 &&
-        res?.result?.map((item) => {
+      res?.result?.priceCategories.length > 0 &&
+        res?.result?.priceCategories.map((item) => {
           arr.push({ label: item.name, value: item.name });
         });
 
       setCategoryList(arr);
+      console.log(res, '----------------------->>>>>>>>>>>>>')
     } catch (error) {
       console.error("Error fetching category list:", error);
     }

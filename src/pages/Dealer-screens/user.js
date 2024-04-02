@@ -49,7 +49,7 @@ function DealerUser() {
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
-
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
   const [timer, setTimer] = useState(3);
@@ -161,6 +161,30 @@ function DealerUser() {
     setIsModalOpen2(true);
   };
 
+  const openUserModal = () => {
+    setInitialFormValues({
+      lastName: "",
+      firstName: "",
+      phoneNumber: "",
+      position: "",
+      status: true,
+      id: "",
+    });
+    setIsUserModalOpen(true);
+  };
+
+  const closeUserModal = () => {
+    setIsUserModalOpen(false);
+    setInitialFormValues({
+      lastName: "",
+      firstName: "",
+      phoneNumber: "",
+      position: "",
+      status: true,
+      id: "",
+    });
+  };
+
   const closeModal12 = () => {
     setIsModalOpen12(false);
   };
@@ -219,7 +243,7 @@ function DealerUser() {
     onSubmit: async (values) => {
       console.log("Form values:", values);
       setLoading(true);
-      const result = await addSuperAdminMembers(values);
+      const result = await userDetailsById(values);
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
@@ -259,6 +283,54 @@ function DealerUser() {
       // closeModal1();
     }
   };
+  const userValues = useFormik({
+    initialValues: initialFormValues,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .required("Required")
+        .transform((originalValue) => originalValue.trim())
+        .max(30, "Must be exactly 30 characters"),
+      lastName: Yup.string()
+        .required("Required")
+        .transform((originalValue) => originalValue.trim())
+        .max(30, "Must be exactly 30 characters"),
+      email: Yup.string()
+        .required("Required")
+        .matches(emailValidationRegex, "Invalid email address")
+        .transform((originalValue) => originalValue.trim()),
+      phoneNumber: Yup.string()
+        .required("Required")
+        .min(10, "Must be at least 10 characters")
+        .max(10, "Must be exactly 10 characters")
+        .matches(/^[0-9]+$/, "Must contain only digits"),
+      status: Yup.boolean().required("Required"),
+    }),
+    onSubmit: async (values) => {
+      console.log("Form values:", values);
+      setLoading(true);
+      const result = await addSuperAdminMembers(values);
+      console.log(result);
+      if (result.code == 200) {
+        setLoading(false);
+        setTimer(3);
+        SetPrimaryText("User Add Successfully ");
+        SetSecondaryText("user Add successfully ");
+       
+        SetIsModalOpen(true);
+        setIsUserModalOpen(false);
+        getUserList();
+      } else {
+        setLoading(false);
+        if (result.code === 401) {
+          userValues.setFieldError("email", "Email already in use");
+        }
+        SetIsModalOpen(true);
+      }
+      closeModal2();
+    },
+  });
+
   const editUser = async (id) => {
     console.log(id);
     const result = await userDetailsById(id);
@@ -273,7 +345,7 @@ function DealerUser() {
       position: result?.result?.position,
       status: result?.result?.status,
     });
-
+    setIsUserModalOpen(false);
     openModal2();
   };
 
@@ -557,16 +629,10 @@ function DealerUser() {
             <Button>Change Password</Button>
           </div>
           </div>
-          {loading ? (
-          <div className=" h-[400px] w-full flex py-5">
-            <div className="self-center mx-auto">
-              <RotateLoader color="#333" />
-            </div>
-          </div>
-        ) : (
+        
           <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
             <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-              <Button onClick={() => openModal2()}> + Add Member</Button>
+              <Button onClick={() => openUserModal()}> + Add Member</Button>
             </div>
             <p className="text-xl font-semibold mb-3">Users List</p>
             <Grid className="!p-[2px] !pt-[14px] !pb-0">
@@ -666,7 +732,7 @@ function DealerUser() {
               noDataComponent={<CustomNoDataComponent />}
             />
           </div>
-        )}
+       
         </div>
        
       </div>
@@ -729,10 +795,176 @@ function DealerUser() {
       </Modal>
 
       {/* Modal Edit Popop */}
-      <Modal isOpen={isModalOpen2} onClose={closeModal2}>
+      <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
         <div className=" py-3">
           <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
             Add New User
+          </p>
+          <form className="mt-8" onSubmit={userValues.handleSubmit}>
+            <Grid className="px-8">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="firstName"
+                  label="First Name"
+                  required={true}
+                  className="!bg-[#fff]"
+                  placeholder=""
+                  maxLength={"30"}
+                  value={userValues.values.firstName}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.firstName && userValues.errors.firstName}
+                />
+                {userValues.touched.firstName && userValues.errors.firstName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {userValues.errors.firstName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="lastName"
+                  label="Last Name"
+                  required={true}
+                  placeholder=""
+                  className="!bg-[#fff]"
+                  maxLength={"30"}
+                  value={userValues.values.lastName}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.lastName && userValues.errors.lastName}
+                />
+                {userValues.touched.lastName && userValues.errors.lastName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {userValues.errors.lastName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="email"
+                  name="email"
+                  label="Email"
+                  className="!bg-[#fff]"
+                  required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={userValues.values.email}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.email && userValues.errors.email}
+                />
+                {/* {userValues.touched.position && userValues.errors.position && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {userValues.errors.position}
+                </div>
+              )} */}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="tel"
+                  name="phoneNumber"
+                  label="Mobile Number"
+                  required={true}
+                  className="!bg-[#fff]"
+                  placeholder=""
+                  value={userValues.values.phoneNumber}
+                  onChange={(e) => {
+                    const sanitizedValue = e.target.value.replace(
+                      /[^0-9]/g,
+                      ""
+                    );
+                    console.log(sanitizedValue);
+                    userValues.handleChange({
+                      target: {
+                        name: "phoneNumber",
+                        value: sanitizedValue,
+                      },
+                    });
+                  }}
+                  onBlur={userValues.handleBlur}
+                  onWheelCapture={(e) => {
+                    e.preventDefault();
+                  }}
+                  minLength={"10"}
+                  maxLength={"10"}
+                  error={
+                    userValues.touched.phoneNumber && userValues.errors.phoneNumber
+                  }
+                />
+                {(userValues.touched.phoneNumber || userValues.submitCount > 0) &&
+                  userValues.errors.phoneNumber && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {userValues.errors.phoneNumber}
+                    </div>
+                  )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="position"
+                  label="Position"
+                  className="!bg-[#fff]"
+                  // required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={userValues.values.position}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.position && userValues.errors.position}
+                />
+                {/* {userValues.touched.position && userValues.errors.position && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {userValues.errors.position}
+                </div>
+              )} */}
+              </div>
+              <div className="col-span-6">
+                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  Do you want to create an account?
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value="yes"
+                    // checked={createAccountOption === "yes"}
+                    // onChange={handleRadioChange}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value="no"
+                    // checked={createAccountOption === "no"}
+                    // onChange={handleRadioChange}
+                  />
+                </p>
+              </div>
+            </Grid>
+            <Grid className="!grid-cols-5 my-5  px-8">
+              <div className="col-span-2">
+                <Button
+                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={() => closeUserModal()}
+                >
+                  Cancel
+                </Button>
+              </div>
+
+              <div className="col-span-3">
+                <Button type="submit" className="w-full">
+                  Submit
+                </Button>
+              </div>
+            </Grid>
+          </form>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isModalOpen2} onClose={closeModal2}>
+        <div className=" py-3">
+          <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            Edit User
           </p>
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <Grid className="px-8">
@@ -778,23 +1010,17 @@ function DealerUser() {
               </div>
               <div className="col-span-6">
                 <Input
-                  type="email"
-                  name="email"
-                  label="Email"
+                  type="text"
+                  name="position"
+                  label="Position"
                   className="!bg-[#fff]"
-                  required={true}
                   placeholder=""
                   maxLength={"30"}
-                  value={formik.values.email}
+                  value={formik.values.position}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  error={formik.touched.email && formik.errors.email}
+                  error={formik.touched.position && formik.errors.position}
                 />
-                {/* {formik.touched.position && formik.errors.position && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.position}
-                </div>
-              )} */}
               </div>
               <div className="col-span-6">
                 <Input
@@ -836,43 +1062,24 @@ function DealerUser() {
                   )}
               </div>
               <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="position"
-                  label="Position"
-                  className="!bg-[#fff]"
-                  // required={true}
+                <Select
+                  label="Status"
+                  required={true}
+                  name="status"
                   placeholder=""
-                  maxLength={"30"}
-                  value={formik.values.position}
+                  onChange={handleSelectChange}
+                  disabled={isprimary}
+                  className="!bg-[#fff]"
+                  options={status}
+                  value={formik.values.status}
                   onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.position && formik.errors.position}
+                  error={formik.touched.status && formik.errors.status}
                 />
-                {/* {formik.touched.position && formik.errors.position && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.position}
-                </div>
-              )} */}
-              </div>
-              <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                  Do you want to create an account?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value="yes"
-                    // checked={createAccountOption === "yes"}
-                    // onChange={handleRadioChange}
-                  />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value="no"
-                    // checked={createAccountOption === "no"}
-                    // onChange={handleRadioChange}
-                  />
-                </p>
+                {formik.touched.status && formik.errors.status && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.status}
+                  </div>
+                )}
               </div>
             </Grid>
             <Grid className="!grid-cols-5 my-5  px-8">
