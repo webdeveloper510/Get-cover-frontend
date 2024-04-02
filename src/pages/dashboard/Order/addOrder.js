@@ -1362,9 +1362,9 @@ function AddOrder() {
               <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
                 <p className="text-2xl font-bold mb-4">Order Details</p>
                 <Grid>
-                  <div className="col-span-6">
+                  <div className="col-span-8">
                     <Grid>
-                      <div className="col-span-6">
+                      <div className="col-span-4">
                         <SelectBoxWIthSerach
                           label="Dealer Name"
                           name="dealerId"
@@ -1400,7 +1400,7 @@ function AddOrder() {
                           </div>
                         )}
                       </div>
-                      <div className="col-span-6">
+                      <div className="col-span-4">
                         <SelectBoxWIthSerach
                           label="Reseller Name"
                           name="resellerId"
@@ -1419,8 +1419,24 @@ function AddOrder() {
                           onBlur={formik.handleBlur}
                         />
                       </div>
-
-                      <div className="col-span-6">
+                      <div className="col-span-4">
+                        <SelectBoxWIthSerach
+                          label="Servicer Name"
+                          name="servicerId"
+                          placeholder=""
+                          className="!bg-white"
+                          onChange={handleSelectChange}
+                          // onChange={handleSelectChange}
+                          options={servicerData}
+                          value={
+                            servicerData.length == 0
+                              ? ""
+                              : formik.values.servicerId
+                          }
+                          onBlur={formik.handleBlur}
+                        />
+                      </div>
+                      <div className="col-span-4">
                         <SelectBoxWIthSerach
                           label="Customer Name"
                           name="customerId"
@@ -1439,23 +1455,10 @@ function AddOrder() {
                           onBlur={formik.handleBlur}
                         />
                       </div>
-                      <div className="col-span-6">
-                        <SelectBoxWIthSerach
-                          label="Servicer Name"
-                          name="servicerId"
-                          placeholder=""
-                          className="!bg-white"
-                          onChange={handleSelectChange}
-                          // onChange={handleSelectChange}
-                          options={servicerData}
-                          value={
-                            servicerData.length == 0
-                              ? ""
-                              : formik.values.servicerId
-                          }
-                          onBlur={formik.handleBlur}
-                        />
+                      <div className="col-span-8 self-center ">
+                        <p className="self-center">Customer Email : <span className="font-bold">customer@yupmail.com</span></p>
                       </div>
+                    
                     </Grid>
                   </div>
                 </Grid>
@@ -2547,7 +2550,7 @@ function AddOrder() {
                               type="number"
                               name="paidAmount"
                               className="!bg-[#fff] !w-[168px]"
-                              label="Total Paid Amount($)"
+                              label="Total Paid Amount ($)"
                               maxLength={10}
                               maxDecimalPlaces={2}
                               disabled={formik4.values.paymentStatus === "Paid"}
@@ -2574,7 +2577,7 @@ function AddOrder() {
                               type="number"
                               name="pendingAmount"
                               className="!bg-[#fff]"
-                              label="Pending Amount($)"
+                              label="Pending Amount ($)"
                               maxLength={10}
                               maxDecimalPlaces={2}
                               disabled={true}
