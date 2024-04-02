@@ -45,7 +45,7 @@ function ContractList(props) {
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
-  
+
   const closeView = () => {
     setIsViewOpen(false);
   };
@@ -447,11 +447,6 @@ function ContractList(props) {
                 setRecordsPerPage={setRecordsPerPage}
               />
             )}
-                </>
-              )}
-            </>
-
-           
           </div>
           {/* )} */}
 
