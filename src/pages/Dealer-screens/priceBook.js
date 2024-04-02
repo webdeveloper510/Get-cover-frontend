@@ -175,6 +175,7 @@ function DealerPriceBook(props) {
         });
 
       setCategoryList(arr);
+      console.log(res, "----------------------->>>>>>>>>>>>>");
     } catch (error) {
       console.error("Error fetching category list:", error);
     }

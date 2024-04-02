@@ -359,7 +359,9 @@ function ContractList(props) {
                                     Eligibility
                                   </p>
                                   <p className="text-[#333333] text-base font-semibold">
-                                    {res.eligibilty}
+                                  {res?.eligibilty === true
+                                  ? "Eligible"
+                                  : "Not Eligible "}
                                   </p>
                                 </div>
                               </div>
@@ -482,7 +484,10 @@ function ContractList(props) {
                         Eligibility
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                        {singleContract?.eligibilty}
+                        
+                        {singleContract?.eligibilty === true
+                                  ? "Eligible"
+                                  : "Not Eligible "}
                       </p>
                     </div>
                   </div>
@@ -516,6 +521,19 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
+                  <div className="col-span-1 border border-[#D1D1D1] ">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Product Category
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {
+                          singleContract?.order?.[0]?.productsArray?.[0]
+                            ?.priceType
+                        }
+                      </p>
+                    </div>
+                  </div>
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
@@ -532,19 +550,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1] ">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Category
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {
-                          singleContract?.order?.[0]?.productsArray?.[0]
-                            ?.priceType
-                        }
-                      </p>
-                    </div>
-                  </div>
+                 
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">

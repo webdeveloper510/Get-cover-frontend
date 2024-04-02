@@ -1148,7 +1148,7 @@ function DealerDetails() {
                       </label>
                       <input
                         type="file"
-                        name="term"
+                        name="termCondition"
                         className="hidden"
                         onChange={handleFileChange}
                         accept="application/pdf"
@@ -1171,13 +1171,12 @@ function DealerDetails() {
                           </button>
                         )}
                         {selectedFile2 ? (
-                          <p className="w-full">{selectedFile2.name}</p>
+                          <p className="w-full overflow-hidden flex flex-nowrap	">{selectedFile2.originalname}</p>
                         ) : (
                           <p
                             className="w-full cursor-pointer"
                             onClick={handleRemoveFile}
                           >
-                            {" "}
                             Select File
                           </p>
                         )}

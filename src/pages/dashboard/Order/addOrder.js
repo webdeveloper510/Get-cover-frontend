@@ -53,6 +53,7 @@ function AddOrder() {
   const [dealerName, setDealerName] = useState("");
   const [servicerName, setServicerName] = useState("");
   const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
   const [resellerName, setResellerName] = useState("");
   const [termList, setTermList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -216,6 +217,7 @@ function AddOrder() {
       ...data,
       resellerId: resellerId,
     });
+    console.log(result, '----customer')
 
     result?.result?.map((res) => {
       arr.push({
@@ -225,6 +227,7 @@ function AddOrder() {
       });
     });
     setCustomerList(arr);
+
   };
 
   const getResellerList = async (dealerId) => {
@@ -593,6 +596,7 @@ function AddOrder() {
       findAndSetLabel(servicerData, values.servicerId, setServicerName);
       findAndSetLabel(customerList, values.customerId, setCustomerName);
       findAndSetLabel(resellerList, values.resellerId, setResellerName);
+    
     },
   });
 
@@ -1219,6 +1223,7 @@ function AddOrder() {
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
     console.log(name, value, "onchange------------------->>");
+   
     if (name == "dealerId") {
       setProductNameOptions([]);
       formikStep3.resetForm();
@@ -1259,6 +1264,7 @@ function AddOrder() {
       };
       getServicerList(data);
     }
+    
     if (name == "customerId") {
       let data = {
         dealerId: formik.values.dealerId,
@@ -1278,6 +1284,19 @@ function AddOrder() {
             getCustomerList(data);
           }
         });
+        
+        let customerEmail = null;
+        console.log("customerId:", formik.values.customerId);
+        customerList.forEach(customer => {
+          console.log("Customer ID in the list:", customerList); 
+          if (customer.customerData._id === formik.values.customerId) {
+            customerEmail = customer.customerData.email;
+          }
+        });
+        console.log("customerEmail:", customerEmail);
+        
+        setCustomerEmail(customerEmail);
+
     }
   };
 
@@ -1362,9 +1381,9 @@ function AddOrder() {
               <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
                 <p className="text-2xl font-bold mb-4">Order Details</p>
                 <Grid>
-                  <div className="col-span-6">
+                  <div className="col-span-8">
                     <Grid>
-                      <div className="col-span-6">
+                      <div className="col-span-4">
                         <SelectBoxWIthSerach
                           label="Dealer Name"
                           name="dealerId"
@@ -1400,7 +1419,7 @@ function AddOrder() {
                           </div>
                         )}
                       </div>
-                      <div className="col-span-6">
+                      <div className="col-span-4">
                         <SelectBoxWIthSerach
                           label="Reseller Name"
                           name="resellerId"
@@ -1419,27 +1438,7 @@ function AddOrder() {
                           onBlur={formik.handleBlur}
                         />
                       </div>
-
-                      <div className="col-span-6">
-                        <SelectBoxWIthSerach
-                          label="Customer Name"
-                          name="customerId"
-                          placeholder=""
-                          className={`${
-                            customerId ? "!bg-[#f2f2f2]" : "!bg-white"
-                          }`}
-                          isDisabled={customerId}
-                          onChange={handleSelectChange}
-                          options={customerList}
-                          value={
-                            customerList.length == 0
-                              ? ""
-                              : formik.values.customerId
-                          }
-                          onBlur={formik.handleBlur}
-                        />
-                      </div>
-                      <div className="col-span-6">
+                      <div className="col-span-4">
                         <SelectBoxWIthSerach
                           label="Servicer Name"
                           name="servicerId"
@@ -1456,6 +1455,29 @@ function AddOrder() {
                           onBlur={formik.handleBlur}
                         />
                       </div>
+                      <div className="col-span-4">
+                        <SelectBoxWIthSerach
+                          label="Customer Name"
+                          name="customerId"
+                          placeholder=""
+                          className={`${
+                            customerId ? "!bg-[#f2f2f2]" : "!bg-white"
+                          }`}
+                          isDisabled={customerId}
+                          onChange={handleSelectChange}
+                          options={customerList}
+                          value={
+                            customerList.length == 0
+                              ? ""
+                              : formik.values.customerId
+                          }
+                          onBlur={formik.handleBlur}
+                          
+                        />
+                        <span className="ml-3 mt-2">{}</span>
+                      </div>
+                     
+                    
                     </Grid>
                   </div>
                 </Grid>
@@ -2546,7 +2568,7 @@ function AddOrder() {
                               type="number"
                               name="paidAmount"
                               className="!bg-[#fff] !w-[168px]"
-                              label="Total Paid Amount($)"
+                              label="Total Paid Amount ($)"
                               maxLength={10}
                               maxDecimalPlaces={2}
                               disabled={formik4.values.paymentStatus === "Paid"}
@@ -2573,7 +2595,7 @@ function AddOrder() {
                               type="number"
                               name="pendingAmount"
                               className="!bg-[#fff]"
-                              label="Pending Amount($)"
+                              label="Pending Amount ($)"
                               maxLength={10}
                               maxDecimalPlaces={2}
                               disabled={true}
