@@ -383,11 +383,13 @@ function DealerUser() {
   const formikUSerFilter = useFormik({
     initialValues: {
       firstName: "",
+      lastName: "",
       email: "",
       phone: "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string(),
+      lastName: Yup.string(),
       email: Yup.string(),
       phone: Yup.number(),
     }),
