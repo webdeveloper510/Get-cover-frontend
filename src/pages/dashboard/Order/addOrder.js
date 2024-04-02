@@ -2290,7 +2290,6 @@ function AddOrder() {
                   </Grid>
                 </div>
                 {formikStep3.values.productsArray.map((data, index) => {
-                  console.log(data);
                   return (
                     <>
                       <div className="col-span-8">

@@ -146,13 +146,14 @@ function DealerAddOrder() {
     const filteredServicers = result.result;
     console.log(filteredServicers);
 
-    const isResellerIdEmpty = data?.resellerId === "";
-    formik.setFieldValue("servicerId", isResellerIdEmpty ? "" : "");
+    const isResellerIdEmpty = data?.resellerId == "";
+    console.log(formik.values.servicerId);
 
-    if (!isResellerIdEmpty) {
+    if (!isResellerIdEmpty && formik.values.servicerId) {
       const matchedServicer = filteredServicers.find(
         (res) => res._id === formik.values.servicerId
       );
+
       formik.setFieldValue(
         "servicerId",
         matchedServicer ? matchedServicer._id : ""
@@ -630,6 +631,7 @@ function DealerAddOrder() {
     });
     event.currentTarget.value = null;
     formikStep3.setFieldValue(`productsArray[${index}].file`, "");
+    formikStep3.setFieldValue(`productsArray[${index}].orderFile`, {});
   };
   const handleFileSelect = (event, index) => {
     console.log(index);
@@ -698,7 +700,6 @@ function DealerAddOrder() {
       paymentStatus: "Unpaid",
       paidAmount: 0.0,
     },
-
     onSubmit: (values) => {
       console.log(values);
       setLoading(true);
@@ -725,24 +726,65 @@ function DealerAddOrder() {
           } else {
             setError(res.message);
           }
+          setLoading(false);
         });
       } else {
         addOrderforDealerPortal(data).then((res) => {
           if (res.code == 200) {
-            setLoading(false);
             openModal();
-
-            //  navigate('/orderList')
           } else {
-            setLoading(false);
             setError(res.message);
             console.log("here", res);
           }
+          setLoading(false);
         });
       }
-
-      setLoading(false);
     },
+
+    // onSubmit: (values) => {
+    //   console.log(values);
+    //   setLoading(true);
+
+    //   const totalAmount = calculateTotalAmount(
+    //     formikStep3.values.productsArray
+    //   );
+    //   console.log(totalAmount);
+    //   const data = {
+    //     ...formik.values,
+    //     ...formikStep2.values,
+    //     ...formikStep3.values,
+    //     paidAmount: values.paidAmount,
+    //     dueAmount: parseFloat(totalAmount),
+    //     sendNotification: sendNotification,
+    //     paymentStatus: values.paymentStatus,
+    //     orderAmount: parseFloat(totalAmount),
+    //   };
+
+    //   if (orderId != undefined) {
+    //     editOrderforDealerPortal(orderId, data).then((res) => {
+    //       if (res.code == 200) {
+    //         openModal();
+    //       } else {
+    //         setError(res.message);
+    //       }
+    //     });
+    //   } else {
+    //     addOrderforDealerPortal(data).then((res) => {
+    //       if (res.code == 200) {
+    //         setLoading(false);
+    //         openModal();
+
+    //         //  navigate('/orderList')
+    //       } else {
+    //         setLoading(false);
+    //         setError(res.message);
+    //         console.log("here", res);
+    //       }
+    //     });
+    //   }
+
+    //   setLoading(false);
+    // },
   });
 
   useEffect(() => {
@@ -2210,12 +2252,13 @@ function DealerAddOrder() {
                             <img src={csvFile} className="mr-2" alt="Dropbox" />
                             <div className="flex justify-between w-full">
                               <p className="self-center">
-                                {data?.file === ""
+                                {data?.file === "" || data?.file?.name === ""
                                   ? "No File Selected"
                                   : data?.file?.name}
                               </p>
+
                               <p className="self-center">
-                                {data?.file === ""
+                                {data?.file === "" || data?.file?.name === ""
                                   ? ""
                                   : (data?.file?.size / 1000)?.toFixed(2) +
                                     "kb"}

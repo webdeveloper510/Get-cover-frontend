@@ -29,6 +29,7 @@ import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
 import Modal from "../../../common/model";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
+import ContractList from "../../dashboard/Contract/contractList";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -39,12 +40,9 @@ function OrderDetails() {
   const [contractDetails, setContractDetails] = useState();
   const { orderId } = useParams();
   const navigate = useNavigate();
-  const getInitialActiveTab = () => {
-    const storedTab = localStorage.getItem("orderMenu");
-    return storedTab ? storedTab : "Order Summary";
-  };
+
   const id = useParams();
-  const [activeTab, setActiveTab] = useState(getInitialActiveTab());
+  const [activeTab, setActiveTab] = useState("Order Summary");
   const state = cityData;
   const [isServicerModal, setIsServicerModal] = useState(false);
 
@@ -96,7 +94,9 @@ function OrderDetails() {
       label: "Contracts",
       icons: contract,
       Activeicons: contractActive,
-      content: <Contracts orderId={orderId} flag={"contracts"} />,
+      content: activeTab === "Contracts" && (
+        <ContractList orderId={orderId} flag={"contracts"} shownEdit={false} />
+      ),
     },
   ];
 
@@ -308,7 +308,10 @@ function OrderDetails() {
                     {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
                     <span className="self-center">
                       {" "}
-                      <PdfGenerator data={orderDetails._id} />
+                      <PdfGenerator
+                        data={orderDetails._id}
+                        setLoading={setLoading1}
+                      />
                     </span>
                   </Button>
                 </div>
