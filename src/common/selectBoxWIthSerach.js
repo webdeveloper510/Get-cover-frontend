@@ -11,6 +11,7 @@ const SelectBoxWithSearch = ({
   className1,
   name,
   isDisabled,
+  emailKey,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(!!value);
@@ -32,7 +33,10 @@ const SelectBoxWithSearch = ({
   // Adding an "unselect" option
   const extendedOptions = [
     { value: "", label: "select" }, // Change the label as per your preference
-    ...options,
+    ...options.map(option => ({
+      value: option.value,
+      label: option[emailKey] ? `${option.label} (${option[emailKey]})` : option.label // Conditionally include email
+    })),
   ];
 
   const customStyles = {
@@ -87,3 +91,4 @@ const SelectBoxWithSearch = ({
 };
 
 export default SelectBoxWithSearch;
+

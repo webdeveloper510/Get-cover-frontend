@@ -595,7 +595,6 @@ function AddOrder() {
       findAndSetLabel(dealerList, values.dealerId, setDealerName);
       findAndSetLabel(servicerData, values.servicerId, setServicerName);
       findAndSetLabel(customerList, values.customerId, setCustomerName);
-
       findAndSetLabel(resellerList, values.resellerId, setResellerName);
     
     },
@@ -1473,8 +1472,9 @@ function AddOrder() {
                               : formik.values.customerId
                           }
                           onBlur={formik.handleBlur}
+                          
                         />
-                        <span className="ml-3 mt-2">{customerEmail}</span>
+                        <span className="ml-3 mt-2">{}</span>
                       </div>
                      
                     

@@ -17,6 +17,8 @@ import { RotateLoader } from "react-spinners";
 import { Link } from "react-router-dom";
 import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 function Contracts(props) {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -125,54 +127,71 @@ function Contracts(props) {
             </div>
             <div className="col-span-7">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-11">
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Order ID"
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="Email"
-                      type="email"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Dealer Order #"
-                    />
-                  </div>
-                  <div className="col-span-3 self-center">
-                    <Input
-                      name="PhoneNo."
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Customer Name"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer "
-                        alt="Search"
+              <Grid className="!p-[26px] !pt-[14px] !pb-0">
+            <div className="col-span-3 self-center">
+              <p className="text-xl font-semibold">Contracts List</p>
+            </div>
+            <div className="col-span-9">
+              <form onSubmit={formik.handleSubmit}>
+                <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                  <Grid className={`!grid-cols-7`}>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Contract ID"
+                        name="contractId"
+                        {...formik.getFieldProps("contractId")}
                       />
-                    </Button>
-                    <Button type="submit" className="!bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="venderOrder"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Dealer P.O. #"
+                        {...formik.getFieldProps("venderOrder")}
                       />
-                    </Button>
-                  </div>
-                </Grid>
+                    </div>
+                    <div className="col-span-1 self-center flex justify-center">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer "
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="!bg-transparent !p-0"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                    <div className={`${props.orderId == null ? '' : 'text-center' } col-span-2 self-center`}>
+                      <Button
+                        className="!text-[13px]"
+                        onClick={() => openDisapproved()}
+                      >
+                        Advance Search
+                      </Button>
+                    </div>
+                  </Grid>
+                </div>
+              </form>
+            </div>
+          </Grid>
               </div>
             </div>
           </Grid>

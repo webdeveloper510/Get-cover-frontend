@@ -45,7 +45,7 @@ function ContractList(props) {
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
-  // console.log()
+  
   const closeView = () => {
     setIsViewOpen(false);
   };
