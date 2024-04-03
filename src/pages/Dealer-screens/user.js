@@ -371,7 +371,7 @@ function DealerUser() {
   const filterUserDetails = async (data) => {
     try {
       setLoading(true);
-      const res = await getUserListByDealerId("", data);
+      const res = await getSuperAdminMembers(data);
       setUserList(res.result);
       // setPrimary(res.result.loginMember.isPrimary);
     } catch (error) {
