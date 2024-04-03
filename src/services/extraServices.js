@@ -172,7 +172,7 @@ export const getSuperAdminMembers = async (data) => {
   try {
     const response = await axios.post(
       `${url}/user/getMembers`,
-      {data},
+      data,
       {
         headers,
       }
