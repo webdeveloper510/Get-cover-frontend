@@ -35,6 +35,7 @@ import {
 } from "../../../services/userServices";
 import Select from "../../../common/select";
 import PasswordInput from "../../../common/passwordInput";
+import { WithContext as ReactTags } from "react-tag-input";
 
 function Account() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -43,6 +44,7 @@ function Account() {
   const [isPrimary, setIsPrimary] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [firstMessage, setFirstMessage] = useState("");
+  const [tags, setTags] = useState([]);
   const [secondMessage, setSecondMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [timer, setTimer] = useState(3);
@@ -405,6 +407,43 @@ function Account() {
   //   phone: "",
   //   position: "",
   // };
+  const KeyCodes = {
+    comma: 188,
+    space: 32,
+    enter: 13,
+  };
+  const delimiters = [KeyCodes.comma, KeyCodes.enter, KeyCodes.space];
+  const handleDelete = (i) => {
+    const updatedTags = [...tags];
+    updatedTags.splice(i, 1);
+    setTags(updatedTags);
+    formik.setFieldValue(
+      "email",
+      updatedTags.map((tag) => tag.text)
+    );
+  };
+  const handleAddition = (tag) => {
+    const updatedTags = [...tags, tag];
+    setTags(updatedTags);
+    formik.setFieldValue(
+      "email",
+      updatedTags.map((tag) => tag.text)
+    );
+  };
+  const handleDrag = (tag, currPos, newPos) => {
+    const newTags = tags.slice();
+
+    newTags.splice(currPos, 1);
+    newTags.splice(newPos, 0, tag);
+
+    // re-render
+    setTags(newTags);
+  };
+
+  const handleTagClick = (index) => {
+    console.log("The tag at index " + index + " was clicked");
+  };
+
 
   const columns = [
     {
@@ -782,6 +821,44 @@ function Account() {
                           </div>
                         </div>
                         <div className="col-span-4 text-right"></div>
+                        <div className="col-span-12">
+                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
+                    <ReactTags
+                      tags={tags}
+                      delimiters={delimiters}
+                      name="email"
+                      handleDelete={handleDelete}
+                      handleAddition={handleAddition}
+                      handleDrag={handleDrag}
+                      handleTagClick={handleTagClick}
+                      inputFieldPosition="bottom"
+                      autocomplete
+                      editable
+                      placeholder=""
+                    />
+                    <label
+                      htmlFor="email"
+                      className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-1 left-2 px-1 -translate-y-4 scale-75 bg-[#fff] text-[#5D6E66] "
+                    >
+                      Send Notification  to 
+                    </label>
+                  </div>
+                  {formik.errors.email && (
+                    <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
+                    
+                      {formik.errors.email &&
+                        (Array.isArray(formik.errors.email)
+                          ? formik.errors.email.map((error, index) => (
+                            <span key={index}>
+                                {index > 0 && " "}
+                                <span className="font-semibold"> {error} </span>
+                              </span>
+                            ))
+                          : formik.errors.email)}
+                    </p>
+                  )}
+                </div>
+
                         <div className="col-span-12 text-right">
                           <Button type="submit" disabled={isSubmitting}>
                             Save Changes

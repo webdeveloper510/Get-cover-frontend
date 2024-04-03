@@ -54,7 +54,7 @@ function DealerUser() {
   const [secondaryText, SetSecondaryText] = useState("");
   const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
-  const [isPrimary, setIsPrimary] = useState(false);
+  const [primary, setPrimary] = useState(false);
 
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({
@@ -67,11 +67,17 @@ function DealerUser() {
   });
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
 
   const getUserList = async () => {
+    setLoading1(true);
     const result = await getSuperAdminMembers("", {});
     console.log(result.result);
     setUserList(result.result);
+    setPrimary(result.loginMember.isPrimary);
+    
+    console.log(result.loginMember.isPrimary , '--------------------------------------res.result.loginMember>>>')
+    setLoading1(false);
   };
   const getLoginUser = async () => {
     const result = await UserDetailAccount("", {});
@@ -367,7 +373,7 @@ function DealerUser() {
       setLoading(true);
       const res = await getUserListByDealerId("", data);
       setUserList(res.result);
-      setIsPrimary(res.result.loginMember.isPrimary);
+      // setPrimary(res.result.loginMember.isPrimary);
     } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
@@ -579,14 +585,15 @@ function DealerUser() {
 
   return (
     <>
-      {loading && (
-        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#fff" />
+      {loading1 ? (<>
+          <div className=" h-[500px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
           </div>
-        </div>
-      )}
-      <div className="my-8">
+        </>) :(
+          <>
+<div className="my-8">
         <Headbar />
         <div className="flex mt-2">
           <div className="pl-3">
@@ -691,7 +698,7 @@ function DealerUser() {
           </div>
         
           <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-            {isPrimary &&  <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+            {primary &&  <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
               <Button onClick={() => openUserModal()}> + Add Member</Button>
             </div>}
            
@@ -794,7 +801,7 @@ function DealerUser() {
               </div>
             </Grid>
             <DataTable
-              columns={isPrimary ? columns : columns1}
+              columns={primary ? columns : columns1}
               data={userList}
               highlightOnHover
               sortIcon={
@@ -810,6 +817,9 @@ function DealerUser() {
         </div>
        
       </div>
+          </>
+        )}
+      
 
       {/* Modal Primary Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
