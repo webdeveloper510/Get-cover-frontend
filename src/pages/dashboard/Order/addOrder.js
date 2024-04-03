@@ -7,7 +7,7 @@ import Input from "../../../common/input";
 import { format, addMonths } from "date-fns";
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
-import cross from "../../../assets/images/icons/CrossButton.svg";
+import Spinner from "../../../assets/images/icons/Spinner.svg";
 import disapproved from "../../../assets/images/Disapproved.png";
 import csvFile from "../../../assets/images/icons/csvFile.svg";
 import AddDealer from "../../../assets/images/dealer-book.svg";
@@ -1482,11 +1482,16 @@ function AddOrder() {
               <div className="flex">
                 <Button
                   type="submit"
+                  className='mr-3'
                   onClick={() => {
                     console.log(formik.errors);
                   }}
                 >
                   Next
+                </Button>
+                <Button type="button" className="!bg-indigo-500 !flex" disabled>
+                  <img src={Spinner} className="w-5 h-5 mr-2" alt="Spinner"/>
+                  Processing...
                 </Button>
               </div>
             </form>

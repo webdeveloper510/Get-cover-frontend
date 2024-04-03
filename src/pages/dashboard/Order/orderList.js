@@ -101,6 +101,7 @@ function OrderList() {
   }, [isModalOpen1, timer]);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   const openModal1 = () => {
     setLoading(true);
     console.log(orderId);
@@ -121,6 +122,8 @@ function OrderList() {
         setIsArchiveOpen(false);
         if (res.code == 200) {
 =======
+=======
+>>>>>>> 0c21c4d7badc8a1ff0100c38e3759ce0e4e1a33e
   const openModal1 = async () => {
     try {
       console.log(message);
@@ -145,7 +148,10 @@ function OrderList() {
           setSecondaryMessage("You have successfully archived the order");
         } else {
           SetOrderType("Paid");
+<<<<<<< HEAD
 >>>>>>> 6ae5f4dc696246453f77cf7059e6779981c919d9
+=======
+>>>>>>> 0c21c4d7badc8a1ff0100c38e3759ce0e4e1a33e
           setPrimaryMessage("Order Successfully Paid.");
           setSecondaryMessage("You have successfully marked the order as paid");
         }
@@ -167,10 +173,13 @@ function OrderList() {
       setMarkLoader(false);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     setIsArchiveOpen(false);
     setLoading(false);
 =======
 >>>>>>> 6ae5f4dc696246453f77cf7059e6779981c919d9
+=======
+>>>>>>> 0c21c4d7badc8a1ff0100c38e3759ce0e4e1a33e
   };
 
   const closeArchive = () => {
