@@ -241,14 +241,13 @@ function DealerDetails() {
     getServicerList();
   }, [id.id, flag]);
 
-  useEffect(() => {
-    localStorage.setItem("menu", activeTab);
-  }, [activeTab]);
+  // useEffect(() => {
+  //   localStorage.setItem("menu", activeTab);
+  // }, [activeTab]);
 
   useEffect(() => {
     getUserList();
   }, []);
-  console.log(isStatus, "----------------isStatus--------->>");
 
   const dealerData = async (showLoader) => {
     if (!showLoader) {

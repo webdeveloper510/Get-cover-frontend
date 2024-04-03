@@ -177,6 +177,7 @@ function ResellerDetails() {
     resellerDetails();
     getServicerList();
   }, [id.resellerId, flag]);
+  
   useEffect(() => {
     localStorage.setItem("Resellermenu", activeTab);
   }, [activeTab]);

@@ -61,11 +61,16 @@ function UserList(props) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (props.activeTab === "Users") {
+      getUserList();
+    }
+  }, [props]);
+
+  useEffect(() => {
     getUserList();
   }, []);
 
   const getUserList = async (data = {}) => {
-    alert(props.flag);
     setLoading(true);
     switch (props.flag) {
       case "customer":
@@ -195,8 +200,6 @@ function UserList(props) {
         id: row._id,
         status: newStatus === "active" ? true : false,
       });
-
-      console.log(result);
     } catch (error) {
       console.error("Error in handleStatusChange:", error);
     }
@@ -250,7 +253,7 @@ function UserList(props) {
 
   const deleteUser = async () => {
     const result = await deleteUserByUserId(deleteId);
-    console.log(result);
+
     if (result.code === 200) {
       // getUserList();
       setIsModalOpen12(true);
@@ -258,9 +261,8 @@ function UserList(props) {
     }
   };
   const editUser = async (id) => {
-    console.log(id);
     const result = await userDetailsById(id);
-    console.log(result.result.status);
+
     SetIsprimary(result.result.isPrimary);
     setMainStatus(result.mainStatus);
     setInitialFormValues({
@@ -276,9 +278,8 @@ function UserList(props) {
   };
 
   const makeUserPrimary = async (row) => {
-    console.log(row._id);
     const result = await changePrimaryByUserId(row._id);
-    console.log(result);
+
     if (result.code === 200) {
       SetPrimaryText("It's set to Primary");
       SetSecondaryText("We have successfully made this user primary");
@@ -289,7 +290,7 @@ function UserList(props) {
 
   const handleFilterIconClick = () => {
     formikUSerFilter.resetForm();
-    console.log(formikUSerFilter.values);
+
     getUserList();
   };
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -379,7 +380,6 @@ function UserList(props) {
       minWidth: "auto", // Set a custom minimum width
       maxWidth: "90px", // Set a custom maximum width
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div
@@ -510,7 +510,7 @@ function UserList(props) {
                             /[^0-9]/g,
                             ""
                           );
-                          console.log(sanitizedValue);
+
                           formikUSerFilter.handleChange({
                             target: {
                               name: "phone",
@@ -715,7 +715,7 @@ function UserList(props) {
                       /[^0-9]/g,
                       ""
                     );
-                    console.log(sanitizedValue);
+
                     formik.handleChange({
                       target: {
                         name: "phoneNumber",
