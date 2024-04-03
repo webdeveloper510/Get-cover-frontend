@@ -48,7 +48,7 @@ function CustomerDetails() {
   //   const storedTab = localStorage.getItem("customer");
   //   return storedTab ? storedTab : "Orders";
   // };
-  const [activeTab, setActiveTab] = useState('Orders'); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
@@ -84,7 +84,7 @@ function CustomerDetails() {
   });
   const { flag } = useMyContext();
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-console.log(isStatus , 'isStatus')
+  console.log(isStatus, "isStatus");
   const state = cityData;
   console.log(customerId);
 
@@ -123,14 +123,14 @@ console.log(isStatus , 'isStatus')
   };
   const closeModal10 = () => {
     setModalOpen(false);
+    setActiveTab("Users");
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
-    setActiveTab("Users");
     userValues.resetForm();
   };
   const getUserList = async () => {
-    const result = await getUserListByCustomerId({},customerId);
+    const result = await getUserListByCustomerId({}, customerId);
     console.log(result.result, "----------");
     setRefreshUserList(result.result);
   };
@@ -188,6 +188,7 @@ console.log(isStatus , 'isStatus')
       }
     },
   });
+
   useEffect(() => {
     getUserList();
   }, []);
@@ -264,15 +265,11 @@ console.log(isStatus , 'isStatus')
           `/addOrderforCustomer/${customerId}/${customerDetail?.meta?.dealerId}${resellerIdParam}`
         );
         break;
-        case "Claims":
-          localStorage.getItem("Users");
-          navigate(
-            `/customer/addClaim/${customerDetail?.meta?.username}`
-          );
-          
-          break;
+      case "Claims":
+        navigate(`/customer/addClaim/${customerDetail?.meta?.username}`);
+
+        break;
       case "Users":
-        localStorage.getItem("Users");
         openUserModal();
         break;
 
@@ -297,7 +294,7 @@ console.log(isStatus , 'isStatus')
     console.log(customerId);
     const result = await getCustomerDetailsById(customerId);
     setCustomerDetail(result.result);
-    setIsStatus(result.result.dealerStatus)
+    setIsStatus(result.result.dealerStatus);
     console.log(result.result);
     setInitialFormValues({
       username: result?.result?.meta?.username,
@@ -321,21 +318,27 @@ console.log(isStatus , 'isStatus')
       label: "Orders",
       icons: Order,
       Activeicons: OrderActive,
-      content: activeTab === "Orders" &&  <OrderList flag={"customer"} id={customerId} activeTab={activeTab} />,
+      content: activeTab === "Orders" && (
+        <OrderList flag={"customer"} id={customerId} activeTab={activeTab} />
+      ),
     },
     {
       id: "Contracts",
       label: "Contracts",
       icons: Dealer,
       Activeicons: DealerActive,
-      content: activeTab === "Contracts" &&  <ContractList flag={"customer"} id={customerId} activeTab={activeTab} />,
+      content: activeTab === "Contracts" && (
+        <ContractList flag={"customer"} id={customerId} activeTab={activeTab} />
+      ),
     },
     {
       id: "Claims",
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: activeTab === "Claims" && <ClaimList id={customerId} flag={"customer"} activeTab={activeTab} />  ,
+      content: activeTab === "Claims" && (
+        <ClaimList id={customerId} flag={"customer"} activeTab={activeTab} />
+      ),
     },
     {
       id: "Users",
@@ -343,15 +346,10 @@ console.log(isStatus , 'isStatus')
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList
-          flag={"customer"}
-          id={customerId}
-          activeTab={activeTab}
-        />
+        <UserList flag={"customer"} id={customerId} activeTab={activeTab} />
       ),
     },
   ];
-  
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -585,7 +583,9 @@ console.log(isStatus , 'isStatus')
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">{customerDetail?.claimData?.numberOfClaims ?? 0}</p>
+                    <p className="text-white text-lg !font-[600]">
+                      {customerDetail?.claimData?.numberOfClaims ?? 0}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
@@ -593,10 +593,12 @@ console.log(isStatus , 'isStatus')
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$ {formatOrderValue(
-                        customerDetail?.claimData?.valueClaim ??
-                          parseInt(0)
-                      )}</p>
+                    <p className="text-white text-lg  !font-[600]">
+                      ${" "}
+                      {formatOrderValue(
+                        customerDetail?.claimData?.valueClaim ?? parseInt(0)
+                      )}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>
@@ -642,22 +644,23 @@ console.log(isStatus , 'isStatus')
               </div>
               <div className="col-span-4"></div>
               <div className="col-span-2">
-              {activeTab !== 'Contracts' && !(activeTab === 'Orders' && isStatus === false) && (
-                  <Button
-                    className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-                    onClick={() => routeToPage(activeTab)}
-                  >
-                    {" "}
-                    <img
-                      src={AddItem}
-                      className="self-center"
-                      alt="AddItem"
-                    />{" "}
-                    <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
-                      Add {activeTab}
-                    </span>{" "}
-                  </Button>
-                )}
+                {activeTab !== "Contracts" &&
+                  !(activeTab === "Orders" && isStatus === false) && (
+                    <Button
+                      className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+                      onClick={() => routeToPage(activeTab)}
+                    >
+                      {" "}
+                      <img
+                        src={AddItem}
+                        className="self-center"
+                        alt="AddItem"
+                      />{" "}
+                      <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
+                        Add {activeTab}
+                      </span>{" "}
+                    </Button>
+                  )}
               </div>
             </Grid>
 

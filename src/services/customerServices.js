@@ -107,6 +107,7 @@ export const getUserListByCustomerId = async (data, id) => {
   try {
     const response = await axios.post(
       `${url}/customer/getCustomerUsers/${id}`,
+      data,
       {
         headers,
       }

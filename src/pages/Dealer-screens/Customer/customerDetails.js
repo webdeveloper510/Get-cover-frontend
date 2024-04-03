@@ -28,6 +28,7 @@ import { RotateLoader } from "react-spinners";
 
 import {
   getCustomerDetailsById,
+  getUserListByCustomerId,
   updateCustomerDetailsById,
 } from "../../../services/customerServices";
 import { useFormik } from "formik";
@@ -119,10 +120,11 @@ function CustomerDetails() {
   };
   const closeModal10 = () => {
     setModalOpen(false);
+    setActiveTab("Users");
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
-    setActiveTab("Users");
+
     userValues.resetForm();
   };
 
@@ -159,7 +161,7 @@ function CustomerDetails() {
       const result = await addUserToCustomer(values);
       console.log(result.code);
       if (result.code == 200) {
-        // getUserList();
+        getUserList();
         // dealerData();
         setModalOpen(true);
         setFirstMessage("New User Added Successfully");
@@ -174,22 +176,31 @@ function CustomerDetails() {
         console.log(result);
         console.log("here");
         if (result.code === 401) {
-          console.log("here12");
           setFieldError("email", "Email already in use");
         }
         setLoading(false);
       }
     },
   });
+
+  useEffect(() => {
+    getUserList();
+  }, []);
+
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
-
+  const getUserList = async () => {
+    const result = await getUserListByCustomerId({}, customerId);
+    console.log(result.result, "----------");
+    setRefreshUserList(result.result);
+  };
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
   };
+
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -216,22 +227,31 @@ function CustomerDetails() {
         .max(6, "Must be exactly 6 characters"),
     }),
 
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setFieldError }) => {
       console.log(values);
+      if (values.status === "yes") {
+        values.status = true;
+      }
       setLoading(true);
       const result = await updateCustomerDetailsById(customerId, values);
-      console.log(result);
+      console.log(result.code);
       if (result.code == 200) {
         customerDetails();
+        // dealerData();
         setModalOpen(true);
-        setFirstMessage("User Data Updated Successfully");
-        setSecondMessage("User Data Updated Successfully");
-        setMessage("Dealer updated Successfully");
+        setFirstMessage("Customer Updated Successfully");
+        setSecondMessage("Customer Updated Successfully");
+
         setLoading(false);
-        setIsModalOpen(false);
+        closeModal();
+        setTimer(3);
       } else {
+        console.log(result);
+        console.log("here");
+        if (result.code === 401) {
+          setFieldError("email", "Email already in use");
+        }
         setLoading(false);
-        formik.setFieldError("username", "Name Already Used");
       }
     },
   });
@@ -254,7 +274,6 @@ function CustomerDetails() {
         navigate(`/dealer/addOrderforCustomer/${customerId}${resellerIdParam}`);
         break;
       case "Users":
-        localStorage.getItem("Users");
         openUserModal();
         break;
 
@@ -295,6 +314,7 @@ function CustomerDetails() {
   useEffect(() => {
     localStorage.setItem("customer", activeTab);
   }, [activeTab]);
+
   const tabs = [
     {
       id: "Order",
@@ -329,7 +349,7 @@ function CustomerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList flag={"customer"} id={customerId} activeTab={activeTab} />
+        <UserList id={customerId} flag={"customer"} activeTab={activeTab} />
       ),
     },
   ];
