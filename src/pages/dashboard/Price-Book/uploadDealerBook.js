@@ -91,9 +91,10 @@ function UploadDealerBook() {
     if (fileInputRef) {
       fileInputRef.current.click();
       setSelectedFile(null);
-      console.log("formik value becmes empty")
+      console.log("formik value becomes empty")
       formik.setFieldValue("file", "");
-      formik.setFieldTouched("file",false)
+      formik.setFieldTouched("file", false);
+      setError(""); // Reset error state
     }
   };
 
@@ -169,32 +170,33 @@ function UploadDealerBook() {
       formData.append("file", values.file);
       var data = { formData };
       console.log(formData);
-
+    
       try {
         const errors = await formik.validateForm(values);
-        console.log("errors====>",errors)
-        const result = await uploadDealerBookInBulk(formData);
-        console.log(result.message);
-        setError(result.message);
-        if (result.code === 200) {
-          if (Object.keys(errors).length === 0) {
+        console.log("errors====>", errors)
+        setError(""); // Reset API error state
+        if (Object.keys(errors).length === 0) {
+          const result = await uploadDealerBookInBulk(formData);
+          console.log(result.message);
+          setError(result.message);
+          if (result.code === 200) {
             console.log("Form Data:", formData);
             setLoader(false);
             openModal();
             setTimer(3);
           } else {
+            console.log("API error:", result.message);
             setLoader(false);
-
-            console.log("Form validation failed:", errors);
           }
+        } else {
+          console.log("Form validation failed:", errors);
+          setLoader(false);
         }
       } catch (error) {
-        setLoader(false);
-
         console.error("Error submitting form:", error);
+        setLoader(false);
       }
-      setLoader(false);
-    },
+    }
   });
 
   const downloadCSVTemplate = async () => {

@@ -7,7 +7,7 @@ import Input from "../../../common/input";
 import { format, addMonths } from "date-fns";
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
-import cross from "../../../assets/images/icons/CrossButton.svg";
+import Spinner from "../../../assets/images/icons/Spinner.svg";
 import disapproved from "../../../assets/images/Disapproved.png";
 import csvFile from "../../../assets/images/icons/csvFile.svg";
 import AddDealer from "../../../assets/images/dealer-book.svg";
@@ -1394,7 +1394,7 @@ function AddOrder() {
                             resellerId ||
                             dealerValue ||
                             customerId
-                              ? "!bg-[transparent]"
+                              ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
                               : "!bg-white"
                           }`}
                           onChange={handleSelectChange}
@@ -1425,7 +1425,7 @@ function AddOrder() {
                           name="resellerId"
                           placeholder=""
                           className={`${
-                            resellerId ? "!bg-[#f2f2f2]" : "!bg-white"
+                            resellerId ? "!bg-gradient-to-t from-[#f2f2f2] to-white" : "!bg-white"
                           }`}
                           isDisabled={resellerId}
                           onChange={handleSelectChange}
@@ -1443,7 +1443,7 @@ function AddOrder() {
                           label="Servicer Name"
                           name="servicerId"
                           placeholder=""
-                          className="!bg-white"
+                          className={`!bg-white`}
                           onChange={handleSelectChange}
                           // onChange={handleSelectChange}
                           options={servicerData}
@@ -1461,7 +1461,7 @@ function AddOrder() {
                           name="customerId"
                           placeholder=""
                           className={`${
-                            customerId ? "!bg-[#f2f2f2]" : "!bg-white"
+                            customerId ? "!bg-gradient-to-t from-[#f2f2f2] to-white" : "!bg-white"
                           }`}
                           isDisabled={customerId}
                           onChange={handleSelectChange}
@@ -1482,11 +1482,16 @@ function AddOrder() {
               <div className="flex">
                 <Button
                   type="submit"
+                  className='mr-3'
                   onClick={() => {
                     console.log(formik.errors);
                   }}
                 >
                   Next
+                </Button>
+                <Button type="button" className="!bg-indigo-500 !flex" disabled>
+                  <img src={Spinner} className="w-5 h-5 mr-2" alt="Spinner"/>
+                  Processing...
                 </Button>
               </div>
             </form>

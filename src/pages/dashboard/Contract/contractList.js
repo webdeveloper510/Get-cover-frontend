@@ -359,7 +359,7 @@ function ContractList(props) {
                                     alt="edit"
                                   />{" "}
                                 </div>
-                                {props.shownEdit == undefined ? (
+                                {props.shownEdit ? (
                                   <Link to={`/editContract/${res._id}`}>
                                     {" "}
                                     <img
@@ -430,11 +430,8 @@ function ContractList(props) {
                         </div>
                       );
                     })}
-                </>
-              )}
-            </>
 
-            {totalRecords == 0 && !loading ? (
+              {totalRecords == 0 && !loading ? (
               <div className="text-center my-5">
                 <p>No records found</p>
               </div>
@@ -447,6 +444,11 @@ function ContractList(props) {
                 setRecordsPerPage={setRecordsPerPage}
               />
             )}
+                </>
+              )}
+            </>
+
+          
           </div>
           {/* )} */}
 
@@ -635,7 +637,7 @@ function ContractList(props) {
             onClose={closeView}
             className="!w-[1100px]"
           >
-            {props.shownEdit == undefined ? (
+            {props.shownEdit ? (
               <Button
                 onClick={() => {
                   navigate(`/editContract/${contractDetails._id}`);
@@ -755,7 +757,7 @@ function ContractList(props) {
                           </p>
                         </div>
                       </div>
-                      {props.shownEdit == undefined ? (
+                      {props.shownEdit ? (
                         <div className="col-span-1 border border-[#D1D1D1]">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
@@ -770,7 +772,7 @@ function ContractList(props) {
                           </div>
                         </div>
                       ) : null}
-                      {props.isShown == undefined ? (
+                      {props.isShown ? (
                         <div className="col-span-1 border border-[#D1D1D1]">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">

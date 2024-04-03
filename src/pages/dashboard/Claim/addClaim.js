@@ -841,6 +841,12 @@ console.log(contractList, "-------------contractList------------------>>>")
                           {file.fileType === "excel" && (
                             <FontAwesomeIcon icon={faFileExcel} size="4x" />
                           )}
+                           {file.fileType === "xlsx" && (
+                            <FontAwesomeIcon icon={faFileWord} size="4x" />
+                          )}
+                           {file.fileType === "docx" && (
+                            <FontAwesomeIcon icon={faFileWord} size="4x" />
+                          )}
                           <button
                             onClick={() => handleRemoveImage(index)}
                             className="absolute -top-2 -right-2"
