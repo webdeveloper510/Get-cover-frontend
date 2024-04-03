@@ -43,6 +43,7 @@ function OrderList(props) {
   const [selectedAction, setSelectedAction] = useState(null);
   const [orderList, setOrderList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [errorList, SetErrorList] = useState([]);
   const [orderId, SetOrderId] = useState("");
   const [processOrderErrors, setProcessOrderErrors] = useState([]);
@@ -51,6 +52,11 @@ function OrderList(props) {
   const [message, setMessage] = useState("");
   const [primaryMessage, setPrimaryMessage] = useState("");
   const [secondaryMessage, setSecondaryMessage] = useState("");
+  const [orderType, SetOrderType] = useState("");
+  const [markLoader, setMarkLoader] = useState(false);
+  const [errorLine, SetErrorLine] = useState(
+    "Order can not be process to the following reasons"
+  );
   const [contractDetails, setContractDetails] = useState();
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
@@ -58,6 +64,7 @@ function OrderList(props) {
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+
   const markasPaid = async (row) => {
     setMessage(
       `Would you prefer to make the full payment $ ${row.orderAmount} ?`
@@ -65,6 +72,7 @@ function OrderList(props) {
     SetOrderId(row._id);
     setIsArchiveOpen(true);
   };
+
   const openArchive = (id) => {
     setMessage("Would you like to Archive it?");
     SetOrderId(id);
@@ -125,32 +133,57 @@ function OrderList(props) {
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
-  console.log(message , '------------------------->>>>> ')
-  const openModal1 = () => {
-    if (message == "Would you like to Archive it?") {
-      archiveOrders(orderId).then((res) => {
-        setPrimaryMessage("Archive Order Successfully");
-        setSecondaryMessage("You have successfully archive the order");
-        console.log(res);
-        setTimer(3);
-        setIsModalOpen1(true);
-      });
-    } else {
-      markPaid(orderId).then((res) => {
-        if (res.code == 200) {
+
+  const openModal1 = async () => {
+    try {
+      console.log(message);
+      setMarkLoader(true);
+
+      let res;
+      if (message === "Would you like to Archive it?") {
+        res = await archiveOrders(orderId);
+      } else {
+        res = await markPaid(orderId);
+      }
+
+      if (res.code === 401) {
+        SetErrorLine("Order cannot be processed for the following reasons");
+        SetErrorList(res.message);
+        closeArchive();
+        setIsModalOpen(true);
+      } else if (res.code === 200) {
+        if (message === "Would you like to Archive it?") {
+          SetOrderType("Archive");
+          setPrimaryMessage("Archive Order Successfully");
+          setSecondaryMessage("You have successfully archived the order");
+        } else {
+          SetOrderType("Paid");
           setPrimaryMessage("Order Successfully Paid.");
           setSecondaryMessage("You have successfully marked the order as paid");
-          setTimer(3);
-          setIsModalOpen1(true);
         }
-      });
+        setTimer(3);
+        setIsModalOpen1(true);
+      } else {
+        console.error("Unknown response code:", res.code);
+      }
+    } catch (error) {
+      console.error(
+        `Error while ${
+          message === "Would you like to Archive it?"
+            ? "archiving"
+            : "marking as paid"
+        } order:`,
+        error
+      );
+    } finally {
+      setMarkLoader(false);
     }
   };
 
   const closeArchive = () => {
     setIsArchiveOpen(false);
   };
-  
+
   useEffect(() => {
     if (props.activeTab === "Orders" || (props.activeTab === "Order" && flag)) {
       getOrderList();
@@ -191,7 +224,6 @@ function OrderList(props) {
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
- 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -331,7 +363,10 @@ function OrderList(props) {
                       <PdfGenerator setLoading={setLoading} data={row._id} />
                     </div>
 
-                    <DocMakeOrderContainer setLoading={setLoading} data={row._id} />
+                    <DocMakeOrderContainer
+                      setLoading={setLoading}
+                      data={row._id}
+                    />
                   </>
                 )}
               </div>
@@ -471,25 +506,36 @@ function OrderList(props) {
           </div>
         </div>
       </div>
-
       <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
-        <div className="text-center py-3">
-          <img src={unassign} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] px-10 text-light-black">
-           {message}
-          </p>
-          <Grid className="!grid-cols-4 my-5 ">
-            <div className="col-span-1"></div>
-            <Button onClick={() => openModal1()}>Yes</Button>
-            <Button
-              className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
-              onClick={() => closeArchive()}
-            >
-              No
-            </Button>
-            <div className="col-span-1"></div>
-          </Grid>
-        </div>
+        {markLoader ? (
+          <>
+            <div className=" h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="text-center py-3">
+              <img src={unassign} alt="email Image" className="mx-auto my-4" />
+              <p className="text-3xl mb-0 mt-2 font-[800] px-10 text-light-black">
+                {message}
+              </p>
+              <Grid className="!grid-cols-4 my-5 ">
+                <div className="col-span-1"></div>
+                <Button onClick={() => openModal1()}>Yes</Button>
+                <Button
+                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={() => closeArchive()}
+                >
+                  No
+                </Button>
+                <div className="col-span-1"></div>
+              </Grid>
+            </div>
+          </>
+        )}
       </Modal>
 
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
@@ -508,7 +554,7 @@ function OrderList(props) {
       </Modal>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-      {/* <Button
+        {/* <Button
           // onClick={() => {
           //   navigate(`/editOrder/${orderList._id}/${props.id}/${props.flag}`);
           // }}
@@ -532,7 +578,7 @@ function OrderList(props) {
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
-            <span className="text-light-black">Error</span>{" "}
+            <span className="text-light-black"> {errorLine} :</span>{" "}
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">

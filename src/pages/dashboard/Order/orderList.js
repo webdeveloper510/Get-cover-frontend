@@ -45,10 +45,14 @@ function OrderList() {
   const [orderList, setOrderList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
-  const [markLoader, setMarkLoarder] = useState(false);
+  const [markLoader, setMarkLoader] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [processOrderErrors, setProcessOrderErrors] = useState([]);
   const [errorList, SetErrorList] = useState([]);
+  const [orderType, SetOrderType] = useState("");
+  const [errorLine, SetErrorLine] = useState(
+    "Order can not be process to the following reasons"
+  );
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [primaryMessage, setPrimaryMessage] = useState("");
@@ -96,6 +100,7 @@ function OrderList() {
     return () => clearInterval(intervalId);
   }, [isModalOpen1, timer]);
 
+<<<<<<< HEAD
   const openModal1 = () => {
     setLoading(true);
     console.log(orderId);
@@ -115,15 +120,57 @@ function OrderList() {
         setLoading(false);
         setIsArchiveOpen(false);
         if (res.code == 200) {
+=======
+  const openModal1 = async () => {
+    try {
+      console.log(message);
+      setMarkLoader(true);
+
+      let res;
+      if (message === "Would you like to Archive it?") {
+        res = await archiveOrders(orderId);
+      } else {
+        res = await markPaid(orderId);
+      }
+
+      if (res.code === 401) {
+        SetErrorLine("Order cannot be processed for the following reasons");
+        SetErrorList(res.message);
+        closeArchive();
+        setIsModalOpen(true);
+      } else if (res.code === 200) {
+        if (message === "Would you like to Archive it?") {
+          SetOrderType("Archive");
+          setPrimaryMessage("Archive Order Successfully");
+          setSecondaryMessage("You have successfully archived the order");
+        } else {
+          SetOrderType("Paid");
+>>>>>>> 6ae5f4dc696246453f77cf7059e6779981c919d9
           setPrimaryMessage("Order Successfully Paid.");
           setSecondaryMessage("You have successfully marked the order as paid");
-          setTimer(3);
-          setIsModalOpen1(true);
         }
-      });
+        setTimer(3);
+        setIsModalOpen1(true);
+      } else {
+        console.error("Unknown response code:", res.code);
+      }
+    } catch (error) {
+      console.error(
+        `Error while ${
+          message === "Would you like to Archive it?"
+            ? "archiving"
+            : "marking as paid"
+        } order:`,
+        error
+      );
+    } finally {
+      setMarkLoader(false);
     }
+<<<<<<< HEAD
     setIsArchiveOpen(false);
     setLoading(false);
+=======
+>>>>>>> 6ae5f4dc696246453f77cf7059e6779981c919d9
   };
 
   const closeArchive = () => {
@@ -155,6 +202,8 @@ function OrderList() {
   const openModal = (id) => {
     setData(id);
     processOrders(id).then((res) => {
+      SetErrorLine("Order can not be process to the following reasons");
+      SetOrderType("Process");
       setSelectedAction(null);
       setProcessOrderErrors(res.result);
       SetErrorList(res.result);
@@ -216,7 +265,9 @@ function OrderList() {
 
   const markasPaid = async (row) => {
     setMessage(
-      `Would you prefer to make the full payment $ ${row.orderAmount-row.paidAmount} ?`
+      `Would you prefer to make the full payment $ ${
+        row.orderAmount - row.paidAmount
+      } ?`
     );
     SetOrderId(row._id);
     setIsArchiveOpen(true);
@@ -233,8 +284,8 @@ function OrderList() {
     }
   };
 
-  console.log('setSelectedAction ===============>>', selectedAction)
-  
+  console.log("setSelectedAction ===============>>", selectedAction);
+
   const columns = [
     {
       name: "ID",
@@ -261,16 +312,19 @@ function OrderList() {
     },
     {
       name: "# Contracts",
-      selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts.toLocaleString(2)),
+      selector: (row) =>
+        row?.noOfProducts == null ? 0 : row.noOfProducts.toLocaleString(2),
       sortable: true,
       minWidth: "100px",
     },
     {
       name: "Order Value",
-      selector: (row) => `$${
-        row?.orderAmount === undefined
-          ? parseInt(0).toLocaleString(2)
-          : formatOrderValue(row?.orderAmount ?? parseInt(0))}`,
+      selector: (row) =>
+        `$${
+          row?.orderAmount === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.orderAmount ?? parseInt(0))
+        }`,
       sortable: true,
       minWidth: "150px",
     },
@@ -312,7 +366,7 @@ function OrderList() {
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
-                onClick={()=>setSelectedAction(null)}
+                onClick={() => setSelectedAction(null)}
                 className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md top-[1rem]`}
               >
                 {/* <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
@@ -363,10 +417,7 @@ function OrderList() {
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
                     <div className="">
-                    <PdfGenerator
-                      data={row._id}
-                      setLoading={setLoading}
-                    />
+                      <PdfGenerator data={row._id} setLoading={setLoading} />
                     </div>
                   </>
                 )}
@@ -444,7 +495,7 @@ function OrderList() {
                     <div className="col-span-2 self-center">
                       <Select
                         label=""
-                        OptionName='Status'
+                        OptionName="Status"
                         options={status}
                         color="text-[#1B1D21] opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
@@ -520,17 +571,19 @@ function OrderList() {
         </div>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <Button
-          onClick={() => {
-            navigate(`/editOrder/${data}`);
-          }}
-          className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
-        >
-          <img
-            src={Edit}
-            className="w-full h-full text-black rounded-full p-0"
-          />
-        </Button>
+        {/* {orderType == "Process" ? (
+          <Button
+            onClick={() => {
+              navigate(`/editOrder/${data}`);
+            }}
+            className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          >
+            <img
+              src={Edit}
+              className="w-full h-full text-black rounded-full p-0"
+            />
+          </Button>
+        ) : null} */}
         <Button
           onClick={closeModal}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
@@ -548,7 +601,7 @@ function OrderList() {
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-            Order can not be process to the following reasons : <br />
+            {errorLine} : <br />
             <span>{errorList} . </span>
           </p>
         </div>
@@ -557,31 +610,33 @@ function OrderList() {
       <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
         {markLoader ? (
           <>
-           <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
+            <div className=" h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
               </div>
+            </div>
           </>
-        ) : (<> 
-        <div className="text-center py-3">
-          <img src={unassign} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] px-10 text-light-black">
-            {message}
-          </p>
-          <Grid className="!grid-cols-4 my-5 ">
-            <div className="col-span-1"></div>
-            <Button onClick={() => openModal1()}>Yes</Button>
-            <Button
-              className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
-              onClick={() => closeArchive()}
-            >
-              No
-            </Button>
-            <div className="col-span-1"></div>
-          </Grid>
-        </div>
-        </>)}
+        ) : (
+          <>
+            <div className="text-center py-3">
+              <img src={unassign} alt="email Image" className="mx-auto my-4" />
+              <p className="text-3xl mb-0 mt-2 font-[800] px-10 text-light-black">
+                {message}
+              </p>
+              <Grid className="!grid-cols-4 my-5 ">
+                <div className="col-span-1"></div>
+                <Button onClick={() => openModal1()}>Yes</Button>
+                <Button
+                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={() => closeArchive()}
+                >
+                  No
+                </Button>
+                <div className="col-span-1"></div>
+              </Grid>
+            </div>
+          </>
+        )}
       </Modal>
 
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
