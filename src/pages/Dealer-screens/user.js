@@ -55,6 +55,7 @@ function DealerUser() {
   const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
   const [primary, setPrimary] = useState(false);
+  const [createAccountOption, setCreateAccountOption] = useState("yes");
 
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({
@@ -71,7 +72,7 @@ function DealerUser() {
 
   const getUserList = async () => {
     setLoading1(true);
-    const result = await getSuperAdminMembers("", {});
+    const result = await getSuperAdminMembers();
     console.log(result.result);
     setUserList(result.result);
     setPrimary(result.loginMember.isPrimary);
@@ -95,7 +96,13 @@ function DealerUser() {
     getLoginUser();
   }, []);
 
-  
+    const handleRadioChange = (event) => {
+    const selectedValue = event.target.value;
+    console.log(selectedValue);
+    userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
+    setCreateAccountOption(selectedValue);
+  };
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
@@ -368,16 +375,15 @@ function DealerUser() {
     }
   };
 
-  const filterUserDetails = async (data) => {
+  const filterUserDetails = async (value) => {
     try {
-      setLoading(true);
-      const res = await getSuperAdminMembers(data);
+      setLoading1(true);
+      const res = await getSuperAdminMembers(value);
       setUserList(res.result);
-      // setPrimary(res.result.loginMember.isPrimary);
     } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
-      setLoading(false);
+      setLoading1(false);
     }
   };
 
@@ -1090,15 +1096,15 @@ function DealerUser() {
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
-                    // checked={createAccountOption === "yes"}
-                    // onChange={handleRadioChange}
+                    checked={createAccountOption === "yes"}
+                    onChange={handleRadioChange}
                   />
                   <RadioButton
                     id="no-create-account"
                     label="No"
                     value="no"
-                    // checked={createAccountOption === "no"}
-                    // onChange={handleRadioChange}
+                    checked={createAccountOption === "no"}
+                    onChange={handleRadioChange}
                   />
                 </p>
               </div>
