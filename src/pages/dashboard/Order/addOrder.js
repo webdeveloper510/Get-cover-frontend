@@ -224,6 +224,7 @@ function AddOrder() {
         label: res?.username,
         value: res?._id,
         customerData: res,
+        emailKey: res?.email
       });
     });
     setCustomerList(arr);
