@@ -30,7 +30,6 @@ import { getContractsforCustomer } from "../../../services/customerServices";
 import { getContractsforReseller } from "../../../services/reSellerServices";
 
 function ContractList(props) {
-  console.log(props.shownEdit);
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");

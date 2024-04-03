@@ -375,7 +375,9 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
-                  {userDetails?.servicerData?.name == null ? (
+                  {userDetails?.servicerData?.name == null ||
+                  userDetails?.servicerData?.resellerId != null ||
+                  userDetails?.servicerData?.dealerId != null ? (
                     <></>
                   ) : (
                     <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
