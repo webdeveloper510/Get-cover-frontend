@@ -5,23 +5,44 @@ import download from "../assets/images/download.png";
 import { format } from "date-fns";
 import { orderDetailsById } from "../services/orderServices";
 import { useState } from "react";
+import { ToWords } from "to-words";
 function PdfGenerator(props, className) {
-  const {setLoading} = props
-   
+  const { setLoading } = props;
+
+  const toWords = new ToWords({
+    localeCode: "en-IN",
+    converterOptions: {
+      currency: true,
+      ignoreDecimal: false,
+      ignoreZeroCurrency: false,
+      doNotAddOnly: false,
+      currencyOptions: {
+        name: "Dollar",
+        plural: "Dollar",
+        symbol: "$",
+        fractionalUnit: {
+          name: "",
+          plural: "",
+          symbol: "",
+        },
+      },
+    },
+  });
+
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  }; 
+  };
   const [data, setData] = useState({});
   console.log("props", props);
   const convertToPDF = async () => {
-    setLoading(true)
+    setLoading(true);
     const result = await orderDetailsById(props.data);
     let value = {
       dealerName: result.orderUserData.dealerData,
@@ -48,7 +69,7 @@ function PdfGenerator(props, className) {
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
-    setLoading(false)
+    setLoading(false);
   };
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -130,9 +151,9 @@ function PdfGenerator(props, className) {
                           ${data?.dealerName?.zip} <br/>
                            
                             </small>
-                            <small> ${formatPhoneNumber(data?.username?.phoneNumber)} | ${
-      data?.username?.email
-    }  </small>
+                            <small> ${formatPhoneNumber(
+                              data?.username?.phoneNumber
+                            )} | ${data?.username?.email}  </small>
                     </td>
                     ${
                       data?.resellerId != null
@@ -150,9 +171,9 @@ function PdfGenerator(props, className) {
                       ${data?.resellerName?.zip ?? ""} <br/>
                      
                     </small>
-                    <small>${formatPhoneNumber(data?.resellerUsername?.phoneNumber)} | ${
-                            data?.resellerUsername?.email
-                          }  </small>
+                    <small>${formatPhoneNumber(
+                      data?.resellerUsername?.phoneNumber
+                    )} | ${data?.resellerUsername?.email}  </small>
                   </td> `
                         : ""
                     }
@@ -163,11 +184,19 @@ function PdfGenerator(props, className) {
                   data?.customerId != null
                     ? `
                 <h4 style="margin: 0; padding: 0;"><b>Customer Details: </b></h4>
-                <h4 style="margin: 0; padding: 0;"><b> ${data?.customerName?.username} </b></h4>
-                <small style="margin: 0; padding: 0;">Address: ${data?.customerName?.street} ${data?.customerName?.city} ,${data?.customerName?.state} ${data?.customerName?.zip} <br/>
+                <h4 style="margin: 0; padding: 0;"><b> ${
+                  data?.customerName?.username
+                } </b></h4>
+                <small style="margin: 0; padding: 0;">Address: ${
+                  data?.customerName?.street
+                } ${data?.customerName?.city} ,${data?.customerName?.state} ${
+                        data?.customerName?.zip
+                      } <br/>
                    
                     </small>
-                    <small>${formatPhoneNumber(data?.customerUserData?.phoneNumber)} | ${data?.customerUserData?.email}  </small>
+                    <small>${formatPhoneNumber(
+                      data?.customerUserData?.phoneNumber
+                    )} | ${data?.customerUserData?.email}  </small>
             </td>
             `
                     : ""
@@ -249,6 +278,18 @@ function PdfGenerator(props, className) {
             }
         
           </td>
+          <td>
+          $${toWords.convert(
+            data?.productsArray.reduce(
+              (total, product) =>
+                total + product.noOfProducts * product.unitPrice,
+              0
+            ),
+            { currency: true }
+          )}
+        </td>
+        
+    
           </tr>
         </tfoot>
       </table>
