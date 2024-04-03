@@ -699,7 +699,7 @@ function ResellerDetails() {
                     />{" "}
                   </Link>
                 </div>
-                <div>
+                <div className="w-[75%]">
                   <p className="text-sm text-neutral-grey font-Regular">
                     Dealer Name
                   </p>
@@ -714,7 +714,7 @@ function ResellerDetails() {
                   className="mr-3 bg-[#383838] rounded-[14px]"
                   alt="Name"
                 />
-                <div>
+                <div className="w-[75%]">
                   <p className="text-sm text-neutral-grey font-Regular">Name</p>
                   <p className="text-base text-white font-semibold ">
                     {resellerDetail?.firstName} {resellerDetail?.lastName}
