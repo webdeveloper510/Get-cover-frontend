@@ -371,7 +371,7 @@ function ResellerCustomerDetails() {
                   <p className="text-sm text-neutral-grey font-Regular">
                     Account Name
                   </p>
-                  <p className="text-xl text-white font-semibold">
+                  <p className="text-xl text-white font-semibold break-words">
                     {customerDetail?.meta?.username}
                   </p>
                 </div>
