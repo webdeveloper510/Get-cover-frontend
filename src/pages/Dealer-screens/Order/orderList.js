@@ -245,7 +245,8 @@ function OrderList() {
     },
     {
       name: "# Contracts",
-      selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts.toLocaleString(0)),
+      selector: (row) =>
+        row?.noOfProducts == null ? 0 : row.noOfProducts.toLocaleString(0),
       sortable: true,
       minWidth: "100px",
     },
@@ -341,12 +342,12 @@ function OrderList() {
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
                     <div className="border-b">
-                    <PdfGenerator
-                      data={row._id}
-                      setLoading={setLoading}
-                    />
+                      <PdfGenerator data={row._id} setLoading={setLoading} />
                     </div>
-                      <DocMakeOrderContainer setLoading={setLoading} data={row._id} />
+                    <DocMakeOrderContainer
+                      setLoading={setLoading}
+                      data={row._id}
+                    />
                   </>
                 )}
               </div>
@@ -677,6 +678,6 @@ function OrderList() {
       </Modal>
     </>
   );
-}
+} 
 
 export default OrderList;
