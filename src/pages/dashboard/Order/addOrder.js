@@ -217,7 +217,7 @@ function AddOrder() {
       ...data,
       resellerId: resellerId,
     });
-    console.log(result, '----customer')
+    
 
     result?.result?.map((res) => {
       arr.push({
@@ -228,7 +228,7 @@ function AddOrder() {
       });
     });
     setCustomerList(arr);
-
+    console.log(arr, '----customer')
   };
 
   const getResellerList = async (dealerId) => {
