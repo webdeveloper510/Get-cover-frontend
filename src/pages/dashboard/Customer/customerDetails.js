@@ -125,6 +125,7 @@ function CustomerDetails() {
     setModalOpen(false);
     setActiveTab("Users");
   };
+  //console.log("bhhj")
   const closeUserModal = () => {
     setIsUserModalOpen(false);
     userValues.resetForm();
