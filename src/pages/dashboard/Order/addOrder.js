@@ -155,11 +155,9 @@ function AddOrder() {
     setDealerList(arr);
   };
 
-
   const handleGOBack = () => {
     navigate(-1);
   };
-
 
   const getServicerList = async (data) => {
     let arr = [];
@@ -221,18 +219,17 @@ function AddOrder() {
       ...data,
       resellerId: resellerId,
     });
-    
 
     result?.result?.map((res) => {
       arr.push({
         label: res?.username,
         value: res?._id,
         customerData: res,
-        emailKey: res?.email
+        emailKey: res?.email,
       });
     });
     setCustomerList(arr);
-    console.log(arr, '----customer')
+    console.log(arr, "----customer");
   };
 
   const getResellerList = async (dealerId) => {
@@ -336,10 +333,10 @@ function AddOrder() {
         ]);
         break;
       case "Breakdown":
-        setCoverage([{ label: "Accidental", value: "Accidental" }]);
+        setCoverage([{ label: "Breakdown", value: "Breakdown" }]);
         break;
       default:
-        setCoverage([{ label: "Breakdown", value: "Breakdown" }]);
+        setCoverage([{ label: "Accidental", value: "Accidental" }]);
         break;
     }
 
@@ -601,7 +598,6 @@ function AddOrder() {
       findAndSetLabel(servicerData, values.servicerId, setServicerName);
       findAndSetLabel(customerList, values.customerId, setCustomerName);
       findAndSetLabel(resellerList, values.resellerId, setResellerName);
-    
     },
   });
 
@@ -1228,7 +1224,7 @@ function AddOrder() {
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
     console.log(name, value, "onchange------------------->>");
-   
+
     if (name == "dealerId") {
       setProductNameOptions([]);
       formikStep3.resetForm();
@@ -1269,7 +1265,7 @@ function AddOrder() {
       };
       getServicerList(data);
     }
-    
+
     if (name == "customerId") {
       let data = {
         dealerId: formik.values.dealerId,
@@ -1289,19 +1285,18 @@ function AddOrder() {
             getCustomerList(data);
           }
         });
-        
-        let customerEmail = null;
-        console.log("customerId:", formik.values.customerId);
-        customerList.forEach(customer => {
-          console.log("Customer ID in the list:", customerList); 
-          if (customer.customerData._id === formik.values.customerId) {
-            customerEmail = customer.customerData.email;
-          }
-        });
-        console.log("customerEmail:", customerEmail);
-        
-        setCustomerEmail(customerEmail);
 
+      let customerEmail = null;
+      console.log("customerId:", formik.values.customerId);
+      customerList.forEach((customer) => {
+        console.log("Customer ID in the list:", customerList);
+        if (customer.customerData._id === formik.values.customerId) {
+          customerEmail = customer.customerData.email;
+        }
+      });
+      console.log("customerEmail:", customerEmail);
+
+      setCustomerEmail(customerEmail);
     }
   };
 
@@ -1477,12 +1472,9 @@ function AddOrder() {
                               : formik.values.customerId
                           }
                           onBlur={formik.handleBlur}
-                          
                         />
                         <span className="ml-3 mt-2">{}</span>
                       </div>
-                     
-                    
                     </Grid>
                   </div>
                 </Grid>

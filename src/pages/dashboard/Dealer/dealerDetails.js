@@ -146,7 +146,7 @@ function DealerDetails() {
   const handleAccountChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
     setCreateAccount(valueAsBoolean);
-    formik.setFieldValue("accountStatus", valueAsBoolean);
+    formik.setFieldValue("isAccountCreate", valueAsBoolean);
   };
 
   const handleScrollRight = () => {
@@ -248,7 +248,7 @@ function DealerDetails() {
   useEffect(() => {
     getUserList();
   }, []);
-  console.log(isStatus , '----------------isStatus--------->>')
+  console.log(isStatus, "----------------isStatus--------->>");
 
   const dealerData = async (showLoader) => {
     if (!showLoader) {
@@ -1171,7 +1171,9 @@ function DealerDetails() {
                           </button>
                         )}
                         {selectedFile2 ? (
-                          <p className="w-full overflow-hidden flex flex-nowrap	">{selectedFile2.originalname}</p>
+                          <p className="w-full overflow-hidden flex flex-nowrap	">
+                            {selectedFile2.originalname}
+                          </p>
                         ) : (
                           <p
                             className="w-full cursor-pointer"
@@ -1474,7 +1476,9 @@ function DealerDetails() {
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
-                    disabled={dealerDetails.dealerData?.isAccountCreate === false}
+                    disabled={
+                      dealerDetails.dealerData?.isAccountCreate === false
+                    }
                     checked={createAccountOption === "yes"}
                     onChange={handleRadioChange}
                   />
@@ -1483,7 +1487,9 @@ function DealerDetails() {
                     label="No"
                     value="no"
                     checked={createAccountOption === "no"}
-                    disabled={dealerDetails.dealerData?.isAccountCreate === false}
+                    disabled={
+                      dealerDetails.dealerData?.isAccountCreate === false
+                    }
                     onChange={handleRadioChange}
                   />
                 </p>
