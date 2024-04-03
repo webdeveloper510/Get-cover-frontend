@@ -97,21 +97,23 @@ function OrderList() {
   }, [isModalOpen1, timer]);
 
   const openModal1 = () => {
-    setMarkLoarder(true);
+    setLoading(true);
     console.log(orderId);
     if (message == "Would you like to Archive it?") {
       archiveOrders(orderId).then((res) => {
+        setIsArchiveOpen(false);
         setPrimaryMessage("Archive Order Successfully");
         setSecondaryMessage("You have successfully archive the order");
         // console.log(res);
-        setMarkLoarder(false);
+        setLoading(false);
         setTimer(3);
         setIsModalOpen1(true);
         
       });
     } else {
       markPaid(orderId).then((res) => {
-        setMarkLoarder(false);
+        setLoading(false);
+        setIsArchiveOpen(false);
         if (res.code == 200) {
           setPrimaryMessage("Order Successfully Paid.");
           setSecondaryMessage("You have successfully marked the order as paid");
@@ -120,7 +122,8 @@ function OrderList() {
         }
       });
     }
-    setMarkLoarder(false);
+    setIsArchiveOpen(false);
+    setLoading(false);
   };
 
   const closeArchive = () => {
