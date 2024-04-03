@@ -121,31 +121,37 @@ function CustomerList() {
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
+      style: { whiteSpace: 'pre-wrap' },
     },
     {
       name: "Name",
       selector: (row) => row.customerData.username,
       sortable: true,
+      style: { whiteSpace: 'pre-wrap' },
     },
     {
       name: "Email",
       selector: (row) => row.email,
       sortable: true,
+      style: { whiteSpace: 'pre-wrap' },
     },
     {
       name: "Phone #",
       selector: (row) => formatPhoneNumber(row.phoneNumber),
       sortable: true,
+      style: { whiteSpace: 'pre-wrap' },
     },
     {
       name: "Dealer Name",
       selector: (row) => row.customerData.dealerName,
       sortable: true,
+      style: { whiteSpace: 'pre-wrap' },
     },
     {
       name: "# of Orders",
       selector: (row) => row?.order?.noOfOrders ?? 0,
       sortable: true,
+      style: { whiteSpace: 'pre-wrap' },
     },
     {
       name: "Order Value",
