@@ -33,7 +33,7 @@ import { getServicerUsersById } from "../../../../services/servicerServices";
 import { getResellerUsersById } from "../../../../services/reSellerServices";
 
 function UserList(props) {
-  // console.log(props)
+  console.log(props);
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
@@ -59,12 +59,13 @@ function UserList(props) {
   });
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
-  
+
   useEffect(() => {
     getUserList();
-}, []);
+  }, []);
 
   const getUserList = async (data = {}) => {
+    alert(props.flag);
     setLoading(true);
     switch (props.flag) {
       case "customer":

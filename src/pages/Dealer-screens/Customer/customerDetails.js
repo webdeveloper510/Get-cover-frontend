@@ -43,14 +43,10 @@ import { MyContextProvider, useMyContext } from "../../../context/context";
 import OrderList from "../Reseller/Dealer-Details/order";
 import ContractList from "../Reseller/Dealer-Details/contract";
 import ClaimList from "../Reseller/Dealer-Details/claim";
-import UserList from "../Reseller/Dealer-Details/user";
+import UserList from "../../dashboard/Dealer/Dealer-Details/user";
 
 function CustomerDetails() {
-  const getInitialActiveTab = () => {
-    const storedTab = localStorage.getItem("customer");
-    return storedTab ? storedTab : "Order";
-  };
-  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState("Order"); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
@@ -126,13 +122,10 @@ function CustomerDetails() {
   };
   const closeUserModal = () => {
     setIsUserModalOpen(false);
+    setActiveTab("Users");
     userValues.resetForm();
   };
-  const getUserList = async () => {
-    const result = await getUserListByDealerId(customerId, {});
-    console.log(result.result, "----------");
-    setRefreshUserList(result.result);
-  };
+
   const userValues = useFormik({
     initialValues: initialUserFormValues,
     enableReinitialize: true,
@@ -166,7 +159,7 @@ function CustomerDetails() {
       const result = await addUserToCustomer(values);
       console.log(result.code);
       if (result.code == 200) {
-        getUserList();
+        // getUserList();
         // dealerData();
         setModalOpen(true);
         setFirstMessage("New User Added Successfully");
@@ -243,6 +236,7 @@ function CustomerDetails() {
     },
   });
   const openUserModal = () => {
+    setActiveTab("Users123");
     setIsUserModalOpen(true);
   };
   useEffect(() => {
@@ -307,7 +301,7 @@ function CustomerDetails() {
       label: "Order",
       icons: Order,
       Activeicons: OrderActive,
-      content: (activeTab === "Order" &&
+      content: activeTab === "Order" && (
         <OrderList flag={"customer"} id={customerId} activeTab={activeTab} />
       ),
     },
@@ -316,7 +310,7 @@ function CustomerDetails() {
       label: "Contracts",
       icons: Dealer,
       Activeicons: DealerActive,
-      content: (activeTab === "Contracts" &&
+      content: activeTab === "Contracts" && (
         <ContractList flag={"customer"} id={customerId} activeTab={activeTab} />
       ),
     },
@@ -325,7 +319,9 @@ function CustomerDetails() {
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: activeTab === "Claims" && <ClaimList id={customerId} flag={"customer"} activeTab={activeTab} /> ,
+      content: activeTab === "Claims" && (
+        <ClaimList id={customerId} flag={"customer"} activeTab={activeTab} />
+      ),
     },
     {
       id: "Users",
@@ -333,12 +329,7 @@ function CustomerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList
-          flag={"customer"}
-          id={customerId}
-          data={refreshList}
-          activeTab={activeTab}
-        />
+        <UserList flag={"customer"} id={customerId} activeTab={activeTab} />
       ),
     },
   ];
