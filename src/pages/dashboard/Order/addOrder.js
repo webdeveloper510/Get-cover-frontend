@@ -155,7 +155,7 @@ function AddOrder() {
     setDealerList(arr);
   };
 
-  
+
   const handleGOBack = () => {
     navigate(-1);
   };
@@ -1460,7 +1460,7 @@ function AddOrder() {
                           onBlur={formik.handleBlur}
                         />
                       </div>
-                      <div className="col-span-4">
+                      <div className="col-span-8">
                         <SelectBoxWIthSerach
                           label="Customer Name"
                           name="customerId"

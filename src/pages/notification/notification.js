@@ -33,8 +33,8 @@ function Notification() {
 
   const getNotificationsData = () => {
     getNotifications().then((response) => {
-      setNotificationList(response.result.notification);
-      console.log(response.result.notification);
+      setNotificationList(response.result?.notification);
+      console.log(response.result?.notification);
       setLoading(false);
     });
   };
@@ -78,8 +78,8 @@ function Notification() {
           </div>
         ) : (
           <>
-            {notificationList.length !== 0 ? (
-              notificationList.map((data, key) => (
+            {notificationList?.length !== 0 ? (
+              notificationList?.map((data, key) => (
                 <div
                   key={key}
                   className="border border-[#D9D9D9] rounded-[25px] my-3 px-6 py-8 mr-4"
@@ -90,21 +90,21 @@ function Notification() {
                 >
                   <p
                     className={`${
-                      data.notificationData.status !== true
+                      data.notificationData?.status !== true
                         ? "font-semibold text-lg"
                         : "font-Regular text-lg"
                     } `}
                   >
-                    {data?.notificationData.title}: {data?.name}
+                    {data?.notificationData?.title}: {data?.name}
                   </p>
                   <p
                     className={`${
-                      data.notificationData.status !== true
+                      data.notificationData?.status !== true
                         ? "mb-6 text-base text-neutral-grey font-semibold"
                         : "mb-6 text-base text-neutral-grey font-Regular"
                     }  `}
                   >
-                    {data?.notificationData.description}
+                    {data?.notificationData?.description}
                   </p>
                   <div className="flex">
                     <div className="flex mr-10 font-Regular">
@@ -112,7 +112,7 @@ function Notification() {
                       <p>
                         <b> Date : </b>{" "}
                         {new Date(
-                          data.notificationData.createdAt
+                          data.notificationData?.createdAt
                         ).toLocaleDateString()}
                       </p>
                     </div>
