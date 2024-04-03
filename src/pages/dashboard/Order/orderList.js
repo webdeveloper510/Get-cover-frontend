@@ -100,25 +100,6 @@ function OrderList() {
     return () => clearInterval(intervalId);
   }, [isModalOpen1, timer]);
 
-  const openModal1 = () => {
-    setLoading(true);
-    console.log(orderId);
-    if (message == "Would you like to Archive it?") {
-      archiveOrders(orderId).then((res) => {
-        setIsArchiveOpen(false);
-        setPrimaryMessage("Archive Order Successfully");
-        setSecondaryMessage("You have successfully archive the order");
-        // console.log(res);
-        setLoading(false);
-        setTimer(3);
-        setIsModalOpen1(true);
-        
-      });
-    } else {
-      markPaid(orderId).then((res) => {
-        setLoading(false);
-        setIsArchiveOpen(false);
-        if (res.code == 200) {
   const openModal1 = async () => {
     try {
       console.log(message);
@@ -163,8 +144,6 @@ function OrderList() {
     } finally {
       setMarkLoader(false);
     }
-    setIsArchiveOpen(false);
-    setLoading(false);
   };
 
   const closeArchive = () => {
@@ -353,7 +332,7 @@ function OrderList() {
             >
               <img
                 src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
+                className="cursor-pointer w-[35px]"
                 alt="Active Icon"
               />
             </div>
@@ -430,7 +409,7 @@ function OrderList() {
 
         <div className="flex mt-2">
           <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">Order</p>
+            <p className="font-bold text-[36px] leading-9 mb-[3px]">Order</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
                 <Link to={"/"}>Order </Link> /{" "}
@@ -505,7 +484,7 @@ function OrderList() {
                       <Button type="submit" className=" !bg-transparent !p-0">
                         <img
                           src={Search}
-                          className="cursor-pointer	"
+                          className="cursor-pointer "
                           alt="Search"
                         />
                       </Button>
@@ -519,7 +498,7 @@ function OrderList() {
                       >
                         <img
                           src={clearFilter}
-                          className="cursor-pointer	mx-auto"
+                          className="cursor-pointer mx-auto"
                           alt="clearFilter"
                         />
                       </Button>
@@ -610,7 +589,6 @@ function OrderList() {
               </div>
             </div>
           </>
-              
         ) : (
           <>
             <div className="text-center py-3">
