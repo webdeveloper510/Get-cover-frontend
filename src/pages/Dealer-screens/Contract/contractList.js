@@ -444,10 +444,12 @@ function ContractList(props) {
                 })}
             </>
           )}
-          {totalRecords == 0 || loading ? (
-            <div className="text-center my-5">
-              {!loading && <p>No records found</p>}
-            </div>
+          {totalRecords === 0 && !loading ? (
+            <>
+              <div className="text-center my-5">
+                <p>No records found.</p>
+              </div>
+            </>
           ) : (
             <CustomPagination
               totalRecords={totalRecords}
@@ -457,7 +459,6 @@ function ContractList(props) {
               setRecordsPerPage={setRecordsPerPage}
             />
           )}
-
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button
               onClick={closeDisapproved}
