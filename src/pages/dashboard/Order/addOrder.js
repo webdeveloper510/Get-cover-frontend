@@ -69,6 +69,7 @@ function AddOrder() {
   const [priceBookName, setPriceBookName] = useState([]);
   const [coverage, setCoverage] = useState([]);
   const [serviceCoverage, setServiceCoverage] = useState([]);
+  const [dataLoading, setDataLoading] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -97,9 +98,7 @@ function AddOrder() {
     if (orderId || dealerId || resellerId || dealerValue || customerId) {
       setLoading(true);
 
-      const timer = setTimeout(() => {
-        setLoading(false);
-      }, 3000);
+      const timer = setTimeout(() => {}, 3000);
 
       return () => clearTimeout(timer);
     }
@@ -140,19 +139,26 @@ function AddOrder() {
   };
 
   const getDealerListData = async () => {
-    const result = await getDealersList();
+    setLoading1(true);
+    try {
+      const result = await getDealersList();
 
-    let arr = [];
-    const filteredDealers = result?.data?.filter(
-      (data) => data.dealerData.accountStatus === true
-    );
-    filteredDealers?.map((res) => {
-      arr.push({
-        label: res.dealerData.name,
-        value: res.dealerData._id,
+      let arr = [];
+      const filteredDealers = result?.data?.filter(
+        (data) => data.dealerData.accountStatus === true
+      );
+      filteredDealers?.map((res) => {
+        arr.push({
+          label: res.dealerData.name,
+          value: res.dealerData._id,
+        });
       });
-    });
-    setDealerList(arr);
+      setDealerList(arr);
+      setLoading1(false);
+    } catch (error) {
+      console.error("Error while getting dealer list data:", error);
+      setLoading1(false);
+    }
   };
 
   const handleGOBack = () => {
@@ -160,33 +166,39 @@ function AddOrder() {
   };
 
   const getServicerList = async (data) => {
-    let arr = [];
+    setLoading1(true);
+    try {
+      let arr = [];
 
-    const result = await getServicerListInOrders(data);
+      const result = await getServicerListInOrders(data);
 
-    const filteredServicers = result.result;
-    filteredServicers?.map((res) => {
-      arr.push({
-        label: res.name,
-        value: res._id,
+      const filteredServicers = result.result;
+      filteredServicers?.map((res) => {
+        arr.push({
+          label: res.name,
+          value: res._id,
+        });
       });
-    });
 
-    setServicerData(arr);
-    const isResellerIdEmpty = data?.resellerId == "";
-    console.log(formik.values.servicerId);
+      setServicerData(arr);
+      const isResellerIdEmpty = data?.resellerId == "";
+      console.log(formik.values.servicerId);
 
-    if (!isResellerIdEmpty && formik.values.servicerId) {
-      const matchedServicer = filteredServicers.find(
-        (res) => res._id === formik.values.servicerId
-      );
+      if (!isResellerIdEmpty && formik.values.servicerId) {
+        const matchedServicer = filteredServicers.find(
+          (res) => res._id === formik.values.servicerId
+        );
 
-      formik.setFieldValue(
-        "servicerId",
-        matchedServicer ? matchedServicer._id : ""
-      );
+        formik.setFieldValue(
+          "servicerId",
+          matchedServicer ? matchedServicer._id : ""
+        );
+      }
+      setLoading1(false);
+    } catch (error) {
+      console.error("Error while getting servicer list:", error);
+      setLoading1(false);
     }
-    setLoading1(false);
   };
 
   useEffect(() => {
@@ -359,7 +371,7 @@ function AddOrder() {
         break;
     }
   };
- 
+
   const formik4 = useFormik({
     initialValues: {
       paymentStatus: "Unpaid",
@@ -539,8 +551,8 @@ function AddOrder() {
     formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
     formik4.setFieldValue("paymentStatus", result?.result?.paymentStatus);
     formik4.setFieldValue("paidAmount", result.result.paidAmount);
-    // setLoading1(false);
   };
+
   // useEffect(() => {
   //   console.log(location);
   //   if (location.pathname.includes("/editOrder")) {
@@ -1351,8 +1363,10 @@ function AddOrder() {
       }
     } catch (error) {
       setLoading3(false);
+      setLoading(false);
     } finally {
       setLoading3(false);
+      setLoading(false);
     }
   };
 
@@ -1425,7 +1439,9 @@ function AddOrder() {
                           name="resellerId"
                           placeholder=""
                           className={`${
-                            resellerId ? "!bg-gradient-to-t from-[#f2f2f2] to-white" : "!bg-white"
+                            resellerId
+                              ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                              : "!bg-white"
                           }`}
                           isDisabled={resellerId}
                           onChange={handleSelectChange}
@@ -1461,7 +1477,9 @@ function AddOrder() {
                           name="customerId"
                           placeholder=""
                           className={`${
-                            customerId ? "!bg-gradient-to-t from-[#f2f2f2] to-white" : "!bg-white"
+                            customerId
+                              ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                              : "!bg-white"
                           }`}
                           isDisabled={customerId}
                           onChange={handleSelectChange}
@@ -1480,19 +1498,26 @@ function AddOrder() {
                 </Grid>
               </div>
               <div className="flex">
-                <Button
-                  type="submit"
-                  className='mr-3'
-                  onClick={() => {
-                    console.log(formik.errors);
-                  }}
-                >
-                  Next
-                </Button>
-                <Button type="button" className="!bg-indigo-500 !flex" disabled>
-                  <img src={Spinner} className="w-5 h-5 mr-2" alt="Spinner"/>
-                  Processing...
-                </Button>
+                {dataLoading ? (
+                  <Button
+                    type="button"
+                    className="!bg-indigo-500 !flex"
+                    disabled
+                  >
+                    <img src={Spinner} className="w-5 h-5 mr-2" alt="Spinner" />
+                    Processing...
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    className="mr-3"
+                    onClick={() => {
+                      console.log(formik.errors);
+                    }}
+                  >
+                    Next
+                  </Button>
+                )}
               </div>
             </form>
           </>
