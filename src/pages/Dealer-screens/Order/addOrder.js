@@ -1054,7 +1054,7 @@ function DealerAddOrder() {
         setCoverage([{ label: "Breakdown", value: "Breakdown" }]);
         break;
       default:
-        setCoverage([{ label: "Accidental", value: "Accidental" }]);
+        setCoverage([{ label: "Accidental", value: "Accidental" }]);  
         break;
     }
 
@@ -2127,8 +2127,7 @@ function DealerAddOrder() {
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Unit Price</p>
                               <p className="font-bold text-sm">
-                                $
-                                {data.unitPrice === undefined
+                                ${data.unitPrice === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
                                       Number(data.unitPrice) ?? parseInt(0)
@@ -2145,14 +2144,12 @@ function DealerAddOrder() {
                             </div>
                             <div className="col-span-3 py-4">
                               <p className="text-[12px]">Price</p>
-                              <p className="font-bold text-sm">
-                                $
-                                {data.price === undefined
+                              <p className="font-bold text-sm">$
+                              {data.price === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
                                       Number(data.price) ?? parseInt(0)
-                                    )}{" "}
-                              </p>
+                                    )}{" "}</p>
                             </div>
                           </Grid>
                           {data.priceType == "Flat Pricing" && (
@@ -2160,23 +2157,22 @@ function DealerAddOrder() {
                               <div className="col-span-6 py-4 border-r">
                                 <p className="text-[12px]">Start Range</p>
                                 <p className="font-bold text-sm">
-                                  $
-                                  {data.rangeStart === undefined
-                                    ? parseInt(0).toLocaleString(2)
-                                    : formatOrderValue(
-                                        Number(data.rangeStart) ?? parseInt(0)
-                                      )}{" "}
+                                $
+                              {data.rangeStart === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(
+                                      Number(data.rangeStart) ?? parseInt(0)
+                                    )}{" "}
                                 </p>
                               </div>
                               <div className="col-span-6 py-4">
                                 <p className="text-[12px]">End Range</p>
                                 <p className="font-bold text-sm">
-                                  $
-                                  {data.rangeEnd === undefined
-                                    ? parseInt(0).toLocaleString(2)
-                                    : formatOrderValue(
-                                        Number(data.rangeEnd) ?? parseInt(0)
-                                      )}{" "}
+                                  ${data.rangeEnd === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(
+                                      Number(data.rangeEnd) ?? parseInt(0)
+                                    )}{" "}
                                 </p>
                               </div>
                             </Grid>
