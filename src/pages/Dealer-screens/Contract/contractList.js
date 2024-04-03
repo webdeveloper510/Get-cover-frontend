@@ -444,9 +444,9 @@ function ContractList(props) {
                 })}
             </>
           )}
-          {totalRecords == 0 || !loading ? (
+          {totalRecords == 0 || loading ? (
             <div className="text-center my-5">
-              <p>No records found</p>
+              {!loading && <p>No records found</p>}
             </div>
           ) : (
             <CustomPagination
