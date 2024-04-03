@@ -1394,7 +1394,7 @@ function AddOrder() {
                             resellerId ||
                             dealerValue ||
                             customerId
-                              ? "!bg-[transparent]"
+                              ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
                               : "!bg-white"
                           }`}
                           onChange={handleSelectChange}
@@ -1425,7 +1425,7 @@ function AddOrder() {
                           name="resellerId"
                           placeholder=""
                           className={`${
-                            resellerId ? "!bg-[#f2f2f2]" : "!bg-white"
+                            resellerId ? "!bg-gradient-to-t from-[#f2f2f2] to-white" : "!bg-white"
                           }`}
                           isDisabled={resellerId}
                           onChange={handleSelectChange}
@@ -1443,7 +1443,7 @@ function AddOrder() {
                           label="Servicer Name"
                           name="servicerId"
                           placeholder=""
-                          className="!bg-white"
+                          className={`!bg-white`}
                           onChange={handleSelectChange}
                           // onChange={handleSelectChange}
                           options={servicerData}
@@ -1461,7 +1461,7 @@ function AddOrder() {
                           name="customerId"
                           placeholder=""
                           className={`${
-                            customerId ? "!bg-[#f2f2f2]" : "!bg-white"
+                            customerId ? "!bg-gradient-to-t from-[#f2f2f2] to-white" : "!bg-white"
                           }`}
                           isDisabled={customerId}
                           onChange={handleSelectChange}

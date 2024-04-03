@@ -475,7 +475,7 @@ console.log(isStatus , 'isStatus')
                     />{" "}
                   </Link>
                 </div>
-                <div>
+                <div className="w-[75%]">
                   <p className="text-sm text-neutral-grey font-Regular">
                     Dealer Name
                   </p>
@@ -503,7 +503,7 @@ console.log(isStatus , 'isStatus')
                       />{" "}
                     </Link>
                   </div>
-                  <div>
+                  <div className="w-[75%]">
                     <p className="text-sm text-neutral-grey font-Regular">
                       Reseller Name
                     </p>

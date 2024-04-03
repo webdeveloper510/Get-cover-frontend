@@ -60,7 +60,7 @@ function OrderDetails() {
     setIsServicerModal(false);
   };
 
-  const openModel = () => {   
+  const openModel = () => {
     getOrderDetails(true);
     setModalOpen(true);
   };
@@ -80,13 +80,13 @@ function OrderDetails() {
       }, 1000);
     }
     if (timer <= 0) {
-      getOrderDetails()
+      getOrderDetails();
       closeModel();
     }
     return () => {
       clearInterval(intervalId);
     };
-  },[modalOpen,timer]);
+  }, [modalOpen, timer]);
 
   useEffect(() => {
     setLoading(true);
@@ -104,7 +104,6 @@ function OrderDetails() {
     },
     validationSchema,
     onSubmit: (values) => {
-      
       setLoading(true);
       console.log(orderDetails);
       const res = updateOrderServicer(orderDetails._id, values).then((res) => {
@@ -114,14 +113,14 @@ function OrderDetails() {
         closeServicer();
         setTimer(3);
       });
-      
+
       setLoading(false);
     },
   });
   const getOrderDetails = async (showLoader) => {
     if (!showLoader) {
       setLoading1(true);
-  }
+    }
     const result = await orderDetailsById(orderId);
     setUserDetails(result.orderUserData);
     formik.setFieldValue("servicerId", result.result.servicerId);
@@ -148,7 +147,7 @@ function OrderDetails() {
     setLoading1(false);
   };
   const handleGOBack = () => {
-    localStorage.removeItem("orderMenu")
+    localStorage.removeItem("orderMenu");
     navigate(-1);
   };
 
@@ -161,17 +160,20 @@ function OrderDetails() {
       label: "Order Summary",
       icons: orderSummary,
       Activeicons: orderActive,
-      content: activeTab === "Order Summary" && <OrderSummary data={orderDetails.productsArray} />,
+      content: activeTab === "Order Summary" && (
+        <OrderSummary data={orderDetails.productsArray} />
+      ),
     },
     {
       id: "Contracts",
       label: "Contracts",
       icons: contract,
       Activeicons: contractActive,
-      content: activeTab === "Contracts" &&  <ContractList orderId={orderId} flag={"contracts"} />,
+      content: activeTab === "Contracts" && (
+        <ContractList orderId={orderId} flag={"contracts"} />
+      ),
     },
   ];
-  
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -373,14 +375,16 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
-                  {userDetails?.servicerData?.name == null ? (<></> ) : (
-                  <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
-                    <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
+                  {userDetails?.servicerData?.name == null ? (
+                    <></>
+                  ) : (
+                    <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
+                      <img
+                        src={DealerList}
+                        className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                        alt="DealerList"
+                      />{" "}
+                    </Link>
                   )}
                 </div>
                 <div className="flex justify-between w-[85%] ml-auto">
@@ -412,7 +416,10 @@ function OrderDetails() {
                     {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
                     <span className="self-center">
                       {" "}
-                      <PdfGenerator setLoading={setLoading1} data={orderDetails._id} />
+                      <PdfGenerator
+                        setLoading={setLoading1}
+                        data={orderDetails._id}
+                      />
                     </span>
                   </Button>
                 </div>
@@ -421,7 +428,10 @@ function OrderDetails() {
                     {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
                     <span className="self-center">
                       {" "}
-                      <DocMakeOrderContainer setLoading={setLoading1} data={orderId} />
+                      <DocMakeOrderContainer
+                        setLoading={setLoading1}
+                        data={orderId}
+                      />
                     </span>
                   </Button>
                 </div>
@@ -499,7 +509,7 @@ function OrderDetails() {
                 onChange={handleSelectChange}
                 options={servicerList} // Make sure to define servicerList
                 value={formik.values.servicerId}
-                className='!bg-[#fff]'
+                className="!bg-[#fff]"
                 onBlur={formik.handleBlur}
                 error={formik.touched.servicerId && formik.errors.servicerId}
               />
@@ -515,17 +525,16 @@ function OrderDetails() {
       </Modal>
 
       <Modal isOpen={modalOpen} onClose={closeModel}>
-          <div className="text-center py-3">
-            <img src={Primary} alt="email Image" className="mx-auto" />
-            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-              Servicer Updated Successfully
-            </p>
-            <p className="text-neutral-grey text-base font-medium mt-4">
-               Redirecting Back to Order Detail page in{" "}
-              {timer} Seconds
-            </p>
-          </div>
-        </Modal>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            Servicer Updated Successfully
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+            Redirecting Back to Order Detail page in {timer} Seconds
+          </p>
+        </div>
+      </Modal>
     </>
   );
 }
