@@ -217,17 +217,18 @@ function AddOrder() {
       ...data,
       resellerId: resellerId,
     });
-    console.log(result, '----customer')
+    
 
     result?.result?.map((res) => {
       arr.push({
         label: res?.username,
         value: res?._id,
         customerData: res,
+        emailKey: res?.email
       });
     });
     setCustomerList(arr);
-
+    console.log(arr, '----customer')
   };
 
   const getResellerList = async (dealerId) => {

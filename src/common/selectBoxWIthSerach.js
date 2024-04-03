@@ -29,13 +29,13 @@ const SelectBoxWithSearch = ({
   useEffect(() => {
     setLocalDefaultValue(value ? value : "");
   }, [value, localDefaultValue]);
-
   // Adding an "unselect" option
+  console.log(emailKey, '-------emailKey-----------')
   const extendedOptions = [
     { value: "", label: "select" }, // Change the label as per your preference
     ...options.map(option => ({
       value: option.value,
-      label: option[emailKey] ? `${option.label} (${option[emailKey]})` : option.label // Conditionally include email
+      label: option.emailKey ? `${option.label} (${option.emailKey})` : option.label // Conditionally include email
     })),
   ];
 
