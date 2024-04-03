@@ -30,6 +30,7 @@ import { getContractsforCustomer } from "../../../services/customerServices";
 import { getContractsforReseller } from "../../../services/reSellerServices";
 
 function ContractList(props) {
+  console.log(props.shownEdit);
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -359,7 +360,7 @@ function ContractList(props) {
                                     alt="edit"
                                   />{" "}
                                 </div>
-                                {props.shownEdit ? (
+                                {props.shownEdit == undefined ? (
                                   <Link to={`/editContract/${res._id}`}>
                                     {" "}
                                     <img
@@ -635,7 +636,7 @@ function ContractList(props) {
             onClose={closeView}
             className="!w-[1100px]"
           >
-            {props.shownEdit ? (
+            {props.shownEdit == undefined ? (
               <Button
                 onClick={() => {
                   navigate(`/editContract/${contractDetails._id}`);
@@ -755,7 +756,7 @@ function ContractList(props) {
                           </p>
                         </div>
                       </div>
-                      {props.shownEdit ? (
+                      {props.shownEdit == undefined ? (
                         <div className="col-span-1 border border-[#D1D1D1]">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
@@ -770,7 +771,7 @@ function ContractList(props) {
                           </div>
                         </div>
                       ) : null}
-                      {props.isShown ? (
+                      {props.isShown == undefined ? (
                         <div className="col-span-1 border border-[#D1D1D1]">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
