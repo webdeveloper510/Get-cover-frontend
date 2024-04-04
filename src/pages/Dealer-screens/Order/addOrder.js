@@ -75,9 +75,9 @@ function DealerAddOrder() {
     if (orderId || resellerId || customerId) {
       setLoading1(true);
 
-      const timer = setTimeout(() => {
-        setLoading1(false);
-      }, 3000);
+      // const timer = setTimeout(() => {
+      //   setLoading1(false);
+      // }, 3000);
 
       return () => clearTimeout(timer);
     }
@@ -189,37 +189,50 @@ function DealerAddOrder() {
   }, [isModalOpen, timer]);
 
   const getCustomerList = async (data) => {
+    setLoading1(true);
     let arr = [];
-    const resellerId = data?.resellerId == null ? "" : data.resellerId;
-    const result = await getCustomerListforDealerPortal({
-      resellerId: resellerId,
-    });
-    console.log(result);
-    result?.result?.map((res) => {
-      arr.push({
-        label: res?.username,
-        value: res?._id,
-        customerData: res,
-        emailKey: res?.email,
+    try {
+      const resellerId = data?.resellerId == null ? "" : data.resellerId;
+      const result = await getCustomerListforDealerPortal({
+        resellerId: resellerId,
       });
-    });
-    setCustomerList(arr);
-    console.log(arr, "----customer");
+      console.log(result);
+      result?.result?.map((res) => {
+        arr.push({
+          label: res?.username,
+          value: res?._id,
+          customerData: res,
+          emailKey: res?.email,
+        });
+      });
+      setCustomerList(arr);
+      console.log(arr, "----customer");
+    } catch (error) {
+      console.error("Error occurred while fetching customer list:", error);
+      setLoading1(false);
+    } finally {
+      setLoading1(false);
+    }
   };
 
   const getResellerList = async (id) => {
-    console.log(id);
+    setLoading1(true);
 
     let arr = [];
-    const result = await getResellerListforDealerPortal({});
-    result?.result?.map((res) => {
-      console.log(res);
-      arr.push({
-        label: res.resellerData.name,
-        value: res.resellerData._id,
+    try {
+      const result = await getResellerListforDealerPortal({});
+      result?.result?.map((res) => {
+        console.log(res);
+        arr.push({
+          label: res.resellerData.name,
+          value: res.resellerData._id,
+        });
       });
-    });
-    setResllerList(arr);
+      setResllerList(arr);
+    } catch (error) {
+      console.error("Error occurred while fetching reseller list:", error);
+    } finally {
+    }
   };
 
   useEffect(() => {
@@ -324,7 +337,6 @@ function DealerAddOrder() {
         return newArray;
       });
     });
-    console.log(result.result);
     orderDetail(result.result);
     formikStep3.setValues({
       ...formikStep3.values,
@@ -742,51 +754,6 @@ function DealerAddOrder() {
         });
       }
     },
-
-    // onSubmit: (values) => {
-    //   console.log(values);
-    //   setLoading(true);
-
-    //   const totalAmount = calculateTotalAmount(
-    //     formikStep3.values.productsArray
-    //   );
-    //   console.log(totalAmount);
-    //   const data = {
-    //     ...formik.values,
-    //     ...formikStep2.values,
-    //     ...formikStep3.values,
-    //     paidAmount: values.paidAmount,
-    //     dueAmount: parseFloat(totalAmount),
-    //     sendNotification: sendNotification,
-    //     paymentStatus: values.paymentStatus,
-    //     orderAmount: parseFloat(totalAmount),
-    //   };
-
-    //   if (orderId != undefined) {
-    //     editOrderforDealerPortal(orderId, data).then((res) => {
-    //       if (res.code == 200) {
-    //         openModal();
-    //       } else {
-    //         setError(res.message);
-    //       }
-    //     });
-    //   } else {
-    //     addOrderforDealerPortal(data).then((res) => {
-    //       if (res.code == 200) {
-    //         setLoading(false);
-    //         openModal();
-
-    //         //  navigate('/orderList')
-    //       } else {
-    //         setLoading(false);
-    //         setError(res.message);
-    //         console.log("here", res);
-    //       }
-    //     });
-    //   }
-
-    //   setLoading(false);
-    // },
   });
 
   useEffect(() => {
@@ -903,7 +870,6 @@ function DealerAddOrder() {
         },
         match[1]
       );
-      console.log(formikStep3.values.productsArray[match[1]].categoryId);
       // formikStep3.setFieldValue(
       //   `productsArray[${match[1]}].QuantityPricing`,
       //   data.quantityPriceDetail
@@ -1135,8 +1101,10 @@ function DealerAddOrder() {
       }
     } catch (error) {
       setLoading3(false);
+      setLoading1(false);
     } finally {
       setLoading3(false);
+      setLoading1(false);
     }
   };
 
