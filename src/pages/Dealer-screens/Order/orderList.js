@@ -323,6 +323,7 @@ function OrderList() {
                     <div className="border-b">
                       <PdfGenerator
                         data={row._id}
+                        setLoading={setLoading}
                         onClick={() => setSelectedAction(null)}
                       />
                     </div>
@@ -341,13 +342,13 @@ function OrderList() {
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                    <div className="border-b">
+                    <div className="">
                       <PdfGenerator data={row._id} setLoading={setLoading} />
                     </div>
-                    <DocMakeOrderContainer
+                    {/* <DocMakeOrderContainer
                       setLoading={setLoading}
                       data={row._id}
-                    />
+                    /> */}
                   </>
                 )}
               </div>

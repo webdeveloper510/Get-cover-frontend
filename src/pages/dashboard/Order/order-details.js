@@ -426,8 +426,8 @@ function OrderDetails() {
                   </Button>
                 </div>
                 <div className="col-span-6">
-                  <Button className="!bg-white !text-light-black !text-sm border flex">
                     {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
+                  {/* <Button className="!bg-white !text-light-black !text-sm border flex">
                     <span className="self-center">
                       {" "}
                       <DocMakeOrderContainer
@@ -435,7 +435,7 @@ function OrderDetails() {
                         data={orderId}
                       />
                     </span>
-                  </Button>
+                  </Button> */}
                 </div>
               </Grid>
             </div>

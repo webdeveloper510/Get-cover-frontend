@@ -24,6 +24,17 @@ function OrderSummary(props) {
     document.body.removeChild(a);
   };
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   return (
     <>
       <div className="my-8">
@@ -98,7 +109,12 @@ function OrderSummary(props) {
                               Unit Price
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              ${res.unitPrice.toLocaleString(2)}
+                            
+                              ${
+                                res.unitPrice === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(res.unitPrice)
+                              }
                             </p>
                           </div>
                         </div>
@@ -118,7 +134,11 @@ function OrderSummary(props) {
                               Price
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              ${res.price.toLocaleString(2)}
+                              ${
+                                res.price === undefined
+                                  ? parseInt(0).toLocaleString(2)
+                                  : formatOrderValue(res.price)
+                              }
                             </p>
                           </div>
                         </div>
@@ -130,7 +150,7 @@ function OrderSummary(props) {
                             <p className="text-[#333333] text-base font-semibold">
                               {format(
                                 new Date(res.coverageStartDate),
-                                "MM-dd-yyyy"
+                                "MM/dd/yyyy"
                               )}
                             </p>
                           </div>
@@ -143,7 +163,7 @@ function OrderSummary(props) {
                             <p className="text-[#333333] text-base font-semibold">
                               {format(
                                 new Date(res.coverageEndDate),
-                                "MM-dd-yyyy"
+                                "MM/dd/yyyy"
                               )}
                             </p>
                           </div>

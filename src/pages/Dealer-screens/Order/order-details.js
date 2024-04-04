@@ -307,7 +307,6 @@ function OrderDetails() {
                   <Button className="!bg-white !text-light-black !text-sm border flex">
                     {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
                     <span className="self-center">
-                      {" "}
                       <PdfGenerator
                         data={orderDetails._id}
                         setLoading={setLoading1}
@@ -316,13 +315,13 @@ function OrderDetails() {
                   </Button>
                 </div>
                 <div className="col-span-6">
-                  <Button className="!bg-white !text-light-black !text-sm border flex">
                     {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
+                  {/* <Button className="!bg-white !text-light-black !text-sm border flex">
                     <span className="self-center">
                       {" "}
                       <PdfMake data={orderId} />
                     </span>
-                  </Button>
+                  </Button> */}
                 </div>
               </Grid>
             </div>

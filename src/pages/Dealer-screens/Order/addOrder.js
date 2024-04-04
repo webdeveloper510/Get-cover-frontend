@@ -1286,10 +1286,10 @@ function DealerAddOrder() {
               >
                 Next
               </Button>
-              <Button type="button" className="!bg-indigo-500 !flex" disabled>
+              {/* <Button type="button" className="!bg-indigo-500 !flex" disabled>
                 <img src={Spinner} className="w-5 h-5 mr-2" alt="Spinner"/>
                 Processing...
-              </Button>
+              </Button> */}
             </div>
           </form>
         )}
