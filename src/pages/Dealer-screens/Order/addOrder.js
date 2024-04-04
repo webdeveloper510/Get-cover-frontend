@@ -1056,7 +1056,7 @@ function DealerAddOrder() {
         setCoverage([{ label: "Breakdown", value: "Breakdown" }]);
         break;
       default:
-        setCoverage([{ label: "Accidental", value: "Accidental" }]);  
+        setCoverage([{ label: "Accidental", value: "Accidental" }]);
         break;
     }
 
@@ -1175,7 +1175,6 @@ function DealerAddOrder() {
                       />
                     </div>
 
-                    
                     <div className="col-span-6">
                       {/* <Select */}
                       {console.log(
@@ -1279,17 +1278,13 @@ function DealerAddOrder() {
             <div className="flex">
               <Button
                 type="submit"
-                className='!mr-3'
+                className="!mr-3"
                 onClick={() => {
                   console.log(formik.values);
                 }}
               >
                 Next
               </Button>
-              {/* <Button type="button" className="!bg-indigo-500 !flex" disabled>
-                <img src={Spinner} className="w-5 h-5 mr-2" alt="Spinner"/>
-                Processing...
-              </Button> */}
             </div>
           </form>
         )}
@@ -2135,7 +2130,8 @@ function DealerAddOrder() {
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Unit Price</p>
                               <p className="font-bold text-sm">
-                                ${data.unitPrice === undefined
+                                $
+                                {data.unitPrice === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
                                       Number(data.unitPrice) ?? parseInt(0)
@@ -2152,12 +2148,14 @@ function DealerAddOrder() {
                             </div>
                             <div className="col-span-3 py-4">
                               <p className="text-[12px]">Price</p>
-                              <p className="font-bold text-sm">$
-                              {data.price === undefined
+                              <p className="font-bold text-sm">
+                                $
+                                {data.price === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
                                       Number(data.price) ?? parseInt(0)
-                                    )}{" "}</p>
+                                    )}{" "}
+                              </p>
                             </div>
                           </Grid>
                           {data.priceType == "Flat Pricing" && (
@@ -2165,22 +2163,23 @@ function DealerAddOrder() {
                               <div className="col-span-6 py-4 border-r">
                                 <p className="text-[12px]">Start Range</p>
                                 <p className="font-bold text-sm">
-                                $
-                              {data.rangeStart === undefined
-                                  ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(
-                                      Number(data.rangeStart) ?? parseInt(0)
-                                    )}{" "}
+                                  $
+                                  {data.rangeStart === undefined
+                                    ? parseInt(0).toLocaleString(2)
+                                    : formatOrderValue(
+                                        Number(data.rangeStart) ?? parseInt(0)
+                                      )}{" "}
                                 </p>
                               </div>
                               <div className="col-span-6 py-4">
                                 <p className="text-[12px]">End Range</p>
                                 <p className="font-bold text-sm">
-                                  ${data.rangeEnd === undefined
-                                  ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(
-                                      Number(data.rangeEnd) ?? parseInt(0)
-                                    )}{" "}
+                                  $
+                                  {data.rangeEnd === undefined
+                                    ? parseInt(0).toLocaleString(2)
+                                    : formatOrderValue(
+                                        Number(data.rangeEnd) ?? parseInt(0)
+                                      )}{" "}
                                 </p>
                               </div>
                             </Grid>
@@ -2499,7 +2498,7 @@ function DealerAddOrder() {
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-             <b> {type == "Order " ? "" : "New Order"} </b>{" "}
+            <b> {type == "Order " ? "" : "New Order"} </b>{" "}
             {type == "Edit" ? "Edited" : "Added"} Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
