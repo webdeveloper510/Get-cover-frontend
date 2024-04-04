@@ -522,8 +522,8 @@ function DealerPriceBook(props) {
                       <th colSpan={"2"}>Quantity Pricing List </th>
                     </tr>
                     <tr className="border bg-[#9999]">
-                      <th>Name</th>
-                      <th>Max Quantity</th>
+                      <th className="w-[50%]">Name</th>
+                      <th className="w-[50%]">Max Quantity</th>
                     </tr>
                     {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
                       .length !== 0 &&

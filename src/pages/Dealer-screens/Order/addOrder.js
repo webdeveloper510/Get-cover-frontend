@@ -2493,12 +2493,13 @@ function DealerAddOrder() {
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            Added
+            {type == "Edit" ? "Edit" : "Added"} Order
             <span className="text-light-black"> Successfully </span>
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-            <b> New Order </b> Added Successfully
+             <b> {type == "Order " ? "" : "New Order"} </b>{" "}
+            {type == "Edit" ? "Edited" : "Added"} Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
