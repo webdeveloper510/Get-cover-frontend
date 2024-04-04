@@ -1175,25 +1175,7 @@ function DealerAddOrder() {
                       />
                     </div>
 
-                    <div className="col-span-6">
-                      {/* <Select */}
-                      <SelectBoxWIthSerach
-                        label="Customer Name"
-                        name="customerId"
-                        placeholder=""
-                        isDisabled={customerId}
-                        className="!bg-white"
-                        // onChange={handleSelectChange}
-                        onChange={handleSelectChange}
-                        options={customerList}
-                        value={
-                          customerList.length == 0
-                            ? ""
-                            : formik.values.customerId
-                        }
-                        onBlur={formik.handleBlur}
-                      />
-                    </div>
+                    
                     <div className="col-span-6">
                       {/* <Select */}
                       {console.log(
@@ -1213,6 +1195,25 @@ function DealerAddOrder() {
                           servicerData.length == 0
                             ? ""
                             : formik.values.servicerId
+                        }
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-12">
+                      {/* <Select */}
+                      <SelectBoxWIthSerach
+                        label="Customer Name"
+                        name="customerId"
+                        placeholder=""
+                        isDisabled={customerId}
+                        className="!bg-white"
+                        // onChange={handleSelectChange}
+                        onChange={handleSelectChange}
+                        options={customerList}
+                        value={
+                          customerList.length == 0
+                            ? ""
+                            : formik.values.customerId
                         }
                         onBlur={formik.handleBlur}
                       />
