@@ -132,7 +132,7 @@ function OrderDetails() {
       label: data.name,
       value: data._id,
     }));
-    console.log(arr);
+    console.log(arr, '--------->>>>>>>');
     setServicerList(arr);
     setOrderDetails(result.result);
     let data = {
