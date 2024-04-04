@@ -5,6 +5,7 @@ import ActiveIcon from "../../assets/images/icons/iconAction.svg";
 import star from "../../assets/images/icons/star.svg";
 import Primary from "../../assets/images/SetPrimary.png";
 import deleteUser10 from "../../assets/images/deleteUser.svg";
+import deleteUser123 from "../../assets/images/Disapproved.png";
 import assign from "../../assets/images/Unassign.png";
 import Search from "../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../assets/images/icons/Clear-Filter-Icon-White.svg";
@@ -31,6 +32,7 @@ import make from "../../assets/images/star.png";
 import edit from "../../assets/images/edit-text.png";
 import delete1 from "../../assets/images/delete.png";
 import AddItem from "../../assets/images/icons/addItem.svg";
+import Cross from "../../assets/images/Cross.png";
 import Headbar from "../../common/headBar";
 import terms from "../../assets/images/Dealer/Address.svg";
 import dealer from "../../assets/images/Dealer/Name.svg";
@@ -44,8 +46,11 @@ function DealerUser() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
   const [loginDetails, setLoginDetails] = useState([]);
+  const [firstMessage, setFirstMessage] = useState("");
+  const [secondMessage, setSecondMessage] = useState("");
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
+  const [isPasswordOpen, setIsPasswordOpen] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
@@ -601,19 +606,28 @@ function DealerUser() {
     try {
       const res = await changePasswordbyToken(value);
       console.log(res);
-      SetPrimaryText("Password Update successfully");
-      SetSecondaryText("Your password has been successfully updated");
-      SetIsModalOpen(true);
+      if (res.code == 200) {
+        setFirstMessage("Edit  Successfully ");
+        setSecondMessage("User Password edited  successfully ");
+        SetIsModalOpen(true);
+        setTimer(3); }
+        else {
+          setFirstMessage("Error");
+          setSecondMessage(res.message);
+          setIsPasswordOpen(true);
+        }
     } catch (error) {
       console.error("Error changing password:", error);
-      SetPrimaryText("Error");
-      SetSecondaryText(error);
-      SetIsModalOpen(true);
+     
     } finally {
       setLoading1(false);
     }
 
     console.log(value);
+  };
+
+  const closePassword = () => {
+    setIsPasswordOpen(false);
   };
 
   const passwordChnageForm = useFormik({
@@ -1267,6 +1281,27 @@ function DealerUser() {
               </div>
             </Grid>
           </form>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isPasswordOpen} onClose={closePassword}>
+      <Button
+          onClick={closePassword}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={deleteUser123} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            {firstMessage}
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+            {secondMessage} 
+          </p>
         </div>
       </Modal>
     </>
