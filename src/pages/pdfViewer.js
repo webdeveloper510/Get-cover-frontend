@@ -104,7 +104,7 @@ function PdfGenerator(props, className) {
                                     <td style="border: none; padding: 4px;"><b>Invoice Date:</b></td>
                                     <td style="border: none; padding: 4px;">${format(
                                       new Date(data?.createdAt),
-                                      "MM-dd-yyyy"
+                                      "MM/dd/yyyy"
                                     )}</td>
                                 </tr>
                                 <tr>
@@ -278,8 +278,11 @@ function PdfGenerator(props, className) {
             }
         
           </td>
-          <td>
-          $${toWords.convert(
+         
+          </tr>
+          <tr>
+          <th colspan='5' style="text-align:right; padding-right:20px;">
+          ${toWords.convert(
             data?.productsArray.reduce(
               (total, product) =>
                 total + product.noOfProducts * product.unitPrice,
@@ -287,9 +290,7 @@ function PdfGenerator(props, className) {
             ),
             { currency: true }
           )}
-        </td>
-        
-    
+        </th>
           </tr>
         </tfoot>
       </table>

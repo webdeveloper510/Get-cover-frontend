@@ -13,8 +13,10 @@ import RadioButton from "../../../common/radio";
 import { RotateLoader } from "react-spinners";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import deleteUser10 from "../../../assets/images/deleteUser.svg";
+import deleteUser123 from "../../../assets/images/Disapproved.png";
 import make from "../../../assets/images/star.png";
 import edit from "../../../assets/images/edit-text.png";
+import Cross from "../../../assets/images/Cross.png";
 import delete1 from "../../../assets/images/delete.png";
 import assign from "../../../assets/images/Unassign.png";
 import {
@@ -44,9 +46,10 @@ function Account() {
   const [isPrimary, setIsPrimary] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [firstMessage, setFirstMessage] = useState("");
-  const [tags, setTags] = useState([]);
   const [secondMessage, setSecondMessage] = useState("");
+  const [tags, setTags] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isPasswordOpen, setIsPasswordOpen] = useState(false);
   const [timer, setTimer] = useState(3);
   const [isprimary, SetIsprimary] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -238,6 +241,10 @@ function Account() {
     setIsModalOpen12(false);
   };
 
+  const closePassword = () => {
+    setIsPasswordOpen(false);
+  };
+
   const handleStatusChange = async (row, newStatus) => {
     console.log(row);
     try {
@@ -400,13 +407,6 @@ function Account() {
     // position: Yup.string().required("Position is required"),
   });
 
-  // const initialValues = {
-  //   firstName: "",
-  //   lastName: "",
-  //   email: "super@codenomad.net", // Setting default email
-  //   phone: "",
-  //   position: "",
-  // };
   const KeyCodes = {
     comma: 188,
     space: 32,
@@ -664,15 +664,26 @@ function Account() {
 
     try {
       const res = await changePasswordbyToken(value);
-      console.log(res);
+      if (res.code == 200) {
+      setFirstMessage("Edit  Successfully ");
+      setSecondMessage("User Password edited  successfully ");
+      setModalOpen(true);
+      setTimer(3); }
+      else {
+        setFirstMessage("Error");
+        setSecondMessage(res.message);
+        setIsPasswordOpen(true);
+      }
     } catch (error) {
       console.error("Error changing password:", error);
+      
     } finally {
       setLoading(false);
     }
 
     console.log(value);
   };
+  
 
   return (
     <>
@@ -786,11 +797,14 @@ function Account() {
                             >
                               Phone #
                             </label>
+                            <div className="text-base font-semibold absolute top-[17px] left-[10px]">
+                              +1 
+                            </div>
                             <Field
                               type="tel"
                               name="phoneNumber"
                               placeholder=""
-                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                              className="block pr-2.5 pb-2.5 pl-[30px] pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                             />
                             <ErrorMessage
                               name="phoneNumber"
@@ -1331,6 +1345,27 @@ function Account() {
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting Back to User List in {timer} seconds
+          </p>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isPasswordOpen} onClose={closePassword}>
+      <Button
+          onClick={closePassword}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={deleteUser123} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            {firstMessage}
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+            {secondMessage} 
           </p>
         </div>
       </Modal>

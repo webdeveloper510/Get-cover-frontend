@@ -117,7 +117,7 @@ function ContractList(props) {
                   ? matchingProduct.coverageStartDate
                   : matchingProduct.coverageEndDate
               ),
-              "MM-dd-yyyy"
+              "MM/dd/yyyy"
             );
           }
         }

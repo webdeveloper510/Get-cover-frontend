@@ -113,7 +113,7 @@ function ContractList(props) {
             new Date(
               type === "start" ? res.coverageStartDate : res.coverageEndDate
             ),
-            "MM-dd-yyyy"
+            "MM/dd/yyyy"
           );
         });
 
