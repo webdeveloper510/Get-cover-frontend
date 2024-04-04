@@ -332,7 +332,7 @@ function OrderList() {
             >
               <img
                 src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
+                className="cursor-pointer w-[35px]"
                 alt="Active Icon"
               />
             </div>
@@ -409,7 +409,7 @@ function OrderList() {
 
         <div className="flex mt-2">
           <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">Order</p>
+            <p className="font-bold text-[36px] leading-9 mb-[3px]">Order</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
                 <Link to={"/"}>Order </Link> /{" "}
@@ -484,7 +484,7 @@ function OrderList() {
                       <Button type="submit" className=" !bg-transparent !p-0">
                         <img
                           src={Search}
-                          className="cursor-pointer	"
+                          className="cursor-pointer "
                           alt="Search"
                         />
                       </Button>
@@ -498,7 +498,7 @@ function OrderList() {
                       >
                         <img
                           src={clearFilter}
-                          className="cursor-pointer	mx-auto"
+                          className="cursor-pointer mx-auto"
                           alt="clearFilter"
                         />
                       </Button>

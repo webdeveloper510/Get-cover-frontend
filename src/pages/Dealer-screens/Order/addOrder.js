@@ -200,9 +200,11 @@ function DealerAddOrder() {
         label: res?.username,
         value: res?._id,
         customerData: res,
+        emailKey: res?.email,
       });
     });
     setCustomerList(arr);
+    console.log(arr, "----customer");
   };
 
   const getResellerList = async (id) => {
@@ -1173,25 +1175,7 @@ function DealerAddOrder() {
                       />
                     </div>
 
-                    <div className="col-span-6">
-                      {/* <Select */}
-                      <SelectBoxWIthSerach
-                        label="Customer Name"
-                        name="customerId"
-                        placeholder=""
-                        isDisabled={customerId}
-                        className="!bg-white"
-                        // onChange={handleSelectChange}
-                        onChange={handleSelectChange}
-                        options={customerList}
-                        value={
-                          customerList.length == 0
-                            ? ""
-                            : formik.values.customerId
-                        }
-                        onBlur={formik.handleBlur}
-                      />
-                    </div>
+                    
                     <div className="col-span-6">
                       {/* <Select */}
                       {console.log(
@@ -1211,6 +1195,25 @@ function DealerAddOrder() {
                           servicerData.length == 0
                             ? ""
                             : formik.values.servicerId
+                        }
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-12">
+                      {/* <Select */}
+                      <SelectBoxWIthSerach
+                        label="Customer Name"
+                        name="customerId"
+                        placeholder=""
+                        isDisabled={customerId}
+                        className="!bg-white"
+                        // onChange={handleSelectChange}
+                        onChange={handleSelectChange}
+                        options={customerList}
+                        value={
+                          customerList.length == 0
+                            ? ""
+                            : formik.values.customerId
                         }
                         onBlur={formik.handleBlur}
                       />
@@ -2491,12 +2494,13 @@ function DealerAddOrder() {
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            Added
+            {type == "Edit" ? "Edit" : "Added"} Order
             <span className="text-light-black"> Successfully </span>
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-            <b> New Order </b> Added Successfully
+             <b> {type == "Order " ? "" : "New Order"} </b>{" "}
+            {type == "Edit" ? "Edited" : "Added"} Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
