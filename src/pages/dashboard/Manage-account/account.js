@@ -664,15 +664,21 @@ function Account() {
 
     try {
       const res = await changePasswordbyToken(value);
-      console.log(res);
+      setFirstMessage("Edit  Successfully ");
+      setSecondMessage("User Password edited  successfully ");
+      setModalOpen(true);
+      setTimer(3);
     } catch (error) {
       console.error("Error changing password:", error);
+      setFirstMessage("Error");
+      setSecondMessage(error);
     } finally {
       setLoading(false);
     }
 
     console.log(value);
   };
+  
 
   return (
     <>
@@ -786,11 +792,14 @@ function Account() {
                             >
                               Phone #
                             </label>
+                            <div className="text-base font-semibold absolute top-[17px] left-[10px]">
+                              +1 
+                            </div>
                             <Field
                               type="tel"
                               name="phoneNumber"
                               placeholder=""
-                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                              className="block pr-2.5 pb-2.5 pl-[30px] pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                             />
                             <ErrorMessage
                               name="phoneNumber"
