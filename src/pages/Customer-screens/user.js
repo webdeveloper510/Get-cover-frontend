@@ -475,7 +475,7 @@ function CustomerUser() {
                   <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
                     <img src={dealer} alt="dealer" />
                   </div>
-                  <div className="self-center">
+                  <div className="self-center w-[80%]">
                     <p className="text-[#FFF] text-base font-medium leading-5	">
                       Account Name
                     </p>
@@ -490,7 +490,7 @@ function CustomerUser() {
                   <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
                     <img src={terms} className="" alt="terms" />
                   </div>
-                  <div className="self-center">
+                  <div className="self-center ">
                     <p className="text-[#FFF] text-base font-medium leading-5">
                       Address
                     </p>
@@ -521,12 +521,12 @@ function CustomerUser() {
                   <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
                     <img src={dealer} alt="dealer" />
                   </div>
-                  <div className="self-center">
+                  <div className="self-center w-[80%]">
                     <p className="text-[#FFF] text-base font-medium leading-5	">
                       Account Name
                     </p>
                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                      Nikhil Reseller
+                    {details?.reseller?.name}
                     </p>
                   </div>
                 </div>
@@ -536,12 +536,13 @@ function CustomerUser() {
                   <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
                     <img src={terms} className="" alt="terms" />
                   </div>
-                  <div className="self-center">
+                  <div className="self-center ">
                     <p className="text-[#FFF] text-base font-medium leading-5">
                       Address
                     </p>
                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                      Hno 353, Kurali, Georgia 140101, USA
+                    {details?.reseller?.street} {", "}{details?.reseller?.city}{", "}{details?.reseller?.state}{" "}{details?.reseller?.zip}
+                    {", "}{details?.reseller?.country}
                     </p>
                   </div>
                 </div>
@@ -566,12 +567,12 @@ function CustomerUser() {
                   <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
                     <img src={dealer} alt="dealer" />
                   </div>
-                  <div className="self-center">
+                  <div className="self-center w-[80%]">
                     <p className="text-[#FFF] text-base font-medium leading-5	">
                       Account Name
                     </p>
                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                      Nikhil Reseller
+                      {details?.username}
                     </p>
                   </div>
                 </div>
@@ -586,7 +587,8 @@ function CustomerUser() {
                       Address
                     </p>
                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                      Hno 353, Kurali, Georgia 140101, USA
+                    {details?.street} {", "}{details?.city}{", "}{details?.state}{" "}{details?.zip}
+                    {", "}{details?.country}
                     </p>
                   </div>
                 </div>

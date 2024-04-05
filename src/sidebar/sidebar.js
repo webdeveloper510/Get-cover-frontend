@@ -329,37 +329,6 @@ function SideBar() {
       ],
     },
     {
-      name: "Price Book",
-      image: PriceImage,
-      active: ActivePriceBook,
-      items: [
-        {
-          name: "Dealer Book",
-          url: "/dealerPriceList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Company Price Book",
-          url: "/companyPriceBook",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-        {
-          name: "Upload Dealer Price Book",
-          url: "/uploadDealerBook",
-          image: Dropdown2,
-          active: ForthActive,
-        },
-        {
-          name: "Category",
-          url: "/category",
-          image: Dropdown2,
-          active: lastActive,
-        },
-      ],
-    },
-    {
       name: "Dealer",
       image: DealerImage,
       active: ActiveDealer,
@@ -469,6 +438,37 @@ function SideBar() {
           url: "#",
           image: Dropdown2,
           active: ForthActive,
+        },
+      ],
+    },
+    {
+      name: "Price Book",
+      image: PriceImage,
+      active: ActivePriceBook,
+      items: [
+        {
+          name: "Dealer Book",
+          url: "/dealerPriceList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Company Price Book",
+          url: "/companyPriceBook",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+        {
+          name: "Upload Dealer Price Book",
+          url: "/uploadDealerBook",
+          image: Dropdown2,
+          active: ForthActive,
+        },
+        {
+          name: "Category",
+          url: "/category",
+          image: Dropdown2,
+          active: lastActive,
         },
       ],
     },

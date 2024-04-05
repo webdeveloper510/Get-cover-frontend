@@ -177,6 +177,10 @@ function ContractList(props) {
     { label: "Waiting", value: "Waiting" },
     { label: "Expired", value: "Expired" },
   ];
+  const Eligible = [
+    { label: "Eligible", value: "eligible" },
+    { label: "Not Eligible", value: "notEligible" }
+  ];
 
   const handleSelectChange = (name, selectedValue) => {
     formik.setFieldValue(name, selectedValue);
@@ -613,6 +617,18 @@ function ContractList(props) {
                     <Select
                       label="Status"
                       options={status}
+                      color="text-[#1B1D21] opacity-50"
+                      value={selectedProduct}
+                      // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px] !bg-[#fff]"
+                      selectedValue={selectedProduct}
+                      onChange={handleSelectChange1}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Select
+                      label="Eligibility"
+                      options={Eligible}
                       color="text-[#1B1D21] opacity-50"
                       value={selectedProduct}
                       // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
