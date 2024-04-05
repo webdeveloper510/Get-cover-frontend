@@ -125,14 +125,14 @@ function OrderDetails() {
     setUserDetails(result.orderUserData);
     formik.setFieldValue("servicerId", result.result.servicerId);
     const filteredServicer = result.servicers.filter(
-      (data) => data.servicerData.status === true
+      (data) => data.status === true
     );
 
     let arr = filteredServicer.map((data) => ({
       label: data.name,
       value: data._id,
     }));
-    console.log(arr, '--------->>>>>>>');
+    console.log(result.servicers, '--------->>>>>>>');
     setServicerList(arr);
     setOrderDetails(result.result);
     let data = {
