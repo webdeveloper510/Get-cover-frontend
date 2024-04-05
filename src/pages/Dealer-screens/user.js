@@ -156,6 +156,17 @@ function DealerUser() {
     getUserList();
   };
 
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  }; 
+
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
@@ -437,7 +448,7 @@ function DealerUser() {
     },
     {
       name: "Phone Number",
-      selector: (row) => row.phoneNumber,
+      selector: (row) => formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -555,7 +566,7 @@ function DealerUser() {
     },
     {
       name: "Phone Number",
-      selector: (row) => row.phoneNumber,
+      selector: (row) => formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
