@@ -487,7 +487,7 @@ function UserList(props) {
                     <div className="col-span-3 self-center">
                       <Input
                         name="phone"
-                        type="tel"
+                        type="number"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
