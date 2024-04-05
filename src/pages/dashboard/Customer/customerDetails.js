@@ -57,6 +57,8 @@ function CustomerDetails() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [isStatus, setIsStatus] = useState(true);
+  const [resellerStatus, setResellerStatus] = useState(true);
+  const [customerStatus, setCustomerStatus] = useState(true);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
