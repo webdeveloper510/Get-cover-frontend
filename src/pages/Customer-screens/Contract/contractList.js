@@ -17,8 +17,10 @@ import Select from "../../../common/select";
 import { getAllContractsForAdmin } from "../../../services/orderServices";
 import { format } from "date-fns";
 import { RotateLoader } from "react-spinners";
+import * as Yup from "yup";
 import CustomPagination from "../../pagination";
 import { getAllContractsForCustomerPortal, getContractByIdCustomerPortal } from "../../../services/dealerServices/orderListServices";
+import { useFormik } from "formik";
 function CustomerContractList(props) {
   const [contractDetails, setContractDetails] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
@@ -27,6 +29,7 @@ function CustomerContractList(props) {
   const [totalRecords, setTotalRecords] = useState(0);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [pageValue, setPageValue] = useState(1);
+  const [selectedProduct, setSelectedProduct] = useState("");
   const [recordsPerPage, setRecordsPerPage] = useState(10);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -37,14 +40,43 @@ function CustomerContractList(props) {
     setIsViewOpen(false);
   };
 
-  const openView = (data) => {
+  const openView = (id) => {
     setIsViewOpen(true);
-    getContractDetails(data);
+    getContractDetails(id);
+  };
+  const openDisapproved = () => {
+    setIsDisapprovedOpen(true);
+  };
+  const validationSchema = Yup.object().shape({});
+
+  const initialValues = {
+    orderId: "",
+    venderOrder: "",
+    contractId: "",
+    dealerName: "",
+    customerName: "",
+    servicerName: "",
+    manufacture: "",
+    status: "",
+    model: "",
+    serial: "",
+    productName: "",
   };
 
-  const getContractDetails = async (data) => {
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      getContractDetails(props?.orderId ?? null, 1, 10);
+      console.log(values);
+      setIsDisapprovedOpen(false);
+    },
+  });
+
+
+  const getContractDetails = async (id) => {
     setLoading(true);
-    const result = await getContractByIdCustomerPortal(data);
+    const result = await getContractByIdCustomerPortal(id);
     setContractDetails(result.result);
     setLoading(false);
     console.log("by ID -------------------", result);
@@ -78,9 +110,7 @@ function CustomerContractList(props) {
   useEffect(() => {
     getContracts();
   }, []);
-  const openDisapproved = () => {
-    setIsDisapprovedOpen(true);
-  };
+
 
   const findDate = (data, index, type) => {
     if (contractList) {
@@ -112,7 +142,12 @@ function CustomerContractList(props) {
 
     return "Date Not Found";
   };
-
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    setSelectedProduct("");
+    // getContract();
+  };
   const handlePageChange = async (page, rowsPerPage) => {
     console.log(page, rowsPerPage);
     setLoading(true);
@@ -152,64 +187,86 @@ function CustomerContractList(props) {
               <p className="text-xl font-semibold">Contracts List</p>
             </div>
             <div className="col-span-9">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-9">
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="Name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Contract ID"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="Email"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder=" Order ID"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="PhoneNo."
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Dealer P.O. No."
-                    />
-                  </div>
-                  <div className="col-span-1 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer "
-                        alt="Search"
+              <form onSubmit={formik.handleSubmit}>
+                <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                  <Grid
+                    className={`${
+                      props.orderId == null ? "!grid-cols-9" : "!grid-cols-7"
+                    }`}
+                  >
+                    <div className="col-span-2 self-center">
+                      <Input
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Contract ID"
+                        name="contractId"
+                        {...formik.getFieldProps("contractId")}
                       />
-                    </Button>
-                    <Button type="submit" className="!bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                    </div>
+                    {props.orderId == null && (
+                      <div className="col-span-2 self-center">
+                        <Input
+                          name="orderId"
+                          type="text"
+                          className="!text-[14px] !bg-[#f7f7f7]"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                          label=""
+                          placeholder=" Order ID"
+                          {...formik.getFieldProps("orderId")}
+                        />
+                      </div>
+                    )}
+
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="venderOrder"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Dealer P.O. #"
+                        {...formik.getFieldProps("venderOrder")}
                       />
-                    </Button>
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Button
-                      className="!text-sm"
-                      onClick={() => openDisapproved()}
+                    </div>
+                    <div className="col-span-1 self-center flex justify-center">
+                      <Button type="submit" className="!p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer "
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="!bg-transparent !p-0"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                    </div>
+                    <div
+                      className={`${
+                        props.orderId == null ? "" : "text-center"
+                      } col-span-2 self-center`}
                     >
-                      Advance Search
-                    </Button>
-                  </div>
-                </Grid>
-              </div>
+                      <Button
+                        className="!text-[13px]"
+                        onClick={() => openDisapproved()}
+                      >
+                        Advance Search
+                      </Button>
+                    </div>
+                  </Grid>
+                </div>
+              </form>
             </div>
           </Grid>
           {loading ? (
