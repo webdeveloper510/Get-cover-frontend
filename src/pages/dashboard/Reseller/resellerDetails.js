@@ -592,7 +592,8 @@ function ResellerDetails() {
   };
 
   const handleGOBack = () => {
-    navigate(-1);
+    navigate(`/resellerList`);
+    // navigate(-1);
   };
   return (
     <>
@@ -608,7 +609,7 @@ function ResellerDetails() {
 
         <div className="flex">
           <div onClick={() => localStorage.removeItem("Resellermenu")}>
-            <Link
+            <div
               onClick={handleGOBack}
               className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
             >
@@ -617,7 +618,7 @@ function ResellerDetails() {
                 className="m-auto my-auto self-center bg-white"
                 alt="BackImage"
               />
-            </Link>
+            </div>
           </div>
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
@@ -811,7 +812,9 @@ function ResellerDetails() {
             <Grid className="!mt-5">
               <div
                 className={`${
-                  isStatus == true && resellerStatus == true ? "col-span-10" : "col-span-12"
+                  isStatus == true && resellerStatus == true
+                    ? "col-span-10"
+                    : "col-span-12"
                 }`}
               >
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">

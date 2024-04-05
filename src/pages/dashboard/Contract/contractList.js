@@ -30,6 +30,7 @@ import { getContractsforCustomer } from "../../../services/customerServices";
 import { getContractsforReseller } from "../../../services/reSellerServices";
 
 function ContractList(props) {
+  console.log(props);
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -179,7 +180,7 @@ function ContractList(props) {
   ];
   const Eligible = [
     { label: "Eligible", value: "eligible" },
-    { label: "Not Eligible", value: "notEligible" }
+    { label: "Not Eligible", value: "notEligible" },
   ];
 
   const handleSelectChange = (name, selectedValue) => {
@@ -363,7 +364,8 @@ function ContractList(props) {
                                     alt="edit"
                                   />{" "}
                                 </div>
-                                {props.shownEdit ? (
+                                {props.shownEdit ||
+                                props.shownEdit == undefined ? (
                                   <Link to={`/editContract/${res._id}`}>
                                     {" "}
                                     <img
@@ -438,7 +440,6 @@ function ContractList(props) {
               )}
             </>
 
-          
             {totalRecords == 0 && !loading ? (
               <div className="text-center my-5">
                 <p>No records found</p>
@@ -652,7 +653,7 @@ function ContractList(props) {
             onClose={closeView}
             className="!w-[1100px]"
           >
-            {props.shownEdit ? (
+            {props.shownEdit || props.shownEdit == undefined ? (
               <Button
                 onClick={() => {
                   navigate(`/editContract/${contractDetails._id}`);
@@ -772,22 +773,27 @@ function ContractList(props) {
                           </p>
                         </div>
                       </div>
-                      {props.shownEdit ? (
-                        <div className="col-span-1 border border-[#D1D1D1]">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Dealer Name
-                            </p>
-                            <p className="text-[#333333] text-base font-semibold">
-                              {
-                                contractDetails?.order?.[0]?.customer?.[0]
-                                  ?.dealerName
-                              }
-                            </p>
-                          </div>
-                        </div>
-                      ) : null}
-                      {props.isShown ? (
+                      {props.flag === "dealer" ? null : (
+                        <>
+                          {props.shownEdit || props.shownEdit == undefined ? (
+                            <div className="col-span-1 border border-[#D1D1D1]">
+                              <div className="py-4 pl-3">
+                                <p className="text-[#5D6E66] text-sm font-Regular">
+                                  Dealer Name
+                                </p>
+                                <p className="text-[#333333] text-base font-semibold">
+                                  {
+                                    contractDetails?.order?.[0]?.customer?.[0]
+                                      ?.dealerName
+                                  }
+                                </p>
+                              </div>
+                            </div>
+                          ) : null}
+                        </>
+                      )}
+
+                      {props.isShow || props.isShown == undefined ? (
                         <div className="col-span-1 border border-[#D1D1D1]">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
