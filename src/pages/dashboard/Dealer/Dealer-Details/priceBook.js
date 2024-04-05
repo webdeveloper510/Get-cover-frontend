@@ -33,6 +33,7 @@ function PriceBookList(props) {
   const [priceBookList, setPriceBookList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [dealerPriceBookDetail, setDealerPriceBookDetail] = useState({});
   const [error, setError] = useState("");
   const dropdownRef = useRef(null);
@@ -394,14 +395,14 @@ function PriceBookList(props) {
   // ];
 
   const priceBookData = async () => {
-    setLoading(true);
+    setLoading1(true);
     const result =
       props.flag === "reseller"
         ? await getPriceBookListByResellerId(props.id)
         : await getDealerPriceBookByDealerId(props.id);
     setPriceBookList(result.result);
     console.log(result);
-    setLoading(false);
+    setLoading1(false);
   };
 
   const getCategoryListData = async () => {
@@ -598,7 +599,7 @@ function PriceBookList(props) {
             </div>
           </Grid>
           <div className="mb-5 relative dealer-detail">
-            {loading ? (
+            {loading || loading1 ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
