@@ -359,14 +359,14 @@ function OrderList(props) {
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                    <div className="border-b">
+                    {/* <div className="border-b"> */}
                       <PdfGenerator setLoading={setLoading} data={row._id} />
-                    </div>
+                    {/* </div> */}
 
-                    <DocMakeOrderContainer
+                    {/* <DocMakeOrderContainer
                       setLoading={setLoading}
                       data={row._id}
-                    />
+                    /> */}
                   </>
                 )}
               </div>

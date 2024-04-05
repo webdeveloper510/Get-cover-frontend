@@ -33,6 +33,9 @@ import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
 import RadioButton from "../../common/radio";
 import Tabs from "../../common/tabs";
+import make from "../../assets/images/star.png";
+import edit from "../../assets/images/edit-text.png";
+import delete1 from "../../assets/images/delete.png";
 
 function CustomerUser() {
   const { toggleFlag } = useMyContext();
@@ -44,7 +47,7 @@ function CustomerUser() {
   const [details, setDetails] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
-
+  const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
   const [timer, setTimer] = useState(3);
@@ -61,7 +64,12 @@ function CustomerUser() {
   });
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
-
+  const handleRadioChange = (event) => {
+    const selectedValue = event.target.value;
+    console.log(selectedValue);
+    formik.setFieldValue("status", selectedValue === "yes" ? true : false);
+    setCreateAccountOption(selectedValue);
+  };
   const getUserList = async () => {
     const result = await getCustomerUsersByIdCustomerPortal();
     console.log(result.result);
@@ -185,6 +193,7 @@ function CustomerUser() {
       console.error("Error in handleStatusChange:", error);
     }
   };
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -195,6 +204,10 @@ function CustomerUser() {
       lastName: Yup.string()
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
+      email: Yup.string()
+        .required("Required")
+        .matches(emailValidationRegex, "Invalid email address")
+        .transform((originalValue) => originalValue.trim()),
       phoneNumber: Yup.string()
         .required("Required")
         .min(10, "Must be at least 10 characters")
@@ -397,38 +410,41 @@ function CustomerUser() {
               />
             </div>
             {selectedAction === row.email && (
-              <div
-                ref={dropdownRef}
-                className={`absolute z-[9999] ${
-                  !row.isPrimary ? "w-[120px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
-              >
-                {!row.isPrimary && row.status && (
-                  <div
-                    className="text-center py-2 cursor-pointer border-b"
-                    onClick={() => makeUserPrimary(row)}
-                  >
-                    Make Primary
-                  </div>
-                )}
+               <div
+               ref={dropdownRef}
+               className={`absolute z-[9999] ${
+                 !row.isPrimary ? "w-[140px]" : "w-[80px]"
+               } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                 index
+               )}`}
+             >
+               {!row.isPrimary && row.status && (
+                 <div
+                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
+                   onClick={() => makeUserPrimary(row)}
+                 >
+                  <img src={make} className="w-4 h-4 mr-2" />{" "}
+                   <span className="self-center"> Make Primary </span>
+                 </div>
+               )}
 
-                <div
-                  className="text-center py-2 cursor-pointer border-b"
-                  onClick={() => editUser(row._id)}
-                >
-                  Edit
-                </div>
-                {!row.isPrimary && (
-                  <div
-                    className="text-center text-red-500 py-2 cursor-pointer"
-                    onClick={() => openModal1(row._id)}
-                  >
-                    Delete
-                  </div>
-                )}
-              </div>
+               <div
+                 className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
+                 onClick={() => editUser(row._id)}
+               >
+                  <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                 <span className="self-center">Edit </span>
+               </div>
+               {!row.isPrimary && (
+                 <div
+                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                   onClick={() => openModal1(row._id)}
+                 >
+                  <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                   <span className="self-center">Delete</span>
+                 </div>
+               )}
+             </div>
             )}
           </div>
         );
@@ -444,13 +460,13 @@ function CustomerUser() {
 
   return (
     <>
-      {loading && (
-        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#fff" />
-          </div>
-        </div>
-      )}
+      {loading ? (
+       <div className=" h-[500px] w-full flex py-5">
+       <div className="self-center mx-auto">
+         <RotateLoader color="#333" />
+       </div>
+     </div>
+      ) :
       <div className="my-8">
         <Headbar />
         <div className="flex mt-2">
@@ -467,7 +483,7 @@ function CustomerUser() {
           </div>
         </div>
 
-        <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+        <div className="px-4 relative">
             <div className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
             <Grid>
               <div className="col-span-2 text-left">
@@ -752,7 +768,7 @@ function CustomerUser() {
             
         </div>
        
-      </div>
+      </div> }
 
       {/* Modal Primary Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -868,10 +884,10 @@ function CustomerUser() {
                   required={true}
                   placeholder=""
                   maxLength={"30"}
-                  value={formik.values.position}
+                  value={formik.values.email}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  error={formik.touched.position && formik.errors.position}
+                  error={formik.touched.email && formik.errors.email}
                 />
                 {/* {formik.touched.position && formik.errors.position && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
@@ -945,15 +961,15 @@ function CustomerUser() {
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
-                    // checked={createAccountOption === "yes"}
-                    // onChange={handleRadioChange}
+                    checked={createAccountOption === "yes"}
+                    onChange={handleRadioChange}
                   />
                   <RadioButton
                     id="no-create-account"
                     label="No"
                     value="no"
-                    // checked={createAccountOption === "no"}
-                    // onChange={handleRadioChange}
+                    checked={createAccountOption === "no"}
+                    onChange={handleRadioChange}
                   />
                 </p>
               </div>

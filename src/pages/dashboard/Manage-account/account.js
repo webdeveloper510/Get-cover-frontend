@@ -281,7 +281,7 @@ function Account() {
   
     return phoneNumber; // Return original phone number if it couldn't be formatted
   }; 
-  
+
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const userValues = useFormik({
     initialValues: initialFormValues,
@@ -816,6 +816,8 @@ function Account() {
                               type="tel"
                               name="phoneNumber"
                               placeholder=""
+                              minLength={10}
+                              maxLength={10}
                               className="block pr-2.5 pb-2.5 pl-[30px] pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
                             />
                             <ErrorMessage

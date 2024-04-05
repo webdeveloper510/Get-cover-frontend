@@ -7,6 +7,7 @@ import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.sv
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import unassign from "../../../assets/images/Unassign.png";
+import view from "../../../assets/images/eye.png";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
@@ -167,14 +168,14 @@ function CustomerOrderList() {
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-1`}
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md bottom-1`}
               >
-                <div className="text-center py-1 px-3 cursor-pointer">
+                <div className="text-center py-1 cursor-pointer">
                   <Link
                     to={`/customer/orderDetails/${row._id}`}
-                    className="text-center py-1 cursor-pointer w-full flex justify-center"
-                  >
-                    View
+                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                >
+                  <img src={view} className="w-4 h-4 mr-2" /> View
                   </Link>
                 </div>
               </div>
