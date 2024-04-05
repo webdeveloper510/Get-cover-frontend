@@ -75,9 +75,9 @@ function DealerAddOrder() {
     if (orderId || resellerId || customerId) {
       setLoading1(true);
 
-      const timer = setTimeout(() => {
-        setLoading1(false);
-      }, 3000);
+      // const timer = setTimeout(() => {
+      //   setLoading1(false);
+      // }, 3000);
 
       return () => clearTimeout(timer);
     }
@@ -189,37 +189,50 @@ function DealerAddOrder() {
   }, [isModalOpen, timer]);
 
   const getCustomerList = async (data) => {
+    setLoading1(true);
     let arr = [];
-    const resellerId = data?.resellerId == null ? "" : data.resellerId;
-    const result = await getCustomerListforDealerPortal({
-      resellerId: resellerId,
-    });
-    console.log(result);
-    result?.result?.map((res) => {
-      arr.push({
-        label: res?.username,
-        value: res?._id,
-        customerData: res,
-        emailKey: res?.email,
+    try {
+      const resellerId = data?.resellerId == null ? "" : data.resellerId;
+      const result = await getCustomerListforDealerPortal({
+        resellerId: resellerId,
       });
-    });
-    setCustomerList(arr);
-    console.log(arr, "----customer");
+      console.log(result);
+      result?.result?.map((res) => {
+        arr.push({
+          label: res?.username,
+          value: res?._id,
+          customerData: res,
+          emailKey: res?.email,
+        });
+      });
+      setCustomerList(arr);
+      console.log(arr, "----customer");
+    } catch (error) {
+      console.error("Error occurred while fetching customer list:", error);
+      setLoading1(false);
+    } finally {
+      setLoading1(false);
+    }
   };
 
   const getResellerList = async (id) => {
-    console.log(id);
+    setLoading1(true);
 
     let arr = [];
-    const result = await getResellerListforDealerPortal({});
-    result?.result?.map((res) => {
-      console.log(res);
-      arr.push({
-        label: res.resellerData.name,
-        value: res.resellerData._id,
+    try {
+      const result = await getResellerListforDealerPortal({});
+      result?.result?.map((res) => {
+        console.log(res);
+        arr.push({
+          label: res.resellerData.name,
+          value: res.resellerData._id,
+        });
       });
-    });
-    setResllerList(arr);
+      setResllerList(arr);
+    } catch (error) {
+      console.error("Error occurred while fetching reseller list:", error);
+    } finally {
+    }
   };
 
   useEffect(() => {
@@ -324,7 +337,6 @@ function DealerAddOrder() {
         return newArray;
       });
     });
-    console.log(result.result);
     orderDetail(result.result);
     formikStep3.setValues({
       ...formikStep3.values,
@@ -742,51 +754,6 @@ function DealerAddOrder() {
         });
       }
     },
-
-    // onSubmit: (values) => {
-    //   console.log(values);
-    //   setLoading(true);
-
-    //   const totalAmount = calculateTotalAmount(
-    //     formikStep3.values.productsArray
-    //   );
-    //   console.log(totalAmount);
-    //   const data = {
-    //     ...formik.values,
-    //     ...formikStep2.values,
-    //     ...formikStep3.values,
-    //     paidAmount: values.paidAmount,
-    //     dueAmount: parseFloat(totalAmount),
-    //     sendNotification: sendNotification,
-    //     paymentStatus: values.paymentStatus,
-    //     orderAmount: parseFloat(totalAmount),
-    //   };
-
-    //   if (orderId != undefined) {
-    //     editOrderforDealerPortal(orderId, data).then((res) => {
-    //       if (res.code == 200) {
-    //         openModal();
-    //       } else {
-    //         setError(res.message);
-    //       }
-    //     });
-    //   } else {
-    //     addOrderforDealerPortal(data).then((res) => {
-    //       if (res.code == 200) {
-    //         setLoading(false);
-    //         openModal();
-
-    //         //  navigate('/orderList')
-    //       } else {
-    //         setLoading(false);
-    //         setError(res.message);
-    //         console.log("here", res);
-    //       }
-    //     });
-    //   }
-
-    //   setLoading(false);
-    // },
   });
 
   useEffect(() => {
@@ -903,7 +870,6 @@ function DealerAddOrder() {
         },
         match[1]
       );
-      console.log(formikStep3.values.productsArray[match[1]].categoryId);
       // formikStep3.setFieldValue(
       //   `productsArray[${match[1]}].QuantityPricing`,
       //   data.quantityPriceDetail
@@ -1056,7 +1022,7 @@ function DealerAddOrder() {
         setCoverage([{ label: "Breakdown", value: "Breakdown" }]);
         break;
       default:
-        setCoverage([{ label: "Accidental", value: "Accidental" }]);  
+        setCoverage([{ label: "Accidental", value: "Accidental" }]);
         break;
     }
 
@@ -1135,8 +1101,10 @@ function DealerAddOrder() {
       }
     } catch (error) {
       setLoading3(false);
+      setLoading1(false);
     } finally {
       setLoading3(false);
+      setLoading1(false);
     }
   };
 
@@ -1175,7 +1143,6 @@ function DealerAddOrder() {
                       />
                     </div>
 
-                    
                     <div className="col-span-6">
                       {/* <Select */}
                       {console.log(
@@ -1279,17 +1246,13 @@ function DealerAddOrder() {
             <div className="flex">
               <Button
                 type="submit"
-                className='!mr-3'
+                className="!mr-3"
                 onClick={() => {
                   console.log(formik.values);
                 }}
               >
                 Next
               </Button>
-              {/* <Button type="button" className="!bg-indigo-500 !flex" disabled>
-                <img src={Spinner} className="w-5 h-5 mr-2" alt="Spinner"/>
-                Processing...
-              </Button> */}
             </div>
           </form>
         )}
@@ -2135,7 +2098,8 @@ function DealerAddOrder() {
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Unit Price</p>
                               <p className="font-bold text-sm">
-                                ${data.unitPrice === undefined
+                                $
+                                {data.unitPrice === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
                                       Number(data.unitPrice) ?? parseInt(0)
@@ -2152,12 +2116,14 @@ function DealerAddOrder() {
                             </div>
                             <div className="col-span-3 py-4">
                               <p className="text-[12px]">Price</p>
-                              <p className="font-bold text-sm">$
-                              {data.price === undefined
+                              <p className="font-bold text-sm">
+                                $
+                                {data.price === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
                                       Number(data.price) ?? parseInt(0)
-                                    )}{" "}</p>
+                                    )}{" "}
+                              </p>
                             </div>
                           </Grid>
                           {data.priceType == "Flat Pricing" && (
@@ -2165,22 +2131,23 @@ function DealerAddOrder() {
                               <div className="col-span-6 py-4 border-r">
                                 <p className="text-[12px]">Start Range</p>
                                 <p className="font-bold text-sm">
-                                $
-                              {data.rangeStart === undefined
-                                  ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(
-                                      Number(data.rangeStart) ?? parseInt(0)
-                                    )}{" "}
+                                  $
+                                  {data.rangeStart === undefined
+                                    ? parseInt(0).toLocaleString(2)
+                                    : formatOrderValue(
+                                        Number(data.rangeStart) ?? parseInt(0)
+                                      )}{" "}
                                 </p>
                               </div>
                               <div className="col-span-6 py-4">
                                 <p className="text-[12px]">End Range</p>
                                 <p className="font-bold text-sm">
-                                  ${data.rangeEnd === undefined
-                                  ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(
-                                      Number(data.rangeEnd) ?? parseInt(0)
-                                    )}{" "}
+                                  $
+                                  {data.rangeEnd === undefined
+                                    ? parseInt(0).toLocaleString(2)
+                                    : formatOrderValue(
+                                        Number(data.rangeEnd) ?? parseInt(0)
+                                      )}{" "}
                                 </p>
                               </div>
                             </Grid>
@@ -2499,7 +2466,7 @@ function DealerAddOrder() {
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-             <b> {type == "Order " ? "" : "New Order"} </b>{" "}
+            <b> {type == "Order " ? "" : "New Order"} </b>{" "}
             {type == "Edit" ? "Edited" : "Added"} Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
