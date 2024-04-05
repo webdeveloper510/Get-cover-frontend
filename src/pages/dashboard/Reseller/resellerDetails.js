@@ -71,6 +71,7 @@ function ResellerDetails() {
   const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStatus, setIsStatus] = useState(false);
+  const [resellerStatus, setResellerStatus] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
@@ -188,6 +189,7 @@ function ResellerDetails() {
     const result = await getResellerListByResellerId(id.resellerId);
     setResllerDetails(result.reseller[0]);
     setIsStatus(result?.dealerStatus);
+    setResellerStatus(result?.reseller[0].status);
     setInitialFormValues({
       accountName: result?.reseller[0]?.resellerData?.name,
       oldName: result?.reseller[0]?.resellerData?.name,
@@ -809,7 +811,7 @@ function ResellerDetails() {
             <Grid className="!mt-5">
               <div
                 className={`${
-                  isStatus == true ? "col-span-10" : "col-span-12"
+                  isStatus == true && resellerStatus == true ? "col-span-10" : "col-span-12"
                 }`}
               >
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
@@ -844,7 +846,7 @@ function ResellerDetails() {
                   </Grid>
                 </div>
               </div>
-              {isStatus == true ? (
+              {isStatus == true && resellerStatus == true ? (
                 <>
                   {activeTab !== "Servicer" &&
                   activeTab !== "PriceBook" &&
