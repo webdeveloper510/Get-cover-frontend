@@ -63,7 +63,7 @@ function CustomerContractList(props) {
   
   const getContracts = async (page = 1, rowsPerPage = 10) => {
     setLoading(true);
-    setPageValue(rowsPerPage)
+    setPageValue(page)
     let data = {
       page: page,
       pageLimit: rowsPerPage,
