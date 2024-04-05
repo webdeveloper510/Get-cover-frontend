@@ -26,6 +26,7 @@ function CustomerContractList(props) {
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [isViewOpen, setIsViewOpen] = useState(false);
+  const [pageValue, setPageValue] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -61,6 +62,8 @@ function CustomerContractList(props) {
   };
   
   const getContracts = async (page = 1, rowsPerPage = 10) => {
+    setLoading(true);
+    setPageValue(rowsPerPage)
     let data = {
       page: page,
       pageLimit: rowsPerPage,
@@ -315,12 +318,18 @@ function CustomerContractList(props) {
                 })}
             </>
           )}
+           {totalRecords == 0 && !loading ? (
+              <div className="text-center my-5">
+                <p>No records found</p>
+              </div>
+            ) : (
           <CustomPagination
             totalRecords={totalRecords}
+            page={pageValue}
             rowsPerPageOptions={[10, 20, 50, 100]}
             onPageChange={handlePageChange}
             setRecordsPerPage={setRecordsPerPage}
-          />
+          />)}
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button
               onClick={closeDisapproved}
@@ -674,10 +683,10 @@ function CustomerContractList(props) {
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
                           ${
-                           contractDetails.claimAmount === undefined
+                           contractDetails?.claimAmount === undefined
                             ? parseInt(0).toLocaleString(2)
                             : formatOrderValue(
-                              contractDetails.claimAmount ??
+                              contractDetails?.claimAmount ??
                                   parseInt(0)
                               )}
                           </p>

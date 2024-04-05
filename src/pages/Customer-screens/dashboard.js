@@ -7,6 +7,7 @@ import Button from '../../common/button'
 import Input from '../../common/input'
 import drop from '../../assets/images/icons/dropwhite.svg'
 import { getCustomerDashboardDetails } from '../../services/dashboardServices'
+import { RotateLoader } from 'react-spinners'
 function CustomerDashboard() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -41,6 +42,13 @@ function CustomerDashboard() {
             <p className='font-bold text-[36px] leading-9	mb-[3px]'>Dashboard</p>
           </div>
         </div>
+        {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
         <div className='mt-5'>
           <Grid className='s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12'>
             <div className='col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8'>
@@ -61,6 +69,7 @@ function CustomerDashboard() {
             </div>
           </Grid>
         </div>
+            )}
      </div>
     </>
   )
