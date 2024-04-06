@@ -42,6 +42,7 @@ function UserList(props) {
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
+  const [dealerStatus, setDealerStatus] = useState(true);
 
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
@@ -77,23 +78,27 @@ function UserList(props) {
         const customerResult = await getCustomerUsersById(props.id, data);
         setServiceStatus(true);
         setUserList(customerResult.result);
+        setDealerStatus(customerResult.isAccountCreate);
         break;
       case "servicer":
         const servicerResult = await getServicerUsersById(props.id, data);
         console.log(servicerResult);
         setServiceStatus(servicerResult.servicerStatus);
         setUserList(servicerResult.result);
+        setDealerStatus(servicerResult.isAccountCreate);
         break;
       case "reseller":
         const resellerResult = await getResellerUsersById(props.id, data);
         console.log(resellerResult);
         setServiceStatus(resellerResult.resellerStatus);
         setUserList(resellerResult.data);
+        setDealerStatus(resellerResult.isAccountCreate);
         break;
       default:
         const defaultResult = await getUserListByDealerId(props.id, data);
         console.log(defaultResult.result);
         setServiceStatus(defaultResult.dealerStatus);
+        setDealerStatus(defaultResult.isAccountCreate);
         setUserList(defaultResult.result);
         break;
     }
@@ -364,7 +369,7 @@ function UserList(props) {
             } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
-            disabled={row.isPrimary || !servicerStatus}
+            disabled={row.isPrimary || !servicerStatus || !dealerStatus}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
@@ -747,7 +752,7 @@ function UserList(props) {
                   name="status"
                   placeholder=""
                   onChange={handleSelectChange}
-                  disabled={isprimary || !mainStatus}
+                  disabled={isprimary || !mainStatus || !dealerStatus}
                   className="!bg-[#fff]"
                   options={status}
                   value={formik.values.status}

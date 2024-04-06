@@ -105,7 +105,7 @@ function DealerDetails() {
     email: "",
     phoneNumber: "",
     position: "",
-    status: "yes",
+    status: createAccountOption,
     dealerId: id.id,
     isPrimary: false,
   });
@@ -444,10 +444,11 @@ function DealerDetails() {
     }),
 
     onSubmit: async (values, { setFieldError }) => {
-      localStorage.setItem("menu", "Users");
-
+      values.status = createAccountOption;
       if (values.status === "yes") {
         values.status = true;
+      } else if (values.status === "no") {
+        values.status = false;
       }
       setLoading(true);
       const result = await addUserByDealerId(values);

@@ -58,6 +58,11 @@ const Input = ({
   const handleInput = (event) => {
     let inputValue = event.target.value;
 
+    if (type === "text") {
+      inputValue = inputValue.replace(/[^\dA-Za-z\s]/g, "");
+      inputValue = inputValue.replace(/\s+/g, " ");
+    }
+
     if (type === "date") {
       inputValue = formatDate(inputValue);
     }
@@ -121,32 +126,35 @@ const Input = ({
               </div>
             ) : (
               <>
-              {type === "tel" && <div className="text-base font-semibold absolute top-[17px] left-[10px]">
-                +1 
-              </div>}
-              <input
-                type={type}
-                name={name}
-                value={type == "date" ? inputValue : value}
-                id={name}
-                onBlur={onBlur}
-                minLength={minLength}
-                maxLength={maxLength}
-                pattern={type === "number" ? "[0-9]*" : undefined}
-                className={`${type === "tel" && 'pl-[30px]' } block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
-                  error ? "border-[red]" : " border-gray-300 "
-                } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
-                onChange={handleInput}
-                disabled={disabled}
-                placeholder={placeholder}
-                onWheel={(e) => e.target.blur()}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    // Optionally, you can add additional logic here if needed
-                  }
-                }}
-              />
+                {type === "tel" && (
+                  <div className="text-base font-semibold absolute top-[17px] left-[10px]">
+                    +1
+                  </div>
+                )}
+                <input
+                  type={type}
+                  name={name}
+                  value={type == "date" ? inputValue : value}
+                  id={name}
+                  onBlur={onBlur}
+                  minLength={minLength}
+                  maxLength={maxLength}
+                  pattern={type === "number" ? "[0-9]*" : undefined}
+                  className={`${
+                    type === "tel" && "pl-[30px]"
+                  } block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
+                    error ? "border-[red]" : " border-gray-300 "
+                  } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
+                  onChange={handleInput}
+                  disabled={disabled}
+                  placeholder={placeholder}
+                  onWheel={(e) => e.target.blur()}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                    }
+                  }}
+                />
               </>
             )}
           </>
