@@ -6,6 +6,7 @@ import star from "../../assets/images/icons/star.svg";
 import Primary from "../../assets/images/SetPrimary.png";
 import deleteUser10 from "../../assets/images/deleteUser.svg";
 import deleteUser123 from "../../assets/images/Disapproved.png";
+import Cross from "../../assets/images/Cross.png";
 import assign from "../../assets/images/Unassign.png";
 import Search from "../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../assets/images/icons/Clear-Filter-Icon-White.svg";
@@ -32,7 +33,7 @@ import make from "../../assets/images/star.png";
 import edit from "../../assets/images/edit-text.png";
 import delete1 from "../../assets/images/delete.png";
 import AddItem from "../../assets/images/icons/addItem.svg";
-import Cross from "../../assets/images/Cross.png";
+
 import Headbar from "../../common/headBar";
 import terms from "../../assets/images/Dealer/Address.svg";
 import dealer from "../../assets/images/Dealer/Name.svg";
@@ -51,12 +52,12 @@ function DealerUser() {
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+  const [primaryText, SetPrimaryText] = useState("");
+  const [secondaryText, SetSecondaryText] = useState("");
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  const [primaryText, SetPrimaryText] = useState("");
-  const [secondaryText, SetSecondaryText] = useState("");
   const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
   const [primary, setPrimary] = useState(false);
@@ -155,6 +156,17 @@ function DealerUser() {
     SetIsModalOpen(true);
     getUserList();
   };
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  }; 
 
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const handleSelectChange = async (name, value) => {
@@ -437,7 +449,7 @@ function DealerUser() {
     },
     {
       name: "Phone Number",
-      selector: (row) => row.phoneNumber,
+      selector: (row) => formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -555,7 +567,7 @@ function DealerUser() {
     },
     {
       name: "Phone Number",
-      selector: (row) => row.phoneNumber,
+      selector: (row) => formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -618,11 +630,9 @@ function DealerUser() {
         }
     } catch (error) {
       console.error("Error changing password:", error);
-     
     } finally {
       setLoading1(false);
     }
-
     console.log(value);
   };
 
@@ -651,8 +661,7 @@ function DealerUser() {
   return (
     <>
       {loading1 ? (
-      
-      <>
+        <>
           <div className=" h-[500px] w-full flex py-5">
             <div className="self-center mx-auto">
               <RotateLoader color="#333" />
@@ -661,264 +670,260 @@ function DealerUser() {
         </>
         ) : (
           <>
-          <div className="my-8">
-            <Headbar />
-            <div className="flex mt-2">
-              <div className="pl-3">
-                <p className="font-bold text-[36px] leading-9	mb-[3px]">
-                  Manage Users
-                </p>
-                <ul className="flex self-center">
-                  <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-                    {" "}
-                    Users{" "}
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-            <div className="bg-Edit bg-cover px-8 mt-8 py-8 rounded-[30px]">
-                <Grid>
-                  <div className="col-span-2 text-left">
-                    <p className="text-base text-white font-semibold ">
+            <div className="my-8">
+              <Headbar />
+              <div className="flex mt-2">
+                <div className="pl-3">
+                  <p className="font-bold text-[36px] leading-9	mb-[3px]">
+                    Manage Users
+                  </p>
+                  <ul className="flex self-center">
+                    <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                       {" "}
-                      My Details
-                    </p>
-                  </div>
-                  <div className="col-span-10 self-center">
-                    <hr />
-                  </div>
-                </Grid>
-
-                <Grid className="mx-8 mx-auto mt-4">
-                  <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
-                  <div className="col-span-3 border-r border-[#4e4e4e]">
-                    <div className="flex">
-                      <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
-                        <img src={dealer} alt="dealer" />
-                      </div>
-                      <div className="self-center">
-                        <p className="text-[#FFF] text-base font-medium leading-5	">
-                          Account Name
-                        </p>
-                        <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                        {loginDetails.name}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-span-5">
-                    <div className="flex justify-center">
-                      <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
-                        <img src={terms} className="" alt="terms" />
-                      </div>
-                      <div className="self-center">
-                        <p className="text-[#FFF] text-base font-medium leading-5">
-                          Address
-                        </p>
-                        <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                        {loginDetails?.street},{" "}
-                        {loginDetails?.city},{" "}
-                        {loginDetails?.state}{" "}
-                        {loginDetails?.zip}, {loginDetails?.country}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-span-2"></div>
-                </Grid>
+                      Users{" "}
+                    </li>
+                  </ul>
+                </div>
               </div>
               <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-              <p className='text-xl font-semibold mb-5'>Change Password</p>
-              <form onSubmit={passwordChnageForm.handleSubmit}>
+                <div className="bg-Edit bg-cover px-8 mt-8 py-8 rounded-[30px]">
                   <Grid>
-                    <div className="col-span-4">
-                      <PasswordInput
-                        type="password"
-                        name="oldPassword"
-                        label="Old Password"
-                        value={passwordChnageForm.values.oldPassword}
-                        onChange={passwordChnageForm.handleChange}
-                        onBlur={passwordChnageForm.handleBlur}
-                        isPassword
-                        className="!bg-white"
-                      />
-                      {passwordChnageForm.touched.oldPassword &&
-                        passwordChnageForm.errors.oldPassword && (
-                          <div className="text-red-500">
-                            {passwordChnageForm.errors.oldPassword}
-                          </div>
-                        )}
+                    <div className="col-span-2 text-left">
+                      <p className="text-base text-white font-semibold ">
+                        {" "}
+                        My Details
+                      </p>
                     </div>
-
-                    <div className="col-span-4">
-                      <PasswordInput
-                        type="password"
-                        name="newPassword"
-                        label="New Password"
-                        isPassword
-                        className="!bg-white"
-                        value={passwordChnageForm.values.newPassword}
-                        onChange={passwordChnageForm.handleChange}
-                        onBlur={passwordChnageForm.handleBlur}
-                      />
-                      {passwordChnageForm.touched.newPassword &&
-                        passwordChnageForm.errors.newPassword && (
-                          <div className="text-red-500">
-                            {passwordChnageForm.errors.newPassword}
-                          </div>
-                        )}
-                    </div>
-                    <div className="col-span-4">
-                      <PasswordInput
-                        type="password"
-                        name="confirmPassword"
-                        label="Confirm Password"
-                        isPassword
-                        className="!bg-white"
-                        value={passwordChnageForm.values.confirmPassword}
-                        onChange={passwordChnageForm.handleChange}
-                        onBlur={passwordChnageForm.handleBlur}
-                      />
-                      {passwordChnageForm.touched.confirmPassword &&
-                        passwordChnageForm.errors.confirmPassword && (
-                          <div className="text-red-500">
-                            {passwordChnageForm.errors.confirmPassword}
-                          </div>
-                        )}
+                    <div className="col-span-10 self-center">
+                      <hr />
                     </div>
                   </Grid>
-                  <div className="mt-4 text-right">
-                    <Button type="submit">Change Password</Button>
-                  </div>
-                </form>
-              </div>
-            
-              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-                {primary &&  <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-                  <Button onClick={() => openUserModal()}> + Add Member</Button>
-                </div>}
-              
-                <p className="text-xl font-semibold mb-3">Users List</p>
-                <Grid className="!p-[2px] !pt-[14px] !pb-0">
-                  <div className="col-span-3 self-center"></div>
-                  <div className="col-span-9">
-                    <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                      <form className="" onSubmit={formikUSerFilter.handleSubmit}>
-                        <Grid className="!grid-cols-9">
-                          <div className="col-span-2 self-center">
-                            <Input
-                              name="firstName"
-                              type="text"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="First Name"
-                              value={formikUSerFilter.values.firstName}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={formikUSerFilter.handleChange}
-                            />
-                          </div>
-                          <div className="col-span-2 self-center">
-                            <Input
-                              name="lastName"
-                              type="text"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="Last Name"
-                              value={formikUSerFilter.values.lastName}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={formikUSerFilter.handleChange}
-                            />
-                          </div>
-                          <div className="col-span-2 self-center">
-                            <Input
-                              name="email"
-                              type="text"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="Email"
-                              value={formikUSerFilter.values.email}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={formikUSerFilter.handleChange}
-                            />
-                          </div>
-                          <div className="col-span-2 self-center">
-                            <Input
-                              name="phone"
-                              type="number"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="Phone"
-                              value={formikUSerFilter.values.phone}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={(e) => {
-                                const sanitizedValue = e.target.value.replace(
-                                  /[^0-9]/g,
-                                  ""
-                                );
-                                console.log(sanitizedValue);
-                                formikUSerFilter.handleChange({
-                                  target: {
-                                    name: "phone",
-                                    value: sanitizedValue,
-                                  },
-                                });
-                              }}
-                            />
-                          </div>
-                          <div className="col-span-1 self-center flex justify-center">
-                            <Button type="submit" className="!p-0">
-                              <img
-                                src={Search}
-                                className="cursor-pointer "
-                                alt="Search"
-                              />
-                            </Button>
-                            <Button
-                              type="submit"
-                              onClick={() => {
-                                handleFilterIconClick();
-                              }}
-                              className="!bg-transparent !p-0"
-                            >
-                              <img
-                                src={clearFilter}
-                                className="cursor-pointer	mx-auto"
-                                alt="clearFilter"
-                              />
-                            </Button>
-                          </div>
-                        </Grid>
-                      </form>
+
+                  <Grid className="mx-8 mx-auto mt-4">
+                    <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
+                    <div className="col-span-3 border-r border-[#4e4e4e]">
+                      <div className="flex">
+                        <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
+                          <img src={dealer} alt="dealer" />
+                        </div>
+                        <div className="self-center">
+                          <p className="text-[#FFF] text-base font-medium leading-5	">
+                            Account Name
+                          </p>
+                          <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                          {loginDetails.name}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </Grid>
-                <DataTable
-                  columns={primary ? columns : columns1}
-                  data={userList}
-                  highlightOnHover
-                  sortIcon={
-                    <>
-                      {" "}
-                      <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                    </>
-                  }
-                  noDataComponent={<CustomNoDataComponent />}
-                />
+                    <div className="col-span-5">
+                      <div className="flex justify-center">
+                        <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
+                          <img src={terms} className="" alt="terms" />
+                        </div>
+                        <div className="self-center">
+                          <p className="text-[#FFF] text-base font-medium leading-5">
+                            Address
+                          </p>
+                          <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                          {loginDetails?.street},{" "}
+                          {loginDetails?.city},{" "}
+                          {loginDetails?.state}{" "}
+                          {loginDetails?.zip}, {loginDetails?.country}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-span-2"></div>
+                  </Grid>
+                </div>
+                <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+                  <p className='text-xl font-semibold mb-5'>Change Password</p>
+                  <form onSubmit={passwordChnageForm.handleSubmit}>
+                      <Grid>
+                        <div className="col-span-4">
+                          <PasswordInput
+                            type="password"
+                            name="oldPassword"
+                            label="Old Password"
+                            value={passwordChnageForm.values.oldPassword}
+                            onChange={passwordChnageForm.handleChange}
+                            onBlur={passwordChnageForm.handleBlur}
+                            isPassword
+                            className="!bg-white"
+                          />
+                          {passwordChnageForm.touched.oldPassword &&
+                            passwordChnageForm.errors.oldPassword && (
+                              <div className="text-red-500">
+                                {passwordChnageForm.errors.oldPassword}
+                              </div>
+                            )}
+                        </div>
+
+                        <div className="col-span-4">
+                          <PasswordInput
+                            type="password"
+                            name="newPassword"
+                            label="New Password"
+                            isPassword
+                            className="!bg-white"
+                            value={passwordChnageForm.values.newPassword}
+                            onChange={passwordChnageForm.handleChange}
+                            onBlur={passwordChnageForm.handleBlur}
+                          />
+                          {passwordChnageForm.touched.newPassword &&
+                            passwordChnageForm.errors.newPassword && (
+                              <div className="text-red-500">
+                                {passwordChnageForm.errors.newPassword}
+                              </div>
+                            )}
+                        </div>
+                        <div className="col-span-4">
+                          <PasswordInput
+                            type="password"
+                            name="confirmPassword"
+                            label="Confirm Password"
+                            isPassword
+                            className="!bg-white"
+                            value={passwordChnageForm.values.confirmPassword}
+                            onChange={passwordChnageForm.handleChange}
+                            onBlur={passwordChnageForm.handleBlur}
+                          />
+                          {passwordChnageForm.touched.confirmPassword &&
+                            passwordChnageForm.errors.confirmPassword && (
+                              <div className="text-red-500">
+                                {passwordChnageForm.errors.confirmPassword}
+                              </div>
+                            )}
+                        </div>
+                      </Grid>
+                      <div className="mt-4 text-right">
+                        <Button type="submit">Change Password</Button>
+                      </div>
+                  </form>
+                </div>
+              
+                <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+                  {primary &&  <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                    <Button onClick={() => openUserModal()}> + Add Member</Button>
+                  </div>}
+                
+                  <p className="text-xl font-semibold mb-3">Users List</p>
+                  <Grid className="!p-[2px] !pt-[14px] !pb-0">
+                    <div className="col-span-3 self-center"></div>
+                    <div className="col-span-9">
+                      <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                        <form className="" onSubmit={formikUSerFilter.handleSubmit}>
+                          <Grid className="!grid-cols-9">
+                            <div className="col-span-2 self-center">
+                              <Input
+                                name="firstName"
+                                type="text"
+                                className="!text-[14px] !bg-[#f7f7f7]"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                label=""
+                                placeholder="First Name"
+                                value={formikUSerFilter.values.firstName}
+                                onBlur={formikUSerFilter.handleBlur}
+                                onChange={formikUSerFilter.handleChange}
+                              />
+                            </div>
+                            <div className="col-span-2 self-center">
+                              <Input
+                                name="lastName"
+                                type="text"
+                                className="!text-[14px] !bg-[#f7f7f7]"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                label=""
+                                placeholder="Last Name"
+                                value={formikUSerFilter.values.lastName}
+                                onBlur={formikUSerFilter.handleBlur}
+                                onChange={formikUSerFilter.handleChange}
+                              />
+                            </div>
+                            <div className="col-span-2 self-center">
+                              <Input
+                                name="email"
+                                type="text"
+                                className="!text-[14px] !bg-[#f7f7f7]"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                label=""
+                                placeholder="Email"
+                                value={formikUSerFilter.values.email}
+                                onBlur={formikUSerFilter.handleBlur}
+                                onChange={formikUSerFilter.handleChange}
+                              />
+                            </div>
+                            <div className="col-span-2 self-center">
+                              <Input
+                                name="phone"
+                                type="number"
+                                className="!text-[14px] !bg-[#f7f7f7]"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                label=""
+                                placeholder="Phone"
+                                value={formikUSerFilter.values.phone}
+                                onBlur={formikUSerFilter.handleBlur}
+                                onChange={(e) => {
+                                  const sanitizedValue = e.target.value.replace(
+                                    /[^0-9]/g,
+                                    ""
+                                  );
+                                  console.log(sanitizedValue);
+                                  formikUSerFilter.handleChange({
+                                    target: {
+                                      name: "phone",
+                                      value: sanitizedValue,
+                                    },
+                                  });
+                                }}
+                              />
+                            </div>
+                            <div className="col-span-1 self-center flex justify-center">
+                              <Button type="submit" className="!p-0">
+                                <img
+                                  src={Search}
+                                  className="cursor-pointer "
+                                  alt="Search"
+                                />
+                              </Button>
+                              <Button
+                                type="submit"
+                                onClick={() => {
+                                  handleFilterIconClick();
+                                }}
+                                className="!bg-transparent !p-0"
+                              >
+                                <img
+                                  src={clearFilter}
+                                  className="cursor-pointer	mx-auto"
+                                  alt="clearFilter"
+                                />
+                              </Button>
+                            </div>
+                          </Grid>
+                        </form>
+                      </div>
+                    </div>
+                  </Grid>
+                  <DataTable
+                    columns={primary ? columns : columns1}
+                    data={userList}
+                    highlightOnHover
+                    sortIcon={
+                      <>
+                        {" "}
+                        <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                      </>
+                    }
+                    noDataComponent={<CustomNoDataComponent />}
+                  />
+                </div>
               </div>
-          
             </div>
-          
-          </div>
           </>
         )}
       
-
       {/* Modal Primary Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
@@ -1208,7 +1213,7 @@ function DealerUser() {
                 <Input
                   type="tel"
                   name="phoneNumber"
-                  label="Mobile Number"
+                  label="Phone #"
                   required={true}
                   className="!bg-[#fff]"
                   placeholder=""

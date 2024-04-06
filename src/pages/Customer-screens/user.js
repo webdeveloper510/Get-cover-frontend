@@ -33,22 +33,33 @@ import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
 import RadioButton from "../../common/radio";
 import Tabs from "../../common/tabs";
-
+import deleteUser123 from "../../assets/images/Disapproved.png";
+import Cross from "../../assets/images/Cross.png";
+import make from "../../assets/images/star.png";
+import edit from "../../assets/images/edit-text.png";
+import delete1 from "../../assets/images/delete.png";
+import PasswordInput from "../../common/passwordInput";
+import { addSuperAdminMembers, changePasswordbyToken } from "../../services/extraServices";
 function CustomerUser() {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
   const [details, setDetails] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
+  const [firstMessage, setFirstMessage] = useState("");
+  const [secondMessage, setSecondMessage] = useState("");
   const [deleteId, setDeleteId] = useState("");
-
+  const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+  const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
   const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
+  const [loading1, setLoading1] = useState(false);
 
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({
@@ -59,18 +70,36 @@ function CustomerUser() {
     status: true,
     id: "",
   });
+  const closeUserModal = () => {
+    setIsUserModalOpen(false);
+    setInitialFormValues({
+      lastName: "",
+      firstName: "",
+      phoneNumber: "",
+      position: "",
+      status: true,
+      id: "",
+    });
+  };
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
-
+  const handleRadioChange = (event) => {
+    const selectedValue = event.target.value;
+    console.log(selectedValue);
+    formik.setFieldValue("status", selectedValue === "yes" ? true : false);
+    setCreateAccountOption(selectedValue);
+  };
   const getUserList = async () => {
     const result = await getCustomerUsersByIdCustomerPortal();
     console.log(result.result);
     setUserList(result.result);
   };
   const getCustomerDetails = async () => {
+    setLoading1(true);
     const result = await getCustomerDetailsByIdCustomerPortal();
     console.log(result.result);
     setDetails(result.result);
+    setLoading1(false);
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -153,7 +182,17 @@ function CustomerUser() {
   const openModal2 = () => {
     setIsModalOpen2(true);
   };
-
+  const openUserModal = () => {
+    setInitialFormValues({
+      lastName: "",
+      firstName: "",
+      phoneNumber: "",
+      position: "",
+      status: true,
+      id: "",
+    });
+    setIsUserModalOpen(true);
+  };
   const closeModal12 = () => {
     setIsModalOpen12(false);
   };
@@ -185,6 +224,7 @@ function CustomerUser() {
       console.error("Error in handleStatusChange:", error);
     }
   };
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -195,6 +235,10 @@ function CustomerUser() {
       lastName: Yup.string()
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
+      email: Yup.string()
+        .required("Required")
+        .matches(emailValidationRegex, "Invalid email address")
+        .transform((originalValue) => originalValue.trim()),
       phoneNumber: Yup.string()
         .required("Required")
         .min(10, "Must be at least 10 characters")
@@ -209,20 +253,14 @@ function CustomerUser() {
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
-        SetPrimaryText("User Edited Successfully ");
-        SetSecondaryText("user edited successfully ");
+        SetPrimaryText("User Added Successfully ");
+        SetSecondaryText("user Added successfully ");
         openModal();
         toggleFlag();
-        // setIsModalOpen3(true);
-
-        // setError(result.message);
         setTimer(3);
         getUserList();
       } else {
         setLoading(false);
-        // setError(false);
-        // setIsModalOpen(true);
-        // setTimer(3);
       }
       closeModal2();
     },
@@ -280,7 +318,7 @@ function CustomerUser() {
   const filterUserDetails = async (data) => {
     try {
       setLoading(true);
-      const res = await getUserListByDealerId("", data);
+      const res = await getCustomerUsersByIdCustomerPortal("", data);
       setUserList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
@@ -309,6 +347,18 @@ function CustomerUser() {
       filterUserDetails(values);
     },
   });
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
+  
   const columns = [
     {
       name: "Name",
@@ -332,7 +382,7 @@ function CustomerUser() {
     },
     {
       name: "Phone Number",
-      selector: (row) => row.phoneNumber,
+      selector: (row) => formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -385,60 +435,158 @@ function CustomerUser() {
               />
             </div>
             {selectedAction === row.email && (
-              <div
-                ref={dropdownRef}
-                className={`absolute z-[9999] ${
-                  !row.isPrimary ? "w-[120px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
-              >
-                {!row.isPrimary && row.status && (
-                  <div
-                    className="text-center py-2 cursor-pointer border-b"
-                    onClick={() => makeUserPrimary(row)}
-                  >
-                    Make Primary
-                  </div>
-                )}
+               <div
+               ref={dropdownRef}
+               className={`absolute z-[9999] ${
+                 !row.isPrimary ? "w-[140px]" : "w-[80px]"
+               } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                 index
+               )}`}
+             >
+               {!row.isPrimary && row.status && (
+                 <div
+                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
+                   onClick={() => makeUserPrimary(row)}
+                 >
+                  <img src={make} className="w-4 h-4 mr-2" />{" "}
+                   <span className="self-center"> Make Primary </span>
+                 </div>
+               )}
 
-                <div
-                  className="text-center py-2 cursor-pointer border-b"
-                  onClick={() => editUser(row._id)}
-                >
-                  Edit
-                </div>
-                {!row.isPrimary && (
-                  <div
-                    className="text-center text-red-500 py-2 cursor-pointer"
-                    onClick={() => openModal1(row._id)}
-                  >
-                    Delete
-                  </div>
-                )}
-              </div>
+               <div
+                 className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
+                 onClick={() => editUser(row._id)}
+               >
+                  <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                 <span className="self-center">Edit </span>
+               </div>
+               {!row.isPrimary && (
+                 <div
+                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                   onClick={() => openModal1(row._id)}
+                 >
+                  <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                   <span className="self-center">Delete</span>
+                 </div>
+               )}
+             </div>
             )}
           </div>
         );
       },
     },
   ];
+  const initialValues2 = {
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  };
 
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log(values);
+    passwordChange(values);
+    setSubmitting(false);
+  };
+
+  const passwordChange = async (value) => {
+    setLoading1(true);
+    delete value.confirmPassword;
+
+    try {
+      const res = await changePasswordbyToken(value);
+      console.log(res);
+      if (res.code == 200) {
+        setFirstMessage("Edit  Successfully ");
+        setSecondMessage("User Password edited  successfully ");
+        SetIsModalOpen(true);
+        setTimer(3); }
+        else {
+          setFirstMessage("Error");
+          setSecondMessage(res.message);
+          setIsPasswordOpen(true);
+        }
+    } catch (error) {
+      console.error("Error changing password:", error);
+    } finally {
+      setLoading1(false);
+    }
+    console.log(value);
+  };
+  const passwordChnageForm = useFormik({
+    initialValues: initialValues2,
+    validationSchema: Yup.object({
+      oldPassword: Yup.string().required("Required"),
+      newPassword: Yup.string().required("Required"),
+      confirmPassword: Yup.string()
+        .required("Required")
+        .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
+    }),
+    onSubmit: handleSubmit,
+  });
+  const closePassword = () => {
+    setIsPasswordOpen(false);
+  };
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
       <p>No records found.</p>
     </div>
   );
-
+  const userValues = useFormik({
+    initialValues: initialFormValues,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .required("Required")
+        .transform((originalValue) => originalValue.trim())
+        .max(30, "Must be exactly 30 characters"),
+      lastName: Yup.string()
+        .required("Required")
+        .transform((originalValue) => originalValue.trim())
+        .max(30, "Must be exactly 30 characters"),
+      email: Yup.string()
+        .required("Required")
+        .matches(emailValidationRegex, "Invalid email address")
+        .transform((originalValue) => originalValue.trim()),
+      phoneNumber: Yup.string()
+        .required("Required")
+        .min(10, "Must be at least 10 characters")
+        .max(10, "Must be exactly 10 characters")
+        .matches(/^[0-9]+$/, "Must contain only digits"),
+      status: Yup.boolean().required("Required"),
+    }),
+    onSubmit: async (values) => {
+      console.log("Form values:", values);
+      setLoading(true);
+      const result = await addSuperAdminMembers(values);
+      console.log(result);
+      if (result.code == 200) {
+        setLoading(false);
+        setTimer(3);
+        SetPrimaryText("User Add Successfully ");
+        SetSecondaryText("user Add successfully ");
+       
+        SetIsModalOpen(true);
+        setIsUserModalOpen(false);
+        getUserList();
+      } else {
+        setLoading(false);
+        if (result.code === 401) {
+          userValues.setFieldError("email", "Email already in use");
+        }
+        SetIsModalOpen(true);
+      }
+      closeModal2();
+    },
+  });
   return (
     <>
-      {loading && (
-        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#fff" />
-          </div>
-        </div>
-      )}
+      {loading1   ? (
+       <div className=" h-[500px] w-full flex py-5">
+       <div className="self-center mx-auto">
+         <RotateLoader color="#333" />
+       </div>
+     </div>
+      ) :
       <div className="my-8">
         <Headbar />
         <div className="flex mt-2">
@@ -455,7 +603,7 @@ function CustomerUser() {
           </div>
         </div>
 
-        <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+        <div className="px-4 relative">
             <div className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
             <Grid>
               <div className="col-span-2 text-left">
@@ -599,148 +747,184 @@ function CustomerUser() {
             </div>
             <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
               <p className='text-xl font-semibold mb-5'>Change Password</p>
-              <Grid>
-              <div className="col-span-4">
-                <Input
-                  type="password"
-                  label="Old Password"
-                  className="!bg-[#fff]"
-                />
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="password"
-                  label="New Password"
-                  className="!bg-[#fff]"
-                />
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="password"
-                  label="Confirm Password"
-                  className="!bg-[#fff]"
-                />
-              </div>
-              </Grid>
-              <div className="mt-4 text-right">
-                <Button>Change Password</Button>
-              </div>
-          </div>
+              <form onSubmit={passwordChnageForm.handleSubmit}>
+                      <Grid>
+                        <div className="col-span-4">
+                          <PasswordInput
+                            type="password"
+                            name="oldPassword"
+                            label="Old Password"
+                            value={passwordChnageForm.values.oldPassword}
+                            onChange={passwordChnageForm.handleChange}
+                            onBlur={passwordChnageForm.handleBlur}
+                            isPassword
+                            className="!bg-white"
+                          />
+                          {passwordChnageForm.touched.oldPassword &&
+                            passwordChnageForm.errors.oldPassword && (
+                              <div className="text-red-500">
+                                {passwordChnageForm.errors.oldPassword}
+                              </div>
+                            )}
+                        </div>
+
+                        <div className="col-span-4">
+                          <PasswordInput
+                            type="password"
+                            name="newPassword"
+                            label="New Password"
+                            isPassword
+                            className="!bg-white"
+                            value={passwordChnageForm.values.newPassword}
+                            onChange={passwordChnageForm.handleChange}
+                            onBlur={passwordChnageForm.handleBlur}
+                          />
+                          {passwordChnageForm.touched.newPassword &&
+                            passwordChnageForm.errors.newPassword && (
+                              <div className="text-red-500">
+                                {passwordChnageForm.errors.newPassword}
+                              </div>
+                            )}
+                        </div>
+                        <div className="col-span-4">
+                          <PasswordInput
+                            type="password"
+                            name="confirmPassword"
+                            label="Confirm Password"
+                            isPassword
+                            className="!bg-white"
+                            value={passwordChnageForm.values.confirmPassword}
+                            onChange={passwordChnageForm.handleChange}
+                            onBlur={passwordChnageForm.handleBlur}
+                          />
+                          {passwordChnageForm.touched.confirmPassword &&
+                            passwordChnageForm.errors.confirmPassword && (
+                              <div className="text-red-500">
+                                {passwordChnageForm.errors.confirmPassword}
+                              </div>
+                            )}
+                        </div>
+                      </Grid>
+                      <div className="mt-4 text-right">
+                        <Button type="submit">Change Password</Button>
+                      </div>
+                  </form>
+            </div>
 
             {loading ? (
-          <div className=" h-[400px] w-full flex py-5 ">
-            <div className="self-center mx-auto">
-              <RotateLoader color="#333" />
-            </div>
-          </div>
-            ) : (
-              <div className="px-8 pb-8 pt-4 mt-8 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-                <div className="bg-gradient-to-r from-[#efefef] to-[#f8f8f8] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-                  <Button onClick={() => openModal2()}> + Add Member</Button>
-                </div>
-                <p className="text-xl font-semibold mb-3">Users List</p>
-                <Grid className="!p-[2px] !pt-[14px] !pb-0">
-                  <div className="col-span-5 self-center"></div>
-                  <div className="col-span-7">
-                    <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                      <form className="" onSubmit={formikUSerFilter.handleSubmit}>
-                        <Grid className="!grid-cols-11">
-                          <div className="col-span-3 self-center">
-                            <Input
-                              name="firstName"
-                              type="text"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="First Name"
-                              value={formikUSerFilter.values.firstName}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={formikUSerFilter.handleChange}
-                            />
-                          </div>
-                          <div className="col-span-3 self-center">
-                            <Input
-                              name="email"
-                              type="text"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="Email"
-                              value={formikUSerFilter.values.email}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={formikUSerFilter.handleChange}
-                            />
-                          </div>
-                          <div className="col-span-3 self-center">
-                            <Input
-                              name="phone"
-                              type="number"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="Phone"
-                              value={formikUSerFilter.values.phone}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={(e) => {
-                                const sanitizedValue = e.target.value.replace(
-                                  /[^0-9]/g,
-                                  ""
-                                );
-                                console.log(sanitizedValue);
-                                formikUSerFilter.handleChange({
-                                  target: {
-                                    name: "phone",
-                                    value: sanitizedValue,
-                                  },
-                                });
-                              }}
-                            />
-                          </div>
-                          <div className="col-span-2 self-center flex justify-center">
-                            <Button type="submit" className="!p-0">
-                              <img
-                                src={Search}
-                                className="cursor-pointer "
-                                alt="Search"
-                              />
-                            </Button>
-                            <Button
-                              type="submit"
-                              onClick={() => {
-                                handleFilterIconClick();
-                              }}
-                              className="!bg-transparent !p-0"
-                            >
-                              <img
-                                src={clearFilter}
-                                className="cursor-pointer	mx-auto"
-                                alt="clearFilter"
-                              />
-                            </Button>
-                          </div>
-                        </Grid>
-                      </form>
-                    </div>
-                  </div>
-                </Grid>
-                <DataTable
-                  columns={columns}
-                  data={userList}
-                  highlightOnHover
-                  sortIcon={
-                    <>
-                      {" "}
-                      <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                    </>
-                  }
-                  noDataComponent={<CustomNoDataComponent />}
-                />
+            <div className=" h-[400px] w-full flex py-5 ">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
               </div>
-            )}
+            </div>
+              ) : (
+                <div className="px-8 pb-8 pt-4 mt-8 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+                  <div className="bg-gradient-to-r from-[#efefef] to-[#f8f8f8] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                    <Button onClick={() => openUserModal()}> + Add Member</Button>
+                  </div>
+                  <p className="text-xl font-semibold mb-3">Users List</p>
+                  <Grid className="!p-[2px] !pt-[14px] !pb-0">
+                    <div className="col-span-5 self-center"></div>
+                    <div className="col-span-7">
+                      <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                        <form className="" onSubmit={formikUSerFilter.handleSubmit}>
+                          <Grid className="!grid-cols-11">
+                            <div className="col-span-3 self-center">
+                              <Input
+                                name="firstName"
+                                type="text"
+                                className="!text-[14px] !bg-[#f7f7f7]"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                label=""
+                                placeholder="First Name"
+                                value={formikUSerFilter.values.firstName}
+                                onBlur={formikUSerFilter.handleBlur}
+                                onChange={formikUSerFilter.handleChange}
+                              />
+                            </div>
+                            <div className="col-span-3 self-center">
+                              <Input
+                                name="email"
+                                type="text"
+                                className="!text-[14px] !bg-[#f7f7f7]"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                label=""
+                                placeholder="Email"
+                                value={formikUSerFilter.values.email}
+                                onBlur={formikUSerFilter.handleBlur}
+                                onChange={formikUSerFilter.handleChange}
+                              />
+                            </div>
+                            <div className="col-span-3 self-center">
+                              <Input
+                                name="phone"
+                                type="number"
+                                className="!text-[14px] !bg-[#f7f7f7]"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                label=""
+                                placeholder="Phone"
+                                value={formikUSerFilter.values.phone}
+                                onBlur={formikUSerFilter.handleBlur}
+                                onChange={(e) => {
+                                  const sanitizedValue = e.target.value.replace(
+                                    /[^0-9]/g,
+                                    ""
+                                  );
+                                  console.log(sanitizedValue);
+                                  formikUSerFilter.handleChange({
+                                    target: {
+                                      name: "phone",
+                                      value: sanitizedValue,
+                                    },
+                                  });
+                                }}
+                              />
+                            </div>
+                            <div className="col-span-2 self-center flex justify-center">
+                              <Button type="submit" className="!p-0">
+                                <img
+                                  src={Search}
+                                  className="cursor-pointer "
+                                  alt="Search"
+                                />
+                              </Button>
+                              <Button
+                                type="submit"
+                                onClick={() => {
+                                  handleFilterIconClick();
+                                }}
+                                className="!bg-transparent !p-0"
+                              >
+                                <img
+                                  src={clearFilter}
+                                  className="cursor-pointer	mx-auto"
+                                  alt="clearFilter"
+                                />
+                              </Button>
+                            </div>
+                          </Grid>
+                        </form>
+                      </div>
+                    </div>
+                  </Grid>
+                  <DataTable
+                    columns={columns}
+                    data={userList}
+                    highlightOnHover
+                    sortIcon={
+                      <>
+                        {" "}
+                        <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                      </>
+                    }
+                    noDataComponent={<CustomNoDataComponent />}
+                  />
+                </div>
+              )}
             
         </div>
        
-      </div>
+      </div> }
 
       {/* Modal Primary Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -799,11 +983,10 @@ function CustomerUser() {
         </div>
       </Modal>
 
-      {/* Modal Edit Popop */}
       <Modal isOpen={isModalOpen2} onClose={closeModal2}>
         <div className=" py-3">
           <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
-            Add New User
+            Edit User
           </p>
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <Grid className="px-8">
@@ -850,10 +1033,9 @@ function CustomerUser() {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="email"
-                  label="Email"
+                  name="position"
+                  label="Position"
                   className="!bg-[#fff]"
-                  required={true}
                   placeholder=""
                   maxLength={"30"}
                   value={formik.values.position}
@@ -861,17 +1043,12 @@ function CustomerUser() {
                   onChange={formik.handleChange}
                   error={formik.touched.position && formik.errors.position}
                 />
-                {/* {formik.touched.position && formik.errors.position && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.position}
-                </div>
-              )} */}
               </div>
               <div className="col-span-6">
                 <Input
                   type="tel"
                   name="phoneNumber"
-                  label="Mobile Number"
+                  label="Phone #"
                   required={true}
                   className="!bg-[#fff]"
                   placeholder=""
@@ -907,43 +1084,24 @@ function CustomerUser() {
                   )}
               </div>
               <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="position"
-                  label="Position"
-                  className="!bg-[#fff]"
-                  // required={true}
+                <Select
+                  label="Status"
+                  required={true}
+                  name="status"
                   placeholder=""
-                  maxLength={"30"}
-                  value={formik.values.position}
+                  onChange={handleSelectChange}
+                  disabled={isprimary}
+                  className="!bg-[#fff]"
+                  options={status}
+                  value={formik.values.status}
                   onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.position && formik.errors.position}
+                  error={formik.touched.status && formik.errors.status}
                 />
-                {/* {formik.touched.position && formik.errors.position && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.position}
-                </div>
-              )} */}
-              </div>
-              <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                  Do you want to create an account?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value="yes"
-                    // checked={createAccountOption === "yes"}
-                    // onChange={handleRadioChange}
-                  />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value="no"
-                    // checked={createAccountOption === "no"}
-                    // onChange={handleRadioChange}
-                  />
-                </p>
+                {formik.touched.status && formik.errors.status && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.status}
+                  </div>
+                )}
               </div>
             </Grid>
             <Grid className="!grid-cols-5 my-5  px-8">
@@ -963,6 +1121,193 @@ function CustomerUser() {
               </div>
             </Grid>
           </form>
+        </div>
+      </Modal>
+
+      {/* Modal Edit Popop */}
+      <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
+        <div className=" py-3">
+          <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            Add New User
+          </p>
+          <form className="mt-8" onSubmit={userValues.handleSubmit}>
+            <Grid className="px-8">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="firstName"
+                  label="First Name"
+                  required={true}
+                  className="!bg-[#fff]"
+                  placeholder=""
+                  maxLength={"30"}
+                  value={userValues.values.firstName}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.firstName && userValues.errors.firstName}
+                />
+                {userValues.touched.firstName && userValues.errors.firstName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {userValues.errors.firstName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="lastName"
+                  label="Last Name"
+                  required={true}
+                  placeholder=""
+                  className="!bg-[#fff]"
+                  maxLength={"30"}
+                  value={userValues.values.lastName}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.lastName && userValues.errors.lastName}
+                />
+                {userValues.touched.lastName && userValues.errors.lastName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {userValues.errors.lastName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="email"
+                  name="email"
+                  label="Email"
+                  className="!bg-[#fff]"
+                  required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={userValues.values.email}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.email && userValues.errors.email}
+                />
+                {/* {userValues.touched.position && userValues.errors.position && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {userValues.errors.position}
+                </div>
+              )} */}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="tel"
+                  name="phoneNumber"
+                  label="Mobile Number"
+                  required={true}
+                  className="!bg-[#fff]"
+                  placeholder=""
+                  value={userValues.values.phoneNumber}
+                  onChange={(e) => {
+                    const sanitizedValue = e.target.value.replace(
+                      /[^0-9]/g,
+                      ""
+                    );
+                    console.log(sanitizedValue);
+                    userValues.handleChange({
+                      target: {
+                        name: "phoneNumber",
+                        value: sanitizedValue,
+                      },
+                    });
+                  }}
+                  onBlur={userValues.handleBlur}
+                  onWheelCapture={(e) => {
+                    e.preventDefault();
+                  }}
+                  minLength={"10"}
+                  maxLength={"10"}
+                  error={
+                    userValues.touched.phoneNumber && userValues.errors.phoneNumber
+                  }
+                />
+                {(userValues.touched.phoneNumber || userValues.submitCount > 0) &&
+                  userValues.errors.phoneNumber && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {userValues.errors.phoneNumber}
+                    </div>
+                  )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="position"
+                  label="Position"
+                  className="!bg-[#fff]"
+                  // required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={userValues.values.position}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.position && userValues.errors.position}
+                />
+                {/* {userValues.touched.position && userValues.errors.position && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {userValues.errors.position}
+                </div>
+              )} */}
+              </div>
+              <div className="col-span-6">
+                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  Do you want to create an account?
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value="yes"
+                    checked={createAccountOption === "yes"}
+                    onChange={handleRadioChange}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value="no"
+                    checked={createAccountOption === "no"}
+                    onChange={handleRadioChange}
+                  />
+                </p>
+              </div>
+            </Grid>
+            <Grid className="!grid-cols-5 my-5  px-8">
+              <div className="col-span-2">
+                <Button
+                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={() => closeUserModal()}
+                >
+                  Cancel
+                </Button>
+              </div>
+
+              <div className="col-span-3">
+                <Button type="submit" className="w-full">
+                  Submit
+                </Button>
+              </div>
+            </Grid>
+          </form>
+        </div>
+      </Modal>
+      <Modal isOpen={isPasswordOpen} onClose={closePassword}>
+      <Button
+          onClick={closePassword}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={deleteUser123} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            {firstMessage}
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+            {secondMessage} 
+          </p>
         </div>
       </Modal>
     </>
