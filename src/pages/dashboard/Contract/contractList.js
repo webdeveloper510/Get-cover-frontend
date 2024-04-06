@@ -35,6 +35,7 @@ function ContractList(props) {
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [isViewOpen, setIsViewOpen] = useState(false);
+  const [value, setValue] = useState(null);
   const [contractList, setContractList] = useState([]);
   const [contractCount, setContractCount] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -82,12 +83,14 @@ function ContractList(props) {
     setSelectedProduct(value);
   };
 
+  const handleSelectChange2 = (label, value) => {
+    formik.setFieldValue("eligibilty", value);
+    setValue(value);
+  };
+
   const getContract = async (orderId = null, page = 1, rowsPerPage = 10) => {
     setLoading(true);
-    console.log(props);
-    console.log(recordsPerPage);
     setPageValue(page);
-
     let data = {
       page: page,
       pageLimit: rowsPerPage,
@@ -144,6 +147,7 @@ function ContractList(props) {
     model: "",
     serial: "",
     productName: "",
+    eligibilty: "",
   };
 
   const formik = useFormik({
@@ -179,8 +183,8 @@ function ContractList(props) {
     { label: "Expired", value: "Expired" },
   ];
   const Eligible = [
-    { label: "Eligible", value: "eligible" },
-    { label: "Not Eligible", value: "notEligible" },
+    { label: "Eligible", value: true },
+    { label: "Not Eligible", value: false },
   ];
 
   const handleSelectChange = (name, selectedValue) => {
@@ -631,11 +635,11 @@ function ContractList(props) {
                       label="Eligibility"
                       options={Eligible}
                       color="text-[#1B1D21] opacity-50"
-                      value={selectedProduct}
+                      value={value}
                       // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                       className="!text-[14px] !bg-[#fff]"
-                      selectedValue={selectedProduct}
-                      onChange={handleSelectChange1}
+                      selectedValue={value}
+                      onChange={handleSelectChange2}
                     />
                   </div>
                   <div className="col-span-12">
@@ -792,7 +796,6 @@ function ContractList(props) {
                           ) : null}
                         </>
                       )}
-
                       {props.isShow || props.isShown == undefined ? (
                         <div className="col-span-1 border border-[#D1D1D1]">
                           <div className="py-4 pl-3">
@@ -805,19 +808,22 @@ function ContractList(props) {
                           </div>
                         </div>
                       ) : null}
-                      <div className="col-span-1 border border-[#D1D1D1]">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Customer Name
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                            {
-                              contractDetails?.order?.[0]?.customer?.[0]
-                                ?.username
-                            }
-                          </p>
+
+                      {props.type != "customer" || props.type == undefined ? (
+                        <div className="col-span-1 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Customer Name
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {
+                                contractDetails?.order?.[0]?.customer?.[0]
+                                  ?.username
+                              }
+                            </p>
+                          </div>
                         </div>
-                      </div>
+                      ) : null}
                       <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
@@ -957,7 +963,6 @@ function ContractList(props) {
                       ) : (
                         ""
                       )}
-
                       <div className="col-span-1 border border-[#D1D1D1] ">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">

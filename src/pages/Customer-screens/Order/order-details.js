@@ -15,7 +15,7 @@ import CoverageType from "../../../assets/images/order/CoverageType.svg";
 import Purchase from "../../../assets/images/order/Purchase.svg";
 import Csv from "../../../assets/images/icons/csvWhite.svg";
 import DealerList from "../../../assets/images/icons/dealerList.svg";
-import Name from "../../../assets/images/order/Name.svg"
+import Name from "../../../assets/images/order/Name.svg";
 import { cityData } from "../../../stateCityJson";
 import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
@@ -23,7 +23,7 @@ import { RotateLoader } from "react-spinners";
 import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
 import { getOrderDetailCustomer } from "../../../services/orderServices";
-
+import ContractList from "../../dashboard/Contract/contractList";
 
 function CustomerOrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -60,8 +60,16 @@ function CustomerOrderDetails() {
       label: "Contracts",
       icons: contract,
       Activeicons: contractActive,
-      content: <Contracts orderId={orderId} flag={"contracts"} />,
-    }
+      content: (
+        <ContractList
+          orderId={orderId}
+          flag={"contracts"}
+          type={"customer"}
+          isShown={false}
+          shownEdit={false}
+        />
+      ),
+    },
   ];
 
   const handleTabClick = (tabId) => {
@@ -79,16 +87,16 @@ function CustomerOrderDetails() {
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
         <div className="flex">
-        <Link
-        to={'/customer/orderList'}
-          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
-        >
-          <img
-            src={BackImage}
-            className="m-auto my-auto self-center bg-white"
-            alt="BackImage"
-          />
-        </Link>
+          <Link
+            to={"/customer/orderList"}
+            className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+          >
+            <img
+              src={BackImage}
+              className="m-auto my-auto self-center bg-white"
+              alt="BackImage"
+            />
+          </Link>
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
               Order Details
@@ -101,14 +109,14 @@ function CustomerOrderDetails() {
                 <Link to={"/"}>Order Details / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-                 {activeTab}
+                {activeTab}
               </li>
             </ul>
           </div>
         </div>
 
         <Grid className="!grid-cols-4 mt-5">
-          <div className="col-span-1 max-h-[84vh] overflow-y-scroll" >
+          <div className="col-span-1 max-h-[84vh] overflow-y-scroll">
             <div className=" bg-Dealer-details bg-cover h-[100vh]  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
@@ -116,7 +124,7 @@ function CustomerOrderDetails() {
                     Order ID
                   </p>
                   <p className="text-xl text-white font-semibold">
-                  {orderList?.unique_key}
+                    {orderList?.unique_key}
                   </p>
                 </div>
                 <div className="col-span-3 text-end">
@@ -138,7 +146,7 @@ function CustomerOrderDetails() {
                     Dealer Purchase Order
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                  {orderList?.venderOrder}
+                    {orderList?.venderOrder}
                   </p>
                 </div>
               </div>
@@ -153,7 +161,7 @@ function CustomerOrderDetails() {
                     Service Coverage
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                  {orderList?.serviceCoverageType}
+                    {orderList?.serviceCoverageType}
                   </p>
                 </div>
               </div>
@@ -165,10 +173,10 @@ function CustomerOrderDetails() {
                 />
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular mt-2">
-                  Coverage Type
+                    Coverage Type
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                  {orderList?.coverageType}
+                    {orderList?.coverageType}
                   </p>
                 </div>
               </div>
@@ -226,4 +234,4 @@ function CustomerOrderDetails() {
   );
 }
 
-export default CustomerOrderDetails
+export default CustomerOrderDetails;
