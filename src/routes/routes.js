@@ -889,7 +889,6 @@ const routes = [
         element: (
           <PrivateRoute
             element={<CustomerOrderDetails />}
-            path="/customer/orderDetails/:orderId"
           />
         ),
       },
