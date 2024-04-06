@@ -39,11 +39,12 @@ import make from "../../assets/images/star.png";
 import edit from "../../assets/images/edit-text.png";
 import delete1 from "../../assets/images/delete.png";
 import PasswordInput from "../../common/passwordInput";
-import { changePasswordbyToken } from "../../services/extraServices";
+import { addSuperAdminMembers, changePasswordbyToken } from "../../services/extraServices";
 function CustomerUser() {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
@@ -69,6 +70,17 @@ function CustomerUser() {
     status: true,
     id: "",
   });
+  const closeUserModal = () => {
+    setIsUserModalOpen(false);
+    setInitialFormValues({
+      lastName: "",
+      firstName: "",
+      phoneNumber: "",
+      position: "",
+      status: true,
+      id: "",
+    });
+  };
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
   const handleRadioChange = (event) => {
@@ -83,9 +95,11 @@ function CustomerUser() {
     setUserList(result.result);
   };
   const getCustomerDetails = async () => {
+    setLoading1(true);
     const result = await getCustomerDetailsByIdCustomerPortal();
     console.log(result.result);
     setDetails(result.result);
+    setLoading1(false);
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -168,7 +182,17 @@ function CustomerUser() {
   const openModal2 = () => {
     setIsModalOpen2(true);
   };
-
+  const openUserModal = () => {
+    setInitialFormValues({
+      lastName: "",
+      firstName: "",
+      phoneNumber: "",
+      position: "",
+      status: true,
+      id: "",
+    });
+    setIsUserModalOpen(true);
+  };
   const closeModal12 = () => {
     setIsModalOpen12(false);
   };
@@ -229,20 +253,14 @@ function CustomerUser() {
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
-        SetPrimaryText("User Edited Successfully ");
-        SetSecondaryText("user edited successfully ");
+        SetPrimaryText("User Added Successfully ");
+        SetSecondaryText("user Added successfully ");
         openModal();
         toggleFlag();
-        // setIsModalOpen3(true);
-
-        // setError(result.message);
         setTimer(3);
         getUserList();
       } else {
         setLoading(false);
-        // setError(false);
-        // setIsModalOpen(true);
-        // setTimer(3);
       }
       closeModal2();
     },
@@ -300,7 +318,7 @@ function CustomerUser() {
   const filterUserDetails = async (data) => {
     try {
       setLoading(true);
-      const res = await getUserListByDealerId("", data);
+      const res = await getCustomerUsersByIdCustomerPortal("", data);
       setUserList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
@@ -513,10 +531,56 @@ function CustomerUser() {
       <p>No records found.</p>
     </div>
   );
-
+  const userValues = useFormik({
+    initialValues: initialFormValues,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .required("Required")
+        .transform((originalValue) => originalValue.trim())
+        .max(30, "Must be exactly 30 characters"),
+      lastName: Yup.string()
+        .required("Required")
+        .transform((originalValue) => originalValue.trim())
+        .max(30, "Must be exactly 30 characters"),
+      email: Yup.string()
+        .required("Required")
+        .matches(emailValidationRegex, "Invalid email address")
+        .transform((originalValue) => originalValue.trim()),
+      phoneNumber: Yup.string()
+        .required("Required")
+        .min(10, "Must be at least 10 characters")
+        .max(10, "Must be exactly 10 characters")
+        .matches(/^[0-9]+$/, "Must contain only digits"),
+      status: Yup.boolean().required("Required"),
+    }),
+    onSubmit: async (values) => {
+      console.log("Form values:", values);
+      setLoading(true);
+      const result = await addSuperAdminMembers(values);
+      console.log(result);
+      if (result.code == 200) {
+        setLoading(false);
+        setTimer(3);
+        SetPrimaryText("User Add Successfully ");
+        SetSecondaryText("user Add successfully ");
+       
+        SetIsModalOpen(true);
+        setIsUserModalOpen(false);
+        getUserList();
+      } else {
+        setLoading(false);
+        if (result.code === 401) {
+          userValues.setFieldError("email", "Email already in use");
+        }
+        SetIsModalOpen(true);
+      }
+      closeModal2();
+    },
+  });
   return (
     <>
-      {loading ? (
+      {loading1   ? (
        <div className=" h-[500px] w-full flex py-5">
        <div className="self-center mx-auto">
          <RotateLoader color="#333" />
@@ -745,118 +809,118 @@ function CustomerUser() {
                         <Button type="submit">Change Password</Button>
                       </div>
                   </form>
-          </div>
+            </div>
 
             {loading ? (
-          <div className=" h-[400px] w-full flex py-5 ">
-            <div className="self-center mx-auto">
-              <RotateLoader color="#333" />
-            </div>
-          </div>
-            ) : (
-              <div className="px-8 pb-8 pt-4 mt-8 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-                <div className="bg-gradient-to-r from-[#efefef] to-[#f8f8f8] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-                  <Button onClick={() => openModal2()}> + Add Member</Button>
-                </div>
-                <p className="text-xl font-semibold mb-3">Users List</p>
-                <Grid className="!p-[2px] !pt-[14px] !pb-0">
-                  <div className="col-span-5 self-center"></div>
-                  <div className="col-span-7">
-                    <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                      <form className="" onSubmit={formikUSerFilter.handleSubmit}>
-                        <Grid className="!grid-cols-11">
-                          <div className="col-span-3 self-center">
-                            <Input
-                              name="firstName"
-                              type="text"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="First Name"
-                              value={formikUSerFilter.values.firstName}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={formikUSerFilter.handleChange}
-                            />
-                          </div>
-                          <div className="col-span-3 self-center">
-                            <Input
-                              name="email"
-                              type="text"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="Email"
-                              value={formikUSerFilter.values.email}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={formikUSerFilter.handleChange}
-                            />
-                          </div>
-                          <div className="col-span-3 self-center">
-                            <Input
-                              name="phone"
-                              type="number"
-                              className="!text-[14px] !bg-[#f7f7f7]"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                              label=""
-                              placeholder="Phone"
-                              value={formikUSerFilter.values.phone}
-                              onBlur={formikUSerFilter.handleBlur}
-                              onChange={(e) => {
-                                const sanitizedValue = e.target.value.replace(
-                                  /[^0-9]/g,
-                                  ""
-                                );
-                                console.log(sanitizedValue);
-                                formikUSerFilter.handleChange({
-                                  target: {
-                                    name: "phone",
-                                    value: sanitizedValue,
-                                  },
-                                });
-                              }}
-                            />
-                          </div>
-                          <div className="col-span-2 self-center flex justify-center">
-                            <Button type="submit" className="!p-0">
-                              <img
-                                src={Search}
-                                className="cursor-pointer "
-                                alt="Search"
-                              />
-                            </Button>
-                            <Button
-                              type="submit"
-                              onClick={() => {
-                                handleFilterIconClick();
-                              }}
-                              className="!bg-transparent !p-0"
-                            >
-                              <img
-                                src={clearFilter}
-                                className="cursor-pointer	mx-auto"
-                                alt="clearFilter"
-                              />
-                            </Button>
-                          </div>
-                        </Grid>
-                      </form>
-                    </div>
-                  </div>
-                </Grid>
-                <DataTable
-                  columns={columns}
-                  data={userList}
-                  highlightOnHover
-                  sortIcon={
-                    <>
-                      {" "}
-                      <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                    </>
-                  }
-                  noDataComponent={<CustomNoDataComponent />}
-                />
+            <div className=" h-[400px] w-full flex py-5 ">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
               </div>
-            )}
+            </div>
+              ) : (
+                <div className="px-8 pb-8 pt-4 mt-8 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+                  <div className="bg-gradient-to-r from-[#efefef] to-[#f8f8f8] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                    <Button onClick={() => openUserModal()}> + Add Member</Button>
+                  </div>
+                  <p className="text-xl font-semibold mb-3">Users List</p>
+                  <Grid className="!p-[2px] !pt-[14px] !pb-0">
+                    <div className="col-span-5 self-center"></div>
+                    <div className="col-span-7">
+                      <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                        <form className="" onSubmit={formikUSerFilter.handleSubmit}>
+                          <Grid className="!grid-cols-11">
+                            <div className="col-span-3 self-center">
+                              <Input
+                                name="firstName"
+                                type="text"
+                                className="!text-[14px] !bg-[#f7f7f7]"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                label=""
+                                placeholder="First Name"
+                                value={formikUSerFilter.values.firstName}
+                                onBlur={formikUSerFilter.handleBlur}
+                                onChange={formikUSerFilter.handleChange}
+                              />
+                            </div>
+                            <div className="col-span-3 self-center">
+                              <Input
+                                name="email"
+                                type="text"
+                                className="!text-[14px] !bg-[#f7f7f7]"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                label=""
+                                placeholder="Email"
+                                value={formikUSerFilter.values.email}
+                                onBlur={formikUSerFilter.handleBlur}
+                                onChange={formikUSerFilter.handleChange}
+                              />
+                            </div>
+                            <div className="col-span-3 self-center">
+                              <Input
+                                name="phone"
+                                type="number"
+                                className="!text-[14px] !bg-[#f7f7f7]"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                label=""
+                                placeholder="Phone"
+                                value={formikUSerFilter.values.phone}
+                                onBlur={formikUSerFilter.handleBlur}
+                                onChange={(e) => {
+                                  const sanitizedValue = e.target.value.replace(
+                                    /[^0-9]/g,
+                                    ""
+                                  );
+                                  console.log(sanitizedValue);
+                                  formikUSerFilter.handleChange({
+                                    target: {
+                                      name: "phone",
+                                      value: sanitizedValue,
+                                    },
+                                  });
+                                }}
+                              />
+                            </div>
+                            <div className="col-span-2 self-center flex justify-center">
+                              <Button type="submit" className="!p-0">
+                                <img
+                                  src={Search}
+                                  className="cursor-pointer "
+                                  alt="Search"
+                                />
+                              </Button>
+                              <Button
+                                type="submit"
+                                onClick={() => {
+                                  handleFilterIconClick();
+                                }}
+                                className="!bg-transparent !p-0"
+                              >
+                                <img
+                                  src={clearFilter}
+                                  className="cursor-pointer	mx-auto"
+                                  alt="clearFilter"
+                                />
+                              </Button>
+                            </div>
+                          </Grid>
+                        </form>
+                      </div>
+                    </div>
+                  </Grid>
+                  <DataTable
+                    columns={columns}
+                    data={userList}
+                    highlightOnHover
+                    sortIcon={
+                      <>
+                        {" "}
+                        <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                      </>
+                    }
+                    noDataComponent={<CustomNoDataComponent />}
+                  />
+                </div>
+              )}
             
         </div>
        
@@ -919,11 +983,10 @@ function CustomerUser() {
         </div>
       </Modal>
 
-      {/* Modal Edit Popop */}
       <Modal isOpen={isModalOpen2} onClose={closeModal2}>
         <div className=" py-3">
           <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
-            Add New User
+            Edit User
           </p>
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <Grid className="px-8">
@@ -970,28 +1033,22 @@ function CustomerUser() {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="email"
-                  label="Email"
+                  name="position"
+                  label="Position"
                   className="!bg-[#fff]"
-                  required={true}
                   placeholder=""
                   maxLength={"30"}
-                  value={formik.values.email}
+                  value={formik.values.position}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  error={formik.touched.email && formik.errors.email}
+                  error={formik.touched.position && formik.errors.position}
                 />
-                {/* {formik.touched.position && formik.errors.position && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.position}
-                </div>
-              )} */}
               </div>
               <div className="col-span-6">
                 <Input
                   type="tel"
                   name="phoneNumber"
-                  label="Mobile Number"
+                  label="Phone #"
                   required={true}
                   className="!bg-[#fff]"
                   placeholder=""
@@ -1027,6 +1084,154 @@ function CustomerUser() {
                   )}
               </div>
               <div className="col-span-6">
+                <Select
+                  label="Status"
+                  required={true}
+                  name="status"
+                  placeholder=""
+                  onChange={handleSelectChange}
+                  disabled={isprimary}
+                  className="!bg-[#fff]"
+                  options={status}
+                  value={formik.values.status}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.status && formik.errors.status}
+                />
+                {formik.touched.status && formik.errors.status && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik.errors.status}
+                  </div>
+                )}
+              </div>
+            </Grid>
+            <Grid className="!grid-cols-5 my-5  px-8">
+              <div className="col-span-2">
+                <Button
+                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={() => closeModal2()}
+                >
+                  Cancel
+                </Button>
+              </div>
+
+              <div className="col-span-3">
+                <Button type="submit" className="w-full">
+                  Submit
+                </Button>
+              </div>
+            </Grid>
+          </form>
+        </div>
+      </Modal>
+
+      {/* Modal Edit Popop */}
+      <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
+        <div className=" py-3">
+          <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            Add New User
+          </p>
+          <form className="mt-8" onSubmit={userValues.handleSubmit}>
+            <Grid className="px-8">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="firstName"
+                  label="First Name"
+                  required={true}
+                  className="!bg-[#fff]"
+                  placeholder=""
+                  maxLength={"30"}
+                  value={userValues.values.firstName}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.firstName && userValues.errors.firstName}
+                />
+                {userValues.touched.firstName && userValues.errors.firstName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {userValues.errors.firstName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="lastName"
+                  label="Last Name"
+                  required={true}
+                  placeholder=""
+                  className="!bg-[#fff]"
+                  maxLength={"30"}
+                  value={userValues.values.lastName}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.lastName && userValues.errors.lastName}
+                />
+                {userValues.touched.lastName && userValues.errors.lastName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {userValues.errors.lastName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="email"
+                  name="email"
+                  label="Email"
+                  className="!bg-[#fff]"
+                  required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={userValues.values.email}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.email && userValues.errors.email}
+                />
+                {/* {userValues.touched.position && userValues.errors.position && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {userValues.errors.position}
+                </div>
+              )} */}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="tel"
+                  name="phoneNumber"
+                  label="Mobile Number"
+                  required={true}
+                  className="!bg-[#fff]"
+                  placeholder=""
+                  value={userValues.values.phoneNumber}
+                  onChange={(e) => {
+                    const sanitizedValue = e.target.value.replace(
+                      /[^0-9]/g,
+                      ""
+                    );
+                    console.log(sanitizedValue);
+                    userValues.handleChange({
+                      target: {
+                        name: "phoneNumber",
+                        value: sanitizedValue,
+                      },
+                    });
+                  }}
+                  onBlur={userValues.handleBlur}
+                  onWheelCapture={(e) => {
+                    e.preventDefault();
+                  }}
+                  minLength={"10"}
+                  maxLength={"10"}
+                  error={
+                    userValues.touched.phoneNumber && userValues.errors.phoneNumber
+                  }
+                />
+                {(userValues.touched.phoneNumber || userValues.submitCount > 0) &&
+                  userValues.errors.phoneNumber && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {userValues.errors.phoneNumber}
+                    </div>
+                  )}
+              </div>
+              <div className="col-span-6">
                 <Input
                   type="text"
                   name="position"
@@ -1035,14 +1240,14 @@ function CustomerUser() {
                   // required={true}
                   placeholder=""
                   maxLength={"30"}
-                  value={formik.values.position}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.position && formik.errors.position}
+                  value={userValues.values.position}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.position && userValues.errors.position}
                 />
-                {/* {formik.touched.position && formik.errors.position && (
+                {/* {userValues.touched.position && userValues.errors.position && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.position}
+                  {userValues.errors.position}
                 </div>
               )} */}
               </div>
@@ -1070,7 +1275,7 @@ function CustomerUser() {
               <div className="col-span-2">
                 <Button
                   className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                  onClick={() => closeModal2()}
+                  onClick={() => closeUserModal()}
                 >
                   Cancel
                 </Button>

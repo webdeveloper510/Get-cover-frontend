@@ -20,6 +20,8 @@ import { RotateLoader } from "react-spinners";
 import { getOrderCustomer } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 function CustomerOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -71,8 +73,8 @@ function CustomerOrderList() {
   const [loading, setLoading] = useState(false);
 
   const status = [
-    { label: "Active", value: true },
-    { label: "Pending", value: false },
+    { label: "Active", value: 'Active' },
+    { label: "Pending", value: 'Pending' },
   ];
 
   const handleClickOutside = (event) => {
@@ -94,9 +96,9 @@ function CustomerOrderList() {
     };
   }, []);
   
-  const getOrderList = async () => {
+  const getOrderList = async (data = {}) => {
     setLoading(true);
-    const result = await getOrderCustomer({});
+    const result = await getOrderCustomer(data);
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);
@@ -138,7 +140,7 @@ function CustomerOrderList() {
     },
     {
       name: "Reseller Name",
-      selector: (row) => row.customerName.username,
+      selector: (row) => row.resellerName.name,
       sortable: true,
     },
     {
@@ -148,13 +150,27 @@ function CustomerOrderList() {
       minWidth: "150px",
     },
     {
+      name: "Status",
+      cell: (row) => (
+        <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
+          <div
+            className={` ${
+              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
+            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
+          ></div>
+          <p className="self-center"> {row.status} </p>
+        </div>
+      ),
+      sortable: true,
+    },
+    {
       name: "Action",
       minWidth: "auto",
       maxWidth: "80px",
       cell: (row, index) => {
         return (
           <div className="relative">
-            <div
+            {row.status == 'Active' &&  <div
               onClick={() =>
                 setSelectedAction(selectedAction === row.unique_key ? null : row.unique_key)
               }
@@ -164,12 +180,14 @@ function CustomerOrderList() {
                 className="cursor-pointer	w-[35px]"
                 alt="Active Icon"
               />
-            </div>
+            </div>}
+            
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md bottom-1`}
               >
+                
                 <div className="text-center py-1 cursor-pointer">
                   <Link
                     to={`/customer/orderDetails/${row._id}`}
@@ -185,7 +203,33 @@ function CustomerOrderList() {
       },
     },
   ];
+  const initialValues = {
+    orderId: "",
+    venderOrder: "",
+    dealerName: "",
+    resellerName: "",
+    customerName: "",
+    servicerName: "",
+    status: "",
+  };
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    getOrderList();
+  };
+  const validationSchema = Yup.object().shape({});
+  const handleSelectChange = (name, selectedValue) => {
+    formik.setFieldValue(name, selectedValue);
+  };
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      getOrderList(values);
 
+      console.log(values);
+    },
+  });
   return (
     <>
       <div className="mb-8 ml-3">
@@ -213,57 +257,77 @@ function CustomerOrderList() {
             </div>
             <div className="col-span-9">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-9">
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="Name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="ID"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="orderNo"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Dealer P.O #"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Select
-                      label=""
-                      options={status}
-                      color="text-[#1B1D21] opacity-50"
-                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      selectedValue={selectedProduct}
-                      onChange={handleSelectChange1}
-                    />
-                  </div>
-
-                  <div className="col-span-3 self-center flex">
-                    <img src={Search} className="cursor-pointer	" alt="Search" />
-                    <Button type="submit" className=" !bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+              <form onSubmit={formik.handleSubmit}>
+                  <Grid className="!grid-cols-9">
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="Name"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="ID"
+                        {...formik.getFieldProps("orderId")}
                       />
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="ml-2 !text-sm"
-                      onClick={() => openDisapproved()}
-                    >
-                      Advance Search
-                    </Button>
-                  </div>
-                </Grid>
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="orderNo"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Dealer Order No."
+                        {...formik.getFieldProps("venderOrder")}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Select
+                        label=""
+                        options={status}
+                        OptionName="Status"
+                        color="text-[#1B1D21] opacity-50"
+                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        selectedValue={selectedProduct}
+                        onChange={handleSelectChange}
+                        name="status"
+                        value={formik.values.status}
+                      />
+                    </div>
+
+                    <div className="col-span-3 self-center flex">
+                      <Button type="submit" className=" !bg-transparent !p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer	"
+                          alt="Search"
+                        />
+                      </Button>
+
+                      <Button
+                        type="submit"
+                        className=" !bg-transparent !p-0"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer	mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                      <Button
+                        type="button"
+                        className="ml-2 !text-sm"
+                        onClick={() => openDisapproved()}
+                      >
+                        Advance Search
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
               </div>
             </div>
           </Grid>

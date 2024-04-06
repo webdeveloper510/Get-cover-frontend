@@ -1213,7 +1213,7 @@ function DealerUser() {
                 <Input
                   type="tel"
                   name="phoneNumber"
-                  label="Mobile Number"
+                  label="Phone #"
                   required={true}
                   className="!bg-[#fff]"
                   placeholder=""
