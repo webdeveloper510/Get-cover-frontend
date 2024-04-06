@@ -59,7 +59,7 @@ const Input = ({
     let inputValue = event.target.value;
 
     if (type === "text") {
-      inputValue = inputValue.replace(/[^\dA-Za-z\s]/g, "");
+      inputValue = inputValue.replace(/[|&;$%*"<>()+,]/g, "");
       inputValue = inputValue.replace(/\s+/g, " ");
     }
 
