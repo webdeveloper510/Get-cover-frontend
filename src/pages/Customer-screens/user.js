@@ -177,7 +177,7 @@ function CustomerUser() {
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const closeModal2 = () => {
     setIsModalOpen2(false);
-    formik.resetForm();
+    userValues.resetForm();
   };
   const openModal2 = () => {
     setIsModalOpen2(true);
@@ -300,7 +300,6 @@ function CustomerUser() {
       position: result?.result?.position,
       status: result?.result?.status,
     });
-
     openModal2();
   };
 
