@@ -1801,7 +1801,7 @@ function DealerAddOrder() {
                                       </div>
                                       <div className="col-span-12">
                                         <Input
-                                          type="tel"
+                                          type="number"
                                           name={`productsArray[${index}].QuantityPricing[${index1}].enterQuantity`}
                                           className="!bg-[#f9f9f9]"
                                           label="# of Quantity"
