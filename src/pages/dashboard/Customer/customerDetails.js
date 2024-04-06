@@ -130,6 +130,7 @@ function CustomerDetails() {
   //console.log("bhhj")
   const closeUserModal = () => {
     setIsUserModalOpen(false);
+    setActiveTab("Users");
     userValues.resetForm();
   };
   const getUserList = async () => {
