@@ -195,6 +195,7 @@ function CustomerUser() {
   };
   const closeModal12 = () => {
     setIsModalOpen12(false);
+    formik.resetForm();
   };
   const openModal12 = () => {
     setIsModalOpen12(true);
