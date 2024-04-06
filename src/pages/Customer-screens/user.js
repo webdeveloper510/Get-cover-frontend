@@ -33,10 +33,13 @@ import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
 import RadioButton from "../../common/radio";
 import Tabs from "../../common/tabs";
+import deleteUser123 from "../../assets/images/Disapproved.png";
+import Cross from "../../assets/images/Cross.png";
 import make from "../../assets/images/star.png";
 import edit from "../../assets/images/edit-text.png";
 import delete1 from "../../assets/images/delete.png";
-
+import PasswordInput from "../../common/passwordInput";
+import { changePasswordbyToken } from "../../services/extraServices";
 function CustomerUser() {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
@@ -46,12 +49,16 @@ function CustomerUser() {
   const [mainStatus, setMainStatus] = useState(true);
   const [details, setDetails] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
+  const [firstMessage, setFirstMessage] = useState("");
+  const [secondMessage, setSecondMessage] = useState("");
   const [deleteId, setDeleteId] = useState("");
+  const [isPasswordOpen, setIsPasswordOpen] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
   const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
+  const [loading1, setLoading1] = useState(false);
 
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({
@@ -451,7 +458,56 @@ function CustomerUser() {
       },
     },
   ];
+  const initialValues2 = {
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  };
 
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log(values);
+    passwordChange(values);
+    setSubmitting(false);
+  };
+
+  const passwordChange = async (value) => {
+    setLoading1(true);
+    delete value.confirmPassword;
+
+    try {
+      const res = await changePasswordbyToken(value);
+      console.log(res);
+      if (res.code == 200) {
+        setFirstMessage("Edit  Successfully ");
+        setSecondMessage("User Password edited  successfully ");
+        SetIsModalOpen(true);
+        setTimer(3); }
+        else {
+          setFirstMessage("Error");
+          setSecondMessage(res.message);
+          setIsPasswordOpen(true);
+        }
+    } catch (error) {
+      console.error("Error changing password:", error);
+    } finally {
+      setLoading1(false);
+    }
+    console.log(value);
+  };
+  const passwordChnageForm = useFormik({
+    initialValues: initialValues2,
+    validationSchema: Yup.object({
+      oldPassword: Yup.string().required("Required"),
+      newPassword: Yup.string().required("Required"),
+      confirmPassword: Yup.string()
+        .required("Required")
+        .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
+    }),
+    onSubmit: handleSubmit,
+  });
+  const closePassword = () => {
+    setIsPasswordOpen(false);
+  };
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
       <p>No records found.</p>
@@ -627,32 +683,68 @@ function CustomerUser() {
             </div>
             <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
               <p className='text-xl font-semibold mb-5'>Change Password</p>
-              <Grid>
-              <div className="col-span-4">
-                <Input
-                  type="password"
-                  label="Old Password"
-                  className="!bg-[#fff]"
-                />
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="password"
-                  label="New Password"
-                  className="!bg-[#fff]"
-                />
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="password"
-                  label="Confirm Password"
-                  className="!bg-[#fff]"
-                />
-              </div>
-              </Grid>
-              <div className="mt-4 text-right">
-                <Button>Change Password</Button>
-              </div>
+              <form onSubmit={passwordChnageForm.handleSubmit}>
+                      <Grid>
+                        <div className="col-span-4">
+                          <PasswordInput
+                            type="password"
+                            name="oldPassword"
+                            label="Old Password"
+                            value={passwordChnageForm.values.oldPassword}
+                            onChange={passwordChnageForm.handleChange}
+                            onBlur={passwordChnageForm.handleBlur}
+                            isPassword
+                            className="!bg-white"
+                          />
+                          {passwordChnageForm.touched.oldPassword &&
+                            passwordChnageForm.errors.oldPassword && (
+                              <div className="text-red-500">
+                                {passwordChnageForm.errors.oldPassword}
+                              </div>
+                            )}
+                        </div>
+
+                        <div className="col-span-4">
+                          <PasswordInput
+                            type="password"
+                            name="newPassword"
+                            label="New Password"
+                            isPassword
+                            className="!bg-white"
+                            value={passwordChnageForm.values.newPassword}
+                            onChange={passwordChnageForm.handleChange}
+                            onBlur={passwordChnageForm.handleBlur}
+                          />
+                          {passwordChnageForm.touched.newPassword &&
+                            passwordChnageForm.errors.newPassword && (
+                              <div className="text-red-500">
+                                {passwordChnageForm.errors.newPassword}
+                              </div>
+                            )}
+                        </div>
+                        <div className="col-span-4">
+                          <PasswordInput
+                            type="password"
+                            name="confirmPassword"
+                            label="Confirm Password"
+                            isPassword
+                            className="!bg-white"
+                            value={passwordChnageForm.values.confirmPassword}
+                            onChange={passwordChnageForm.handleChange}
+                            onBlur={passwordChnageForm.handleBlur}
+                          />
+                          {passwordChnageForm.touched.confirmPassword &&
+                            passwordChnageForm.errors.confirmPassword && (
+                              <div className="text-red-500">
+                                {passwordChnageForm.errors.confirmPassword}
+                              </div>
+                            )}
+                        </div>
+                      </Grid>
+                      <div className="mt-4 text-right">
+                        <Button type="submit">Change Password</Button>
+                      </div>
+                  </form>
           </div>
 
             {loading ? (
@@ -991,6 +1083,26 @@ function CustomerUser() {
               </div>
             </Grid>
           </form>
+        </div>
+      </Modal>
+      <Modal isOpen={isPasswordOpen} onClose={closePassword}>
+      <Button
+          onClick={closePassword}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={deleteUser123} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            {firstMessage}
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+            {secondMessage} 
+          </p>
         </div>
       </Modal>
     </>
