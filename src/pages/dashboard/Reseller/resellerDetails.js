@@ -809,7 +809,7 @@ function ResellerDetails() {
             </div>
           </div>
           <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
-            <Grid className="!mt-5">
+            <Grid className="">
               <div
                 className={`${
                   isStatus == true && resellerStatus == true
