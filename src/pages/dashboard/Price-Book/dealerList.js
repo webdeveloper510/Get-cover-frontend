@@ -698,7 +698,7 @@ function DealerPriceList() {
                       </div>
                       <div className="col-span-6">
                       <Select
-                        name="pricetype"
+                        name="priceType"
                         label="Price Type"
                         options={pricetype}
                         OptionName="Price Type"
