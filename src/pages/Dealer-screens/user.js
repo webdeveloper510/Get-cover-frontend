@@ -430,7 +430,7 @@ function DealerUser() {
     {
       name: "Name",
       selector: "name",
-      sortable: true,
+      // sortable: true,
       cell: (row) => (
         <div className="flex relative">
           {row.isPrimary && (
@@ -445,22 +445,22 @@ function DealerUser() {
     {
       name: "Email Address",
       selector: (row) => row.email,
-      sortable: true,
+      // sortable: true,
     },
     {
       name: "Phone Number",
       selector: (row) => formatPhoneNumber(row.phoneNumber),
-      sortable: true,
+      // sortable: true,
     },
     {
       name: "Position",
       selector: (row) => row.position,
-      sortable: true,
+      // sortable: true,
     },
     {
       name: "Status",
       selector: (row) => row.status,
-      sortable: true,
+      // sortable: true,
       cell: (row) => (
         <div className="relative">
           <div

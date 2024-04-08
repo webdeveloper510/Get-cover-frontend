@@ -461,7 +461,7 @@ function Account() {
     {
       name: "Name",
       selector: "name",
-      sortable: true,
+      // sortable: true,
       cell: (row) => (
         <div className="flex relative">
           {row.isPrimary && (
@@ -477,23 +477,23 @@ function Account() {
     {
       name: "Email",
       selector: (row) => row?.email,
-      sortable: true,
+      // sortable: true,
       minWidth: "220px",
     },
     {
       name: "Phone #",
       selector: (row) => formatPhoneNumber(row?.phoneNumber),
-      sortable: true,
+      // sortable: true,
     },
     {
       name: "Position",
       selector: (row) => row.position,
-      sortable: true,
+      // sortable: true,
     },
     {
       name: "Status",
       selector: (row) => row.status,
-      sortable: true,
+      // sortable: true,
       cell: (row) => (
         <div className="relative">
           <div
