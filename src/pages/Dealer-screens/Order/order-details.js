@@ -326,7 +326,7 @@ function OrderDetails() {
               </Grid>
             </div>
           </div>
-          <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
+          <div className="col-span-3 max-h-[85vh] overflow-y-scroll">
             <Grid className="!mt-5">
               <div className="col-span-4">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">

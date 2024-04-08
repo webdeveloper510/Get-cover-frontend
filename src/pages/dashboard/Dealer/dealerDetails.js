@@ -876,7 +876,7 @@ function DealerDetails() {
               </Grid>
             </div>
           </div>
-          <div className="col-span-3 max-h-[85vh] no-scrollbar overflow-y-scroll">
+          <div className="col-span-3 max-h-[85vh] overflow-y-scroll">
             <Grid className="!gap-2">
               <div
                 className={` ${

@@ -513,7 +513,7 @@ function PriceBookList(props) {
       name: "",
       status: "",
       category: "",
-      pricetype: "",
+      priceType: "",
       term: "",
       price:"",
 
@@ -522,7 +522,7 @@ function PriceBookList(props) {
       name: Yup.string(),
       status: Yup.boolean(),
       category: Yup.string(),
-      pricetype: Yup.string(),
+      priceType: Yup.string(),
       term: Yup.string(),
       price: Yup.string(),
     }),
@@ -870,7 +870,7 @@ function PriceBookList(props) {
                         OptionName="Price Type"
                         color="text-[#1B1D21] opacity-50"
                         className="!text-[14px] !bg-[#fff]"
-                        value={formik.values.pricetype}
+                        value={formik.values.priceType}
                         onChange={formik.setFieldValue}
                       />
                       </div>
