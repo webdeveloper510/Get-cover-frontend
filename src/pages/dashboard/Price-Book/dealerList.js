@@ -163,16 +163,21 @@ function DealerPriceList() {
 
   const formik = useFormik({
     initialValues: {
-      category: "",
       name: "",
-      term: "",
       status: "",
+      category: "",
+      pricetype: "",
+      term: "",
+      price:"",
+
     },
     validationSchema: Yup.object({
-      category: Yup.string(),
       name: Yup.string(),
-      term: Yup.number(),
       status: Yup.boolean(),
+      category: Yup.string(),
+      pricetype: Yup.string(),
+      term: Yup.string(),
+      price: Yup.string(),
     }),
     onSubmit: (values) => {
       console.log(values);
@@ -657,7 +662,7 @@ function DealerPriceList() {
                 className="w-full h-full text-black rounded-full p-0"
               />
             </Button>
-            {/* <form onSubmit={formik.handleSubmit}> */}
+            <form onSubmit={formik.handleSubmit}>
               <div className="py-3">
                 <p className="text-center text-3xl font-semibold ">
                   Advance Search
@@ -666,27 +671,30 @@ function DealerPriceList() {
                   <div className="col-span-6">
                     <Input
                       type="text"
-                      name="contractId"
+                      name="name"
                       className="!bg-[#fff]"
                       label="Product Name"
                       placeholder=""
-                      // {...formik.getFieldProps("contractId")}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                  <Input
-                        name="name"
-                        type="text"
-                        className="!bg-[#fff]"
-                        label="Dealer Name"
+                      value={formik.values.name}
                         onChange={formik.handleChange}
-                        value={formik.values.name}
-                        placeholder=""
-                      />
+                        onBlur={formik.handleBlur}
+                    />
                   </div>
                       <div className="col-span-6">
                       <Select
                         name="category"
+                        label="Category"
+                        options={categoryList}
+                        OptionName="Category"
+                        color="text-[#1B1D21] opacity-50"
+                        className="!text-[14px] !bg-[#fff]"
+                        value={formik.values.category}
+                        onChange={formik.setFieldValue}
+                      />
+                      </div>
+                      <div className="col-span-6">
+                      <Select
+                        name="pricetype"
                         label="Price Type"
                         options={pricetype}
                         OptionName="Price Type"
@@ -699,7 +707,7 @@ function DealerPriceList() {
 
                   <div className="col-span-6">
                   <Select
-                        name="category"
+                        name="term"
                         label="Term"
                         options={termList}
                         OptionName="Term"
@@ -709,6 +717,19 @@ function DealerPriceList() {
                         onChange={formik.setFieldValue}
                       />
                   </div>
+                  {formik.values.pricetype == 'Flat Pricing' && <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="price"
+                      className="!bg-[#fff]"
+                      label="Price"
+                      placeholder=""
+                      value={formik.values.price}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                  </div>}
+                  
                   <div className="col-span-6">
                   <Select
                         name="status"
@@ -729,7 +750,7 @@ function DealerPriceList() {
                   </div>
                 </Grid>
               </div>
-            {/* </form> */}
+            </form>
           </Modal>
     </>
   );

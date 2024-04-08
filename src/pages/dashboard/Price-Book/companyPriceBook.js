@@ -43,16 +43,28 @@ function CompanyPriceBook() {
   const [error, setError] = useState("");
   const dropdownRef = useRef(null);
   const [termList, setTermList] = useState([]);
+  //  options={pricetype}
+  // OptionName="Price Type"
+  // color="text-[#1B1D21] opacity-50"
+  // className="!text-[14px] !bg-[#fff]"
+  // value={formik.values.pricetype}
   const formik = useFormik({
     initialValues: {
       name: "",
       status: "",
       category: "",
+      pricetype: "",
+      term: "",
+      price:"",
+
     },
     validationSchema: Yup.object({
       name: Yup.string(),
       status: Yup.boolean(),
       category: Yup.string(),
+      pricetype: Yup.string(),
+      term: Yup.string(),
+      price: Yup.string(),
     }),
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
@@ -663,7 +675,7 @@ function CompanyPriceBook() {
                 className="w-full h-full text-black rounded-full p-0"
               />
             </Button>
-            {/* <form onSubmit={formik.handleSubmit}> */}
+            <form onSubmit={formik.handleSubmit}>
               <div className="py-3">
                 <p className="text-center text-3xl font-semibold ">
                   Advance Search
@@ -672,11 +684,13 @@ function CompanyPriceBook() {
                   <div className="col-span-6">
                     <Input
                       type="text"
-                      name="contractId"
+                      name="name"
                       className="!bg-[#fff]"
                       label="Product Name"
                       placeholder=""
-                      // {...formik.getFieldProps("contractId")}
+                      value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                     />
                   </div>
                       <div className="col-span-6">
@@ -693,7 +707,7 @@ function CompanyPriceBook() {
                       </div>
                       <div className="col-span-6">
                       <Select
-                        name="category"
+                        name="pricetype"
                         label="Price Type"
                         options={pricetype}
                         OptionName="Price Type"
@@ -706,7 +720,7 @@ function CompanyPriceBook() {
 
                   <div className="col-span-6">
                   <Select
-                        name="category"
+                        name="term"
                         label="Term"
                         options={termList}
                         OptionName="Term"
@@ -716,6 +730,19 @@ function CompanyPriceBook() {
                         onChange={formik.setFieldValue}
                       />
                   </div>
+                  {formik.values.pricetype == 'Flat Pricing' && <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="price"
+                      className="!bg-[#fff]"
+                      label="Price"
+                      placeholder=""
+                      value={formik.values.price}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                  </div>}
+                  
                   <div className="col-span-6">
                   <Select
                         name="status"
@@ -736,7 +763,7 @@ function CompanyPriceBook() {
                   </div>
                 </Grid>
               </div>
-            {/* </form> */}
+            </form>
           </Modal>
         </div>
       </div>

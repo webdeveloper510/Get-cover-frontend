@@ -1676,9 +1676,10 @@ function ClaimList(props) {
              </p>
              <div className="mt-4">
                <Grid>
-                 <div className="col-span-4"></div>
-                 <div className="col-span-2">
+                 <div className="col-span-3"></div>
+                 <div className="col-span-3">
                    <Button
+                   className='w-full'
                      onClick={() => {
                        markClaimsasPaid(checkboxStates);
                      }}
@@ -1686,10 +1687,10 @@ function ClaimList(props) {
                      Yes
                    </Button>
                  </div>
-                 <div className="col-span-2">
-                   <Button onClick={closePay}>No</Button>
+                 <div className="col-span-3">
+                   <Button onClick={closePay} className='w-full !text-light-black !border-[1px] !border-[#000] !bg-[transparent]'>No</Button>
                  </div>
-                 <div className="col-span-4"></div>
+                 <div className="col-span-3"></div>
                </Grid>
              </div>
            </div>
