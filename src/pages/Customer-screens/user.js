@@ -93,13 +93,14 @@ function CustomerUser() {
     const result = await getCustomerUsersByIdCustomerPortal();
     console.log(result.result);
     setUserList(result.result);
-    SetIsprimary(result.result.isPrimary);
+    
   };
   const getCustomerDetails = async () => {
     setLoading1(true);
     const result = await getCustomerDetailsByIdCustomerPortal();
     console.log(result.result);
     setDetails(result.result);
+    SetIsprimary(result.loginMember.isPrimary);
     setLoading1(false);
   };
   const handleClickOutside = (event) => {
