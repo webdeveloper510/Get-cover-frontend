@@ -26,6 +26,7 @@ function CustomerContractList(props) {
   const [showTooltip, setShowTooltip] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [contractList, setContractList] = useState([]);
+  const [value, setValue] = useState(null);
   const [totalRecords, setTotalRecords] = useState(0);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [pageValue, setPageValue] = useState(1);
@@ -40,6 +41,11 @@ function CustomerContractList(props) {
     setIsViewOpen(false);
   };
 
+  const handleSelectChange1 = (label, value) => {
+    console.log(label, value, "selected");
+    formik.setFieldValue("status", value);
+    setSelectedProduct(value);
+  };
   const openView = (id) => {
     setIsViewOpen(true);
     getContractDetails(id);
@@ -67,7 +73,7 @@ function CustomerContractList(props) {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      getContractDetails(props?.orderId ?? null, 1, 10);
+      getContracts( 1, 10,);
       console.log(values);
       setIsDisapprovedOpen(false);
     },
@@ -99,6 +105,7 @@ function CustomerContractList(props) {
     let data = {
       page: page,
       pageLimit: rowsPerPage,
+      ...formik.values,
     };
     const result = await getAllContractsForCustomerPortal(data);
     setContractList(result.result);
@@ -142,6 +149,11 @@ function CustomerContractList(props) {
 
     return "Date Not Found";
   };
+
+  const handleSelectChange2 = (label, value) => {
+    formik.setFieldValue("eligibilty", value);
+    setValue(value);
+  };
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
@@ -159,8 +171,13 @@ function CustomerContractList(props) {
     }
   };
   const status = [
-    { label: "Active", value: true },
-    { label: "Inactive", value: false },
+    { label: "Active", value: "Active" },
+    { label: "Waiting", value: "Waiting" },
+    { label: "Expired", value: "Expired" },
+  ];
+  const Eligible = [
+    { label: "Eligible", value: true },
+    { label: "Not Eligible", value: false },
   ];
   return (
     <>
@@ -398,113 +415,132 @@ function CustomerContractList(props) {
               />
             </Button>
             <div className="py-3">
-              <p className="text-center text-3xl font-semibold ">
-                Advance Search
-              </p>
-              <Grid className="mt-5 px-6">
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Contract ID"
-                    className="!bg-[#fff]"
-                    label="Contract ID"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Order ID"
-                    className="!bg-[#fff]"
-                    label="Order ID"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Dealer P.O. No."
-                    className="!bg-[#fff]"
-                    label="Dealer P.O. #"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Serial No."
-                    className="!bg-[#fff]"
-                    label="Serial #"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Product Name"
-                    className="!bg-[#fff]"
-                    label="Product Name"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Dealer Name"
-                    className="!bg-[#fff]"
-                    label="Dealer Name"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Customer Name"
-                    className="!bg-[#fff]"
-                    label="Customer Name"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Servicer Name"
-                    className="!bg-[#fff]"
-                    label="Servicer Name"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Model"
-                    className="!bg-[#fff]"
-                    label="Model"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="Manufacturer"
-                    className="!bg-[#fff]"
-                    label="Manufacturer"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-12">
-                  <Select
-                    name="Status"
-                    label="Status"
-                    options={status}
-                    className="!bg-[#fff]"
-                    placeholder=""
-                  />
-                </div>
-                <div className="col-span-12">
-                  <Button className={"w-full"}>Search</Button>
-                </div>
-              </Grid>
+              <form onSubmit={formik.handleSubmit}>
+              <div className="py-3">
+                <p className="text-center text-3xl font-semibold ">
+                  Advance Search
+                </p>
+                <Grid className="mt-5 px-6">
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="contractId"
+                      className="!bg-[#fff]"
+                      label="Contract ID"
+                      placeholder=""
+                      {...formik.getFieldProps("contractId")}
+                    />
+                  </div>
+                  {props.orderId == null ? (
+                    <>
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="orderId"
+                          className="!bg-[#fff]"
+                          label="Order ID"
+                          {...formik.getFieldProps("orderId")}
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="venderOrder"
+                          className="!bg-[#fff]"
+                          label="Dealer P.O. #"
+                          {...formik.getFieldProps("venderOrder")}
+                          placeholder=""
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="serial"
+                      className="!bg-[#fff]"
+                      label="Serial #"
+                      placeholder=""
+                      {...formik.getFieldProps("serial")}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="productName"
+                      className="!bg-[#fff]"
+                      label="Product Name"
+                      placeholder=""
+                      {...formik.getFieldProps("productName")}
+                    />
+                  </div>
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="servicerName"
+                          className="!bg-[#fff]"
+                          label="Servicer Name"
+                          {...formik.getFieldProps("servicerName")}
+                          placeholder=""
+                        />
+                      </div>
+
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="model"
+                      className="!bg-[#fff]"
+                      label="Model"
+                      placeholder=""
+                      {...formik.getFieldProps("model")}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="manufacture"
+                      className="!bg-[#fff]"
+                      label="Manufacturer"
+                      placeholder=""
+                      {...formik.getFieldProps("manufacture")}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Select
+                      label="Status"
+                      options={status}
+                      color="text-[#1B1D21] opacity-50"
+                      value={selectedProduct}
+                      // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px] !bg-[#fff]"
+                      selectedValue={selectedProduct}
+                      onChange={handleSelectChange1}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Select
+                      label="Eligibility"
+                      options={Eligible}
+                      color="text-[#1B1D21] opacity-50"
+                      value={value}
+                      // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px] !bg-[#fff]"
+                      selectedValue={value}
+                      onChange={handleSelectChange2}
+                    />
+                  </div>
+                  <div className="col-span-12">
+                    <Button type="submit" className={"w-full"}>
+                      Search
+                    </Button>
+                  </div>
+                </Grid>
+              </div>
+            </form>
             </div>
           </Modal>
         </div>
