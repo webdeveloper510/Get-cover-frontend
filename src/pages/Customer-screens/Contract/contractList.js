@@ -67,6 +67,7 @@ function CustomerContractList(props) {
     model: "",
     serial: "",
     productName: "",
+    eligibilty:'',
   };
 
   const formik = useFormik({

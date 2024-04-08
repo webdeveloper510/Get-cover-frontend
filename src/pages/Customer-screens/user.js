@@ -93,6 +93,7 @@ function CustomerUser() {
     const result = await getCustomerUsersByIdCustomerPortal();
     console.log(result.result);
     setUserList(result.result);
+    SetIsprimary(result.result.isPrimary);
   };
   const getCustomerDetails = async () => {
     setLoading1(true);
@@ -290,7 +291,7 @@ function CustomerUser() {
     console.log(id);
     const result = await userDetailsById(id);
     console.log(result.result.status);
-    SetIsprimary(result.result.isPrimary);
+    
     setMainStatus(result.mainStatus);
     setInitialFormValues({
       id: id,
@@ -474,6 +475,62 @@ function CustomerUser() {
           </div>
         );
       },
+    },
+  ];
+
+  const columns12 = [
+    {
+      name: "Name",
+      selector: "name",
+      sortable: true,
+      cell: (row) => (
+        <div className="flex relative">
+          {row.isPrimary && (
+            <img src={star} alt="" className="absolute -left-3 top-0" />
+          )}
+          <span className="self-center pt-2 ml-3">
+            {row.firstName} {row.lastName}
+          </span>
+        </div>
+      ),
+    },
+    {
+      name: "Email Address",
+      selector: (row) => row.email,
+      sortable: true,
+    },
+    {
+      name: "Phone Number",
+      selector: (row) => formatPhoneNumber(row.phoneNumber),
+      sortable: true,
+    },
+    {
+      name: "Position",
+      selector: (row) => row.position,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      sortable: true,
+      cell: (row) => (
+        <div className="relative">
+          <div
+            className={` ${
+              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+          ></div>
+          <select
+            disabled={true}
+            value={row.status === true ? "active" : "inactive"}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
+            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      ),
     },
   ];
   const initialValues2 = {
@@ -819,9 +876,9 @@ function CustomerUser() {
             </div>
               ) : (
                 <div className="px-8 pb-8 pt-4 mt-8 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-                  <div className="bg-gradient-to-r from-[#efefef] to-[#f8f8f8] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                 {isprimary && <div className="bg-gradient-to-r from-[#efefef] to-[#f8f8f8] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                     <Button onClick={() => openUserModal()}> + Add Member</Button>
-                  </div>
+                  </div>} 
                   <p className="text-xl font-semibold mb-3">Users List</p>
                   <Grid className="!p-[2px] !pt-[14px] !pb-0">
                     <div className="col-span-5 self-center"></div>
@@ -908,7 +965,7 @@ function CustomerUser() {
                     </div>
                   </Grid>
                   <DataTable
-                    columns={columns}
+                    columns={isprimary ? columns : columns12}
                     data={userList}
                     highlightOnHover
                     sortIcon={
