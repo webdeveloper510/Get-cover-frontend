@@ -302,7 +302,7 @@ function OrderDetails() {
                     />{" "}
                   </Link>
                 </div>
-                <div>
+                <div className="w-[75%]">
                   <p className="text-sm text-neutral-grey font-Regular">
                     Dealer Name
                   </p>
@@ -331,7 +331,7 @@ function OrderDetails() {
                         />{" "}
                       </Link>
                     </div>
-                    <div>
+                    <div className="w-[75%]">
                       <p className="text-sm text-neutral-grey font-Regular">
                         Reseller Name
                       </p>
@@ -359,7 +359,7 @@ function OrderDetails() {
                     />{" "}
                   </Link>
                 </div>
-                <div>
+                <div className="w-[75%]">
                   <p className="text-sm text-neutral-grey font-Regular">
                     Customer Name
                   </p>

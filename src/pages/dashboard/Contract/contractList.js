@@ -230,9 +230,7 @@ function ContractList(props) {
               <form onSubmit={formik.handleSubmit}>
                 <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid
-                    className={`${
-                      props.orderId == null ? "!grid-cols-9" : "!grid-cols-7"
-                    }`}
+                    className={`!grid-cols-9`}
                   >
                     <div className="col-span-2 self-center">
                       <Input
@@ -245,8 +243,9 @@ function ContractList(props) {
                         {...formik.getFieldProps("contractId")}
                       />
                     </div>
-                    {props.orderId == null && (
-                      <div className="col-span-2 self-center">
+                    {props.orderId == null ?  (
+                      <>
+                        <div className="col-span-2 self-center">
                         <Input
                           name="orderId"
                           type="text"
@@ -257,19 +256,49 @@ function ContractList(props) {
                           {...formik.getFieldProps("orderId")}
                         />
                       </div>
+                       <div className="col-span-2 self-center">
+                       <Input
+                         name="venderOrder"
+                         type="text"
+                         className="!text-[14px] !bg-[#f7f7f7]"
+                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                         label=""
+                         placeholder="Dealer P.O. #"
+                         {...formik.getFieldProps("venderOrder")}
+                       />
+                     </div>
+                      </>
+                    
+                    ) : (
+                      <>
+                       <div className="col-span-2 self-center">
+                          <Input
+                            type="text"
+                            name="serial"
+                            className="!text-[14px] !bg-[#f7f7f7]"
+                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            label=""
+                            placeholder="Serial #"
+                            {...formik.getFieldProps("serial")}
+                          />
+                      </div>
+                       <div className="col-span-2 self-center">
+                        <Select
+                        label=""
+                        options={Eligible}
+                        color="text-[#1B1D21] opacity-50"
+                        value={value}
+                        OptionName='Eligible'
+                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px] !bg-[#fff]"
+                        selectedValue={value}
+                        onChange={handleSelectChange2}
+                      />
+                     </div>
+                      </>
                     )}
 
-                    <div className="col-span-2 self-center">
-                      <Input
-                        name="venderOrder"
-                        type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        placeholder="Dealer P.O. #"
-                        {...formik.getFieldProps("venderOrder")}
-                      />
-                    </div>
+                   
                     <div className="col-span-1 self-center flex justify-center">
                       <Button type="submit" className="!p-0">
                         <img
