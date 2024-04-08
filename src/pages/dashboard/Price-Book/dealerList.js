@@ -31,6 +31,7 @@ import * as Yup from "yup";
 import { getTermList } from "../../../services/dealerServices";
 import axios from "axios";
 import Modal from "../../../common/model";
+import { getCategoryList } from "../../../services/priceBookService";
 const url = process.env.REACT_APP_API_KEY || "fallback_value";
 
 function DealerPriceList() {
@@ -44,7 +45,8 @@ function DealerPriceList() {
   const [loading, setLoading] = useState(false);
   const navigte = useNavigate();
   const dropdownRef = useRef(null);
-
+  const [categoryList, setCategoryList] = useState([]);
+  const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   useEffect(() => {
     // getDealerList();
     getTermListData();
@@ -55,6 +57,7 @@ function DealerPriceList() {
       status: "",
     });
     formik.setFieldValue("name", dealerName);
+    getCategoryListData();
   }, []);
 
   const CustomNoDataComponent = () => (
@@ -62,7 +65,11 @@ function DealerPriceList() {
       <p>No records found.</p>
     </div>
   );
-
+  const pricetype = [
+    { label: "Regular Pricing", value: "Regular Pricing" },
+    { label: "Flat Pricing", value: "Flat Pricing" },
+    { label: "Quantity Pricing", value: "Quantity Pricing" },
+  ];
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
@@ -331,6 +338,27 @@ function DealerPriceList() {
     };
   }, []);
 
+  const getCategoryListData = async () => {
+    try {
+      const res = await getCategoryList();
+      let arr = [];
+      res?.result?.length > 0 &&
+        res?.result?.map((item) => {
+          arr.push({ label: item.name, value: item.name });
+        });
+
+      setCategoryList(arr);
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
+
+  const closeDisapproved = () => {
+    setIsDisapprovedOpen(false);
+  };
+  const openDisapproved = () => {
+    setIsDisapprovedOpen(true);
+  };
   return (
     <>
     
@@ -365,10 +393,10 @@ function DealerPriceList() {
 
         <div className="bg-white  border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-4 self-center">
+            <div className="col-span-3 self-center">
               <p className="text-xl font-semibold py-4">Dealer Price List</p>
             </div>
-            <div className="col-span-8">
+            <div className="col-span-9">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
                   <Grid className="!grid-cols-9">
@@ -382,18 +410,6 @@ function DealerPriceList() {
                         placeholder="Category"
                         value={formik.values.category}
                         onChange={formik.handleChange}
-                      />
-                    </div>
-                    <div className="col-span-2 self-center">
-                      <Input
-                        name="name"
-                        type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                        label=""
-                        onChange={formik.handleChange}
-                        value={formik.values.name}
-                        placeholder="Dealer Name"
                       />
                     </div>
                     <div className="col-span-2 self-center">
@@ -424,7 +440,7 @@ function DealerPriceList() {
                         onChange={handleSelectChange}
                       />
                     </div>
-                    <div className="col-span-1 self-center justify-center flex">
+                    <div className="col-span-3 self-center justify-center flex">
                       <Button type="submit" className="!p-0">
                         <img
                           src={Search}
@@ -437,13 +453,19 @@ function DealerPriceList() {
                         onClick={() => {
                           handleFilterIconClick();
                         }}
-                        className="!bg-transparent !p-0"
+                        className="!bg-transparent !p-0 mr-3"
                       >
                         <img
                           src={clearFilter}
                           className="cursor-pointer	mx-auto"
                           alt="clearFilter"
                         />
+                      </Button>
+                      <Button
+                        className="!text-[13px]"
+                        onClick={() => openDisapproved()}
+                      >
+                        Advance Search
                       </Button>
                     </div>
                   </Grid>
@@ -624,6 +646,91 @@ function DealerPriceList() {
           </Grid>
         </div>
       </Modal>
+
+      <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
+            <Button
+              onClick={closeDisapproved}
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+            >
+              <img
+                src={Cross}
+                className="w-full h-full text-black rounded-full p-0"
+              />
+            </Button>
+            {/* <form onSubmit={formik.handleSubmit}> */}
+              <div className="py-3">
+                <p className="text-center text-3xl font-semibold ">
+                  Advance Search
+                </p>
+                <Grid className="mt-5 px-6">
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="contractId"
+                      className="!bg-[#fff]"
+                      label="Product Name"
+                      placeholder=""
+                      // {...formik.getFieldProps("contractId")}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                  <Input
+                        name="name"
+                        type="text"
+                        className="!bg-[#fff]"
+                        label="Dealer Name"
+                        onChange={formik.handleChange}
+                        value={formik.values.name}
+                        placeholder=""
+                      />
+                  </div>
+                      <div className="col-span-6">
+                      <Select
+                        name="category"
+                        label="Price Type"
+                        options={pricetype}
+                        OptionName="Price Type"
+                        color="text-[#1B1D21] opacity-50"
+                        className="!text-[14px] !bg-[#fff]"
+                        value={formik.values.pricetype}
+                        onChange={formik.setFieldValue}
+                      />
+                      </div>
+
+                  <div className="col-span-6">
+                  <Select
+                        name="category"
+                        label="Term"
+                        options={termList}
+                        OptionName="Term"
+                        color="text-[#1B1D21] opacity-50"
+                        className="!text-[14px] !bg-[#fff]"
+                        value={formik.values.term}
+                        onChange={formik.setFieldValue}
+                      />
+                  </div>
+                  <div className="col-span-6">
+                  <Select
+                        name="status"
+                        label="Status"
+                        options={status}
+                        OptionName="Status"
+                        color="text-[#1B1D21] opacity-50"
+                        // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px] !bg-[#fff]"
+                        value={formik.values.status}
+                        onChange={formik.setFieldValue}
+                    />
+                  </div>
+                  <div className="col-span-12">
+                    <Button type="submit" className={"w-full"}>
+                      Search
+                    </Button>
+                  </div>
+                </Grid>
+              </div>
+            {/* </form> */}
+          </Modal>
     </>
   );
 }
