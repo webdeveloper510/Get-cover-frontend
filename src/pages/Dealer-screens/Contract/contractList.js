@@ -146,7 +146,15 @@ function ContractList(props) {
     { label: "Waiting", value: "Waiting" },
     { label: "Expired", value: "Expired" },
   ];
-
+  const Eligible = [
+    { label: "Eligible", value: true },
+    { label: "Not Eligible", value: false },
+  ];
+  const [value, setValue] = useState(null);
+  const handleSelectChange2 = (label, value) => {
+    formik.setFieldValue("eligibilty", value);
+    setValue(value);
+  };
   const validationSchema = Yup.object().shape({});
 
   const initialValues = {
@@ -161,6 +169,7 @@ function ContractList(props) {
     model: "",
     serial: "",
     productName: "",
+    eligibilty: "",
   };
   const formik = useFormik({
     initialValues,
@@ -602,6 +611,18 @@ function ContractList(props) {
                       onChange={handleSelectChange1}
                     />
                   </div>
+                  <div className="col-span-6">
+                    <Select
+                      label="Eligibility"
+                      options={Eligible}
+                      color="text-[#1B1D21] opacity-50"
+                      value={value}
+                      // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px] !bg-[#fff]"
+                      selectedValue={value}
+                      onChange={handleSelectChange2}
+                    />
+                    </div>
                   <div className="col-span-12">
                     <Button type="submit" className={"w-full"}>
                       Search
