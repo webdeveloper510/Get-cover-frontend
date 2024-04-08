@@ -92,6 +92,7 @@ function Account() {
       status: true,
       id: "",
     });
+    userValues.resetForm();
   };
 
   useEffect(() => {

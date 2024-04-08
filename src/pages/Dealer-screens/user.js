@@ -214,6 +214,7 @@ function DealerUser() {
       status: true,
       id: "",
     });
+    userValues.resetForm();
   };
 
   const closeModal12 = () => {
