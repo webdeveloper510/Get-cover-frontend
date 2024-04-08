@@ -887,14 +887,14 @@ function PriceBookList(props) {
                         onChange={formik.setFieldValue}
                       />
                   </div>
-                  {formik.values.pricetype == 'Flat Pricing' && <div className="col-span-6">
+                  {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
                     <Input
                       type="text"
-                      name="price"
+                      name="range"
                       className="!bg-[#fff]"
-                      label="Price"
+                      label="Your Price"
                       placeholder=""
-                      value={formik.values.price}
+                      value={formik.values.range}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />

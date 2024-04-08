@@ -970,7 +970,7 @@ function ClaimList(props) {
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik1.handleSubmit}>
                   <Grid className="!gap-1">
-                    <div className="col-span-9 self-center">
+                    <div className="col-span-8 self-center">
                       <Grid className="!gap-2">
                         <div className="col-span-4 self-center">
                           <Input
@@ -1008,7 +1008,7 @@ function ClaimList(props) {
                         </div>
                       </Grid>
                     </div>
-                    <div className="col-span-3 self-center flex justify-center">
+                    <div className="col-span-4 self-center flex justify-center">
                       <Button type="submit" className="!p-0 !bg-transparent">
                         <img
                           src={Search}
@@ -1030,7 +1030,7 @@ function ClaimList(props) {
                       </Button>
                       <Button
                         type="button"
-                        className="ml-2 !text-[11px] !px-2"
+                        className="ml-2 !text-[14px] !px-2"
                         onClick={() => openDisapproved()}
                       >
                         Advance Search

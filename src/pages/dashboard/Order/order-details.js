@@ -189,7 +189,7 @@ function OrderDetails() {
         </div>
       )}
 
-      <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
+      <div className="py-8 pl-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
         <div className="flex">
           <Link
@@ -440,7 +440,7 @@ function OrderDetails() {
               </Grid>
             </div>
           </div>
-          <div className="col-span-3 max-h-[85vh] overflow-y-scroll">
+          <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
               <div className="col-span-4">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">

@@ -55,7 +55,7 @@ function CompanyPriceBook() {
       category: "",
       priceType: "",
       term: "",
-      price:"",
+      range:"",
 
     },
     validationSchema: Yup.object({
@@ -64,7 +64,7 @@ function CompanyPriceBook() {
       category: Yup.string(),
       priceType: Yup.string(),
       term: Yup.string(),
-      price: Yup.string(),
+      range: Yup.string(),
     }),
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
@@ -79,8 +79,11 @@ function CompanyPriceBook() {
     getTermListData();
   }, []);
 
-  const getPriceBookListData = async (data) => {
+  const getPriceBookListData = async () => {
     try {
+      let data = {
+        ...formik.values,
+      };
       setLoading(true);
       const res = await getCompanyPriceList(data);
       if (res.code != 200) {
@@ -92,11 +95,14 @@ function CompanyPriceBook() {
       }
       console.log(res);
       setCompanyPriceList(res.result);
+      closeDisapproved();
     } catch (error) {
       setLoading(false);
+      closeDisapproved();
       console.error("Error fetching category list:", error);
     } finally {
       setLoading(false);
+      closeDisapproved();
     }
   };
 
@@ -707,7 +713,7 @@ function CompanyPriceBook() {
                       </div>
                       <div className="col-span-6">
                       <Select
-                        name="pricetype"
+                        name="priceType"
                         label="Price Type"
                         options={pricetype}
                         OptionName="Price Type"
@@ -730,14 +736,14 @@ function CompanyPriceBook() {
                         onChange={formik.setFieldValue}
                       />
                   </div>
-                  {formik.values.pricetype == 'Flat Pricing' && <div className="col-span-6">
+                  {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
                     <Input
                       type="text"
-                      name="price"
+                      name="range"
                       className="!bg-[#fff]"
-                      label="Price"
+                      label="Your Price"
                       placeholder=""
-                      value={formik.values.price}
+                      value={formik.values.range}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />

@@ -76,8 +76,12 @@ function DealerPriceList() {
     getDealerList();
   };
 
-  const filterDataGetPriceBook = async (data) => {
+  const filterDataGetPriceBook = async () => {
     try {
+      let data = {
+        ...formik.values,
+      };
+      closeDisapproved();
       setLoading(true);
       const res = await filterGetPriceBookDetails(data);
       setDealerPriceBook(res.result);
@@ -168,7 +172,7 @@ function DealerPriceList() {
       category: "",
       priceType: "",
       term: "",
-      price:"",
+      range:"",
 
     },
     validationSchema: Yup.object({
@@ -177,7 +181,7 @@ function DealerPriceList() {
       category: Yup.string(),
       priceType: Yup.string(),
       term: Yup.string(),
-      price: Yup.string(),
+      range: Yup.string(),
     }),
     onSubmit: (values) => {
       console.log(values);
@@ -717,14 +721,14 @@ function DealerPriceList() {
                         onChange={formik.setFieldValue}
                       />
                   </div>
-                  {formik.values.pricetype == 'Flat Pricing' && <div className="col-span-6">
+                  {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
                     <Input
                       type="text"
-                      name="price"
+                      name="range"
                       className="!bg-[#fff]"
-                      label="Price"
+                      label="Your Price"
                       placeholder=""
-                      value={formik.values.price}
+                      value={formik.values.range}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
