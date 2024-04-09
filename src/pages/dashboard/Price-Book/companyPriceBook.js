@@ -84,6 +84,7 @@ function CompanyPriceBook() {
       let data = {
         ...formik.values,
       };
+      closeDisapproved();
       setLoading(true);
       const res = await getCompanyPriceList(data);
       if (res.code != 200) {
@@ -95,14 +96,11 @@ function CompanyPriceBook() {
       }
       console.log(res);
       setCompanyPriceList(res.result);
-      closeDisapproved();
     } catch (error) {
       setLoading(false);
-      closeDisapproved();
       console.error("Error fetching category list:", error);
     } finally {
       setLoading(false);
-      closeDisapproved();
     }
   };
 

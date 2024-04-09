@@ -128,12 +128,12 @@ export const getOrderListByResellerId = async (id, data = {}) => {
     throw error;
   }
 };
-export const getPriceBookListByResellerId = async (id, value = {}) => {
+export const getPriceBookListByResellerId = async (id, data) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
       `${url}/reseller/getResellerPriceBook/${id}`,
-      value,
+      data,
       { headers }
     );
 

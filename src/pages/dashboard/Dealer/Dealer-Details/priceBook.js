@@ -404,9 +404,12 @@ function PriceBookList(props) {
 
   const priceBookData = async () => {
     setLoading1(true);
+    let data = {
+      ...formik.values,
+    };
     const result =
       props.flag === "reseller"
-        ? await getPriceBookListByResellerId(props.id)
+        ? await getPriceBookListByResellerId(props.id, data)
         : await getDealerPriceBookByDealerId(props.id);
     setPriceBookList(result.result);
     console.log(result);
@@ -469,6 +472,7 @@ function PriceBookList(props) {
     if (props.flag === "reseller") {
       values.dealerId = props.dealerId;
       try {
+        closeDisapproved();
         setLoading(true);
         const res = await getPriceBookListByResellerId(props.id, values);
         if (res.code != 200) {
@@ -515,7 +519,7 @@ function PriceBookList(props) {
       category: "",
       priceType: "",
       term: "",
-      price:"",
+      range:"",
 
     },
     validationSchema: Yup.object({
@@ -524,7 +528,7 @@ function PriceBookList(props) {
       category: Yup.string(),
       priceType: Yup.string(),
       term: Yup.string(),
-      price: Yup.string(),
+      range: Yup.string(),
     }),
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
@@ -864,7 +868,7 @@ function PriceBookList(props) {
                       </div>
                       <div className="col-span-6">
                       <Select
-                        name="pricetype"
+                        name="priceType"
                         label="Price Type"
                         options={pricetype}
                         OptionName="Price Type"
