@@ -85,11 +85,13 @@ function DealerCustomerList() {
     initialValues: {
       name: "",
       email: "",
+      resellerName: "",
       phone: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
       email: Yup.string(),
+      resellerName: Yup.string(),
       phone: Yup.number(),
     }),
     onSubmit: async (values) => {
@@ -260,7 +262,7 @@ function DealerCustomerList() {
             <div className="col-span-8">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-7">
+                  <Grid className="!grid-cols-9">
                     <div className="col-span-2 self-center">
                       <Input
                         name="name"
@@ -312,7 +314,19 @@ function DealerCustomerList() {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="resellerName"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Reseller Name"
+                        value={formik.values.resellerName}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
                     <div className="col-span-1 self-center flex">
                       <Button type="submit" className="!p-0">
                         <img

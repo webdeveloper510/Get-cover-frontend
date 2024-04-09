@@ -377,7 +377,7 @@ function DealerPriceBook(props) {
                       </button>
                       <Button
                         type="button"
-                        className="!bg-transparent !p-0"
+                        className="!bg-transparent !p-0 mr-3"
                         onClick={handleFilterIconClick}
                       >
                         <img
@@ -385,6 +385,12 @@ function DealerPriceBook(props) {
                           className="cursor-pointer	mx-auto"
                           alt="clearFilter"
                         />
+                      </Button>
+                      <Button
+                        className="!text-[13px]"
+                        // onClick={() => openDisapproved()}
+                      >
+                        Advance Search
                       </Button>
                     </div>
                   </Grid>

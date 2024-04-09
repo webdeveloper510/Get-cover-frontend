@@ -50,3 +50,16 @@ export const getDealersListForDealerPortal  = async (data) => {
     throw error;
   }
 };
+
+export const getDashboardDetailsforResellerPortal = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/resellerPortal/getDashboardData`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

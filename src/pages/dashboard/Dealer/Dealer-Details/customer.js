@@ -205,12 +205,14 @@ function CustomerList(props) {
   const formik = useFormik({
     initialValues: {
       firstName: "",
+      resellerName: "",
       lastName: "",
       email: "",
       phone: "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string(),
+      resellerName: Yup.string(),
       lastName: Yup.string(),
       email: Yup.string(),
       phone: Yup.number(),
@@ -230,14 +232,14 @@ function CustomerList(props) {
       <div className="my-8">
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-5 self-center">
+            <div className="col-span-4 self-center">
               <p className="text-xl font-semibold">Customers List</p>
             </div>
-            <div className="col-span-7">
+            <div className="col-span-8">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-11">
-                    <div className="col-span-3 self-center">
+                  <Grid className="!grid-cols-10">
+                    <div className="col-span-2 self-center">
                       <Input
                         name="firstName"
                         type="text"
@@ -250,7 +252,7 @@ function CustomerList(props) {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-                    <div className="col-span-3 self-center">
+                    <div className="col-span-2 self-center">
                       <Input
                         name="email"
                         type="text"
@@ -263,7 +265,7 @@ function CustomerList(props) {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-                    <div className="col-span-3 self-center">
+                    <div className="col-span-2 self-center">
                       <Input
                         name="phone"
                         type="number"
@@ -285,6 +287,19 @@ function CustomerList(props) {
                             },
                           });
                         }}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="resellerName"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Reseller Name"
+                        value={formik.values.resellerName}
+                        onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
                     </div>

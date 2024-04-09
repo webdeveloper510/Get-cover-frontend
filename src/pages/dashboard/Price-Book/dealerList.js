@@ -168,6 +168,7 @@ function DealerPriceList() {
   const formik = useFormik({
     initialValues: {
       name: "",
+      dealerName: "",
       status: "",
       category: "",
       priceType: "",
@@ -177,6 +178,7 @@ function DealerPriceList() {
     },
     validationSchema: Yup.object({
       name: Yup.string(),
+      dealerName: Yup.string(),
       status: Yup.boolean(),
       category: Yup.string(),
       priceType: Yup.string(),
@@ -685,16 +687,28 @@ function DealerPriceList() {
                     />
                   </div>
                       <div className="col-span-6">
-                      <Select
-                        name="category"
-                        label="Category"
-                        options={categoryList}
-                        OptionName="Category"
-                        color="text-[#1B1D21] opacity-50"
-                        className="!text-[14px] !bg-[#fff]"
-                        value={formik.values.category}
-                        onChange={formik.setFieldValue}
-                      />
+                      <Input
+                      type="text"
+                      name="category"
+                      className="!bg-[#fff]"
+                      label="Category"
+                      placeholder=""
+                      value={formik.values.category}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    </div>
+                    <div className="col-span-6">
+                      <Input
+                      type="text"
+                      name="dealerName"
+                      className="!bg-[#fff]"
+                      label="Dealer Name"
+                      placeholder=""
+                      value={formik.values.dealerName}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
                       </div>
                       <div className="col-span-6">
                       <Select
@@ -726,7 +740,7 @@ function DealerPriceList() {
                       type="text"
                       name="range"
                       className="!bg-[#fff]"
-                      label="Your Price"
+                      label="Product Retail Price"
                       placeholder=""
                       value={formik.values.range}
                         onChange={formik.handleChange}
