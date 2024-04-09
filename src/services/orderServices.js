@@ -32,8 +32,26 @@ export const getOrders = async (data) => {
     throw error;
   }
 };
+
+export const getOrdersForResellerPortal = async (data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/resellerPortal/resellerOrders`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const getContracts = async (id, data = {}) => {
-  console.log(id,data)
+  console.log(id, data);
   const headers = createHeaders();
   console.log(headers);
   try {
@@ -304,7 +322,7 @@ export const updateOrderServicer = async (id, data = {}) => {
   }
 };
 
-export const getOrderCustomer = async ( data = {}) => {
+export const getOrderCustomer = async (data = {}) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
@@ -321,12 +339,12 @@ export const getOrderCustomer = async ( data = {}) => {
   }
 };
 
-
 export const getOrderDetailCustomer = async (id) => {
-  const headers = createHeaders();                                                                 
+  const headers = createHeaders();
   try {
     const response = await axios.get(
-      `${url}/customerPortal/getOrderById/${id}`,{headers}
+      `${url}/customerPortal/getOrderById/${id}`,
+      { headers }
     );
 
     return response.data;

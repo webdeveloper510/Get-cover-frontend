@@ -17,7 +17,10 @@ import Select from "../../common/select";
 import { RotateLoader } from "react-spinners";
 import * as Yup from "yup";
 import Modal from "../../common/model";
-import { getPriceBookListByResellerId } from "../../services/reSellerServices";
+import {
+  getPriceBookListByResellerId,
+  getResellerPortalPriceBook,
+} from "../../services/reSellerServices";
 import Headbar from "../../common/headBar";
 import {
   getPriceBookForDealer,
@@ -59,133 +62,40 @@ function ResellerPriceBook(props) {
     </div>
   );
 
-
-  const data =[
-    {
-      id : '1',
-      name : 'custmore001',
-      Term : ' 12',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      Category: 'Category'
-    },
-    {
-      id : '2',
-      name : 'custmore001',
-      Term : ' 12',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      Category: 'Category'
-    },
-    {
-      id : '3',
-      name : 'custmore001',
-      Term : ' 12',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      Category: 'Category'
-    },
-    {
-      id : '4',
-      name : 'custmore001',
-      Term : ' 12',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      Category: 'Category'
-    },
-    {
-      id : '5',
-      name : 'custmore001',
-      Term : ' 12',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000',
-      Category: 'Category'
-    }
-  ]
-
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.id,
+      selector: (row) => row.priceBooks.unique_key,
       sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "70px",
     },
     {
       name: "Name",
-      selector: (row) => row?.name,
+      selector: (row) => row?.priceBooks?.name,
       sortable: true,
     },
     {
       name: "Category",
-      selector: (row) => row?.Category,
+      selector: (row) => row?.priceBooks?.category?.[0]?.name,
       sortable: true,
     },
     {
       name: "Term",
-      selector: (row) => row?.Term + " " + "Months",
+      selector: (row) => row?.priceBooks.term + " " + "Months",
       sortable: true,
     },
     {
       name: "WholeSale Cost",
-      selector: (row) => "$80.00" ,
+      selector: (row) => `$ ${row.wholesalePrice.toFixed(2)} `,
       sortable: true,
     },
     {
       name: "Retail Cost",
-      selector: (row) => "$120.00 ",
+      selector: (row) => `$ ${row.retailPrice.toFixed(2)} `,
       sortable: true,
     },
-
-              // {
-              //   name: "Action",
-              //   minWidth: "auto", // Set a custom minimum width
-              //   maxWidth: "70px", // Set a custom maximum width
-              //   cell: (row, index) => {
-              //     return (
-              //       <div className="relative">
-              //         <div onClick={() => setSelectedAction(row.unique_key)}>
-              //           <img
-              //             src={ActiveIcon}
-              //             className="cursor-pointer	w-[35px]"
-              //             alt="Active Icon"
-              //           />
-              //         </div>
-              //         {selectedAction === row.unique_key && (
-              //           <div
-              //             ref={dropdownRef}
-              //             className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-              //               index
-              //             )}`}
-              //           >
-              //             {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-              //             <div
-              //               className="text-center py-3 cursor-pointer"
-              //               onClick={() => openView(row._id)}
-              //             >
-              //               View
-              //             </div>
-              //           </div>
-              //         )}
-              //       </div>
-              //     );
-              //   },
-              // },
   ];
-
-  const priceBookData = async () => {
-    const result =
-      props.flag === "reseller"
-        ? await getPriceBookListByResellerId(props.id)
-        : await getPriceBookForDealer(props.id);
-    setPriceBookList(result.result);
-    console.log(result.result);
-  };
 
   const getCategoryListData = async () => {
     try {
@@ -201,38 +111,24 @@ function ResellerPriceBook(props) {
       console.error("Error fetching category list:", error);
     }
   };
-
-  const [isViewOpen, setIsViewOpen] = useState(false);
-
-  const closeView = () => {
-    setIsViewOpen(false);
-  };
-
-  const openView = async (id) => {
-    const result = await getDealerPricebookDetailById(id);
-    setDealerPriceBookDetail(result.result[0]);
-    console.log(result);
-    setIsViewOpen(true);
-  };
-  const navigte = useNavigate();
   useEffect(() => {
     priceBookData();
-  }, [props]);
-  useEffect(() => {
     getCategoryListData();
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        // Close the dropdown if the click is outside of it
-        setSelectedAction(null);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
   }, []);
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    priceBookData({});
+  };
+
+  const priceBookData = async (data = {}) => {
+    const result = await getResellerPortalPriceBook(data);
+    // props.flag === "reseller"
+    //   ? await getPriceBookListByResellerId(props.id)
+    //   : await getPriceBookForDealer(props.id);
+    setPriceBookList(result.result);
+    console.log(result.result);
+  };
 
   const filterDealerPriceBook = async (values) => {
     if (props.flag === "reseller") {
@@ -272,14 +168,10 @@ function ResellerPriceBook(props) {
     }),
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
-      filterDealerPriceBook(values);
+      priceBookData(values);
     },
   });
-  const handleFilterIconClick = () => {
-    formik.resetForm();
-    console.log(formik.values);
-    priceBookData();
-  };
+
   return (
     <>
       <div className="my-8">
@@ -374,7 +266,7 @@ function ResellerPriceBook(props) {
             ) : (
               <DataTable
                 columns={columns}
-                data={data}
+                data={priceBookList}
                 highlightOnHover
                 sortIcon={
                   <>
@@ -392,131 +284,6 @@ function ResellerPriceBook(props) {
           </div>
         </div>
       </div>
-
-      <Modal isOpen={isViewOpen} onClose={closeView}>
-        <Button
-          onClick={closeView}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
-        >
-          <img
-            src={Cross}
-            className="w-full h-full text-black rounded-full p-0"
-          />
-        </Button>
-        {/* <Button onClick={() => { navigte(`/editCompanyPriceBook/${dealerPriceBookDetail._id}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
-              <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
-            </Button> */}
-        <div className="py-3">
-          <p className="text-center text-3xl font-semibold ">
-            {dealerPriceBookDetail?.priceBooks?.name}
-          </p>
-          <Grid className="mt-5 px-6">
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
-                Product Category
-              </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.category[0].name}{" "}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
-                Wholesale Price($)
-              </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                ${dealerPriceBookDetail?.wholesalePrice?.toFixed(2)}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
-                Retail Price($)
-              </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                ${dealerPriceBookDetail?.retailPrice?.toFixed(2)}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">Term</p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.term} Months
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">Status</p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {" "}
-                {dealerPriceBookDetail?.priceBooks?.status === true
-                  ? "Active"
-                  : "UnActive"}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
-                Price Type
-              </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.priceType}
-              </p>
-            </div>
-            <div className="col-span-6">
-              <p className="text-lg text-light-black font-semibold">
-                Description
-              </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.category[0].description}
-              </p>
-            </div>
-            {dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
-              <>
-                <div className="col-span-4">
-                  <p className="text-lg text-light-black font-semibold">
-                    Range Start
-                  </p>
-                  <p className="text-base text-neutral-grey font-semibold">
-                    {" "}
-                    {dealerPriceBookDetail?.priceBooks?.rangeStart?.toFixed(2)}
-                  </p>
-                </div>
-                <div className="col-span-4">
-                  <p className="text-lg text-light-black font-semibold">
-                    Range End
-                  </p>
-                  <p className="text-base text-neutral-grey font-semibold">
-                    {" "}
-                    {dealerPriceBookDetail?.priceBooks?.rangeEnd?.toFixed(2)}
-                  </p>
-                </div>
-              </>
-            )}
-            {dealerPriceBookDetail?.priceBooks?.priceType ==
-              "Quantity Pricing" && (
-              <>
-                <div className="col-span-12">
-                  <table className="w-full border text-center">
-                    <tr className="border bg-[#9999]">
-                      <th colSpan={"2"}>Quantity Pricing List </th>
-                    </tr>
-                    <tr className="border bg-[#9999]">
-                      <th>Name</th>
-                      <th>Max Quantity</th>
-                    </tr>
-                    {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
-                      .length !== 0 &&
-                      dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
-                        (item, index) => (
-                          <tr key={index} className="border">
-                            <td>{item.name}</td>
-                            <td>{item.quantity}</td>
-                          </tr>
-                        )
-                      )}
-                  </table>
-                </div>
-              </>
-            )}
-          </Grid>
-        </div>
-      </Modal>
     </>
   );
 }

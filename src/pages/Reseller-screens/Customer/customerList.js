@@ -17,25 +17,21 @@ import { getDealersList } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getDealerCustomers } from "../../../services/dealerServices/priceBookServices";
+import {
+  getDealerCustomers,
+  getResellerPortalCustomers,
+} from "../../../services/dealerServices/priceBookServices";
 // Declare the base URL of the API
 function ResellerCustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState("");
   const [customerList, setCustomerList] = useState([]);
-  const [dealerList, setDealerList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const handleSelectChange1 = (name, value) => {
-    console.log(value);
-    setSelectedProduct(value);
-    formik.setFieldValue(name, value);
-  };
 
   const getCustomer = async (value = {}) => {
     try {
       setLoading(true);
-      const result = await getDealerCustomers(value);
+      const result = await getResellerPortalCustomers(value);
       console.log(result.result);
       setCustomerList(result.result);
     } catch (error) {
@@ -55,20 +51,6 @@ function ResellerCustomerList() {
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
-  };
-  const getDealerList = async () => {
-    let DealerArray = [];
-    setLoading(true);
-    const result = await getDealersList();
-    const Dealer = result?.data?.map((data) => {
-      const datadealer = {
-        label: data.dealerData.name,
-        value: data.dealerData._id,
-      };
-      DealerArray.push(datadealer);
-    });
-    setDealerList(DealerArray);
-    setLoading(false);
   };
 
   const formik = useFormik({
@@ -94,59 +76,17 @@ function ResellerCustomerList() {
     </div>
   );
 
-  const data =[
-    {
-      id : '1',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    },
-    {
-      id : '2',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    },
-    {
-      id : '3',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    },
-    {
-      id : '4',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    },
-    {
-      id : '5',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    }
-  ]
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.id,
+      selector: (row) => row?.customerData?.unique_key,
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
     },
     {
       name: "Name",
-      selector: (row) => row.name,
+      selector: (row) => row?.customerData?.username,
       sortable: true,
     },
     {
@@ -156,17 +96,17 @@ function ResellerCustomerList() {
     },
     {
       name: "Phone #",
-      selector: (row) => row.phone,
+      selector: (row) => row?.phoneNumber,
       sortable: true,
     },
     {
       name: "# of Orders",
-      selector: (row) => 5,
+      selector: (row) => row?.orderData?.noOfOrders,
       sortable: true,
     },
     {
       name: "Order Value",
-      selector: (row) => "$100.00",
+      selector: (row) => `$ ${row?.orderData?.orderAmount} `,
       sortable: true,
     },
     {
@@ -179,11 +119,7 @@ function ResellerCustomerList() {
           <div className="relative">
             <div
               onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.id
-                    ? null
-                    : row.id
-                )
+                setSelectedAction(selectedAction === row.id ? null : row.id)
               }
             >
               <img
@@ -203,7 +139,9 @@ function ResellerCustomerList() {
                 <div
                   className="text-center cursor-pointer py-1 px-2"
                   onClick={() => {
-                    navigate(`/reseller/customerDetails/${row.customerData._id}`);
+                    navigate(
+                      `/reseller/customerDetails/${row.customerData._id}`
+                    );
                   }}
                 >
                   View
@@ -218,19 +156,6 @@ function ResellerCustomerList() {
 
   useEffect(() => {
     getCustomer();
-    getDealerList();
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setSelectedAction(null);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      // Cleanup the event listener on component unmount
-      document.removeEventListener("click", handleClickOutside);
-    };
   }, []);
 
   const handleFilterIconClick = () => {
@@ -249,7 +174,8 @@ function ResellerCustomerList() {
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Customer</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Customer /</Link>{" "}
+                {/* <Link to={"/"}>Customer /</Link>{" "} */}
+                <div>Customer </div>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-1">
                 Customers List
@@ -368,7 +294,7 @@ function ResellerCustomerList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={data}
+                data={customerList}
                 highlightOnHover
                 sortIcon={
                   <>

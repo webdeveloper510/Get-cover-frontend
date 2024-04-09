@@ -49,6 +49,21 @@ export const priceBookFilter = async (data) => {
   }
 };
 
+export const getResellerPortalServicers = async (filterData = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/resellerPortal/getResellerServicers`,
+      filterData,
+      { headers }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getDealerServicers = async (filterData = {}) => {
   const headers = createHeaders();
   try {
@@ -86,6 +101,23 @@ export const getDealerCustomers = async (data) => {
   try {
     const response = await axios.post(
       `${url}/dealerPortal/getDealerCustomers`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getResellerPortalCustomers = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/resellerPortal/getResellerCustomers`,
       data,
       {
         headers,

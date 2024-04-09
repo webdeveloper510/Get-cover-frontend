@@ -13,15 +13,13 @@ import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
-import {
-  addNewServicerRequest,
-  changeServicerStatus,
-  updateServicerStatus,
-} from "../../../services/servicerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getDealerServicers } from "../../../services/dealerServices/priceBookServices";
+import {
+  getDealerServicers,
+  getResellerPortalServicers,
+} from "../../../services/dealerServices/priceBookServices";
 
 function ResellerServicerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -44,38 +42,12 @@ function ResellerServicerList() {
 
   const getServicerList = async (value = {}) => {
     setLoading(true);
-    const result = await getDealerServicers(value);
+    const result = await getResellerPortalServicers(value);
     setServicerList(result.data);
     console.log(result.data);
     setLoading(false);
   };
 
-  // const handleStatusChange = async (row, newStatus) => {
-  //   console.log("row", row);
-  //   try {
-  //     setServicerList((servicerData) => {
-  //       return servicerData.map((data) => {
-  //         if (data.accountId === row.accountId) {
-  //           return {
-  //             ...data,
-  //             servicerData: {
-  //               ...data.servicerData,
-  //               status: newStatus === "active" ? true : false,
-  //             },
-  //           };
-  //         }
-  //         return data;
-  //       });
-  //     });
-  //     const result = await updateServicerStatus(row.accountId, {
-  //       status: newStatus === "active" ? true : false,
-  //       userId: row._id,
-  //     });
-  //     console.log(result);
-  //   } catch (error) {
-  //     console.error("Error in handleStatusChange:", error);
-  //   }
-  // };
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -99,150 +71,42 @@ function ResellerServicerList() {
     getServicerList();
   };
 
-  const data =[
-    {
-      id : '1',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    },
-    {
-      id : '2',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    },
-    {
-      id : '3',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    },
-    {
-      id : '4',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    },
-    {
-      id : '5',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    }
-  ]
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.id,
+      selector: (row) => row.servicerData.unique_key,
       sortable: true,
       minWidth: "auto",
       maxWidth: "80px",
     },
     {
       name: "Servicer Name",
-      selector: (row) => row.name,
+      selector: (row) => row?.servicerData?.name,
       sortable: true,
     },
     {
       name: "Email",
-      selector: (row) => row.email,
+      selector: (row) => row?.email,
       sortable: true,
       minWidth: "150px",
     },
     {
       name: "Phone #",
-      selector: (row) => row.phone,
+      selector: (row) => row?.phoneNumber,
       sortable: true,
     },
     {
       name: "# of Claims",
-      selector: (row) => 4,
+      selector: (row) => row?.claimNumber?.noOfOrders,
       sortable: true,
       minWidth: "150px",
     },
     {
       name: "Total Claims Value",
-      selector: (row) => "$20.00",
+      selector: (row) => `$ ${row?.claimValue?.totalAmount}`,
       sortable: true,
       minWidth: "180px",
     },
-    // {
-    //   name: "Status",
-    //   cell: (row) => (
-    //     <div className="relative">
-    //       <div
-    //         className={` ${
-    //           row.servicerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-    //         } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-    //       ></div>
-    //       <select
-    //         value={row.servicerData.status === true ? "active" : "inactive"}
-    //         onChange={(e) => handleStatusChange(row, e.target.value)}
-    //         className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-    //       >
-    //         <option value="active">Active</option>
-    //         <option value="inactive">Inactive</option>
-    //       </select>
-    //     </div>
-    //   ),
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Action",
-    //   minWidth: "auto",
-    //   maxWidth: "80px",
-    //   cell: (row, index) => {
-    //     // console.log(index, index % 10 == 9)
-    //     return (
-    //       <div className="relative">
-    //         <div
-    //           onClick={() =>
-    //             setSelectedAction(
-    //               selectedAction === row.servicerData.unique_key
-    //                 ? null
-    //                 : row.servicerData.unique_key
-    //             )
-    //           }
-    //         >
-    //           <img
-    //             src={ActiveIcon}
-    //             className="cursor-pointer	w-[35px]"
-    //             alt="Active Icon"
-    //           />
-    //         </div>
-    //         {selectedAction === row.servicerData.unique_key && (
-    //           <div
-    //             ref={dropdownRef}
-    //             className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-    //               index
-    //             )}`}
-    //           >
-    //             <div
-    //               className="text-center cursor-pointer py-1"
-    //               onClick={() => {
-    //                 localStorage.removeItem("servicer");
-    //                 navigate(`/servicerDetails/${row.accountId}`);
-    //               }}
-    //             >
-    //               View
-    //             </div>
-    //           </div>
-    //         )}
-    //       </div>
-    //     );
-    //   },
-    // },
   ];
 
   const CustomNoDataComponent = () => (
@@ -261,23 +125,12 @@ function ResellerServicerList() {
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Servicer</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Servicer </Link>{" "}
+                {/* <Link to={"/"}>Servicer </Link>{" "} */}
+                <div>Servicer</div>
               </li>
             </ul>
           </div>
         </div>
-
-        {/* <Link
-          to={"/addServicer"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-semibold">
-            Add New Servicer{" "}
-          </span>{" "}
-        </Link> */}
-
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
@@ -376,7 +229,7 @@ function ResellerServicerList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={data}
+                data={servicerList}
                 highlightOnHover
                 sortIcon={
                   <>

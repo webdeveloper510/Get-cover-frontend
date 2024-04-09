@@ -68,7 +68,8 @@ export const getResellerListOrderByDealerId = async (data) => {
   try {
     const response = await axios.post(
       `${url}/order/getDealerResellers
-        `, data,
+        `,
+      data,
       {
         headers,
       }
@@ -97,7 +98,6 @@ export const changeResellerStatus = async (id, data) => {
     throw error;
   }
 };
-
 
 export const getResellerListByResellerId = async (id) => {
   const headers = createHeaders();
@@ -143,6 +143,20 @@ export const getPriceBookListByResellerId = async (id, data) => {
   }
 };
 
+export const getResellerPortalPriceBook = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/resellerPortal/getResellerPriceBook`,
+      data,
+      { headers }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const getResellerUsersById = async (id, data) => {
   const headers = createHeaders();
   try {
