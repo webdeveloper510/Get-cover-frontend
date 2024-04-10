@@ -869,9 +869,6 @@ function Account() {
                         Send Notification  to 
                       </label>
                       <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer ">
-
-                     
-                   
                       <ReactTags
                         tags={tags}
                         delimiters={delimiters}
