@@ -21,7 +21,7 @@ import {
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getDealerServicers } from "../../../services/dealerServices/priceBookServices";
+import { getDealerServicers, getResellerServicers } from "../../../services/dealerServices/priceBookServices";
 
 function ResellerServicerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -44,38 +44,13 @@ function ResellerServicerList() {
 
   const getServicerList = async (value = {}) => {
     setLoading(true);
-    const result = await getDealerServicers(value);
+    const result = await getResellerServicers(value);
     setServicerList(result.data);
     console.log(result.data);
     setLoading(false);
   };
 
-  // const handleStatusChange = async (row, newStatus) => {
-  //   console.log("row", row);
-  //   try {
-  //     setServicerList((servicerData) => {
-  //       return servicerData.map((data) => {
-  //         if (data.accountId === row.accountId) {
-  //           return {
-  //             ...data,
-  //             servicerData: {
-  //               ...data.servicerData,
-  //               status: newStatus === "active" ? true : false,
-  //             },
-  //           };
-  //         }
-  //         return data;
-  //       });
-  //     });
-  //     const result = await updateServicerStatus(row.accountId, {
-  //       status: newStatus === "active" ? true : false,
-  //       userId: row._id,
-  //     });
-  //     console.log(result);
-  //   } catch (error) {
-  //     console.error("Error in handleStatusChange:", error);
-  //   }
-  // };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -99,59 +74,28 @@ function ResellerServicerList() {
     getServicerList();
   };
 
-  const data =[
-    {
-      id : '1',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    },
-    {
-      id : '2',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    },
-    {
-      id : '3',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    },
-    {
-      id : '4',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
-    },
-    {
-      id : '5',
-      name : 'custmore001',
-      email : ' customer001@yopmail.com',
-      phone : '3456789098',
-      order : '8',
-      orderValue :'1000'
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  ]
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
+  
   const columns = [
     {
       name: "ID",
-      selector: (row) => row.id,
+      selector: (row) => row.servicerData.unique_key,
       sortable: true,
       minWidth: "auto",
       maxWidth: "80px",
     },
     {
       name: "Servicer Name",
-      selector: (row) => row.name,
+      selector: (row) => row.servicerData.name,
       sortable: true,
     },
     {
@@ -162,7 +106,7 @@ function ResellerServicerList() {
     },
     {
       name: "Phone #",
-      selector: (row) => row.phone,
+      selector: (row) => formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -176,73 +120,7 @@ function ResellerServicerList() {
       selector: (row) => "$20.00",
       sortable: true,
       minWidth: "180px",
-    },
-    // {
-    //   name: "Status",
-    //   cell: (row) => (
-    //     <div className="relative">
-    //       <div
-    //         className={` ${
-    //           row.servicerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-    //         } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-    //       ></div>
-    //       <select
-    //         value={row.servicerData.status === true ? "active" : "inactive"}
-    //         onChange={(e) => handleStatusChange(row, e.target.value)}
-    //         className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-    //       >
-    //         <option value="active">Active</option>
-    //         <option value="inactive">Inactive</option>
-    //       </select>
-    //     </div>
-    //   ),
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Action",
-    //   minWidth: "auto",
-    //   maxWidth: "80px",
-    //   cell: (row, index) => {
-    //     // console.log(index, index % 10 == 9)
-    //     return (
-    //       <div className="relative">
-    //         <div
-    //           onClick={() =>
-    //             setSelectedAction(
-    //               selectedAction === row.servicerData.unique_key
-    //                 ? null
-    //                 : row.servicerData.unique_key
-    //             )
-    //           }
-    //         >
-    //           <img
-    //             src={ActiveIcon}
-    //             className="cursor-pointer	w-[35px]"
-    //             alt="Active Icon"
-    //           />
-    //         </div>
-    //         {selectedAction === row.servicerData.unique_key && (
-    //           <div
-    //             ref={dropdownRef}
-    //             className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-    //               index
-    //             )}`}
-    //           >
-    //             <div
-    //               className="text-center cursor-pointer py-1"
-    //               onClick={() => {
-    //                 localStorage.removeItem("servicer");
-    //                 navigate(`/servicerDetails/${row.accountId}`);
-    //               }}
-    //             >
-    //               View
-    //             </div>
-    //           </div>
-    //         )}
-    //       </div>
-    //     );
-    //   },
-    // },
+    }
   ];
 
   const CustomNoDataComponent = () => (
@@ -376,7 +254,7 @@ function ResellerServicerList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={data}
+                data={servicerList}
                 highlightOnHover
                 sortIcon={
                   <>

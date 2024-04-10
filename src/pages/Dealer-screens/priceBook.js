@@ -36,6 +36,7 @@ function DealerPriceBook(props) {
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
   const [selectedAction, setSelectedAction] = useState(null);
   const [priceBookList, setPriceBookList] = useState([]);
+  const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [termList, setTermList] = useState([]);
@@ -236,6 +237,13 @@ function DealerPriceBook(props) {
     };
   }, []);
 
+  const closeDisapproved = () => {
+    setIsDisapprovedOpen(false);
+  };
+  const openDisapproved = () => {
+    setIsDisapprovedOpen(true);
+  };
+
   const filterDealerPriceBook = async (values) => {
     if (props.flag === "reseller") {
       values.dealerId = props.dealerId;
@@ -266,15 +274,19 @@ function DealerPriceBook(props) {
   const formik = useFormik({
     initialValues: {
       name: "",
-      term: "",
-      priceType: "",
+      status: "",
       category: "",
+      priceType: "",
+      term: "",
+      range:"",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
-      term: Yup.string(),
-      priceType: Yup.string(),
+      status: Yup.boolean(),
       category: Yup.string(),
+      priceType: Yup.string(),
+      term: Yup.string(),
+      range: Yup.string(),
     }),
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
@@ -287,6 +299,8 @@ function DealerPriceBook(props) {
     console.log(formik.values);
     priceBookData();
   };
+
+  
 
   return (
     <>
@@ -354,20 +368,7 @@ function DealerPriceBook(props) {
                         onChange={formik.setFieldValue}
                       />
                     </div>
-                    <div className="col-span-2 self-center">
-                      <Select
-                        name="category"
-                        label=""
-                        options={categoryList}
-                        OptionName="Category"
-                        color="text-[#1B1D21] opacity-50"
-                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px]  !bg-[#f7f7f7]"
-                        value={formik.values.category}
-                        onChange={formik.setFieldValue}
-                      />
-                    </div>
-                    <div className="col-span-1 self-center flex justify-center">
+                    <div className="col-span-3 self-center flex justify-center">
                       <button type="submit">
                         <img
                           src={Search}
@@ -388,7 +389,7 @@ function DealerPriceBook(props) {
                       </Button>
                       <Button
                         className="!text-[13px]"
-                        // onClick={() => openDisapproved()}
+                        onClick={() => openDisapproved()}
                       >
                         Advance Search
                       </Button>
@@ -548,6 +549,118 @@ function DealerPriceBook(props) {
           </Grid>
         </div>
       </Modal>
+
+      <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
+            <Button
+              onClick={closeDisapproved}
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+            >
+              <img
+                src={Cross}
+                className="w-full h-full text-black rounded-full p-0"
+              />
+            </Button>
+            <form onSubmit={formik.handleSubmit}>
+              <div className="py-3">
+                <p className="text-center text-3xl font-semibold ">
+                  Advance Search
+                </p>
+                <Grid className="mt-5 px-6">
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="name"
+                      className="!bg-[#fff]"
+                      label="Product Name"
+                      placeholder=""
+                      value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                  </div>
+                      <div className="col-span-6">
+                      <Input
+                      type="text"
+                      name="category"
+                      className="!bg-[#fff]"
+                      label="Category"
+                      placeholder=""
+                      value={formik.values.category}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                      {/* <Select
+                        name="category"
+                        label="Category"
+                        options={categoryList}
+                        OptionName="Category"
+                        color="text-[#1B1D21] opacity-50"
+                        className="!text-[14px] !bg-[#fff]"
+                        value={formik.values.category}
+                        onChange={formik.setFieldValue}
+                      /> */}
+                      </div>
+                      <div className="col-span-6">
+                      <Select
+                        name="priceType"
+                        label="Price Type"
+                        options={pricetype}
+                        OptionName="Price Type"
+                        color="text-[#1B1D21] opacity-50"
+                        className="!text-[14px] !bg-[#fff]"
+                        value={formik.values.priceType}
+                        onChange={formik.setFieldValue}
+                      />
+                      </div>
+
+                  <div className="col-span-6">
+                  <Select
+                        name="term"
+                        label="Term"
+                        options={termList}
+                        OptionName="Term"
+                        color="text-[#1B1D21] opacity-50"
+                        className="!text-[14px] !bg-[#fff]"
+                        value={formik.values.term}
+                        onChange={formik.setFieldValue}
+                      />
+                  </div>
+                  {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="range"
+                      className="!bg-[#fff]"
+                      label="Product Retail Price"
+                      placeholder=""
+                      value={formik.values.range}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                  </div>}
+                  
+                  <div className="col-span-6">
+                  <Select
+                        name="status"
+                        label="Status"
+                        options={status}
+                        OptionName="Status"
+                        color="text-[#1B1D21] opacity-50"
+                        // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px] !bg-[#fff]"
+                        value={formik.values.status}
+                        onChange={formik.setFieldValue}
+                    />
+                  </div>
+                  <div className="col-span-12">
+                    <Button type="submit" className={"w-full"}>
+                      Search
+                    </Button>
+                  </div>
+                </Grid>
+              </div>
+            </form>
+          </Modal>
+
     </>
   );
 }

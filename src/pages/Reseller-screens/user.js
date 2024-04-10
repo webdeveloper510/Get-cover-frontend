@@ -28,7 +28,7 @@ import {
   changePrimaryByUserIdCustomerPortal,
 } from "../../services/userServices";
 import Select from "../../common/select";
-import { getCustomerDetailsByIdCustomerPortal, getCustomerUsersById, getCustomerUsersByIdCustomerPortal } from "../../services/customerServices";
+import { getCustomerUsersByIdCustomerPortal, getUserDetailsByIdResellerPortal, getUsersByIdresellerPortal } from "../../services/customerServices";
 import { useMyContext } from "../../context/context";
 import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
@@ -38,6 +38,7 @@ import { addSuperAdminMembers, changePasswordbyToken } from "../../services/extr
 import make from "../../assets/images/star.png";
 import edit from "../../assets/images/edit-text.png";
 import delete1 from "../../assets/images/delete.png";
+import PasswordInput from "../../common/passwordInput";
 
 function ResellerUser() {
   const { toggleFlag } = useMyContext();
@@ -89,14 +90,14 @@ function ResellerUser() {
     setCreateAccountOption(selectedValue);
   };
   const getUserList = async () => {
-    const result = await getCustomerUsersByIdCustomerPortal();
-    console.log(result.result);
-    setUserList(result.result);
+    const result = await getUsersByIdresellerPortal();
+    console.log(result.data);
+    setUserList(result.data);
     
   };
   const getCustomerDetails = async () => {
     setLoading1(true);
-    const result = await getCustomerDetailsByIdCustomerPortal();
+    const result = await getUserDetailsByIdResellerPortal();
     console.log(result.result);
     setDetails(result.result);
     SetIsprimary(result.loginMember.isPrimary);
@@ -319,7 +320,7 @@ function ResellerUser() {
   const filterUserDetails = async (data) => {
     try {
       setLoading(true);
-      const res = await getCustomerUsersByIdCustomerPortal("", data);
+      const res = await getUsersByIdresellerPortal("", data);
       setUserList(res.result);
     } catch (error) {
       console.error("Error fetching category list:", error);
@@ -364,14 +365,14 @@ function ResellerUser() {
     {
       name: "Name",
       selector: "name",
-      sortable: true,
+      // sortable: true,
       cell: (row) => (
         <div className="flex relative">
-          {row.isPrimary && (
+          {row?.isPrimary && (
             <img src={star} alt="" className="absolute -left-3 top-0" />
           )}
           <span className="self-center pt-2 ml-3">
-            {row.firstName} {row.lastName}
+            {row?.firstName} {row?.lastName}
           </span>
         </div>
       ),
@@ -379,22 +380,22 @@ function ResellerUser() {
     {
       name: "Email Address",
       selector: (row) => row.email,
-      sortable: true,
+      // sortable: true,
     },
     {
       name: "Phone Number",
       selector: (row) => formatPhoneNumber(row.phoneNumber),
-      sortable: true,
+      // sortable: true,
     },
     {
       name: "Position",
       selector: (row) => row.position,
-      sortable: true,
+      // sortable: true,
     },
     {
       name: "Status",
       selector: (row) => row.status,
-      sortable: true,
+      // sortable: true,
       cell: (row) => (
         <div className="relative">
           <div
@@ -403,7 +404,7 @@ function ResellerUser() {
             } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
-            disabled={row.isPrimary || !servicerStatus}
+            disabled={row?.isPrimary || !servicerStatus}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
@@ -439,12 +440,12 @@ function ResellerUser() {
                <div
                ref={dropdownRef}
                className={`absolute z-[9999] ${
-                 !row.isPrimary ? "w-[140px]" : "w-[80px]"
+                 !row?.isPrimary ? "w-[140px]" : "w-[80px]"
                } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                  index
                )}`}
              >
-               {!row.isPrimary && row.status && (
+               {!row?.isPrimary && row.status && (
                  <div
                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
                    onClick={() => makeUserPrimary(row)}
@@ -461,7 +462,7 @@ function ResellerUser() {
                   <img src={edit} className="w-4 h-4 mr-2" />{" "}
                  <span className="self-center">Edit </span>
                </div>
-               {!row.isPrimary && (
+               {!row?.isPrimary && (
                  <div
                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                    onClick={() => openModal1(row._id)}
@@ -485,7 +486,7 @@ function ResellerUser() {
       // sortable: true,
       cell: (row) => (
         <div className="flex relative">
-          {row.isPrimary && (
+          {row?.isPrimary && (
             <img src={star} alt="" className="absolute -left-3 top-0" />
           )}
           <span className="self-center pt-2 ml-3">
@@ -638,13 +639,13 @@ function ResellerUser() {
 
   return (
     <>
-      {loading && (
-        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#fff" />
-          </div>
-        </div>
-      )}
+       {loading1   ? (
+       <div className=" h-[500px] w-full flex py-5">
+       <div className="self-center mx-auto">
+         <RotateLoader color="#333" />
+       </div>
+     </div>
+      ) : (
       <div className="my-8">
         <Headbar />
         <div className="flex mt-2">
@@ -681,12 +682,12 @@ function ResellerUser() {
                   <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
                     <img src={dealer} alt="dealer" />
                   </div>
-                  <div className="self-center">
+                  <div className="self-center w-[80%]" >
                     <p className="text-[#FFF] text-base font-medium leading-5	">
                       Account Name
                     </p>
                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                      Nikhil Reseller
+                      {details?.dealer?.name}
                     </p>
                   </div>
                 </div>
@@ -701,7 +702,8 @@ function ResellerUser() {
                       Address
                     </p>
                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                      Hno 353, Kurali, Georgia 140101, USA
+                    {details?.dealer?.street} {", "}{details?.dealer?.city}{", "}{details?.dealer?.state}{" "}{details?.dealer?.zip}
+                    {", "}{details?.dealer?.country}
                     </p>
                   </div>
                 </div>
@@ -728,12 +730,12 @@ function ResellerUser() {
                   <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
                     <img src={dealer} alt="dealer" />
                   </div>
-                  <div className="self-center">
+                  <div className="self-center w-[80%]">
                     <p className="text-[#FFF] text-base font-medium leading-5	">
                       Account Name
                     </p>
                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                      Nikhil Reseller
+                    {details?.name}
                     </p>
                   </div>
                 </div>
@@ -748,7 +750,8 @@ function ResellerUser() {
                       Address
                     </p>
                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                      Hno 353, Kurali, Georgia 140101, USA
+                    {details?.street} {", "}{details?.city}{", "}{details?.state}{" "}{details?.zip}
+                    {", "}{details?.country}
                     </p>
                   </div>
                 </div>
@@ -757,34 +760,70 @@ function ResellerUser() {
             </Grid>
           </div>
           <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-            <p className='text-xl font-semibold mb-5'>Change Password</p>
-            <Grid>
-              <div className="col-span-4">
-                <Input
-                  type="password"
-                  label="Old Password"
-                  className="!bg-[#fff]"
-                />
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="password"
-                  label="New Password"
-                  className="!bg-[#fff]"
-                />
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="password"
-                  label="Confirm Password"
-                  className="!bg-[#fff]"
-                />
-              </div>
-            </Grid>
-            <div className="mt-4 text-right">
-              <Button>Change Password</Button>
+              <p className='text-xl font-semibold mb-5'>Change Password</p>
+              <form onSubmit={passwordChnageForm.handleSubmit}>
+                      <Grid>
+                        <div className="col-span-4">
+                          <PasswordInput
+                            type="password"
+                            name="oldPassword"
+                            label="Old Password"
+                            value={passwordChnageForm.values.oldPassword}
+                            onChange={passwordChnageForm.handleChange}
+                            onBlur={passwordChnageForm.handleBlur}
+                            isPassword
+                            className="!bg-white"
+                          />
+                          {passwordChnageForm.touched.oldPassword &&
+                            passwordChnageForm.errors.oldPassword && (
+                              <div className="text-red-500">
+                                {passwordChnageForm.errors.oldPassword}
+                              </div>
+                            )}
+                        </div>
+
+                        <div className="col-span-4">
+                          <PasswordInput
+                            type="password"
+                            name="newPassword"
+                            label="New Password"
+                            isPassword
+                            className="!bg-white"
+                            value={passwordChnageForm.values.newPassword}
+                            onChange={passwordChnageForm.handleChange}
+                            onBlur={passwordChnageForm.handleBlur}
+                          />
+                          {passwordChnageForm.touched.newPassword &&
+                            passwordChnageForm.errors.newPassword && (
+                              <div className="text-red-500">
+                                {passwordChnageForm.errors.newPassword}
+                              </div>
+                            )}
+                        </div>
+                        <div className="col-span-4">
+                          <PasswordInput
+                            type="password"
+                            name="confirmPassword"
+                            label="Confirm Password"
+                            isPassword
+                            className="!bg-white"
+                            value={passwordChnageForm.values.confirmPassword}
+                            onChange={passwordChnageForm.handleChange}
+                            onBlur={passwordChnageForm.handleBlur}
+                          />
+                          {passwordChnageForm.touched.confirmPassword &&
+                            passwordChnageForm.errors.confirmPassword && (
+                              <div className="text-red-500">
+                                {passwordChnageForm.errors.confirmPassword}
+                              </div>
+                            )}
+                        </div>
+                      </Grid>
+                      <div className="mt-4 text-right">
+                        <Button type="submit">Change Password</Button>
+                      </div>
+                  </form>
             </div>
-          </div>
 
           {loading ? (
           <div className=" h-[400px] w-full flex py-5">
@@ -794,9 +833,9 @@ function ResellerUser() {
           </div>
         ) : (
           <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-            <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+            {isprimary && <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
               <Button onClick={() => openModal2()}> + Add Member</Button>
-            </div>
+            </div> }
             <p className="text-xl font-semibold mb-3">Users List</p>
             <Grid className="!p-[2px] !pt-[14px] !pb-0">
               <div className="col-span-5 self-center"></div>
@@ -833,7 +872,7 @@ function ResellerUser() {
                       <div className="col-span-3 self-center">
                         <Input
                           name="phone"
-                          type="tel"
+                          type="number"
                           className="!text-[14px] !bg-[#f7f7f7]"
                           className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                           label=""
@@ -883,7 +922,7 @@ function ResellerUser() {
               </div>
             </Grid>
             <DataTable
-              columns={columns}
+              columns={isprimary ? columns : columns12}
               data={userList}
               highlightOnHover
               sortIcon={
@@ -899,6 +938,7 @@ function ResellerUser() {
         </div>
        
       </div>
+      )}
 
       {/* Modal Primary Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>

@@ -659,7 +659,7 @@ const routes = [
       {
         path: "/reseller/user",
         element: (
-          <PrivateRoute element={<ResellerUser />} path="/dealer/user" />
+          <PrivateRoute element={<ResellerUser />} path="/reseller/user" />
         ),
       },
       {
