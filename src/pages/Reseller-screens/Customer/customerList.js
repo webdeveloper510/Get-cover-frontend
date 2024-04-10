@@ -21,6 +21,7 @@ import {
   getDealerCustomers,
   getResellerPortalCustomers,
 } from "../../../services/dealerServices/priceBookServices";
+import view from "../../../assets/images/eye.png";
 // Declare the base URL of the API
 function ResellerCustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -137,14 +138,14 @@ function ResellerCustomerList() {
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
-                  className="text-center cursor-pointer py-1 px-2"
                   onClick={() => {
                     navigate(
                       `/reseller/customerDetails/${row.customerData._id}`
                     );
                   }}
+                  className="text-left cursor-pointer flex py-1 px-2 hover:font-semibold py-1"
                 >
-                  View
+                 <img src={view} className="w-4 h-4 mr-2"/> View
                 </div>
               </div>
             )}

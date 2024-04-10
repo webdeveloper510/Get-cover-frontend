@@ -1047,7 +1047,7 @@ function ResellerUser() {
               </div>
               <div className="col-span-6">
                 <Input
-                  type="text"
+                  type="email"
                   name="email"
                   label="Email"
                   className="!bg-[#fff]"
@@ -1125,26 +1125,26 @@ function ResellerUser() {
               )} */}
               </div>
               <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                <p className="text-light-black flex text-[12px] font-semibold mt-2 mb-6">
                   Do you want to create an account?
                   <RadioButton
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
-                    // checked={createAccountOption === "yes"}
-                    // onChange={handleRadioChange}
+                    checked={createAccountOption === "yes"}
+                    onChange={handleRadioChange}
                   />
                   <RadioButton
                     id="no-create-account"
                     label="No"
                     value="no"
-                    // checked={createAccountOption === "no"}
-                    // onChange={handleRadioChange}
+                    checked={createAccountOption === "no"}
+                    onChange={handleRadioChange}
                   />
                 </p>
               </div>
             </Grid>
-            <Grid className="!grid-cols-5 my-5  px-8">
+            <Grid className="!grid-cols-5   px-8">
               <div className="col-span-2">
                 <Button
                   className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
