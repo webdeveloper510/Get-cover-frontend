@@ -53,7 +53,7 @@ import ServicerClaimList from "../pages/Servicer-screens/Claim/claimList";
 import ServicerClaims from "../pages/Servicer-screens/Reporting/claims";
 import ServicerAddClaim from "../pages/Servicer-screens/Claim/addClaim";
 import ServicerAddBulkClaim from "../pages/Servicer-screens/Claim/addBulkClaim";
-import NotFoundPage from './notFoundPage';
+import NotFoundPage from "./notFoundPage";
 import DealerAddCustomer from "../pages/Dealer-screens/Customer/addCustomer";
 import DealerCustomerList from "../pages/Dealer-screens/Customer/customerList";
 import DealerAddReseller from "../pages/Dealer-screens/Reseller/addReseller";
@@ -354,7 +354,7 @@ const routes = [
         path: "/claimList",
         element: <PrivateRoute element={<ClaimList />} path="/claimList" />,
       },
-      
+
       {
         path: "/addClaim",
         element: <PrivateRoute element={<AddClaim />} path="/addClaim" />,
@@ -801,16 +801,16 @@ const routes = [
         ),
       },
       {
-        path: "/reseller/orderDetails",
+        path: "/reseller/orderDetails/:orderId",
         element: (
           <PrivateRoute
-            element={<ResellerOrderDetails />}
-            path="/reseller/orderDetails"
+            element={<DealerOrderDetails />}
+            path="/reseller/orderDetails/:orderId"
           />
         ),
       },
       {
-        path: '*',
+        path: "*",
         element: <NotFoundPage />,
       },
       // Customer Routs ---------------------------------------------------------------
@@ -886,11 +886,7 @@ const routes = [
       },
       {
         path: "/customer/orderDetails/:orderId",
-        element: (
-          <PrivateRoute
-            element={<CustomerOrderDetails />}
-          />
-        ),
+        element: <PrivateRoute element={<CustomerOrderDetails />} />,
       },
     ],
   },

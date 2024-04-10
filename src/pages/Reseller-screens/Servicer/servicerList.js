@@ -13,15 +13,17 @@ import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
-import {
-  addNewServicerRequest,
-  changeServicerStatus,
-  updateServicerStatus,
-} from "../../../services/servicerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+<<<<<<< HEAD
 import { getDealerServicers, getResellerServicers } from "../../../services/dealerServices/priceBookServices";
+=======
+import {
+  getDealerServicers,
+  getResellerPortalServicers,
+} from "../../../services/dealerServices/priceBookServices";
+>>>>>>> 4809424f6d8f641d373cc6e76b65eadc339e9776
 
 function ResellerServicerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -44,13 +46,20 @@ function ResellerServicerList() {
 
   const getServicerList = async (value = {}) => {
     setLoading(true);
+<<<<<<< HEAD
     const result = await getResellerServicers(value);
+=======
+    const result = await getResellerPortalServicers(value);
+>>>>>>> 4809424f6d8f641d373cc6e76b65eadc339e9776
     setServicerList(result.data);
     console.log(result.data);
     setLoading(false);
   };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4809424f6d8f641d373cc6e76b65eadc339e9776
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -100,7 +109,7 @@ function ResellerServicerList() {
     },
     {
       name: "Email",
-      selector: (row) => row.email,
+      selector: (row) => row?.email,
       sortable: true,
       minWidth: "150px",
     },
@@ -111,13 +120,13 @@ function ResellerServicerList() {
     },
     {
       name: "# of Claims",
-      selector: (row) => 4,
+      selector: (row) => row?.claimNumber?.noOfOrders,
       sortable: true,
       minWidth: "150px",
     },
     {
       name: "Total Claims Value",
-      selector: (row) => "$20.00",
+      selector: (row) => `$ ${row?.claimValue?.totalAmount}`,
       sortable: true,
       minWidth: "180px",
     }
@@ -139,23 +148,12 @@ function ResellerServicerList() {
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Servicer</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Servicer </Link>{" "}
+                {/* <Link to={"/"}>Servicer </Link>{" "} */}
+                <div>Servicer</div>
               </li>
             </ul>
           </div>
         </div>
-
-        {/* <Link
-          to={"/addServicer"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-semibold">
-            Add New Servicer{" "}
-          </span>{" "}
-        </Link> */}
-
         <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">

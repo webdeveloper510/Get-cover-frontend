@@ -21,11 +21,12 @@ import DataTable from "react-data-table-component";
 import Primary from "../../../assets/images/SetPrimary.png";
 import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
-import { getOrders } from "../../../services/orderServices";
+import { getOrdersForResellerPortal } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import PdfGenerator from "../../pdfViewer";
-import PdfMake from "../../pdfMakeOrder";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 function ResellerOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -97,57 +98,37 @@ function ResellerOrderList() {
     };
   }, []);
 
-  const data = [
-    {
-      id: "1",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1,000",
-    },
-    {
-      id: "2",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1,000",
-    },
-    {
-      id: "3",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1,000",
-    },
-    {
-      id: "4",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1,000",
-    },
-    {
-      id: "5",
-      name: "custmore001",
-      email: " customer001@yopmail.com",
-      phone: "3456789098",
-      order: "8",
-      orderValue: "1,000",
-      status: "Pending",
-    },
-  ];
-
-  const getOrderList = async () => {
+  const getOrderList = async (data = {}) => {
     setLoading(true);
-    const result = await getOrders({});
+    const result = await getOrdersForResellerPortal(data);
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);
   };
+
+  const validationSchema = Yup.object().shape({});
+
+  const initialValues = {
+    orderId: "",
+    venderOrder: "",
+    dealerName: "",
+    resellerName: "",
+    customerName: "",
+    servicerName: "",
+    status: "",
+    serialNo: "",
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      getOrderList(values);
+
+      console.log(values);
+    },
+  });
+
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = orderList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
@@ -163,40 +144,49 @@ function ResellerOrderList() {
       <p>No records found.</p>
     </div>
   );
+  const handleSelectChange = (name, selectedValue) => {
+    formik.setFieldValue(name, selectedValue);
+  };
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    console.log(formik.values);
+    getOrderList();
+  };
 
   const columns = [
     {
       name: "ID",
-      selector: (row) => row?.id,
+      selector: (row) => row?.unique_key,
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
     },
     {
       name: "Dealer P.O #",
-      selector: (row) => row.name,
+      selector: (row) => row?.venderOrder,
       sortable: true,
       minWidth: "180px",
     },
     {
       name: "Dealer",
-      selector: (row) => row.name,
+      selector: (row) => row?.dealerName?.name,
       sortable: true,
     },
     {
       name: "Customer",
-      selector: (row) => row.name,
+      selector: (row) => row?.customerName?.username,
       sortable: true,
     },
     {
       name: "# of Contract",
-      selector: (row) => (row?.order == null ? 0 : row.order),
+      selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts),
       sortable: true,
       minWidth: "150px",
     },
     {
       name: "Order Value",
-      selector: (row) => `$100.00`,
+      selector: (row) => `$ ${row?.orderAmount}`,
       sortable: true,
       minWidth: "150px",
     },
@@ -207,7 +197,7 @@ function ResellerOrderList() {
           <div
             className={` bg-[#6BD133] h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
           ></div>
-          <p className="self-center"> Active </p>
+          <p className="self-center"> {row?.status} </p>
         </div>
       ),
       sortable: true,
@@ -217,68 +207,67 @@ function ResellerOrderList() {
       minWidth: "auto",
       maxWidth: "80px",
       cell: (row, index) => {
+        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div
               onClick={() =>
-                setSelectedAction(selectedAction === row.id ? null : row.id)
+                setSelectedAction(
+                  selectedAction === row.unique_key ? null : row.unique_key
+                )
               }
             >
               <img
                 src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
+                className="cursor-pointer w-[35px]"
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.id && (
+            {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md bottom-1`}
+                onClick={() => setSelectedAction(null)}
+                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md top-[1rem]`}
               >
-                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+                {/* <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-left py-1 px-2 flex border-b cursor-pointer"
-                      onClick={() => navigate(`/reseller/editOrder/${row._id}`)}
+                      className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
+                      onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
-                    <div
-                      className="text-left py-1 px-2 flex border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
-                    >
-                      <img src={process} className="w-4 h-4 mr-2" /> Process
-                      Order
-                    </div>
-                    <div
-                      className="text-left py-1 px-2 flex border-b cursor-pointer"
-                      onClick={() => openModal(row._id)}
-                    >
-                      <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
-                    </div>
+
                     <div className="border-b">
-                      <PdfGenerator data={row._id} />
+                      <PdfGenerator
+                        data={row._id}
+                        setLoading={setLoading}
+                        onClick={() => setSelectedAction(null)}
+                      />
                     </div>
-                    <div
-                      className="text-left py-1 px-2 flex cursor-pointer"
+                    {/* <div
+                      className="text-left py-1 px-2 flex cursor-pointer hover:font-semibold"
                       onClick={() => openArchive(row._id)}
                     >
                       <img src={remove} className="w-4 h-4 mr-2" /> Archive
-                    </div>
+                    </div> */}
                   </>
                 ) : (
                   <>
                     <Link
-                      to={`/orderDetails/${row._id}`}
-                      className="text-left py-1 px-2 cursor-pointer border-b w-full flex justify-start"
+                      to={`/reseller/orderDetails/${row._id}`}
+                      className="text-left py-1 px-2 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
-                    <div className="border-b">
-                      <PdfGenerator data={row._id} />
+                    <div className="">
+                      <PdfGenerator
+                        data={row._id}
+                        setLoading={setLoading}
+                        onClick={() => setSelectedAction(null)}
+                      />
                     </div>
-                    <PdfMake data={row._id} />
                   </>
                 )}
               </div>
@@ -328,57 +317,76 @@ function ResellerOrderList() {
             </div>
             <div className="col-span-9">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                <Grid className="!grid-cols-9">
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="Name"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="ID"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="orderNo"
-                      type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
-                      label=""
-                      placeholder="Dealer P.O #"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Select
-                      label=""
-                      options={status}
-                      color="text-[#1B1D21] opacity-50"
-                      className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      selectedValue={selectedProduct}
-                      onChange={handleSelectChange1}
-                    />
-                  </div>
-
-                  <div className="col-span-3 self-center flex">
-                    <img src={Search} className="cursor-pointer	" alt="Search" />
-                    <Button type="submit" className=" !bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                <form onSubmit={formik.handleSubmit}>
+                  <Grid className="!grid-cols-9">
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="Name"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="ID"
+                        {...formik.getFieldProps("orderId")}
                       />
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="ml-2 !text-sm"
-                      onClick={() => openDisapproved()}
-                    >
-                      Advance Search
-                    </Button>
-                  </div>
-                </Grid>
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Input
+                        name="orderNo"
+                        type="text"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        label=""
+                        placeholder="Dealer Order No."
+                        {...formik.getFieldProps("venderOrder")}
+                      />
+                    </div>
+                    <div className="col-span-2 self-center">
+                      <Select
+                        label=""
+                        OptionName="Status"
+                        options={status}
+                        color="text-[#1B1D21] opacity-50"
+                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                        className="!text-[14px] !bg-[#f7f7f7]"
+                        selectedValue={selectedProduct}
+                        onChange={handleSelectChange}
+                        name="status"
+                        value={formik.values.status}
+                      />
+                    </div>
+
+                    <div className="col-span-3 self-center flex">
+                      <Button type="submit" className=" !bg-transparent !p-0">
+                        <img
+                          src={Search}
+                          className="cursor-pointer "
+                          alt="Search"
+                        />
+                      </Button>
+                      <Button
+                        type="button"
+                        className=" !bg-transparent !p-0"
+                        onClick={() => {
+                          handleFilterIconClick();
+                        }}
+                      >
+                        <img
+                          src={clearFilter}
+                          className="cursor-pointer mx-auto"
+                          alt="clearFilter"
+                        />
+                      </Button>
+                      <Button
+                        type="button"
+                        className="ml-2 !text-sm"
+                        onClick={() => openDisapproved()}
+                      >
+                        Advance Search
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
               </div>
             </div>
           </Grid>
@@ -392,7 +400,7 @@ function ResellerOrderList() {
             ) : (
               <DataTable
                 columns={columns}
-                data={data}
+                data={orderList}
                 highlightOnHover
                 sortIcon={
                   <>
@@ -428,7 +436,7 @@ function ResellerOrderList() {
         </div>
       </Modal>
 
-      <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
+      {/* <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
         <div className="text-center py-3">
           <img src={unassign} alt="email Image" className="mx-auto my-4" />
           <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
@@ -446,8 +454,8 @@ function ResellerOrderList() {
             <div className="col-span-1"></div>
           </Grid>
         </div>
-      </Modal>
-
+      </Modal> */}
+      {/* 
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
@@ -461,7 +469,7 @@ function ResellerOrderList() {
             Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>
-      </Modal>
+      </Modal> */}
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
@@ -475,67 +483,79 @@ function ResellerOrderList() {
         </Button>
         <div className="py-3">
           <p className="text-center text-3xl font-semibold ">Advance Search</p>
-          <Grid className="mt-5 px-6">
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Order ID"
-                className="!bg-[#fff]"
-                label="Order ID"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Dealer P.O. #"
-                className="!bg-[#fff]"
-                label="Dealer P.O. #"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Serial No."
-                className="!bg-[#fff]"
-                label="Serial #"
-                placeholder=""
-              />
-            </div>
+          <form onSubmit={formik.handleSubmit}>
+            <Grid className="mt-5 px-6">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="orderId"
+                  className="!bg-[#fff]"
+                  label="Order ID"
+                  placeholder=""
+                  {...formik.getFieldProps("orderId")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="venderOrder"
+                  className="!bg-[#fff]"
+                  label="Dealer P.O. No."
+                  placeholder=""
+                  {...formik.getFieldProps("venderOrder")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="serialNo"
+                  className="!bg-[#fff]"
+                  label="Serial No."
+                  placeholder=""
+                  {...formik.getFieldProps("serialNo")}
+                />
+              </div>
 
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Customer Name"
-                className="!bg-[#fff]"
-                label="Customer Name"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Servicer Name"
-                className="!bg-[#fff]"
-                label="Servicer Name"
-                placeholder=""
-              />
-            </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="customerName"
+                  className="!bg-[#fff]"
+                  label="Customer Name"
+                  placeholder=""
+                  {...formik.getFieldProps("customerName")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="servicerName"
+                  className="!bg-[#fff]"
+                  label="Servicer Name"
+                  placeholder=""
+                  {...formik.getFieldProps("servicerName")}
+                />
+              </div>
 
-            <div className="col-span-6">
-              <Select
-                name="Status"
-                label="Status"
-                options={status}
-                className="!bg-[#fff]"
-                placeholder=""
-              />
-            </div>
-            <div className="col-span-12">
-              <Button className={"w-full"}>Search</Button>
-            </div>
-          </Grid>
+              <div className="col-span-6">
+                <Select
+                  id="status"
+                  label="Status"
+                  name="status"
+                  options={status}
+                  className="!bg-[#fff]"
+                  placeholder=""
+                  value={formik.values.status}
+                  onChange={handleSelectChange}
+                />
+              </div>
+              <div className="col-span-12">
+                <Button type="submit" className={"w-full"}>
+                  Search
+                </Button>
+              </div>
+            </Grid>
+          </form>
         </div>
       </Modal>
     </>
