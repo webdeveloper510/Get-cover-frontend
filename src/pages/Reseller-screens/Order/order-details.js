@@ -15,14 +15,13 @@ import Coverage from "../../../assets/images/order/Coverage.svg";
 import CoverageType from "../../../assets/images/order/CoverageType.svg";
 import Purchase from "../../../assets/images/order/Purchase.svg";
 import DealerList from "../../../assets/images/icons/dealerList.svg";
-import Name from "../../../assets/images/order/Name.svg"
+import Name from "../../../assets/images/order/Name.svg";
 import { cityData } from "../../../stateCityJson";
 import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
 import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
-
 
 function ResellerOrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -40,8 +39,6 @@ function ResellerOrderDetails() {
     setLoading(false);
   }, [activeTab]);
 
-
-
   const tabs = [
     {
       id: "Order Summary",
@@ -56,7 +53,7 @@ function ResellerOrderDetails() {
       icons: contract,
       Activeicons: contractActive,
       content: <Contracts />,
-    }
+    },
   ];
 
   const handleTabClick = (tabId) => {
@@ -74,16 +71,16 @@ function ResellerOrderDetails() {
       <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
         <div className="flex">
-        <Link
-        to={'/reseller/orderList'}
-          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
-        >
-          <img
-            src={BackImage}
-            className="m-auto my-auto self-center bg-white"
-            alt="BackImage"
-          />
-        </Link>
+          <Link
+            to={"/reseller/orderList"}
+            className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+          >
+            <img
+              src={BackImage}
+              className="m-auto my-auto self-center bg-white"
+              alt="BackImage"
+            />
+          </Link>
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
               Order Details
@@ -96,23 +93,21 @@ function ResellerOrderDetails() {
                 <Link to={"/"}>Order Details / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-                 {activeTab}
+                {activeTab}
               </li>
             </ul>
           </div>
         </div>
 
         <Grid className="!grid-cols-4">
-        <div className="col-span-1">
+          <div className="col-span-1">
             <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
                     Order ID
                   </p>
-                  <p className="text-xl text-white font-semibold">
-                    315174
-                  </p>
+                  <p className="text-xl text-white font-semibold">315174</p>
                 </div>
                 <div className="col-span-3 text-end">
                   {/* <Button
@@ -160,16 +155,16 @@ function ResellerOrderDetails() {
                 />
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular mt-2">
-                  Coverage Type
+                    Coverage Type
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                  Breakdown (BD)
+                    Breakdown (BD)
                   </p>
                 </div>
               </div>
               <div className="flex w-full my-4">
                 <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
-                Other Details
+                  Other Details
                 </p>
                 <hr className="self-center border-[#999999] w-[70%]" />
               </div>
@@ -205,21 +200,21 @@ function ResellerOrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
-                  <Link to={`/resellerDetails/65ba33dc5c701216d9b76220`}>
+                  {/* <Link to={`/resellerDetails/65ba33dc5c701216d9b76220`}>
                     {" "}
                     <img
                       src={DealerList}
                       className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
                       alt="DealerList"
                     />{" "}
-                  </Link>
+                  </Link> */}
                 </div>
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular">
                     Reseller Name
                   </p>
                   <p className="text-base text-white font-semibold ">
-                  Edward Wilson
+                    Edward Wilson
                   </p>
                 </div>
               </div>
@@ -241,10 +236,10 @@ function ResellerOrderDetails() {
                 </div>
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular">
-                  Customer Name
+                    Customer Name
                   </p>
                   <p className="text-base text-white font-semibold ">
-                  Ankush Grover
+                    Ankush Grover
                   </p>
                 </div>
               </div>
@@ -266,37 +261,29 @@ function ResellerOrderDetails() {
                 </div>
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular">
-                  Servicer Name
+                    Servicer Name
                   </p>
                   <p className="text-base text-white font-semibold ">
-                  Jameson Wills
+                    Jameson Wills
                   </p>
                 </div>
               </div>
               <Grid className="!py-5">
                 <div className="col-span-5">
-                <Button className="!bg-white !text-light-black !text-sm border flex">
-                    <img
-                      src={Csv}
-                      className="mr-3 self-center"
-                      alt="Csv"
-                    />{" "}
+                  <Button className="!bg-white !text-light-black !text-sm border flex">
+                    <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "}
                     <span className="self-center">
                       {" "}
-                      <PdfGenerator/>
+                      <PdfGenerator />
                     </span>
                   </Button>
-                    </div>
-                    <div className="col-span-7">
-                    <Button className="!bg-white !text-light-black !text-sm border flex">
-                    <img
-                      src={Csv}
-                      className="mr-3 self-center"
-                      alt="Csv"
-                    />{" "}
+                </div>
+                <div className="col-span-7">
+                  <Button className="!bg-white !text-light-black !text-sm border flex">
+                    <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "}
                     <span className="self-center">
                       {" "}
-                      <PdfMake/>
+                      <PdfMake />
                     </span>
                   </Button>
                 </div>
@@ -355,4 +342,4 @@ function ResellerOrderDetails() {
   );
 }
 
-export default ResellerOrderDetails
+export default ResellerOrderDetails;

@@ -220,16 +220,18 @@ function OrderDetails() {
                         className="mr-3 bg-[#383838] rounded-[14px]"
                         alt="Name"
                       />
-                      <Link
-                        to={`/dealer/resellerDetails/${orderDetails.resellerId}`}
-                      >
-                        {" "}
-                        <img
-                          src={DealerList}
-                          className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                          alt="DealerList"
-                        />{" "}
-                      </Link>
+                      {!window.location.pathname.includes("/reseller") ? (
+                        <Link
+                          to={`/dealer/resellerDetails/${orderDetails.resellerId}`}
+                        >
+                          {" "}
+                          <img
+                            src={DealerList}
+                            className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                            alt="DealerList"
+                          />{" "}
+                        </Link>
+                      ) : null}
                     </div>
                     <div>
                       <p className="text-sm text-neutral-grey font-Regular">
@@ -250,16 +252,29 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
-                  <Link
-                    to={`/dealer/customerDetails/${orderDetails.customerId}`}
-                  >
-                    {" "}
-                    <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
+                  {!window.location.pathname.includes("/reseller") ? (
+                    <Link
+                      to={`/dealer/resellerDetails/${orderDetails.resellerId}`}
+                    >
+                      {" "}
+                      <img
+                        src={DealerList}
+                        className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                        alt="DealerList"
+                      />{" "}
+                    </Link>
+                  ) : (
+                    <Link
+                      to={`/reseller/customerDetails/${orderDetails.customerId}`}
+                    >
+                      {" "}
+                      <img
+                        src={DealerList}
+                        className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                        alt="DealerList"
+                      />{" "}
+                    </Link>
+                  )}
                 </div>
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -315,7 +330,7 @@ function OrderDetails() {
                   </Button>
                 </div>
                 <div className="col-span-6">
-                    {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
+                  {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
                   {/* <Button className="!bg-white !text-light-black !text-sm border flex">
                     <span className="self-center">
                       {" "}

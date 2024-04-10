@@ -11,17 +11,12 @@ import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
-import Select from "../../../common/select";
-import { getFilterCustomerList } from "../../../services/customerServices";
-import { getDealersList } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
-  getDealerCustomers,
   getResellerPortalCustomers,
 } from "../../../services/dealerServices/priceBookServices";
-// Declare the base URL of the API
 function ResellerCustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [customerList, setCustomerList] = useState([]);
@@ -114,7 +109,6 @@ function ResellerCustomerList() {
       minWidth: "auto",
       maxWidth: "90px",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div

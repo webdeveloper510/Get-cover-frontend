@@ -31,6 +31,24 @@ export const addNewCustomer = async (data) => {
     throw error;
   }
 };
+
+export const addNewCustomerResellerPortal = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/resellerPortal/create-customer`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getCustomerList = async (data) => {
   const headers = createHeaders();
   try {
@@ -217,7 +235,8 @@ export const getUserDetailsByIdResellerPortal = async (id) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
-      `${url}/resellerPortal/getResellerDetails`,{},
+      `${url}/resellerPortal/getResellerDetails`,
+      {},
       {
         headers,
       }

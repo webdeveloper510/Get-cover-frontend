@@ -684,7 +684,7 @@ const routes = [
         path: "/reseller/contractList",
         element: (
           <PrivateRoute
-            element={<ResellerContractList />}
+            element={<ContractList />}
             path="/reseller/contractList"
           />
         ),
@@ -736,11 +736,7 @@ const routes = [
       },
       {
         path: "/reseller/customerDetails/:customerId",
-        element: (
-          <PrivateRoute
-            element={<ResellerCustomerDetails />}
-          />
-        ),
+        element: <PrivateRoute element={<ResellerCustomerDetails />} />,
       },
       {
         path: "/reseller/priceBook",
@@ -801,12 +797,7 @@ const routes = [
       },
       {
         path: "/reseller/orderDetails/:orderId",
-        element: (
-          <PrivateRoute
-            element={<DealerOrderDetails />}
-            path="/reseller/orderDetails/:orderId"
-          />
-        ),
+        element: <PrivateRoute element={<DealerOrderDetails />} />,
       },
       {
         path: "*",
