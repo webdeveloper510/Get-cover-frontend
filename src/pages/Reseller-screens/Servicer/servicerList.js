@@ -16,14 +16,7 @@ import DataTable from "react-data-table-component";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-<<<<<<< HEAD
 import { getDealerServicers, getResellerServicers } from "../../../services/dealerServices/priceBookServices";
-=======
-import {
-  getDealerServicers,
-  getResellerPortalServicers,
-} from "../../../services/dealerServices/priceBookServices";
->>>>>>> 4809424f6d8f641d373cc6e76b65eadc339e9776
 
 function ResellerServicerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -46,20 +39,12 @@ function ResellerServicerList() {
 
   const getServicerList = async (value = {}) => {
     setLoading(true);
-<<<<<<< HEAD
     const result = await getResellerServicers(value);
-=======
-    const result = await getResellerPortalServicers(value);
->>>>>>> 4809424f6d8f641d373cc6e76b65eadc339e9776
     setServicerList(result.data);
     console.log(result.data);
     setLoading(false);
   };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4809424f6d8f641d373cc6e76b65eadc339e9776
   const formik = useFormik({
     initialValues: {
       name: "",
