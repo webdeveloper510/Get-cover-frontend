@@ -33,6 +33,7 @@ function Layout() {
         Location.pathname !== "/orderDetails/" + orderId &&
         Location.pathname !== "/resellerDetails/" + resellerId &&
         Location.pathname !== "/dealer/customerDetails/" + customerId &&
+        Location.pathname !== "/reseller/customerDetails/" + customerId &&
         Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
         Location.pathname !== "/notifications" &&
         Location.pathname !== "/reseller/orderDetails" &&
@@ -48,6 +49,7 @@ function Layout() {
       Location.pathname !== "/orderDetails/" + orderId &&
       Location.pathname !== "/resellerDetails/" + resellerId &&
       Location.pathname !== "/dealer/customerDetails/" + customerId &&
+      Location.pathname !== "/reseller/customerDetails/" + customerId &&
       Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
       Location.pathname !== "/notifications" &&
       Location.pathname !== "/reseller/orderDetails" &&
@@ -69,6 +71,7 @@ function Layout() {
           Location.pathname !== "/dealer/customerDetails/" + customerId &&
           Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
           Location.pathname !== "/orderDetails/" + orderId &&
+          Location.pathname !== "/reseller/customerDetails/" + customerId &&
           Location.pathname !== "/resellerDetails/" + resellerId &&
           Location.pathname !== "/notifications" &&
           Location.pathname !== "/reseller/orderDetails" &&

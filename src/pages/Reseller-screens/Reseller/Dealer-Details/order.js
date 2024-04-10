@@ -277,6 +277,7 @@ function OrderList(props) {
                     <Select
                       label=""
                       options={status}
+                      OptionName='Status'
                       color="text-[#1B1D21] opacity-50"
                       className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
                       className="!text-[14px] !bg-[#f7f7f7]"
