@@ -110,12 +110,12 @@ function ResellerPriceBook(props) {
     },
     {
       name: "WholeSale Cost",
-      selector: (row) => `$ ${row.wholesalePrice.toFixed(2)} `,
+      selector: (row) => `$${row.wholesalePrice.toFixed(2)} `,
       sortable: true,
     },
     {
       name: "Retail Cost",
-      selector: (row) => `$ ${row.retailPrice.toFixed(2)} `,
+      selector: (row) => `$${row.retailPrice.toFixed(2)} `,
       sortable: true,
     },
   ];

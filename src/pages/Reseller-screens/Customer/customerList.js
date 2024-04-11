@@ -103,7 +103,7 @@ function ResellerCustomerList() {
     },
     {
       name: "Order Value",
-      selector: (row) => `$ ${row?.orderData?.orderAmount} `,
+      selector: (row) => `$${row?.orderData?.orderAmount}`,
       sortable: true,
     },
     {
