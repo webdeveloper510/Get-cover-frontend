@@ -220,18 +220,20 @@ function OrderDetails() {
                         className="mr-3 bg-[#383838] rounded-[14px]"
                         alt="Name"
                       />
-                      <Link
-                        to={`/dealer/resellerDetails/${orderDetails.resellerId}`}
-                      >
-                        {" "}
-                        <img
-                          src={DealerList}
-                          className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                          alt="DealerList"
-                        />{" "}
-                      </Link>
+                      {!window.location.pathname.includes("/reseller") ? (
+                        <Link
+                          to={`/dealer/resellerDetails/${orderDetails.resellerId}`}
+                        >
+                          {" "}
+                          <img
+                            src={DealerList}
+                            className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                            alt="DealerList"
+                          />{" "}
+                        </Link>
+                      ) : null}
                     </div>
-                    <div>
+                    <div className="w-[80%]">
                       <p className="text-sm text-neutral-grey font-Regular">
                         Reseller Name
                       </p>
@@ -250,18 +252,31 @@ function OrderDetails() {
                     className="mr-3 bg-[#383838] rounded-[14px]"
                     alt="Name"
                   />
-                  <Link
-                    to={`/dealer/customerDetails/${orderDetails.customerId}`}
-                  >
-                    {" "}
-                    <img
-                      src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                      alt="DealerList"
-                    />{" "}
-                  </Link>
+                  {!window.location.pathname.includes("/reseller") ? (
+                    <Link
+                      to={`/dealer/resellerDetails/${orderDetails.resellerId}`}
+                    >
+                      {" "}
+                      <img
+                        src={DealerList}
+                        className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                        alt="DealerList"
+                      />{" "}
+                    </Link>
+                  ) : (
+                    <Link
+                      to={`/reseller/customerDetails/${orderDetails.customerId}`}
+                    >
+                      {" "}
+                      <img
+                        src={DealerList}
+                        className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                        alt="DealerList"
+                      />{" "}
+                    </Link>
+                  )}
                 </div>
-                <div>
+                <div className="w-[80%]">
                   <p className="text-sm text-neutral-grey font-Regular">
                     Customer Name
                   </p>
@@ -290,7 +305,7 @@ function OrderDetails() {
                         />{" "}
                       </Link> */}
                     </div>
-                    <div>
+                    <div className="w-[80%]">
                       <p className="text-sm text-neutral-grey font-Regular">
                         Servicer Name
                       </p>
@@ -315,7 +330,7 @@ function OrderDetails() {
                   </Button>
                 </div>
                 <div className="col-span-6">
-                    {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
+                  {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
                   {/* <Button className="!bg-white !text-light-black !text-sm border flex">
                     <span className="self-center">
                       {" "}
@@ -327,7 +342,7 @@ function OrderDetails() {
             </div>
           </div>
           <div className="col-span-3 max-h-[85vh] overflow-y-scroll">
-            <Grid className="!mt-5">
+            <Grid className="">
               <div className="col-span-4">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!grid-cols-2 !gap-1">

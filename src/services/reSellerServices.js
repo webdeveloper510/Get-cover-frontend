@@ -264,3 +264,20 @@ export const getContractsforReseller = async (id, data) => {
     throw error;
   }
 };
+
+export const getContractsforResellerPortal = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/resellerPortal/getResellerContract`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

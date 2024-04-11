@@ -11,14 +11,10 @@ import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
-import Select from "../../../common/select";
-import { getFilterCustomerList } from "../../../services/customerServices";
-import { getDealersList } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
-  getDealerCustomers,
   getResellerPortalCustomers,
 } from "../../../services/dealerServices/priceBookServices";
 import view from "../../../assets/images/eye.png";
@@ -115,12 +111,11 @@ function ResellerCustomerList() {
       minWidth: "auto",
       maxWidth: "90px",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div
               onClick={() =>
-                setSelectedAction(selectedAction === row.id ? null : row.id)
+                setSelectedAction(selectedAction === row.customerData?.unique_key ? null : row.customerData?.unique_key)
               }
             >
               <img
@@ -129,7 +124,7 @@ function ResellerCustomerList() {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.id && (
+            {selectedAction === row.customerData?.unique_key && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
