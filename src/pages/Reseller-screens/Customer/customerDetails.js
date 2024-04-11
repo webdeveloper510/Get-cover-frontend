@@ -286,21 +286,21 @@ function ResellerCustomerDetails() {
       label: "Order",
       icons: Order,
       Activeicons: OrderActive,
-      content: <OrderList />,
+      content: <OrderList  flag={"customer"} id={customerId} activeTab={activeTab}/>,
     },
     {
       id: "Contracts",
       label: "Contracts",
       icons: Dealer,
       Activeicons: DealerActive,
-      content: <ContractList />,
+      content: <ContractList flag={"customer"} id={customerId} activeTab={activeTab} />,
     },
     {
       id: "Claims",
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList />,
+      content: <ClaimList flag={"customer"} id={customerId} activeTab={activeTab} />,
     },
     {
       id: "Users",
@@ -335,7 +335,7 @@ function ResellerCustomerDetails() {
           </div>
         </div>
       )}
-      <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
+      <div className="py-8 pl-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
 
         <div className="flex">
@@ -368,9 +368,9 @@ function ResellerCustomerDetails() {
           </div>
         </div>
 
-        <Grid className="!grid-cols-4">
-          <div className="col-span-1">
-            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
+        <Grid className="!grid-cols-4 mt-5">
+          <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
+            <div className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -546,8 +546,8 @@ function ResellerCustomerDetails() {
               </Grid>
             </div>
           </div>
-          <div className="col-span-3">
-            <Grid className="!mt-5">
+          <div className="col-span-3 max-h-[85vh]  pr-3 overflow-y-scroll">
+            <Grid className="">
               <div className="col-span-6">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!grid-cols-4 !gap-1">
