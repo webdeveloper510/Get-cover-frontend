@@ -837,7 +837,7 @@ function ResellerUser() {
               <RotateLoader color="#333" />
             </div>
           </div>
-        ) : ( <></>)}
+        ) : ( 
           <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
           {isprimary &&  <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
             <Button onClick={() => openUserModal()}> + Add Member</Button>
@@ -954,6 +954,7 @@ function ResellerUser() {
             noDataComponent={<CustomNoDataComponent />}
           />
         </div>
+        )}
       </div>
     </div>
 )}
