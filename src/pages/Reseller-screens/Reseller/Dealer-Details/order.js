@@ -292,7 +292,7 @@ function OrderList(props) {
                   <>
                     <div
                       className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
-                      onClick={() => navigate(`/dealer/editOrder/${row._id}`)}
+                      onClick={() => navigate(`/reseller/editOrder/${row._id}`)}
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
@@ -316,7 +316,7 @@ function OrderList(props) {
                 ) : (
                   <>
                     <Link
-                      to={`/dealer/orderDetails/${row._id}`}
+                      to={`/reseller/orderDetails/${row._id}`}
                       className="text-left py-1 px-2 cursor-pointer border-b hover:font-semibold w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
