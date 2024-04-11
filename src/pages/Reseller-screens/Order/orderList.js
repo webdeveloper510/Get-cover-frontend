@@ -235,7 +235,7 @@ function ResellerOrderList() {
                   <>
                     <div
                       className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
-                      onClick={() => navigate(`/editOrder/${row._id}`)}
+                      onClick={() => navigate(`/reseller/editOrder/${row._id}`)}
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
