@@ -250,7 +250,7 @@ function ResellerPriceBook(props) {
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        value={formik.values.name}
+                        value={formik.values.category}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />

@@ -43,7 +43,6 @@ function DealerAddCustomer() {
   console.log(resellerId);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
-    dealerName: "",
     status: true,
     street: "",
     city: "",
@@ -71,7 +70,7 @@ function DealerAddCustomer() {
     initialValues: initialFormValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
-      // dealerName: Yup.string().required("Required"),
+     
       accountName: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required")
