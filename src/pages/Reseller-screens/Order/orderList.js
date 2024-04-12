@@ -196,8 +196,9 @@ function ResellerOrderList() {
       cell: (row) => (
         <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
           <div
-            className={` bg-[#6BD133] h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
-          ></div>
+            className={` ${
+              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
+            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`} ></div>
           <p className="self-center"> {row?.status} </p>
         </div>
       ),
@@ -226,11 +227,13 @@ function ResellerOrderList() {
             </div>
             {selectedAction === row.unique_key && (
               <div
-                ref={dropdownRef}
                 onClick={() => setSelectedAction(null)}
-                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md top-[1rem]`}
+                ref={dropdownRef}
+                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  index
+                )}`}
               >
-                {/* <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 {row.status == "Pending" ? (
                   <>
                     <div
@@ -239,7 +242,13 @@ function ResellerOrderList() {
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
-
+                    {/* <div
+                      className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
+                      onClick={() => openModal(row._id)}
+                    >
+                      <img src={process} className="w-4 h-4 mr-2" /> Process
+                      Order
+                    </div> */}
                     <div className="border-b">
                       <PdfGenerator
                         data={row._id}
@@ -247,28 +256,28 @@ function ResellerOrderList() {
                         onClick={() => setSelectedAction(null)}
                       />
                     </div>
-                    {/* <div
+                    <div
                       className="text-left py-1 px-2 flex cursor-pointer hover:font-semibold"
                       onClick={() => openArchive(row._id)}
                     >
                       <img src={remove} className="w-4 h-4 mr-2" /> Archive
-                    </div> */}
+                    </div>
                   </>
                 ) : (
                   <>
                     <Link
-                      to={`/reseller/orderDetails/${row._id}`}
+                      to={`/dealer/orderDetails/${row._id}`}
                       className="text-left py-1 px-2 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
                     <div className="">
-                      <PdfGenerator
-                        data={row._id}
-                        setLoading={setLoading}
-                        onClick={() => setSelectedAction(null)}
-                      />
+                      <PdfGenerator data={row._id} setLoading={setLoading} />
                     </div>
+                    {/* <DocMakeOrderContainer
+                      setLoading={setLoading}
+                      data={row._id}
+                    /> */}
                   </>
                 )}
               </div>

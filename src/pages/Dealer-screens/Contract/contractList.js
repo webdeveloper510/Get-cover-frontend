@@ -365,13 +365,13 @@ function ContractList(props) {
                             <>
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
-                                  Order ID : <b> {res?.order?.unique_key} </b>
+                                  Order ID : <b> {res?.orderUniqueKey} </b>
                                 </p>
                               </div>
                               <div className="col-span-4 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
                                   Dealer P.O. # :{" "}
-                                  <b> {res?.order?.venderOrder} </b>
+                                  <b> {res?.venderOrder} </b>
                                 </p>
                               </div>
                             </>
