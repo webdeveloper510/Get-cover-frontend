@@ -409,9 +409,9 @@ function AddOrder() {
         ...formik.values,
         ...formikStep2.values,
         ...formikStep3.values,
-        paidAmount: values.paidAmount,
+        paidAmount: parseFloat(values.paidAmount),
         file: arr,
-        dueAmount: values.pendingAmount,
+        dueAmount: parseFloat(values.pendingAmount),
         sendNotification: sendNotification,
         paymentStatus: values.paymentStatus,
         orderAmount: parseFloat(totalAmount),
@@ -784,7 +784,36 @@ function AddOrder() {
         ...data,
       };
       checkEditFileValidations(dataValue).then((res) => {
+        console.log(
+          calculateTotalAmount(dataValue.productsArray) - order.orderAmount,
+          dataValue
+        );
         if (res.code == 200) {
+          if (
+            order.orderAmount - calculateTotalAmount(dataValue.productsArray) <
+              0 &&
+            order.paymentStatus != "Unpaid"
+          ) {
+            formik4.setFieldValue("paymentStatus", "PartlyPaid");
+            formik4.setFieldValue("paidAmount", parseInt(order.paidAmount));
+            formik4.setFieldValue(
+              "pendingAmount",
+              calculateTotalAmount(dataValue.productsArray) - order.orderAmount
+            );
+            order.orderAmount = calculateTotalAmount(dataValue.productsArray);
+          } else if (
+            order.orderAmount - calculateTotalAmount(dataValue.productsArray) >
+              0 &&
+            order.paymentStatus != "Unpaid"
+          ) {
+            formik4.setFieldValue("paymentStatus", "Paid");
+            formik4.setFieldValue("pendingAmount", "0.0");
+            formik4.setFieldValue(
+              "paidAmount",
+              calculateTotalAmount(dataValue.productsArray)
+            );
+          }
+
           nextStep();
         } else {
           for (let key of res.message) {
