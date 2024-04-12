@@ -691,12 +691,11 @@ const routes = [
       },
       {
         path: "/reseller/addOrder",
-        element: (
-          <PrivateRoute
-            element={<ResellerAddOrder />}
-            path="/reseller/addOrder"
-          />
-        ),
+        element: <PrivateRoute element={<ResellerAddOrder />} />,
+      },
+      {
+        path: "/reseller/editOrder/:orderId?",
+        element: <PrivateRoute element={<ResellerAddOrder />} />,
       },
       {
         path: "/reseller/orderList",

@@ -206,6 +206,24 @@ export const editOrderforDealerPortal = async (id, data) => {
   }
 };
 
+export const editOrderforResellerPortal = async (id, data) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/resellerPortal/editOrderDetail/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getContractByIdCustomerPortal = async (id) => {
   const headers = createHeaders();
   console.log(headers);
