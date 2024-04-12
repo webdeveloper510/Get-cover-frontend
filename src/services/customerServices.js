@@ -108,6 +108,23 @@ export const getCustomerListByDealerIdAndResellerId = async (data) => {
   }
 };
 
+export const getCustomerListForResellerPortal = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/resellerPortal/getCustomerInOrder`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getServiceCoverageDetails = async (id) => {
   const headers = createHeaders();
   try {
