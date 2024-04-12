@@ -36,7 +36,7 @@ function Layout() {
         Location.pathname !== "/reseller/customerDetails/" + customerId &&
         Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
         Location.pathname !== "/notifications" &&
-        Location.pathname !== "/reseller/orderDetails" &&
+        Location.pathname !== "/reseller/orderDetails/" + orderId &&
         Location.pathname !== "/customer/orderDetails/" + orderId &&
         Location.pathname !== "/dealer/orderDetails/" + orderId
           ? "p-4 "
@@ -52,7 +52,7 @@ function Layout() {
       Location.pathname !== "/reseller/customerDetails/" + customerId &&
       Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
       Location.pathname !== "/notifications" &&
-      Location.pathname !== "/reseller/orderDetails" &&
+      Location.pathname !== "/reseller/orderDetails/" + orderId &&
       Location.pathname !== "/customer/orderDetails/" + orderId &&
       Location.pathname !== "/dealer/orderDetails/" + orderId ? (
         <div
@@ -74,7 +74,7 @@ function Layout() {
           Location.pathname !== "/reseller/customerDetails/" + customerId &&
           Location.pathname !== "/resellerDetails/" + resellerId &&
           Location.pathname !== "/notifications" &&
-          Location.pathname !== "/reseller/orderDetails" &&
+          Location.pathname !== "/reseller/orderDetails/"+ orderId &&
           Location.pathname !== "/customer/orderDetails/" + orderId &&
           Location.pathname !== "/dealer/orderDetails/" + orderId
             ? "w-[calc(100%-10px)] pl-3"

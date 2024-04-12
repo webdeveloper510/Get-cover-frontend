@@ -233,7 +233,7 @@ function OrderDetails() {
                         </Link>
                       ) : null}
                     </div>
-                    <div>
+                    <div className="w-[80%]">
                       <p className="text-sm text-neutral-grey font-Regular">
                         Reseller Name
                       </p>
@@ -276,7 +276,7 @@ function OrderDetails() {
                     </Link>
                   )}
                 </div>
-                <div>
+                <div className="w-[80%]">
                   <p className="text-sm text-neutral-grey font-Regular">
                     Customer Name
                   </p>
@@ -305,7 +305,7 @@ function OrderDetails() {
                         />{" "}
                       </Link> */}
                     </div>
-                    <div>
+                    <div className="w-[80%]">
                       <p className="text-sm text-neutral-grey font-Regular">
                         Servicer Name
                       </p>
@@ -342,7 +342,7 @@ function OrderDetails() {
             </div>
           </div>
           <div className="col-span-3 max-h-[85vh] overflow-y-scroll">
-            <Grid className="!mt-5">
+            <Grid className="">
               <div className="col-span-4">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!grid-cols-2 !gap-1">

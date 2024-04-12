@@ -160,7 +160,8 @@ function ResellerOrderList() {
       selector: (row) => row?.unique_key,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "120px",
+      maxWidth: "100px",
+      style: { whiteSpace: "pre-wrap" },
     },
     {
       name: "Dealer P.O #",
@@ -186,7 +187,7 @@ function ResellerOrderList() {
     },
     {
       name: "Order Value",
-      selector: (row) => `$ ${row?.orderAmount}`,
+      selector: (row) => `$${row?.orderAmount}`,
       sortable: true,
       minWidth: "150px",
     },
@@ -234,7 +235,7 @@ function ResellerOrderList() {
                   <>
                     <div
                       className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
-                      onClick={() => navigate(`/editOrder/${row._id}`)}
+                      onClick={() => navigate(`/reseller/editOrder/${row._id}`)}
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>

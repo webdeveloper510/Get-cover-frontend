@@ -17,6 +17,8 @@ import * as Yup from "yup";
 import {
   getResellerPortalCustomers,
 } from "../../../services/dealerServices/priceBookServices";
+import view from "../../../assets/images/eye.png";
+// Declare the base URL of the API
 function ResellerCustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [customerList, setCustomerList] = useState([]);
@@ -101,7 +103,7 @@ function ResellerCustomerList() {
     },
     {
       name: "Order Value",
-      selector: (row) => `$ ${row?.orderData?.orderAmount} `,
+      selector: (row) => `$${row?.orderData?.orderAmount}`,
       sortable: true,
     },
     {
@@ -113,7 +115,7 @@ function ResellerCustomerList() {
           <div className="relative">
             <div
               onClick={() =>
-                setSelectedAction(selectedAction === row.id ? null : row.id)
+                setSelectedAction(selectedAction === row.customerData?.unique_key ? null : row.customerData?.unique_key)
               }
             >
               <img
@@ -122,7 +124,7 @@ function ResellerCustomerList() {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.id && (
+            {selectedAction === row.customerData?.unique_key && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
@@ -131,14 +133,14 @@ function ResellerCustomerList() {
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
-                  className="text-center cursor-pointer py-1 px-2"
                   onClick={() => {
                     navigate(
                       `/reseller/customerDetails/${row.customerData._id}`
                     );
                   }}
+                  className="text-left cursor-pointer flex py-1 px-2 hover:font-semibold py-1"
                 >
-                  View
+                 <img src={view} className="w-4 h-4 mr-2"/> View
                 </div>
               </div>
             )}
