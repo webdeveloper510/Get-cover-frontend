@@ -185,6 +185,24 @@ export const checkEditFileValidations = async (data) => {
     throw error;
   }
 };
+
+export const checkOrderChanges = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/order/getPendingAmount/orderId/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const addOrder = async (data) => {
   const headers = createHeaders();
   try {

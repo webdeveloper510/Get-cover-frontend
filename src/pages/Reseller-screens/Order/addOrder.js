@@ -33,10 +33,7 @@ import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import { RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
-import {
-  editOrderforDealerPortal,
-  editOrderforResellerPortal,
-} from "../../../services/dealerServices/orderListServices";
+import { editOrderforDealerPortal, editOrderforResellerPortal } from "../../../services/dealerServices/orderListServices";
 import {
   getCustomerListForResellerPortal,
   getServiceCoverageDetails,
