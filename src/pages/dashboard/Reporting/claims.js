@@ -109,7 +109,7 @@ function Claims() {
 
         <Grid className="!grid-cols-3">
           <div className="col-span-3">
-            <Grid className="!mt-5">
+            <Grid className="">
               <div className="col-span-5">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!gap-1">

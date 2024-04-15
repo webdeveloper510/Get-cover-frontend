@@ -183,7 +183,7 @@ function CustomerOrderDetails() {
             </div>
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
-            <Grid className="!mt-5">
+            <Grid className="">
               <div className="col-span-4">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!grid-cols-1 !gap-1">

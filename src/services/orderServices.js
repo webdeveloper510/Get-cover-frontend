@@ -351,7 +351,7 @@ export const orderDetailsById = async (id) => {
 export const getAllContractsForAdmin = async (data = {}) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(`${url}/contract/getAllContracts`, data, {
+    const response = await axios.post(`${url}/contract/getContracts`, data, {
       headers,
     });
 

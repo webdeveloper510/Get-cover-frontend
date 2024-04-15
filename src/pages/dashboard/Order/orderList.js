@@ -238,7 +238,7 @@ function OrderList() {
 
   const markasPaid = async (row) => {
     setMessage(
-      `Would you prefer to make the full payment $ ${
+      `Would you prefer to make the full payment $${
         row.orderAmount - row.paidAmount
       } ?`
     );
