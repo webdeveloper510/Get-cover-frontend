@@ -160,12 +160,7 @@ function ResellerOrderList() {
       selector: (row) => row?.unique_key,
       sortable: true,
       minWidth: "auto",
-<<<<<<< HEAD
-      maxWidth: "100px",
-      style: { whiteSpace: 'pre-wrap' }
-=======
       maxWidth: "120px",
->>>>>>> 489333c1cfae2fe754b40cf4cd49af71c2acae4b
     },
     {
       name: "Dealer P.O #",
