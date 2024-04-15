@@ -185,12 +185,47 @@ export const checkEditFileValidations = async (data) => {
     throw error;
   }
 };
+
+export const checkOrderChanges = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/order/getPendingAmount/orderId/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const addOrder = async (data) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(`${url}/order/createOrder`, data, {
       headers,
     });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addOrderForResellerPortal = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/resellerPortal/createOrder`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -232,11 +267,45 @@ export const getCategoryAndPriceBooks = async (id, data) => {
   }
 };
 
+export const getCategoryAndPriceBooksForResellerPortal = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/resellerPortal/getCategoryAndPriceBooks`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getServicerListInOrders = async (data) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
       `${url}/order/getServicerInOrders`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getServicerListForResellerPortalOrder = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/resellerPortal/getServicerInOrders`,
       data,
       {
         headers,

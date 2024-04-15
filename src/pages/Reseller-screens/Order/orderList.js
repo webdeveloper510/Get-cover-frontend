@@ -160,7 +160,8 @@ function ResellerOrderList() {
       selector: (row) => row?.unique_key,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "120px",
+      maxWidth: "100px",
+      style: { whiteSpace: "pre-wrap" },
     },
     {
       name: "Dealer P.O #",
@@ -300,7 +301,7 @@ function ResellerOrderList() {
 
         <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
           {" "}
-          <Link to={"/addOrder"} className="flex">
+          <Link to={"/reseller/addOrder"} className="flex">
             {" "}
             <img src={AddItem} className="self-center" alt="AddItem" />{" "}
             <span className="text-black ml-3 text-[14px] font-Regular">
