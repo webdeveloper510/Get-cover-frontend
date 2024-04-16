@@ -157,7 +157,7 @@ function Sale() {
         <Grid className="!grid-cols-3">
 
           <div className="col-span-3">
-            <Grid className="">
+            <Grid className="mt-10">
               
               <div className="col-span-10">
                   {/* <Carousel responsive={responsive}>

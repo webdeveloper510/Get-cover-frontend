@@ -11,23 +11,9 @@ import WholesaleActive from "../../../assets/images/Reporting/icons/activeWholes
 import wholesale from "../../../assets/images/Reporting/icons/Wholesale.svg";
 import BreakdownActive from "../../../assets/images/Reporting/icons/activeAdministration.svg";
 import breakdown from "../../../assets/images/Reporting/icons/Administration.svg";
-import FrontingActive from "../../../assets/images/Reporting/icons/activeFrontingFees.svg";
-import fronting from "../../../assets/images/Reporting/icons/frontingFees.svg";
-import insuranceActive from "../../../assets/images/Reporting/icons/activeRe-insurance.svg";
-import insurance from "../../../assets/images/Reporting/icons/Re-insurance.svg";
-import ReservesActive from "../../../assets/images/Reporting/icons/activeReservesFutureClaims.svg";
-import reserves from "../../../assets/images/Reporting/icons/ReservesFutureClaims.svg";
-import BrokerActive from "../../../assets/images/Reporting/icons/activeBroker.svg";
-import broker from "../../../assets/images/Reporting/icons/Broker.svg";
 import Select from "../../../common/select";
 import { cityData } from "../../../stateCityJson";
 import All from "./Claim-Tab/all";
-import WholeSale from "./Sale-Tab/wholeSale";
-import Breakdown from "./Sale-Tab/breakdown";
-import Reserves from "./Sale-Tab/reserves";
-import ReInsurance from "./Sale-Tab/reInsurance";
-import Fronting from "./Sale-Tab/fronting";
-import Broker from "./Sale-Tab/broker";
 import PaidClaim from "./Claim-Tab/paidClaim";
 import UnpaidClaim from "./Claim-Tab/unpaidClaim";
 
@@ -109,7 +95,7 @@ function Claims() {
 
         <Grid className="!grid-cols-3">
           <div className="col-span-3">
-            <Grid className="">
+            <Grid className="mt-10">
               <div className="col-span-5">
                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!gap-1">
