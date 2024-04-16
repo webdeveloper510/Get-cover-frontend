@@ -69,7 +69,7 @@ function Notification() {
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-8 overflow-y-scroll min-h-[80vh] h-[80vh]">
         {loading ? (
           <div className=" fixed top-0 h-screen bg-[#cfcfcf8f] left-0 w-full flex py-5">
             <div className="self-center mx-auto">

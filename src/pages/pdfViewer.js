@@ -1,6 +1,6 @@
 import React from "react";
 import html2pdf from "html2pdf.js";
-import logo from "../assets/images/logo.png";
+import logo from "../assets/images/Get-Cover.png";
 import download from "../assets/images/download.png";
 import { format } from "date-fns";
 import { orderDetailsById } from "../services/orderServices";
@@ -88,7 +88,7 @@ function PdfGenerator(props, className) {
             <tbody>
                 <tr>
                     <td style="text-align: left; width: 50%;">
-                        <img src=${logo} style="margin-bottom: 20px;"/>
+                        <img src=${logo} style="margin-bottom: 20px; width:200px"/>
                         <h1 style="margin: 0; padding: 0; font-size:20px"><b>Get Cover </b></h1>
                         <p style="margin: 0; padding: 0;">13th Street <br/>
                         47 W 13th St, New York,<br/>
@@ -281,7 +281,7 @@ function PdfGenerator(props, className) {
          
           </tr>
           <tr>
-          <th colspan='5' style="text-align:right; padding-right:20px;">
+          <th colspan='5' style="text-align:left; padding-right:20px;">
           ${toWords.convert(
             data?.productsArray.reduce(
               (total, product) =>

@@ -459,20 +459,20 @@ console.log(contractList, "-------------contractList------------------>>>")
                     <>
                   <table className="w-full border text-center table-auto">
                     <thead className="bg-[#F9F9F9]">
-                      <tr className="py-3">
-                        <th>Contract ID</th>
-                        <th className="!py-3">Customer Name</th>
-                        <th>Serial #</th>
-                        <th>Order #</th>
-                        <th>Dealer P.O. #</th>
-                        <th>Action</th>
+                      <tr className=" border-b-[1px]">
+                        <th className="font-semibold">Contract ID</th>
+                        <th className="font-semibold !py-3">Customer Name</th>
+                         <th className="font-semibold">Serial #</th>
+                         <th className="font-semibold">Order #</th>
+                         <th className="font-semibold">Dealer P.O. #</th>
+                         <th className="font-semibold">Action</th>
                       </tr>
                     </thead>
                   <tbody>
                     {contractList?.length !== 0 ? (
                       contractList?.map((res, index) => (
-                        <tr key={res.unique_key}>
-                          <td className="py-2">{res.unique_key}</td>
+                        <tr key={res.unique_key} className="text-[13px] text-[#626662] font-[400] border-b-[1px]">
+                          <td className="py-3">{res.unique_key}</td>
                           <td>{res.order.customers.username}</td>
                           <td>{res.serial}</td>
                           <td>{res.order.unique_key}</td>
@@ -724,10 +724,12 @@ console.log(contractList, "-------------contractList------------------>>>")
                     <p className="font-semibold">
                       $
                       {contractDetail?.productValue === undefined
-                        ? parseInt(0).toLocaleString(2)
+                       ? parseInt(0).toLocaleString(2)
+                       : formatOrderValue(Number(contractDetail?.productValue) ?? parseInt(0))}
+                        {/* ? parseInt(0).toLocaleString(2)
                         : formatOrderValue(
                             contractDetail?.productValue ?? parseInt(0)
-                          )}
+                          )} */}
                     </p>
                   </div>
                 </div>
@@ -1155,7 +1157,14 @@ console.log(contractList, "-------------contractList------------------>>>")
                         Retail Price
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                        ${contractDetail?.productValue}
+                        {/* ${contractDetail?.productValue} */}
+                        ${
+                           contractDetail.productValue === undefined
+                            ? parseInt(0).toLocaleString(2)
+                            : formatOrderValue(
+                              Number(contractDetail.productValue) ??
+                                  parseInt(0)
+                              )}
                       </p>
                     </div>
                   </div>
@@ -1284,7 +1293,7 @@ console.log(contractList, "-------------contractList------------------>>>")
                            contractDetail.claimAmount === undefined
                             ? parseInt(0).toLocaleString(2)
                             : formatOrderValue(
-                              contractDetail.claimAmount ??
+                              Number(contractDetail.claimAmount) ??
                                   parseInt(0)
                               )}
                       </p>

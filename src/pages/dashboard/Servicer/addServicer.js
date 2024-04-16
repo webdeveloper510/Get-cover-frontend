@@ -496,7 +496,7 @@ function AddServicer() {
                   </p>
 
                   <Grid>
-                    <div className="col-span-6">
+                    <div className="col-span-6 mt-4">
                       <div className="col-span-6">
                         <Input
                           type="text"
@@ -521,7 +521,7 @@ function AddServicer() {
                           )}
                       </div>
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-6  mt-4">
                       <Input
                         type="text"
                         name="lastName"

@@ -536,7 +536,7 @@ function AddReseller() {
               </p>
 
               <Grid>
-                <div className="col-span-6">
+                <div className="col-span-6 mt-4">
                   <div className="col-span-6">
                     <Input
                       type="text"
@@ -560,7 +560,7 @@ function AddReseller() {
                     )}
                   </div>
                 </div>
-                <div className="col-span-6">
+                <div className="col-span-6 mt-4">
                   <Input
                     type="text"
                     name="lastName"
@@ -705,7 +705,7 @@ function AddReseller() {
                 </div>
               </Grid>
 
-              <div className="mt-24">
+              <div className="mt-20">
                 <Grid>
                   <div className="col-span-4 self-center">
                     <Button

@@ -848,7 +848,7 @@ function Dealer() {
                   Dealer Information
                 </p>
                 <Grid className="mt-5">
-                  <div className="col-span-6 ">
+                  <div className="col-span-6 mt-2">
                     <Grid>
                       <div className="col-span-12">
                         <Select
@@ -922,7 +922,7 @@ function Dealer() {
                       </div>
                     </Grid>
                   </div>
-                  <div className="col-span-6 pt-2">
+                  <div className="col-span-6 pt-2 mt-2">
                     <p className="text-light-black flex text-[12px] mb-7 font-semibold ">
                       Do you want to create an account?
                       <RadioButton
