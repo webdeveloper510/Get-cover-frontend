@@ -523,6 +523,7 @@ function ClaimList(props) {
         console.error("Error fetching claim messages:", error);
       })
       .finally(() => {
+        scrollToBottom()
         setModelLoading(false);
       });
   };

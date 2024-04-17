@@ -877,7 +877,7 @@ function CustomerUser() {
             </div>
               ) : (
                 <div className="px-8 pb-8 pt-4 mt-8 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-                 {isprimary && <div className="bg-gradient-to-r from-[#efefef] to-[#f8f8f8] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                 {isprimary && <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                     <Button onClick={() => openUserModal()}> + Add Member</Button>
                   </div>} 
                   <p className="text-xl font-semibold mb-3">Users List</p>
