@@ -117,6 +117,7 @@ function Dashboard() {
                   <p className="text-neutral-grey text-sm">Total Value of Claims</p>
                 </div>
               </Grid>
+              
               {/* <Grid className="s:hidden md:block ">
                 <div className="col-span-12">
                   <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">

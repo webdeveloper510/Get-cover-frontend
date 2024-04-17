@@ -46,7 +46,10 @@ function SidebarItem({
   isActiveValue,
   sidebarItems
 }) {
+  const location = useLocation();
+  
   const hasItems = item.items && item.items.length > 0;
+
   const [isActive, setIsActive] = useState(isActiveValue);
 
   const locationGet = useLocation();
@@ -81,7 +84,11 @@ function SidebarItem({
   
     }
   }, [active, expandedItem, item, setExpandedItem, isActiveValue]);
+
   const [activeUrl , setActiveUrl] = useState(false);
+
+  console.log('activeUrl---------------->>', activeUrl )
+
   useEffect(()=>{
     let urls = [item.url]
     if(hasItems){
@@ -93,9 +100,6 @@ function SidebarItem({
     if(itHasUrl)console.log("item=======>",item)
     setActiveUrl(itHasUrl)
   },[window.location.pathname])
-  
-  
-  
 
   const handleClick = () => {
     if (hasItems) {
@@ -111,11 +115,11 @@ function SidebarItem({
     onLinkClick(item.url);
   };
 
-
+  console.log('location.pathname', location.pathname)
   return (
     <li
       className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
-        isActive || activeUrl ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
+        activeUrl ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
       } ${expandedItem == item.name ? "active" : ""}`}
     >
       <Link
@@ -125,7 +129,7 @@ function SidebarItem({
         }`}
         onClick={handleClick}
       >
-        { activeUrl ? 
+        {activeUrl ? 
         (
           <img
             src={item.active}
@@ -142,7 +146,7 @@ function SidebarItem({
         )}
         <span
           className={`self-center text-left w-full pl-[12px] ${
-            isActive
+            activeUrl
               ? " text-[14px] font-semibold"
               : " text-[14px] font-Regular"
           }`}
@@ -191,7 +195,7 @@ function SidebarItem({
               <Link
                 to={subItem.url}
                 className={`rounded-[25px] flex ${
-                  active === subItem.url
+                  location.pathname === subItem.url
                     ? "text-white font-medium"
                     : "text-light-grey"
                 }`}
@@ -200,7 +204,7 @@ function SidebarItem({
                   console.log(`Sub-Item link to ${subItem.url} clicked`);
                 }}
               >
-                {active === subItem.url ? (
+                {location.pathname === subItem.url ? (
                   <>
                     <img
                       src={subItem.active}
@@ -231,7 +235,7 @@ function SidebarItem({
 
                 <span
                   className={`self-center text-left text-[12px] font-medium w-full ${
-                    active === subItem.url ? "opacity-1" : "opacity-80"
+                    location.pathname === subItem.url ? "opacity-1" : "opacity-80"
                   } pl-0 ml-[10px] p-[19px] pr-0 ${
                     subIndex == item.items.length - 1
                       ? ""
@@ -248,6 +252,7 @@ function SidebarItem({
     </li>
   );
 }
+
 const Lists = [
   {
     name: "Dashboard",
@@ -470,6 +475,7 @@ const Lists = [
     active: ActiveDashboard,
   },
 ];
+
 function SideBar() {
   const location = useLocation();
   const [active, setActive] = useState(location.pathname);
@@ -479,6 +485,7 @@ function SideBar() {
     JSON.parse(localStorage.getItem("userDetails"))
   );
   const navigate = useNavigate();
+console.log('active---------------->>', active )
 
   const handleLinkClick = (url, dropdownItem) => {
     setActive(url === "#" ? dropdownItem : url);
@@ -893,4 +900,5 @@ function SideBar() {
     </div>
   );
 }
+
 export default SideBar;

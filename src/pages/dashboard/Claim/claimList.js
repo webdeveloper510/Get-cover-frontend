@@ -1590,16 +1590,16 @@ function ClaimList(props) {
                   Do you really want to Reject the Claim ?
                 </p>
               </div>
-              <div className="col-span-1"></div>
-              <div className="col-span-5">
-                <Button onClick={handleYesClick}>Yes</Button>
+              <div className="col-span-3"></div>
+              <div className="col-span-3">
+                <Button onClick={handleYesClick} className='w-full'>Yes</Button>
               </div>
-              <div className="col-span-5">
-                <Button type="button" onClick={closeReject}>
+              <div className="col-span-3">
+                <Button type="button" className='w-full !bg-[transparent] !text-[#333333] !border-[#333333] !border-[1px]' onClick={closeReject}>
                   No
                 </Button>
               </div>
-              <div className="col-span-1"></div>
+              <div className="col-span-3"></div>
             </Grid>
           ) : (
             <div className="col-span-12">
@@ -1624,6 +1624,7 @@ function ClaimList(props) {
                     // Submit logic here
                     console.log(values);
                     setSubmitting(false);
+                    setActiveIndex(null);
                   }}
                 >
                   {({ isSubmitting, errors, touched }) => (

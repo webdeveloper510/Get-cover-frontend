@@ -9,13 +9,24 @@ import ProfileImage from "../assets/images/icons/Profile.svg";
 import Down from "../assets/images/icons/Drop.svg";
 import {
   getNotifications,
+  getSuperAdminMembers,
   updateNotifications,
 } from "../services/extraServices";
 function Headbar({ className = "" }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [notificationList, setNotificationList] = useState([]);
+  const [userList, setUserList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [isPrimary, setIsPrimary] = useState(false);
   // const [ToChecklengthFalse, setToChecklengthFalse] = useState([])
   const location = useLocation();
+  const [initialValues, setInitialValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    position: "",
+  });
   const navigate = useNavigate();
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -42,10 +53,42 @@ function Headbar({ className = "" }) {
   const lengthofNotifications = localStorage.getItem("lengthofNotifications")
   useEffect(() => {
     getNotificationsData();
+    fetchUserDetails();
   }, []);
+
+  const fetchUserDetails = async () => {
+    setLoading(true);
+
+    try {
+      const userDetails = await getSuperAdminMembers();
+      console.log(userDetails?.loginMember, "---------------->>>>>>>>>>>>");
+      setIsPrimary(userDetails.loginMember.isPrimary);
+      const { firstName, lastName, email, phoneNumber, position } =
+        userDetails.loginMember;
+
+      setInitialValues({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        position,
+      });
+      // setEmail(userDetails?.loginMember.email);
+      console.log(userDetails.result);
+      setUserList(userDetails.loginMember);
+      setLoading(false)
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      setLoading(false)
+    } finally {
+      // fetchUserMembers();
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="">
+      {loading ? (<></>): (
       <Grid className={` md:right-[0%] xl:right-[0%] s:relative md:absolute xl:absolute s:top-[-12px] s:right-[20%]  md:top-[24px]  xl:top-[24px]  ${className}`}>
         <div className="col-span-4"></div>
         <div className="col-span-2"></div>
@@ -72,7 +115,7 @@ function Headbar({ className = "" }) {
             <div className="col-span-8 self-center flex justify-around">
               {/* <img src={ProfileImage} alt='ProfileImage'/> */}
               <p className="text-light-black font-semibold text-base self-center">
-                Veronica
+                {userList?.firstName}
               </p>
               <div className="self-center relative" onClick={handleLogOut}>
                 <img src={Logout} className="cursor-pointer" alt="Logout"/>
@@ -81,6 +124,7 @@ function Headbar({ className = "" }) {
           </Grid>
         </div>
       </Grid>
+            )}
     </div>
   );
 }
