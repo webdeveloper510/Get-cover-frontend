@@ -34,6 +34,7 @@ import ForthActive from "../assets/images/side-bar/fourthDropdown.svg";
 import SeacondActive from "../assets/images/side-bar/220Active.svg";
 import lastActive from "../assets/images/side-bar/250active.svg";
 import { useLocation } from "react-router-dom";
+import { checkWordsExist } from "../utils/helper";
 
 function SidebarItem({
   item,
@@ -49,12 +50,9 @@ function SidebarItem({
   const [isActive, setIsActive] = useState(isActiveValue);
 
   const locationGet = useLocation();
-  
   useEffect(() => {
   
-    if (isActiveValue == false) {
-      const value = active === item.url;
-       console.log(value)
+    if (isActiveValue === false) {
       const CheckItemsActive = item?.items;
   
       if (CheckItemsActive) {
@@ -68,30 +66,36 @@ function SidebarItem({
       }
       setIsActive(active === item.url || expandedItem === item.name);
     } 
-    else{
-       console.log(item)
+    else {
       const CheckItemsActive = item?.items;
-  
       if (CheckItemsActive) {
         const childActive = CheckItemsActive.some(
           (element) => active === element.url
         );
   
         if (childActive) {
-          console.log('here',item.name)
           setExpandedItem(item.name);
         }
-        else{
-          // setExpandedItem(null);
-        }
-
+      }
+      setIsActive(active === item.url || expandedItem === item.name);
+  
     }
-    else{
-    
-     setIsActive(active === item.url || expandedItem === item.name);
-    }
- }
   }, [active, expandedItem, item, setExpandedItem, isActiveValue]);
+  const [activeUrl , setActiveUrl] = useState(false);
+  useEffect(()=>{
+    let urls = [item.url]
+    if(hasItems){
+      const urlsItem = item?.items?.map(i=>i.url) || [];
+      urls = [...urls,...urlsItem]
+    }
+
+    const itHasUrl = checkWordsExist(locationGet.pathname,urls)
+    if(itHasUrl)console.log("item=======>",item)
+    setActiveUrl(itHasUrl)
+  },[window.location.pathname])
+  
+  
+  
 
   const handleClick = () => {
     if (hasItems) {
@@ -111,23 +115,25 @@ function SidebarItem({
   return (
     <li
       className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
-        hasItems && isActive ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
+        isActive || activeUrl ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
       } ${expandedItem == item.name ? "active" : ""}`}
     >
       <Link
-        to={item.url}
+        to={hasItems?window.location.href:item.url}
         className={`flex cursor-pointer d-flex ps-[20px] relative z-[2] mb-[3px] py-[19px] pe-3 ${
-          isActive ? "bg-[#FFF] text-[#000] rounded-s-[30px]" : "text-light-grey"
+          activeUrl ? "bg-[#FFF] text-[#000] rounded-s-[30px]" : "text-light-grey"
         }`}
         onClick={handleClick}
       >
-        {isActive ? (
+        { activeUrl ? 
+        (
           <img
             src={item.active}
             className="w-[22px]  h-[22px]"
             alt={item.image}
           />
-        ) : (
+        ) : 
+        (
           <img
             src={item.image}
             className="w-[22px] h-[22px]"
@@ -145,7 +151,7 @@ function SidebarItem({
         </span>
         {hasItems && (
           <>
-            {isActive ? (
+            {activeUrl ? (
               <>
                 <img
                   src={Down}
@@ -177,7 +183,7 @@ function SidebarItem({
       {hasItems && (
         <ul
           className={`${
-            isActive || expandedItem === item.name ? "block" : "hidden"
+            activeUrl || expandedItem === item.name ? "block" : "hidden"
           }`}
         >
           {item.items.map((subItem, subIndex) => (
@@ -190,10 +196,8 @@ function SidebarItem({
                     : "text-light-grey"
                 }`}
                 onClick={() => {
-                  setExpandedItem(null);
                   onLinkClick(subItem.url, item.name);
-                  console.log(`Sub-Item link to ${subItem.url} clicked`,item,subIndex);
-                  setIsActive(active === item.url || expandedItem === item.name);
+                  console.log(`Sub-Item link to ${subItem.url} clicked`);
                 }}
               >
                 {active === subItem.url ? (
@@ -250,12 +254,12 @@ const Lists = [
     url: "/dashboard",
     image: DashboardImage,
     active: ActiveDashboard,
-    value:false,
   },
   {
     name: "Order",
     image: OrderImage,
-    active: ActiveOrder,value:false,
+    active: ActiveOrder,
+    url: "/orderList",
     items: [
       {
         name: "Order List",
@@ -281,12 +285,13 @@ const Lists = [
     name: "Contract",
     url: "/contractList",
     active: ActiveProduct,
-    image: ProductImage,value:false,
+    image: ProductImage,
   },
   {
     name: "Claim",
     image: ClaimImage,
-    active: ActiveClaim,value:false,
+    active: ActiveClaim,
+    url: "/claimList",
     items: [
       {
         name: "Claim Listing",
@@ -311,7 +316,8 @@ const Lists = [
   {
     name: "Dealer",
     image: DealerImage,
-    active: ActiveDealer,value:false,
+    active: ActiveDealer,
+    url: "/dealerList",
     items: [
       {
         name: "Dealer List",
@@ -336,7 +342,8 @@ const Lists = [
   {
     name: "Reseller",
     image: DealerImage,
-    active: ActiveDealer,value:false,
+    active: ActiveDealer,
+    url: "/resellerList",
     items: [
       {
         name: "Reseller List",
@@ -355,7 +362,8 @@ const Lists = [
   {
     name: "Customer",
     image: CustomerImage,
-    active: ActiveCustomer,value:false,
+    active: ActiveCustomer,
+    url: "/customerList",
     items: [
       {
         name: "Customer List",
@@ -375,7 +383,7 @@ const Lists = [
     name: "Servicer",
     image: ServicerImage,
     active: ActiveServicer,
-    value:false,
+    url: "/servicerList",
     items: [
       {
         name: "Servicer List",
@@ -400,7 +408,8 @@ const Lists = [
   {
     name: "Reporting",
     image: ReportImage,
-    active: ActiveReport,value:false,
+    active: ActiveReport,
+    url: "/sale",
     items: [
       {
         name: "Sale",
@@ -425,7 +434,8 @@ const Lists = [
   {
     name: "Price Book",
     image: PriceImage,
-    active: ActivePriceBook,value:false,
+    active: ActivePriceBook,
+    url: "/dealerPriceList",
     items: [
       {
         name: "Dealer Book",
@@ -457,7 +467,7 @@ const Lists = [
     name: "Manage Account",
     url: "/manageAccount",
     image: DashboardImage,
-    active: ActiveDashboard,value:false,
+    active: ActiveDashboard,
   },
 ];
 function SideBar() {
@@ -471,15 +481,13 @@ function SideBar() {
   const navigate = useNavigate();
 
   const handleLinkClick = (url, dropdownItem) => {
-    // console.log(url === "#",dropdownItem)
-    setActive(url);
+    setActive(url === "#" ? dropdownItem : url);
   };
 
   const handleToggleExpand = (itemName) => {
-   console.log(isActive,expandedItem,itemName)
-   setIsActive(itemName)
+     setIsActive(itemName)
     setExpandedItem((prevExpandedItem) =>
-     prevExpandedItem === itemName ? itemName : itemName
+     prevExpandedItem === itemName ? null : itemName
     );
   };
 
