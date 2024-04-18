@@ -76,8 +76,8 @@ function ResellerOrderList() {
   const [loading, setLoading] = useState(false);
 
   const status = [
-    { label: "Active", value: true },
-    { label: "Pending", value: false },
+    { label: "Active", value: "Active" },
+    { label: "Pending", value: "Pending" },
   ];
 
   const handleClickOutside = (event) => {
@@ -515,7 +515,7 @@ function ResellerOrderList() {
                   {...formik.getFieldProps("venderOrder")}
                 />
               </div>
-              <div className="col-span-6">
+              {/* <div className="col-span-6">
                 <Input
                   type="text"
                   id="serialNo"
@@ -524,7 +524,7 @@ function ResellerOrderList() {
                   placeholder=""
                   {...formik.getFieldProps("serialNo")}
                 />
-              </div>
+              </div> */}
 
               <div className="col-span-6">
                 <Input
