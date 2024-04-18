@@ -120,7 +120,8 @@ function ClaimList(props) {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+    setModelLoading(false);
   };
 
   useEffect(() => {
@@ -524,7 +525,7 @@ function ClaimList(props) {
       })
       .finally(() => {
         scrollToBottom()
-        setModelLoading(false);
+        
       });
   };
 

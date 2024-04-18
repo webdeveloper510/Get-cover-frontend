@@ -1794,7 +1794,7 @@ function AddOrder() {
                         />
                       </div>
                       <div className="col-span-4">
-                        <Select
+                        <Input
                           label="Terms"
                           name={`productsArray[${index}].term`}
                           placeholder=""
@@ -1802,7 +1802,7 @@ function AddOrder() {
                           className="!bg-[#fff]"
                           options={termList}
                           disabled={true}
-                          value={formikStep3.values.productsArray[index].term}
+                          value={formikStep3.values.productsArray[index].term + ' Months'}
                           onBlur={formikStep3.handleBlur}
                         />
                       </div>
