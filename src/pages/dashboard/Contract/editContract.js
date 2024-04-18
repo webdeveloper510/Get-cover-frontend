@@ -151,7 +151,7 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3 border-r border-[#4e4e4e]">
+                <div className="col-span-3 self-center border-r border-[#4e4e4e]">
                   <div className="flex">
                     <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
                       <img src={category1} className="w-6 h-6" alt="dealer" />
@@ -166,7 +166,7 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-3 self-center">
                   <div className="flex w-full border-r border-[#4e4e4e]">
                     <div className="self-center backdrop-blur  mr-4">
                       <img src={delaerName} alt="terms" />
@@ -181,7 +181,7 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3 self-center pt-2 ">
+                <div className="col-span-3 self-center ">
                   <div className="flex">
                     <div className="self-center backdrop-blur  mr-4">
                       <img src={Eligibility} alt="product" />
