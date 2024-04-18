@@ -72,6 +72,7 @@ function ClaimList(props) {
   const [loading, setLoading] = useState(false);
   const [modelLoading, setModelLoading] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [role, setRole] = useState(null);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
@@ -107,6 +108,8 @@ function ClaimList(props) {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
+    const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+    setRole(userDetails.role)
     if (location.pathname.includes("/dealer")) {
       setUserType("dealer");
     } else {
@@ -927,6 +930,7 @@ function ClaimList(props) {
     formik1.resetForm();
     getAllClaims();
   };
+  console.log(claimList, '++++++++++++++++_-------------------')
   return (
     <>
       <div className="mb-8 ml-3">
@@ -1389,6 +1393,7 @@ function ClaimList(props) {
                                       )}
                                     </p>
                                   </div>
+                                  {role == "Super Admin" && <>
                                   {claimStatus.status == "Rejected" ||
                                   claimStatus.status == "Completed" ? (
                                     <></>
@@ -1413,6 +1418,8 @@ function ClaimList(props) {
                                       />
                                     </div>
                                   )}
+                                  </>}
+                                 
                                 </div>
                                 <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                   <div className="bg-[#474747] w-[40%] rounded-s-lg">
@@ -1438,7 +1445,8 @@ function ClaimList(props) {
                                       )}
                                     </p>
                                   </div>
-                                  {claimStatus.status == "Rejected" ||
+                                  {selfServicer || role == "Super Admin" && <>
+                                    {claimStatus.status == "Rejected" ||
                                   claimStatus.status == "Completed" ? (
                                     <></>
                                   ) : (
@@ -1463,6 +1471,8 @@ function ClaimList(props) {
                                       />
                                     </div>
                                   )}
+                                  </>}
+                                 
                                 </div>
                               </div>
                               <div className="col-span-4 pt-2">
