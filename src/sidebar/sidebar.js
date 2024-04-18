@@ -187,7 +187,7 @@ function SidebarItem({
       {hasItems && (
         <ul
           className={`${
-            activeUrl || expandedItem === item.name ? "block" : "hidden"
+             expandedItem === item.name ? "block" : "hidden"
           }`}
         >
           {item.items.map((subItem, subIndex) => (
@@ -480,6 +480,12 @@ function SideBar() {
   const location = useLocation();
   const [active, setActive] = useState(location.pathname);
   const [expandedItem, setExpandedItem] = useState(active);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // State to manage the visibility of the sidebar
+  // other state and functions...
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen); // Toggle the state when the button is clicked
+  };
   const [isActive, setIsActive] = useState(false);
   const [userType, setUserType] = useState(
     JSON.parse(localStorage.getItem("userDetails"))
@@ -492,10 +498,10 @@ console.log('active---------------->>', active )
   };
 
   const handleToggleExpand = (itemName) => {
-     setIsActive(itemName)
     setExpandedItem((prevExpandedItem) =>
-     prevExpandedItem === itemName ? null : itemName
+      prevExpandedItem === itemName ? null : itemName
     );
+    setIsSidebarOpen(true); // Ensure the sidebar is open when expanding an item
   };
 
   const handleLogOut = () => {
