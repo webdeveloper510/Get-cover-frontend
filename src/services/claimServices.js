@@ -259,6 +259,20 @@ export const editClaimServicerValue = async (id, data) => {
   }
 };
 
+export const editClaimTypeValue = async (id, data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.put(`${url}/claim/editClaimType/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const markasPaidClaims = async (data) => {
   const headers = createHeaders();
   let claimIds = data;
@@ -302,7 +316,7 @@ export const getClaimUnpaid = async (claimIds) => {
   try {
     const response = await axios.post(
       `${url}/claim/getUnpaidAmount`,
-      {claimIds},
+      { claimIds },
       {
         headers,
       }
