@@ -397,7 +397,7 @@ function AddReseller() {
               // className="!bg-white"
               required={true}
               onChange={handleSelectChange}
-              disabled={dealerValueId != undefined ? true : false}
+              isDisabled={dealerValueId != undefined ? true : false}
               options={dealerList}
               value={formik.values.dealerName}
               onBlur={formik.handleBlur}

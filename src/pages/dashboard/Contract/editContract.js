@@ -136,7 +136,7 @@ function EditContract() {
           <>
             <div className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
               <Grid className="mx-8 mx-auto ">
-                <div className="col-span-3 self-center border-r border-[#4e4e4e]">
+                <div className="col-span-3 self-center py-2 border-r border-[#4e4e4e]">
                   <div className="flex">
                     <div className="self-center backdrop-blur mr-4">
                       <img src={contract} alt="category" />
@@ -151,9 +151,9 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3 self-center border-r border-[#4e4e4e]">
+                <div className="col-span-3 self-center py-2 border-r border-[#4e4e4e]">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-[17px] p-3 mr-4">
                       <img src={category1} className="w-6 h-6" alt="dealer" />
                     </div>
                     <div className="self-center">
@@ -167,7 +167,7 @@ function EditContract() {
                   </div>
                 </div>
                 <div className="col-span-3 self-center">
-                  <div className="flex w-full border-r border-[#4e4e4e]">
+                  <div className="flex w-full py-2 border-r border-[#4e4e4e]">
                     <div className="self-center backdrop-blur  mr-4">
                       <img src={delaerName} alt="terms" />
                     </div>
@@ -198,9 +198,9 @@ function EditContract() {
                 </div>
                 
               </Grid>
-              <Grid className="mx-8 mt-2  mx-auto ">
-              <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                  <div className="flex border-r border-[#4e4e4e]">
+              <Grid className="mx-8  mx-auto border-t border-[#4e4e4e]">
+              <div className="col-span-3 self-center">
+                  <div className="flex py-2 border-r border-[#4e4e4e]">
                     <div className="self-center backdrop-blur  mr-4">
                       <img src={delaerName} alt="product" />
                     </div>
@@ -214,8 +214,8 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                  <div className="flex w-full border-r border-[#4e4e4e]">
+                <div className="col-span-3 self-center ">
+                  <div className="flex w-full py-2 border-r border-[#4e4e4e]">
                     <div className="self-center backdrop-blur  mr-4">
                       <img src={delaerName} alt="terms" />
                     </div>
@@ -229,8 +229,8 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                  <div className="flex w-full border-r border-[#4e4e4e]">
+                <div className="col-span-3 self-center">
+                  <div className="flex w-full py-2 border-r border-[#4e4e4e]">
                     <div className="self-center backdrop-blur  mr-4">
                       <img src={CustomerName} alt="category" />
                     </div>
@@ -244,8 +244,8 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                  <div className="flex w-full ">
+                <div className="col-span-3 self-center">
+                  <div className="flex w-full py-2">
                     <div className="self-center backdrop-blur   mr-4">
                       <img src={ServicerName} alt="dealer" />
                     </div>
@@ -261,9 +261,9 @@ function EditContract() {
                 </div>
                
               </Grid>
-              <Grid className="mx-8 mt-2  mx-auto ">
-                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                  <div className="flex w-full border-r border-[#4e4e4e]">
+              <Grid className="mx-8  mx-auto border-t border-[#4e4e4e] ">
+                <div className="col-span-3 self-center">
+                  <div className="flex w-full py-2 border-r border-[#4e4e4e]">
                     <div className="self-center backdrop-blur  mr-4">
                       <img src={CustomerName} alt="category" />
                     </div>
@@ -283,8 +283,8 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                  <div className="flex w-full border-r border-[#4e4e4e]">
+                <div className="col-span-3 self-center">
+                  <div className="flex w-full py-2 border-r border-[#4e4e4e]">
                     <div className="self-center backdrop-blur   mr-4">
                       <img src={ServicerName} alt="dealer" />
                     </div>
@@ -304,8 +304,8 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
-                  <div className="flex w-full border-r border-[#4e4e4e]">
+                <div className="col-span-3 self-center">
+                  <div className="flex w-full py-2 border-r border-[#4e4e4e]">
                     <div className="self-center backdrop-blur  mr-4">
                       <img src={claim} alt="terms" />
                     </div>
@@ -321,7 +321,7 @@ function EditContract() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
+                <div className="col-span-3 self-center py-2">
                   <div className="flex">
                     <div className="self-center backdrop-blur  mr-4">
                       <img src={Eligibility} alt="product" />

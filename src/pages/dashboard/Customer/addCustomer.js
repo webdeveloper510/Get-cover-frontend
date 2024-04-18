@@ -438,7 +438,7 @@ function AddCustomer() {
                 placeholder=""
                 required={true}
                 onChange={handleSelectChange}
-                disabled={dealerValueId != undefined ? true : false}
+                isDisabled={dealerValueId != undefined ? true : false}
                 options={dealerList}
                 value={formik.values.dealerName}
                 onBlur={formik.handleBlur}
@@ -456,7 +456,7 @@ function AddCustomer() {
                   label="Reseller Name"
                   name="resellerName"
                   placeholder=""
-                  disabled={typeofUser == "reseller"}
+                  isDisabled={typeofUser == "reseller"}
                   onChange={handleSelectChange}
                   options={resellerList}
                   value={formik.values.resellerName}
