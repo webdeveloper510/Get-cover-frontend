@@ -1445,7 +1445,7 @@ function ClaimList(props) {
                                       )}
                                     </p>
                                   </div>
-                                  {selfServicer || role == "Super Admin" && <>
+                                  {res?.selfServicer == true || role == "Super Admin" && <>
                                     {claimStatus.status == "Rejected" ||
                                   claimStatus.status == "Completed" ? (
                                     <></>
