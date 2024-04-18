@@ -264,7 +264,7 @@ const Lists = [
     name: "Order",
     image: OrderImage,
     active: ActiveOrder,
-    url: "/orderList",
+    // url: "/orderList",
     items: [
       {
         name: "Order List",
@@ -296,7 +296,7 @@ const Lists = [
     name: "Claim",
     image: ClaimImage,
     active: ActiveClaim,
-    url: "/claimList",
+    // url: "/claimList",
     items: [
       {
         name: "Claim Listing",
@@ -322,7 +322,7 @@ const Lists = [
     name: "Dealer",
     image: DealerImage,
     active: ActiveDealer,
-    url: "/dealerList",
+    // url: "/dealerList",
     items: [
       {
         name: "Dealer List",
@@ -348,7 +348,7 @@ const Lists = [
     name: "Reseller",
     image: DealerImage,
     active: ActiveDealer,
-    url: "/resellerList",
+    // url: "/resellerList",
     items: [
       {
         name: "Reseller List",
@@ -368,7 +368,7 @@ const Lists = [
     name: "Customer",
     image: CustomerImage,
     active: ActiveCustomer,
-    url: "/customerList",
+    // url: "/customerList",
     items: [
       {
         name: "Customer List",
@@ -388,7 +388,7 @@ const Lists = [
     name: "Servicer",
     image: ServicerImage,
     active: ActiveServicer,
-    url: "/servicerList",
+    // url: "/servicerList",
     items: [
       {
         name: "Servicer List",
@@ -414,7 +414,7 @@ const Lists = [
     name: "Reporting",
     image: ReportImage,
     active: ActiveReport,
-    url: "/sale",
+    // url: "/sale",
     items: [
       {
         name: "Sale",
@@ -440,7 +440,7 @@ const Lists = [
     name: "Price Book",
     image: PriceImage,
     active: ActivePriceBook,
-    url: "/dealerPriceList",
+    // url: "/dealerPriceList",
     items: [
       {
         name: "Dealer Book",
@@ -501,7 +501,7 @@ console.log('active---------------->>', active )
     setExpandedItem((prevExpandedItem) =>
       prevExpandedItem === itemName ? null : itemName
     );
-    setIsSidebarOpen(true); // Ensure the sidebar is open when expanding an item
+    setIsSidebarOpen(true);
   };
 
   const handleLogOut = () => {
