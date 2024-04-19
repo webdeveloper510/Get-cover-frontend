@@ -320,7 +320,7 @@ function Account() {
         setTimer(3);
         setIsModalOpen1(false);
         setIsUserModalOpen(false);
-        // getUserList();
+        userValues.resetForm();
       } else {
         setLoading(false);
         if (result.code === 401) {

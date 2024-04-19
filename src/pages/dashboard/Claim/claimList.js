@@ -732,9 +732,9 @@ function ClaimList(props) {
   };
 
   const Claimstatus = [
-    { label: "Open", value: "open" },
-    { label: "Completed", value: "completed" },
-    { label: "Rejected", value: "rejected" },
+    { label: "Open", value: "Open" },
+    { label: "Completed", value: "Completed" },
+    { label: "Rejected", value: "Rejected" },
   ];
 
   useEffect(() => {
@@ -1060,7 +1060,7 @@ function ClaimList(props) {
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
                   claimList?.result?.map((res, index) => {
-                    // console.log(res);
+                   
                     return (
                       <CollapsibleDiv
                         index={index}
@@ -1432,7 +1432,7 @@ function ClaimList(props) {
                                     onClick={handleToggleDropdown1}
                                   >
                                     <p className="text-white text-sm">
-                                      {repairStatus.status}
+                                      {repairStatus.status} 
                                     </p>
                                     <p className="text-light-green">
                                       {format(
@@ -1444,33 +1444,63 @@ function ClaimList(props) {
                                         "MM/dd/yyyy"
                                       )}
                                     </p>
+                                   
                                   </div>
-                                  {res?.selfServicer == true || role == "Super Admin" && <>
-                                    {claimStatus.status == "Rejected" ||
-                                  claimStatus.status == "Completed" ? (
+                                  {res?.selfServicer === true && 
+                                   <>
+                                    { claimStatus.status == "Rejected" ||
+                                       claimStatus.status == "Completed" ? (
                                     <></>
-                                  ) : (
-                                    <div
-                                      className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                      ref={dropdownRef}
-                                      onClick={handleToggleDropdown1}
-                                    >
-                                      <Select
-                                        name="repairStatus"
-                                        label=""
-                                        value={repairStatus.status}
-                                        onChange={handleSelectChange}
-                                        disabled={
-                                          claimStatus.status == "Rejected" ||
-                                          claimStatus.status == "Completed"
-                                        }
-                                        white
-                                        className1="!border-0 !text-[#333333]"
-                                        options={repairValue}
-                                        visible={dropdownVisible}
-                                      />
-                                    </div>
-                                  )}
+                                    ) : (
+                                      <div
+                                        className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                        ref={dropdownRef}
+                                        onClick={handleToggleDropdown1}
+                                      >
+                                        <Select
+                                          name="repairStatus"
+                                          label=""
+                                          value={repairStatus.status}
+                                          onChange={handleSelectChange}
+                                          disabled={
+                                            claimStatus.status == "Rejected" ||
+                                            claimStatus.status == "Completed"
+                                          }
+                                          white
+                                          className1="!border-0 !text-[#333333]"
+                                          options={repairValue}
+                                          visible={dropdownVisible}
+                                        />
+                                      </div>
+                                    )}
+                                  </>}
+                                  {role == "Super Admin" && 
+                                   <>
+                                    { claimStatus.status == "Rejected" ||
+                                       claimStatus.status == "Completed" ? (
+                                    <></>
+                                    ) : (
+                                      <div
+                                        className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                        ref={dropdownRef}
+                                        onClick={handleToggleDropdown1}
+                                      >
+                                        <Select
+                                          name="repairStatus"
+                                          label=""
+                                          value={repairStatus.status}
+                                          onChange={handleSelectChange}
+                                          disabled={
+                                            claimStatus.status == "Rejected" ||
+                                            claimStatus.status == "Completed"
+                                          }
+                                          white
+                                          className1="!border-0 !text-[#333333]"
+                                          options={repairValue}
+                                          visible={dropdownVisible}
+                                        />
+                                      </div>
+                                    )}
                                   </>}
                                  
                                 </div>
