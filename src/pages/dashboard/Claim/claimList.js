@@ -1235,7 +1235,7 @@ function ClaimList(props) {
                               </>
                             ))}
                           <div className="col-span-12 ">
-                            <Grid className="">
+                            <Grid className="!gap-2">
                               <div className="col-span-4 py-4 pl-1 ">
                                 <div className="bg-[#3C3C3C] py-2 px-2">
                                   <p className="text-light-green mb-3 text-[11px] font-Regular ">
