@@ -695,7 +695,7 @@ function DealerPriceList() {
                       className="!bg-[#fff]"
                       label="Category"
                       options={categoryList}
-                        OptionName="Category"
+                      OptionName="Category"
                       placeholder=""
                       value={formik.values.category}
                         onChange={formik.setFieldValue}

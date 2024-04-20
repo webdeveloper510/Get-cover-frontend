@@ -1260,7 +1260,7 @@ function DealerDetails() {
                     onChange={handleServiceChange}
                   />
                 </p>
-                {/* <p className="text-light-black flex text-[11px] font-semibold">
+                <p className="text-light-black flex text-[11px] font-semibold">
                   <span className="w-[60%]">
                     {" "}
                     Do you want to create separate account for customer?{" "}
@@ -1281,7 +1281,7 @@ function DealerDetails() {
                     checked={separateAccountOption === "no"}
                     onChange={handleSeparateAccountRadioChange}
                   />
-                </p> */}
+                </p>
               </div>
               <div className="col-span-4">
                 <Button

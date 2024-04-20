@@ -261,14 +261,7 @@ function Dealer() {
   };
 
   const getProductList = async () => {
-    const result = await getCategoryListActiveData();
-    console.log(result.result);
-    setCategoryList(
-      result.result.map((item) => ({
-        label: item.name,
-        value: item._id,
-      }))
-    );
+    
   };
 
   const handleServiceChange = (event) => {
@@ -405,6 +398,19 @@ function Dealer() {
   ];
   const handleSelectChange1 = (name, value) => {
     formik.setFieldValue(name, value);
+   
+  };
+  const handleSelectChange2 = async (name, value) => {
+    formik.setFieldValue(name, value);
+    const result = await getCategoryListActiveData({coverageType: value});
+    console.log(result.result);
+    setCategoryList(
+      result.result.map((item) => ({
+        label: item.name,
+        value: item._id,
+      }))
+    );
+
   };
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const formik = useFormik({
@@ -880,7 +886,7 @@ function Dealer() {
                           placeholder=""
                           className="!bg-white"
                           required={true}
-                          onChange={handleSelectChange1}
+                          onChange={handleSelectChange2}
                           options={coverage}
                           value={formik.values.coverageType}
                           onBlur={formik.handleBlur}

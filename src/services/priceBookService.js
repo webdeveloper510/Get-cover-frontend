@@ -52,12 +52,13 @@ export const getCategoryList = async (fitervalue) => {
   }
 };
 
-export const getCategoryListActiveData = async (id) => {
+export const getCategoryListActiveData = async (value, id, ) => {
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `${url}/price/getActivePriceBookCategories?priceBookId=${id}`,
+      value,
       { headers }
     );
 

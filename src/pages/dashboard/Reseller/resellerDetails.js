@@ -73,8 +73,7 @@ function ResellerDetails() {
   const [isStatus, setIsStatus] = useState(false);
   const [resellerStatus, setResellerStatus] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
-  const [createServicerAccountOption, setServicerCreateAccountOption] =
-  useState(false);
+  const [createServicerAccountOption, setServicerCreateAccountOption] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [createAccount, setCreateAccount] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
@@ -116,6 +115,7 @@ function ResellerDetails() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setServicerCreateAccountOption(resellerDetail.resellerData?.isServicer)
     formik.resetForm();
   };
   const closeModal10 = () => {
@@ -907,7 +907,7 @@ function ResellerDetails() {
       </div>
 
       {/* Modal Email Popop */}
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
+      <Modal isOpen={isModalOpen} className="!w-[730px]"  onClose={closeModal}>
         <div className="p-8">
           <p className="text-3xl text-center font-semibold mb-4">
             Edit Reseller Details
@@ -1034,7 +1034,7 @@ function ResellerDetails() {
                 </div>
               </div>
               <div className="col-span-6">
-              <p className="text-light-black flex text-[10px] mb-3 mt-2 font-semibold ">
+              <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
                   Do you want to create an account?
                   <RadioButton
                     id="yes-create-account"
@@ -1051,7 +1051,7 @@ function ResellerDetails() {
                     onChange={handleAccountChange}
                   />
                 </p>
-              <p className="text-light-black flex text-[10px] mb-7 font-semibold self-center">
+              <p className="text-light-black flex text-[11px] mb-7 font-semibold self-center">
                   {" "}
                   <span className="mr-[2px]">
                     {" "}
@@ -1061,7 +1061,7 @@ function ResellerDetails() {
                     id="yes"
                     label="Yes"
                     value={true}
-                    // disabled={dealerDetails.dealerData?.isServicer === true}
+                    disabled={createServicerAccountOption === true}
                     checked={createServicerAccountOption === true}
                     onChange={handleServiceChange}
                   />
@@ -1069,7 +1069,7 @@ function ResellerDetails() {
                     id="no"
                     label="No"
                     value={false}
-                    // disabled={dealerDetails.dealerData?.isServicer === true}
+                    disabled={createServicerAccountOption === true}
                     checked={createServicerAccountOption === false}
                     onChange={handleServiceChange}
                   />

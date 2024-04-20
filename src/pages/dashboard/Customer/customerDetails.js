@@ -61,6 +61,7 @@ function CustomerDetails() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [createAccount, setCreateAccount] = useState(false);
   const [timer, setTimer] = useState(3);
   const { customerId } = useParams();
   const [initialFormValues, setInitialFormValues] = useState({
@@ -134,8 +135,9 @@ function CustomerDetails() {
   };
   const getUserList = async () => {
     const result = await getUserListByCustomerId({}, customerId);
-    console.log(result.result, "----------");
+    console.log(result, "----------");
     setRefreshUserList(result.result);
+    setCreateAccount(result.isAccountCreate)
   };
   const userValues = useFormik({
     initialValues: initialUserFormValues,
@@ -297,8 +299,9 @@ function CustomerDetails() {
     console.log(customerId);
     const result = await getCustomerDetailsById(customerId);
     setCustomerDetail(result.result);
+   
     setIsStatus(result.result.dealerStatus);
-    console.log(result.result);
+    console.log(result, ' --------- ????????');
     setInitialFormValues({
       username: result?.result?.meta?.username,
       oldName: result?.result?.meta?.username,
@@ -314,7 +317,11 @@ function CustomerDetails() {
   useEffect(() => {
     localStorage.setItem("customer", activeTab);
   }, [activeTab]);
-
+  const handleAccountChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    setCreateAccount(valueAsBoolean);
+    formik.setFieldValue("isAccountCreate", valueAsBoolean);
+  };
   const tabs = [
     {
       id: "Orders",
@@ -966,6 +973,25 @@ function CustomerDetails() {
                     error={formik.touched.country && formik.errors.country}
                     disabled
                   />
+                </div>
+                <div className="col-span-12">
+              <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
+                  Do you want to create an account?
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value={true}
+                    checked={createAccount === true}
+                    onChange={handleAccountChange}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value={false}
+                    checked={createAccount === false}
+                    onChange={handleAccountChange}
+                  />
+                </p>
                 </div>
                 <div className="col-span-4">
                   <Button

@@ -40,6 +40,8 @@ function AddCompanyPriceBook() {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   console.log(id);
+
+
   const pricetype = [
     { label: "Regular Pricing", value: "Regular Pricing" },
     { label: "Flat Pricing", value: "Flat Pricing" },
@@ -286,6 +288,7 @@ function AddCompanyPriceBook() {
               reserveFutureFee: result?.result?.reserveFutureFee?.toFixed(2),
               adminFee: result?.result?.adminFee?.toFixed(2),
               status: result.result.status,
+              coverageType:result.result.coverageType,
               priceType: result.result.priceType,
               rangeStart: result?.result?.rangeStart?.toFixed(2),
               rangeEnd: result?.result?.rangeEnd?.toFixed(2),
@@ -385,6 +388,7 @@ function AddCompanyPriceBook() {
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
+
   const coverage = [
     { label: "Breakdown", value: "Breakdown" },
     { label: "Accidental", value: "Accidental" },
@@ -499,7 +503,7 @@ function AddCompanyPriceBook() {
                 </p>
               )}
               <Grid
-                className={`${type == "Edit" ? "!grid-cols-5" : "!grid-cols-4"
+                className={`${type == "Edit" ? "!grid-cols-3" : "!grid-cols-4"
                   } `}
               >
                 <div className="col-span-1">
@@ -596,7 +600,11 @@ function AddCompanyPriceBook() {
                     className="!bg-[#fff]"
                     options={coverage}
                     value={
-                       formik.values.coverageType                       
+                      (
+                        coverage.find(
+                          (option) => option.value === formik.values.coverageType
+                        ) || {}
+                      ).value || ""
                     }
                     onBlur={formik.handleBlur}
                     error={

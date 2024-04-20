@@ -96,7 +96,7 @@ function AddDealerBook() {
       setType("Add");
     }
     dealerList();
-    getProductList();
+    // getProductList();
   }, []);
 
   useEffect(() => {
@@ -113,16 +113,16 @@ function AddDealerBook() {
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
 
-  const getProductList = async () => {
-    const result = await getCategoryListActiveData();
-    // console.log(result.result);
-    setCategoryList(
-      result.result.map((item) => ({
-        label: item.name,
-        value: item._id,
-      }))
-    );
-  };
+  // const getProductList = async () => {
+  //   const result = await getCategoryListActiveData();
+  //   // console.log(result.result);
+  //   setCategoryList(
+  //     result.result.map((item) => ({
+  //       label: item.name,
+  //       value: item._id,
+  //     }))
+  //   );
+  // };
   const handleLinkClick = () => {
     if (dealerIdValue !== undefined) {
       console.log("Navigating to /dealerDetails/" + dealerIdValue);
@@ -139,6 +139,20 @@ function AddDealerBook() {
   };
   const handleSelectChange = async (name, value) => {
     setError("");
+    if (name === "dealerId") {
+      formik.setValues({
+        ...formik.values,
+        dealerId: "",
+      });
+      const result = await getCategoryListActiveData({dealerId: value});
+    // console.log(result.result);
+    setCategoryList(
+      result.result.map((item) => ({
+        label: item.name,
+        value: item._id,
+      }))
+    );
+    }
     if (name === "categoryId") {
       formik.setValues({
         ...formik.values,
