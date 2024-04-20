@@ -923,15 +923,16 @@ function ClaimList(props) {
   };
   const [checkboxStates, setCheckboxStates] = useState([]);
 
-  const handleCheckboxChange = (id) => {
-    const isChecked = checkboxStates.includes(id);
+  const handleCheckboxChange = (data) => {
+    console.log(data._id , '----------')
+    const isChecked = checkboxStates.includes(data);
     if (isChecked) {
       const newCheckboxStates = checkboxStates.filter(
-        (checkboxId) => checkboxId !== id
+        (checkboxId) => checkboxId !== data._id
       );
       setCheckboxStates(newCheckboxStates);
     } else {
-      setCheckboxStates([...checkboxStates, id]);
+      setCheckboxStates([...checkboxStates, data.id]);
     }
     console.log("checkboxStates", checkboxStates);
   };
@@ -1184,7 +1185,7 @@ function ClaimList(props) {
                                     type="checkbox"
                                     className="dark:text-gray-300 font-medium h-4 mt-[6px] py-4 text-gray-900 text-sm w-4"
                                     onChange={() =>
-                                      handleCheckboxChange(res._id)
+                                      handleCheckboxChange(res)
                                     }
                                     checked={checkboxStates.includes(res._id)}
                                   />
