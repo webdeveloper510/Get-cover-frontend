@@ -83,6 +83,7 @@ function DealerDetails() {
   const [dealerDetails, setDealerDetails] = useState([]);
   const [createServicerAccountOption, setServicerCreateAccountOption] =
     useState(false);
+    const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [separateAccountOption, setSeparateAccountOption] = useState("yes");
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
@@ -94,7 +95,6 @@ function DealerDetails() {
   const [flagValue, setFlagValue] = useState(false);
   const navigate = useNavigate();
   const { servicerId } = useParams();
-  const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [createAccount, setCreateAccount] = useState(false);
   const [shipping, setShipping] = useState("yes");
   const inputRef = useRef(null);
@@ -278,6 +278,7 @@ function DealerDetails() {
       isAccountCreate: result?.result[0]?.dealerData?.isAccountCreate,
     });
     setServicerCreateAccountOption(result?.result[0]?.dealerData?.isServicer);
+    setCreateAccount(result?.result[0]?.dealerData?.isAccountCreate);
     setSelectedFile2(result?.result[0]?.dealerData?.termCondition);
     setCreateAccountOption(
       result?.result[0]?.dealerData?.isAccountCreate === false ? "no" : "yes"
@@ -285,7 +286,6 @@ function DealerDetails() {
     setShipping(
       result?.result[0]?.dealerData?.isShippingAllowed === false ? "no" : "yes"
     );
-    setCreateAccount(result?.result[0]?.dealerData?.isAccountCreate);
     setLoading(false);
   };
 

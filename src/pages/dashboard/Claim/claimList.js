@@ -747,12 +747,10 @@ function ClaimList(props) {
     }
   }, [props]);
 
-  const state = [
-    { label: "Admin", value: "Admin" },
-    { label: "Dealer", value: "Dealer" },
-    { label: "Reseller", value: "Reseller" },
-    { label: "Servicer", value: "Servicer" },
-    { label: "Customer", value: "Customer" },
+  const tracker = [
+    { label: "UPS", value: "ups" },
+    { label: "USPS", value: "usps" },
+    { label: "FedX", value: "fedx" },
   ];
 
   const claim = [
@@ -1272,6 +1270,7 @@ function ClaimList(props) {
                                           claimStatus.status == "Completed"
                                         }
                                         onChange={handleSelectChange}
+                                        OptionName='Servicer'
                                         white
                                         className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
                                         classBox="w-[55%]"
@@ -1295,21 +1294,34 @@ function ClaimList(props) {
                                           onChange={handleSelectChange}
                                           white
                                           options={claim}
+                                          OptionName='Claim Type'
                                           className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
                                           classBox="w-[55%]"
                                         />
                                       </p>
                                       <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                        <span className="self-center  mr-3">
-                                          Damage Code :
+                                        <span className="self-center  mr-[2.60rem]">
+                                          Shipment :
                                         </span>
                                         <Select
-                                          name="claimType"
+                                          name="tracker"
                                           label=""
+                                          value={claimType.bdAdh}
+                                          onChange={handleSelectChange}
                                           white
-                                          options={state}
-                                          className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                          classBox="w-[55%]"
+                                          OptionName='Tracker'
+                                          options={tracker}
+                                          className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[25%]"
+                                        />
+                                        <Input
+                                          name="traker"
+                                          label=""
+                                          placeholder='Enter Traker #'
+                                          white
+                                          // options={state}
+                                          className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[40%]"
                                         />
                                       </p>
                                     </>

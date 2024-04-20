@@ -137,7 +137,7 @@ function CustomerList() {
     },
     {
       name: "Phone #",
-      selector: (row) => formatPhoneNumber(row.phoneNumber),
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
       sortable: true,
       style: { whiteSpace: 'pre-wrap' },
     },

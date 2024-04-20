@@ -52,6 +52,7 @@ function AddCompanyPriceBook() {
       priceCatId: "",
       name: "",
       description: "",
+      coverageType: "",
       term: "",
       frontingFee: "",
       reinsuranceFee: "",
@@ -384,7 +385,11 @@ function AddCompanyPriceBook() {
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
-
+  const coverage = [
+    { label: "Breakdown", value: "Breakdown" },
+    { label: "Accidental", value: "Accidental" },
+    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+  ];
   const defaultValue = formik.values.status === "" ? false : true;
   const handleGOBack = () => {
     navigate(-1);
@@ -494,7 +499,7 @@ function AddCompanyPriceBook() {
                 </p>
               )}
               <Grid
-                className={`${type == "Edit" ? "!grid-cols-4" : "!grid-cols-5"
+                className={`${type == "Edit" ? "!grid-cols-5" : "!grid-cols-4"
                   } `}
               >
                 <div className="col-span-1">
@@ -581,27 +586,32 @@ function AddCompanyPriceBook() {
                   </div>
                 )}
 
-                <div className="col-span-2">
-                  <Input
-                    type="text"
-                    name="description"
-                    className="!bg-[#fff]"
-                    label="Description "
-                    maxLength={100}
+                <div className="col-span-1">
+                <Select
+                    label="Coverage Type "
+                    name="coverageType"
                     placeholder=""
+                    onChange={handleSelectChange}
                     required={true}
-                    onChange={formik.handleChange}
+                    className="!bg-[#fff]"
+                    options={coverage}
+                    value={
+                       formik.values.coverageType                       
+                    }
                     onBlur={formik.handleBlur}
-                    value={formik.values.description}
+                    error={
+                      formik.touched.coverageType && formik.errors.coverageType
+                    }
                   />
-                  {formik.touched.description && formik.errors.description && (
+
+                  {formik.touched.coverageType && formik.errors.coverageType && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.description}
+                      {formik.errors.coverageType}
                     </div>
                   )}
                 </div>
               </Grid>
-              <Grid className="!grid-cols-6 mt-5">
+              <Grid className="!grid-cols-4 mt-5">
                 <div className="col-span-1">
                   <Input
                     type="number"
@@ -712,7 +722,25 @@ function AddCompanyPriceBook() {
                     </div>
                   )}
                 </div>
-
+                <div className="col-span-2">
+                  <Input
+                    type="text"
+                    name="description"
+                    className="!bg-[#fff]"
+                    label="Description "
+                    maxLength={100}
+                    placeholder=""
+                    required={true}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.description}
+                  />
+                  {formik.touched.description && formik.errors.description && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.description}
+                    </div>
+                  )}
+                </div>
                 {type == "Edit" ? (
                   <></>
                 ) : (

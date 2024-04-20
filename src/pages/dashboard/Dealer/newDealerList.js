@@ -182,7 +182,7 @@ function NewDealerList() {
     },
     {
       name: "Phone #",
-      selector: (row) =>formatPhoneNumber(row.phoneNumber),
+      selector: (row) =>"+1 " + formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -334,7 +334,7 @@ function NewDealerList() {
                     <div className="col-span-3 self-center">
                       <Input
                         name="phoneNumber"
-                        type="tel"
+                        type="number"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""

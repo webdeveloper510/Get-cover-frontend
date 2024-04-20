@@ -152,7 +152,7 @@ function DealerResellerList() {
     },
     {
       name: "Phone No.",
-      selector: (row) => formatPhoneNumber(row.phoneNumber),
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {

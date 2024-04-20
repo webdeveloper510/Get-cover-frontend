@@ -483,7 +483,7 @@ function Account() {
     },
     {
       name: "Phone #",
-      selector: (row) => formatPhoneNumber(row?.phoneNumber),
+      selector: (row) => "+1 " + formatPhoneNumber(row?.phoneNumber),
       // sortable: true,
     },
     {

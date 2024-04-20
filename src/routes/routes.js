@@ -764,7 +764,7 @@ const routes = [
       {
         path: "/reseller/claim",
         element: (
-          <PrivateRoute element={<ResellerClaims />} path="/reseller/claim" />
+          <PrivateRoute element={<ClaimList />} />
         ),
       },
       {
@@ -832,7 +832,7 @@ const routes = [
         path: "/customer/claimList",
         element: (
           <PrivateRoute
-            element={<CustomerClaimList />}
+            element={<ClaimList />}
             path="/customer/claimList"
           />
         ),

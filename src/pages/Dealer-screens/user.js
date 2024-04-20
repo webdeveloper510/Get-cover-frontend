@@ -490,7 +490,7 @@ function DealerUser() {
     },
     {
       name: "Phone Number",
-      selector: (row) => formatPhoneNumber(row.phoneNumber),
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
       // sortable: true,
     },
     {
@@ -850,7 +850,7 @@ function DealerUser() {
                   </div>}
                 
                   <p className="text-xl font-semibold mb-3">Users List</p>
-                  <Grid className="!p-[2px] !pt-[14px] !pb-0">
+                  {/* <Grid className="!p-[2px] !pt-[14px] !pb-0">
                     <div className="col-span-3 self-center"></div>
                     <div className="col-span-9">
                       <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
@@ -946,7 +946,7 @@ function DealerUser() {
                         </form>
                       </div>
                     </div>
-                  </Grid>
+                  </Grid> */}
                   <DataTable
                     columns={primary ? columns : columns1}
                     data={userList}

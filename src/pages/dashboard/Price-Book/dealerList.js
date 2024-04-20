@@ -412,15 +412,17 @@ function DealerPriceList() {
                 <form onSubmit={formik.handleSubmit}>
                   <Grid className="!grid-cols-9">
                     <div className="col-span-2 self-center">
-                      <Input
+                      <Select
                         name="category"
                         type="text"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 !pb-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
-                        placeholder="Category"
+                        options={categoryList}
+                        OptionName="Category"
+                        placeholder=""
                         value={formik.values.category}
-                        onChange={formik.handleChange}
+                        onChange={handleSelectChange}
                       />
                     </div>
                     <div className="col-span-2 self-center">
@@ -687,14 +689,16 @@ function DealerPriceList() {
                     />
                   </div>
                       <div className="col-span-6">
-                      <Input
+                      <Select
                       type="text"
                       name="category"
                       className="!bg-[#fff]"
                       label="Category"
+                      options={categoryList}
+                        OptionName="Category"
                       placeholder=""
                       value={formik.values.category}
-                        onChange={formik.handleChange}
+                        onChange={formik.setFieldValue}
                         onBlur={formik.handleBlur}
                     />
                     </div>

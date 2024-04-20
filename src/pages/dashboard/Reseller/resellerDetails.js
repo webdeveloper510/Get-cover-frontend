@@ -73,7 +73,10 @@ function ResellerDetails() {
   const [isStatus, setIsStatus] = useState(false);
   const [resellerStatus, setResellerStatus] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [createServicerAccountOption, setServicerCreateAccountOption] =
+  useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [createAccount, setCreateAccount] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [resellerDetail, setResllerDetails] = useState([]);
   const [firstMessage, setFirstMessage] = useState("");
@@ -190,6 +193,8 @@ function ResellerDetails() {
     setResllerDetails(result.reseller[0]);
     setIsStatus(result?.dealerStatus);
     setResellerStatus(result?.reseller[0].status);
+    setServicerCreateAccountOption(result?.reseller[0]?.resellerData?.isServicer);
+    setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
     setInitialFormValues({
       accountName: result?.reseller[0]?.resellerData?.name,
       oldName: result?.reseller[0]?.resellerData?.name,
@@ -198,6 +203,7 @@ function ResellerDetails() {
       city: result?.reseller[0]?.resellerData?.city,
       zip: result?.reseller[0]?.resellerData?.zip,
       state: result?.reseller[0]?.resellerData?.state,
+      
       country: "USA",
     });
     setLoading(false);
@@ -579,7 +585,17 @@ function ResellerDetails() {
 
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
+  const handleServiceChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    setServicerCreateAccountOption(valueAsBoolean);
+    formik.setFieldValue("isServicer", valueAsBoolean);
+  };
 
+  const handleAccountChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    setCreateAccount(valueAsBoolean);
+    formik.setFieldValue("isAccountCreate", valueAsBoolean);
+  };
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -999,13 +1015,14 @@ function ResellerDetails() {
                     {formik.errors.state}
                   </div>
                 )}
-              </div>
-              <div className="col-span-6">
-                <Input
+                <div className="mt-3">
+
+                 <Input
                   type="text"
                   name="country"
                   label="Country"
                   required={true}
+                  className="!bg-white"
                   placeholder=""
                   value={formik.values.country}
                   onChange={formik.handleChange}
@@ -1014,6 +1031,49 @@ function ResellerDetails() {
                   error={formik.touched.country && formik.errors.country}
                   disabled
                 />
+                </div>
+              </div>
+              <div className="col-span-6">
+              <p className="text-light-black flex text-[10px] mb-3 mt-2 font-semibold ">
+                  Do you want to create an account?
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value={true}
+                    checked={createAccount === true}
+                    onChange={handleAccountChange}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value={false}
+                    checked={createAccount === false}
+                    onChange={handleAccountChange}
+                  />
+                </p>
+              <p className="text-light-black flex text-[10px] mb-7 font-semibold self-center">
+                  {" "}
+                  <span className="mr-[2px]">
+                    {" "}
+                    Do you want to work as a servicer?
+                  </span>
+                  <RadioButton
+                    id="yes"
+                    label="Yes"
+                    value={true}
+                    // disabled={dealerDetails.dealerData?.isServicer === true}
+                    checked={createServicerAccountOption === true}
+                    onChange={handleServiceChange}
+                  />
+                  <RadioButton
+                    id="no"
+                    label="No"
+                    value={false}
+                    // disabled={dealerDetails.dealerData?.isServicer === true}
+                    checked={createServicerAccountOption === false}
+                    onChange={handleServiceChange}
+                  />
+                </p>
               </div>
               <div className="col-span-4">
                 <Button

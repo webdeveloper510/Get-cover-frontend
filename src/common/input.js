@@ -19,6 +19,7 @@ const Input = ({
   disabled,
   maxDecimalPlaces,
   placeholder,
+  classBox,
   maxDate,
 }) => {
   const [inputValue, setInputValue] = useState(formatDate(value));
@@ -81,7 +82,7 @@ const Input = ({
 
   return (
     <>
-      <div className="relative">
+      <div className={`relative ${classBox}`}>
         {type === "date" ? (
           <DatePicker
             selected={inputValue ? new Date(inputValue) : null}

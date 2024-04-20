@@ -458,7 +458,7 @@ function CompanyPriceBook() {
                     </div>
 
                     <div className="col-span-2 self-center">
-                    <Input
+                    {/* <Input
                       type="text"
                       name="category"
                       className="!text-[14px] !bg-[#f7f7f7]"
@@ -468,8 +468,8 @@ function CompanyPriceBook() {
                       value={formik.values.category}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                    />
-                      {/* <Select
+                    /> */}
+                      <Select
                         name="category"
                         label=""
                         options={categoryList}
@@ -479,7 +479,7 @@ function CompanyPriceBook() {
                         className="!text-[14px]  !bg-[#f7f7f7]"
                         value={formik.values.category}
                         onChange={formik.setFieldValue}
-                      /> */}
+                      />
                     </div>
                     <div className="col-span-2 self-center">
                       <Select
@@ -709,14 +709,16 @@ function CompanyPriceBook() {
                     />
                   </div>
                       <div className="col-span-6">
-                      <Input
+                      <Select
                       type="text"
                       name="category"
+                        options={categoryList}
+                        OptionName="Category"
                       className="!bg-[#fff]"
                       label="Category"
                       placeholder=""
                       value={formik.values.category}
-                        onChange={formik.handleChange}
+                        onChange={formik.setFieldValue}
                         onBlur={formik.handleBlur}
                     />
                       </div>

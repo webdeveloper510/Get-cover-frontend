@@ -642,6 +642,45 @@ function ResellerUser() {
       closeModal2();
     },
   });
+  const formik1 = useFormik({
+    initialValues: initialFormValues,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .required("Required")
+        .transform((originalValue) => originalValue.trim())
+        .max(30, "Must be exactly 30 characters"),
+      lastName: Yup.string()
+        .required("Required")
+        .transform((originalValue) => originalValue.trim())
+        .max(30, "Must be exactly 30 characters"),
+      phoneNumber: Yup.string()
+        .required("Required")
+        .min(10, "Must be at least 10 characters")
+        .max(10, "Must be exactly 10 characters")
+        .matches(/^[0-9]+$/, "Must contain only digits"),
+      status: Yup.boolean().required("Required"),
+    }),
+    onSubmit: async (values) => {
+      setLoading(true);
+      const result = await updateUserDetailsById(values);
+      console.log(result);
+      if (result.code == 200) {
+        setLoading(false);
+        SetPrimaryText("User Edited Successfully ");
+        SetSecondaryText("user edited successfully ");
+        // setFirstMessage("User Edited Successfully ");
+        // setSecondMessage("user edited successfully ");
+        openModal();
+        setTimer(3);
+        filterUserDetails();
+      } else {
+        setLoading(false);
+      }
+      closeModal2();
+     
+    },
+  });
 
   return (
     <>
@@ -844,7 +883,7 @@ function ResellerUser() {
           </div>}
         
           <p className="text-xl font-semibold mb-3">Users List</p>
-          <Grid className="!p-[2px] !pt-[14px] !pb-0">
+          {/* <Grid className="!p-[2px] !pt-[14px] !pb-0">
             <div className="col-span-3 self-center"></div>
             <div className="col-span-9">
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
@@ -940,7 +979,7 @@ function ResellerUser() {
                 </form>
               </div>
             </div>
-          </Grid>
+          </Grid> */}
           <DataTable
             columns={isprimary ? columns : columns12}
             data={userList}
@@ -1187,7 +1226,7 @@ function ResellerUser() {
   <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
     Edit User
   </p>
-  <form className="mt-8" onSubmit={formik.handleSubmit}>
+  <form className="mt-8" onSubmit={formik1.handleSubmit}>
     <Grid className="px-8">
       <div className="col-span-6">
         <Input
@@ -1198,14 +1237,14 @@ function ResellerUser() {
           className="!bg-[#fff]"
           placeholder=""
           maxLength={"30"}
-          value={formik.values.firstName}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          error={formik.touched.firstName && formik.errors.firstName}
+          value={formik1.values.firstName}
+          onBlur={formik1.handleBlur}
+          onChange={formik1.handleChange}
+          error={formik1.touched.firstName && formik1.errors.firstName}
         />
-        {formik.touched.firstName && formik.errors.firstName && (
+        {formik1.touched.firstName && formik1.errors.firstName && (
           <div className="text-red-500 text-sm pl-2 pt-2">
-            {formik.errors.firstName}
+            {formik1.errors.firstName}
           </div>
         )}
       </div>
@@ -1218,14 +1257,14 @@ function ResellerUser() {
           placeholder=""
           className="!bg-[#fff]"
           maxLength={"30"}
-          value={formik.values.lastName}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          error={formik.touched.lastName && formik.errors.lastName}
+          value={formik1.values.lastName}
+          onBlur={formik1.handleBlur}
+          onChange={formik1.handleChange}
+          error={formik1.touched.lastName && formik1.errors.lastName}
         />
-        {formik.touched.lastName && formik.errors.lastName && (
+        {formik1.touched.lastName && formik1.errors.lastName && (
           <div className="text-red-500 text-sm pl-2 pt-2">
-            {formik.errors.lastName}
+            {formik1.errors.lastName}
           </div>
         )}
       </div>
@@ -1237,10 +1276,10 @@ function ResellerUser() {
           className="!bg-[#fff]"
           placeholder=""
           maxLength={"30"}
-          value={formik.values.position}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          error={formik.touched.position && formik.errors.position}
+          value={formik1.values.position}
+          onBlur={formik1.handleBlur}
+          onChange={formik1.handleChange}
+          error={formik1.touched.position && formik1.errors.position}
         />
       </div>
       <div className="col-span-6">
@@ -1251,34 +1290,34 @@ function ResellerUser() {
           required={true}
           className="!bg-[#fff]"
           placeholder=""
-          value={formik.values.phoneNumber}
+          value={formik1.values.phoneNumber}
           onChange={(e) => {
             const sanitizedValue = e.target.value.replace(
               /[^0-9]/g,
               ""
             );
             console.log(sanitizedValue);
-            formik.handleChange({
+            formik1.handleChange({
               target: {
                 name: "phoneNumber",
                 value: sanitizedValue,
               },
             });
           }}
-          onBlur={formik.handleBlur}
+          onBlur={formik1.handleBlur}
           onWheelCapture={(e) => {
             e.preventDefault();
           }}
           minLength={"10"}
           maxLength={"10"}
           error={
-            formik.touched.phoneNumber && formik.errors.phoneNumber
+            formik1.touched.phoneNumber && formik1.errors.phoneNumber
           }
         />
-        {(formik.touched.phoneNumber || formik.submitCount > 0) &&
-          formik.errors.phoneNumber && (
+        {(formik1.touched.phoneNumber || formik1.submitCount > 0) &&
+          formik1.errors.phoneNumber && (
             <div className="text-red-500 text-sm pl-2 pt-2">
-              {formik.errors.phoneNumber}
+              {formik1.errors.phoneNumber}
             </div>
           )}
       </div>
@@ -1292,13 +1331,13 @@ function ResellerUser() {
           disabled={isprimary}
           className="!bg-[#fff]"
           options={status}
-          value={formik.values.status}
-          onBlur={formik.handleBlur}
-          error={formik.touched.status && formik.errors.status}
+          value={formik1.values.status}
+          onBlur={formik1.handleBlur}
+          error={formik1.touched.status && formik1.errors.status}
         />
-        {formik.touched.status && formik.errors.status && (
+        {formik1.touched.status && formik1.errors.status && (
           <div className="text-red-500 text-sm pl-2 pt-2">
-            {formik.errors.status}
+            {formik1.errors.status}
           </div>
         )}
       </div>
