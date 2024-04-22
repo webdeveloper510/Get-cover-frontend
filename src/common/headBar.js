@@ -12,6 +12,7 @@ import {
   getSuperAdminMembers,
   updateNotifications,
 } from "../services/extraServices";
+import { checkUserToken } from "../services/userServices";
 function Headbar({ className = "" }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [notificationList, setNotificationList] = useState([]);
@@ -20,6 +21,8 @@ function Headbar({ className = "" }) {
   const [isPrimary, setIsPrimary] = useState(false);
   // const [ToChecklengthFalse, setToChecklengthFalse] = useState([])
   const location = useLocation();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [initialValues, setInitialValues] = useState({
     firstName: "",
     lastName: "",
@@ -51,10 +54,34 @@ function Headbar({ className = "" }) {
     });
   };
   const lengthofNotifications = localStorage.getItem("lengthofNotifications")
+
   useEffect(() => {
-    getNotificationsData();
-    fetchUserDetails();
+    checkTokenExpiry()
   }, []);
+
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200)
+      if (response.code == 200) {
+        setIsLoggedIn(true);
+        getNotificationsData();
+        fetchUserDetails();
+      } else {
+        setIsLoggedIn(false);
+        localStorage.removeItem('userDetails');
+        navigate(`/login`)
+      }
+    } catch (error) {
+      console.error('Error validating token:', error);
+      setIsLoggedIn(false);
+      navigate(`/login`)
+      localStorage.removeItem('userDetails');
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
 
   const fetchUserDetails = async () => {
     setLoading(true);

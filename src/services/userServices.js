@@ -99,6 +99,19 @@ export const deleteUserByUserId = async (id) => {
   }
 };
 
+export const checkUserToken = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/user/checkToken`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const userDetailsById = async (id) => {
   const headers = createHeaders();
   try {

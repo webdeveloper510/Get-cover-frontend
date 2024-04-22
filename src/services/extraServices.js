@@ -21,7 +21,6 @@ const createHeaders = () => {
 
 export const getNotifications = async () => {
   const headers = createHeaders();
-  console.log(headers);
   try {
     const response = await axios.get(
       `${url}/user/getAllNotifications
