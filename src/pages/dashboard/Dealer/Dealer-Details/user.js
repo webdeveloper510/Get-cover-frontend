@@ -58,6 +58,12 @@ function UserList(props) {
     status: true,
     id: "",
   });
+  const [initialFormValues12, setInitialFormValues12] = useState({
+    lastName: "",
+    firstName: "",
+    email: "",
+    phone: "",
+  });
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
 
@@ -272,8 +278,8 @@ function UserList(props) {
     setMainStatus(result.mainStatus);
     setInitialFormValues({
       id: id,
-      lastName: result?.result?.lastName,
       firstName: result?.result?.firstName,
+      lastName: result?.result?.lastName,
       phoneNumber: result?.result?.phoneNumber,
       position: result?.result?.position,
       status: result?.result?.status,
@@ -294,19 +300,18 @@ function UserList(props) {
   };
 
   const handleFilterIconClick = () => {
+    // formikUSerFilter.resetForm();
+    console.log(formikUSerFilter, '11---------------')
+    getUserList();
     formikUSerFilter.resetForm();
 
-    getUserList();
   };
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const formikUSerFilter = useFormik({
-    initialValues: {
-      firstName: "",
-      email: "",
-      phone: "",
-    },
+    initialValues: initialFormValues12,
     validationSchema: Yup.object({
       firstName: Yup.string(),
+      lastName: Yup.string(),
       email: Yup.string(),
       phone: Yup.number(),
     }),

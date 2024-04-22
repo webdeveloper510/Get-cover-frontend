@@ -27,6 +27,7 @@ import disapproved from "../../../assets/images/Disapproved.png";
 import chat from "../../../assets/images/icons/chatIcon.svg";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import arrowImage from "../../../assets/images/dropdownArrow.png";
+import checkIcon from "../../../assets/images/check-mark.png";
 import upload from "../../../assets/images/icons/upload.svg";
 import Select from "../../../common/select";
 import Cross from "../../../assets/images/Cross.png";
@@ -174,9 +175,13 @@ function ClaimList(props) {
     formik1.setFieldValue(selectedValue, value);
     console.log(selectedValue, value);
   };
+  const handleSelectChange21 = (selectedValue, value) => {
+    Shipment.setFieldValue(selectedValue, value);
+    console.log(selectedValue, value);
+  };
 
   const handleSelectChange = (selectedValue, value) => {
-    console.log(selectedValue);
+    console.log(selectedValue, '------------>>>>>>>');
     if (selectedValue == "claimStatus") {
       if (value == "Rejected") {
         setIsRejectOpen(true);
@@ -743,6 +748,19 @@ const handleAddClaim = () => {
     },
   });
 
+  const Shipment = useFormik({
+    initialValues: {
+      trackingNumber:"",
+      trackingType:"",
+    },
+    onSubmit: (values) => {
+      console.log('Selected tracking type:', values);
+      editClaimStatus(claimList.result[activeIndex]._id, values).then((res) => {
+        console.log('Selected tracking type:', res);
+      });
+    },
+  });
+
   const handleRemove = (index) => {
     setError("");
     const updatedErrors = { ...formik.errors };
@@ -882,6 +900,8 @@ const handleAddClaim = () => {
       customerStatusValue: "",
       claimStatus: "",
       orderId: "",
+      trackingNumber:"",
+      trackingType:"",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -964,6 +984,9 @@ const handleAddClaim = () => {
     getAllClaims();
   };
   console.log(claimList, '++++++++++++++++_-------------------')
+  const addTracker = () => {
+
+  }
   return (
     <>
       <div className="mb-8 ml-3">
@@ -1322,7 +1345,7 @@ const handleAddClaim = () => {
                                         <Select
                                           name="claimType"
                                           label=""
-                                          value={claimType.bdAdh}
+                                          value={claimType?.bdAdh}
                                           onChange={handleSelectChange}
                                           white
                                           options={claim}
@@ -1332,29 +1355,38 @@ const handleAddClaim = () => {
                                         />
                                       </p>
                                       <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                        <span className="self-center  mr-[2.60rem]">
+                                        <span className="self-center w-[75px]  mr-[2.60rem]">
                                           Shipment :
                                         </span>
+                                          <form onSubmit={Shipment.handleSubmit}>
+                                        <div className="relative flex w-full">
+
                                         <Select
-                                          name="tracker"
+                                          name="trackingType"
                                           label=""
-                                          value={claimType.bdAdh}
-                                          onChange={handleSelectChange}
+                                          value={Shipment.values.trackingType}
+                                          onChange={handleSelectChange21}
                                           white
                                           OptionName='Tracker'
                                           options={tracker}
                                           className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                          classBox="w-[25%]"
+                                          classBox="w-[35%]"
+                                          // {...Shipment.getFieldProps("trackingType")}
                                         />
                                         <Input
-                                          name="traker"
+                                          name="trackingNumber"
                                           label=""
                                           placeholder='Enter Traker #'
                                           white
+                                          value={Shipment.values.trackingNumber}
                                           // options={state}
                                           className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                          classBox="w-[40%]"
+                                          classBox="w-[50%]"
+                                          {...Shipment.getFieldProps("trackingNumber")}
                                         />
+                                        <Button className='absolute right-[30px] !p-0 top-[2px]' type='submit'><img src={checkIcon} className="w-[21px]"/></Button>
+                                        </div>
+                                          </form>
                                       </p>
                                     </>
                                   )}
@@ -1571,7 +1603,7 @@ const handleAddClaim = () => {
                                 ) : (
                                   <div>
                                     <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
-                                      <div className="col-span-4"></div>
+                                      <div className="col-span-3"></div>
                                       {/* <Button
                                       className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
                                       onClick={handleToggle}
@@ -1585,7 +1617,7 @@ const handleAddClaim = () => {
                                     </Button> */}
                                       {res.receiptImage != null && (
                                         <Button
-                                          className="!bg-[#fff] col-span-8 !rounded-[11px] !text-light-black !text-[13px] flex"
+                                          className="!bg-[#fff] col-span-9 !rounded-[11px] !text-light-black !text-[13px] flex"
                                           onClick={() => {
                                             downloadAttachments(
                                               res.receiptImage

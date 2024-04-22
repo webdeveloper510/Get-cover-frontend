@@ -343,6 +343,7 @@ function OrderList() {
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
                     <div className="">
+                      
                       <PdfGenerator data={row._id} setLoading={setLoading} />
                     </div>
                     {/* <DocMakeOrderContainer

@@ -125,7 +125,7 @@ function OrderDetails() {
     setUserDetails(result.orderUserData);
     formik.setFieldValue("servicerId", result.result.servicerId);
     const filteredServicer = result.servicers.filter(
-      (data) => data.status === true
+      (data) => data.status === true || "Approved" 
     );
 
     let arr = filteredServicer.map((data) => ({

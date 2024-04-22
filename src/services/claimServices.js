@@ -296,6 +296,24 @@ export const getClaimMessages = async (id) => {
   }
 };
 
+export const getClaimUnpaid = async (claimIds) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(
+      `${url}/claim/getUnpaidAmount`,
+      {claimIds},
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const addClaimMessages = async (id, data) => {
   const headers = createHeaders();
 

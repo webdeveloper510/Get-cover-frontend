@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.35ad023b.css",
-    "main.js": "/static/js/main.4e641fe0.js",
+    "main.css": "/static/css/main.dc9fb3c7.css",
+    "main.js": "/static/js/main.e3ce7732.js",
     "static/js/703.0fb9574f.chunk.js": "/static/js/703.0fb9574f.chunk.js",
     "static/js/198.6386e952.chunk.js": "/static/js/198.6386e952.chunk.js",
     "static/js/787.c7997b7d.chunk.js": "/static/js/787.c7997b7d.chunk.js",
@@ -30,24 +30,18 @@
     "static/media/logo.png": "/static/media/logo.642c96aed42bd8a1d454.png",
     "static/media/arrow-left.png": "/static/media/arrow-left.fe98056a38180108c65b.png",
     "static/media/arrow-right.png": "/static/media/arrow-right.d8f98e00b9877ac94e6c.png",
-    "static/media/parts.png": "/static/media/parts.74590a1ee624f0cfc219.png",
     "static/media/SetPrimary.png": "/static/media/SetPrimary.a8ea7ee60954a8ec3014.png",
-    "static/media/labor.png": "/static/media/labor.a971e8a5ea6c92c53621.png",
     "static/media/whiteView.png": "/static/media/whiteView.dbe4c10c924cfce44f98.png",
     "static/media/return.png": "/static/media/return.b8410a97cd106f511462.png",
     "static/media/star.png": "/static/media/star.f0fcd86cf3978edc3ec7.png",
-    "static/media/product.png": "/static/media/product.058ff5d2104cf462279c.png",
     "static/media/activeLeft.png": "/static/media/activeLeft.7f6c24006944599fd96f.png",
     "static/media/pay.png": "/static/media/pay.7e90eb8e8fcd75295e2e.png",
     "static/media/select.png": "/static/media/select.92db3fbe1bf8d9265782.png",
-    "static/media/received.png": "/static/media/received.53441e1d1417498184cd.png",
     "static/media/paper.png": "/static/media/paper.1c93b25e9a279e2c2241.png",
-    "static/media/shiping.png": "/static/media/shiping.b4aaa8c3cd7a1c422468.png",
     "static/media/revicons.eot": "/static/media/revicons.a77de540a38981833f9e.eot",
     "static/media/revicons.ttf": "/static/media/revicons.57fd05d4ae650374c8de.ttf",
     "static/media/Attachments.svg": "/static/media/Attachments.19021f3ed8e26203859a6b9da2023670.svg",
     "static/media/Get-Cover.png": "/static/media/Get-Cover.8fcbb6aa578215752e4a.png",
-    "static/media/quote-request.png": "/static/media/quote-request.e44c051bed58367b6131.png",
     "static/media/dealer-book.svg": "/static/media/dealer-book.ad9ae9284d4a9039e02e37074b52810a.svg",
     "static/media/csvFile.svg": "/static/media/csvFile.09cad3bbd7788fe89b976bba7beafa9e.svg",
     "static/media/ProductModel.svg": "/static/media/ProductModel.63294a7d5ee417d73817895f7230a9f9.svg",
@@ -174,14 +168,14 @@
     "static/media/Drop.svg": "/static/media/Drop.4e59ffc91c1abe493e11059f0fb734b3.svg",
     "static/media/DropActive.svg": "/static/media/DropActive.1afa81418e97447d9eaee9da4bb3a255.svg",
     "static/media/dropwhite.svg": "/static/media/dropwhite.c8ae50a08ad52f32dd37ffec22fa9500.svg",
-    "main.35ad023b.css.map": "/static/css/main.35ad023b.css.map",
-    "main.4e641fe0.js.map": "/static/js/main.4e641fe0.js.map",
+    "main.dc9fb3c7.css.map": "/static/css/main.dc9fb3c7.css.map",
+    "main.e3ce7732.js.map": "/static/js/main.e3ce7732.js.map",
     "703.0fb9574f.chunk.js.map": "/static/js/703.0fb9574f.chunk.js.map",
     "198.6386e952.chunk.js.map": "/static/js/198.6386e952.chunk.js.map",
     "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.35ad023b.css",
-    "static/js/main.4e641fe0.js"
+    "static/css/main.dc9fb3c7.css",
+    "static/js/main.e3ce7732.js"
   ]
 }

@@ -113,12 +113,13 @@ export const checkDealersEmailValidation = async (email) => {
   }
 };
 
-export const getProductListbyProductCategoryId = async (categoryId) => {
+export const getProductListbyProductCategoryId = async (categoryId,data) => {
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `${url}/price/getPriceBookByCategoryId/${categoryId}`,
+      data,
       {
         headers,
       }

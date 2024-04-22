@@ -44,6 +44,7 @@ function Dealer() {
   const [loading, setLoading] = useState(false);
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [message, setMessage] = useState("");
+  const [types, setTypes] =useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("start");
   const [timer, setTimer] = useState(3);
@@ -341,7 +342,7 @@ function Dealer() {
       console.log(match[1]);
       formik.setFieldValue(`priceBook[${match[1]}].priceBookId`, "");
       if (match) {
-        const response = await getProductListbyProductCategoryId(selectedValue);
+        const response = await getProductListbyProductCategoryId(selectedValue, {coverageType : types});
         // console.log(`priceBook[${index].description`);
         setProductNameOptions((prevOptions) => {
           const newOptions = [...prevOptions];
@@ -404,6 +405,7 @@ function Dealer() {
     formik.setFieldValue(name, value);
     const result = await getCategoryListActiveData({coverageType: value});
     console.log(result.result);
+  setTypes(result.coverageType)
     setCategoryList(
       result.result.map((item) => ({
         label: item.name,
@@ -1537,16 +1539,16 @@ function Dealer() {
                         </div>
 
                         <div className="col-span-4">
-                          <Select
+                          <Input
                             label="Terms"
                             name={`priceBook[${index}].terms`}
                             required={true}
                             placeholder=""
-                            onChange={handleSelectChange}
+                            onChange={formik.handleChange}
                             className="!bg-[#f9f9f9]"
                             options={termList}
                             disabled={true}
-                            value={formik.values.priceBook[index].terms}
+                            value={formik.values.priceBook[index].terms + ' Months'}
                             onBlur={formik.handleBlur}
                             error={formik.touched.term && formik.errors.term}
                           />

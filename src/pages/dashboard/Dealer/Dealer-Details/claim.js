@@ -47,6 +47,7 @@ import {
   getClaimListForReseller,
   getClaimListForServicer,
   getClaimMessages,
+  getClaimUnpaid,
   getPaidClaims,
   getUnpaidClaims,
   markasPaidClaims,
@@ -98,6 +99,8 @@ function ClaimList(props) {
     status: "",
     date: "",
   });
+  const [claimValues, setClaimValues] = useState();
+  const [claims, setClaims] = useState();
   const [claimStatus, setClaimStatus] = useState({ status: "", date: "" });
   const [repairStatus, setRepairStatus] = useState({ status: "", date: "" });
   const [initialValues, setInitialValues] = useState({
@@ -723,9 +726,17 @@ function ClaimList(props) {
     { label: "Completed", value: "completed" },
     { label: "Rejected", value: "rejected" },
   ];
+  console.log(modelLoading, "----------------:::::::::")
 
   const openPay = () => {
     setIsPayOpen(true);
+    getClaimUnpaid(checkboxStates).then((res) => {
+      setMarkLoader(true);
+        setClaims(res.result.totalClaims)
+        setClaimValues(res.result.unpaidValue)
+
+        setMarkLoader(false);
+    })  
   };
   const closePay = () => {
     setIsPayOpen(false);
@@ -923,18 +934,18 @@ function ClaimList(props) {
   };
   const [checkboxStates, setCheckboxStates] = useState([]);
 
-  const handleCheckboxChange = (data) => {
-    console.log(data._id , '----------')
-    const isChecked = checkboxStates.includes(data);
+  const handleCheckboxChange = (id) => {
+    console.log(id , '----------')
+    const isChecked = checkboxStates.includes(id);
     if (isChecked) {
       const newCheckboxStates = checkboxStates.filter(
-        (checkboxId) => checkboxId !== data._id
+        (checkboxId) => checkboxId !== id
       );
       setCheckboxStates(newCheckboxStates);
     } else {
-      setCheckboxStates([...checkboxStates, data.id]);
+      setCheckboxStates([...checkboxStates, id]);
     }
-    console.log("checkboxStates", checkboxStates);
+   
   };
 
   const handleSelectAll = (claimList) => {
@@ -942,6 +953,7 @@ function ClaimList(props) {
     const newCheckboxStates = [...checkboxStates, ...ids];
     const uniqueCheckboxStates = Array.from(new Set(newCheckboxStates));
     setCheckboxStates(uniqueCheckboxStates);
+    console.log(checkboxStates, "----------------:::::::::")
   };
 
   const handleUnselectAll = () => {
@@ -999,7 +1011,7 @@ function ClaimList(props) {
               <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                 <form onSubmit={formik1.handleSubmit}>
                   <Grid className="!gap-1">
-                    <div className="col-span-9 self-center">
+                    <div className="col-span-8 self-center">
                       <Grid className="!gap-2">
                         <div className="col-span-4 self-center">
                           <Input
@@ -1049,7 +1061,7 @@ function ClaimList(props) {
                         </div> */}
                       </Grid>
                     </div>
-                    <div className="col-span-3 self-center flex justify-center">
+                    <div className="col-span-4 self-center flex justify-center">
                       <Button type="submit" className="!p-0 !bg-transparent">
                         <img
                           src={Search}
@@ -1071,7 +1083,7 @@ function ClaimList(props) {
                       </Button>
                       <Button
                         type="button"
-                        className="ml-2 !text-[11px] !px-2"
+                        className="ml-2 !text-[13px] !px-2"
                         onClick={() => openDisapproved()}
                       >
                         Advance Search
@@ -1185,7 +1197,7 @@ function ClaimList(props) {
                                     type="checkbox"
                                     className="dark:text-gray-300 font-medium h-4 mt-[6px] py-4 text-gray-900 text-sm w-4"
                                     onChange={() =>
-                                      handleCheckboxChange(res)
+                                      handleCheckboxChange(res._id)
                                     }
                                     checked={checkboxStates.includes(res._id)}
                                   />
@@ -1571,7 +1583,7 @@ function ClaimList(props) {
                                 ) : (
                                   <div>
                                     <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
-                                      <div className="col-span-6"></div>
+                                      <div className="col-span-4"></div>
                                       {/* <Button
                                       className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
                                       onClick={handleToggle}
@@ -1585,7 +1597,7 @@ function ClaimList(props) {
                                     </Button> */}
                                       {res.receiptImage != null && (
                                         <Button
-                                          className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[13px] flex"
+                                          className="!bg-[#fff] col-span-8 !rounded-[11px] !text-light-black !text-[13px] flex"
                                           onClick={() => {
                                             downloadAttachments(
                                               res.receiptImage
@@ -1673,7 +1685,7 @@ function ClaimList(props) {
                <span className="text-light-black"> Marked As Paid </span>
              </p>
              <p className="text-neutral-grey text-2xl font-semibold mt-2 ">
-             You have <span className="text-light-black">11 unpaid</span> claim with <span className="text-light-black">$12222</span> amount.<br/> Do you want to paid ?
+             You have <span className="text-light-black">{claims} unpaid</span> claim with <span className="text-light-black">${formatOrderValue(claimValues ?? parseInt(0))}</span> amount.<br/> Do you want to paid ?
              </p>
              <div className="mt-4">
                <Grid>

@@ -342,7 +342,9 @@ function OrderList(props) {
                       </div>
                     )}
                     <div className="border-b">
-                      <PdfGenerator data={row._id} />
+                    <PdfGenerator
+                        data={row._id}
+                        setLoading={setLoading}/>
                     </div>
                     <div
                       className="text-left py-1 px-2 flex cursor-pointer hover:font-semibold"
