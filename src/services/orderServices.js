@@ -391,6 +391,22 @@ export const updateOrderServicer = async (id, data = {}) => {
   }
 };
 
+export const DownloadTC = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/order/generateHtmltopdf/${id}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getOrderCustomer = async (data = {}) => {
   const headers = createHeaders();
   try {

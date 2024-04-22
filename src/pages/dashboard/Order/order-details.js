@@ -33,6 +33,7 @@ import ContractList from "../Contract/contractList";
 import Modal from "../../../common/model";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import DocMakeOrderContainer from "../../docMakeOrder";
+import FileDownloader from "../../termAndCondition";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -426,16 +427,16 @@ function OrderDetails() {
                   </Button>
                 </div>
                 <div className="col-span-6">
-                    {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
-                  {/* <Button className="!bg-white !text-light-black !text-sm border flex">
+                  {userDetails?.dealerData?.termCondition == '' ? <></> : (
+                  <Button className="!bg-white !text-light-black !text-sm border flex">
                     <span className="self-center">
                       {" "}
-                      <DocMakeOrderContainer
-                        setLoading={setLoading1}
+                      <FileDownloader
                         data={orderId}
                       />
                     </span>
-                  </Button> */}
+                  </Button>
+                  )}
                 </div>
               </Grid>
             </div>
