@@ -43,8 +43,8 @@ import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
 import OrderList from "../Reseller/Dealer-Details/order";
 import ContractList from "../Reseller/Dealer-Details/contract";
-import ClaimList from "../Reseller/Dealer-Details/claim";
 import UserList from "../../dashboard/Dealer/Dealer-Details/user";
+import ClaimList from "../../dashboard/Claim/claimList";
 
 function CustomerDetails() {
   const [activeTab, setActiveTab] = useState("Order"); // Set the initial active tab
@@ -276,7 +276,10 @@ function CustomerDetails() {
       case "Users":
         openUserModal();
         break;
-
+        case "Claims":
+          localStorage.setItem("menu", "Claims");
+          navigate(`/dealer/addClaim/${customerDetail?.meta?.username}`);
+          break;
       default:
         console.log("Invalid data, no navigation");
     }

@@ -19,7 +19,6 @@ import Claim from "../../../assets/images/Dealer/Claim.svg";
 import User from "../../../assets/images/Dealer/Users.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
-import ClaimList from "../Reseller/Dealer-Details/claim";
 import UserList from "../Reseller/Dealer-Details/user";
 import Modal from "../../../common/model";
 import Input from "../../../common/input";
@@ -43,6 +42,7 @@ import {
 import RadioButton from "../../../common/radio";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
+import ClaimList from "../../dashboard/Claim/claimList";
 
 function ResellerCustomerDetails() {
   const getInitialActiveTab = () => {
@@ -254,7 +254,9 @@ function ResellerCustomerDetails() {
         localStorage.getItem("Users");
         openUserModal();
         break;
-
+        case "Claims":
+          navigate(`/reseller/addClaim/${customerDetail?.meta?.username}`);
+          break;
       default:
         console.log("Invalid data, no navigation");
     }
@@ -300,7 +302,7 @@ function ResellerCustomerDetails() {
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList flag={"customer"} id={customerId} activeTab={activeTab} />,
+      content: <ClaimList id={customerId} flag={"customer"} activeTab={activeTab} />,
     },
     {
       id: "Users",

@@ -24,21 +24,14 @@ import Manufacturer from "../../../assets/images/icons/ProductManufacturer.svg";
 import Edit from "../../../assets/images/icons/editIcon.svg";
 import download from "../../../assets/images/download.png";
 import disapproved from "../../../assets/images/Disapproved.png";
-import request from "../../../assets/images/quote-request.png";
-import productSent from "../../../assets/images/product.png";
-import shiping from "../../../assets/images/shiping.png";
-import labor from "../../../assets/images/labor.png";
-import parts from "../../../assets/images/parts.png";
-import productReceived from "../../../assets/images/received.png";
 import chat from "../../../assets/images/icons/chatIcon.svg";
-import DropActive from "../../../assets/images/icons/DropActive.svg";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import arrowImage from "../../../assets/images/dropdownArrow.png";
 import upload from "../../../assets/images/icons/upload.svg";
 import Select from "../../../common/select";
 import Cross from "../../../assets/images/Cross.png";
 import Headbar from "../../../common/headBar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation,useNavigate } from "react-router-dom";
 import Modal from "../../../common/model";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import {
@@ -97,6 +90,7 @@ function ClaimList(props) {
     status: "",
     date: "",
   });
+  const navigate = useNavigate();
   const [claimStatus, setClaimStatus] = useState({ status: "", date: "" });
   const [repairStatus, setRepairStatus] = useState({ status: "", date: "" });
   const [initialValues, setInitialValues] = useState({
@@ -110,7 +104,7 @@ function ClaimList(props) {
   useEffect(() => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
     setRole(userDetails.role)
-    if (location.pathname.includes("/dealer")) {
+    if (location.pathname.includes("/dealer/")) {
       setUserType("dealer");
     } else {
       setUserType("admin"); // Reset userType if condition doesn't match
@@ -296,6 +290,20 @@ function ClaimList(props) {
     });
   };
 
+const handleAddClaim = () => {
+   if(window.location.pathname.includes('/dealer/claimList')){ 
+    navigate('/dealer/addClaim')
+  }
+  else if(window.location.pathname.includes('/reseller/claimList')){ 
+    navigate('/reseller/addClaim')
+  }
+  else{
+    navigate('/addClaim')
+
+  }
+}
+
+
   const getAllClaims = async (page = 1, rowsPerPage = 10) => {
     setLoaderType(true);
     setPageValue(page);
@@ -311,7 +319,7 @@ function ClaimList(props) {
       getClaimListPromise = getClaimListForDealer(props.id, data);
     } else if (props.flag === "servicer") {
       getClaimListPromise = getClaimListForServicer(props.id, data);
-    } else if (props.flag === "reseller") {
+    } else if (props.flag === "reseller" || window.location.pathname.includes('/reseller/claimList')) {
       getClaimListPromise = getClaimListForReseller(props.id, data);
     } else if (props.flag === "customer") {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
@@ -498,23 +506,39 @@ function ClaimList(props) {
   };
 
   const openView = (claim) => {
-    let isValidReseller =
-      claim?.contracts.orders.resellerId != null ? true : false;
-    console.log(isValidReseller);
-    setSendto(
-      [
-        { label: "Admin (To Self)", value: "Admin" },
-        { label: "Dealer", value: "Dealer" },
-        isValidReseller ? { label: "Reseller", value: "Reseller" } : null,
-        { label: "Servicer", value: "Servicer" },
-        { label: "Customer", value: "Customer" },
-      ].filter((item) => item !== null)
-    );
+    const isValidReseller = !!claim?.contracts.orders.resellerId;
+    const isAdminView = window.location.pathname.includes('/dealer/claimList');
+    const isResellerPath = window.location.pathname.includes('/reseller/claimList');
+    const isCustomerPath = window.location.pathname.includes('/customer/claimList');
+   
+    let typeValue = "Admin";
+    
+    if (!isAdminView && !isResellerPath && !isCustomerPath) {
+        typeValue = "Admin";
+    } else if (isAdminView && !isResellerPath && !isCustomerPath) {
+        typeValue = "Dealer";
+    } else if (!isAdminView && isResellerPath && !isCustomerPath) {
+        typeValue = "Reseller";
+    } else if (!isAdminView && !isResellerPath && isCustomerPath) {
+        typeValue = "Customer";
+    }
+    
+    formik2.setFieldValue('type', typeValue);
+    
+    setSendto([
+      { label: !isAdminView && !isResellerPath && !isCustomerPath ? "Admin (To Self)" : "Admin ", value: "Admin" },
+      { label: isAdminView && !isResellerPath && !isCustomerPath  ? "Dealer (To Self)" : "Dealer ", value: "Dealer" },
+      isValidReseller && { label:!isAdminView && isResellerPath && !isCustomerPath? "Reseller (To Self)" :"Reseller", value: "Reseller" },
+      { label: "Servicer", value: "Servicer" },
+      {  label:!isAdminView && !isResellerPath && isCustomerPath? "Customer (To Self)" :"Customer", value: "Customer" },
+    ].filter(Boolean));
+  
     console.log(claim);
     setClaimDetail(claim);
     getClaimMessage(claim._id, true);
     setIsViewOpen(true);
   };
+  
 
   const getClaimMessage = (claimId, loader = true) => {
     setModelLoading(loader);
@@ -627,6 +651,17 @@ function ClaimList(props) {
       formik2.resetForm();
       formik2.setFieldValue("content", "");
       setPreviewImage(null);
+      const pathname = window.location.pathname;
+      const type = 
+        pathname.includes('/dealer/claimList') ? 'Dealer' :
+        pathname.includes('/customer/claimList') ? 'Customer' :
+        pathname.includes('/reseller/claimList') ? 'Reseller' :
+        pathname.includes('/servicer/claimList') ? 'Servicer' :
+        null;
+      
+      if (type) {
+        formik2.setFieldValue('type', type);
+      }
     },
   });
 
@@ -952,16 +987,13 @@ function ClaimList(props) {
               </div>
             </div>
 
-            <Link
-              to={"/addClaim"}
-              className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-            >
-              {" "}
-              <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-              <span className="text-black ml-3 text-[14px] font-Regular">
-                Add Claim{" "}
-              </span>{" "}
-            </Link>
+            <button
+      onClick={handleAddClaim} // Call handleAddClaim function onClick
+      className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+    >
+      <img src={AddItem} className="self-center" alt="AddItem" />
+      <span className="text-black ml-3 text-[14px] font-Regular">Add Claim</span>
+    </button>
           </>
         )}
 
@@ -1096,8 +1128,8 @@ function ClaimList(props) {
                                   onClick={() => openView(res)}
                                   alt="chat"
                                 />
-                                {userType === "admin" &&
-                                  res?.claimStatus?.[0]?.status === "Open" && (
+                                {userType === "admin" && 
+                                  res?.claimStatus?.[0]?.status === "Open"  && !location.pathname.includes('customer/claimList') && !location.pathname.includes('/reseller/claimList') && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1106,9 +1138,9 @@ function ClaimList(props) {
                                     />
                                   )}
 
-                                {userType !== "admin" &&
+                                {userType !== "admin"  &&
                                   res.selfServicer &&
-                                  res?.claimStatus?.[0]?.status === "Open" && (
+                                  res?.claimStatus?.[0]?.status === "Open"  && !location.pathname.includes('customer/claimList') && !location.pathname.includes('/reseller/claimList') &&  (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1260,7 +1292,7 @@ function ClaimList(props) {
                                     <span className="self-center mr-4">
                                       Servicer Name :{" "}
                                     </span>
-                                    {userType != "dealer" ? (
+                                    {(userType !== "dealer" && !location.pathname.includes('customer/claimList') && !location.pathname.includes('/reseller/claimList')) ? (
                                       <Select
                                         name="servicer"
                                         label=""
@@ -1281,7 +1313,7 @@ function ClaimList(props) {
                                     )}
                                   </p>
 
-                                  {userType == "admin" && (
+                                  {userType == "admin" && !location.pathname.includes('customer/claimList') && !location.pathname.includes('/reseller/claimList') &&  (
                                     <>
                                       <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                         <span className="self-center mr-8">

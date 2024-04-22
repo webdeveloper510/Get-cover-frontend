@@ -52,13 +52,12 @@ import PriceBook from "../../../assets/images/Dealer/PriceBook.svg";
 import email from "../../../assets/images/Dealer/Email.svg";
 import phone from "../../../assets/images/Dealer/Phone.svg";
 import OrderList from "./Dealer-Details/order";
-
-import ClaimList from "./Dealer-Details/claim";
 import ServicerList from "./Dealer-Details/servicer";
 import UserList from "./Dealer-Details/user";
 import PriceBookList from "../../dashboard/Dealer/Dealer-Details/priceBook";
 import CustomerList from "./Dealer-Details/customer";
 import ContractList from "../../dashboard/Contract/contractList";
+import ClaimList from "../../dashboard/Claim/claimList";
 
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
@@ -450,7 +449,9 @@ function DealerResellerDetails() {
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList />,
+    content: activeTab === "Claims" && (
+        <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />
+      ),
     },
 
     {
@@ -514,6 +515,10 @@ function DealerResellerDetails() {
         localStorage.setItem("menu", "Customer");
         navigate(`/dealer/addCustomer/${id.resellerId}/reseller`);
         break;
+        case "Claims":
+          localStorage.setItem("menu", "Claims");
+          navigate(`/dealer/addClaim`);
+          break;
       case "Users":
         openUserModal();
         break;

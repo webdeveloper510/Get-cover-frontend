@@ -105,7 +105,7 @@ console.log(username)
   const closeCreate = () => {
     setIsCreateOpen(false);
   };
-console.log(contractList, "-------------contractList------------------>>>")
+
   useEffect(() => {
     let intervalId;
     if (isCreateOpen && timer > 0) {
@@ -116,7 +116,15 @@ console.log(contractList, "-------------contractList------------------>>>")
 
     if (timer === 0) {
       closeCreate();
+      if(window.location.pathname.includes('/dealer/addClaim')){ 
+        navigate('/dealer/claimList')
+      }
+      else if(window.location.pathname.includes('/reseller/addClaim')){
+        navigate('/reseller/claimList')
+      }
+      else{
         navigate('/claimList')
+      }
     }
     return () => {
       clearInterval(intervalId);
@@ -199,6 +207,7 @@ console.log(contractList, "-------------contractList------------------>>>")
     
     formikStep2.setFieldValue("file", data.file);
   };
+
   const prevStep = () => {
     setCurrentStep(currentStep - 1);
   };
@@ -223,11 +232,14 @@ console.log(contractList, "-------------contractList------------------>>>")
       getClaimList(data);
     },
   });
+
   useEffect(() => {
+    console.log()
     if (username) {
       formik.setFieldValue("customerName", `${username}`);
     }
   }, [username]);
+
   const getClaimList = async (data) => {
     setLoading123(true);
     setPageValue(data.page)
@@ -254,7 +266,9 @@ console.log(contractList, "-------------contractList------------------>>>")
         return null;
     }
   };
+
   const [recordsPerPage, setRecordsPerPage] = useState(10);
+
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setSelectedActions(null);
@@ -278,6 +292,7 @@ console.log(contractList, "-------------contractList------------------>>>")
       setLoading2(false);
     });
   };
+
   // Get the current date
   const currentDate = new Date();
 
@@ -321,6 +336,7 @@ console.log(contractList, "-------------contractList------------------>>>")
       nextStep();
     });
   };
+
   const handlePageChange = async (page, rowsPerPage) => {
     setRecordsPerPage(rowsPerPage);
     // if (formik.values.contractId !== "") {
@@ -603,9 +619,17 @@ console.log(contractList, "-------------contractList------------------>>>")
     if(location.pathname.includes('singleView')){
       navigate(-1)
     }
+    else if(window.location.pathname.includes('/dealer/addClaim')){ 
+      navigate('/dealer/claimList')
+    }
+    else if(window.location.pathname.includes('/reseller/addClaim')){ 
+      navigate('/reseller/claimList')
+    }
     else{
       navigate('/claimList')
+
     }
+    
   }
   
   const formikStep2 = useFormik({
@@ -647,6 +671,7 @@ console.log(contractList, "-------------contractList------------------>>>")
       });
     },
   });
+
   const renderStep2 = () => {
     return (
       <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
@@ -760,6 +785,7 @@ console.log(contractList, "-------------contractList------------------>>>")
                       options={servicerData} // Make sure to define servicerList
                       value={formikStep2.values.servicerId}
                       onBlur={formikStep2.handleBlur}
+                      isDisabled={window.location.pathname.includes('/dealer/addClaim') || window.location.pathname.includes('/reseller/addClaim')}
                     />
                   </div>
                   <div className="col-span-6">
@@ -1415,6 +1441,7 @@ console.log(contractList, "-------------contractList------------------>>>")
       </Modal>
     </div>
   );
+
 }
 
 export default AddClaim;
