@@ -755,8 +755,8 @@ const handleAddClaim = () => {
     },
     onSubmit: (values) => {
       console.log('Selected tracking type:', values);
-      editClaimStatus(claimList.result[activeIndex]._id, values).then((res) => {
-        console.log('Selected tracking type:', res);
+      addClaimsRepairParts(claimList.result[activeIndex]._id, values).then((res) => {
+        getAllClaims();
       });
     },
   });
@@ -1371,7 +1371,6 @@ const handleAddClaim = () => {
                                           options={tracker}
                                           className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
                                           classBox="w-[35%]"
-                                          // {...Shipment.getFieldProps("trackingType")}
                                         />
                                         <Input
                                           name="trackingNumber"

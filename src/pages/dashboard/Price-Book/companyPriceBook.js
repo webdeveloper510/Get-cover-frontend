@@ -629,6 +629,11 @@ function CompanyPriceBook() {
                     <p className="text-lg text-light-black font-semibold">Price Type</p>
                     <p className="text-base text-neutral-grey font-semibold"> {data.priceType}</p>
                   </div>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Coverage Type</p>
+                    <p className="text-base text-neutral-grey font-semibold"> {data.coverageType}</p>
+                  </div>
+
                   {
                     data.priceType == "Flat Pricing" && (
                       <>
