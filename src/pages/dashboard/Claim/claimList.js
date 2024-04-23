@@ -509,7 +509,7 @@ formik.resetForm()
 
   const openAttachments = () => {
     setIsAttachmentsOpen(true);
-    setIsEditOpen(false);
+   // setIsEditOpen(false);
   };
   const closeAttachments = () => {
     setIsAttachmentsOpen(false);
@@ -746,6 +746,7 @@ formik.resetForm()
           setError(res.message);
         } else {
           openAttachments();
+          setTimer(3)
           getAllClaims();
           setActiveIndex(null);
         }
