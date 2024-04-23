@@ -1493,6 +1493,7 @@ function Dealer() {
                             onBlur={formik.handleBlur}
                             onChange={handleSelectChange}
                             index={index}
+                            disabled ={formik.values.priceBook[index].categoryId == ''}
                             error={
                               formik.touched.priceBook &&
                               formik.touched.priceBook[index] &&

@@ -1391,7 +1391,12 @@ formik.resetForm()
                                         <Button className='absolute right-[30px] !p-0 top-[2px]' type='submit'><img src={checkIcon} className="w-[21px]"/></Button>
                                         </div>
                                           </form>) : <div className="flex justify-between">
-                                            <a className="text-[white] text-base" href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`} target="_blank">UPS Traker</a>
+                                            { res?.trackingType == 'ups' && <a className="text-[white] text-base" href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`} target="_blank">UPS Traker</a>}
+                                            { res?.trackingType == 'usps' &&
+                                            <a className="text-[white] text-base" href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`} target="_blank">USPS Traker</a>}
+                                            { res?.trackingType == 'fedx' &&
+                                            <a className="text-[white] text-base" href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`} target="_blank">FedX Traker</a> }
+                                            
                                             <img src={pen} className="cursor-pointer object-contain ml-4"/>
                                             </div>
                                           }
