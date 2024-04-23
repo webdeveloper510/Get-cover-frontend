@@ -36,6 +36,7 @@ function AddDealerBook() {
   const [error, setError] = useState("");
   const [timer, setTimer] = useState(3);
   const [type, setType] = useState("");
+  const [coverageType, setCoverageType] = useState("");
   const [loader, setLoader] = useState(false);
   const [priceBookById, setPriceBookById] = useState({});
   const navigate = useNavigate();
@@ -87,16 +88,18 @@ function AddDealerBook() {
     }
   };
   useEffect(() => {
+   
     if (id) {
       dealerDetailById(id);
       setType("Edit");
     } else if (dealerIdValue) {
       formik.setFieldValue("dealerId", dealerIdValue);
+      getProductList(dealerIdValue);
     } else {
       setType("Add");
     }
     dealerList();
-    // getProductList();
+    
   }, []);
 
   useEffect(() => {
@@ -113,16 +116,17 @@ function AddDealerBook() {
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
 
-  // const getProductList = async () => {
-  //   const result = await getCategoryListActiveData();
-  //   // console.log(result.result);
-  //   setCategoryList(
-  //     result.result.map((item) => ({
-  //       label: item.name,
-  //       value: item._id,
-  //     }))
-  //   );
-  // };
+  const getProductList = async (id) => {
+    const result = await getCategoryListActiveData({dealerId: id});
+    // console.log(result.result);
+    setCategoryList(
+      result.result.map((item) => ({
+        label: item.name,
+        value: item._id,
+      }))
+    );
+    setCoverageType(result.coverageType)
+  };
   const handleLinkClick = () => {
     if (dealerIdValue !== undefined) {
       console.log("Navigating to /dealerDetails/" + dealerIdValue);
@@ -145,7 +149,8 @@ function AddDealerBook() {
         dealerId: "",
       });
       const result = await getCategoryListActiveData({dealerId: value});
-    // console.log(result.result);
+    console.log(result.result);
+    setCoverageType(result.coverageType)
     setCategoryList(
       result.result.map((item) => ({
         label: item.name,
@@ -161,9 +166,9 @@ function AddDealerBook() {
         description: "",
         term: "",
       });
-      const response = await getProductListbyProductCategoryId(value);
+      console.log(value, '---------------------{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}');
+      const response = await getProductListbyProductCategoryId(value, {'coverageType' : coverageType});
       setProductNameOptions(() => {
-        console.log(response.result);
         return response.result.priceBooks.map((item) => ({
           label: item.name,
           value: item._id,
