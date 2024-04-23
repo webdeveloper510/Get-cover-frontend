@@ -9,7 +9,7 @@ import {
   faFileExcel,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 
 // Media Includes
 import AddDealer from "../../../assets/images/dealer-book.svg";
@@ -392,8 +392,8 @@ const handleAddClaim = () => {
     setIsDisapprovedOpen(true);
   };
   const closeEdit = () => {
-    // formik.resetForm();
-    setError("");
+formik.resetForm()
+    setError('')
     setIsEditOpen(false);
   };
 
@@ -430,6 +430,7 @@ const handleAddClaim = () => {
   const openEdit = (res, index) => {
     console.log(res, '-------------------->>>>>>>>>>>>>>>----------------')
     scrollToBottom()
+  
     if (res.repairParts.length != 0) {
       const repairPartsValues = res?.repairParts?.map((part) => ({
         serviceType: part.serviceType || "",
@@ -485,6 +486,7 @@ const handleAddClaim = () => {
     setClaimId(res._id);
    
     setIsEditOpen(true);
+    setError("");
     
   };
 

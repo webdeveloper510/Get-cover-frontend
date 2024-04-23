@@ -575,7 +575,12 @@ console.log('active---------------->>', active )
       ],
     },
     
-   
+    {
+      name: "Price Book ",
+      url: "/dealer/priceBook",
+      image: PriceImage,
+      active: ActivePriceBook,
+    },
     {
       name: "Reseller",
       image: DealerImage,
@@ -638,12 +643,6 @@ console.log('active---------------->>', active )
           active: SeacondActive,
         },
       ],
-    },
-    {
-      name: "Price Book ",
-      url: "/dealer/priceBook",
-      image: PriceImage,
-      active: ActivePriceBook,
     },
     {
       name: "Manage Account",
@@ -710,7 +709,12 @@ console.log('active---------------->>', active )
       ],
     },
     
-   
+    {
+      name: "Price Book ",
+      url: "/reseller/priceBook",
+      image: PriceImage,
+      active: ActivePriceBook,
+    },
     {
       name: "Customer",
       image: CustomerImage,
@@ -754,12 +758,6 @@ console.log('active---------------->>', active )
           active: SeacondActive,
         },
       ],
-    },
-    {
-      name: "Price Book ",
-      url: "/reseller/priceBook",
-      image: PriceImage,
-      active: ActivePriceBook,
     },
     {
       name: "Manage Account",
