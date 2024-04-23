@@ -1096,7 +1096,9 @@ function ClaimList(props) {
           </Grid>
 
           <div className="px-3 mt-5">
-             {props.activeTab == "Unpaid Claims" && (<>
+            {totalRecords == 0 ? <></> :
+            <>
+            {props.activeTab == "Unpaid Claims" && (<>
               {!isCheckBox &&  <div className="text-right mt-8">
                       <Button
                           className="mx-3 !text-[14px] !py-[4px]"
@@ -1106,6 +1108,9 @@ function ClaimList(props) {
                         </Button>
             </div>}
              </> ) }
+            </>
+            }
+             
            
             {loaderType == true ? (
               <div className=" h-[400px] w-full flex py-5">
