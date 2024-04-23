@@ -379,11 +379,11 @@ function AddOrder() {
       pendingAmount: 0.0,
     },
     validationSchema: Yup.object().shape({
-      paidAmount: Yup.number().when(["paymentStatus", "type"], {
-        is: (status, type) => status === "PartlyPaid" && type !== "Edit",
+      paidAmount: Yup.number().when(["paymentStatus"], {
+        is: (status) =>  status === "PartlyPaid",
         then: (schema) =>
           schema
-            .min(1, "Paid amount cannot be less than One")
+            .moreThan(0, "Paid amount cannot be less than One")
             .max(
               calculateTotalAmount(formikStep3.values.productsArray),
               "Paid amount cannot be more than the total amount"
@@ -395,8 +395,6 @@ function AddOrder() {
 
     onSubmit: (values) => {
       setLoading2(true);
-      console.log(loading2, "===========================================>>");
-      console.log(values);
       const arr = [];
       formikStep3.values.productsArray.map((res, index) => {
         arr.push(res.file);
@@ -416,22 +414,15 @@ function AddOrder() {
         paymentStatus: values.paymentStatus,
         orderAmount: parseFloat(totalAmount),
       };
+
       const formData = new FormData();
       if (orderId != undefined) {
         editOrder(orderId, data).then((res) => {
           if (res.code == 200) {
             setLoading2(false);
-            console.log(
-              loading2,
-              "===========================================>>1"
-            );
             openModal();
           } else {
             setLoading2(false);
-            console.log(
-              loading2,
-              "====================2=======================>>"
-            );
             setError(res.message);
           }
         });
@@ -441,10 +432,6 @@ function AddOrder() {
         addOrder(data).then((res) => {
           if (res.code == 200) {
             setLoading2(false);
-            console.log(
-              loading2,
-              "======================3=====================>>"
-            );
             openModal();
 
             //  navigate('/orderList')
@@ -504,7 +491,7 @@ function AddOrder() {
         return newArray;
       });
     });
-    console.log(result.result.servicerId);
+
     orderDetail(result.result);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
     formikStep3.setValues({
@@ -569,6 +556,7 @@ function AddOrder() {
   //     formik4.resetForm();
   //   }
   // }, [location]);
+  
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -964,7 +952,8 @@ function AddOrder() {
         "pendingAmount",
         calculateTotalAmount(formikStep3.values.productsArray)
       );
-    } else if (newPaymentStatus === "Paid") {
+    } 
+    else if (newPaymentStatus === "Paid") {
       if (type === "Edit") {
         formik4.setFieldValue("paidAmount", order.dueAmount);
         formik4.setFieldValue("pendingAmount", 0.0);
@@ -977,12 +966,17 @@ function AddOrder() {
       }
 
       //
-    } else if (newPaymentStatus === "PartlyPaid") {
+    } 
+    else if (newPaymentStatus === "PartlyPaid") {
+      // if(!order.paidAmount<=0){
+      
       if (type === "Edit") {
+      
         const pendingAmount = order.orderAmount - order.paidAmount;
         formik4.setFieldError("paidAmount", "");
         formik4.setFieldValue("paidAmount", order.paidAmount);
         formik4.setFieldValue("pendingAmount", pendingAmount);
+       
       } else {
         formik4.setFieldValue("paidAmount", 0);
         formik4.setFieldError("paidAmount", "");
@@ -992,7 +986,8 @@ function AddOrder() {
         );
       }
     }
-    formik4.handleChange(e);
+  formik4.handleChange(e);
+    formik4.setFieldError("paidAmount", '100');
   };
 
   useEffect(() => {
@@ -2600,12 +2595,16 @@ function AddOrder() {
                       }
                     `}
                       ></div>
+                      
                       <select
                         name="paymentStatus"
                         className="text-[12px] bg-[transparent] border-l w-full border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold "
                         onChange={handlePaymentStatusChange}
                         onBlur={formik4.handleBlur}
                         value={formik4.values.paymentStatus}
+                        error={
+                          formik4.errors.paymentStatus
+                        }
                       >
                         <option value="Paid">Paid</option>
                         <option value="Unpaid">Unpaid</option>

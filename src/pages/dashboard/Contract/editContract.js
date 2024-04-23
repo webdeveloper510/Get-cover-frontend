@@ -36,14 +36,14 @@ function EditContract() {
   console.log(id);
 
   const validationSchema = Yup.object().shape({
-    manufacture: Yup.string().required("Required"),
-    model: Yup.string().required("Required"),
-    serial: Yup.string().required("Required"),
+    manufacture: Yup.string().trim().required("Required"),
+    model: Yup.string().trim().required("Required"),
+    serial: Yup.string().trim().required("Required"),
     productValue: Yup.number()
       .typeError("Must be a number")
       .required("Required")
       .min(1, "Product value must be at least 1"),
-    condition: Yup.string().required("Rrequired"),
+    condition: Yup.string().trim().required("Required"),
     coverageStartDate: Yup.date().required("Required"),
   });
 
