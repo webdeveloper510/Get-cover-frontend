@@ -494,7 +494,7 @@ function ServicerDetails() {
   const navigate = useNavigate();
   const handleGOBack = () => {
     localStorage.removeItem("servicer");
-    navigate(-1);
+    navigate('/servicerList');
   };
   const serviceData = async () => {
     // const result =await
@@ -513,7 +513,7 @@ function ServicerDetails() {
 
         <div className="flex">
           <Link
-            onClick={handleGOBack}
+            to={'/servicerList'}
             className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
           >
             <img
@@ -528,10 +528,10 @@ function ServicerDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link onClick={handleGOBack}>Servicer / </Link>{" "}
+                <Link to={'/servicerList'}>Servicer / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link onClick={handleGOBack}> Servicer List / </Link>{" "}
+                <Link to={'/servicerList'}> Servicer List / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}
