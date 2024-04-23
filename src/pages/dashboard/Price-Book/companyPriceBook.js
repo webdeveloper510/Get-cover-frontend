@@ -48,29 +48,7 @@ function CompanyPriceBook() {
   // color="text-[#1B1D21] opacity-50"
   // className="!text-[14px] !bg-[#fff]"
   // value={formik.values.pricetype}
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      status: "",
-      category: "",
-      priceType: "",
-      term: "",
-      range:"",
-
-    },
-    validationSchema: Yup.object({
-      name: Yup.string(),
-      status: Yup.boolean(),
-      category: Yup.string(),
-      priceType: Yup.string(),
-      term: Yup.string(),
-      range: Yup.string(),
-    }),
-    onSubmit: (values) => {
-      console.log("Form submitted with values:", values);
-      getPriceBookListData(values);
-    },
-  });
+ 
 
   useEffect(() => {
     getPriceBookListData();
@@ -144,11 +122,7 @@ function CompanyPriceBook() {
       console.error("Error in handleStatusChange:", error);
     }
   };
-  const handleFilterIconClick = () => {
-    formik.resetForm();
-    console.log(formik.values);
-    getPriceBookListData();
-  };
+  
 
   const truncateText = (text, maxLength) => {
     return text.length > maxLength
@@ -401,6 +375,44 @@ function CompanyPriceBook() {
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
   };
+
+  const handleFilterIconClick = () => {
+    formik.resetForm();
+    formik.values = {name: "",
+    status: "",
+    category: "",
+    priceType: "",
+    term: "",
+    range:"",};
+    console.log(formik.values);
+    getPriceBookListData();
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      status: "",
+      category: "",
+      priceType: "",
+      term: "",
+      range:"",
+    },
+
+    validationSchema: Yup.object({
+      name: Yup.string(),
+      status: Yup.boolean(),
+      category: Yup.string(),
+      priceType: Yup.string(),
+      term: Yup.string(),
+      range: Yup.string(),
+    }),
+
+    onSubmit: (values) => {
+      console.log("Form submitted with values:", values);
+      getPriceBookListData(values);
+    },
+  });
+
   return (
     <>
       <div className="mb-8 ml-3">
@@ -505,7 +517,9 @@ function CompanyPriceBook() {
                       <Button
                         type="button"
                         className="!bg-transparent !p-0 mr-3"
-                        onClick={handleFilterIconClick}
+                        onClick={() => {
+                          handleFilterIconClick ()
+                        }}
                       >
                         <img
                           src={clearFilter}

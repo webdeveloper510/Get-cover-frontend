@@ -1278,7 +1278,7 @@ function DealerDetails() {
                   <RadioButton
                     id="yes-separate-account"
                     label="Yes"
-                    value='yes'
+                    value={true}
                     className="!pl-2"
                     checked={separateAccountOption === true}
                     onChange={handleSeparateAccountRadioChange}
@@ -1286,7 +1286,7 @@ function DealerDetails() {
                   <RadioButton
                     id="no-separate-account"
                     label="No"
-                    value='no'
+                    value={false}
                     checked={separateAccountOption === false}
                     onChange={handleSeparateAccountRadioChange}
                   />
