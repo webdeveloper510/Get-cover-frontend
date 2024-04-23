@@ -16,6 +16,7 @@ import AddDealer from "../../../assets/images/dealer-book.svg";
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import productName from "../../../assets/images/icons/productName1.svg";
+import pen from "../../../assets/images/pencil.png";
 import Sendto from "../../../assets/images/double-arrow.png";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import model from "../../../assets/images/icons/ProductModel.svg";
@@ -1362,10 +1363,9 @@ formik.resetForm()
                                         <span className="self-center w-[75px]  mr-[2.60rem]">
                                           Shipment :
                                         </span>
-                                        { trackingType == ''  ? (
+                                        { res?.trackingType == ''  ? (
                                         <form onSubmit={Shipment.handleSubmit}>
                                         <div className="relative flex w-full">
-
                                         <Select
                                           name="trackingType"
                                           label=""
@@ -1390,8 +1390,11 @@ formik.resetForm()
                                         />
                                         <Button className='absolute right-[30px] !p-0 top-[2px]' type='submit'><img src={checkIcon} className="w-[21px]"/></Button>
                                         </div>
-                                          </form>) : 'https://www.ups.com/track?track=yes&trackNums=dfgdsfg&loc=en_US&requester=ST/'}
-                                          
+                                          </form>) : <div className="flex justify-between">
+                                            <a className="text-[white] text-base" href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`} target="_blank">UPS Traker</a>
+                                            <img src={pen} className="cursor-pointer object-contain ml-4"/>
+                                            </div>
+                                          }
                                       </p>
                                     </>
                                   )}
