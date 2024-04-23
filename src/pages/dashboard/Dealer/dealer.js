@@ -403,9 +403,21 @@ function Dealer() {
   };
   const handleSelectChange2 = async (name, value) => {
     formik.setFieldValue(name, value);
+    
     const result = await getCategoryListActiveData({coverageType: value});
     console.log(result.result);
-  setTypes(result.coverageType)
+    setTypes(result.coverageType)
+    formik.setFieldValue("priceBook", [{
+      priceBookId: "",
+      categoryId: "",
+      wholesalePrice: "",
+      terms: "",
+      description: "",
+      retailPrice: "",
+      status: "",
+    },
+  ]);
+      
     setCategoryList(
       result.result.map((item) => ({
         label: item.name,

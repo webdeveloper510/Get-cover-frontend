@@ -257,7 +257,7 @@ function DealerDetails() {
     const result = await getDealersDetailsByid(id?.id);
     setDealerDetails(result.result[0]);
     console.log(result.result[0].dealerData);
-    setIsStatus(result?.result[0]?.dealerData.accountStatus);
+    setIsStatus(result?.result[0]?.dealerData.isAccountCreate);
     setInitialFormValues({
       accountName: result?.result[0]?.dealerData?.name,
       oldName: result?.result[0]?.dealerData?.name,
