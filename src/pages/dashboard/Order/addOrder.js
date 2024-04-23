@@ -776,9 +776,11 @@ function AddOrder() {
           calculateTotalAmount(dataValue.productsArray) - order.orderAmount,
           dataValue
         );
+        // order.orderAmount=calculateTotalAmount(res.productDetail.productsArray)
+     
         if (res.code == 200) {
           if (
-            order.orderAmount - calculateTotalAmount(dataValue.productsArray) <
+            order.orderAmount - calculateTotalAmount(res.productDetail.productsArray) <
               0 &&
             order.paymentStatus != "Unpaid"
           ) {
@@ -786,11 +788,12 @@ function AddOrder() {
             formik4.setFieldValue("paidAmount", parseInt(order.paidAmount));
             formik4.setFieldValue(
               "pendingAmount",
-              calculateTotalAmount(dataValue.productsArray) - order.orderAmount
+              calculateTotalAmount(res.productDetail.productsArray) - order.orderAmount
             );
-            order.orderAmount = calculateTotalAmount(dataValue.productsArray);
+            console.log( calculateTotalAmount(res.productDetail.productsArray) - order.orderAmount)
+              // order.orderAmount = calculateTotalAmount(res.productDetail.productsArray);
           } else if (
-            order.orderAmount - calculateTotalAmount(dataValue.productsArray) >
+            order.orderAmount - calculateTotalAmount(res.productDetail.productsArray) >
               0 &&
             order.paymentStatus != "Unpaid"
           ) {
@@ -798,7 +801,7 @@ function AddOrder() {
             formik4.setFieldValue("pendingAmount", "0.0");
             formik4.setFieldValue(
               "paidAmount",
-              calculateTotalAmount(dataValue.productsArray)
+              calculateTotalAmount(res.productDetail.productsArray)
             );
           }
 
@@ -971,8 +974,8 @@ function AddOrder() {
       // if(!order.paidAmount<=0){
       
       if (type === "Edit") {
-      
-        const pendingAmount = order.orderAmount - order.paidAmount;
+      console.log(order)
+        const pendingAmount = calculateTotalAmount(formikStep3.values.productsArray) - order.paidAmount;
         formik4.setFieldError("paidAmount", "");
         formik4.setFieldValue("paidAmount", order.paidAmount);
         formik4.setFieldValue("pendingAmount", pendingAmount);
@@ -1057,10 +1060,6 @@ function AddOrder() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const openError = () => {
-    setIsErrorOpen(true);
   };
 
   const closeError = () => {
