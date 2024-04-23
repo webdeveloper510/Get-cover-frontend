@@ -79,6 +79,7 @@ function ClaimList(props) {
   const [totalRecords, setTotalRecords] = useState(0);
   const [serviceType, setServiceType] = useState([]);
   const [claimId, setClaimId] = useState("");
+  const [claimUnique, setClaimUnique] = useState("");
   const [claimType, setClaimType] = useState({ bdAdh: "" });
   const [servicer, setServicer] = useState("");
   const [servicerList, setServicerList] = useState([]);
@@ -427,6 +428,7 @@ const handleAddClaim = () => {
   }, [dropdownRef]);
 
   const openEdit = (res, index) => {
+    console.log(res, '-------------------->>>>>>>>>>>>>>>----------------')
     scrollToBottom()
     if (res.repairParts.length != 0) {
       const repairPartsValues = res?.repairParts?.map((part) => ({
@@ -479,7 +481,7 @@ const handleAddClaim = () => {
         res.contracts.orders.dealers.isShippingAllowed
         )
         );
-    
+    setClaimUnique(res.unique_key)
     setClaimId(res._id);
    
     setIsEditOpen(true);
@@ -1358,7 +1360,8 @@ const handleAddClaim = () => {
                                         <span className="self-center w-[75px]  mr-[2.60rem]">
                                           Shipment :
                                         </span>
-                                          <form onSubmit={Shipment.handleSubmit}>
+                                        { trackingType == ''  ? (
+                                        <form onSubmit={Shipment.handleSubmit}>
                                         <div className="relative flex w-full">
 
                                         <Select
@@ -1385,7 +1388,8 @@ const handleAddClaim = () => {
                                         />
                                         <Button className='absolute right-[30px] !p-0 top-[2px]' type='submit'><img src={checkIcon} className="w-[21px]"/></Button>
                                         </div>
-                                          </form>
+                                          </form>) : 'https://www.ups.com/track?track=yes&trackNums=dfgdsfg&loc=en_US&requester=ST/'}
+                                          
                                       </p>
                                     </>
                                   )}
@@ -2003,7 +2007,7 @@ const handleAddClaim = () => {
           />
         </Button>
         <div className="">
-          <p className="text-center text-3xl font-semibold ">Edit Claim</p>
+          <p className="text-center text-3xl font-semibold ">Edit Claim / {claimUnique}</p>
 
           <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1] rounded-3xl">

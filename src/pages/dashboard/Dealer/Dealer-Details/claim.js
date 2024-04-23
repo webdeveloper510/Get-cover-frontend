@@ -69,6 +69,7 @@ function ClaimList(props) {
   const [isCheckBox, setIsCheckbox] = useState(false);
   const [loaderType, setLoaderType] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [pageValue, setPageValue] = useState(1);
   const [modelLoading, setModelLoading] = useState(false);
   const [markLoader, setMarkLoader] = useState(false);
@@ -730,12 +731,11 @@ function ClaimList(props) {
 
   const openPay = () => {
     setIsPayOpen(true);
+    setLoading1(true);
     getClaimUnpaid(checkboxStates).then((res) => {
-      setMarkLoader(true);
         setClaims(res.result.totalClaims)
         setClaimValues(res.result.unpaidValue)
-
-        setMarkLoader(false);
+        setLoading1(false);
     })  
   };
   const closePay = () => {
@@ -1669,7 +1669,7 @@ function ClaimList(props) {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-          {markLoader ? (
+          { loading1 ? (
             <>
             <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">

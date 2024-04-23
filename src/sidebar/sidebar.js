@@ -53,11 +53,6 @@ function SidebarItem({
   const [isActive, setIsActive] = useState(isActiveValue);
 
   const locationGet = useLocation();
-
-  useEffect(()=>{
-
-  },[])
-  
   useEffect(() => {
   
     if (isActiveValue === false) {
@@ -92,7 +87,7 @@ function SidebarItem({
 
   const [activeUrl , setActiveUrl] = useState(false);
 
-  // console.log('activeUrl---------------->>', activeUrl )
+  console.log('activeUrl---------------->>', activeUrl )
 
   useEffect(()=>{
     let urls = [item.url]
@@ -100,14 +95,12 @@ function SidebarItem({
       const urlsItem = item?.items?.map(i=>i.url) || [];
       urls = [...urls,...urlsItem]
     }
+    console.log("urls==========>>",urls,locationGet.pathname)
 
     const itHasUrl = checkWordsExist(locationGet.pathname,urls)
-    if(itHasUrl)
-    // console.log("item=======>",item)
+    if(itHasUrl)console.log("item=======>",item)
     setActiveUrl(itHasUrl)
   },[window.location.pathname])
-
-
 
   const handleClick = () => {
     if (hasItems) {
@@ -123,7 +116,7 @@ function SidebarItem({
     onLinkClick(item.url);
   };
 
- 
+  console.log('location.pathname', location.pathname)
   return (
     <li
       className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
@@ -203,16 +196,16 @@ function SidebarItem({
               <Link
                 to={subItem.url}
                 className={`rounded-[25px] flex ${
-                  location.pathname === subItem.url
+                  location.pathname.includes(subItem.url)
                     ? "text-white font-medium"
                     : "text-light-grey"
                 }`}
                 onClick={() => {
                   onLinkClick(subItem.url, item.name);
-                  // console.log(`Sub-Item link to ${subItem.url} clicked`);
+                  console.log(`Sub-Item link to ${subItem.url} clicked`);
                 }}
               >
-                {location.pathname === subItem.url ? (
+                {location.pathname.includes(subItem.url) ? (
                   <>
                     <img
                       src={subItem.active}
@@ -243,7 +236,7 @@ function SidebarItem({
 
                 <span
                   className={`self-center text-left text-[12px] font-medium w-full ${
-                    location.pathname === subItem.url ? "opacity-1" : "opacity-80"
+                    location.pathname.includes(subItem.url) ? "opacity-1" : "opacity-80"
                   } pl-0 ml-[10px] p-[19px] pr-0 ${
                     subIndex == item.items.length - 1
                       ? ""
@@ -499,7 +492,7 @@ function SideBar() {
     JSON.parse(localStorage.getItem("userDetails"))
   );
   const navigate = useNavigate();
-// console.log('active---------------->>', active )
+console.log('active---------------->>', active )
 
   const handleLinkClick = (url, dropdownItem) => {
     setActive(url === "#" ? dropdownItem : url);
