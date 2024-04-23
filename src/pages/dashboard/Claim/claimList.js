@@ -311,12 +311,12 @@ const handleAddClaim = () => {
 }
 
 
-  const getAllClaims = async (page = 1, rowsPerPage = 10) => {
+  const getAllClaims = async (page = 1, rowsPerPage) => {
     setLoaderType(true);
     setPageValue(page);
     let data = {
       page,
-      pageLimit: rowsPerPage,
+      pageLimit: recordsPerPage,
       ...formik1.values,
     };
 

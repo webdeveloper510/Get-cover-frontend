@@ -162,7 +162,7 @@ function ContractList(props) {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      getContract(props?.orderId ?? null, 1, 10);
+      getContract(props?.orderId ?? null, 1, recordsPerPage);
       console.log(values);
       setIsDisapprovedOpen(false);
     },

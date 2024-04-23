@@ -227,7 +227,7 @@ console.log(username)
       let data = {
         ...values,
         page: 1,
-        pageLimit: 10,
+        pageLimit: recordsPerPage,
       };
       getClaimList(data);
     },
