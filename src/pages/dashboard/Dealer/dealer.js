@@ -918,11 +918,8 @@ function Dealer() {
                       </div>
                       <div className="col-span-12">
                       <div className="relative">
-                        <label
-                            htmlFor='term'
-                            className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75 `}
-                          >
-                        Term And Condition
+                        <label htmlFor='term' className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75 `}>
+                          Term And Condition
                         </label>
                         <input
                           type="file"

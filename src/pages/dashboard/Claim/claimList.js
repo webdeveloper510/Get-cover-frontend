@@ -74,6 +74,7 @@ function ClaimList(props) {
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [trackerView, setTrackerView] = useState(false);
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
   const [claimLoading, setClaimLoading] = useState(false);
@@ -95,6 +96,7 @@ function ClaimList(props) {
     status: "",
     date: "",
   });
+  const [coverage, setCoverage] = useState([]);
   const navigate = useNavigate();
   const [claimStatus, setClaimStatus] = useState({ status: "", date: "" });
   const [repairStatus, setRepairStatus] = useState({ status: "", date: "" });
@@ -250,7 +252,7 @@ function ClaimList(props) {
       }
     }
   };
-
+console.log(coverage,"---------------------->>>>>")
   const editClaimRejectedValue = (claimId, data) => {
     editClaimStatus(claimId, data).then((res) => {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
@@ -339,6 +341,7 @@ const handleAddClaim = () => {
     getClaimListPromise
       .then((res) => {
         console.log(res);
+       
         if (res) {
           setClaimList(res);
           setTotalRecords(res?.totalCount);
@@ -760,7 +763,8 @@ formik.resetForm()
           openAttachments();
           setTimer(3)
           getAllClaims();
-          setActiveIndex(null);
+          // setActiveIndex();
+          setIsEditOpen(false)
         }
       });
     },
@@ -775,6 +779,8 @@ formik.resetForm()
       console.log('Selected tracking type:', values);
       addClaimsRepairParts(claimList.result[activeIndex]._id, values).then((res) => {
         getAllClaims();
+        setTrackerView(false)
+        Shipment.resetForm()
       });
     },
   });
@@ -810,6 +816,7 @@ formik.resetForm()
 
   useEffect(() => {
     getAllClaims();
+    
   }, []);
 
   useEffect(() => {
@@ -925,6 +932,7 @@ formik.resetForm()
     onSubmit: (values) => {
       setIsDisapprovedOpen(false);
       getAllClaims();
+      const storedActiveIndex = localStorage.getItem('activeIndex');
       console.log(values);
     },
   });
@@ -1001,7 +1009,7 @@ formik.resetForm()
     formik1.resetForm();
     getAllClaims();
   };
-  console.log(claimList, '++++++++++++++++_-------------------')
+  console.log(activeIndex, '++++++++++++++++_-------------------')
   const addTracker = () => {
 
   }
@@ -1376,7 +1384,37 @@ formik.resetForm()
                                         <span className="self-center w-[75px]  mr-[2.60rem]">
                                           Shipment :
                                         </span>
-                                        { res?.trackingType == ''  ? (
+                                        {trackerView ? 
+                                         <form onSubmit={Shipment.handleSubmit}>
+                                        <div className="relative flex w-full">
+                                        <Select
+                                          name="trackingType"
+                                          label=""
+                                          value={Shipment.values.trackingType}
+                                          onChange={handleSelectChange21}
+                                          white
+                                          OptionName='Tracker'
+                                          options={tracker}
+                                          className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[35%]"
+                                        />
+                                        <Input
+                                          name="trackingNumber"
+                                          label=""
+                                          placeholder='Enter Traker #'
+                                          white
+                                          value={Shipment.values.trackingNumber}
+                                          // options={state}
+                                          className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[50%]"
+                                          {...Shipment.getFieldProps("trackingNumber")}
+                                        />
+                                        <Button className='absolute right-[30px] !p-0 top-[2px]' type='submit'><img src={checkIcon} className="w-[21px]"/></Button>
+                                        </div>
+                                          </form> 
+                                          :
+                                          <>
+                                           { res?.trackingType == ''  ? (
                                         <form onSubmit={Shipment.handleSubmit}>
                                         <div className="relative flex w-full">
                                         <Select
@@ -1403,16 +1441,18 @@ formik.resetForm()
                                         />
                                         <Button className='absolute right-[30px] !p-0 top-[2px]' type='submit'><img src={checkIcon} className="w-[21px]"/></Button>
                                         </div>
-                                          </form>) : <div className="flex justify-between">
+                                          </form>) : <div className="flex w-1/2 justify-between">
                                             { res?.trackingType == 'ups' && <a className="text-[white] text-base" href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`} target="_blank">UPS Traker</a>}
                                             { res?.trackingType == 'usps' &&
                                             <a className="text-[white] text-base" href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`} target="_blank">USPS Traker</a>}
                                             { res?.trackingType == 'fedx' &&
                                             <a className="text-[white] text-base" href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`} target="_blank">FedX Traker</a> }
                                             
-                                            <img src={pen} className="cursor-pointer object-contain ml-4"/>
+                                            <img src={pen} onClick={() => setTrackerView(true)} className="cursor-pointer object-contain ml-4"/>
                                             </div>
                                           }
+                                          </> }
+                                       
                                       </p>
                                     </>
                                   )}
