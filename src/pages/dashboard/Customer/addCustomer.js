@@ -18,6 +18,7 @@ import disapprove from "../../../assets/images/Disapproved.png";
 import * as Yup from "yup";
 import {
   checkDealersEmailValidation,
+  getDealersDetailsByid,
   getDealersList,
 } from "../../../services/dealerServices";
 import { addNewCustomer } from "../../../services/customerServices";
@@ -28,6 +29,7 @@ import {
 } from "../../../services/reSellerServices";
 import { RotateLoader } from "react-spinners";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
+import { getUserListByDealerId } from "../../../services/userServices";
 
 function AddCustomer() {
   const [timer, setTimer] = useState(3);
@@ -36,6 +38,7 @@ function AddCustomer() {
   const [loading, setLoading] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
+  const [userAccount, setUserAccount] = useState(true);
   const [dealerList, setDealerList] = useState([]);
   const [resellerList, setResellerList] = useState([]);
   const navigate = useNavigate();
@@ -149,7 +152,6 @@ function AddCustomer() {
       console.log(values);
       const isEmailValid = !formik.errors.email;
       if (formik.values.members.length > 0) {
-        console.log(formik.values.members.length);
         let emailValues = [];
         for (let i = 0; i < formik.values.members.length; i++) {
           const result = await checkDealerEmailAndSetError(
@@ -178,7 +180,12 @@ function AddCustomer() {
         ...values,
         members: [newObject, ...values.members],
       };
-      console.log(newValues);
+      console.log(newValues,createAccountOption);
+      if(createAccountOption == 'no'){
+        newValues.members[0].status=false
+        newValues.status=false
+      }
+     
       const result = await addNewCustomer(newValues);
       console.log(result.message);
       if (result.code == 200) {
@@ -215,6 +222,7 @@ function AddCustomer() {
     formik.setFieldValue(name, value);
     if (name === "dealerName") {
       getCustomerList(value);
+      getDealerDetailsByValue(value)
     }
   };
   const getCustomerList = async (value) => {
@@ -228,7 +236,6 @@ function AddCustomer() {
       (value) => value.resellerData.status === true
     );
     filteredDealers?.map((res) => {
-      console.log(res.name);
       arr.push({
         label: res.resellerData.name,
         value: res.resellerData._id,
@@ -253,7 +260,9 @@ function AddCustomer() {
       formik.setFieldValue("status", true);
     }
   };
+
   const state = cityData;
+
   useEffect(() => {
     getDealerListData();
   }, []);
@@ -263,11 +272,25 @@ function AddCustomer() {
     } else {
       getDealerListData();
       getDealerDetails(dealerValueId);
-      console.log("hello");
     }
+    getDealerDetailsByValue(dealerValueId)
   }, [dealerValueId]);
-  const getDealerDetails = async (id) => {
+  
+  const getDealerDetailsByValue = async(id) => {
+    const data = await getUserListByDealerId(id);
+    console.log('data',data)
+    setUserAccount(data.userAccount)
+    if(!data.userAccount && data.userAccount != undefined){
+      setCreateAccountOption('no')
+    }
+    else{
+      setCreateAccountOption('yes')
+    }
+  }
+  
+    const getDealerDetails = async (id) => {
     const data = await getDealerDetailsId(id);
+    console.log('data',data.result)
     formik.setFieldValue("dealerName", data.result._id);
     getResellerList(data.result._id);
     formik.setFieldValue("resellerName", id);
@@ -305,12 +328,13 @@ function AddCustomer() {
       email: "",
       phoneNumber: "",
       position: "",
-      status: createAccountOption === "no"?false:true,
+      status: createAccountOption === "no" ? false : true,
       isPrimary: false,
     };
 
     formik.setFieldValue("members", [...formik.values.members, members]);
   };
+
   const checkEmailAvailability = async (email) => {
     console.log(emailValidationRegex.test(email));
     if (emailValidationRegex.test(email) != false) {
@@ -730,6 +754,7 @@ function AddCustomer() {
                         label="Yes"
                         value="yes"
                         checked={createAccountOption === "yes"}
+                        disabled={userAccount == false}
                         onChange={handleRadioChange}
                       />
                       <RadioButton
@@ -738,6 +763,7 @@ function AddCustomer() {
                         value="no"
                         checked={createAccountOption === "no"}
                         onChange={handleRadioChange}
+                        disabled={userAccount == false}
                       />
                     </p>
                   </div>
@@ -929,7 +955,7 @@ function AddCustomer() {
                             id={`yes-${index}`}
                             label="Yes"
                             value="yes"
-                            disabled={createAccountOption === "no"}
+                            disabled={createAccountOption === "no" ||  !userAccount}
                             checked={
                               formik.values.members &&
                               formik.values.members[index] &&
@@ -943,7 +969,7 @@ function AddCustomer() {
                             id={`no-${index}`}
                             label="No"
                             value="no"
-                            disabled={createAccountOption === "no"}
+                            disabled={createAccountOption === "no" || !userAccount}
                             checked={
                               formik.values.members &&
                               formik.values.members[index] &&
