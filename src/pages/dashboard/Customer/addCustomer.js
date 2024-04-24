@@ -229,6 +229,7 @@ function AddCustomer() {
     console.log(value);
     getResellerList(value);
   };
+
   const getResellerList = async (value) => {
     const data = await getResellerListByDealerId({}, value);
     let arr = [];
@@ -282,9 +283,19 @@ function AddCustomer() {
     setUserAccount(data.userAccount)
     if(!data.userAccount && data.userAccount != undefined){
       setCreateAccountOption('no')
+        const updatedMembers = formik.values.members.map((service) => ({
+          ...service,
+          status: false,
+        }));
+  
+        formik.setFieldValue("members", updatedMembers);
+        formik.setFieldValue("status", false);
+      
     }
     else{
       setCreateAccountOption('yes')
+      formik.setFieldValue("status", true);
+
     }
   }
   
@@ -955,7 +966,7 @@ function AddCustomer() {
                             id={`yes-${index}`}
                             label="Yes"
                             value="yes"
-                            disabled={createAccountOption === "no" ||  !userAccount}
+                            disabled={createAccountOption === "no" || userAccount ==false}
                             checked={
                               formik.values.members &&
                               formik.values.members[index] &&
@@ -969,7 +980,7 @@ function AddCustomer() {
                             id={`no-${index}`}
                             label="No"
                             value="no"
-                            disabled={createAccountOption === "no" || !userAccount}
+                            disabled={createAccountOption === "no" || userAccount ==false}
                             checked={
                               formik.values.members &&
                               formik.values.members[index] &&
