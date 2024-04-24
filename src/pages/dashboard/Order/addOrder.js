@@ -778,22 +778,23 @@ function AddOrder() {
         );
         // order.orderAmount=calculateTotalAmount(res.productDetail.productsArray)
      
-        if (res.code === 200) {
-          const totalAmount = calculateTotalAmount(res.productDetail.productsArray);
-          const amountDifference = order.orderAmount - totalAmount;
-        
-          if (amountDifference < 0 && order.paymentStatus !== "Unpaid") {
-            formik4.setFieldValue("paymentStatus", "PartlyPaid");
-            formik4.setFieldValue("paidAmount", parseInt(order.paidAmount));
-            formik4.setFieldValue("pendingAmount", totalAmount - order.orderAmount);
-          } else if (amountDifference >= 0 && order.paymentStatus !== "Unpaid") {
-            formik4.setFieldValue("paymentStatus", "Paid");
-            formik4.setFieldValue("pendingAmount", "0.0");
-            formik4.setFieldValue("paidAmount", totalAmount);
-          }
-        
-          nextStep();
-        } else {
+      if (res.code === 200) {
+  const totalAmount = calculateTotalAmount(res.productDetail.productsArray);
+  const amountDifference = order.orderAmount - totalAmount;
+  console.log(amountDifference,order.orderAmount)
+
+  if (amountDifference < 0 && order.paymentStatus == "Paid") {
+    formik4.setFieldValue("paymentStatus", "PartlyPaid");
+    formik4.setFieldValue("paidAmount", parseInt(order.paidAmount));
+    formik4.setFieldValue("pendingAmount", totalAmount - order.orderAmount);
+  } else if (amountDifference >= 0 && order.paymentStatus == "Paid") {
+    formik4.setFieldValue("paymentStatus", "Paid");
+    formik4.setFieldValue("pendingAmount", "0.0");
+    formik4.setFieldValue("paidAmount", totalAmount);
+  }
+
+  nextStep();
+} else {
           for (let key of res.message) {
             console.log("res", res.message);
             setIsErrorOpen(true);
