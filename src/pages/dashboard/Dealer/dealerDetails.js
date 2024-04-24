@@ -65,8 +65,12 @@ import ContractList from "../Contract/contractList";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ClaimList from "../Claim/claimList";
+import ClaimList12 from "./Dealer-Details/claim";
 import Cross from "../../../assets/images/Cross_Button.png";
-
+import Unpaid from "../../../assets/images/icons/Unpaid.svg";
+import UnpaidActive from "../../../assets/images/icons/unpaidActive.svg";
+import Paid from "../../../assets/images/icons/Paid.svg";
+import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 function DealerDetails() {
   // const getInitialActiveTab = () => {
   //   const storedTab = localStorage.getItem("menu");
@@ -609,6 +613,27 @@ function DealerDetails() {
         <PriceBookList id={id.id} activeTab={activeTab} />
       ),
     },
+    {
+      id: "Unpaid Claims",
+      label: "Unpaid Claims",
+      icons: Unpaid,
+      Activeicons: UnpaidActive,
+      content: activeTab === "Unpaid Claims" && <ClaimList12
+      id={id.id}
+      flag="dealer"
+      activeTab={activeTab}
+       />,
+    },
+    {
+      id: "Paid Claims",
+      label: "Paid Claims",
+      icons: Paid,
+      Activeicons: ActivePaid,
+      content: activeTab === "Paid Claims" && <ClaimList12
+      id={id.id}
+      flag="dealer"
+      activeTab={activeTab}  />,
+    },
   ];
 
   const handleTabClick = (tabId) => {
@@ -669,8 +694,8 @@ function DealerDetails() {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 6,
-      slidesToSlide: 2, // optional, default to 1.
+      items: 5,
+      slidesToSlide: 5, // optional, default to 1.
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -905,7 +930,7 @@ function DealerDetails() {
                   >
                     {tabs.map((tab) => (
                       <Button
-                        className={`flex self-center mr-2 w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                        className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
                           activeTab === tab.id
                             ? "!bg-[#2A2A2A] !text-white"
                             : "!bg-[#F9F9F9] !text-black"

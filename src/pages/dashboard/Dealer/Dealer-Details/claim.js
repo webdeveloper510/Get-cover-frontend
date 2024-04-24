@@ -312,6 +312,7 @@ function ClaimList(props) {
     }
     setMarkLoader(false);
   };
+  console.log(props,'-------------------<<<<<<<<<<<<>>>>>>>>>>>>')
   const getAllClaims = async (page = 1, rowsPerPage = 10) => {
     setLoaderType(true);
     setPageValue(page);
@@ -324,6 +325,7 @@ function ClaimList(props) {
 
     let res;
     if (props.activeTab === "Unpaid Claims") {
+      
       res = await getUnpaidClaims(props.id, data);
     } else {
       res = await getPaidClaims(props.id, data);

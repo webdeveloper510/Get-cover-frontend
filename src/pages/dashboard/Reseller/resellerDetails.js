@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Headbar from "../../../common/headBar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Grid from "../../../common/grid";
@@ -43,6 +43,8 @@ import {
   editDealerData,
   getDealersDetailsByid,
 } from "../../../services/dealerServices";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import { cityData } from "../../../stateCityJson";
 import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
@@ -60,6 +62,12 @@ import {
 } from "../../../services/reSellerServices";
 import ClaimList from "../Claim/claimList";
 // import Reseller from "../Dealer/Dealer-Details/reseller";
+import ClaimList12 from "../Dealer/Dealer-Details/claim";
+import Cross from "../../../assets/images/Cross_Button.png";
+import Unpaid from "../../../assets/images/icons/Unpaid.svg";
+import UnpaidActive from "../../../assets/images/icons/unpaidActive.svg";
+import Paid from "../../../assets/images/icons/Paid.svg";
+import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 
 function ResellerDetails() {
   // const getInitialActiveTab = () => {
@@ -77,6 +85,7 @@ function ResellerDetails() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [createAccount, setCreateAccount] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
+  const [scrolling, setScrolling] = useState(false);
   const [resellerDetail, setResllerDetails] = useState([]);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
@@ -166,6 +175,24 @@ function ResellerDetails() {
   const modalOpen1 = () => {
     resellerDetails(true);
     setIsModalOpen1(true);
+  };
+
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 5,
+      slidesToSlide: 5, // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 4,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1, // optional, default to 1.
+    },
   };
   const closeUserModal = () => {
     setActiveTab("Users");
@@ -508,20 +535,7 @@ function ResellerDetails() {
         <UserList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
       ),
     },
-    // {
-    //   id: "Users",
-    //   label: "Users",
-    //   icons: User,
-    //   Activeicons: UserActive,
-    //   content: ( activeTab === "Users" &&
-    //     <UserList
-    //       flag={"reseller"}
-    //       id={id.resellerId}
-    //       data={refreshList}
-    //       activeTab={activeTab}
-    //     />
-    //   ),
-    // },
+    
     {
       id: "PriceBook",
       label: "PriceBook",
@@ -535,6 +549,27 @@ function ResellerDetails() {
           activeTab={activeTab}
         />
       ),
+    },
+    {
+      id: "Unpaid Claims",
+      label: "Unpaid Claims",
+      icons: Unpaid,
+      Activeicons: UnpaidActive,
+      content: activeTab === "Unpaid Claims" && <ClaimList12
+      id={id.resellerId}
+      flag="reseller"
+      activeTab={activeTab}
+       />,
+    },
+    {
+      id: "Paid Claims",
+      label: "Paid Claims",
+      icons: Paid,
+      Activeicons: ActivePaid,
+      content: activeTab === "Paid Claims" && <ClaimList12
+      id={id.resellerId}
+      flag="reseller"
+      activeTab={activeTab}  />,
     },
   ];
 
@@ -607,6 +642,14 @@ function ResellerDetails() {
     }
   };
 
+  const handleTransitionEnd = () => {
+    if (containerRef.current) {
+      containerRef.current.classList.remove("scroll-transition");
+      setScrolling(false);
+    }
+  };
+
+  const containerRef = useRef(null);
   const handleGOBack = () => {
     navigate(`/resellerList`);
     // navigate(-1);
@@ -833,36 +876,45 @@ function ResellerDetails() {
                     : "col-span-12"
                 }`}
               >
-                <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-7 !gap-1">
+                <div
+                  className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1]`}
+                  ref={containerRef}
+                  onTransitionEnd={handleTransitionEnd}
+                >
+                  <Carousel
+                    className="!gap-1"
+                    ssr={true}
+                    responsive={responsive}
+                  >
                     {tabs.map((tab) => (
-                      <div className="col-span-1" key={tab.id}>
-                        <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
-                            activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-[#F9F9F9] !text-black"
+                      <Button
+                        className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                          activeTab === tab.id
+                            ? "!bg-[#2A2A2A] !text-white"
+                            : "!bg-[#F9F9F9] !text-black"
+                        }`}
+                        onClick={() => handleTabClick(tab.id)}
+                      >
+                        <img
+                          src={
+                            activeTab === tab.id ? tab.Activeicons : tab.icons
+                          }
+                          className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
+                          alt={tab.label}
+                        />
+                        <span
+                          className={`ml-1 py-1 text-sm font-Regular ${
+                            activeTab === tab.id ? "text-white" : "text-black"
                           }`}
-                          onClick={() => handleTabClick(tab.id)}
                         >
-                          <img
-                            src={
-                              activeTab === tab.id ? tab.Activeicons : tab.icons
-                            }
-                            className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
-                            alt={tab.label}
-                          />
-                          <span
-                            className={`ml-1 py-1 text-sm font-Regular ${
-                              activeTab === tab.id ? "text-white" : "text-black"
-                            }`}
-                          >
-                            {tab.label}
-                          </span>
-                        </Button>
-                      </div>
+                          {tab.label}
+                        </span>
+                      </Button>
                     ))}
-                  </Grid>
+                  </Carousel>
+                  <div className="absolute h-full bg-[#f9f9f9] right-[-15px] flex top-0 self-center  shadow-6xl">
+                    {" "}
+                  </div>
                 </div>
               </div>
               {isStatus == true && resellerStatus == true ? (
