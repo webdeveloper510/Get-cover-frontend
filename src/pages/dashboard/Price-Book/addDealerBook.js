@@ -117,6 +117,7 @@ function AddDealerBook() {
   }, [isModalOpen, timer]);
 
   const getProductList = async (id) => {
+    setLoader(true);
     const result = await getCategoryListActiveData({dealerId: id});
     // console.log(result.result);
     setCategoryList(
@@ -126,6 +127,7 @@ function AddDealerBook() {
       }))
     );
     setCoverageType(result.coverageType)
+    setLoader(false);
   };
   const handleLinkClick = () => {
     if (dealerIdValue !== undefined) {

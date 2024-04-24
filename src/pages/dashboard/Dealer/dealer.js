@@ -936,7 +936,7 @@ function Dealer() {
                         {selectedFile2 &&  <button type="button" onClick={handleRemoveFile} className="absolute -right-2 -top-2 mx-auto mb-3">
                           <img src={Cross} className="w-6 h-6" alt="Dropbox" />
                           </button>}
-                          {selectedFile2 ? <p className="w-full">{selectedFile2.name}</p> : <p className="w-full cursor-pointer" onClick={handleRemoveFile}> Select File</p>}
+                          {selectedFile2 ? <p className="w-full break-words">{selectedFile2.name}</p> : <p className="w-full cursor-pointer" onClick={handleRemoveFile}> Select File</p>}
                       </div>
                       </div>
                       </div>

@@ -48,6 +48,7 @@ import {
   getClaimListForReseller,
   getClaimListForServicer,
   getClaimMessages,
+  getContractPrice,
 } from "../../../services/claimServices";
 import { format } from "date-fns";
 import { useFormik } from "formik";
@@ -78,6 +79,7 @@ function ClaimList(props) {
   const [claimLoading, setClaimLoading] = useState(false);
   const [claimList, setClaimList] = useState({});
   const [totalRecords, setTotalRecords] = useState(0);
+  const [price, setPrice] = useState('');
   const [serviceType, setServiceType] = useState([]);
   const [claimId, setClaimId] = useState("");
   const [claimUnique, setClaimUnique] = useState("");
@@ -488,7 +490,17 @@ formik.resetForm()
    
     setIsEditOpen(true);
     setError("");
-    
+   
+    getClaimPrice(res.contractId);
+      
+   
+  };
+
+  const getClaimPrice = async (id) => {
+    setClaimLoading(true);
+    const response = await getContractPrice(id);
+    setPrice(response.result);
+    setClaimLoading(false);
   };
 
   const calculateTotalCost = (repairParts) => {
@@ -2019,10 +2031,22 @@ formik.resetForm()
         </Button>
         <div className="">
           <p className="text-center text-3xl font-semibold ">Edit Claim / {claimUnique}</p>
-
-          <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
+            {claimLoading ?   
+               <div className=" h-[400px] w-full flex py-5">
+                            <div className="self-center mx-auto">
+                              <RotateLoader color="#333" />
+                            </div>
+                          </div>  :
+            <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1] rounded-3xl">
+              <div className="flex justify-between">
               <p className="pb-5 text-lg font-semibold">Repair Parts</p>
+                <p className="pb-5 text-lg font-semibold"> Max Claim Amount : ${
+          price === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(price ?? parseInt(0))
+        }</p>
+              </div>
               <div className="w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">
                 {formik?.values?.repairParts?.map((part, index) => {
                   return (
@@ -2189,7 +2213,9 @@ formik.resetForm()
               </Button>
               <Button type="submit">Update</Button>
             </div>
-          </form>
+            </form>
+            }
+         
         </div>
       </Modal>
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
