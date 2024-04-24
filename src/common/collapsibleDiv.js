@@ -3,12 +3,14 @@ import Delete from '../assets/images/icons/deleteIcons.svg';
 import Add from '../assets/images/icons/addIcon.svg';
 
 const CollapsibleDiv = ({ title, children, index, activeIndex, setActiveIndex }) => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const contentRef = useRef(null);
 
   const handleToggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
     setActiveIndex(isCollapsed ? index : null);
+    localStorage.setItem('activeIndex', index);
+
   };
 
   useEffect(() => {
@@ -17,14 +19,23 @@ const CollapsibleDiv = ({ title, children, index, activeIndex, setActiveIndex })
       contentRef.current.style.maxHeight = isCollapsed ? '0px' : `${contentRef.current.scrollHeight}px`;
     }
   }, [isCollapsed]);
-
+console.log(isCollapsed)
   useEffect(() => {
-    // Close the current element if its index doesn't match the activeIndex
-    if (index !== activeIndex) {
-      setIsCollapsed(true);
-    }
+    const storedActiveIndex = localStorage.getItem('activeIndex');
+    // setActiveIndex(storedActiveIndex)
+    console.log(activeIndex, '-------><<<<>>>><<<<<<<<<')
+    console.log(index, '-------><<<<>>>>index<<<<<<<<<')
+    console.log(storedActiveIndex, '-------><<<<>>>>storedActiveIndex<<<<<<<<<')
+    if (activeIndex == 'null' ) {
+      if (index == storedActiveIndex) {
+        console.log('354543')
+        setIsCollapsed(true);
+      }
+    } else 
+      if (index !== activeIndex) {
+        setIsCollapsed(true);
+      } 
   }, [index, activeIndex]);
-
   return (
     <div className="my-8">
       <div className={`w-full justify-between items-center relative ${isCollapsed ? 'border-b border-black' : ''}`}>

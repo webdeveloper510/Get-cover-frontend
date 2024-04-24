@@ -84,7 +84,7 @@ function DealerDetails() {
   const [createServicerAccountOption, setServicerCreateAccountOption] =
     useState(false);
     const [createAccountOption, setCreateAccountOption] = useState("yes");
-  const [separateAccountOption, setSeparateAccountOption] = useState("yes");
+  const [separateAccountOption, setSeparateAccountOption] = useState(true);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -124,6 +124,7 @@ function DealerDetails() {
     isShippingAllowed: "",
     isServicer: createServicerAccountOption,
     isAccountCreate: createAccount,
+    userAccount:separateAccountOption,
     termCondition: {
       fileName: "",
       name: "",
@@ -135,7 +136,10 @@ function DealerDetails() {
   const containerRef = useRef(null);
 
   const handleSeparateAccountRadioChange = (event) => {
-    setSeparateAccountOption(event.target.value);
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    setSeparateAccountOption(valueAsBoolean);
+    formik.setFieldValue("userAccount", valueAsBoolean);
+    
   };
   const handleServiceChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
@@ -211,6 +215,8 @@ function DealerDetails() {
   const getUserList = async () => {
     const result = await getUserListByDealerId(id.id, {});
     setRefreshUserList(result.result);
+    console.log(result, '------------------->>>>>')
+    setSeparateAccountOption(result.userAccount)
   };
 
   const closeModal1 = () => {
@@ -278,6 +284,8 @@ function DealerDetails() {
       isAccountCreate: result?.result[0]?.dealerData?.isAccountCreate,
     });
     setServicerCreateAccountOption(result?.result[0]?.dealerData?.isServicer);
+    
+    console.log(result, '-------------->>>>>>')
     setCreateAccount(result?.result[0]?.dealerData?.isAccountCreate);
     setSelectedFile2(result?.result[0]?.dealerData?.termCondition);
     setCreateAccountOption(
@@ -1116,14 +1124,15 @@ function DealerDetails() {
                       )}
                   </div>
                   <div className="col-span-12">
-                    <Select
+                    <Input
                       label="Coverage Type"
                       name="coverageType"
                       placeholder=""
                       className="!bg-white"
                       required={true}
-                      onChange={handleSelectChange1}
+                      // onChange={handleSelectChange1}
                       options={coverage}
+                      disabled={true}
                       value={formik.values.coverageType}
                       onBlur={formik.handleBlur}
                       error={
@@ -1226,6 +1235,7 @@ function DealerDetails() {
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
+                    // disabled={dealerDetails.dealerData?.isShippingAllowed === true}
                     checked={shipping === "yes"}
                     onChange={handleRadio}
                   />
@@ -1233,6 +1243,7 @@ function DealerDetails() {
                     id="no-create-account"
                     label="No"
                     value="no"
+                    // disabled={dealerDetails.dealerData?.isShippingAllowed === true}
                     checked={shipping === "no"}
                     onChange={handleRadio}
                   />
@@ -1268,17 +1279,16 @@ function DealerDetails() {
                   <RadioButton
                     id="yes-separate-account"
                     label="Yes"
-                    value="yes"
+                    value={true}
                     className="!pl-2"
-                    checked={separateAccountOption === "yes"}
-                    disabled={createAccountOption === "no"}
+                    checked={separateAccountOption === true}
                     onChange={handleSeparateAccountRadioChange}
                   />
                   <RadioButton
                     id="no-separate-account"
                     label="No"
-                    value="no"
-                    checked={separateAccountOption === "no"}
+                    value={false}
+                    checked={separateAccountOption === false}
                     onChange={handleSeparateAccountRadioChange}
                   />
                 </p>

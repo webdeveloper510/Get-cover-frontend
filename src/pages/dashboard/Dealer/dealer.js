@@ -403,9 +403,21 @@ function Dealer() {
   };
   const handleSelectChange2 = async (name, value) => {
     formik.setFieldValue(name, value);
+    
     const result = await getCategoryListActiveData({coverageType: value});
     console.log(result.result);
-  setTypes(result.coverageType)
+    setTypes(result.coverageType)
+    formik.setFieldValue("priceBook", [{
+      priceBookId: "",
+      categoryId: "",
+      wholesalePrice: "",
+      terms: "",
+      description: "",
+      retailPrice: "",
+      status: "",
+    },
+  ]);
+      
     setCategoryList(
       result.result.map((item) => ({
         label: item.name,
@@ -906,11 +918,8 @@ function Dealer() {
                       </div>
                       <div className="col-span-12">
                       <div className="relative">
-                        <label
-                            htmlFor='term'
-                            className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75 `}
-                          >
-                        Term And Condition
+                        <label htmlFor='term' className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75 `}>
+                          Term And Condition
                         </label>
                         <input
                           type="file"
@@ -924,7 +933,7 @@ function Dealer() {
                         {selectedFile2 &&  <button type="button" onClick={handleRemoveFile} className="absolute -right-2 -top-2 mx-auto mb-3">
                           <img src={Cross} className="w-6 h-6" alt="Dropbox" />
                           </button>}
-                          {selectedFile2 ? <p className="w-full">{selectedFile2.name}</p> : <p className="w-full cursor-pointer" onClick={handleRemoveFile}> Select File</p>}
+                          {selectedFile2 ? <p className="w-full break-words">{selectedFile2.name}</p> : <p className="w-full cursor-pointer" onClick={handleRemoveFile}> Select File</p>}
                       </div>
                       </div>
                       </div>
@@ -1481,6 +1490,7 @@ function Dealer() {
                             onBlur={formik.handleBlur}
                             onChange={handleSelectChange}
                             index={index}
+                            disabled ={formik.values.priceBook[index].categoryId == ''}
                             error={
                               formik.touched.priceBook &&
                               formik.touched.priceBook[index] &&

@@ -16,6 +16,7 @@ import AddDealer from "../../../assets/images/dealer-book.svg";
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import productName from "../../../assets/images/icons/productName1.svg";
+import pen from "../../../assets/images/pencil.png";
 import Sendto from "../../../assets/images/double-arrow.png";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import model from "../../../assets/images/icons/ProductModel.svg";
@@ -47,6 +48,7 @@ import {
   getClaimListForReseller,
   getClaimListForServicer,
   getClaimMessages,
+  getContractPrice,
 } from "../../../services/claimServices";
 import { format } from "date-fns";
 import { useFormik } from "formik";
@@ -72,13 +74,16 @@ function ClaimList(props) {
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [trackerView, setTrackerView] = useState(false);
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
   const [claimLoading, setClaimLoading] = useState(false);
   const [claimList, setClaimList] = useState({});
   const [totalRecords, setTotalRecords] = useState(0);
+  const [price, setPrice] = useState('');
   const [serviceType, setServiceType] = useState([]);
   const [claimId, setClaimId] = useState("");
+  const [claimUnique, setClaimUnique] = useState("");
   const [claimType, setClaimType] = useState({ bdAdh: "" });
   const [servicer, setServicer] = useState("");
   const [servicerList, setServicerList] = useState([]);
@@ -91,6 +96,7 @@ function ClaimList(props) {
     status: "",
     date: "",
   });
+  const [coverage, setCoverage] = useState([]);
   const navigate = useNavigate();
   const [claimStatus, setClaimStatus] = useState({ status: "", date: "" });
   const [repairStatus, setRepairStatus] = useState({ status: "", date: "" });
@@ -246,7 +252,7 @@ function ClaimList(props) {
       }
     }
   };
-
+console.log(coverage,"---------------------->>>>>")
   const editClaimRejectedValue = (claimId, data) => {
     editClaimStatus(claimId, data).then((res) => {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
@@ -335,6 +341,7 @@ const handleAddClaim = () => {
     getClaimListPromise
       .then((res) => {
         console.log(res);
+       
         if (res) {
           setClaimList(res);
           setTotalRecords(res?.totalCount);
@@ -427,6 +434,7 @@ formik.resetForm()
   }, [dropdownRef]);
 
   const openEdit = (res, index) => {
+    console.log(res, '-------------------->>>>>>>>>>>>>>>----------------')
     scrollToBottom()
   
     if (res.repairParts.length != 0) {
@@ -480,12 +488,22 @@ formik.resetForm()
         res.contracts.orders.dealers.isShippingAllowed
         )
         );
-    
+    setClaimUnique(res.unique_key)
     setClaimId(res._id);
    
     setIsEditOpen(true);
     setError("");
-    
+   
+    getClaimPrice(res.contractId);
+      
+   
+  };
+
+  const getClaimPrice = async (id) => {
+    setClaimLoading(true);
+    const response = await getContractPrice(id);
+    setPrice(response.result);
+    setClaimLoading(false);
   };
 
   const calculateTotalCost = (repairParts) => {
@@ -745,7 +763,8 @@ formik.resetForm()
           openAttachments();
           setTimer(3)
           getAllClaims();
-          setActiveIndex(null);
+          // setActiveIndex();
+          setIsEditOpen(false)
         }
       });
     },
@@ -760,6 +779,8 @@ formik.resetForm()
       console.log('Selected tracking type:', values);
       addClaimsRepairParts(claimList.result[activeIndex]._id, values).then((res) => {
         getAllClaims();
+        setTrackerView(false)
+        Shipment.resetForm()
       });
     },
   });
@@ -795,6 +816,7 @@ formik.resetForm()
 
   useEffect(() => {
     getAllClaims();
+    
   }, []);
 
   useEffect(() => {
@@ -910,6 +932,7 @@ formik.resetForm()
     onSubmit: (values) => {
       setIsDisapprovedOpen(false);
       getAllClaims();
+      const storedActiveIndex = localStorage.getItem('activeIndex');
       console.log(values);
     },
   });
@@ -986,7 +1009,7 @@ formik.resetForm()
     formik1.resetForm();
     getAllClaims();
   };
-  console.log(claimList, '++++++++++++++++_-------------------')
+  console.log(activeIndex, '++++++++++++++++_-------------------')
   const addTracker = () => {
 
   }
@@ -1014,12 +1037,12 @@ formik.resetForm()
             </div>
 
             <button
-      onClick={handleAddClaim} // Call handleAddClaim function onClick
-      className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
-    >
-      <img src={AddItem} className="self-center" alt="AddItem" />
-      <span className="text-black ml-3 text-[14px] font-Regular">Add Claim</span>
-    </button>
+              onClick={handleAddClaim} // Call handleAddClaim function onClick
+              className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+            >
+              <img src={AddItem} className="self-center" alt="AddItem" />
+              <span className="text-black ml-3 text-[14px] font-Regular">Add Claim</span>
+            </button>
           </>
         )}
 
@@ -1358,12 +1381,12 @@ formik.resetForm()
                                         />
                                       </p>
                                       <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                        <span className="self-center w-[75px]  mr-[2.60rem]">
+                                        <span className="self-center w-[75px]  mr-[1rem]">
                                           Shipment :
                                         </span>
-                                          <form onSubmit={Shipment.handleSubmit}>
+                                        {trackerView ? 
+                                         <form onSubmit={Shipment.handleSubmit}>
                                         <div className="relative flex w-full">
-
                                         <Select
                                           name="trackingType"
                                           label=""
@@ -1388,7 +1411,48 @@ formik.resetForm()
                                         />
                                         <Button className='absolute right-[30px] !p-0 top-[2px]' type='submit'><img src={checkIcon} className="w-[21px]"/></Button>
                                         </div>
-                                          </form>
+                                          </form> 
+                                          :
+                                          <>
+                                           { res?.trackingType == ''  ? (
+                                        <form onSubmit={Shipment.handleSubmit}>
+                                        <div className="relative flex w-full">
+                                        <Select
+                                          name="trackingType"
+                                          label=""
+                                          value={Shipment.values.trackingType}
+                                          onChange={handleSelectChange21}
+                                          white
+                                          OptionName='Tracker'
+                                          options={tracker}
+                                          className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[35%]"
+                                        />
+                                        <Input
+                                          name="trackingNumber"
+                                          label=""
+                                          placeholder='Enter Traker #'
+                                          white
+                                          value={Shipment.values.trackingNumber}
+                                          // options={state}
+                                          className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[50%]"
+                                          {...Shipment.getFieldProps("trackingNumber")}
+                                        />
+                                        <Button className='absolute right-[30px] !p-0 top-[2px]' type='submit'><img src={checkIcon} className="w-[21px]"/></Button>
+                                        </div>
+                                          </form>) : <div className="flex w-1/2 justify-between">
+                                            { res?.trackingType == 'ups' && <a className="text-[white] text-base border-2 border-[white] rounded-3xl px-4" href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`} target="_blank">UPS Traker</a>}
+                                            { res?.trackingType == 'usps' &&
+                                            <a className="text-[white] text-base border-2 border-[white] rounded-3xl px-4" href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`} target="_blank">USPS Traker</a>}
+                                            { res?.trackingType == 'fedx' &&
+                                            <a className="text-[white] text-base border-2 border-[white] rounded-3xl px-4" href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`} target="_blank">FedX Traker</a> }
+                                            
+                                            <img src={pen} onClick={() => setTrackerView(true)} className="cursor-pointer object-contain ml-4"/>
+                                            </div>
+                                          }
+                                          </> }
+                                       
                                       </p>
                                     </>
                                   )}
@@ -2006,11 +2070,23 @@ formik.resetForm()
           />
         </Button>
         <div className="">
-          <p className="text-center text-3xl font-semibold ">Edit Claim</p>
-
-          <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
+          <p className="text-center text-3xl font-semibold ">Edit Claim / {claimUnique}</p>
+            {claimLoading ?   
+               <div className=" h-[400px] w-full flex py-5">
+                            <div className="self-center mx-auto">
+                              <RotateLoader color="#333" />
+                            </div>
+                          </div>  :
+            <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1] rounded-3xl">
+              <div className="flex justify-between">
               <p className="pb-5 text-lg font-semibold">Repair Parts</p>
+                <p className="pb-5 text-lg font-semibold"> Max Claim Amount : ${
+          price === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(price ?? parseInt(0))
+        }</p>
+              </div>
               <div className="w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">
                 {formik?.values?.repairParts?.map((part, index) => {
                   return (
@@ -2177,7 +2253,9 @@ formik.resetForm()
               </Button>
               <Button type="submit">Update</Button>
             </div>
-          </form>
+            </form>
+            }
+         
         </div>
       </Modal>
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
