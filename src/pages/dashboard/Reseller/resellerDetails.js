@@ -221,6 +221,7 @@ function ResellerDetails() {
     setIsStatus(result?.dealerStatus);
     setResellerStatus(result?.reseller[0].status);
     setServicerCreateAccountOption(result?.reseller[0]?.resellerData?.isServicer);
+    console.log(result?.reseller[0]?.resellerData?.isServicer,'---------------------<<<<<<<<result?.reseller[0]?.resellerData?.isServicer>>>>>>>>>>>>>>>>>>')
     setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
     setInitialFormValues({
       accountName: result?.reseller[0]?.resellerData?.name,
@@ -461,117 +462,116 @@ function ResellerDetails() {
     </div>
   );
 
-  const tabs = [
-    {
-      id: "Orders",
-      label: "Orders",
-      icons: Order,
-      Activeicons: OrderActive,
-      content: activeTab === "Orders" && (
-        <OrderList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
-      ),
-    },
-    {
-      id: "Contracts",
-      label: "Contracts",
-      icons: Contract,
-      Activeicons: ContractsActive,
-      content: activeTab === "Contracts" && (
-        <ContractList
-          flag={"reseller"}
-          id={id.resellerId}
-          activeTab={activeTab}
-        />
-      ),
-    },
-    {
-      id: "Claims",
-      label: "Claims",
-      icons: Claim,
-      Activeicons: ClaimActive,
-      content: activeTab === "Claims" && (
-        <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />
-      ),
-    },
-    // {
-    //   id: "Reseller",
-    //   label: "Reseller",
-    //   icons: User,
-    //   Activeicons: UserActive,
-    //   content: <Reseller id={id.id} />,
-    // },
-    {
-      id: "Customer",
-      label: "Customer",
-      icons: Customer,
-      Activeicons: CustomerActive,
-      content: activeTab === "Customer" && (
-        <CustomerList
-          flag={"reseller"}
-          id={id.resellerId}
-          activeTab={activeTab}
-        />
-      ),
-    },
-    {
-      id: "Servicer",
-      label: "Servicer",
-      icons: Servicer,
-      Activeicons: ServicerActive,
-      content: activeTab === "Servicer" && (
-        <ServicerList
-          flag={"reseller"}
-          id={id.resellerId}
-          activeTab={activeTab}
-        />
-      ),
-    },
-    {
-      id: "Users",
-      label: "Users",
-      icons: User,
-      Activeicons: UserActive,
-      content: (
-        <UserList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
-      ),
-    },
-    
-    {
-      id: "PriceBook",
-      label: "PriceBook",
-      icons: PriceBook,
-      Activeicons: PriceBookActive,
-      content: activeTab === "PriceBook" && (
-        <PriceBookList
-          id={id.resellerId}
-          flag={"reseller"}
-          dealerId={resellerDetail.resellerData?.dealerId}
-          activeTab={activeTab}
-        />
-      ),
-    },
-    {
-      id: "Unpaid Claims",
-      label: "Unpaid Claims",
-      icons: Unpaid,
-      Activeicons: UnpaidActive,
-      content: activeTab === "Unpaid Claims" && <ClaimList12
-      id={id.resellerId}
-      flag="reseller"
-      activeTab={activeTab}
-       />,
-    },
-    {
-      id: "Paid Claims",
-      label: "Paid Claims",
-      icons: Paid,
-      Activeicons: ActivePaid,
-      content: activeTab === "Paid Claims" && <ClaimList12
-      id={id.resellerId}
-      flag="reseller"
-      activeTab={activeTab}  />,
-    },
-  ];
+    const tabs = [
+      {
+        id: "Orders",
+        label: "Orders",
+        icons: Order,
+        Activeicons: OrderActive,
+        content: activeTab === "Orders" && (
+          <OrderList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
+        ),
+      },
+      {
+        id: "Contracts",
+        label: "Contracts",
+        icons: Contract,
+        Activeicons: ContractsActive,
+        content: activeTab === "Contracts" && (
+          <ContractList
+            flag={"reseller"}
+            id={id.resellerId}
+            activeTab={activeTab}
+          />
+        ),
+      },
+      {
+        id: "Claims",
+        label: "Claims",
+        icons: Claim,
+        Activeicons: ClaimActive,
+        content: activeTab === "Claims" && (
+          <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />
+        ),
+      },
+      {
+        id: "Customer",
+        label: "Customer",
+        icons: Customer,
+        Activeicons: CustomerActive,
+        content: activeTab === "Customer" && (
+          <CustomerList
+            flag={"reseller"}
+            id={id.resellerId}
+            activeTab={activeTab}
+          />
+        ),
+      },
+      {
+        id: "Servicer",
+        label: "Servicer",
+        icons: Servicer,
+        Activeicons: ServicerActive,
+        content: activeTab === "Servicer" && (
+          <ServicerList
+            flag={"reseller"}
+            id={id.resellerId}
+            activeTab={activeTab}
+          />
+        ),
+      },
+      {
+        id: "Users",
+        label: "Users",
+        icons: User,
+        Activeicons: UserActive,
+        content: (
+          <UserList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
+        ),
+      },
+      
+      {
+        id: "PriceBook",
+        label: "PriceBook",
+        icons: PriceBook,
+        Activeicons: PriceBookActive,
+        content: activeTab === "PriceBook" && (
+          <PriceBookList
+            id={id.resellerId}
+            flag={"reseller"}
+            dealerId={resellerDetail.resellerData?.dealerId}
+            activeTab={activeTab}
+          />
+        ),
+      },
+    ];
+
+    if (createServicerAccountOption === true) {
+      tabs.push(
+        {
+          id: "Unpaid Claims",
+          label: "Unpaid Claims",
+          icons: Unpaid,
+          Activeicons: UnpaidActive,
+          content: activeTab === "Unpaid Claims" && <ClaimList12
+            id={id.resellerId}
+            flag="reseller"
+            activeTab={activeTab}
+          />,
+        },
+        {
+          id: "Paid Claims",
+          label: "Paid Claims",
+          icons: Paid,
+          Activeicons: ActivePaid,
+          content: activeTab === "Paid Claims" && <ClaimList12
+            id={id.resellerId}
+            flag="reseller"
+            activeTab={activeTab}
+          />,
+        }
+      );
+    }
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -877,18 +877,18 @@ function ResellerDetails() {
                 }`}
               >
                 <div
-                  className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1]`}
+                  className={`relative rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1]`}
                   ref={containerRef}
                   onTransitionEnd={handleTransitionEnd}
                 >
                   <Carousel
-                    className="!gap-1"
+                    className="!gap-1 reseller"
                     ssr={true}
                     responsive={responsive}
                   >
                     {tabs.map((tab) => (
                       <Button
-                        className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                        className={`flex self-center mr-2 w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
                           activeTab === tab.id
                             ? "!bg-[#2A2A2A] !text-white"
                             : "!bg-[#F9F9F9] !text-black"
@@ -912,7 +912,7 @@ function ResellerDetails() {
                       </Button>
                     ))}
                   </Carousel>
-                  <div className="absolute h-full bg-[#f9f9f9] right-[-15px] flex top-0 self-center  shadow-6xl">
+                  <div className="absolute h-full bg-[#f9f9f9] right-[5px] flex top-0 self-center  shadow-6xl">
                     {" "}
                   </div>
                 </div>

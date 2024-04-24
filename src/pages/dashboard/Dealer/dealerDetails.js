@@ -612,29 +612,35 @@ function DealerDetails() {
       content: activeTab === "PriceBook" && (
         <PriceBookList id={id.id} activeTab={activeTab} />
       ),
-    },
-    {
-      id: "Unpaid Claims",
-      label: "Unpaid Claims",
-      icons: Unpaid,
-      Activeicons: UnpaidActive,
-      content: activeTab === "Unpaid Claims" && <ClaimList12
-      id={id.id}
-      flag="dealer"
-      activeTab={activeTab}
-       />,
-    },
-    {
-      id: "Paid Claims",
-      label: "Paid Claims",
-      icons: Paid,
-      Activeicons: ActivePaid,
-      content: activeTab === "Paid Claims" && <ClaimList12
-      id={id.id}
-      flag="dealer"
-      activeTab={activeTab}  />,
-    },
+    }
   ];
+
+  if (createServicerAccountOption === true) {
+    tabs.push(
+      {
+        id: "Unpaid Claims",
+        label: "Unpaid Claims",
+        icons: Unpaid,
+        Activeicons: UnpaidActive,
+        content: activeTab === "Unpaid Claims" && <ClaimList12
+          id={id.resellerId}
+          flag="reseller"
+          activeTab={activeTab}
+        />,
+      },
+      {
+        id: "Paid Claims",
+        label: "Paid Claims",
+        icons: Paid,
+        Activeicons: ActivePaid,
+        content: activeTab === "Paid Claims" && <ClaimList12
+          id={id.resellerId}
+          flag="reseller"
+          activeTab={activeTab}
+        />,
+      }
+    );
+  }
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);

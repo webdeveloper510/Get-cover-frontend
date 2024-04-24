@@ -20,6 +20,18 @@ button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
   min-height: 30px !important;
 }
 
+.reseller button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
+  right: 10px;
+  min-width: 30px !important;
+  left: unset;
+  min-height: 30px !important;
+}
+.reseller button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
+  right: 10px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+}
+
 .react-multi-carousel-list {
   position: unset !important;
 }
