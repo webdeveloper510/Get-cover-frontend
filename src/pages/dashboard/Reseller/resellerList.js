@@ -37,6 +37,7 @@ function ResellerList() {
     setResellerList(result.result);
     setLoading(false);
   };
+
   const dropdownRef = useRef(null);
 
   const calculateDropdownPosition = (index) => {
@@ -48,6 +49,7 @@ function ResellerList() {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
   };
+
   const getDealerList = async () => {
     let DealerArray = [];
     const result = await getDealersList();
@@ -108,6 +110,7 @@ function ResellerList() {
       });
     }
   };
+
   const handleStatusChange = async (row, newStatus) => {
     try {
       setResellerList((prevResellers) => {
@@ -134,6 +137,7 @@ function ResellerList() {
       console.error("Error in handleStatusChange:", error);
     }
   };
+
   const columns = [
     {
       name: "ID",
@@ -259,7 +263,6 @@ function ResellerList() {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);

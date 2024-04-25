@@ -877,7 +877,7 @@ function ResellerDetails() {
             <Grid className="">
               <div
                 className={`${
-                  isStatus == true && resellerStatus == true
+                  isStatus == true && resellerStatusMain == true
                     ? "col-span-10"
                     : "col-span-12"
                 }`}
@@ -923,7 +923,7 @@ function ResellerDetails() {
                   </div>
                 </div>
               </div>
-              {isStatus == true && resellerStatus == true ? (
+              {isStatus == true && resellerStatusMain == true ? (
                 <>
                   {activeTab !== "Servicer" &&
                   activeTab !== "PriceBook" &&
