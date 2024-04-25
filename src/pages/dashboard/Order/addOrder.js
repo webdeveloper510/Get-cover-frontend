@@ -773,7 +773,7 @@ function AddOrder() {
       };
       checkEditFileValidations(dataValue).then((res) => {
         console.log(
-          calculateTotalAmount(dataValue.productsArray) - order.orderAmount,
+          calculateTotalAmount(dataValue.productsArray) , order.orderAmount,
           dataValue
         );
         // order.orderAmount=calculateTotalAmount(res.productDetail.productsArray)
@@ -960,7 +960,7 @@ function AddOrder() {
       // if(!order.paidAmount<=0){
       
       if (type === "Edit") {
-      console.log(order)
+      console.log(calculateTotalAmount(formikStep3.values.productsArray),order)
         const pendingAmount = calculateTotalAmount(formikStep3.values.productsArray) - order.paidAmount;
         formik4.setFieldError("paidAmount", "");
         formik4.setFieldValue("paidAmount", order.paidAmount);
