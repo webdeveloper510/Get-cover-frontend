@@ -556,7 +556,7 @@ function OrderList(props) {
       </Modal>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {/* <Button
+        <Button
           // onClick={() => {
           //   navigate(`/editOrder/${orderList._id}/${props.id}/${props.flag}`);
           // }}
@@ -566,7 +566,7 @@ function OrderList(props) {
             src={Edit}
             className="w-full h-full text-black rounded-full p-0"
           />
-        </Button> */}
+        </Button>
         <Button
           onClick={closeModal}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
