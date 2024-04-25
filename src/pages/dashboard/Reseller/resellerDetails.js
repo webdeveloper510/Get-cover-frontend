@@ -114,6 +114,8 @@ function ResellerDetails() {
     resellerId: id.resellerId,
     street: "",
     city: "",
+    isServicer: createServicerAccountOption,
+    isAccountCreate: resellerStatus,
     zip: "",
     state: "",
     country: "USA",
@@ -176,7 +178,7 @@ function ResellerDetails() {
     resellerDetails(true);
     setIsModalOpen1(true);
   };
-
+console.log(isStatus,resellerStatus ,'<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>' )
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -231,7 +233,8 @@ function ResellerDetails() {
       city: result?.reseller[0]?.resellerData?.city,
       zip: result?.reseller[0]?.resellerData?.zip,
       state: result?.reseller[0]?.resellerData?.state,
-      
+      isServicer: result?.reseller[0]?.resellerData?.isServicer,
+      isAccountCreate: result?.reseller[0].status,
       country: "USA",
     });
     setLoading(false);

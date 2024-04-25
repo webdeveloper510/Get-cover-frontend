@@ -623,8 +623,8 @@ function DealerDetails() {
         icons: Unpaid,
         Activeicons: UnpaidActive,
         content: activeTab === "Unpaid Claims" && <ClaimList12
-          id={id.resellerId}
-          flag="reseller"
+          id={id.id}
+          flag="dealer"
           activeTab={activeTab}
         />,
       },
@@ -634,8 +634,8 @@ function DealerDetails() {
         icons: Paid,
         Activeicons: ActivePaid,
         content: activeTab === "Paid Claims" && <ClaimList12
-          id={id.resellerId}
-          flag="reseller"
+          id={id.id}
+          flag="dealer"
           activeTab={activeTab}
         />,
       }
