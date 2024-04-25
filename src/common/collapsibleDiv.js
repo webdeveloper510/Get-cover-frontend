@@ -10,7 +10,6 @@ const CollapsibleDiv = ({ title, children, index, activeIndex, setActiveIndex })
     setIsCollapsed(!isCollapsed);
     setActiveIndex(isCollapsed ? index : null);
     localStorage.setItem('activeIndex', index);
-
   };
 
   useEffect(() => {
@@ -19,6 +18,7 @@ const CollapsibleDiv = ({ title, children, index, activeIndex, setActiveIndex })
       contentRef.current.style.maxHeight = isCollapsed ? '0px' : `${contentRef.current.scrollHeight}px`;
     }
   }, [isCollapsed]);
+  
 console.log(isCollapsed)
   useEffect(() => {
     const storedActiveIndex = localStorage.getItem('activeIndex');

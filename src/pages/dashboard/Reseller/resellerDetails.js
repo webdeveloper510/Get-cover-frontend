@@ -927,7 +927,7 @@ function ResellerDetails() {
                 <>
                   {activeTab !== "Servicer" &&
                   activeTab !== "PriceBook" &&
-                  activeTab !== "Contracts" ? (
+                  activeTab !== "Contracts" &&  activeTab !== "Unpaid Claims" && activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2"
                       onClick={() => routeToPage(activeTab)}

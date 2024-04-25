@@ -763,7 +763,6 @@ formik.resetForm()
           openAttachments();
           setTimer(3)
           getAllClaims();
-          // setActiveIndex();
           setIsEditOpen(false)
         }
       });
@@ -932,8 +931,6 @@ formik.resetForm()
     onSubmit: (values) => {
       setIsDisapprovedOpen(false);
       getAllClaims();
-      const storedActiveIndex = localStorage.getItem('activeIndex');
-      console.log(values);
     },
   });
 

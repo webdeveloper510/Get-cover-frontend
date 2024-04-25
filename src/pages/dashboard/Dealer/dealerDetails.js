@@ -967,7 +967,7 @@ function DealerDetails() {
               </div>
               {isStatus == true && (
                 <>
-                  {activeTab !== "Contracts" ? (
+                  {activeTab !== "Contracts" && activeTab !== "Unpaid Claims" && activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2 self-center"
                       onClick={() => routeToPage(activeTab)}
