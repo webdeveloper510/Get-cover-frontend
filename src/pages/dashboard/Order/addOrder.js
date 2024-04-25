@@ -67,7 +67,11 @@ function AddOrder() {
   const [resellerList, setResllerList] = useState([]);
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
-  const [coverage, setCoverage] = useState([]);
+  const [coverage, setCoverage] = useState([
+    { label: "Breakdown", value: "Breakdown" },
+    { label: "Accidental", value: "Accidental" },
+    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" }
+  ]);
   const [serviceCoverage, setServiceCoverage] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
 
@@ -85,6 +89,7 @@ function AddOrder() {
   const navigate = useNavigate();
   const { orderId, dealerId, resellerId, dealerValue, customerId } =
     useParams();
+    console.log(orderId, dealerId, resellerId, dealerValue, customerId )
   const location = useLocation();
 
   const downloadCSVTemplate = async () => {
@@ -280,6 +285,7 @@ function AddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
+          coverageType:formikStep2?.values?.coverageType
         },
         0
       );
@@ -302,14 +308,15 @@ function AddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
+          coverageType:formikStep2?.values?.coverageType
         },
         0
       );
     }
     if (customerId) {
+      formik.setFieldValue("resellerId", resellerId);
       formik.setFieldValue("customerId", customerId);
       formik.setFieldValue("dealerId", dealerValue);
-      formik.setFieldValue("resellerId", resellerId);
       getResellerList(dealerValue);
       getServiceCoverage(dealerValue);
       getCustomerList({
@@ -325,6 +332,7 @@ function AddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
+          coverageType:formikStep2?.values?.coverageType
         },
         0
       );
@@ -333,44 +341,52 @@ function AddOrder() {
     getTermListData();
   }, []);
 
-  const getServiceCoverage = async (value) => {
+  const getServiceCoverage = async (value, type) => {
     const result = await getServiceCoverageDetails(value);
-
-    switch (result.result.coverageType) {
-      case "Breakdown & Accidental":
-        setCoverage([
-          { label: "Breakdown", value: "Breakdown" },
-          { label: "Accidental", value: "Accidental" },
-          { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-        ]);
-        break;
-      case "Breakdown":
-        setCoverage([{ label: "Breakdown", value: "Breakdown" }]);
-        break;
-      default:
-        setCoverage([{ label: "Accidental", value: "Accidental" }]);
-        break;
+  
+    let coverage = [];
+    if (type !== 'Edit') {
+      switch (result.result.coverageType) {
+        case "Breakdown & Accidental":
+          coverage = [
+            { label: "Breakdown", value: "Breakdown" },
+            { label: "Accidental", value: "Accidental" },
+            { label: "Breakdown & Accidental", value: "Breakdown & Accidental" }
+          ];
+          break;
+        case "Breakdown":
+          coverage = [{ label: "Breakdown", value: "Breakdown" }];
+          break;
+        default:
+          coverage = [{ label: "Accidental", value: "Accidental" }];
+          break;
+      }
     }
-
+  
+    let serviceCoverage = [];
     switch (result.result.serviceCoverageType) {
       case "Parts & Labour":
-        setServiceCoverage([
+        serviceCoverage = [
           { label: "Parts", value: "Parts" },
           { label: "Labour", value: "Labour" },
-          { label: "Parts & Labour", value: "Parts & Labour" },
-        ]);
+          { label: "Parts & Labour", value: "Parts & Labour" }
+        ];
         break;
       case "Labour":
-        setServiceCoverage([{ label: "Labour", value: "Labour" }]);
+        serviceCoverage = [{ label: "Labour", value: "Labour" }];
         break;
       case "Parts":
-        setServiceCoverage([{ label: "Parts", value: "Parts" }]);
+        serviceCoverage = [{ label: "Parts", value: "Parts" }];
         break;
       default:
-        setServiceCoverage([{ label: "Parts", value: "Parts" }]);
+        serviceCoverage = [{ label: "Parts", value: "Parts" }];
         break;
     }
+  console.log(coverage)
+    setCoverage(coverage);
+    setServiceCoverage(serviceCoverage);
   };
+  
 
   const formik4 = useFormik({
     initialValues: {
@@ -467,6 +483,7 @@ function AddOrder() {
         {
           priceBookId: product.priceBookId,
           priceCatId: product.categoryId,
+          coverageType:result?.result?.coverageType
         },
         index
       );
@@ -1018,6 +1035,7 @@ function AddOrder() {
       {
         priceBookId: "",
         priceCatId: "",
+        coverageType:formikStep2?.values?.coverageType
       },
       formikStep3.values.productsArray.length
     );
@@ -1163,6 +1181,7 @@ function AddOrder() {
             selectedValue == ""
               ? ""
               : formikStep3.values.productsArray[productIndex].priceBookId,
+          coverageType:formikStep2?.values?.coverageType,
         },
         productIndex
       );
@@ -1179,6 +1198,8 @@ function AddOrder() {
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId: selectedValue,
+          coverageType:formikStep2?.values?.coverageType
+
         },
         productIndex
       );
@@ -1240,6 +1261,18 @@ function AddOrder() {
 
   const handleSelectChange1 = (name, value) => {
     formikStep2.setFieldValue(name, value);
+    if (name == "coverageType")
+    {
+      getCategoryList(
+        formik.values.dealerId,
+        {
+          priceBookId: "",
+          priceCatId: "",
+          coverageType:value
+        },
+        0
+      );
+    }
   };
 
   const handleSelectChange = (name, value) => {
@@ -1270,6 +1303,7 @@ function AddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
+          coverageType:formikStep2?.values?.coverageType
         },
         0
       );
@@ -1324,6 +1358,7 @@ function AddOrder() {
   const getCategoryList = async (value, data, index) => {
     try {
       setLoading3(true);
+     
       const result = await getCategoryAndPriceBooks(value, data);
       if (data.priceBookId !== "" && data.priceCatId === "") {
         formikStep3.setFieldValue(
@@ -1336,6 +1371,7 @@ function AddOrder() {
           {
             priceBookId: data.priceBookId,
             priceCatId: result.result.selectedCategory._id,
+            coverageType:formikStep2?.values?.coverageType
           },
           index
         );
@@ -1452,7 +1488,7 @@ function AddOrder() {
                               ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
                               : "!bg-white"
                           }`}
-                          isDisabled={resellerId}
+                          isDisabled={resellerId || customerId}
                           onChange={handleSelectChange}
                           options={resellerList}
                           value={
@@ -1577,6 +1613,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     required={true}
+                   
                     onChange={handleSelectChange1}
                     options={serviceCoverage}
                     value={formikStep2.values.serviceCoverageType}
@@ -1600,6 +1637,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     required={true}
+                    disabled={type=='Edit'}
                     onChange={handleSelectChange1}
                     options={coverage}
                     value={formikStep2.values.coverageType}
