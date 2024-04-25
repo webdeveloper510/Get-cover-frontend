@@ -490,7 +490,7 @@ formik.resetForm()
         );
     setClaimUnique(res.unique_key)
     setClaimId(res._id);
-   
+   console.log(res.repairParts, '-------------=======')
     setIsEditOpen(true);
     setError("");
    
@@ -2101,9 +2101,7 @@ formik.resetForm()
                           placeholder=""
                           maxLength={"30"}
                           className1="!pt-[0.4rem]"
-                          value={
-                            formik.values.repairParts[index].serviceType || ""
-                          }
+                          value={formik.values.repairParts[index].serviceType || ""}
                           onChange={handleChange}
                           onBlur={formik.handleBlur}
                           error={

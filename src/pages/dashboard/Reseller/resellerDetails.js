@@ -80,6 +80,7 @@ function ResellerDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStatus, setIsStatus] = useState(false);
   const [resellerStatus, setResellerStatus] = useState(false);
+  const [resellerStatusMain, setResellerStatusMain] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [createServicerAccountOption, setServicerCreateAccountOption] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -115,7 +116,7 @@ function ResellerDetails() {
     street: "",
     city: "",
     isServicer: createServicerAccountOption,
-    isAccountCreate: resellerStatus,
+    isAccountCreate: createAccount,
     zip: "",
     state: "",
     country: "USA",
@@ -178,7 +179,7 @@ function ResellerDetails() {
     resellerDetails(true);
     setIsModalOpen1(true);
   };
-console.log(isStatus,resellerStatus ,'<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>' )
+
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -206,6 +207,7 @@ console.log(isStatus,resellerStatus ,'<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>' )
     setServicerList(result.result);
     console.log(result.result);
   };
+  console.log(isStatus,resellerStatus , createAccount,'<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>' )
   useEffect(() => {
     resellerDetails();
     getServicerList();
@@ -223,7 +225,8 @@ console.log(isStatus,resellerStatus ,'<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>' )
     setIsStatus(result?.dealerStatus);
     setResellerStatus(result?.reseller[0].status);
     setServicerCreateAccountOption(result?.reseller[0]?.resellerData?.isServicer);
-    console.log(result?.reseller[0]?.resellerData?.isServicer,'---------------------<<<<<<<<result?.reseller[0]?.resellerData?.isServicer>>>>>>>>>>>>>>>>>>')
+    console.log(result.reseller[0].resellerData.status ,'---------------------<<<<<<<<result?.reseller[0]?.resellerData?.isServicer>>>>>>>>>>>>>>>>>>')
+    setResellerStatusMain(result.reseller[0].resellerData.status)
     setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
     setInitialFormValues({
       accountName: result?.reseller[0]?.resellerData?.name,

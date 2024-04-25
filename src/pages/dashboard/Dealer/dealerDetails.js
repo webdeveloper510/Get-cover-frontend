@@ -1155,15 +1155,15 @@ function DealerDetails() {
                       )}
                   </div>
                   <div className="col-span-12">
-                    <Input
+                    <Select
                       label="Coverage Type"
                       name="coverageType"
                       placeholder=""
                       className="!bg-white"
                       required={true}
-                      // onChange={handleSelectChange1}
+                      onChange={handleSelectChange1}
                       options={coverage}
-                      disabled={true}
+                      // disabled={true}
                       value={formik.values.coverageType}
                       onBlur={formik.handleBlur}
                       error={
