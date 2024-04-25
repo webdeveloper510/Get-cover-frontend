@@ -938,7 +938,6 @@ function AddOrder() {
         `productsArray[${index}].file`,
         fileValue.orderFile
       );
-
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
     }
   };
