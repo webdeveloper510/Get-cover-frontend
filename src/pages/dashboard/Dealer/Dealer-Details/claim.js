@@ -1003,7 +1003,13 @@ function ClaimList(props) {
             </Link>
           </>
         )}
-
+          {loaderType ? <>
+            <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+          </> : 
         <div className="bg-white my-4 pb-4 border-[1px] border-[#D1D1D1] rounded-xl">
           <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
             <div className="col-span-2 self-center">
@@ -1665,6 +1671,7 @@ function ClaimList(props) {
             )}
           </div>
         </div>
+          }
       </div>
 
       <Modal isOpen={isPayOpen} onClose={closePay}>
