@@ -790,19 +790,20 @@ function AddOrder() {
       };
       checkEditFileValidations(dataValue).then((res) => {
         console.log(
-          calculateTotalAmount(dataValue.productsArray) , order.orderAmount,
+          calculateTotalAmount(dataValue.productsArray) , order,
           dataValue
         );
         // order.orderAmount=calculateTotalAmount(res.productDetail.productsArray)
      
       if (res.code === 200) {
   const totalAmount = calculateTotalAmount(res.productDetail.productsArray);
-  const amountDifference = order.orderAmount - totalAmount;
-  if (amountDifference < 0 && order.paymentStatus == "Paid") {
+  const amountDifference =totalAmount-order.paidAmount  ;
+  console.log('amountDifference',amountDifference)
+  if (amountDifference > 0 && order.paymentStatus != "Unpaid") {
     formik4.setFieldValue("paymentStatus", "PartlyPaid");
     formik4.setFieldValue("paidAmount", parseInt(order.paidAmount));
-    formik4.setFieldValue("pendingAmount", totalAmount - order.orderAmount);
-  } else if (amountDifference >= 0 && order.paymentStatus == "Paid") {
+    formik4.setFieldValue("pendingAmount", totalAmount - order.paidAmount);
+  } else if (amountDifference <= 0 && order.paymentStatus != "Unpaid") {
     formik4.setFieldValue("paymentStatus", "Paid");
     formik4.setFieldValue("pendingAmount", "0.0");
     formik4.setFieldValue("paidAmount", totalAmount);
