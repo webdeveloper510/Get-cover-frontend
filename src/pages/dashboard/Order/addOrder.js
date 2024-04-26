@@ -1649,7 +1649,8 @@ function AddOrder() {
                     label="Coverage Type"
                     name="coverageType"
                     placeholder=""
-                    className="!bg-white"
+                    className={`${type=='Edit' ? '!bg-gradient-to-t from-[#f2f2f2] to-white' : '!bg-white'}`}
+                    className1={`${type=='Edit' ? '!bg-[#ededed]' : '!bg-white'}`}
                     required={true}
                     disabled={type=='Edit'}
                     onChange={handleSelectChange1}

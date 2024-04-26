@@ -44,11 +44,11 @@ import ContractList from "../Contract/contractList";
 import ClaimList from "../Claim/claimList";
 
 function CustomerDetails() {
-  // const getInitialActiveTab = () => {
-  //   const storedTab = localStorage.getItem("customer");
-  //   return storedTab ? storedTab : "Orders";
-  // };
-  const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
+  const getInitialActiveTab = () => {
+    const storedTab = localStorage.getItem("customer");
+    return storedTab ? storedTab : "Orders";
+  };
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
@@ -602,8 +602,7 @@ function CustomerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      ${" "}
-                      {formatOrderValue(
+                      ${formatOrderValue(
                         customerDetail?.claimData?.valueClaim ?? parseInt(0)
                       )}
                     </p>

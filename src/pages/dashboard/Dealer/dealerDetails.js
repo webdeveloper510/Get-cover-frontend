@@ -72,12 +72,14 @@ import UnpaidActive from "../../../assets/images/icons/unpaidActive.svg";
 import Paid from "../../../assets/images/icons/Paid.svg";
 import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 function DealerDetails() {
-  // const getInitialActiveTab = () => {
-  //   const storedTab = localStorage.getItem("menu");
-  //   return storedTab ? storedTab : "Orders";
-  // };
+  const getInitialActiveTab = () => {
+    const storedTab = localStorage.getItem("menu");
+    return storedTab ? storedTab : "Orders";
+  };
   const id = useParams();
-  const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
+  // const id = useParams();
+  // const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -182,6 +184,10 @@ function DealerDetails() {
   };
 
   useEffect(() => {
+    localStorage.setItem("menu", activeTab);
+  }, [activeTab]);
+
+  useEffect(() => {
     setLoading(true);
     let intervalId;
 
@@ -250,10 +256,7 @@ function DealerDetails() {
     // getServicerListData()
     getServicerList();
   }, [id.id, flag]);
-
-  // useEffect(() => {
-  //   localStorage.setItem("menu", activeTab);
-  // }, [activeTab]);
+;
 
   useEffect(() => {
     getUserList();
@@ -382,9 +385,9 @@ function DealerDetails() {
       });
     });
     setSelectedFile2(file);
-
-    console.log("Selected file:", file);
+    
   };
+  console.log("Selected file:", selectedFile2);
 
   const handleRemoveFile = () => {
     if (inputRef) {
@@ -456,6 +459,8 @@ function DealerDetails() {
     }),
 
     onSubmit: async (values, { setFieldError }) => {
+      localStorage.setItem("menu", "Users");
+
       values.status = createAccountOption;
       if (values.status === "yes") {
         values.status = true;
@@ -623,8 +628,8 @@ function DealerDetails() {
         icons: Unpaid,
         Activeicons: UnpaidActive,
         content: activeTab === "Unpaid Claims" && <ClaimList12
-          id={id.resellerId}
-          flag="reseller"
+          id={id.id}
+          flag="dealer"
           activeTab={activeTab}
         />,
       },
@@ -634,8 +639,8 @@ function DealerDetails() {
         icons: Paid,
         Activeicons: ActivePaid,
         content: activeTab === "Paid Claims" && <ClaimList12
-          id={id.resellerId}
-          flag="reseller"
+          id={id.id}
+          flag="dealer"
           activeTab={activeTab}
         />,
       }
@@ -649,9 +654,11 @@ function DealerDetails() {
   const routeToPage = (data) => {
     switch (data) {
       case "PriceBook":
+        localStorage.setItem("menu", "PriceBook");
         navigate(`/addDealerBook/${id.id}`);
         break;
       case "Customer":
+        localStorage.setItem("menu", "Customer");
         navigate(`/addCustomer/${id.id}`);
         break;
       case "Users":
@@ -661,12 +668,15 @@ function DealerDetails() {
         modalOpen1();
         break;
       case "Reseller":
+        localStorage.setItem("menu", "Reseller");
         navigate(`/addReseller/${id.id}`);
         break;
       case "Orders":
+        localStorage.setItem("menu", "Orders");
         navigate(`/addOrder/${id.id}`);
         break;
       case "Claims":
+        localStorage.setItem("menu", "Claims");
         navigate(`/addClaim`);
         break;
 
@@ -765,7 +775,7 @@ function DealerDetails() {
                 <Link to={"/"}>Dealer / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}> Dealer List / </Link>{" "}
+                <Link to={"/dealerList"}> Dealer List / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}
@@ -967,7 +977,7 @@ function DealerDetails() {
               </div>
               {isStatus == true && (
                 <>
-                  {activeTab !== "Contracts" ? (
+                  {activeTab !== "Contracts" && activeTab !== "Unpaid Claims" && activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2 self-center"
                       onClick={() => routeToPage(activeTab)}
@@ -990,7 +1000,6 @@ function DealerDetails() {
                 </>
               )}
             </Grid>
-
             {tabs.map((tab) => (
               <div
                 key={tab.id}
@@ -1155,15 +1164,15 @@ function DealerDetails() {
                       )}
                   </div>
                   <div className="col-span-12">
-                    <Input
+                    <Select
                       label="Coverage Type"
                       name="coverageType"
                       placeholder=""
                       className="!bg-white"
                       required={true}
-                      // onChange={handleSelectChange1}
+                      onChange={handleSelectChange1}
                       options={coverage}
-                      disabled={true}
+                      // disabled={true}
                       value={formik.values.coverageType}
                       onBlur={formik.handleBlur}
                       error={
@@ -1212,7 +1221,7 @@ function DealerDetails() {
                         )}
                         {selectedFile2 ? (
                           <p className="w-full overflow-hidden flex flex-nowrap	">
-                            {selectedFile2.originalname}
+                            {selectedFile2.name}
                           </p>
                         ) : (
                           <p

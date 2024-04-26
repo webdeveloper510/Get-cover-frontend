@@ -106,7 +106,7 @@ function Dashboard() {
                       ) : (
                         0
                       )}</p>
-                  <p className="text-neutral-grey text-sm">Total Number of Claims</p>
+                  <p className="text-neutral-grey text-sm">Total Completed Claims</p>
                 </div>
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
                   <p className="text-2xl font-bold">

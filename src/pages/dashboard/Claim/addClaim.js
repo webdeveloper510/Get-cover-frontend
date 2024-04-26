@@ -983,13 +983,13 @@ console.log(username)
       <Headbar />
       <div className="flex mt-2">
         <div
-          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] cursor-pointer rounded-[25px]" onClick={back}
         >
           <img
             src={BackImage}
             className="m-auto my-auto self-center bg-white"
             alt="BackImage"
-            onClick={back}
+            
           />
         </div>
         <div className="pl-3">

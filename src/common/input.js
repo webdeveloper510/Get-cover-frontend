@@ -148,6 +148,7 @@ const Input = ({
                   } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
                   onChange={handleInput}
                   disabled={disabled}
+                  required={required}
                   placeholder={placeholder}
                   onWheel={(e) => e.target.blur()}
                   onKeyDown={(e) => {

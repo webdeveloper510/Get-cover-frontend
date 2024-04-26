@@ -70,16 +70,17 @@ import Paid from "../../../assets/images/icons/Paid.svg";
 import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 
 function ResellerDetails() {
-  // const getInitialActiveTab = () => {
-  //   const storedTab = localStorage.getItem("Resellermenu");
-  //   return storedTab ? storedTab : "Orders";
-  // };
+  const getInitialActiveTab = () => {
+    const storedTab = localStorage.getItem("Resellermenu");
+    return storedTab ? storedTab : "Orders";
+  };
   const id = useParams();
-  // console.log(id);
-  const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
+  console.log(id);
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStatus, setIsStatus] = useState(false);
   const [resellerStatus, setResellerStatus] = useState(false);
+  const [resellerStatusMain, setResellerStatusMain] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [createServicerAccountOption, setServicerCreateAccountOption] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -114,6 +115,8 @@ function ResellerDetails() {
     resellerId: id.resellerId,
     street: "",
     city: "",
+    isServicer: createServicerAccountOption,
+    isAccountCreate: createAccount,
     zip: "",
     state: "",
     country: "USA",
@@ -204,6 +207,7 @@ function ResellerDetails() {
     setServicerList(result.result);
     console.log(result.result);
   };
+  console.log(isStatus,resellerStatus , createAccount,'<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>' )
   useEffect(() => {
     resellerDetails();
     getServicerList();
@@ -221,7 +225,8 @@ function ResellerDetails() {
     setIsStatus(result?.dealerStatus);
     setResellerStatus(result?.reseller[0].status);
     setServicerCreateAccountOption(result?.reseller[0]?.resellerData?.isServicer);
-    console.log(result?.reseller[0]?.resellerData?.isServicer,'---------------------<<<<<<<<result?.reseller[0]?.resellerData?.isServicer>>>>>>>>>>>>>>>>>>')
+    console.log(result.reseller[0].resellerData.status ,'---------------------<<<<<<<<result?.reseller[0]?.resellerData?.isServicer>>>>>>>>>>>>>>>>>>')
+    setResellerStatusMain(result.reseller[0].resellerData.status)
     setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
     setInitialFormValues({
       accountName: result?.reseller[0]?.resellerData?.name,
@@ -231,7 +236,8 @@ function ResellerDetails() {
       city: result?.reseller[0]?.resellerData?.city,
       zip: result?.reseller[0]?.resellerData?.zip,
       state: result?.reseller[0]?.resellerData?.state,
-      
+      isServicer: result?.reseller[0]?.resellerData?.isServicer,
+      isAccountCreate: result?.reseller[0].status,
       country: "USA",
     });
     setLoading(false);
@@ -587,7 +593,7 @@ function ResellerDetails() {
         );
         break;
       case "Claims":
-        localStorage.setItem("Resellermenu", "Orders");
+        localStorage.setItem("Resellermenu", "Claims");
         navigate(`/addClaim`);
         break;
       case "PriceBook":
@@ -688,7 +694,7 @@ function ResellerDetails() {
                 <Link to={"/"}>Reseller / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}> Reseller List / </Link>{" "}
+                <Link to={"/resellerList"}> Reseller List / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}
@@ -871,7 +877,7 @@ function ResellerDetails() {
             <Grid className="">
               <div
                 className={`${
-                  isStatus == true && resellerStatus == true
+                  isStatus == true && resellerStatusMain == true
                     ? "col-span-10"
                     : "col-span-12"
                 }`}
@@ -917,11 +923,11 @@ function ResellerDetails() {
                   </div>
                 </div>
               </div>
-              {isStatus == true && resellerStatus == true ? (
+              {isStatus == true && resellerStatusMain == true ? (
                 <>
                   {activeTab !== "Servicer" &&
                   activeTab !== "PriceBook" &&
-                  activeTab !== "Contracts" ? (
+                  activeTab !== "Contracts" &&  activeTab !== "Unpaid Claims" && activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2"
                       onClick={() => routeToPage(activeTab)}
