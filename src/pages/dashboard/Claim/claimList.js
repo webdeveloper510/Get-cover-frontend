@@ -315,7 +315,6 @@ const handleAddClaim = () => {
   }
 }
 
-
   const getAllClaims = async (page = 1, rowsPerPage) => {
     setLoaderType(true);
     setPageValue(page);
@@ -537,7 +536,9 @@ formik.resetForm()
   };
 
   const openView = (claim) => {
+    console.log(claim)
     const isValidReseller = !!claim?.contracts.orders.resellerId;
+    const selfServicer = claim?.selfServicer;
     const isAdminView = window.location.pathname.includes('/dealer/claimList');
     const isResellerPath = window.location.pathname.includes('/reseller/claimList');
     const isCustomerPath = window.location.pathname.includes('/customer/claimList');
@@ -560,7 +561,7 @@ formik.resetForm()
       { label: !isAdminView && !isResellerPath && !isCustomerPath ? "Admin (To Self)" : "Admin ", value: "Admin" },
       { label: isAdminView && !isResellerPath && !isCustomerPath  ? "Dealer (To Self)" : "Dealer ", value: "Dealer" },
       isValidReseller && { label:!isAdminView && isResellerPath && !isCustomerPath? "Reseller (To Self)" :"Reseller", value: "Reseller" },
-      { label: "Servicer", value: "Servicer" },
+      !selfServicer ? { label: "Servicer", value: "Servicer" } : null,
       {  label:!isAdminView && !isResellerPath && isCustomerPath? "Customer (To Self)" :"Customer", value: "Customer" },
     ].filter(Boolean));
   
