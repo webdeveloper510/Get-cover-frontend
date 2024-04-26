@@ -67,11 +67,7 @@ function AddOrder() {
   const [resellerList, setResllerList] = useState([]);
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
-  const [coverage, setCoverage] = useState([
-    { label: "Breakdown", value: "Breakdown" },
-    { label: "Accidental", value: "Accidental" },
-    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" }
-  ]);
+  const [coverage, setCoverage] = useState([]);
   const [serviceCoverage, setServiceCoverage] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
 
@@ -354,11 +350,19 @@ function AddOrder() {
     getTermListData();
   }, []);
 
-  const getServiceCoverage = async (value, type) => {
+  const getServiceCoverage = async (value) => {
     const result = await getServiceCoverageDetails(value);
   
     let coverage = [];
-    if (type !== 'Edit') {
+    if (type == 'Edit') {
+      coverage=[
+        { label: "Breakdown", value: "Breakdown" },
+        { label: "Accidental", value: "Accidental" },
+        { label: "Breakdown & Accidental", value: "Breakdown & Accidental" }
+      ]
+    
+    }
+    else{
       switch (result.result.coverageType) {
         case "Breakdown & Accidental":
           coverage = [
@@ -395,6 +399,7 @@ function AddOrder() {
         serviceCoverage = [{ label: "Parts", value: "Parts" }];
         break;
     }
+    console.log(coverage,type)
     setCoverage(coverage);
     setServiceCoverage(serviceCoverage);
   };
@@ -921,28 +926,38 @@ function AddOrder() {
   };
 
   const checkFileError = async (file, index) => {
-    formikStep3.setFieldValue(`productsArray[${index}].file`, file);
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("noOfProducts", numberOfOrders[index]);
-    const fileValue = await fileValidation(formData);
-    if (fileValue.code !== 200) {
-      formikStep3.setFieldError(
-        `productsArray[${index}].file`,
-        fileValue.message
-      );
-    } else {
-      formikStep3.setFieldValue(
-        `productsArray[${index}].orderFile`,
-        fileValue.orderFile
-      );
-      formikStep3.setFieldValue(
-        `productsArray[${index}].file`,
-        fileValue.orderFile
-      );
-      formikStep3.setFieldError(`productsArray[${index}].file`, "");
+    try {
+      setLoading3(true)
+      formikStep3.setFieldValue(`productsArray[${index}].file`, file);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("noOfProducts", numberOfOrders[index]);
+      const fileValue = await fileValidation(formData);
+      
+      if (fileValue.code !== 200) {
+        formikStep3.setFieldError(
+          `productsArray[${index}].file`,
+          fileValue.message
+        );
+      } else {
+        formikStep3.setFieldValue(
+          `productsArray[${index}].orderFile`,
+          fileValue.orderFile
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${index}].file`,
+          fileValue.orderFile
+        );
+        formikStep3.setFieldError(`productsArray[${index}].file`, "");
+      }
+    } catch (error) {
+      setLoading3(false)
+      console.error("An error occurred while checking file:", error);
+    } finally {
+      setLoading3(false)
     }
   };
+  
 
   const calculateTotalAmount = (data) => {
     let totalAmount = 0;
