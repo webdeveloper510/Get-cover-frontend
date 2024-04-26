@@ -92,6 +92,7 @@ function ClaimList(props) {
   const [error, setError] = useState("");
   const [userType, setUserType] = useState("");
   const [selfServicer, setSelfServicer] = useState("");
+  const [showdata, setShowdata] = useState(false);
   const [customerStatus, setCustomerStatus] = useState({
     status: "",
     date: "",
@@ -347,6 +348,10 @@ const handleAddClaim = () => {
           setTotalRecords(res?.totalCount);
         }
         setLoaderType(false);
+        setTimeout(function() {
+          setShowdata(true)
+        }, 1000);
+        
       })
       .catch(() => {
         setLoaderType(false);
@@ -1271,7 +1276,7 @@ formik.resetForm()
                           </>
                         }
                       >
-                        <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x">
+                        {showdata && <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x">
                           {res?.repairParts.length > 0 &&
                             res?.repairParts.map((part, index) => (
                               <>
@@ -1748,7 +1753,8 @@ formik.resetForm()
                               </div>
                             )}
                           </div>
-                        </Grid>
+                        </Grid>}
+                        
                       </CollapsibleDiv>
                     );
                   })}
