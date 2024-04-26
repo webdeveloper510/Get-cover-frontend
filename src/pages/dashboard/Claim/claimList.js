@@ -720,9 +720,15 @@ formik.resetForm()
       }));
 
       setServicerList(filterServicer);
-      if (filterServicer.length != 0) {
+      console.log('filterServicer',claimList.result[
+        activeIndex
+      ],activeIndex)
+      if (filterServicer.length !== 0 && claimList.result[activeIndex].servicerId !== null) {
         setServicer(claimList.result[activeIndex].servicerId);
+      } else {
+        setServicer('');
       }
+      
 
       setClaimType({ bdAdh: bdAdhValue });
       setCustomerStatus({
