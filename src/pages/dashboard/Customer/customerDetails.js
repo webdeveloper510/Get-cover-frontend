@@ -604,8 +604,7 @@ function CustomerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      ${" "}
-                      {formatOrderValue(
+                      ${formatOrderValue(
                         customerDetail?.claimData?.valueClaim ?? parseInt(0)
                       )}
                     </p>
