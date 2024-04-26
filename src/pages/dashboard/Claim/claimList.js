@@ -337,7 +337,7 @@ const handleAddClaim = () => {
     } else {
       getClaimListPromise = getClaimList(data);
     }
-
+   
     getClaimListPromise
       .then((res) => {
         console.log(res);
@@ -417,7 +417,9 @@ formik.resetForm()
   const handleToggle = () => {
     setShowDetails(!showDetails);
   };
-
+  const handleSetActiveIndex = (index) => {
+    setActiveIndex(index); // Update active index based on user action
+  };
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -763,6 +765,7 @@ formik.resetForm()
           openAttachments();
           setTimer(3)
           getAllClaims();
+          // setActiveIndex();
           setIsEditOpen(false)
         }
       });
@@ -931,6 +934,8 @@ formik.resetForm()
     onSubmit: (values) => {
       setIsDisapprovedOpen(false);
       getAllClaims();
+      const storedActiveIndex = localStorage.getItem('activeIndex');
+      console.log(values);
     },
   });
 
@@ -1141,10 +1146,9 @@ formik.resetForm()
                       <CollapsibleDiv
                         index={index}
                         activeIndex={activeIndex}
-                        setActiveIndex={setActiveIndex}
+                         setActiveIndex={handleSetActiveIndex}
                         title={
                           <>
-                            {" "}
                             <Grid className="border-[#474747] border !gap-2 bg-[#fff] rounded-t-[22px]">
                               <div className="col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5">
                                 <p className="font-semibold leading-5 text-lg">
@@ -1257,7 +1261,7 @@ formik.resetForm()
                                   </p>
                                 </div>
                               </div>
-                            </Grid>{" "}
+                            </Grid>
                           </>
                         }
                       >
@@ -1371,6 +1375,10 @@ formik.resetForm()
                                           value={claimType?.bdAdh}
                                           onChange={handleSelectChange}
                                           white
+                                          disabled={
+                                            claimStatus.status == "Rejected" ||
+                                            claimStatus.status == "Completed"
+                                          }
                                           options={claim}
                                           OptionName='Claim Type'
                                           className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
@@ -1438,14 +1446,21 @@ formik.resetForm()
                                         />
                                         <Button className='absolute right-[30px] !p-0 top-[2px]' type='submit'><img src={checkIcon} className="w-[21px]"/></Button>
                                         </div>
-                                          </form>) : <div className="flex w-1/2 justify-between">
+                                          </form>) : <div className="flex w-[65%] justify-between">
                                             { res?.trackingType == 'ups' && <a className="text-[white] text-base border-2 border-[white] rounded-3xl px-4" href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`} target="_blank">UPS Traker</a>}
+
                                             { res?.trackingType == 'usps' &&
                                             <a className="text-[white] text-base border-2 border-[white] rounded-3xl px-4" href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`} target="_blank">USPS Traker</a>}
+
                                             { res?.trackingType == 'fedx' &&
                                             <a className="text-[white] text-base border-2 border-[white] rounded-3xl px-4" href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`} target="_blank">FedX Traker</a> }
-                                            
-                                            <img src={pen} onClick={() => setTrackerView(true)} className="cursor-pointer object-contain ml-4"/>
+                                          {
+                                            claimStatus.status == "Rejected" ||
+                                            claimStatus.status == "Completed" ? (<></>) : (
+                                              <img src={pen} onClick={() => setTrackerView(true)} className="cursor-pointer object-contain ml-4"/>
+                                            )
+                                          }
+                                           
                                             </div>
                                           }
                                           </> }
@@ -1585,7 +1600,7 @@ formik.resetForm()
                                     </p>
                                    
                                   </div>
-                                  {res?.selfServicer === true && 
+                                  {/* {res?.selfServicer === true && 
                                    <>
                                     { claimStatus.status == "Rejected" ||
                                        claimStatus.status == "Completed" ? (
@@ -1612,7 +1627,7 @@ formik.resetForm()
                                         />
                                       </div>
                                     )}
-                                  </>}
+                                  </>} */}
                                   {role == "Super Admin" && 
                                    <>
                                     { claimStatus.status == "Rejected" ||
@@ -1709,6 +1724,18 @@ formik.resetForm()
                                     <p className="text-white">
                                       <b>Reason For Rejection : </b>{" "}
                                       <span>{res.reason}</span>
+                                    </p>
+                                  </div>
+                                </Grid>
+                              </div>
+                            )}
+                            {res.note != "" && (
+                              <div className="px-3 mb-4">
+                                <Grid>
+                                  <div className="col-span-12">
+                                    <p className="text-white">
+                                      <b>Note : </b>{" "}
+                                      <span>{res.note}</span>
                                     </p>
                                   </div>
                                 </Grid>

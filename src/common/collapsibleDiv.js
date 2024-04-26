@@ -10,6 +10,7 @@ const CollapsibleDiv = ({ title, children, index, activeIndex, setActiveIndex })
     setIsCollapsed(!isCollapsed);
     setActiveIndex(isCollapsed ? index : null);
     localStorage.setItem('activeIndex', index);
+
   };
 
   useEffect(() => {
@@ -18,7 +19,6 @@ const CollapsibleDiv = ({ title, children, index, activeIndex, setActiveIndex })
       contentRef.current.style.maxHeight = isCollapsed ? '0px' : `${contentRef.current.scrollHeight}px`;
     }
   }, [isCollapsed]);
-  
 console.log(isCollapsed)
   useEffect(() => {
     const storedActiveIndex = localStorage.getItem('activeIndex');
@@ -26,14 +26,21 @@ console.log(isCollapsed)
     console.log(activeIndex, '-------><<<<>>>><<<<<<<<<')
     console.log(index, '-------><<<<>>>>index<<<<<<<<<')
     console.log(storedActiveIndex, '-------><<<<>>>>storedActiveIndex<<<<<<<<<')
-    if (activeIndex == 'null' ) {
-      if (index == storedActiveIndex) {
+    console.log(isCollapsed, '-------><<<<>>>>setIsCollapsed<<<<<<<<<')
+    if (activeIndex === null ) {
+      if (index !== storedActiveIndex) {
         console.log('354543')
         setIsCollapsed(true);
+        console.log(isCollapsed, '-------><<<<>>>>setIsCollapsed 123 end<<<<<<<<<')
+      } else {
+        setIsCollapsed(false);
+        console.log(isCollapsed, '-------><<<<>>>>setIsCollapsed 1234 end<<<<<<<<<')
       }
     } else 
-      if (index !== activeIndex) {
+    if (index !== activeIndex) {
+        console.log('3545432323')
         setIsCollapsed(true);
+        console.log(isCollapsed, '-------><<<<>>>>setIsCollapsed 12345 end<<<<<<<<<')
       } 
   }, [index, activeIndex]);
   return (
@@ -49,7 +56,7 @@ console.log(isCollapsed)
         ref={contentRef}
         style={{
           maxHeight: isCollapsed ? '0px' : '100%',
-          transition: 'max-height 0.5s ease-in-out', 
+          transition: isCollapsed ? '' : 'max-height 0.5s ease-in-out', 
         }}
       >
         {children}

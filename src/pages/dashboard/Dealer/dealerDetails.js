@@ -990,7 +990,6 @@ function DealerDetails() {
                 </>
               )}
             </Grid>
-
             {tabs.map((tab) => (
               <div
                 key={tab.id}
