@@ -765,7 +765,7 @@ function DealerDetails() {
                 <Link to={"/"}>Dealer / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}> Dealer List / </Link>{" "}
+                <Link to={"/dealerList"}> Dealer List / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}
