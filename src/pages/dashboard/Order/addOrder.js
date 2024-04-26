@@ -958,7 +958,6 @@ function AddOrder() {
     }
   };
   
-
   const calculateTotalAmount = (data) => {
     let totalAmount = 0;
     data?.map((product, index) => {
