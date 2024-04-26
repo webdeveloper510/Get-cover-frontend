@@ -1287,6 +1287,7 @@ function AddOrder() {
       formik.setFieldValue("customerId", "");
       formik.setFieldValue("resellerId", "");
       formik.setFieldValue("dealerId", value);
+      formikStep2.resetForm();
       let data = {
         dealerId: value,
         resellerId: formik.values.resellerId,
