@@ -318,12 +318,11 @@ const handleAddClaim = () => {
   const getAllClaims = async (page = 1, rowsPerPage) => {
     setLoaderType(true);
     setPageValue(page);
-    let data = {
+     let data = {
       page,
-      pageLimit: recordsPerPage,
+       pageLimit: rowsPerPage == undefined ? recordsPerPage : rowsPerPage,
       ...formik1.values,
-    };
-
+     };
     let getClaimListPromise;
 
     if (props.flag === "dealer") {

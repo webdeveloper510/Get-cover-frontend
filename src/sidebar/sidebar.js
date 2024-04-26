@@ -87,7 +87,7 @@ function SidebarItem({
 
   const [activeUrl , setActiveUrl] = useState(false);
 
-  console.log('activeUrl---------------->>', activeUrl )
+  // console.log('activeUrl---------------->>', activeUrl )
 
   useEffect(()=>{
     let urls = [item.url]
@@ -95,10 +95,11 @@ function SidebarItem({
       const urlsItem = item?.items?.map(i=>i.url) || [];
       urls = [...urls,...urlsItem]
     }
-    console.log("urls==========>>",urls,locationGet.pathname)
+    // console.log("urls==========>>",urls,locationGet.pathname)
 
     const itHasUrl = checkWordsExist(locationGet.pathname,urls)
-    if(itHasUrl)console.log("item=======>",item)
+    if(itHasUrl)
+    // console.log("item=======>",item)
     setActiveUrl(itHasUrl)
   },[window.location.pathname])
 
@@ -116,7 +117,7 @@ function SidebarItem({
     onLinkClick(item.url);
   };
 
-  console.log('location.pathname', location.pathname)
+  // console.log('location.pathname', location.pathname)
   return (
     <li
       className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
@@ -202,7 +203,7 @@ function SidebarItem({
                 }`}
                 onClick={() => {
                   onLinkClick(subItem.url, item.name);
-                  console.log(`Sub-Item link to ${subItem.url} clicked`);
+                  // console.log(`Sub-Item link to ${subItem.url} clicked`);
                 }}
               >
                 {location.pathname.includes(subItem.url) ? (
@@ -492,7 +493,7 @@ function SideBar() {
     JSON.parse(localStorage.getItem("userDetails"))
   );
   const navigate = useNavigate();
-console.log('active---------------->>', active )
+// console.log('active---------------->>', active )
 
   const handleLinkClick = (url, dropdownItem) => {
     setActive(url === "#" ? dropdownItem : url);
