@@ -70,13 +70,13 @@ import Paid from "../../../assets/images/icons/Paid.svg";
 import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 
 function ResellerDetails() {
-  // const getInitialActiveTab = () => {
-  //   const storedTab = localStorage.getItem("Resellermenu");
-  //   return storedTab ? storedTab : "Orders";
-  // };
+  const getInitialActiveTab = () => {
+    const storedTab = localStorage.getItem("Resellermenu");
+    return storedTab ? storedTab : "Orders";
+  };
   const id = useParams();
-  // console.log(id);
-  const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
+  console.log(id);
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStatus, setIsStatus] = useState(false);
   const [resellerStatus, setResellerStatus] = useState(false);
@@ -593,7 +593,7 @@ function ResellerDetails() {
         );
         break;
       case "Claims":
-        localStorage.setItem("Resellermenu", "Orders");
+        localStorage.setItem("Resellermenu", "Claims");
         navigate(`/addClaim`);
         break;
       case "PriceBook":

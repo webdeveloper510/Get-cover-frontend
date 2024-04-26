@@ -72,12 +72,14 @@ import UnpaidActive from "../../../assets/images/icons/unpaidActive.svg";
 import Paid from "../../../assets/images/icons/Paid.svg";
 import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 function DealerDetails() {
-  // const getInitialActiveTab = () => {
-  //   const storedTab = localStorage.getItem("menu");
-  //   return storedTab ? storedTab : "Orders";
-  // };
+  const getInitialActiveTab = () => {
+    const storedTab = localStorage.getItem("menu");
+    return storedTab ? storedTab : "Orders";
+  };
   const id = useParams();
-  const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
+  // const id = useParams();
+  // const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -182,6 +184,10 @@ function DealerDetails() {
   };
 
   useEffect(() => {
+    localStorage.setItem("menu", activeTab);
+  }, [activeTab]);
+
+  useEffect(() => {
     setLoading(true);
     let intervalId;
 
@@ -250,10 +256,7 @@ function DealerDetails() {
     // getServicerListData()
     getServicerList();
   }, [id.id, flag]);
-
-  // useEffect(() => {
-  //   localStorage.setItem("menu", activeTab);
-  // }, [activeTab]);
+;
 
   useEffect(() => {
     getUserList();
@@ -456,6 +459,8 @@ function DealerDetails() {
     }),
 
     onSubmit: async (values, { setFieldError }) => {
+      localStorage.setItem("menu", "Users");
+
       values.status = createAccountOption;
       if (values.status === "yes") {
         values.status = true;
@@ -649,9 +654,11 @@ function DealerDetails() {
   const routeToPage = (data) => {
     switch (data) {
       case "PriceBook":
+        localStorage.setItem("menu", "PriceBook");
         navigate(`/addDealerBook/${id.id}`);
         break;
       case "Customer":
+        localStorage.setItem("menu", "Customer");
         navigate(`/addCustomer/${id.id}`);
         break;
       case "Users":
@@ -661,12 +668,15 @@ function DealerDetails() {
         modalOpen1();
         break;
       case "Reseller":
+        localStorage.setItem("menu", "Reseller");
         navigate(`/addReseller/${id.id}`);
         break;
       case "Orders":
+        localStorage.setItem("menu", "Orders");
         navigate(`/addOrder/${id.id}`);
         break;
       case "Claims":
+        localStorage.setItem("menu", "Claims");
         navigate(`/addClaim`);
         break;
 

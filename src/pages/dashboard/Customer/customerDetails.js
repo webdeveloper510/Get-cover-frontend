@@ -44,11 +44,11 @@ import ContractList from "../Contract/contractList";
 import ClaimList from "../Claim/claimList";
 
 function CustomerDetails() {
-  // const getInitialActiveTab = () => {
-  //   const storedTab = localStorage.getItem("customer");
-  //   return storedTab ? storedTab : "Orders";
-  // };
-  const [activeTab, setActiveTab] = useState("Orders"); // Set the initial active tab
+  const getInitialActiveTab = () => {
+    const storedTab = localStorage.getItem("customer");
+    return storedTab ? storedTab : "Orders";
+  };
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
