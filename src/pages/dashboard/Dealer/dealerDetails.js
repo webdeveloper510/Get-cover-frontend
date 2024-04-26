@@ -382,9 +382,9 @@ function DealerDetails() {
       });
     });
     setSelectedFile2(file);
-
-    console.log("Selected file:", file);
+    
   };
+  console.log("Selected file:", selectedFile2);
 
   const handleRemoveFile = () => {
     if (inputRef) {
@@ -1211,7 +1211,7 @@ function DealerDetails() {
                         )}
                         {selectedFile2 ? (
                           <p className="w-full overflow-hidden flex flex-nowrap	">
-                            {selectedFile2.originalname}
+                            {selectedFile2.name}
                           </p>
                         ) : (
                           <p
