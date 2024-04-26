@@ -775,6 +775,7 @@ function UserList(props) {
             <Grid className="!grid-cols-5 my-5  px-8">
               <div className="col-span-2">
                 <Button
+                type="button"
                   className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
                   onClick={() => closeModal2()}
                 >
