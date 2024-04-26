@@ -43,7 +43,7 @@ import {
   orderDetailsById,
 } from "../../../services/orderServices";
 import Modal from "../../../common/model";
-import { getResellerListOrderByDealerId } from "../../../services/reSellerServices";
+import { getResellerListOrderByDealerId, getResellerListOrderByDealerIdCustomerId } from "../../../services/reSellerServices";
 import Cross from "../../../assets/images/Cross.png";
 import { BeatLoader, RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
@@ -261,6 +261,24 @@ function AddOrder() {
     setResllerList(arr);
   };
 
+  const getResellerListByDealerCustomerId = async (dealerid,customerid,resellerId) => {
+    let arr = [];
+    let data ={
+      dealerId:dealerid,
+      customerId:customerid
+    }
+    const result = await getResellerListOrderByDealerIdCustomerId(data);
+    result?.result?.map((res) => {
+      console.log(res)
+      arr.push({
+        label: res.resellerData[0].name,
+        value: res.resellerData[0]._id,
+      });
+    });
+    setResllerList(arr);
+       formik.setFieldValue("resellerId", resellerId);
+    console.log(formik.values)
+  };
   useEffect(() => {
     if (orderId != undefined) {
       orderDetails();
@@ -268,7 +286,7 @@ function AddOrder() {
     } else {
       setType("Add");
     }
-    if (dealerId) {
+    if (dealerId && customerId == undefined) {
       formik.setFieldValue("dealerId", dealerId);
       getServiceCoverage(dealerId);
       getResellerList(dealerId);
@@ -290,7 +308,7 @@ function AddOrder() {
         0
       );
     }
-    if (resellerId) {
+    if (resellerId && customerId == undefined) {
       formik.setFieldValue("resellerId", resellerId);
       formik.setFieldValue("dealerId", dealerValue);
       getServiceCoverage(dealerValue);
@@ -317,7 +335,7 @@ function AddOrder() {
       formik.setFieldValue("resellerId", resellerId);
       formik.setFieldValue("customerId", customerId);
       formik.setFieldValue("dealerId", dealerValue);
-      getResellerList(dealerValue);
+      getResellerListByDealerCustomerId(dealerValue,customerId,resellerId);
       getServiceCoverage(dealerValue);
       getCustomerList({
         dealerId: dealerValue,
