@@ -210,7 +210,6 @@ function CustomerDetails() {
     initialValues: initialFormValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
-      // dealerId: Yup.string().required("Required"),
       username: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required")
@@ -233,7 +232,6 @@ function CustomerDetails() {
     }),
 
     onSubmit: async (values) => {
-      console.log(values);
       setLoading(true);
       const result = await updateCustomerDetailsById(customerId, values);
       console.log(result);
@@ -356,7 +354,7 @@ function CustomerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList flag={"customer"} id={customerId} activeTab={activeTab} />
+        <UserList flag={"customer"} id={customerId} activeTab={activeTab} customerDetail={customerDetail} />
       ),
     },
   ];

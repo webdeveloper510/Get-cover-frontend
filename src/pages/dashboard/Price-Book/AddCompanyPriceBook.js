@@ -345,8 +345,9 @@ function AddCompanyPriceBook() {
   };
 
   const getCategoryListActiveData11 = async () => {
+    
     try {
-      const res = await getCategoryListActiveData(id);
+      const res = await getCategoryListActiveData();
       console.log(res.result);
       if (res.result[0].status) {
         setinActive(res.result[0].status);

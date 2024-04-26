@@ -81,6 +81,23 @@ export const getResellerListOrderByDealerId = async (data) => {
   }
 };
 
+export const getResellerListOrderByDealerIdCustomerId = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/order/getResellerByDealerAndCustomer
+        `,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const changeResellerStatus = async (id, data) => {
   const headers = createHeaders();
   console.log(headers);
