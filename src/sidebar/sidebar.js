@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // Project Imports
-import Logo from "../assets/images/dashboardLogo.png";
+import Logo from "../assets/images/Get-Cover-REV-svg.png";
 import DashboardImage from "../assets/images/side-bar/Dashboard.svg";
 import CustomerImage from "../assets/images/side-bar/Customer.svg";
 import DealerImage from "../assets/images/side-bar/Dealer.svg";
