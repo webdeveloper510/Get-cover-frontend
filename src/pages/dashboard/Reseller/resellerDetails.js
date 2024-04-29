@@ -212,9 +212,15 @@ function ResellerDetails() {
     resellerDetails();
     getServicerList();
   }, [id.resellerId, flag]);
+  const carouselRef = useRef(null); 
   useEffect(() => {
     localStorage.setItem("Resellermenu", activeTab);
-  }, [activeTab]);
+    if ( activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
+      if (carouselRef.current) {
+        carouselRef.current.next(4);
+      }
+    }
+  }, [activeTab, carouselRef]);
 
   const resellerDetails = async (showLoader) => {
     if (!showLoader) {
@@ -648,12 +654,12 @@ function ResellerDetails() {
     }
   };
 
-  const handleTransitionEnd = () => {
-    if (containerRef.current) {
-      containerRef.current.classList.remove("scroll-transition");
-      setScrolling(false);
-    }
-  };
+  // const handleTransitionEnd = () => {
+  //   if (containerRef.current) {
+  //     containerRef.current.classList.remove("scroll-transition");
+  //     setScrolling(false);
+  //   }
+  // };
 
   const containerRef = useRef(null);
   const handleGOBack = () => {
@@ -884,13 +890,14 @@ function ResellerDetails() {
               >
                 <div
                   className={`relative rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1]`}
-                  ref={containerRef}
-                  onTransitionEnd={handleTransitionEnd}
+                  
+                  // onTransitionEnd={handleTransitionEnd}
                 >
                   <Carousel
                     className="!gap-1 reseller"
                     ssr={true}
                     responsive={responsive}
+                    ref={carouselRef}
                   >
                     {tabs.map((tab) => (
                       <Button

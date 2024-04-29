@@ -185,7 +185,7 @@ function DealerDetails() {
   const carouselRef = useRef(null); 
   useEffect(() => {
     localStorage.setItem("menu", activeTab);
-    if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook") {
+    if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook"|| activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
       if (carouselRef.current) {
         carouselRef.current.next(5);
       }
