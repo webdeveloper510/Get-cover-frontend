@@ -1430,10 +1430,8 @@ function AddOrder() {
   };
 
   const calculatePendingAmount = (paidAmount) => {
-    const totalAmount =
-      type === "Edit"
-        ? calculateTotalAmount(formikStep3.values.productsArray)
-        : order.orderAmount
+    const totalAmount =calculateTotalAmount(formikStep3.values.productsArray)
+      
     const pendingAmount = totalAmount - parseFloat(paidAmount || 0);
     console.log(totalAmount,pendingAmount,formikStep3.values.productsArray)
     formik4.setFieldValue("pendingAmount", pendingAmount.toFixed(2));

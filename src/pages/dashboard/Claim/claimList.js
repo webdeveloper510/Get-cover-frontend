@@ -33,7 +33,7 @@ import upload from "../../../assets/images/icons/upload.svg";
 import Select from "../../../common/select";
 import Cross from "../../../assets/images/Cross.png";
 import Headbar from "../../../common/headBar";
-import { Link, useLocation,useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Modal from "../../../common/model";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import {
@@ -42,6 +42,7 @@ import {
   addUploadCommentImage,
   editClaimServicerValue,
   editClaimStatus,
+  editClaimTypeValue,
   getClaimList,
   getClaimListForCustomer,
   getClaimListForDealer,
@@ -80,11 +81,11 @@ function ClaimList(props) {
   const [claimLoading, setClaimLoading] = useState(false);
   const [claimList, setClaimList] = useState({});
   const [totalRecords, setTotalRecords] = useState(0);
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState("");
   const [serviceType, setServiceType] = useState([]);
   const [claimId, setClaimId] = useState("");
   const [claimUnique, setClaimUnique] = useState("");
-  const [claimType, setClaimType] = useState({ bdAdh: "" });
+  const [claimType, setClaimType] = useState("");
   const [servicer, setServicer] = useState("");
   const [servicerList, setServicerList] = useState([]);
   const [messageList, setMessageList] = useState([]);
@@ -98,6 +99,10 @@ function ClaimList(props) {
     date: "",
   });
   const [coverage, setCoverage] = useState([]);
+  const [claim, setClaim] = useState([
+    { label: "Breakdown", value: "Breakdown" },
+    { label: "Accidental", value: "Accidental" },
+  ]);
   const navigate = useNavigate();
   const [claimStatus, setClaimStatus] = useState({ status: "", date: "" });
   const [repairStatus, setRepairStatus] = useState({ status: "", date: "" });
@@ -111,7 +116,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
-    setRole(userDetails.role)
+    setRole(userDetails.role);
     if (location.pathname.includes("/dealer/")) {
       setUserType("dealer");
     } else {
@@ -188,9 +193,9 @@ function ClaimList(props) {
   };
 
   const handleSelectChange = (selectedValue, value) => {
-    console.log(selectedValue, '------------>>>>>>>');
-    if (selectedValue == "claimStatus") {
-      if (value == "Rejected") {
+    if (selectedValue === "claimStatus") {
+      console.log(selectedValue, "------------>>>>>>>");
+      if (value === "Rejected") {
         setIsRejectOpen(true);
       } else if (value?.reason) {
         console.log(value);
@@ -199,13 +204,11 @@ function ClaimList(props) {
       } else {
         const updateAndCallAPI = (setter) => {
           setter((prevRes) => ({ ...prevRes, status: value }));
-
           editClaimValue(
             claimList.result[activeIndex]._id,
             selectedValue,
             value
           );
-
           console.log(selectedValue);
         };
 
@@ -214,28 +217,42 @@ function ClaimList(props) {
             updateAndCallAPI(setClaimStatus);
             break;
           default:
-            updateAndCallAPI(setClaimType);
+            console.error("here");
         }
       }
+    } else if (selectedValue === "claimType") {
+      const updateAndCallAPI = (setter) => {
+        console.log(selectedValue);
+
+        // Update state or call API for claimType
+        editClaimClaimType(
+          claimList.result[activeIndex]._id,
+          selectedValue,
+          value
+        );
+      };
+      updateAndCallAPI(setClaimType);
+    } else if (selectedValue === "servicer") {
+      // Handle logic specific to servicer
+      const updateAndCallAPI = (setter) => {
+        console.log(selectedValue);
+
+        setter((prevRes) => ({ ...prevRes, status: value }));
+        editClaimServicer(
+          claimList.result[activeIndex]._id,
+          selectedValue,
+          value
+        );
+      };
+      // Call updateAndCallAPI function to handle servicer
+      updateAndCallAPI(setServicer);
     } else {
       const updateAndCallAPI = (setter) => {
-        setter((prevRes) => ({ ...prevRes, status: value }));
-        if (selectedValue === "servicer") {
-          editClaimServicer(
-            claimList.result[activeIndex]._id,
-            selectedValue,
-            value
-          );
-        } else {
-          editClaimValue(
-            claimList.result[activeIndex]._id,
-            selectedValue,
-            value
-          );
+        console.log(selectedValue);
 
-          console.log(selectedValue);
-          //
-        }
+        setter((prevRes) => ({ ...prevRes, status: value }));
+        editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
+        console.log(selectedValue);
       };
 
       switch (selectedValue) {
@@ -249,11 +266,12 @@ function ClaimList(props) {
           updateAndCallAPI(setRepairStatus);
           break;
         default:
-          updateAndCallAPI(setClaimType);
+          console.error("here");
       }
     }
   };
-console.log(coverage,"---------------------->>>>>")
+
+  console.log(coverage, "---------------------->>>>>");
   const editClaimRejectedValue = (claimId, data) => {
     editClaimStatus(claimId, data).then((res) => {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
@@ -302,52 +320,62 @@ console.log(coverage,"---------------------->>>>>")
     });
   };
 
-const handleAddClaim = () => {
-   if(window.location.pathname.includes('/dealer/claimList')){ 
-    navigate('/dealer/addClaim')
-  }
-  else if(window.location.pathname.includes('/reseller/claimList')){ 
-    navigate('/reseller/addClaim')
-  }
-  else{
-    navigate('/addClaim')
+  const editClaimClaimType = (claimId, statusType, statusValue) => {
+    let data = {
+      claimType: statusValue,
+    };
 
-  }
-}
+    editClaimTypeValue(claimId, data).then((res) => {
+      setClaimType(res.result.claimType);
+    });
+  };
+
+  const handleAddClaim = () => {
+    if (window.location.pathname.includes("/dealer/claimList")) {
+      navigate("/dealer/addClaim");
+    } else if (window.location.pathname.includes("/reseller/claimList")) {
+      navigate("/reseller/addClaim");
+    } else {
+      navigate("/addClaim");
+    }
+  };
 
   const getAllClaims = async (page = 1, rowsPerPage) => {
     setLoaderType(true);
     setPageValue(page);
-     let data = {
+    let data = {
       page,
-       pageLimit: rowsPerPage == undefined ? recordsPerPage : rowsPerPage,
+      pageLimit: rowsPerPage == undefined ? recordsPerPage : rowsPerPage,
       ...formik1.values,
-     };
+    };
     let getClaimListPromise;
 
     if (props.flag === "dealer") {
       getClaimListPromise = getClaimListForDealer(props.id, data);
     } else if (props.flag === "servicer") {
       getClaimListPromise = getClaimListForServicer(props.id, data);
-    } else if (props.flag === "reseller" || window.location.pathname.includes('/reseller/claimList')) {
+    } else if (
+      props.flag === "reseller" ||
+      window.location.pathname.includes("/reseller/claimList")
+    ) {
       getClaimListPromise = getClaimListForReseller(props.id, data);
     } else if (props.flag === "customer") {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {
       getClaimListPromise = getClaimList(data);
     }
-   
+
     getClaimListPromise
       .then((res) => {
         console.log(res);
-       
+
         if (res) {
           setClaimList(res);
           setTotalRecords(res?.totalCount);
         }
         setLoaderType(false);
-        setTimeout(function() {
-          setShowdata(true)
+        setTimeout(function () {
+          setShowdata(true);
         }, 1000);
 
         setShowdata(false)
@@ -409,8 +437,8 @@ const handleAddClaim = () => {
     setIsDisapprovedOpen(true);
   };
   const closeEdit = () => {
-formik.resetForm()
-    setError('')
+    formik.resetForm();
+    setError("");
     setIsEditOpen(false);
   };
 
@@ -447,9 +475,9 @@ formik.resetForm()
   }, [dropdownRef]);
 
   const openEdit = (res, index) => {
-    console.log(res, '-------------------->>>>>>>>>>>>>>>----------------')
-    scrollToBottom()
-  
+    console.log(res, "-------------------->>>>>>>>>>>>>>>----------------");
+    scrollToBottom();
+
     if (res.repairParts.length != 0) {
       const repairPartsValues = res?.repairParts?.map((part) => ({
         serviceType: part.serviceType || "",
@@ -499,17 +527,15 @@ formik.resetForm()
       getServiceType(
         res.contracts.orders.serviceCoverageType,
         res.contracts.orders.dealers.isShippingAllowed
-        )
-        );
-    setClaimUnique(res.unique_key)
+      )
+    );
+    setClaimUnique(res.unique_key);
     setClaimId(res._id);
-   console.log(res.repairParts, '-------------=======')
+    console.log(res.repairParts, "-------------=======");
     setIsEditOpen(true);
     setError("");
-   
+
     getClaimPrice(res.contractId);
-      
-   
   };
 
   const getClaimPrice = async (id) => {
@@ -537,48 +563,77 @@ formik.resetForm()
 
   const openAttachments = () => {
     setIsAttachmentsOpen(true);
-   // setIsEditOpen(false);
+    // setIsEditOpen(false);
   };
   const closeAttachments = () => {
     setIsAttachmentsOpen(false);
   };
 
   const openView = (claim) => {
-    console.log(claim)
+    console.log(claim);
     const isValidReseller = !!claim?.contracts.orders.resellerId;
     const selfServicer = claim?.selfServicer;
-    const isAdminView = window.location.pathname.includes('/dealer/claimList');
-    const isResellerPath = window.location.pathname.includes('/reseller/claimList');
-    const isCustomerPath = window.location.pathname.includes('/customer/claimList');
-   
+    const isAdminView = window.location.pathname.includes("/dealer/claimList");
+    const isResellerPath = window.location.pathname.includes(
+      "/reseller/claimList"
+    );
+    const isCustomerPath = window.location.pathname.includes(
+      "/customer/claimList"
+    );
+
     let typeValue = "Admin";
-    
+
     if (!isAdminView && !isResellerPath && !isCustomerPath) {
-        typeValue = "Admin";
+      typeValue = "Admin";
     } else if (isAdminView && !isResellerPath && !isCustomerPath) {
-        typeValue = "Dealer";
+      typeValue = "Dealer";
     } else if (!isAdminView && isResellerPath && !isCustomerPath) {
-        typeValue = "Reseller";
+      typeValue = "Reseller";
     } else if (!isAdminView && !isResellerPath && isCustomerPath) {
-        typeValue = "Customer";
+      typeValue = "Customer";
     }
-    
-    formik2.setFieldValue('type', typeValue);
-    
-    setSendto([
-      { label: !isAdminView && !isResellerPath && !isCustomerPath ? "Admin (To Self)" : "Admin ", value: "Admin" },
-      { label: isAdminView && !isResellerPath && !isCustomerPath  ? "Dealer (To Self)" : "Dealer ", value: "Dealer" },
-      isValidReseller && { label:!isAdminView && isResellerPath && !isCustomerPath? "Reseller (To Self)" :"Reseller", value: "Reseller" },
-      !selfServicer ? { label: "Servicer", value: "Servicer" } : null,
-      {  label:!isAdminView && !isResellerPath && isCustomerPath? "Customer (To Self)" :"Customer", value: "Customer" },
-    ].filter(Boolean));
-  
+
+    formik2.setFieldValue("type", typeValue);
+
+    setSendto(
+      [
+        {
+          label:
+            !isAdminView && !isResellerPath && !isCustomerPath
+              ? "Admin (To Self)"
+              : "Admin ",
+          value: "Admin",
+        },
+        {
+          label:
+            isAdminView && !isResellerPath && !isCustomerPath
+              ? "Dealer (To Self)"
+              : "Dealer ",
+          value: "Dealer",
+        },
+        isValidReseller && {
+          label:
+            !isAdminView && isResellerPath && !isCustomerPath
+              ? "Reseller (To Self)"
+              : "Reseller",
+          value: "Reseller",
+        },
+        !selfServicer ? { label: "Servicer", value: "Servicer" } : null,
+        {
+          label:
+            !isAdminView && !isResellerPath && isCustomerPath
+              ? "Customer (To Self)"
+              : "Customer",
+          value: "Customer",
+        },
+      ].filter(Boolean)
+    );
+
     console.log(claim);
     setClaimDetail(claim);
     getClaimMessage(claim._id, true);
     setIsViewOpen(true);
   };
-  
 
   const getClaimMessage = (claimId, loader = true) => {
     setModelLoading(loader);
@@ -591,8 +646,7 @@ formik.resetForm()
         console.error("Error fetching claim messages:", error);
       })
       .finally(() => {
-        scrollToBottom()
-        
+        scrollToBottom();
       });
   };
 
@@ -692,15 +746,18 @@ formik.resetForm()
       formik2.setFieldValue("content", "");
       setPreviewImage(null);
       const pathname = window.location.pathname;
-      const type = 
-        pathname.includes('/dealer/claimList') ? 'Dealer' :
-        pathname.includes('/customer/claimList') ? 'Customer' :
-        pathname.includes('/reseller/claimList') ? 'Reseller' :
-        pathname.includes('/servicer/claimList') ? 'Servicer' :
-        null;
-      
+      const type = pathname.includes("/dealer/claimList")
+        ? "Dealer"
+        : pathname.includes("/customer/claimList")
+        ? "Customer"
+        : pathname.includes("/reseller/claimList")
+        ? "Reseller"
+        : pathname.includes("/servicer/claimList")
+        ? "Servicer"
+        : null;
+
       if (type) {
-        formik2.setFieldValue('type', type);
+        formik2.setFieldValue("type", type);
       }
     },
   });
@@ -712,8 +769,24 @@ formik.resetForm()
 
   useEffect(() => {
     if (activeIndex != null) {
+      const coverageType =
+        claimList.result[activeIndex].contracts.orders.coverageType;
+      const claims =
+        coverageType === "Breakdown"
+          ? [{ label: "Breakdown", value: "Breakdown" }]
+          : coverageType === "Accidental"
+          ? [{ label: "Accidental", value: "Accidental" }]
+          : [
+              { label: "Breakdown", value: "Breakdown" },
+              { label: "Accidental", value: "Accidental" },
+            ];
+      setClaim(claims);
+      const bdAdhValue = claimList.result[activeIndex]?.claimType;
+
+      setClaimType(bdAdhValue);
+
       setError("");
-      const bdAdhValue = claimList.result[activeIndex]?.bdAdh;
+
       const getLastItem = (array) => array?.[array.length - 1];
       setSelfServicer(claimList.result[activeIndex]?.selfServicer);
       const customerValue = getLastItem(
@@ -726,6 +799,7 @@ formik.resetForm()
         claimList.result[activeIndex]?.repairStatus
       );
 
+      console.log(claimList.result[activeIndex].contracts.orders.coverageType);
       let arr = [];
       const filterServicer = claimList.result[
         activeIndex
@@ -735,17 +809,15 @@ formik.resetForm()
       }));
 
       setServicerList(filterServicer);
-      console.log('filterServicer',claimList.result[
-        activeIndex
-      ],activeIndex)
-      if (filterServicer.length !== 0 && claimList.result[activeIndex].servicerId !== null) {
+      if (
+        filterServicer.length !== 0 &&
+        claimList.result[activeIndex].servicerId !== null
+      ) {
         setServicer(claimList.result[activeIndex].servicerId);
       } else {
-        setServicer('');
+        setServicer("");
       }
-      
 
-      setClaimType({ bdAdh: bdAdhValue });
       setCustomerStatus({
         status: customerValue.status,
         date: customerValue.date,
@@ -782,10 +854,10 @@ formik.resetForm()
           setError(res.message);
         } else {
           openAttachments();
-          setTimer(3)
+          setTimer(3);
           getAllClaims();
           // setActiveIndex();
-          setIsEditOpen(false)
+          setIsEditOpen(false);
         }
       });
     },
@@ -793,16 +865,18 @@ formik.resetForm()
 
   const Shipment = useFormik({
     initialValues: {
-      trackingNumber:"",
-      trackingType:"",
+      trackingNumber: "",
+      trackingType: "",
     },
     onSubmit: (values) => {
-      console.log('Selected tracking type:', values);
-      addClaimsRepairParts(claimList.result[activeIndex]._id, values).then((res) => {
-        getAllClaims();
-        setTrackerView(false)
-        Shipment.resetForm()
-      });
+      console.log("Selected tracking type:", values);
+      addClaimsRepairParts(claimList.result[activeIndex]._id, values).then(
+        (res) => {
+          getAllClaims();
+          setTrackerView(false);
+          Shipment.resetForm();
+        }
+      );
     },
   });
 
@@ -837,7 +911,6 @@ formik.resetForm()
 
   useEffect(() => {
     getAllClaims();
-    
   }, []);
 
   useEffect(() => {
@@ -850,11 +923,6 @@ formik.resetForm()
     { label: "UPS", value: "ups" },
     { label: "USPS", value: "usps" },
     { label: "FedX", value: "fedx" },
-  ];
-
-  const claim = [
-    { label: "Breakdown", value: "Breakdown" },
-    { label: "Accidental", value: "Accidental" },
   ];
 
   const customerValue = [
@@ -946,14 +1014,14 @@ formik.resetForm()
       customerStatusValue: "",
       claimStatus: "",
       orderId: "",
-      trackingNumber:"",
-      trackingType:"",
+      trackingNumber: "",
+      trackingType: "",
     },
     validationSchema,
     onSubmit: (values) => {
       setIsDisapprovedOpen(false);
       getAllClaims();
-      const storedActiveIndex = localStorage.getItem('activeIndex');
+      const storedActiveIndex = localStorage.getItem("activeIndex");
       console.log(values);
     },
   });
@@ -1030,10 +1098,8 @@ formik.resetForm()
     formik1.resetForm();
     getAllClaims();
   };
-  console.log(activeIndex, '++++++++++++++++_-------------------')
-  const addTracker = () => {
-
-  }
+  console.log(activeIndex, "++++++++++++++++_-------------------");
+  const addTracker = () => {};
   return (
     <>
       <div className="mb-8 ml-3">
@@ -1062,7 +1128,9 @@ formik.resetForm()
               className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
             >
               <img src={AddItem} className="self-center" alt="AddItem" />
-              <span className="text-black ml-3 text-[14px] font-Regular">Add Claim</span>
+              <span className="text-black ml-3 text-[14px] font-Regular">
+                Add Claim
+              </span>
             </button>
           </>
         )}
@@ -1101,7 +1169,7 @@ formik.resetForm()
                           />
                         </div>
                         <div className="col-span-4 self-center">
-                        <SelectSearch
+                          <SelectSearch
                             name="claimStatus"
                             label=""
                             options={Claimstatus}
@@ -1160,12 +1228,11 @@ formik.resetForm()
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
                   claimList?.result?.map((res, index) => {
-                   
                     return (
                       <CollapsibleDiv
                         index={index}
                         activeIndex={activeIndex}
-                         setActiveIndex={handleSetActiveIndex}
+                        setActiveIndex={handleSetActiveIndex}
                         title={
                           <>
                             <Grid className="border-[#474747] border !gap-2 bg-[#fff] rounded-t-[22px]">
@@ -1197,8 +1264,14 @@ formik.resetForm()
                                   onClick={() => openView(res)}
                                   alt="chat"
                                 />
-                                {userType === "admin" && 
-                                  res?.claimStatus?.[0]?.status === "Open"  && !location.pathname.includes('customer/claimList') && !location.pathname.includes('/reseller/claimList') && (
+                                {userType === "admin" &&
+                                  res?.claimStatus?.[0]?.status === "Open" &&
+                                  !location.pathname.includes(
+                                    "customer/claimList"
+                                  ) &&
+                                  !location.pathname.includes(
+                                    "/reseller/claimList"
+                                  ) && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1207,9 +1280,15 @@ formik.resetForm()
                                     />
                                   )}
 
-                                {userType !== "admin"  &&
+                                {userType !== "admin" &&
                                   res.selfServicer &&
-                                  res?.claimStatus?.[0]?.status === "Open"  && !location.pathname.includes('customer/claimList') && !location.pathname.includes('/reseller/claimList') &&  (
+                                  res?.claimStatus?.[0]?.status === "Open" &&
+                                  !location.pathname.includes(
+                                    "customer/claimList"
+                                  ) &&
+                                  !location.pathname.includes(
+                                    "/reseller/claimList"
+                                  ) && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1284,342 +1363,435 @@ formik.resetForm()
                           </>
                         }
                       >
-                        {showdata && <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x">
-                          {res?.repairParts.length > 0 &&
-                            res?.repairParts.map((part, index) => (
-                              <>
-                                <div className="col-span-2 bg-[#333333] border-r border-b border-[#474747]">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#fff] text-sm font-Regular">
-                                      Service Type
-                                    </p>
-                                    <p className="text-light-green text-base font-semibold">
-                                      {part.serviceType}
-                                    </p>
+                        {showdata && (
+                          <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x">
+                            {res?.repairParts.length > 0 &&
+                              res?.repairParts.map((part, index) => (
+                                <>
+                                  <div className="col-span-2 bg-[#333333] border-r border-b border-[#474747]">
+                                    <div className="py-4 pl-3">
+                                      <p className="text-[#fff] text-sm font-Regular">
+                                        Service Type
+                                      </p>
+                                      <p className="text-light-green text-base font-semibold">
+                                        {part.serviceType}
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="col-span-8 bg-[#333333] border-r border-b border-[#474747]">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#fff] text-sm font-Regular">
-                                      Description
-                                    </p>
-                                    <p className="text-light-green text-base font-semibold">
-                                      {part.description}
-                                    </p>
+                                  <div className="col-span-8 bg-[#333333] border-r border-b border-[#474747]">
+                                    <div className="py-4 pl-3">
+                                      <p className="text-[#fff] text-sm font-Regular">
+                                        Description
+                                      </p>
+                                      <p className="text-light-green text-base font-semibold">
+                                        {part.description}
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="col-span-2 bg-[#333333] border-b border-[#474747]">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#fff] text-sm font-Regular">
-                                      Price
-                                    </p>
-                                    <p className="text-light-green text-base font-semibold">
-                                      $
-                                      {part.price === undefined
-                                        ? (0).toLocaleString("en-US", {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                          })
-                                        : parseFloat(
-                                            part.price === undefined
-                                              ? 0
-                                              : part.price
-                                          ).toLocaleString("en-US", {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                          })}
-                                    </p>
+                                  <div className="col-span-2 bg-[#333333] border-b border-[#474747]">
+                                    <div className="py-4 pl-3">
+                                      <p className="text-[#fff] text-sm font-Regular">
+                                        Price
+                                      </p>
+                                      <p className="text-light-green text-base font-semibold">
+                                        $
+                                        {part.price === undefined
+                                          ? (0).toLocaleString("en-US", {
+                                              minimumFractionDigits: 2,
+                                              maximumFractionDigits: 2,
+                                            })
+                                          : parseFloat(
+                                              part.price === undefined
+                                                ? 0
+                                                : part.price
+                                            ).toLocaleString("en-US", {
+                                              minimumFractionDigits: 2,
+                                              maximumFractionDigits: 2,
+                                            })}
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
-                              </>
-                            ))}
-                          <div className="col-span-12 ">
-                            <Grid className="!gap-2">
-                              <div className="col-span-4 py-4 pl-1 ">
-                                <div className="bg-[#3C3C3C] py-2 px-2">
-                                  <p className="text-light-green mb-3 text-[11px] font-Regular ">
-                                    Customer Name :{" "}
-                                    <span className="font-semibold text-white">
+                                </>
+                              ))}
+                            <div className="col-span-12 ">
+                              <Grid className="!gap-2">
+                                <div className="col-span-4 py-4 pl-1 ">
+                                  <div className="bg-[#3C3C3C] py-2 px-2">
+                                    <p className="text-light-green mb-3 text-[11px] font-Regular ">
+                                      Customer Name :{" "}
+                                      <span className="font-semibold text-white">
+                                        {" "}
+                                        {
+                                          res?.contracts?.orders?.customer
+                                            ?.username
+                                        }{" "}
+                                      </span>
+                                    </p>
+                                    <p className="text-light-green text-[11px] mb-3 font-Regular">
+                                      Claim Cost :{" "}
+                                      <span className="font-semibold text-white ml-3">
+                                        {" "}
+                                        ${calculateTotalCost(
+                                          res.repairParts
+                                        )}{" "}
+                                      </span>
+                                    </p>
+                                    <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                       {" "}
-                                      {
-                                        res?.contracts?.orders?.customer
-                                          ?.username
-                                      }{" "}
-                                    </span>
-                                  </p>
-                                  <p className="text-light-green text-[11px] mb-3 font-Regular">
-                                    Claim Cost :{" "}
-                                    <span className="font-semibold text-white ml-3">
-                                      {" "}
-                                      ${calculateTotalCost(
-                                        res.repairParts
-                                      )}{" "}
-                                    </span>
-                                  </p>
-                                  <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                    {" "}
-                                    <span className="self-center mr-4">
-                                      Servicer Name :{" "}
-                                    </span>
-                                    {(userType !== "dealer" && !location.pathname.includes('customer/claimList') && !location.pathname.includes('/reseller/claimList')) ? (
-                                      <Select
-                                        name="servicer"
-                                        label=""
-                                        value={servicer}
-                                        disabled={
-                                          claimStatus.status == "Rejected" ||
-                                          claimStatus.status == "Completed"
-                                        }
-                                        onChange={handleSelectChange}
-                                        OptionName='Servicer'
-                                        white
-                                        className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                        classBox="w-[55%]"
-                                        options={servicerList}
-                                      />
-                                    ) : (
-                                      <>{res?.servicerData?.name}</>
-                                    )}
-                                  </p>
-
-                                  {userType == "admin" && !location.pathname.includes('customer/claimList') && !location.pathname.includes('/reseller/claimList') &&  (
-                                    <>
-                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                        <span className="self-center mr-8">
-                                          Claim Type :
-                                        </span>
+                                      <span className="self-center mr-4">
+                                        Servicer Name :{" "}
+                                      </span>
+                                      {userType !== "dealer" &&
+                                      !location.pathname.includes(
+                                        "customer/claimList"
+                                      ) &&
+                                      !location.pathname.includes(
+                                        "/reseller/claimList"
+                                      ) ? (
                                         <Select
-                                          name="claimType"
+                                          name="servicer"
                                           label=""
-                                          value={claimType?.bdAdh}
-                                          onChange={handleSelectChange}
-                                          white
+                                          value={servicer}
                                           disabled={
                                             claimStatus.status == "Rejected" ||
                                             claimStatus.status == "Completed"
                                           }
-                                          options={claim}
-                                          OptionName='Claim Type'
+                                          onChange={handleSelectChange}
+                                          OptionName="Servicer"
+                                          white
                                           className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
                                           classBox="w-[55%]"
+                                          options={servicerList}
                                         />
-                                      </p>
-                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                        <span className="self-center w-[75px]  mr-[1rem]">
-                                          Shipment :
-                                        </span>
-                                        {trackerView ? 
-                                         <form onSubmit={Shipment.handleSubmit}>
-                                        <div className="relative flex w-full">
-                                        <Select
-                                          name="trackingType"
-                                          label=""
-                                          value={Shipment.values.trackingType}
-                                          onChange={handleSelectChange21}
-                                          white
-                                          OptionName='Tracker'
-                                          options={tracker}
-                                          className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                          classBox="w-[35%]"
-                                        />
-                                        <Input
-                                          name="trackingNumber"
-                                          label=""
-                                          placeholder='Enter Traker #'
-                                          white
-                                          value={Shipment.values.trackingNumber}
-                                          // options={state}
-                                          className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                          classBox="w-[50%]"
-                                          {...Shipment.getFieldProps("trackingNumber")}
-                                        />
-                                        <Button className='absolute right-[30px] !p-0 top-[2px]' type='submit'><img src={checkIcon} className="w-[21px]"/></Button>
-                                        </div>
-                                          </form> 
-                                          :
-                                          <>
-                                           { res?.trackingType == ''  ? (
-                                        <form onSubmit={Shipment.handleSubmit}>
-                                        <div className="relative flex w-full">
-                                        <Select
-                                          name="trackingType"
-                                          label=""
-                                          value={Shipment.values.trackingType}
-                                          onChange={handleSelectChange21}
-                                          white
-                                          OptionName='Tracker'
-                                          options={tracker}
-                                          className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                          classBox="w-[35%]"
-                                        />
-                                        <Input
-                                          name="trackingNumber"
-                                          label=""
-                                          placeholder='Enter Traker #'
-                                          white
-                                          value={Shipment.values.trackingNumber}
-                                          // options={state}
-                                          className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                          classBox="w-[50%]"
-                                          {...Shipment.getFieldProps("trackingNumber")}
-                                        />
-                                        <Button className='absolute right-[30px] !p-0 top-[2px]' type='submit'><img src={checkIcon} className="w-[21px]"/></Button>
-                                        </div>
-                                          </form>) : <div className="flex w-[65%] justify-between">
-                                            { res?.trackingType == 'ups' && <a className="text-[white] text-base border-2 border-[white] rounded-3xl px-4" href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`} target="_blank">UPS Traker</a>}
-
-                                            { res?.trackingType == 'usps' &&
-                                            <a className="text-[white] text-base border-2 border-[white] rounded-3xl px-4" href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`} target="_blank">USPS Traker</a>}
-
-                                            { res?.trackingType == 'fedx' &&
-                                            <a className="text-[white] text-base border-2 border-[white] rounded-3xl px-4" href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`} target="_blank">FedX Traker</a> }
-                                          {
-                                            claimStatus.status == "Rejected" ||
-                                            claimStatus.status == "Completed" ? (<></>) : (
-                                              <img src={pen} onClick={() => setTrackerView(true)} className="cursor-pointer object-contain ml-4"/>
-                                            )
-                                          }
-                                           
-                                            </div>
-                                          }
-                                          </> }
-                                       
-                                      </p>
-                                    </>
-                                  )}
-                                </div>
-                              </div>
-                              <div className="col-span-4 pt-4">
-                                <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
-                                  <div className="bg-[#474747] w-[40%] rounded-s-lg">
-                                    <p className="text-white text-[11px] p-4">
-                                      Customer Status
-                                    </p>
-                                  </div>
-                                  <div
-                                    className="pl-1 self-center cursor-pointer w-[50%]"
-                                    onClick={handleToggleDropdown}
-                                  >
-                                    <p className="text-white text-sm">
-                                      {customerStatus.status}
-                                    </p>
-                                    <span className="text-light-green">
-                                      {format(
-                                        new Date(
-                                          repairStatus.date
-                                            ? customerStatus?.date
-                                            : new Date()
-                                        ),
-                                        "MM/dd/yyyy"
+                                      ) : (
+                                        <>{res?.servicerData?.name}</>
                                       )}
-                                    </span>
+                                    </p>
+
+                                    {userType == "admin" &&
+                                      !location.pathname.includes(
+                                        "customer/claimList"
+                                      ) &&
+                                      !location.pathname.includes(
+                                        "/reseller/claimList"
+                                      ) && (
+                                        <>
+                                          <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                            <span className="self-center mr-8">
+                                              Claim Type :
+                                            </span>
+                                            <Select
+                                              name="claimType"
+                                              label=""
+                                              value={claimType}
+                                              onChange={handleSelectChange}
+                                              white
+                                              disabled={
+                                                claimStatus.status ==
+                                                  "Rejected" ||
+                                                claimStatus.status ==
+                                                  "Completed"
+                                              }
+                                              options={claim}
+                                              OptionName="Claim Type"
+                                              className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                              classBox="w-[55%]"
+                                            />
+                                          </p>
+                                          <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                            <span className="self-center w-[75px]  mr-[1rem]">
+                                              Shipment :
+                                            </span>
+                                            {trackerView ? (
+                                              <form
+                                                onSubmit={Shipment.handleSubmit}
+                                              >
+                                                <div className="relative flex w-full">
+                                                  <Select
+                                                    name="trackingType"
+                                                    label=""
+                                                    value={
+                                                      Shipment.values
+                                                        .trackingType
+                                                    }
+                                                    onChange={
+                                                      handleSelectChange21
+                                                    }
+                                                    white
+                                                    OptionName="Tracker"
+                                                    options={tracker}
+                                                    className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                                    classBox="w-[35%]"
+                                                  />
+                                                  <Input
+                                                    name="trackingNumber"
+                                                    label=""
+                                                    placeholder="Enter Traker #"
+                                                    white
+                                                    value={
+                                                      Shipment.values
+                                                        .trackingNumber
+                                                    }
+                                                    // options={state}
+                                                    className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                                    classBox="w-[50%]"
+                                                    {...Shipment.getFieldProps(
+                                                      "trackingNumber"
+                                                    )}
+                                                  />
+                                                  <Button
+                                                    className="absolute right-[30px] !p-0 top-[2px]"
+                                                    type="submit"
+                                                  >
+                                                    <img
+                                                      src={checkIcon}
+                                                      className="w-[21px]"
+                                                    />
+                                                  </Button>
+                                                </div>
+                                              </form>
+                                            ) : (
+                                              <>
+                                                {res?.trackingType == "" ? (
+                                                  <form
+                                                    onSubmit={
+                                                      Shipment.handleSubmit
+                                                    }
+                                                  >
+                                                    <div className="relative flex w-full">
+                                                      <Select
+                                                        name="trackingType"
+                                                        label=""
+                                                        value={
+                                                          Shipment.values
+                                                            .trackingType
+                                                        }
+                                                        onChange={
+                                                          handleSelectChange21
+                                                        }
+                                                        white
+                                                        OptionName="Tracker"
+                                                        options={tracker}
+                                                        className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                                        classBox="w-[35%]"
+                                                      />
+                                                      <Input
+                                                        name="trackingNumber"
+                                                        label=""
+                                                        placeholder="Enter Traker #"
+                                                        white
+                                                        value={
+                                                          Shipment.values
+                                                            .trackingNumber
+                                                        }
+                                                        // options={state}
+                                                        className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                                        classBox="w-[50%]"
+                                                        {...Shipment.getFieldProps(
+                                                          "trackingNumber"
+                                                        )}
+                                                      />
+                                                      <Button
+                                                        className="absolute right-[30px] !p-0 top-[2px]"
+                                                        type="submit"
+                                                      >
+                                                        <img
+                                                          src={checkIcon}
+                                                          className="w-[21px]"
+                                                        />
+                                                      </Button>
+                                                    </div>
+                                                  </form>
+                                                ) : (
+                                                  <div className="flex w-[65%] justify-between">
+                                                    {res?.trackingType ==
+                                                      "ups" && (
+                                                      <a
+                                                        className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                        href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`}
+                                                        target="_blank"
+                                                      >
+                                                        UPS Traker
+                                                      </a>
+                                                    )}
+
+                                                    {res?.trackingType ==
+                                                      "usps" && (
+                                                      <a
+                                                        className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                        href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
+                                                        target="_blank"
+                                                      >
+                                                        USPS Traker
+                                                      </a>
+                                                    )}
+
+                                                    {res?.trackingType ==
+                                                      "fedx" && (
+                                                      <a
+                                                        className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                        href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
+                                                        target="_blank"
+                                                      >
+                                                        FedX Traker
+                                                      </a>
+                                                    )}
+                                                    {claimStatus.status ==
+                                                      "Rejected" ||
+                                                    claimStatus.status ==
+                                                      "Completed" ? (
+                                                      <></>
+                                                    ) : (
+                                                      <img
+                                                        src={pen}
+                                                        onClick={() =>
+                                                          setTrackerView(true)
+                                                        }
+                                                        className="cursor-pointer object-contain ml-4"
+                                                      />
+                                                    )}
+                                                  </div>
+                                                )}
+                                              </>
+                                            )}
+                                          </p>
+                                        </>
+                                      )}
                                   </div>
-                                  {claimStatus.status == "Rejected" ||
-                                  claimStatus.status == "Completed" ? (
-                                    <></>
-                                  ) : (
+                                </div>
+                                <div className="col-span-4 pt-4">
+                                  <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                    <div className="bg-[#474747] w-[40%] rounded-s-lg">
+                                      <p className="text-white text-[11px] p-4">
+                                        Customer Status
+                                      </p>
+                                    </div>
                                     <div
-                                      className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                      ref={dropdownRef}
+                                      className="pl-1 self-center cursor-pointer w-[50%]"
                                       onClick={handleToggleDropdown}
                                     >
-                                      <Select
-                                        name="customerStatus"
-                                        label=""
-                                        value={customerStatus.status}
-                                        onChange={handleSelectChange}
-                                        disabled={
-                                          claimStatus.status == "Rejected" ||
-                                          claimStatus.status == "Completed"
-                                        }
-                                        white
-                                        className1="!border-0 !text-[#333333]"
-                                        options={customerValue}
-                                        visible={dropdownVisible}
-                                      />
+                                      <p className="text-white text-sm">
+                                        {customerStatus.status}
+                                      </p>
+                                      <span className="text-light-green">
+                                        {format(
+                                          new Date(
+                                            repairStatus.date
+                                              ? customerStatus?.date
+                                              : new Date()
+                                          ),
+                                          "MM/dd/yyyy"
+                                        )}
+                                      </span>
                                     </div>
-                                  )}
-                                </div>
-                                <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
-                                  <div className="bg-[#474747] w-[40%] rounded-s-lg">
-                                    <p className="text-white text-[11px] p-4">
-                                      Claim Status
-                                    </p>
+                                    {claimStatus.status == "Rejected" ||
+                                    claimStatus.status == "Completed" ? (
+                                      <></>
+                                    ) : (
+                                      <div
+                                        className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                        ref={dropdownRef}
+                                        onClick={handleToggleDropdown}
+                                      >
+                                        <Select
+                                          name="customerStatus"
+                                          label=""
+                                          value={customerStatus.status}
+                                          onChange={handleSelectChange}
+                                          disabled={
+                                            claimStatus.status == "Rejected" ||
+                                            claimStatus.status == "Completed"
+                                          }
+                                          white
+                                          className1="!border-0 !text-[#333333]"
+                                          options={customerValue}
+                                          visible={dropdownVisible}
+                                        />
+                                      </div>
+                                    )}
                                   </div>
-                                  <div
-                                    className="pl-1 self-center w-[50%] cursor-pointer "
-                                    onClick={handleToggleDropdown2}
-                                  >
-                                    <p className="text-white text-sm">
-                                      {" "}
-                                      {claimStatus.status}
-                                    </p>
-                                    <p className="text-light-green">
-                                      {" "}
-                                      {format(
-                                        new Date(
-                                          repairStatus.date
-                                            ? claimStatus?.date
-                                            : new Date()
-                                        ),
-                                        "MM/dd/yyyy"
-                                      )}
-                                    </p>
-                                  </div>
-                                  {role == "Super Admin" && <>
-                                  {claimStatus.status == "Rejected" ||
-                                  claimStatus.status == "Completed" ? (
-                                    <></>
-                                  ) : (
+                                  <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                    <div className="bg-[#474747] w-[40%] rounded-s-lg">
+                                      <p className="text-white text-[11px] p-4">
+                                        Claim Status
+                                      </p>
+                                    </div>
                                     <div
-                                      className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                      ref={dropdownRef}
+                                      className="pl-1 self-center w-[50%] cursor-pointer "
+                                      onClick={handleToggleDropdown2}
                                     >
-                                      <Select
-                                        name="claimStatus"
-                                        label=""
-                                        value={claimStatus.status}
-                                        disabled={
-                                          claimStatus.status == "Rejected" ||
-                                          claimStatus.status == "Completed"
-                                        }
-                                        onChange={handleSelectChange}
-                                        white
-                                        className1="!border-0 !text-[#333333]"
-                                        options={claimvalues}
-                                        visible={dropdownVisible}
-                                      />
+                                      <p className="text-white text-sm">
+                                        {" "}
+                                        {claimStatus.status}
+                                      </p>
+                                      <p className="text-light-green">
+                                        {" "}
+                                        {format(
+                                          new Date(
+                                            repairStatus.date
+                                              ? claimStatus?.date
+                                              : new Date()
+                                          ),
+                                          "MM/dd/yyyy"
+                                        )}
+                                      </p>
                                     </div>
-                                  )}
-                                  </>}
-                                 
-                                </div>
-                                <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
-                                  <div className="bg-[#474747] w-[40%] rounded-s-lg">
-                                    <p className="text-white text-[11px] p-4">
-                                      Repair Status
-                                    </p>
+                                    {role == "Super Admin" && (
+                                      <>
+                                        {claimStatus.status == "Rejected" ||
+                                        claimStatus.status == "Completed" ? (
+                                          <></>
+                                        ) : (
+                                          <div
+                                            className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                            ref={dropdownRef}
+                                          >
+                                            <Select
+                                              name="claimStatus"
+                                              label=""
+                                              value={claimStatus.status}
+                                              disabled={
+                                                claimStatus.status ==
+                                                  "Rejected" ||
+                                                claimStatus.status ==
+                                                  "Completed"
+                                              }
+                                              onChange={handleSelectChange}
+                                              white
+                                              className1="!border-0 !text-[#333333]"
+                                              options={claimvalues}
+                                              visible={dropdownVisible}
+                                            />
+                                          </div>
+                                        )}
+                                      </>
+                                    )}
                                   </div>
-                                  <div
-                                    className="pl-1 cursor-pointer w-[50%]"
-                                    onClick={handleToggleDropdown1}
-                                  >
-                                    <p className="text-white text-sm">
-                                      {repairStatus.status} 
-                                    </p>
-                                    <p className="text-light-green">
-                                      {format(
-                                        new Date(
-                                          repairStatus.date
-                                            ? repairStatus.date
-                                            : new Date()
-                                        ),
-                                        "MM/dd/yyyy"
-                                      )}
-                                    </p>
-                                   
-                                  </div>
-                                  {/* {res?.selfServicer === true && 
+                                  <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
+                                    <div className="bg-[#474747] w-[40%] rounded-s-lg">
+                                      <p className="text-white text-[11px] p-4">
+                                        Repair Status
+                                      </p>
+                                    </div>
+                                    <div
+                                      className="pl-1 cursor-pointer w-[50%]"
+                                      onClick={handleToggleDropdown1}
+                                    >
+                                      <p className="text-white text-sm">
+                                        {repairStatus.status}
+                                      </p>
+                                      <p className="text-light-green">
+                                        {format(
+                                          new Date(
+                                            repairStatus.date
+                                              ? repairStatus.date
+                                              : new Date()
+                                          ),
+                                          "MM/dd/yyyy"
+                                        )}
+                                      </p>
+                                    </div>
+                                    {/* {res?.selfServicer === true && 
                                    <>
                                     { claimStatus.status == "Rejected" ||
                                        claimStatus.status == "Completed" ? (
@@ -1647,61 +1819,63 @@ formik.resetForm()
                                       </div>
                                     )}
                                   </>} */}
-                                  {role == "Super Admin" && 
-                                   <>
-                                    { claimStatus.status == "Rejected" ||
-                                       claimStatus.status == "Completed" ? (
-                                    <></>
-                                    ) : (
-                                      <div
-                                        className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                        ref={dropdownRef}
-                                        onClick={handleToggleDropdown1}
-                                      >
-                                        <Select
-                                          name="repairStatus"
-                                          label=""
-                                          value={repairStatus.status}
-                                          onChange={handleSelectChange}
-                                          disabled={
-                                            claimStatus.status == "Rejected" ||
-                                            claimStatus.status == "Completed"
-                                          }
-                                          white
-                                          className1="!border-0 !text-[#333333]"
-                                          options={repairValue}
-                                          visible={dropdownVisible}
-                                        />
-                                      </div>
+                                    {role == "Super Admin" && (
+                                      <>
+                                        {claimStatus.status == "Rejected" ||
+                                        claimStatus.status == "Completed" ? (
+                                          <></>
+                                        ) : (
+                                          <div
+                                            className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                            ref={dropdownRef}
+                                            onClick={handleToggleDropdown1}
+                                          >
+                                            <Select
+                                              name="repairStatus"
+                                              label=""
+                                              value={repairStatus.status}
+                                              onChange={handleSelectChange}
+                                              disabled={
+                                                claimStatus.status ==
+                                                  "Rejected" ||
+                                                claimStatus.status ==
+                                                  "Completed"
+                                              }
+                                              white
+                                              className1="!border-0 !text-[#333333]"
+                                              options={repairValue}
+                                              visible={dropdownVisible}
+                                            />
+                                          </div>
+                                        )}
+                                      </>
                                     )}
-                                  </>}
-                                 
-                                </div>
-                              </div>
-                              <div className="col-span-4 pt-2">
-                                <div className="m-2 p-2 bg-[#3C3C3C] ">
-                                  <p className="text-[11px] text-white">
-                                    Diagnosis
-                                  </p>
-                                  <div
-                                    className={` overflow-y-scroll Diagnosis ${
-                                      res?.receiptImage != ""
-                                        ? "h-[130px] max-h-[130px]"
-                                        : "h-[164px] max-h-[164px]"
-                                    }`}
-                                  >
-                                    <p className="text-sm text-light-green">
-                                      {res.diagnosis}
-                                    </p>
                                   </div>
                                 </div>
-                                {res?.receiptImage == "" ? (
-                                  ""
-                                ) : (
-                                  <div>
-                                    <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
-                                      <div className="col-span-3"></div>
-                                      {/* <Button
+                                <div className="col-span-4 pt-2">
+                                  <div className="m-2 p-2 bg-[#3C3C3C] ">
+                                    <p className="text-[11px] text-white">
+                                      Diagnosis
+                                    </p>
+                                    <div
+                                      className={` overflow-y-scroll Diagnosis ${
+                                        res?.receiptImage != ""
+                                          ? "h-[130px] max-h-[130px]"
+                                          : "h-[164px] max-h-[164px]"
+                                      }`}
+                                    >
+                                      <p className="text-sm text-light-green">
+                                        {res.diagnosis}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  {res?.receiptImage == "" ? (
+                                    ""
+                                  ) : (
+                                    <div>
+                                      <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
+                                        <div className="col-span-3"></div>
+                                        {/* <Button
                                       className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
                                       onClick={handleToggle}
                                     >
@@ -1712,57 +1886,56 @@ formik.resetForm()
                                       />
                                       Track Repair Status
                                     </Button> */}
-                                      {res.receiptImage != null && (
-                                        <Button
-                                          className="!bg-[#fff] col-span-9 !rounded-[11px] !text-light-black !text-[13px] flex"
-                                          onClick={() => {
-                                            downloadAttachments(
-                                              res.receiptImage
-                                            );
-                                          }}
-                                        >
-                                          <img
-                                            src={download}
-                                            className="w-5 h-5 mr-2"
-                                            alt="download"
-                                          />
-                                          <p className="text-[13px] font-semibold text-center">
-                                            Download Attachments
-                                          </p>
-                                        </Button>
-                                      )}
-                                    </Grid>
-                                  </div>
-                                )}
-                              </div>
-                            </Grid>
-                            {res.reason != "" && (
-                              <div className="px-3 mb-4">
-                                <Grid>
-                                  <div className="col-span-12">
-                                    <p className="text-white">
-                                      <b>Reason For Rejection : </b>{" "}
-                                      <span>{res.reason}</span>
-                                    </p>
-                                  </div>
-                                </Grid>
-                              </div>
-                            )}
-                            {res.note != "" && (
-                              <div className="px-3 mb-4">
-                                <Grid>
-                                  <div className="col-span-12">
-                                    <p className="text-white">
-                                      <b>Note : </b>{" "}
-                                      <span>{res.note}</span>
-                                    </p>
-                                  </div>
-                                </Grid>
-                              </div>
-                            )}
-                          </div>
-                        </Grid>}
-                        
+                                        {res.receiptImage != null && (
+                                          <Button
+                                            className="!bg-[#fff] col-span-9 !rounded-[11px] !text-light-black !text-[13px] flex"
+                                            onClick={() => {
+                                              downloadAttachments(
+                                                res.receiptImage
+                                              );
+                                            }}
+                                          >
+                                            <img
+                                              src={download}
+                                              className="w-5 h-5 mr-2"
+                                              alt="download"
+                                            />
+                                            <p className="text-[13px] font-semibold text-center">
+                                              Download Attachments
+                                            </p>
+                                          </Button>
+                                        )}
+                                      </Grid>
+                                    </div>
+                                  )}
+                                </div>
+                              </Grid>
+                              {res.reason != "" && (
+                                <div className="px-3 mb-4">
+                                  <Grid>
+                                    <div className="col-span-12">
+                                      <p className="text-white">
+                                        <b>Reason For Rejection : </b>{" "}
+                                        <span>{res.reason}</span>
+                                      </p>
+                                    </div>
+                                  </Grid>
+                                </div>
+                              )}
+                              {res.note != "" && (
+                                <div className="px-3 mb-4">
+                                  <Grid>
+                                    <div className="col-span-12">
+                                      <p className="text-white">
+                                        <b>Note : </b> <span>{res.note}</span>
+                                      </p>
+                                    </div>
+                                  </Grid>
+                                </div>
+                              )}
+                            </div>
+                          </Grid>
+                        )}
                       </CollapsibleDiv>
                     );
                   })}
@@ -1770,7 +1943,7 @@ formik.resetForm()
             )}
           </div>
           <div>
-            {totalRecords === 0 && !loaderType ?(
+            {totalRecords === 0 && !loaderType ? (
               <>
                 <div className="text-center my-5">
                   <p>No records found.</p>
@@ -1820,10 +1993,16 @@ formik.resetForm()
               </div>
               <div className="col-span-3"></div>
               <div className="col-span-3">
-                <Button onClick={handleYesClick} className='w-full'>Yes</Button>
+                <Button onClick={handleYesClick} className="w-full">
+                  Yes
+                </Button>
               </div>
               <div className="col-span-3">
-                <Button type="button" className='w-full !bg-[transparent] !text-[#333333] !border-[#333333] !border-[1px]' onClick={closeReject}>
+                <Button
+                  type="button"
+                  className="w-full !bg-[transparent] !text-[#333333] !border-[#333333] !border-[1px]"
+                  onClick={closeReject}
+                >
                   No
                 </Button>
               </div>
@@ -2114,194 +2293,199 @@ formik.resetForm()
           />
         </Button>
         <div className="">
-          <p className="text-center text-3xl font-semibold ">Edit Claim / {claimUnique}</p>
-            {claimLoading ?   
-               <div className=" h-[400px] w-full flex py-5">
-                            <div className="self-center mx-auto">
-                              <RotateLoader color="#333" />
-                            </div>
-                          </div>  :
-            <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
-            <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1] rounded-3xl">
-              <div className="flex justify-between">
-              <p className="pb-5 text-lg font-semibold">Repair Parts</p>
-                <p className="pb-5 text-lg font-semibold"> Max Claim Amount : ${
-          price === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(price ?? parseInt(0))
-        }</p>
+          <p className="text-center text-3xl font-semibold ">
+            Edit Claim / {claimUnique}
+          </p>
+          {claimLoading ? (
+            <div className=" h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
               </div>
-              <div className="w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">
-                {formik?.values?.repairParts?.map((part, index) => {
-                  return (
-                    <div className="mb-5 grid grid-cols-12 gap-4">
-                      <div className="col-span-2">
-                        <Select
-                          name={`repairParts[${index}].serviceType`}
-                          label="Service Type"
-                          options={serviceType}
-                          required={true}
-                          className="!bg-[#fff]"
-                          placeholder=""
-                          maxLength={"30"}
-                          className1="!pt-[0.4rem]"
-                          value={formik.values.repairParts[index].serviceType || ""}
-                          onChange={handleChange}
-                          onBlur={formik.handleBlur}
-                          error={
-                            formik.touched.repairParts &&
+            </div>
+          ) : (
+            <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
+              <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1] rounded-3xl">
+                <div className="flex justify-between">
+                  <p className="pb-5 text-lg font-semibold">Repair Parts</p>
+                  <p className="pb-5 text-lg font-semibold">
+                    {" "}
+                    Max Claim Amount : $
+                    {price === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(price ?? parseInt(0))}
+                  </p>
+                </div>
+                <div className="w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">
+                  {formik?.values?.repairParts?.map((part, index) => {
+                    return (
+                      <div className="mb-5 grid grid-cols-12 gap-4">
+                        <div className="col-span-2">
+                          <Select
+                            name={`repairParts[${index}].serviceType`}
+                            label="Service Type"
+                            options={serviceType}
+                            required={true}
+                            className="!bg-[#fff]"
+                            placeholder=""
+                            maxLength={"30"}
+                            className1="!pt-[0.4rem]"
+                            value={
+                              formik.values.repairParts[index].serviceType || ""
+                            }
+                            onChange={handleChange}
+                            onBlur={formik.handleBlur}
+                            error={
+                              formik.touched.repairParts &&
+                              formik.touched.repairParts[index] &&
+                              formik.errors.repairParts &&
+                              formik.errors.repairParts[index] &&
+                              formik.errors.repairParts[index].serviceType
+                            }
+                          >
+                            {/* Add your options for Service Type here */}
+                          </Select>
+                          {formik.touched.repairParts &&
                             formik.touched.repairParts[index] &&
                             formik.errors.repairParts &&
-                            formik.errors.repairParts[index] &&
-                            formik.errors.repairParts[index].serviceType
-                          }
-                        >
-                          {/* Add your options for Service Type here */}
-                        </Select>
-                        {formik.touched.repairParts &&
-                          formik.touched.repairParts[index] &&
-                          formik.errors.repairParts &&
-                          formik.errors.repairParts[index]?.serviceType && (
-                            <div className="text-red-500 text-[13px]">
-                              {formik.errors.repairParts[index].serviceType}
-                            </div>
-                          )}
-                      </div>
+                            formik.errors.repairParts[index]?.serviceType && (
+                              <div className="text-red-500 text-[13px]">
+                                {formik.errors.repairParts[index].serviceType}
+                              </div>
+                            )}
+                        </div>
 
-                      <div className="col-span-7">
-                        {/* <label htmlFor={`description-${index}`}>
+                        <div className="col-span-7">
+                          {/* <label htmlFor={`description-${index}`}>
                           Description
                         </label> */}
-                        <Input
-                          type="text"
-                          label="Description"
-                          id={`description-${index}`}
-                          name={`repairParts[${index}].description`}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.repairParts[index].description}
-                          className="!bg-[#fff]"
-                          className1="w-full !p-2 border rounded-md"
-                        />
-                        {formik.touched.repairParts &&
-                          formik.touched.repairParts[index] &&
-                          formik.errors.repairParts &&
-                          formik.errors.repairParts[index]?.description && (
-                            <div className="text-red-500 text-[13px]">
-                              {formik.errors.repairParts[index].description}
-                            </div>
-                          )}
-                      </div>
-
-                      <div
-                        className={`${
-                          index > 0 ? "col-span-2" : "col-span-3"
-                        }  `}
-                      >
-                        {/* <label htmlFor={`price-${index}`}>Price ($)</label> */}
-                        <Input
-                          type="number"
-                          id={`price-${index}`}
-                          label="Price ($)"
-                          name={`repairParts[${index}].price`}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.repairParts[index].price}
-                          className="!bg-[#fff]"
-                          className1="w-full !p-2 border rounded-md"
-                        />
-                        {formik.touched.repairParts &&
-                          formik.touched.repairParts[index] &&
-                          formik.errors.repairParts &&
-                          formik.errors.repairParts[index]?.price && (
-                            <div className="text-red-500 text-[13px]">
-                              {formik.errors.repairParts[index].price}
-                            </div>
-                          )}
-                      </div>
-
-                      {index > 0 && (
-                        <div className="col-span-1 self-center bg-[#EBEBEB] rounded-[4px] flex justify-center">
-                          <div
-                            className="flex h-full bg-[#EBEBEB] justify-center cursor-pointer"
-                            onClick={() => handleRemove(index)}
-                          >
-                            <img
-                              src={DeleteImage}
-                              className="self-center p-1 py-[8px] cursor-pointer"
-                              alt="Delete Icon"
-                            />
-                          </div>
+                          <Input
+                            type="text"
+                            label="Description"
+                            id={`description-${index}`}
+                            name={`repairParts[${index}].description`}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.repairParts[index].description}
+                            className="!bg-[#fff]"
+                            className1="w-full !p-2 border rounded-md"
+                          />
+                          {formik.touched.repairParts &&
+                            formik.touched.repairParts[index] &&
+                            formik.errors.repairParts &&
+                            formik.errors.repairParts[index]?.description && (
+                              <div className="text-red-500 text-[13px]">
+                                {formik.errors.repairParts[index].description}
+                              </div>
+                            )}
                         </div>
-                      )}
-                    </div>
-                  );
-                })}
-                <div ref={messagesEndRef} />
-              </div>
-              <Grid>
-                <div className="col-span-6">
-                  {Object.keys(formik.errors).some(
-                    (key) =>
-                      Array.isArray(formik.touched[key]) &&
-                      formik.touched[key].some((t) => t) &&
-                      Array.isArray(formik.errors[key]) &&
-                      formik.errors[key].some((e) => Boolean(e))
-                  ) ? (
-                    <div>
-                      <p className="text-red-500">
-                        Error Please Check the Repair Parts Form
-                      </p>
-                    </div>
-                  ) : null}
-                  {error && <p className="text-red-500">{error}</p>}
-                </div>
 
-                <div className="col-span-6 text-end">
-                  <Button
-                    type="button"
-                    className="!text-sm"
-                    onClick={handleAddMore}
+                        <div
+                          className={`${
+                            index > 0 ? "col-span-2" : "col-span-3"
+                          }  `}
+                        >
+                          {/* <label htmlFor={`price-${index}`}>Price ($)</label> */}
+                          <Input
+                            type="number"
+                            id={`price-${index}`}
+                            label="Price ($)"
+                            name={`repairParts[${index}].price`}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.repairParts[index].price}
+                            className="!bg-[#fff]"
+                            className1="w-full !p-2 border rounded-md"
+                          />
+                          {formik.touched.repairParts &&
+                            formik.touched.repairParts[index] &&
+                            formik.errors.repairParts &&
+                            formik.errors.repairParts[index]?.price && (
+                              <div className="text-red-500 text-[13px]">
+                                {formik.errors.repairParts[index].price}
+                              </div>
+                            )}
+                        </div>
+
+                        {index > 0 && (
+                          <div className="col-span-1 self-center bg-[#EBEBEB] rounded-[4px] flex justify-center">
+                            <div
+                              className="flex h-full bg-[#EBEBEB] justify-center cursor-pointer"
+                              onClick={() => handleRemove(index)}
+                            >
+                              <img
+                                src={DeleteImage}
+                                className="self-center p-1 py-[8px] cursor-pointer"
+                                alt="Delete Icon"
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  <div ref={messagesEndRef} />
+                </div>
+                <Grid>
+                  <div className="col-span-6">
+                    {Object.keys(formik.errors).some(
+                      (key) =>
+                        Array.isArray(formik.touched[key]) &&
+                        formik.touched[key].some((t) => t) &&
+                        Array.isArray(formik.errors[key]) &&
+                        formik.errors[key].some((e) => Boolean(e))
+                    ) ? (
+                      <div>
+                        <p className="text-red-500">
+                          Error Please Check the Repair Parts Form
+                        </p>
+                      </div>
+                    ) : null}
+                    {error && <p className="text-red-500">{error}</p>}
+                  </div>
+
+                  <div className="col-span-6 text-end">
+                    <Button
+                      type="button"
+                      className="!text-sm"
+                      onClick={handleAddMore}
+                    >
+                      + Add More
+                    </Button>
+                  </div>
+                </Grid>
+              </div>
+              <div className="px-5 pb-5 pt-3 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+                <div className="relative">
+                  <label
+                    htmlFor="description"
+                    className="absolute text-base text-[#999] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
                   >
-                    + Add More
-                  </Button>
+                    Note
+                  </label>
+                  <textarea
+                    id="note"
+                    rows="3"
+                    name="note"
+                    maxLength={150}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.note}
+                    className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
+                  ></textarea>
                 </div>
-              </Grid>
-            </div>
-            <div className="px-5 pb-5 pt-3 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
-              <div className="relative">
-                <label
-                  htmlFor="description"
-                  className="absolute text-base text-[#999] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                >
-                  Note
-                </label>
-                <textarea
-                  id="note"
-                  rows="3"
-                  name="note"
-                  maxLength={150}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.note}
-                  className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
-                ></textarea>
               </div>
-            </div>
 
-            <div className="mt-3">
-              <Button className="!bg-white !text-black" onClick={closeEdit}>
-                Cancel
-              </Button>
-              <Button type="submit">Update</Button>
-            </div>
+              <div className="mt-3">
+                <Button className="!bg-white !text-black" onClick={closeEdit}>
+                  Cancel
+                </Button>
+                <Button type="submit">Update</Button>
+              </div>
             </form>
-            }
-         
+          )}
         </div>
       </Modal>
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
-       
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
