@@ -349,6 +349,8 @@ const handleAddClaim = () => {
         setTimeout(function() {
           setShowdata(true)
         }, 1000);
+
+        setShowdata(false)
         
       })
       .catch(() => {
@@ -359,6 +361,7 @@ const handleAddClaim = () => {
   const [recordsPerPage, setRecordsPerPage] = useState(10);
 
   const handlePageChange = async (page, rowsPerPage) => {
+    
     setRecordsPerPage(rowsPerPage);
     setLoading(true);
     try {
@@ -370,8 +373,13 @@ const handleAddClaim = () => {
         await getAllClaims(page, rowsPerPage);
       }
       setLoading(false);
+      setTimeout(function() {
+        setShowdata(true)
+      }, 1000);
+      
     } finally {
       setLoading(false);
+      
     }
   };
 
