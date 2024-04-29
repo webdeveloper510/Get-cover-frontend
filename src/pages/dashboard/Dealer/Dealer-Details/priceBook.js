@@ -769,6 +769,14 @@ function PriceBookList(props) {
                 {dealerPriceBookDetail?.priceBooks?.priceType}
               </p>
             </div>
+            <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
+              Coverage Type
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBookDetail?.priceBooks?.coverageType}
+              </p>
+            </div>
             <div className="col-span-6">
               <p className="text-lg text-light-black font-semibold">
                 Description

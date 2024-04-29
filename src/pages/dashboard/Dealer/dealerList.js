@@ -247,6 +247,7 @@ function DealerList() {
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
+                onClick={() => localStorage.removeItem("menu")}
               >
                 <Link
                   to={`/dealerDetails/${row?.dealerData._id}`}

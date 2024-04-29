@@ -140,7 +140,7 @@ function DealerDetails() {
 
   const state = cityData;
   const containerRef = useRef(null);
-
+ 
   const handleSeparateAccountRadioChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
     setSeparateAccountOption(valueAsBoolean);
@@ -182,10 +182,15 @@ function DealerDetails() {
   const closeModal10 = () => {
     setModalOpen(false);
   };
-
+  const carouselRef = useRef(null); 
   useEffect(() => {
     localStorage.setItem("menu", activeTab);
-  }, [activeTab]);
+    if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook") {
+      if (carouselRef.current) {
+        carouselRef.current.next();
+      }
+    }
+  }, [activeTab, carouselRef]);
 
   useEffect(() => {
     setLoading(true);
@@ -225,7 +230,7 @@ function DealerDetails() {
   const getUserList = async () => {
     const result = await getUserListByDealerId(id.id, {});
     setRefreshUserList(result.result);
-    console.log(result, '------------------->>>>>')
+    // console.log(result, '------------------->>>>>')
     setSeparateAccountOption(result.userAccount)
   };
 
@@ -269,7 +274,7 @@ function DealerDetails() {
 
     const result = await getDealersDetailsByid(id?.id);
     setDealerDetails(result.result[0]);
-    console.log(result.result[0].dealerData);
+    // console.log(result.result[0].dealerData);
     setIsStatus(result?.result[0]?.dealerData.accountStatus);
     setInitialFormValues({
       accountName: result?.result[0]?.dealerData?.name,
@@ -292,7 +297,7 @@ function DealerDetails() {
     });
     setServicerCreateAccountOption(result?.result[0]?.dealerData?.isServicer);
     
-    console.log(result, '-------------->>>>>>')
+    // console.log(result, '-------------->>>>>>')
     setCreateAccount(result?.result[0]?.dealerData?.isAccountCreate);
     setSelectedFile2(result?.result[0]?.dealerData?.termCondition);
     setCreateAccountOption(
@@ -377,7 +382,7 @@ function DealerDetails() {
     const formData = new FormData();
     formData.append("file", file);
     const result = uploadTermsandCondition(formData).then((res) => {
-      console.log(res?.file);
+      // console.log(res?.file);
       formik.setFieldValue("termCondition", {
         fileName: res.file.filename,
         name: res.file.originalname,
@@ -387,7 +392,7 @@ function DealerDetails() {
     setSelectedFile2(file);
     
   };
-  console.log("Selected file:", selectedFile2);
+  // console.log("Selected file:", selectedFile2);
 
   const handleRemoveFile = () => {
     if (inputRef) {
@@ -681,7 +686,7 @@ function DealerDetails() {
         break;
 
       default:
-        console.log("Invalid data, no navigation");
+        // console.log("Invalid data, no navigation");
     }
   };
 
@@ -942,7 +947,9 @@ function DealerDetails() {
                   <Carousel
                     className="!gap-1"
                     ssr={true}
+                    ref={carouselRef}
                     responsive={responsive}
+                    containerClass="carousel"
                   >
                     {tabs.map((tab) => (
                       <Button
