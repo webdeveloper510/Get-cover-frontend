@@ -187,7 +187,7 @@ function DealerDetails() {
     localStorage.setItem("menu", activeTab);
     if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook") {
       if (carouselRef.current) {
-        carouselRef.current.next();
+        carouselRef.current.next(5);
       }
     }
   }, [activeTab, carouselRef]);

@@ -35,7 +35,7 @@ function FileDownloader(props) {
                 onClick={handleClick}
             >
                 <img src={download} className="w-4 h-4 mr-2" alt="Download Icon" />
-                <button className="">Terms</button>
+                <button className="">T&C</button>
             </div>
         </div>
     );
