@@ -2,7 +2,10 @@
 import axios from "axios";
 
 //delacring the base url of the api
-const url = process.env.REACT_APP_API_KEY || "fallback_value";
+const url =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_API_KEY_PROD
+    : process.env.REACT_APP_API_KEY_LOCAL;
 
 //api calls
 export const authlogin = async (loginDetails) => {
