@@ -87,7 +87,7 @@ function SidebarItem({
 
   const [activeUrl , setActiveUrl] = useState(false);
 
-  // console.log('activeUrl---------------->>', activeUrl )
+  console.log('activeUrl---------------->>', activeUrl )
 
   useEffect(()=>{
     let urls = [item.url]
@@ -95,6 +95,7 @@ function SidebarItem({
       const urlsItem = item?.items?.map(i=>i.url) || [];
       urls = [...urls,...urlsItem]
     }
+    console.log("urls==========>>",urls,locationGet.pathname)
 
     const itHasUrl = checkWordsExist(locationGet.pathname,urls)
     if(itHasUrl)console.log("item=======>",item)
@@ -115,7 +116,7 @@ function SidebarItem({
     onLinkClick(item.url);
   };
 
-  // console.log('location.pathname', location.pathname)
+  console.log('location.pathname', location.pathname)
   return (
     <li
       className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
@@ -195,16 +196,16 @@ function SidebarItem({
               <Link
                 to={subItem.url}
                 className={`rounded-[25px] flex ${
-                  location.pathname === subItem.url
+                  location.pathname.includes(subItem.url)
                     ? "text-white font-medium"
                     : "text-light-grey"
                 }`}
                 onClick={() => {
                   onLinkClick(subItem.url, item.name);
-                  // console.log(`Sub-Item link to ${subItem.url} clicked`);
+                  console.log(`Sub-Item link to ${subItem.url} clicked`);
                 }}
               >
-                {location.pathname === subItem.url ? (
+                {location.pathname.includes(subItem.url) ? (
                   <>
                     <img
                       src={subItem.active}
@@ -235,7 +236,7 @@ function SidebarItem({
 
                 <span
                   className={`self-center text-left text-[12px] font-medium w-full ${
-                    location.pathname === subItem.url ? "opacity-1" : "opacity-80"
+                    location.pathname.includes(subItem.url) ? "opacity-1" : "opacity-80"
                   } pl-0 ml-[10px] p-[19px] pr-0 ${
                     subIndex == item.items.length - 1
                       ? ""
@@ -491,7 +492,7 @@ function SideBar() {
     JSON.parse(localStorage.getItem("userDetails"))
   );
   const navigate = useNavigate();
-// console.log('active---------------->>', active )
+console.log('active---------------->>', active )
 
   const handleLinkClick = (url, dropdownItem) => {
     setActive(url === "#" ? dropdownItem : url);
@@ -878,7 +879,7 @@ function SideBar() {
   return (
     <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
       <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[5px]">
-        <img src={Logo} className="mx-auto py-6 w-[160px] " alt="logo" />
+        <img src={Logo} className="mx-auto py-6 w-[160px] h-[80px]" alt="logo" />
         <hr className=" border-[#474747] border-[1px]" />
         <div className="shadow-sm h-full ">
           <div className="mx-auto h-full mt-6">
