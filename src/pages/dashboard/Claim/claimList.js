@@ -801,11 +801,11 @@ function ClaimList(props) {
 
       console.log(claimList.result[activeIndex].contracts.orders.coverageType);
       let arr = [];
-      const filterServicer = claimList.result[
+      const filterServicer = claimList?.result[
         activeIndex
-      ].contracts.allServicer.map((res) => ({
-        label: res.name,
-        value: res._id,
+      ]?.contracts?.allServicer?.map((res) => ({
+        label: res?.name,
+        value: res?._id,
       }));
 
       setServicerList(filterServicer);
