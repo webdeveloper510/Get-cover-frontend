@@ -8,21 +8,42 @@ import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import Csv from "../../../../assets/images/icons/csvWhite.svg";
 import { format, addMonths } from "date-fns";
+import { apiUrl } from "../../../../services/authServices";
 function OrderSummary(props) {
+  
+  const baseUrl = apiUrl();
+
   console.log(props.data);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const handleDownloadClick = (file) => {
-    const fileUrl = `http://15.207.221.207:3002/uploads/orderFile/${file}`;
+const handleDownloadClick = (file, apiUrlData) => {
+    const fileUrl = `${baseUrl.baseUrl}/uploads/orderFile/${file}`;
     const fileName = file;
 
-    const a = document.createElement("a");
-    a.href = fileUrl;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
+    fetch(fileUrl, {
+        headers: baseUrl.headers
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`Failed to fetch the file. Status: ${response.status}`);
+        }
+        return response.blob();
+    })
+    .then((blob) => {
+        const blobUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = blobUrl;
+        anchor.download = fileName;
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(blobUrl);
+    })
+    .catch((error) => {
+        console.error("Error fetching the file:", error);
+    });
+};
+
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {

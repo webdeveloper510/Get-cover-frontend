@@ -60,6 +60,7 @@ import CustomPagination from "../../../pagination";
 import SelectSearch from "../../../../common/selectSearch";
 import Checkbox from "../../../../common/checkbox";
 import request from "../../../../assets/images/request.png";
+import { apiUrl } from "../../../../services/authServices";
 
 function ClaimList(props) {
   const location = useLocation();
@@ -111,6 +112,7 @@ function ClaimList(props) {
   });
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const baseUrl = apiUrl();
 
   useEffect(() => {
     if (location.pathname.includes("/dealer")) {
@@ -133,11 +135,11 @@ function ClaimList(props) {
     scrollToBottom();
   }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
-  const downloadImage = (file) => {
-    console.log("hello");
-    const url = `http://15.207.221.207:3002/uploads/claimFile/${file.messageFile.fileName}`;
-
-    fetch(url)
+const downloadImage = (file) => {
+    const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
+      fetch(url, {
+        headers: baseUrl.headers 
+      })
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -161,6 +163,7 @@ function ClaimList(props) {
         console.error("Error fetching the file:", error);
       });
   };
+
 
   useEffect(() => {
     let intervalId;
@@ -545,9 +548,11 @@ function ClaimList(props) {
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
-      const url = `http://15.207.221.207:3002/uploads/claimFile/${attachment.filename}`;
+      const url = `${baseUrl.baseUrl}/uploads/claimFile/${attachment.filename}`;
 
-      fetch(url)
+      fetch(url, {
+        headers: baseUrl.headers 
+      })
         .then((response) => response.blob())
         .then((blob) => {
           const blobUrl = URL.createObjectURL(blob);
@@ -564,6 +569,8 @@ function ClaimList(props) {
         });
     });
   };
+
+
   const initialValues2 = {
     content: "",
     orderId: "",
@@ -645,11 +652,11 @@ function ClaimList(props) {
       );
 
       let arr = [];
-      const filterServicer = claimList.result[
-        activeIndex
-      ].contracts.allServicer.map((res) => ({
-        label: res.name,
-        value: res._id,
+      const filterServicer = claimList?.result[
+        activeIndex 
+      ]?.contracts?.allServicer.map((res) => ({
+        label: res?.name,
+        value: res?._id,
       }));
 
       setServicerList(filterServicer);

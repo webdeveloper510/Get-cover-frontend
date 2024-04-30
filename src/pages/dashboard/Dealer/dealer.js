@@ -42,6 +42,7 @@ function Dealer() {
   const [selectedFile2, setSelectedFile2] = useState(null);
   const [selectedOption, setSelectedOption] = useState("yes");
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [message, setMessage] = useState("");
   const [types, setTypes] =useState('');
@@ -136,7 +137,7 @@ function Dealer() {
   };
   useEffect(() => {
     console.log("here1");
-    setLoading(true);
+    setLoading1(true);
 
     if (id === undefined) {
       setInitialFormValues({
@@ -183,6 +184,7 @@ function Dealer() {
 
     if (id != undefined) {
       getDealersDetailsByid(id).then((res) => {
+        
         if (res?.result) {
           setInitialFormValues({
             name: res?.result[0]?.dealerData?.name,
@@ -224,10 +226,11 @@ function Dealer() {
             termCondition: {},
           });
         }
+        
       });
     }
 
-    setLoading(false);
+    setLoading1(false);
   }, [id]);
   useEffect(() => {
     let intervalId;
@@ -740,7 +743,7 @@ function Dealer() {
       </div>
 
       {/* Form Start */}
-      {loading ? (
+      {loading || loading1 ? (
         <div className=" fixed top-0 h-screen bg-[#cfcfcf8f] left-0 w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#333" />

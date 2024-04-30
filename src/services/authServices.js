@@ -6,7 +6,7 @@ const url =
   process.env.NODE_ENV === "production"
     ? process.env.REACT_APP_API_KEY_PROD
     : process.env.REACT_APP_API_KEY_LOCAL;
-
+console.log( process.env.NODE_ENV)
 //api calls
 export const authlogin = async (loginDetails) => {
   try {
@@ -16,6 +16,33 @@ export const authlogin = async (loginDetails) => {
     throw error;
   }
 };
+
+const getAccessToken = () => {
+  const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+  return userDetails ? userDetails.token : null;
+};
+
+const createHeaders = () => {
+  const accessToken = getAccessToken();
+
+  if (accessToken) {
+    return {
+      "x-access-token": accessToken,
+      "Content-Type": "application/json",
+    };
+  }
+};
+
+export const apiUrl = () => {
+  const headers = createHeaders();
+  const urlValue = new URL(url);
+
+  return {
+    baseUrl: urlValue.origin,
+    headers: headers
+  };
+};
+
 
 export const authDealerRegister = async (dealerRegisterData) => {
   try {

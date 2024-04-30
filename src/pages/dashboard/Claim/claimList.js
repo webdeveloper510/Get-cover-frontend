@@ -57,9 +57,12 @@ import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../pagination";
 import SelectSearch from "../../../common/selectSearch";
+import { apiUrl } from "../../../services/authServices";
 
 function ClaimList(props) {
   console.log(props);
+  const baseUrl = apiUrl();
+  // console.log(baseUrl, '----------------------------');
   const location = useLocation();
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
@@ -113,7 +116,7 @@ function ClaimList(props) {
   });
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
-
+  
   useEffect(() => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
     setRole(userDetails.role);
@@ -136,22 +139,21 @@ function ClaimList(props) {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messageList, claimId]); // Assuming messageList is the dependency that triggers data loading
+  }, [messageList, claimId]); 
 
   const downloadImage = (file) => {
-    console.log("hello");
-    const url = `http://15.207.221.207:3002/uploads/claimFile/${file.messageFile.fileName}`;
+    const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
 
-    fetch(url)
-      .then((response) => {
+    fetch(url, {
+        headers: baseUrl.headers 
+    })
+    .then((response) => {
         if (!response.ok) {
-          throw new Error(
-            `Failed to fetch the file. Status: ${response.status}`
-          );
+            throw new Error(`Failed to fetch the file. Status: ${response.status}`);
         }
         return response.blob();
-      })
-      .then((blob) => {
+    })
+    .then((blob) => {
         const blobUrl = URL.createObjectURL(blob);
 
         const anchor = document.createElement("a");
@@ -161,11 +163,11 @@ function ClaimList(props) {
         anchor.click();
         document.body.removeChild(anchor);
         URL.revokeObjectURL(blobUrl);
-      })
-      .catch((error) => {
+    })
+    .catch((error) => {
         console.error("Error fetching the file:", error);
-      });
-  };
+    });
+};
 
   useEffect(() => {
     let intervalId;
@@ -666,9 +668,10 @@ function ClaimList(props) {
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
-      const url = `http://15.207.221.207:3002/uploads/claimFile/${attachment.filename}`;
-
-      fetch(url)
+      const url = `${baseUrl.baseUrl}/uploads/claimFile/${attachment.filename}`;
+      fetch(url, {
+        headers: baseUrl.headers 
+      })
         .then((response) => response.blob())
         .then((blob) => {
           const blobUrl = URL.createObjectURL(blob);
@@ -685,6 +688,7 @@ function ClaimList(props) {
         });
     });
   };
+
   const initialValues2 = {
     content: "",
     orderId: "",
@@ -2096,17 +2100,17 @@ function ClaimList(props) {
                         <div className="bg-white rounded-md relative p-1">
                           <img
                             src={arrowImage}
-                            className="absolute -left-3 rotate-[270deg] top-2	"
+                            className="absolute -left-3 rotate-[270deg] top-2"
                             alt="arrowImage"
                           />
                           <Grid>
                             <div className="col-span-6">
                               <p className="text-xl font-semibold">
-                                {msg.commentBy.firstName}{" "}
+                                {msg.commentBy.firstName}
                                 {msg.commentBy.lastName}
                                 <span className="text-[12px] pl-1">
                                   ({msg.commentBy.roles.role})
-                                </span>{" "}
+                                </span>
                               </p>
                             </div>
                             <div

@@ -34,6 +34,7 @@ import Modal from "../../../common/model";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import DocMakeOrderContainer from "../../docMakeOrder";
 import FileDownloader from "../../termAndCondition";
+import { apiUrl } from "../../../services/authServices";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -51,6 +52,7 @@ function OrderDetails() {
   //   return storedTab ? storedTab : "Order Summary";
   // };
   const id = useParams();
+  const baseUrl = apiUrl();
   const [activeTab, setActiveTab] = useState("Order Summary");
   const [isServicerModal, setIsServicerModal] = useState(false);
 
@@ -433,6 +435,7 @@ function OrderDetails() {
                       {" "}
                       <FileDownloader
                         data={orderId}
+                        apiUrlData={baseUrl}
                       />
                     </span>
                   </Button>
