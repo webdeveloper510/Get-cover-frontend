@@ -188,7 +188,7 @@ function SidebarItem({
       {hasItems && (
         <ul
           className={`${
-             expandedItem === item.name ? "block" : "hidden"
+            activeUrl || (expandedItem === item.name) ? "block" : "hidden"
           }`}
         >
           {item.items.map((subItem, subIndex) => (
