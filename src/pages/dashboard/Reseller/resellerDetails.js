@@ -98,7 +98,7 @@ function ResellerDetails() {
   const [flagValue, setFlagValue] = useState(false);
   const navigate = useNavigate();
   const { servicerId } = useParams();
-  const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [createAccountOption, setCreateAccountOption] = useState(false);
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -160,8 +160,8 @@ function ResellerDetails() {
   }, [modalOpen, timer]);
   const handleRadioChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
-    userValues.setFieldValue("status", valueAsBoolean);
     setCreateAccountOption(valueAsBoolean);
+    userValues.setFieldValue("status", valueAsBoolean);
   };
   const getUserList = async () => {
     const result = await getResellerUsersById(id.resellerId, {});
@@ -1134,7 +1134,7 @@ function ResellerDetails() {
                     id="no"
                     label="No"
                     value={false}
-                    disabled={createServicerAccountOption === true}
+                    disabled={resellerDetail?.resellerData?.isServicer === true}
                     checked={createServicerAccountOption === false}
                     onChange={handleServiceChange}
                   />
