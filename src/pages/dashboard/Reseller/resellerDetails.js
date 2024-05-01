@@ -98,7 +98,7 @@ function ResellerDetails() {
   const [flagValue, setFlagValue] = useState(false);
   const navigate = useNavigate();
   const { servicerId } = useParams();
-  const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [createAccountOption, setCreateAccountOption] = useState("no");
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
     lastName: "",
