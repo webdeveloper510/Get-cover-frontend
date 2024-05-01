@@ -383,12 +383,14 @@ function OrderList() {
                   </>
                 ) : (
                   <>
+                  <div onClick={()=> localStorage.removeItem("orderMenu")}>
                     <Link
                       to={`/orderDetails/${row._id}`}
                       className="text-left py-1 px-2 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
+                  </div>
                     <div className="">
                       <PdfGenerator data={row._id} setLoading={setLoading} />
                     </div>

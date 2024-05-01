@@ -159,9 +159,9 @@ function ResellerDetails() {
     };
   }, [modalOpen, timer]);
   const handleRadioChange = (event) => {
-    const selectedValue = event.target.value;
-    userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
-    setCreateAccountOption(selectedValue);
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    userValues.setFieldValue("status", valueAsBoolean);
+    setCreateAccountOption(valueAsBoolean);
   };
   const getUserList = async () => {
     const result = await getResellerUsersById(id.resellerId, {});
@@ -1126,7 +1126,7 @@ function ResellerDetails() {
                     id="yes"
                     label="Yes"
                     value={true}
-                    disabled={createServicerAccountOption === true}
+                    disabled={resellerDetail?.resellerData?.isServicer === true}
                     checked={createServicerAccountOption === true}
                     onChange={handleServiceChange}
                   />
@@ -1334,15 +1334,24 @@ function ResellerDetails() {
                   <RadioButton
                     id="yes-create-account"
                     label="Yes"
-                    value="yes"
-                    checked={createAccountOption === "yes"}
+                    // value="yes"
+                    disabled={
+                      resellerDetail.resellerData?.isAccountCreate === false
+                    }
+                    value={true}
+                    checked={createAccountOption === true}
                     onChange={handleRadioChange}
                   />
                   <RadioButton
                     id="no-create-account"
                     label="No"
-                    value="no"
-                    checked={createAccountOption === "no"}
+                    // value="no"
+                    disabled={
+                      resellerDetail.resellerData?.isAccountCreate === false
+                    }
+                    value={false}
+                    checked={createAccountOption === false}
+                    // checked={createAccount === "no"}
                     onChange={handleRadioChange}
                   />
                 </p>
