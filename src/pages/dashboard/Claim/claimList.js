@@ -380,7 +380,7 @@ function ClaimList(props) {
           setShowdata(true);
         }, 1000);
 
-        setShowdata(false);
+        
       })
       .catch(() => {
         setLoaderType(false);
@@ -390,6 +390,7 @@ function ClaimList(props) {
   const [recordsPerPage, setRecordsPerPage] = useState(10);
 
   const handlePageChange = async (page, rowsPerPage) => {
+    setShowdata(false);
     setRecordsPerPage(rowsPerPage);
     setLoading(true);
     try {
@@ -401,6 +402,7 @@ function ClaimList(props) {
         await getAllClaims(page, rowsPerPage);
       }
       setLoading(false);
+      setActiveIndex(null);
       setTimeout(function () {
         setShowdata(true);
       }, 1000);
