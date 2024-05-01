@@ -314,6 +314,7 @@ function DealerRegister() {
                     label="Zip Code"
                     required={true}
                     placeholder=""
+                    value={formik.values.zip}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     minLength={"5"}
