@@ -49,7 +49,6 @@ function Headbar({ className = "" }) {
           ArrayData.push(data)
         }
       })
-      // setToChecklengthFalse(ArrayData)
       localStorage.setItem('lengthofNotifications', ArrayData.length)
     });
   };
@@ -66,7 +65,7 @@ function Headbar({ className = "" }) {
       if (response.code == 200) {
         setIsLoggedIn(true);
         getNotificationsData();
-        fetchUserDetails();
+        // fetchUserDetails();
       } else {
         setIsLoggedIn(false);
         localStorage.removeItem('userDetails');
@@ -82,13 +81,14 @@ function Headbar({ className = "" }) {
     }
   };
 
-
+  console.log(localStorage.getItem('userDetails'), "---------------->>>>>>>>>>>>");
+  const userData = JSON.parse(localStorage.getItem('userDetails'));
+  const firstName = userData.userInfo.firstName;
   const fetchUserDetails = async () => {
     setLoading(true);
 
     try {
       const userDetails = await getSuperAdminMembers();
-      console.log(userDetails?.loginMember, "---------------->>>>>>>>>>>>");
       setIsPrimary(userDetails.loginMember.isPrimary);
       const { firstName, lastName, email, phoneNumber, position } =
         userDetails.loginMember;
@@ -142,7 +142,7 @@ function Headbar({ className = "" }) {
             <div className="col-span-8 self-center flex justify-around">
               {/* <img src={ProfileImage} alt='ProfileImage'/> */}
               <p className="text-light-black font-semibold text-base self-center">
-                {userList?.firstName}
+                {firstName}
               </p>
               <div className="self-center relative" onClick={handleLogOut}>
                 <img src={Logout} className="cursor-pointer" alt="Logout"/>

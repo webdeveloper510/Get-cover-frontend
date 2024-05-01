@@ -182,6 +182,34 @@ function OrderDetails() {
     setActiveTab(tabId);
   };
 
+  const downloadImage = (file) => {
+    const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
+
+    fetch(url, {
+        headers: baseUrl.headers 
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`Failed to fetch the file. Status: ${response.status}`);
+        }
+        return response.blob();
+    })
+    .then((blob) => {
+        const blobUrl = URL.createObjectURL(blob);
+
+        const anchor = document.createElement("a");
+        anchor.href = blobUrl;
+        anchor.download = file.messageFile.fileName || "downloaded_image";
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(blobUrl);
+    })
+    .catch((error) => {
+        console.error("Error fetching the file:", error);
+    });
+};
+
   return (
     <>
       {loading1 && (

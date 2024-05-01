@@ -161,7 +161,7 @@ function All() {
     </Grid>
 
     <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
-        <Grid>
+        {/* <Grid>
             <div className='col-span-2 my-3'>
                 <Select
                     label=""
@@ -172,7 +172,7 @@ function All() {
                     options={time}
                 />
             </div>
-        </Grid>
+        </Grid> */}
         <Grid className='!grid-cols-5'>
             <div className='col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]'>
                 <div className='bg-white pl-2'>
