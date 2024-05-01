@@ -30,6 +30,7 @@ function AddServicer() {
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [timer, setTimer] = useState(3);
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -100,7 +101,9 @@ function AddServicer() {
       });
     }
     if (id && id.id !== undefined && id.id !== "") {
+      setLoading1(true);
       getServicerDetailsByid(id).then((res) => {
+        
         console.log(res.message);
         if (res?.message) {
           setCreateAccountOption(
@@ -125,9 +128,12 @@ function AddServicer() {
             flag: "approve",
             providerId: id.id,
           });
+          setLoading1(false);
         }
       });
+      // setLoading(false);
     }
+
   }, [id]);
 
   const handleRadioChangeDealers = (value, index) => {
@@ -332,7 +338,7 @@ function AddServicer() {
   };
   return (
     <>
-      {loading ? (
+      {loading || loading1 ? (
         <div className=" h-[400px] w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#333" />

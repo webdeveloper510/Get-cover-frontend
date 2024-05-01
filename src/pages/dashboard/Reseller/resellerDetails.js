@@ -98,14 +98,14 @@ function ResellerDetails() {
   const [flagValue, setFlagValue] = useState(false);
   const navigate = useNavigate();
   const { servicerId } = useParams();
-  const [createAccountOption, setCreateAccountOption] = useState(false);
+  const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phoneNumber: "",
     position: "",
-    status: "yes",
+    status: createAccountOption,
     resellerId: id.resellerId,
     isPrimary: false,
   });
@@ -159,9 +159,9 @@ function ResellerDetails() {
     };
   }, [modalOpen, timer]);
   const handleRadioChange = (event) => {
-    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
-    setCreateAccountOption(valueAsBoolean);
-    userValues.setFieldValue("status", valueAsBoolean);
+    const selectedValue = event.target.value;
+    userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
+    setCreateAccountOption(selectedValue);
   };
   const getUserList = async () => {
     const result = await getResellerUsersById(id.resellerId, {});
@@ -1134,7 +1134,7 @@ function ResellerDetails() {
                     id="no"
                     label="No"
                     value={false}
-                    disabled={resellerDetail?.resellerData?.isServicer === true}
+                    disabled={createServicerAccountOption === true}
                     checked={createServicerAccountOption === false}
                     onChange={handleServiceChange}
                   />
@@ -1339,7 +1339,7 @@ function ResellerDetails() {
                       resellerDetail.resellerData?.isAccountCreate === false
                     }
                     value={true}
-                    checked={createAccountOption === true}
+                    checked={createAccount === true}
                     onChange={handleRadioChange}
                   />
                   <RadioButton
@@ -1350,7 +1350,7 @@ function ResellerDetails() {
                       resellerDetail.resellerData?.isAccountCreate === false
                     }
                     value={false}
-                    checked={createAccountOption === false}
+                    checked={createAccount === false}
                     // checked={createAccount === "no"}
                     onChange={handleRadioChange}
                   />
