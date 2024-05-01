@@ -1088,6 +1088,7 @@ function ServicerDetails() {
                     label="Country"
                     required={true}
                     placeholder=""
+                    className='!bg-[white]'
                     value={formik.values.country}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}

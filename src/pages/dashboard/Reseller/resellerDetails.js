@@ -1334,23 +1334,23 @@ function ResellerDetails() {
                   <RadioButton
                     id="yes-create-account"
                     label="Yes"
-                    // value="yes"
+                    value="yes"
                     disabled={
                       resellerDetail.resellerData?.isAccountCreate === false
                     }
-                    value={true}
-                    checked={createAccount === true}
+                    // value={true}
+                    checked={createAccountOption === "yes"}
                     onChange={handleRadioChange}
                   />
                   <RadioButton
                     id="no-create-account"
                     label="No"
-                    // value="no"
+                    value="no"
                     disabled={
                       resellerDetail.resellerData?.isAccountCreate === false
                     }
-                    value={false}
-                    checked={createAccount === false}
+                    // value={false}
+                    checked={createAccountOption === "no"}
                     // checked={createAccount === "no"}
                     onChange={handleRadioChange}
                   />
