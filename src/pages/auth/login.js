@@ -8,7 +8,7 @@ import Button from "../../common/button";
 import Layout from "../../utils/layout";
 
 // Media imports
-import Logo from "../../assets/images/logo.png";
+import Logo from "../../assets/images/Get-Cover.png";
 import Logi from "../../assets/images/login.png";
 import PasswordInput from "../../common/passwordInput";
 
@@ -68,15 +68,15 @@ function Login() {
       <form onSubmit={formik.handleSubmit}>
         <div className="relative bg-hero-pattern bg-cover	bg-no-repeat	bg-center	">
           <Grid className="px-8 s:grid-cols-6 md:grid-cols-12 xl:grid-cols-12">
-            <div className="col-span-5">
+            <div className="col-span-5 hidden md:block">
               <img
                 src={Logi}
                 className="py-5 lg:h-screen h-full md:mx-auto"
                 alt="Logo "
               />
             </div>
-            <div className="col-span-6 self-center">
-              <div className="mx-auto max-w-md">
+            <div className="col-span-6 self-center h-screen md:h-full flex ">
+              <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
                 <img src={Logo} className="w-[224px]" alt="Logo " />
                 <p className="text-3xl mb-3 mt-4 font-bold text-light-black">
                   <span className="text-neutral-grey"> Welcome to </span>{" "}

@@ -9,7 +9,7 @@ import Modal from "../../common/model";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import Logo from "../../assets/images/logo.png";
+import Logo from "../../assets/images/Get-Cover.png";
 import Logi from "../../assets/images/login.png";
 import email from "../../assets/images/approval-image.png";
 
@@ -128,9 +128,9 @@ function DealerRegister() {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="relative bg-hero-pattern bg-cover	bg-no-repeat bg-center">
-        <Grid className="px-8">
-          <div className="col-span-7 self-center">
-            <div className="mx-auto max-w-md">
+        <Grid className="px-8 s:grid-cols-6 md:grid-cols-12 xl:grid-cols-12">
+          <div className="col-span-7 self-center min-h-screen flex">
+            <div className="mx-auto mx-auto md:w-4/6	s:w-full py-5 self-center  ">
               <img src={Logo} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-3 font-bold text-light-black">
                 <span className="text-neutral-grey"> Welcome to </span> GetCover
@@ -391,7 +391,7 @@ function DealerRegister() {
             </div>
           </div>
           <div className="col-span-5">
-            <img src={Logi} className="py-5  h-screen md:mx-auto" alt="Logo " />
+            <img src={Logi} className="py-5  h-screen mx-auto hidden md:block" alt="Logo " />
           </div>
         </Grid>
         <Modal isOpen={isModalOpen} onClose={closeModal}>

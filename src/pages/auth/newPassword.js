@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 // Media imports
-import Logo from "../../assets/images/logo.png";
+import Logo from "../../assets/images/Get-Cover.png";
 import NewPasswordImage from "../../assets/images/new_password.png";
 import NewPasswordEmail from "../../assets/images/reset-password.png";
 import Cross from "../../assets/images/Cross.png";

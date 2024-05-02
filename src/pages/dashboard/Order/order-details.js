@@ -445,7 +445,7 @@ function OrderDetails() {
 
               <Grid className="!py-5">
                 <div className="col-span-6">
-                  <Button className="!bg-white !text-light-black !text-sm border flex">
+                  <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold ">
                     {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
                     <span className="self-center">
                       {" "}
@@ -458,7 +458,7 @@ function OrderDetails() {
                 </div>
                 <div className="col-span-6">
                   {userDetails?.dealerData?.termCondition == '' ? <></> : (
-                  <Button className="!bg-white !text-light-black !text-sm border flex">
+                  <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
                     <span className="self-center">
                       {" "}
                       <FileDownloader

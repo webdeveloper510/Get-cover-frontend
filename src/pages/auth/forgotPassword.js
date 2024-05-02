@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 // Media imports
-import Logo from "../../assets/images/logo.png";
+import Logo from "../../assets/images/Get-Cover.png";
 import forgot from "../../assets/images/forgot_banner.png";
 import email from "../../assets/images/email.png";
 

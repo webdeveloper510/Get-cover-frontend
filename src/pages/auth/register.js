@@ -39,9 +39,9 @@ function Register() {
               <b> account type </b>.
             </p>
 
-            <Grid className="">
+            <Grid className="s:grid-cols-3 md:grid-cols-12 xl:grid-cols-12">
               <div className="col-span-3"></div>
-              <div className="col-span-3">
+              <div className="col-span-3 s:my-5 s:z-10">
                 <div className="group drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  duration-300 hover:bg-[#fff] bg-[#F0F0F0] py-6 mb-[-40px] rounded-[30px] relative">
                   <p className="text-neutral-grey text-lg font-medium">
                     Register as
@@ -59,7 +59,7 @@ function Register() {
                   </div>
                 </div>
               </div>
-              <div className="col-span-3">
+              <div className="col-span-3 s:my-5">
                 <div className="group drop-shadow-xl hover:bg-[#fff] bg-[#F0F0F0] py-6 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duration-300 mb-[-40px] rounded-[30px] relative">
                   <p className="text-neutral-grey text-lg font-medium">
                     Register as

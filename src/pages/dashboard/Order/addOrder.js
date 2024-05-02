@@ -577,22 +577,22 @@ function AddOrder() {
     formik4.setFieldValue("paidAmount", result.result.paidAmount);
   };
 
-  // useEffect(() => {
-  //   console.log(location);
-  //   if (location.pathname.includes("/editOrder")) {
-  //     setLoading1(true);
-  //   }
-  //   if (location.pathname == "/addOrder") {
-  //     setType("Add");
-  //     setCurrentStep(1);
-  //     formik.resetForm();
-  //     setNumberOfOrders([]);
-  //     setFileValues([]);
-  //     formikStep2.resetForm();
-  //     formikStep3.resetForm();
-  //     formik4.resetForm();
-  //   }
-  // }, [location]);
+  useEffect(() => {
+    console.log(location);
+    if (location.pathname.includes("/editOrder")) {
+      setLoading1(true);
+    }
+    if (location.pathname == "/addOrder") {
+      setType("Add");
+      setCurrentStep(1);
+      formik.resetForm();
+      setNumberOfOrders([]);
+      setFileValues([]);
+      formikStep2.resetForm();
+      formikStep3.resetForm();
+      formik4.resetForm();
+    }
+  }, [location]);
 
   const renderStep = () => {
     switch (currentStep) {
