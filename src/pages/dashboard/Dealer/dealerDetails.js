@@ -104,7 +104,7 @@ function DealerDetails() {
   const [createAccount, setCreateAccount] = useState(false);
   const [shipping, setShipping] = useState("yes");
   const inputRef = useRef(null);
-  const [selectedFile2, setSelectedFile2] = useState(null);
+  const [selectedFile2, setSelectedFile2] = useState('');
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -394,15 +394,26 @@ function DealerDetails() {
     const result = uploadTermsandCondition(formData).then((res) => {
       // console.log(res?.file);
       formik.setFieldValue("termCondition", {
-        fileName: res.file.filename,
-        name: res.file.originalname,
-        size: res.file.size,
+        fileName: res?.file?.filename,
+        name: res?.file?.originalname,
+        size: res?.file?.size,
       });
     });
-    setSelectedFile2(file);
+    if (file != undefined){
+      setSelectedFile2(file);
+    }
+    else{
+      setSelectedFile2({
+        fileName: "",
+        name: "",
+        size: "",
+      })
+    }
+    
+    
+  console.log("Selected file:================", file);
     
   };
-  // console.log("Selected file:", selectedFile2);
 
   const handleRemoveFile = () => {
     if (inputRef) {
@@ -412,7 +423,11 @@ function DealerDetails() {
         name: "",
         size: "",
       });
-      setSelectedFile2(null);
+       setSelectedFile2({
+        fileName: "",
+        name: "",
+        size: "",
+      });
     }
   };
   const servicerForm = useFormik({
@@ -1223,7 +1238,7 @@ function DealerDetails() {
                       <div
                         className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}
                       >
-                        {selectedFile2 && (
+                        {selectedFile2?.name != "" && (
                           <button
                             type="button"
                             onClick={handleRemoveFile}
@@ -1236,9 +1251,9 @@ function DealerDetails() {
                             />
                           </button>
                         )}
-                        {selectedFile2 ? (
+                        {selectedFile2?.name != "" ? (
                           <p className="w-full overflow-hidden flex flex-nowrap	">
-                            {selectedFile2.name}
+                            {selectedFile2?.name}
                           </p>
                         ) : (
                           <p
