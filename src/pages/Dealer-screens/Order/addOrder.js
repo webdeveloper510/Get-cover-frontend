@@ -308,6 +308,8 @@ function DealerAddOrder() {
     getServicerList({
       resellerId: result?.result?.resellerId,
     });
+
+    formik4.setFieldValue("paymentStatus", result.result.paymentStatus);
     result?.result?.productsArray?.forEach((product, index) => {
       getCategoryList(
         {
@@ -1323,6 +1325,7 @@ function DealerAddOrder() {
                     label="Coverage Type"
                     name="coverageType"
                     placeholder=""
+                    disabled={type == "Edit"}
                     className="!bg-white"
                     required={true}
                     onChange={handleSelectChange1}

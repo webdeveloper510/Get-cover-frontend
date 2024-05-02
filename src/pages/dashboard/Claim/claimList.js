@@ -60,7 +60,7 @@ import SelectSearch from "../../../common/selectSearch";
 import { apiUrl } from "../../../services/authServices";
 
 function ClaimList(props) {
-  console.log(props);
+  // console.log(props);
   const baseUrl = apiUrl();
   // console.log(baseUrl, '----------------------------');
   const location = useLocation();
@@ -86,6 +86,11 @@ function ClaimList(props) {
   const [totalRecords, setTotalRecords] = useState(0);
   const [price, setPrice] = useState("");
   const [serviceType, setServiceType] = useState([]);
+  const [serviceType1, setServiceType1] = useState([
+    { label: "Parts", value: "Parts" },
+    { label: "Labour", value: "Labour" },
+    { label: "Shipping", value: "Shipping" },
+  ]);
   const [claimId, setClaimId] = useState("");
   const [claimUnique, setClaimUnique] = useState("");
   const [claimType, setClaimType] = useState("");
@@ -116,7 +121,7 @@ function ClaimList(props) {
   });
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  
+
   useEffect(() => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
     setRole(userDetails.role);
@@ -139,21 +144,23 @@ function ClaimList(props) {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messageList, claimId]); 
+  }, [messageList, claimId]);
 
   const downloadImage = (file) => {
     const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
 
     fetch(url, {
-        headers: baseUrl.headers 
+      headers: baseUrl.headers,
     })
-    .then((response) => {
+      .then((response) => {
         if (!response.ok) {
-            throw new Error(`Failed to fetch the file. Status: ${response.status}`);
+          throw new Error(
+            `Failed to fetch the file. Status: ${response.status}`
+          );
         }
         return response.blob();
-    })
-    .then((blob) => {
+      })
+      .then((blob) => {
         const blobUrl = URL.createObjectURL(blob);
 
         const anchor = document.createElement("a");
@@ -163,11 +170,11 @@ function ClaimList(props) {
         anchor.click();
         document.body.removeChild(anchor);
         URL.revokeObjectURL(blobUrl);
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.error("Error fetching the file:", error);
-    });
-};
+      });
+  };
 
   useEffect(() => {
     let intervalId;
@@ -187,20 +194,20 @@ function ClaimList(props) {
 
   const handleSelectChange2 = (selectedValue, value) => {
     formik1.setFieldValue(selectedValue, value);
-    console.log(selectedValue, value);
+    // console.log(selectedValue, value);
   };
   const handleSelectChange21 = (selectedValue, value) => {
     Shipment.setFieldValue(selectedValue, value);
-    console.log(selectedValue, value);
+    // console.log(selectedValue, value);
   };
 
   const handleSelectChange = (selectedValue, value) => {
     if (selectedValue === "claimStatus") {
-      console.log(selectedValue, "------------>>>>>>>");
+      // console.log(selectedValue, "------------>>>>>>>");
       if (value === "Rejected") {
         setIsRejectOpen(true);
       } else if (value?.reason) {
-        console.log(value);
+        // console.log(value);
         value.claimStatus = "Rejected";
         editClaimRejectedValue(claimList.result[activeIndex]._id, value);
       } else {
@@ -211,7 +218,7 @@ function ClaimList(props) {
             selectedValue,
             value
           );
-          console.log(selectedValue);
+          // console.log(selectedValue);
         };
 
         switch (selectedValue) {
@@ -224,7 +231,7 @@ function ClaimList(props) {
       }
     } else if (selectedValue === "claimType") {
       const updateAndCallAPI = (setter) => {
-        console.log(selectedValue);
+        // console.log(selectedValue);
 
         // Update state or call API for claimType
         editClaimClaimType(
@@ -237,7 +244,7 @@ function ClaimList(props) {
     } else if (selectedValue === "servicer") {
       // Handle logic specific to servicer
       const updateAndCallAPI = (setter) => {
-        console.log(selectedValue);
+        // console.log(selectedValue);
 
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimServicer(
@@ -250,11 +257,11 @@ function ClaimList(props) {
       updateAndCallAPI(setServicer);
     } else {
       const updateAndCallAPI = (setter) => {
-        console.log(selectedValue);
+        // console.log(selectedValue);
 
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
-        console.log(selectedValue);
+        // console.log(selectedValue);
       };
 
       switch (selectedValue) {
@@ -273,7 +280,7 @@ function ClaimList(props) {
     }
   };
 
-  console.log(coverage, "---------------------->>>>>");
+  // console.log(coverage, "---------------------->>>>>");
   const editClaimRejectedValue = (claimId, data) => {
     editClaimStatus(claimId, data).then((res) => {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
@@ -286,7 +293,7 @@ function ClaimList(props) {
     if (res.code === 200) {
       const resultData = res.result || {};
       const updatedClaimListCopy = { ...claimList };
-      console.log(resultData, updatedClaimListCopy.result[activeIndex][name]);
+      // console.log(resultData, updatedClaimListCopy.result[activeIndex][name]);
 
       if (updatedClaimListCopy.result) {
         updatedClaimListCopy.result[activeIndex][name] = resultData[`${name}`];
@@ -369,7 +376,7 @@ function ClaimList(props) {
 
     getClaimListPromise
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         if (res) {
           setClaimList(res);
@@ -379,8 +386,6 @@ function ClaimList(props) {
         setTimeout(function () {
           setShowdata(true);
         }, 1000);
-
-        
       })
       .catch(() => {
         setLoaderType(false);
@@ -475,7 +480,6 @@ function ClaimList(props) {
   }, [dropdownRef]);
 
   const openEdit = (res, index) => {
-    console.log(res, "-------------------->>>>>>>>>>>>>>>----------------");
     scrollToBottom();
 
     if (res.repairParts.length != 0) {
@@ -483,7 +487,9 @@ function ClaimList(props) {
         serviceType: part.serviceType || "",
         description: part.description || "",
         price: part.price || "",
+        value: true,
       }));
+      console.log("repairPartsValues", repairPartsValues);
       formik.setValues({
         repairParts: repairPartsValues,
         note: claimList.result[index].note || " ",
@@ -531,7 +537,6 @@ function ClaimList(props) {
     );
     setClaimUnique(res.unique_key);
     setClaimId(res._id);
-    console.log(res.repairParts, "-------------=======");
     setIsEditOpen(true);
     setError("");
 
@@ -570,7 +575,6 @@ function ClaimList(props) {
   };
 
   const openView = (claim) => {
-    console.log(claim);
     const isValidReseller = !!claim?.contracts.orders.resellerId;
     const selfServicer = claim?.selfServicer;
     const isAdminView = window.location.pathname.includes("/dealer/claimList");
@@ -629,7 +633,6 @@ function ClaimList(props) {
       ].filter(Boolean)
     );
 
-    console.log(claim);
     setClaimDetail(claim);
     getClaimMessage(claim._id, true);
     setIsViewOpen(true);
@@ -640,7 +643,6 @@ function ClaimList(props) {
     getClaimMessages(claimId)
       .then((res) => {
         setMessageList(res.result);
-        console.log(res.result);
       })
       .catch((error) => {
         console.error("Error fetching claim messages:", error);
@@ -666,13 +668,12 @@ function ClaimList(props) {
   }, [claimList]);
 
   const downloadAttachments = (res) => {
-    console.log("hello", res);
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
       const url = `${baseUrl.baseUrl}/uploads/claimFile/${attachment.filename}`;
       fetch(url, {
-        headers: baseUrl.headers 
+        headers: baseUrl.headers,
       })
         .then((response) => response.blob())
         .then((blob) => {
@@ -705,7 +706,7 @@ function ClaimList(props) {
 
     onSubmit: (values) => {
       values.orderId = claimDetail?.contracts?.orders?._id;
-      console.log(values, claimDetail);
+
       const userInfo = JSON.parse(localStorage.getItem("userDetails"));
       const temporaryMessage = {
         _id: "temp-id",
@@ -731,16 +732,13 @@ function ClaimList(props) {
         },
       };
 
-      console.log(temporaryMessage);
       // Update the state with the temporary message
       setMessageList((prevClaimMessages) => [
         ...prevClaimMessages,
         temporaryMessage,
       ]);
 
-      console.log(userInfo);
       addClaimMessages(claimDetail?._id, values).then((res) => {
-        console.log(res);
         getClaimMessage(claimDetail._id, false);
       });
 
@@ -801,7 +799,7 @@ function ClaimList(props) {
         claimList.result[activeIndex]?.repairStatus
       );
 
-      console.log(claimList.result[activeIndex].contracts.orders.coverageType);
+      // console.log(claimList.result[activeIndex].contracts.orders.coverageType);
       let arr = [];
       const filterServicer = claimList?.result[
         activeIndex
@@ -851,7 +849,7 @@ function ClaimList(props) {
       });
       values.totalAmount = totalPrice;
       addClaimsRepairParts(claimId, values).then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.code == 401) {
           setError(res.message);
         } else {
@@ -871,7 +869,7 @@ function ClaimList(props) {
       trackingType: "",
     },
     onSubmit: (values) => {
-      console.log("Selected tracking type:", values);
+      // console.log("Selected tracking type:", values);
       addClaimsRepairParts(claimList.result[activeIndex]._id, values).then(
         (res) => {
           getAllClaims();
@@ -1024,7 +1022,7 @@ function ClaimList(props) {
       setIsDisapprovedOpen(false);
       getAllClaims();
       const storedActiveIndex = localStorage.getItem("activeIndex");
-      console.log(values);
+      // console.log(values);
     },
   });
 
@@ -1059,7 +1057,7 @@ function ClaimList(props) {
       formData.append("file", file);
 
       addUploadCommentImage(formData).then((res) => {
-        console.log(res.messageFile);
+        // console.log(res.messageFile);
         formik2.setFieldValue("messageFile", res.messageFile);
       });
       reader.onload = (event) => {
@@ -1100,7 +1098,7 @@ function ClaimList(props) {
     formik1.resetForm();
     getAllClaims();
   };
-  console.log(activeIndex, "++++++++++++++++_-------------------");
+  // console.log(activeIndex, "++++++++++++++++_-------------------");
   const addTracker = () => {};
   return (
     <>
@@ -2031,7 +2029,7 @@ function ClaimList(props) {
                   onSubmit={(values, { setSubmitting }) => {
                     handleSelectChange("claimStatus", values);
                     // Submit logic here
-                    console.log(values);
+                    // console.log(values);
                     setSubmitting(false);
                     setActiveIndex(null);
                   }}
@@ -2322,30 +2320,59 @@ function ClaimList(props) {
                     return (
                       <div className="mb-5 grid grid-cols-12 gap-4">
                         <div className="col-span-2">
-                          <Select
-                            name={`repairParts[${index}].serviceType`}
-                            label="Service Type"
-                            options={serviceType}
-                            required={true}
-                            className="!bg-[#fff]"
-                            placeholder=""
-                            maxLength={"30"}
-                            className1="!pt-[0.4rem]"
-                            value={
-                              formik.values.repairParts[index].serviceType || ""
-                            }
-                            onChange={handleChange}
-                            onBlur={formik.handleBlur}
-                            error={
-                              formik.touched.repairParts &&
-                              formik.touched.repairParts[index] &&
-                              formik.errors.repairParts &&
-                              formik.errors.repairParts[index] &&
-                              formik.errors.repairParts[index].serviceType
-                            }
-                          >
-                            {/* Add your options for Service Type here */}
-                          </Select>
+                          {formik?.values?.repairParts[index]?.value ? (
+                            <Select
+                              name={`repairParts[${index}].serviceType`}
+                              label="Service Type"
+                              options={serviceType1}
+                              required={true}
+                              className="!bg-[#fff]"
+                              disabled={true} // or you can keep it as formik?.values?.repairParts[index]?.value
+                              placeholder=""
+                              maxLength={"30"}
+                              className1="!pt-[0.4rem]"
+                              value={
+                                formik.values.repairParts[index].serviceType ||
+                                ""
+                              }
+                              onChange={handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.repairParts &&
+                                formik.touched.repairParts[index] &&
+                                formik.errors.repairParts &&
+                                formik.errors.repairParts[index] &&
+                                formik.errors.repairParts[index].serviceType
+                              }
+                            />
+                          ) : (
+                            <Select
+                              name={`repairParts[${index}].serviceType`}
+                              label="Service Type"
+                              options={serviceType}
+                              required={true}
+                              className="!bg-[#fff]"
+                              disabled={
+                                formik?.values?.repairParts[index]?.value
+                              }
+                              placeholder=""
+                              maxLength={"30"}
+                              className1="!pt-[0.4rem]"
+                              value={
+                                formik.values.repairParts[index].serviceType ||
+                                ""
+                              }
+                              onChange={handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.repairParts &&
+                                formik.touched.repairParts[index] &&
+                                formik.errors.repairParts &&
+                                formik.errors.repairParts[index] &&
+                                formik.errors.repairParts[index].serviceType
+                              }
+                            />
+                          )}
                           {formik.touched.repairParts &&
                             formik.touched.repairParts[index] &&
                             formik.errors.repairParts &&
@@ -2357,9 +2384,6 @@ function ClaimList(props) {
                         </div>
 
                         <div className="col-span-7">
-                          {/* <label htmlFor={`description-${index}`}>
-                          Description
-                        </label> */}
                           <Input
                             type="text"
                             label="Description"
