@@ -189,12 +189,12 @@ function PdfGenerator(props, className) {
                 } </b></h4>
                 <small style="margin: 0; padding: 0;">Address: ${
                   data?.customerName?.street
-                } ${data?.customerName?.city} ,${data?.customerName?.state} , ${
+                }, ${data?.customerName?.city} ,${data?.customerName?.state} , ${
                         data?.customerName?.zip
                       } <br/>
                    
                     </small>
-                    <small>${formatPhoneNumber(
+                    <small> +1 ${formatPhoneNumber(
                       data?.customerUserData?.phoneNumber
                     )} | ${data?.customerUserData?.email}  </small>
             </td>

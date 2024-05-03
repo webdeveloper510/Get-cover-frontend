@@ -185,21 +185,20 @@ function DealerDetails() {
   const carouselRef = useRef(null); 
   useEffect(() => {
     localStorage.setItem("menu", activeTab);
-    if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook") {
-      if (carouselRef.current) {
-        carouselRef.current.next(3);
+    if(createServicerAccountOption === true ){
+      if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
+        if (carouselRef.current) {
+          carouselRef.current.next(5);
+        }
+      }
+    }else {
+      if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
+        if (carouselRef.current) {
+          carouselRef.current.next(3);
+        }
       }
     }
-    if(activeTab === "Paid Claims" ){
-      if (carouselRef.current) {
-        carouselRef.current.next(5);
-      }
-    }
-    if( activeTab === "Unpaid Claims") {
-      if (carouselRef.current) {
-        carouselRef.current.next(4);
-      }
-    }
+    
   }, [activeTab, carouselRef]);
 
   useEffect(() => {

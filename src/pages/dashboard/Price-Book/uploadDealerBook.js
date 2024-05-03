@@ -31,6 +31,7 @@ function UploadDealerBook() {
   const [tags, setTags] = useState([]);
   const [timer, setTimer] = useState(3);
   const [dealerName, setDealerName] = useState("");
+  const [dealerID, setDealerID] = useState("");
   const navigate = useNavigate();
   const openModal = () => {
     setIsModalOpen(true);
@@ -42,7 +43,7 @@ function UploadDealerBook() {
 
   const handleSelectChange = (name, selectedValue) => {
     console.log(name, selectedValue, "Checking here if exist");
-
+ setDealerID(selectedValue)
     activeDealers?.find((dealer) => {
       if (dealer.value === selectedValue) {
         setDealerName(dealer.label);
@@ -61,7 +62,8 @@ function UploadDealerBook() {
     if (timer === 0) {
       closeModal();
       // navigate(`/dealerPriceList`);
-      navigate(`/dealerPriceList/${dealerName}`);
+      navigate(`/dealerDetails/${dealerID}`);
+      localStorage.setItem("menu", "PriceBook");
     }
     return () => {
       clearInterval(intervalId);
