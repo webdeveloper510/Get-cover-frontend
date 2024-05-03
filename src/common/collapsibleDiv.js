@@ -57,13 +57,13 @@ const CollapsibleDiv = ({
         </div>
       </div>
       <div
-        className={`transition-duration-${
+        className={`ease-in-out transition-duration-${
           isCollapsed ? "500 overflow-hidden" : "2000 overflow-visible "
-        } ease-in-out`}
+        } `}
         ref={contentRef}
         style={{
           maxHeight: isCollapsed ? "0px" : "100%",
-          transition: isCollapsed ? "" : "max-height 0.5s ease-in-out",
+          transition: "max-height 0.5s ease-in-out",
         }}
       >
         {children}

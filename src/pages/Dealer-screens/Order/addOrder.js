@@ -2342,7 +2342,7 @@ function DealerAddOrder() {
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Order </Link> /{" "}
+              <Link to={"/dealer/orderList"}>Order </Link> /{" "}
             </li>
             <li className="text-sm text-neutral-grey font-Regular">
               {" "}

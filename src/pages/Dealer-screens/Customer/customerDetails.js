@@ -390,7 +390,7 @@ function CustomerDetails() {
 
         <div className="flex">
           <Link
-            onClick={handleGOBack}
+            to={'/dealer/customerList'}
             className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
           >
             <img
@@ -405,10 +405,10 @@ function CustomerDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link onClick={handleGOBack}>Customer / </Link>{" "}
+                <Link to={'/dealer/dashboard'}>Customer / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link onClick={handleGOBack}> Customer List / </Link>{" "}
+                <Link to={'/dealer/customerList'}> Customer List / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}

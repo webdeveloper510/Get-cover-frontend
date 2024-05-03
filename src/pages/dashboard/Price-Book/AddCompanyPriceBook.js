@@ -14,6 +14,7 @@ import Modal from "../../../common/model";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import terms from "../../../assets/images/icons/terms.svg";
 import dealer from "../../../assets/images/icons/dealerName.svg";
+import coverageIcon from "../../../assets/images/icons/servicerNumber.svg";
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
 
 import {
@@ -454,8 +455,8 @@ function AddCompanyPriceBook() {
           )} */}
           {type == "Edit" && (
             <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
-              <Grid className="mx-8 mx-auto ">
-                <div className="col-span-3 self-center border-r border-[#4e4e4e]">
+              <Grid className="mx-8 mx-auto !grid-cols-11">
+                <div className="col-span-1 self-center border-r border-[#4e4e4e]">
                 </div>
                 <div className="col-span-3 border-r border-[#4e4e4e]">
                   <div className="flex">
@@ -472,7 +473,7 @@ function AddCompanyPriceBook() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-3 border-r border-[#4e4e4e]">
                   <div className="flex justify-center">
                     <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
                       <img src={terms} className="w-6 h-6" alt="terms" />
@@ -488,6 +489,21 @@ function AddCompanyPriceBook() {
                   </div>
                 </div>
                 <div className="col-span-3">
+                  <div className="flex justify-center">
+                    <div className="self-center bg-[#FFFFFF08] rounded-lg mr-4">
+                      <img src={coverageIcon} className="" alt="terms" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5">
+                      Coverage Type
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                        {detailsById?.coverageType}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-1">
                 </div>
               </Grid>
             </div>
@@ -504,7 +520,7 @@ function AddCompanyPriceBook() {
                 </p>
               )}
               <Grid
-                className={`${type == "Edit" ? "!grid-cols-3" : "!grid-cols-4"
+                className={`${type == "Edit" ? "!grid-cols-2" : "!grid-cols-4"
                   } `}
               >
                 <div className="col-span-1">
@@ -591,34 +607,36 @@ function AddCompanyPriceBook() {
                   </div>
                 )}
 
-                <div className="col-span-1">
-                <Select
-                    label="Coverage Type "
-                    name="coverageType"
-                    placeholder=""
-                    onChange={handleSelectChange}
-                    required={true}
-                    className="!bg-[#fff]"
-                    options={coverage}
-                    value={
-                      (
-                        coverage.find(
-                          (option) => option.value === formik.values.coverageType
-                        ) || {}
-                      ).value || ""
-                    }
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.coverageType && formik.errors.coverageType
-                    }
-                  />
+                 {type == "Edit" ? (
+                          <></>) : 
+                        <div className="col-span-1">
+                        <Select
+                            label="Coverage Type "
+                            name="coverageType"
+                            placeholder=""
+                            onChange={handleSelectChange}
+                            required={true}
+                            className="!bg-[#fff]"
+                            options={coverage}
+                            value={
+                              (
+                                coverage.find(
+                                  (option) => option.value === formik.values.coverageType
+                                ) || {}
+                              ).value || ""
+                            }
+                            onBlur={formik.handleBlur}
+                            error={
+                              formik.touched.coverageType && formik.errors.coverageType
+                            }
+                          />
 
-                  {formik.touched.coverageType && formik.errors.coverageType && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.coverageType}
-                    </div>
-                  )}
-                </div>
+                          {formik.touched.coverageType && formik.errors.coverageType && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.coverageType}
+                            </div>
+                          )}
+                        </div> }
               </Grid>
               <Grid className="!grid-cols-4 mt-5">
                 <div className="col-span-1">

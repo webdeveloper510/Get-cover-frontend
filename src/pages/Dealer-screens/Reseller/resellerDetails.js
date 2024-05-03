@@ -583,10 +583,10 @@ function DealerResellerDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Reseller / </Link>{" "}
+                <Link to={"/dealer/resellerList"}>Reseller / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}> Reseller List / </Link>{" "}
+                <Link to={"/dealer/resellerList"}> Reseller List / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}

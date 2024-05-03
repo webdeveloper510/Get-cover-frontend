@@ -131,10 +131,10 @@ function OrderDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Order Lists / </Link>
+                <Link to={"/dealer/orderList"}>Order Lists / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-Regular pl-2">
-                <Link to={"/"}>Order Details / </Link>
+                <Link to={"/dealer/orderList"}>Order Details / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {activeTab}
