@@ -726,8 +726,7 @@ function DealerResellerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      $
-                      {formatOrderValue(
+                      ${formatOrderValue(
                         resellerDetail?.orderData?.orderAmount ??
                           parseInt(0).toLocaleString(2)
                       )}
@@ -750,8 +749,7 @@ function DealerResellerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      $<span className="ml-1"></span>
-                      {formatOrderValue(
+                      ${formatOrderValue(
                         resellerDetail?.claimData?.valueClaim ??
                           parseInt(0).toLocaleString(2)
                       )}
