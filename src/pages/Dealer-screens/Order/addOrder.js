@@ -230,8 +230,10 @@ function DealerAddOrder() {
       });
       setResllerList(arr);
     } catch (error) {
+      setLoading1(false);
       console.error("Error occurred while fetching reseller list:", error);
     } finally {
+      setLoading1(false);
     }
   };
 

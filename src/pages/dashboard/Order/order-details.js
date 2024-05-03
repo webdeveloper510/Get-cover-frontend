@@ -463,6 +463,7 @@ function OrderDetails() {
                       {" "}
                       <FileDownloader
                         data={orderId}
+                        setLoading={setLoading1}
                         apiUrlData={baseUrl}
                       />
                     </span>
