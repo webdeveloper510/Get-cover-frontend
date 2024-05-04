@@ -245,7 +245,7 @@ function DealerAddOrder() {
     } else {
       setType("Add");
     }
-    if (resellerId) {
+    if (resellerId && customerId == undefined) {
       formik.setFieldValue("resellerId", resellerId);
       getResellerList();
       getCustomerList({
@@ -258,6 +258,7 @@ function DealerAddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
+          coverageType: formikStep2?.values?.coverageType,
         },
         0
       );
@@ -276,6 +277,7 @@ function DealerAddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
+          coverageType: formikStep2?.values?.coverageType,
         },
         0
       );
@@ -291,6 +293,7 @@ function DealerAddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
+          coverageType: formikStep2?.values?.coverageType,
         },
         0
       );
@@ -317,6 +320,7 @@ function DealerAddOrder() {
         {
           priceBookId: product.priceBookId,
           priceCatId: product.categoryId,
+          coverageType: result?.result?.coverageType,
         },
         index
       );
@@ -798,6 +802,7 @@ function DealerAddOrder() {
       {
         priceBookId: "",
         priceCatId: "",
+        coverageType: formikStep2?.values?.coverageType,
       },
       formikStep3.values.productsArray.length
     );
@@ -857,6 +862,7 @@ function DealerAddOrder() {
           {
             priceCatId: selectedValue,
             priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
+            coverageType: formikStep2?.values?.coverageType,
           },
           match[1]
         );
@@ -871,6 +877,7 @@ function DealerAddOrder() {
         {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: selectedValue,
+          coverageType: formikStep2?.values?.coverageType,
         },
         match[1]
       );
@@ -974,7 +981,19 @@ function DealerAddOrder() {
   }, [formikStep3.values.productsArray]);
 
   const handleSelectChange1 = (name, value) => {
+    if (name == "coverageType") {
+      getCategoryList(
+        {
+          priceBookId: "",
+          priceCatId: "",
+          coverageType: value,
+        },
+        0
+      );
+      formikStep3.resetForm();
+    }
     formikStep2.setFieldValue(name, value);
+    
   };
 
   const handleSelectChange = (name, value) => {
@@ -1063,6 +1082,7 @@ function DealerAddOrder() {
           {
             priceBookId: data.priceBookId,
             priceCatId: result.result.selectedCategory._id,
+            coverageType: formikStep2?.values?.coverageType,
           },
           index
         );
