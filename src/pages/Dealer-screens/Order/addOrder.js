@@ -230,10 +230,8 @@ function DealerAddOrder() {
       });
       setResllerList(arr);
     } catch (error) {
-      setLoading1(false);
       console.error("Error occurred while fetching reseller list:", error);
     } finally {
-      setLoading1(false);
     }
   };
 
@@ -2364,7 +2362,7 @@ function DealerAddOrder() {
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/dealer/orderList"}>Order </Link> /{" "}
+              <Link to={"/"}>Order </Link> /{" "}
             </li>
             <li className="text-sm text-neutral-grey font-Regular">
               {" "}
