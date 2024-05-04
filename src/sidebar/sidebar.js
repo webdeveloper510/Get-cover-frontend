@@ -297,7 +297,6 @@ const Lists = [
     name: "Claim",
     image: ClaimImage,
     active: ActiveClaim,
-    // url: "/claimList",
     items: [
       {
         name: "Claim Listing",
@@ -557,6 +556,18 @@ console.log('active---------------->>', active )
         {
           name: "Claim Listing",
           url: "/dealer/claimList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Paid Claim Listing",
+          url: "/dealer/paidClaimList",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Unpaid Claim Listing",
+          url: "/dealer/unPaidClaimList",
           image: Dropdown1,
           active: Actives,
         },

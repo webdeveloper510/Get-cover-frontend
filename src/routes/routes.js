@@ -560,6 +560,18 @@ const routes = [
         ),
       },
       {
+        path: "/dealer/unPaidClaimList",
+        element: (
+          <PrivateRoute element={<ClaimList />} path="/dealer/unPaidClaimList" />
+        ),
+      },
+      {
+        path: "/dealer/paidClaimList",
+        element: (
+          <PrivateRoute element={<ClaimList />} path="/dealer/paidClaimList" />
+        ),
+      },
+      {
         path: "/dealer/addClaim/:username?",
         element: (
           <PrivateRoute element={<AddClaim />}  />
