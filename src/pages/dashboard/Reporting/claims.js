@@ -75,7 +75,7 @@ function Claims() {
         <Headbar />
 
         <div className="flex">
-          <div className="pl-3">
+          <div className="pl-3 mb-4">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
              Reporting
             </p>

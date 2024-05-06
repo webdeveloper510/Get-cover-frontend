@@ -291,6 +291,7 @@ function DealerPriceBook(props) {
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
       filterDealerPriceBook(values);
+      closeDisapproved();
     },
   });
 
