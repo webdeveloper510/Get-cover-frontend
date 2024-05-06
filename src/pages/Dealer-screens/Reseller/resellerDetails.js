@@ -449,7 +449,7 @@ function DealerResellerDetails() {
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-    content: activeTab === "Claims" && (
+      content: activeTab === "Claims" && (
         <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />
       ),
     },
@@ -515,10 +515,10 @@ function DealerResellerDetails() {
         localStorage.setItem("menu", "Customer");
         navigate(`/dealer/addCustomer/${id.resellerId}/reseller`);
         break;
-        case "Claims":
-          localStorage.setItem("menu", "Claims");
-          navigate(`/dealer/addClaim`);
-          break;
+      case "Claims":
+        localStorage.setItem("menu", "Claims");
+        navigate(`/dealer/addClaim`);
+        break;
       case "Users":
         openUserModal();
         break;
@@ -726,7 +726,8 @@ function DealerResellerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      ${formatOrderValue(
+                      $
+                      {formatOrderValue(
                         resellerDetail?.orderData?.orderAmount ??
                           parseInt(0).toLocaleString(2)
                       )}
@@ -749,7 +750,8 @@ function DealerResellerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      ${formatOrderValue(
+                      $
+                      {formatOrderValue(
                         resellerDetail?.claimData?.valueClaim ??
                           parseInt(0).toLocaleString(2)
                       )}
@@ -804,8 +806,7 @@ function DealerResellerDetails() {
                   className="col-span-2"
                   onClick={() => routeToPage(activeTab)}
                 >
-                  {(activeTab === "Orders" && resellerDetail.status === true) ||
-                  activeTab !== "Orders" ? (
+                  {resellerDetail?.resellerData?.status === true ? (
                     <Button className="!bg-white flex self-center h-full mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
                       <img
                         src={AddItem}

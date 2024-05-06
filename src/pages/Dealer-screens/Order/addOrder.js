@@ -139,32 +139,36 @@ function DealerAddOrder() {
   };
 
   const getServicerList = async (data) => {
-    console.log(data);
-    const result = await getServicerListInOrdersforDealerPortal(data);
-    console.log(result);
+    try {
+      const result = await getServicerListInOrdersforDealerPortal(data);
+      const filteredServicers = result.result;
+      console.log(filteredServicers);
 
-    const filteredServicers = result.result;
-    console.log(filteredServicers);
+      const isResellerIdEmpty = data?.resellerId == "";
+      console.log(formik.values.servicerId);
 
-    const isResellerIdEmpty = data?.resellerId == "";
-    console.log(formik.values.servicerId);
+      if (!isResellerIdEmpty && formik.values.servicerId) {
+        const matchedServicer = filteredServicers.find(
+          (res) => res._id === formik.values.servicerId
+        );
 
-    if (!isResellerIdEmpty && formik.values.servicerId) {
-      const matchedServicer = filteredServicers.find(
-        (res) => res._id === formik.values.servicerId
-      );
+        formik.setFieldValue(
+          "servicerId",
+          matchedServicer ? matchedServicer._id : ""
+        );
+      }
 
-      formik.setFieldValue(
-        "servicerId",
-        matchedServicer ? matchedServicer._id : ""
-      );
+      const arr = filteredServicers.map((res) => ({
+        label: res.name,
+        value: res._id,
+      }));
+      setServicerData(arr);
+    } catch (error) {
+      console.error("Error fetching servicer list:", error);
+      setLoading1(false);
+    } finally {
+      setLoading1(false);
     }
-
-    const arr = filteredServicers.map((res) => ({
-      label: res.name,
-      value: res._id,
-    }));
-    setServicerData(arr);
   };
 
   useEffect(() => {
@@ -189,7 +193,7 @@ function DealerAddOrder() {
   }, [isModalOpen, timer]);
 
   const getCustomerList = async (data) => {
-    setLoading1(true);
+    // setLoading1(true);
     let arr = [];
     try {
       const resellerId = data?.resellerId == null ? "" : data.resellerId;
@@ -211,7 +215,8 @@ function DealerAddOrder() {
       console.error("Error occurred while fetching customer list:", error);
       setLoading1(false);
     } finally {
-      setLoading1(false);
+      //  setLoading1(false);
+      console.log("customer api ");
     }
   };
 
@@ -231,7 +236,9 @@ function DealerAddOrder() {
       setResllerList(arr);
     } catch (error) {
       console.error("Error occurred while fetching reseller list:", error);
+      setLoading1(false);
     } finally {
+      console.log("reseller api ");
     }
   };
 
@@ -386,6 +393,7 @@ function DealerAddOrder() {
     );
     formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
   };
+
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -1023,8 +1031,8 @@ function DealerAddOrder() {
             let data = {
               resellerId: res.customerData.resellerId,
             };
-            getServicerList(data);
-            getCustomerList(data);
+            // getServicerList(data);
+            // getCustomerList(data);
           }
         });
     }
@@ -1125,10 +1133,10 @@ function DealerAddOrder() {
       }
     } catch (error) {
       setLoading3(false);
-      setLoading1(false);
+      // setLoading1(false);
     } finally {
       setLoading3(false);
-      setLoading1(false);
+      // setLoading1(false);
     }
   };
 

@@ -285,7 +285,7 @@ function DealerServicerList() {
                     <div className="col-span-3 self-center">
                       <Input
                         name="phone"
-                        type="number"
+                        type="tel"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
@@ -293,10 +293,10 @@ function DealerServicerList() {
                         value={formik.values.phone}
                         onChange={(e) => {
                           const sanitizedValue = e.target.value.replace(
-                            /[^0-9]/g,
+                            /\D/g,
                             ""
                           );
-                          console.log(sanitizedValue);
+
                           formik.handleChange({
                             target: {
                               name: "phone",
