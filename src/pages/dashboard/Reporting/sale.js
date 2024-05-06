@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Headbar from "../../../common/headBar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Grid from "../../../common/grid";
@@ -38,7 +38,7 @@ function Sale() {
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const state = cityData;
-
+  const containerRef = useRef(null);
   useEffect(() => {
     localStorage.setItem("SaleMenu", activeTab);
   }, [activeTab]);
@@ -63,8 +63,8 @@ function Sale() {
       content: <WholeSale />,
     },
     {
-      id: "Breakdown for Administration",
-      label: "Breakdown for Administration",
+      id: "Administration Fees",
+      label: "Administration Fees",
       icons: breakdown,
       className:'col-span-3',
       Activeicons: BreakdownActive,
@@ -79,8 +79,8 @@ function Sale() {
       content: <Fronting />,
     },
     {
-      id: "Re-insurance Premium",
-      label: "Re-insurance Premium",
+      id: "Re-insurance Fees",
+      label: "Re-insurance Fees",
       icons: insurance,
       className:'col-span-3',
       Activeicons: insuranceActive,
@@ -111,13 +111,13 @@ function Sale() {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 5,
-      slidesToSlide: 1 // optional, default to 1.
+      items: 4,
+      slidesToSlide: 3 // optional, default to 1.
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
       items: 4,
-      slidesToSlide: 1 // optional, default to 1.
+      slidesToSlide: 3 // optional, default to 1.
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
@@ -159,13 +159,41 @@ function Sale() {
           <div className="col-span-3">
             <Grid className="mt-10">
               
-              <div className="col-span-10">
-                  {/* <Carousel responsive={responsive}>
+              <div className="col-span-10 relative">
+              <div
+                  className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1]`}
+                  ref={containerRef}
+                  // onTransitionEnd={handleTransitionEnd}
+                >
+                  <Carousel  className="!gap-1"
+                    ssr={true}
+                    // ref={carouselRef}
+                    responsive={responsive}
+                    containerClass="carousel">
                   {tabs.map((tab) => (
-                      <div>{tab.label}</div>
+                      <Button
+                      className={`flex self-center w-[217px] !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                        activeTab === tab.id
+                          ? "!bg-[#2A2A2A] !text-white"
+                          : "!bg-[#F9F9F9] !text-black"
+                      }`}
+                      onClick={() => handleTabClick(tab.id)}
+                    > <img
+                    src={
+                      activeTab === tab.id ? tab.Activeicons : tab.icons
+                    }
+                    className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
+                    alt={tab.label}
+                  />
+                  <span
+                    className={`ml-1 py-1 text-[12px] font-normal ${
+                      activeTab === tab.id ? "text-white" : "text-black"
+                    }`}
+                  >{tab.label} </span></Button>
                       ))}
-                    </Carousel> */}
-                <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                    </Carousel>
+                    </div>
+                {/* <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
                   <Grid className="!gap-1 !grid-cols-11">
                     {tabs.map((tab) => (
                       <div className={tab.className} key={tab.id}>
@@ -195,7 +223,7 @@ function Sale() {
                       </div>
                     ))}
                   </Grid>
-                </div>
+                </div> */}
               </div>
               <div
                 className="col-span-2 self-center">
