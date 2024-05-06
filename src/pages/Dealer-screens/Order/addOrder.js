@@ -311,8 +311,11 @@ function DealerAddOrder() {
     getServicerList({
       resellerId: result?.result?.resellerId,
     });
-
+    //     console.log (result.result.paymentStatus)
+    // alert (result.result.paymentStatus)
     formik4.setFieldValue("paymentStatus", result.result.paymentStatus);
+    formik4.setFieldValue("paidAmount", result.result.paidAmount);
+    formik4.setFieldValue("dueAmount", result.result.dueAmount);
     result?.result?.productsArray?.forEach((product, index) => {
       getCategoryList(
         {
@@ -732,7 +735,7 @@ function DealerAddOrder() {
         ...formik.values,
         ...formikStep2.values,
         ...formikStep3.values,
-        paidAmount: values.paidAmount,
+        // paidAmount: values.paidAmount,
         dueAmount: parseFloat(totalAmount),
         sendNotification: sendNotification,
         paymentStatus: values.paymentStatus,
@@ -991,7 +994,6 @@ function DealerAddOrder() {
       formikStep3.resetForm();
     }
     formikStep2.setFieldValue(name, value);
-    
   };
 
   const handleSelectChange = (name, value) => {
