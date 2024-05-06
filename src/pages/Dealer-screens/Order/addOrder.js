@@ -59,6 +59,8 @@ function DealerAddOrder() {
   const [loading1, setLoading1] = useState(false);
   const [fileValues, setFileValues] = useState([]);
   const [loading3, setLoading3] = useState(false);
+  const [loading14, setloader] = useState(false);
+  const [loading5, setLoading5] = useState(false);
   const [timer, setTimer] = useState(3);
   const [sendNotification, setSendNotification] = useState(true);
   const [numberOfOrders, setNumberOfOrders] = useState([]);
@@ -187,7 +189,7 @@ function DealerAddOrder() {
     }
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
-
+  console.log(loading,loading1,loading3,loading14,loading5,'-------------------------- setLoading1(false);------->>')
   const getCustomerList = async (data) => {
     setLoading1(true);
     let arr = [];
@@ -531,12 +533,11 @@ function DealerAddOrder() {
       ),
     }),
     onSubmit: (values) => {
+      setLoading5(true)
       console.log(values);
       checkMultipleEmailCheck(values);
-
       let arr = [];
       let arr1 = [];
-
       values.productsArray.map((data, index) => {
         const value = categoryList.find((val) => val.value === data.categoryId);
         arr.push(value ? value.label : "");
@@ -550,6 +551,10 @@ function DealerAddOrder() {
       });
       setCategoryName(arr);
       setPriceBookName(arr1);
+      setTimeout(() => {
+        setLoading5(false)
+      }, 1000);
+      
     },
   });
 
@@ -646,6 +651,7 @@ function DealerAddOrder() {
   const fileInputRef = useRef([]);
 
   const handleInputClick = (index, event) => {
+    // setloader(true)
     setFileValues((prevFileValues) => {
       const newArray = [...prevFileValues];
       newArray[index] = null;
@@ -655,11 +661,12 @@ function DealerAddOrder() {
     event.currentTarget.value = null;
     formikStep3.setFieldValue(`productsArray[${index}].file`, "");
     formikStep3.setFieldValue(`productsArray[${index}].orderFile`, {});
+    // setloader(false);
   };
   const handleFileSelect = (event, index) => {
-    console.log(index);
+    setloader(true);
+    // alert('hello');
     const file = event.target.files[0];
-
     if (file) {
       setFileValues((prevFileValues) => {
         const newArray = [...prevFileValues];
@@ -675,6 +682,7 @@ function DealerAddOrder() {
       fileInputRef.current[index].current.file = file;
 
       checkFileError(file, index);
+   
     } else {
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
       formikStep3.setFieldValue(`productsArray[${index}].file`, "");
@@ -685,9 +693,14 @@ function DealerAddOrder() {
         return newArray;
       });
     }
+    setTimeout(() => {
+      setloader(false);
+    }, 1000);
+    
   };
 
   const checkFileError = async (file, index) => {
+    // setloader(true)
     formikStep3.setFieldValue(`productsArray[${index}].file`, file);
     const formData = new FormData();
     formData.append("file", file);
@@ -710,6 +723,7 @@ function DealerAddOrder() {
 
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
     }
+    // setloader(false);
   };
   const calculateTotalAmount = (data) => {
     let totalAmount = 0;
@@ -1384,13 +1398,14 @@ function DealerAddOrder() {
   const renderStep3 = () => {
     return (
       <>
-        {loading3 ? (
+        {loading14 || loading3 || loading5 ? (
           <div className=" h-[400px] w-full flex py-5">
             <div className="self-center mx-auto">
               <RotateLoader color="#333" />
             </div>
           </div>
         ) : (
+          <>
           <div className="mb-3">
             {formikStep3?.values?.productsArray.map((data, index) => (
               <div
@@ -2022,6 +2037,7 @@ function DealerAddOrder() {
             <Button onClick={formikStep3.handleSubmit}>Next</Button>
             {/* <Button className="ml-2" onClick={()=>openError()}>Error</Button> */}
           </div>
+          </>
         )}
       </>
     );
@@ -2142,8 +2158,7 @@ function DealerAddOrder() {
                             <div className="col-span-3 py-4">
                               <p className="text-[12px]">Price</p>
                               <p className="font-bold text-sm">
-                                $
-                                {data.price === undefined
+                                ${data.price === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
                                       Number(data.price) ?? parseInt(0)
