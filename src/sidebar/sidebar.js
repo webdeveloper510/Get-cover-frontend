@@ -559,18 +559,18 @@ console.log('active---------------->>', active )
           image: Dropdown1,
           active: Actives,
         },
-        {
-          name: "Paid Claim Listing",
-          url: "/dealer/paidClaimList",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Unpaid Claim Listing",
-          url: "/dealer/unPaidClaimList",
-          image: Dropdown1,
-          active: Actives,
-        },
+        // {
+        //   name: "Paid Claim Listing",
+        //   url: "/dealer/paidClaimList",
+        //   image: Dropdown1,
+        //   active: Actives,
+        // },
+        // {
+        //   name: "Unpaid Claim Listing",
+        //   url: "/dealer/unPaidClaimList",
+        //   image: Dropdown1,
+        //   active: Actives,
+        // },
         {
           name: "Add Claim",
           url: "/dealer/addClaim",
