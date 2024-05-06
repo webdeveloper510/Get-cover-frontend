@@ -1169,7 +1169,7 @@ function DealerAddOrder() {
                         name="resellerId"
                         placeholder=""
                         className="!bg-white"
-                        isDisabled={resellerId}
+                        isDisabled={resellerId || customerId}
                         onChange={handleSelectChange}
                         options={resellerList}
                         value={
