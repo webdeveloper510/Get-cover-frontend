@@ -145,13 +145,13 @@ function PdfGenerator(props, className) {
                           data?.username?.firstName
                         } 
                          ${data?.username?.lastName} <br/>
-                          ${data?.dealerName?.street} 
+                          ${data?.dealerName?.street} ,
                           ${data?.dealerName?.city} ,
-                          ${data?.dealerName?.state} 
+                          ${data?.dealerName?.state} ,
                           ${data?.dealerName?.zip} <br/>
                            
                             </small>
-                            <small> ${formatPhoneNumber(
+                            <small> +1 ${formatPhoneNumber(
                               data?.username?.phoneNumber
                             )} | ${data?.username?.email}  </small>
                     </td>
@@ -165,13 +165,13 @@ function PdfGenerator(props, className) {
                     <small style="margin: 0; padding: 0;">Bill To: ${
                       data?.resellerUsername?.firstName
                     } ${data?.resellerUsername?.lastName} <br/>
-                      ${data?.resellerName?.street ?? ""} 
+                      ${data?.resellerName?.street ?? ""} ,
                       ${data?.resellerName?.city ?? ""}, 
-                      ${data?.resellerName?.state ?? ""} 
+                      ${data?.resellerName?.state ?? ""} ,
                       ${data?.resellerName?.zip ?? ""} <br/>
                      
                     </small>
-                    <small>${formatPhoneNumber(
+                    <small> +1 ${formatPhoneNumber(
                       data?.resellerUsername?.phoneNumber
                     )} | ${data?.resellerUsername?.email}  </small>
                   </td> `
@@ -189,12 +189,12 @@ function PdfGenerator(props, className) {
                 } </b></h4>
                 <small style="margin: 0; padding: 0;">Address: ${
                   data?.customerName?.street
-                } ${data?.customerName?.city} ,${data?.customerName?.state} ${
+                }, ${data?.customerName?.city} ,${data?.customerName?.state} , ${
                         data?.customerName?.zip
                       } <br/>
                    
                     </small>
-                    <small>${formatPhoneNumber(
+                    <small> +1 ${formatPhoneNumber(
                       data?.customerUserData?.phoneNumber
                     )} | ${data?.customerUserData?.email}  </small>
             </td>

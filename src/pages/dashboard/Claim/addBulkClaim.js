@@ -207,11 +207,7 @@ function AddBulkClaim() {
           </div>
 
           {/* Form Start */}
-          {/* {error && (
-            <p className="text-red-500 text-sm pl-2">
-              <span className="font-semibold"> {error} </span>
-            </p>
-          )} */}
+
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-8 pt-5 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-xl">
               {error ? (
@@ -225,24 +221,6 @@ function AddBulkClaim() {
               )}
 
               <Grid className="">
-                {/* <div className="col-span-12">
-                    <Select
-                      label="Servicer Name*"
-                      name="servicerId"
-                      placeholder=""
-                      onChange={handleSelectChange}
-                      className="!bg-[#fff]"
-                      options={activeDealers}
-                      value={formik.values.dealerId}
-                      onBlur={formik.handleBlur}
-                      error={formik.touched.dealerId && formik.errors.dealerId}
-                    />
-                    {formik.touched.dealerId && formik.errors.dealerId && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.dealerId}
-                      </div>
-                    )}
-                  </div> */}
                 <div className="col-span-12">
                   <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
                     <ReactTags
@@ -321,20 +299,10 @@ function AddBulkClaim() {
               </Button>
             </div>
           </form>
-
-          {/* Modal Email Popop */}
         </>
       )}
+
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {/* <Button
-        onClick={closeModal}
-        className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
-      >
-        <img
-          src={Cross}
-          className="w-full h-full text-black rounded-full p-0"
-        />
-      </Button> */}
         <div className="text-center py-1">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
@@ -350,6 +318,7 @@ function AddBulkClaim() {
           </p>
         </div>
       </Modal>
+
     </div>
   );
 }

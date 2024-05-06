@@ -297,7 +297,6 @@ const Lists = [
     name: "Claim",
     image: ClaimImage,
     active: ActiveClaim,
-    // url: "/claimList",
     items: [
       {
         name: "Claim Listing",
@@ -429,12 +428,12 @@ const Lists = [
         image: Dropdown2,
         active: SeacondActive,
       },
-      {
-        name: "Accounting",
-        url: "#",
-        image: Dropdown2,
-        active: ForthActive,
-      },
+      // {
+      //   name: "Accounting",
+      //   url: "#",
+      //   image: Dropdown2,
+      //   active: ForthActive,
+      // },
     ],
   },
   {
@@ -560,6 +559,18 @@ console.log('active---------------->>', active )
           image: Dropdown1,
           active: Actives,
         },
+        // {
+        //   name: "Paid Claim Listing",
+        //   url: "/dealer/paidClaimList",
+        //   image: Dropdown1,
+        //   active: Actives,
+        // },
+        // {
+        //   name: "Unpaid Claim Listing",
+        //   url: "/dealer/unPaidClaimList",
+        //   image: Dropdown1,
+        //   active: Actives,
+        // },
         {
           name: "Add Claim",
           url: "/dealer/addClaim",

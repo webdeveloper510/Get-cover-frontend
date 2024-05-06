@@ -1518,7 +1518,7 @@ function ClaimList(props) {
                                                       handleSelectChange21
                                                     }
                                                     white
-                                                    OptionName="Tracker"
+                                                    // OptionName="Tracker"
                                                     options={tracker}
                                                     className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
                                                     classBox="w-[35%]"
@@ -1526,7 +1526,7 @@ function ClaimList(props) {
                                                   <Input
                                                     name="trackingNumber"
                                                     label=""
-                                                    placeholder="Enter Traker #"
+                                                    placeholder="Tracking #"
                                                     white
                                                     value={
                                                       Shipment.values
@@ -1570,7 +1570,7 @@ function ClaimList(props) {
                                                           handleSelectChange21
                                                         }
                                                         white
-                                                        OptionName="Tracker"
+                                                        // OptionName="Tracker"
                                                         options={tracker}
                                                         className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
                                                         classBox="w-[35%]"
@@ -1578,7 +1578,7 @@ function ClaimList(props) {
                                                       <Input
                                                         name="trackingNumber"
                                                         label=""
-                                                        placeholder="Enter Traker #"
+                                                        placeholder="Tracking #"
                                                         white
                                                         value={
                                                           Shipment.values

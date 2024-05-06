@@ -580,7 +580,7 @@ function AddOrder() {
   useEffect(() => {
     console.log(location);
     if (location.pathname.includes("/editOrder")) {
-      setLoading1(true);
+      // setLoading1(true);
     }
     if (location.pathname == "/addOrder") {
       setType("Add");
@@ -672,7 +672,7 @@ function AddOrder() {
       });
     },
   });
-
+console.log(loading,loading1,loading2,loading3,loading4,loading5,'-------------------------- setLoading1(false);------->>')
   const formikStep3 = useFormik({
     initialValues: {
       productsArray: [

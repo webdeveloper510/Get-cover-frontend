@@ -196,7 +196,7 @@ function ContractList(props) {
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Contracts</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Contracts /</Link>{" "}
+                <Link to={"/dealer/dashboard"}>Contracts /</Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-1">
                 Contracts List

@@ -876,10 +876,10 @@ function Account() {
                         name="email"
                         handleDelete={handleDelete}
                         handleAddition={handleAddition}
+                        autocomplete="off"
                         handleDrag={handleDrag}
                         handleTagClick={handleTagClick}
                         inputFieldPosition="bottom"
-                        autocomplete
                         editable
                         placeholder=""
                       />

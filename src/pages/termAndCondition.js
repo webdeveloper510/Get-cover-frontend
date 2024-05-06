@@ -4,8 +4,10 @@ import download from "../assets/images/download.png";
 import { apiUrl } from "../services/authServices";
 
 function FileDownloader(props) {
+  const { setLoading } = props;
   const baseUrl = apiUrl();
   const handleClick = async (apiUrlData) => {
+    setLoading(true);
     try {
       // Make an API request to fetch the file URL
       const response = await DownloadTC(props.data, apiUrlData);
@@ -49,7 +51,9 @@ function FileDownloader(props) {
       }
     } catch (error) {
       console.error("Error fetching file:", error);
+      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (

@@ -256,7 +256,7 @@ function CustomerDetails() {
     },
   });
   const openUserModal = () => {
-    setActiveTab("Users123");
+    setActiveTab("Users");
     setIsUserModalOpen(true);
   };
   useEffect(() => {
@@ -390,7 +390,7 @@ function CustomerDetails() {
 
         <div className="flex">
           <Link
-            onClick={handleGOBack}
+            to={'/dealer/customerList'}
             className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
           >
             <img
@@ -405,10 +405,10 @@ function CustomerDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link onClick={handleGOBack}>Customer / </Link>{" "}
+                <Link to={'/dealer/dashboard'}>Customer / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link onClick={handleGOBack}> Customer List / </Link>{" "}
+                <Link to={'/dealer/customerList'}> Customer List / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}
@@ -551,8 +551,7 @@ function CustomerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      ${" "}
-                      {formatOrderValue(
+                      ${formatOrderValue(
                         customerDetail?.orderData?.[0]?.orderAmount ??
                           parseInt(0)
                       )}

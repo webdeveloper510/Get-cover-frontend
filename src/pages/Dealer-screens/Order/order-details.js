@@ -30,6 +30,8 @@ import PdfMake from "../../pdfMakeOrder";
 import Modal from "../../../common/model";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import ContractList from "../../dashboard/Contract/contractList";
+import FileDownloader from "../../termAndCondition";
+import { apiUrl } from "../../../services/authServices";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -40,7 +42,7 @@ function OrderDetails() {
   const [contractDetails, setContractDetails] = useState();
   const { orderId } = useParams();
   const navigate = useNavigate();
-
+  const baseUrl = apiUrl();
   const id = useParams();
   const [activeTab, setActiveTab] = useState("Order Summary");
   const state = cityData;
@@ -131,10 +133,10 @@ function OrderDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Order Lists / </Link>
+                <Link to={"/dealer/orderList"}>Order Lists / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-Regular pl-2">
-                <Link to={"/"}>Order Details / </Link>
+                <Link to={"/dealer/orderList"}>Order Details / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {activeTab}
@@ -254,7 +256,7 @@ function OrderDetails() {
                   />
                   {!window.location.pathname.includes("/reseller") ? (
                     <Link
-                      to={`/dealer/resellerDetails/${orderDetails.resellerId}`}
+                      to={`/dealer/customerDetails/${orderDetails.customerId}`}
                     >
                       {" "}
                       <img
@@ -330,13 +332,18 @@ function OrderDetails() {
                   </Button>
                 </div>
                 <div className="col-span-6">
-                  {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
-                  {/* <Button className="!bg-white !text-light-black !text-sm border flex">
+                  {userDetails?.termCondition == '' ? <></> : (
+                  <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
                     <span className="self-center">
                       {" "}
-                      <PdfMake data={orderId} />
+                      <FileDownloader
+                        data={orderId}
+                        setLoading={setLoading1}
+                        apiUrlData={baseUrl}
+                      />
                     </span>
-                  </Button> */}
+                  </Button>
+                  )}
                 </div>
               </Grid>
             </div>
