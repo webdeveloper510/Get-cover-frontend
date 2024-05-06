@@ -428,12 +428,12 @@ const Lists = [
         image: Dropdown2,
         active: SeacondActive,
       },
-      {
-        name: "Accounting",
-        url: "#",
-        image: Dropdown2,
-        active: ForthActive,
-      },
+      // {
+      //   name: "Accounting",
+      //   url: "#",
+      //   image: Dropdown2,
+      //   active: ForthActive,
+      // },
     ],
   },
   {

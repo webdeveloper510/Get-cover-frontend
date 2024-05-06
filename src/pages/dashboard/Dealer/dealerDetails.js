@@ -88,7 +88,7 @@ function DealerDetails() {
   const [isStatus, setIsStatus] = useState(null);
   const [dealerDetails, setDealerDetails] = useState([]);
   const [createServicerAccountOption, setServicerCreateAccountOption] =
-    useState(false);
+    useState(true);
     const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [separateAccountOption, setSeparateAccountOption] = useState(true);
   const [firstMessage, setFirstMessage] = useState("");
@@ -183,23 +183,7 @@ function DealerDetails() {
     setModalOpen(false);
   };
   const carouselRef = useRef(null); 
-  useEffect(() => {
-    localStorage.setItem("menu", activeTab);
-    if(createServicerAccountOption === true ){
-      if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
-        if (carouselRef.current) {
-          carouselRef.current.next(5);
-        }
-      }
-    }else {
-      if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
-        if (carouselRef.current) {
-          carouselRef.current.next(3);
-        }
-      }
-    }
-    
-  }, [activeTab, carouselRef]);
+
 
   useEffect(() => {
     setLoading(true);
@@ -525,6 +509,27 @@ function DealerDetails() {
     setActiveTab("Users123");
     setIsUserModalOpen(true);
   };
+
+  useEffect(() => {
+    localStorage.setItem("menu", activeTab);
+
+    console.log('-------------',createServicerAccountOption)
+    if(!createServicerAccountOption ){
+      if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
+        if (carouselRef.current) {
+          carouselRef.current.next(3);
+        }
+      }
+    } else {
+      if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
+        if (carouselRef.current) {
+          carouselRef.current.next(5);
+        }
+      }
+    }
+    
+  }, [activeTab, carouselRef,createServicerAccountOption]);
+
   const columns = [
     {
       name: "Servicer ID",

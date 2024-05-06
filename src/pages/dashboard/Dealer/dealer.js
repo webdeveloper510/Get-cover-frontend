@@ -137,7 +137,7 @@ function Dealer() {
   };
   useEffect(() => {
     console.log("here1");
-    setLoading1(true);
+   
 
     if (id === undefined) {
       setInitialFormValues({
@@ -183,6 +183,7 @@ function Dealer() {
     getProductList("");
 
     if (id != undefined) {
+      setLoading1(true);
       getDealersDetailsByid(id).then((res) => {
         
         if (res?.result) {
@@ -228,9 +229,9 @@ function Dealer() {
         }
         
       });
+      setLoading1(false);
     }
 
-    setLoading1(false);
   }, [id]);
   useEffect(() => {
     let intervalId;
