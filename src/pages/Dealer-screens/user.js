@@ -385,19 +385,22 @@ function DealerUser() {
       if (result.code == 200) {
         setLoading(false);
         setTimer(3);
+        openModal();
         SetPrimaryText("User Add Successfully ");
         SetSecondaryText("user Add successfully ");
-       
-        SetIsModalOpen(true);
+        
+        setIsModalOpen1(false);
         setIsUserModalOpen(false);
         getUserList();
         userValues.resetForm();
+        closeUserModal()
       } else {
         setLoading(false);
         if (result.code === 401) {
           userValues.setFieldError("email", "Email already in use");
         }
         SetIsModalOpen(true);
+        closeUserModal()
       }
       closeModal2();
     },
@@ -608,7 +611,7 @@ function DealerUser() {
     },
     {
       name: "Phone Number",
-      selector: (row) => formatPhoneNumber(row.phoneNumber),
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -660,9 +663,11 @@ function DealerUser() {
       const res = await changePasswordbyToken(value);
       console.log(res);
       if (res.code == 200) {
-        setFirstMessage("Edit  Successfully ");
+         // setFirstMessage("User Edited Successfully ");
+        // setSecondMessage("user edited successfully ");
+        setFirstMessage("Edit Password Successfully ");
         setSecondMessage("User Password edited  successfully ");
-        SetIsModalOpen(true);
+        setIsPasswordOpen(true);
         setTimer(3); }
         else {
           setFirstMessage("Error");
