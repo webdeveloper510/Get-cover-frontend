@@ -179,7 +179,10 @@ function DealerResellerDetails() {
     localStorage.setItem("Resellermenu", activeTab);
   }, [activeTab]);
 
-  const resellerDetails = async () => {
+  const resellerDetails = async (showLoader) => {
+    if (!showLoader) {
+      setLoading(true);
+    }
     setLoading(true);
     const result = await getResellerListByResellerId(id.resellerId);
     if (result.code === 200) {
@@ -261,7 +264,7 @@ function DealerResellerDetails() {
       if (result.code == 200) {
         setLoading(false);
         setModalOpen(true);
-        // dealerData();
+        resellerDetails(true);
         setIsModalOpen(false);
         setFirstMessage("Edited Successfully");
         setSecondMessage("Dealer edited Successfully");
