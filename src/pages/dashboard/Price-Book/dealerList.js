@@ -32,10 +32,7 @@ import { getTermList } from "../../../services/dealerServices";
 import axios from "axios";
 import Modal from "../../../common/model";
 import { getCategoryList } from "../../../services/priceBookService";
-const url =
-  process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_API_KEY_PROD
-    : process.env.REACT_APP_API_KEY_LOCAL;
+const url = process.env.REACT_APP_API_KEY_LOCAL
 
 function DealerPriceList() {
   const [selectedProduct, setSelectedProduct] = useState("");

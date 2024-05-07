@@ -230,9 +230,9 @@ function ResellerDetails() {
     setResllerDetails(result.reseller[0]);
     setIsStatus(result?.dealerStatus);
     setResellerStatus(result?.reseller[0].status);
-    setServicerCreateAccountOption(result?.reseller[0]?.resellerData?.isServicer);
     console.log(result.reseller[0].resellerData.status ,'---------------------<<<<<<<<result?.reseller[0]?.resellerData?.isServicer>>>>>>>>>>>>>>>>>>')
     setResellerStatusMain(result.reseller[0].resellerData.status)
+    setServicerCreateAccountOption(result?.reseller[0]?.resellerData?.isServicer);
     setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
     setInitialFormValues({
       accountName: result?.reseller[0]?.resellerData?.name,

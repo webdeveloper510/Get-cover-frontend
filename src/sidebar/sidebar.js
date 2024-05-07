@@ -410,32 +410,32 @@ const Lists = [
       },
     ],
   },
-  {
-    name: "Reporting",
-    image: ReportImage,
-    active: ActiveReport,
-    // url: "/sale",
-    items: [
-      {
-        name: "Sale",
-        url: "/sale",
-        image: Dropdown1,
-        active: Actives,
-      },
-      {
-        name: "Claims",
-        url: "/claims",
-        image: Dropdown2,
-        active: SeacondActive,
-      },
-      // {
-      //   name: "Accounting",
-      //   url: "#",
-      //   image: Dropdown2,
-      //   active: ForthActive,
-      // },
-    ],
-  },
+  // {
+  //   name: "Reporting",
+  //   image: ReportImage,
+  //   active: ActiveReport,
+  //   // url: "/sale",
+  //   items: [
+  //     {
+  //       name: "Sale",
+  //       url: "/sale",
+  //       image: Dropdown1,
+  //       active: Actives,
+  //     },
+  //     {
+  //       name: "Claims",
+  //       url: "/claims",
+  //       image: Dropdown2,
+  //       active: SeacondActive,
+  //     },
+  //     // {
+  //     //   name: "Accounting",
+  //     //   url: "#",
+  //     //   image: Dropdown2,
+  //     //   active: ForthActive,
+  //     // },
+  //   ],
+  // },
   {
     name: "Price Book",
     image: PriceImage,

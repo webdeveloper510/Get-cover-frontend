@@ -170,6 +170,83 @@ function DealerClaimList() {
     { label: "Servicer", value: false },
     { label: "Customer", value: false },
   ];
+
+  // const tabs = [
+  //   {
+  //     id: "Orders",
+  //     label: "Orders",
+  //     icons: Order,
+  //     Activeicons: OrderActive,
+  //     content: (
+  //       <OrderList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
+  //     ),
+  //   },
+  //   {
+  //     id: "Contracts",
+  //     label: "Contracts",
+  //     icons: Contract,
+  //     Activeicons: ContractsActive,
+  //     content: (
+  //       <ContractList
+  //         flag={"reseller"}
+  //         id={id.resellerId}
+  //         activeTab={activeTab}
+  //         isShown={false}
+  //       />
+  //     ),
+  //   },
+  //   {
+  //     id: "Claims",
+  //     label: "Claims",
+  //     icons: Claim,
+  //     Activeicons: ClaimActive,
+  //     content: activeTab === "Claims" && (
+  //       <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />
+  //     ),
+  //   },
+
+  //   {
+  //     id: "Customer",
+  //     label: "Customer",
+  //     icons: Customer,
+  //     Activeicons: CustomerActive,
+  //     content: (
+  //       <CustomerList
+  //         flag={"reseller"}
+  //         id={id.resellerId}
+  //         activeTab={activeTab}
+  //       />
+  //     ),
+  //   },
+  //   {
+  //     id: "Servicer",
+  //     label: "Servicer",
+  //     icons: Servicer,
+  //     Activeicons: ServicerActive,
+  //     content: (
+  //       <ServicerList
+  //         flag={"reseller"}
+  //         id={id.resellerId}
+  //         activeTab={activeTab}
+  //       />
+  //     ),
+  //   },
+
+  //   {
+  //     id: "Users",
+  //     label: "Users",
+  //     icons: User,
+  //     Activeicons: UserActive,
+  //     content: (
+  //       <UserList
+  //         flag={"reseller"}
+  //         id={id.resellerId}
+  //         data={refreshList}
+  //         activeTab={activeTab}
+  //       />
+  //     ),
+  //   },
+  // ];
   
   return (
     <>

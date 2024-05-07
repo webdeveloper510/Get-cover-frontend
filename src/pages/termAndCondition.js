@@ -60,8 +60,7 @@ function FileDownloader(props) {
     <div>
       <div
         className={`text-left flex py-1 px-2 cursor-pointer hover:font-semibold ${props.className}`}
-        onClick={() => handleClick(props.apiUrlData)}
-      >
+        onClick={() => handleClick(props.apiUrlData)}>
         <img src={download} className="w-4 h-4 mr-2" alt="Download Icon" />
         <button className="">T&C</button>
       </div>

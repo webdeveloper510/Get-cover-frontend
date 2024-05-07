@@ -24,10 +24,7 @@ import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import axios from "axios";
 
-const url =
-  process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_API_KEY_PROD
-    : process.env.REACT_APP_API_KEY_LOCAL;
+const url = process.env.REACT_APP_API_KEY_LOCAL
 
 function DealerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -343,7 +340,8 @@ function DealerList() {
                     <div className="col-span-3 self-center">
                       <Input
                         name="phoneNumber"
-                        type="number"
+                        type="tel"
+                        nonumber={true}
                         placeholder="Phone No."
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"

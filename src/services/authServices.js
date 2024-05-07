@@ -2,11 +2,12 @@
 import axios from "axios";
 
 //delacring the base url of the api
-const url =
-  process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_API_KEY_PROD
-    : process.env.REACT_APP_API_KEY_LOCAL;
-console.log( process.env.NODE_ENV)
+const url = process.env.REACT_APP_API_KEY_LOCAL
+// const url =
+//   process.env.NODE_ENV === "production"
+//     ? process.env.REACT_APP_API_KEY_PROD
+//     : process.env.REACT_APP_API_KEY_LOCAL;
+console.log(url)
 //api calls
 export const authlogin = async (loginDetails) => {
   try {

@@ -23,10 +23,7 @@ import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import axios from "axios";
 
-const url =
-  process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_API_KEY_PROD
-    : process.env.REACT_APP_API_KEY_LOCAL;
+const url = process.env.REACT_APP_API_KEY_LOCAL
 
 function ServicerDealerList() {
   const [selectedAction, setSelectedAction] = useState(null);

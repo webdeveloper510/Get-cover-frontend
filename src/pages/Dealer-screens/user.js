@@ -385,22 +385,23 @@ function DealerUser() {
       if (result.code == 200) {
         setLoading(false);
         setTimer(3);
-        openModal();
         SetPrimaryText("User Add Successfully ");
         SetSecondaryText("user Add successfully ");
-        
-        setIsModalOpen1(false);
+        closeUserModal()
+
+        SetIsModalOpen(true);
         setIsUserModalOpen(false);
         getUserList();
         userValues.resetForm();
-        closeUserModal()
       } else {
         setLoading(false);
+        setFirstMessage("Error");
+        setSecondMessage(result.message);
         if (result.code === 401) {
           userValues.setFieldError("email", "Email already in use");
         }
-        SetIsModalOpen(true);
-        closeUserModal()
+        setIsPasswordOpen(true);
+        // closeUserModal()
       }
       closeModal2();
     },

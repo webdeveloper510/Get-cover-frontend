@@ -20,6 +20,7 @@ const Input = ({
   maxDecimalPlaces,
   placeholder,
   classBox,
+  nonumber,
   maxDate,
 }) => {
   const [inputValue, setInputValue] = useState(formatDate(value));
@@ -127,7 +128,7 @@ const Input = ({
               </div>
             ) : (
               <>
-                {type === "tel" && (
+                {type === "tel" || nonumber && (
                   <div className="text-base font-semibold absolute top-[17px] left-[10px]">
                     +1
                   </div>
@@ -142,7 +143,7 @@ const Input = ({
                   maxLength={maxLength}
                   pattern={type === "number" ? "[0-9]*" : undefined}
                   className={`${
-                    type === "tel" && "pl-[30px]"
+                    type === "tel" || nonumber && "pl-[30px]"
                   } block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
                     error ? "border-[red]" : " border-gray-300 "
                   } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}

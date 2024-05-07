@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Headbar from "../../../common/headBar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Grid from "../../../common/grid";
@@ -58,6 +58,12 @@ import PriceBookList from "../../dashboard/Dealer/Dealer-Details/priceBook";
 import CustomerList from "./Dealer-Details/customer";
 import ContractList from "../../dashboard/Contract/contractList";
 import ClaimList from "../../dashboard/Claim/claimList";
+import ClaimList12 from "./Dealer-Details/claim12";
+import Unpaid from "../../../assets/images/icons/Unpaid.svg";
+import UnpaidActive from "../../../assets/images/icons/unpaidActive.svg";
+import Paid from "../../../assets/images/icons/Paid.svg";
+import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
+import Carousel from "react-multi-carousel";
 
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
@@ -78,12 +84,16 @@ function DealerResellerDetails() {
   const [secondMessage, setSecondMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [isStatus, setIsStatus] = useState(false);
+  const [resellerStatusMain, setResellerStatusMain] = useState(false);
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(3);
   const [servicerList, setServicerList] = useState([]);
   const [flagValue, setFlagValue] = useState(false);
   const navigate = useNavigate();
   const { servicerId } = useParams();
+  const [createAccount, setCreateAccount] = useState(false);
+  const [createServicerAccountOption, setServicerCreateAccountOption] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
@@ -106,6 +116,36 @@ function DealerResellerDetails() {
     country: "USA",
     oldName: "",
   });
+
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 5,
+      slidesToSlide: 5, // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 4,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+  };
+
+  const handleAccountChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    setCreateAccount(valueAsBoolean);
+    formik.setFieldValue("isAccountCreate", valueAsBoolean);
+  };
+
+  const handleServiceChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    setServicerCreateAccountOption(valueAsBoolean);
+    formik.setFieldValue("isServicer", valueAsBoolean);
+  };
 
   const state = cityData;
 
@@ -187,6 +227,10 @@ function DealerResellerDetails() {
     const result = await getResellerListByResellerId(id.resellerId);
     if (result.code === 200) {
       setResllerDetails(result?.reseller[0]);
+      setIsStatus(result?.dealerStatus);
+      setResellerStatusMain(result?.reseller[0].status);
+      setServicerCreateAccountOption(result?.reseller[0]?.resellerData?.isServicer);
+      setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
       setInitialFormValues({
         accountName: result?.reseller[0]?.resellerData?.name,
         oldName: result?.reseller[0]?.resellerData?.name,
@@ -423,6 +467,16 @@ function DealerResellerDetails() {
     </div>
   );
 
+  const carouselRef = useRef(null); 
+  useEffect(() => {
+    localStorage.setItem("Resellermenu", activeTab);
+    if ( activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
+      if (carouselRef.current) {
+        carouselRef.current.next(4);
+      }
+    }
+  }, [activeTab, carouselRef]);
+
   const tabs = [
     {
       id: "Orders",
@@ -500,6 +554,33 @@ function DealerResellerDetails() {
     },
   ];
 
+  if (createServicerAccountOption === true) {
+    tabs.push(
+      {
+        id: "Unpaid Claims",
+        label: "Unpaid Claims",
+        icons: Unpaid,
+        Activeicons: UnpaidActive,
+        content: activeTab === "Unpaid Claims" && <ClaimList12
+          id={id.resellerId}
+          flag="reseller"
+          activeTab={activeTab}
+        />,
+      },
+      {
+        id: "Paid Claims",
+        label: "Paid Claims",
+        icons: Paid,
+        Activeicons: ActivePaid,
+        content: activeTab === "Paid Claims" && <ClaimList12
+          id={id.resellerId}
+          flag="reseller"
+          activeTab={activeTab}
+        />,
+      }
+    );
+  }
+
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
@@ -564,7 +645,7 @@ function DealerResellerDetails() {
           </div>
         </div>
       )}
-      <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
+      <div className="py-8 pl-3 relative overflow-x-hidden bg-[#F9F9F9]">
         <Headbar />
 
         <div className="flex">
@@ -767,61 +848,81 @@ function DealerResellerDetails() {
               </Grid>
             </div>
           </div>
-          <div className="col-span-3 max-h-[85vh] overflow-y-scroll">
+          <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
-              <div className="col-span-10">
-                <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
-                  <Grid className="!grid-cols-6 !gap-1">
+              <div
+                className={`${
+                  isStatus && resellerStatusMain
+                    ? "col-span-10"
+                    : "col-span-12"
+                }`}
+              >
+                <div
+                  className={`relative rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1]`}
+                  
+                  // onTransitionEnd={handleTransitionEnd}
+                >
+                  <Carousel
+                    className="!gap-1 reseller"
+                    ssr={true}
+                    responsive={responsive}
+                    ref={carouselRef}
+                  >
                     {tabs.map((tab) => (
-                      <div className="col-span-1" key={tab.id}>
-                        <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
-                            activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-[#F9F9F9] !text-black"
+                      <Button
+                        className={`flex self-center mr-2 w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                          activeTab === tab.id
+                            ? "!bg-[#2A2A2A] !text-white"
+                            : "!bg-[#F9F9F9] !text-black"
+                        }`}
+                        onClick={() => handleTabClick(tab.id)}
+                      >
+                        <img
+                          src={
+                            activeTab === tab.id ? tab.Activeicons : tab.icons
+                          }
+                          className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
+                          alt={tab.label}
+                        />
+                        <span
+                          className={`ml-1 py-1 text-sm font-Regular ${
+                            activeTab === tab.id ? "text-white" : "text-black"
                           }`}
-                          onClick={() => handleTabClick(tab.id)}
                         >
-                          <img
-                            src={
-                              activeTab === tab.id ? tab.Activeicons : tab.icons
-                            }
-                            className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
-                            alt={tab.label}
-                          />
-                          <span
-                            className={`ml-1 py-1 text-sm font-Regular ${
-                              activeTab === tab.id ? "text-white" : "text-black"
-                            }`}
-                          >
-                            {tab.label}
-                          </span>
-                        </Button>
-                      </div>
+                          {tab.label}
+                        </span>
+                      </Button>
                     ))}
-                  </Grid>
+                  </Carousel>
+                  <div className="absolute h-full bg-[#f9f9f9] right-[5px] flex top-0 self-center  shadow-6xl">
+                    {" "}
+                  </div>
                 </div>
               </div>
-              {activeTab !== "Servicer" &&
-              activeTab !== "PriceBook" &&
-              activeTab !== "Contracts" ? (
-                <div
-                  className="col-span-2"
-                  onClick={() => routeToPage(activeTab)}
-                >
-                  {resellerDetail?.resellerData?.status === true ? (
-                    <Button className="!bg-white flex self-center h-full mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
-                      <img
-                        src={AddItem}
-                        className="self-center"
-                        alt="AddItem"
-                      />
-                      <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
-                        Add {activeTab}
-                      </span>
-                    </Button>
-                  ) : null}
-                </div>
+              {isStatus && resellerStatusMain ? (
+                <>
+                  {activeTab !== "Servicer" &&
+                  activeTab !== "PriceBook" &&
+                  activeTab !== "Contracts" &&  activeTab !== "Unpaid Claims" && activeTab !== "Paid Claims" ? (
+                    <div
+                      className="col-span-2"
+                      onClick={() => routeToPage(activeTab)}
+                    >
+                      <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]">
+                        <img
+                          src={AddItem}
+                          className="self-center"
+                          alt="AddItem"
+                        />
+                        <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                          Add {activeTab}
+                        </span>
+                      </Button>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </>
               ) : (
                 <></>
               )}
@@ -830,7 +931,7 @@ function DealerResellerDetails() {
             {tabs.map((tab) => (
               <div
                 key={tab.id}
-                className={`${activeTab !== tab.id ? "hidden" : ""}`}
+                className={`${activeTab !== tab.id ? "hidden" : "pb-20"}`}
               >
                 {tab.content}
               </div>
@@ -946,13 +1047,14 @@ function DealerResellerDetails() {
                     {formik.errors.state}
                   </div>
                 )}
-              </div>
-              <div className="col-span-6">
+                <div className="my-3">
+
                 <Input
                   type="text"
                   name="country"
                   label="Country"
                   required={true}
+                  className='!bg-white'
                   placeholder=""
                   value={formik.values.country}
                   onChange={formik.handleChange}
@@ -961,6 +1063,49 @@ function DealerResellerDetails() {
                   error={formik.touched.country && formik.errors.country}
                   disabled
                 />
+                </div>
+              </div>
+              <div className="col-span-6">
+              <p className="text-light-black flex text-[11px] my-5 font-semibold self-center">
+              <span className=" text-left"> Do you want to create an account? </span>
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value={true}
+                    checked={createAccount === true}
+                    onChange={handleAccountChange}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value={false}
+                    checked={createAccount === false}
+                    onChange={handleAccountChange}
+                  />
+                </p>
+              <p className="text-light-black flex text-[11px]  font-semibold self-center">
+                  {" "}
+                  <span className=" text-left">
+                    {" "}
+                    Do you want to work as a servicer?
+                  </span>
+                  <RadioButton
+                    id="yes"
+                    label="Yes"
+                    value={true}
+                    disabled={resellerDetail?.resellerData?.isServicer === true}
+                    checked={createServicerAccountOption === true}
+                    onChange={handleServiceChange}
+                  />
+                  <RadioButton
+                    id="no"
+                    label="No"
+                    value={false}
+                    disabled={createServicerAccountOption === true}
+                    checked={createServicerAccountOption === false}
+                    onChange={handleServiceChange}
+                  />
+                </p>
               </div>
               <div className="col-span-4">
                 <Button

@@ -1,9 +1,6 @@
 import axios from "axios";
 // Declare the base URL of the API
-const url =
-  process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_API_KEY_PROD
-    : process.env.REACT_APP_API_KEY_LOCAL;
+const url = process.env.REACT_APP_API_KEY_LOCAL
 
 const getAccessToken = () => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));

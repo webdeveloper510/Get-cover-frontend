@@ -406,11 +406,11 @@ function ClaimList(props) {
       } else {
         await getAllClaims(page, rowsPerPage);
       }
-      setLoading(false);
-      setActiveIndex(null);
       setTimeout(function () {
         setShowdata(true);
       }, 1000);
+      setActiveIndex(null);
+      setLoading(false);
     } finally {
       setLoading(false);
     }
@@ -1611,7 +1611,7 @@ function ClaimList(props) {
                                                         href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`}
                                                         target="_blank"
                                                       >
-                                                        UPS Traker
+                                                        UPS Tracker
                                                       </a>
                                                     )}
 
@@ -1622,7 +1622,7 @@ function ClaimList(props) {
                                                         href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
                                                         target="_blank"
                                                       >
-                                                        USPS Traker
+                                                        USPS Tracker
                                                       </a>
                                                     )}
 
@@ -1633,7 +1633,7 @@ function ClaimList(props) {
                                                         href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
                                                         target="_blank"
                                                       >
-                                                        FedX Traker
+                                                        FedX Tracker
                                                       </a>
                                                     )}
                                                     {claimStatus.status ==
