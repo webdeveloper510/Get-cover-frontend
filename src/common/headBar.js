@@ -69,12 +69,12 @@ function Headbar({ className = "" }) {
       } else {
         setIsLoggedIn(false);
         localStorage.removeItem("userDetails");
-        navigate(`/login`);
+        navigate(`/`);
       }
     } catch (error) {
       console.error("Error validating token:", error);
       setIsLoggedIn(false);
-      navigate(`/login`);
+      navigate(`/`);
       localStorage.removeItem("userDetails");
     } finally {
       // setIsLoading(false);
