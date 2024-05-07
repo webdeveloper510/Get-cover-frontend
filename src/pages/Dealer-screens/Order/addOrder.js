@@ -236,18 +236,20 @@ function DealerAddOrder() {
     try {
       const result = await getResellerListforDealerPortal({});
       result?.result?.map((res) => {
-        console.log(res);
-        arr.push({
-          label: res.resellerData.name,
-          value: res.resellerData._id,
-        });
+        console.log("ssssssssssssssssssssss", res.resellerData.status);
+        if (res.resellerData.status) {
+          // Check if status is true
+          arr.push({
+            label: res.resellerData.name,
+            value: res.resellerData._id,
+          });
+        }
       });
       setResllerList(arr);
     } catch (error) {
       console.error("Error occurred while fetching reseller list:", error);
       setLoading1(false);
     } finally {
-      console.log("reseller api ");
     }
   };
 

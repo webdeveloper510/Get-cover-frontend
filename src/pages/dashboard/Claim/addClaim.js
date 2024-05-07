@@ -75,8 +75,8 @@ function AddClaim() {
   const dropdownRef = useRef(null);
   const location = useLocation();
   const [selectedActions, setSelectedActions] = useState([]);
-const {username} =useParams();
-console.log(username)
+  const { username } = useParams();
+  console.log(username);
 
   const handleToggleDropdown = (index) => {
     const newSelectedActions = [...selectedActions];
@@ -93,7 +93,6 @@ console.log(username)
   };
 
   useEffect(() => {
-
     document.addEventListener("click", handleClickOutside);
 
     return () => {
@@ -102,7 +101,6 @@ console.log(username)
     };
   }, []);
 
- 
   const closeCreate = () => {
     setIsCreateOpen(false);
   };
@@ -117,14 +115,12 @@ console.log(username)
 
     if (timer === 0) {
       closeCreate();
-      if(window.location.pathname.includes('/dealer/addClaim')){ 
-        navigate('/dealer/claimList')
-      }
-      else if(window.location.pathname.includes('/reseller/addClaim')){
-        navigate('/reseller/claimList')
-      }
-      else{
-        navigate('/claimList')
+      if (window.location.pathname.includes("/dealer/addClaim")) {
+        navigate("/dealer/claimList");
+      } else if (window.location.pathname.includes("/reseller/addClaim")) {
+        navigate("/reseller/claimList");
+      } else {
+        navigate("/claimList");
       }
     }
     return () => {
@@ -200,12 +196,11 @@ console.log(username)
   const uploadEvidence = async (d) => {
     const formData = new FormData();
     d.forEach((file, index) => {
-
       formData.append(`file`, file.file);
     });
 
     const data = await uploadClaimEvidence(formData);
-    
+
     formikStep2.setFieldValue("file", data.file);
   };
 
@@ -235,7 +230,7 @@ console.log(username)
   });
 
   useEffect(() => {
-    console.log()
+    console.log();
     if (username) {
       formik.setFieldValue("customerName", `${username}`);
     }
@@ -243,7 +238,7 @@ console.log(username)
 
   const getClaimList = async (data) => {
     setLoading123(true);
-    setPageValue(data.page)
+    setPageValue(data.page);
     const response = await getContractList(data);
 
     setTotalRecords(response.totalCount);
@@ -281,15 +276,17 @@ console.log(username)
   };
 
   const openModal = (row) => {
-
     setLoading2(true);
     setIsModalOpen(true);
     getContractValues(row._id).then((row) => {
       setContractDetails(row.result);
-      getServicerList({
-        dealerId: row.result.order[0].dealerId,
-        resellerId: row.result.order[0].resellerId,
-      },row.result.order[0].servicerId); 
+      getServicerList(
+        {
+          dealerId: row.result.order[0].dealerId,
+          resellerId: row.result.order[0].resellerId,
+        },
+        row.result.order[0].servicerId
+      );
       setLoading2(false);
     });
   };
@@ -305,45 +302,43 @@ console.log(username)
   // Format the date as "YYYY-MM-DD"
   const maxDate = `${year}-${month}-${day}`;
 
-  const getServicerList = async (data,servicerId) => {
+  const getServicerList = async (data, servicerId) => {
     let arr = [];
 
     const result = await getServicerListInOrders(data);
 
     const filteredServicers = result.result;
     filteredServicers?.map((res) => {
-      
       arr.push({
         label: res.name,
         value: res._id,
       });
     });
     setServicerData(arr);
-    console.log(servicerId)
+    console.log(servicerId);
     formikStep2.setFieldValue("servicerId", servicerId);
-
   };
 
   const handleSelectValue = (res) => {
     setLoading21(true);
     getClaimPrice(res._id);
-    console.log(loading1, '------------loading21')
+    console.log(loading1, "------------loading21");
     getContractValues(res._id).then((res) => {
       setContractDetails(res.result);
       getServicerList(
         {
-
-        dealerId: res.result.order[0].dealerId,
-        resellerId: res.result.order[0].resellerId,
-      } 
-      ,res.result.order[0].servicerId);
+          dealerId: res.result.order[0].dealerId,
+          resellerId: res.result.order[0].resellerId,
+        },
+        res.result.order[0].servicerId
+      );
     });
     const timer = setTimeout(() => {
       setLoading21(false);
     }, 3000);
 
     nextStep();
-    console.log(loading1, '------------loading21')
+    console.log(loading1, "------------loading21");
   };
 
   const handlePageChange = async (page, rowsPerPage) => {
@@ -365,12 +360,11 @@ console.log(username)
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
 
   const renderStep1 = () => {
     // Step 1 content
@@ -474,130 +468,148 @@ console.log(username)
               {showTable && (
                 <>
                   <div className="col-span-12 relative ">
-                   {loading123 ? (
-                     <div className="h-[400px] w-full flex py-5">
-                     <div className="self-center mx-auto">
-                       <RotateLoader color="#333" />
-                     </div>
-                   </div>
-                   ) : (
-                    <>
-                  <table className="w-full border text-center table-auto">
-                    <thead className="bg-[#F9F9F9]">
-                      <tr className=" border-b-[1px]">
-                        <th className="font-semibold">Contract ID</th>
-                        <th className="font-semibold !py-3">Customer Name</th>
-                         <th className="font-semibold">Serial #</th>
-                         <th className="font-semibold">Order #</th>
-                         <th className="font-semibold">Dealer P.O. #</th>
-                         <th className="font-semibold">Action</th>
-                      </tr>
-                    </thead>
-                  <tbody>
-                    {contractList?.length !== 0 ? (
-                      contractList?.map((res, index) => (
-                        <tr key={res.unique_key} className="text-[13px] text-[#626662] font-[400] border-b-[1px]">
-                          <td className="py-3">{res.unique_key}</td>
-                          <td>{res.order.customers.username}</td>
-                          <td>{res.serial}</td>
-                          <td>{res.order.unique_key}</td>
-                          <td>{res.order.venderOrder}</td>
-                          <td className="mx-auto">
-                            <div className="relative">
-                              <div
-                                onClick={() =>
-                                  setSelectedAction(selectedAction === res.unique_key ? null : res.unique_key)
-                                }
-                              >
-                                <img src={ActiveIcon} className="cursor-pointer w-[35px] mx-auto" alt="Active Icon" />
-                              </div>
-                              {selectedAction === res.unique_key && (
-                                <div
-                                  ref={dropdownRef}
-                                  className="absolute z-[2] w-[90px] drop-shadow-5xl right-0 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]"
+                    {loading123 ? (
+                      <div className="h-[400px] w-full flex py-5">
+                        <div className="self-center mx-auto">
+                          <RotateLoader color="#333" />
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <table className="w-full border text-center table-auto">
+                          <thead className="bg-[#F9F9F9]">
+                            <tr className=" border-b-[1px]">
+                              <th className="font-semibold">Contract ID</th>
+                              <th className="font-semibold !py-3">
+                                Customer Name
+                              </th>
+                              <th className="font-semibold">Serial #</th>
+                              <th className="font-semibold">Order #</th>
+                              <th className="font-semibold">Dealer P.O. #</th>
+                              <th className="font-semibold">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {contractList?.length !== 0 ? (
+                              contractList?.map((res, index) => (
+                                <tr
+                                  key={res.unique_key}
+                                  className="text-[13px] text-[#626662] font-[400] border-b-[1px]"
                                 >
-                                  <div
-                                    className="text-left border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                                    onClick={() => {
-                                      handleSelectValue(res);
-                                      setSelectedAction(null); // Close dropdown after action
-                                    }}
-                                  >
-                                    <p className="flex px-3 py-1 hover:font-semibold">
-                                      <img src={selectIcon} className="w-4 h-4 mr-2" alt="selectIcon" />
-                                      Select
-                                    </p>
-                                  </div>
-                                  <div
-                                    className="text-center text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
-                                    onClick={() => {
-                                      openModal(res);
-                                      setSelectedAction(null); // Close dropdown after action
-                                    }}
-                                  >
-                                    <p className="flex hover:font-semibold py-1 px-3">
-                                      <img src={View} className="w-4 h-4 mr-2" alt="View" /> View
-                                    </p>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      ))) : (
-                        <tr >
-                          <td colspan="6" className="py-3 text-center">
-                          <p>No Record Found</p>
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                 
-                  </>
-                //      <DataTable
-                //      columns={columns}
-                //      data={contractList}
-                //      progressPending={loading}
-                //      pagination
-                //      paginationServer
-                //       sortIcon={
-                //   <>
-                //     {" "}
-                //     <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                //   </>
-                // }
-                //      noDataComponent={<CustomNoDataComponent />}
-                //      paginationTotalRows={totalRecords}
-                //      paginationRowsPerPageOptions={[10, 20, 50, 100]}
-                //      onChangeRowsPerPage={handlePerRowsChange}
-                //      onChangePage={
-                //        handlePageChange
-                //     }
-                //    /> 
-                   )}
-                   
+                                  <td className="py-3">{res.unique_key}</td>
+                                  <td>{res.order.customers.username}</td>
+                                  <td>{res.serial}</td>
+                                  <td>{res.order.unique_key}</td>
+                                  <td>{res.order.venderOrder}</td>
+                                  <td className="mx-auto">
+                                    <div className="relative">
+                                      <div
+                                        onClick={() =>
+                                          setSelectedAction(
+                                            selectedAction === res.unique_key
+                                              ? null
+                                              : res.unique_key
+                                          )
+                                        }
+                                      >
+                                        <img
+                                          src={ActiveIcon}
+                                          className="cursor-pointer w-[35px] mx-auto"
+                                          alt="Active Icon"
+                                        />
+                                      </div>
+                                      {selectedAction === res.unique_key && (
+                                        <div
+                                          ref={dropdownRef}
+                                          className="absolute z-[2] w-[90px] drop-shadow-5xl right-0 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]"
+                                        >
+                                          <div
+                                            className="text-left border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                            onClick={() => {
+                                              handleSelectValue(res);
+                                              setSelectedAction(null); // Close dropdown after action
+                                            }}
+                                          >
+                                            <p className="flex px-3 py-1 hover:font-semibold">
+                                              <img
+                                                src={selectIcon}
+                                                className="w-4 h-4 mr-2"
+                                                alt="selectIcon"
+                                              />
+                                              Select
+                                            </p>
+                                          </div>
+                                          <div
+                                            className="text-center text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                            onClick={() => {
+                                              openModal(res);
+                                              setSelectedAction(null); // Close dropdown after action
+                                            }}
+                                          >
+                                            <p className="flex hover:font-semibold py-1 px-3">
+                                              <img
+                                                src={View}
+                                                className="w-4 h-4 mr-2"
+                                                alt="View"
+                                              />{" "}
+                                              View
+                                            </p>
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))
+                            ) : (
+                              <tr>
+                                <td colspan="6" className="py-3 text-center">
+                                  <p>No Record Found</p>
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </>
+                      //      <DataTable
+                      //      columns={columns}
+                      //      data={contractList}
+                      //      progressPending={loading}
+                      //      pagination
+                      //      paginationServer
+                      //       sortIcon={
+                      //   <>
+                      //     {" "}
+                      //     <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                      //   </>
+                      // }
+                      //      noDataComponent={<CustomNoDataComponent />}
+                      //      paginationTotalRows={totalRecords}
+                      //      paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                      //      onChangeRowsPerPage={handlePerRowsChange}
+                      //      onChangePage={
+                      //        handlePageChange
+                      //     }
+                      //    />
+                    )}
                   </div>
                   <div className="col-span-12">
-                  {contractList?.length !== 0 ? (
-                    <>
-                      <div className="mt-2">
-                        <CustomPagination
-                        totalRecords={totalRecords}
-                        page={pageValue}
-                        rowsPerPageOptions={[10, 20, 50, 100]}
-                        onPageChange={handlePageChange}
-                        setRecordsPerPage={setRecordsPerPage}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-
-                  </>
-                  )}
-                 
-                </div>
+                    {contractList?.length !== 0 ? (
+                      <>
+                        <div className="mt-2">
+                          <CustomPagination
+                            totalRecords={totalRecords}
+                            page={pageValue}
+                            rowsPerPageOptions={[10, 20, 50, 100]}
+                            onPageChange={handlePageChange}
+                            setRecordsPerPage={setRecordsPerPage}
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
                 </>
               )}
             </Grid>
@@ -624,23 +636,18 @@ console.log(username)
     formikStep2.setFieldValue(name, value);
   };
 
-  const back =()=>{
-    if(location.pathname.includes('singleView')){
-      navigate(-1)
+  const back = () => {
+    if (location.pathname.includes("singleView")) {
+      navigate(-1);
+    } else if (window.location.pathname.includes("/dealer/addClaim")) {
+      navigate("/dealer/claimList");
+    } else if (window.location.pathname.includes("/reseller/addClaim")) {
+      navigate("/reseller/claimList");
+    } else {
+      navigate("/claimList");
     }
-    else if(window.location.pathname.includes('/dealer/addClaim')){ 
-      navigate('/dealer/claimList')
-    }
-    else if(window.location.pathname.includes('/reseller/addClaim')){ 
-      navigate('/reseller/claimList')
-    }
-    else{
-      navigate('/claimList')
+  };
 
-    }
-    
-  }
-  
   const formikStep2 = useFormik({
     initialValues: {
       servicerId: "",
@@ -661,9 +668,8 @@ console.log(username)
       setLoading1(true);
       values.servicePaymentStatus = sendNotifications;
       values.contractId = contractDetail?._id;
-      
+
       addClaim(values).then((res) => {
-     
         if (res.code == 200) {
           setCode("200");
           setIsCreateOpen(true);
@@ -684,295 +690,316 @@ console.log(username)
   const renderStep2 = () => {
     return (
       <>
-      
         <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
           <p className="text-2xl font-bold mb-4">Enter Required Info</p>
           {loading21 ? (
-        <div className=" h-[400px] w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#333" />
-          </div>
-        </div>
-      ) : (
-          <form onSubmit={formikStep2.handleSubmit}>
-            <Grid>
-              <div className="col-span-12">
-                <Grid>
-                  <div className="col-span-3">
-                    <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                      <p className="text-sm m-0 p-0">Contract ID</p>
-                      <p className="font-semibold">
-                        {contractDetail?.unique_key}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-3">
-                    <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                      <p className="text-sm m-0 p-0">Dealer Name</p>
-                      <p className="font-semibold">
-                        {contractDetail?.order?.[0]?.dealer?.[0]?.name}
-                      </p>
-                    </div>
-                  </div>
-                  {contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? (
-                    ""
-                  ) : (
+            <div className=" h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={formikStep2.handleSubmit}>
+              <Grid>
+                <div className="col-span-12">
+                  <Grid>
                     <div className="col-span-3">
                       <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                        <p className="text-sm m-0 p-0">Reseller Name</p>
+                        <p className="text-sm m-0 p-0">Contract ID</p>
                         <p className="font-semibold">
-                          {" "}
-                          {contractDetail?.order?.[0]?.reseller?.[0]?.name}
+                          {contractDetail?.unique_key}
                         </p>
                       </div>
                     </div>
-                  )}
+                    {location.pathname.includes("dealer/addClaim") ? null : (
+                      <div className="col-span-3">
+                        <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                          <p className="text-sm m-0 p-0">Dealer Name</p>
+                          <p className="font-semibold">
+                            {contractDetail?.order?.[0]?.dealer?.[0]?.name}
+                          </p>
+                        </div>
+                      </div>
+                    )}  
+                    {contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? (
+                      ""
+                    ) : (
+                      <div className="col-span-3">
+                        <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                          <p className="text-sm m-0 p-0">Reseller Name</p>
+                          <p className="font-semibold">
+                            {" "}
+                            {contractDetail?.order?.[0]?.reseller?.[0]?.name}
+                          </p>
+                        </div>
+                      </div>
+                    )}
 
-                  <div className="col-span-3">
-                    <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                      <p className="text-sm m-0 p-0">Customer Name</p>
-                      <p className="font-semibold">
-                        {" "}
-                        {contractDetail?.order?.[0]?.customer?.[0]?.username}
-                      </p>
+                    <div className="col-span-3">
+                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                        <p className="text-sm m-0 p-0">Customer Name</p>
+                        <p className="font-semibold">
+                          {" "}
+                          {contractDetail?.order?.[0]?.customer?.[0]?.username}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </Grid>
-                <Grid className="!grid-cols-8 mt-3">
-                  <div className="col-span-2">
-                    <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                      <p className="text-sm m-0 p-0">Model</p>
-                      <p className="font-semibold"> {contractDetail?.model}</p>
+                  </Grid>
+                  <Grid className="!grid-cols-8 mt-3">
+                    <div className="col-span-2">
+                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                        <p className="text-sm m-0 p-0">Model</p>
+                        <p className="font-semibold">
+                          {" "}
+                          {contractDetail?.model}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-span-2">
-                    <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                      <p className="text-sm m-0 p-0">Serial #</p>
-                      <p className="font-semibold"> {contractDetail?.serial}</p>
+                    <div className="col-span-2">
+                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                        <p className="text-sm m-0 p-0">Serial #</p>
+                        <p className="font-semibold">
+                          {" "}
+                          {contractDetail?.serial}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-span-2">
-                    <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                      <p className="text-sm m-0 p-0">Manufacturer</p>
-                      <p className="font-semibold">
-                        {" "}
-                        {contractDetail?.manufacture}
-                      </p>
+                    <div className="col-span-2">
+                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                        <p className="text-sm m-0 p-0">Manufacturer</p>
+                        <p className="font-semibold">
+                          {" "}
+                          {contractDetail?.manufacture}
+                        </p>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="col-span-1">
-                    <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                      <p className="text-sm m-0 p-0">Retail Price</p>
-                      <p className="font-semibold">
-                        $
-                        {contractDetail?.productValue === undefined
-                        ? parseInt(0).toLocaleString(2)
-                        : formatOrderValue(Number(contractDetail?.productValue) ?? parseInt(0))}
+                    <div className="col-span-1">
+                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                        <p className="text-sm m-0 p-0">Retail Price</p>
+                        <p className="font-semibold">
+                          $
+                          {contractDetail?.productValue === undefined
+                            ? parseInt(0).toLocaleString(2)
+                            : formatOrderValue(
+                                Number(contractDetail?.productValue) ??
+                                  parseInt(0)
+                              )}
                           {/* ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
                               contractDetail?.productValue ?? parseInt(0)
                             )} */}
-                      </p>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-span-1">
-                    <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                      <p className="text-sm m-0 p-0">Condition</p>
-                      <p className="font-semibold">
-                        {" "}
-                        {contractDetail?.condition}
-                      </p>
-                    </div>
-                  </div>
-                </Grid>
-              </div>
-            </Grid>
-
-            <div className="my-4">
-              <p className="text-2xl font-bold mb-4"> Upload Receipt or Image </p>
-              <Grid>
-                <div className="col-span-6 mt-5">
-                  <Grid className="my-3">
-                    <div className="col-span-6">
-                      <SelectBoxWithSearch
-                        label="Servicer Name"
-                        name="servicerId"
-                        className="!bg-[#fff]"
-                        onChange={handleChange}
-                        options={servicerData} // Make sure to define servicerList
-                        value={formikStep2.values.servicerId}
-                        onBlur={formikStep2.handleBlur}
-                        isDisabled={window.location.pathname.includes('/dealer/addClaim') || window.location.pathname.includes('/reseller/addClaim')}
-                      />
-                    </div>
-                    <div className="col-span-6">
-                      <Input
-                        label="Loss Date"
-                        type="date"
-                        name="lossDate"
-                        maxDate={maxDate}
-                        required
-                        onChange={formikStep2.handleChange}
-                        onBlur={formikStep2.handleBlur}
-                        value={formikStep2.values.lossDate}
-                        className="!bg-[#fff]"
-                      />
-                      {formikStep2.touched.lossDate &&
-                        formikStep2.errors.lossDate && (
-                          <div className="text-red-500">
-                            {formikStep2.errors.lossDate}
-                          </div>
-                        )}
+                    <div className="col-span-1">
+                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                        <p className="text-sm m-0 p-0">Condition</p>
+                        <p className="font-semibold">
+                          {" "}
+                          {contractDetail?.condition}
+                        </p>
+                      </div>
                     </div>
                   </Grid>
+                </div>
+              </Grid>
 
-                  <div>
-                    <div>
-                      <div className="border border-dashed w-full relative py-8">
-                        <label
-                          className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75   `}
-                        >
-                          Add Files
-                        </label>
-                        <input
-                          type="file"
-                          multiple
-                          accept="image/*,application/pdf,.xlsx,.xls,.csv"
-                          onChange={handleImageChange}
-                          className="hidden"
-                          id="fileInput"
+              <div className="my-4">
+                <p className="text-2xl font-bold mb-4">
+                  {" "}
+                  Upload Receipt or Image{" "}
+                </p>
+                <Grid>
+                  <div className="col-span-6 mt-5">
+                    <Grid className="my-3">
+                      <div className="col-span-6">
+                        <SelectBoxWithSearch
+                          label="Servicer Name"
+                          name="servicerId"
+                          className="!bg-[#fff]"
+                          onChange={handleChange}
+                          options={servicerData} // Make sure to define servicerList
+                          value={formikStep2.values.servicerId}
+                          onBlur={formikStep2.handleBlur}
+                          isDisabled={
+                            window.location.pathname.includes(
+                              "/dealer/addClaim"
+                            ) ||
+                            window.location.pathname.includes(
+                              "/reseller/addClaim"
+                            )
+                          }
                         />
-
-                        <label
-                          htmlFor="fileInput"
-                          className="self-center text-center cursor-pointer"
-                        >
-                          <img
-                            src={Dropbox}
-                            className="mx-auto mb-3"
-                            alt="Dropbox"
-                          />
-                          <p>
-                            Max. # of files : 5, file size: 5 MB
-                            <small> (each) </small>.
-                          </p>
-                        </label>
                       </div>
-                      {formikStep2.touched.images &&
-                        formikStep2.errors.images && (
-                          <div className="text-red-500">
-                            {formikStep2.errors.images}
-                          </div>
-                        )}
-                      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                        {formikStep2.values.images.map((file, index) => (
-                          <div key={index} className="relative">
-                            {file.fileType === "image" && (
-                              <img
-                                src={file.preview}
-                                alt={`Preview ${index}`}
-                                className="w-full h-auto"
-                              />
-                            )}
-                            {file.fileType === "pdf" && (
-                              <FontAwesomeIcon icon={faFilePdf} size="4x" />
-                            )}
-                            {file.fileType === "csv" && (
-                              <FontAwesomeIcon icon={faFileImage} size="4x" />
-                            )}
-                            {file.fileType === "word" && (
-                              <FontAwesomeIcon icon={faFileWord} size="4x" />
-                            )}
-                            {file.fileType === "excel" && (
-                              <FontAwesomeIcon icon={faFileExcel} size="4x" />
-                            )}
-                            {file.fileType === "xlsx" && (
-                              <FontAwesomeIcon icon={faFileWord} size="4x" />
-                            )}
-                            {file.fileType === "docx" && (
-                              <FontAwesomeIcon icon={faFileWord} size="4x" />
-                            )}
-                            <button
-                              onClick={() => handleRemoveImage(index)}
-                              className="absolute -top-2 -right-2"
-                            >
-                              <img
-                                src={Cross}
-                                className="w-6 rounded-[16px] cursor-pointer"
-                                alt="Cross"
-                              />
-                            </button>
-                          </div>
-                        ))}
+                      <div className="col-span-6">
+                        <Input
+                          label="Loss Date"
+                          type="date"
+                          name="lossDate"
+                          maxDate={maxDate}
+                          required
+                          onChange={formikStep2.handleChange}
+                          onBlur={formikStep2.handleBlur}
+                          value={formikStep2.values.lossDate}
+                          className="!bg-[#fff]"
+                        />
+                        {formikStep2.touched.lossDate &&
+                          formikStep2.errors.lossDate && (
+                            <div className="text-red-500">
+                              {formikStep2.errors.lossDate}
+                            </div>
+                          )}
+                      </div>
+                    </Grid>
+
+                    <div>
+                      <div>
+                        <div className="border border-dashed w-full relative py-8">
+                          <label
+                            className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75   `}
+                          >
+                            Add Files
+                          </label>
+                          <input
+                            type="file"
+                            multiple
+                            accept="image/*,application/pdf,.xlsx,.xls,.csv"
+                            onChange={handleImageChange}
+                            className="hidden"
+                            id="fileInput"
+                          />
+
+                          <label
+                            htmlFor="fileInput"
+                            className="self-center text-center cursor-pointer"
+                          >
+                            <img
+                              src={Dropbox}
+                              className="mx-auto mb-3"
+                              alt="Dropbox"
+                            />
+                            <p>
+                              Max. # of files : 5, file size: 5 MB
+                              <small> (each) </small>.
+                            </p>
+                          </label>
+                        </div>
+                        {formikStep2.touched.images &&
+                          formikStep2.errors.images && (
+                            <div className="text-red-500">
+                              {formikStep2.errors.images}
+                            </div>
+                          )}
+                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                          {formikStep2.values.images.map((file, index) => (
+                            <div key={index} className="relative">
+                              {file.fileType === "image" && (
+                                <img
+                                  src={file.preview}
+                                  alt={`Preview ${index}`}
+                                  className="w-full h-auto"
+                                />
+                              )}
+                              {file.fileType === "pdf" && (
+                                <FontAwesomeIcon icon={faFilePdf} size="4x" />
+                              )}
+                              {file.fileType === "csv" && (
+                                <FontAwesomeIcon icon={faFileImage} size="4x" />
+                              )}
+                              {file.fileType === "word" && (
+                                <FontAwesomeIcon icon={faFileWord} size="4x" />
+                              )}
+                              {file.fileType === "excel" && (
+                                <FontAwesomeIcon icon={faFileExcel} size="4x" />
+                              )}
+                              {file.fileType === "xlsx" && (
+                                <FontAwesomeIcon icon={faFileWord} size="4x" />
+                              )}
+                              {file.fileType === "docx" && (
+                                <FontAwesomeIcon icon={faFileWord} size="4x" />
+                              )}
+                              <button
+                                onClick={() => handleRemoveImage(index)}
+                                className="absolute -top-2 -right-2"
+                              >
+                                <img
+                                  src={Cross}
+                                  className="w-6 rounded-[16px] cursor-pointer"
+                                  alt="Cross"
+                                />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-span-6">
-                  <p className=" mb-2">
-                    {" "}
-                    Max Claim amount is $
-                    {price == null
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(price ?? parseInt(0))}
-                  </p>
-                  <div className="relative">
-                    <label
-                      htmlFor="description"
-                      className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                    >
-                      Diagonsis <span className="text-red-500">*</span>
-                    </label>
-                    <textarea
-                      id="description"
-                      rows="11"
-                      name="diagnosis"
-                      maxLength={150}
-                      className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none"
-                      onChange={formikStep2.handleChange}
-                      onBlur={formikStep2.handleBlur}
-                      value={formikStep2.values.diagnosis}
-                    ></textarea>
-                  </div>
-                  {formikStep2.touched.diagnosis &&
-                    formikStep2.errors.diagnosis && (
-                      <div className="text-red-500">
-                        {formikStep2.errors.diagnosis}
-                      </div>
-                    )}
-                  {/* <p className="text-[10px] text-neutral-grey">
+                  <div className="col-span-6">
+                    <p className=" mb-2">
+                      {" "}
+                      Max Claim amount is $
+                      {price == null
+                        ? parseInt(0).toLocaleString(2)
+                        : formatOrderValue(price ?? parseInt(0))}
+                    </p>
+                    <div className="relative">
+                      <label
+                        htmlFor="description"
+                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Diagonsis <span className="text-red-500">*</span>
+                      </label>
+                      <textarea
+                        id="description"
+                        rows="11"
+                        name="diagnosis"
+                        maxLength={150}
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none"
+                        onChange={formikStep2.handleChange}
+                        onBlur={formikStep2.handleBlur}
+                        value={formikStep2.values.diagnosis}
+                      ></textarea>
+                    </div>
+                    {formikStep2.touched.diagnosis &&
+                      formikStep2.errors.diagnosis && (
+                        <div className="text-red-500">
+                          {formikStep2.errors.diagnosis}
+                        </div>
+                      )}
+                    {/* <p className="text-[10px] text-neutral-grey">
                     {" "}
                     <span className="text-red-500"> Note : </span> Max Claim
                     amount is $123.00
                   </p> */}
-                </div>
-                <div className="col-span-6">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                    Do you want to send notifications?
-                    <RadioButton
-                      id="yes-create-account"
-                      label="Yes"
-                      value={true}
-                      checked={sendNotifications === true}
-                      onChange={() => handleRadioChange(true)}
-                    />
-                    <RadioButton
-                      id="no-create-account"
-                      label="No"
-                      value={false}
-                      checked={sendNotifications === false}
-                      onChange={() => handleRadioChange(false)}
-                    />
-                  </p>
-                </div>
-              </Grid>
-              <Button className="!bg-white !text-black" onClick={prevStep}>
-                Previous
-              </Button>
-              <Button type="submit">Submit</Button>
-            </div>
-          </form> )}
+                  </div>
+                  <div className="col-span-6">
+                    <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                      Do you want to send notifications?
+                      <RadioButton
+                        id="yes-create-account"
+                        label="Yes"
+                        value={true}
+                        checked={sendNotifications === true}
+                        onChange={() => handleRadioChange(true)}
+                      />
+                      <RadioButton
+                        id="no-create-account"
+                        label="No"
+                        value={false}
+                        checked={sendNotifications === false}
+                        onChange={() => handleRadioChange(false)}
+                      />
+                    </p>
+                  </div>
+                </Grid>
+                <Button className="!bg-white !text-black" onClick={prevStep}>
+                  Previous
+                </Button>
+                <Button type="submit">Submit</Button>
+              </div>
+            </form>
+          )}
         </div>
       </>
     );
@@ -983,13 +1010,13 @@ console.log(username)
       <Headbar />
       <div className="flex mt-2">
         <div
-          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] cursor-pointer rounded-[25px]" onClick={back}
+          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] cursor-pointer rounded-[25px]"
+          onClick={back}
         >
           <img
             src={BackImage}
             className="m-auto my-auto self-center bg-white"
             alt="BackImage"
-            
           />
         </div>
         <div className="pl-3">
@@ -1063,15 +1090,19 @@ console.log(username)
       {/* Modal Email Popop */}
 
       <Modal isOpen={isCreateOpen} onClose={closeCreate}>
-      {code === "200" ? (<></>) : ( <Button
-          onClick={closeCreate}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
-        >
-          <img
-            src={Cross}
-            className="w-full h-full text-black rounded-full p-0"
-          />
-        </Button>)}
+        {code === "200" ? (
+          <></>
+        ) : (
+          <Button
+            onClick={closeCreate}
+            className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          >
+            <img
+              src={Cross}
+              className="w-full h-full text-black rounded-full p-0"
+            />
+          </Button>
+        )}
 
         <div className="text-center py-3">
           {code === "200" ? (
@@ -1202,28 +1233,30 @@ console.log(username)
                         Retail Price
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                        {/* ${contractDetail?.productValue} */}
-                        ${
-                           contractDetail.productValue === undefined
-                            ? parseInt(0).toLocaleString(2)
-                            : formatOrderValue(
-                              Number(contractDetail.productValue) ??
-                                  parseInt(0)
-                              )}
+                        {/* ${contractDetail?.productValue} */}$
+                        {contractDetail.productValue === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(
+                              Number(contractDetail.productValue) ?? parseInt(0)
+                            )}
                       </p>
                     </div>
                   </div>
-                  {location.pathname.includes("/dealer/addClaim") !== true ? ( <div className="col-span-1 border border-[#D1D1D1]">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Dealer Name
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {contractDetail?.order?.[0]?.dealer?.[0]?.name}
-                      </p>
+                  {location.pathname.includes("/dealer/addClaim") !== true ? (
+                    <div className="col-span-1 border border-[#D1D1D1]">
+                      <div className="py-4 pl-3">
+                        <p className="text-[#5D6E66] text-sm font-Regular">
+                          Dealer Name
+                        </p>
+                        <p className="text-[#333333] text-base font-semibold">
+                          {contractDetail?.order?.[0]?.dealer?.[0]?.name}
+                        </p>
+                      </div>
                     </div>
-                  </div>) : ('')}
-                 
+                  ) : (
+                    ""
+                  )}
+
                   <div className="col-span-1 border border-[#D1D1D1]">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
@@ -1334,13 +1367,12 @@ console.log(username)
                         Claim Amount
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                      ${
-                           contractDetail.claimAmount === undefined
-                            ? parseInt(0).toLocaleString(2)
-                            : formatOrderValue(
-                              Number(contractDetail.claimAmount) ??
-                                  parseInt(0)
-                              )}
+                        $
+                        {contractDetail.claimAmount === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(
+                              Number(contractDetail.claimAmount) ?? parseInt(0)
+                            )}
                       </p>
                     </div>
                   </div>
@@ -1460,7 +1492,6 @@ console.log(username)
       </Modal>
     </div>
   );
-
 }
 
 export default AddClaim;
