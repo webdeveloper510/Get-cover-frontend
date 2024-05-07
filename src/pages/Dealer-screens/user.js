@@ -40,7 +40,11 @@ import dealer from "../../assets/images/Dealer/Name.svg";
 import RadioButton from "../../common/radio";
 import Tabs from "../../common/tabs";
 import PasswordInput from "../../common/passwordInput";
-import { addSuperAdminMembers, changePasswordbyToken, getSuperAdminMembers } from "../../services/extraServices";
+import {
+  addSuperAdminMembers,
+  changePasswordbyToken,
+  getSuperAdminMembers,
+} from "../../services/extraServices";
 
 function DealerUser() {
   const { toggleFlag } = useMyContext();
@@ -82,13 +86,16 @@ function DealerUser() {
     console.log(result.result);
     setUserList(result.result);
     setPrimary(result.loginMember.isPrimary);
-    
-    console.log(result.loginMember.isPrimary , '--------------------------------------res.result.loginMember>>>')
+
+    console.log(
+      result.loginMember.isPrimary,
+      "--------------------------------------res.result.loginMember>>>"
+    );
     setLoading1(false);
   };
   const getLoginUser = async () => {
     const result = await UserDetailAccount("", {});
-    console.log(result.result,'------------------Login--------------->>>>');
+    console.log(result.result, "------------------Login--------------->>>>");
     setLoginDetails(result.result);
   };
   const handleClickOutside = (event) => {
@@ -102,7 +109,7 @@ function DealerUser() {
     getLoginUser();
   }, []);
 
-    const handleRadioChange = (event) => {
+  const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     console.log(selectedValue);
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
@@ -158,19 +165,19 @@ function DealerUser() {
   };
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  }; 
+  };
 
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const handleSelectChange = async (label, value) => {
-    formik.setFieldValue(label, value);
+    formik1.setFieldValue(label, value);
   };
   const closeModal1 = () => {
     setIsModalOpen1(false);
@@ -351,9 +358,9 @@ function DealerUser() {
         setLoading(false);
       }
       closeModal2();
-     
     },
   });
+
   const userValues = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -387,7 +394,7 @@ function DealerUser() {
         setTimer(3);
         SetPrimaryText("User Add Successfully ");
         SetSecondaryText("user Add successfully ");
-        closeUserModal()
+        closeUserModal();
 
         SetIsModalOpen(true);
         setIsUserModalOpen(false);
@@ -406,7 +413,7 @@ function DealerUser() {
       closeModal2();
     },
   });
-  
+
   const editUser = async (id) => {
     console.log(id);
     const result = await userDetailsById(id);
@@ -560,7 +567,7 @@ function DealerUser() {
                     className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
                     onClick={() => makeUserPrimary(row)}
                   >
-                   <img src={make} className="w-4 h-4 mr-2" />{" "}
+                    <img src={make} className="w-4 h-4 mr-2" />{" "}
                     <span className="self-center"> Make Primary </span>
                   </div>
                 )}
@@ -569,7 +576,7 @@ function DealerUser() {
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
                   onClick={() => editUser(row._id)}
                 >
-                   <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                  <img src={edit} className="w-4 h-4 mr-2" />{" "}
                   <span className="self-center">Edit </span>
                 </div>
                 {!row.isPrimary && (
@@ -577,7 +584,7 @@ function DealerUser() {
                     className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                     onClick={() => openModal1(row._id)}
                   >
-                   <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                    <img src={delete1} className="w-4 h-4 mr-2" />{" "}
                     <span className="self-center">Delete</span>
                   </div>
                 )}
@@ -664,17 +671,17 @@ function DealerUser() {
       const res = await changePasswordbyToken(value);
       console.log(res);
       if (res.code == 200) {
-         // setFirstMessage("User Edited Successfully ");
-        // setSecondMessage("user edited successfully ");
-        setFirstMessage("Edit Password Successfully ");
-        setSecondMessage("User Password edited  successfully ");
+        SetPrimaryText("Edit Password Successfully ");
+        SetSecondaryText("User Password edited  successfully ");
+        openModal();
+        toggleFlag();
+        setTimer(3);
+      } else {
+        setLoading(false);
+        setFirstMessage("Error ");
+        setSecondMessage(res.message);
         setIsPasswordOpen(true);
-        setTimer(3); }
-        else {
-          setFirstMessage("Error");
-          setSecondMessage(res.message);
-          setIsPasswordOpen(true);
-        }
+      }
     } catch (error) {
       console.error("Error changing password:", error);
     } finally {
@@ -715,148 +722,152 @@ function DealerUser() {
             </div>
           </div>
         </>
-        ) : (
-          <>
-            <div className="my-8">
-              <Headbar />
-              <div className="flex mt-2">
-                <div className="pl-3">
-                  <p className="font-bold text-[36px] leading-9	mb-[3px]">
-                    Manage Users
-                  </p>
-                  <ul className="flex self-center">
-                    <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+      ) : (
+        <>
+          <div className="my-8">
+            <Headbar />
+            <div className="flex mt-2">
+              <div className="pl-3">
+                <p className="font-bold text-[36px] leading-9	mb-[3px]">
+                  Manage Users
+                </p>
+                <ul className="flex self-center">
+                  <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                    {" "}
+                    Users{" "}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+              <div className="bg-Edit bg-cover px-8 mt-8 py-8 rounded-[30px]">
+                <Grid>
+                  <div className="col-span-2 text-left">
+                    <p className="text-base text-white font-semibold ">
                       {" "}
-                      Users{" "}
-                    </li>
-                  </ul>
-                </div>
+                      My Details
+                    </p>
+                  </div>
+                  <div className="col-span-10 self-center">
+                    <hr />
+                  </div>
+                </Grid>
+
+                <Grid className="mx-8 mx-auto mt-4">
+                  <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
+                  <div className="col-span-3 border-r border-[#4e4e4e]">
+                    <div className="flex">
+                      <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
+                        <img src={dealer} alt="dealer" />
+                      </div>
+                      <div className="self-center">
+                        <p className="text-[#FFF] text-base font-medium leading-5	">
+                          Account Name
+                        </p>
+                        <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                          {loginDetails.name}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-span-5">
+                    <div className="flex justify-center">
+                      <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
+                        <img src={terms} className="" alt="terms" />
+                      </div>
+                      <div className="self-center">
+                        <p className="text-[#FFF] text-base font-medium leading-5">
+                          Address
+                        </p>
+                        <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                          {loginDetails?.street}, {loginDetails?.city},{" "}
+                          {loginDetails?.state} {loginDetails?.zip},{" "}
+                          {loginDetails?.country}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-span-2"></div>
+                </Grid>
               </div>
               <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-                <div className="bg-Edit bg-cover px-8 mt-8 py-8 rounded-[30px]">
+                <p className="text-xl font-semibold mb-5">Change Password</p>
+                <form onSubmit={passwordChnageForm.handleSubmit}>
                   <Grid>
-                    <div className="col-span-2 text-left">
-                      <p className="text-base text-white font-semibold ">
-                        {" "}
-                        My Details
-                      </p>
+                    <div className="col-span-4">
+                      <PasswordInput
+                        type="password"
+                        name="oldPassword"
+                        label="Old Password"
+                        value={passwordChnageForm.values.oldPassword}
+                        onChange={passwordChnageForm.handleChange}
+                        onBlur={passwordChnageForm.handleBlur}
+                        isPassword
+                        className="!bg-white"
+                      />
+                      {passwordChnageForm.touched.oldPassword &&
+                        passwordChnageForm.errors.oldPassword && (
+                          <div className="text-red-500">
+                            {passwordChnageForm.errors.oldPassword}
+                          </div>
+                        )}
                     </div>
-                    <div className="col-span-10 self-center">
-                      <hr />
+
+                    <div className="col-span-4">
+                      <PasswordInput
+                        type="password"
+                        name="newPassword"
+                        label="New Password"
+                        isPassword
+                        className="!bg-white"
+                        value={passwordChnageForm.values.newPassword}
+                        onChange={passwordChnageForm.handleChange}
+                        onBlur={passwordChnageForm.handleBlur}
+                      />
+                      {passwordChnageForm.touched.newPassword &&
+                        passwordChnageForm.errors.newPassword && (
+                          <div className="text-red-500">
+                            {passwordChnageForm.errors.newPassword}
+                          </div>
+                        )}
+                    </div>
+                    <div className="col-span-4">
+                      <PasswordInput
+                        type="password"
+                        name="confirmPassword"
+                        label="Confirm Password"
+                        isPassword
+                        className="!bg-white"
+                        value={passwordChnageForm.values.confirmPassword}
+                        onChange={passwordChnageForm.handleChange}
+                        onBlur={passwordChnageForm.handleBlur}
+                      />
+                      {passwordChnageForm.touched.confirmPassword &&
+                        passwordChnageForm.errors.confirmPassword && (
+                          <div className="text-red-500">
+                            {passwordChnageForm.errors.confirmPassword}
+                          </div>
+                        )}
                     </div>
                   </Grid>
+                  <div className="mt-4 text-right">
+                    <Button type="submit">Change Password</Button>
+                  </div>
+                </form>
+              </div>
 
-                  <Grid className="mx-8 mx-auto mt-4">
-                    <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
-                    <div className="col-span-3 border-r border-[#4e4e4e]">
-                      <div className="flex">
-                        <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
-                          <img src={dealer} alt="dealer" />
-                        </div>
-                        <div className="self-center">
-                          <p className="text-[#FFF] text-base font-medium leading-5	">
-                            Account Name
-                          </p>
-                          <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                          {loginDetails.name}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-span-5">
-                      <div className="flex justify-center">
-                        <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
-                          <img src={terms} className="" alt="terms" />
-                        </div>
-                        <div className="self-center">
-                          <p className="text-[#FFF] text-base font-medium leading-5">
-                            Address
-                          </p>
-                          <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                          {loginDetails?.street},{" "}
-                          {loginDetails?.city},{" "}
-                          {loginDetails?.state}{" "}
-                          {loginDetails?.zip}, {loginDetails?.country}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-span-2"></div>
-                  </Grid>
-                </div>
-                <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-                  <p className='text-xl font-semibold mb-5'>Change Password</p>
-                  <form onSubmit={passwordChnageForm.handleSubmit}>
-                      <Grid>
-                        <div className="col-span-4">
-                          <PasswordInput
-                            type="password"
-                            name="oldPassword"
-                            label="Old Password"
-                            value={passwordChnageForm.values.oldPassword}
-                            onChange={passwordChnageForm.handleChange}
-                            onBlur={passwordChnageForm.handleBlur}
-                            isPassword
-                            className="!bg-white"
-                          />
-                          {passwordChnageForm.touched.oldPassword &&
-                            passwordChnageForm.errors.oldPassword && (
-                              <div className="text-red-500">
-                                {passwordChnageForm.errors.oldPassword}
-                              </div>
-                            )}
-                        </div>
+              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+                {primary && (
+                  <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                    <Button onClick={() => openUserModal()}>
+                      {" "}
+                      + Add Member
+                    </Button>
+                  </div>
+                )}
 
-                        <div className="col-span-4">
-                          <PasswordInput
-                            type="password"
-                            name="newPassword"
-                            label="New Password"
-                            isPassword
-                            className="!bg-white"
-                            value={passwordChnageForm.values.newPassword}
-                            onChange={passwordChnageForm.handleChange}
-                            onBlur={passwordChnageForm.handleBlur}
-                          />
-                          {passwordChnageForm.touched.newPassword &&
-                            passwordChnageForm.errors.newPassword && (
-                              <div className="text-red-500">
-                                {passwordChnageForm.errors.newPassword}
-                              </div>
-                            )}
-                        </div>
-                        <div className="col-span-4">
-                          <PasswordInput
-                            type="password"
-                            name="confirmPassword"
-                            label="Confirm Password"
-                            isPassword
-                            className="!bg-white"
-                            value={passwordChnageForm.values.confirmPassword}
-                            onChange={passwordChnageForm.handleChange}
-                            onBlur={passwordChnageForm.handleBlur}
-                          />
-                          {passwordChnageForm.touched.confirmPassword &&
-                            passwordChnageForm.errors.confirmPassword && (
-                              <div className="text-red-500">
-                                {passwordChnageForm.errors.confirmPassword}
-                              </div>
-                            )}
-                        </div>
-                      </Grid>
-                      <div className="mt-4 text-right">
-                        <Button type="submit">Change Password</Button>
-                      </div>
-                  </form>
-                </div>
-              
-                <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
-                  {primary &&  <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-                    <Button onClick={() => openUserModal()}> + Add Member</Button>
-                  </div>}
-                
-                  <p className="text-xl font-semibold mb-3">Users List</p>
-                  {/* <Grid className="!p-[2px] !pt-[14px] !pb-0">
+                <p className="text-xl font-semibold mb-3">Users List</p>
+                {/* <Grid className="!p-[2px] !pt-[14px] !pb-0">
                     <div className="col-span-3 self-center"></div>
                     <div className="col-span-9">
                       <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
@@ -953,24 +964,28 @@ function DealerUser() {
                       </div>
                     </div>
                   </Grid> */}
-                  <DataTable
-                    columns={primary ? columns : columns1}
-                    data={userList}
-                    highlightOnHover
-                    sortIcon={
-                      <>
-                        {" "}
-                        <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                      </>
-                    }
-                    noDataComponent={<CustomNoDataComponent />}
-                  />
-                </div>
+                <DataTable
+                  columns={primary ? columns : columns1}
+                  data={userList}
+                  highlightOnHover
+                  sortIcon={
+                    <>
+                      {" "}
+                      <img
+                        src={shorting}
+                        className="ml-2"
+                        alt="shorting"
+                      />{" "}
+                    </>
+                  }
+                  noDataComponent={<CustomNoDataComponent />}
+                />
               </div>
             </div>
-          </>
-        )}
-      
+          </div>
+        </>
+      )}
+
       {/* Modal Primary Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
@@ -1048,13 +1063,16 @@ function DealerUser() {
                   value={userValues.values.firstName}
                   onBlur={userValues.handleBlur}
                   onChange={userValues.handleChange}
-                  error={userValues.touched.firstName && userValues.errors.firstName}
+                  error={
+                    userValues.touched.firstName && userValues.errors.firstName
+                  }
                 />
-                {userValues.touched.firstName && userValues.errors.firstName && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {userValues.errors.firstName}
-                  </div>
-                )}
+                {userValues.touched.firstName &&
+                  userValues.errors.firstName && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {userValues.errors.firstName}
+                    </div>
+                  )}
               </div>
               <div className="col-span-6">
                 <Input
@@ -1068,7 +1086,9 @@ function DealerUser() {
                   value={userValues.values.lastName}
                   onBlur={userValues.handleBlur}
                   onChange={userValues.handleChange}
-                  error={userValues.touched.lastName && userValues.errors.lastName}
+                  error={
+                    userValues.touched.lastName && userValues.errors.lastName
+                  }
                 />
                 {userValues.touched.lastName && userValues.errors.lastName && (
                   <div className="text-red-500 text-sm pl-2 pt-2">
@@ -1125,10 +1145,12 @@ function DealerUser() {
                   minLength={"10"}
                   maxLength={"10"}
                   error={
-                    userValues.touched.phoneNumber && userValues.errors.phoneNumber
+                    userValues.touched.phoneNumber &&
+                    userValues.errors.phoneNumber
                   }
                 />
-                {(userValues.touched.phoneNumber || userValues.submitCount > 0) &&
+                {(userValues.touched.phoneNumber ||
+                  userValues.submitCount > 0) &&
                   userValues.errors.phoneNumber && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
                       {userValues.errors.phoneNumber}
@@ -1147,7 +1169,9 @@ function DealerUser() {
                   value={userValues.values.position}
                   onBlur={userValues.handleBlur}
                   onChange={userValues.handleChange}
-                  error={userValues.touched.position && userValues.errors.position}
+                  error={
+                    userValues.touched.position && userValues.errors.position
+                  }
                 />
                 {/* {userValues.touched.position && userValues.errors.position && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
@@ -1337,7 +1361,7 @@ function DealerUser() {
       </Modal>
 
       <Modal isOpen={isPasswordOpen} onClose={closePassword}>
-      <Button
+        <Button
           onClick={closePassword}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
         >
@@ -1352,7 +1376,7 @@ function DealerUser() {
             {firstMessage}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-4">
-            {secondMessage} 
+            {secondMessage}
           </p>
         </div>
       </Modal>
