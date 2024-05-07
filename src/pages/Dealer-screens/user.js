@@ -61,7 +61,7 @@ function DealerUser() {
   const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
   const [primary, setPrimary] = useState(false);
-  const [createAccountOption, setCreateAccountOption] = useState("no");
+  const [createAccountOption, setCreateAccountOption] = useState("yes");
 
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({

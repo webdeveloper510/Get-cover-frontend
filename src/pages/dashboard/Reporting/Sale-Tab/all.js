@@ -178,7 +178,7 @@ function All() {
                 <div className='bg-white pl-2'>
                 <div className='flex mb-4'>
                     <img src={Administration} alt='Administration'/>
-                    <p className='text-sm font-bold self-center pl-3'>Breakdown for Administration</p>
+                    <p className='text-sm font-bold self-center pl-3'> Administration<br/> Fees</p>
                 </div>
                 <div>
                     <p className='text-3xl font-bold'>$5666159.00</p>
@@ -202,7 +202,7 @@ function All() {
                 <div className='bg-white pl-4'>
                 <div className='flex mb-4'>
                     <img src={insurance} alt='Administration'/>
-                    <p className='text-sm font-bold self-center pl-3'>Re-insurance Premium</p>
+                    <p className='text-sm font-bold self-center pl-3'>Re-insurance<br/> Fees</p>
                 </div>
                 <div>
                     <p className='text-3xl font-bold'>$1523239.00</p>

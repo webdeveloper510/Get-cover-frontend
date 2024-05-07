@@ -58,6 +58,7 @@ function CustomerDetails() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [createAccount, setCreateAccount] = useState(false);
   const [timer, setTimer] = useState(3);
   const { customerId } = useParams();
   const [initialFormValues, setInitialFormValues] = useState({
@@ -196,6 +197,7 @@ function CustomerDetails() {
     const result = await getUserListByCustomerId({}, customerId);
     console.log(result.result, "----------");
     setRefreshUserList(result.result);
+    setCreateAccount(result.isAccountCreate)
   };
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
@@ -587,7 +589,7 @@ function CustomerDetails() {
                   <Grid className="!grid-cols-4 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
-                        <Button
+                        <Button 
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
                             activeTab === tab.id
                               ? "!bg-[#2A2A2A] !text-white"
@@ -618,7 +620,7 @@ function CustomerDetails() {
               <div className="col-span-4"></div>
               <div className="col-span-2">
                 {activeTab !== "Contracts" ? (
-                  <Button
+                 <Button
                     className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
                     onClick={() => routeToPage(activeTab)}
                   >
@@ -783,14 +785,14 @@ function CustomerDetails() {
                       id="yes-create-account"
                       label="Yes"
                       value="yes"
-                      checked={createAccountOption === "yes"}
+                      checked={createAccount === "yes"}
                       onChange={handleRadioChange}
                     />
                     <RadioButton
                       id="no-create-account"
                       label="No"
                       value="no"
-                      checked={createAccountOption === "no"}
+                      checked={createAccount === "no"}
                       onChange={handleRadioChange}
                     />
                   </p>
@@ -925,6 +927,7 @@ function CustomerDetails() {
                   <Input
                     type="text"
                     name="country"
+                    className='!bg-white'
                     label="Country"
                     required={true}
                     placeholder=""
@@ -936,6 +939,27 @@ function CustomerDetails() {
                     disabled
                   />
                 </div>
+                <div className="col-span-12">
+                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  Do you want to create an account?
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value="yes"
+                    // disabled={ resellerDetail.resellerData?.isAccountCreate === false}
+                    checked={createAccountOption === "yes"}
+                    onChange={handleRadioChange}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value="no"
+                    // disabled={ resellerDetail.resellerData?.isAccountCreate === false}
+                    checked={createAccountOption === "no"}
+                    onChange={handleRadioChange}
+                  />
+                </p>
+              </div>
                 <div className="col-span-4">
                   <Button
                     type="button"

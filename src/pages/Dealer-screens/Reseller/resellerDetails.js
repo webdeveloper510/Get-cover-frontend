@@ -475,7 +475,7 @@ function DealerResellerDetails() {
     localStorage.setItem("Resellermenu", activeTab);
     if ( activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
       if (carouselRef.current) {
-        carouselRef.current.next(4);
+        carouselRef.current.next(3);
       }
     }
   }, [activeTab, carouselRef]);
