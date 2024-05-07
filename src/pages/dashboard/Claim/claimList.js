@@ -320,13 +320,21 @@ function ClaimList(props) {
   };
 
   const editClaimServicer = (claimId, statusType, statusValue) => {
+    setLoaderType(true);
     let data = {
       servicerId: statusValue,
     };
 
-    editClaimServicerValue(claimId, data).then((res) => {
-      setServicer(res.result.servicerId);
-    });
+    editClaimServicerValue(claimId, data)
+      .then((res) => {
+        setServicer(res.result.servicerId);
+        getAllClaims(pageValue, recordsPerPage);
+      })
+      .catch((error) => {
+        console.error("Error occurred while editing claim servicer:", error);
+
+        setLoaderType(false);
+      });
   };
 
   const editClaimClaimType = (claimId, statusType, statusValue) => {
