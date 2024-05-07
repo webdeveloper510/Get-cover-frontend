@@ -40,7 +40,7 @@ function UserList(props) {
   const [isprimary, SetIsprimary] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
-
+  const [servicerStatus, setServiceStatus] = useState(true);
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
   const [timer, setTimer] = useState(3);
@@ -73,12 +73,15 @@ function UserList(props) {
     console.log(props);
     if (props.flag == "customer") {
       const result = await getCustomerUsersById(props.id, {});
-      console.log(result.result);
+      setServiceStatus(true);
+      console.log(result.result, 'setUserList');
       setUserList(result.result);
     } else if (props.flag == "reseller") {
       const result = await getResellerUsersById(props.id, {});
       console.log(result);
+      console.log(result.data, 'setUserList');
       setUserList(result.data);
+      setServiceStatus(result.data[0].status);
     }
   };
   const handleClickOutside = (event) => {
@@ -87,10 +90,10 @@ function UserList(props) {
     }
   };
   useEffect(() => {
-    if (props.activeTab === "Users") {
+    
       getUserList();
-    }
-  }, [props?.flag]);
+ 
+  });
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
@@ -346,7 +349,7 @@ function UserList(props) {
     },
     {
       name: "Phone Number",
-      selector: (row) => '+1'+formatPhoneNumber(row.phoneNumber),
+      selector: (row) => '+1 ' + formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -366,7 +369,7 @@ function UserList(props) {
             } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
-            disabled={row.isPrimary}
+            disabled={row.isPrimary || !servicerStatus}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"

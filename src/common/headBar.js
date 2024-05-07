@@ -81,10 +81,10 @@ function Headbar({ className = "" }) {
     }
   };
 
-  console.log(
-    localStorage.getItem("userDetails"),
-    "---------------->>>>>>>>>>>>"
-  );
+  // console.log(
+  //   localStorage.getItem("userDetails"),
+  //   "---------------->>>>>>>>>>>>"
+  // );
   const userData = JSON.parse(localStorage.getItem("userDetails"));
   const firstName = userData.userInfo.firstName;
   const fetchUserDetails = async () => {

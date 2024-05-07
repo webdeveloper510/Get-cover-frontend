@@ -156,7 +156,6 @@ function DealerResellerDetails() {
   const getUserList = async () => {
     const result = await getResellerUsersById(id.resellerId, {});
     setRefreshUserList(result.data);
-    console.log(result.data);
   };
   const closeModal10 = () => {
     setModalOpen(false);
@@ -227,10 +226,14 @@ function DealerResellerDetails() {
     const result = await getResellerListByResellerId(id.resellerId);
     if (result.code === 200) {
       setResllerDetails(result?.reseller[0]);
+      console.log(result?.reseller[0],"reseller data ------------->>>>>>>>")
       setIsStatus(result?.dealerStatus);
-      setResellerStatusMain(result?.reseller[0].status);
+      setResellerStatusMain(result?.reseller[0].resellerData.status);
       setServicerCreateAccountOption(result?.reseller[0]?.resellerData?.isServicer);
       setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
+      setCreateAccountOption(
+        result?.reseller[0]?.resellerData?.isAccountCreate === false ? "no" : "yes"
+      );
       setInitialFormValues({
         accountName: result?.reseller[0]?.resellerData?.name,
         oldName: result?.reseller[0]?.resellerData?.name,
@@ -472,7 +475,7 @@ function DealerResellerDetails() {
     localStorage.setItem("Resellermenu", activeTab);
     if ( activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
       if (carouselRef.current) {
-        carouselRef.current.next(4);
+        carouselRef.current.next(3);
       }
     }
   }, [activeTab, carouselRef]);
@@ -1302,6 +1305,7 @@ function DealerResellerDetails() {
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
+                    disabled={ resellerDetail.resellerData?.isAccountCreate === false}
                     checked={createAccountOption === "yes"}
                     onChange={handleRadioChange}
                   />
@@ -1309,6 +1313,7 @@ function DealerResellerDetails() {
                     id="no-create-account"
                     label="No"
                     value="no"
+                    disabled={ resellerDetail.resellerData?.isAccountCreate === false}
                     checked={createAccountOption === "no"}
                     onChange={handleRadioChange}
                   />

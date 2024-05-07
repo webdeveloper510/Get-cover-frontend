@@ -159,7 +159,7 @@ function Sale() {
           <div className="col-span-3">
             <Grid className="mt-10">
               
-              <div className="col-span-10 relative">
+              <div className="col-span-9 relative">
               <div
                   className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1]`}
                   ref={containerRef}
@@ -172,7 +172,7 @@ function Sale() {
                     containerClass="carousel">
                   {tabs.map((tab) => (
                       <Button
-                      className={`flex self-center w-[217px] !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                      className={`flex self-center w-[190px] !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
                         activeTab === tab.id
                           ? "!bg-[#2A2A2A] !text-white"
                           : "!bg-[#F9F9F9] !text-black"
@@ -226,7 +226,7 @@ function Sale() {
                 </div> */}
               </div>
               <div
-                className="col-span-2 self-center">
+                className="col-span-3 self-center pl-3">
                 <Select
                  label=""
                  name="state"

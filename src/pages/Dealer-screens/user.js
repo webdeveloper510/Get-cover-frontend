@@ -402,13 +402,11 @@ function DealerUser() {
         userValues.resetForm();
       } else {
         setLoading(false);
-        setFirstMessage("Error");
-        setSecondMessage(result.message);
         if (result.code === 401) {
           userValues.setFieldError("email", "Email already in use");
         }
-        setIsPasswordOpen(true);
         // closeUserModal()
+        setLoading(false)
       }
       closeModal2();
     },
@@ -714,6 +712,13 @@ function DealerUser() {
 
   return (
     <>
+     {/* {loading && (
+        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#fff" />
+          </div>
+        </div>
+      )} */}
       {loading1 ? (
         <>
           <div className=" h-[500px] w-full flex py-5">
@@ -1110,11 +1115,11 @@ function DealerUser() {
                   onChange={userValues.handleChange}
                   error={userValues.touched.email && userValues.errors.email}
                 />
-                {/* {userValues.touched.position && userValues.errors.position && (
+                {userValues.touched.email && userValues.errors.email && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
-                  {userValues.errors.position}
+                  {userValues.errors.email}
                 </div>
-              )} */}
+              )}
               </div>
               <div className="col-span-6">
                 <Input

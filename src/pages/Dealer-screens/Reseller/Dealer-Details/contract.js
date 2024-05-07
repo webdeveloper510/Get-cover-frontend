@@ -143,6 +143,7 @@ function ContractList(props) {
     model: "",
     serial: "",
     productName: "",
+    eligibilty:"",
   };
   const formik = useFormik({
     initialValues,
