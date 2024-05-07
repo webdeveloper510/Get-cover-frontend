@@ -71,6 +71,7 @@ function AddOrder() {
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
   const [coverage, setCoverage] = useState([]);
+  const [labour, setLabour] = useState([]);
   const [serviceCoverage, setServiceCoverage] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
 
@@ -362,56 +363,63 @@ function AddOrder() {
   const getServiceCoverage = async (value, type = "Add") => {
     const result = await getServiceCoverageDetails(value);
     let coverage = [];
-    if (type == "Edit") {
-      coverage = [
-        { label: "Breakdown", value: "Breakdown" },
-        { label: "Accidental", value: "Accidental" },
-        { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-      ];
-    } else {
-      switch (result.result.coverageType) {
-        case "Breakdown & Accidental":
-          coverage = [
+    let serviceCoverage = [];
+
+    if (type === "Edit") {
+        coverage = [
             { label: "Breakdown", value: "Breakdown" },
             { label: "Accidental", value: "Accidental" },
-            {
-              label: "Breakdown & Accidental",
-              value: "Breakdown & Accidental",
-            },
-          ];
-          break;
-        case "Breakdown":
-          coverage = [{ label: "Breakdown", value: "Breakdown" }];
-          break;
-        default:
-          coverage = [{ label: "Accidental", value: "Accidental" }];
-          break;
-      }
+            { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+        ];
+        
+        // Add the same service coverage options for edit
+        serviceCoverage = [
+            { label: "Parts", value: "Parts" },
+            { label: "Labour", value: "Labour" },
+            { label: "Parts & Labour", value: "Parts & Labour" },
+        ];
+    } else {
+        switch (result.result.coverageType) {
+            case "Breakdown & Accidental":
+                coverage = [
+                    { label: "Breakdown", value: "Breakdown" },
+                    { label: "Accidental", value: "Accidental" },
+                    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+                ];
+                break;
+            case "Breakdown":
+                coverage = [{ label: "Breakdown", value: "Breakdown" }];
+                break;
+            default:
+                coverage = [{ label: "Accidental", value: "Accidental" }];
+                break;
+        }
+
+        switch (result.result.serviceCoverageType) {
+            case "Parts & Labour":
+                serviceCoverage = [
+                    { label: "Parts", value: "Parts" },
+                    { label: "Labour", value: "Labour" },
+                    { label: "Parts & Labour", value: "Parts & Labour" },
+                ];
+                break;
+            case "Labour":
+                serviceCoverage = [{ label: "Labour", value: "Labour" }];
+                break;
+            case "Parts":
+                serviceCoverage = [{ label: "Parts", value: "Parts" }];
+                break;
+            default:
+                serviceCoverage = [{ label: "Parts", value: "Parts" }];
+                break;
+        }
     }
 
-    let serviceCoverage = [];
-    switch (result.result.serviceCoverageType) {
-      case "Parts & Labour":
-        serviceCoverage = [
-          { label: "Parts", value: "Parts" },
-          { label: "Labour", value: "Labour" },
-          { label: "Parts & Labour", value: "Parts & Labour" },
-        ];
-        break;
-      case "Labour":
-        serviceCoverage = [{ label: "Labour", value: "Labour" }];
-        break;
-      case "Parts":
-        serviceCoverage = [{ label: "Parts", value: "Parts" }];
-        break;
-      default:
-        serviceCoverage = [{ label: "Parts", value: "Parts" }];
-        break;
-    }
-    console.log(coverage, type);
+    console.log(coverage, serviceCoverage, type);
     setCoverage(coverage);
     setServiceCoverage(serviceCoverage);
-  };
+};
+
 
   const formik4 = useFormik({
     initialValues: {
@@ -1626,8 +1634,12 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
                   <Select
                     label="Service Coverage"
                     name="serviceCoverageType"
+                    disabled={type == "Edit"}
                     placeholder=""
                     className="!bg-white"
+                    className1={`${
+                      type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
+                    }`}
                     required={true}
                     onChange={handleSelectChange1}
                     options={serviceCoverage}
