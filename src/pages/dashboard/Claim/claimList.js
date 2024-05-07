@@ -203,11 +203,9 @@ function ClaimList(props) {
 
   const handleSelectChange = (selectedValue, value) => {
     if (selectedValue === "claimStatus") {
-      // console.log(selectedValue, "------------>>>>>>>");
       if (value === "Rejected") {
         setIsRejectOpen(true);
       } else if (value?.reason) {
-        // console.log(value);
         value.claimStatus = "Rejected";
         editClaimRejectedValue(claimList.result[activeIndex]._id, value);
       } else {
@@ -218,7 +216,6 @@ function ClaimList(props) {
             selectedValue,
             value
           );
-          // console.log(selectedValue);
         };
 
         switch (selectedValue) {
@@ -231,9 +228,6 @@ function ClaimList(props) {
       }
     } else if (selectedValue === "claimType") {
       const updateAndCallAPI = (setter) => {
-        // console.log(selectedValue);
-
-        // Update state or call API for claimType
         editClaimClaimType(
           claimList.result[activeIndex]._id,
           selectedValue,
@@ -242,10 +236,7 @@ function ClaimList(props) {
       };
       updateAndCallAPI(setClaimType);
     } else if (selectedValue === "servicer") {
-      // Handle logic specific to servicer
       const updateAndCallAPI = (setter) => {
-        // console.log(selectedValue);
-
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimServicer(
           claimList.result[activeIndex]._id,
@@ -257,11 +248,8 @@ function ClaimList(props) {
       updateAndCallAPI(setServicer);
     } else {
       const updateAndCallAPI = (setter) => {
-        // console.log(selectedValue);
-
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
-        // console.log(selectedValue);
       };
 
       switch (selectedValue) {
@@ -343,6 +331,14 @@ function ClaimList(props) {
     };
 
     editClaimTypeValue(claimId, data).then((res) => {
+      const updatedClaimListCopy = { ...claimList };
+      console.log(res.result.claimType, updatedClaimListCopy.result.claimType);
+
+      if (updatedClaimListCopy.result) {
+        updatedClaimListCopy.result[activeIndex]["claimType"] =
+          res.result.claimType;
+      }
+      setClaimList(updatedClaimListCopy);
       setClaimType(res.result.claimType);
     });
   };
@@ -1279,7 +1275,12 @@ function ClaimList(props) {
                                   ) &&
                                   !location.pathname.includes(
                                     "/reseller/claimList"
-                                  ) && (
+                                  ) 
+                                  &&
+                                  !location.pathname.includes(
+                                    "/dealer/claimList"
+                                  )
+                                  && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1294,9 +1295,13 @@ function ClaimList(props) {
                                   !location.pathname.includes(
                                     "customer/claimList"
                                   ) &&
+                                  
                                   !location.pathname.includes(
                                     "/reseller/claimList"
-                                  ) && (
+                                  )   &&
+                                  !location.pathname.includes(
+                                    "/dealer/claimList"
+                                  )&& (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1449,20 +1454,22 @@ function ClaimList(props) {
                                       <span className="self-center mr-4">
                                         Servicer Name :{" "}
                                       </span>
-                                      {userType !== "dealer" &&
-                                      !location.pathname.includes(
-                                        "customer/claimList"
-                                      ) &&
-                                      !location.pathname.includes(
-                                        "/reseller/claimList"
-                                      ) ? (
+                                      {(userType !== "dealer" &&
+                                        !location.pathname.includes(
+                                          "customer/claimList"
+                                        ) &&
+                                        !location.pathname.includes(
+                                          "/reseller/claimList"
+                                        )) ||
+                                      claimList.result[activeIndex]
+                                        ?.selfServicer ? (
                                         <Select
                                           name="servicer"
                                           label=""
                                           value={servicer}
                                           disabled={
-                                            claimStatus.status == "Rejected" ||
-                                            claimStatus.status == "Completed"
+                                            claimStatus.status === "Rejected" ||
+                                            claimStatus.status === "Completed"
                                           }
                                           onChange={handleSelectChange}
                                           OptionName="Servicer"
@@ -1476,10 +1483,9 @@ function ClaimList(props) {
                                       )}
                                     </p>
 
-                                    {userType == "admin" &&
-                                      !location.pathname.includes(
-                                        "customer/claimList"
-                                      ) &&
+                                    {!location.pathname.includes(
+                                      "customer/claimList"
+                                    ) &&
                                       !location.pathname.includes(
                                         "/reseller/claimList"
                                       ) && (
@@ -1665,162 +1671,6 @@ function ClaimList(props) {
                                           </p>
                                         </>
                                       )}
-                                    {location.pathname.includes(
-                                      "dealer/claimList"
-                                    ) ? (
-                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                        <span className="self-center w-[75px]  mr-[1rem]">
-                                          Shipment :
-                                        </span>
-                                        {trackerView ? (
-                                          <form
-                                            onSubmit={Shipment.handleSubmit}
-                                          >
-                                            <div className="relative flex w-full">
-                                              <Select
-                                                name="trackingType"
-                                                label=""
-                                                value={
-                                                  Shipment.values.trackingType
-                                                }
-                                                onChange={handleSelectChange21}
-                                                white
-                                                // OptionName="Tracker"
-                                                options={tracker}
-                                                className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                                classBox="w-[35%]"
-                                              />
-                                              <Input
-                                                name="trackingNumber"
-                                                label=""
-                                                placeholder="Tracking #"
-                                                white
-                                                value={
-                                                  Shipment.values.trackingNumber
-                                                }
-                                                // options={state}
-                                                className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                                classBox="w-[50%]"
-                                                {...Shipment.getFieldProps(
-                                                  "trackingNumber"
-                                                )}
-                                              />
-                                              <Button
-                                                className="absolute right-[30px] !p-0 top-[2px]"
-                                                type="submit"
-                                              >
-                                                <img
-                                                  src={checkIcon}
-                                                  className="w-[21px]"
-                                                />
-                                              </Button>
-                                            </div>
-                                          </form>
-                                        ) : (
-                                          <>
-                                            {res?.trackingType == "" ? (
-                                              <form
-                                                onSubmit={Shipment.handleSubmit}
-                                              >
-                                                <div className="relative flex w-full">
-                                                  <Select
-                                                    name="trackingType"
-                                                    label=""
-                                                    value={
-                                                      Shipment.values
-                                                        .trackingType
-                                                    }
-                                                    onChange={
-                                                      handleSelectChange21
-                                                    }
-                                                    white
-                                                    // OptionName="Tracker"
-                                                    options={tracker}
-                                                    className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                                    classBox="w-[35%]"
-                                                  />
-                                                  <Input
-                                                    name="trackingNumber"
-                                                    label=""
-                                                    placeholder="Tracking #"
-                                                    white
-                                                    value={
-                                                      Shipment.values
-                                                        .trackingNumber
-                                                    }
-                                                    // options={state}
-                                                    className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                                    classBox="w-[50%]"
-                                                    {...Shipment.getFieldProps(
-                                                      "trackingNumber"
-                                                    )}
-                                                  />
-                                                  <Button
-                                                    className="absolute right-[30px] !p-0 top-[2px]"
-                                                    type="submit"
-                                                  >
-                                                    <img
-                                                      src={checkIcon}
-                                                      className="w-[21px]"
-                                                    />
-                                                  </Button>
-                                                </div>
-                                              </form>
-                                            ) : (
-                                              <div className="flex w-[65%] justify-between">
-                                                {res?.trackingType == "ups" && (
-                                                  <a
-                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                    href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`}
-                                                    target="_blank"
-                                                  >
-                                                    UPS Tracker
-                                                  </a>
-                                                )}
-
-                                                {res?.trackingType ==
-                                                  "usps" && (
-                                                  <a
-                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                    href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
-                                                    target="_blank"
-                                                  >
-                                                    USPS Tracker
-                                                  </a>
-                                                )}
-
-                                                {res?.trackingType ==
-                                                  "fedx" && (
-                                                  <a
-                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                    href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
-                                                    target="_blank"
-                                                  >
-                                                    FedX Tracker
-                                                  </a>
-                                                )}
-                                                {claimStatus.status ==
-                                                  "Rejected" ||
-                                                claimStatus.status ==
-                                                  "Completed" ? (
-                                                  <></>
-                                                ) : (
-                                                  <img
-                                                    src={pen}
-                                                    onClick={() =>
-                                                      setTrackerView(true)
-                                                    }
-                                                    className="cursor-pointer object-contain ml-4"
-                                                  />
-                                                )}
-                                              </div>
-                                            )}
-                                          </>
-                                        )}
-                                      </p>
-                                    ) : (
-                                      <></>
-                                    )}
                                   </div>
                                 </div>
                                 <div className="col-span-4 pt-4">
@@ -1983,7 +1833,7 @@ function ClaimList(props) {
                                       </div>
                                     )}
                                   </>} */}
-                                    {role == "Super Admin" && (
+                                    {(role == "Super Admin" || claimList.result[activeIndex]?.selfServicer) && (
                                       <>
                                         {claimStatus.status == "Rejected" ||
                                         claimStatus.status == "Completed" ? (
