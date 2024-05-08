@@ -1208,7 +1208,12 @@ function DealerAddOrder() {
                         name="resellerId"
                         placeholder=""
                         className="!bg-white"
-                        isDisabled={resellerId || customerId}
+                        isDisabled={
+                          resellerId ||
+                          customerId ||
+                          typeValue == "customer" ||
+                          typeValue == "reseller"
+                        }
                         onChange={handleSelectChange}
                         options={resellerList}
                         value={
@@ -1249,7 +1254,7 @@ function DealerAddOrder() {
                         label="Customer Name"
                         name="customerId"
                         placeholder=""
-                        isDisabled={customerId}
+                        isDisabled={customerId || typeValue == "customer"}
                         className="!bg-white"
                         // onChange={handleSelectChange}
                         onChange={handleSelectChange}
