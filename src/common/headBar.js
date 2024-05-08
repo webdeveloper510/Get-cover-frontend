@@ -44,11 +44,11 @@ function Headbar({ className = "" }) {
     let ArrayData = [];
     getNotifications().then((response) => {
       setNotificationList(response.result.notification);
-      response.result.notification.map((data) => {
-        if (!data.notificationData.status) {
-          ArrayData.push(data);
-        }
-      });
+      // response.result.notification.map((data) => {
+      //   if (!data.notificationData.status) {
+      //     ArrayData.push(data);
+      //   }
+      // });
       localStorage.setItem("lengthofNotifications", ArrayData.length);
     });
   };

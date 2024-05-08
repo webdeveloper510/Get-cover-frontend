@@ -68,13 +68,14 @@ function DealerAddOrder() {
   const [order, orderDetail] = useState({});
   const [type, setType] = useState("Add");
   const navigate = useNavigate();
-  const { orderId, resellerId, customerId } = useParams();
+  const { orderId, resellerId, customerId, typeValue } = useParams();
   const location = useLocation();
   const [serviceCoverage, setServiceCoverage] = useState([]);
   const [coverage, setCoverage] = useState([]);
 
   useEffect(() => {
     if (orderId || resellerId || customerId) {
+      console.log("orderId", typeValue);
       setLoading1(true);
 
       // const timer = setTimeout(() => {
