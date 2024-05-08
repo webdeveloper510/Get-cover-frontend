@@ -97,6 +97,7 @@ import CustomerOrderDetails from "../pages/Customer-screens/Order/order-details"
 import CustomerAddDealerBook from "../pages/Dealer-screens/Price-Book/addDealerBook";
 import ResellerOrderDetails from "../pages/Reseller-screens/Order/order-details";
 import DealerOrderDetails from "../pages/Dealer-screens/Order/order-details";
+import ClaimList12 from "../pages/Dealer-screens/Claim/claimList";
 // import DealerArchiveOrderList from "../pages/Dealer-screens/Order/order-archive";
 
 const routes = [
@@ -556,7 +557,7 @@ const routes = [
       {
         path: "/dealer/claimList",
         element: (
-          <PrivateRoute element={<ClaimList />} path="/dealer/claimList" />
+          <PrivateRoute element={<ClaimList12 />} path="/dealer/claimList" />
         ),
       },
       {

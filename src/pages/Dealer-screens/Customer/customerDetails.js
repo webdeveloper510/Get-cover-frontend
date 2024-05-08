@@ -59,6 +59,7 @@ function CustomerDetails() {
   const [refreshList, setRefreshUserList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [createAccount, setCreateAccount] = useState(false);
+  const [createMainAccount, setCreateMainAccount] = useState(false);
   const [timer, setTimer] = useState(3);
   const { customerId } = useParams();
   const [initialFormValues, setInitialFormValues] = useState({
@@ -171,8 +172,6 @@ function CustomerDetails() {
         setLoading(false);
         closeUserModal();
         setTimer(3);
-        // window.location.reload();
-        // setIsModalOpen(false);
       } else {
         console.log(result);
         console.log("here");
@@ -192,6 +191,12 @@ function CustomerDetails() {
     const selectedValue = event.target.value;
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
+  };
+
+  const handleAccountChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    setCreateAccount(valueAsBoolean);
+    formik.setFieldValue("isAccountCreate", valueAsBoolean);
   };
   const getUserList = async () => {
     const result = await getUserListByCustomerId({}, customerId);
@@ -243,7 +248,6 @@ function CustomerDetails() {
         setModalOpen(true);
         setFirstMessage("Customer Updated Successfully");
         setSecondMessage("Customer Updated Successfully");
-
         setLoading(false);
         closeModal();
         setTimer(3);
@@ -290,11 +294,9 @@ function CustomerDetails() {
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
@@ -303,11 +305,12 @@ function CustomerDetails() {
     console.log(customerId);
     const result = await getCustomerDetailsById(customerId);
     setCustomerDetail(result.result);
-    console.log(result.result);
+    setCreateMainAccount(result.result.userAccount)
+    setCreateAccountOption(result.result.userAccount === false ? "no" : "yes")
+    console.log(result, "??????????????");
     setInitialFormValues({
       username: result?.result?.meta?.username,
       oldName: result?.result?.meta?.username,
-      // dealerId: id.id,
       street: result?.result?.meta?.street,
       city: result?.result?.meta?.city,
       zip: result?.result?.meta?.zip,
@@ -784,16 +787,18 @@ function CustomerDetails() {
                     <RadioButton
                       id="yes-create-account"
                       label="Yes"
-                      value="yes"
-                      checked={createAccount === "yes"}
-                      onChange={handleRadioChange}
+                      value={true}
+                      checked={createAccount === true}
+                      disabled={!createMainAccount}
+                      onChange={handleAccountChange}
                     />
                     <RadioButton
                       id="no-create-account"
                       label="No"
-                      value="no"
-                      checked={createAccount === "no"}
-                      onChange={handleRadioChange}
+                      value={false}
+                    checked={createAccount === false}
+                      disabled={!createMainAccount}
+                      onChange={handleAccountChange}
                     />
                   </p>
                 </div>
@@ -946,7 +951,7 @@ function CustomerDetails() {
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
-                    // disabled={ resellerDetail.resellerData?.isAccountCreate === false}
+                     disabled={ createAccount === false}
                     checked={createAccountOption === "yes"}
                     onChange={handleRadioChange}
                   />
@@ -954,7 +959,7 @@ function CustomerDetails() {
                     id="no-create-account"
                     label="No"
                     value="no"
-                    // disabled={ resellerDetail.resellerData?.isAccountCreate === false}
+                     disabled={ createAccount === false}
                     checked={createAccountOption === "no"}
                     onChange={handleRadioChange}
                   />
