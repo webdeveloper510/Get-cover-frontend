@@ -292,7 +292,9 @@ function OrderList(props) {
                   <>
                     <div
                       className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
-                      onClick={() => navigate(`/dealer/editOrder/${row._id}`)}
+                      onClick={() =>
+                        navigate(`/dealer/editOrder/${row._id}/${props.flag}`)
+                      }
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
@@ -304,7 +306,7 @@ function OrderList(props) {
                       Order
                     </div>
                     <div className="border-b">
-                      <PdfGenerator data={row._id}  setLoading={setLoading} />
+                      <PdfGenerator data={row._id} setLoading={setLoading} />
                     </div>
                     <div
                       className="text-left py-1 px-2 flex cursor-pointer hover:font-semibold"
@@ -322,12 +324,9 @@ function OrderList(props) {
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
                     <div className="">
-                    <PdfGenerator
-                      data={row._id}
-                      setLoading={setLoading}
-                    />
+                      <PdfGenerator data={row._id} setLoading={setLoading} />
                     </div>
-                      {/* <DocMakeOrderContainer setLoading={setLoading} data={row._id} /> */}
+                    {/* <DocMakeOrderContainer setLoading={setLoading} data={row._id} /> */}
                   </>
                 )}
               </div>

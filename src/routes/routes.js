@@ -375,9 +375,7 @@ const routes = [
       },
       {
         path: "/addBulkClaim",
-        element: (
-          <PrivateRoute element={<AddBulkClaim />} />
-        ),
+        element: <PrivateRoute element={<AddBulkClaim />} />,
       },
       {
         path: "/sale",
@@ -457,7 +455,7 @@ const routes = [
         ),
       },
       {
-        path: "/dealer/editOrder/:orderId?",
+        path: "/dealer/editOrder/:orderId?/:typeValue?",
         element: <PrivateRoute element={<DealerAddOrder />} />,
       },
       {
@@ -563,7 +561,10 @@ const routes = [
       {
         path: "/dealer/unPaidClaimList",
         element: (
-          <PrivateRoute element={<ClaimList />} path="/dealer/unPaidClaimList" />
+          <PrivateRoute
+            element={<ClaimList />}
+            path="/dealer/unPaidClaimList"
+          />
         ),
       },
       {
@@ -574,9 +575,7 @@ const routes = [
       },
       {
         path: "/dealer/addClaim/:username?",
-        element: (
-          <PrivateRoute element={<AddClaim />}  />
-        ),
+        element: <PrivateRoute element={<AddClaim />} />,
       },
       {
         path: "/dealer/addBulkClaim",
@@ -640,11 +639,7 @@ const routes = [
       },
       {
         path: "/servicer/addClaim",
-        element: (
-          <PrivateRoute
-            element={<ServicerAddClaim />}
-          />
-        ),
+        element: <PrivateRoute element={<ServicerAddClaim />} />,
       },
       {
         path: "/servicer/addBulkClaim",
@@ -774,33 +769,19 @@ const routes = [
       },
       {
         path: "/reseller/claim",
-        element: (
-          <PrivateRoute element={<ClaimList />} />
-        ),
+        element: <PrivateRoute element={<ClaimList />} />,
       },
       {
         path: "/reseller/claimList",
-        element: (
-          <PrivateRoute
-            element={<ClaimList />}
-          />
-        ),
+        element: <PrivateRoute element={<ClaimList />} />,
       },
       {
         path: "/reseller/addClaim/:username?",
-        element: (
-          <PrivateRoute
-            element={<AddClaim />}
-          />
-        ),
+        element: <PrivateRoute element={<AddClaim />} />,
       },
       {
         path: "/reseller/addBulkClaim",
-        element: (
-          <PrivateRoute
-            element={<ResellerAddBulkClaim />}
-          />
-        ),
+        element: <PrivateRoute element={<ResellerAddBulkClaim />} />,
       },
       {
         path: "/reseller/orderDetails/:orderId",
@@ -838,11 +819,7 @@ const routes = [
       },
       {
         path: "/customer/claimList",
-        element: (
-          <PrivateRoute
-            element={<ClaimList />}
-          />
-        ),
+        element: <PrivateRoute element={<ClaimList />} />,
       },
       {
         path: "/customer/addBulkClaim",
