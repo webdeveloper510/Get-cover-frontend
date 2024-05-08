@@ -76,7 +76,6 @@ function DealerAddCustomer() {
     initialValues: initialFormValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
-     
       accountName: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required")
