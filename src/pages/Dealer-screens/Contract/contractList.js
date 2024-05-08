@@ -175,7 +175,7 @@ function ContractList(props) {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      getContracts(1, 10);
+      getContracts(pageValue, recordsPerPage);
       console.log(values);
       setIsDisapprovedOpen(false);
     },
@@ -370,8 +370,7 @@ function ContractList(props) {
                               </div>
                               <div className="col-span-4 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
-                                  Dealer P.O. # :{" "}
-                                  <b> {res?.venderOrder} </b>
+                                  Dealer P.O. # : <b> {res?.venderOrder} </b>
                                 </p>
                               </div>
                             </>
@@ -622,7 +621,7 @@ function ContractList(props) {
                       selectedValue={value}
                       onChange={handleSelectChange2}
                     />
-                    </div>
+                  </div>
                   <div className="col-span-12">
                     <Button type="submit" className={"w-full"}>
                       Search
