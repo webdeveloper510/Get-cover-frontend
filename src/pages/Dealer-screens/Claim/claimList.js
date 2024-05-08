@@ -1984,7 +1984,10 @@ const tabs = [
         icons: Unpaid,
         Activeicons: UnpaidActive,
         content: (
-          <ClaimList12 id={loginDetails._id} />
+          <ClaimList12
+          id={loginDetails._id} 
+          flag="dealer"
+          activeTab={activeTab} />
         ),
       },
       {
@@ -1993,7 +1996,10 @@ const tabs = [
         icons: Paid,
         Activeicons: ActivePaid,
         content:  (
-          <ClaimList12 id={loginDetails._id} />
+          <ClaimList12
+          id={loginDetails._id}
+          flag="dealer"
+          activeTab={activeTab}/>
         ),
       },
     )}
@@ -2033,30 +2039,30 @@ const tabs = [
         )}
         <div className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1] bg-[#ffff] flex ${createServicerAccountOption ? 'w-[45%]' : 'w-[20%]'}`}>
            {tabs.map((tab) => (
-                      <Button
-                        className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
-                          activeTab === tab.id
-                            ? "!bg-[#2A2A2A] !text-white"
-                            : "!bg-[#F9F9F9] !text-black"
-                        }`}
-                        onClick={() => handleTabClick(tab.id)}
-                      >
-                        <img
-                          src={
-                            activeTab === tab.id ? tab.Activeicons : tab.icons
-                          }
-                          className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
-                          alt={tab.label}
-                        />
-                        <span
-                          className={`ml-1 py-1 text-sm font-Regular ${
-                            activeTab === tab.id ? "text-white" : "text-black"
-                          }`}
-                        >
-                          {tab.label}
-                        </span>
-                      </Button>
-                    ))}
+              <Button
+                className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                  activeTab === tab.id
+                    ? "!bg-[#2A2A2A] !text-white"
+                    : "!bg-[#F9F9F9] !text-black"
+                }`}
+                onClick={() => handleTabClick(tab.id)}
+              >
+                <img
+                  src={
+                    activeTab === tab.id ? tab.Activeicons : tab.icons
+                  }
+                  className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
+                  alt={tab.label}
+                />
+                <span
+                  className={`ml-1 py-1 text-sm font-Regular ${
+                    activeTab === tab.id ? "text-white" : "text-black"
+                  }`}
+                >
+                  {tab.label}
+                </span>
+              </Button>
+            ))}
          </div>
           {tabs.map((tab) => (
               <div
