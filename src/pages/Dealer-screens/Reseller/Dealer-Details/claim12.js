@@ -315,7 +315,7 @@ const downloadImage = (file) => {
     }
     setMarkLoader(false);
   };
-  console.log(props,'-------------------<<<<<<<<<<<<>>>>>>>>>>>>')
+  // console.log(props.id,'-------------------<<<<<<<<<<<<>>>>>>>>>>>>')
   const getAllClaims = async (page = 1, rowsPerPage = 10) => {
     setLoaderType(true);
     setPageValue(page);
@@ -328,7 +328,6 @@ const downloadImage = (file) => {
 
     let res;
     if (props.activeTab === "Unpaid Claims") {
-      
       res = await getUnpaidClaims(props.id, data);
     } else {
       res = await getPaidClaims(props.id, data);
@@ -497,7 +496,7 @@ const downloadImage = (file) => {
   const openView = (claim) => {
     let isValidReseller =
       claim?.contracts.orders.resellerId != null ? true : false;
-    console.log(isValidReseller);
+    // console.log(isValidReseller);
     setSendto(
       [
         { label: "Admin (To Self)", value: "Admin" },
@@ -736,7 +735,7 @@ const downloadImage = (file) => {
     { label: "Completed", value: "completed" },
     { label: "Rejected", value: "rejected" },
   ];
-  console.log(modelLoading, "----------------:::::::::")
+  // console.log(modelLoading, "----------------:::::::::")
 
   const openPay = () => {
     setIsPayOpen(true);
@@ -944,7 +943,7 @@ const downloadImage = (file) => {
   const [checkboxStates, setCheckboxStates] = useState([]);
 
   const handleCheckboxChange = (id) => {
-    console.log(id , '----------')
+    // console.log(id , '----------')
     const isChecked = checkboxStates.includes(id);
     if (isChecked) {
       const newCheckboxStates = checkboxStates.filter(
@@ -962,7 +961,7 @@ const downloadImage = (file) => {
     const newCheckboxStates = [...checkboxStates, ...ids];
     const uniqueCheckboxStates = Array.from(new Set(newCheckboxStates));
     setCheckboxStates(uniqueCheckboxStates);
-    console.log(checkboxStates, "----------------:::::::::")
+    // console.log(checkboxStates, "----------------:::::::::")
   };
 
   const handleUnselectAll = () => {

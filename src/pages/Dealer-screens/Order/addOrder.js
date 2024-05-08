@@ -76,11 +76,6 @@ function DealerAddOrder() {
   useEffect(() => {
     if (orderId || resellerId || customerId) {
       setLoading1(true);
-
-      // const timer = setTimeout(() => {
-      //   setLoading1(false);
-      // }, 3000);
-
       return () => clearTimeout(timer);
     }
   }, [orderId, resellerId, customerId]);
@@ -219,7 +214,7 @@ function DealerAddOrder() {
         });
       });
       setCustomerList(arr);
-      console.log(arr, "----customer");
+      // console.log(arr, "----customer");
     } catch (error) {
       console.error("Error occurred while fetching customer list:", error);
       setLoading1(false);
@@ -231,12 +226,11 @@ function DealerAddOrder() {
 
   const getResellerList = async (id) => {
     setLoading1(true);
-
     let arr = [];
     try {
       const result = await getResellerListforDealerPortal({});
       result?.result?.map((res) => {
-        console.log("ssssssssssssssssssssss", res.resellerData.status);
+        // console.log("ssssssssssssssssssssss", res.resellerData.status);
         if (res.resellerData.status) {
           // Check if status is true
           arr.push({

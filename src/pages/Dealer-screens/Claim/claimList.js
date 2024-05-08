@@ -65,6 +65,7 @@ import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 import ClaimActive from "../../../assets/images/Dealer/Claim-active.svg";
 import Claim from "../../../assets/images/Dealer/Claim.svg";
 import ClaimList12 from "../Reseller/Dealer-Details/claim12";
+import { UserDetailAccount } from "../../../services/userServices";
 
 function ClaimList(props) {
   // console.log(props);
@@ -98,11 +99,15 @@ function ClaimList(props) {
     { label: "Labour", value: "Labour" },
     { label: "Shipping", value: "Shipping" },
   ]);
+
+  const [createServicerAccountOption, setServicerCreateAccountOption] =
+  useState(true);
   const [claimId, setClaimId] = useState("");
   const [claimUnique, setClaimUnique] = useState("");
   const [claimType, setClaimType] = useState("");
   const [servicer, setServicer] = useState("");
   const [servicerList, setServicerList] = useState([]);
+  const [loginDetails, setLoginDetails] = useState([]);
   const [messageList, setMessageList] = useState([]);
   const [claimDetail, setClaimDetail] = useState({});
   const [error, setError] = useState("");
@@ -151,8 +156,14 @@ function ClaimList(props) {
 
   useEffect(() => {
     scrollToBottom();
+    getLoginUser();
   }, [messageList, claimId]);
-
+  const getLoginUser = async () => {
+    const result = await UserDetailAccount("", {});
+    console.log(result.result, "------------------Login--------------->>>>");
+     setLoginDetails(result.result);
+     setServicerCreateAccountOption(result.result.isServicer)
+  };
   const downloadImage = (file) => {
     const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
 
@@ -1962,25 +1973,30 @@ const tabs = [
         </div>
       ),
     },
-    {
-      id: "Unpaid Claims",
-      label: "Unpaid Claims",
-      icons: Unpaid,
-      Activeicons: UnpaidActive,
-      content: (
-        <ClaimList12 id={props.id} />
-      ),
-    },
-    {
-      id: "Paid Claims",
-      label: "Paid Claims",
-      icons: Paid,
-      Activeicons: ActivePaid,
-      content:  (
-        <ClaimList12 id={props.id} />
-      ),
-    },
+    
   ];
+
+  if (createServicerAccountOption === true) {
+    tabs.push(
+      {
+        id: "Unpaid Claims",
+        label: "Unpaid Claims",
+        icons: Unpaid,
+        Activeicons: UnpaidActive,
+        content: (
+          <ClaimList12 id={loginDetails._id} />
+        ),
+      },
+      {
+        id: "Paid Claims",
+        label: "Paid Claims",
+        icons: Paid,
+        Activeicons: ActivePaid,
+        content:  (
+          <ClaimList12 id={loginDetails._id} />
+        ),
+      },
+    )}
   return (
     <>
       <div className="mb-8 ml-3">
@@ -2015,7 +2031,7 @@ const tabs = [
             </button>
           </>
         )}
-        <div className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1] bg-[#ffff] flex w-[45%]`}>
+        <div className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1] bg-[#ffff] flex ${createServicerAccountOption ? 'w-[45%]' : 'w-[20%]'}`}>
            {tabs.map((tab) => (
                       <Button
                         className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
