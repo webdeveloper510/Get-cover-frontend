@@ -202,7 +202,7 @@ function CustomerDetails() {
     const result = await getUserListByCustomerId({}, customerId);
     console.log(result.result, "----------");
     setRefreshUserList(result.result);
-    setCreateAccount(result.isAccountCreate)
+    setCreateAccount(result.isAccountCreate);
   };
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
@@ -282,10 +282,10 @@ function CustomerDetails() {
       case "Users":
         openUserModal();
         break;
-        case "Claims":
-          localStorage.setItem("menu", "Claims");
-          navigate(`/dealer/addClaim/${customerDetail?.meta?.username}`);
-          break;
+      case "Claims":
+        localStorage.setItem("menu", "Claims");
+        navigate(`/dealer/addClaim/${customerDetail?.meta?.username}`);
+        break;
       default:
         console.log("Invalid data, no navigation");
     }
@@ -305,9 +305,11 @@ function CustomerDetails() {
     console.log(customerId);
     const result = await getCustomerDetailsById(customerId);
     setCustomerDetail(result.result);
-    setCreateMainAccount(result.result.userAccount)
-    setCreateAccountOption(result.result.userAccount === false ? "no" : "yes")
-    console.log(result.result.userAccount, "??????????????");
+    setCreateMainAccount(result.result.userAccount);
+    setCreateAccountOption(
+      result.result.primary.status === false ? "no" : "yes"
+    );
+    console.log(result.result.primary.status, "??????????????");
     setInitialFormValues({
       username: result?.result?.meta?.username,
       oldName: result?.result?.meta?.username,
@@ -395,7 +397,7 @@ function CustomerDetails() {
 
         <div className="flex">
           <Link
-            to={'/dealer/customerList'}
+            to={"/dealer/customerList"}
             className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
           >
             <img
@@ -410,10 +412,10 @@ function CustomerDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={'/dealer/dashboard'}>Customer / </Link>{" "}
+                <Link to={"/dealer/dashboard"}>Customer / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={'/dealer/customerList'}> Customer List / </Link>{" "}
+                <Link to={"/dealer/customerList"}> Customer List / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}
@@ -556,7 +558,8 @@ function CustomerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      ${formatOrderValue(
+                      $
+                      {formatOrderValue(
                         customerDetail?.orderData?.[0]?.orderAmount ??
                           parseInt(0)
                       )}
@@ -592,7 +595,7 @@ function CustomerDetails() {
                   <Grid className="!grid-cols-4 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
-                        <Button 
+                        <Button
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
                             activeTab === tab.id
                               ? "!bg-[#2A2A2A] !text-white"
@@ -623,7 +626,7 @@ function CustomerDetails() {
               <div className="col-span-4"></div>
               <div className="col-span-2">
                 {activeTab !== "Contracts" ? (
-                 <Button
+                  <Button
                     className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
                     onClick={() => routeToPage(activeTab)}
                   >
@@ -796,7 +799,7 @@ function CustomerDetails() {
                       id="no-create-account"
                       label="No"
                       value={false}
-                     checked={createAccount === false}
+                      checked={createAccount === false}
                       disabled={createMainAccount === false}
                       onChange={handleAccountChange}
                     />
@@ -932,7 +935,7 @@ function CustomerDetails() {
                   <Input
                     type="text"
                     name="country"
-                    className='!bg-white'
+                    className="!bg-white"
                     label="Country"
                     required={true}
                     placeholder=""
@@ -945,26 +948,26 @@ function CustomerDetails() {
                   />
                 </div>
                 <div className="col-span-12">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                  Do you want to create an account?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value="yes"
-                     disabled={createMainAccount === false}
-                    checked={createAccountOption === "yes"}
-                    onChange={handleRadioChange}
-                  />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value="no"
-                    disabled={createMainAccount === false}
-                    checked={createAccountOption === "no"}
-                    onChange={handleRadioChange}
-                  />
-                </p>
-              </div>
+                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                    Do you want to create an account?
+                    <RadioButton
+                      id="yes-create-account"
+                      label="Yes"
+                      value="yes"
+                      disabled={createMainAccount === false}
+                      checked={createAccountOption === "yes"}
+                      onChange={handleRadioChange}
+                    />
+                    <RadioButton
+                      id="no-create-account"
+                      label="No"
+                      value="no"
+                      disabled={createMainAccount === false}
+                      checked={createAccountOption === "no"}
+                      onChange={handleRadioChange}
+                    />
+                  </p>
+                </div>
                 <div className="col-span-4">
                   <Button
                     type="button"
