@@ -143,7 +143,7 @@ function Login() {
                 <div>
                   <Button
                     type="submit"
-                    className="w-full h-[50px] text-xl font-semibold"
+                    className="w-full  h-[50px] text-xl font-semibold"
                   >
                     Sign in
                   </Button>

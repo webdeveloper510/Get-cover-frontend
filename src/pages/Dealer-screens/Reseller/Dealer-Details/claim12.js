@@ -101,6 +101,7 @@ function ClaimList12(props) {
     status: "",
     date: "",
   });
+  const [showdata, setShowdata] = useState(false);
   const [claimValues, setClaimValues] = useState();
   const [claims, setClaims] = useState();
   const [claimStatus, setClaimStatus] = useState({ status: "", date: "" });
@@ -329,21 +330,24 @@ const downloadImage = (file) => {
     let res;
     if (props.activeTab === "Unpaid Claims") {
       
-      res = await getUnpaidClaims(props.id, data);
+      res = await getUnpaidClaims(undefined, data);
     } else {
-      res = await getPaidClaims(props.id, data);
+      res = await getPaidClaims(undefined, data);
     }
 
     console.log(res);
     setClaimList(res);
     setTotalRecords(res?.totalCount);
-
+    setTimeout(function () {
+      setShowdata(true);
+    }, 1000);
     setLoaderType(false);
   };
 
   const [recordsPerPage, setRecordsPerPage] = useState(10);
 
   const handlePageChange = async (page, rowsPerPage) => {
+    setShowdata(false);
     setRecordsPerPage(rowsPerPage);
     setLoading(true);
     try {
@@ -356,6 +360,9 @@ const downloadImage = (file) => {
       }
       setLoading(false);
     } finally {
+      setTimeout(function () {
+        setShowdata(true);
+      }, 1000);
       setLoading(false);
     }
   };
@@ -1311,7 +1318,7 @@ const downloadImage = (file) => {
                            </>
                          }
                        >
-                         <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x">
+                        {showdata &&  <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x">
                            {res?.repairParts.length > 0 &&
                              res?.repairParts.map((part, index) => (
                                <>
@@ -1652,7 +1659,8 @@ const downloadImage = (file) => {
                                </div>
                              )}
                            </div>
-                         </Grid>
+                         </Grid>}
+                        
                        </CollapsibleDiv>
                      );
                    })}

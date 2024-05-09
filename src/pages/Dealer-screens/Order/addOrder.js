@@ -1405,6 +1405,9 @@ function DealerAddOrder() {
                     placeholder=""
                     disabled={type == "Edit"}
                     className="!bg-white"
+                    className1={`${
+                      type == "Edit" ? '!bg-[#ededed]' : '!bg-white'
+                    }`}
                     required={true}
                     onChange={handleSelectChange1}
                     options={coverage}

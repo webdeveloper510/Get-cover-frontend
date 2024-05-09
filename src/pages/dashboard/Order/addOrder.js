@@ -1668,7 +1668,7 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
                         : "!bg-white"
                     }`}
                     className1={`${
-                      type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
+                      type == "Edit" ? '!bg-[#ededed]' : '!bg-white'
                     }`}
                     required={true}
                     disabled={type == "Edit"}

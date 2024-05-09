@@ -1048,6 +1048,9 @@ function ClaimList(props) {
       getAllClaims();
       const storedActiveIndex = localStorage.getItem("activeIndex");
       // console.log(values);
+      setTimeout(function () {
+        setShowdata(true);
+      }, 1000);
     },
   });
 
