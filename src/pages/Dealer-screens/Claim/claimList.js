@@ -101,7 +101,7 @@ function ClaimList(props) {
   ]);
 
   const [createServicerAccountOption, setServicerCreateAccountOption] =
-  useState(true);
+    useState(true);
   const [claimId, setClaimId] = useState("");
   const [claimUnique, setClaimUnique] = useState("");
   const [claimType, setClaimType] = useState("");
@@ -161,8 +161,8 @@ function ClaimList(props) {
   const getLoginUser = async () => {
     const result = await UserDetailAccount("", {});
     console.log(result.result, "------------------Login--------------->>>>");
-     setLoginDetails(result.result);
-     setServicerCreateAccountOption(result.result.isServicer)
+    setLoginDetails(result.result);
+    setServicerCreateAccountOption(result.result.isServicer);
   };
   const downloadImage = (file) => {
     const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
@@ -285,7 +285,7 @@ function ClaimList(props) {
       }
     }
   };
-  const [activeTab, setActiveTab] = useState('All Claims');
+  const [activeTab, setActiveTab] = useState("All Claims");
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
@@ -1126,7 +1126,7 @@ function ClaimList(props) {
     formik1.resetForm();
     getAllClaims();
   };
-const tabs = [
+  const tabs = [
     {
       id: "All Claims",
       label: "All Claims",
@@ -1226,6 +1226,7 @@ const tabs = [
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
                   claimList?.result?.map((res, index) => {
+               
                     return (
                       <CollapsibleDiv
                         index={index}
@@ -1269,12 +1270,10 @@ const tabs = [
                                   ) &&
                                   !location.pathname.includes(
                                     "/reseller/claimList"
-                                  ) 
-                                  &&
+                                  ) &&
                                   !location.pathname.includes(
                                     "/dealer/claimList"
-                                  )
-                                  && (
+                                  ) && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1283,26 +1282,25 @@ const tabs = [
                                     />
                                   )}
 
-                                {userType !== "admin" &&
-                                  res.selfServicer &&
+                                {(userType !== "admin" &&
                                   res?.claimStatus?.[0]?.status === "Open" &&
                                   !location.pathname.includes(
                                     "customer/claimList"
                                   ) &&
-                                  
                                   !location.pathname.includes(
                                     "/reseller/claimList"
-                                  )   &&
+                                  ) &&
                                   !location.pathname.includes(
                                     "/dealer/claimList"
-                                  )&& (
+                                  )) ||
+                                  (res.selfServicer && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
                                       onClick={() => openEdit(res, index)}
                                       alt="edit"
                                     />
-                                  )}
+                                  ))}
                               </div>
                             </Grid>
                             <Grid className="!gap-0 bg-[#F9F9F9] border-[#474747] border-x">
@@ -1448,15 +1446,13 @@ const tabs = [
                                       <span className="self-center mr-4">
                                         Servicer Name :{" "}
                                       </span>
-                                      {(userType !== "dealer" &&
-                                        !location.pathname.includes(
-                                          "customer/claimList"
-                                        ) &&
-                                        !location.pathname.includes(
-                                          "/reseller/claimList"
-                                        )) ||
-                                      claimList.result[activeIndex]
-                                        ?.selfServicer ? (
+                                      {userType !== "dealer" &&
+                                      !location.pathname.includes(
+                                        "customer/claimList"
+                                      ) &&
+                                      !location.pathname.includes(
+                                        "/reseller/claimList"
+                                      ) ? (
                                         <Select
                                           name="servicer"
                                           label=""
@@ -1498,7 +1494,8 @@ const tabs = [
                                                 claimStatus.status ==
                                                   "Rejected" ||
                                                 claimStatus.status ==
-                                                  "Completed"
+                                                  "Completed" ||
+                                                userType === "dealer"
                                               }
                                               options={claim}
                                               OptionName="Claim Type"
@@ -1827,7 +1824,9 @@ const tabs = [
                                       </div>
                                     )}
                                   </>} */}
-                                    {(role == "Super Admin" || claimList.result[activeIndex]?.selfServicer) && (
+                                    {(role == "Super Admin" ||
+                                      claimList.result[activeIndex]
+                                        ?.selfServicer) && (
                                       <>
                                         {claimStatus.status == "Rejected" ||
                                         claimStatus.status == "Completed" ? (
@@ -1976,7 +1975,6 @@ const tabs = [
         </div>
       ),
     },
-    
   ];
 
   if (createServicerAccountOption === true) {
@@ -1986,11 +1984,12 @@ const tabs = [
         label: "Unpaid Claims",
         icons: Unpaid,
         Activeicons: UnpaidActive,
-        content: (activeTab == "Unpaid Claims" &&
+        content: activeTab == "Unpaid Claims" && (
           <ClaimList12
-          id={loginDetails._id} 
-          flag="dealer"
-          activeTab={activeTab} />
+            id={loginDetails._id}
+            flag="dealer"
+            activeTab={activeTab}
+          />
         ),
       },
       {
@@ -1998,14 +1997,16 @@ const tabs = [
         label: "Paid Claims",
         icons: Paid,
         Activeicons: ActivePaid,
-        content:  (activeTab == "Paid Claims" &&
+        content: activeTab == "Paid Claims" && (
           <ClaimList12
-          id={loginDetails._id}
-          flag="dealer"
-          activeTab={activeTab}/>
+            id={loginDetails._id}
+            flag="dealer"
+            activeTab={activeTab}
+          />
         ),
-      },
-    )}
+      }
+    );
+  }
   return (
     <>
       <div className="mb-8 ml-3">
@@ -2040,42 +2041,43 @@ const tabs = [
             </button>
           </>
         )}
-        <div className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1] bg-[#ffff] flex ${createServicerAccountOption ? 'w-[45%]' : 'w-[20%]'}`}>
-           {tabs.map((tab) => (
-              <Button
-                className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
-                  activeTab === tab.id
-                    ? "!bg-[#2A2A2A] !text-white"
-                    : "!bg-[#F9F9F9] !text-black"
-                }`}
-                onClick={() => handleTabClick(tab.id)}
-              >
-                <img
-                  src={
-                    activeTab === tab.id ? tab.Activeicons : tab.icons
-                  }
-                  className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
-                  alt={tab.label}
-                />
-                <span
-                  className={`ml-1 py-1 text-sm font-Regular ${
-                    activeTab === tab.id ? "text-white" : "text-black"
-                  }`}
-                >
-                  {tab.label}
-                </span>
-              </Button>
-            ))}
-         </div>
+        <div
+          className={` rounded-[30px] px-2 py-3 border-[1px] border-[#D1D1D1] bg-[#ffff] flex ${
+            createServicerAccountOption ? "w-[45%]" : "w-[20%]"
+          }`}
+        >
           {tabs.map((tab) => (
-              <div
-                key={tab.id}
-                className={`${activeTab !== tab.id ? "hidden" : "pb-20"}`}
+            <Button
+              className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                activeTab === tab.id
+                  ? "!bg-[#2A2A2A] !text-white"
+                  : "!bg-[#F9F9F9] !text-black"
+              }`}
+              onClick={() => handleTabClick(tab.id)}
+            >
+              <img
+                src={activeTab === tab.id ? tab.Activeicons : tab.icons}
+                className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
+                alt={tab.label}
+              />
+              <span
+                className={`ml-1 py-1 text-sm font-Regular ${
+                  activeTab === tab.id ? "text-white" : "text-black"
+                }`}
               >
-                {tab.content}
-              </div>
-            ))}
-       
+                {tab.label}
+              </span>
+            </Button>
+          ))}
+        </div>
+        {tabs.map((tab) => (
+          <div
+            key={tab.id}
+            className={`${activeTab !== tab.id ? "hidden" : "pb-20"}`}
+          >
+            {tab.content}
+          </div>
+        ))}
       </div>
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
         <Button
@@ -2459,7 +2461,11 @@ const tabs = [
                             <Select
                               name={`repairParts[${index}].serviceType`}
                               label="Service Type"
-                              options={serviceType}
+                              options={
+                                index === 0
+                                  ? serviceType.filter(option => option.label !== "Shipping")
+                                  : serviceType
+                              }
                               required={true}
                               className="!bg-[#fff]"
                               disabled={
