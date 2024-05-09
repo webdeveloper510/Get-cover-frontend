@@ -102,6 +102,7 @@ function ClaimList(props) {
   const [userType, setUserType] = useState("");
   const [selfServicer, setSelfServicer] = useState("");
   const [showdata, setShowdata] = useState(false);
+  const [showdata1, setShowdata1] = useState(false);
   const [customerStatus, setCustomerStatus] = useState({
     status: "",
     date: "",
@@ -135,6 +136,8 @@ function ClaimList(props) {
   const handleToggleDropdown = (value) => {
     setDropdownVisible(!dropdownVisible);
   };
+
+  console.log(showdata1, showdata , "---------------{}{}{}{-----")
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -393,6 +396,9 @@ function ClaimList(props) {
       })
       .catch(() => {
         setLoaderType(false);
+        setTimeout(function () {
+          setShowdata(false);
+        }, 1000);
       });
   };
 
@@ -400,7 +406,9 @@ function ClaimList(props) {
 
   const handlePageChange = async (page, rowsPerPage) => {
     setShowdata(false);
+    setShowdata1(false);
     setRecordsPerPage(rowsPerPage);
+   
     setLoading(true);
     try {
       if (props?.flag == "claim") {
@@ -410,13 +418,19 @@ function ClaimList(props) {
       } else {
         await getAllClaims(page, rowsPerPage);
       }
-      setTimeout(function () {
-        setShowdata(true);
-      }, 1000);
+     
       setActiveIndex(null);
       setLoading(false);
     } finally {
       setLoading(false);
+      setActiveIndex(null)
+      localStorage.removeItem("activeIndex");
+      setTimeout(function () {
+        setShowdata(true);
+      }, 1000);
+      setTimeout(function () {
+        setShowdata(false);
+      }, 0);
     }
   };
 
@@ -1027,6 +1041,12 @@ function ClaimList(props) {
       getAllClaims();
       const storedActiveIndex = localStorage.getItem("activeIndex");
       // console.log(values);
+      setShowdata(false);
+      setActiveIndex(null)
+      setTimeout(function () {
+        setShowdata(true);
+      }, 1000);
+      setShowdata(false);
     },
   });
 
@@ -1236,6 +1256,7 @@ function ClaimList(props) {
                       <CollapsibleDiv
                         index={index}
                         activeIndex={activeIndex}
+                        ShowData ={showdata}
                         setActiveIndex={handleSetActiveIndex}
                         title={
                           <>
@@ -1312,7 +1333,7 @@ function ClaimList(props) {
                               </div>
                             </Grid>
                             <Grid className="!gap-0 bg-[#F9F9F9] border-[#474747] border-x">
-                              <div className="col-span-2 flex ">
+                              <div className="col-span-3 flex ">
                                 <img
                                   src={productName}
                                   className="self-center h-[50px] w-[50px] ml-3"
@@ -1342,7 +1363,7 @@ function ClaimList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-4 flex">
+                              <div className="col-span-3 flex">
                                 <img
                                   src={model}
                                   className="self-center h-[50px] w-[50px] ml-3"
@@ -1376,7 +1397,7 @@ function ClaimList(props) {
                           </>
                         }
                       >
-                        {showdata && (
+                        { showdata && (
                           <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x">
                             {res?.repairParts.length > 0 &&
                               res?.repairParts.map((part, index) => (
@@ -1950,6 +1971,7 @@ function ClaimList(props) {
                             </div>
                           </Grid>
                         )}
+                       
                       </CollapsibleDiv>
                     );
                   })}

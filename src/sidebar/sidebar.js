@@ -410,31 +410,31 @@ const Lists = [
       },
     ],
   },
-  {
-    name: "Reporting",
-    image: ReportImage,
-    active: ActiveReport,
-    items: [
-      {
-        name: "Sale",
-        url: "/sale",
-        image: Dropdown1,
-        active: Actives,
-      },
-      {
-        name: "Claims",
-        url: "/claims",
-        image: Dropdown2,
-        active: SeacondActive,
-      },
-      // {
-      //   name: "Accounting",
-      //   url: "#",
-      //   image: Dropdown2,
-      //   active: ForthActive,
-      // },
-    ],
-  },
+  // {
+  //   name: "Reporting",
+  //   image: ReportImage,
+  //   active: ActiveReport,
+  //   items: [
+  //     {
+  //       name: "Sale",
+  //       url: "/sale",
+  //       image: Dropdown1,
+  //       active: Actives,
+  //     },
+  //     {
+  //       name: "Claims",
+  //       url: "/claims",
+  //       image: Dropdown2,
+  //       active: SeacondActive,
+  //     },
+  //     // {
+  //     //   name: "Accounting",
+  //     //   url: "#",
+  //     //   image: Dropdown2,
+  //     //   active: ForthActive,
+  //     // },
+  //   ],
+  // },
   {
     name: "Price Book",
     image: PriceImage,
@@ -635,25 +635,25 @@ console.log('active---------------->>', active )
       active: ActiveServicer,
       url: "/dealer/servicerList",
     },
-    {
-      name: "Reporting",
-      image: ReportImage,
-      active: ActiveReport,
-      items: [
-        {
-          name: "Sale",
-          url: "/dealer/sale",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Claims",
-          url: "/dealer/claim",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
+    // {
+    //   name: "Reporting",
+    //   image: ReportImage,
+    //   active: ActiveReport,
+    //   items: [
+    //     {
+    //       name: "Sale",
+    //       url: "/dealer/sale",
+    //       image: Dropdown1,
+    //       active: Actives,
+    //     },
+    //     {
+    //       name: "Claims",
+    //       url: "/dealer/claim",
+    //       image: Dropdown2,
+    //       active: SeacondActive,
+    //     },
+    //   ],
+    // },
     {
       name: "Manage Account",
       image: CustomerImage,

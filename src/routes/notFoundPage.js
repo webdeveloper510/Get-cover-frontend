@@ -6,7 +6,7 @@ const NotFoundPage = () => {
 
   let redirectionPath;
 
-  switch (userDetails.role) {
+  switch (userDetails?.role) {
     case "Dealer":
       redirectionPath = "/dealer/dashboard";
       break;

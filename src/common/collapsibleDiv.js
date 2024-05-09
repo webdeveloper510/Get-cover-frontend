@@ -8,6 +8,7 @@ const CollapsibleDiv = ({
   index,
   activeIndex,
   setActiveIndex,
+  ShowData, 
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const contentRef = useRef(null);
@@ -48,13 +49,14 @@ const CollapsibleDiv = ({
         }`}
       >
         {title}
-        <div className="absolute top-0 right-0" onClick={handleToggleCollapse}>
+        {ShowData && <div className="absolute top-0 right-0" onClick={handleToggleCollapse}>
           {isCollapsed ? (
             <img src={Add} alt="Add" />
           ) : (
             <img src={Delete} alt="Delete" />
           )}
-        </div>
+        </div>}
+        
       </div>
       <div
         className={`ease-in-out transition-duration-${
