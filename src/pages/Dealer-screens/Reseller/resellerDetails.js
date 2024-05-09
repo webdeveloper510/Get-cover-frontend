@@ -304,7 +304,7 @@ function DealerResellerDetails() {
 
     onSubmit: async (values) => {
       console.log(values);
-      // setLoading(true);
+      setLoading(true);
       const result = await editResellerData(values, id.resellerId);
 
       console.log(result);
@@ -322,6 +322,7 @@ function DealerResellerDetails() {
         setLoading(false);
         formik.setFieldError("accountName", "Name Already Used");
       }
+      setLoading(false);
     },
   });
 

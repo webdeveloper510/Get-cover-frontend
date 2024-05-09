@@ -235,7 +235,7 @@ function CustomerDetails() {
     }),
 
     onSubmit: async (values, { setFieldError }) => {
-      console.log(values);
+      console.log(values, "-------------valus");
       if (values.status === "yes") {
         values.status = true;
       }
@@ -307,7 +307,7 @@ function CustomerDetails() {
     setCustomerDetail(result.result);
     setCreateMainAccount(result.result.userAccount)
     setCreateAccountOption(result.result.userAccount === false ? "no" : "yes")
-    console.log(result, "??????????????");
+    console.log(result.result.userAccount, "??????????????");
     setInitialFormValues({
       username: result?.result?.meta?.username,
       oldName: result?.result?.meta?.username,
@@ -789,15 +789,15 @@ function CustomerDetails() {
                       label="Yes"
                       value={true}
                       checked={createAccount === true}
-                      disabled={!createMainAccount}
+                      disabled={createMainAccount === false}
                       onChange={handleAccountChange}
                     />
                     <RadioButton
                       id="no-create-account"
                       label="No"
                       value={false}
-                    checked={createAccount === false}
-                      disabled={!createMainAccount}
+                     checked={createAccount === false}
+                      disabled={createMainAccount === false}
                       onChange={handleAccountChange}
                     />
                   </p>
@@ -951,7 +951,7 @@ function CustomerDetails() {
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
-                     disabled={ createAccount === false}
+                     disabled={createMainAccount === false}
                     checked={createAccountOption === "yes"}
                     onChange={handleRadioChange}
                   />
@@ -959,7 +959,7 @@ function CustomerDetails() {
                     id="no-create-account"
                     label="No"
                     value="no"
-                     disabled={ createAccount === false}
+                    disabled={createMainAccount === false}
                     checked={createAccountOption === "no"}
                     onChange={handleRadioChange}
                   />

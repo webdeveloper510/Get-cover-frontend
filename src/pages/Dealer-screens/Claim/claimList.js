@@ -1986,7 +1986,7 @@ const tabs = [
         label: "Unpaid Claims",
         icons: Unpaid,
         Activeicons: UnpaidActive,
-        content: (
+        content: (activeTab == "Unpaid Claims" &&
           <ClaimList12
           id={loginDetails._id} 
           flag="dealer"
@@ -1998,7 +1998,7 @@ const tabs = [
         label: "Paid Claims",
         icons: Paid,
         Activeicons: ActivePaid,
-        content:  (
+        content:  (activeTab == "Paid Claims" &&
           <ClaimList12
           id={loginDetails._id}
           flag="dealer"
