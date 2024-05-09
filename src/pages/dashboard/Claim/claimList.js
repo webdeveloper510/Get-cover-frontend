@@ -2363,7 +2363,11 @@ function ClaimList(props) {
                             <Select
                               name={`repairParts[${index}].serviceType`}
                               label="Service Type"
-                              options={serviceType}
+                              options={
+                                index === 0
+                                  ? serviceType.filter(option => option.label !== "Shipping")
+                                  : serviceType
+                              }
                               required={true}
                               className="!bg-[#fff]"
                               disabled={
