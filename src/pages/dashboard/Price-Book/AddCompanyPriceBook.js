@@ -55,6 +55,7 @@ function AddCompanyPriceBook() {
       priceCatId: "",
       name: "",
       description: "",
+      pName:"",
       coverageType: "",
       term: "",
       frontingFee: "",
@@ -283,6 +284,7 @@ function AddCompanyPriceBook() {
               priceCatId: result.result.category._id,
               name: result.result.name,
               description: result.result.description,
+              pName: result?.result?.pName,
               term: result.result.term,
               frontingFee: result?.result?.frontingFee?.toFixed(2),
               reinsuranceFee: result?.result?.reinsuranceFee?.toFixed(2),
@@ -465,7 +467,7 @@ function AddCompanyPriceBook() {
                     </div>
                     <div className="self-center">
                       <p className="text-[#FFF] text-base font-medium leading-5	">
-                        Product Name
+                        Product SKU
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
                         {detailsById?.name}
@@ -520,7 +522,7 @@ function AddCompanyPriceBook() {
                 </p>
               )}
               <Grid
-                className={`${type == "Edit" ? "!grid-cols-2" : "!grid-cols-4"
+                className={`${type == "Edit" ? "!grid-cols-3" : "!grid-cols-4"
                   } `}
               >
                 <div className="col-span-1">
@@ -590,7 +592,7 @@ function AddCompanyPriceBook() {
                       type="text"
                       name="name"
                       className="!bg-[#fff]"
-                      label="Product Name "
+                      label="Product SKU "
                       placeholder=""
                       required={true}
                       maxLength={50}
@@ -606,37 +608,27 @@ function AddCompanyPriceBook() {
                     )}
                   </div>
                 )}
-
-                 {type == "Edit" ? (
-                          <></>) : 
-                        <div className="col-span-1">
-                        <Select
-                            label="Coverage Type "
-                            name="coverageType"
-                            placeholder=""
-                            onChange={handleSelectChange}
-                            required={true}
-                            className="!bg-[#fff]"
-                            options={coverage}
-                            value={
-                              (
-                                coverage.find(
-                                  (option) => option.value === formik.values.coverageType
-                                ) || {}
-                              ).value || ""
-                            }
-                            onBlur={formik.handleBlur}
-                            error={
-                              formik.touched.coverageType && formik.errors.coverageType
-                            }
-                          />
-
-                          {formik.touched.coverageType && formik.errors.coverageType && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.coverageType}
-                            </div>
-                          )}
-                        </div> }
+                  <div className="col-span-1">
+                    <Input
+                      type="text"
+                      name="pName"
+                      className="!bg-[#fff]"
+                      label="Product Name "
+                      placeholder=""
+                      required={true}
+                      maxLength={50}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.pName}
+                      disabled={type === "Edit"}
+                    />
+                    {formik.touched.pName && formik.errors.pName && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.pName}
+                      </div>
+                    )}
+                  </div>
+                
               </Grid>
               <Grid className="!grid-cols-4 mt-5">
                 <div className="col-span-1">
@@ -768,6 +760,36 @@ function AddCompanyPriceBook() {
                     </div>
                   )}
                 </div>
+                {type == "Edit" ? (
+                          <></>) : 
+                        <div className="col-span-1">
+                        <Select
+                            label="Coverage Type "
+                            name="coverageType"
+                            placeholder=""
+                            onChange={handleSelectChange}
+                            required={true}
+                            className="!bg-[#fff]"
+                            options={coverage}
+                            value={
+                              (
+                                coverage.find(
+                                  (option) => option.value === formik.values.coverageType
+                                ) || {}
+                              ).value || ""
+                            }
+                            onBlur={formik.handleBlur}
+                            error={
+                              formik.touched.coverageType && formik.errors.coverageType
+                            }
+                          />
+
+                          {formik.touched.coverageType && formik.errors.coverageType && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.coverageType}
+                            </div>
+                          )}
+                        </div> }
                 {type == "Edit" ? (
                   <></>
                 ) : (

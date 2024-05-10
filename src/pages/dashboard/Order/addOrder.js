@@ -492,6 +492,7 @@ function AddOrder() {
     },
   });
   const orderDetails = async () => {
+    setLoading(true);
     const result = await orderDetailsById(orderId);
     getResellerList(result?.result?.dealerId);
     getServiceCoverage(result?.result?.dealerId, "Edit");
@@ -1443,7 +1444,7 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
       setLoading(false);
     } finally {
       setLoading3(false);
-      // setLoading(false);
+       setLoading(false);
     }
   };
 
