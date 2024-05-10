@@ -165,7 +165,7 @@ function DealerAddOrder() {
       console.error("Error fetching servicer list:", error);
       setLoading1(false);
     } finally {
-      // setLoading1(false);
+      setLoading1(false);
     }
   };
 
