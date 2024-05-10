@@ -71,6 +71,7 @@ function CustomerDetails() {
     state: "",
     country: "USA",
     oldName: "",
+    isAccountCreate: createMainAccount,
   });
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
@@ -122,9 +123,10 @@ function CustomerDetails() {
   };
   const closeModal10 = () => {
     setModalOpen(false);
-    setActiveTab("Users");
+    // setActiveTab("Users");
   };
   const closeUserModal = () => {
+    setActiveTab("Users");
     setIsUserModalOpen(false);
 
     userValues.resetForm();
@@ -189,14 +191,17 @@ function CustomerDetails() {
 
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
-    userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
+    formik.setFieldValue(
+      "isAcoountCreate",
+      selectedValue === "yes" ? true : false
+    );
     setCreateAccountOption(selectedValue);
   };
 
   const handleAccountChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
     setCreateAccount(valueAsBoolean);
-    formik.setFieldValue("isAccountCreate", valueAsBoolean);
+    userValues.setFieldValue("status", valueAsBoolean);
   };
   const getUserList = async () => {
     const result = await getUserListByCustomerId({}, customerId);
@@ -235,11 +240,10 @@ function CustomerDetails() {
     }),
 
     onSubmit: async (values, { setFieldError }) => {
-      console.log(values, "-------------valus");
       if (values.status === "yes") {
         values.status = true;
       }
-      setLoading(true);
+      console.log(values, "-------------valus");
       const result = await updateCustomerDetailsById(customerId, values);
       console.log(result.code);
       if (result.code == 200) {
@@ -262,7 +266,7 @@ function CustomerDetails() {
     },
   });
   const openUserModal = () => {
-    setActiveTab("Users");
+    setActiveTab("Users123");
     setIsUserModalOpen(true);
   };
   useEffect(() => {
