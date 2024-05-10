@@ -315,6 +315,7 @@ function DealerAddOrder() {
   }, [orderId, resellerId, customerId]);
 
   const orderDetails = async () => {
+    setLoading(true);
     const result = await orderDetailsById(orderId);
     console.log(result.result);
     getResellerList();

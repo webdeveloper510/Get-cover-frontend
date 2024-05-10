@@ -1026,7 +1026,7 @@ function DealerDetails() {
                           alt="AddItem"
                         />{" "}
                         <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
-                          Add {activeTab}
+                          {activeTab === "Servicer" ? "Assign " :"Add "} {activeTab}
                         </span>{" "}
                       </Button>
                     </div>

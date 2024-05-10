@@ -1181,6 +1181,7 @@ const downloadImage = (file) => {
                      return (
                        <CollapsibleDiv
                          index={index}
+                         ShowData={showdata}
                          activeIndex={activeIndex}
                          setActiveIndex={setActiveIndex}
                          title={

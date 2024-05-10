@@ -589,8 +589,12 @@ function CompanyPriceBook() {
                     <p className="text-base text-neutral-grey font-semibold"> {data?.category?.name}</p>
                   </div>
                   <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Product Name</p>
+                    <p className="text-lg text-light-black font-semibold">Product SKU</p>
                     <p className="text-base text-neutral-grey font-semibold"> {data.name}</p>
+                  </div>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Product Name</p>
+                    <p className="text-base text-neutral-grey font-semibold"> {data.pName}</p>
                   </div>
                   <div className='col-span-4'>
                     <p className="text-lg text-light-black font-semibold">Description</p>

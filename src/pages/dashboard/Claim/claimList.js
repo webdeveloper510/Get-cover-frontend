@@ -396,9 +396,7 @@ function ClaimList(props) {
       })
       .catch(() => {
         setLoaderType(false);
-        setTimeout(function () {
           setShowdata(false);
-        }, 1000);
       });
   };
 
@@ -1538,57 +1536,75 @@ function ClaimList(props) {
                                               Shipment :
                                             </span>
                                             {trackerView ? (
+                                              <>
+                                              {claimStatus.status ==
+                                              "Rejected" ||
+                                            claimStatus.status ==
+                                              "Completed" ?  <></> :   
                                               <form
-                                                onSubmit={Shipment.handleSubmit}
-                                              >
-                                                <div className="relative flex w-full">
-                                                  <Select
-                                                    name="trackingType"
-                                                    label=""
-                                                    value={
-                                                      Shipment.values
-                                                        .trackingType
-                                                    }
-                                                    onChange={
-                                                      handleSelectChange21
-                                                    }
-                                                    white
-                                                    // OptionName="Tracker"
-                                                    options={tracker}
-                                                    className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                                    classBox="w-[35%]"
+                                              onSubmit={Shipment.handleSubmit}
+                                            >
+                                              <div className="relative flex w-full">
+                                                <Select
+                                                  name="trackingType"
+                                                  label=""
+                                                  value={
+                                                    Shipment.values
+                                                      .trackingType
+                                                  }
+                                                  onChange={
+                                                    handleSelectChange21
+                                                  }
+                                                  white
+                                                  // OptionName="Tracker"
+                                                  options={tracker}
+                                                  className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                                  classBox="w-[35%]"
+                                                />
+                                                <Input
+                                                  name="trackingNumber"
+                                                  label=""
+                                                  placeholder="Tracking #"
+                                                  white
+                                                  value={
+                                                    Shipment.values
+                                                      .trackingNumber
+                                                  }
+                                                  disabled={
+                                                    claimStatus.status ==
+                                                      "Rejected" ||
+                                                    claimStatus.status ==
+                                                      "Completed"
+                                                  }
+                                                  // options={state}
+                                                  className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                                  classBox="w-[50%]"
+                                                  {...Shipment.getFieldProps(
+                                                    "trackingNumber"
+                                                  )}
+                                                />
+                                                <Button
+                                                  className="absolute right-[30px] !p-0 top-[2px]"
+                                                  type="submit" 
+                                                >
+                                                  <img
+                                                    src={checkIcon}
+                                                    className="w-[21px]"
                                                   />
-                                                  <Input
-                                                    name="trackingNumber"
-                                                    label=""
-                                                    placeholder="Tracking #"
-                                                    white
-                                                    value={
-                                                      Shipment.values
-                                                        .trackingNumber
-                                                    }
-                                                    // options={state}
-                                                    className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
-                                                    classBox="w-[50%]"
-                                                    {...Shipment.getFieldProps(
-                                                      "trackingNumber"
-                                                    )}
-                                                  />
-                                                  <Button
-                                                    className="absolute right-[30px] !p-0 top-[2px]"
-                                                    type="submit"
-                                                  >
-                                                    <img
-                                                      src={checkIcon}
-                                                      className="w-[21px]"
-                                                    />
-                                                  </Button>
-                                                </div>
-                                              </form>
+                                                </Button>
+                                              </div>
+                                            </form>}
+                                              </>
+                                            
                                             ) : (
                                               <>
-                                                {res?.trackingType == "" ? (
-                                                  <form
+                                                {  res?.trackingType == "" ? (
+                                                  <> 
+                                                  {claimStatus.status ==
+                                                    "Rejected" ||
+                                                  claimStatus.status ==
+                                                    "Completed"  ? <></> : <>
+                                                     <form
                                                     onSubmit={
                                                       Shipment.handleSubmit
                                                     }
@@ -1636,7 +1652,9 @@ function ClaimList(props) {
                                                         />
                                                       </Button>
                                                     </div>
-                                                  </form>
+                                                  </form></> } 
+                                                  </> 
+                                                 
                                                 ) : (
                                                   <div className="flex w-[65%] justify-between">
                                                     {res?.trackingType ==

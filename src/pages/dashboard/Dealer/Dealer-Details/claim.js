@@ -65,6 +65,7 @@ import { apiUrl } from "../../../../services/authServices";
 function ClaimList(props) {
   const location = useLocation();
   const [timer, setTimer] = useState(3);
+  const [showdata, setShowdata] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isCheckBox, setIsCheckbox] = useState(false);
@@ -339,6 +340,11 @@ const downloadImage = (file) => {
     setTotalRecords(res?.totalCount);
 
     setLoaderType(false);
+    setTimeout(function () {
+      setShowdata(true);
+    }, 1000);
+
+    setShowdata(false);
   };
 
   const [recordsPerPage, setRecordsPerPage] = useState(10);
@@ -1174,6 +1180,7 @@ const downloadImage = (file) => {
                      return (
                        <CollapsibleDiv
                          index={index}
+                         ShowData ={showdata}
                          activeIndex={activeIndex}
                          setActiveIndex={setActiveIndex}
                          title={
