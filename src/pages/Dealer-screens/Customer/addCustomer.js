@@ -137,7 +137,7 @@ function DealerAddCustomer() {
     onSubmit: async (values) => {
       setLoading1(true);
       delete values.rese;
-      console.log(values);
+
       const isEmailValid = !formik.errors.email;
       if (formik.values.members.length > 0) {
         console.log(formik.values.members.length);
@@ -162,6 +162,7 @@ function DealerAddCustomer() {
         phoneNumber: values.phoneNumber,
         isPrimary: true,
         position: values.position,
+        isAccountCreate: createAccountOption === "no" ? false : true,
         status: createAccountOption === "no" ? false : true,
       };
 
