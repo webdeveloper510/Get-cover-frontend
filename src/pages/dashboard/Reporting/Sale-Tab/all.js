@@ -12,11 +12,14 @@ import drop from '../../../../assets/images/icons/dropwhite.svg'
 import ChartComponent from '../../../../common/chart'
 import BarChart from '../../../../common/barChart'
 import Input from '../../../../common/input'
+import MyComponent from '../../../../common/dateFilter'
+import Modal from '../../../../common/model'
+import Cross from "../../../../assets/images/Cross.png";
 
 function All() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isRangeOpen, setIsRangeOpen] = useState(false);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const toggleDropdown = () => {
       setIsDropdownOpen(!isDropdownOpen);
     };
@@ -31,6 +34,15 @@ function All() {
         { label: "2024", value: true },
         { label: "2023", value: false },
       ];
+
+      const closeModal = () => {
+        setIsModalOpen(false);
+      };
+
+      const openModal = () => {
+        setIsModalOpen(true);
+      };
+
   return (
     <>
     <Grid>
@@ -42,59 +54,11 @@ function All() {
                 </div>
                 <div className='col-span-9 self-center'>
                   <Grid className='!grid-cols-9 !gap-1'>
+                     <div className='col-span-6'></div>
                      <div className='col-span-3'>
-                        <Button className='!bg-[#FFFFFF2B] !text-white !text-[11px] !rounded-xl'>Compare Years by Month</Button>
+                        <Button  onClick={openModal} className='!bg-[#FFFFFF2B] !text-white !text-[11px] !rounded-xl'>Compare Years by Month</Button>
                      </div>
-                     <div className='col-span-2'>
-                        <Button className='!bg-[#FFFFFF2B] !text-white !text-[11px] ml-1 !rounded-xl'>Year To Date</Button>
-                     </div>
-                     <div className='col-span-2'>
-                        <div className='flex border border-white px-2 py-1 h-full rounded-xl justify-between relative'>
-                            <div className='flex justify-between w-full cursor-pointer' onClick={toggleDropdown}>
-                                <p className='self-center text-[13px]'>
-                                    Period
-                                </p>
-                                <img src={drop} className='w-4 h-4 self-center justify-end' alt='drop'/>
-                            </div>  
-                            {isDropdownOpen && (
-                            <div className='absolute top-8 w-full text-center '>
-                                <div className='bg-[#fff] text-light-black border rounded-xl py-2 px-4'>
-                                    <p className='font-semibold border-b'>Period</p>
-                                    <p className='border-b'>Days</p>
-                                    <p>Monthly</p>
-                                </div>
-                            </div>
-                            )}
-                        </div>
-                    </div>
-                    <div className='col-span-2'>
-                        <div className='flex border border-white px-2 py-1 h-full rounded-xl justify-between relative'>
-                            <div className='flex justify-between w-full cursor-pointer '  onClick={toggleRange}>
-                            <p className='self-center text-[13px] '>
-                                Date Range
-                            </p>
-                            <img src={drop} className='w-4 h-4 self-center' alt='drop'/>
-                            </div>
-                        {isRangeOpen && (
-                                <div className='absolute top-10 w-full right-[100%]'>
-                                    <div className='bg-[#fff] w-[350px] p-3 text-light-black border rounded-xl py-2 px-4'>
-                                        <p className='font-semibold text-base border-b pb-2 mb-3'>Date Range</p>
-                                        <Grid>
-                                        <div className="col-span-6">
-                                        <Input type="date" className1='!pt-2.5' />
-                                      </div>
-                                      <div className="col-span-6">
-                                        <Input type="date" className1='!pt-2.5' />
-                                      </div>
-                                        </Grid>
-                                        <div className='mt-4'>
-                                           <Button>Show Results</Button>
-                                            </div>
-                                    </div>
-                                </div>
-                                )}
-                        </div>
-                    </div>
+                     
                   </Grid>
                 </div>
               </Grid>
@@ -159,7 +123,18 @@ function All() {
             </div>
         </div>
     </Grid>
-
+    <Modal isOpen={isModalOpen} className='w-[72vw]'  onClose={closeModal}>
+         <Button
+          onClick={closeModal}
+          className="absolute right-[-13px] z-10 top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <MyComponent/>
+    </Modal>
     <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
         {/* <Grid>
             <div className='col-span-2 my-3'>
