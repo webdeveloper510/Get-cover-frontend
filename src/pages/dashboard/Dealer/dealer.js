@@ -1394,7 +1394,7 @@ function Dealer() {
               <div className="col-span-2">
                 <p className="text-light-black text-lg mb-3 font-semibold">
                   {selectedOption === "yes"
-                    ? "Add  Price Book"
+                    ? "Add Price Book"
                     : "Upload Price Book"}{" "}
                 </p>
               </div>
@@ -1485,7 +1485,7 @@ function Dealer() {
                         <div className="col-span-4">
                           <Select
                             name={`priceBook[${index}].priceBookId`}
-                            label="Product Name"
+                            label="Product SKU"
                             options={productNameOptions[index]?.data}
                             required={true}
                             className="!bg-[#f9f9f9]"
@@ -1519,6 +1519,25 @@ function Dealer() {
                             type="text"
                             name={`priceBook[${index}].wholesalePrice`}
                             className="!bg-[#f9f9f9]"
+                            label="Product Name"
+                            required={true}
+                            placeholder=""
+                            value={
+                              formik.values.priceBook[index].wholesalePrice
+                            }
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            name={`priceBook[${index}].wholesalePrice`}
+                            className="!bg-[#f9f9f9]"
                             label="Wholesale Price($)"
                             required={true}
                             placeholder=""
@@ -1534,7 +1553,7 @@ function Dealer() {
                           />
                         </div>
 
-                        <div className="col-span-12">
+                        <div className="col-span-8">
                           <Input
                             type="text"
                             name={`priceBook[${index}].description`}
