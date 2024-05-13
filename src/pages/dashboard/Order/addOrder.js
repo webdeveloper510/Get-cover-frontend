@@ -1857,13 +1857,6 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
                           )}
                       </div>
                       <div className="col-span-4">
-                        {/* {productLoading ? (
-                        <div className=" w-full h-[60px] flex py-5">
-                          <div className="self-center mx-auto">
-                            <BeatLoader color="#333" />
-                          </div>
-                        </div>
-                      ) : ( */}
                         <>
                           <Select
                             name={`productsArray[${index}].priceBookId`}

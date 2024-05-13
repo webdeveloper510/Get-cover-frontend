@@ -848,7 +848,7 @@ function DealerAddOrder() {
   const openModal = () => {
     setIsModalOpen(true);
   };
-
+  const [BillCheck, setbillCheck] = useState();
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -1055,6 +1055,14 @@ function DealerAddOrder() {
     }
   };
 
+  const handleSelectChange12 = (name, value) => {
+    setbillCheck(value)
+}
+const BillTo = [
+ { label: "Dealer", value: "dealer" },
+ { label: "Reseller", value: "reseller" },
+ { label: "Custom", value: "custom" },
+];
   const getServiceCoverage = async (value, type = "Add") => {
     const result = await getServiceCoverageDetails(value);
     let coverage = [];
@@ -1243,7 +1251,7 @@ function DealerAddOrder() {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-                    <div className="col-span-12">
+                    <div className="col-span-8">
                       {/* <Select */}
                       <SelectBoxWIthSerach
                         label="Customer Name"
@@ -1262,7 +1270,16 @@ function DealerAddOrder() {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-
+                    <div className="col-span-4">
+                        <SelectBoxWIthSerach
+                          label="Bill Address"
+                          name="billTo"
+                          placeholder=""
+                          className={`!bg-white`}
+                          onChange={handleSelectChange12}
+                          options={BillTo}
+                        />
+                  </div>
                     {/* <div className="col-span-6">
                     <Select
                       label="Dealer Name"
@@ -1319,6 +1336,60 @@ function DealerAddOrder() {
                   </Grid>
                 </div>
               </Grid>
+              {BillCheck === "custom" && <div>
+                <p className="text-2xl font-bold my-4">Bill Details : </p>
+                  <Grid>
+                    <div className="col-span-4">
+                      <Input 
+                        name="fName"
+                        label='First Name'
+                        type="text"
+                        className='bg-[#ffff]'
+                        required={true}
+                        placeholder=""
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input 
+                        name="lName"
+                        className='bg-[#ffff]'
+                        label='Last Name'
+                        type="text"
+                        required={true}
+                        placeholder=""
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input 
+                        name="email"
+                        label='Email'
+                        className='bg-[#ffff]'
+                        type="email"
+                        required={true}
+                        placeholder=""
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input 
+                        name="phone"
+                        label='Phone Number'
+                        className='bg-[#ffff]'
+                        type="number"
+                        placeholder=""
+                      />
+                    </div>
+                    <div className="col-span-8">
+                      <Input 
+                        name="address"
+                        label='Address'
+                        className='bg-[#ffff]'
+                        type="text"
+                        placeholder=""
+                      />
+                    </div>
+                  </Grid>
+                </div>
+                }  
             </div>
             <div className="flex">
               <Button
