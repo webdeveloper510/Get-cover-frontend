@@ -1822,7 +1822,7 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
                 <Grid>
                   <div className="col-span-8 border-r pr-5">
                     <Grid>
-                      <div className="col-span-6">
+                      <div className="col-span-4">
                         <Select
                           name={`productsArray[${index}].categoryId`}
                           label="Product Category"
@@ -1856,7 +1856,7 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
                             </div>
                           )}
                       </div>
-                      <div className="col-span-6">
+                      <div className="col-span-4">
                         {/* {productLoading ? (
                         <div className=" w-full h-[60px] flex py-5">
                           <div className="self-center mx-auto">
@@ -1867,7 +1867,7 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
                         <>
                           <Select
                             name={`productsArray[${index}].priceBookId`}
-                            label="Product Name"
+                            label="Product SKU"
                             options={productNameOptions[index]?.data}
                             required={true}
                             className="!bg-[#fff]"
@@ -1902,6 +1902,21 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
                         </>
                         {/* )} */}
                       </div>
+                      <div className="col-span-4">
+                        <Select
+                          label="Terms"
+                          name={`productsArray[${index}].term`}
+                          placeholder=""
+                          onChange={handleSelectChange2}
+                          className="!bg-[#fff]"
+                          options={termList}
+                          value={
+                            formikStep3.values.productsArray[index].term +
+                            " Months"
+                          }
+                          onBlur={formikStep3.handleBlur}
+                        />
+                      </div>
                       <div className="col-span-12">
                         <Input
                           type="text"
@@ -1921,14 +1936,13 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
                         />
                       </div>
                       <div className="col-span-4">
-                        <Input
-                          label="Terms"
+                        <Select
+                          label="Product Name"
                           name={`productsArray[${index}].term`}
                           placeholder=""
                           onChange={handleSelectChange2}
                           className="!bg-[#fff]"
                           options={termList}
-                          disabled={true}
                           value={
                             formikStep3.values.productsArray[index].term +
                             " Months"

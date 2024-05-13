@@ -15,6 +15,7 @@ import Input from '../../../../common/input'
 import MyComponent from '../../../../common/dateFilter'
 import Modal from '../../../../common/model'
 import Cross from "../../../../assets/images/Cross.png";
+import LineChart from '../../../../common/lineChart'
 
 function All() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -63,7 +64,7 @@ function All() {
                 </div>
               </Grid>
 
-              <BarChart/>
+              <LineChart/>
             </div>
         </div>
         {/* <div className='col-span-4'>
@@ -140,18 +141,6 @@ function All() {
         </div>
     </Modal>
     <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
-        {/* <Grid>
-            <div className='col-span-2 my-3'>
-                <Select
-                    label=""
-                    name="state"
-                    placeholder=""
-                    className="!bg-white"
-                    className1='!p-1'
-                    options={time}
-                />
-            </div>
-        </Grid> */}
         <Grid className='!grid-cols-5'>
             <div className='col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]'>
                 <div className='bg-white pl-2'>
