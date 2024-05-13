@@ -200,13 +200,13 @@ function CompanyPriceBook() {
       maxWidth: "300px",
     },
     {
-      name: "Name",
+      name: "Product SKU",
       selector: (row) => row.name,
       sortable: true,
     },
     {
-      name: "Description",
-      selector: (row) => row.description,
+      name: "Product Name",
+      selector: (row) => row.pName,
       sortable: true,
       minWidth: "auto",
       maxWidth: "300px",

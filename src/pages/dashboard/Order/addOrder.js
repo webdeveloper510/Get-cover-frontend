@@ -71,7 +71,7 @@ function AddOrder() {
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
   const [coverage, setCoverage] = useState([]);
-  const [labour, setLabour] = useState([]);
+  const [BillCheck, setbillCheck] = useState();
   const [serviceCoverage, setServiceCoverage] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
 
@@ -420,7 +420,11 @@ function AddOrder() {
     setServiceCoverage(serviceCoverage);
 };
 
-
+const BillTo = [
+  { label: "Dealer", value: "dealer" },
+  { label: "Reseller", value: "reseller" },
+  { label: "Custom", value: "custom" },
+];
   const formik4 = useFormik({
     initialValues: {
       paymentStatus: "Unpaid",
@@ -1388,6 +1392,10 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
     }
   };
 
+  const handleSelectChange12 = (name, value) => {
+       setbillCheck(value)
+  }
+
   const getCategoryList = async (value, data, index) => {
     try {
       setLoading3(true);
@@ -1569,9 +1577,74 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
                         />
                         <span className="ml-3 mt-2">{}</span>
                       </div>
+                      <div className="col-span-4">
+                        <SelectBoxWIthSerach
+                          label="Bill Address"
+                          name="billTo"
+                          placeholder=""
+                          className={`!bg-white`}
+                          onChange={handleSelectChange12}
+                          options={BillTo}
+                        />
+                      </div>
                     </Grid>
+                    
                   </div>
                 </Grid>
+              {BillCheck === "custom" && <div>
+                <p className="text-2xl font-bold mb-4">Bill Details : </p>
+                  <Grid>
+                    <div className="col-span-4">
+                      <Input 
+                        name="fName"
+                        label='First Name'
+                        type="text"
+                        className='bg-[#ffff]'
+                        required={true}
+                        placeholder=""
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input 
+                        name="lName"
+                        className='bg-[#ffff]'
+                        label='Last Name'
+                        type="text"
+                        required={true}
+                        placeholder=""
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input 
+                        name="email"
+                        label='Email'
+                        className='bg-[#ffff]'
+                        type="email"
+                        required={true}
+                        placeholder=""
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input 
+                        name="phone"
+                        label='Phone Number'
+                        className='bg-[#ffff]'
+                        type="number"
+                        placeholder=""
+                      />
+                    </div>
+                    <div className="col-span-8">
+                      <Input 
+                        name="address"
+                        label='Address'
+                        className='bg-[#ffff]'
+                        type="text"
+                        placeholder=""
+                      />
+                    </div>
+                  </Grid>
+                </div>
+                }  
               </div>
               <div className="flex">
                 {dataLoading ? (

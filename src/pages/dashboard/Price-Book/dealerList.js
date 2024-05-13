@@ -168,6 +168,7 @@ function DealerPriceList() {
   const formik = useFormik({
     initialValues: {
       name: "",
+      // pName:"",
       dealerName: "",
       status: "",
       category: "",
@@ -689,9 +690,21 @@ function DealerPriceList() {
                       type="text"
                       name="name"
                       className="!bg-[#fff]"
-                      label="Product Name"
+                      label="Product SKU"
                       placeholder=""
                       value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="pName"
+                      className="!bg-[#fff]"
+                      label="Product Name"
+                      placeholder=""
+                      value={formik.values.pName}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />

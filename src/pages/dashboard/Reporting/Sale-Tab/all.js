@@ -46,7 +46,7 @@ function All() {
   return (
     <>
     <Grid>
-        <div className='col-span-8'>
+        <div className='col-span-12'>
             <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
               <Grid>
                 <div className='col-span-3 self-center'>
@@ -55,8 +55,8 @@ function All() {
                 <div className='col-span-9 self-center'>
                   <Grid className='!grid-cols-9 !gap-1'>
                      <div className='col-span-6'></div>
-                     <div className='col-span-3'>
-                        <Button  onClick={openModal} className='!bg-[#FFFFFF2B] !text-white !text-[11px] !rounded-xl'>Compare Years by Month</Button>
+                     <div className='col-span-3 text-right'>
+                        <Button  onClick={openModal} className='!bg-[#FFFFFF2B] !text-white !text-[11px] !rounded-xl'>Filter</Button>
                      </div>
                      
                   </Grid>
@@ -66,7 +66,7 @@ function All() {
               <BarChart/>
             </div>
         </div>
-        <div className='col-span-4'>
+        {/* <div className='col-span-4'>
             <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
                 <p className='text-xl font-bold mb-3'>Years Comparison</p>
             <ChartComponent/>
@@ -121,7 +121,7 @@ function All() {
                 </div>
             </Grid>
             </div>
-        </div>
+        </div> */}
     </Grid>
     <Modal isOpen={isModalOpen} className='w-[72vw]'  onClose={closeModal}>
          <Button
@@ -134,6 +134,10 @@ function All() {
           />
         </Button>
         <MyComponent/>
+        <div className='flex justify-end mb-4'>
+            <Button  onClick={closeModal} className='mr-3'>Cancel</Button>
+            <Button>Apply</Button>
+        </div>
     </Modal>
     <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
         {/* <Grid>
