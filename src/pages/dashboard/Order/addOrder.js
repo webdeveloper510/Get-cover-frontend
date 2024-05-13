@@ -366,65 +366,63 @@ function AddOrder() {
     let serviceCoverage = [];
 
     if (type === "Edit") {
-        coverage = [
+      coverage = [
+        { label: "Breakdown", value: "Breakdown" },
+        { label: "Accidental", value: "Accidental" },
+        { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+      ];
+
+      // Add the same service coverage options for edit
+      serviceCoverage = [
+        { label: "Parts", value: "Parts" },
+        { label: "Labour", value: "Labour" },
+        { label: "Parts & Labour", value: "Parts & Labour" },
+      ];
+    } else {
+      switch (result.result.coverageType) {
+        case "Breakdown & Accidental":
+          coverage = [
             { label: "Breakdown", value: "Breakdown" },
             { label: "Accidental", value: "Accidental" },
-            { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-        ];
-        
-        // Add the same service coverage options for edit
-        serviceCoverage = [
+            {
+              label: "Breakdown & Accidental",
+              value: "Breakdown & Accidental",
+            },
+          ];
+          break;
+        case "Breakdown":
+          coverage = [{ label: "Breakdown", value: "Breakdown" }];
+          break;
+        default:
+          coverage = [{ label: "Accidental", value: "Accidental" }];
+          break;
+      }
+
+      switch (result.result.serviceCoverageType) {
+        case "Parts & Labour":
+          serviceCoverage = [
             { label: "Parts", value: "Parts" },
             { label: "Labour", value: "Labour" },
             { label: "Parts & Labour", value: "Parts & Labour" },
-        ];
-    } else {
-        switch (result.result.coverageType) {
-            case "Breakdown & Accidental":
-                coverage = [
-                    { label: "Breakdown", value: "Breakdown" },
-                    { label: "Accidental", value: "Accidental" },
-                    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-                ];
-                break;
-            case "Breakdown":
-                coverage = [{ label: "Breakdown", value: "Breakdown" }];
-                break;
-            default:
-                coverage = [{ label: "Accidental", value: "Accidental" }];
-                break;
-        }
-
-        switch (result.result.serviceCoverageType) {
-            case "Parts & Labour":
-                serviceCoverage = [
-                    { label: "Parts", value: "Parts" },
-                    { label: "Labour", value: "Labour" },
-                    { label: "Parts & Labour", value: "Parts & Labour" },
-                ];
-                break;
-            case "Labour":
-                serviceCoverage = [{ label: "Labour", value: "Labour" }];
-                break;
-            case "Parts":
-                serviceCoverage = [{ label: "Parts", value: "Parts" }];
-                break;
-            default:
-                serviceCoverage = [{ label: "Parts", value: "Parts" }];
-                break;
-        }
+          ];
+          break;
+        case "Labour":
+          serviceCoverage = [{ label: "Labour", value: "Labour" }];
+          break;
+        case "Parts":
+          serviceCoverage = [{ label: "Parts", value: "Parts" }];
+          break;
+        default:
+          serviceCoverage = [{ label: "Parts", value: "Parts" }];
+          break;
+      }
     }
 
     console.log(coverage, serviceCoverage, type);
     setCoverage(coverage);
     setServiceCoverage(serviceCoverage);
-};
+  };
 
-const BillTo = [
-  { label: "Dealer", value: "dealer" },
-  { label: "Reseller", value: "reseller" },
-  { label: "Custom", value: "custom" },
-];
   const formik4 = useFormik({
     initialValues: {
       paymentStatus: "Unpaid",
@@ -632,6 +630,12 @@ const BillTo = [
       servicerId: "",
       customerId: "",
       resellerId: "",
+      billTo: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      Address: "",
     },
 
     validationSchema: Yup.object().shape({
@@ -685,7 +689,15 @@ const BillTo = [
       });
     },
   });
-console.log(loading,loading1,loading2,loading3,loading4,loading5,'-------------------------- setLoading1(false);------->>')
+  console.log(
+    loading,
+    loading1,
+    loading2,
+    loading3,
+    loading4,
+    loading5,
+    "-------------------------- setLoading1(false);------->>"
+  );
   const formikStep3 = useFormik({
     initialValues: {
       productsArray: [
@@ -734,8 +746,6 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
               return schema
                 .of(
                   Yup.object().shape({
-                    // name: Yup.string().required("Required"),
-                    // quantity: Yup.number().required("Required"),
                     value: Yup.number(),
                     enterQuantity: Yup.number()
                       .typeError("Required")
@@ -759,7 +769,7 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
       ),
     }),
     onSubmit: (values) => {
-      setLoading5(true)
+      setLoading5(true);
       checkMultipleEmailCheck(values);
       let arr = [];
       let arr1 = [];
@@ -777,10 +787,16 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
       });
       setCategoryName(arr);
       setPriceBookName(arr1);
-      setLoading5(false)
+      setLoading5(false);
     },
   });
-
+  const BillTo = [
+    { label: "Dealer", value: "dealer" },
+    ...(formik.values.resellerId !== ""
+      ? [{ label: "Reseller", value: "reseller" }]
+      : []),
+    { label: "Custom", value: "custom" },
+  ];
   const checkMultipleEmailCheck = (data) => {
     const formData = new FormData();
     const arr = [];
@@ -884,9 +900,8 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
       });
 
       checkMultipleFileValidation(formData).then((res) => {
-        
         if (res.code == 200) {
-          setLoading4(false)
+          setLoading4(false);
           nextStep();
         } else {
           for (let key of res.message) {
@@ -915,7 +930,7 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
   };
 
   const handleFileSelect = (event, index) => {
-    setLoading4(true)
+    setLoading4(true);
     const file = event.target.files[0];
 
     setFileValues((prevFileValues) => {
@@ -948,7 +963,7 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
         return newArray;
       });
     }
-    setLoading4(false)
+    setLoading4(false);
   };
 
   const checkFileError = async (file, index) => {
@@ -1316,6 +1331,7 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
   };
 
   const handleSelectChange = (name, value) => {
+    
     formik.handleChange({ target: { name, value } });
 
     if (name == "dealerId") {
@@ -1349,6 +1365,9 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
       );
     }
     if (name == "resellerId") {
+      if (value == "") {
+        formik.setFieldValue("billTo", "");
+      }
       getCustomerList({
         dealerId: formik.values.dealerId,
         resellerId: value,
@@ -1391,10 +1410,6 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
       setCustomerEmail(customerEmail);
     }
   };
-
-  const handleSelectChange12 = (name, value) => {
-       setbillCheck(value)
-  }
 
   const getCategoryList = async (value, data, index) => {
     try {
@@ -1452,7 +1467,7 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
       setLoading(false);
     } finally {
       setLoading3(false);
-       setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -1579,72 +1594,74 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
                       </div>
                       <div className="col-span-4">
                         <SelectBoxWIthSerach
-                          label="Bill Address"
+                          label="Bill To"
                           name="billTo"
                           placeholder=""
+                          value={formik.values.billTo}
                           className={`!bg-white`}
-                          onChange={handleSelectChange12}
+                          onChange={handleSelectChange}
                           options={BillTo}
+                          onBlur={formik.handleBlur}
                         />
                       </div>
                     </Grid>
-                    
                   </div>
                 </Grid>
-              {BillCheck === "custom" && <div>
-                <p className="text-2xl font-bold mb-4">Bill Details : </p>
-                  <Grid>
-                    <div className="col-span-4">
-                      <Input 
-                        name="fName"
-                        label='First Name'
-                        type="text"
-                        className='bg-[#ffff]'
-                        required={true}
-                        placeholder=""
-                      />
-                    </div>
-                    <div className="col-span-4">
-                      <Input 
-                        name="lName"
-                        className='bg-[#ffff]'
-                        label='Last Name'
-                        type="text"
-                        required={true}
-                        placeholder=""
-                      />
-                    </div>
-                    <div className="col-span-4">
-                      <Input 
-                        name="email"
-                        label='Email'
-                        className='bg-[#ffff]'
-                        type="email"
-                        required={true}
-                        placeholder=""
-                      />
-                    </div>
-                    <div className="col-span-4">
-                      <Input 
-                        name="phone"
-                        label='Phone Number'
-                        className='bg-[#ffff]'
-                        type="number"
-                        placeholder=""
-                      />
-                    </div>
-                    <div className="col-span-8">
-                      <Input 
-                        name="address"
-                        label='Address'
-                        className='bg-[#ffff]'
-                        type="text"
-                        placeholder=""
-                      />
-                    </div>
-                  </Grid>
-                </div>
-                }  
+                {formik.values.billTo === "custom" && (
+                  <div>
+                    <p className="text-2xl font-bold mb-4">Bill Details : </p>
+                    <Grid>
+                      <div className="col-span-4">
+                        <Input
+                          name="fName"
+                          label="First Name"
+                          type="text"
+                          className="bg-[#ffff]"
+                          required={true}
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-4">
+                        <Input
+                          name="lName"
+                          className="bg-[#ffff]"
+                          label="Last Name"
+                          type="text"
+                          required={true}
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-4">
+                        <Input
+                          name="email"
+                          label="Email"
+                          className="bg-[#ffff]"
+                          type="email"
+                          required={true}
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-4">
+                        <Input
+                          name="phone"
+                          label="Phone Number"
+                          className="bg-[#ffff]"
+                          type="number"
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-8">
+                        <Input
+                          name="address"
+                          label="Address"
+                          className="bg-[#ffff]"
+                          type="text"
+                          placeholder=""
+                        />
+                      </div>
+                    </Grid>
+                  </div>
+                )}
               </div>
               <div className="flex">
                 {dataLoading ? (
@@ -1742,7 +1759,7 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
                         : "!bg-white"
                     }`}
                     className1={`${
-                      type == "Edit" ? '!bg-[#ededed]' : '!bg-white'
+                      type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
                     }`}
                     required={true}
                     disabled={type == "Edit"}
@@ -1778,7 +1795,6 @@ console.log(loading,loading1,loading2,loading3,loading4,loading5,'--------------
   };
 
   const renderStep3 = () => {
-    
     return (
       <>
         {loading3 || loading4 || loading5 ? (
