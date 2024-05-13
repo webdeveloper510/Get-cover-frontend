@@ -640,6 +640,26 @@ function AddOrder() {
 
     validationSchema: Yup.object().shape({
       dealerId: Yup.string().required("Dealer Name is required"),
+      firstName: Yup.string().when("billTo", {
+        is: (value) => value === "custom",
+        then: (schema) => schema.required("Required"),
+        otherwise: (schema) => schema,
+      }),
+      lastName: Yup.string().when("billTo", {
+        is: (value) => value === "custom",
+        then: (schema) => schema.required("Required"),
+        otherwise: (schema) => schema,
+      }),
+      phoneNumber: Yup.string().when("billTo", {
+        is: (value) => value === "custom",
+        then: (schema) => schema.required("Required"),
+        otherwise: (schema) => schema,
+      }),
+      //  address:Yup.string().when('billTo', {
+      //   is: (value) => value === 'custom',
+      //   then: (schema) => schema.required('Required'),
+      //   otherwise: (schema) => schema,
+      // }),
     }),
     onSubmit: (values) => {
       nextStep();
@@ -1331,7 +1351,6 @@ function AddOrder() {
   };
 
   const handleSelectChange = (name, value) => {
-    
     formik.handleChange({ target: { name, value } });
 
     if (name == "dealerId") {
@@ -1613,23 +1632,34 @@ function AddOrder() {
                     <Grid>
                       <div className="col-span-4">
                         <Input
-                          name="fName"
+                          name="firstName"
                           label="First Name"
                           type="text"
                           className="bg-[#ffff]"
-                          required={true}
+                          // required={true}
                           placeholder=""
                         />
+                        {formik.touched.firstName &&
+                          formik.errors.firstName && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.firstName}
+                            </div>
+                          )}
                       </div>
                       <div className="col-span-4">
                         <Input
-                          name="lName"
+                          name="lastName"
                           className="bg-[#ffff]"
                           label="Last Name"
                           type="text"
-                          required={true}
+                          // required={true}
                           placeholder=""
                         />
+                        {formik.touched.lastName && formik.errors.lastName && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formik.errors.lastName}
+                          </div>
+                        )}
                       </div>
                       <div className="col-span-4">
                         <Input
@@ -1637,7 +1667,7 @@ function AddOrder() {
                           label="Email"
                           className="bg-[#ffff]"
                           type="email"
-                          required={true}
+                          // required={true}
                           placeholder=""
                         />
                       </div>
@@ -1649,6 +1679,12 @@ function AddOrder() {
                           type="number"
                           placeholder=""
                         />
+                        {formik.touched.phoneNumber &&
+                          formik.errors.phoneNumber && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.phoneNumber}
+                            </div>
+                          )}
                       </div>
                       <div className="col-span-8">
                         <Input

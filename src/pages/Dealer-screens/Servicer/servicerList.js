@@ -45,8 +45,8 @@ function DealerServicerList() {
   const getServicerList = async (value = {}) => {
     setLoading(true);
     const result = await getDealerServicers(value);
-    setServicerList(result.result);
-    console.log(result.result);
+    setServicerList(result.data);
+    console.log(result.data);
     setLoading(false);
   };
 
