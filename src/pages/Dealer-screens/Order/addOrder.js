@@ -315,7 +315,7 @@ function DealerAddOrder() {
   }, [orderId, resellerId, customerId]);
 
   const orderDetails = async () => {
-    setLoading(true);
+    setLoading1(true);
     const result = await orderDetailsById(orderId);
     console.log(result.result);
     getResellerList();
@@ -1407,7 +1407,7 @@ function DealerAddOrder() {
                     disabled={type == "Edit"}
                     className="!bg-white"
                     className1={`${
-                      type == "Edit" ? '!bg-[#ededed]' : '!bg-white'
+                      type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
                     }`}
                     required={true}
                     onChange={handleSelectChange1}
