@@ -1023,6 +1023,7 @@ function ClaimList(props) {
       venderOrder: "",
       serial: "",
       productName: "",
+      pName: "",
       dealerName: "",
       customerName: "",
       servicerName: "",
@@ -1330,8 +1331,23 @@ function ClaimList(props) {
                                   )}
                               </div>
                             </Grid>
-                            <Grid className="!gap-0 bg-[#F9F9F9] border-[#474747] border-x">
-                              <div className="col-span-3 flex ">
+                            <Grid className="!gap-0 bg-[#F9F9F9] !grid-cols-5 border-[#474747] border-x">
+                              <div className="col-span-1 flex ">
+                                <img
+                                  src={productName}
+                                  className="self-center h-[50px] w-[50px] ml-3"
+                                  alt="productName"
+                                />
+                                <div className="py-4 pl-3 self-center">
+                                  <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                    Product SKU
+                                  </p>
+                                  <p className="text-[#333333] text-sm font-semibold">
+                                    {res?.contracts?.productName}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="col-span-1 flex ">
                                 <img
                                   src={productName}
                                   className="self-center h-[50px] w-[50px] ml-3"
@@ -1342,11 +1358,11 @@ function ClaimList(props) {
                                     Product Name
                                   </p>
                                   <p className="text-[#333333] text-sm font-semibold">
-                                    {res?.contracts?.productName}
+                                    {res?.contracts?.pName}
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-3 flex">
+                              <div className="col-span-1 flex">
                                 <img
                                   src={Manufacturer}
                                   className="self-center h-[50px] w-[50px] ml-3"
@@ -1361,7 +1377,7 @@ function ClaimList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-3 flex">
+                              <div className="col-span-1 flex">
                                 <img
                                   src={model}
                                   className="self-center h-[50px] w-[50px] ml-3"
@@ -1376,7 +1392,7 @@ function ClaimList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-3 flex">
+                              <div className="col-span-1 flex">
                                 <img
                                   src={serial}
                                   className="self-center h-[50px] w-[50px] ml-3"
@@ -2654,9 +2670,19 @@ function ClaimList(props) {
                   type="text"
                   name="productName"
                   className="!bg-[#fff]"
-                  label="Product Name"
+                  label="Product SKU"
                   placeholder=""
                   {...formik1.getFieldProps("productName")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="pName"
+                  className="!bg-[#fff]"
+                  label="Product Name"
+                  placeholder=""
+                  {...formik1.getFieldProps("pName")}
                 />
               </div>
               {props?.flag == "" && (

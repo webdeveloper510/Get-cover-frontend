@@ -515,6 +515,7 @@ function PriceBookList(props) {
   const formik = useFormik({
     initialValues: {
       name: "",
+      pName:"",
       status: "",
       category: "",
       priceType: "",
@@ -524,6 +525,7 @@ function PriceBookList(props) {
     },
     validationSchema: Yup.object({
       name: Yup.string(),
+      pName: Yup.string(),
       status: Yup.boolean(),
       category: Yup.string(),
       priceType: Yup.string(),
@@ -865,9 +867,21 @@ function PriceBookList(props) {
                   <div className="col-span-6">
                     <Input
                       type="text"
-                      name="name"
+                      name="pName"
                       className="!bg-[#fff]"
                       label="Product Name"
+                      placeholder=""
+                      value={formik.values.pName}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="name"
+                      className="!bg-[#fff]"
+                      label="Product SKU"
                       placeholder=""
                       value={formik.values.name}
                         onChange={formik.handleChange}

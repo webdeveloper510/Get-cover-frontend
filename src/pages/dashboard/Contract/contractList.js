@@ -154,6 +154,7 @@ function ContractList(props) {
     model: "",
     serial: "",
     productName: "",
+    pName:"",
     eligibilty: "",
     resellerName: "",
   };
@@ -563,12 +564,21 @@ function ContractList(props) {
                       type="text"
                       name="productName"
                       className="!bg-[#fff]"
-                      label="Product Name"
+                      label="Product SKU"
                       placeholder=""
                       {...formik.getFieldProps("productName")}
                     />
                   </div>
-
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="pName"
+                      className="!bg-[#fff]"
+                      label="Product Name"
+                      placeholder=""
+                      {...formik.getFieldProps("pName")}
+                    />
+                  </div>
                   {props.orderId == null ? (
                     <>
                       {props.flag === "customer" ? (
@@ -973,10 +983,20 @@ function ContractList(props) {
                       <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                            Product Name
+                            Product SKU
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
                             {contractDetails?.productName}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1]">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Product Name
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {contractDetails?.pName}
                           </p>
                         </div>
                       </div>

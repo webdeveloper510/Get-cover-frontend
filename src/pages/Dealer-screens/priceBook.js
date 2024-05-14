@@ -275,6 +275,7 @@ function DealerPriceBook(props) {
     initialValues: {
       name: "",
       status: "",
+      pName:"",
       category: "",
       priceType: "",
       term: "",
@@ -282,6 +283,7 @@ function DealerPriceBook(props) {
     },
     validationSchema: Yup.object({
       name: Yup.string(),
+      pName: Yup.string(),
       status: Yup.boolean(),
       category: Yup.string(),
       priceType: Yup.string(),
@@ -580,9 +582,21 @@ function DealerPriceBook(props) {
                       type="text"
                       name="name"
                       className="!bg-[#fff]"
-                      label="Product Name"
+                      label="Product SKU"
                       placeholder=""
                       value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="pName"
+                      className="!bg-[#fff]"
+                      label="Product Name"
+                      placeholder=""
+                      value={formik.values.pName}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
