@@ -457,11 +457,9 @@ function AddCompanyPriceBook() {
           )} */}
           {type == "Edit" && (
             <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
-              <Grid className="mx-8 mx-auto !grid-cols-11">
-                <div className="col-span-1 self-center border-r border-[#4e4e4e]">
-                </div>
-                <div className="col-span-3 border-r border-[#4e4e4e]">
-                  <div className="flex">
+              <Grid className="mx-8 mx-auto !grid-cols-12">
+              <div className="col-span-3 border-r border-[#4e4e4e]">
+                  <div className="flex justify-center">
                     <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
                       <img src={dealer} className="w-6 h-6" alt="dealer" />
                     </div>
@@ -471,6 +469,21 @@ function AddCompanyPriceBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
                         {detailsById?.name}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-3 border-r border-[#4e4e4e]">
+                  <div className="flex justify-center">
+                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                      <img src={dealer} className="w-6 h-6" alt="dealer" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                        Product Name
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {detailsById?.pName}
                       </p>
                     </div>
                   </div>
@@ -505,8 +518,6 @@ function AddCompanyPriceBook() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-1">
-                </div>
               </Grid>
             </div>
           )}
@@ -522,7 +533,7 @@ function AddCompanyPriceBook() {
                 </p>
               )}
               <Grid
-                className={`${type == "Edit" ? "!grid-cols-3" : "!grid-cols-4"
+                className={`${type == "Edit" ? "!grid-cols-2" : "!grid-cols-4"
                   } `}
               >
                 <div className="col-span-1">
@@ -587,6 +598,7 @@ function AddCompanyPriceBook() {
                 {type == "Edit" ? (
                   <></>
                 ) : (
+                  <>
                   <div className="col-span-1">
                     <Input
                       type="text"
@@ -607,27 +619,29 @@ function AddCompanyPriceBook() {
                       </div>
                     )}
                   </div>
-                )}
                   <div className="col-span-1">
-                    <Input
-                      type="text"
-                      name="pName"
-                      className="!bg-[#fff]"
-                      label="Product Name "
-                      placeholder=""
-                      required={true}
-                      maxLength={50}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.pName}
-                      disabled={type === "Edit"}
-                    />
-                    {formik.touched.pName && formik.errors.pName && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.pName}
-                      </div>
-                    )}
-                  </div>
+                  <Input
+                    type="text"
+                    name="pName"
+                    className="!bg-[#fff]"
+                    label="Product Name "
+                    placeholder=""
+                    required={true}
+                    maxLength={50}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.pName}
+                    disabled={type === "Edit"}
+                  />
+                  {formik.touched.pName && formik.errors.pName && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.pName}
+                    </div>
+                  )}
+                </div>
+                </>
+                )}
+                  
                 
               </Grid>
               <Grid className="!grid-cols-4 mt-5">
