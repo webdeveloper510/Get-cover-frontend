@@ -41,6 +41,7 @@ function OrderDetails() {
   const [loading1, setLoading1] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
+  const [orderTandC, setOrderTandC] = useState([]);
   const [servicerList, setServicerList] = useState([]);
   const [userDetails, setUserDetails] = useState(null);
   const [invoiceData, setInvoiceData] = useState({});
@@ -126,6 +127,7 @@ function OrderDetails() {
     }
     const result = await orderDetailsById(orderId);
     setUserDetails(result.orderUserData);
+  setOrderTandC(result.result.termCondition)
     formik.setFieldValue("servicerId", result.result.servicerId);
     const filteredServicer = result.servicers.filter(
       (data) => data.status === true || "Approved" 
@@ -457,7 +459,7 @@ function OrderDetails() {
                   </Button>
                 </div>
                 <div className="col-span-6">
-                  {userDetails?.dealerData?.termCondition == '' ? <></> : (
+                  {orderTandC?.fileName == '' ? <></> : (
                   <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
                     <span className="self-center">
                       {" "}

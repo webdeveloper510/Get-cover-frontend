@@ -631,8 +631,7 @@ function AddOrder() {
       customerId: "",
       resellerId: "",
       billTo: "",
-      firstName: "",
-      lastName: "",
+      name: "",
       email: "",
       phoneNumber: "",
       Address: "",
@@ -640,12 +639,7 @@ function AddOrder() {
 
     validationSchema: Yup.object().shape({
       dealerId: Yup.string().required("Dealer Name is required"),
-      firstName: Yup.string().when("billTo", {
-        is: (value) => value === "custom",
-        then: (schema) => schema.required("Required"),
-        otherwise: (schema) => schema,
-      }),
-      lastName: Yup.string().when("billTo", {
+      name: Yup.string().when("billTo", {
         is: (value) => value === "custom",
         then: (schema) => schema.required("Required"),
         otherwise: (schema) => schema,
@@ -1632,21 +1626,21 @@ function AddOrder() {
                     <Grid>
                       <div className="col-span-4">
                         <Input
-                          name="firstName"
-                          label="First Name"
+                          name="name"
+                          label="Name"
                           type="text"
                           className="bg-[#ffff]"
                           // required={true}
                           placeholder=""
                         />
-                        {formik.touched.firstName &&
-                          formik.errors.firstName && (
+                        {formik.touched.name &&
+                          formik.errors.name && (
                             <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.firstName}
+                              {formik.errors.name}
                             </div>
                           )}
                       </div>
-                      <div className="col-span-4">
+                      {/* <div className="col-span-4">
                         <Input
                           name="lastName"
                           className="bg-[#ffff]"
@@ -1660,7 +1654,7 @@ function AddOrder() {
                             {formik.errors.lastName}
                           </div>
                         )}
-                      </div>
+                      </div> */}
                       <div className="col-span-4">
                         <Input
                           name="email"
@@ -1686,7 +1680,7 @@ function AddOrder() {
                             </div>
                           )}
                       </div>
-                      <div className="col-span-8">
+                      <div className="col-span-12">
                         <Input
                           name="address"
                           label="Address"
@@ -1874,7 +1868,7 @@ function AddOrder() {
                 <Grid>
                   <div className="col-span-8 border-r pr-5">
                     <Grid>
-                      <div className="col-span-4">
+                      <div className="col-span-6">
                         <Select
                           name={`productsArray[${index}].categoryId`}
                           label="Product Category"
@@ -1908,7 +1902,7 @@ function AddOrder() {
                             </div>
                           )}
                       </div>
-                      <div className="col-span-4">
+                      <div className="col-span-6">
                         <>
                           <Select
                             name={`productsArray[${index}].priceBookId`}
@@ -1947,9 +1941,24 @@ function AddOrder() {
                         </>
                         {/* )} */}
                       </div>
-                      <div className="col-span-4">
+                      <div className="col-span-6">
                         <Select
                           label="Terms"
+                          name={`productsArray[${index}].term`}
+                          placeholder=""
+                          onChange={handleSelectChange2}
+                          className="!bg-[#fff]"
+                          options={termList}
+                          value={
+                            formikStep3.values.productsArray[index].term +
+                            " Months"
+                          }
+                          onBlur={formikStep3.handleBlur}
+                        />
+                      </div>
+                      <div className="col-span-6">
+                        <Select
+                          label="Product Name"
                           name={`productsArray[${index}].term`}
                           placeholder=""
                           onChange={handleSelectChange2}
@@ -1981,18 +1990,19 @@ function AddOrder() {
                         />
                       </div>
                       <div className="col-span-4">
-                        <Select
-                          label="Product Name"
+                        <Input
+                          label="ADH (Waiting Days)"
                           name={`productsArray[${index}].term`}
                           placeholder=""
-                          onChange={handleSelectChange2}
+                          // onChange={handleSelectChange2}
                           className="!bg-[#fff]"
-                          options={termList}
+                          // options={termList}
                           value={
-                            formikStep3.values.productsArray[index].term +
-                            " Months"
+                            formikStep3.values.productsArray[index].priceType
                           }
+                          onChange={formikStep3.handleChange}
                           onBlur={formikStep3.handleBlur}
+                          // onBlur={formikStep3.handleBlur}
                         />
                       </div>
                       <div className="col-span-4">
@@ -2565,19 +2575,25 @@ function AddOrder() {
                         </p>
                         <div className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl ">
                           <Grid className="border-b px-4">
-                            <div className="col-span-4 py-4 border-r">
+                            <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Category</p>
                               <p className="font-bold text-sm">
                                 {categoryName[index]}
                               </p>
                             </div>
-                            <div className="col-span-4 py-4 border-r">
+                            <div className="col-span-3 py-4 border-r">
+                              <p className="text-[12px]">Product SKU</p>
+                              <p className="font-bold text-sm">
+                                {priceBookName[index]}
+                              </p>
+                            </div>
+                            <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Name</p>
                               <p className="font-bold text-sm">
                                 {priceBookName[index]}
                               </p>
                             </div>
-                            <div className="col-span-4 py-4">
+                            <div className="col-span-3 py-4">
                               <p className="text-[12px]">Product Description</p>
                               <p className="font-bold text-sm">
                                 {data.description}
