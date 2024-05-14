@@ -859,6 +859,7 @@ const downloadImage = (file) => {
       venderOrder: "",
       serial: "",
       productName: "",
+      pName: "",
       dealerName: "",
       customerName: "",
       servicerName: "",
@@ -2329,9 +2330,19 @@ const downloadImage = (file) => {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="productName"
+                  name="pName"
                   className="!bg-[#fff]"
                   label="Product Name"
+                  placeholder=""
+                  {...formik1.getFieldProps("pName")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="productName"
+                  className="!bg-[#fff]"
+                  label="Product SKU"
                   placeholder=""
                   {...formik1.getFieldProps("productName")}
                 />

@@ -1034,6 +1034,7 @@ function ClaimList(props) {
       venderOrder: "",
       serial: "",
       productName: "",
+      pName: "",
       dealerName: "",
       customerName: "",
       servicerName: "",
@@ -2707,9 +2708,19 @@ function ClaimList(props) {
                   type="text"
                   name="productName"
                   className="!bg-[#fff]"
-                  label="Product Name"
+                  label="Product SKU"
                   placeholder=""
                   {...formik1.getFieldProps("productName")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="pName"
+                  className="!bg-[#fff]"
+                  label="Product Name"
+                  placeholder=""
+                  {...formik1.getFieldProps("pName")}
                 />
               </div>
               {props?.flag == "" && (

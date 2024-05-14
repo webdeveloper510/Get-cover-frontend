@@ -1202,7 +1202,7 @@ const BillTo = [
             <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
               <p className="text-2xl font-bold mb-4">Order Details</p>
               <Grid>
-                <div className="col-span-6">
+                <div className="col-span-8">
                   <Grid>
                     <div className="col-span-6">
                       <SelectBoxWIthSerach

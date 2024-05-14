@@ -527,7 +527,7 @@ function PriceBookList(props) {
                       <Input
                         name="name"
                         type="text"
-                        placeholder="Product Name"
+                        placeholder="Product SKU"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
@@ -645,6 +645,14 @@ function PriceBookList(props) {
             {dealerPriceBookDetail?.priceBooks?.name}
           </p>
           <Grid className="mt-5 px-6">
+            <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
+                Product Name
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBookDetail?.priceBooks?.pName}{" "}
+              </p>
+            </div>
             <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
                 Product Category
