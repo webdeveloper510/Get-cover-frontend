@@ -304,6 +304,8 @@ function AddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
+          pName:"",
+          term:"",
           coverageType: formikStep2?.values?.coverageType,
         },
         0
@@ -327,6 +329,8 @@ function AddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
+          pName:"",
+          term:"",
           coverageType: formikStep2?.values?.coverageType,
         },
         0
@@ -351,6 +355,8 @@ function AddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
+          pName:"",
+          term:"",
           coverageType: formikStep2?.values?.coverageType,
         },
         0
@@ -514,6 +520,8 @@ function AddOrder() {
         {
           priceBookId: product.priceBookId,
           priceCatId: product.categoryId,
+          term:product.term,
+          pName:product.pName,
           coverageType: result?.result?.coverageType,
         },
         index
@@ -588,22 +596,22 @@ function AddOrder() {
     formik4.setFieldValue("paidAmount", result.result.paidAmount);
   };
 
-  useEffect(() => {
-    console.log(location);
-    if (location.pathname.includes("/editOrder")) {
-      // setLoading1(true);
-    }
-    if (location.pathname == "/addOrder") {
-      setType("Add");
-      setCurrentStep(1);
-      formik.resetForm();
-      setNumberOfOrders([]);
-      setFileValues([]);
-      formikStep2.resetForm();
-      formikStep3.resetForm();
-      formik4.resetForm();
-    }
-  }, [location]);
+  // useEffect(() => {
+  //   console.log(location);
+  //   if (location.pathname.includes("/editOrder")) {
+  //     // setLoading1(true);
+  //   }
+  //   if (location.pathname == "/addOrder") {
+  //     setType("Add");
+  //     setCurrentStep(1);
+  //     formik.resetForm();
+  //     setNumberOfOrders([]);
+  //     setFileValues([]);
+  //     formikStep2.resetForm();
+  //     formikStep3.resetForm();
+  //     formik4.resetForm();
+  //   }
+  // }, [location]);
 
   const renderStep = () => {
     switch (currentStep) {
@@ -726,6 +734,7 @@ function AddOrder() {
           coverageEndDate: "",
           description: "",
           term: "",
+          pName:"",
           priceType: "",
           additionalNotes: "",
           coverageEndDate: "",
@@ -743,6 +752,8 @@ function AddOrder() {
         Yup.object().shape({
           categoryId: Yup.string().required("Required"),
           priceBookId: Yup.string().required("Required"),
+          term: Yup.string().required("Required"),
+          pName: Yup.string().required("Required"),
           // file: Yup.string().required("Valid File is required"),
           unitPrice: Yup.number()
             .typeError("Required")
@@ -1105,6 +1116,8 @@ function AddOrder() {
       {
         priceBookId: "",
         priceCatId: "",
+        pName:"",
+        term:"",
         coverageType: formikStep2?.values?.coverageType,
       },
       formikStep3.values.productsArray.length
@@ -1224,10 +1237,10 @@ function AddOrder() {
           `productsArray[${productIndex}].unitPrice`,
           data.wholesalePrice
         );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].term`,
-          data.term
-        );
+        // formikStep3.setFieldValue(
+        //   `productsArray[${productIndex}].term`,
+        //   data.term
+        // );
       }
     };
 
@@ -1247,6 +1260,8 @@ function AddOrder() {
         formik.values.dealerId,
         {
           priceCatId: selectedValue,
+          pName:formikStep3.values.productsArray[productIndex].pName,
+          term:formikStep3.values.productsArray[productIndex].term,
           priceBookId:
             selectedValue == ""
               ? ""
@@ -1262,18 +1277,36 @@ function AddOrder() {
         (value) => value.value === selectedValue
       );
       clearProductFields();
-      updateProductFields(selectedValue);
+      // updateProductFields(selectedValue);
       getCategoryList(
         formik.values.dealerId,
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId: selectedValue,
+          pName:formikStep3.values.productsArray[productIndex].pName,
+          term:formikStep3.values.productsArray[productIndex].term, selectedValue,
           coverageType: formikStep2?.values?.coverageType,
         },
         productIndex
       );
     }
-
+if (name.includes("term"))
+  {
+    updateProductFields(selectedValue);
+      getCategoryList(
+        formik.values.dealerId,
+        {
+          priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
+          priceBookId: formikStep3.values.productsArray[productIndex].priceBookId,
+          pName:formikStep3.values.productsArray[productIndex].pName,
+          term:selectedValue,
+          coverageType: formikStep2?.values?.coverageType,
+        },
+        productIndex
+      );
+      
+    console.log(name,selectedValue)
+  }
     formikStep3.setFieldValue(name, selectedValue);
   };
 
@@ -1336,6 +1369,8 @@ function AddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
+          pName:"",
+          term:"",
           coverageType: value,
         },
         0
@@ -1372,6 +1407,8 @@ function AddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
+          pName:"",
+          term:"",
           coverageType: formikStep2?.values?.coverageType,
         },
         0
@@ -1441,6 +1478,8 @@ function AddOrder() {
             priceBookId: data.priceBookId,
             priceCatId: result.result.selectedCategory._id,
             coverageType: formikStep2?.values?.coverageType,
+            term: data.term,
+            pName:data.pName
           },
           index
         );
@@ -1911,6 +1950,8 @@ function AddOrder() {
                             required={true}
                             className="!bg-[#fff]"
                             placeholder=""
+                            disabled={formikStep3.values.productsArray[index]
+                              .categoryId == ""}
                             value={
                               formikStep3.values.productsArray[index]
                                 .priceBookId
@@ -1941,12 +1982,52 @@ function AddOrder() {
                         </>
                         {/* )} */}
                       </div>
-                      <div className="col-span-6">
-                        <Select
+                      <div className="col-span-4">
+                      <>
+                          <Select
+                            name={`productsArray[${index}].term`}
+                            label="Terms"
+                            options={termList}
+                            required={true}
+                            className="!bg-[#fff]"
+                            placeholder=""
+                            disabled={formikStep3.values.productsArray[index]
+                              .categoryId == ""}
+                            value={
+                              formikStep3.values.productsArray[index]
+                                .term
+                            }
+                            onBlur={formikStep3.handleBlur}
+                            onChange={handleSelectChange2}
+                            index={index}
+                            error={
+                              formikStep3.values.productsArray &&
+                              formikStep3.values.productsArray[index] &&
+                              formikStep3.values.productsArray &&
+                              formikStep3.values.productsArray[index] &&
+                              formikStep3.values.productsArray[index]
+                                .term
+                            }
+                          />
+                          {formikStep3.touched.productsArray &&
+                            formikStep3.touched.productsArray[index] &&
+                            formikStep3.touched.productsArray[index]
+                              .term && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formikStep3.errors.productsArray &&
+                                  formikStep3.errors.productsArray[index] &&
+                                  formikStep3.errors.productsArray[index]
+                                    .term}
+                              </div>
+                            )}
+                        </>
+                        {/* <Select
                           label="Terms"
                           name={`productsArray[${index}].term`}
                           placeholder=""
                           onChange={handleSelectChange2}
+                          disabled={formikStep3.values.productsArray[index]
+                            .categoryId == ""}
                           className="!bg-[#fff]"
                           options={termList}
                           value={
@@ -1954,7 +2035,7 @@ function AddOrder() {
                             " Months"
                           }
                           onBlur={formikStep3.handleBlur}
-                        />
+                        /> */}
                       </div>
                       <div className="col-span-6">
                         <Select
@@ -1994,13 +2075,15 @@ function AddOrder() {
                           label="ADH (Waiting Days)"
                           name={`productsArray[${index}].term`}
                           placeholder=""
-                          // onChange={handleSelectChange2}
+                          onChange={handleSelectChange2}
+                          disabled={formikStep3.values.productsArray[index]
+                            .categoryId == ""}
                           className="!bg-[#fff]"
                           // options={termList}
                           value={
                             formikStep3.values.productsArray[index].priceType
                           }
-                          onChange={formikStep3.handleChange}
+                          // onChange={formikStep3.handleChange}
                           onBlur={formikStep3.handleBlur}
                           // onBlur={formikStep3.handleBlur}
                         />

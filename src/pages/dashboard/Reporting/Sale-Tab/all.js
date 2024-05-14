@@ -146,11 +146,10 @@ function All() {
                 <div className='bg-white pl-2'>
                 <div className='flex mb-4'>
                     <img src={Administration} alt='Administration'/>
-                    <p className='text-sm font-bold self-center pl-3'> Administration<br/> Fees</p>
+                    <p className='text-sm font-bold self-center pl-3'> Administration <br/> Fees</p>
                 </div>
                 <div>
-                    <p className='text-3xl font-bold'>$5666159.00</p>
-                    <p className='text-base opacity-50 font-normal'>$10,000.00</p>
+                    <p className='text-2xl font-bold'>$5M</p>
                 </div>
                 </div>
             </div>
@@ -161,8 +160,7 @@ function All() {
                     <p className='text-sm font-bold self-center pl-3'>Fronting <br/> Fees</p>
                 </div>
                 <div>
-                    <p className='text-3xl font-bold'>$232159.00</p>
-                    <p className='text-base opacity-50 font-normal'>$10,000.00</p>
+                    <p className='text-2xl font-bold'>$232,159.00</p>
                 </div>
                 </div>
             </div>
@@ -170,11 +168,10 @@ function All() {
                 <div className='bg-white pl-4'>
                 <div className='flex mb-4'>
                     <img src={insurance} alt='Administration'/>
-                    <p className='text-sm font-bold self-center pl-3'>Re-insurance<br/> Fees</p>
+                    <p className='text-sm font-bold self-center pl-3'>Re-insurance <br/> Fees</p>
                 </div>
                 <div>
-                    <p className='text-3xl font-bold'>$1523239.00</p>
-                    <p className='text-base opacity-50 font-normal'>$10,000.00</p>
+                    <p className='text-2xl font-bold'>$1.5M</p>
                 </div>
             </div>
             </div>
@@ -182,11 +179,10 @@ function All() {
                 <div className='bg-white pl-3'>
                 <div className='flex mb-4'>
                     <img src={Reserves} alt='Administration'/>
-                    <p className='text-sm font-bold self-center pl-3'>Reserves Future Claims</p>
+                    <p className='text-sm font-bold self-center pl-3'>Reserves Future <br/> Claims</p>
                 </div>
                 <div>
-                    <p className='text-3xl font-bold'>$123259.00</p>
-                    <p className='text-base opacity-50 font-normal'>$10,000.00</p>
+                    <p className='text-2xl font-bold'>$123,259.00</p>
                 </div>
             </div>
             </div>
@@ -196,8 +192,7 @@ function All() {
                     <p className='text-sm font-bold self-center pl-3'>Broker <br/> Fees</p>
                 </div>
                 <div>
-                    <p className='text-3xl font-bold'>$1552369.00</p>
-                    <p className='text-base opacity-50 font-normal'>$10,000.00</p>
+                    <p className='text-2xl font-bold'>$1.55M</p>
                 </div>
             </div>
         </Grid>
