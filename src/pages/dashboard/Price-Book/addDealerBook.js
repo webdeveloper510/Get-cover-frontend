@@ -41,7 +41,7 @@ function AddDealerBook() {
   const [priceBookById, setPriceBookById] = useState({});
   const navigate = useNavigate();
   const { id, dealerIdValue } = useParams();
-  console.log(dealerIdValue);
+
   const dealerDetailById = async (id) => {
     setLoader(true);
     const result = await getDealerPricebookDetailById(id);
@@ -61,6 +61,7 @@ function AddDealerBook() {
     formik.setFieldValue("term", result?.result[0]?.term);
     formik.setFieldValue("brokerFee", result?.result[0]?.brokerFee);
     formik.setFieldValue("wholesalePrice", result?.result[0]?.wholesalePrice);
+    formik.setFieldValue("pName", result?.result[0]?.pName);
     formik.setFieldValue(
       "categoryId",
       result?.result[0]?.priceBooks?.category[0]?._id
@@ -88,7 +89,6 @@ function AddDealerBook() {
     }
   };
   useEffect(() => {
-   
     if (id) {
       dealerDetailById(id);
       setType("Edit");
@@ -99,7 +99,6 @@ function AddDealerBook() {
       setType("Add");
     }
     dealerList();
-    
   }, []);
 
   useEffect(() => {
@@ -118,7 +117,7 @@ function AddDealerBook() {
 
   const getProductList = async (id) => {
     setLoader(true);
-    const result = await getCategoryListActiveData({dealerId: id});
+    const result = await getCategoryListActiveData({ dealerId: id });
     // console.log(result.result);
     setCategoryList(
       result.result.map((item) => ({
@@ -126,7 +125,7 @@ function AddDealerBook() {
         value: item._id,
       }))
     );
-    setCoverageType(result.coverageType)
+    setCoverageType(result.coverageType);
     setLoader(false);
   };
   const handleLinkClick = () => {
@@ -141,7 +140,6 @@ function AddDealerBook() {
   };
   const closeModal = () => {
     setIsModalOpen(false);
-
   };
   const handleSelectChange = async (name, value) => {
     setError("");
@@ -150,15 +148,15 @@ function AddDealerBook() {
         ...formik.values,
         dealerId: "",
       });
-      const result = await getCategoryListActiveData({dealerId: value});
-    console.log(result.result);
-    setCoverageType(result.coverageType)
-    setCategoryList(
-      result.result.map((item) => ({
-        label: item.name,
-        value: item._id,
-      }))
-    );
+      const result = await getCategoryListActiveData({ dealerId: value });
+      console.log(result.result);
+      setCoverageType(result.coverageType);
+      setCategoryList(
+        result.result.map((item) => ({
+          label: item.name,
+          value: item._id,
+        }))
+      );
     }
     if (name === "categoryId") {
       formik.setValues({
@@ -167,15 +165,22 @@ function AddDealerBook() {
         wholesalePrice: "",
         description: "",
         term: "",
+        pName: "",
       });
-      console.log(value, '---------------------{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}');
-      const response = await getProductListbyProductCategoryId(value, {'coverageType' : coverageType});
+      console.log(
+        value,
+        "---------------------{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}"
+      );
+      const response = await getProductListbyProductCategoryId(value, {
+        coverageType: coverageType,
+      });
       setProductNameOptions(() => {
         return response.result.priceBooks.map((item) => ({
           label: item.name,
           value: item._id,
           description: item.description,
           term: item.term,
+          pName: item.pName,
           wholesalePrice:
             item.frontingFee +
             item.reserveFutureFee +
@@ -197,6 +202,7 @@ function AddDealerBook() {
       );
       formik.setFieldValue("priceType", selectedProduct.priceType);
       formik.setFieldValue("description", selectedProduct.description);
+      formik.setFieldValue("pName", selectedProduct.pName);
       formik.setFieldValue("term", selectedProduct.term + " Months");
     }
 
@@ -226,15 +232,17 @@ function AddDealerBook() {
       priceBook: Yup.string().trim().required("Required"),
       dealerId: Yup.string().trim().required("Required"),
       categoryId: Yup.string().trim().required("Required"),
+      pName: Yup.string().trim().required("Required"),
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
       setLoader(true);
       console.log(values);
+   
       values.brokerFee = (values.retailPrice - values.wholesalePrice).toFixed(
         2
       );
-
+      delete values.pName;
       const result = id
         ? await editDealerPriceBook(id, values)
         : await addDealerPriceBook(values);
@@ -433,10 +441,10 @@ function AddDealerBook() {
                     </div>
                     <div className="self-center">
                       <p className="text-[#FFF] text-lg font-medium leading-5	">
-                      Coverage Type
+                        Coverage Type
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
-                        {priceBookById?.priceBooks?.coverageType }
+                        {priceBookById?.priceBooks?.coverageType}
                       </p>
                     </div>
                   </div>
@@ -533,12 +541,8 @@ function AddDealerBook() {
                         // required={true}
                         placeholder=""
                         value={formik.values.pName}
-                        onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         disabled={true}
-                        onWheelCapture={(e) => {
-                          e.preventDefault();
-                        }}
                       />
                     </div>
                     <div className="col-span-4">
