@@ -99,7 +99,7 @@ function AddOrder() {
       "_blank"
     );
   };
-
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   useEffect(() => {
     if (orderId || dealerId || resellerId || dealerValue || customerId) {
       setLoading(true);
@@ -649,19 +649,24 @@ function AddOrder() {
       dealerId: Yup.string().required("Dealer Name is required"),
       name: Yup.string().when("billTo", {
         is: (value) => value === "custom",
-        then: (schema) => schema.required("Required"),
-        otherwise: (schema) => schema,
+        then: (schema) => schema .transform(value => value.trim())
+        .required("Required"),
+        otherwise: (schema) => schema.notRequired(),
       }),
-      phoneNumber: Yup.string().when("billTo", {
-        is: (value) => value === "custom",
-        then: (schema) => schema.required("Required"),
-        otherwise: (schema) => schema,
+      phoneNumber: Yup.string()
+      .when("billTo", {
+        is: "custom",
+        then:(schema) => schema.required("Required")
+          .required("Required")
+          .min(10, "Must be at least 10 characters")
+          .max(10, "Must be exactly 10 characters")
+          .matches(/^[0-9]+$/, "Must contain only digits"),
+        otherwise: (schema) => schema.notRequired(),
       }),
-      //  address:Yup.string().when('billTo', {
-      //   is: (value) => value === 'custom',
-      //   then: (schema) => schema.required('Required'),
-      //   otherwise: (schema) => schema,
-      // }),
+      // email: Yup.string()
+      // .transform((originalValue) => originalValue.trim())
+      // .matches(emailValidationRegex, "Invalid email address")
+      // .required("Required")
     }),
     onSubmit: (values) => {
       nextStep();
@@ -1664,14 +1669,21 @@ if (name.includes("term"))
                     <p className="text-2xl font-bold mb-4">Bill Details : </p>
                     <Grid>
                       <div className="col-span-4">
-                        <Input
-                          name="name"
-                          label="Name"
-                          type="text"
-                          className="bg-[#ffff]"
-                          // required={true}
-                          placeholder=""
-                        />
+                      <Input
+                      type="text"
+                      name="name"
+                      className="!bg-white"
+                      label="Name"
+                      // required={true}
+                      placeholder=""
+                      value={formik.values.name}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.name &&
+                        formik.errors.name
+                      }
+                    />
                         {formik.touched.name &&
                           formik.errors.name && (
                             <div className="text-red-500 text-sm pl-2 pt-2">
@@ -1679,39 +1691,54 @@ if (name.includes("term"))
                             </div>
                           )}
                       </div>
-                      {/* <div className="col-span-4">
-                        <Input
-                          name="lastName"
-                          className="bg-[#ffff]"
-                          label="Last Name"
-                          type="text"
-                          // required={true}
-                          placeholder=""
-                        />
-                        {formik.touched.lastName && formik.errors.lastName && (
-                          <div className="text-red-500 text-sm pl-2 pt-2">
-                            {formik.errors.lastName}
-                          </div>
-                        )}
-                      </div> */}
+                    
                       <div className="col-span-4">
-                        <Input
-                          name="email"
-                          label="Email"
-                          className="bg-[#ffff]"
-                          type="email"
-                          // required={true}
-                          placeholder=""
-                        />
+                      <Input
+                      type="email"
+                      name="email"
+                      className="!bg-white"
+                      label="Email"
+                      // required={true}
+                      placeholder=""
+                      value={formik.values.email}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.email &&
+                        formik.errors.email
+                      }
+                    />
+                      
                       </div>
                       <div className="col-span-4">
-                        <Input
-                          name="phone"
-                          label="Phone Number"
-                          className="bg-[#ffff]"
-                          type="number"
-                          placeholder=""
-                        />
+                      <Input
+                    type="tel"
+                    name="phoneNumber"
+                    label="Phone"
+                    // required={true}
+                    className="!bg-white"
+                    placeholder=""
+                    value={formik.values.phoneNumber}
+                    onChange={(e) => {
+                      const sanitizedValue = e.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
+                      formik.handleChange({
+                        target: {
+                          name: "phoneNumber",
+                          value: sanitizedValue,
+                        },
+                      });
+                    }}
+                    onBlur={formik.handleBlur}
+                    minLength={"10"}
+                    maxLength={"10"}
+                    error={
+                      formik.touched.phoneNumber &&
+                      formik.errors.phoneNumber
+                    }
+                    />
                         {formik.touched.phoneNumber &&
                           formik.errors.phoneNumber && (
                             <div className="text-red-500 text-sm pl-2 pt-2">
@@ -1719,14 +1746,23 @@ if (name.includes("term"))
                             </div>
                           )}
                       </div>
-                      <div className="col-span-12">
-                        <Input
-                          name="address"
-                          label="Address"
-                          className="bg-[#ffff]"
-                          type="text"
-                          placeholder=""
-                        />
+                     
+                      <div className="col-span-8">
+                      <Input
+                      type="text"
+                      name="Address"
+                      className="!bg-white"
+                      label="Address"
+                      // required={true}
+                      placeholder=""
+                      value={formik.values.Address}
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.Address &&
+                        formik.errors.Address
+                      }
+                    />
                       </div>
                     </Grid>
                   </div>
