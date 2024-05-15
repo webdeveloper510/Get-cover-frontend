@@ -1174,6 +1174,7 @@ function AddOrder() {
       );
       formikStep3.setFieldValue(`productsArray[${productIndex}].term`, "");
       formikStep3.setFieldValue(`productsArray[${productIndex}].price`, "");
+      formikStep3.setFieldValue(`productsArray[${productIndex}].pName`, "");
       formikStep3.setFieldValue(
         `productsArray[${productIndex}].noOfProducts`,
         ""
@@ -2057,33 +2058,17 @@ if (name.includes("term"))
                               </div>
                             )}
                         </>
-                        {/* <Select
-                          label="Terms"
-                          name={`productsArray[${index}].term`}
-                          placeholder=""
-                          onChange={handleSelectChange2}
-                          disabled={formikStep3.values.productsArray[index]
-                            .categoryId == ""}
-                          className="!bg-[#fff]"
-                          options={termList}
-                          value={
-                            formikStep3.values.productsArray[index].term +
-                            " Months"
-                          }
-                          onBlur={formikStep3.handleBlur}
-                        /> */}
                       </div>
                       <div className="col-span-6">
                         <Select
                           label="Product Name"
-                          name={`productsArray[${index}].term`}
+                          name={`productsArray[${index}].pName`}
                           placeholder=""
                           onChange={handleSelectChange2}
                           className="!bg-[#fff]"
-                          options={termList}
+                          options={productNameOptions[index]?.pName}
                           value={
-                            formikStep3.values.productsArray[index].term +
-                            " Months"
+                            formikStep3.values.productsArray[index].pName
                           }
                           onBlur={formikStep3.handleBlur}
                         />
