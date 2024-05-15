@@ -1982,7 +1982,7 @@ if (name.includes("term"))
                         </>
                         {/* )} */}
                       </div>
-                      <div className="col-span-4">
+                      <div className="col-span-6">
                       <>
                           <Select
                             name={`productsArray[${index}].term`}

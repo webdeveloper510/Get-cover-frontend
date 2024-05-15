@@ -168,7 +168,7 @@ function DealerPriceList() {
   const formik = useFormik({
     initialValues: {
       name: "",
-      // pName:"",
+      pName:"",
       dealerName: "",
       status: "",
       category: "",
@@ -594,7 +594,7 @@ function DealerPriceList() {
                 {" "}
                 {dealerPriceBookDetail?.priceBooks?.status === true
                   ? "Active"
-                  : "UnActive"}
+                  : "InActive"}
               </p>
             </div>
             <div className="col-span-4">
