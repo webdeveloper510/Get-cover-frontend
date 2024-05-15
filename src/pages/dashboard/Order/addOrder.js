@@ -59,6 +59,7 @@ function AddOrder() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [resellerName, setResellerName] = useState("");
   const [termList, setTermList] = useState([]);
+  const [productList, setProductList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productLoading, setProductLoading] = useState(false);
   const [isErrorOpen, setIsErrorOpen] = useState(false);
@@ -95,7 +96,7 @@ function AddOrder() {
 
   const downloadCSVTemplate = async () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1BKGAJLFhjQXN8Wg4nYkUdFKpiPZ3h12-CMlrlkzAZE0/edit#gid=0",
+      "https://docs.google.com/spreadsheets/d/1PANNmDTU0UA_z93yc3DkL1lfHeRStXpEp6OkJn-_iUQ/edit#gid=0",
       "_blank"
     );
   };
@@ -133,12 +134,12 @@ function AddOrder() {
   const getTermListData = async () => {
     try {
       const res = await getTermList();
-      setTermList(
-        res.result.terms.map((item) => ({
-          label: item.terms + " Months",
-          value: item.terms,
-        }))
-      );
+      // setTermList(
+      //   res.result.terms.map((item) => ({
+      //     label: item.terms + " Months",
+      //     value: item.terms,
+      //   }))
+      // );
     } catch (error) {
       console.error("Error fetching category list:", error);
     }
@@ -815,17 +816,18 @@ function AddOrder() {
           .filter((value) => value.data.length > 0)[0].data[0];
         arr1.push(value1 ? value1.label : "");
       });
+     
       setCategoryName(arr);
       setPriceBookName(arr1);
       setLoading5(false);
     },
   });
   const BillTo = [
-    { label: "Dealer", value: "dealer" },
+    { label: "Dealer", value: "Dealer" },
     ...(formik.values.resellerId !== ""
-      ? [{ label: "Reseller", value: "reseller" }]
+      ? [{ label: "Reseller", value: "Reseller" }]
       : []),
-    { label: "Custom", value: "custom" },
+    { label: "Custom", value: "Custom" },
   ];
   const checkMultipleEmailCheck = (data) => {
     const formData = new FormData();
@@ -1172,7 +1174,7 @@ function AddOrder() {
         `productsArray[${productIndex}].priceBookId`,
         ""
       );
-      formikStep3.setFieldValue(`productsArray[${productIndex}].term`, "");
+      // formikStep3.setFieldValue(`productsArray[${productIndex}].term`, "");
       formikStep3.setFieldValue(`productsArray[${productIndex}].price`, "");
       formikStep3.setFieldValue(`productsArray[${productIndex}].pName`, "");
       formikStep3.setFieldValue(
@@ -1243,10 +1245,10 @@ function AddOrder() {
           `productsArray[${productIndex}].unitPrice`,
           data.wholesalePrice
         );
-        // formikStep3.setFieldValue(
-        //   `productsArray[${productIndex}].term`,
-        //   data.term
-        // );
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].term`,
+          data.term
+        );
       }
     };
 
@@ -1283,7 +1285,7 @@ function AddOrder() {
         (value) => value.value === selectedValue
       );
       clearProductFields();
-      // updateProductFields(selectedValue);
+      updateProductFields(selectedValue);
       getCategoryList(
         formik.values.dealerId,
         {
@@ -1298,7 +1300,7 @@ function AddOrder() {
     }
 if (name.includes("term"))
   {
-    updateProductFields(selectedValue);
+    // updateProductFields(selectedValue);
       getCategoryList(
         formik.values.dealerId,
         {
@@ -1313,6 +1315,23 @@ if (name.includes("term"))
       
     console.log(name,selectedValue)
   }
+  if (name.includes("pName"))
+    {
+      // updateProductFields(selectedValue);
+        getCategoryList(
+          formik.values.dealerId,
+          {
+            priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
+            priceBookId: formikStep3.values.productsArray[productIndex].priceBookId,
+            pName:selectedValue,
+            term:formikStep3.values.productsArray[productIndex].term,
+            coverageType: formikStep2?.values?.coverageType,
+          },
+          productIndex
+        );
+        
+      console.log(name,selectedValue)
+    }
     formikStep3.setFieldValue(name, selectedValue);
   };
 
@@ -1477,7 +1496,7 @@ if (name.includes("term"))
           `productsArray[${index}].categoryId`,
           result.result.selectedCategory._id
         );
-
+console.log(data)
         getCategoryList(
           formik.values?.dealerId,
           {
@@ -1491,35 +1510,50 @@ if (name.includes("term"))
         );
       }
 
-      setCategoryList(
-        result.result?.priceCategories.map((item) => ({
-          label: item.name,
-          value: item._id,
-        }))
-      );
+      
       if (formikStep3.values.productsArray.length !== 0) {
-        for (let i = 0; i < index + 1; i++) {
-          setProductNameOptions((prevOptions) => {
+        const updateOptions = (stateSetter, data) => {
+          stateSetter(prevOptions => {
             const newOptions = [...prevOptions];
-
-            newOptions[index] = {
-              data: result.result?.priceBooks.map((item) => ({
-                label: item.name,
-                value: item._id,
-                description: item.description,
-                term: item.term,
-                priceType: item.priceType,
-                quantityPriceDetail: item.quantityPriceDetail,
-                wholesalePrice: item?.retailPrice?.toFixed(2),
-                status: item.status,
-                rangeStart: item?.rangeStart?.toFixed(2),
-                rangeEnd: item?.rangeEnd?.toFixed(2),
-              })),
-            };
+            newOptions[index] = { data };
             return newOptions;
           });
-        }
+        };
+      
+        const priceBooksData = result.result?.priceBooks.map(item => ({
+          label: item.name,
+          value: item._id,
+          description: item.description,
+          term: item.term,
+          priceType: item.priceType,
+          quantityPriceDetail: item.quantityPriceDetail,
+          wholesalePrice: item?.retailPrice?.toFixed(2),
+          status: item.status,
+          rangeStart: item?.rangeStart?.toFixed(2),
+          rangeEnd: item?.rangeEnd?.toFixed(2),
+        }));
+      
+        // setCategoryList(
+        const category=  result.result?.priceCategories.map((item) => ({
+            label: item.name,
+            value: item._id,
+          }))
+        // );
+        const termsData = result.result?.terms.map(item => ({
+          label: item.label,
+          value: item.value
+        }));
+      
+        const productListData = result.result?.productName.map(item => ({
+          label: item.pName,
+          value: item.pName
+        }));
+        updateOptions(setCategoryList, category);
+        updateOptions(setProductNameOptions, priceBooksData);
+        updateOptions(setTermList, termsData);
+        updateOptions(setProductList, productListData);
       }
+      
     } catch (error) {
       setLoading3(false);
       setLoading(false);
@@ -1948,7 +1982,7 @@ if (name.includes("term"))
                         <Select
                           name={`productsArray[${index}].categoryId`}
                           label="Product Category"
-                          options={categoryList}
+                          options={categoryList[index]?.data}
                           required={true}
                           className="!bg-[#fff]"
                           placeholder=""
@@ -2024,7 +2058,7 @@ if (name.includes("term"))
                           <Select
                             name={`productsArray[${index}].term`}
                             label="Terms"
-                            options={termList}
+                            options={termList[index]?.data}
                             required={true}
                             className="!bg-[#fff]"
                             placeholder=""
@@ -2059,20 +2093,6 @@ if (name.includes("term"))
                             )}
                         </>
                       </div>
-                      <div className="col-span-6">
-                        <Select
-                          label="Product Name"
-                          name={`productsArray[${index}].pName`}
-                          placeholder=""
-                          onChange={handleSelectChange2}
-                          className="!bg-[#fff]"
-                          options={productNameOptions[index]?.pName}
-                          value={
-                            formikStep3.values.productsArray[index].pName
-                          }
-                          onBlur={formikStep3.handleBlur}
-                        />
-                      </div>
                       <div className="col-span-12">
                         <Input
                           type="text"
@@ -2092,22 +2112,42 @@ if (name.includes("term"))
                         />
                       </div>
                       <div className="col-span-4">
-                        <Input
-                          label="ADH (Waiting Days)"
-                          name={`productsArray[${index}].term`}
+                        <Select
+                          label="Product Name"
+                          name={`productsArray[${index}].pName`}
                           placeholder=""
                           onChange={handleSelectChange2}
                           disabled={formikStep3.values.productsArray[index]
                             .categoryId == ""}
                           className="!bg-[#fff]"
-                          // options={termList}
+                          options={productList[index]?.data}
                           value={
-                            formikStep3.values.productsArray[index].priceType
+                            formikStep3.values.productsArray[index].pName 
                           }
                           // onChange={formikStep3.handleChange}
                           onBlur={formikStep3.handleBlur}
-                          // onBlur={formikStep3.handleBlur}
+                          index={index}
+                            error={
+                              formikStep3.values.productsArray &&
+                              formikStep3.values.productsArray[index] &&
+                              formikStep3.values.productsArray &&
+                              formikStep3.values.productsArray[index] &&
+                              formikStep3.values.productsArray[index]
+                                .pName
+                            }
+                            
                         />
+                           {formikStep3.touched.productsArray &&
+                            formikStep3.touched.productsArray[index] &&
+                            formikStep3.touched.productsArray[index]
+                              .pName && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formikStep3.errors.productsArray &&
+                                  formikStep3.errors.productsArray[index] &&
+                                  formikStep3.errors.productsArray[index]
+                                    .pName}
+                              </div>
+                            )}
                       </div>
                       <div className="col-span-4">
                         <Input
