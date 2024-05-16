@@ -75,6 +75,7 @@ function Dealer() {
         categoryId: "",
         wholesalePrice: "",
         terms: "",
+        pName:"",
         description: "",
         retailPrice: "",
         status: "",
@@ -119,6 +120,7 @@ function Dealer() {
       categoryId: "",
       wholesalePrice: "",
       terms: "",
+      pName:"",
       description: "",
       retailPrice: "",
       status: "",
@@ -167,6 +169,7 @@ function Dealer() {
             wholesalePrice: "",
             terms: "",
             description: "",
+            pName:"",
             retailPrice: "",
             status: "",
           },
@@ -215,6 +218,7 @@ function Dealer() {
                 categoryId: "",
                 wholesalePrice: "",
                 terms: "",
+                pName:"",
                 description: "",
                 retailPrice: "",
                 status: "",
@@ -347,7 +351,7 @@ function Dealer() {
       formik.setFieldValue(`priceBook[${match[1]}].priceBookId`, "");
       if (match) {
         const response = await getProductListbyProductCategoryId(selectedValue, {coverageType : types});
-        // console.log(`priceBook[${index].description`);
+        console.log(response.result,"-------------------");
         setProductNameOptions((prevOptions) => {
           const newOptions = [...prevOptions];
           newOptions[match[1]] = {
@@ -356,6 +360,7 @@ function Dealer() {
               value: item._id,
               description: item.description,
               term: item.term,
+              pName:item.pName,
               wholesalePrice:
                 item.frontingFee +
                 item.reserveFutureFee +
@@ -416,6 +421,7 @@ function Dealer() {
       categoryId: "",
       wholesalePrice: "",
       terms: "",
+      pName:"",
       description: "",
       retailPrice: "",
       status: "",
@@ -533,6 +539,7 @@ function Dealer() {
                 terms: "",
                 description: "",
                 retailPrice: "",
+                pName:"",
                 status: "",
               },
             ]
@@ -1517,13 +1524,13 @@ function Dealer() {
                         <div className="col-span-3">
                           <Input
                             type="text"
-                            name={`priceBook[${index}].wholesalePrice`}
+                            name={`priceBook[${index}].pName`}
                             className="!bg-[#f9f9f9]"
                             label="Product Name"
                             required={true}
                             placeholder=""
                             value={
-                              formik.values.priceBook[index].wholesalePrice
+                              formik.values.priceBook[index].pName
                             }
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}

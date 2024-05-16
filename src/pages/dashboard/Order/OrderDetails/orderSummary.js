@@ -170,7 +170,7 @@ function OrderSummary(props) {
                               ADH (Waiting Days)
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              {res?.adh}
+                              {res?.adh === "" ? 0 : res?.adh}
                             </p>
                           </div>
                         </div>

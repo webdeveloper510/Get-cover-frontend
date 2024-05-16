@@ -1038,7 +1038,7 @@ function ContractList(props) {
                           </p>
                         </div>
                       </div>
-                      <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                      <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Claim Amount
@@ -1112,7 +1112,7 @@ function ContractList(props) {
                           </p>
                         </div>
                       </div>
-                      <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
+                      <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Coverage End Date
@@ -1120,6 +1120,54 @@ function ContractList(props) {
                           <p className="text-[#333333] text-base font-semibold">
                             {new Date(
                               contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1] ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Labour Warranty Last Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                           { new Date(
+                              contractDetails?.labourWarranty
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1] ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Part Warranty Last Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            { new Date(
+                              contractDetails?.partsWarranty
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-[#D1D1D1] ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Purchase Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                          {new Date(
+                              contractDetails?.purchaseDate
                             ).toLocaleDateString("en-US", {
                               month: "2-digit",
                               day: "2-digit",

@@ -218,7 +218,7 @@ function DealerPriceList() {
       minWidth: "100px",
     },
     {
-      name: "Product Name",
+      name: "Product SKU",
       selector: (row) => row.priceBooks[0]?.name,
       sortable: true,
       minWidth: "150px",

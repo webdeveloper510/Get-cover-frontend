@@ -117,6 +117,60 @@ function Dashboard() {
                   <p className="text-neutral-grey text-sm">Total Value of Claims</p>
                 </div>
               </Grid>
+
+              <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
+                <div className="col-span-6 border-2 rounded-xl">
+                  <div className="bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-2">
+                    <p className="text-xl font-semibold">Latest Five Order</p>
+                  </div>
+                  <div className="px-3 py-2">
+                    <p><b>1.</b> </p>
+                    <p><b>2.</b> </p>
+                    <p><b>3.</b> </p>
+                    <p><b>4.</b> </p>
+                    <p><b>5.</b> </p>
+                  </div>
+                </div>
+                <div className="col-span-6 border-2 rounded-xl">
+                  <div className="bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-2">
+                    <p className="text-xl font-semibold">Latest Five Claim</p>
+                  </div>
+                  <div className="px-3 py-2">
+                    <p><b>1.</b> </p>
+                    <p><b>2.</b> </p>
+                    <p><b>3.</b> </p>
+                    <p><b>4.</b> </p>
+                    <p><b>5.</b> </p>
+                  </div>
+                </div>
+              </Grid>
+
+              <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
+                <div className="col-span-6 border-2 rounded-xl">
+                  <div className="bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-2">
+                    <p className="text-xl font-semibold">Top Five Dealer</p>
+                  </div>
+                  <div className="px-3 py-2">
+                    <p><b>1.</b> </p>
+                    <p><b>2.</b> </p>
+                    <p><b>3.</b> </p>
+                    <p><b>4.</b> </p>
+                    <p><b>5.</b> </p>
+                  </div>
+                </div>
+                <div className="col-span-6 border-2 rounded-xl">
+                  <div className="bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-2">
+                    <p className="text-xl font-semibold">Top Five Servicer</p>
+                  </div>
+                  <div className="px-3 py-2">
+                    <p><b>1.</b> </p>
+                    <p><b>2.</b> </p>
+                    <p><b>3.</b> </p>
+                    <p><b>4.</b> </p>
+                    <p><b>5.</b> </p>
+                  </div>
+                </div>
+              </Grid>
               
               {/* <Grid className="s:hidden md:block ">
                 <div className="col-span-12">
