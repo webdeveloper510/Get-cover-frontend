@@ -822,9 +822,10 @@ function AddOrder() {
       setLoading5(false);
     },
   });
+  
   const BillTo = [
     { label: "Dealer", value: "Dealer" },
-    ...(formik.values.resellerId !== ""
+    ...(formik.values.resellerId !== "" && formik.values.resellerId !== null
       ? [{ label: "Reseller", value: "Reseller" }]
       : []),
     { label: "Custom", value: "Custom" },
@@ -1699,7 +1700,7 @@ if (name.includes("term"))
                     </Grid>
                   </div>
                 </Grid>
-                {formik.values.billTo === "custom" && (
+                {formik.values.billTo === "Custom" && (
                   <div>
                     <p className="text-2xl font-bold mb-4">Bill Details : </p>
                     <Grid>
