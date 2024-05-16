@@ -640,7 +640,7 @@ function AddOrder() {
       servicerId: "",
       customerId: "",
       resellerId: "",
-      billTo: "",
+      billTo: "Dealer",
       name: "",
       email: "",
       phoneNumber: "",
@@ -1444,7 +1444,7 @@ function AddOrder() {
     }
     if (name == "resellerId") {
       if (value == "") {
-        formik.setFieldValue("billTo", "");
+        formik.setFieldValue("billTo", "Dealer");
       }
       getCustomerList({
         dealerId: formik.values.dealerId,
