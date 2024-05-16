@@ -305,8 +305,8 @@ function AddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
-          pName:"",
-          term:"",
+          pName: "",
+          term: "",
           coverageType: formikStep2?.values?.coverageType,
         },
         0
@@ -330,8 +330,8 @@ function AddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
-          pName:"",
-          term:"",
+          pName: "",
+          term: "",
           coverageType: formikStep2?.values?.coverageType,
         },
         0
@@ -356,8 +356,8 @@ function AddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
-          pName:"",
-          term:"",
+          pName: "",
+          term: "",
           coverageType: formikStep2?.values?.coverageType,
         },
         0
@@ -516,14 +516,13 @@ function AddOrder() {
     });
 
     result?.result?.productsArray?.forEach((product, index) => {
-     
       getCategoryList(
         result.result.dealerId,
         {
           priceBookId: product.priceBookId,
           priceCatId: product.categoryId,
-          term:product.term,
-          pName:product.pName,
+          term: product.term,
+          pName: product.pName,
           coverageType: result?.result?.coverageType,
         },
         index
@@ -568,6 +567,7 @@ function AddOrder() {
         priceType: product.priceType || "",
         additionalNotes: product.additionalNotes || "",
         QuantityPricing: product.QuantityPricing || [],
+        pName: product.pName || "",
         rangeStart: product.rangeStart || "",
         rangeEnd: product.rangeEnd || "",
         checkNumberProducts: product.checkNumberProducts || "",
@@ -651,18 +651,19 @@ function AddOrder() {
       dealerId: Yup.string().required("Dealer Name is required"),
       name: Yup.string().when("billTo", {
         is: (value) => value === "custom",
-        then: (schema) => schema .transform(value => value.trim())
-        .required("Required"),
+        then: (schema) =>
+          schema.transform((value) => value.trim()).required("Required"),
         otherwise: (schema) => schema.notRequired(),
       }),
-      phoneNumber: Yup.string()
-      .when("billTo", {
+      phoneNumber: Yup.string().when("billTo", {
         is: "custom",
-        then:(schema) => schema.required("Required")
-          .required("Required")
-          .min(10, "Must be at least 10 characters")
-          .max(10, "Must be exactly 10 characters")
-          .matches(/^[0-9]+$/, "Must contain only digits"),
+        then: (schema) =>
+          schema
+            .required("Required")
+            .required("Required")
+            .min(10, "Must be at least 10 characters")
+            .max(10, "Must be exactly 10 characters")
+            .matches(/^[0-9]+$/, "Must contain only digits"),
         otherwise: (schema) => schema.notRequired(),
       }),
       // email: Yup.string()
@@ -733,7 +734,7 @@ function AddOrder() {
           coverageEndDate: "",
           description: "",
           term: "",
-          pName:"",
+          pName: "",
           priceType: "",
           additionalNotes: "",
           coverageEndDate: "",
@@ -800,14 +801,13 @@ function AddOrder() {
 
       values.productsArray.map((data, index) => {
         const value = categoryList
-        .map((val) => ({
-          ...val,
-          data: val.data.filter((res) => res.value === data.categoryId),
-        }))
-        .filter((value) => value.data.length > 0)[0].data[0];
-      arr.push(value ? value.label : "");
-    
-        
+          .map((val) => ({
+            ...val,
+            data: val.data.filter((res) => res.value === data.categoryId),
+          }))
+          .filter((value) => value.data.length > 0)[0].data[0];
+        arr.push(value ? value.label : "");
+
         const value1 = productNameOptions
           .map((val) => ({
             ...val,
@@ -816,13 +816,13 @@ function AddOrder() {
           .filter((value) => value.data.length > 0)[0].data[0];
         arr1.push(value1 ? value1.label : "");
       });
-     
+
       setCategoryName(arr);
       setPriceBookName(arr1);
       setLoading5(false);
     },
   });
-  
+
   const BillTo = [
     { label: "Dealer", value: "Dealer" },
     ...(formik.values.resellerId !== "" && formik.values.resellerId !== null
@@ -1113,7 +1113,7 @@ function AddOrder() {
       priceType: "",
       additionalNotes: "",
       QuantityPricing: [],
-      pName:"",
+      pName: "",
       rangeStart: "",
       rangeEnd: "",
       checkNumberProducts: "",
@@ -1125,8 +1125,8 @@ function AddOrder() {
       {
         priceBookId: "",
         priceCatId: "",
-        pName:"",
-        term:"",
+        pName: "",
+        term: "",
         coverageType: formikStep2?.values?.coverageType,
       },
       formikStep3.values.productsArray.length
@@ -1265,13 +1265,13 @@ function AddOrder() {
         selectedValue
       );
       clearProductFields();
-      console.log(formikStep3.values.productsArray[productIndex])
+      console.log(formikStep3.values.productsArray[productIndex]);
       getCategoryList(
         formik.values.dealerId,
         {
           priceCatId: selectedValue,
-          pName:formikStep3.values.productsArray[productIndex].pName ,
-          term:formikStep3.values.productsArray[productIndex].term,
+          pName: formikStep3.values.productsArray[productIndex].pName,
+          term: formikStep3.values.productsArray[productIndex].term,
           priceBookId:
             selectedValue == ""
               ? ""
@@ -1293,45 +1293,46 @@ function AddOrder() {
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId: selectedValue,
-          pName:formikStep3.values.productsArray[productIndex].pName,
-          term:formikStep3.values.productsArray[productIndex].term, selectedValue,
+          pName: formikStep3.values.productsArray[productIndex].pName,
+          term: formikStep3.values.productsArray[productIndex].term,
+          selectedValue,
           coverageType: formikStep2?.values?.coverageType,
         },
         productIndex
       );
     }
-if (name.includes("term"))
-  {
-    // updateProductFields(selectedValue);
+    if (name.includes("term")) {
+      // updateProductFields(selectedValue);
       getCategoryList(
         formik.values.dealerId,
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
-          priceBookId: formikStep3.values.productsArray[productIndex].priceBookId,
-          pName:formikStep3.values.productsArray[productIndex].pName,
-          term:selectedValue,
+          priceBookId:
+            formikStep3.values.productsArray[productIndex].priceBookId,
+          pName: formikStep3.values.productsArray[productIndex].pName,
+          term: selectedValue,
           coverageType: formikStep2?.values?.coverageType,
         },
         productIndex
       );
-      
-    // console.log(name,selectedValue)
-  }
-  if (name.includes("pName"))
-    {
+
+      // console.log(name,selectedValue)
+    }
+    if (name.includes("pName")) {
       // updateProductFields(selectedValue);
-        getCategoryList(
-          formik.values.dealerId,
-          {
-            priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
-            priceBookId: formikStep3.values.productsArray[productIndex].priceBookId,
-            pName:selectedValue,
-            term:formikStep3.values.productsArray[productIndex].term,
-            coverageType: formikStep2?.values?.coverageType,
-          },
-          productIndex
-        );
-        
+      getCategoryList(
+        formik.values.dealerId,
+        {
+          priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
+          priceBookId:
+            formikStep3.values.productsArray[productIndex].priceBookId,
+          pName: selectedValue,
+          term: formikStep3.values.productsArray[productIndex].term,
+          coverageType: formikStep2?.values?.coverageType,
+        },
+        productIndex
+      );
+
       // console.log(name,selectedValue)
     }
     formikStep3.setFieldValue(name, selectedValue);
@@ -1396,8 +1397,8 @@ if (name.includes("term"))
         {
           priceBookId: "",
           priceCatId: "",
-          pName:"",
-          term:"",
+          pName: "",
+          term: "",
           coverageType: value,
         },
         0
@@ -1434,8 +1435,8 @@ if (name.includes("term"))
         {
           priceBookId: "",
           priceCatId: "",
-          pName:"",
-          term:"",
+          pName: "",
+          term: "",
           coverageType: formikStep2?.values?.coverageType,
         },
         0
@@ -1488,7 +1489,7 @@ if (name.includes("term"))
     }
   };
 
-  const getCategoryList = async (value, data, index) => { 
+  const getCategoryList = async (value, data, index) => {
     try {
       setLoading3(true);
 
@@ -1505,23 +1506,22 @@ if (name.includes("term"))
             priceCatId: result.result.selectedCategory._id,
             coverageType: formikStep2?.values?.coverageType,
             term: data.term,
-            pName:data.pName
+            pName: data.pName,
           },
           index
         );
       }
 
-      
       if (formikStep3.values.productsArray.length !== 0) {
         const updateOptions = (stateSetter, data) => {
-          stateSetter(prevOptions => {
+          stateSetter((prevOptions) => {
             const newOptions = [...prevOptions];
             newOptions[index] = { data };
             return newOptions;
           });
         };
-      
-        const priceBooksData = result.result?.priceBooks.map(item => ({
+
+        const priceBooksData = result.result?.priceBooks.map((item) => ({
           label: item.name,
           value: item._id,
           description: item.description,
@@ -1533,28 +1533,27 @@ if (name.includes("term"))
           rangeStart: item?.rangeStart?.toFixed(2),
           rangeEnd: item?.rangeEnd?.toFixed(2),
         }));
-      
+
         // setCategoryList(
-        const category=  result.result?.priceCategories.map((item) => ({
-            label: item.name,
-            value: item._id,
-          }))
-        // );
-        const termsData = result.result?.terms.map(item => ({
-          label: item.label,
-          value: item.value
+        const category = result.result?.priceCategories.map((item) => ({
+          label: item.name,
+          value: item._id,
         }));
-      
-        const productListData = result.result?.productName.map(item => ({
+        // );
+        const termsData = result.result?.terms.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }));
+
+        const productListData = result.result?.productName.map((item) => ({
           label: item.pName,
-          value: item.pName
+          value: item.pName,
         }));
         updateOptions(setCategoryList, category);
         updateOptions(setProductNameOptions, priceBooksData);
         updateOptions(setTermList, termsData);
         updateOptions(setProductList, productListData);
       }
-      
     } catch (error) {
       setLoading3(false);
       setLoading(false);
@@ -1705,76 +1704,68 @@ if (name.includes("term"))
                     <p className="text-2xl font-bold mb-4">Bill Details : </p>
                     <Grid>
                       <div className="col-span-4">
-                      <Input
-                      type="text"
-                      name="name"
-                      className="!bg-white"
-                      label="Name"
-                      // required={true}
-                      placeholder=""
-                      value={formik.values.name}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      error={
-                        formik.touched.name &&
-                        formik.errors.name
-                      }
-                    />
-                        {formik.touched.name &&
-                          formik.errors.name && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.name}
-                            </div>
-                          )}
+                        <Input
+                          type="text"
+                          name="name"
+                          className="!bg-white"
+                          label="Name"
+                          // required={true}
+                          placeholder=""
+                          value={formik.values.name}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          error={formik.touched.name && formik.errors.name}
+                        />
+                        {formik.touched.name && formik.errors.name && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formik.errors.name}
+                          </div>
+                        )}
                       </div>
-                    
+
                       <div className="col-span-4">
-                      <Input
-                      type="email"
-                      name="email"
-                      className="!bg-white"
-                      label="Email"
-                      // required={true}
-                      placeholder=""
-                      value={formik.values.email}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      error={
-                        formik.touched.email &&
-                        formik.errors.email
-                      }
-                    />
-                      
+                        <Input
+                          type="email"
+                          name="email"
+                          className="!bg-white"
+                          label="Email"
+                          // required={true}
+                          placeholder=""
+                          value={formik.values.email}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          error={formik.touched.email && formik.errors.email}
+                        />
                       </div>
                       <div className="col-span-4">
-                      <Input
-                    type="tel"
-                    name="phoneNumber"
-                    label="Phone"
-                    // required={true}
-                    className="!bg-white"
-                    placeholder=""
-                    value={formik.values.phoneNumber}
-                    onChange={(e) => {
-                      const sanitizedValue = e.target.value.replace(
-                        /[^0-9]/g,
-                        ""
-                      );
-                      formik.handleChange({
-                        target: {
-                          name: "phoneNumber",
-                          value: sanitizedValue,
-                        },
-                      });
-                    }}
-                    onBlur={formik.handleBlur}
-                    minLength={"10"}
-                    maxLength={"10"}
-                    error={
-                      formik.touched.phoneNumber &&
-                      formik.errors.phoneNumber
-                    }
-                    />
+                        <Input
+                          type="tel"
+                          name="phoneNumber"
+                          label="Phone"
+                          // required={true}
+                          className="!bg-white"
+                          placeholder=""
+                          value={formik.values.phoneNumber}
+                          onChange={(e) => {
+                            const sanitizedValue = e.target.value.replace(
+                              /[^0-9]/g,
+                              ""
+                            );
+                            formik.handleChange({
+                              target: {
+                                name: "phoneNumber",
+                                value: sanitizedValue,
+                              },
+                            });
+                          }}
+                          onBlur={formik.handleBlur}
+                          minLength={"10"}
+                          maxLength={"10"}
+                          error={
+                            formik.touched.phoneNumber &&
+                            formik.errors.phoneNumber
+                          }
+                        />
                         {formik.touched.phoneNumber &&
                           formik.errors.phoneNumber && (
                             <div className="text-red-500 text-sm pl-2 pt-2">
@@ -1782,23 +1773,22 @@ if (name.includes("term"))
                             </div>
                           )}
                       </div>
-                     
+
                       <div className="col-span-8">
-                      <Input
-                      type="text"
-                      name="Address"
-                      className="!bg-white"
-                      label="Address"
-                      // required={true}
-                      placeholder=""
-                      value={formik.values.Address}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      error={
-                        formik.touched.Address &&
-                        formik.errors.Address
-                      }
-                    />
+                        <Input
+                          type="text"
+                          name="Address"
+                          className="!bg-white"
+                          label="Address"
+                          // required={true}
+                          placeholder=""
+                          value={formik.values.Address}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          error={
+                            formik.touched.Address && formik.errors.Address
+                          }
+                        />
                       </div>
                     </Grid>
                   </div>
@@ -2022,8 +2012,10 @@ if (name.includes("term"))
                             required={true}
                             className="!bg-[#fff]"
                             placeholder=""
-                            disabled={formikStep3.values.productsArray[index]
-                              .categoryId == ""}
+                            disabled={
+                              formikStep3.values.productsArray[index]
+                                .categoryId == ""
+                            }
                             value={
                               formikStep3.values.productsArray[index]
                                 .priceBookId
@@ -2055,7 +2047,7 @@ if (name.includes("term"))
                         {/* )} */}
                       </div>
                       <div className="col-span-4">
-                      <>
+                        <>
                           <Select
                             name={`productsArray[${index}].term`}
                             label="Terms"
@@ -2063,12 +2055,11 @@ if (name.includes("term"))
                             required={true}
                             className="!bg-[#fff]"
                             placeholder=""
-                            disabled={formikStep3.values.productsArray[index]
-                              .categoryId == ""}
-                            value={
+                            disabled={
                               formikStep3.values.productsArray[index]
-                                .term
+                                .categoryId == ""
                             }
+                            value={formikStep3.values.productsArray[index].term}
                             onBlur={formikStep3.handleBlur}
                             onChange={handleSelectChange2}
                             index={index}
@@ -2077,19 +2068,16 @@ if (name.includes("term"))
                               formikStep3.values.productsArray[index] &&
                               formikStep3.values.productsArray &&
                               formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray[index]
-                                .term
+                              formikStep3.values.productsArray[index].term
                             }
                           />
                           {formikStep3.touched.productsArray &&
                             formikStep3.touched.productsArray[index] &&
-                            formikStep3.touched.productsArray[index]
-                              .term && (
+                            formikStep3.touched.productsArray[index].term && (
                               <div className="text-red-500 text-sm pl-2 pt-2">
                                 {formikStep3.errors.productsArray &&
                                   formikStep3.errors.productsArray[index] &&
-                                  formikStep3.errors.productsArray[index]
-                                    .term}
+                                  formikStep3.errors.productsArray[index].term}
                               </div>
                             )}
                         </>
@@ -2118,36 +2106,32 @@ if (name.includes("term"))
                           name={`productsArray[${index}].pName`}
                           placeholder=""
                           onChange={handleSelectChange2}
-                          disabled={formikStep3.values.productsArray[index]
-                            .categoryId == ""}
+                          disabled={
+                            formikStep3.values.productsArray[index]
+                              .categoryId == ""
+                          }
                           className="!bg-[#fff]"
                           options={productList[index]?.data}
-                          value={
-                            formikStep3.values.productsArray[index].pName 
-                          }
+                          value={formikStep3.values.productsArray[index].pName}
                           onBlur={formikStep3.handleBlur}
                           index={index}
-                            error={
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray[index]
-                                .pName
-                            }
-                            
+                          error={
+                            formikStep3.values.productsArray &&
+                            formikStep3.values.productsArray[index] &&
+                            formikStep3.values.productsArray &&
+                            formikStep3.values.productsArray[index] &&
+                            formikStep3.values.productsArray[index].pName
+                          }
                         />
-                           {formikStep3.touched.productsArray &&
-                            formikStep3.touched.productsArray[index] &&
-                            formikStep3.touched.productsArray[index]
-                              .pName && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formikStep3.errors.productsArray &&
-                                  formikStep3.errors.productsArray[index] &&
-                                  formikStep3.errors.productsArray[index]
-                                    .pName}
-                              </div>
-                            )}
+                        {formikStep3.touched.productsArray &&
+                          formikStep3.touched.productsArray[index] &&
+                          formikStep3.touched.productsArray[index].pName && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formikStep3.errors.productsArray &&
+                                formikStep3.errors.productsArray[index] &&
+                                formikStep3.errors.productsArray[index].pName}
+                            </div>
+                          )}
                       </div>
                       <div className="col-span-4">
                         <Input
