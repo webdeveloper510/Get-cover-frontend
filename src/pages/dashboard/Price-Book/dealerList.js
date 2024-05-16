@@ -561,6 +561,30 @@ function DealerPriceList() {
             </div>
             <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
+                Price Type
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBookDetail?.priceBooks?.priceType}
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
+              Coverage Type
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBookDetail?.priceBooks?.coverageType}
+              </p>
+            </div>
+            <div className="col-span-8">
+              <p className="text-lg text-light-black font-semibold">
+                Description
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBookDetail?.priceBooks?.category[0].description}
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
                 Wholesale Price
               </p>
               <p className="text-base text-neutral-grey font-semibold">
@@ -597,30 +621,7 @@ function DealerPriceList() {
                   : "InActive"}
               </p>
             </div>
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
-                Price Type
-              </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.priceType}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
-              Coverage Type
-              </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.coverageType}
-              </p>
-            </div>
-            <div className="col-span-6">
-              <p className="text-lg text-light-black font-semibold">
-                Description
-              </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.category[0].description}
-              </p>
-            </div>
+           
             {dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
               <>
                 <div className="col-span-4">

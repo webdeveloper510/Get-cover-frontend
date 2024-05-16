@@ -597,9 +597,17 @@ function CompanyPriceBook() {
                     <p className="text-lg text-light-black font-semibold">Product Name</p>
                     <p className="text-base text-neutral-grey font-semibold"> {data.pName}</p>
                   </div>
-                  <div className='col-span-4'>
+                  <div className='col-span-12'>
                     <p className="text-lg text-light-black font-semibold">Description</p>
                     <p className="text-base text-neutral-grey font-semibold"> {data.description}</p>
+                  </div>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Price Type</p>
+                    <p className="text-base text-neutral-grey font-semibold"> {data.priceType}</p>
+                  </div>
+                  <div className='col-span-4'>
+                    <p className="text-lg text-light-black font-semibold">Coverage Type</p>
+                    <p className="text-base text-neutral-grey font-semibold"> {data.coverageType}</p>
                   </div>
                   <div className='col-span-4'>
                     <p className="text-lg text-light-black font-semibold">Term</p>
@@ -644,14 +652,7 @@ function CompanyPriceBook() {
                     <p className="text-lg text-light-black font-semibold">Status</p>
                     <p className="text-base text-neutral-grey font-semibold"> {data.status === true ? 'Active' : "inActive"}</p>
                   </div>
-                  <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Price Type</p>
-                    <p className="text-base text-neutral-grey font-semibold"> {data.priceType}</p>
-                  </div>
-                  <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Coverage Type</p>
-                    <p className="text-base text-neutral-grey font-semibold"> {data.coverageType}</p>
-                  </div>
+                 
 
                   {
                     data.priceType == "Flat Pricing" && (
