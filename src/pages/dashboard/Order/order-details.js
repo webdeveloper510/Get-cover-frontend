@@ -127,7 +127,7 @@ function OrderDetails() {
     }
     const result = await orderDetailsById(orderId);
     setUserDetails(result.orderUserData);
-  setOrderTandC(result.result.termCondition)
+    setOrderTandC(result.result.termCondition)
     formik.setFieldValue("servicerId", result.result.servicerId);
     const filteredServicer = result.servicers.filter(
       (data) => data.status === true || "Approved" 

@@ -1711,10 +1711,10 @@ function AddOrder() {
                           label="Bill To"
                           name="billTo"
                           placeholder=""
-                          value={formik.values.billTo}
                           className={`!bg-white`}
                           onChange={handleSelectChange}
                           options={BillTo}
+                          value={formik.values.billTo}
                           onBlur={formik.handleBlur}
                         />
                       </div>
