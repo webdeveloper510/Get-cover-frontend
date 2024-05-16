@@ -516,6 +516,7 @@ function AddOrder() {
     });
 
     result?.result?.productsArray?.forEach((product, index) => {
+     
       getCategoryList(
         result.result.dealerId,
         {
@@ -717,15 +718,7 @@ function AddOrder() {
       });
     },
   });
-  console.log(
-    loading,
-    loading1,
-    loading2,
-    loading3,
-    loading4,
-    loading5,
-    "-------------------------- setLoading1(false);------->>"
-  );
+
   const formikStep3 = useFormik({
     initialValues: {
       productsArray: [
@@ -806,8 +799,15 @@ function AddOrder() {
       let arr1 = [];
 
       values.productsArray.map((data, index) => {
-        const value = categoryList.find((val) => val.value === data.categoryId);
-        arr.push(value ? value.label : "");
+        const value = categoryList
+        .map((val) => ({
+          ...val,
+          data: val.data.filter((res) => res.value === data.categoryId),
+        }))
+        .filter((value) => value.data.length > 0)[0].data[0];
+      arr.push(value ? value.label : "");
+    
+        
         const value1 = productNameOptions
           .map((val) => ({
             ...val,
@@ -1112,6 +1112,7 @@ function AddOrder() {
       priceType: "",
       additionalNotes: "",
       QuantityPricing: [],
+      pName:"",
       rangeStart: "",
       rangeEnd: "",
       checkNumberProducts: "",
@@ -1264,11 +1265,12 @@ function AddOrder() {
         selectedValue
       );
       clearProductFields();
+      console.log(formikStep3.values.productsArray[productIndex])
       getCategoryList(
         formik.values.dealerId,
         {
           priceCatId: selectedValue,
-          pName:formikStep3.values.productsArray[productIndex].pName,
+          pName:formikStep3.values.productsArray[productIndex].pName ,
           term:formikStep3.values.productsArray[productIndex].term,
           priceBookId:
             selectedValue == ""
@@ -1313,7 +1315,7 @@ if (name.includes("term"))
         productIndex
       );
       
-    console.log(name,selectedValue)
+    // console.log(name,selectedValue)
   }
   if (name.includes("pName"))
     {
@@ -1330,7 +1332,7 @@ if (name.includes("term"))
           productIndex
         );
         
-      console.log(name,selectedValue)
+      // console.log(name,selectedValue)
     }
     formikStep3.setFieldValue(name, selectedValue);
   };
@@ -1486,7 +1488,7 @@ if (name.includes("term"))
     }
   };
 
-  const getCategoryList = async (value, data, index) => {
+  const getCategoryList = async (value, data, index) => { 
     try {
       setLoading3(true);
 
@@ -1496,7 +1498,6 @@ if (name.includes("term"))
           `productsArray[${index}].categoryId`,
           result.result.selectedCategory._id
         );
-console.log(data)
         getCategoryList(
           formik.values?.dealerId,
           {
@@ -1567,7 +1568,7 @@ console.log(data)
     const totalAmount = calculateTotalAmount(formikStep3.values.productsArray);
 
     const pendingAmount = totalAmount - parseFloat(paidAmount || 0);
-    console.log(totalAmount, pendingAmount, formikStep3.values.productsArray);
+    // console.log(totalAmount, pendingAmount, formikStep3.values.productsArray);
     formik4.setFieldValue("pendingAmount", pendingAmount.toFixed(2));
   };
 
