@@ -7,7 +7,11 @@
   transform: translateY(-1.25rem) scale(0.75);
   color: #4a90e2; /* Change the color to match your design */
 }
-
+.SearchSelect.css-b62m3t-container {
+  font-size: 16px !important;
+  color: #111827 !important;
+  font-weight: 600;
+}
 button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
   right: -20px;
   min-width: 30px !important;

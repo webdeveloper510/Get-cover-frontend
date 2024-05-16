@@ -170,10 +170,7 @@ function OrderSummary(props) {
                               ADH (Waiting Days)
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
-                              {format(
-                                new Date(res.coverageStartDate),
-                                "MM/dd/yyyy"
-                              )}
+                              {res?.adh}
                             </p>
                           </div>
                         </div>

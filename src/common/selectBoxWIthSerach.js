@@ -32,7 +32,7 @@ const SelectBoxWithSearch = ({
   // Adding an "unselect" option
   console.log(emailKey, '-------emailKey-----------')
   const extendedOptions = [
-    { value: "", label: "select" }, // Change the label as per your preference
+    { value: "", label: "Select" }, // Change the label as per your preference
     ...options.map(option => ({
       value: option.value,
       label: option.emailKey ? `${option.label} (${option.emailKey})` : option.label // Conditionally include email
@@ -45,6 +45,8 @@ const SelectBoxWithSearch = ({
       width: "100%",
       margin: "0px 0",
       borderWidth: "1px",
+      fontSize:"16px",
+      color:"#111827",
       borderRadius: "10px",
       padding: "0.425rem",
       borderColor: state.isFocused ? "#80808085" : provided.borderColor,

@@ -566,6 +566,7 @@ function AddOrder() {
         description: product.description || "",
         term: product.term || "",
         priceType: product.priceType || "",
+        adh: product.adh || "",
         additionalNotes: product.additionalNotes || "",
         QuantityPricing: product.QuantityPricing || [],
         rangeStart: product.rangeStart || "",
@@ -735,6 +736,7 @@ function AddOrder() {
           term: "",
           pName:"",
           priceType: "",
+          adh:"",
           additionalNotes: "",
           coverageEndDate: "",
           QuantityPricing: [],
@@ -1193,6 +1195,7 @@ function AddOrder() {
         ""
       );
       formikStep3.setFieldValue(`productsArray[${productIndex}].priceType`, "");
+      formikStep3.setFieldValue(`productsArray[${productIndex}].adh`, "");
     };
 
     const updateQuantityPricing = (quantityPriceDetail) => {
@@ -1229,6 +1232,10 @@ function AddOrder() {
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].priceType`,
           data.priceType
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].adh`,
+          data.adh
         );
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].description`,
@@ -1527,6 +1534,7 @@ if (name.includes("term"))
           description: item.description,
           term: item.term,
           priceType: item.priceType,
+          adh: item.adh,
           quantityPriceDetail: item.quantityPriceDetail,
           wholesalePrice: item?.retailPrice?.toFixed(2),
           status: item.status,
@@ -1700,7 +1708,7 @@ if (name.includes("term"))
                     </Grid>
                   </div>
                 </Grid>
-                {formik.values.billTo === "custom" && (
+                {formik.values.billTo === "Custom" && (
                   <div>
                     <p className="text-2xl font-bold mb-4">Bill Details : </p>
                     <Grid>
@@ -2148,25 +2156,25 @@ if (name.includes("term"))
                           }}
                         />
                       </div>
-                     
+                      {formikStep2.values.coverageType === "Breakdown" ? <></> :
                       <div className="col-span-4">
                         <Input
-                          type="text"
-                          name={`productsArray[${index}].priceType`}
+                          type="tel"
+                          name={`productsArray[${index}].adh`}
                           className="!bg-[#fff]"
                           label="ADH (Waiting Days)"
                           placeholder=""
                           value={
-                            formikStep3.values.productsArray[index].priceType
+                            formikStep3.values.productsArray[index].adh
                           }
                           onChange={formikStep3.handleChange}
                           onBlur={formikStep3.handleBlur}
-                          disabled={true}
+                          // disabled={true}
                           onWheelCapture={(e) => {
                             e.preventDefault();
                           }}
                         />
-                      </div>
+                      </div> }
                       <div className="col-span-4">
                         <Input
                           type="text"
