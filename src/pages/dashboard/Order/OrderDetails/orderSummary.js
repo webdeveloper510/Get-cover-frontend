@@ -71,9 +71,14 @@ function OrderSummary(props) {
                   <div>
                     <div>
                       <Grid className="bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl">
-                        <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                        <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
-                            Product Name : <b> {res.name} </b>
+                            Product SKU : <b> {res.name} </b>
+                          </p>
+                        </div>
+                        <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                          <p className="text-white py-2 font-Regular">
+                            Product Name : <b> {res?.pName} </b>
                           </p>
                         </div>
                       </Grid>
@@ -156,6 +161,19 @@ function OrderSummary(props) {
                                 ? parseInt(0).toLocaleString(2)
                                 : formatOrderValue(res.price ?? parseInt(0))}
                               {/* ${res.price.toLocaleString(2)} */}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-3 border border-[#D1D1D1]">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              ADH (Waiting Days)
+                            </p>
+                            <p className="text-[#333333] text-base font-semibold">
+                              {format(
+                                new Date(res.coverageStartDate),
+                                "MM/dd/yyyy"
+                              )}
                             </p>
                           </div>
                         </div>

@@ -37,7 +37,7 @@ function MyComponent() {
         preventSnapRefocus={true}
         calendarFocus="backwards"
         ranges={selectedRange}
-        showMonthAndYearPickers={true} // Show only month and year select boxes
+        // showMonthAndYearPickers={true} // Show only month and year select boxes
         minDate={minDate} // Limit selectable dates to past 2 years
         maxDate={new Date()} // Prevent selecting future dates
       />

@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.ab6fffd5.css",
-    "main.js": "/static/js/main.8f2a4b52.js",
+    "main.js": "/static/js/main.bad1aeb4.js",
     "static/js/703.9ed85247.chunk.js": "/static/js/703.9ed85247.chunk.js",
     "static/js/198.e1b2539e.chunk.js": "/static/js/198.e1b2539e.chunk.js",
     "static/js/787.c7997b7d.chunk.js": "/static/js/787.c7997b7d.chunk.js",
@@ -142,6 +142,7 @@
     "static/media/wholePrice.svg": "/static/media/wholePrice.491ac88474d09b4363c9aed7e99488c6.svg",
     "static/media/Re-insurance.svg": "/static/media/Re-insurance.6df3faaa4d76ca86bbc0e2d4db812584.svg",
     "static/media/activeRe-insurance.svg": "/static/media/activeRe-insurance.ceb8d3719de00783ce663ce8e57a8c53.svg",
+    "index.html": "/index.html",
     "static/media/SearchIcon.svg": "/static/media/SearchIcon.0490eff6a113225fb6407c3ce5f4a0ea.svg",
     "static/media/Notification-icon.svg": "/static/media/Notification-icon.7077c96190b5cbe02dfefc6609bdf554.svg",
     "static/media/completeClaim.svg": "/static/media/completeClaim.329031b8975a60807f2fffff86e03dd0.svg",
@@ -151,7 +152,6 @@
     "static/media/dealerList.svg": "/static/media/dealerList.391fc60b5d83c0cf5b19f0a55d628a54.svg",
     "static/media/CrossButton.svg": "/static/media/CrossButton.ecb5e863761211c69de3b1ad24d75099.svg",
     "static/media/arrows.svg": "/static/media/arrows.ff0e614a7927de42b322390bb99375fd.svg",
-    "index.html": "/index.html",
     "static/media/Wholesale.svg": "/static/media/Wholesale.5a2a1e4184c9838587bff3b30ce033b6.svg",
     "static/media/activeWholesale.svg": "/static/media/activeWholesale.3ad3c050d01d484473b59592172bef28.svg",
     "static/media/contract-head.svg": "/static/media/contract-head.5a404bc839b148f298e6.svg",
@@ -170,13 +170,13 @@
     "static/media/DropActive.svg": "/static/media/DropActive.1afa81418e97447d9eaee9da4bb3a255.svg",
     "static/media/dropwhite.svg": "/static/media/dropwhite.c8ae50a08ad52f32dd37ffec22fa9500.svg",
     "main.ab6fffd5.css.map": "/static/css/main.ab6fffd5.css.map",
-    "main.8f2a4b52.js.map": "/static/js/main.8f2a4b52.js.map",
+    "main.bad1aeb4.js.map": "/static/js/main.bad1aeb4.js.map",
     "703.9ed85247.chunk.js.map": "/static/js/703.9ed85247.chunk.js.map",
     "198.e1b2539e.chunk.js.map": "/static/js/198.e1b2539e.chunk.js.map",
     "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ab6fffd5.css",
-    "static/js/main.8f2a4b52.js"
+    "static/js/main.bad1aeb4.js"
   ]
 }

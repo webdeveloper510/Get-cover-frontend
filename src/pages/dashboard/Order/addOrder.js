@@ -96,7 +96,7 @@ function AddOrder() {
 
   const downloadCSVTemplate = async () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1BKGAJLFhjQXN8Wg4nYkUdFKpiPZ3h12-CMlrlkzAZE0/edit#gid=0",
+      "https://docs.google.com/spreadsheets/d/1PANNmDTU0UA_z93yc3DkL1lfHeRStXpEp6OkJn-_iUQ/edit#gid=0",
       "_blank"
     );
   };
@@ -1178,6 +1178,7 @@ function AddOrder() {
       );
       // formikStep3.setFieldValue(`productsArray[${productIndex}].term`, "");
       formikStep3.setFieldValue(`productsArray[${productIndex}].price`, "");
+      formikStep3.setFieldValue(`productsArray[${productIndex}].pName`, "");
       formikStep3.setFieldValue(
         `productsArray[${productIndex}].noOfProducts`,
         ""
@@ -1969,7 +1970,7 @@ function AddOrder() {
                 <Grid>
                   <div className="col-span-8 border-r pr-5">
                     <Grid>
-                      <div className="col-span-4">
+                      <div className="col-span-6">
                         <Select
                           name={`productsArray[${index}].categoryId`}
                           label="Product Category"
@@ -2003,7 +2004,7 @@ function AddOrder() {
                             </div>
                           )}
                       </div>
-                      <div className="col-span-4">
+                      <div className="col-span-6">
                         <>
                           <Select
                             name={`productsArray[${index}].priceBookId`}
@@ -2046,7 +2047,7 @@ function AddOrder() {
                         </>
                         {/* )} */}
                       </div>
-                      <div className="col-span-4">
+                      <div className="col-span-6">
                         <>
                           <Select
                             name={`productsArray[${index}].term`}
@@ -2703,19 +2704,25 @@ function AddOrder() {
                         </p>
                         <div className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl ">
                           <Grid className="border-b px-4">
-                            <div className="col-span-4 py-4 border-r">
+                            <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Category</p>
                               <p className="font-bold text-sm">
                                 {categoryName[index]}
                               </p>
                             </div>
-                            <div className="col-span-4 py-4 border-r">
+                            <div className="col-span-3 py-4 border-r">
+                              <p className="text-[12px]">Product SKU</p>
+                              <p className="font-bold text-sm">
+                                {priceBookName[index]}
+                              </p>
+                            </div>
+                            <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Name</p>
                               <p className="font-bold text-sm">
                                 {priceBookName[index]}
                               </p>
                             </div>
-                            <div className="col-span-4 py-4">
+                            <div className="col-span-3 py-4">
                               <p className="text-[12px]">Product Description</p>
                               <p className="font-bold text-sm">
                                 {data.description}
