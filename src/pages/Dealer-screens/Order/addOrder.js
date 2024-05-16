@@ -371,6 +371,14 @@ function DealerAddOrder() {
       });
     });
     orderDetail(result.result);
+    formik.setFieldValue("servicerId", result?.result?.servicerId);
+    formik.setFieldValue("billTo", result?.result?.billDetail.billTo);
+    formik.setFieldValue("name", result?.result?.billDetail.detail.name);
+    formik.setFieldValue("address", result?.result?.billDetail.detail.address);
+    formik.setFieldValue(
+      "phoneNumber",
+      result?.result?.billDetail.detail.phoneNumber
+    );
     formikStep3.setValues({
       ...formikStep3.values,
       productsArray: result?.result?.productsArray?.map((product, index) => ({
@@ -866,7 +874,8 @@ function DealerAddOrder() {
       rangeStart: "",
       rangeEnd: "",
       checkNumberProducts: "",
-      fileValue: "",
+      fileValue: "",  
+      pName: "",
       orderFile: {},
     };
     getCategoryList(
@@ -1085,6 +1094,9 @@ function DealerAddOrder() {
     formik.handleChange({ target: { name, value } });
     console.log(name, value, "onchange------------------->>");
     if (name == "resellerId") {
+      if (value == "") {
+        formik.setFieldValue("billTo", "Custom");
+      }
       getCustomerList({
         resellerId: value,
       });
@@ -1348,7 +1360,7 @@ const BillTo = [
                           name="billTo"
                           placeholder=""
                           className={`!bg-white`}
-                          onChange={handleSelectChange12}
+                          onChange={handleSelectChange}
                           options={BillTo}
                           value={formik.values.billTo}
                           onBlur={formik.handleBlur}
@@ -1357,7 +1369,7 @@ const BillTo = [
                   </Grid>
                 </div>
               </Grid>
-              {formik.values.billTo == "Custom" && <div>
+              {formik.values.billTo === "Custom" && <div>
                 <p className="text-2xl font-bold my-4">Bill Details : </p>
                   <Grid>
                     <div className="col-span-4">
