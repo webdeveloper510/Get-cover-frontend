@@ -551,6 +551,14 @@ function AddOrder() {
 
     orderDetail(result.result);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
+    formik.setFieldValue("billTo", result?.result?.billDetail.billTo);
+    formik.setFieldValue("name", result?.result?.billDetail.detail.name);
+    formik.setFieldValue("address", result?.result?.billDetail.detail.address);
+    formik.setFieldValue(
+      "phoneNumber",
+      result?.result?.billDetail.detail.phoneNumber
+    );
+    formik.setFieldValue("email", result?.result?.billDetail.detail.email);
     formikStep3.setValues({
       ...formikStep3.values,
       productsArray: result?.result?.productsArray?.map((product, index) => ({
@@ -565,7 +573,7 @@ function AddOrder() {
         description: product.description || "",
         term: product.term || "",
         priceType: product.priceType || "",
-        adh: product.adh || "",
+        adh: product.adh || 0,
         additionalNotes: product.additionalNotes || "",
         QuantityPricing: product.QuantityPricing || [],
         pName: product.pName || "",
@@ -645,7 +653,7 @@ function AddOrder() {
       name: "",
       email: "",
       phoneNumber: "",
-      Address: "",
+      address: "",
     },
 
     validationSchema: Yup.object().shape({
@@ -737,7 +745,7 @@ function AddOrder() {
           term: "",
           pName: "",
           priceType: "",
-          adh:"",
+          adh: 0,
           additionalNotes: "",
           coverageEndDate: "",
           QuantityPricing: [],
@@ -1786,16 +1794,16 @@ function AddOrder() {
                       <div className="col-span-8">
                         <Input
                           type="text"
-                          name="Address"
+                          name="address"
                           className="!bg-white"
                           label="Address"
                           // required={true}
                           placeholder=""
-                          value={formik.values.Address}
+                          value={formik.values.address}
                           onBlur={formik.handleBlur}
                           onChange={formik.handleChange}
                           error={
-                            formik.touched.Address && formik.errors.Address
+                            formik.touched.address && formik.errors.address
                           }
                         />
                       </div>
@@ -2054,8 +2062,9 @@ function AddOrder() {
                             )}
                         </>
                         {/* )} */}
-                      </div> <div className="col-span-8">
-                      <Select
+                      </div>{" "}
+                      <div className="col-span-8">
+                        <Select
                           label="Product Name"
                           name={`productsArray[${index}].pName`}
                           placeholder=""
@@ -2088,7 +2097,7 @@ function AddOrder() {
                           )}
                       </div>
                       <div className="col-span-4">
-                      <>
+                        <>
                           <Select
                             name={`productsArray[${index}].term`}
                             label="Terms"
@@ -2141,25 +2150,28 @@ function AddOrder() {
                           }}
                         />
                       </div>
-                      {formikStep2.values.coverageType === "Breakdown" ? <></> :
-                      <div className="col-span-4">
-                        <Input
-                          type="tel"
-                          name={`productsArray[${index}].adh`}
-                          className="!bg-[#fff]"
-                          label="ADH (Waiting Days)"
-                          placeholder=""
-                          value={
-                            formikStep3.values.productsArray[index].adh
-                          }
-                          onChange={formikStep3.handleChange}
-                          onBlur={formikStep3.handleBlur}
-                          // disabled={true}
-                          onWheelCapture={(e) => {
-                            e.preventDefault();
-                          }}
-                        />
-                      </div> }
+                      {formikStep2.values.coverageType === "Breakdown" ? (
+                        <></>
+                      ) : (
+                        <div className="col-span-4">
+                          <Input
+                            type="number"
+                            name={`productsArray[${index}].adh`}
+                            className="!bg-[#fff]"
+                            label="ADH (Waiting Days)"
+                            placeholder=""
+                            value={
+                              formikStep3.values.productsArray[index].adh || 0
+                            }
+                            onChange={formikStep3.handleChange}
+                            onBlur={formikStep3.handleBlur}
+                            // disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+                      )}
                       <div className="col-span-4">
                         <Input
                           type="text"
@@ -2340,7 +2352,6 @@ function AddOrder() {
                           }}
                         />
                       </div>
-                      
                       {(formikStep3.values.productsArray[index].priceType ===
                         "FlatPricing" ||
                         formikStep3.values.productsArray[index].priceType ===
@@ -2510,7 +2521,6 @@ function AddOrder() {
                             })()}
                         </Grid>
                       </div>
-
                       <div className="col-span-12">
                         <div className="relative">
                           <label
