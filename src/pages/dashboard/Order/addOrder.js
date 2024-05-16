@@ -1188,7 +1188,7 @@ function AddOrder() {
       );
       // formikStep3.setFieldValue(`productsArray[${productIndex}].term`, "");
       formikStep3.setFieldValue(`productsArray[${productIndex}].price`, "");
-      formikStep3.setFieldValue(`productsArray[${productIndex}].pName`, "");
+      // formikStep3.setFieldValue(`productsArray[${productIndex}].pName`, "");
       formikStep3.setFieldValue(
         `productsArray[${productIndex}].noOfProducts`,
         ""
@@ -1224,7 +1224,7 @@ function AddOrder() {
           `productsArray[${productIndex}].noOfProducts`,
           ""
         );
-
+        console.log(data);
         // Update QuantityPricing
         const updatedQuantityPricing = updateQuantityPricing(
           data.quantityPriceDetail
@@ -1265,6 +1265,10 @@ function AddOrder() {
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].term`,
           data.term
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].pName`,
+          data.pName
         );
       }
     };
@@ -1547,6 +1551,7 @@ function AddOrder() {
           quantityPriceDetail: item.quantityPriceDetail,
           wholesalePrice: item?.retailPrice?.toFixed(2),
           status: item.status,
+          pName: item.pName,
           rangeStart: item?.rangeStart?.toFixed(2),
           rangeEnd: item?.rangeEnd?.toFixed(2),
         }));
