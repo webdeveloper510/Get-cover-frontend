@@ -372,12 +372,12 @@ function DealerAddOrder() {
     });
     orderDetail(result.result);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
-    formik.setFieldValue("billTo", result?.result?.billDetail.billTo);
-    formik.setFieldValue("name", result?.result?.billDetail.detail.name);
-    formik.setFieldValue("address", result?.result?.billDetail.detail.address);
+    formik.setFieldValue("billTo", result?.result?.billDetail?.billTo);
+    formik.setFieldValue("name", result?.result?.billDetail?.detail?.name);
+    formik.setFieldValue("address", result?.result?.billDetail?.detail?.address);
     formik.setFieldValue(
       "phoneNumber",
-      result?.result?.billDetail.detail.phoneNumber
+      result?.result?.billDetail?.detail?.phoneNumber
     );
     formikStep3.setValues({
       ...formikStep3.values,
@@ -408,14 +408,14 @@ function DealerAddOrder() {
     orderDetail(result.result);
     formik.setFieldValue("dealerId", result?.result?.dealerId);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
-    formik.setFieldValue("name", result?.result?.billDetail.detail.name);
-    formik.setFieldValue("address", result?.result?.billDetail.detail.address);
+    formik.setFieldValue("name", result?.result?.billDetail?.detail?.name);
+    formik.setFieldValue("address", result?.result?.billDetail?.detail?.address);
     formik.setFieldValue(
       "phoneNumber",
-      result?.result?.billDetail.detail.phoneNumber
+      result?.result?.billDetail?.detail?.phoneNumber
     );
-    formik.setFieldValue("email", result?.result?.billDetail.detail.email);
-    formik.setFieldValue("billTo", result?.result?.billDetail.billTo);
+    formik.setFieldValue("email", result?.result?.billDetail?.detail?.email);
+    formik.setFieldValue("billTo", result?.result?.billDetail?.billTo);
     formik.setFieldValue("customerId", result?.result?.customerId);
     formik.setFieldValue("resellerId", result?.result?.resellerId);
     formikStep2.setFieldValue(
@@ -1155,7 +1155,7 @@ const BillTo = [
         { label: "Parts & Labour", value: "Parts & Labour" },
       ];
     } else {
-      switch (result.result.coverageType) {
+      switch (result?.result?.coverageType) {
         case "Breakdown & Accidental":
           coverage = [
             { label: "Breakdown", value: "Breakdown" },
@@ -1174,7 +1174,7 @@ const BillTo = [
           break;
       }
 
-      switch (result.result.serviceCoverageType) {
+      switch (result?.result?.serviceCoverageType) {
         case "Parts & Labour":
           serviceCoverage = [
             { label: "Parts", value: "Parts" },

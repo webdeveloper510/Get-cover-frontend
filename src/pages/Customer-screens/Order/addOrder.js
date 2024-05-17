@@ -190,32 +190,36 @@ function CustomerAddOrder() {
     getTermListData();
   }, []);
   const orderDetails = async () => {
-    const result = await orderDetailsById(orderId);
-    console.log(result.result);
-    getResellerList(result?.result?.dealerId);
-    getCustomerList({
-      dealerId: result?.result?.dealerId,
-      resellerId: result?.result?.resellerId,
-    });
-    getServicerList({
-      dealerId: result?.result?.dealerId,
-      resellerId: result?.result?.resellerId,
-    });
-    orderDetail(result.result);
-    formik.setFieldValue("dealerId", result?.result?.dealerId);
-    formik.setFieldValue("servicerId", result?.result?.servicerId);
-    formik.setFieldValue("customerId", result?.result?.customerId);
-    formik.setFieldValue("resellerId", result?.result?.resellerId);
-    formikStep2.setFieldValue(
-      "dealerPurchaseOrder",
-      result?.result?.venderOrder
-    );
-    formikStep2.setFieldValue(
-      "serviceCoverageType",
-      result?.result?.serviceCoverageType
-    );
-    formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
+    setLoading(true)
+    try {
+      const result = await orderDetailsById(orderId);
+      console.log(result.result);
+  
+      if (result && result.result) {
+        const { dealerId, resellerId, servicerId, customerId, venderOrder, serviceCoverageType, coverageType } = result.result;
+  
+        getResellerList(dealerId);
+        getCustomerList({ dealerId, resellerId });
+        getServicerList({ dealerId, resellerId });
+        orderDetail(result.result);
+  
+        formik.setFieldValue("dealerId", dealerId);
+        formik.setFieldValue("servicerId", servicerId);
+        formik.setFieldValue("customerId", customerId);
+        formik.setFieldValue("resellerId", resellerId);
+  
+        formikStep2.setFieldValue("dealerPurchaseOrder", venderOrder);
+        formikStep2.setFieldValue("serviceCoverageType", serviceCoverageType);
+        formikStep2.setFieldValue("coverageType", coverageType);
+      } else {
+        console.error('Result or result.result is undefined');
+      }
+    } catch (error) {
+      setLoading(false)
+      console.error('Error fetching order details:', error);
+    } 
   };
+  
   const renderStep = () => {
     switch (currentStep) {
       case 1:

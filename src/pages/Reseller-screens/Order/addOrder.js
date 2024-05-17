@@ -913,7 +913,7 @@ function ResellerAddOrder() {
   const getServiceCoverage = async (value) => {
     const result = await getServiceCoverageDetails(value);
 
-    switch (result.result.coverageType) {
+    switch (result?.result?.coverageType) {
       case "Breakdown & Accidental":
         setCoverage([
           { label: "Breakdown", value: "Breakdown" },
@@ -929,7 +929,7 @@ function ResellerAddOrder() {
         break;
     }
 
-    switch (result.result.serviceCoverageType) {
+    switch (result?.result?.serviceCoverageType) {
       case "Parts & Labour":
         setServiceCoverage([
           { label: "Parts", value: "Parts" },

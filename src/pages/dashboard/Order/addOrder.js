@@ -203,7 +203,15 @@ function AddOrder() {
       setLoading1(false);
     } catch (error) {
       console.error("Error while getting servicer list:", error);
+    
       setLoading1(false);
+    }
+    finally{
+      console.log(orderId)
+      if(orderId == undefined){
+        setLoading(false);
+      }
+      
     }
   };
 
@@ -289,6 +297,7 @@ function AddOrder() {
       setType("Add");
     }
     if (dealerId && customerId == undefined) {
+      console.log('here')
       formik.setFieldValue("dealerId", dealerId);
       getServiceCoverage(dealerId);
       getResellerList(dealerId);
@@ -325,17 +334,17 @@ function AddOrder() {
         dealerId: dealerValue,
         resellerId: resellerId,
       });
-      getCategoryList(
-        dealerValue,
-        {
-          priceBookId: "",
-          priceCatId: "",
-          pName: "",
-          term: "",
-          coverageType: formikStep2?.values?.coverageType,
-        },
-        0
-      );
+      // getCategoryList(
+      //   dealerValue,
+      //   {
+      //     priceBookId: "",
+      //     priceCatId: "",
+      //     pName: "",
+      //     term: "",
+      //     coverageType: formikStep2?.values?.coverageType,
+      //   },
+      //   0
+      // );
     }
     if (customerId) {
       formik.setFieldValue("resellerId", resellerId);
@@ -386,7 +395,7 @@ function AddOrder() {
         { label: "Parts & Labour", value: "Parts & Labour" },
       ];
     } else {
-      switch (result.result.coverageType) {
+      switch (result?.result?.coverageType) {
         case "Breakdown & Accidental":
           coverage = [
             { label: "Breakdown", value: "Breakdown" },
@@ -405,7 +414,7 @@ function AddOrder() {
           break;
       }
 
-      switch (result.result.serviceCoverageType) {
+      switch (result?.result?.serviceCoverageType) {
         case "Parts & Labour":
           serviceCoverage = [
             { label: "Parts", value: "Parts" },
@@ -500,112 +509,103 @@ function AddOrder() {
       }
     },
   });
-  const orderDetails = async () => {
-    setLoading(true);
+const orderDetails = async () => {
+  setLoading(true);
+  
+  try {
     const result = await orderDetailsById(orderId);
-    getResellerList(result?.result?.dealerId);
-    getServiceCoverage(result?.result?.dealerId, "Edit");
-    getCustomerList({
-      dealerId: result?.result?.dealerId,
-      resellerId: result?.result?.resellerId,
-    });
 
-    getServicerList({
-      dealerId: result?.result?.dealerId,
-      resellerId: result?.result?.resellerId,
-    });
+    if (result && result.result) {
+      const { dealerId, resellerId, servicerId, billDetail, productsArray, venderOrder, serviceCoverageType, coverageType, orderAmount, paidAmount, paymentStatus } = result.result;
 
-    result?.result?.productsArray?.forEach((product, index) => {
-      getCategoryList(
-        result.result.dealerId,
-        {
-          priceBookId: product.priceBookId,
-          priceCatId: product.categoryId,
-          term: product.term,
-          pName: product.pName,
-          coverageType: result?.result?.coverageType,
-        },
-        index
-      );
-      if (product.orderFile.name != "") {
+      getResellerList(dealerId);
+      getServiceCoverage(dealerId, "Edit");
+      getCustomerList({ dealerId, resellerId });
+      getServicerList({ dealerId, resellerId });
+      productsArray?.forEach((product, index) => {
+        getCategoryList(
+          dealerId,
+          {
+            priceBookId: product.priceBookId,
+            priceCatId: product.categoryId,
+            term: product.term,
+            pName: product.pName,
+            coverageType,
+          },
+          index
+        );
+
         setFileValues((prevFileValues) => {
           const newArray = [...prevFileValues];
-          newArray[index] = product.orderFile;
+          newArray[index] = product.orderFile.name ? product.orderFile : null;
           return newArray;
         });
-      } else {
-        setFileValues((prevFileValues) => {
+
+        setNumberOfOrders((prevFileValues) => {
           const newArray = [...prevFileValues];
-          newArray[index] = null;
+          newArray[index] = product.noOfProducts;
           return newArray;
         });
-      }
-
-      setNumberOfOrders((prevFileValues) => {
-        const newArray = [...prevFileValues];
-        newArray[index] = product.noOfProducts;
-
-        return newArray;
       });
-    });
 
-    orderDetail(result.result);
-    formik.setFieldValue("servicerId", result?.result?.servicerId);
-    formik.setFieldValue("billTo", result?.result?.billDetail.billTo);
-    formik.setFieldValue("name", result?.result?.billDetail.detail.name);
-    formik.setFieldValue("address", result?.result?.billDetail.detail.address);
-    formik.setFieldValue(
-      "phoneNumber",
-      result?.result?.billDetail.detail.phoneNumber
-    );
-    formik.setFieldValue("email", result?.result?.billDetail.detail.email);
-    formikStep3.setValues({
-      ...formikStep3.values,
-      productsArray: result?.result?.productsArray?.map((product, index) => ({
-        categoryId: product.categoryId || "",
-        priceBookId: product.priceBookId || "",
-        unitPrice: product.unitPrice || null,
-        noOfProducts: product.noOfProducts || "",
-        price: product.price || null,
-        file: product.orderFile || "",
-        coverageStartDate: product.coverageStartDate || "",
-        coverageEndDate: product.coverageEndDate || "",
-        description: product.description || "",
-        term: product.term || "",
-        priceType: product.priceType || "",
-        adh: product.adh || 0,
-        additionalNotes: product.additionalNotes || "",
-        QuantityPricing: product.QuantityPricing || [],
-        pName: product.pName || "",
-        rangeStart: product.rangeStart || "",
-        rangeEnd: product.rangeEnd || "",
-        checkNumberProducts: product.checkNumberProducts || "",
-        orderFile: product.orderFile || "",
-        fileValue: "",
-      })),
-    });
-    formik.setFieldValue("resellerId", result?.result?.resellerId);
-    formik.setFieldValue("dealerId", result?.result?.dealerId);
 
-    formik.setFieldValue("customerId", result?.result?.customerId);
-    formik4.setFieldValue(
-      "pendingAmount",
-      result.result.orderAmount - result.result.paidAmount
-    );
+  
+      orderDetail(result.result);
 
-    formik4.setFieldError("paidAmount", "");
-    formikStep2.setFieldValue(
-      "dealerPurchaseOrder",
-      result?.result?.venderOrder
-    );
-    formikStep2.setFieldValue(
-      "serviceCoverageType",
-      result?.result?.serviceCoverageType
-    );
-    formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
-    formik4.setFieldValue("paymentStatus", result?.result?.paymentStatus);
-    formik4.setFieldValue("paidAmount", result.result.paidAmount);
-  };
+      formik.setFieldValue("servicerId", servicerId);
+      formik.setFieldValue("billTo", billDetail?.billTo);
+      formik.setFieldValue("name", billDetail?.detail?.name);
+      formik.setFieldValue("address", billDetail?.detail?.address);
+      formik.setFieldValue("phoneNumber", billDetail?.detail?.phoneNumber);
+      formik.setFieldValue("email", billDetail?.detail?.email);
+
+      formikStep3.setValues({
+        ...formikStep3.values,
+        productsArray: productsArray?.map((product, index) => ({
+          categoryId: product.categoryId || "",
+          priceBookId: product.priceBookId || "",
+          unitPrice: product.unitPrice || null,
+          noOfProducts: product.noOfProducts || "",
+          price: product.price || null,
+          file: product.orderFile || "",
+          coverageStartDate: product.coverageStartDate || "",
+          coverageEndDate: product.coverageEndDate || "",
+          description: product.description || "",
+          term: product.term || "",
+          priceType: product.priceType || "",
+          adh: product.adh || 0,
+          additionalNotes: product.additionalNotes || "",
+          QuantityPricing: product.QuantityPricing || [],
+          pName: product.pName || "",
+          rangeStart: product.rangeStart || "",
+          rangeEnd: product.rangeEnd || "",
+          checkNumberProducts: product.checkNumberProducts || "",
+          orderFile: product.orderFile || "",
+          fileValue: "",
+        })),
+      });
+
+      formik.setFieldValue("resellerId", resellerId);
+      formik.setFieldValue("dealerId", dealerId);
+      formik.setFieldValue("customerId", result?.result?.customerId);
+      formik4.setFieldValue("pendingAmount", orderAmount - paidAmount);
+      formik4.setFieldError("paidAmount", "");
+      formikStep2.setFieldValue("dealerPurchaseOrder", venderOrder);
+      formikStep2.setFieldValue("serviceCoverageType", serviceCoverageType);
+      formikStep2.setFieldValue("coverageType", coverageType);
+      formik4.setFieldValue("paymentStatus", paymentStatus);
+      formik4.setFieldValue("paidAmount", paidAmount);
+    } else {
+      console.error('Result or result.result is undefined');
+    }
+  } catch (error) {
+    console.error('Error fetching order details:', error);
+  } finally {
+    // setLoading(false);
+    console.log('Order details process completed.');
+  }
+};
+
 
   // useEffect(() => {
   //   console.log(location);
