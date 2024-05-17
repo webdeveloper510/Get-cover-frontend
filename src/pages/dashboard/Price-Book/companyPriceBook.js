@@ -397,6 +397,7 @@ function CompanyPriceBook() {
       priceType: "",
       term: "",
       range:"",
+      coverageType:"",
     },
 
     validationSchema: Yup.object({
@@ -404,6 +405,7 @@ function CompanyPriceBook() {
       status: Yup.boolean(),
       category: Yup.string(),
       priceType: Yup.string(),
+      coverageType: Yup.string(),
       term: Yup.string(),
       range: Yup.string(),
     }),
@@ -413,6 +415,12 @@ function CompanyPriceBook() {
       getPriceBookListData(values);
     },
   });
+
+  const coverage = [
+    { label: "Breakdown", value: "Breakdown" },
+    { label: "Accidental", value: "Accidental" },
+    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+  ];
 
   return (
     <>
@@ -784,6 +792,7 @@ function CompanyPriceBook() {
                         onChange={formik.setFieldValue}
                       />
                   </div>
+                 
                   {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
                     <Input
                       type="text"
@@ -796,7 +805,18 @@ function CompanyPriceBook() {
                         onBlur={formik.handleBlur}
                     />
                   </div>}
-                  
+                  <div className="col-span-6">
+                  <Select
+                        name="coverageType"
+                        label="Coverage Type"
+                        options={coverage}
+                        OptionName="Coverage Type"
+                        color="text-[#1B1D21] opacity-50"
+                        className="!text-[14px] !bg-[#fff]"
+                        value={formik.values.coverageType}
+                        onChange={formik.setFieldValue}
+                      />
+                  </div>
                   <div className="col-span-6">
                   <Select
                         name="status"

@@ -42,10 +42,24 @@ function AddDealerBook() {
   const navigate = useNavigate();
   const { id, dealerIdValue } = useParams();
 
+  useEffect(() => {
+    if (id) {
+      dealerDetailById(id);
+      setType("Edit");
+    } else if (dealerIdValue) {
+      formik.setFieldValue("dealerId", dealerIdValue);
+      getProductList(dealerIdValue);
+    } else {
+      setType("Add");
+    }
+    dealerList();
+  }, []);
+
+
   const dealerDetailById = async (id) => {
     setLoader(true);
     const result = await getDealerPricebookDetailById(id);
-    console.log(result);
+    console.log(result?.result[0]?.priceBooks?.pName);
     formik.setFieldValue("status", result.result[0].status);
     const data = result.result[0];
     console.log(data);
@@ -61,7 +75,7 @@ function AddDealerBook() {
     formik.setFieldValue("term", result?.result[0]?.term);
     formik.setFieldValue("brokerFee", result?.result[0]?.brokerFee);
     formik.setFieldValue("wholesalePrice", result?.result[0]?.wholesalePrice);
-    formik.setFieldValue("pName", result?.result[0]?.pName);
+    formik.setFieldValue("pName", result?.result[0]?.priceBooks.pName);
     formik.setFieldValue(
       "categoryId",
       result?.result[0]?.priceBooks?.category[0]?._id
@@ -88,19 +102,7 @@ function AddDealerBook() {
       console.error("Error fetching dealer list:", error);
     }
   };
-  useEffect(() => {
-    if (id) {
-      dealerDetailById(id);
-      setType("Edit");
-    } else if (dealerIdValue) {
-      formik.setFieldValue("dealerId", dealerIdValue);
-      getProductList(dealerIdValue);
-    } else {
-      setType("Add");
-    }
-    dealerList();
-  }, []);
-
+ 
   useEffect(() => {
     let intervalId;
     if (isModalOpen && timer > 0) {
@@ -232,17 +234,16 @@ function AddDealerBook() {
       priceBook: Yup.string().trim().required("Required"),
       dealerId: Yup.string().trim().required("Required"),
       categoryId: Yup.string().trim().required("Required"),
-      pName: Yup.string().trim().required("Required"),
+        pName: Yup.string().trim().required("Required"),
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
-      setLoader(true);
-      console.log(values);
+       setLoader(true);
    
       values.brokerFee = (values.retailPrice - values.wholesalePrice).toFixed(
         2
       );
-      delete values.pName;
+       delete values.pName;
       const result = id
         ? await editDealerPriceBook(id, values)
         : await addDealerPriceBook(values);

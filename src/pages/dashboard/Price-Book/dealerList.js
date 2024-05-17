@@ -175,7 +175,7 @@ function DealerPriceList() {
       priceType: "",
       term: "",
       range:"",
-
+      coverageType:"",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
@@ -183,6 +183,7 @@ function DealerPriceList() {
       status: Yup.boolean(),
       category: Yup.string(),
       priceType: Yup.string(),
+      coverageType: Yup.string(),
       term: Yup.string(),
       range: Yup.string(),
     }),
@@ -371,6 +372,13 @@ function DealerPriceList() {
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
   };
+
+  const coverage = [
+    { label: "Breakdown", value: "Breakdown" },
+    { label: "Accidental", value: "Accidental" },
+    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+  ];
+
   return (
     <>
     
@@ -781,7 +789,18 @@ function DealerPriceList() {
                         onBlur={formik.handleBlur}
                     />
                   </div>}
-                  
+                  <div className="col-span-6">
+                      <Select
+                        name="coverageType"
+                        label="Coverage Type"
+                        options={coverage}
+                        OptionName="Coverage Type"
+                        color="text-[#1B1D21] opacity-50"
+                        className="!text-[14px] !bg-[#fff]"
+                        value={formik.values.coverageType}
+                        onChange={formik.setFieldValue}
+                      />
+                  </div>
                   <div className="col-span-6">
                   <Select
                         name="status"

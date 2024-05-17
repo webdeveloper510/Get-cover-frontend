@@ -95,7 +95,7 @@ function DealerAddOrder() {
 
   const downloadCSVTemplate = async () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1BKGAJLFhjQXN8Wg4nYkUdFKpiPZ3h12-CMlrlkzAZE0/edit#gid=0",
+      "https://docs.google.com/spreadsheets/d/1PANNmDTU0UA_z93yc3DkL1lfHeRStXpEp6OkJn-_iUQ/edit#gid=0",
       "_blank"
     );
   };
@@ -453,7 +453,7 @@ function DealerAddOrder() {
       servicerId: "",
       customerId: "",
       resellerId: "",
-      billTo: "Custom",
+      billTo: "Self",
       name: "",
       email: "",
       phoneNumber: "",
@@ -1079,7 +1079,7 @@ function DealerAddOrder() {
         {
           priceBookId: "",
           priceCatId: "",
-           pName: "",
+          pName: "",
           term: "",
           coverageType: value,
         },
@@ -1095,7 +1095,7 @@ function DealerAddOrder() {
     console.log(name, value, "onchange------------------->>");
     if (name == "resellerId") {
       if (value == "") {
-        formik.setFieldValue("billTo", "Custom");
+        formik.setFieldValue("billTo", "Self");
       }
       getCustomerList({
         resellerId: value,
@@ -1131,6 +1131,7 @@ function DealerAddOrder() {
     setbillCheck(value)
 }
 const BillTo = [
+  { label: "Self", value: "Dealer" },
   ...(formik.values.resellerId !== "" && formik.values.resellerId !== null
     ? [{ label: "Reseller", value: "Reseller" }]
     : []),
@@ -1447,6 +1448,7 @@ const BillTo = [
                         className='bg-[#ffff]'
                         type="text"
                         placeholder=""
+                        required={true}
                         value={formik.values.address}
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
@@ -1457,7 +1459,7 @@ const BillTo = [
                     </div>
                   </Grid>
                 </div>
-                }  
+                }
             </div>
             <div className="flex">
               <Button
@@ -2308,7 +2310,7 @@ const BillTo = [
       </>
     );
   };
-
+console.log(formikStep3.values.productsArray ,"hello")
   const renderStep4 = () => {
     // Step 4 content
     return (
@@ -2376,19 +2378,27 @@ const BillTo = [
                         </p>
                         <div className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl ">
                           <Grid className="border-b px-4">
-                            <div className="col-span-4 py-4 border-r">
+                            <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Category</p>
                               <p className="font-bold text-sm">
                                 {categoryName[index]}
                               </p>
                             </div>
-                            <div className="col-span-4 py-4 border-r">
-                              <p className="text-[12px]">Product Name</p>
+                            <div className="col-span-3 py-4 border-r">
+                              <p className="text-[12px]">Product SKU</p>
                               <p className="font-bold text-sm">
                                 {priceBookName[index]}
                               </p>
                             </div>
-                            <div className="col-span-4 py-4">
+                            <div className="col-span-6 py-4">
+                              <p className="text-[12px]">Product Name</p>
+                              <p className="font-bold text-sm">
+                                {data.pName}
+                              </p>
+                            </div>
+                            </Grid>
+                            <Grid className="border-b px-4">
+                            <div className="col-span-12 py-4">
                               <p className="text-[12px]">Product Description</p>
                               <p className="font-bold text-sm">
                                 {data.description}

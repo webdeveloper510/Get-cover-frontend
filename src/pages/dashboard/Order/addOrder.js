@@ -1708,7 +1708,7 @@ function AddOrder() {
                       </div>
                       <div className="col-span-4">
                         <SelectBoxWIthSerach
-                          label="Bill To"
+                          label="Bill Address"
                           name="billTo"
                           placeholder=""
                           className={`!bg-white`}
@@ -1731,7 +1731,7 @@ function AddOrder() {
                           name="name"
                           className="!bg-white"
                           label="Name"
-                          // required={true}
+                          required={true}
                           placeholder=""
                           value={formik.values.name}
                           onBlur={formik.handleBlur}
@@ -1802,7 +1802,7 @@ function AddOrder() {
                           name="address"
                           className="!bg-white"
                           label="Address"
-                          // required={true}
+                          required={true}
                           placeholder=""
                           value={formik.values.address}
                           onBlur={formik.handleBlur}
@@ -2758,13 +2758,15 @@ function AddOrder() {
                                 {priceBookName[index]}
                               </p>
                             </div>
-                            <div className="col-span-3 py-4 border-r">
+                            <div className="col-span-6 py-4">
                               <p className="text-[12px]">Product Name</p>
                               <p className="font-bold text-sm">
-                                {priceBookName[index]}
+                                {data.pName}
                               </p>
                             </div>
-                            <div className="col-span-3 py-4">
+                            </Grid>
+                          <Grid className="border-b px-4">
+                            <div className="col-span-12 py-4">
                               <p className="text-[12px]">Product Description</p>
                               <p className="font-bold text-sm">
                                 {data.description}

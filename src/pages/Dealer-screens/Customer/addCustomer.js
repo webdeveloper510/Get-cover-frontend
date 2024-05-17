@@ -267,6 +267,17 @@ function DealerAddCustomer() {
   //   console.log(data.result._id);
   // };
   useEffect(() => {
+    if (resellerId || typeofUser ) {
+      setLoading1(true);
+
+      const timer = setTimeout(() => {
+        setLoading1(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [resellerId, typeofUser]);
+  useEffect(() => {
     setLoading(true);
     let intervalId;
     if (isModalOpen && timer > 0) {
