@@ -105,7 +105,7 @@ function ResellerDetails() {
     email: "",
     phoneNumber: "",
     position: "",
-    status: createAccountOption,
+    status: createAccountOption === "yes" ? true : false,
     resellerId: id.resellerId,
     isPrimary: false,
   });

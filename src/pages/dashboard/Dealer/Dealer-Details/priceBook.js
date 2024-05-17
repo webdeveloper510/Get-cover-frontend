@@ -194,8 +194,13 @@ function PriceBookList(props) {
             maxWidth: "70px", // Set a custom maximum width
           },
           {
-            name: "Name",
+            name: "SKU",
             selector: (row) => row?.priceBooks?.name,
+            sortable: true,
+          },
+          {
+            name: "Name",
+            selector: (row) => row?.priceBooks?.pName,
             sortable: true,
           },
           {

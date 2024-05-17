@@ -118,7 +118,7 @@ function Dashboard() {
                 </div>
               </Grid>
 
-              <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
+              {/* <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
                 <div className="col-span-6 border-2 rounded-xl">
                   <div className="bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-2">
                     <p className="text-xl font-semibold">Latest Five Order</p>
@@ -170,7 +170,7 @@ function Dashboard() {
                     <p><b>5.</b> </p>
                   </div>
                 </div>
-              </Grid>
+              </Grid> */}
               
               {/* <Grid className="s:hidden md:block ">
                 <div className="col-span-12">
