@@ -45,7 +45,7 @@ function Dealer() {
   const [loading1, setLoading1] = useState(false);
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [message, setMessage] = useState("");
-  const [types, setTypes] =useState('');
+  const [types, setTypes] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("start");
   const [timer, setTimer] = useState(3);
@@ -75,7 +75,7 @@ function Dealer() {
         categoryId: "",
         wholesalePrice: "",
         terms: "",
-        pName:"",
+        pName: "",
         description: "",
         retailPrice: "",
         status: "",
@@ -120,7 +120,7 @@ function Dealer() {
       categoryId: "",
       wholesalePrice: "",
       terms: "",
-      pName:"",
+      pName: "",
       description: "",
       retailPrice: "",
       status: "",
@@ -139,7 +139,6 @@ function Dealer() {
   };
   useEffect(() => {
     console.log("here1");
-   
 
     if (id === undefined) {
       setInitialFormValues({
@@ -169,7 +168,7 @@ function Dealer() {
             wholesalePrice: "",
             terms: "",
             description: "",
-            pName:"",
+            pName: "",
             retailPrice: "",
             status: "",
           },
@@ -188,7 +187,6 @@ function Dealer() {
     if (id != undefined) {
       setLoading1(true);
       getDealersDetailsByid(id).then((res) => {
-        
         if (res?.result) {
           setInitialFormValues({
             name: res?.result[0]?.dealerData?.name,
@@ -218,7 +216,7 @@ function Dealer() {
                 categoryId: "",
                 wholesalePrice: "",
                 terms: "",
-                pName:"",
+                pName: "",
                 description: "",
                 retailPrice: "",
                 status: "",
@@ -231,11 +229,9 @@ function Dealer() {
             termCondition: {},
           });
         }
-        
       });
       setLoading1(false);
     }
-
   }, [id]);
   useEffect(() => {
     let intervalId;
@@ -270,9 +266,15 @@ function Dealer() {
   };
 
   const getProductList = async () => {
-    
+    const result = await getCategoryListActiveData();
+    console.log(result.result);
+    setCategoryList(
+      result.result.map((item) => ({
+        label: item.name,
+        value: item._id,
+      }))
+    );
   };
-
   const handleServiceChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
     setServicerCreateAccountOption(valueAsBoolean);
@@ -350,8 +352,11 @@ function Dealer() {
       console.log(match[1]);
       formik.setFieldValue(`priceBook[${match[1]}].priceBookId`, "");
       if (match) {
-        const response = await getProductListbyProductCategoryId(selectedValue, {coverageType : types});
-        console.log(response.result,"-------------------");
+        const response = await getProductListbyProductCategoryId(
+          selectedValue,
+          { coverageType: types }
+        );
+        console.log(response.result, "-------------------");
         setProductNameOptions((prevOptions) => {
           const newOptions = [...prevOptions];
           newOptions[match[1]] = {
@@ -360,7 +365,7 @@ function Dealer() {
               value: item._id,
               description: item.description,
               term: item.term,
-              pName:item.pName,
+              pName: item.pName,
               wholesalePrice:
                 item.frontingFee +
                 item.reserveFutureFee +
@@ -378,6 +383,7 @@ function Dealer() {
       const data = productNameOptions[match[1]].data.find((value) => {
         return value.value === selectedValue;
       });
+      console.log(data);
       formik.setFieldValue(
         `priceBook[${match[1]}].description`,
         data.description
@@ -388,6 +394,7 @@ function Dealer() {
       );
       formik.setFieldValue(`priceBook[${match[1]}].status`, data.status);
       formik.setFieldValue(`priceBook[${match[1]}].terms`, data.term);
+      formik.setFieldValue(`priceBook[${match[1]}].pName`, data.pName);
       console.log(match[1], data);
     }
 
@@ -408,33 +415,32 @@ function Dealer() {
   ];
   const handleSelectChange1 = (name, value) => {
     formik.setFieldValue(name, value);
-   
   };
   const handleSelectChange2 = async (name, value) => {
     formik.setFieldValue(name, value);
-    
-    const result = await getCategoryListActiveData({coverageType: value});
+
+    const result = await getCategoryListActiveData({ coverageType: value });
     console.log(result.result);
-    setTypes(result.coverageType)
-    formik.setFieldValue("priceBook", [{
-      priceBookId: "",
-      categoryId: "",
-      wholesalePrice: "",
-      terms: "",
-      pName:"",
-      description: "",
-      retailPrice: "",
-      status: "",
-    },
-  ]);
-      
+    setTypes(result.coverageType);
+    formik.setFieldValue("priceBook", [
+      {
+        priceBookId: "",
+        categoryId: "",
+        wholesalePrice: "",
+        terms: "",
+        pName: "",
+        description: "",
+        retailPrice: "",
+        status: "",
+      },
+    ]);
+
     setCategoryList(
       result.result.map((item) => ({
         label: item.name,
         value: item._id,
       }))
     );
-
   };
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const formik = useFormik({
@@ -539,7 +545,7 @@ function Dealer() {
                 terms: "",
                 description: "",
                 retailPrice: "",
-                pName:"",
+                pName: "",
                 status: "",
               },
             ]
@@ -928,25 +934,52 @@ function Dealer() {
                           )}
                       </div>
                       <div className="col-span-12">
-                      <div className="relative">
-                        <label htmlFor='term' className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75 `}>
-                          Term And Condition
-                        </label>
-                        <input
-                          type="file"
-                          name="term"
-                          className="hidden"
-                          onChange={handleFileChange}
-                          accept="application/pdf"
-                          ref={inputRef}
-                        />
-                      <div className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}>
-                        {selectedFile2 &&  <button type="button" onClick={handleRemoveFile} className="absolute -right-2 -top-2 mx-auto mb-3">
-                          <img src={Cross} className="w-6 h-6" alt="Dropbox" />
-                          </button>}
-                          {selectedFile2 ? <p className="w-full break-words">{selectedFile2.name}</p> : <p className="w-full cursor-pointer" onClick={handleRemoveFile}> Select File</p>}
-                      </div>
-                      </div>
+                        <div className="relative">
+                          <label
+                            htmlFor="term"
+                            className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75 `}
+                          >
+                            Term And Condition
+                          </label>
+                          <input
+                            type="file"
+                            name="term"
+                            className="hidden"
+                            onChange={handleFileChange}
+                            accept="application/pdf"
+                            ref={inputRef}
+                          />
+                          <div
+                            className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}
+                          >
+                            {selectedFile2 && (
+                              <button
+                                type="button"
+                                onClick={handleRemoveFile}
+                                className="absolute -right-2 -top-2 mx-auto mb-3"
+                              >
+                                <img
+                                  src={Cross}
+                                  className="w-6 h-6"
+                                  alt="Dropbox"
+                                />
+                              </button>
+                            )}
+                            {selectedFile2 ? (
+                              <p className="w-full break-words">
+                                {selectedFile2.name}
+                              </p>
+                            ) : (
+                              <p
+                                className="w-full cursor-pointer"
+                                onClick={handleRemoveFile}
+                              >
+                                {" "}
+                                Select File
+                              </p>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </Grid>
                   </div>
@@ -1501,7 +1534,9 @@ function Dealer() {
                             onBlur={formik.handleBlur}
                             onChange={handleSelectChange}
                             index={index}
-                            disabled ={formik.values.priceBook[index].categoryId == ''}
+                            disabled={
+                              formik.values.priceBook[index].categoryId == ""
+                            }
                             error={
                               formik.touched.priceBook &&
                               formik.touched.priceBook[index] &&
@@ -1529,9 +1564,7 @@ function Dealer() {
                             label="Product Name"
                             required={true}
                             placeholder=""
-                            value={
-                              formik.values.priceBook[index].pName
-                            }
+                            value={formik.values.priceBook[index].pName}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             disabled={true}
@@ -1588,7 +1621,9 @@ function Dealer() {
                             className="!bg-grayf9"
                             options={termList}
                             disabled={true}
-                            value={formik.values.priceBook[index].terms + ' Months'}
+                            value={
+                              formik.values.priceBook[index].terms + " Months"
+                            }
                             onBlur={formik.handleBlur}
                             error={formik.touched.term && formik.errors.term}
                           />
