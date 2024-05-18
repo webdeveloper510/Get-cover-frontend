@@ -331,7 +331,7 @@ function Contracts(props) {
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
                               {res?.status}
-                            </p>
+                            </p>Contracts List
                           </div>
                         </div>
                         <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">

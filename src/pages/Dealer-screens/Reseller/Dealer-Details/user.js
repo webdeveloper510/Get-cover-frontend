@@ -89,11 +89,7 @@ function UserList(props) {
       setSelectedAction(null);
     }
   };
-  useEffect(() => {
-    
-      getUserList();
- 
-  });
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
 
@@ -110,6 +106,7 @@ function UserList(props) {
       setLoading(false);
     }
   }, [props?.data]);
+  
   useEffect(() => {
     setLoading(true);
     let intervalId;

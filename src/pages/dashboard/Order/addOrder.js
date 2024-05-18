@@ -1186,9 +1186,9 @@ const orderDetails = async () => {
         `productsArray[${productIndex}].priceBookId`,
         ""
       );
-      // formikStep3.setFieldValue(`productsArray[${productIndex}].term`, "");
+       formikStep3.setFieldValue(`productsArray[${productIndex}].term`, "");
       formikStep3.setFieldValue(`productsArray[${productIndex}].price`, "");
-      // formikStep3.setFieldValue(`productsArray[${productIndex}].pName`, "");
+       formikStep3.setFieldValue(`productsArray[${productIndex}].pName`, "");
       formikStep3.setFieldValue(
         `productsArray[${productIndex}].noOfProducts`,
         ""
@@ -1280,22 +1280,20 @@ const orderDetails = async () => {
     });
 
     if (name.includes("categoryId")) {
+      clearProductFields();
       formikStep3.setFieldValue(
         `productsArray[${productIndex}].categoryId`,
         selectedValue
       );
-      clearProductFields();
+      
       console.log(formikStep3.values.productsArray[productIndex]);
       getCategoryList(
         formik.values.dealerId,
         {
           priceCatId: selectedValue,
-          pName: formikStep3.values.productsArray[productIndex].pName,
-          term: formikStep3.values.productsArray[productIndex].term,
-          priceBookId:
-            selectedValue == ""
-              ? ""
-              : formikStep3.values.productsArray[productIndex].priceBookId,
+          pName:"",
+          term:"",
+          priceBookId:"",
           coverageType: formikStep2?.values?.coverageType,
         },
         productIndex
@@ -1308,14 +1306,15 @@ const orderDetails = async () => {
       );
       clearProductFields();
       updateProductFields(selectedValue);
+      console.log(selectedValue)
+    
       getCategoryList(
         formik.values.dealerId,
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId: selectedValue,
-          pName: formikStep3.values.productsArray[productIndex].pName,
-          term: formikStep3.values.productsArray[productIndex].term,
-          selectedValue,
+          pName:selectedValue == '' ? '' : formikStep3.values.productsArray[productIndex].pName,
+          term:selectedValue == '' ? '' : formikStep3.values.productsArray[productIndex].term,
           coverageType: formikStep2?.values?.coverageType,
         },
         productIndex

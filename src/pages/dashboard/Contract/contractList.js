@@ -201,6 +201,7 @@ function ContractList(props) {
   };
   const handleFilterIconClick = () => {
     formik.resetForm();
+    setValue("")
     console.log(formik.values);
     setSelectedProduct("");
     // getContract();
@@ -837,7 +838,7 @@ function ContractList(props) {
                       <div className="col-span-1 self-center justify-end self-center"></div>
                     </Grid>
 
-                    <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
+                    <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5 max-h-[70vh] overflow-y-scroll">
                       <div className="col-span-1 border border-[#D1D1D1]">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
