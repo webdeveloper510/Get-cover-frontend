@@ -57,7 +57,7 @@ function CustomerDetails() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [isStatus, setIsStatus] = useState(true);
-  const [resellerStatus, setResellerStatus] = useState(true);
+  const [isAccountCreate, setIsAccountCreate] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
@@ -137,7 +137,7 @@ function CustomerDetails() {
     const result = await getUserListByCustomerId({}, customerId);
     console.log(result, "----------");
     setRefreshUserList(result.result);
-    setCreateAccount(result.isAccountCreate)
+    setCreateAccountOption(result.isAccountCreate ? "yes" : "no");
   };
   const userValues = useFormik({
     initialValues: initialUserFormValues,
@@ -297,9 +297,14 @@ function CustomerDetails() {
     console.log(customerId);
     const result = await getCustomerDetailsById(customerId);
     setCustomerDetail(result.result);
-   
+
     setIsStatus(result.result.dealerStatus);
-    console.log(result, ' --------- ????????');
+    console.log(result.result.meta.isAccountCreate, " --------- ????????");
+    setCreateAccount(
+      result.result.userAccount ? result.result.meta.isAccountCreate : false
+    );
+    setIsAccountCreate(result.result.userAccount);
+    setCreateAccountOption(result.result.userAccount ? "yes" : "no");
     setInitialFormValues({
       username: result?.result?.meta?.username,
       oldName: result?.result?.meta?.username,
@@ -354,7 +359,12 @@ function CustomerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList flag={"customer"} id={customerId} activeTab={activeTab} customerDetail={customerDetail} />
+        <UserList
+          flag={"customer"}
+          id={customerId}
+          activeTab={activeTab}
+          customerDetail={customerDetail}
+        />
       ),
     },
   ];
@@ -365,7 +375,7 @@ function CustomerDetails() {
   const navigate = useNavigate();
   const handleGOBack = () => {
     localStorage.removeItem("customer");
-    navigate('/customerList');
+    navigate("/customerList");
   };
 
   const formatOrderValue = (orderValue) => {
@@ -392,7 +402,7 @@ function CustomerDetails() {
 
         <div className="flex">
           <Link
-            to={'/customerList'}
+            to={"/customerList"}
             className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
           >
             <img
@@ -407,10 +417,10 @@ function CustomerDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={'/customerList'}>Customer / </Link>{" "}
+                <Link to={"/customerList"}>Customer / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={'/customerList'}> Customer List / </Link>{" "}
+                <Link to={"/customerList"}> Customer List / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}
@@ -602,7 +612,8 @@ function CustomerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">
-                      ${formatOrderValue(
+                      $
+                      {formatOrderValue(
                         customerDetail?.claimData?.valueClaim ?? parseInt(0)
                       )}
                     </p>
@@ -973,23 +984,25 @@ function CustomerDetails() {
                   />
                 </div>
                 <div className="col-span-12">
-              <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
-                  Do you want to create an account?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value={true}
-                    checked={createAccount === true}
-                    onChange={handleAccountChange}
-                  />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value={false}
-                    checked={createAccount === false}
-                    onChange={handleAccountChange}
-                  />
-                </p>
+                  <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
+                    Do you want to create an account?
+                    <RadioButton
+                      id="yes-create-account"
+                      label="Yes"
+                      value={true}
+                      disabled={!isAccountCreate}
+                      checked={createAccount === true}
+                      onChange={handleAccountChange}
+                    />
+                    <RadioButton
+                      id="no-create-account"
+                      label="No"
+                      value={false}
+                      checked={createAccount === false}
+                      disabled={!isAccountCreate}
+                      onChange={handleAccountChange}
+                    />
+                  </p>
                 </div>
                 <div className="col-span-4">
                   <Button

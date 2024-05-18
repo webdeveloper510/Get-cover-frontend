@@ -89,7 +89,7 @@ function DealerDetails() {
   const [dealerDetails, setDealerDetails] = useState([]);
   const [createServicerAccountOption, setServicerCreateAccountOption] =
     useState(true);
-    const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [separateAccountOption, setSeparateAccountOption] = useState(true);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
@@ -104,7 +104,7 @@ function DealerDetails() {
   const [createAccount, setCreateAccount] = useState(false);
   const [shipping, setShipping] = useState("yes");
   const inputRef = useRef(null);
-  const [selectedFile2, setSelectedFile2] = useState('');
+  const [selectedFile2, setSelectedFile2] = useState("");
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -130,7 +130,7 @@ function DealerDetails() {
     isShippingAllowed: "",
     isServicer: createServicerAccountOption,
     isAccountCreate: createAccount,
-    userAccount:separateAccountOption,
+    userAccount: separateAccountOption,
     termCondition: {
       fileName: "",
       name: "",
@@ -140,12 +140,11 @@ function DealerDetails() {
 
   const state = cityData;
   const containerRef = useRef(null);
- 
+
   const handleSeparateAccountRadioChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
     setSeparateAccountOption(valueAsBoolean);
     formik.setFieldValue("userAccount", valueAsBoolean);
-    
   };
   const handleServiceChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
@@ -182,8 +181,7 @@ function DealerDetails() {
   const closeModal10 = () => {
     setModalOpen(false);
   };
-  const carouselRef = useRef(null); 
-
+  const carouselRef = useRef(null);
 
   useEffect(() => {
     setLoading(true);
@@ -224,7 +222,7 @@ function DealerDetails() {
     const result = await getUserListByDealerId(id.id, {});
     setRefreshUserList(result.result);
     // console.log(result, '------------------->>>>>')
-    setSeparateAccountOption(result.userAccount)
+    setSeparateAccountOption(result.userAccount);
   };
 
   const closeModal1 = () => {
@@ -254,8 +252,6 @@ function DealerDetails() {
     // getServicerListData()
     getServicerList();
   }, [id.id, flag]);
-;
-
   useEffect(() => {
     getUserList();
   }, []);
@@ -280,6 +276,7 @@ function DealerDetails() {
       country: "USA",
       serviceCoverageType: result?.result[0]?.dealerData?.serviceCoverageType,
       coverageType: result?.result[0]?.dealerData?.coverageType,
+      userAccount: result?.result[0]?.dealerData?.userAccount,
       isShippingAllowed:
         result?.result[0]?.dealerData?.isShippingAllowed === true
           ? "yes"
@@ -289,7 +286,7 @@ function DealerDetails() {
       isAccountCreate: result?.result[0]?.dealerData?.isAccountCreate,
     });
     setServicerCreateAccountOption(result?.result[0]?.dealerData?.isServicer);
-    
+
     // console.log(result, '-------------->>>>>>')
     setCreateAccount(result?.result[0]?.dealerData?.isAccountCreate);
     setSelectedFile2(result?.result[0]?.dealerData?.termCondition);
@@ -382,20 +379,17 @@ function DealerDetails() {
         size: res?.file?.size,
       });
     });
-    if (file != undefined){
+    if (file != undefined) {
       setSelectedFile2(file);
-    }
-    else{
+    } else {
       setSelectedFile2({
         fileName: "",
         name: "",
         size: "",
-      })
+      });
     }
-    
-    
-  console.log("Selected file:================", file);
-    
+
+    console.log("Selected file:================", file);
   };
 
   const handleRemoveFile = () => {
@@ -406,7 +400,7 @@ function DealerDetails() {
         name: "",
         size: "",
       });
-       setSelectedFile2({
+      setSelectedFile2({
         fileName: "",
         name: "",
         size: "",
@@ -513,22 +507,33 @@ function DealerDetails() {
   useEffect(() => {
     localStorage.setItem("menu", activeTab);
 
-    console.log('-------------',createServicerAccountOption)
-    if(!createServicerAccountOption ){
-      if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
+    console.log("-------------", createServicerAccountOption);
+    if (!createServicerAccountOption) {
+      if (
+        activeTab === "Customer" ||
+        activeTab === "Users" ||
+        activeTab === "PriceBook" ||
+        activeTab === "Paid Claims" ||
+        activeTab === "Unpaid Claims"
+      ) {
         if (carouselRef.current) {
           carouselRef.current.next(3);
         }
       }
     } else {
-      if (activeTab === "Customer" || activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
+      if (
+        activeTab === "Customer" ||
+        activeTab === "Users" ||
+        activeTab === "PriceBook" ||
+        activeTab === "Paid Claims" ||
+        activeTab === "Unpaid Claims"
+      ) {
         if (carouselRef.current) {
           carouselRef.current.next(5);
         }
       }
     }
-    
-  }, [activeTab, carouselRef,createServicerAccountOption]);
+  }, [activeTab, carouselRef, createServicerAccountOption]);
 
   const columns = [
     {
@@ -651,7 +656,7 @@ function DealerDetails() {
       content: activeTab === "PriceBook" && (
         <PriceBookList id={id.id} activeTab={activeTab} />
       ),
-    }
+    },
   ];
 
   if (createServicerAccountOption === true) {
@@ -661,22 +666,18 @@ function DealerDetails() {
         label: "Unpaid Claims",
         icons: Unpaid,
         Activeicons: UnpaidActive,
-        content: activeTab === "Unpaid Claims" && <ClaimList12
-          id={id.id}
-          flag="dealer"
-          activeTab={activeTab}
-        />,
+        content: activeTab === "Unpaid Claims" && (
+          <ClaimList12 id={id.id} flag="dealer" activeTab={activeTab} />
+        ),
       },
       {
         id: "Paid Claims",
         label: "Paid Claims",
         icons: Paid,
         Activeicons: ActivePaid,
-        content: activeTab === "Paid Claims" && <ClaimList12
-          id={id.id}
-          flag="dealer"
-          activeTab={activeTab}
-        />,
+        content: activeTab === "Paid Claims" && (
+          <ClaimList12 id={id.id} flag="dealer" activeTab={activeTab} />
+        ),
       }
     );
   }
@@ -715,7 +716,7 @@ function DealerDetails() {
         break;
 
       default:
-        // console.log("Invalid data, no navigation");
+      // console.log("Invalid data, no navigation");
     }
   };
 
@@ -1013,7 +1014,9 @@ function DealerDetails() {
               </div>
               {isStatus == true && (
                 <>
-                  {activeTab !== "Contracts" && activeTab !== "Unpaid Claims" && activeTab !== "Paid Claims" ? (
+                  {activeTab !== "Contracts" &&
+                  activeTab !== "Unpaid Claims" &&
+                  activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2 self-center"
                       onClick={() => routeToPage(activeTab)}
@@ -1026,7 +1029,8 @@ function DealerDetails() {
                           alt="AddItem"
                         />{" "}
                         <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
-                          {activeTab === "Servicer" ? "Assign " :"Add "} {activeTab}
+                          {activeTab === "Servicer" ? "Assign " : "Add "}{" "}
+                          {activeTab}
                         </span>{" "}
                       </Button>
                     </div>
