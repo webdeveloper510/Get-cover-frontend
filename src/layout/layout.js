@@ -26,7 +26,7 @@ function Layout() {
 
   return (
     <div
-      className={`w-full flex bg-[#F9F9F9] bg-cover h-full ${
+      className={`w-full flex bg-grayf9 bg-cover h-full ${
         Location.pathname !== "/dealerDetails/" + id &&
         Location.pathname !== "/customerDetails/" + customerId &&
         Location.pathname !== "/servicerDetails/" + servicerId &&

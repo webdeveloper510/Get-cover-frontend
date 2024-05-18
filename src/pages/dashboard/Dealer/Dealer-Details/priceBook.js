@@ -302,6 +302,12 @@ function PriceBookList(props) {
             },
           },
         ];
+
+        const coverage = [
+          { label: "Breakdown", value: "Breakdown" },
+          { label: "Accidental", value: "Accidental" },
+          { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+        ];
   // const columns = [
   //   {
   //     name: "ID",
@@ -524,6 +530,7 @@ function PriceBookList(props) {
       status: "",
       category: "",
       priceType: "",
+      coverageType:"",
       term: "",
       range:"",
 
@@ -534,12 +541,14 @@ function PriceBookList(props) {
       status: Yup.boolean(),
       category: Yup.string(),
       priceType: Yup.string(),
+      coverageType: Yup.string(),
       term: Yup.string(),
       range: Yup.string(),
     }),
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
       filterDealerPriceBook(values);
+      setIsDisapprovedOpen(false);
     },
   });
   const handleFilterIconClick = () => {
@@ -572,13 +581,13 @@ function PriceBookList(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
+        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className={` ${props.flag === "reseller" ? ('col-span-4 self-center') : ('col-span-3 self-center') }`}>
               <p className="text-xl font-semibold">Price Book List</p>
             </div>
             <div className={` ${props.flag === "reseller" ? ('col-span-8') : ('col-span-9') }`}>
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik.handleSubmit}>
                   <Grid className={` ${props.flag === "reseller" ? ('!grid-cols-10') : ('!grid-cols-10')}`}>
                     <div className={`${props.flag === "reseller" ? ('col-span-3 self-center') : ('col-span-3 self-center')}`}>
@@ -952,7 +961,18 @@ function PriceBookList(props) {
                         onBlur={formik.handleBlur}
                     />
                   </div>}
-                  
+                  <div className="col-span-6">
+                  <Select
+                        name="coverageType"
+                        label="Coverage Type"
+                        options={coverage}
+                        OptionName="Coverage Type"
+                        color="text-[#1B1D21] opacity-50"
+                        className="!text-[14px] !bg-[#fff]"
+                        value={formik.values.coverageType}
+                        onChange={formik.setFieldValue}
+                      />
+                  </div>
                   <div className="col-span-6">
                   <Select
                         name="status"

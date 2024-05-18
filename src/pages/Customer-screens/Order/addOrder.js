@@ -1024,7 +1024,7 @@ function CustomerAddOrder() {
   const renderStep1 = () => {
     return (
       <form onSubmit={formik.handleSubmit}>
-        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
           <p className="text-2xl font-bold mb-4">Order Details</p>
           <Grid>
             <div className="col-span-6">
@@ -1173,7 +1173,7 @@ function CustomerAddOrder() {
     // Step 2 content
     return (
       <>
-        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
           <p className="text-2xl font-bold mb-4">Dealer Order Details</p>
           <Grid>
             <div className="col-span-6">
@@ -1279,7 +1279,7 @@ function CustomerAddOrder() {
           {formikStep3?.values?.productsArray.map((data, index) => (
             <div
               key={index}
-              className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative"
+              className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative"
             >
               <p className="text-2xl font-bold mb-4">Add Product</p>
               <div className="absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 ">
@@ -1637,7 +1637,7 @@ function CustomerAddOrder() {
                               index
                             ].QuantityPricing.map((data, index1) => (
                               <div
-                                className="bg-[#f9f9f9] p-4 relative rounded-xl"
+                                className="bg-grayf9 p-4 relative rounded-xl"
                                 key={index1}
                               >
                                 <div className=" p-4 pl-0 relative rounded-xl">
@@ -1646,7 +1646,7 @@ function CustomerAddOrder() {
                                       <Input
                                         type="text"
                                         name={`productsArray[${index}].QuantityPricing[${index1}].name`}
-                                        className="!bg-[#f9f9f9]"
+                                        className="!bg-grayf9"
                                         label="Name"
                                         value={
                                           formikStep3.values.productsArray[
@@ -1670,7 +1670,7 @@ function CustomerAddOrder() {
                                       <Input
                                         type="number"
                                         name={`productsArray[${index}].QuantityPricing[${index1}].quantity`}
-                                        className="!bg-[#f9f9f9]"
+                                        className="!bg-grayf9"
                                         label="Max Quantity"
                                         maxLength={"10"}
                                         maxDecimalPlaces={2}
@@ -1696,7 +1696,7 @@ function CustomerAddOrder() {
                                       <Input
                                         type="tel"
                                         name={`productsArray[${index}].QuantityPricing[${index1}].enterQuantity`}
-                                        className="!bg-[#f9f9f9]"
+                                        className="!bg-grayf9"
                                         label="# of Quantity"
                                         required={true}
                                         placeholder=""
@@ -1891,13 +1891,13 @@ function CustomerAddOrder() {
           </div>
         ) : (
           <form onSubmit={formik4.handleSubmit}>
-            <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+            <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
               <Grid>
                 <div className="col-span-6">
                   <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
                     Order Details
                   </p>
-                  <Grid className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl px-4 ">
+                  <Grid className="bg-grayf9 border-Light-Grey border rounded-xl px-4 ">
                     <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Dealer Name</p>
                       <p className="font-bold text-sm">{dealerName}</p>
@@ -1920,7 +1920,7 @@ function CustomerAddOrder() {
                   <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
                     Dealer Order Details
                   </p>
-                  <Grid className="bg-[#F9F9F9] !gap-2 border-[#D1D1D1] border rounded-xl px-2 ">
+                  <Grid className="bg-grayf9 !gap-2 border-Light-Grey border rounded-xl px-2 ">
                     <div className="col-span-4 py-4 border-r">
                       <p className="text-[12px]">Dealer Purchase Order</p>
                       <p className="font-bold text-sm">
@@ -1948,7 +1948,7 @@ function CustomerAddOrder() {
                         <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
                           Product Details
                         </p>
-                        <div className="bg-[#F9F9F9] border-[#D1D1D1] border rounded-xl ">
+                        <div className="bg-grayf9 border-Light-Grey border rounded-xl ">
                           <Grid className="border-b px-4">
                             <div className="col-span-4 py-4 border-r">
                               <p className="text-[12px]">Product Category</p>
@@ -2084,7 +2084,7 @@ function CustomerAddOrder() {
                         <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
                           Uploaded Data
                         </p>
-                        <div className="border border-dashed bg-[#F9F9F9] w-full h-[83%] relative flex">
+                        <div className="border border-dashed bg-grayf9 w-full h-[83%] relative flex">
                           <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
                             <img src={csvFile} className="mr-2" alt="Dropbox" />
                             <div className="flex justify-between w-full">
@@ -2212,7 +2212,7 @@ function CustomerAddOrder() {
       <div className="flex mt-2">
         <Link
           to={"/customer/orderList"}
-          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+          className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
         >
           <img
             src={BackImage}

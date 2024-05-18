@@ -23,11 +23,9 @@ function MyComponent() {
     setSelectedRange([{ startDate, endDate, key: 'selection' }]);
   };
 
-  const minDate = new Date();
-  minDate.setFullYear(minDate.getFullYear() - 1); // Set minDate to 2 years ago
 
   return (
-    <div className="bg-[#fff] rounded-[20px] relative p-3 my-4 border-[1px] border-[#D1D1D1]">
+    <div className="bg-[#fff] rounded-[20px] relative p-3 my-4 border-[1px] border-Light-Grey">
       <DateRangePicker
         onChange={handleSelect}
         showSelectionPreview={true}
@@ -38,7 +36,6 @@ function MyComponent() {
         calendarFocus="backwards"
         ranges={selectedRange}
         // showMonthAndYearPickers={true} // Show only month and year select boxes
-        minDate={minDate} // Limit selectable dates to past 2 years
         maxDate={new Date()} // Prevent selecting future dates
       />
     </div>

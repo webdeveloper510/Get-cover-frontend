@@ -59,7 +59,7 @@ const handleDownloadClick = (file, apiUrlData) => {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
+        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Orders Details</p>
@@ -82,8 +82,8 @@ const handleDownloadClick = (file, apiUrlData) => {
                         </div>
                       </Grid>
 
-                      <Grid className="!gap-0 bg-[#F9F9F9] mb-5">
-                        <div className="col-span-3 border border-[#D1D1D1]">
+                      <Grid className="!gap-0 bg-grayf9 mb-5">
+                        <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Product Category
@@ -93,7 +93,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-3 border border-[#D1D1D1]">
+                        <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Price Type
@@ -103,7 +103,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-6 border border-[#D1D1D1]">
+                        <div className="col-span-6 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Product Description
@@ -114,7 +114,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                           </div>
                         </div>
 
-                        <div className="col-span-3 border border-[#D1D1D1]">
+                        <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Term
@@ -124,7 +124,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-3 border border-[#D1D1D1]">
+                        <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Unit Price
@@ -139,7 +139,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-3 border border-[#D1D1D1]">
+                        <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                                # of Products
@@ -149,7 +149,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-3 border border-[#D1D1D1]">
+                        <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Price
@@ -163,7 +163,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-3 border border-[#D1D1D1]">
+                        <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Coverage Start Date
@@ -176,7 +176,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-3 border border-[#D1D1D1]">
+                        <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Coverage End Date
@@ -191,7 +191,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                         </div>
                         {res.priceType == "Flat Pricing" && (
                           <>
-                            <div className="col-span-3 border border-[#D1D1D1]">
+                            <div className="col-span-3 border border-Light-Grey">
                               <div className="py-4 pl-3">
                                 <p className="text-[#5D6E66] text-sm font-Regular">
                                   Start Range
@@ -201,7 +201,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                                 </p>
                               </div>
                             </div>
-                            <div className="col-span-3 border border-[#D1D1D1]">
+                            <div className="col-span-3 border border-Light-Grey">
                               <div className="py-4 pl-3">
                                 <p className="text-[#5D6E66] text-sm font-Regular">
                                   End Range
@@ -260,7 +260,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                             </table>
                           </div>
                         )}
-                        <div className="col-span-12 border rounded-b-xl	 border-[#D1D1D1]">
+                        <div className="col-span-12 border rounded-b-xl	 border-Light-Grey">
                           <Grid className="">
                             <div className="col-span-9 py-4 pl-3">
                               <div className="">

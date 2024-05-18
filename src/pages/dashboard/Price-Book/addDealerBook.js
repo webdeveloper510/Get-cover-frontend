@@ -283,7 +283,7 @@ function AddDealerBook() {
           <div className="flex">
             <div
               onClick={handleLinkClick}
-              className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[20px]"
+              className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[20px]"
             >
               <img
                 src={BackImage}
@@ -405,21 +405,7 @@ function AddDealerBook() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-4">
-                  <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={product} className="w-6 h-6" alt="product" />
-                    </div>
-                    <div className="self-center">
-                      <p className="text-[#FFF] text-lg font-medium leading-5	">
-                        Description
-                      </p>
-                      <p className="text-[#FFFFFF] opacity-50	font-medium">
-                        {priceBookById?.priceBooks?.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+               
                 <div className="col-span-4">
                   <div className="flex">
                     <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
@@ -450,11 +436,26 @@ function AddDealerBook() {
                     </div>
                   </div>
                 </div>
+                <div className="col-span-8">
+                  <div className="flex">
+                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                      <img src={product} className="w-6 h-6" alt="product" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-lg font-medium leading-5	">
+                        Description
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	font-medium">
+                        {priceBookById?.priceBooks?.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </Grid>
             </div>
           )}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+            <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
               {error ? (
                 <p className="text-red-500 text-sm pl-2 my-3">
                   <span className="font-semibold"> {error} </span>

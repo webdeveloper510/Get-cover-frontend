@@ -40,12 +40,12 @@ function Notification() {
   };
   
   return (
-    <div className="py-8 pl-3 relative overflow-x-hidden min-h-screen bg-[#F9F9F9]">
+    <div className="py-8 pl-3 relative overflow-x-hidden min-h-screen bg-grayf9">
       <Headbar />
       <div className="flex">
         <Link
           to={"/"}
-          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+          className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
         >
           <img
             src={BackImage}

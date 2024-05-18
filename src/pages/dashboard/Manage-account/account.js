@@ -229,6 +229,7 @@ function Account() {
     });
     setIsUserModalOpen(false);
     openModal2();
+    fetchUserMembers();
   };
 
   const deleteUser = async () => {
@@ -521,7 +522,9 @@ function Account() {
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (
-          <div className="relative">
+          <>
+          {!row.isPrimary && (
+             <div className="relative">
             <div
               onClick={() =>
                 setSelectedAction(
@@ -572,7 +575,8 @@ function Account() {
                 )}
               </div>
             )}
-          </div>
+          </div>)}
+          </>
         );
       },
     },
@@ -713,7 +717,7 @@ function Account() {
           <div className="flex mt-2">
             <Link
               to={"/dashboard"}
-              className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+              className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
             >
               <img
                 src={BackImage}
@@ -734,7 +738,7 @@ function Account() {
             </div>
           </div>
 
-          <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+          <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
             <p className="text-xl font-semibold mb-3">My Account</p>
 
             <>
@@ -981,7 +985,7 @@ function Account() {
               </div>
             </div>
           ) : (
-            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1] rounded-xl relative">
+            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
               {isPrimary && (
                 <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                   <Button onClick={() => openUserModal()}>+ Add Member</Button>

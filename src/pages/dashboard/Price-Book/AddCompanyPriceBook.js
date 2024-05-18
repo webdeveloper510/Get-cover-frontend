@@ -409,7 +409,7 @@ function AddCompanyPriceBook() {
       <div className="flex mt-3">
         <Link
           to={"/companyPriceBook"}
-          className="h-[60px] w-[60px] flex border-[1px] bg-[#fff] border-[#D1D1D1] rounded-[25px]"
+          className="h-[60px] w-[60px] flex border-[1px] bg-[#fff] border-Light-Grey rounded-[25px]"
         >
           <img
             src={BackImage}
@@ -522,7 +522,7 @@ function AddCompanyPriceBook() {
             </div>
           )}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+            <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
               {error ? (
                 <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
                   <span className="font-semibold"> {error} </span>
@@ -930,7 +930,7 @@ function AddCompanyPriceBook() {
                   <>
                     {formik.values.quantityPriceDetail.map((dealer, index) => {
                       return (
-                        <div key={index} className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+                        <div key={index} className="bg-grayf9 p-4 relative mt-8 rounded-xl">
                           <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
                             {index == 0 ? (
                               <Button
@@ -962,7 +962,7 @@ function AddCompanyPriceBook() {
                                 <Input
                                   type="text"
                                   name={`quantityPriceDetail[${index}].name`}
-                                  className="!bg-[#f9f9f9]"
+                                  className="!bg-grayf9"
                                   label="Name"
                                   required={true}
                                   placeholder=""
@@ -989,7 +989,7 @@ function AddCompanyPriceBook() {
                                 <Input
                                   type="number"
                                   name={`quantityPriceDetail[${index}].quantity`}
-                                  className="!bg-[#f9f9f9]"
+                                  className="!bg-grayf9"
                                   label="Max Quantity"
                                   maxLength={"10"}
                                   maxDecimalPlaces={2}

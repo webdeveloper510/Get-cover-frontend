@@ -10,10 +10,18 @@ module.exports = {
         'light-grey': '#ebe4e4',
         'light-black' : '#333',
         'light-white' : '#5D6E66',
-        'light-green' : '#c1c5c3'
+        'light-green' : '#c1c5c3',
+        'Gray28' : '#474747',
+        'grayf9' : '#F9F9F9',
+        'Eclipse' : '#3C3C3C',
+        'Light-Grey' : '#D1D1D1',
       },
       backgroundColor : {
         'light-black' : '#333',
+        'Gray28' : '#474747',
+        'grayf9' : '#F9F9F9',
+        'Eclipse' : '#3C3C3C',
+        'Light-Grey' : '#D1D1D1',
       },
       backgroundImage : {
         'hero-pattern': "url('/src/assets/images/Bg.png')",

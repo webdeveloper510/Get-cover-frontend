@@ -34,7 +34,7 @@ function All() {
     <>
     <Grid className='mt-3'>
        <div className='col-span-6'>
-            <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1] flex w-full justify-between">
+            <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-Light-Grey flex w-full justify-between">
                <div className='flex'>
                     <img src={Request} className='w-12 h-12' alt='Request'/>
                     <p className='self-center pl-2 font-bold'>Total requests for service</p>
@@ -43,7 +43,7 @@ function All() {
             </div>
        </div>
        <div className='col-span-6'>
-            <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1] flex w-full justify-between">
+            <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-Light-Grey flex w-full justify-between">
                 <div className='flex'>
                     <img src={Complete} className='w-12 h-12' alt='Complete'/>
                     <p className='self-center pl-2 font-bold'>Total Completed claims</p>
@@ -52,7 +52,7 @@ function All() {
             </div>
        </div>
        <div className='col-span-6'>
-       <div className="bg-[#333333] text-white rounded-[20px] p-3 my-2 border-[1px] border-[#D1D1D1]">
+       <div className="bg-[#333333] text-white rounded-[20px] p-3 my-2 border-[1px] border-Light-Grey">
               <Grid>
                 <div className='col-span-7 self-center'>
                     <p className='text-xl font-bold'>Total Claims Paid</p>
@@ -88,7 +88,7 @@ function All() {
             </div>
        </div>
        <div className='col-span-6'>
-       <div className="bg-[#333333] text-white rounded-[20px] p-3 my-2 border-[1px] border-[#D1D1D1]">
+       <div className="bg-[#333333] text-white rounded-[20px] p-3 my-2 border-[1px] border-Light-Grey">
               <Grid>
                 <div className='col-span-7 self-center'>
                     <p className='text-xl font-bold'>Total Claims Pending</p>

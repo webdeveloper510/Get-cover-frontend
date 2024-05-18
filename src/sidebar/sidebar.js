@@ -119,7 +119,7 @@ function SidebarItem({
   console.log('location.pathname', location.pathname)
   return (
     <li
-      className={`border-t-[#474747] w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
+      className={`border-t-Gray28 w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
         activeUrl ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
       } ${expandedItem == item.name ? "active" : ""}`}
     >
@@ -240,7 +240,7 @@ function SidebarItem({
                   } pl-0 ml-[10px] p-[19px] pr-0 ${
                     subIndex == item.items.length - 1
                       ? ""
-                      : "border-b-2 border-[#474747]"
+                      : "border-b-2 border-Gray28"
                   }`}
                 >
                   {subItem.name}
@@ -890,13 +890,13 @@ console.log('active---------------->>', active )
     <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
       <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[5px]">
         <img src={Logo} className="mx-auto py-6 w-[160px] h-[80px]" alt="logo" />
-        <hr className=" border-[#474747] border-[1px]" />
+        <hr className=" border-Gray28 border-[1px]" />
         <div className="shadow-sm h-full ">
           <div className="mx-auto h-full mt-6">
             <ul className="pb-5">
               {renderSidebarItems}
               <li
-                className="cursor-pointer border-t-[#474747] mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]"
+                className="cursor-pointer border-t-Gray28 mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]"
                 onClick={handleLogOut}
               >
                 <div className="py-[22px] pe-3 ps-[10px] flex">

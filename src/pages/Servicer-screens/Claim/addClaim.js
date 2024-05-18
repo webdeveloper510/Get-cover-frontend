@@ -61,7 +61,7 @@ function ServicerAddClaim() {
     const renderStep1 = () => {
       // Step 1 content
       return (
-        <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
+        <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl'>
             <p className='text-xl font-bold mb-4'>Step 1</p>
             <Grid>
               <div className='col-span-6'>
@@ -88,7 +88,7 @@ function ServicerAddClaim() {
     const renderStep2 = () => {
       // Step 2 content
       return (
-        <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl'>
+        <div className='px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl'>
         <p className='text-2xl font-bold mb-4'>Enter Required Info</p>
         <Grid>
           <div className='col-span-12'>
@@ -246,7 +246,7 @@ function ServicerAddClaim() {
       <div className='my-8 ml-3'>
         <Headbar/>
         <div className='flex mt-2'>
-        <Link to={'/claimList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]'>
+        <Link to={'/claimList'} className='h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]'>
             <img src={BackImage} className='m-auto my-auto self-center bg-white' alt='BackImage'/>
           </Link>
           <div className='pl-3'>

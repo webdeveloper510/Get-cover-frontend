@@ -79,7 +79,7 @@ function DealerClaims() {
           </div>
         </div>
       )} */}
-      <div className="py-8 px-3 relative overflow-x-hidden bg-[#F9F9F9]">
+      <div className="py-8 px-3 relative overflow-x-hidden bg-grayf9">
         <Headbar />
 
         <div className="flex">
@@ -105,15 +105,15 @@ function DealerClaims() {
           <div className="col-span-3">
             <Grid className="">
               <div className="col-span-3">
-                <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!gap-1 !grid-cols-1">
                     {tabs.map((tab) => (
                       <div className={tab.className} key={tab.id}>
                         <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-[#D1D1D1] ${
+                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
                             activeTab === tab.id
                               ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-[#F9F9F9] !text-black"
+                              : "!bg-grayf9 !text-black"
                           }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
@@ -121,7 +121,7 @@ function DealerClaims() {
                             src={
                               activeTab === tab.id ? tab.Activeicons : tab.icons
                             }
-                            className="self-center pr-1 py-1 border-[#D1D1D1] border-r-[1px]"
+                            className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
                             alt={tab.label}
                           />
                           <span
