@@ -351,6 +351,12 @@ function Dealer() {
       const match = name.match(/\[(\d+)\]/);
       console.log(match[1]);
       formik.setFieldValue(`priceBook[${match[1]}].priceBookId`, "");
+      formik.setFieldValue(`priceBook[${match[1]}].pName`, "");
+      formik.setFieldValue(`priceBook[${match[1]}].wholesalePrice`, "");
+      formik.setFieldValue(`priceBook[${match[1]}].status`, "");
+      formik.setFieldValue(`priceBook[${match[1]}].terms`, "");
+      formik.setFieldValue(`priceBook[${match[1]}].description`, "");
+      formik.setFieldValue(`priceBook[${match[1]}].retailPrice`, "");
       if (match) {
         const response = await getProductListbyProductCategoryId(
           selectedValue,

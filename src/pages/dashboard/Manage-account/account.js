@@ -118,11 +118,13 @@ function Account() {
       });
       setEmail(userDetails?.loginMember.email);
       console.log(userDetails.result);
+
       setUserDetails(userDetails.result);
     } catch (error) {
+      setLoading(false);
       console.error("Error fetching user details:", error);
     } finally {
-      fetchUserMembers();
+      setLoading(false);
     }
   };
 
@@ -274,15 +276,15 @@ function Account() {
   };
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  }; 
+  };
 
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const userValues = useFormik({
@@ -310,11 +312,11 @@ function Account() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      setLoading(true);
+
       const result = await addSuperAdminMembers(values);
       console.log(result);
       if (result.code == 200) {
-        setLoading(false);
+        // setLoading(false);
         setFirstMessage("User Added Successfully ");
         setSecondMessage("user added successfully ");
         setModalOpen(true);
@@ -323,7 +325,7 @@ function Account() {
         setIsUserModalOpen(false);
         userValues.resetForm();
       } else {
-        setLoading(false);
+        // setLoading(false);
         if (result.code === 401) {
           userValues.setFieldError("email", "Email already in use");
         }
@@ -360,7 +362,7 @@ function Account() {
       const result = await updateUserDetailsById(values);
       console.log(result);
       if (result.code == 200) {
-        setLoading(false);
+        // setLoading(false);
         setFirstMessage("User Edited Successfully ");
         setSecondMessage("user edited successfully ");
         setModalOpen();
@@ -458,7 +460,6 @@ function Account() {
     console.log("The tag at index " + index + " was clicked");
   };
 
-
   const columns = [
     {
       name: "Name",
@@ -523,31 +524,31 @@ function Account() {
         // console.log(index, index % 10 == 9)
         return (
           <>
-          {!row.isPrimary && (
-             <div className="relative">
-            <div
-              onClick={() =>
-                setSelectedAction(
-                  selectedAction === row.email ? null : row.email
-                )
-              }
-            >
-              <img
-                src={ActiveIcon}
-                className="cursor-pointer w-[35px]"
-                alt="Active Icon"
-              />
-            </div>
-            {selectedAction === row.email && (
-              <div
-                ref={dropdownRef}
-                className={`absolute z-[9999] ${
-                  !row.isPrimary ? "w-[130px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
-              >
-                {/* {!row.isPrimary && row.status && (
+            {!row.isPrimary && (
+              <div className="relative">
+                <div
+                  onClick={() =>
+                    setSelectedAction(
+                      selectedAction === row.email ? null : row.email
+                    )
+                  }
+                >
+                  <img
+                    src={ActiveIcon}
+                    className="cursor-pointer w-[35px]"
+                    alt="Active Icon"
+                  />
+                </div>
+                {selectedAction === row.email && (
+                  <div
+                    ref={dropdownRef}
+                    className={`absolute z-[9999] ${
+                      !row.isPrimary ? "w-[130px]" : "w-[80px]"
+                    } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
+                      index
+                    )}`}
+                  >
+                    {/* {!row.isPrimary && row.status && (
                       <div
                         onClick={() => makeUserPrimary(row)}
                         className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
@@ -557,25 +558,26 @@ function Account() {
                       </div>
                     )} */}
 
-                <div
-                  onClick={() => editUser(row._id)}
-                  className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
-                >
-                  <img src={edit} className="w-4 h-4 mr-2" />{" "}
-                  <span className="self-center">Edit </span>
-                </div>
-                {!row.isPrimary && (
-                  <div
-                    onClick={() => openModal1(row._id)}
-                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                  >
-                    <img src={delete1} className="w-4 h-4 mr-2" />{" "}
-                    <span className="self-center">Delete</span>
+                    <div
+                      onClick={() => editUser(row._id)}
+                      className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                    >
+                      <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                      <span className="self-center">Edit </span>
+                    </div>
+                    {!row.isPrimary && (
+                      <div
+                        onClick={() => openModal1(row._id)}
+                        className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                      >
+                        <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                        <span className="self-center">Delete</span>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
             )}
-          </div>)}
           </>
         );
       },
@@ -645,13 +647,18 @@ function Account() {
     </div>
   );
 
-  const editDetail = (values) => {
+  const editDetail = async (values) => {
     setLoading(true);
     console.log(values);
-    editUserDetailsbyToken(values).then((res) => {
+
+    try {
+      const res = await editUserDetailsbyToken(values);
       console.log(res);
-      setLoading(false);
-    });
+      await fetchUserDetails();
+      await fetchUserMembers();
+    } catch (error) {
+      console.error("Error updating user details:", error);
+    }
   };
 
   useEffect(() => {
@@ -668,6 +675,7 @@ function Account() {
       console.log(members);
       setMemberList(members.result);
     } catch (error) {
+      setLoading(false);
       console.error("Error fetching user members:", error);
     } finally {
       setLoading(false);
@@ -681,25 +689,23 @@ function Account() {
     try {
       const res = await changePasswordbyToken(value);
       if (res.code == 200) {
-      setFirstMessage("Edit  Successfully ");
-      setSecondMessage("User Password edited  successfully ");
-      setModalOpen(true);
-      setTimer(3); }
-      else {
+        setFirstMessage("Edit  Successfully ");
+        setSecondMessage("User Password edited  successfully ");
+        setModalOpen(true);
+        setTimer(3);
+      } else {
         setFirstMessage("Error");
         setSecondMessage(res.message);
         setIsPasswordOpen(true);
       }
     } catch (error) {
       console.error("Error changing password:", error);
-      
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
 
     console.log(value);
   };
-  
 
   return (
     <>
@@ -747,10 +753,9 @@ function Account() {
                   initialValues={initialValues}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setSubmitting }) => {
-                   
                     editDetail(values);
                     setSubmitting(false);
-                    fetchUserDetails()
+                    fetchUserDetails();
                   }}
                 >
                   {({ isSubmitting }) => (
@@ -814,7 +819,7 @@ function Account() {
                               Phone #
                             </label>
                             <div className="text-base font-semibold absolute top-[17px] left-[10px]">
-                              +1 
+                              +1
                             </div>
                             <Field
                               type="tel"
@@ -852,7 +857,6 @@ function Account() {
                             />
                           </div>
                         </div>
-                       
 
                         <div className="col-span-4 text-right">
                           <Button type="submit" disabled={isSubmitting}>
@@ -864,16 +868,17 @@ function Account() {
                   )}
                 </Formik>
                 <div className="col-span-12">
-                    <p className="text-xl font-semibold mb-4">Send Notification</p>
-                    <div className="relative">
-                      
+                  <p className="text-xl font-semibold mb-4">
+                    Send Notification
+                  </p>
+                  <div className="relative">
                     <label
-                        htmlFor="email"
-                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
-                      >
-                        Send Notification  to 
-                      </label>
-                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer ">
+                      htmlFor="email"
+                      className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                    >
+                      Send Notification to
+                    </label>
+                    <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer ">
                       <ReactTags
                         tags={tags}
                         delimiters={delimiters}
@@ -887,29 +892,25 @@ function Account() {
                         editable
                         placeholder=""
                       />
-                      
                     </div>
-                    </div>
-                    {formik.errors.email && (
-                      <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
-                      
-                        {formik.errors.email &&
-                          (Array.isArray(formik.errors.email)
-                            ? formik.errors.email.map((error, index) => (
+                  </div>
+                  {formik.errors.email && (
+                    <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
+                      {formik.errors.email &&
+                        (Array.isArray(formik.errors.email)
+                          ? formik.errors.email.map((error, index) => (
                               <span key={index}>
-                                  {index > 0 && " "}
-                                  <span className="font-semibold"> {error} </span>
-                                </span>
-                              ))
-                            : formik.errors.email)}
-                      </p>
-                    )}
+                                {index > 0 && " "}
+                                <span className="font-semibold"> {error} </span>
+                              </span>
+                            ))
+                          : formik.errors.email)}
+                    </p>
+                  )}
                 </div>
-                        <div className="col-span-12 text-right">
-                          <Button type="submit">
-                            Save
-                          </Button>
-                        </div>
+                <div className="col-span-12 text-right">
+                  <Button type="submit">Save</Button>
+                </div>
               </Grid>
             </>
 
@@ -1372,7 +1373,7 @@ function Account() {
       </Modal>
 
       <Modal isOpen={isPasswordOpen} onClose={closePassword}>
-      <Button
+        <Button
           onClick={closePassword}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
         >
@@ -1387,7 +1388,7 @@ function Account() {
             {firstMessage}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-4">
-            {secondMessage} 
+            {secondMessage}
           </p>
         </div>
       </Modal>
