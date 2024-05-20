@@ -229,6 +229,7 @@ function Account() {
     });
     setIsUserModalOpen(false);
     openModal2();
+    fetchUserMembers();
   };
 
   const deleteUser = async () => {
@@ -521,7 +522,9 @@ function Account() {
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (
-          <div className="relative">
+          <>
+          {!row.isPrimary && (
+             <div className="relative">
             <div
               onClick={() =>
                 setSelectedAction(
@@ -572,7 +575,8 @@ function Account() {
                 )}
               </div>
             )}
-          </div>
+          </div>)}
+          </>
         );
       },
     },
