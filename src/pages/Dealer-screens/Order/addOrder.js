@@ -975,9 +975,9 @@ function DealerAddOrder() {
       );
       // formikStep3.setFieldValue(
       //   `productsArray[${match[1]}].QuantityPricing`,
-      //   data.quantityPriceDetail
+      //   data?.quantityPriceDetail
       // );
-      const updatedQuantityPricing = data.quantityPriceDetail.map(
+      const updatedQuantityPricing = data?.quantityPriceDetail.map(
         (item, index) => {
           const updatedItem = {
             ...item,
@@ -1000,31 +1000,31 @@ function DealerAddOrder() {
       formikStep3.setFieldValue(`productsArray[${match[1]}].noOfProducts`, "");
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].priceType`,
-        data.priceType
+        data?.priceType
       );
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].priceType`,
-        data.priceType
+        data?.priceType
       );
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].description`,
-        data.description
+        data?.description
       );
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].rangeEnd`,
-        data.rangeEnd
+        data?.rangeEnd
       );
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].rangeStart`,
-        data.rangeStart
+        data?.rangeStart
       );
 
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].unitPrice`,
-        data.wholesalePrice
+        data?.wholesalePrice
       );
-      formikStep3.setFieldValue(`productsArray[${match[1]}].term`, data.term);
-      formikStep3.setFieldValue(`productsArray[${match[1]}].pName`, data.pName);
+      formikStep3.setFieldValue(`productsArray[${match[1]}].term`, data?.term);
+      formikStep3.setFieldValue(`productsArray[${match[1]}].pName`, data?.pName);
     }
     formikStep3.setFieldValue(name, selectedValue);
   };

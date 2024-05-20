@@ -192,7 +192,7 @@ function CustomerDetails() {
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     formik.setFieldValue(
-      "isAcoountCreate",
+      "isAccountCreate",
       selectedValue === "yes" ? true : false
     );
     setCreateAccountOption(selectedValue);

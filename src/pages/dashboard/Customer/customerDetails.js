@@ -816,6 +816,7 @@ function CustomerDetails() {
                       id="yes-create-account"
                       label="Yes"
                       value="yes"
+                      // disabled={}
                       checked={createAccountOption === "yes"}
                       onChange={handleRadioChange}
                     />

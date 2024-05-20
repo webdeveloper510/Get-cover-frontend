@@ -221,6 +221,11 @@ function DealerPriceBook(props) {
     { label: "Flat Pricing", value: "Flat Pricing" },
     { label: "Quantity Pricing", value: "Quantity Pricing" },
   ];
+  const coverage = [
+    { label: "Breakdown", value: "Breakdown" },
+    { label: "Accidental", value: "Accidental" },
+    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+  ];
   useEffect(() => {
     getTermListData();
     priceBookData();
@@ -282,6 +287,7 @@ function DealerPriceBook(props) {
       status: "",
       pName:"",
       category: "",
+      coverageType:"",
       priceType: "",
       term: "",
       range:"",
@@ -602,6 +608,7 @@ function DealerPriceBook(props) {
                         onBlur={formik.handleBlur}
                     />
                   </div>
+                  
                   <div className="col-span-6">
                     <Input
                       type="text"
@@ -613,6 +620,18 @@ function DealerPriceBook(props) {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
+                  </div>
+                  <div className="col-span-6">
+                  <Select
+                        name="coverageType"
+                        label="Coverage Type"
+                        options={coverage}
+                        OptionName="Coverage Type"
+                        color="text-[#1B1D21] opacity-50"
+                        className="!text-[14px] !bg-[#fff]"
+                        value={formik.values.coverageType}
+                        onChange={formik.setFieldValue}
+                      />
                   </div>
                       <div className="col-span-6">
                       <Input

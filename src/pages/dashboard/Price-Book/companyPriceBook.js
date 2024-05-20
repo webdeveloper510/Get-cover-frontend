@@ -383,6 +383,7 @@ function CompanyPriceBook() {
     category: "",
     priceType: "",
     term: "",
+    coverageType:"",
     range:"",};
     console.log(formik.values);
     getPriceBookListData();

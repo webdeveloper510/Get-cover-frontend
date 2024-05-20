@@ -94,8 +94,13 @@ function ResellerPriceBook(props) {
       maxWidth: "70px",
     },
     {
-      name: "Name",
+      name: "SKU",
       selector: (row) => row?.priceBooks?.name,
+      sortable: true,
+    },
+    {
+      name: "Name",
+      selector: (row) => row?.priceBooks?.pName,
       sortable: true,
     },
     {
@@ -179,11 +184,22 @@ function ResellerPriceBook(props) {
       setLoading(false);
     }
   };
+
+  const coverage = [
+    { label: "Breakdown", value: "Breakdown" },
+    { label: "Accidental", value: "Accidental" },
+    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+  ];
   const formik = useFormik({
     initialValues: {
       name: "",
       status: "",
+      pName:"",
       category: "",
+      coverageType:"",
+      priceType: "",
+      term: "",
+      range:"",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
@@ -232,7 +248,7 @@ function ResellerPriceBook(props) {
                       <Input
                         name="name"
                         type="text"
-                        placeholder="Product Name"
+                        placeholder="Product SKU"
                         className="!text-[14px] !bg-[#f7f7f7]"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
                         label=""
@@ -336,9 +352,21 @@ function ResellerPriceBook(props) {
                       type="text"
                       name="name"
                       className="!bg-[#fff]"
-                      label="Product Name"
+                      label="Product SKU"
                       placeholder=""
                       value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="pName"
+                      className="!bg-[#fff]"
+                      label="Product Name"
+                      placeholder=""
+                      value={formik.values.pName}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
@@ -354,6 +382,18 @@ function ResellerPriceBook(props) {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
+                      </div>
+                      <div className="col-span-6">
+                        <Select
+                          name="coverageType"
+                          label="Coverage Type"
+                          options={coverage}
+                          OptionName="Coverage Type"
+                          color="text-[#1B1D21] opacity-50"
+                          className="!text-[14px] !bg-[#fff]"
+                          value={formik.values.coverageType}
+                          onChange={formik.setFieldValue}
+                        />
                       </div>
                       <div className="col-span-6">
                       <Select
