@@ -137,8 +137,8 @@ function CustomerDetails() {
     const result = await getUserListByCustomerId({}, customerId);
     console.log(result, "----------");
     setRefreshUserList(result.result);
-    setCreateAccount(result.isAccountCreate)
-    setCreateAccountOption(createAccount === true ? 'yes' : 'no')
+    setCreateAccount(result.isAccountCreate);
+    setCreateAccountOption(createAccount === true ? 'yes' : 'no');
   };
   const userValues = useFormik({
     initialValues: initialUserFormValues,
