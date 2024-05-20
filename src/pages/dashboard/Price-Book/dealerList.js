@@ -588,7 +588,7 @@ function DealerPriceList() {
                 Description
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.category[0].description}
+                {dealerPriceBookDetail?.priceBooks?.description}
               </p>
             </div>
             <div className="col-span-4">

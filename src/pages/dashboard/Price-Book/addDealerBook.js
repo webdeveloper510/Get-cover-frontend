@@ -405,21 +405,7 @@ function AddDealerBook() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-4">
-                  <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={product} className="w-6 h-6" alt="product" />
-                    </div>
-                    <div className="self-center">
-                      <p className="text-[#FFF] text-lg font-medium leading-5	">
-                        Description
-                      </p>
-                      <p className="text-[#FFFFFF] opacity-50	font-medium">
-                        {priceBookById?.priceBooks?.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+               
                 <div className="col-span-4">
                   <div className="flex">
                     <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
@@ -446,6 +432,21 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.coverageType}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-8">
+                  <div className="flex">
+                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
+                      <img src={product} className="w-6 h-6" alt="product" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-lg font-medium leading-5	">
+                        Description
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	font-medium">
+                        {priceBookById?.priceBooks?.description}
                       </p>
                     </div>
                   </div>
