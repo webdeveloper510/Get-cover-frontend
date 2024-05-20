@@ -27,7 +27,7 @@ function MyComponent() {
   minDate.setFullYear(minDate.getFullYear() - 1); // Set minDate to 2 years ago
 
   return (
-    <div className="bg-[#fff] rounded-[20px] relative p-3 my-4 border-[1px] border-[#D1D1D1]">
+    <div className="bg-[#fff] rounded-[20px] relative p-3 my-4 border-[1px] border-Light-Grey">
       <DateRangePicker
         onChange={handleSelect}
         showSelectionPreview={true}

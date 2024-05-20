@@ -41,7 +41,7 @@ function CustomerEditContract() {
                 <div className="flex mt-2">
                     <Link
                         to={"/contractList"}
-                        className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[20px]"
+                        className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[20px]"
                     >
                         <img
                             src={BackImage}
@@ -190,7 +190,7 @@ function CustomerEditContract() {
                 </div>
 
                 <form className="mt-8 mr-4">
-                  <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+                  <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
                     <p className='pb-5 text-lg font-semibold'>Contracts</p>
                     <Grid className='!grid-cols-4'>
                       <div className='col-span-1'>

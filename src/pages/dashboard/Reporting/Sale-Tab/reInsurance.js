@@ -22,7 +22,7 @@ function ReInsurance() {
     <>
     <Grid>
         <div className='col-span-8'>
-        <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
+        <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
               <Grid>
                 <div className='col-span-3 self-center'>
                     <p className='text-xl font-bold'>Total sales<span className='text-sm font-normal'> Monthly </span></p>
@@ -70,13 +70,13 @@ function ReInsurance() {
             </div>
         </div>
         <div className='col-span-4'>
-            <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-[#D1D1D1]">
+            <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
                 <p className='text-xl font-bold mb-3'>Years Comparison</p>
                 <ChartComponent/>
 
             <Grid className='!gap-1'>
                 <div className='col-span-6'>
-                    <div className='border-2 p-2 rounded-xl border-[#D1D1D1]'>
+                    <div className='border-2 p-2 rounded-xl border-Light-Grey'>
                       <div className='flex'>
                             <div className='bg-[#3D3D3D] mt-2 w-4 h-4 rounded-full'></div>
                             <div className='ml-1'>
@@ -87,7 +87,7 @@ function ReInsurance() {
                     </div>
                 </div>
                 <div className='col-span-6'>
-                    <div className='border-2 p-2 rounded-xl border-[#D1D1D1]'>
+                    <div className='border-2 p-2 rounded-xl border-Light-Grey'>
                       <div className='flex'>
                             <div className='bg-[#939393] mt-2 w-4 h-4 rounded-full'></div>
                             <div className='ml-1'>

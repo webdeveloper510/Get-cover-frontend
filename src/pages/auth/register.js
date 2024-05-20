@@ -20,7 +20,7 @@ function Register() {
         <div className="bg-hero-register bg-no-repeat bg-cover pt-1 rounded-[50px] mb-[70px]">
           <Link
             to={"/"}
-            className="absolute bg-[#f9f9f9] top-0 rounded-full p-[19px] left-0"
+            className="absolute bg-grayf9 top-0 rounded-full p-[19px] left-0"
           >
             <img src={Back} className="w-[40px] h-[40px]" alt=" Back Image" />{" "}
           </Link>

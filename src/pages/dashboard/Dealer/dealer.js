@@ -761,7 +761,7 @@ function Dealer() {
         <form className="mt-8" onSubmit={formik.handleSubmit}>
           <div className="bg-white p-8 drop-shadow-4xl rounded-xl">
             <Grid>
-              <div className="col-span-4 border-e-[1px] border-[#D1D1D1] pr-3">
+              <div className="col-span-4 border-e-[1px] border-Light-Grey pr-3">
                 <p className="text-light-black text-lg mb-3 font-semibold">
                   Create Dealer Account
                 </p>
@@ -789,7 +789,7 @@ function Dealer() {
                   <div className="col-span-12">
                     <div className="flex">
                       <p className="text-[#5D6E66] text-sm">ADDRESS</p>
-                      <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
+                      <hr className="self-center ml-3 border-Light-Grey w-full" />
                     </div>
                   </div>
                   <div className="col-span-12">
@@ -1396,7 +1396,7 @@ function Dealer() {
             </div>
           ))}
 
-          <div className="bg-[#fff] p-8 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
+          <div className="bg-[#fff] p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
             <Grid>
               <div className="col-span-2">
                 <p className="text-light-black text-lg mb-3 font-semibold">
@@ -1406,7 +1406,7 @@ function Dealer() {
                 </p>
               </div>
               <div className="col-span-6 self-center">
-                <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
+                <hr className="self-center ml-3 border-Light-Grey w-full" />
               </div>
               <div className="col-span-4 flex justify-end">
                 <RadioButton
@@ -1429,7 +1429,7 @@ function Dealer() {
             {selectedOption === "yes" ? (
               <>
                 {formik.values.priceBook.map((dealer, index) => (
-                  <div className="bg-[#f9f9f9] p-4 relative mt-8 rounded-xl">
+                  <div className="bg-grayf9 p-4 relative mt-8 rounded-xl">
                     <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
                       {index == 0 ? (
                         <Button
@@ -1463,7 +1463,7 @@ function Dealer() {
                             label="Product Category"
                             options={category}
                             required={true}
-                            className="!bg-[#f9f9f9]"
+                            className="!bg-grayf9"
                             placeholder=""
                             maxLength={"30"}
                             value={formik.values.priceBook[index].categoryId}
@@ -1495,7 +1495,7 @@ function Dealer() {
                             label="Product SKU"
                             options={productNameOptions[index]?.data}
                             required={true}
-                            className="!bg-[#f9f9f9]"
+                            className="!bg-grayf9"
                             placeholder=""
                             value={formik.values?.priceBook[index].priceBookId}
                             onBlur={formik.handleBlur}
@@ -1525,7 +1525,7 @@ function Dealer() {
                           <Input
                             type="text"
                             name={`priceBook[${index}].pName`}
-                            className="!bg-[#f9f9f9]"
+                            className="!bg-grayf9"
                             label="Product Name"
                             required={true}
                             placeholder=""
@@ -1544,7 +1544,7 @@ function Dealer() {
                           <Input
                             type="text"
                             name={`priceBook[${index}].wholesalePrice`}
-                            className="!bg-[#f9f9f9]"
+                            className="!bg-grayf9"
                             label="Wholesale Price($)"
                             required={true}
                             placeholder=""
@@ -1564,7 +1564,7 @@ function Dealer() {
                           <Input
                             type="text"
                             name={`priceBook[${index}].description`}
-                            className="!bg-[#f9f9f9]"
+                            className="!bg-grayf9"
                             label="Description"
                             required={true}
                             placeholder=""
@@ -1585,7 +1585,7 @@ function Dealer() {
                             required={true}
                             placeholder=""
                             onChange={formik.handleChange}
-                            className="!bg-[#f9f9f9]"
+                            className="!bg-grayf9"
                             options={termList}
                             disabled={true}
                             value={formik.values.priceBook[index].terms + ' Months'}
@@ -1602,7 +1602,7 @@ function Dealer() {
                           <Input
                             type="number"
                             name={`priceBook[${index}].retailPrice`}
-                            className="!bg-[#f9f9f9]"
+                            className="!bg-grayf9"
                             label="Retail Price($)"
                             maxLength={"10"}
                             maxDecimalPlaces={2}
@@ -1647,7 +1647,7 @@ function Dealer() {
                             label="Status"
                             options={status}
                             required={true}
-                            className="!bg-[#f9f9f9]"
+                            className="!bg-grayf9"
                             value={formik.values.priceBook[index].status}
                             onBlur={formik.handleBlur}
                             onChange={handleSelectChange}
@@ -1675,7 +1675,7 @@ function Dealer() {
                 ))}
               </>
             ) : (
-              <div className="bg-[#f9f9f9] p-4 relative drop-shadow-4xl border-[1px] mt-8 border-[#D1D1D1] rounded-xl">
+              <div className="bg-grayf9 p-4 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
                 <p className="text-[#717275] text-lg mb-5 font-semibold">
                   Upload In Bulk
                 </p>

@@ -249,7 +249,7 @@ function CustomerAddDealerBook() {
           <div className="flex">
             <div
               onClick={handleLinkClick}
-              className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[20px]"
+              className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[20px]"
             >
               <img
                 src={BackImage}
@@ -390,7 +390,7 @@ function CustomerAddDealerBook() {
             </div>
           )}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+            <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
               {error ? (
                 <p className="text-red-500 text-sm pl-2 my-3">
                   <span className="font-semibold"> {error} </span>

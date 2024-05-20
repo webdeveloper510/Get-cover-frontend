@@ -180,14 +180,14 @@ function ContractList(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
+        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Contracts List</p>
             </div>
             <div className="col-span-9">
               <form onSubmit={formik.handleSubmit}>
-                <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-9">
                     <div className="col-span-2 self-center">
                       <Input
@@ -312,8 +312,8 @@ function ContractList(props) {
                               </div>
                             </Grid>
 
-                            <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
-                              <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                            <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
+                              <div className="col-span-1 border border-Light-Grey rounded-es-xl">
                                 <div className="py-4 pl-3">
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Manufacturer
@@ -323,7 +323,7 @@ function ContractList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-1 border border-[#D1D1D1]">
+                              <div className="col-span-1 border border-Light-Grey">
                                 <div className="py-4 pl-3">
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Model
@@ -333,7 +333,7 @@ function ContractList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-1 border border-[#D1D1D1]">
+                              <div className="col-span-1 border border-Light-Grey">
                                 <div className="py-4 pl-3">
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Serial
@@ -343,7 +343,7 @@ function ContractList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-1 border border-[#D1D1D1]">
+                              <div className="col-span-1 border border-Light-Grey">
                                 <div className="py-4 pl-3">
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Status
@@ -353,7 +353,7 @@ function ContractList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
+                              <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
                                 <div className="py-4 pl-3">
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Eligibility
@@ -437,8 +437,8 @@ function ContractList(props) {
                   </div>
                 </Grid>
 
-                <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5">
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Manufacturer
@@ -448,7 +448,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Model
@@ -458,7 +458,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Serial
@@ -468,7 +468,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Status
@@ -478,7 +478,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Eligibility
@@ -491,7 +491,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Reseller Name
@@ -501,7 +501,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Customer Name
@@ -511,7 +511,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Servicer Name
@@ -521,7 +521,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1] ">
+                  <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Category
@@ -534,7 +534,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Claim Amount
@@ -551,7 +551,7 @@ function ContractList(props) {
                     </div>
                   </div>
                  
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Name
@@ -561,7 +561,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Description
@@ -574,7 +574,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Price Type
@@ -587,7 +587,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1] ">
+                  <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Condition
@@ -597,7 +597,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Retail Price
@@ -615,7 +615,7 @@ function ContractList(props) {
                   {singleContract?.order?.[0]?.productsArray?.[0]?.priceType ==
                   "Flat Pricing" ? (
                     <>
-                      <div className="col-span-1 border border-[#D1D1D1]">
+                      <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Start Range
@@ -632,7 +632,7 @@ function ContractList(props) {
                           </p>
                         </div>
                       </div>
-                      <div className="col-span-1 border border-[#D1D1D1]">
+                      <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             End Range
@@ -654,7 +654,7 @@ function ContractList(props) {
                     ""
                   )}
 
-                  <div className="col-span-1 border border-[#D1D1D1] rounded-es-xl">
+                  <div className="col-span-1 border border-Light-Grey rounded-es-xl">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage Start Date
@@ -670,7 +670,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1] rounded-ee-xl">
+                  <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage End Date

@@ -744,7 +744,7 @@ function DealerUser() {
                 </ul>
               </div>
             </div>
-            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
               <div className="bg-Edit bg-cover px-8 mt-8 py-8 rounded-[30px]">
                 <Grid>
                   <div className="col-span-2 text-left">
@@ -795,7 +795,7 @@ function DealerUser() {
                   <div className="col-span-2"></div>
                 </Grid>
               </div>
-              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
                 <p className="text-xl font-semibold mb-5">Change Password</p>
                 <form onSubmit={passwordChnageForm.handleSubmit}>
                   <Grid>
@@ -861,7 +861,7 @@ function DealerUser() {
                 </form>
               </div>
 
-              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
                 {primary && (
                   <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                     <Button onClick={() => openUserModal()}>
@@ -875,7 +875,7 @@ function DealerUser() {
                 {/* <Grid className="!p-[2px] !pt-[14px] !pb-0">
                     <div className="col-span-3 self-center"></div>
                     <div className="col-span-9">
-                      <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                      <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                         <form className="" onSubmit={formikUSerFilter.handleSubmit}>
                           <Grid className="!grid-cols-9">
                             <div className="col-span-2 self-center">

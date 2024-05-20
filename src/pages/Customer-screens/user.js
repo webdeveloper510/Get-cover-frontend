@@ -843,7 +843,7 @@ function CustomerUser() {
             </Grid>
 
             </div>
-            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
               <p className='text-xl font-semibold mb-5'>Change Password</p>
               <form onSubmit={passwordChnageForm.handleSubmit}>
                       <Grid>
@@ -916,7 +916,7 @@ function CustomerUser() {
               </div>
             </div>
               ) : (
-                <div className="px-8 pb-8 pt-4 mt-8 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl relative">
+                <div className="px-8 pb-8 pt-4 mt-8 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
                  {isprimary && <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                     <Button onClick={() => openUserModal()}> + Add Member</Button>
                   </div>} 
@@ -924,7 +924,7 @@ function CustomerUser() {
                   {/* <Grid className="!p-[2px] !pt-[14px] !pb-0">
                     <div className="col-span-5 self-center"></div>
                     <div className="col-span-7">
-                      <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+                      <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                         <form className="" onSubmit={formikUSerFilter.handleSubmit}>
                           <Grid className="!grid-cols-11">
                             <div className="col-span-3 self-center">

@@ -333,7 +333,7 @@
 //       <div className="flex mt-2">
 //         <Link
 //           onClick={handleGOBack}
-//           className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[25px]"
+//           className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
 //         >
 //           <img
 //             src={BackImage}
@@ -358,9 +358,9 @@
 //       </div>
 
 //       <form className="mt-8" onSubmit={formik.handleSubmit}>
-//         <div className="bg-white p-4 drop-shadow-4xl border-[1px] border-[#D1D1D1] rounded-xl">
+//         <div className="bg-white p-4 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
 //           <Grid>
-//             <div className="col-span-4 border-e-[1px] border-[#D1D1D1] pr-3">
+//             <div className="col-span-4 border-e-[1px] border-Light-Grey pr-3">
 //               <p className="text-light-black text-lg font-bold">
 //                 Create Account
 //               </p>
@@ -393,7 +393,7 @@
 //                 <div className="col-span-12">
 //                   <div className="flex">
 //                     <p className="text-neutral-grey">Address</p>
-//                     <hr className="self-center ml-3 border-[#D1D1D1] w-full" />
+//                     <hr className="self-center ml-3 border-Light-Grey w-full" />
 //                   </div>
 //                 </div>
 //                 <div className="col-span-12">

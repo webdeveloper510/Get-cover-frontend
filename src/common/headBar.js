@@ -127,8 +127,8 @@ function Headbar({ className = "" }) {
           <div className="col-span-4"></div>
           <div className="col-span-2"></div>
           <div className="col-span-6 ml-auto ">
-            <Grid className="border-2 w-[250px] bg-white ms-auto border-[#D1D1D1] border-r-0 flex self-center py-2 pl-4 rounded-s-xl">
-              <div className="col-span-4  flex self-center justify-around border-r-2 border-[#D1D1D1]">
+            <Grid className="border-2 w-[250px] bg-white ms-auto border-Light-Grey border-r-0 flex self-center py-2 pl-4 rounded-s-xl">
+              <div className="col-span-4  flex self-center justify-around border-r-2 border-Light-Grey">
                 {/* <div>
                 <img src={SearchImage} className='cursor-pointer' alt="SearchImage" />
               </div> */}

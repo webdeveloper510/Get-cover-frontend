@@ -83,7 +83,7 @@ const SelectBoxWithSearch = ({
         placeholder="Search..."
       />
       <label
-        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 !hover:bg-[#f9f9f9] scale-75 ${className} text-[#5D6E66]`}
+        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-grayf9 left-2 px-1 -translate-y-4 !hover:bg-grayf9 scale-75 ${className} text-[#5D6E66]`}
         htmlFor={label}
       >
         {label} {required && <span className="text-red-500">*</span>}

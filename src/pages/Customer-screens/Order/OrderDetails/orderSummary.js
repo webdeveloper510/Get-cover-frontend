@@ -12,7 +12,7 @@ function CustomerOrderSummary() {
   return (
     <>
     <div className='my-8'>
-      <div className='bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl'>
+      <div className='bg-white mt-6 border-[1px] border-Light-Grey rounded-xl'>
       <Grid className='!p-[26px] !pt-[14px] !pb-0'>
               <div className='col-span-5 self-center'>
                 <p className='text-xl font-semibold'>Orders List</p>
@@ -32,45 +32,45 @@ function CustomerOrderSummary() {
                 
                 </Grid>
 
-                <Grid className='!gap-0 bg-[#F9F9F9] mb-5'>
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <Grid className='!gap-0 bg-grayf9 mb-5'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Product Category</p>
                     <p className='text-[#333333] text-base font-semibold'>Electronic Gadget</p>
                     </div>
                 </div>
-                <div className='col-span-9 border border-[#D1D1D1]'>
+                <div className='col-span-9 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Product Description</p>
                     <p className='text-[#333333] text-base font-semibold'>Laptops are designed to be portable computers.</p>
                     </div>
                 </div>
                 
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Term</p>
                     <p className='text-[#333333] text-base font-semibold'>18 Months</p>
                     </div>
                 </div>
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Unit Price</p>
                     <p className='text-[#333333] text-base font-semibold'>$20.00</p>
                     </div>
                 </div>
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'># of Products</p>
                     <p className='text-[#333333] text-base font-semibold'>5</p>
                     </div>
                 </div>
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Price</p>
                     <p className='text-[#333333] text-base font-semibold'>$100.00</p>
                     </div>
                 </div>
-                <div className='col-span-12 border rounded-b-xl	 border-[#D1D1D1]'>
+                <div className='col-span-12 border rounded-b-xl	 border-Light-Grey'>
                     <Grid className=''>
                     <div className='col-span-9 py-4 pl-3'>
                     <div className=''>
@@ -94,45 +94,45 @@ function CustomerOrderSummary() {
                 
                 </Grid>
 
-                <Grid className='!gap-0 bg-[#F9F9F9] mb-5'>
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <Grid className='!gap-0 bg-grayf9 mb-5'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Product Category</p>
                     <p className='text-[#333333] text-base font-semibold'>Electronic Gadget</p>
                     </div>
                 </div>
-                <div className='col-span-9 border border-[#D1D1D1]'>
+                <div className='col-span-9 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Product Description</p>
                     <p className='text-[#333333] text-base font-semibold'>Laptops are designed to be portable computers.</p>
                     </div>
                 </div>
                 
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Term</p>
                     <p className='text-[#333333] text-base font-semibold'>18 Months</p>
                     </div>
                 </div>
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Unit Price</p>
                     <p className='text-[#333333] text-base font-semibold'>$20.00</p>
                     </div>
                 </div>
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'># of Products</p>
                     <p className='text-[#333333] text-base font-semibold'>5</p>
                     </div>
                 </div>
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Price</p>
                     <p className='text-[#333333] text-base font-semibold'>$100.00</p>
                     </div>
                 </div>
-                <div className='col-span-12 border rounded-b-xl	 border-[#D1D1D1]'>
+                <div className='col-span-12 border rounded-b-xl	 border-Light-Grey'>
                     <Grid className=''>
                     <div className='col-span-9 py-4 pl-3'>
                     <div className=''>
@@ -156,45 +156,45 @@ function CustomerOrderSummary() {
                 
                 </Grid>
 
-                <Grid className='!gap-0 bg-[#F9F9F9] mb-5'>
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <Grid className='!gap-0 bg-grayf9 mb-5'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Product Category</p>
                     <p className='text-[#333333] text-base font-semibold'>Electronic Gadget</p>
                     </div>
                 </div>
-                <div className='col-span-9 border border-[#D1D1D1]'>
+                <div className='col-span-9 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Product Description</p>
                     <p className='text-[#333333] text-base font-semibold'>Laptops are designed to be portable computers.</p>
                     </div>
                 </div>
                 
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Term</p>
                     <p className='text-[#333333] text-base font-semibold'>18 Months</p>
                     </div>
                 </div>
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Unit Price</p>
                     <p className='text-[#333333] text-base font-semibold'>$20.00</p>
                     </div>
                 </div>
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'># of Products</p>
                     <p className='text-[#333333] text-base font-semibold'>5</p>
                     </div>
                 </div>
-                <div className='col-span-3 border border-[#D1D1D1]'>
+                <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Price</p>
                     <p className='text-[#333333] text-base font-semibold'>$100.00</p>
                     </div>
                 </div>
-                <div className='col-span-12 border rounded-b-xl	 border-[#D1D1D1]'>
+                <div className='col-span-12 border rounded-b-xl	 border-Light-Grey'>
                     <Grid className=''>
                     <div className='col-span-9 py-4 pl-3'>
                     <div className=''>

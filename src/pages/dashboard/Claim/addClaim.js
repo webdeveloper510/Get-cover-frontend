@@ -377,7 +377,7 @@ function AddClaim() {
             </div>
           </div>
         ) : (
-          <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+          <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
             <p className="text-xl font-bold mb-4">Step 1</p>
             <Grid>
               <div className="col-span-12">
@@ -477,7 +477,7 @@ function AddClaim() {
                     ) : (
                       <>
                         <table className="w-full border text-center table-auto">
-                          <thead className="bg-[#F9F9F9]">
+                          <thead className="bg-grayf9">
                             <tr className=" border-b-[1px]">
                               <th className="font-semibold">Contract ID</th>
                               <th className="font-semibold !py-3">
@@ -690,7 +690,7 @@ function AddClaim() {
   const renderStep2 = () => {
     return (
       <>
-        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
           <p className="text-2xl font-bold mb-4">Enter Required Info</p>
           {loading21 ? (
             <div className=" h-[400px] w-full flex py-5">
@@ -1010,7 +1010,7 @@ function AddClaim() {
       <Headbar />
       <div className="flex mt-2">
         <div
-          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] cursor-pointer rounded-[25px]"
+          className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey cursor-pointer rounded-[25px]"
           onClick={back}
         >
           <img
@@ -1186,8 +1186,8 @@ function AddClaim() {
                   </div>
                 </Grid>
 
-                <Grid className="!gap-0 !grid-cols-5 bg-[#F9F9F9] mb-5 ">
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5 ">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Manufacturer
@@ -1197,7 +1197,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Model
@@ -1207,7 +1207,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Serial
@@ -1217,7 +1217,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Condition
@@ -1227,7 +1227,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Retail Price
@@ -1243,7 +1243,7 @@ function AddClaim() {
                     </div>
                   </div>
                   {location.pathname.includes("/dealer/addClaim") !== true ? (
-                    <div className="col-span-1 border border-[#D1D1D1]">
+                    <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 pl-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Dealer Name
@@ -1257,7 +1257,7 @@ function AddClaim() {
                     ""
                   )}
 
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Reseller Name
@@ -1267,7 +1267,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Customer Name
@@ -1277,7 +1277,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Servicer Name
@@ -1287,7 +1287,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Status
@@ -1297,7 +1297,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Category
@@ -1310,7 +1310,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Name
@@ -1323,7 +1323,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Description
@@ -1336,7 +1336,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Price Type
@@ -1349,7 +1349,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Eligibility
@@ -1361,7 +1361,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Claim Amount
@@ -1380,7 +1380,7 @@ function AddClaim() {
                   {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
                   "Flat Pricing" ? (
                     <>
-                      <div className="col-span-1 border border-[#D1D1D1]">
+                      <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Start Range
@@ -1397,7 +1397,7 @@ function AddClaim() {
                           </p>
                         </div>
                       </div>
-                      <div className="col-span-1 border border-[#D1D1D1]">
+                      <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             End Range
@@ -1418,7 +1418,7 @@ function AddClaim() {
                   ) : (
                     ""
                   )}
-                  <div className="col-span-1 border border-[#D1D1D1] ">
+                  <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage Start Date
@@ -1434,7 +1434,7 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-[#D1D1D1]">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage End Date
@@ -1453,7 +1453,7 @@ function AddClaim() {
                   {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
                   "Quantity Pricing" ? (
                     <>
-                      <div className="col-span-5 border border-[#D1D1D1] ">
+                      <div className="col-span-5 border border-Light-Grey ">
                         <table className="w-full">
                           <thead>
                             <tr className="border-b">

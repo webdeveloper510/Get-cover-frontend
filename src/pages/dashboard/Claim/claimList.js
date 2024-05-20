@@ -1148,7 +1148,7 @@ function ClaimList(props) {
 
             <button
               onClick={handleAddClaim} // Call handleAddClaim function onClick
-              className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+              className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey"
             >
               <img src={AddItem} className="self-center" alt="AddItem" />
               <span className="text-black ml-3 text-[14px] font-Regular">
@@ -1158,13 +1158,13 @@ function ClaimList(props) {
           </>
         )}
 
-        <div className="bg-white my-4 pb-4 border-[1px] border-[#D1D1D1] rounded-xl">
+        <div className="bg-white my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
             <div className="col-span-2 self-center">
               <p className="text-xl font-semibold">Claims List</p>
             </div>
             <div className="col-span-10">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik1.handleSubmit}>
                   <Grid className="!gap-1">
                     <div className="col-span-8 self-center">
@@ -1259,22 +1259,22 @@ function ClaimList(props) {
                         setActiveIndex={handleSetActiveIndex}
                         title={
                           <>
-                            <Grid className="border-[#474747] border !gap-2 bg-[#fff] rounded-t-[22px]">
-                              <div className="col-span-3 self-center border-[#474747] border-r rounded-ss-xl p-5">
+                            <Grid className="border-Gray28 border !gap-2 bg-[#fff] rounded-t-[22px]">
+                              <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
                                 <p className="font-semibold leading-5 text-lg">
                                   {" "}
                                   {res.unique_key}{" "}
                                 </p>
                                 <p className="text-[#A3A3A3]">Claim ID</p>
                               </div>
-                              <div className="col-span-3 self-center border-[#474747] border-r p-5">
+                              <div className="col-span-3 self-center border-Gray28 border-r p-5">
                                 <p className="font-semibold leading-5 text-lg">
                                   {" "}
                                   {res?.contracts?.unique_key}{" "}
                                 </p>
                                 <p className="text-[#A3A3A3]">Contract ID</p>
                               </div>
-                              <div className="col-span-3 self-center border-[#474747] border-r p-5">
+                              <div className="col-span-3 self-center border-Gray28 border-r p-5">
                                 <p className="font-semibold leading-5 text-lg">
                                   {" "}
                                   {format(new Date(res.lossDate), "MM/dd/yyyy")}
@@ -1331,7 +1331,7 @@ function ClaimList(props) {
                                   )}
                               </div>
                             </Grid>
-                            <Grid className="!gap-0 bg-[#F9F9F9] !grid-cols-5 border-[#474747] border-x">
+                            <Grid className="!gap-0 bg-grayf9 !grid-cols-5 border-Gray28 border-x">
                               <div className="col-span-1 flex ">
                                 <img
                                   src={productName}
@@ -1412,11 +1412,11 @@ function ClaimList(props) {
                         }
                       >
                         { showdata && (
-                          <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-[#474747] border-x">
+                          <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x">
                             {res?.repairParts.length > 0 &&
                               res?.repairParts.map((part, index) => (
                                 <>
-                                  <div className="col-span-2 bg-[#333333] border-r border-b border-[#474747]">
+                                  <div className="col-span-2 bg-[#333333] border-r border-b border-Gray28">
                                     <div className="py-4 pl-3">
                                       <p className="text-[#fff] text-sm font-Regular">
                                         Service Type
@@ -1426,7 +1426,7 @@ function ClaimList(props) {
                                       </p>
                                     </div>
                                   </div>
-                                  <div className="col-span-8 bg-[#333333] border-r border-b border-[#474747]">
+                                  <div className="col-span-8 bg-[#333333] border-r border-b border-Gray28">
                                     <div className="py-4 pl-3">
                                       <p className="text-[#fff] text-sm font-Regular">
                                         Description
@@ -1436,7 +1436,7 @@ function ClaimList(props) {
                                       </p>
                                     </div>
                                   </div>
-                                  <div className="col-span-2 bg-[#333333] border-b border-[#474747]">
+                                  <div className="col-span-2 bg-[#333333] border-b border-Gray28">
                                     <div className="py-4 pl-3">
                                       <p className="text-[#fff] text-sm font-Regular">
                                         Price
@@ -1464,7 +1464,7 @@ function ClaimList(props) {
                             <div className="col-span-12 ">
                               <Grid className="!gap-2">
                                 <div className="col-span-4 py-4 pl-1 ">
-                                  <div className="bg-[#3C3C3C] py-2 px-2">
+                                  <div className="bg-Eclipse py-2 px-2">
                                     <p className="text-light-green mb-3 text-[11px] font-Regular ">
                                       Customer Name :{" "}
                                       <span className="font-semibold text-white">
@@ -1509,7 +1509,7 @@ function ClaimList(props) {
                                           onChange={handleSelectChange}
                                           OptionName="Servicer"
                                           white
-                                          className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                          className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
                                           classBox="w-[55%]"
                                           options={servicerList}
                                         />
@@ -1543,7 +1543,7 @@ function ClaimList(props) {
                                               }
                                               options={claim}
                                               OptionName="Claim Type"
-                                              className1="!py-0 text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                              className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
                                               classBox="w-[55%]"
                                             />
                                           </p>
@@ -1574,7 +1574,7 @@ function ClaimList(props) {
                                                   white
                                                   // OptionName="Tracker"
                                                   options={tracker}
-                                                  className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                                  className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
                                                   classBox="w-[35%]"
                                                 />
                                                 <Input
@@ -1593,7 +1593,7 @@ function ClaimList(props) {
                                                       "Completed"
                                                   }
                                                   // options={state}
-                                                  className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                                  className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
                                                   classBox="w-[50%]"
                                                   {...Shipment.getFieldProps(
                                                     "trackingNumber"
@@ -1639,7 +1639,7 @@ function ClaimList(props) {
                                                         white
                                                         // OptionName="Tracker"
                                                         options={tracker}
-                                                        className1="!py-0 !rounded-r-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                                        className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
                                                         classBox="w-[35%]"
                                                       />
                                                       <Input
@@ -1652,7 +1652,7 @@ function ClaimList(props) {
                                                             .trackingNumber
                                                         }
                                                         // options={state}
-                                                        className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-[#3C3C3C] !text-[13px] !border-1 !font-[400]"
+                                                        className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
                                                         classBox="w-[50%]"
                                                         {...Shipment.getFieldProps(
                                                           "trackingNumber"
@@ -1730,7 +1730,7 @@ function ClaimList(props) {
                                 </div>
                                 <div className="col-span-4 pt-4">
                                   <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
-                                    <div className="bg-[#474747] w-[40%] rounded-s-lg">
+                                    <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                       <p className="text-white text-[11px] p-4">
                                         Customer Status
                                       </p>
@@ -1780,7 +1780,7 @@ function ClaimList(props) {
                                     )}
                                   </div>
                                   <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
-                                    <div className="bg-[#474747] w-[40%] rounded-s-lg">
+                                    <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                       <p className="text-white text-[11px] p-4">
                                         Claim Status
                                       </p>
@@ -1837,7 +1837,7 @@ function ClaimList(props) {
                                     )}
                                   </div>
                                   <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
-                                    <div className="bg-[#474747] w-[40%] rounded-s-lg">
+                                    <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                       <p className="text-white text-[11px] p-4">
                                         Repair Status
                                       </p>
@@ -1922,7 +1922,7 @@ function ClaimList(props) {
                                   </div>
                                 </div>
                                 <div className="col-span-4 pt-2">
-                                  <div className="m-2 p-2 bg-[#3C3C3C] ">
+                                  <div className="m-2 p-2 bg-Eclipse ">
                                     <p className="text-[11px] text-white">
                                       Diagnosis
                                     </p>
@@ -2149,7 +2149,7 @@ function ClaimList(props) {
           <p className="text-center text-3xl font-semibold ">
             Comments Details
           </p>
-          <div className="h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-[#D1D1D1] bg-[#F0F0F0] border rounded-xl">
+          <div className="h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-Light-Grey bg-[#F0F0F0] border rounded-xl">
             {modelLoading ? (
               <div className=" h-[350px] w-full flex py-5">
                 <div className="self-center mx-auto">
@@ -2162,7 +2162,7 @@ function ClaimList(props) {
                   messageList.map((msg, key) => (
                     <Grid className="my-3">
                       <div className="col-span-1">
-                        <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-[#D1D1D1] rounded-full">
+                        <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full">
                           <p className="text-white text-2xl self-center">A</p>
                         </div>
                       </div>
@@ -2374,7 +2374,7 @@ function ClaimList(props) {
             </div>
           ) : (
             <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
-              <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-[#D1D1D1] rounded-3xl">
+              <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey rounded-3xl">
                 <div className="flex justify-between">
                   <p className="pb-5 text-lg font-semibold">Repair Parts</p>
                   <p className="pb-5 text-lg font-semibold">
@@ -2554,7 +2554,7 @@ function ClaimList(props) {
                   </div>
                 </Grid>
               </div>
-              <div className="px-5 pb-5 pt-3 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+              <div className="px-5 pb-5 pt-3 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
                 <div className="relative">
                   <label
                     htmlFor="description"
