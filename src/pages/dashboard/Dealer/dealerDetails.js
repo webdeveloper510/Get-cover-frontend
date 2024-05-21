@@ -966,7 +966,7 @@ function DealerDetails() {
                 className={` ${
                   isStatus == true
                     ? "col-span-10 relative"
-                    : "col-span-12 mr-[30px] relative"
+                    : "col-span-10 mr-[30px] relative"
                 }`}
               >
                 <div
@@ -1012,7 +1012,8 @@ function DealerDetails() {
                   </div>
                 </div>
               </div>
-              {isStatus == true && (
+             
+              {isStatus == true ? (
                 <>
                   {activeTab !== "Contracts" &&
                   activeTab !== "Unpaid Claims" &&
@@ -1035,7 +1036,34 @@ function DealerDetails() {
                       </Button>
                     </div>
                   ) : (
-                    <></>
+                    <>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                {activeTab === "Claims" ||
+                  activeTab === "Users" ? (
+                    <div
+                      className="col-span-2 self-center"
+                      onClick={() => routeToPage(activeTab)}
+                    >
+                      <Button className="!bg-white flex self-center h-[60px] rounded-xl ml-auto border-[1px] border-Light-Grey">
+                        {" "}
+                        <img
+                          src={AddItem}
+                          className="self-center"
+                          alt="AddItem"
+                        />{" "}
+                        <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                          {activeTab === "Servicer" ? "Assign " : "Add "}{" "}
+                          {activeTab}
+                        </span>{" "}
+                      </Button>
+                    </div>
+                  ) : (
+                    <>
+                    </>
                   )}
                 </>
               )}
