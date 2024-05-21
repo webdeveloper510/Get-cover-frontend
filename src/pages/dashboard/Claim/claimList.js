@@ -137,7 +137,7 @@ function ClaimList(props) {
     setDropdownVisible(!dropdownVisible);
   };
 
-  console.log(showdata1, showdata , "---------------{}{}{}{-----")
+  // console.log(showdata1, showdata, "---------------{}{}{}{-----");
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -396,7 +396,7 @@ function ClaimList(props) {
       })
       .catch(() => {
         setLoaderType(false);
-          setShowdata(false);
+        setShowdata(false);
       });
   };
 
@@ -406,7 +406,7 @@ function ClaimList(props) {
     setShowdata(false);
     setShowdata1(false);
     setRecordsPerPage(rowsPerPage);
-   
+
     setLoading(true);
     try {
       if (props?.flag == "claim") {
@@ -416,12 +416,12 @@ function ClaimList(props) {
       } else {
         await getAllClaims(page, rowsPerPage);
       }
-     
+
       setActiveIndex(null);
       setLoading(false);
     } finally {
       setLoading(false);
-      setActiveIndex(null)
+      setActiveIndex(null);
       localStorage.removeItem("activeIndex");
       setTimeout(function () {
         setShowdata(true);
@@ -740,14 +740,13 @@ function ClaimList(props) {
           lastName: values.commentToLastName || "",
         },
         commentBy: {
-          firstName: userInfo.userInfo?.firstName || "",
-          lastName: userInfo.userInfo?.lastName || "",
+          firstName: userInfo?.userInfo?.firstName || "",
+          lastName: userInfo?.userInfo?.lastName || "",
           roles: {
             role: userInfo?.role || "",
           },
         },
       };
-
       // Update the state with the temporary message
       setMessageList((prevClaimMessages) => [
         ...prevClaimMessages,
@@ -1041,7 +1040,7 @@ function ClaimList(props) {
       const storedActiveIndex = localStorage.getItem("activeIndex");
       // console.log(values);
       setShowdata(false);
-      setActiveIndex(null)
+      setActiveIndex(null);
       setTimeout(function () {
         setShowdata(true);
       }, 1000);
@@ -1255,7 +1254,7 @@ function ClaimList(props) {
                       <CollapsibleDiv
                         index={index}
                         activeIndex={activeIndex}
-                        ShowData ={showdata}
+                        ShowData={showdata}
                         setActiveIndex={handleSetActiveIndex}
                         title={
                           <>
@@ -1295,12 +1294,10 @@ function ClaimList(props) {
                                   ) &&
                                   !location.pathname.includes(
                                     "/reseller/claimList"
-                                  ) 
-                                  &&
+                                  ) &&
                                   !location.pathname.includes(
                                     "/dealer/claimList"
-                                  )
-                                  && (
+                                  ) && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1315,13 +1312,12 @@ function ClaimList(props) {
                                   !location.pathname.includes(
                                     "customer/claimList"
                                   ) &&
-                                  
                                   !location.pathname.includes(
                                     "/reseller/claimList"
-                                  )   &&
+                                  ) &&
                                   !location.pathname.includes(
                                     "/dealer/claimList"
-                                  )&& (
+                                  ) && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1411,7 +1407,7 @@ function ClaimList(props) {
                           </>
                         }
                       >
-                        { showdata && (
+                        {showdata && (
                           <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x">
                             {res?.repairParts.length > 0 &&
                               res?.repairParts.map((part, index) => (
@@ -1553,74 +1549,13 @@ function ClaimList(props) {
                                             </span>
                                             {trackerView ? (
                                               <>
-                                              {claimStatus.status ==
-                                              "Rejected" ||
-                                            claimStatus.status ==
-                                              "Completed" ?  <></> :   
-                                              <form
-                                              onSubmit={Shipment.handleSubmit}
-                                            >
-                                              <div className="relative flex w-full">
-                                                <Select
-                                                  name="trackingType"
-                                                  label=""
-                                                  value={
-                                                    Shipment.values
-                                                      .trackingType
-                                                  }
-                                                  onChange={
-                                                    handleSelectChange21
-                                                  }
-                                                  white
-                                                  // OptionName="Tracker"
-                                                  options={tracker}
-                                                  className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                  classBox="w-[35%]"
-                                                />
-                                                <Input
-                                                  name="trackingNumber"
-                                                  label=""
-                                                  placeholder="Tracking #"
-                                                  white
-                                                  value={
-                                                    Shipment.values
-                                                      .trackingNumber
-                                                  }
-                                                  disabled={
-                                                    claimStatus.status ==
-                                                      "Rejected" ||
-                                                    claimStatus.status ==
-                                                      "Completed"
-                                                  }
-                                                  // options={state}
-                                                  className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                  classBox="w-[50%]"
-                                                  {...Shipment.getFieldProps(
-                                                    "trackingNumber"
-                                                  )}
-                                                />
-                                                <Button
-                                                  className="absolute right-[30px] !p-0 top-[2px]"
-                                                  type="submit" 
-                                                >
-                                                  <img
-                                                    src={checkIcon}
-                                                    className="w-[21px]"
-                                                  />
-                                                </Button>
-                                              </div>
-                                            </form>}
-                                              </>
-                                            
-                                            ) : (
-                                              <>
-                                                {  res?.trackingType == "" ? (
-                                                  <> 
-                                                  {claimStatus.status ==
-                                                    "Rejected" ||
-                                                  claimStatus.status ==
-                                                    "Completed"  ? <></> : <>
-                                                     <form
+                                                {claimStatus.status ==
+                                                  "Rejected" ||
+                                                claimStatus.status ==
+                                                  "Completed" ? (
+                                                  <></>
+                                                ) : (
+                                                  <form
                                                     onSubmit={
                                                       Shipment.handleSubmit
                                                     }
@@ -1651,6 +1586,12 @@ function ClaimList(props) {
                                                           Shipment.values
                                                             .trackingNumber
                                                         }
+                                                        disabled={
+                                                          claimStatus.status ==
+                                                            "Rejected" ||
+                                                          claimStatus.status ==
+                                                            "Completed"
+                                                        }
                                                         // options={state}
                                                         className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
                                                         classBox="w-[50%]"
@@ -1668,9 +1609,72 @@ function ClaimList(props) {
                                                         />
                                                       </Button>
                                                     </div>
-                                                  </form></> } 
-                                                  </> 
-                                                 
+                                                  </form>
+                                                )}
+                                              </>
+                                            ) : (
+                                              <>
+                                                {res?.trackingType == "" ? (
+                                                  <>
+                                                    {claimStatus.status ==
+                                                      "Rejected" ||
+                                                    claimStatus.status ==
+                                                      "Completed" ? (
+                                                      <></>
+                                                    ) : (
+                                                      <>
+                                                        <form
+                                                          onSubmit={
+                                                            Shipment.handleSubmit
+                                                          }
+                                                        >
+                                                          <div className="relative flex w-full">
+                                                            <Select
+                                                              name="trackingType"
+                                                              label=""
+                                                              value={
+                                                                Shipment.values
+                                                                  .trackingType
+                                                              }
+                                                              onChange={
+                                                                handleSelectChange21
+                                                              }
+                                                              white
+                                                              // OptionName="Tracker"
+                                                              options={tracker}
+                                                              className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                              classBox="w-[35%]"
+                                                            />
+                                                            <Input
+                                                              name="trackingNumber"
+                                                              label=""
+                                                              placeholder="Tracking #"
+                                                              white
+                                                              value={
+                                                                Shipment.values
+                                                                  .trackingNumber
+                                                              }
+                                                              // options={state}
+                                                              className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                              classBox="w-[50%]"
+                                                              {...Shipment.getFieldProps(
+                                                                "trackingNumber"
+                                                              )}
+                                                            />
+                                                            <Button
+                                                              className="absolute right-[30px] !p-0 top-[2px]"
+                                                              type="submit"
+                                                            >
+                                                              <img
+                                                                src={checkIcon}
+                                                                className="w-[21px]"
+                                                              />
+                                                            </Button>
+                                                          </div>
+                                                        </form>
+                                                      </>
+                                                    )}
+                                                  </>
                                                 ) : (
                                                   <div className="flex w-[65%] justify-between">
                                                     {res?.trackingType ==
@@ -1888,7 +1892,9 @@ function ClaimList(props) {
                                       </div>
                                     )}
                                   </>} */}
-                                    {(role == "Super Admin" || claimList.result[activeIndex]?.selfServicer) && (
+                                    {(role == "Super Admin" ||
+                                      claimList.result[activeIndex]
+                                        ?.selfServicer) && (
                                       <>
                                         {claimStatus.status == "Rejected" ||
                                         claimStatus.status == "Completed" ? (
@@ -2005,7 +2011,6 @@ function ClaimList(props) {
                             </div>
                           </Grid>
                         )}
-                       
                       </CollapsibleDiv>
                     );
                   })}
@@ -2176,8 +2181,8 @@ function ClaimList(props) {
                           <Grid>
                             <div className="col-span-6">
                               <p className="text-xl font-semibold">
-                                {msg?.commentedByUser?.firstName}
-                                {msg?.commentedByUser?.lastName}
+                                {msg?.commentBy?.firstName}
+                                {msg?.commentBy?.lastName}
                                 <span className="text-[12px] pl-1">
                                   ({msg.commentBy.roles.role})
                                 </span>
@@ -2421,7 +2426,9 @@ function ClaimList(props) {
                               label="Service Type"
                               options={
                                 index === 0
-                                  ? serviceType.filter(option => option.label !== "Shipping")
+                                  ? serviceType.filter(
+                                      (option) => option.label !== "Shipping"
+                                    )
                                   : serviceType
                               }
                               required={true}

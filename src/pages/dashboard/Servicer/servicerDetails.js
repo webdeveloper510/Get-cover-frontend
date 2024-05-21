@@ -67,6 +67,7 @@ function ServicerDetails() {
   const [secondMessage, setSecondMessage] = useState("");
   const [servicerDetails, setServicerDetails] = useState({});
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [createAccount, setCreateAccount] = useState(true);
   const [timer, setTimer] = useState(3);
   const { flag, toggleFlag } = useMyContext();
   const [dealerList, setDealerList] = useState([]);
@@ -90,6 +91,7 @@ function ServicerDetails() {
     state: "",
     country: "USA",
     oldName: "",
+    isAccountCreate : createAccount,
   });
   const state = cityData;
   // const { flag } = useMyContext();
@@ -359,11 +361,20 @@ function ServicerDetails() {
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
+  const handleAccountChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    setCreateAccount(valueAsBoolean);
+    formik.setFieldValue("isAccountCreate", valueAsBoolean);
+  };
+
+
   const servicerDetail = async () => {
     setLoading(true);
     const res = await getServicerDetailsByServicerId(servicerId);
     setServicerDetails(res.message);
     console.log(res.message);
+    setCreateAccount(res?.message?.meta?.isAccountCreate)
+    setCreateAccountOption(res?.message?.meta?.isAccountCreate === false ? "no" : "yes")
     setInitialFormValues({
       name: res?.message?.meta?.name,
       oldName: res?.message?.meta?.name,
@@ -373,6 +384,7 @@ function ServicerDetails() {
       zip: res?.message?.meta?.zip,
       state: res?.message?.meta?.state,
       country: "USA",
+      isAccountCreate:res?.message?.meta?.isAccountCreate
     });
     setLoading(false);
   };
@@ -900,6 +912,7 @@ function ServicerDetails() {
                       id="yes-create-account"
                       label="Yes"
                       value="yes"
+                      disabled={createAccount === false}
                       checked={createAccountOption === "yes"}
                       onChange={handleRadioChange}
                     />
@@ -907,6 +920,7 @@ function ServicerDetails() {
                       id="no-create-account"
                       label="No"
                       value="no"
+                      disabled={createAccount === false}
                       checked={createAccountOption === "no"}
                       onChange={handleRadioChange}
                     />
@@ -1096,6 +1110,25 @@ function ServicerDetails() {
                     error={formik.touched.country && formik.errors.country}
                     disabled
                   />
+                </div>
+                <div className="col-span-12">
+              <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
+                  Do you want to create an account?
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value={true}
+                    checked={createAccount === true}
+                    onChange={handleAccountChange}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value={false}
+                    checked={createAccount === false}
+                    onChange={handleAccountChange}
+                  />
+                </p>
                 </div>
                 <div className="col-span-4">
                   <Button

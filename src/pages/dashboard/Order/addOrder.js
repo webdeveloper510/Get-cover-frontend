@@ -358,17 +358,17 @@ function AddOrder() {
         dealerId: dealerValue,
         resellerId: resellerId,
       });
-      getCategoryList(
-        dealerValue,
-        {
-          priceBookId: "",
-          priceCatId: "",
-          pName: "",
-          term: "",
-          coverageType: formikStep2?.values?.coverageType,
-        },
-        0
-      );
+      // getCategoryList(
+      //   dealerValue,
+      //   {
+      //     priceBookId: "",
+      //     priceCatId: "",
+      //     pName: "",
+      //     term: "",
+      //     coverageType: formikStep2?.values?.coverageType,
+      //   },
+      //   0
+      // );
     }
     getDealerListData();
     getTermListData();
