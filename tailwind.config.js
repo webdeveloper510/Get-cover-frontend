@@ -16,6 +16,9 @@ module.exports = {
         'Eclipse' : '#3C3C3C',
         'Light-Grey' : '#D1D1D1',
       },
+      padding: {
+        '10p': '10px',
+      },
       backgroundColor : {
         'light-black' : '#333',
         'Gray28' : '#474747',

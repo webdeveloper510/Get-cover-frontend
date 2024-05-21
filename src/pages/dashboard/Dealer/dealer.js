@@ -980,6 +980,7 @@ function Dealer() {
                             )}
                           </div>
                         </div>
+                        <small className="text-neutral-grey p-10p">Only upload 10MB file</small>
                       </div>
                     </Grid>
                   </div>

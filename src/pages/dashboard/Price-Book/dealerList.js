@@ -624,9 +624,9 @@ function DealerPriceList() {
               <p className="text-lg text-light-black font-semibold">Status</p>
               <p className="text-base text-neutral-grey font-semibold">
                 {" "}
-                {dealerPriceBookDetail?.priceBooks?.status === true
+                {dealerPriceBookDetail?.status === true
                   ? "Active"
-                  : "InActive"}
+                  : "Inactive"}
               </p>
             </div>
            

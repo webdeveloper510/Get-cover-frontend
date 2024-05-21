@@ -1042,8 +1042,7 @@ function DealerDetails() {
                 </>
               ) : (
                 <>
-                {activeTab === "Claims" ||
-                  activeTab === "Users" ? (
+                {activeTab === "Claims" ? (
                     <div
                       className="col-span-2 self-center"
                       onClick={() => routeToPage(activeTab)}

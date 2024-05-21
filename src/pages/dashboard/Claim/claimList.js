@@ -2181,7 +2181,7 @@ function ClaimList(props) {
                           <Grid>
                             <div className="col-span-6">
                               <p className="text-xl font-semibold">
-                                {msg?.commentBy?.firstName}
+                                {msg?.commentBy?.firstName} {' '}
                                 {msg?.commentBy?.lastName}
                                 <span className="text-[12px] pl-1">
                                   ({msg.commentBy.roles.role})
