@@ -1313,7 +1313,7 @@ function AddClaim() {
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Name
+                        Product SKU
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
                         {
@@ -1324,6 +1324,19 @@ function AddClaim() {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Product Name
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {
+                          contractDetail?.order?.[0]?.productsArray?.[0]
+                            ?.priceBook?.[0]?.pName
+                        }
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-2 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Description
@@ -1450,6 +1463,54 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
+                  <div className="col-span-1 border border-Light-Grey ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Labour Warranty Last Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                           { new Date(
+                              contractDetail?.labourWarranty
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-Light-Grey ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Part Warranty Last Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            { new Date(
+                              contractDetail?.partsWarranty
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-Light-Grey ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Purchase Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                          {new Date(
+                              contractDetail?.purchaseDate
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
                   {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
                   "Quantity Pricing" ? (
                     <>
