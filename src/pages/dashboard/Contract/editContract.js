@@ -75,6 +75,7 @@ function EditContract() {
     setLoading(true);
     const result = await getContractValues(id);
     setContractDetails(result.result);
+    // console.log()
     formik.setValues({
       manufacture: result.result.manufacture || "",
       model: result.result.model || "",
@@ -306,6 +307,27 @@ function EditContract() {
                 </div>
                 <div className="col-span-3 self-center">
                   <div className="flex w-full py-2 border-r border-[#4e4e4e]">
+                    <div className="self-center backdrop-blur   mr-4">
+                      <img src={ServicerName} alt="dealer" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      Purchase Date
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {new Date(
+                          contractDetails?.purchaseDate
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-3 self-center">
+                  <div className="flex w-full py-2 border-[#4e4e4e]">
                     <div className="self-center backdrop-blur  mr-4">
                       <img src={claim} alt="terms" />
                     </div>
@@ -317,6 +339,51 @@ function EditContract() {
                         ${parseInt(contractDetails?.claimAmount).toLocaleString(
                           2
                         )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+               
+                </Grid>
+                <Grid className="mx-8  mx-auto border-t border-[#4e4e4e] ">
+                <div className="col-span-3 self-center">
+                  <div className="flex w-full py-2 border-r border-[#4e4e4e]">
+                    <div className="self-center backdrop-blur   mr-4">
+                      <img src={ServicerName} alt="dealer" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      Labour Warranty Last Date
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {new Date(
+                          contractDetails?.labourWarranty
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-3 self-center">
+                  <div className="flex w-full py-2 border-r border-[#4e4e4e]">
+                    <div className="self-center backdrop-blur   mr-4">
+                      <img src={ServicerName} alt="dealer" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      Part Warranty Last Date
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {new Date(
+                          contractDetails?.partsWarranty
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
                       </p>
                     </div>
                   </div>

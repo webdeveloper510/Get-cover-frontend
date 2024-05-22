@@ -40,6 +40,7 @@ function ServicerList(props) {
   const navigate = useNavigate();
   const closeModal = () => {
     setIsModalOpen(false);
+  
   };
   const openModal = (row) => {
     setRowValue(row);
@@ -61,6 +62,7 @@ function ServicerList(props) {
 
     if (timer === 0) {
       closeModal1();
+      
     }
 
     if (!isModalOpen1) {
@@ -69,7 +71,6 @@ function ServicerList(props) {
     }
 
     setLoading(false);
-
     return () => {
       clearInterval(intervalId);
     };
@@ -93,6 +94,7 @@ function ServicerList(props) {
       getServicerList();
     }
     setIsModalOpen1(true);
+    getServicerList();
   };
   useEffect(() => {
     getServicerList();
@@ -250,7 +252,7 @@ function ServicerList(props) {
           },
           {
             name: "Phone #",
-            selector: (row) => row.phoneNumber,
+            selector: (row) => '+1 ' + formatPhoneNumber(row.phoneNumber),
             sortable: true,
           },
         {
@@ -284,7 +286,7 @@ function ServicerList(props) {
           },
           {
             name: "Phone #",
-            selector: (row) => formatPhoneNumber(row.phoneNumber),
+            selector: (row) => '+1 ' + formatPhoneNumber(row.phoneNumber),
             sortable: true,
           },
           {

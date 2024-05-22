@@ -436,7 +436,7 @@ function ContractList(props) {
                   </div>
                 </Grid>
 
-                <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
+                <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5 max-h-[70vh] overflow-y-scroll">
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
@@ -551,7 +551,7 @@ function ContractList(props) {
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Name
+                        Product SKU
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
                         {singleContract?.productName}
@@ -559,6 +559,16 @@ function ContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Product Name
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {singleContract?.pName}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-2 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Description
@@ -651,7 +661,7 @@ function ContractList(props) {
                     ""
                   )}
 
-                  <div className="col-span-1 border border-Light-Grey rounded-es-xl">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage Start Date
@@ -667,7 +677,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage End Date
@@ -683,6 +693,54 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
+                  <div className="col-span-1 border border-Light-Grey ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Labour Warranty Last Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                           { new Date(
+                              singleContract?.labourWarranty
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-Light-Grey ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Part Warranty Last Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            { new Date(
+                              singleContract?.partsWarranty
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-Light-Grey ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Purchase Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                          {new Date(
+                              singleContract?.purchaseDate
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
                   {singleContract?.order?.[0]?.productsArray?.[0]?.priceType ==
                   "Quantity Pricing" ? (
                     <>

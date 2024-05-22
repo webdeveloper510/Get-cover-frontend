@@ -556,7 +556,7 @@ function OrderList(props) {
       </Modal>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {/* <Button
+        <Button
           // onClick={() => {
           //   navigate(`/editOrder/${orderList._id}/${props.id}/${props.flag}`);
           // }}
@@ -566,7 +566,7 @@ function OrderList(props) {
             src={Edit}
             className="w-full h-full text-black rounded-full p-0"
           />
-        </Button> */}
+        </Button>
         <Button
           onClick={closeModal}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
@@ -578,15 +578,10 @@ function OrderList(props) {
         </Button>
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
-
           <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
-            <span className="text-light-black"> {errorLine} :</span>{" "}
-          </p>
-
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            <p className="text-neutral-grey text-base font-medium mt-2">
+            <span className="text-light-black">Error </span></p>
+            <p className="text-neutral-grey text-base font-medium mt-2"> {errorLine} : <br/>
               {errorList}
-            </p>
           </p>
         </div>
       </Modal>
