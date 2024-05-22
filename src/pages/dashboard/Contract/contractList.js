@@ -31,6 +31,7 @@ import {
   getContractsforReseller,
   getContractsforResellerPortal,
 } from "../../../services/reSellerServices";
+import CommonTooltip from "../../../common/toolTip";
 
 function ContractList(props) {
   console.log(props);
@@ -465,11 +466,13 @@ function ContractList(props) {
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Eligibility
                                   </p>
-                                  <p className="text-[#333333] text-base font-semibold">
+                                  <CommonTooltip place="left" id="tooltip-default" content="Contract is not Active state">
+                                  <p className="text-[#333333] cursor-pointer text-base font-semibold">
                                     {res?.eligibilty === true
                                       ? "Eligible"
                                       : "Not Eligible "}
                                   </p>
+                                  </CommonTooltip>
                                 </div>
                               </div>
                             </Grid>
@@ -1032,11 +1035,14 @@ function ContractList(props) {
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Eligibility
                           </p>
+                          <CommonTooltip place="top" id="tooltip-default" content={ contractDetails?.order?.[0]?.productsArray?.[0]
+                                ?.description}>
                           <p className="text-[#333333] text-base font-semibold">
                             {contractDetails?.eligibilty === true
                               ? "Eligible"
                               : "Not Eligible "}
                           </p>
+                          </CommonTooltip>
                         </div>
                       </div>
                       <div className="col-span-1 border border-Light-Grey">

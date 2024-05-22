@@ -15,8 +15,9 @@ import Broker from "../../assets/images/Reporting/Broker.svg";
 import Select from "../../common/select";
 import { getDashboardDetails } from "../../services/dashboardServices";
 import { RotateLoader } from "react-spinners";
+import CommonTooltip from "../../common/toolTip";
 
-function Dashboard() {
+function Dashboard ()  {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isRangeOpen, setIsRangeOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -81,7 +82,9 @@ function Dashboard() {
             ) : (
             <div className="mt-5">
               <Grid className=" s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12">
+            
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-8">
+               
                   <p className="text-2xl font-bold">
                   {dashboardDetail?.orderData?.totalOrder ? (
                     dashboardDetail.orderData.totalOrder
@@ -90,7 +93,9 @@ function Dashboard() {
                   )}
                   </p>
                   <p className="text-neutral-grey text-sm">Total Number of Orders</p>
+                 
                 </div>
+         
                 <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
                   <p className="text-2xl font-bold">
                   ${ dashboardDetail?.orderData?.totalAmount === ''
