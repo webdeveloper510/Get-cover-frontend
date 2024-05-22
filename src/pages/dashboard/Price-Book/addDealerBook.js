@@ -544,7 +544,11 @@ function AddDealerBook() {
                         placeholder=""
                         value={formik.values.pName}
                         onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
                         disabled={true}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
                       />
                     </div>
                     <div className="col-span-4">

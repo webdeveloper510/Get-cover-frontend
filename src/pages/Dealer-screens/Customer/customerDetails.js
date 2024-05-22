@@ -795,8 +795,8 @@ function CustomerDetails() {
                       id="yes-create-account"
                       label="Yes"
                       value={true}
-                      checked={createAccount === true}
-                      disabled={createMainAccount === false}
+                      checked={createAccount === true }
+                      disabled={createMainAccount === false || createAccountOption === 'no'}
                       onChange={handleAccountChange}
                     />
                     <RadioButton
@@ -804,7 +804,7 @@ function CustomerDetails() {
                       label="No"
                       value={false}
                       checked={createAccount === false}
-                      disabled={createMainAccount === false}
+                      disabled={createMainAccount === false || createAccountOption === 'no'}
                       onChange={handleAccountChange}
                     />
                   </p>
