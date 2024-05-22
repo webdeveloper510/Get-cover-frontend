@@ -40,7 +40,6 @@ function ServicerList(props) {
   const navigate = useNavigate();
   const closeModal = () => {
     setIsModalOpen(false);
-  
   };
   const openModal = (row) => {
     setRowValue(row);
@@ -62,7 +61,6 @@ function ServicerList(props) {
 
     if (timer === 0) {
       closeModal1();
-      
     }
 
     if (!isModalOpen1) {
@@ -99,12 +97,6 @@ function ServicerList(props) {
   useEffect(() => {
     getServicerList();
   }, []);
-
-  useEffect(() => {
-    if (props.activeTab === "Servicer") {
-      getServicerList();
-    }
-  }, [props]);
 
   const getServicerList = async () => {
     setLoading(true);
@@ -148,6 +140,14 @@ function ServicerList(props) {
       filterServicerRequest(values);
     },
   });
+
+  useEffect(() => {
+    console.log(props);
+    if (props?.activeTab == "Servicer") {
+      getServicerList();
+    }
+  }, [props]);
+
   const filterServicerRequest = async (data) => {
     try {
       setLoading(true);
@@ -209,13 +209,13 @@ function ServicerList(props) {
   }, []);
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
@@ -229,7 +229,7 @@ function ServicerList(props) {
       });
     }
   };
-  
+
   const columns =
     props.flag === "reseller"
       ? [
@@ -252,17 +252,20 @@ function ServicerList(props) {
           },
           {
             name: "Phone #",
-            selector: (row) => '+1 ' + formatPhoneNumber(row.phoneNumber),
+            selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
             sortable: true,
           },
-        {
-          name: "# of Claims",
-          selector: (row) =>row.claimNumber?.noOfOrders ?? 0,
-          sortable: true,
-        },
+          {
+            name: "# of Claims",
+            selector: (row) => row.claimNumber?.noOfOrders ?? 0,
+            sortable: true,
+          },
           {
             name: "Total Claims Value",
-            selector: (row) => `$${(formatOrderValue(row?.claimValue?.totalAmount ?? parseInt(0)))}`,
+            selector: (row) =>
+              `$${formatOrderValue(
+                row?.claimValue?.totalAmount ?? parseInt(0)
+              )}`,
             sortable: true,
           },
         ]
@@ -286,7 +289,7 @@ function ServicerList(props) {
           },
           {
             name: "Phone #",
-            selector: (row) => '+1 ' + formatPhoneNumber(row.phoneNumber),
+            selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
             sortable: true,
           },
           {
@@ -338,14 +341,16 @@ function ServicerList(props) {
                             navigate(`/servicerDetails/${row.accountId}`);
                           }}
                           className="text-left cursor-pointer border-b  flex hover:font-semibold py-1 px-2"
-                          >
-                           <img src={view} className="w-4 h-4 mr-2"/> <span className="self-center"> View </span>
+                        >
+                          <img src={view} className="w-4 h-4 mr-2" />{" "}
+                          <span className="self-center"> View </span>
                         </div>
                         <div
                           onClick={() => openModal(row)}
                           className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                          >
-                           <img src={paper} className="w-4 h-4 mr-2"/> <span className="self-center">Unassigned </span>
+                        >
+                          <img src={paper} className="w-4 h-4 mr-2" />{" "}
+                          <span className="self-center">Unassigned </span>
                         </div>
                       </div>
                     )}

@@ -195,6 +195,7 @@ function DealerDetails() {
 
     if (timer === 0) {
       closeModal10();
+      closeModal1();
     }
 
     if (!modalOpen) {
@@ -232,7 +233,7 @@ function DealerDetails() {
 
   const modalOpen1 = () => {
     getServicerList();
-    setActiveTab("Servicer");
+    setActiveTab("Servicer123");
     setIsModalOpen1(true);
   };
 
@@ -413,7 +414,6 @@ function DealerDetails() {
     },
 
     onSubmit: async (values) => {
-      setFlagValue(false);
       setLoading(true);
       const selectedData = servicerList.map((item) => ({
         _id: item._id,
@@ -430,11 +430,11 @@ function DealerDetails() {
         setModalOpen(true);
         setFirstMessage("Servicer Updated Successfully");
         setSecondMessage("Servicer Updated Successfully");
-        closeModal1();
+        // closeModal1();
         setTimer(3);
       } else {
         setLoading(false);
-        closeModal1();
+        // closeModal1();
       }
 
       closeModal1();
@@ -629,7 +629,7 @@ function DealerDetails() {
       icons: Servicer,
       Activeicons: ServicerActive,
       content: activeTab === "Servicer" && (
-        <ServicerList id={id.id} flag={flagValue} />
+        <ServicerList id={id.id} flag={flagValue} activeTab={activeTab} />
       ),
     },
     {
@@ -1012,7 +1012,7 @@ function DealerDetails() {
                   </div>
                 </div>
               </div>
-             
+
               {isStatus == true ? (
                 <>
                   {activeTab !== "Contracts" &&
@@ -1036,13 +1036,12 @@ function DealerDetails() {
                       </Button>
                     </div>
                   ) : (
-                    <>
-                    </>
+                    <></>
                   )}
                 </>
               ) : (
                 <>
-                {activeTab === "Claims" ? (
+                  {activeTab === "Claims" ? (
                     <div
                       className="col-span-2 self-center"
                       onClick={() => routeToPage(activeTab)}
@@ -1061,8 +1060,7 @@ function DealerDetails() {
                       </Button>
                     </div>
                   ) : (
-                    <>
-                    </>
+                    <></>
                   )}
                 </>
               )}

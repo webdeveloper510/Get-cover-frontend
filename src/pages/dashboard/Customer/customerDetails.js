@@ -301,9 +301,7 @@ function CustomerDetails() {
 
     setIsStatus(result.result.dealerStatus);
     console.log(result.result.meta.isAccountCreate, " --------- ????????");
-    setCreateAccount(
-      result.result.userAccount ? result.result.meta.isAccountCreate : false
-    );
+    setCreateAccount(result.result.meta.isAccountCreate);
     setIsAccountCreate(result.result.userAccount);
     setCreateAccountOption(result.result.userAccount ? "yes" : "no");
     setInitialFormValues({
@@ -992,7 +990,7 @@ function CustomerDetails() {
                       id="yes-create-account"
                       label="Yes"
                       value={true}
-                      disabled={!isAccountCreate}
+                      disabled={!isStatus && !createAccount}
                       checked={createAccount === true}
                       onChange={handleAccountChange}
                     />
@@ -1001,7 +999,7 @@ function CustomerDetails() {
                       label="No"
                       value={false}
                       checked={createAccount === false}
-                      disabled={!isAccountCreate}
+                      disabled={!isStatus && !createAccount}
                       onChange={handleAccountChange}
                     />
                   </p>
