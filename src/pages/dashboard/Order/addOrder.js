@@ -307,17 +307,17 @@ function AddOrder() {
         dealerId: dealerId,
         resellerId: "",
       });
-      getCategoryList(
-        dealerId,
-        {
-          priceBookId: "",
-          priceCatId: "",
-          pName: "",
-          term: "",
-          coverageType: formikStep2?.values?.coverageType,
-        },
-        0
-      );
+      // getCategoryList(
+      //   dealerId,
+      //   {
+      //     priceBookId: "",
+      //     priceCatId: "",
+      //     pName: "",
+      //     term: "",
+      //     coverageType: formikStep2?.values?.coverageType,
+      //   },
+      //   0
+      // );
     }
     if (resellerId && customerId == undefined) {
       formik.setFieldValue("resellerId", resellerId);
@@ -2172,7 +2172,7 @@ function AddOrder() {
                       ) : (
                         <div className="col-span-4">
                           <Input
-                            type="number"
+                            type="tel"
                             name={`productsArray[${index}].adh`}
                             className="!bg-[#fff]"
                             label="ADH (Waiting Days)"
@@ -2183,13 +2183,17 @@ function AddOrder() {
                             onChange={(e) => {
                               const { name, value } = e.target;
                               const trimmedValue = value.trim();
+                              const intValue = trimmedValue.replace(
+                                /[^0-9]/g,
+                                ""
+                              );
                               const newValue =
-                                trimmedValue !== ""
-                                  ? trimmedValue.startsWith("0")
-                                    ? trimmedValue.replace(/^0+/, "") || "0"
-                                    : trimmedValue
+                                intValue !== ""
+                                  ? intValue.startsWith("0")
+                                    ? intValue.replace(/^0+/, "") || "0"
+                                    : intValue
                                   : "0";
-                              console.log("new", newValue);
+
                               formikStep3.handleChange({
                                 target: {
                                   name,
