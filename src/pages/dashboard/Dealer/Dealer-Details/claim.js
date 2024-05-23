@@ -1237,8 +1237,23 @@ const downloadImage = (file) => {
                                  )}
                                </div>
                              </Grid>
-                             <Grid className="!gap-0 bg-grayf9 border-Gray28 border-x">
-                               <div className="col-span-2 flex ">
+                             <Grid className="!gap-0 bg-grayf9 !grid-cols-7 border-Gray28 border-x">
+                               <div className="col-span-1 flex ">
+                                 <img
+                                   src={productName}
+                                   className="self-center h-[50px] w-[50px] ml-3"
+                                   alt="productName"
+                                 />
+                                 <div className="py-4 pl-3 self-center">
+                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                     Product SKU
+                                   </p>
+                                   <p className="text-[#333333] text-sm font-semibold">
+                                     {res?.contracts?.productName}
+                                   </p>
+                                 </div>
+                               </div>
+                               <div className="col-span-1 flex ">
                                  <img
                                    src={productName}
                                    className="self-center h-[50px] w-[50px] ml-3"
@@ -1249,11 +1264,11 @@ const downloadImage = (file) => {
                                      Product Name
                                    </p>
                                    <p className="text-[#333333] text-sm font-semibold">
-                                     {res?.contracts?.productName}
+                                     {res?.contracts?.pName}
                                    </p>
                                  </div>
                                </div>
-                               <div className="col-span-3 flex">
+                               <div className="col-span-2 flex">
                                  <img
                                    src={Manufacturer}
                                    className="self-center h-[50px] w-[50px] ml-3"
@@ -1268,7 +1283,7 @@ const downloadImage = (file) => {
                                    </p>
                                  </div>
                                </div>
-                               <div className="col-span-2 flex">
+                               <div className="col-span-1 flex">
                                  <img
                                    src={model}
                                    className="self-center h-[50px] w-[50px] ml-3"
@@ -1283,7 +1298,7 @@ const downloadImage = (file) => {
                                    </p>
                                  </div>
                                </div>
-                               <div className="col-span-2 flex">
+                               <div className="col-span-1 flex">
                                  <img
                                    src={serial}
                                    className="self-center h-[50px] w-[50px] ml-3"
@@ -1298,7 +1313,7 @@ const downloadImage = (file) => {
                                    </p>
                                  </div>
                                </div>
-                               <div className="col-span-2 flex">
+                               <div className="col-span-1 flex">
                                  <img
                                    src={Money}
                                    className="self-center h-[50px] p-1 w-[50px] ml-3"

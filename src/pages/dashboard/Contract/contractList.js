@@ -1042,7 +1042,7 @@ function ContractList(props) {
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Eligibility
                           </p>
-                          <CommonTooltip place="top" id="tooltip-default" content={ contractDetails?.order?.[0]?.productsArray?.[0]
+                          <CommonTooltip place="top" id="tooltip-default" content={contractDetails?.order?.[0]?.productsArray?.[0]
                                 ?.description}>
                           <p className="text-[#333333] text-base font-semibold">
                             {contractDetails?.eligibilty === true
@@ -1145,7 +1145,7 @@ function ContractList(props) {
                       <div className="col-span-1 border border-Light-Grey ">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                            Labour Warranty Last Date
+                            Labour Warranty Start Date
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
                             {new Date(
@@ -1161,7 +1161,7 @@ function ContractList(props) {
                       <div className="col-span-1 border border-Light-Grey ">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                            Part Warranty Last Date
+                            Part Warranty Start Date
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
                             {new Date(

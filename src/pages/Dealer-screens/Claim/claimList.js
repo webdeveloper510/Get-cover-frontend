@@ -1279,8 +1279,8 @@ function ClaimList(props) {
                                   ))}
                               </div>
                             </Grid>
-                            <Grid className="!gap-0 bg-grayf9 border-Gray28 border-x">
-                              <div className="col-span-2 flex ">
+                            <Grid className="!gap-0 bg-grayf9 !grid-cols-6 border-Gray28 border-x">
+                              <div className="col-span-1 flex ">
                                 <img
                                   src={productName}
                                   className="self-center h-[50px] w-[50px] ml-3"
@@ -1295,7 +1295,22 @@ function ClaimList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-3 flex">
+                              <div className="col-span-1 flex ">
+                                <img
+                                  src={productName}
+                                  className="self-center h-[50px] w-[50px] ml-3"
+                                  alt="productName"
+                                />
+                                <div className="py-4 pl-3 self-center">
+                                  <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                    Product Name
+                                  </p>
+                                  <p className="text-[#333333] text-sm font-semibold">
+                                    {res?.contracts?.pName}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="col-span-2 flex">
                                 <img
                                   src={Manufacturer}
                                   className="self-center h-[50px] w-[50px] ml-3"
@@ -1310,7 +1325,7 @@ function ClaimList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-4 flex">
+                              <div className="col-span-1 flex">
                                 <img
                                   src={model}
                                   className="self-center h-[50px] w-[50px] ml-3"
@@ -1325,7 +1340,7 @@ function ClaimList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-3 flex">
+                              <div className="col-span-1 flex">
                                 <img
                                   src={serial}
                                   className="self-center h-[50px] w-[50px] ml-3"
