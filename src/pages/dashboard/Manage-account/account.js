@@ -97,6 +97,7 @@ function Account() {
 
   useEffect(() => {
     fetchUserDetails();
+    fetchUserMembers();
   }, []);
 
   const fetchUserDetails = async () => {
@@ -655,7 +656,7 @@ function Account() {
       const res = await editUserDetailsbyToken(values);
       console.log(res);
       await fetchUserDetails();
-      await fetchUserMembers();
+      fetchUserMembers();
     } catch (error) {
       console.error("Error updating user details:", error);
     }
@@ -672,7 +673,7 @@ function Account() {
     setLoading(true);
     try {
       const members = await getSuperAdminMembers();
-      console.log(members);
+      console.log(members, "111111111111111111111111111111");
       setMemberList(members.result);
     } catch (error) {
       setLoading(false);
