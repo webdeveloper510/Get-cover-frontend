@@ -190,14 +190,7 @@ function DealerAddOrder() {
     }
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
-  console.log(
-    loading,
-    loading1,
-    loading3,
-    loading14,
-    loading5,
-    "-------------------------- setLoading1(false);------->>"
-  );
+
   const getCustomerList = async (data) => {
     // setLoading1(true);
     let arr = [];
@@ -266,16 +259,16 @@ function DealerAddOrder() {
       getServicerList({
         resellerId: resellerId,
       });
-      getCategoryList(
-        {
-          priceBookId: "",
-          priceCatId: "",
-          pName: "",
-          term: "",
-          coverageType: formikStep2?.values?.coverageType,
-        },
-        0
-      );
+      // getCategoryList(
+      //   {
+      //     priceBookId: "",
+      //     priceCatId: "",
+      //     pName: "",
+      //     term: "",
+      //     coverageType: formikStep2?.values?.coverageType,
+      //   },
+      //   0
+      // );
     }
     if (customerId) {
       formik.setFieldValue("customerId", customerId);
@@ -374,7 +367,10 @@ function DealerAddOrder() {
     formik.setFieldValue("servicerId", result?.result?.servicerId);
     formik.setFieldValue("billTo", result?.result?.billDetail?.billTo);
     formik.setFieldValue("name", result?.result?.billDetail?.detail?.name);
-    formik.setFieldValue("address", result?.result?.billDetail?.detail?.address);
+    formik.setFieldValue(
+      "address",
+      result?.result?.billDetail?.detail?.address
+    );
     formik.setFieldValue(
       "phoneNumber",
       result?.result?.billDetail?.detail?.phoneNumber
@@ -409,7 +405,10 @@ function DealerAddOrder() {
     formik.setFieldValue("dealerId", result?.result?.dealerId);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
     formik.setFieldValue("name", result?.result?.billDetail?.detail?.name);
-    formik.setFieldValue("address", result?.result?.billDetail?.detail?.address);
+    formik.setFieldValue(
+      "address",
+      result?.result?.billDetail?.detail?.address
+    );
     formik.setFieldValue(
       "phoneNumber",
       result?.result?.billDetail?.detail?.phoneNumber
@@ -874,7 +873,7 @@ function DealerAddOrder() {
       rangeStart: "",
       rangeEnd: "",
       checkNumberProducts: "",
-      fileValue: "",  
+      fileValue: "",
       pName: "",
       orderFile: {},
     };
@@ -923,8 +922,7 @@ function DealerAddOrder() {
       if (!match) {
         return;
       }
-  
-      const productIndex = match[1];
+
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].categoryId`,
         selectedValue
@@ -948,12 +946,9 @@ function DealerAddOrder() {
         getCategoryList(
           {
             priceCatId: selectedValue,
-            pName: formikStep3.values.productsArray[productIndex].pName,
-            term: formikStep3.values.productsArray[productIndex].term,
-            priceBookId:
-              selectedValue == ""
-                ? ""
-                : formikStep3.values.productsArray[productIndex].priceBookId,
+            pName: "",
+            term: "",
+            priceBookId: "",
             coverageType: formikStep2?.values?.coverageType,
           },
           match[1]
@@ -970,8 +965,12 @@ function DealerAddOrder() {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: selectedValue,
           coverageType: formikStep2?.values?.coverageType,
-          pName: formikStep3.values.productsArray[match[1]].pName,
-          term: formikStep3.values.productsArray[match[1]].term,
+          pName: selectedValue == ""
+          ? ""
+          : formikStep3.values.productsArray[match[1]].pName,
+          term: selectedValue == ""
+          ? ""
+          : formikStep3.values.productsArray[match[1]].term,
         },
         match[1]
       );
@@ -1026,7 +1025,40 @@ function DealerAddOrder() {
         data?.wholesalePrice
       );
       formikStep3.setFieldValue(`productsArray[${match[1]}].term`, data?.term);
-      formikStep3.setFieldValue(`productsArray[${match[1]}].pName`, data?.pName);
+      formikStep3.setFieldValue(
+        `productsArray[${match[1]}].pName`,
+        data?.pName
+      );
+    }
+    if (name.includes("term")) {
+      const match = name.match(/\[(\d+)\]/);
+      // updateProductFields(selectedValue);
+      getCategoryList(
+        {
+          priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
+          priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
+          pName: formikStep3.values.productsArray[match[1]].pName,
+          term: selectedValue,
+          coverageType: formikStep2?.values?.coverageType,
+        },
+        match[1]
+      );
+
+      // console.log(name,selectedValue)
+    }
+    if (name.includes("pName")) {
+      const match = name.match(/\[(\d+)\]/);
+      // updateProductFields(selectedValue);
+      getCategoryList(
+        {
+          priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
+          priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
+          pName: selectedValue,
+          term: formikStep3.values.productsArray[match[1]].term,
+          coverageType: formikStep2?.values?.coverageType,
+        },
+        match[1]
+      );
     }
     formikStep3.setFieldValue(name, selectedValue);
   };
@@ -1130,15 +1162,15 @@ function DealerAddOrder() {
   };
 
   const handleSelectChange12 = (name, value) => {
-    setbillCheck(value)
-}
-const BillTo = [
-  { label: "Self", value: "Dealer" },
-  ...(formik.values.resellerId !== "" && formik.values.resellerId !== null
-    ? [{ label: "Reseller", value: "Reseller" }]
-    : []),
-  { label: "Custom", value: "Custom" },
-];
+    setbillCheck(value);
+  };
+  const BillTo = [
+    { label: "Self", value: "Dealer" },
+    ...(formik.values.resellerId !== "" && formik.values.resellerId !== null
+      ? [{ label: "Reseller", value: "Reseller" }]
+      : []),
+    { label: "Custom", value: "Custom" },
+  ];
   const getServiceCoverage = async (value, type = "Add") => {
     const result = await getServiceCoverageDetails(value);
     let coverage = [];
@@ -1225,7 +1257,7 @@ const BillTo = [
       if (formikStep3.values.productsArray.length !== 0) {
         const updateOptions = (stateSetter, data) => {
           stateSetter((prevOptions) => {
-            const newOptions =  [...prevOptions];
+            const newOptions = [...prevOptions];
             newOptions[index] = { data };
             return newOptions;
           });
@@ -1358,29 +1390,30 @@ const BillTo = [
                       />
                     </div>
                     <div className="col-span-4">
-                        <SelectBoxWIthSerach
-                          label="Bill Address"
-                          name="billTo"
-                          placeholder=""
-                          className={`!bg-white`}
-                          onChange={handleSelectChange}
-                          options={BillTo}
-                          value={formik.values.billTo}
-                          onBlur={formik.handleBlur}
-                        />
-                  </div>
+                      <SelectBoxWIthSerach
+                        label="Bill Address"
+                        name="billTo"
+                        placeholder=""
+                        className={`!bg-white`}
+                        onChange={handleSelectChange}
+                        options={BillTo}
+                        value={formik.values.billTo}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div>
                   </Grid>
                 </div>
               </Grid>
-              {formik.values.billTo === "Custom" && <div>
-                <p className="text-2xl font-bold my-4">Bill Details : </p>
+              {formik.values.billTo === "Custom" && (
+                <div>
+                  <p className="text-2xl font-bold my-4">Bill Details : </p>
                   <Grid>
                     <div className="col-span-4">
-                      <Input 
+                      <Input
                         name="name"
-                        label='Name'
+                        label="Name"
                         type="text"
-                        className='bg-[#ffff]'
+                        className="bg-[#ffff]"
                         required={true}
                         placeholder=""
                         value={formik.values.name}
@@ -1395,10 +1428,10 @@ const BillTo = [
                       )}
                     </div>
                     <div className="col-span-4">
-                      <Input 
+                      <Input
                         name="email"
-                        label='Email'
-                        className='bg-[#ffff]'
+                        label="Email"
+                        className="bg-[#ffff]"
                         type="email"
                         // required={true}
                         placeholder=""
@@ -1409,10 +1442,10 @@ const BillTo = [
                       />
                     </div>
                     <div className="col-span-4">
-                      <Input 
+                      <Input
                         name="phoneNumber"
-                        label='Phone Number'
-                        className='bg-[#ffff]'
+                        label="Phone Number"
+                        className="bg-[#ffff]"
                         type="number"
                         placeholder=""
                         value={formik.values.phoneNumber}
@@ -1444,24 +1477,22 @@ const BillTo = [
                         )}
                     </div>
                     <div className="col-span-8">
-                      <Input 
+                      <Input
                         name="address"
-                        label='Address'
-                        className='bg-[#ffff]'
+                        label="Address"
+                        className="bg-[#ffff]"
                         type="text"
                         placeholder=""
                         required={true}
                         value={formik.values.address}
                         onBlur={formik.handleBlur}
                         onChange={formik.handleChange}
-                        error={
-                          formik.touched.address && formik.errors.address
-                        }
+                        error={formik.touched.address && formik.errors.address}
                       />
                     </div>
                   </Grid>
                 </div>
-                }
+              )}
             </div>
             <div className="flex">
               <Button
@@ -1631,7 +1662,7 @@ const BillTo = [
                       <Grid>
                         <div className="col-span-6">
                           <Select
-                         name={`productsArray[${index}].categoryId`}
+                            name={`productsArray[${index}].categoryId`}
                             label="Product Category"
                             options={categoryList[index]?.data}
                             required={true}
@@ -1664,115 +1695,119 @@ const BillTo = [
                             )}
                         </div>
                         <div className="col-span-6">
-                            <Select
-                              name={`productsArray[${index}].priceBookId`}
-                              label="Product SKU"
-                              options={productNameOptions[index]?.data}
-                              required={true}
-                              className="!bg-[#fff]"
-                              placeholder=""
-                              value={
-                                formikStep3.values.productsArray[index]
-                                  .priceBookId
-                              }
-                              onBlur={formikStep3.handleBlur}
-                              onChange={handleSelectChange2}
-                              index={index}
-                              disabled={
-                                formikStep3.values.productsArray[index]
-                                  .categoryId == ""
-                              }
-                              error={
-                                formikStep3.values.productsArray &&
-                                formikStep3.values.productsArray[index] &&
-                                formikStep3.values.productsArray &&
-                                formikStep3.values.productsArray[index] &&
-                                formikStep3.values.productsArray[index]
-                                  .priceBookId
-                              }
-                            />
-                            {formikStep3.touched.productsArray &&
-                              formikStep3.touched.productsArray[index] &&
-                              formikStep3.touched.productsArray[index]
-                                .priceBookId && (
-                                <div className="text-red-500 text-sm pl-2 pt-2">
-                                  {formikStep3.errors.productsArray &&
-                                    formikStep3.errors.productsArray[index] &&
-                                    formikStep3.errors.productsArray[index]
-                                      .priceBookId}
-                                </div>
-                              )}
-                       
-                        </div>
-                        <div className="col-span-8">
-                        <Select
-                          label="Product Name"
-                          name={`productsArray[${index}].pName`}
-                          placeholder=""
-                          onChange={handleSelectChange2}
-                          disabled={
-                            formikStep3.values.productsArray[index]
-                              .categoryId == ""
-                          }
-                          className="!bg-[#fff]"
-                          options={productList[index]?.data}
-                          value={formikStep3.values.productsArray[index].pName}
-                          onBlur={formikStep3.handleBlur}
-                          index={index}
-                          error={
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray[index].pName
-                          }
-                        />
-                        {formikStep3.touched.productsArray &&
-                          formikStep3.touched.productsArray[index] &&
-                          formikStep3.touched.productsArray[index].pName && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formikStep3.errors.productsArray &&
-                                formikStep3.errors.productsArray[index] &&
-                                formikStep3.errors.productsArray[index].pName}
-                            </div>
-                          )}
-                      </div>
-                      <div className="col-span-4">
-                        <>
                           <Select
-                            name={`productsArray[${index}].term`}
-                            label="Terms"
-                            options={termList[index]?.data}
+                            name={`productsArray[${index}].priceBookId`}
+                            label="Product SKU"
+                            options={productNameOptions[index]?.data}
                             required={true}
                             className="!bg-[#fff]"
                             placeholder=""
+                            value={
+                              formikStep3.values.productsArray[index]
+                                .priceBookId
+                            }
+                            onBlur={formikStep3.handleBlur}
+                            onChange={handleSelectChange2}
+                            index={index}
                             disabled={
                               formikStep3.values.productsArray[index]
                                 .categoryId == ""
                             }
-                            value={formikStep3.values.productsArray[index].term}
-                            onBlur={formikStep3.handleBlur}
+                            error={
+                              formikStep3.values.productsArray &&
+                              formikStep3.values.productsArray[index] &&
+                              formikStep3.values.productsArray &&
+                              formikStep3.values.productsArray[index] &&
+                              formikStep3.values.productsArray[index]
+                                .priceBookId
+                            }
+                          />
+                          {formikStep3.touched.productsArray &&
+                            formikStep3.touched.productsArray[index] &&
+                            formikStep3.touched.productsArray[index]
+                              .priceBookId && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formikStep3.errors.productsArray &&
+                                  formikStep3.errors.productsArray[index] &&
+                                  formikStep3.errors.productsArray[index]
+                                    .priceBookId}
+                              </div>
+                            )}
+                        </div>
+                        <div className="col-span-8">
+                          <Select
+                            label="Product Name"
+                            name={`productsArray[${index}].pName`}
+                            placeholder=""
                             onChange={handleSelectChange2}
+                            disabled={
+                              formikStep3.values.productsArray[index]
+                                .categoryId == ""
+                            }
+                            className="!bg-[#fff]"
+                            options={productList[index]?.data}
+                            value={
+                              formikStep3.values.productsArray[index].pName
+                            }
+                            onBlur={formikStep3.handleBlur}
                             index={index}
                             error={
                               formikStep3.values.productsArray &&
                               formikStep3.values.productsArray[index] &&
                               formikStep3.values.productsArray &&
                               formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray[index].term
+                              formikStep3.values.productsArray[index].pName
                             }
                           />
                           {formikStep3.touched.productsArray &&
                             formikStep3.touched.productsArray[index] &&
-                            formikStep3.touched.productsArray[index].term && (
+                            formikStep3.touched.productsArray[index].pName && (
                               <div className="text-red-500 text-sm pl-2 pt-2">
                                 {formikStep3.errors.productsArray &&
                                   formikStep3.errors.productsArray[index] &&
-                                  formikStep3.errors.productsArray[index].term}
+                                  formikStep3.errors.productsArray[index].pName}
                               </div>
                             )}
-                        </>
-                      </div>
+                        </div>
+                        <div className="col-span-4">
+                          <>
+                            <Select
+                              name={`productsArray[${index}].term`}
+                              label="Terms"
+                              options={termList[index]?.data}
+                              required={true}
+                              className="!bg-[#fff]"
+                              placeholder=""
+                              disabled={
+                                formikStep3.values.productsArray[index]
+                                  .categoryId == ""
+                              }
+                              value={
+                                formikStep3.values.productsArray[index].term
+                              }
+                              onBlur={formikStep3.handleBlur}
+                              onChange={handleSelectChange2}
+                              index={index}
+                              error={
+                                formikStep3.values.productsArray &&
+                                formikStep3.values.productsArray[index] &&
+                                formikStep3.values.productsArray &&
+                                formikStep3.values.productsArray[index] &&
+                                formikStep3.values.productsArray[index].term
+                              }
+                            />
+                            {formikStep3.touched.productsArray &&
+                              formikStep3.touched.productsArray[index] &&
+                              formikStep3.touched.productsArray[index].term && (
+                                <div className="text-red-500 text-sm pl-2 pt-2">
+                                  {formikStep3.errors.productsArray &&
+                                    formikStep3.errors.productsArray[index] &&
+                                    formikStep3.errors.productsArray[index]
+                                      .term}
+                                </div>
+                              )}
+                          </>
+                        </div>
                         <div className="col-span-12">
                           <Input
                             type="text"
@@ -1793,27 +1828,27 @@ const BillTo = [
                           />
                         </div>
                         {formikStep2.values.coverageType === "Breakdown" ? (
-                        <></>
-                      ) : (
-                        <div className="col-span-4">
-                          <Input
-                            type="number"
-                            name={`productsArray[${index}].adh`}
-                            className="!bg-[#fff]"
-                            label="ADH (Waiting Days)"
-                            placeholder=""
-                            value={
-                              formikStep3.values.productsArray[index].adh || 0
-                            }
-                            onChange={formikStep3.handleChange}
-                            onBlur={formikStep3.handleBlur}
-                            // disabled={true}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
-                            }}
-                          />
-                        </div>
-                      )}
+                          <></>
+                        ) : (
+                          <div className="col-span-4">
+                            <Input
+                              type="number"
+                              name={`productsArray[${index}].adh`}
+                              className="!bg-[#fff]"
+                              label="ADH (Waiting Days)"
+                              placeholder=""
+                              value={
+                                formikStep3.values.productsArray[index].adh || 0
+                              }
+                              onChange={formikStep3.handleChange}
+                              onBlur={formikStep3.handleBlur}
+                              // disabled={true}
+                              onWheelCapture={(e) => {
+                                e.preventDefault();
+                              }}
+                            />
+                          </div>
+                        )}
                         <div className="col-span-4">
                           <Input
                             type="text"
@@ -2312,7 +2347,7 @@ const BillTo = [
       </>
     );
   };
-console.log(formikStep3.values.productsArray ,"hello")
+  console.log(formikStep3.values.productsArray, "hello");
   const renderStep4 = () => {
     // Step 4 content
     return (
@@ -2394,12 +2429,10 @@ console.log(formikStep3.values.productsArray ,"hello")
                             </div>
                             <div className="col-span-6 py-4">
                               <p className="text-[12px]">Product Name</p>
-                              <p className="font-bold text-sm">
-                                {data.pName}
-                              </p>
+                              <p className="font-bold text-sm">{data.pName}</p>
                             </div>
-                            </Grid>
-                            <Grid className="border-b px-4">
+                          </Grid>
+                          <Grid className="border-b px-4">
                             <div className="col-span-12 py-4">
                               <p className="text-[12px]">Product Description</p>
                               <p className="font-bold text-sm">

@@ -154,7 +154,7 @@ function ContractList(props) {
     model: "",
     serial: "",
     productName: "",
-    pName:"",
+    pName: "",
     eligibilty: "",
     resellerName: "",
   };
@@ -201,7 +201,7 @@ function ContractList(props) {
   };
   const handleFilterIconClick = () => {
     formik.resetForm();
-    setValue("")
+    setValue("");
     console.log(formik.values);
     setSelectedProduct("");
     // getContract();
@@ -375,8 +375,7 @@ function ContractList(props) {
                                 <>
                                   <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                     <p className="text-white py-2 font-Regular">
-                                      Order ID :{" "}
-                                      <b> {res?.orderUniqueKey} </b>
+                                      Order ID : <b> {res?.orderUniqueKey} </b>
                                     </p>
                                   </div>
                                   <div className="col-span-4 self-center text-le bg-contract bg-cover bg-right bg-no-repeat ">
@@ -898,10 +897,13 @@ function ContractList(props) {
                       {props.flag === "dealer" ? null : (
                         <>
                           {!window.location.pathname.includes("/reseller") &&
+                            !window.location.pathname.includes(
+                              "/customerDetails"
+                            ) &&
                             (props.shownEdit ||
                             props.shownEdit === undefined ? (
                               <div className="col-span-1 border border-Light-Grey">
-                                <div className="py-4 pl-3">
+                                <div className="py-4 pl3">
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Dealer Name
                                   </p>
@@ -916,7 +918,11 @@ function ContractList(props) {
                             ) : null)}
                         </>
                       )}
+
                       {!window.location.pathname.includes("/reseller") &&
+                        !window.location.pathname.includes(
+                          "/customerDetails"
+                        ) &&
                         (props.isShow || props.isShown === undefined ? (
                           <div className="col-span-1 border border-Light-Grey">
                             <div className="py-4 pl-3">
@@ -933,7 +939,8 @@ function ContractList(props) {
                           </div>
                         ) : null)}
 
-                      {props.type != "customer" || props.type == undefined ? (
+                      {!window.location.pathname.includes("/customerDetails") &&
+                      (props.type != "customer" || props.type == undefined) ? (
                         <div className="col-span-1 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
@@ -1135,7 +1142,7 @@ function ContractList(props) {
                             Labour Warranty Last Date
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                           { new Date(
+                            {new Date(
                               contractDetails?.labourWarranty
                             ).toLocaleDateString("en-US", {
                               month: "2-digit",
@@ -1151,7 +1158,7 @@ function ContractList(props) {
                             Part Warranty Last Date
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                            { new Date(
+                            {new Date(
                               contractDetails?.partsWarranty
                             ).toLocaleDateString("en-US", {
                               month: "2-digit",
@@ -1167,7 +1174,7 @@ function ContractList(props) {
                             Purchase Date
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
-                          {new Date(
+                            {new Date(
                               contractDetails?.purchaseDate
                             ).toLocaleDateString("en-US", {
                               month: "2-digit",
