@@ -44,6 +44,7 @@ function PdfGenerator(props, className) {
   const convertToPDF = async () => {
     setLoading(true);
     const result = await orderDetailsById(props.data);
+    // console.log(result, '-----Invoice--------------')
     let value = {
       dealerName: result.orderUserData.dealerData,
       customerName: result.orderUserData.customerData,
@@ -141,7 +142,7 @@ function PdfGenerator(props, className) {
                         <h4 style="margin: 0; padding: 0;"><b> ${
                           data?.dealerName?.name
                         } </b></h4>
-                        <small style="margin: 0; padding: 0;">Bill To: ${
+                        <small style="margin: 0; padding: 0;">${data.billDetail.billTo === "Dealer" ? " <b> Bill To:</b>" : 'Address :' } ${
                           data?.username?.firstName
                         } 
                          ${data?.username?.lastName} <br/>
@@ -162,7 +163,7 @@ function PdfGenerator(props, className) {
                     <h4 style="margin: 0; padding: 0;"><b>${
                       data?.resellerName?.name ?? ""
                     }</b></h4>
-                    <small style="margin: 0; padding: 0;">Bill To: ${
+                    <small style="margin: 0; padding: 0;">${data.billDetail.billTo === "Reseller"? " <b> Bill To:</b>" : 'Address :' } ${
                       data?.resellerUsername?.firstName
                     } ${data?.resellerUsername?.lastName} <br/>
                       ${data?.resellerName?.street ?? ""} ,
@@ -203,6 +204,29 @@ function PdfGenerator(props, className) {
                 }
          
                 </tr>
+                </tbody>
+                </table>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                    <tbody>
+                ${data.billDetail.billTo === "Custom" && `
+                <tr>
+                <td style="text-align: left; width: 50%;">
+                <h4 style="margin: 0; padding: 0;"><b>Billing Details: </b></h4>
+                <h4 style="margin: 0; padding: 0;"><b> ${
+                  data?.billDetail?.detail?.name
+                } </b></h4>
+                <small style="margin: 0; padding: 0;">Address ${
+                 data?.billDetail?.detail?.address} <br/>
+                   
+                    </small>
+                    <small>
+                    ${data?.billDetail?.detail?.phoneNumber !== ''  ? `+1 ${formatPhoneNumber(
+                      data?.billDetail?.detail?.phoneNumber
+                    ) } |` : ''}
+                       ${data?.billDetail?.detail?.email !== ''  ? `${data?.billDetail?.detail?.email}` : '' }   </small>
+            </td>
+                </tr> `}
+               
             </tbody>
         </table>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">

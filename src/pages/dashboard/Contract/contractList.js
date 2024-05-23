@@ -465,13 +465,16 @@ function ContractList(props) {
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Eligibility
                                   </p>
+                                  {res?.eligibilty === false ?
                                   <CommonTooltip place="left" id="tooltip-default" content="Contract is not Active state">
                                   <p className="text-[#333333] cursor-pointer text-base font-semibold">
-                                    {res?.eligibilty === true
-                                      ? "Eligible"
-                                      : "Not Eligible "}
+                                    
+                                    Not Eligible 
                                   </p>
-                                  </CommonTooltip>
+                                  </CommonTooltip> : 
+                                   <p className="text-[#333333] text-base font-semibold">
+                                  Eligible
+                               </p> }
                                 </div>
                               </div>
                             </Grid>
@@ -1042,14 +1045,17 @@ function ContractList(props) {
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Eligibility
                           </p>
+                          {contractDetails?.eligibilty === false ? 
                           <CommonTooltip place="top" id="tooltip-default" content={contractDetails?.order?.[0]?.productsArray?.[0]
                                 ?.description}>
+                            <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                            Not Eligible
+                            </p>
+                          </CommonTooltip> : 
                           <p className="text-[#333333] text-base font-semibold">
-                            {contractDetails?.eligibilty === true
-                              ? "Eligible"
-                              : "Not Eligible "}
+                             Eligible 
                           </p>
-                          </CommonTooltip>
+                           }
                         </div>
                       </div>
                       <div className="col-span-1 border border-Light-Grey">

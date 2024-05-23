@@ -11,28 +11,19 @@ const CollapsibleDiv = ({
   ShowData,
 }) => {
   const contentRef = useRef(null);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const handleToggleCollapse = () => {
     const newIsCollapsed = !isCollapsed;
     setIsCollapsed(newIsCollapsed);
-    if (newIsCollapsed) {
-      localStorage.removeItem("activeIndex");
-      setActiveIndex(null);
-    } else {
+    if (!newIsCollapsed) {
       localStorage.setItem("activeIndex", index);
       setActiveIndex(index);
+    } else {
+      localStorage.removeItem("activeIndex");
+      setActiveIndex(null);
     }
   };
-
-  const [isCollapsed, setIsCollapsed] = useState(true);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      contentRef.current.style.maxHeight = isCollapsed
-        ? "0px"
-        : `${contentRef.current.scrollHeight}px`;
-    }
-  }, [isCollapsed]);
 
   useEffect(() => {
     const storedActiveIndex = localStorage.getItem("activeIndex");
@@ -46,6 +37,16 @@ const CollapsibleDiv = ({
       setIsCollapsed(true);
     }
   }, [activeIndex, index]);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      if (isCollapsed) {
+        contentRef.current.style.maxHeight = "0px";
+      } else {
+        contentRef.current.style.maxHeight = `${contentRef.current.scrollHeight}px`;
+      }
+    }
+  }, [isCollapsed]);
 
   return (
     <div className="my-8">
@@ -62,12 +63,10 @@ const CollapsibleDiv = ({
         )}
       </div>
       <div
-        className={`ease-in-out transition-duration-${
-          isCollapsed ? "500 overflow-hidden" : "2000 overflow-visible"
-        } `}
+        className={`ease-in-out transition-max-height duration-500 overflow-hidden`}
         ref={contentRef}
         style={{
-          maxHeight: isCollapsed ? "0px" : "100%",
+          maxHeight: isCollapsed ? "0px" : `${contentRef.current?.scrollHeight}px`,
           transition: "max-height 0.5s ease-in-out",
         }}
       >

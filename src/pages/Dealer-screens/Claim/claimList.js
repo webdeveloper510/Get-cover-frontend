@@ -407,10 +407,15 @@ function ClaimList(props) {
           setClaimList(res);
           setTotalRecords(res?.totalCount);
         }
-        setLoaderType(false);
         setTimeout(function () {
           setShowdata(true);
         }, 1000);
+        setActiveIndex(null);
+        localStorage.removeItem("activeIndex");
+        setLoaderType(false);
+        // setTimeout(function () {
+        //   setShowdata(true);
+        // }, 1000);
       })
       .catch(() => {
         setLoaderType(false);
@@ -1359,7 +1364,7 @@ function ClaimList(props) {
                           </>
                         }
                       >
-                        {showdata && (
+                        {/* {showdata && ( */}
                           <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x">
                             {res?.repairParts.length > 0 &&
                               res?.repairParts.map((part, index) => (
@@ -1953,7 +1958,7 @@ function ClaimList(props) {
                               )}
                             </div>
                           </Grid>
-                        )}
+                        {/* )} */}
                       </CollapsibleDiv>
                     );
                   })}
