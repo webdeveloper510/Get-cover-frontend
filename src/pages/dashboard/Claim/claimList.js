@@ -403,6 +403,7 @@ function ClaimList(props) {
   const [recordsPerPage, setRecordsPerPage] = useState(10);
 
   const handlePageChange = async (page, rowsPerPage) => {
+    localStorage.removeItem("activeIndex");
     setShowdata(false);
     setShowdata1(false);
     setRecordsPerPage(rowsPerPage);
@@ -419,6 +420,9 @@ function ClaimList(props) {
 
       setActiveIndex(null);
       setLoading(false);
+      setTimeout(function () {
+        setShowdata(true);
+      }, 1000);
     } finally {
       setLoading(false);
       setActiveIndex(null);
@@ -426,9 +430,6 @@ function ClaimList(props) {
       setTimeout(function () {
         setShowdata(true);
       }, 1000);
-      setTimeout(function () {
-        setShowdata(false);
-      }, 0);
     }
   };
 
