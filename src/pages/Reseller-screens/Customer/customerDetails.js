@@ -441,7 +441,7 @@ function ResellerCustomerDetails() {
                 </div>
                 
               </div> */}
-              {customerDetail?.meta?.resellerId && (
+              {/* {customerDetail?.meta?.resellerId && (
                 <div className="flex mb-4">
                   <div className="relative">
                     <img
@@ -449,25 +449,25 @@ function ResellerCustomerDetails() {
                       className="mr-3 bg-[#383838] rounded-[14px]"
                       alt="DealerIcons"
                     />
-                    {/* <Link to={`/resellerDetails/${customerDetail?.meta?.resellerId}`}>
+                     <Link to={`/resellerDetails/${customerDetail?.meta?.resellerId}`}>
                     {" "}
                     <img
                       src={DealerList}
                       className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
                       alt="DealerList"
                     />{" "}
-                  </Link> */}
+                  </Link> 
                   </div>
-                  <div>
+                   <div>
                     <p className="text-sm text-neutral-grey font-Regular">
                       Reseller Name
                     </p>
                     <p className="text-base text-white font-semibold ">
                       {customerDetail?.resellerName}
                     </p>
-                  </div>
+                  </div> 
                 </div>
-              )}
+              )} */}
               <div className="flex mb-4">
                 <img
                   src={name}

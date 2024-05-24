@@ -466,7 +466,7 @@ function ContractList(props) {
                                     Eligibility
                                   </p>
                                   {res?.eligibilty === false ?
-                                  <CommonTooltip place="left" id="tooltip-default" content="Contract is not Active state">
+                                  <CommonTooltip place="left" id="tooltip-default" content={"Contract is not Active state"}>
                                   <p className="text-[#333333] cursor-pointer text-base font-semibold">
                                     
                                     Not Eligible 
