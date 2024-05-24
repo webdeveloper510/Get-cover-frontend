@@ -136,8 +136,8 @@ function All() {
         </Button>
         <MyComponent/>
         <div className='flex justify-end mb-4'>
-            <Button  onClick={closeModal} className='mr-3'>Cancel</Button>
-            <Button>Apply</Button>
+            <Button onClick={closeModal} className='mr-3'>Cancel</Button>
+            <Button onClick={closeModal}>Apply</Button>
         </div>
     </Modal>
     <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">

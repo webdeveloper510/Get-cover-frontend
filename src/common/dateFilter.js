@@ -19,7 +19,7 @@ function MyComponent() {
     if (endDate > new Date()) {
       endDate = new Date(); // Set end date to current date
     }
-    
+    console.log(ranges)
     setSelectedRange([{ startDate, endDate, key: 'selection' }]);
   };
 
