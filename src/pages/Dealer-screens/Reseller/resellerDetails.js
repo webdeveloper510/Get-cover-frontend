@@ -93,7 +93,8 @@ function DealerResellerDetails() {
   const navigate = useNavigate();
   const { servicerId } = useParams();
   const [createAccount, setCreateAccount] = useState(false);
-  const [createServicerAccountOption, setServicerCreateAccountOption] = useState(false);
+  const [createServicerAccountOption, setServicerCreateAccountOption] =
+    useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
@@ -226,13 +227,17 @@ function DealerResellerDetails() {
     const result = await getResellerListByResellerId(id.resellerId);
     if (result.code === 200) {
       setResllerDetails(result?.reseller[0]);
-      console.log(result?.reseller[0],"reseller data ------------->>>>>>>>")
+      console.log(result?.reseller[0], "reseller data ------------->>>>>>>>");
       setIsStatus(result?.dealerStatus);
       setResellerStatusMain(result?.reseller[0].resellerData.status);
-      setServicerCreateAccountOption(result?.reseller[0]?.resellerData?.isServicer);
+      setServicerCreateAccountOption(
+        result?.reseller[0]?.resellerData?.isServicer
+      );
       setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
       setCreateAccountOption(
-        result?.reseller[0]?.resellerData?.isAccountCreate === false ? "no" : "yes"
+        result?.reseller[0]?.resellerData?.isAccountCreate === false
+          ? "no"
+          : "yes"
       );
       setInitialFormValues({
         accountName: result?.reseller[0]?.resellerData?.name,
@@ -316,6 +321,7 @@ function DealerResellerDetails() {
         setFirstMessage("Edited Successfully");
         setSecondMessage("Dealer edited Successfully");
         setTimer(3);
+        getUserList();
 
         setMessage("Dealer updated Successfully");
       } else if (result.message == "Account name is not available") {
@@ -471,10 +477,15 @@ function DealerResellerDetails() {
     </div>
   );
 
-  const carouselRef = useRef(null); 
+  const carouselRef = useRef(null);
   useEffect(() => {
     localStorage.setItem("Resellermenu", activeTab);
-    if ( activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
+    if (
+      activeTab === "Users" ||
+      activeTab === "PriceBook" ||
+      activeTab === "Paid Claims" ||
+      activeTab === "Unpaid Claims"
+    ) {
       if (carouselRef.current) {
         carouselRef.current.next(3);
       }
@@ -565,22 +576,26 @@ function DealerResellerDetails() {
         label: "Unpaid Claims",
         icons: Unpaid,
         Activeicons: UnpaidActive,
-        content: activeTab === "Unpaid Claims" && <ClaimList12
-          id={id.resellerId}
-          flag="reseller"
-          activeTab={activeTab}
-        />,
+        content: activeTab === "Unpaid Claims" && (
+          <ClaimList12
+            id={id.resellerId}
+            flag="reseller"
+            activeTab={activeTab}
+          />
+        ),
       },
       {
         id: "Paid Claims",
         label: "Paid Claims",
         icons: Paid,
         Activeicons: ActivePaid,
-        content: activeTab === "Paid Claims" && <ClaimList12
-          id={id.resellerId}
-          flag="reseller"
-          activeTab={activeTab}
-        />,
+        content: activeTab === "Paid Claims" && (
+          <ClaimList12
+            id={id.resellerId}
+            flag="reseller"
+            activeTab={activeTab}
+          />
+        ),
       }
     );
   }
@@ -856,14 +871,12 @@ function DealerResellerDetails() {
             <Grid className="">
               <div
                 className={`${
-                  isStatus && resellerStatusMain
-                    ? "col-span-10"
-                    : "col-span-12"
+                  isStatus && resellerStatusMain ? "col-span-10" : "col-span-12"
                 }`}
               >
                 <div
                   className={`relative rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey`}
-                  
+
                   // onTransitionEnd={handleTransitionEnd}
                 >
                   <Carousel
@@ -907,7 +920,9 @@ function DealerResellerDetails() {
                 <>
                   {activeTab !== "Servicer" &&
                   activeTab !== "PriceBook" &&
-                  activeTab !== "Contracts" &&  activeTab !== "Unpaid Claims" && activeTab !== "Paid Claims" ? (
+                  activeTab !== "Contracts" &&
+                  activeTab !== "Unpaid Claims" &&
+                  activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2"
                       onClick={() => routeToPage(activeTab)}
@@ -1052,26 +1067,28 @@ function DealerResellerDetails() {
                   </div>
                 )}
                 <div className="my-3">
-
-                <Input
-                  type="text"
-                  name="country"
-                  label="Country"
-                  required={true}
-                  className='!bg-white'
-                  placeholder=""
-                  value={formik.values.country}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  defaultValue="USA"
-                  error={formik.touched.country && formik.errors.country}
-                  disabled
-                />
+                  <Input
+                    type="text"
+                    name="country"
+                    label="Country"
+                    required={true}
+                    className="!bg-white"
+                    placeholder=""
+                    value={formik.values.country}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    defaultValue="USA"
+                    error={formik.touched.country && formik.errors.country}
+                    disabled
+                  />
                 </div>
               </div>
               <div className="col-span-6">
-              <p className="text-light-black flex text-[11px] my-5 font-semibold self-center">
-              <span className=" text-left"> Do you want to create an account? </span>
+                <p className="text-light-black flex text-[11px] my-5 font-semibold self-center">
+                  <span className=" text-left">
+                    {" "}
+                    Do you want to create an account?{" "}
+                  </span>
                   <RadioButton
                     id="yes-create-account"
                     label="Yes"
@@ -1087,7 +1104,7 @@ function DealerResellerDetails() {
                     onChange={handleAccountChange}
                   />
                 </p>
-              <p className="text-light-black flex text-[11px]  font-semibold self-center">
+                <p className="text-light-black flex text-[11px]  font-semibold self-center">
                   {" "}
                   <span className=" text-left">
                     {" "}
@@ -1306,7 +1323,9 @@ function DealerResellerDetails() {
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
-                    disabled={ resellerDetail.resellerData?.isAccountCreate === false}
+                    disabled={
+                      resellerDetail.resellerData?.isAccountCreate === false
+                    }
                     checked={createAccountOption === "yes"}
                     onChange={handleRadioChange}
                   />
@@ -1314,7 +1333,9 @@ function DealerResellerDetails() {
                     id="no-create-account"
                     label="No"
                     value="no"
-                    disabled={ resellerDetail.resellerData?.isAccountCreate === false}
+                    disabled={
+                      resellerDetail.resellerData?.isAccountCreate === false
+                    }
                     checked={createAccountOption === "no"}
                     onChange={handleRadioChange}
                   />

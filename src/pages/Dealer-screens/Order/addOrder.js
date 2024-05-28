@@ -615,6 +615,7 @@ function DealerAddOrder() {
           .filter((value) => value.data.length > 0)[0].data[0];
         arr1.push(value1 ? value1.label : "");
       });
+      console.log("categoryList", categoryList);
       setCategoryName(arr);
       setPriceBookName(arr1);
       setTimeout(() => {
@@ -965,12 +966,14 @@ function DealerAddOrder() {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: selectedValue,
           coverageType: formikStep2?.values?.coverageType,
-          pName: selectedValue == ""
-          ? ""
-          : formikStep3.values.productsArray[match[1]].pName,
-          term: selectedValue == ""
-          ? ""
-          : formikStep3.values.productsArray[match[1]].term,
+          pName:
+            selectedValue == ""
+              ? ""
+              : formikStep3.values.productsArray[match[1]].pName,
+          term:
+            selectedValue == ""
+              ? ""
+              : formikStep3.values.productsArray[match[1]].term,
         },
         match[1]
       );

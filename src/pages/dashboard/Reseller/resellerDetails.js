@@ -82,7 +82,8 @@ function ResellerDetails() {
   const [resellerStatus, setResellerStatus] = useState(false);
   const [resellerStatusMain, setResellerStatusMain] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
-  const [createServicerAccountOption, setServicerCreateAccountOption] = useState(false);
+  const [createServicerAccountOption, setServicerCreateAccountOption] =
+    useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [createAccount, setCreateAccount] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
@@ -127,7 +128,7 @@ function ResellerDetails() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setServicerCreateAccountOption(resellerDetail.resellerData?.isServicer)
+    setServicerCreateAccountOption(resellerDetail.resellerData?.isServicer);
     formik.resetForm();
   };
   const closeModal10 = () => {
@@ -207,15 +208,25 @@ function ResellerDetails() {
     setServicerList(result.result);
     console.log(result.result);
   };
-  console.log(isStatus,resellerStatus , createAccount,'<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>' )
+  console.log(
+    isStatus,
+    resellerStatus,
+    createAccount,
+    "<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>"
+  );
   useEffect(() => {
     resellerDetails();
     getServicerList();
   }, [id.resellerId, flag]);
-  const carouselRef = useRef(null); 
+  const carouselRef = useRef(null);
   useEffect(() => {
     localStorage.setItem("Resellermenu", activeTab);
-    if ( activeTab === "Users" || activeTab === "PriceBook" || activeTab === "Paid Claims" || activeTab === "Unpaid Claims") {
+    if (
+      activeTab === "Users" ||
+      activeTab === "PriceBook" ||
+      activeTab === "Paid Claims" ||
+      activeTab === "Unpaid Claims"
+    ) {
       if (carouselRef.current) {
         carouselRef.current.next(4);
       }
@@ -230,9 +241,14 @@ function ResellerDetails() {
     setResllerDetails(result.reseller[0]);
     setIsStatus(result?.dealerStatus);
     setResellerStatus(result?.reseller[0].status);
-    console.log(result.reseller[0].resellerData.status ,'---------------------<<<<<<<<result?.reseller[0]?.resellerData?.isServicer>>>>>>>>>>>>>>>>>>')
-    setResellerStatusMain(result.reseller[0].resellerData.status)
-    setServicerCreateAccountOption(result?.reseller[0]?.resellerData?.isServicer);
+    console.log(
+      result.reseller[0].resellerData.status,
+      "---------------------<<<<<<<<result?.reseller[0]?.resellerData?.isServicer>>>>>>>>>>>>>>>>>>"
+    );
+    setResellerStatusMain(result.reseller[0].resellerData.status);
+    setServicerCreateAccountOption(
+      result?.reseller[0]?.resellerData?.isServicer
+    );
     setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
     setInitialFormValues({
       accountName: result?.reseller[0]?.resellerData?.name,
@@ -474,116 +490,120 @@ function ResellerDetails() {
     </div>
   );
 
-    const tabs = [
-      {
-        id: "Orders",
-        label: "Orders",
-        icons: Order,
-        Activeicons: OrderActive,
-        content: activeTab === "Orders" && (
-          <OrderList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
-        ),
-      },
-      {
-        id: "Contracts",
-        label: "Contracts",
-        icons: Contract,
-        Activeicons: ContractsActive,
-        content: activeTab === "Contracts" && (
-          <ContractList
-            flag={"reseller"}
-            id={id.resellerId}
-            activeTab={activeTab}
-          />
-        ),
-      },
-      {
-        id: "Claims",
-        label: "Claims",
-        icons: Claim,
-        Activeicons: ClaimActive,
-        content: activeTab === "Claims" && (
-          <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />
-        ),
-      },
-      {
-        id: "Customer",
-        label: "Customer",
-        icons: Customer,
-        Activeicons: CustomerActive,
-        content: activeTab === "Customer" && (
-          <CustomerList
-            flag={"reseller"}
-            id={id.resellerId}
-            activeTab={activeTab}
-          />
-        ),
-      },
-      {
-        id: "Servicer",
-        label: "Servicer",
-        icons: Servicer,
-        Activeicons: ServicerActive,
-        content: activeTab === "Servicer" && (
-          <ServicerList
-            flag={"reseller"}
-            id={id.resellerId}
-            activeTab={activeTab}
-          />
-        ),
-      },
-      {
-        id: "Users",
-        label: "Users",
-        icons: User,
-        Activeicons: UserActive,
-        content: (
-          <UserList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
-        ),
-      },
-      
-      {
-        id: "PriceBook",
-        label: "PriceBook",
-        icons: PriceBook,
-        Activeicons: PriceBookActive,
-        content: activeTab === "PriceBook" && (
-          <PriceBookList
-            id={id.resellerId}
-            flag={"reseller"}
-            dealerId={resellerDetail.resellerData?.dealerId}
-            activeTab={activeTab}
-          />
-        ),
-      },
-    ];
+  const tabs = [
+    {
+      id: "Orders",
+      label: "Orders",
+      icons: Order,
+      Activeicons: OrderActive,
+      content: activeTab === "Orders" && (
+        <OrderList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
+      ),
+    },
+    {
+      id: "Contracts",
+      label: "Contracts",
+      icons: Contract,
+      Activeicons: ContractsActive,
+      content: activeTab === "Contracts" && (
+        <ContractList
+          flag={"reseller"}
+          id={id.resellerId}
+          activeTab={activeTab}
+        />
+      ),
+    },
+    {
+      id: "Claims",
+      label: "Claims",
+      icons: Claim,
+      Activeicons: ClaimActive,
+      content: activeTab === "Claims" && (
+        <ClaimList id={id.resellerId} flag={"reseller"} activeTab={activeTab} />
+      ),
+    },
+    {
+      id: "Customer",
+      label: "Customer",
+      icons: Customer,
+      Activeicons: CustomerActive,
+      content: activeTab === "Customer" && (
+        <CustomerList
+          flag={"reseller"}
+          id={id.resellerId}
+          activeTab={activeTab}
+        />
+      ),
+    },
+    {
+      id: "Servicer",
+      label: "Servicer",
+      icons: Servicer,
+      Activeicons: ServicerActive,
+      content: activeTab === "Servicer" && (
+        <ServicerList
+          flag={"reseller"}
+          id={id.resellerId}
+          activeTab={activeTab}
+        />
+      ),
+    },
+    {
+      id: "Users",
+      label: "Users",
+      icons: User,
+      Activeicons: UserActive,
+      content: (
+        <UserList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
+      ),
+    },
 
-    if (createServicerAccountOption === true) {
-      tabs.push(
-        {
-          id: "Unpaid Claims",
-          label: "Unpaid Claims",
-          icons: Unpaid,
-          Activeicons: UnpaidActive,
-          content: activeTab === "Unpaid Claims" && <ClaimList12
+    {
+      id: "PriceBook",
+      label: "PriceBook",
+      icons: PriceBook,
+      Activeicons: PriceBookActive,
+      content: activeTab === "PriceBook" && (
+        <PriceBookList
+          id={id.resellerId}
+          flag={"reseller"}
+          dealerId={resellerDetail.resellerData?.dealerId}
+          activeTab={activeTab}
+        />
+      ),
+    },
+  ];
+
+  if (createServicerAccountOption === true) {
+    tabs.push(
+      {
+        id: "Unpaid Claims",
+        label: "Unpaid Claims",
+        icons: Unpaid,
+        Activeicons: UnpaidActive,
+        content: activeTab === "Unpaid Claims" && (
+          <ClaimList12
             id={id.resellerId}
             flag="reseller"
             activeTab={activeTab}
-          />,
-        },
-        {
-          id: "Paid Claims",
-          label: "Paid Claims",
-          icons: Paid,
-          Activeicons: ActivePaid,
-          content: activeTab === "Paid Claims" && <ClaimList12
+          />
+        ),
+      },
+      {
+        id: "Paid Claims",
+        label: "Paid Claims",
+        icons: Paid,
+        Activeicons: ActivePaid,
+        content: activeTab === "Paid Claims" && (
+          <ClaimList12
             id={id.resellerId}
             flag="reseller"
             activeTab={activeTab}
-          />,
-        }
-      );
-    }
+          />
+        ),
+      }
+    );
+  }
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -885,12 +905,12 @@ function ResellerDetails() {
                 className={`${
                   isStatus == true && resellerStatusMain == true
                     ? "col-span-10"
-                    : "col-span-12"
+                    : "col-span-10"
                 }`}
               >
                 <div
                   className={`relative rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey`}
-                  
+
                   // onTransitionEnd={handleTransitionEnd}
                 >
                   <Carousel
@@ -930,16 +950,18 @@ function ResellerDetails() {
                   </div>
                 </div>
               </div>
-              {isStatus == true && resellerStatusMain == true ? (
+              {isStatus && resellerStatusMain ? (
                 <>
                   {activeTab !== "Servicer" &&
                   activeTab !== "PriceBook" &&
-                  activeTab !== "Contracts" &&  activeTab !== "Unpaid Claims" && activeTab !== "Paid Claims" ? (
+                  activeTab !== "Contracts" &&
+                  activeTab !== "Unpaid Claims" &&
+                  activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2"
                       onClick={() => routeToPage(activeTab)}
                     >
-                      <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
+                      <Button className="!bg-white flex self-center h-full mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
                         <img
                           src={AddItem}
                           className="self-center"
@@ -954,6 +976,18 @@ function ResellerDetails() {
                     <></>
                   )}
                 </>
+              ) : activeTab === "Claims" ? (
+                <div
+                  className="col-span-2"
+                  onClick={() => routeToPage(activeTab)}
+                >
+                  <Button className="!bg-white flex self-center h-full mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
+                    <img src={AddItem} className="self-center" alt="AddItem" />
+                    <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                      Add Claim
+                    </span>
+                  </Button>
+                </div>
               ) : (
                 <></>
               )}
@@ -972,7 +1006,7 @@ function ResellerDetails() {
       </div>
 
       {/* Modal Email Popop */}
-      <Modal isOpen={isModalOpen} className="!w-[730px]"  onClose={closeModal}>
+      <Modal isOpen={isModalOpen} className="!w-[730px]" onClose={closeModal}>
         <div className="p-8">
           <p className="text-3xl text-center font-semibold mb-4">
             Edit Reseller Details
@@ -1081,25 +1115,24 @@ function ResellerDetails() {
                   </div>
                 )}
                 <div className="mt-3">
-
-                 <Input
-                  type="text"
-                  name="country"
-                  label="Country"
-                  required={true}
-                  className="!bg-white"
-                  placeholder=""
-                  value={formik.values.country}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  defaultValue="USA"
-                  error={formik.touched.country && formik.errors.country}
-                  disabled
-                />
+                  <Input
+                    type="text"
+                    name="country"
+                    label="Country"
+                    required={true}
+                    className="!bg-white"
+                    placeholder=""
+                    value={formik.values.country}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    defaultValue="USA"
+                    error={formik.touched.country && formik.errors.country}
+                    disabled
+                  />
                 </div>
               </div>
               <div className="col-span-6">
-              <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
+                <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
                   Do you want to create an account?
                   <RadioButton
                     id="yes-create-account"
@@ -1116,7 +1149,7 @@ function ResellerDetails() {
                     onChange={handleAccountChange}
                   />
                 </p>
-              <p className="text-light-black flex text-[11px] mb-7 font-semibold self-center">
+                <p className="text-light-black flex text-[11px] mb-7 font-semibold self-center">
                   {" "}
                   <span className="mr-[2px]">
                     {" "}

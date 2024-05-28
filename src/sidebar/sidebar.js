@@ -44,63 +44,60 @@ function SidebarItem({
   onLinkClick,
   setExpandedItem,
   isActiveValue,
-  sidebarItems
+  sidebarItems,
 }) {
   const location = useLocation();
-  
+
   const hasItems = item.items && item.items.length > 0;
 
   const [isActive, setIsActive] = useState(isActiveValue);
 
   const locationGet = useLocation();
   useEffect(() => {
-  
     if (isActiveValue === false) {
       const CheckItemsActive = item?.items;
-  
+
       if (CheckItemsActive) {
         const childActive = CheckItemsActive.some(
           (element) => active === element.url
         );
-  
+
         if (childActive) {
           setExpandedItem(item.name);
         }
       }
       setIsActive(active === item.url || expandedItem === item.name);
-    } 
-    else {
+    } else {
       const CheckItemsActive = item?.items;
       if (CheckItemsActive) {
         const childActive = CheckItemsActive.some(
           (element) => active === element.url
         );
-  
+
         if (childActive) {
           setExpandedItem(item.name);
         }
       }
       setIsActive(active === item.url || expandedItem === item.name);
-  
     }
   }, [active, expandedItem, item, setExpandedItem, isActiveValue]);
 
-  const [activeUrl , setActiveUrl] = useState(false);
+  const [activeUrl, setActiveUrl] = useState(false);
 
   // console.log('activeUrl---------------->>', activeUrl )
 
-  useEffect(()=>{
-    let urls = [item.url]
-    if(hasItems){
-      const urlsItem = item?.items?.map(i=>i.url) || [];
-      urls = [...urls,...urlsItem]
+  useEffect(() => {
+    let urls = [item.url];
+    if (hasItems) {
+      const urlsItem = item?.items?.map((i) => i.url) || [];
+      urls = [...urls, ...urlsItem];
     }
     // console.log("urls==========>>",urls,locationGet.pathname)
 
-    const itHasUrl = checkWordsExist(locationGet.pathname,urls)
-    if(itHasUrl)console.log("item=======>",item)
-    setActiveUrl(itHasUrl)
-  },[window.location.pathname])
+    const itHasUrl = checkWordsExist(locationGet.pathname, urls);
+    if (itHasUrl) console.log("item=======>", item);
+    setActiveUrl(itHasUrl);
+  }, [window.location.pathname]);
 
   const handleClick = () => {
     if (hasItems) {
@@ -112,7 +109,7 @@ function SidebarItem({
     } else {
       setExpandedItem(null);
     }
-  
+
     onLinkClick(item.url);
   };
 
@@ -124,21 +121,21 @@ function SidebarItem({
       } ${expandedItem == item.name ? "active" : ""}`}
     >
       <Link
-        to={hasItems?window.location.href:item.url}
+        to={hasItems ? window.location.href : item.url}
         className={`flex cursor-pointer d-flex ps-[20px] relative z-[2] mb-[3px] py-[19px] pe-3 ${
-          activeUrl ? "bg-white text-[#000] rounded-s-[30px]" : "text-light-grey"
+          activeUrl
+            ? "bg-white text-[#000] rounded-s-[30px]"
+            : "text-light-grey"
         }`}
         onClick={handleClick}
       >
-        {activeUrl ? 
-        (
+        {activeUrl ? (
           <img
             src={item.active}
             className="w-[22px]  h-[22px]"
             alt={item.image}
           />
-        ) : 
-        (
+        ) : (
           <img
             src={item.image}
             className="w-[22px] h-[22px]"
@@ -188,7 +185,7 @@ function SidebarItem({
       {hasItems && (
         <ul
           className={`${
-            activeUrl || (expandedItem === item.name) ? "block" : "hidden"
+            activeUrl || expandedItem === item.name ? "block" : "hidden"
           }`}
         >
           {item.items.map((subItem, subIndex) => (
@@ -236,7 +233,9 @@ function SidebarItem({
 
                 <span
                   className={`self-center text-left text-[12px] font-medium w-full ${
-                    location.pathname.includes(subItem.url) ? "opacity-1" : "opacity-80"
+                    location.pathname.includes(subItem.url)
+                      ? "opacity-1"
+                      : "opacity-80"
                   } pl-0 ml-[10px] p-[19px] pr-0 ${
                     subIndex == item.items.length - 1
                       ? ""
@@ -410,31 +409,31 @@ const Lists = [
       },
     ],
   },
-  {
-    name: "Reporting",
-    image: ReportImage,
-    active: ActiveReport,
-    items: [
-      {
-        name: "Sale",
-        url: "/sale",
-        image: Dropdown1,
-        active: Actives,
-      },
-      {
-        name: "Claims",
-        url: "/claims",
-        image: Dropdown2,
-        active: SeacondActive,
-      },
-      // {
-      //   name: "Accounting",
-      //   url: "#",
-      //   image: Dropdown2,
-      //   active: ForthActive,
-      // },
-    ],
-  },
+  // {
+  //   name: "Reporting",
+  //   image: ReportImage,
+  //   active: ActiveReport,
+  //   items: [
+  //     {
+  //       name: "Sale",
+  //       url: "/sale",
+  //       image: Dropdown1,
+  //       active: Actives,
+  //     },
+  //     {
+  //       name: "Claims",
+  //       url: "/claims",
+  //       image: Dropdown2,
+  //       active: SeacondActive,
+  //     },
+  //     // {
+  //     //   name: "Accounting",
+  //     //   url: "#",
+  //     //   image: Dropdown2,
+  //     //   active: ForthActive,
+  //     // },
+  //   ],
+  // },
   {
     name: "Price Book",
     image: PriceImage,
@@ -490,7 +489,7 @@ function SideBar() {
     JSON.parse(localStorage.getItem("userDetails"))
   );
   const navigate = useNavigate();
-// console.log('active---------------->>', active )
+  // console.log('active---------------->>', active )
 
   const handleLinkClick = (url, dropdownItem) => {
     setActive(url === "#" ? dropdownItem : url);
@@ -507,7 +506,6 @@ function SideBar() {
     localStorage.clear();
     navigate("/");
   };
-  
 
   const dealer = [
     {
@@ -584,7 +582,7 @@ function SideBar() {
         },
       ],
     },
-    
+
     {
       name: "Price Book ",
       url: "/dealer/priceBook",
@@ -635,25 +633,25 @@ function SideBar() {
       active: ActiveServicer,
       url: "/dealer/servicerList",
     },
-    {
-      name: "Reporting",
-      image: ReportImage,
-      active: ActiveReport,
-      items: [
-        {
-          name: "Sale",
-          url: "/dealer/sale",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Claims",
-          url: "/dealer/claim",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
+    // {
+    //   name: "Reporting",
+    //   image: ReportImage,
+    //   active: ActiveReport,
+    //   items: [
+    //     {
+    //       name: "Sale",
+    //       url: "/dealer/sale",
+    //       image: Dropdown1,
+    //       active: Actives,
+    //     },
+    //     {
+    //       name: "Claims",
+    //       url: "/dealer/claim",
+    //       image: Dropdown2,
+    //       active: SeacondActive,
+    //     },
+    //   ],
+    // },
     {
       name: "Manage Account",
       image: CustomerImage,
@@ -718,7 +716,7 @@ function SideBar() {
         },
       ],
     },
-    
+
     {
       name: "Price Book ",
       url: "/reseller/priceBook",
@@ -750,25 +748,25 @@ function SideBar() {
       active: ActiveServicer,
       url: "/reseller/servicerList",
     },
-    {
-      name: "Reporting",
-      image: ReportImage,
-      active: ActiveReport,
-      items: [
-        {
-          name: "Sale",
-          url: "/reseller/sale",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Claims",
-          url: "/reseller/claim",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
+    // {
+    //   name: "Reporting",
+    //   image: ReportImage,
+    //   active: ActiveReport,
+    //   items: [
+    //     {
+    //       name: "Sale",
+    //       url: "/reseller/sale",
+    //       image: Dropdown1,
+    //       active: Actives,
+    //     },
+    //     {
+    //       name: "Claims",
+    //       url: "/reseller/claim",
+    //       image: Dropdown2,
+    //       active: SeacondActive,
+    //     },
+    //   ],
+    // },
     {
       name: "Manage Account",
       image: CustomerImage,
@@ -793,14 +791,13 @@ function SideBar() {
       name: "Claim Listing",
       image: ClaimImage,
       active: ActiveClaim,
-      url: "/servicer/claimList", 
-    },  
+      url: "/servicer/claimList",
+    },
     {
       name: "Claims Reporting",
       image: ReportImage,
       active: ActiveReport,
       url: "/servicer/claims",
-
     },
     {
       name: "Manage Account",
@@ -821,7 +818,6 @@ function SideBar() {
       image: OrderImage,
       active: ActiveOrder,
       url: "/customer/orderList",
-         
     },
     {
       name: "Contract",
@@ -867,7 +863,7 @@ function SideBar() {
     Dealer: dealer,
     Reseller: reseller,
     Customer: Customer,
-    Servicer:servicer
+    Servicer: servicer,
   };
 
   const sidebarItems = sidebarItemsByRole[userType?.role] || [];
@@ -889,7 +885,11 @@ function SideBar() {
   return (
     <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
       <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[5px]">
-        <img src={Logo} className="mx-auto py-6 w-[160px] h-[80px]" alt="logo" />
+        <img
+          src={Logo}
+          className="mx-auto py-6 w-[160px] h-[80px]"
+          alt="logo"
+        />
         <hr className=" border-Gray28 border-[1px]" />
         <div className="shadow-sm h-full ">
           <div className="mx-auto h-full mt-6">
