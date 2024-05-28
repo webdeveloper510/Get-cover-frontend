@@ -129,7 +129,7 @@ function CustomerOrderDetails() {
                 </div>
                 <div className="col-span-3 text-end">
                   {/* <Button
-                    className="border !border-[#535456] !text-sm !font-Regular"
+                    className="border !border-Bright-Grey !text-sm !font-Regular"
                   >
                     Edit
                   </Button> */}
@@ -138,7 +138,7 @@ function CustomerOrderDetails() {
               <div className="flex my-4">
                 <img
                   src={Purchase}
-                  className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                  className="mr-3 bg-Onyx rounded-[14px] my-auto"
                   alt="Purchase"
                 />
                 <div>
@@ -153,7 +153,7 @@ function CustomerOrderDetails() {
               <div className="flex my-4">
                 <img
                   src={Coverage}
-                  className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                  className="mr-3 bg-Onyx rounded-[14px] my-auto"
                   alt="Coverage"
                 />
                 <div>
@@ -168,7 +168,7 @@ function CustomerOrderDetails() {
               <div className="flex my-4">
                 <img
                   src={CoverageType}
-                  className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                  className="mr-3 bg-Onyx rounded-[14px] my-auto"
                   alt="CoverageType"
                 />
                 <div>

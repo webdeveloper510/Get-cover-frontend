@@ -435,7 +435,7 @@ function DealerDetailList(props) {
             <div className="col-span-1"></div>
             <Button onClick={() => openModal1()}>Yes</Button>
             <Button
-              className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
               onClick={() => closeModal()}
             >
               No

@@ -617,7 +617,7 @@ function UserList(props) {
               Yes
             </Button>
             <Button
-              className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
               onClick={() => closeModal1()}
             >
               No
@@ -776,7 +776,7 @@ function UserList(props) {
               <div className="col-span-2">
                 <Button
                 type="button"
-                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
                   onClick={() => closeModal2()}
                 >
                   Cancel

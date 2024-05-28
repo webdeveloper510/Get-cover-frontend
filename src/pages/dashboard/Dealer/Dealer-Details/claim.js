@@ -338,7 +338,8 @@ const downloadImage = (file) => {
     console.log(res);
     setClaimList(res);
     setTotalRecords(res?.totalCount);
-
+    localStorage.removeItem("activeIndex");
+    setActiveIndex(null);
     setLoaderType(false);
     setTimeout(function () {
       setShowdata(true);
@@ -1034,7 +1035,7 @@ const downloadImage = (file) => {
                 <form onSubmit={formik1.handleSubmit}>
                   <Grid className="!gap-1">
                     <div className="col-span-8 self-center">
-                      <Grid className="!gap-2">
+                      <Grid className="!gap-2 !grid-cols-8">
                         <div className="col-span-4 self-center">
                           <Input
                             name="contractId"
@@ -1057,7 +1058,7 @@ const downloadImage = (file) => {
                             {...formik1.getFieldProps("claimId")}
                           />
                         </div>
-                        <div className="col-span-4 self-center">
+                        {/* <div className="col-span-4 self-center">
                           <SelectSearch
                             name="claimStatus"
                             label=""
@@ -1068,7 +1069,7 @@ const downloadImage = (file) => {
                             onChange={handleSelectChange2}
                             value={formik1.values.claimStatus}
                           />
-                        </div>
+                        </div> */}
                         {/* <div className="col-span-3 self-center">
                           <SelectSearch
                             name="repairStatus"

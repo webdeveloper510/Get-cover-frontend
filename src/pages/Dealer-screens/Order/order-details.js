@@ -163,7 +163,7 @@ function OrderDetails() {
               <div className="flex my-4">
                 <img
                   src={Purchase}
-                  className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                  className="mr-3 bg-Onyx rounded-[14px] my-auto"
                   alt="Purchase"
                 />
                 <div>
@@ -178,7 +178,7 @@ function OrderDetails() {
               <div className="flex my-4">
                 <img
                   src={Coverage}
-                  className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                  className="mr-3 bg-Onyx rounded-[14px] my-auto"
                   alt="Coverage"
                 />
                 <div>
@@ -193,7 +193,7 @@ function OrderDetails() {
               <div className="flex my-4">
                 <img
                   src={CoverageType}
-                  className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                  className="mr-3 bg-Onyx rounded-[14px] my-auto"
                   alt="CoverageType"
                 />
                 <div>
@@ -219,7 +219,7 @@ function OrderDetails() {
                     <div className="relative">
                       <img
                         src={Name}
-                        className="mr-3 bg-[#383838] rounded-[14px]"
+                        className="mr-3 bg-Onyx rounded-[14px]"
                         alt="Name"
                       />
                       {!window.location.pathname.includes("/reseller") ? (
@@ -229,7 +229,7 @@ function OrderDetails() {
                           {" "}
                           <img
                             src={DealerList}
-                            className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                            className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
                             alt="DealerList"
                           />{" "}
                         </Link>
@@ -251,7 +251,7 @@ function OrderDetails() {
                 <div className="relative">
                   <img
                     src={Name}
-                    className="mr-3 bg-[#383838] rounded-[14px]"
+                    className="mr-3 bg-Onyx rounded-[14px]"
                     alt="Name"
                   />
                   {!window.location.pathname.includes("/reseller") ? (
@@ -261,7 +261,7 @@ function OrderDetails() {
                       {" "}
                       <img
                         src={DealerList}
-                        className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                        className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
                         alt="DealerList"
                       />{" "}
                     </Link>
@@ -272,7 +272,7 @@ function OrderDetails() {
                       {" "}
                       <img
                         src={DealerList}
-                        className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                        className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
                         alt="DealerList"
                       />{" "}
                     </Link>
@@ -295,14 +295,14 @@ function OrderDetails() {
                     <div className="relative">
                       <img
                         src={Name}
-                        className="mr-3 bg-[#383838] rounded-[14px]"
+                        className="mr-3 bg-Onyx rounded-[14px]"
                         alt="Name"
                       />
                       {/* <Link to={`/dealer/servicerDetails/${orderDetails.servicerId}`}>
                         {" "}
                         <img
                           src={DealerList}
-                          className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                          className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
                           alt="DealerList"
                         />{" "}
                       </Link> */}
