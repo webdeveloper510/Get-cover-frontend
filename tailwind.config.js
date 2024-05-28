@@ -23,6 +23,7 @@ module.exports = {
         'red' : '#ff0000',
         'Onyx' : '#383838',
         'Bright-Grey' : '#535456',
+        'red-500' : '#ff0000',
       },
       padding: {
         '10p': '10px',
@@ -41,6 +42,7 @@ module.exports = {
         'red' : '#ff0000',
         'Onyx' : '#383838',
         'Bright-Grey' : '#535456',
+        'red-500' : '#ff0000',
       },
       backgroundImage : {
         'hero-pattern': "url('/src/assets/images/Bg.png')",

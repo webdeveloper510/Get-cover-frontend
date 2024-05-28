@@ -95,7 +95,7 @@ function ResellerAddOrder() {
 
   const downloadCSVTemplate = async () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1BKGAJLFhjQXN8Wg4nYkUdFKpiPZ3h12-CMlrlkzAZE0/edit#gid=0",
+      "https://docs.google.com/spreadsheets/d/1PANNmDTU0UA_z93yc3DkL1lfHeRStXpEp6OkJn-_iUQ/edit#gid=0",
       "_blank"
     );
   };
@@ -329,7 +329,7 @@ function ResellerAddOrder() {
     initialValues: {
       servicerId: "",
       customerId: "",
-      billTo: "",
+      billTo: "reseller",
       name: "",
       email: "",
       phoneNumber: "",
@@ -1008,7 +1008,7 @@ function ResellerAddOrder() {
   const BillTo = [
     { label: "Dealer", value: "dealer" },
     ...(formik.values.resellerId !== ""
-      ? [{ label: "Reseller", value: "reseller" }]
+      ? [{ label: "Self", value: "reseller" }]
       : []),
     { label: "Custom", value: "custom" },
   ];
@@ -1141,7 +1141,7 @@ function ResellerAddOrder() {
                           label="Name"
                           type="text"
                           className="bg-white"
-                          // required={true}
+                          required={true}
                           placeholder=""
                         />
                         {formik.touched.name &&
@@ -1182,6 +1182,7 @@ function ResellerAddOrder() {
                           label="Address"
                           className="bg-white"
                           type="text"
+                          required={true}
                           placeholder=""
                         />
                       </div>
@@ -1494,15 +1495,15 @@ function ResellerAddOrder() {
                         />
                       </div>
                       <div className="col-span-4">
-                        <Select
+                        <Input
                           label="ADH (Waiting Days)"
-                          name={`productsArray[${index}].term`}
+                          name={`productsArray[${index}].adh`}
                           placeholder=""
                           onChange={handleSelectChange2}
                           className="!bg-white"
-                          options={termList}
-                          disabled={true}
-                          value={formikStep3.values.productsArray[index].term}
+                          // options={termList}
+                          // disabled={true}
+                          value={formikStep3.values.productsArray[index].adh}
                           onBlur={formikStep3.handleBlur}
                         />
                       </div>
@@ -2064,19 +2065,25 @@ function ResellerAddOrder() {
                         </p>
                         <div className="bg-grayf9 border-Light-Grey border rounded-xl ">
                           <Grid className="border-b px-4">
-                            <div className="col-span-4 py-4 border-r">
+                            <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Category</p>
                               <p className="font-bold text-sm">
                                 {categoryName[index]}
                               </p>
                             </div>
-                            <div className="col-span-4 py-4 border-r">
+                            <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Name</p>
                               <p className="font-bold text-sm">
                                 {priceBookName[index]}
                               </p>
                             </div>
-                            <div className="col-span-4 py-4">
+                            <div className="col-span-3 py-4 border-r">
+                              <p className="text-[12px]">Product SKU</p>
+                              <p className="font-bold text-sm">
+                                {priceBookName[index]}
+                              </p>
+                            </div>
+                            <div className="col-span-3 py-4">
                               <p className="text-[12px]">Product Description</p>
                               <p className="font-bold text-sm">
                                 {data.description}

@@ -47,6 +47,7 @@ import {
   getClaimListForCustomer,
   getClaimListForDealer,
   getClaimListForReseller,
+  getClaimListForResellerPortal,
   getClaimListForServicer,
   getClaimMessages,
   getContractPrice,
@@ -375,10 +376,13 @@ function ClaimList(props) {
     } else if (props.flag === "servicer") {
       getClaimListPromise = getClaimListForServicer(props.id, data);
     } else if (
-      props.flag === "reseller" ||
-      window.location.pathname.includes("/reseller/claimList")
+      props.flag === "reseller"
     ) {
       getClaimListPromise = getClaimListForReseller(props.id, data);
+    } else if (
+      window.location.pathname.includes("/reseller/claimList")
+    ) {
+      getClaimListPromise = getClaimListForResellerPortal(props.id, data);
     } else if (props.flag === "customer") {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {

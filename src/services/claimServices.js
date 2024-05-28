@@ -177,6 +177,24 @@ export const getClaimListForReseller = async (id, data) => {
   }
 };
 
+export const getClaimListForResellerPortal = async (id, data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(
+      `${url}/resellerPortal/getResellerClaims`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getClaimListForCustomer = async (id, data) => {
   const headers = createHeaders();
 

@@ -1119,7 +1119,7 @@ const downloadImage = (file) => {
           </Grid>
 
           <div className="px-3 mt-5">
-            {totalRecords == 0 ? <></> :
+            {/* {totalRecords == 0 ? <></> :
             <>
             {props.activeTab == "Unpaid Claims" && (<>
               {!isCheckBox &&  <div className="text-right mt-8">
@@ -1132,7 +1132,7 @@ const downloadImage = (file) => {
             </div>}
              </> ) }
             </>
-            }
+            } */}
              
              {totalRecords == 0 ?  <></>  : <>
              {loaderType == true ? (
@@ -1143,7 +1143,7 @@ const downloadImage = (file) => {
                </div>
              ) : (
                <>
-                 {anyCheckboxChecked() && (
+                 {/* {anyCheckboxChecked() && (
                    <Grid>
                      <div className="col-span-3">
                        <p>
@@ -1174,7 +1174,7 @@ const downloadImage = (file) => {
                        </div>
                      </div>
                    </Grid>
-                 )}
+                 )} */}
                  {claimList?.result &&
                    claimList?.result?.length !== 0 &&
                    claimList?.result?.map((res, index) => {
