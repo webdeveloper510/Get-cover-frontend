@@ -1990,7 +1990,7 @@ function AddOrder() {
                         handleDeleteProduct(index);
                       }}
                     >
-                      <div className="flex h-full mx-3 bg-[#fff] rounded-[30px] justify-center">
+                      <div className="flex h-full mx-3 bg-white rounded-[30px] justify-center">
                         <img
                           src={Delete}
                           alt="Delete"
@@ -2009,7 +2009,7 @@ function AddOrder() {
                           label="Product Category"
                           options={categoryList[index]?.data}
                           required={true}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           placeholder=""
                           value={
                             formikStep3.values.productsArray[index].categoryId
@@ -2044,7 +2044,7 @@ function AddOrder() {
                             label="Product SKU"
                             options={productNameOptions[index]?.data}
                             required={true}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             placeholder=""
                             disabled={
                               formikStep3.values.productsArray[index]
@@ -2090,7 +2090,7 @@ function AddOrder() {
                             formikStep3.values.productsArray[index]
                               .categoryId == ""
                           }
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           options={productList[index]?.data}
                           value={formikStep3.values.productsArray[index].pName}
                           onBlur={formikStep3.handleBlur}
@@ -2120,7 +2120,7 @@ function AddOrder() {
                             label="Terms"
                             options={termList[index]?.data}
                             required={true}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             placeholder=""
                             disabled={
                               formikStep3.values.productsArray[index]
@@ -2153,7 +2153,7 @@ function AddOrder() {
                         <Input
                           type="text"
                           name={`productsArray[${index}].description`}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="Product Description"
                           placeholder=""
                           value={
@@ -2174,7 +2174,7 @@ function AddOrder() {
                           <Input
                             type="tel"
                             name={`productsArray[${index}].adh`}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             label="ADH (Waiting Days)"
                             placeholder=""
                             value={
@@ -2213,7 +2213,7 @@ function AddOrder() {
                         <Input
                           type="text"
                           name={`productsArray[${index}].priceType`}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="Product Price Type"
                           placeholder=""
                           value={
@@ -2231,7 +2231,7 @@ function AddOrder() {
                         <Input
                           type="date"
                           name={`productsArray[${index}].coverageStartDate`}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="Coverage Start Date"
                           placeholder=""
                           readOnly
@@ -2301,7 +2301,7 @@ function AddOrder() {
                         <Input
                           type="text"
                           name={`productsArray[${index}].unitPrice`}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="Unit Price($)"
                           placeholder=""
                           value={
@@ -2319,7 +2319,7 @@ function AddOrder() {
                         <Input
                           type="number"
                           name={`productsArray[${index}].noOfProducts`}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="# of Products"
                           required={true}
                           placeholder=""
@@ -2377,7 +2377,7 @@ function AddOrder() {
                         <Input
                           type="number"
                           name={`productsArray[${index}].price`}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="Price($)"
                           placeholder=""
                           value={formikStep3.values.productsArray[index].price}
@@ -2398,7 +2398,7 @@ function AddOrder() {
                             <Input
                               type="text"
                               name={`productsArray[${index}].rangeStart`}
-                              className="!bg-[#fff]"
+                              className="!bg-white"
                               label="Start Range"
                               placeholder=""
                               value={
@@ -2417,7 +2417,7 @@ function AddOrder() {
                             <Input
                               type="text"
                               name={`productsArray[${index}].rangeEnd`}
-                              className="!bg-[#fff]"
+                              className="!bg-white"
                               label="End Range"
                               placeholder=""
                               value={
@@ -2562,7 +2562,7 @@ function AddOrder() {
                         <div className="relative">
                           <label
                             htmlFor="description"
-                            className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                            className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                           >
                             Note
                           </label>
@@ -2598,7 +2598,7 @@ function AddOrder() {
                     <div className="border border-dashed w-full h-[80%] relative flex justify-center">
                       <label
                         htmlFor="description"
-                        className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                        className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                       >
                         Upload File
                       </label>
@@ -2872,7 +2872,7 @@ function AddOrder() {
                             {data.priceType == "Quantity Pricing" && (
                               <div className="col-span-12">
                                 <table className="w-full border text-center">
-                                  <tr className="border bg-[#fff]">
+                                  <tr className="border bg-white">
                                     <td
                                       colSpan={"4"}
                                       className="font-bold text-sm"
@@ -2880,7 +2880,7 @@ function AddOrder() {
                                       Quantity Pricing List{" "}
                                     </td>
                                   </tr>
-                                  <tr className="border bg-[#fff]">
+                                  <tr className="border bg-white">
                                     <th className="font-bold text-sm">Name</th>
                                     <th className="font-bold text-sm">
                                       Quantity Per Unit
@@ -2897,7 +2897,7 @@ function AddOrder() {
                                       return (
                                         <tr
                                           key={index}
-                                          className="border bg-[#fff]"
+                                          className="border bg-white"
                                         >
                                           <td className="text-[12px]">
                                             {value.name}
@@ -3033,7 +3033,7 @@ function AddOrder() {
                             <Input
                               type="number"
                               name="paidAmount"
-                              className="!bg-[#fff] !w-[168px]"
+                              className="!bg-white !w-[168px]"
                               label="Total Paid Amount ($)"
                               maxLength={10}
                               maxDecimalPlaces={2}
@@ -3060,7 +3060,7 @@ function AddOrder() {
                             <Input
                               type="number"
                               name="pendingAmount"
-                              className="!bg-[#fff]"
+                              className="!bg-white"
                               label="Pending Amount ($)"
                               maxLength={10}
                               maxDecimalPlaces={2}
@@ -3294,7 +3294,7 @@ function AddOrder() {
       <Modal isOpen={isErrorOpen} onClose={closeError}>
         <Button
           onClick={closeError}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}

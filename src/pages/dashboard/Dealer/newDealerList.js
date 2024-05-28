@@ -309,8 +309,8 @@ function NewDealerList() {
                       <Input
                         name="name"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Name"
                         value={formik.values.name}
@@ -322,8 +322,8 @@ function NewDealerList() {
                       <Input
                         name="email"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Email"
                         value={formik.values.email}
@@ -335,8 +335,8 @@ function NewDealerList() {
                       <Input
                         name="phoneNumber"
                         type="number"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Phone No."
                         value={formik.values.phoneNumber}
@@ -442,7 +442,7 @@ function NewDealerList() {
         </Modal>
 
         <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
-          {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+          {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button> */}
           <div className="text-center py-3">

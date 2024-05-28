@@ -237,12 +237,12 @@ function OrderSummary(props) {
                         {res.priceType == "Quantity Pricing" && (
                           <div className="col-span-12">
                             <table className="w-full border text-center">
-                              <tr className="border bg-[#fff]">
+                              <tr className="border bg-white">
                                 <td colSpan={"4"} className="font-bold text-sm">
                                   Quantity Pricing List{" "}
                                 </td>
                               </tr>
-                              <tr className="border bg-[#fff]">
+                              <tr className="border bg-white">
                                 <th className="font-bold text-sm">Name</th>
                                 <th className="font-bold text-sm">
                                   Quantity Per Unit
@@ -255,7 +255,7 @@ function OrderSummary(props) {
                                   return (
                                     <tr
                                       key={index}
-                                      className="border bg-[#fff]"
+                                      className="border bg-white"
                                     >
                                       <td className="text-[12px]">
                                         {value.name}

@@ -722,7 +722,7 @@ function CustomerUser() {
                     <img src={dealer} alt="dealer" />
                   </div>
                   <div className="self-center w-[80%]">
-                    <p className="text-[#FFF] text-base font-medium leading-5	">
+                    <p className="text-white text-base font-medium leading-5	">
                       Account Name
                     </p>
                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -737,7 +737,7 @@ function CustomerUser() {
                     <img src={terms} className="" alt="terms" />
                   </div>
                   <div className="self-center ">
-                    <p className="text-[#FFF] text-base font-medium leading-5">
+                    <p className="text-white text-base font-medium leading-5">
                       Address
                     </p>
                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
@@ -768,7 +768,7 @@ function CustomerUser() {
                     <img src={dealer} alt="dealer" />
                   </div>
                   <div className="self-center w-[80%]">
-                    <p className="text-[#FFF] text-base font-medium leading-5	">
+                    <p className="text-white text-base font-medium leading-5	">
                       Account Name
                     </p>
                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -783,7 +783,7 @@ function CustomerUser() {
                     <img src={terms} className="" alt="terms" />
                   </div>
                   <div className="self-center ">
-                    <p className="text-[#FFF] text-base font-medium leading-5">
+                    <p className="text-white text-base font-medium leading-5">
                       Address
                     </p>
                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
@@ -814,7 +814,7 @@ function CustomerUser() {
                     <img src={dealer} alt="dealer" />
                   </div>
                   <div className="self-center w-[80%]">
-                    <p className="text-[#FFF] text-base font-medium leading-5	">
+                    <p className="text-white text-base font-medium leading-5	">
                       Account Name
                     </p>
                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -829,7 +829,7 @@ function CustomerUser() {
                     <img src={terms} className="" alt="terms" />
                   </div>
                   <div className="self-center">
-                    <p className="text-[#FFF] text-base font-medium leading-5">
+                    <p className="text-white text-base font-medium leading-5">
                       Address
                     </p>
                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
@@ -931,8 +931,8 @@ function CustomerUser() {
                               <Input
                                 name="firstName"
                                 type="text"
-                                className="!text-[14px] !bg-[#f7f7f7]"
-                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                className="!text-[14px] !bg-White-Smoke"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                                 label=""
                                 placeholder="First Name"
                                 value={formikUSerFilter.values.firstName}
@@ -944,8 +944,8 @@ function CustomerUser() {
                               <Input
                                 name="email"
                                 type="text"
-                                className="!text-[14px] !bg-[#f7f7f7]"
-                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                className="!text-[14px] !bg-White-Smoke"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                                 label=""
                                 placeholder="Email"
                                 value={formikUSerFilter.values.email}
@@ -957,8 +957,8 @@ function CustomerUser() {
                               <Input
                                 name="phone"
                                 type="number"
-                                className="!text-[14px] !bg-[#f7f7f7]"
-                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                                className="!text-[14px] !bg-White-Smoke"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                                 label=""
                                 placeholder="Phone"
                                 value={formikUSerFilter.values.phone}
@@ -1094,7 +1094,7 @@ function CustomerUser() {
                   name="firstName"
                   label="First Name"
                   required={true}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   maxLength={"30"}
                   value={formik1.values.firstName}
@@ -1115,7 +1115,7 @@ function CustomerUser() {
                   label="Last Name"
                   required={true}
                   placeholder=""
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   maxLength={"30"}
                   value={formik1.values.lastName}
                   onBlur={formik1.handleBlur}
@@ -1133,7 +1133,7 @@ function CustomerUser() {
                   type="text"
                   name="position"
                   label="Position"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   maxLength={"30"}
                   value={formik1.values.position}
@@ -1148,7 +1148,7 @@ function CustomerUser() {
                   name="phoneNumber"
                   label="Phone #"
                   required={true}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   value={formik1.values.phoneNumber}
                   onChange={(e) => {
@@ -1189,7 +1189,7 @@ function CustomerUser() {
                   placeholder=""
                   onChange={handleSelectChange}
                   disabled={isprimary}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   options={status}
                   value={formik1.values.status}
                   onBlur={formik1.handleBlur}
@@ -1236,7 +1236,7 @@ function CustomerUser() {
                   name="firstName"
                   label="First Name"
                   required={true}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   maxLength={"30"}
                   value={userValues.values.firstName}
@@ -1257,7 +1257,7 @@ function CustomerUser() {
                   label="Last Name"
                   required={true}
                   placeholder=""
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   maxLength={"30"}
                   value={userValues.values.lastName}
                   onBlur={userValues.handleBlur}
@@ -1275,7 +1275,7 @@ function CustomerUser() {
                   type="email"
                   name="email"
                   label="Email"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   required={true}
                   placeholder=""
                   maxLength={"30"}
@@ -1296,7 +1296,7 @@ function CustomerUser() {
                   name="phoneNumber"
                   label="Mobile Number"
                   required={true}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   value={userValues.values.phoneNumber}
                   onChange={(e) => {
@@ -1334,7 +1334,7 @@ function CustomerUser() {
                   type="text"
                   name="position"
                   label="Position"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   // required={true}
                   placeholder=""
                   maxLength={"30"}
@@ -1391,7 +1391,7 @@ function CustomerUser() {
       <Modal isOpen={isPasswordOpen} onClose={closePassword}>
       <Button
           onClick={closePassword}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}

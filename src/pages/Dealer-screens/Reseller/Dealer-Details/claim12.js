@@ -1040,8 +1040,8 @@ const downloadImage = (file) => {
                           <Input
                             name="contractId"
                             type="text"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            className="!text-[14px] !bg-White-Smoke"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                             label=""
                             placeholder="Contract ID"
                             {...formik1.getFieldProps("contractId")}
@@ -1051,8 +1051,8 @@ const downloadImage = (file) => {
                           <Input
                             name="claimId"
                             type="text"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            className="!text-[14px] !bg-White-Smoke"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                             label=""
                             placeholder="Claim ID"
                             {...formik1.getFieldProps("claimId")}
@@ -1064,8 +1064,8 @@ const downloadImage = (file) => {
                             label=""
                             options={Claimstatus}
                             OptionName="Claim Status"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            className="!text-[14px] !bg-White-Smoke"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                             onChange={handleSelectChange2}
                             value={formik1.values.claimStatus}
                           />
@@ -1073,8 +1073,8 @@ const downloadImage = (file) => {
                         {/* <div className="col-span-3 self-center">
                           <SelectSearch
                             name="repairStatus"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            className="!text-[14px] !bg-White-Smoke"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                             label=""
                             OptionName="Repair Status"
                             options={repairValue}
@@ -1188,7 +1188,7 @@ const downloadImage = (file) => {
                          title={
                            <>
                              {" "}
-                             <Grid className="border-Gray28 border !gap-2 bg-[#fff] rounded-t-[22px]">
+                             <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
                                <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
                                  <p className="font-semibold leading-5 text-lg">
                                    {" "}
@@ -1238,7 +1238,7 @@ const downloadImage = (file) => {
                                  )}
                                </div>
                              </Grid>
-                             <Grid className="!gap-0 bg-grayf9 !grid-cols-7 border-Gray28 border-x">
+                             <Grid className="!gap-0 bg-grayf9 !grid-cols-6 border-Gray28 border-x">
                                <div className="col-span-1 flex ">
                                  <img
                                    src={productName}
@@ -1251,21 +1251,6 @@ const downloadImage = (file) => {
                                    </p>
                                    <p className="text-[#333333] text-sm font-semibold">
                                      {res?.contracts?.productName}
-                                   </p>
-                                 </div>
-                               </div>
-                               <div className="col-span-1 flex ">
-                                 <img
-                                   src={productName}
-                                   className="self-center h-[50px] w-[50px] ml-3"
-                                   alt="productName"
-                                 />
-                                 <div className="py-4 pl-3 self-center">
-                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                     Product Name
-                                   </p>
-                                   <p className="text-[#333333] text-sm font-semibold">
-                                     {res?.contracts?.pName}
                                    </p>
                                  </div>
                                </div>
@@ -1341,7 +1326,7 @@ const downloadImage = (file) => {
                                <>
                                  <div className="col-span-2 bg-[#333333] border-r border-b border-Gray28">
                                    <div className="py-4 pl-3">
-                                     <p className="text-[#fff] text-sm font-Regular">
+                                     <p className="text-white text-sm font-Regular">
                                        Service Type
                                      </p>
                                      <p className="text-light-green text-base font-semibold">
@@ -1351,7 +1336,7 @@ const downloadImage = (file) => {
                                  </div>
                                  <div className="col-span-8 bg-[#333333] border-r border-b border-Gray28">
                                    <div className="py-4 pl-3">
-                                     <p className="text-[#fff] text-sm font-Regular">
+                                     <p className="text-white text-sm font-Regular">
                                        Description
                                      </p>
                                      <p className="text-light-green text-base font-semibold">
@@ -1361,7 +1346,7 @@ const downloadImage = (file) => {
                                  </div>
                                  <div className="col-span-2 bg-[#333333] border-b border-Gray28">
                                    <div className="py-4 pl-3">
-                                     <p className="text-[#fff] text-sm font-Regular">
+                                     <p className="text-white text-sm font-Regular">
                                        Price
                                      </p>
                                      <p className="text-light-green text-base font-semibold">
@@ -1629,7 +1614,7 @@ const downloadImage = (file) => {
                                      <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
                                        <div className="col-span-4"></div>
                                        {/* <Button
-                                       className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
+                                       className="!bg-white col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
                                        onClick={handleToggle}
                                      >
                                        <img
@@ -1641,7 +1626,7 @@ const downloadImage = (file) => {
                                      </Button> */}
                                        {res.receiptImage != null && (
                                          <Button
-                                           className="!bg-[#fff] col-span-8 !rounded-[11px] !text-light-black !text-[13px] flex"
+                                           className="!bg-white col-span-8 !rounded-[11px] !text-light-black !text-[13px] flex"
                                            onClick={() => {
                                              downloadAttachments(
                                                res.receiptImage
@@ -1709,7 +1694,7 @@ const downloadImage = (file) => {
       <Modal isOpen={isPayOpen} onClose={closePay}>
         <Button
           onClick={closePay}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -1775,7 +1760,7 @@ const downloadImage = (file) => {
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
         <Button
           onClick={closeReject}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -1812,7 +1797,7 @@ const downloadImage = (file) => {
               <div className="relative my-4">
                 <label
                   htmlFor="content"
-                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                 >
                   Enter Your Reason <span className="text-red-500">*</span>
                 </label>
@@ -1866,7 +1851,7 @@ const downloadImage = (file) => {
       <Modal isOpen={isViewOpen} onClose={closeView}>
         <Button
           onClick={closeView}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -2083,7 +2068,7 @@ const downloadImage = (file) => {
       <Modal isOpen={isEditOpen} onClose={closeEdit} className="!w-[1100px]">
         <Button
           onClick={closeEdit}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -2106,7 +2091,7 @@ const downloadImage = (file) => {
                           label="Service Type"
                           options={serviceType}
                           required={true}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           placeholder=""
                           maxLength={"30"}
                           className1="!pt-[0.4rem]"
@@ -2147,7 +2132,7 @@ const downloadImage = (file) => {
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           value={formik.values.repairParts[index].description}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           className1="w-full !p-2 border rounded-md"
                         />
                         {formik.touched.repairParts &&
@@ -2174,7 +2159,7 @@ const downloadImage = (file) => {
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           value={formik.values.repairParts[index].price}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           className1="w-full !p-2 border rounded-md"
                         />
                         {formik.touched.repairParts &&
@@ -2188,9 +2173,9 @@ const downloadImage = (file) => {
                       </div>
 
                       {index > 0 && (
-                        <div className="col-span-1 self-center bg-[#EBEBEB] rounded-[4px] flex justify-center">
+                        <div className="col-span-1 self-center bg-Smoke rounded-[4px] flex justify-center">
                           <div
-                            className="flex h-full bg-[#EBEBEB] justify-center cursor-pointer"
+                            className="flex h-full bg-Smoke justify-center cursor-pointer"
                             onClick={() => handleRemove(index)}
                           >
                             <img
@@ -2238,7 +2223,7 @@ const downloadImage = (file) => {
               <div className="relative">
                 <label
                   htmlFor="description"
-                  className="absolute text-base text-[#999] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  className="absolute text-base text-[#999] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                 >
                   Note
                 </label>
@@ -2282,7 +2267,7 @@ const downloadImage = (file) => {
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
           onClick={closeDisapproved}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -2297,7 +2282,7 @@ const downloadImage = (file) => {
                 <Input
                   type="text"
                   name="contractId"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Contract ID"
                   placeholder=""
                   {...formik1.getFieldProps("contractId")}
@@ -2307,7 +2292,7 @@ const downloadImage = (file) => {
                 <Input
                   name="claimId"
                   type="text"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Claim ID"
                   placeholder=""
                   {...formik1.getFieldProps("claimId")}
@@ -2318,7 +2303,7 @@ const downloadImage = (file) => {
                 <Input
                   type="text"
                   name="orderId"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Order ID"
                   placeholder=""
                   {...formik1.getFieldProps("orderId")}
@@ -2328,7 +2313,7 @@ const downloadImage = (file) => {
                 <Input
                   type="text"
                   name="venderOrder"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Dealer P.O. #."
                   placeholder=""
                   {...formik1.getFieldProps("venderOrder")}
@@ -2338,7 +2323,7 @@ const downloadImage = (file) => {
                 <Input
                   type="text"
                   name="serial"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Serial #"
                   placeholder=""
                   {...formik1.getFieldProps("serial")}
@@ -2348,7 +2333,7 @@ const downloadImage = (file) => {
                 <Input
                   type="text"
                   name="pName"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Product Name"
                   placeholder=""
                   {...formik1.getFieldProps("pName")}
@@ -2358,7 +2343,7 @@ const downloadImage = (file) => {
                 <Input
                   type="text"
                   name="productName"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Product SKU"
                   placeholder=""
                   {...formik1.getFieldProps("productName")}
@@ -2369,7 +2354,7 @@ const downloadImage = (file) => {
                   options={customerValue}
                   name="customerStatusValue"
                   label="Customer Status"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   onChange={handleSelectChange2}
                   value={formik1.values.customerStatusValue}
                 />
@@ -2379,7 +2364,7 @@ const downloadImage = (file) => {
                   options={repairValue}
                   name="repairStatus"
                   label="Repair Status"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   onChange={handleSelectChange2}
                   value={formik1.values.repairStatus}
                 />
@@ -2390,7 +2375,7 @@ const downloadImage = (file) => {
                   options={days}
                   name="noOfDays"
                   label="No Of Days Passed"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   onChange={handleSelectChange2}
                   value={formik1.values.noOfDays}
                 />

@@ -1413,7 +1413,7 @@ function DealerAddOrder() {
                         name="name"
                         label="Name"
                         type="text"
-                        className="bg-[#ffff]"
+                        className="bg-white"
                         required={true}
                         placeholder=""
                         value={formik.values.name}
@@ -1431,7 +1431,7 @@ function DealerAddOrder() {
                       <Input
                         name="email"
                         label="Email"
-                        className="bg-[#ffff]"
+                        className="bg-white"
                         type="email"
                         // required={true}
                         placeholder=""
@@ -1445,7 +1445,7 @@ function DealerAddOrder() {
                       <Input
                         name="phoneNumber"
                         label="Phone Number"
-                        className="bg-[#ffff]"
+                        className="bg-white"
                         type="number"
                         placeholder=""
                         value={formik.values.phoneNumber}
@@ -1480,7 +1480,7 @@ function DealerAddOrder() {
                       <Input
                         name="address"
                         label="Address"
-                        className="bg-[#ffff]"
+                        className="bg-white"
                         type="text"
                         placeholder=""
                         required={true}
@@ -1647,7 +1647,7 @@ function DealerAddOrder() {
                           handleDeleteProduct(index);
                         }}
                       >
-                        <div className="flex h-full mx-3 bg-[#fff] rounded-[30px] justify-center">
+                        <div className="flex h-full mx-3 bg-white rounded-[30px] justify-center">
                           <img
                             src={Delete}
                             alt="Delete"
@@ -1666,7 +1666,7 @@ function DealerAddOrder() {
                             label="Product Category"
                             options={categoryList[index]?.data}
                             required={true}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             placeholder=""
                             value={
                               formikStep3.values.productsArray[index].categoryId
@@ -1700,7 +1700,7 @@ function DealerAddOrder() {
                             label="Product SKU"
                             options={productNameOptions[index]?.data}
                             required={true}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             placeholder=""
                             value={
                               formikStep3.values.productsArray[index]
@@ -1744,7 +1744,7 @@ function DealerAddOrder() {
                               formikStep3.values.productsArray[index]
                                 .categoryId == ""
                             }
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             options={productList[index]?.data}
                             value={
                               formikStep3.values.productsArray[index].pName
@@ -1776,7 +1776,7 @@ function DealerAddOrder() {
                               label="Terms"
                               options={termList[index]?.data}
                               required={true}
-                              className="!bg-[#fff]"
+                              className="!bg-white"
                               placeholder=""
                               disabled={
                                 formikStep3.values.productsArray[index]
@@ -1812,7 +1812,7 @@ function DealerAddOrder() {
                           <Input
                             type="text"
                             name={`productsArray[${index}].description`}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             label="Product Description"
                             placeholder=""
                             value={
@@ -1834,7 +1834,7 @@ function DealerAddOrder() {
                             <Input
                               type="number"
                               name={`productsArray[${index}].adh`}
-                              className="!bg-[#fff]"
+                              className="!bg-white"
                               label="ADH (Waiting Days)"
                               placeholder=""
                               value={
@@ -1853,7 +1853,7 @@ function DealerAddOrder() {
                           <Input
                             type="text"
                             name={`productsArray[${index}].priceType`}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             label="Product Price Type"
                             placeholder=""
                             value={
@@ -1871,7 +1871,7 @@ function DealerAddOrder() {
                           <Input
                             type="text"
                             name={`productsArray[${index}].unitPrice`}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             label="Unit Price($)"
                             placeholder=""
                             value={
@@ -1889,7 +1889,7 @@ function DealerAddOrder() {
                           <Input
                             type="number"
                             name={`productsArray[${index}].noOfProducts`}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             label="# of Products"
                             required={true}
                             placeholder=""
@@ -1950,7 +1950,7 @@ function DealerAddOrder() {
                           <Input
                             type="number"
                             name={`productsArray[${index}].price`}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             label="Price($)"
                             placeholder=""
                             value={
@@ -1968,7 +1968,7 @@ function DealerAddOrder() {
                           <Input
                             type="date"
                             name={`productsArray[${index}].coverageStartDate`}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             label="Coverage Start Date"
                             placeholder=""
                             readOnly
@@ -2044,7 +2044,7 @@ function DealerAddOrder() {
                               <Input
                                 type="text"
                                 name={`productsArray[${index}].rangeStart`}
-                                className="!bg-[#fff]"
+                                className="!bg-white"
                                 label="Start Range"
                                 placeholder=""
                                 value={
@@ -2063,7 +2063,7 @@ function DealerAddOrder() {
                               <Input
                                 type="text"
                                 name={`productsArray[${index}].rangeEnd`}
-                                className="!bg-[#fff]"
+                                className="!bg-white"
                                 label="End Range"
                                 placeholder=""
                                 value={
@@ -2210,7 +2210,7 @@ function DealerAddOrder() {
                           <div className="relative">
                             <label
                               htmlFor="description"
-                              className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                              className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                             >
                               Note
                             </label>
@@ -2246,7 +2246,7 @@ function DealerAddOrder() {
                       <div className="border border-dashed w-full h-[80%] relative flex justify-center">
                         <label
                           htmlFor="description"
-                          className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                          className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                         >
                           Upload File
                         </label>
@@ -2509,7 +2509,7 @@ function DealerAddOrder() {
                             {data.priceType == "Quantity Pricing" && (
                               <div className="col-span-12">
                                 <table className="w-full border text-center">
-                                  <tr className="border bg-[#fff]">
+                                  <tr className="border bg-white">
                                     <td
                                       colSpan={"4"}
                                       className="font-bold text-sm"
@@ -2517,7 +2517,7 @@ function DealerAddOrder() {
                                       Quantity Pricing List{" "}
                                     </td>
                                   </tr>
-                                  <tr className="border bg-[#fff]">
+                                  <tr className="border bg-white">
                                     <th className="font-bold text-sm">Name</th>
                                     <th className="font-bold text-sm">
                                       Quantity Per Unit
@@ -2534,7 +2534,7 @@ function DealerAddOrder() {
                                       return (
                                         <tr
                                           key={index}
-                                          className="border bg-[#fff]"
+                                          className="border bg-white"
                                         >
                                           <td className="text-[12px]">
                                             {value.name}
@@ -2830,7 +2830,7 @@ function DealerAddOrder() {
       <Modal isOpen={isErrorOpen} onClose={closeError}>
         <Button
           onClick={closeError}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}

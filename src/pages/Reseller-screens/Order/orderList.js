@@ -333,8 +333,8 @@ function ResellerOrderList() {
                       <Input
                         name="Name"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="ID"
                         {...formik.getFieldProps("orderId")}
@@ -344,8 +344,8 @@ function ResellerOrderList() {
                       <Input
                         name="orderNo"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Dealer Order No."
                         {...formik.getFieldProps("venderOrder")}
@@ -356,9 +356,9 @@ function ResellerOrderList() {
                         label=""
                         OptionName="Status"
                         options={status}
-                        color="text-[#1B1D21] opacity-50"
+                        color="text-Black-Russian opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className="!text-[14px] !bg-White-Smoke"
                         selectedValue={selectedProduct}
                         onChange={handleSelectChange}
                         name="status"
@@ -484,7 +484,7 @@ function ResellerOrderList() {
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
           onClick={closeDisapproved}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -499,7 +499,7 @@ function ResellerOrderList() {
                 <Input
                   type="text"
                   id="orderId"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Order ID"
                   placeholder=""
                   {...formik.getFieldProps("orderId")}
@@ -509,7 +509,7 @@ function ResellerOrderList() {
                 <Input
                   type="text"
                   id="venderOrder"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Dealer P.O. No."
                   placeholder=""
                   {...formik.getFieldProps("venderOrder")}
@@ -519,7 +519,7 @@ function ResellerOrderList() {
                 <Input
                   type="text"
                   id="serialNo"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Serial No."
                   placeholder=""
                   {...formik.getFieldProps("serialNo")}
@@ -530,7 +530,7 @@ function ResellerOrderList() {
                 <Input
                   type="text"
                   id="customerName"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Customer Name"
                   placeholder=""
                   {...formik.getFieldProps("customerName")}
@@ -540,7 +540,7 @@ function ResellerOrderList() {
                 <Input
                   type="text"
                   id="servicerName"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Servicer Name"
                   placeholder=""
                   {...formik.getFieldProps("servicerName")}
@@ -553,7 +553,7 @@ function ResellerOrderList() {
                   label="Status"
                   name="status"
                   options={status}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   value={formik.values.status}
                   onChange={handleSelectChange}

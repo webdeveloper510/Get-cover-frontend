@@ -147,6 +147,7 @@ function AddClaim() {
 
   const handleImageChange = (e) => {
     const files = e.target.files;
+    console.log(files, "------------")
 
     if (files) {
       const newFiles = Array.from(files)
@@ -159,9 +160,9 @@ function AddClaim() {
 
       const updatedImages = [...formikStep2.values.images, ...newFiles];
       formikStep2.setFieldValue("images", updatedImages);
+      formikStep2.setFieldValue("file", updatedImages.file);
       setImages(updatedImages);
-
-      // Call uploadEvidence directly with the combined array
+      console.log(updatedImages, "------------")
       uploadEvidence(updatedImages);
     }
   };
@@ -817,7 +818,7 @@ function AddClaim() {
                         <SelectBoxWithSearch
                           label="Servicer Name"
                           name="servicerId"
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           onChange={handleChange}
                           options={servicerData} // Make sure to define servicerList
                           value={formikStep2.values.servicerId}
@@ -842,7 +843,7 @@ function AddClaim() {
                           onChange={formikStep2.handleChange}
                           onBlur={formikStep2.handleBlur}
                           value={formikStep2.values.lossDate}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                         />
                         {formikStep2.touched.lossDate &&
                           formikStep2.errors.lossDate && (
@@ -857,7 +858,7 @@ function AddClaim() {
                       <div>
                         <div className="border border-dashed w-full relative py-8">
                           <label
-                            className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75   `}
+                            className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75   `}
                           >
                             Add Files
                           </label>
@@ -946,7 +947,7 @@ function AddClaim() {
                     <div className="relative">
                       <label
                         htmlFor="description"
-                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                       >
                         Diagonsis <span className="text-red-500">*</span>
                       </label>
@@ -1095,7 +1096,7 @@ function AddClaim() {
         ) : (
           <Button
             onClick={closeCreate}
-            className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+            className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
           >
             <img
               src={Cross}
@@ -1136,7 +1137,7 @@ function AddClaim() {
       <Modal isOpen={isModalOpen} onClose={closeModal} className="!w-[1100px]">
         <Button
           onClick={closeModal}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}

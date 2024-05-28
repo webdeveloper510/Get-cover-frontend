@@ -320,8 +320,8 @@ function DealerResellerList() {
                       <Input
                         name="name"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Name"
                         value={formik.values.name}
@@ -333,8 +333,8 @@ function DealerResellerList() {
                       <Input
                         name="email"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Email"
                         value={formik.values.email}
@@ -347,8 +347,8 @@ function DealerResellerList() {
                         name="phone"
                         type="tel"
                         nonumber={true}
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Phone No."
                         value={formik.values.phone}
@@ -374,9 +374,9 @@ function DealerResellerList() {
                         name="status"
                         OptionName="Status"
                         options={status}
-                        color="text-[#1B1D21] opacity-50"
+                        color="text-Black-Russian opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-[#f7f7f7] "
+                        className="!text-[14px] !bg-White-Smoke "
                         value={formik.values.status}
                         onChange={formik.setFieldValue}
                       />

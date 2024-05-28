@@ -509,8 +509,8 @@ function PriceBookList(props) {
                         name="name"
                         type="text"
                         placeholder="Product Name"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         value={formik.values.name}
                         onChange={formik.handleChange}
@@ -524,9 +524,9 @@ function PriceBookList(props) {
                         label=""
                         options={categoryList}
                         OptionName="Category"
-                        color="text-[#1B1D21] opacity-50"
+                        color="text-Black-Russian opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px]  !bg-[#f7f7f7]"
+                        className="!text-[14px]  !bg-White-Smoke"
                         value={formik.values.category}
                         onChange={formik.setFieldValue}
                       />
@@ -537,9 +537,9 @@ function PriceBookList(props) {
                         label=""
                         options={status}
                         OptionName="Status"
-                        color="text-[#1B1D21] opacity-50"
+                        color="text-Black-Russian opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className="!text-[14px] !bg-White-Smoke"
                         value={formik.values.status}
                         onChange={formik.setFieldValue}
                       />
@@ -602,7 +602,7 @@ function PriceBookList(props) {
       <Modal isOpen={isViewOpen} onClose={closeView}>
         <Button
           onClick={closeView}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -613,7 +613,7 @@ function PriceBookList(props) {
           onClick={() => {
             navigte(`/editCompanyPriceBook/${dealerPriceBookDetail._id}`);
           }}
-          className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Edit}

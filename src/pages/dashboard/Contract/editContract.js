@@ -143,7 +143,7 @@ function EditContract() {
                       <img src={contract} alt="category" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Contract ID
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -158,7 +158,7 @@ function EditContract() {
                       <img src={category1} className="w-6 h-6" alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Order ID
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -173,7 +173,7 @@ function EditContract() {
                       <img src={delaerName} alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5">
+                      <p className="text-white text-base font-medium leading-5">
                         Dealer P.O. #.
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
@@ -188,7 +188,7 @@ function EditContract() {
                       <img src={Eligibility} alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Status
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -206,7 +206,7 @@ function EditContract() {
                       <img src={delaerName} alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Dealer Name
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -221,7 +221,7 @@ function EditContract() {
                       <img src={delaerName} alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5">
+                      <p className="text-white text-base font-medium leading-5">
                         Reseller Name
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
@@ -236,7 +236,7 @@ function EditContract() {
                       <img src={CustomerName} alt="category" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Customer Name
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -251,7 +251,7 @@ function EditContract() {
                       <img src={ServicerName} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Servicer Name
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -269,7 +269,7 @@ function EditContract() {
                       <img src={CustomerName} alt="category" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Coverage Start Date
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -290,7 +290,7 @@ function EditContract() {
                       <img src={ServicerName} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Coverage End Date
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -311,7 +311,7 @@ function EditContract() {
                       <img src={ServicerName} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                       Purchase Date
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -332,7 +332,7 @@ function EditContract() {
                       <img src={claim} alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5">
+                      <p className="text-white text-base font-medium leading-5">
                         Claimed Value
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
@@ -352,7 +352,7 @@ function EditContract() {
                       <img src={ServicerName} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                       Labour Warranty Start Date
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -373,7 +373,7 @@ function EditContract() {
                       <img src={ServicerName} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                       Part Warranty Start Date
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -394,7 +394,7 @@ function EditContract() {
                       <img src={Eligibility} alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Eligibility
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -417,7 +417,7 @@ function EditContract() {
                     <Input
                       type="text"
                       name="manufacture"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Manufacturer"
                       required={true}
                       placeholder=""
@@ -439,7 +439,7 @@ function EditContract() {
                     <Input
                       type="text"
                       name="model"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Model"
                       required={true}
                       placeholder=""
@@ -458,7 +458,7 @@ function EditContract() {
                     <Input
                       type="text"
                       name="serial"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Serial"
                       required={true}
                       placeholder=""
@@ -478,7 +478,7 @@ function EditContract() {
                     <Input
                       type="number"
                       name="productValue"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="RetailPrice"
                       required={true}
                       placeholder=""
@@ -501,7 +501,7 @@ function EditContract() {
                     <Input
                       type="text"
                       name="condition"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Condition"
                       required={true}
                       placeholder=""

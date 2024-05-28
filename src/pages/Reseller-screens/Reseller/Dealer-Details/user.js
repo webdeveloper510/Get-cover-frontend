@@ -462,8 +462,8 @@ function UserList(props) {
                       <Input
                         name="firstName"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="First Name"
                         value={formikUSerFilter.values.firstName}
@@ -475,8 +475,8 @@ function UserList(props) {
                       <Input
                         name="email"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Email"
                         value={formikUSerFilter.values.email}
@@ -488,8 +488,8 @@ function UserList(props) {
                       <Input
                         name="phone"
                         type="number"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Phone"
                         value={formikUSerFilter.values.phone}
@@ -636,7 +636,7 @@ function UserList(props) {
                   name="firstName"
                   label="First Name"
                   required={true}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   maxLength={"30"}
                   value={formik.values.firstName}
@@ -657,7 +657,7 @@ function UserList(props) {
                   label="Last Name"
                   required={true}
                   placeholder=""
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   maxLength={"30"}
                   value={formik.values.lastName}
                   onBlur={formik.handleBlur}
@@ -675,7 +675,7 @@ function UserList(props) {
                   type="text"
                   name="position"
                   label="Position"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   // required={true}
                   placeholder=""
                   maxLength={"30"}
@@ -696,7 +696,7 @@ function UserList(props) {
                   name="phoneNumber"
                   label="Mobile Number"
                   required={true}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   value={formik.values.phoneNumber}
                   onChange={(e) => {
@@ -737,7 +737,7 @@ function UserList(props) {
                   placeholder=""
                   onChange={handleSelectChange}
                   disabled={isprimary || !mainStatus}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   options={status}
                   value={formik.values.status}
                   onBlur={formik.handleBlur}

@@ -87,7 +87,7 @@ function SidebarItem({
 
   const [activeUrl , setActiveUrl] = useState(false);
 
-  console.log('activeUrl---------------->>', activeUrl )
+  // console.log('activeUrl---------------->>', activeUrl )
 
   useEffect(()=>{
     let urls = [item.url]
@@ -95,7 +95,7 @@ function SidebarItem({
       const urlsItem = item?.items?.map(i=>i.url) || [];
       urls = [...urls,...urlsItem]
     }
-    console.log("urls==========>>",urls,locationGet.pathname)
+    // console.log("urls==========>>",urls,locationGet.pathname)
 
     const itHasUrl = checkWordsExist(locationGet.pathname,urls)
     if(itHasUrl)console.log("item=======>",item)
@@ -116,7 +116,7 @@ function SidebarItem({
     onLinkClick(item.url);
   };
 
-  console.log('location.pathname', location.pathname)
+  // console.log('location.pathname', location.pathname)
   return (
     <li
       className={`border-t-Gray28 w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
@@ -126,7 +126,7 @@ function SidebarItem({
       <Link
         to={hasItems?window.location.href:item.url}
         className={`flex cursor-pointer d-flex ps-[20px] relative z-[2] mb-[3px] py-[19px] pe-3 ${
-          activeUrl ? "bg-[#FFF] text-[#000] rounded-s-[30px]" : "text-light-grey"
+          activeUrl ? "bg-white text-[#000] rounded-s-[30px]" : "text-light-grey"
         }`}
         onClick={handleClick}
       >
@@ -490,7 +490,7 @@ function SideBar() {
     JSON.parse(localStorage.getItem("userDetails"))
   );
   const navigate = useNavigate();
-console.log('active---------------->>', active )
+// console.log('active---------------->>', active )
 
   const handleLinkClick = (url, dropdownItem) => {
     setActive(url === "#" ? dropdownItem : url);
@@ -896,7 +896,7 @@ console.log('active---------------->>', active )
             <ul className="pb-5">
               {renderSidebarItems}
               <li
-                className="cursor-pointer border-t-Gray28 mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-[#fff]"
+                className="cursor-pointer border-t-Gray28 mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-white"
                 onClick={handleLogOut}
               >
                 <div className="py-[22px] pe-3 ps-[10px] flex">

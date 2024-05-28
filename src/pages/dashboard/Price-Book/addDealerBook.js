@@ -336,7 +336,7 @@ function AddDealerBook() {
                       />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Wholesale Price
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -351,7 +351,7 @@ function AddDealerBook() {
                       <img src={category1} className="w-6 h-6" alt="category" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Product Category
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -366,7 +366,7 @@ function AddDealerBook() {
                       <img src={dealer} className="w-6 h-6" alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Dealer Name
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -381,7 +381,7 @@ function AddDealerBook() {
                       <img src={product} className="w-6 h-6" alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-lg font-medium leading-5	">
+                      <p className="text-white text-lg font-medium leading-5	">
                         Product Name
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
@@ -396,7 +396,7 @@ function AddDealerBook() {
                       <img src={product} className="w-6 h-6" alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-lg font-medium leading-5	">
+                      <p className="text-white text-lg font-medium leading-5	">
                         Product SKU
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
@@ -412,7 +412,7 @@ function AddDealerBook() {
                       <img src={product} className="w-6 h-6" alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-lg font-medium leading-5	">
+                      <p className="text-white text-lg font-medium leading-5	">
                         Price Type
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
@@ -427,7 +427,7 @@ function AddDealerBook() {
                       <img src={product} className="w-6 h-6" alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-lg font-medium leading-5	">
+                      <p className="text-white text-lg font-medium leading-5	">
                         Coverage Type
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
@@ -442,7 +442,7 @@ function AddDealerBook() {
                       <img src={product} className="w-6 h-6" alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-lg font-medium leading-5	">
+                      <p className="text-white text-lg font-medium leading-5	">
                         Description
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
@@ -475,7 +475,7 @@ function AddDealerBook() {
                         options={activeDealerList}
                         disabled={dealerIdValue != undefined ? true : false}
                         required={true}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""
                         value={formik.values.dealerId}
                         onBlur={formik.handleBlur}
@@ -496,7 +496,7 @@ function AddDealerBook() {
                         label="Product Category"
                         options={category}
                         required={true}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""
                         maxLength={"30"}
                         value={formik.values.categoryId}
@@ -519,7 +519,7 @@ function AddDealerBook() {
                         label="Product SkU"
                         options={productNameOptions}
                         required={true}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""
                         value={formik.values.priceBook}
                         onBlur={formik.handleBlur}
@@ -538,7 +538,7 @@ function AddDealerBook() {
                       <Input
                         type="text"
                         name="pName"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Product Name"
                         // required={true}
                         placeholder=""
@@ -555,7 +555,7 @@ function AddDealerBook() {
                       <Input
                         type="text"
                         name="wholesalePrice"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Wholesale Price($)"
                         // required={true}
                         placeholder=""
@@ -573,7 +573,7 @@ function AddDealerBook() {
                       <Input
                         type="text"
                         name="description"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Description"
                         // required={true}
                         placeholder=""
@@ -590,7 +590,7 @@ function AddDealerBook() {
                       <Input
                         type="text"
                         name="term"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Term"
                         // required={true}
                         placeholder=""
@@ -607,7 +607,7 @@ function AddDealerBook() {
                       <Input
                         type="text"
                         name="priceType"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Price Type"
                         // required={true}
                         placeholder=""
@@ -627,7 +627,7 @@ function AddDealerBook() {
                   <Input
                     type="number"
                     name="retailPrice"
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                     label="Retail Price($)"
                     placeholder=""
                     required={true}
@@ -668,7 +668,7 @@ function AddDealerBook() {
                     //     ? true
                     //     : false
                     // }
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                     options={status}
                     value={formik.values.status}
                     onBlur={formik.handleBlur}

@@ -45,7 +45,7 @@ function ReInsurance() {
                               </div>  
                               {isDropdownOpen && (
                               <div className='absolute top-8 w-full text-center '>
-                                  <div className='bg-[#fff] text-light-black border rounded-xl py-2 px-4'>
+                                  <div className='bg-white text-light-black border rounded-xl py-2 px-4'>
                                       <p className='font-semibold border-b'>Period</p>
                                       <p className='border-b'>Days</p>
                                       <p>Monthly</p>
@@ -70,7 +70,7 @@ function ReInsurance() {
             </div>
         </div>
         <div className='col-span-4'>
-            <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+            <div className="bg-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
                 <p className='text-xl font-bold mb-3'>Years Comparison</p>
                 <ChartComponent/>
 

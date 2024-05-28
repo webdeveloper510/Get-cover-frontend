@@ -499,7 +499,7 @@ function ServicerUser() {
                     <img src={dealer} alt="dealer" />
                   </div>
                   <div className="self-center">
-                    <p className="text-[#FFF] text-base font-medium leading-5	">
+                    <p className="text-white text-base font-medium leading-5	">
                       Account Name
                     </p>
                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -514,7 +514,7 @@ function ServicerUser() {
                     <img src={terms} className="" alt="terms" />
                   </div>
                   <div className="self-center">
-                    <p className="text-[#FFF] text-base font-medium leading-5">
+                    <p className="text-white text-base font-medium leading-5">
                       Address
                     </p>
                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
@@ -537,16 +537,16 @@ function ServicerUser() {
                 </div>
 
                 <div className="col-span-4">
-                  <Input type="text" label="First Name" className="!bg-[#fff]" />
+                  <Input type="text" label="First Name" className="!bg-white" />
                 </div>
                 <div className="col-span-4">
-                  <Input type="text" label="Last Name" className="!bg-[#fff]" />
+                  <Input type="text" label="Last Name" className="!bg-white" />
                 </div>
                 <div className="col-span-4">
-                  <Input type="tel" label="Phone #" className="!bg-[#fff]" />
+                  <Input type="tel" label="Phone #" className="!bg-white" />
                 </div>
                 <div className="col-span-4">
-                  <Input type="text" label="Postion" className="!bg-[#fff]" />
+                  <Input type="text" label="Postion" className="!bg-white" />
                 </div>
                 <div className="col-span-4 text-right"></div>
                 <div className="col-span-12 text-right">
@@ -561,21 +561,21 @@ function ServicerUser() {
                   <Input
                     type="password"
                     label="Old Password"
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                   />
                 </div>
                 <div className="col-span-4">
                   <Input
                     type="password"
                     label="New Password"
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                   />
                 </div>
                 <div className="col-span-4">
                   <Input
                     type="password"
                     label="Confirm Password"
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                   />
                 </div>
               </Grid>
@@ -605,8 +605,8 @@ function ServicerUser() {
                         <Input
                           name="firstName"
                           type="text"
-                          className="!text-[14px] !bg-[#f7f7f7]"
-                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                          className="!text-[14px] !bg-White-Smoke"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                           label=""
                           placeholder="First Name"
                           value={formikUSerFilter.values.firstName}
@@ -618,8 +618,8 @@ function ServicerUser() {
                         <Input
                           name="email"
                           type="text"
-                          className="!text-[14px] !bg-[#f7f7f7]"
-                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                          className="!text-[14px] !bg-White-Smoke"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                           label=""
                           placeholder="Email"
                           value={formikUSerFilter.values.email}
@@ -631,8 +631,8 @@ function ServicerUser() {
                         <Input
                           name="phone"
                           type="tel"
-                          className="!text-[14px] !bg-[#f7f7f7]"
-                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                          className="!text-[14px] !bg-White-Smoke"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                           label=""
                           placeholder="Phone"
                           value={formikUSerFilter.values.phone}
@@ -768,7 +768,7 @@ function ServicerUser() {
                   name="firstName"
                   label="First Name"
                   required={true}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   maxLength={"30"}
                   value={formik.values.firstName}
@@ -789,7 +789,7 @@ function ServicerUser() {
                   label="Last Name"
                   required={true}
                   placeholder=""
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   maxLength={"30"}
                   value={formik.values.lastName}
                   onBlur={formik.handleBlur}
@@ -807,7 +807,7 @@ function ServicerUser() {
                   type="text"
                   name="email"
                   label="Email"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   required={true}
                   placeholder=""
                   maxLength={"30"}
@@ -828,7 +828,7 @@ function ServicerUser() {
                   name="phoneNumber"
                   label="Mobile Number"
                   required={true}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   value={formik.values.phoneNumber}
                   onChange={(e) => {
@@ -866,7 +866,7 @@ function ServicerUser() {
                   type="text"
                   name="position"
                   label="Position"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   // required={true}
                   placeholder=""
                   maxLength={"30"}

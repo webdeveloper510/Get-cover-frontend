@@ -293,7 +293,7 @@ function ResellerOrderDetails() {
           <div className="col-span-3">
             <Grid className="">
               <div className="col-span-4">
-                <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-2 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>

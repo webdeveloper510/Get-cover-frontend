@@ -772,7 +772,7 @@ function Account() {
                           <div className="relative">
                             <label
                               htmlFor="First Name"
-                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
                             >
                               First Name
                             </label>
@@ -794,7 +794,7 @@ function Account() {
                           <div className="relative">
                             <label
                               htmlFor="Last Name"
-                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
                             >
                               Last Name
                             </label>
@@ -815,7 +815,7 @@ function Account() {
                           <div className="relative">
                             <label
                               htmlFor="Phone #"
-                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
                             >
                               Phone #
                             </label>
@@ -841,7 +841,7 @@ function Account() {
                           <div className="relative">
                             <label
                               htmlFor="Position"
-                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75`}
+                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
                             >
                               Position
                             </label>
@@ -875,7 +875,7 @@ function Account() {
                   <div className="relative">
                     <label
                       htmlFor="email"
-                      className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                      className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                     >
                       Send Notification to
                     </label>
@@ -1190,7 +1190,7 @@ function Account() {
                   name="firstName"
                   label="First Name"
                   required={true}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   maxLength={"30"}
                   value={formik.values.firstName}
@@ -1211,7 +1211,7 @@ function Account() {
                   label="Last Name"
                   required={true}
                   placeholder=""
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   maxLength={"30"}
                   value={formik.values.lastName}
                   onBlur={formik.handleBlur}
@@ -1229,7 +1229,7 @@ function Account() {
                   type="text"
                   name="position"
                   label="Position"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   maxLength={"30"}
                   value={formik.values.position}
@@ -1244,7 +1244,7 @@ function Account() {
                   name="phoneNumber"
                   label="Mobile Number"
                   required={true}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   placeholder=""
                   value={formik.values.phoneNumber}
                   onChange={(e) => {
@@ -1285,7 +1285,7 @@ function Account() {
                   placeholder=""
                   onChange={handleSelectChange}
                   disabled={isprimary}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   options={status}
                   value={formik.values.status}
                   onBlur={formik.handleBlur}
@@ -1376,7 +1376,7 @@ function Account() {
       <Modal isOpen={isPasswordOpen} onClose={closePassword}>
         <Button
           onClick={closePassword}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}

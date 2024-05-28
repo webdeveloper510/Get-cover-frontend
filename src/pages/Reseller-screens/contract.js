@@ -57,13 +57,13 @@ function ResellerContract() {
                 <div className='bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey'>
                   <Grid className='!grid-cols-9' >
                     <div className='col-span-2 self-center'>
-                      <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Contract ID' />
+                      <Input name='Name' type='text' className='!text-[14px] !bg-White-Smoke' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]" label='' placeholder='Contract ID' />
                     </div>
                     <div className='col-span-2 self-center'>
-                      <Input name='Email' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder=' Order ID' />
+                      <Input name='Email' type='text'className='!text-[14px] !bg-White-Smoke' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]" label='' placeholder=' Order ID' />
                     </div>
                     <div className='col-span-2 self-center'>
-                      <Input name='PhoneNo.' type='text'className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Dealer P.O. #' />
+                      <Input name='PhoneNo.' type='text'className='!text-[14px] !bg-White-Smoke' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]" label='' placeholder='Dealer P.O. #' />
                     </div>
                     <div className='col-span-1 self-center flex justify-center'>
                     <Button
@@ -420,7 +420,7 @@ function ResellerContract() {
         </div>
 
         <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
-          <Button onClick={closeDisapproved} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+          <Button onClick={closeDisapproved} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button>
           <div className="py-3">
@@ -431,56 +431,56 @@ function ResellerContract() {
             <div className='col-span-6'>
                <Input type='text' 
                          name="Contract ID"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Contract ID"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
                          name="Order ID"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Order ID"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
                          name="Dealer P.O. No."
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Dealer P.O. #"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
                          name="Serial No."
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Serial #"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
                          name="Product Name"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Product Name"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
                          name="Dealer Name"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Dealer Name"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
                          name="Customer Name"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Customer Name"
                         placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
                          name="Servicer Name"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Servicer Name"
                         placeholder="" />
             </div>
@@ -490,7 +490,7 @@ function ResellerContract() {
                         name="Status"
                         label="Status"
                         options={status}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""/>
             </div>
             <div className='col-span-6'>
@@ -498,7 +498,7 @@ function ResellerContract() {
                         name="ClaimStatus"
                         label="Claim Status"
                         options={status}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""/>
             </div>
             <div className='col-span-12'>

@@ -281,11 +281,19 @@ function Dealer() {
   };
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setSelectedFile2(file);
-    formik.setFieldValue("termCondition", file);
-    console.log("Selected file:", file);
-  };
+    const maxSize = 10048576; // 10MB in bytes
 
+    if (file.size > maxSize) {
+      formik.setFieldError("termCondition", "File is too large. Please upload a file smaller than 10MB.");
+      console.log("Selected file:", file);
+    } else {
+        setSelectedFile2(file);
+        formik.setFieldValue("termCondition", file);
+        console.log("Selected file:", file);
+    }
+};
+
+  
   const handleRemoveFile = () => {
     if (inputRef) {
       inputRef.current.click();
@@ -943,7 +951,7 @@ function Dealer() {
                         <div className="relative">
                           <label
                             htmlFor="term"
-                            className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75 `}
+                            className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75 `}
                           >
                             Term And Condition
                           </label>
@@ -986,7 +994,12 @@ function Dealer() {
                             )}
                           </div>
                         </div>
-                        <small className="text-neutral-grey p-10p">Only upload 10MB file</small>
+                        {formik.errors.termCondition && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.termCondition}
+                            </div>
+                          )}
+                        <small className="text-neutral-grey p-10p">Attachment size limit is 10 MB</small>
                       </div>
                     </Grid>
                   </div>
@@ -1423,7 +1436,7 @@ function Dealer() {
                       handleDeleteDealers(index);
                     }}
                   >
-                    <div className="flex mx-3 h-full bg-[#EBEBEB] justify-center">
+                    <div className="flex mx-3 h-full bg-Smoke justify-center">
                       <img
                         src={DeleteImage}
                         className="self-center cursor-pointer"
@@ -1436,7 +1449,7 @@ function Dealer() {
             </div>
           ))}
 
-          <div className="bg-[#fff] p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
+          <div className="bg-white p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
             <Grid>
               <div className="col-span-2">
                 <p className="text-light-black text-lg mb-3 font-semibold">
@@ -1470,7 +1483,7 @@ function Dealer() {
               <>
                 {formik.values.priceBook.map((dealer, index) => (
                   <div className="bg-grayf9 p-4 relative mt-8 rounded-xl">
-                    <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
+                    <div className="bg-white rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
                       {index == 0 ? (
                         <Button
                           className="text-sm !font-light"
@@ -1485,7 +1498,7 @@ function Dealer() {
                             handleDeletePriceBook(index);
                           }}
                         >
-                          <div className="flex h-full mx-3 bg-[#fff] justify-center">
+                          <div className="flex h-full mx-3 bg-white justify-center">
                             <img
                               src={DeleteImage}
                               className="self-center cursor-pointer"
@@ -1812,7 +1825,7 @@ function Dealer() {
           <>
             <Button
               onClick={closeModal}
-              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
             >
               <img
                 src={Cross}

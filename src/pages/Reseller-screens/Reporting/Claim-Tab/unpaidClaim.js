@@ -29,7 +29,7 @@ function ResellerUnpaidClaim() {
                             </div>  
                             {isDropdownOpen && (
                             <div className='absolute top-8 w-full text-center '>
-                                <div className='bg-[#fff] text-light-black border rounded-xl py-2 px-4'>
+                                <div className='bg-white text-light-black border rounded-xl py-2 px-4'>
                                     <p className='font-semibold border-b'>Period</p>
                                     <p className='border-b'>Days</p>
                                     <p>Monthly</p>

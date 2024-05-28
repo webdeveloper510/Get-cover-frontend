@@ -68,7 +68,7 @@ function All() {
             </div>
         </div>
         {/* <div className='col-span-4'>
-            <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+            <div className="bg-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
                 <p className='text-xl font-bold mb-3'>Years Comparison</p>
             <ChartComponent/>
 
@@ -127,7 +127,7 @@ function All() {
     <Modal isOpen={isModalOpen} className='w-[72vw]'  onClose={closeModal}>
          <Button
           onClick={closeModal}
-          className="absolute right-[-13px] z-10 top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] z-10 top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -140,7 +140,7 @@ function All() {
             <Button onClick={closeModal}>Apply</Button>
         </div>
     </Modal>
-    <div className="bg-[#fff] rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+    <div className="bg-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
         <Grid className='!grid-cols-5'>
             <div className='col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]'>
                 <div className='bg-white pl-2'>

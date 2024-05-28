@@ -230,7 +230,7 @@ function CustomerAddBulkClaim() {
                       name="dealerId"
                       placeholder=""
                       onChange={handleSelectChange}
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       options={activeDealers}
                       value={formik.values.dealerId}
                       onBlur={formik.handleBlur}
@@ -260,7 +260,7 @@ function CustomerAddBulkClaim() {
                     />
                     <label
                       htmlFor="email"
-                      className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-1 left-2 px-1 -translate-y-4 scale-75 bg-[#fff] text-[#5D6E66] "
+                      className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-1 left-2 px-1 -translate-y-4 scale-75 bg-white text-[#5D6E66] "
                     >
                       Email Confirmations
                       <span className="text-red-500">*</span>
@@ -325,7 +325,7 @@ function CustomerAddBulkClaim() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {/* <Button
         onClick={closeModal}
-        className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+        className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
       >
         <img
           src={Cross}

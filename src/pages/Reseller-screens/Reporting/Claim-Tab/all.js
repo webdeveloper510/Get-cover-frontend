@@ -34,7 +34,7 @@ function ResellerAll() {
     <>
     <Grid className='mt-3'>
        <div className='col-span-6'>
-            <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-Light-Grey flex w-full justify-between">
+            <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey flex w-full justify-between">
                <div className='flex'>
                     <img src={Request} className='w-12 h-12' alt='Request'/>
                     <p className='self-center pl-2 font-bold'>Total requests for service</p>
@@ -43,7 +43,7 @@ function ResellerAll() {
             </div>
        </div>
        <div className='col-span-6'>
-            <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-Light-Grey flex w-full justify-between">
+            <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey flex w-full justify-between">
                 <div className='flex'>
                     <img src={Complete} className='w-12 h-12' alt='Complete'/>
                     <p className='self-center pl-2 font-bold'>Total Completed claims</p>
@@ -70,7 +70,7 @@ function ResellerAll() {
                             </div>  
                             {isDropdownOpen1 && (
                             <div className='absolute top-8 w-full text-center '>
-                                <div className='bg-[#fff] text-light-black border rounded-xl py-2 px-4'>
+                                <div className='bg-white text-light-black border rounded-xl py-2 px-4'>
                                     <p className='font-semibold border-b'>Period</p>
                                     <p className='border-b'>Days</p>
                                     <p>Monthly</p>
@@ -106,7 +106,7 @@ function ResellerAll() {
                             </div>  
                             {isDropdownOpen && (
                             <div className='absolute top-8 w-full text-center '>
-                                <div className='bg-[#fff] text-light-black border rounded-xl py-2 px-4'>
+                                <div className='bg-white text-light-black border rounded-xl py-2 px-4'>
                                     <p className='font-semibold border-b'>Period</p>
                                     <p className='border-b'>Days</p>
                                     <p>Monthly</p>

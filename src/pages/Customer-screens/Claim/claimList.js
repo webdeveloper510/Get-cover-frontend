@@ -128,16 +128,16 @@ function CustomerClaimList() {
                   <div className='col-span-8'>
                     <Grid className='' >
                       <div className='col-span-3 self-center'>
-                        <Input name='Name' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Contract ID' />
+                        <Input name='Name' type='text' className='!text-[14px] !bg-White-Smoke' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]" label='' placeholder='Contract ID' />
                       </div>
                       <div className='col-span-3 self-center'>
-                        <Input name='Email' type='email' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Claim' />
+                        <Input name='Email' type='email' className='!text-[14px] !bg-White-Smoke' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]" label='' placeholder='Claim' />
                       </div>
                       <div className='col-span-3 self-center'>
-                        <Input name='PhoneNo.' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Customer Status' />
+                        <Input name='PhoneNo.' type='text' className='!text-[14px] !bg-White-Smoke' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]" label='' placeholder='Customer Status' />
                       </div>
                       <div className='col-span-3 self-center'>
-                        <Input name='PhoneNo.' type='text' className='!text-[14px] !bg-[#f7f7f7]' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]" label='' placeholder='Repair Status' />
+                        <Input name='PhoneNo.' type='text' className='!text-[14px] !bg-White-Smoke' className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]" label='' placeholder='Repair Status' />
                       </div>
 
                     </Grid>
@@ -224,58 +224,58 @@ function CustomerClaimList() {
           <Grid className='!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x'>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
+                    <p className='text-white text-sm font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Description</p>
+                    <p className='text-white text-sm font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
+                    <p className='text-white text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
+                    <p className='text-white text-sm font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Description</p>
+                    <p className='text-white text-sm font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
+                    <p className='text-white text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
+                    <p className='text-white text-sm font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Description</p>
+                    <p className='text-white text-sm font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
+                    <p className='text-white text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -402,58 +402,58 @@ function CustomerClaimList() {
           <Grid className='!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x'>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
+                    <p className='text-white text-sm font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Description</p>
+                    <p className='text-white text-sm font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
+                    <p className='text-white text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
+                    <p className='text-white text-sm font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Description</p>
+                    <p className='text-white text-sm font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
+                    <p className='text-white text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
+                    <p className='text-white text-sm font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Description</p>
+                    <p className='text-white text-sm font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
+                    <p className='text-white text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -580,58 +580,58 @@ function CustomerClaimList() {
           <Grid className='!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x'>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
+                    <p className='text-white text-sm font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Description</p>
+                    <p className='text-white text-sm font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
+                    <p className='text-white text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
+                    <p className='text-white text-sm font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Description</p>
+                    <p className='text-white text-sm font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
+                    <p className='text-white text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Service Type</p>
+                    <p className='text-white text-sm font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-[#333333] border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Description</p>
+                    <p className='text-white text-sm font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-[#333333] border-b border-Gray28'>
                   <div className='py-4 pl-3'>
-                    <p className='text-[#fff] text-sm font-Regular'>Price</p>
+                    <p className='text-white text-sm font-Regular'>Price</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
@@ -711,7 +711,7 @@ function CustomerClaimList() {
       </div>
 
       <Modal isOpen={isViewOpen} onClose={closeView}>
-            <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+            <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray">
               <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
             </Button>
             <div className="py-3">
@@ -872,7 +872,7 @@ function CustomerClaimList() {
                 </div>
                 <div className='col-span-6'>
                   <Input type='text'
-                  className1="!text-[16px] !pt-2 placeholder-opacity-50 !pb-2 placeholder-[#1B1D21] !bg-[white]"/>
+                  className1="!text-[16px] !pt-2 placeholder-opacity-50 !pb-2 placeholder-Black-Russian !bg-[white]"/>
                 </div>
                 <div className='col-span-3'>
                   <Select 
@@ -890,7 +890,7 @@ function CustomerClaimList() {
           </Modal>
 
           <Modal  isOpen={isEditOpen} onClose={closeEdit}>
-            <Button onClick={closeEdit} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+            <Button onClick={closeEdit} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-Granite-Gray">
                 <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
             </Button>
             <div className='py-1'>
@@ -907,20 +907,20 @@ function CustomerClaimList() {
                         label="Service Type"
                         options={CoverageStartDate}
                         required={true}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""/>
                       </div>
                       <div className='col-span-5'>
                         <Input type='text' 
                          name="description"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Description"
                         placeholder="" />
                       </div>
                       <div className='col-span-4'>
                         <Input type='number' 
                          name="price"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Price($)"
                         placeholder="" />
                       </div>
@@ -934,20 +934,20 @@ function CustomerClaimList() {
                         label="Service Type"
                         options={CoverageStartDate}
                         required={true}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""/>
                       </div>
                       <div className='col-span-5'>
                         <Input type='text' 
                          name="description"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Description"
                         placeholder="" />
                       </div>
                       <div className='col-span-3'>
                         <Input type='number' 
                          name="price"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Price($)"
                         placeholder="" />
                       </div>
@@ -963,20 +963,20 @@ function CustomerClaimList() {
                         label="Service Type"
                         options={CoverageStartDate}
                         required={true}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""/>
                       </div>
                       <div className='col-span-5'>
                         <Input type='text' 
                          name="description"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Description"
                         placeholder="" />
                       </div>
                       <div className='col-span-3'>
                         <Input type='number' 
                          name="price"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Price($)"
                         placeholder="" />
                       </div>
@@ -995,7 +995,7 @@ function CustomerClaimList() {
                   <div className="relative">
                       <label
                         htmlFor="description"
-                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                       >
                         Note
                       </label>
@@ -1018,7 +1018,7 @@ function CustomerClaimList() {
           </Modal>
 
           <Modal  isOpen={isAttachmentsOpen} onClose={closeAttachments}>
-            <Button onClick={closeAttachments} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+            <Button onClick={closeAttachments} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-Granite-Gray">
                 <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
             </Button>
             <div className='py-1'>
@@ -1030,7 +1030,7 @@ function CustomerClaimList() {
           </Modal>
 
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
-          <Button onClick={closeDisapproved} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+          <Button onClick={closeDisapproved} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button>
           <div className="py-3">
@@ -1041,28 +1041,28 @@ function CustomerClaimList() {
             <div className='col-span-6'>
                <Input type='text' 
                     name="Contract ID"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Contract ID"
                   placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
                     name="Order ID"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Order ID"
                   placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
                   name="Dealer P.O. No."
-                className="!bg-[#fff]"
+                className="!bg-white"
                 label="Dealer P.O. #"
                 placeholder="" />
             </div>
             <div className='col-span-6'>
                <Input type='text' 
                   name="Product Name"
-                className="!bg-[#fff]"
+                className="!bg-white"
                 label="Product Name"
                 placeholder="" />
             </div>
@@ -1071,7 +1071,7 @@ function CustomerClaimList() {
                 name="Status"
                 label="Status"
                 options={status}
-                className="!bg-[#fff]"
+                className="!bg-white"
                 placeholder=""/>
             </div>
             <div className='col-span-6'>
@@ -1079,7 +1079,7 @@ function CustomerClaimList() {
                 name="ClaimStatus"
                 label="Claim Status"
                 options={status}
-                className="!bg-[#fff]"
+                className="!bg-white"
                 placeholder=""/>
             </div>
             <div className='col-span-12'>

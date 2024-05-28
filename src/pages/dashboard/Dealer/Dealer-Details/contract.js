@@ -139,8 +139,8 @@ function ContractList(props) {
                     <Input
                       name="Name"
                       type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                      className="!text-[14px] !bg-White-Smoke"
+                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                       label=""
                       placeholder="ID"
                     />
@@ -149,8 +149,8 @@ function ContractList(props) {
                     <Input
                       name="Email"
                       type="email"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                      className="!text-[14px] !bg-White-Smoke"
+                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                       label=""
                       placeholder="Dealer Order no."
                     />
@@ -159,8 +159,8 @@ function ContractList(props) {
                     <Input
                       name="PhoneNo."
                       type="text"
-                      className="!text-[14px] !bg-[#f7f7f7]"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                      className="!text-[14px] !bg-White-Smoke"
+                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                       label=""
                       placeholder="Customer Name"
                     />
@@ -321,7 +321,7 @@ function ContractList(props) {
       <Modal isOpen={isViewOpen} onClose={closeView} className="!w-[1100px]">
         <Button
           onClick={closeView}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}

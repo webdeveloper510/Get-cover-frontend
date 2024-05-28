@@ -1140,7 +1140,7 @@ function ResellerAddOrder() {
                           name="name"
                           label="Name"
                           type="text"
-                          className="bg-[#ffff]"
+                          className="bg-white"
                           // required={true}
                           placeholder=""
                         />
@@ -1155,7 +1155,7 @@ function ResellerAddOrder() {
                         <Input
                           name="email"
                           label="Email"
-                          className="bg-[#ffff]"
+                          className="bg-white"
                           type="email"
                           // required={true}
                           placeholder=""
@@ -1165,7 +1165,7 @@ function ResellerAddOrder() {
                         <Input
                           name="phone"
                           label="Phone Number"
-                          className="bg-[#ffff]"
+                          className="bg-white"
                           type="number"
                           placeholder=""
                         />
@@ -1180,7 +1180,7 @@ function ResellerAddOrder() {
                         <Input
                           name="address"
                           label="Address"
-                          className="bg-[#ffff]"
+                          className="bg-white"
                           type="text"
                           placeholder=""
                         />
@@ -1333,7 +1333,7 @@ function ResellerAddOrder() {
                         handleDeleteProduct(index);
                       }}
                     >
-                      <div className="flex h-full mx-3 bg-[#fff] rounded-[30px] justify-center">
+                      <div className="flex h-full mx-3 bg-white rounded-[30px] justify-center">
                         <img
                           src={Delete}
                           alt="Delete"
@@ -1352,7 +1352,7 @@ function ResellerAddOrder() {
                           label="Product Category"
                           options={categoryList}
                           required={true}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           placeholder=""
                           value={
                             formikStep3.values.productsArray[index].categoryId
@@ -1386,7 +1386,7 @@ function ResellerAddOrder() {
                             label="Product SKU"
                             options={productNameOptions[index]?.data}
                             required={true}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             placeholder=""
                             value={
                               formikStep3.values.productsArray[index]
@@ -1422,7 +1422,7 @@ function ResellerAddOrder() {
                             label="Product Name"
                             options={productNameOptions[index]?.data}
                             required={true}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             placeholder=""
                             value={
                               formikStep3.values.productsArray[index]
@@ -1458,7 +1458,7 @@ function ResellerAddOrder() {
                             name={`productsArray[${index}].term`}
                             placeholder=""
                             onChange={handleSelectChange2}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             options={termList}
                             value={formikStep3.values.productsArray[index].term}
                             onBlur={formikStep3.handleBlur}
@@ -1479,7 +1479,7 @@ function ResellerAddOrder() {
                         <Input
                           type="text"
                           name={`productsArray[${index}].description`}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="Product Description"
                           placeholder=""
                           value={
@@ -1499,7 +1499,7 @@ function ResellerAddOrder() {
                           name={`productsArray[${index}].term`}
                           placeholder=""
                           onChange={handleSelectChange2}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           options={termList}
                           disabled={true}
                           value={formikStep3.values.productsArray[index].term}
@@ -1510,7 +1510,7 @@ function ResellerAddOrder() {
                         <Input
                           type="text"
                           name={`productsArray[${index}].priceType`}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="Product Price Type"
                           placeholder=""
                           value={
@@ -1528,7 +1528,7 @@ function ResellerAddOrder() {
                         <Input
                           type="text"
                           name={`productsArray[${index}].unitPrice`}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="Unit Price($)"
                           placeholder=""
                           value={
@@ -1546,7 +1546,7 @@ function ResellerAddOrder() {
                         <Input
                           type="number"
                           name={`productsArray[${index}].noOfProducts`}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="# of Products"
                           required={true}
                           placeholder=""
@@ -1604,7 +1604,7 @@ function ResellerAddOrder() {
                         <Input
                           type="number"
                           name={`productsArray[${index}].price`}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="Price($)"
                           placeholder=""
                           value={formikStep3.values.productsArray[index].price}
@@ -1620,7 +1620,7 @@ function ResellerAddOrder() {
                         <Input
                           type="date"
                           name={`productsArray[${index}].coverageStartDate`}
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="Coverage Start Date"
                           placeholder=""
                           readOnly
@@ -1695,7 +1695,7 @@ function ResellerAddOrder() {
                             <Input
                               type="text"
                               name={`productsArray[${index}].rangeStart`}
-                              className="!bg-[#fff]"
+                              className="!bg-white"
                               label="Start Range"
                               placeholder=""
                               value={
@@ -1714,7 +1714,7 @@ function ResellerAddOrder() {
                             <Input
                               type="text"
                               name={`productsArray[${index}].rangeEnd`}
-                              className="!bg-[#fff]"
+                              className="!bg-white"
                               label="End Range"
                               placeholder=""
                               value={
@@ -1860,7 +1860,7 @@ function ResellerAddOrder() {
                         <div className="relative">
                           <label
                             htmlFor="description"
-                            className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                            className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                           >
                             Note
                           </label>
@@ -1896,7 +1896,7 @@ function ResellerAddOrder() {
                     <div className="border border-dashed w-full h-[80%] relative flex justify-center">
                       <label
                         htmlFor="description"
-                        className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                        className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                       >
                         Upload File
                       </label>
@@ -2152,7 +2152,7 @@ function ResellerAddOrder() {
                             {data.priceType == "Quantity Pricing" && (
                               <div className="col-span-12">
                                 <table className="w-full border text-center">
-                                  <tr className="border bg-[#fff]">
+                                  <tr className="border bg-white">
                                     <td
                                       colSpan={"4"}
                                       className="font-bold text-sm"
@@ -2160,7 +2160,7 @@ function ResellerAddOrder() {
                                       Quantity Pricing List{" "}
                                     </td>
                                   </tr>
-                                  <tr className="border bg-[#fff]">
+                                  <tr className="border bg-white">
                                     <th className="font-bold text-sm">Name</th>
                                     <th className="font-bold text-sm">
                                       Quantity Per Unit
@@ -2177,7 +2177,7 @@ function ResellerAddOrder() {
                                       return (
                                         <tr
                                           key={index}
-                                          className="border bg-[#fff]"
+                                          className="border bg-white"
                                         >
                                           <td className="text-[12px]">
                                             {value.name}
@@ -2473,7 +2473,7 @@ function ResellerAddOrder() {
       <Modal isOpen={isErrorOpen} onClose={closeError}>
         <Button
           onClick={closeError}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}

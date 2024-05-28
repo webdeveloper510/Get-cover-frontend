@@ -351,7 +351,7 @@ function OrderDetails() {
           <div className="col-span-3 max-h-[85vh] overflow-y-scroll">
             <Grid className="">
               <div className="col-span-4">
-                <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-2 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
@@ -400,7 +400,7 @@ function OrderDetails() {
       <Modal isOpen={isServicerModal} onClose={closeServicer}>
         <Button
           onClick={closeServicer}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -417,7 +417,7 @@ function OrderDetails() {
                 label="Servicer Name"
                 name="servicerId"
                 placeholder=""
-                className="!bg-[#fff]"
+                className="!bg-white"
                 options={state}
               />
             </div>

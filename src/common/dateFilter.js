@@ -25,7 +25,7 @@ function MyComponent() {
 
 
   return (
-    <div className="bg-[#fff] rounded-[20px] relative p-3 my-4 border-[1px] border-Light-Grey">
+    <div className="bg-white rounded-[20px] relative p-3 my-4 border-[1px] border-Light-Grey">
       <DateRangePicker
         onChange={handleSelect}
         showSelectionPreview={true}

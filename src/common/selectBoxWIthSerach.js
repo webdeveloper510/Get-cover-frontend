@@ -30,7 +30,7 @@ const SelectBoxWithSearch = ({
     setLocalDefaultValue(value ? value : "");
   }, [value, localDefaultValue]);
   // Adding an "unselect" option
-  console.log(emailKey, '-------emailKey-----------')
+  // console.log(emailKey, '-------emailKey-----------')
   const extendedOptions = [
     { value: "", label: "Select" }, // Change the label as per your preference
     ...options.map(option => ({

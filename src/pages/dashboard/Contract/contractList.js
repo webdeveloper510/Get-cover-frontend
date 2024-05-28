@@ -244,8 +244,8 @@ function ContractList(props) {
                     <div className="col-span-2 self-center">
                       <Input
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Contract ID"
                         name="contractId"
@@ -258,8 +258,8 @@ function ContractList(props) {
                           <Input
                             name="orderId"
                             type="text"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            className="!text-[14px] !bg-White-Smoke"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                             label=""
                             placeholder=" Order ID"
                             {...formik.getFieldProps("orderId")}
@@ -269,8 +269,8 @@ function ContractList(props) {
                           <Input
                             name="venderOrder"
                             type="text"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            className="!text-[14px] !bg-White-Smoke"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                             label=""
                             placeholder="Dealer P.O. #"
                             {...formik.getFieldProps("venderOrder")}
@@ -283,8 +283,8 @@ function ContractList(props) {
                           <Input
                             type="text"
                             name="serial"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            className="!text-[14px] !bg-White-Smoke"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                             label=""
                             placeholder="Serial #"
                             {...formik.getFieldProps("serial")}
@@ -294,11 +294,11 @@ function ContractList(props) {
                           <Select
                             label=""
                             options={Eligible}
-                            color="text-[#1B1D21] opacity-50"
+                            color="text-Black-Russian opacity-50"
                             value={value}
                             OptionName="Eligible"
                             className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                            className="!text-[14px] !bg-[#fff]"
+                            className="!text-[14px] !bg-white"
                             selectedValue={value}
                             onChange={handleSelectChange2}
                           />
@@ -505,7 +505,7 @@ function ContractList(props) {
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button
               onClick={closeDisapproved}
-              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
             >
               <img
                 src={Cross}
@@ -522,7 +522,7 @@ function ContractList(props) {
                     <Input
                       type="text"
                       name="contractId"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Contract ID"
                       placeholder=""
                       {...formik.getFieldProps("contractId")}
@@ -534,7 +534,7 @@ function ContractList(props) {
                         <Input
                           type="text"
                           name="orderId"
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="Order ID"
                           {...formik.getFieldProps("orderId")}
                           placeholder=""
@@ -544,7 +544,7 @@ function ContractList(props) {
                         <Input
                           type="text"
                           name="venderOrder"
-                          className="!bg-[#fff]"
+                          className="!bg-white"
                           label="Dealer P.O. #"
                           {...formik.getFieldProps("venderOrder")}
                           placeholder=""
@@ -559,7 +559,7 @@ function ContractList(props) {
                     <Input
                       type="text"
                       name="serial"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Serial #"
                       placeholder=""
                       {...formik.getFieldProps("serial")}
@@ -569,7 +569,7 @@ function ContractList(props) {
                     <Input
                       type="text"
                       name="productName"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Product SKU"
                       placeholder=""
                       {...formik.getFieldProps("productName")}
@@ -579,7 +579,7 @@ function ContractList(props) {
                     <Input
                       type="text"
                       name="pName"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Product Name"
                       placeholder=""
                       {...formik.getFieldProps("pName")}
@@ -594,7 +594,7 @@ function ContractList(props) {
                             <Input
                               type="text"
                               name="servicerName"
-                              className="!bg-[#fff]"
+                              className="!bg-white"
                               label="Servicer Name"
                               {...formik.getFieldProps("servicerName")}
                               placeholder=""
@@ -611,7 +611,7 @@ function ContractList(props) {
                                 <Input
                                   type="text"
                                   name="customerName"
-                                  className="!bg-[#fff]"
+                                  className="!bg-white"
                                   label="Customer Name"
                                   {...formik.getFieldProps("customerName")}
                                   placeholder=""
@@ -621,7 +621,7 @@ function ContractList(props) {
                                 <Input
                                   type="text"
                                   name="servicerName"
-                                  className="!bg-[#fff]"
+                                  className="!bg-white"
                                   label="Servicer Name"
                                   {...formik.getFieldProps("servicerName")}
                                   placeholder=""
@@ -637,7 +637,7 @@ function ContractList(props) {
                                     <Input
                                       type="text"
                                       name="resellerName"
-                                      className="!bg-[#fff]"
+                                      className="!bg-white"
                                       label="Reseller Name"
                                       {...formik.getFieldProps("resellerName")}
                                       placeholder=""
@@ -647,7 +647,7 @@ function ContractList(props) {
                                     <Input
                                       type="text"
                                       name="customerName"
-                                      className="!bg-[#fff]"
+                                      className="!bg-white"
                                       label="Customer Name"
                                       {...formik.getFieldProps("customerName")}
                                       placeholder=""
@@ -657,7 +657,7 @@ function ContractList(props) {
                                     <Input
                                       type="text"
                                       name="servicerName"
-                                      className="!bg-[#fff]"
+                                      className="!bg-white"
                                       label="Servicer Name"
                                       {...formik.getFieldProps("servicerName")}
                                       placeholder=""
@@ -671,7 +671,7 @@ function ContractList(props) {
                                     <Input
                                       type="text"
                                       name="dealerName"
-                                      className="!bg-[#fff]"
+                                      className="!bg-white"
                                       label="Dealer Name"
                                       {...formik.getFieldProps("dealerName")}
                                       placeholder=""
@@ -681,7 +681,7 @@ function ContractList(props) {
                                     <Input
                                       type="text"
                                       name="resellerName"
-                                      className="!bg-[#fff]"
+                                      className="!bg-white"
                                       label="Reseller Name"
                                       {...formik.getFieldProps("resellerName")}
                                       placeholder=""
@@ -691,7 +691,7 @@ function ContractList(props) {
                                     <Input
                                       type="text"
                                       name="customerName"
-                                      className="!bg-[#fff]"
+                                      className="!bg-white"
                                       label="Customer Name"
                                       {...formik.getFieldProps("customerName")}
                                       placeholder=""
@@ -701,7 +701,7 @@ function ContractList(props) {
                                     <Input
                                       type="text"
                                       name="servicerName"
-                                      className="!bg-[#fff]"
+                                      className="!bg-white"
                                       label="Servicer Name"
                                       {...formik.getFieldProps("servicerName")}
                                       placeholder=""
@@ -722,7 +722,7 @@ function ContractList(props) {
                     <Input
                       type="text"
                       name="model"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Model"
                       placeholder=""
                       {...formik.getFieldProps("model")}
@@ -732,7 +732,7 @@ function ContractList(props) {
                     <Input
                       type="text"
                       name="manufacture"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Manufacturer"
                       placeholder=""
                       {...formik.getFieldProps("manufacture")}
@@ -742,10 +742,10 @@ function ContractList(props) {
                     <Select
                       label="Status"
                       options={status}
-                      color="text-[#1B1D21] opacity-50"
+                      color="text-Black-Russian opacity-50"
                       value={selectedProduct}
                       // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                      className="!text-[14px] !bg-[#fff]"
+                      className="!text-[14px] !bg-white"
                       selectedValue={selectedProduct}
                       onChange={handleSelectChange1}
                     />
@@ -754,10 +754,10 @@ function ContractList(props) {
                     <Select
                       label="Eligibility"
                       options={Eligible}
-                      color="text-[#1B1D21] opacity-50"
+                      color="text-Black-Russian opacity-50"
                       value={value}
                       // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                      className="!text-[14px] !bg-[#fff]"
+                      className="!text-[14px] !bg-white"
                       selectedValue={value}
                       onChange={handleSelectChange2}
                     />
@@ -803,7 +803,7 @@ function ContractList(props) {
               className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${
                 props?.orderId == null && props?.flag == undefined
                   ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
-                  : "!bg-[#5f5f5f]"
+                  : "!bg-Granite-Gray"
               } `}
             >
               <img

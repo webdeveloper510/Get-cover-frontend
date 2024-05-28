@@ -15,6 +15,11 @@ module.exports = {
         'grayf9' : '#F9F9F9',
         'Eclipse' : '#3C3C3C',
         'Light-Grey' : '#D1D1D1',
+        'white' : "#fff",
+        'Black-Russian' : '#1B1D21',
+        'White-Smoke' : '#f7f7f7',
+        'Smoke' : '#EBEBEB',
+        'Granite-Gray' : '#5f5f5f',
       },
       padding: {
         '10p': '10px',
@@ -25,6 +30,11 @@ module.exports = {
         'grayf9' : '#F9F9F9',
         'Eclipse' : '#3C3C3C',
         'Light-Grey' : '#D1D1D1',
+        'white' : "#fff",
+        'Black-Russian' : '#1B1D21',
+        'White-Smoke' : '#f7f7f7',
+        'Smoke' : '#EBEBEB',
+        'Granite-Gray' : '#5f5f5f',
       },
       backgroundImage : {
         'hero-pattern': "url('/src/assets/images/Bg.png')",

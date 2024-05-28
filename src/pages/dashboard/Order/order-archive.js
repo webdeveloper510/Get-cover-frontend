@@ -232,8 +232,8 @@ function ArchiveOrderList() {
                       <Input
                         name="Name"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="ID"
                         {...formik.getFieldProps("orderId")}
@@ -243,8 +243,8 @@ function ArchiveOrderList() {
                       <Input
                         name="orderNo"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Dealer Order No."
                         {...formik.getFieldProps("venderOrder")}
@@ -369,7 +369,7 @@ function ArchiveOrderList() {
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
           onClick={closeDisapproved}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -387,7 +387,7 @@ function ArchiveOrderList() {
                 <Input
                   type="text"
                   id="orderId"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Order ID"
                   placeholder=""
                   {...formik.getFieldProps("orderId")}
@@ -397,7 +397,7 @@ function ArchiveOrderList() {
                 <Input
                   type="text"
                   id="venderOrder"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Dealer P.O. #"
                   placeholder=""
                   {...formik.getFieldProps("venderOrder")}
@@ -407,7 +407,7 @@ function ArchiveOrderList() {
                 <Input
                   type="text"
                   id="dealerName"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Dealer Name"
                   placeholder=""
                   {...formik.getFieldProps("dealerName")}
@@ -419,7 +419,7 @@ function ArchiveOrderList() {
                 <Input
                   type="text"
                   id="resellerName"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Reseller Name"
                   placeholder=""
                   {...formik.getFieldProps("resellerName")}
@@ -429,7 +429,7 @@ function ArchiveOrderList() {
                 <Input
                   type="text"
                   id="customerName"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Customer Name"
                   placeholder=""
                   {...formik.getFieldProps("customerName")}
@@ -439,7 +439,7 @@ function ArchiveOrderList() {
                 <Input
                   type="text"
                   id="servicerName"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Servicer Name"
                   placeholder=""
                   {...formik.getFieldProps("servicerName")}

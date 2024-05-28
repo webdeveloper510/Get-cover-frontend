@@ -595,8 +595,8 @@ function PriceBookList(props) {
                         name="name"
                         type="text"
                         placeholder="Product SKU"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         value={formik.values.name}
                         onChange={formik.handleChange}
@@ -610,8 +610,8 @@ function PriceBookList(props) {
                         name="category"
                         type="text"
                         placeholder="Category"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         value={formik.values.category}
                         onChange={formik.handleChange}
@@ -622,9 +622,9 @@ function PriceBookList(props) {
                         label=""
                         options={categoryList}
                         OptionName="Category"
-                        color="text-[#1B1D21] opacity-50"
+                        color="text-Black-Russian opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px]  !bg-[#f7f7f7]"
+                        className="!text-[14px]  !bg-White-Smoke"
                         value={formik.values.category}
                         onChange={formik.setFieldValue}
                       /> */}
@@ -635,9 +635,9 @@ function PriceBookList(props) {
                         label=""
                         options={status}
                         OptionName="Status"
-                        color="text-[#1B1D21] opacity-50"
+                        color="text-Black-Russian opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className="!text-[14px] !bg-White-Smoke"
                         value={formik.values.status}
                         onChange={formik.setFieldValue}
                       />
@@ -705,7 +705,7 @@ function PriceBookList(props) {
       <Modal isOpen={isViewOpen} onClose={closeView}>
         <Button
           onClick={closeView}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -865,7 +865,7 @@ function PriceBookList(props) {
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
             <Button
               onClick={closeDisapproved}
-              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
             >
               <img
                 src={Cross}
@@ -882,7 +882,7 @@ function PriceBookList(props) {
                     <Input
                       type="text"
                       name="pName"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Product Name"
                       placeholder=""
                       value={formik.values.pName}
@@ -894,7 +894,7 @@ function PriceBookList(props) {
                     <Input
                       type="text"
                       name="name"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Product SKU"
                       placeholder=""
                       value={formik.values.name}
@@ -906,7 +906,7 @@ function PriceBookList(props) {
                       <Input
                       type="text"
                       name="category"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Category"
                       placeholder=""
                       value={formik.values.category}
@@ -918,8 +918,8 @@ function PriceBookList(props) {
                         label="Category"
                         options={categoryList}
                         OptionName="Category"
-                        color="text-[#1B1D21] opacity-50"
-                        className="!text-[14px] !bg-[#fff]"
+                        color="text-Black-Russian opacity-50"
+                        className="!text-[14px] !bg-white"
                         value={formik.values.category}
                         onChange={formik.setFieldValue}
                       /> */}
@@ -930,8 +930,8 @@ function PriceBookList(props) {
                         label="Price Type"
                         options={pricetype}
                         OptionName="Price Type"
-                        color="text-[#1B1D21] opacity-50"
-                        className="!text-[14px] !bg-[#fff]"
+                        color="text-Black-Russian opacity-50"
+                        className="!text-[14px] !bg-white"
                         value={formik.values.priceType}
                         onChange={formik.setFieldValue}
                       />
@@ -943,8 +943,8 @@ function PriceBookList(props) {
                         label="Term"
                         options={termList}
                         OptionName="Term"
-                        color="text-[#1B1D21] opacity-50"
-                        className="!text-[14px] !bg-[#fff]"
+                        color="text-Black-Russian opacity-50"
+                        className="!text-[14px] !bg-white"
                         value={formik.values.term}
                         onChange={formik.setFieldValue}
                       />
@@ -953,7 +953,7 @@ function PriceBookList(props) {
                     <Input
                       type="text"
                       name="range"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Product Retail Price"
                       placeholder=""
                       value={formik.values.range}
@@ -967,8 +967,8 @@ function PriceBookList(props) {
                         label="Coverage Type"
                         options={coverage}
                         OptionName="Coverage Type"
-                        color="text-[#1B1D21] opacity-50"
-                        className="!text-[14px] !bg-[#fff]"
+                        color="text-Black-Russian opacity-50"
+                        className="!text-[14px] !bg-white"
                         value={formik.values.coverageType}
                         onChange={formik.setFieldValue}
                       />
@@ -979,9 +979,9 @@ function PriceBookList(props) {
                         label="Status"
                         options={status}
                         OptionName="Status"
-                        color="text-[#1B1D21] opacity-50"
+                        color="text-Black-Russian opacity-50"
                         // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-[#fff]"
+                        className="!text-[14px] !bg-white"
                         value={formik.values.status}
                         onChange={formik.setFieldValue}
                     />

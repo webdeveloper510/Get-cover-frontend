@@ -263,8 +263,8 @@ function CustomerOrderList() {
                       <Input
                         name="Name"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="ID"
                         {...formik.getFieldProps("orderId")}
@@ -274,8 +274,8 @@ function CustomerOrderList() {
                       <Input
                         name="orderNo"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Dealer Order No."
                         {...formik.getFieldProps("venderOrder")}
@@ -286,9 +286,9 @@ function CustomerOrderList() {
                         label=""
                         options={status}
                         OptionName="Status"
-                        color="text-[#1B1D21] opacity-50"
+                        color="text-Black-Russian opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className="!text-[14px] !bg-White-Smoke"
                         selectedValue={selectedProduct}
                         onChange={handleSelectChange}
                         name="status"
@@ -415,7 +415,7 @@ function CustomerOrderList() {
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
           onClick={closeDisapproved}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -429,7 +429,7 @@ function CustomerOrderList() {
               <Input
                 type="text"
                 name="Order ID"
-                className="!bg-[#fff]"
+                className="!bg-white"
                 label="Order ID"
                 placeholder=""
               />
@@ -438,7 +438,7 @@ function CustomerOrderList() {
               <Input
                 type="text"
                 name="Dealer P.O. #"
-                className="!bg-[#fff]"
+                className="!bg-white"
                 label="Dealer P.O. #"
                 placeholder=""
               />
@@ -447,7 +447,7 @@ function CustomerOrderList() {
               <Input
                 type="text"
                 name="Serial No."
-                className="!bg-[#fff]"
+                className="!bg-white"
                 label="Serial #"
                 placeholder=""
               />
@@ -457,7 +457,7 @@ function CustomerOrderList() {
               <Input
                 type="text"
                 name="Customer Name"
-                className="!bg-[#fff]"
+                className="!bg-white"
                 label="Customer Name"
                 placeholder=""
               />
@@ -466,7 +466,7 @@ function CustomerOrderList() {
               <Input
                 type="text"
                 name="Servicer Name"
-                className="!bg-[#fff]"
+                className="!bg-white"
                 label="Servicer Name"
                 placeholder=""
               />
@@ -477,7 +477,7 @@ function CustomerOrderList() {
                 name="Status"
                 label="Status"
                 options={status}
-                className="!bg-[#fff]"
+                className="!bg-white"
                 placeholder=""
               />
             </div>

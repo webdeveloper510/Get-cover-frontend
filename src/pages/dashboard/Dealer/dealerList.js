@@ -309,8 +309,8 @@ function DealerList() {
                         name="name"
                         type="text"
                         placeholder="Name"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         value={formik.values.name}
                         onChange={formik.handleChange}
@@ -323,8 +323,8 @@ function DealerList() {
                           name="email"
                           type="text"
                           placeholder="Email"
-                          className="!text-[14px] !bg-[#f7f7f7]"
-                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                          className="!text-[14px] !bg-White-Smoke"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                           label=""
                           value={formik.values.email}
                           onChange={formik.handleChange}
@@ -343,8 +343,8 @@ function DealerList() {
                         type="tel"
                         nonumber={true}
                         placeholder="Phone No."
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         value={formik.values.phoneNumber}
                         onChange={(e) => {

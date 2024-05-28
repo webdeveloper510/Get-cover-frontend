@@ -420,8 +420,8 @@ function OrderList(props) {
                       <Input
                         name="Name"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="ID"
                         {...formik.getFieldProps("orderId")}
@@ -431,8 +431,8 @@ function OrderList(props) {
                       <Input
                         name="orderNo"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Dealer P.O. #"
                         {...formik.getFieldProps("venderOrder")}
@@ -442,9 +442,9 @@ function OrderList(props) {
                       <Select
                         label=""
                         options={status}
-                        color="text-[#1B1D21] opacity-50"
+                        color="text-Black-Russian opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-[#f7f7f7]"
+                        className="!text-[14px] !bg-White-Smoke"
                         onChange={handleSelectChange}
                         OptionName="Status"
                         name="status"
@@ -560,7 +560,7 @@ function OrderList(props) {
           onClick={() => {
             navigate(`/editOrder/${orderList._id}/${props.id}/${props.flag}`);
           }}
-          className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Edit}
@@ -569,7 +569,7 @@ function OrderList(props) {
         </Button>
         <Button
           onClick={closeModal}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}

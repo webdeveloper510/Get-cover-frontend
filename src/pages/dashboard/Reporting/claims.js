@@ -97,7 +97,7 @@ function Claims() {
           <div className="col-span-3">
             <Grid className="mt-10">
               <div className="col-span-5">
-                <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!gap-1">
                     {tabs.map((tab) => (
                       <div className={tab.className} key={tab.id}>

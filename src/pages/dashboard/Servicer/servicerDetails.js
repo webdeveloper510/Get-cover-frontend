@@ -716,7 +716,7 @@ function ServicerDetails() {
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
               <div className="col-span-9">
-                <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-5 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
@@ -959,7 +959,7 @@ function ServicerDetails() {
               <Input
                 name="bankName"
                 type="text"
-                className="!bg-[#fff]"
+                className="!bg-white"
                 label="Bank Name"
               />
             </div>
@@ -967,7 +967,7 @@ function ServicerDetails() {
               <Input
                 name="routingNumber"
                 type="number"
-                className="!bg-[#fff]"
+                className="!bg-white"
                 label="ABA Routing Number"
               />
             </div>
@@ -975,7 +975,7 @@ function ServicerDetails() {
               <Input
                 name="accountNumber"
                 type="number"
-                className="!bg-[#fff]"
+                className="!bg-white"
                 label="Account Number"
               />
             </div>
@@ -983,7 +983,7 @@ function ServicerDetails() {
               <Input
                 name="accountHolder"
                 type="text"
-                className="!bg-[#fff]"
+                className="!bg-white"
                 label="Account Holder"
               />
             </div> */}

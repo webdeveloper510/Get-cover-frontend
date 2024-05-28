@@ -409,7 +409,7 @@ function AddCompanyPriceBook() {
       <div className="flex mt-3">
         <Link
           to={"/companyPriceBook"}
-          className="h-[60px] w-[60px] flex border-[1px] bg-[#fff] border-Light-Grey rounded-[25px]"
+          className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
         >
           <img
             src={BackImage}
@@ -464,7 +464,7 @@ function AddCompanyPriceBook() {
                       <img src={dealer} className="w-6 h-6" alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Product SKU
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -479,7 +479,7 @@ function AddCompanyPriceBook() {
                       <img src={dealer} className="w-6 h-6" alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Product Name
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -494,7 +494,7 @@ function AddCompanyPriceBook() {
                       <img src={terms} className="w-6 h-6" alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5">
+                      <p className="text-white text-base font-medium leading-5">
                         Terms
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
@@ -509,7 +509,7 @@ function AddCompanyPriceBook() {
                       <img src={coverageIcon} className="" alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5">
+                      <p className="text-white text-base font-medium leading-5">
                       Coverage Type
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
@@ -543,7 +543,7 @@ function AddCompanyPriceBook() {
                     required={true}
                     placeholder=""
                     onChange={handleSelectChange}
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                     options={pricetype}
                     value={
                       (
@@ -574,7 +574,7 @@ function AddCompanyPriceBook() {
                     placeholder=""
                     onChange={handleSelectChange}
                     required={true}
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                     options={categoryList}
                     value={
                       (
@@ -603,7 +603,7 @@ function AddCompanyPriceBook() {
                     <Input
                       type="text"
                       name="name"
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       label="Product SKU "
                       placeholder=""
                       required={true}
@@ -623,7 +623,7 @@ function AddCompanyPriceBook() {
                   <Input
                     type="text"
                     name="pName"
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                     label="Product Name "
                     placeholder=""
                     required={true}
@@ -649,7 +649,7 @@ function AddCompanyPriceBook() {
                   <Input
                     type="number"
                     name="frontingFee"
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                     label="Fronting fee($)"
                     placeholder=""
                     required={true}
@@ -675,7 +675,7 @@ function AddCompanyPriceBook() {
                   <Input
                     type="number"
                     name="reinsuranceFee"
-                    className="!bg-[#fff] !px-0 w-[155px]"
+                    className="!bg-white !px-0 w-[155px]"
                     label="Re-insurance fee($)"
                     minLength={"1"}
                     maxLength={"10"}
@@ -706,7 +706,7 @@ function AddCompanyPriceBook() {
                     required={true}
                     minLength={"1"}
                     maxLength={"10"}
-                    className="!bg-[#fff] !px-0 w-[220px]"
+                    className="!bg-white !px-0 w-[220px]"
                     label="Reserve for future claims($)"
                     placeholder=""
                     onChange={formik.handleChange}
@@ -734,7 +734,7 @@ function AddCompanyPriceBook() {
                     required={true}
                     minLength={"1"}
                     maxLength={"10"}
-                    className="!bg-[#fff] !px-0 w-[160px]"
+                    className="!bg-white !px-0 w-[160px]"
                     label="Administration fee($)"
                     placeholder=""
                     onChange={formik.handleChange}
@@ -759,7 +759,7 @@ function AddCompanyPriceBook() {
                   <Input
                     type="text"
                     name="description"
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                     label="Description "
                     maxLength={100}
                     placeholder=""
@@ -783,7 +783,7 @@ function AddCompanyPriceBook() {
                             placeholder=""
                             onChange={handleSelectChange}
                             required={true}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             options={coverage}
                             value={
                               (
@@ -814,7 +814,7 @@ function AddCompanyPriceBook() {
                       required={true}
                       placeholder=""
                       onChange={handleSelectChange}
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       options={termList}
                       value={
                         (
@@ -846,7 +846,7 @@ function AddCompanyPriceBook() {
                     placeholder=""
                     required={true}
                     onChange={handleSelectChange}
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                     options={status}
                     value={
                       formik.values.status === ""
@@ -873,7 +873,7 @@ function AddCompanyPriceBook() {
                         required={true}
                         minLength={"1"}
                         maxLength={"10"}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Start Range($)"
                         placeholder=""
                         onChange={formik.handleChange}
@@ -902,7 +902,7 @@ function AddCompanyPriceBook() {
                         required={true}
                         minLength={"1"}
                         maxLength={"10"}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="End Range($)"
                         placeholder=""
                         onChange={formik.handleChange}
@@ -931,7 +931,7 @@ function AddCompanyPriceBook() {
                     {formik.values.quantityPriceDetail.map((dealer, index) => {
                       return (
                         <div key={index} className="bg-grayf9 p-4 relative mt-8 rounded-xl">
-                          <div className="bg-[#fff] rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
+                          <div className="bg-white rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
                             {index == 0 ? (
                               <Button
                                 className="text-sm  !font-light"
@@ -946,7 +946,7 @@ function AddCompanyPriceBook() {
                                   handleDeleteQuantity(index);
                                 }}
                               >
-                                <div className="flex h-full mx-3 bg-[#fff] justify-center">
+                                <div className="flex h-full mx-3 bg-white justify-center">
                                   <img
                                     src={DeleteImage}
                                     className="self-center cursor-pointer"

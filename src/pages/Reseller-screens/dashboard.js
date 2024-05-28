@@ -121,7 +121,7 @@ function ResellerDashboard() {
                                                         </div>
                                                         {isDropdownOpen && (
                                                             <div className='absolute top-8 w-full text-center '>
-                                                                <div className='bg-[#fff] text-light-black border rounded-xl py-2 px-4'>
+                                                                <div className='bg-white text-light-black border rounded-xl py-2 px-4'>
                                                                     <p className='font-semibold border-b'>Period</p>
                                                                     <p className='border-b'>Days</p>
                                                                     <p>Monthly</p>
@@ -140,7 +140,7 @@ function ResellerDashboard() {
                                                         </div>
                                                         {isRangeOpen && (
                                                             <div className='absolute top-10 w-full right-[100%]'>
-                                                                <div className='bg-[#fff] w-[350px] p-3 text-light-black border rounded-xl py-2 px-4'>
+                                                                <div className='bg-white w-[350px] p-3 text-light-black border rounded-xl py-2 px-4'>
                                                                     <p className='font-semibold text-base border-b pb-2 mb-3'>Date Range</p>
                                                                     <Grid>
                                                                         <div className="col-span-6">

@@ -870,7 +870,7 @@ function ResellerAddCustomer() {
                         handleDeleteMembers(index);
                       }}
                     >
-                      <div className="flex mx-3 h-full bg-[#EBEBEB] justify-center">
+                      <div className="flex mx-3 h-full bg-Smoke justify-center">
                         <img
                           src={DeleteImage}
                           className="self-center cursor-pointer"
@@ -895,7 +895,7 @@ function ResellerAddCustomer() {
               <>
                 <Button
                   onClick={closeModal}
-                  className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+                  className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
                 >
                   <img
                     src={Cross}

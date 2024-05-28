@@ -193,7 +193,7 @@ function Sale() {
                       ))}
                     </Carousel>
                     </div>
-                {/* <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                {/* <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!gap-1 !grid-cols-11">
                     {tabs.map((tab) => (
                       <div className={tab.className} key={tab.id}>

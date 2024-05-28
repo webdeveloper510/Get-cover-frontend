@@ -70,7 +70,7 @@ function CustomerEditContract() {
                                     <img src={contract}  alt="category" />
                                 </div>
                                 <div className="self-center">
-                                    <p className="text-[#FFF] text-base font-medium leading-5	">
+                                    <p className="text-white text-base font-medium leading-5	">
                                         Contract ID
                                     </p>
                                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -85,7 +85,7 @@ function CustomerEditContract() {
                                     <img src={category1} className="w-6 h-6" alt="dealer" />
                                 </div>
                                 <div className="self-center">
-                                    <p className="text-[#FFF] text-base font-medium leading-5	">
+                                    <p className="text-white text-base font-medium leading-5	">
                                         Order ID
                                     </p>
                                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -100,7 +100,7 @@ function CustomerEditContract() {
                                     <img src={delaerName} alt="terms" />
                                 </div>
                                 <div className="self-center">
-                                    <p className="text-[#FFF] text-base font-medium leading-5">
+                                    <p className="text-white text-base font-medium leading-5">
                                         Dealer P.O. #
                                     </p>
                                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
@@ -115,7 +115,7 @@ function CustomerEditContract() {
                                     <img src={delaerName}  alt="product" />
                                 </div>
                                 <div className="self-center">
-                                    <p className="text-[#FFF] text-base font-medium leading-5	">
+                                    <p className="text-white text-base font-medium leading-5	">
                                         Dealer Name
                                     </p>
                                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -132,7 +132,7 @@ function CustomerEditContract() {
                                     <img src={CustomerName} alt="category" />
                                 </div>
                                 <div className="self-center">
-                                    <p className="text-[#FFF] text-base font-medium leading-5	">
+                                    <p className="text-white text-base font-medium leading-5	">
                                         Customer Name
                                     </p>
                                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -147,7 +147,7 @@ function CustomerEditContract() {
                                     <img src={ServicerName} alt="dealer" />
                                 </div>
                                 <div className="self-center">
-                                    <p className="text-[#FFF] text-base font-medium leading-5	">
+                                    <p className="text-white text-base font-medium leading-5	">
                                         Servicer Name
                                     </p>
                                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -162,7 +162,7 @@ function CustomerEditContract() {
                                     <img src={claim} alt="terms" />
                                 </div>
                                 <div className="self-center">
-                                    <p className="text-[#FFF] text-base font-medium leading-5">
+                                    <p className="text-white text-base font-medium leading-5">
                                         Claim Amount
                                     </p>
                                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
@@ -177,7 +177,7 @@ function CustomerEditContract() {
                                     <img src={Eligibility} alt="product" />
                                 </div>
                                 <div className="self-center">
-                                    <p className="text-[#FFF] text-base font-medium leading-5	">
+                                    <p className="text-white text-base font-medium leading-5	">
                                         Eligibility
                                     </p>
                                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -196,7 +196,7 @@ function CustomerEditContract() {
                       <div className='col-span-1'>
                         <Input type='text' 
                          name="Manufacturer"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Manufacturer"
                         required={true}
                         placeholder="" />
@@ -204,7 +204,7 @@ function CustomerEditContract() {
                       <div className='col-span-1'>
                         <Input type='text' 
                          name="Model"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Model"
                         required={true}
                         placeholder="" />
@@ -212,7 +212,7 @@ function CustomerEditContract() {
                       <div className='col-span-1'>
                         <Input type='text' 
                          name="Serial"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Serial"
                         required={true}
                         placeholder="" />
@@ -221,7 +221,7 @@ function CustomerEditContract() {
                       <div className='col-span-1'>
                         <Input type='text' 
                          name="RetailPrice"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Retail Price($)"
                         required={true}
                         placeholder="" />
@@ -229,7 +229,7 @@ function CustomerEditContract() {
                       <div className='col-span-1'>
                         <Input type='text' 
                          name="Condition"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Condition"
                         required={true}
                         placeholder="" />
@@ -239,7 +239,7 @@ function CustomerEditContract() {
                         name="Coverage Start Date"
                         label="Coverage Start Date"
                         required={true}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""/> */}
                          <DateInput
                          name="Coverage Start Date"
@@ -247,7 +247,7 @@ function CustomerEditContract() {
                         required 
                         item={item}
                         setItem={setItem}
-                        className="!bg-[#fff]" />
+                        className="!bg-white" />
                       </div>
                       <div className='col-span-1'>
                       <Select
@@ -255,7 +255,7 @@ function CustomerEditContract() {
                         label="Status"
                         options={status}
                         required={true}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""/>
                       </div>
                     </Grid>

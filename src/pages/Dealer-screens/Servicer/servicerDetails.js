@@ -636,7 +636,7 @@
 //           <div className="col-span-3">
 //             <Grid className="">
 //               <div className="col-span-8">
-//                 <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-Light-Grey">
+//                 <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
 //                   <Grid className="!grid-cols-4 !gap-1">
 //                     {tabs.map((tab) => (
 //                       <div className="col-span-1" key={tab.id}>
@@ -876,7 +876,7 @@
 //               <Input
 //                 name="bankName"
 //                 type="text"
-//                 className="!bg-[#fff]"
+//                 className="!bg-white"
 //                 label="Bank Name"
 //               />
 //             </div>
@@ -884,7 +884,7 @@
 //               <Input
 //                 name="routingNumber"
 //                 type="number"
-//                 className="!bg-[#fff]"
+//                 className="!bg-white"
 //                 label="ABA Routing Number"
 //               />
 //             </div>
@@ -892,7 +892,7 @@
 //               <Input
 //                 name="accountNumber"
 //                 type="number"
-//                 className="!bg-[#fff]"
+//                 className="!bg-white"
 //                 label="Account Number"
 //               />
 //             </div>
@@ -900,7 +900,7 @@
 //               <Input
 //                 name="accountHolder"
 //                 type="text"
-//                 className="!bg-[#fff]"
+//                 className="!bg-white"
 //                 label="Account Holder"
 //               />
 //             </div> */}

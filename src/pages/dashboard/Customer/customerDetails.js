@@ -627,7 +627,7 @@ function CustomerDetails() {
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
               <div className="col-span-6">
-                <div className="bg-[#fff] rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-4 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>

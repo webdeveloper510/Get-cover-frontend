@@ -192,7 +192,7 @@ function AddCategory() {
                   label="Category Name"
                   placeholder=""
                   required={true}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   value={formik.values.name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -211,7 +211,7 @@ function AddCategory() {
                     name="status"
                     placeholder=""
                     onChange={handleSelectChange}
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                     options={status}
                     value={formik.values.status}
                     onBlur={formik.handleBlur}
@@ -229,7 +229,7 @@ function AddCategory() {
                 <div className="relative">
                   <label
                     htmlFor="description"
-                    className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                    className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                   >
                     Description <span className="text-red-500">*</span>
                   </label>

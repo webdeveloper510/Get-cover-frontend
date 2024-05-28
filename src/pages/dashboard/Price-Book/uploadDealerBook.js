@@ -260,7 +260,7 @@ function UploadDealerBook() {
                       name="dealerId"
                       placeholder=""
                       onChange={handleSelectChange}
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       options={activeDealers}
                       value={formik.values.dealerId}
                       onBlur={formik.handleBlur}

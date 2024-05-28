@@ -356,8 +356,12 @@ function ClaimList(props) {
     }
   };
 
-  const getAllClaims = async (page = 1, rowsPerPage) => {
-    setLoaderType(true);
+  const getAllClaims = async (page = 1, rowsPerPage,loader) => {
+   if(loader) {
+    setLoaderType(false);
+   } else ( 
+    setLoaderType(true)
+  );
     setPageValue(page);
     let data = {
       page,
@@ -384,7 +388,8 @@ function ClaimList(props) {
     getClaimListPromise
       .then((res) => {
         // console.log(res);
-
+        localStorage.removeItem("activeIndex");
+        setActiveIndex(null);
         if (res) {
           setClaimList(res);
           setTotalRecords(res?.totalCount);
@@ -403,7 +408,6 @@ function ClaimList(props) {
   const [recordsPerPage, setRecordsPerPage] = useState(10);
 
   const handlePageChange = async (page, rowsPerPage) => {
-    localStorage.removeItem("activeIndex");
     setShowdata(false);
     setShowdata1(false);
     setRecordsPerPage(rowsPerPage);
@@ -418,15 +422,15 @@ function ClaimList(props) {
         await getAllClaims(page, rowsPerPage);
       }
 
-      setActiveIndex(null);
       setLoading(false);
+      
       setTimeout(function () {
         setShowdata(true);
       }, 1000);
     } finally {
-      setLoading(false);
-      setActiveIndex(null);
       localStorage.removeItem("activeIndex");
+        setActiveIndex(null);
+      setLoading(false);
       setTimeout(function () {
         setShowdata(true);
       }, 1000);
@@ -888,7 +892,8 @@ function ClaimList(props) {
       // console.log("Selected tracking type:", values);
       addClaimsRepairParts(claimList.result[activeIndex]._id, values).then(
         (res) => {
-          getAllClaims();
+           getAllClaims(undefined,undefined,true);
+          setActiveIndex(activeIndex)
           setTrackerView(false);
           Shipment.resetForm();
         }
@@ -1038,8 +1043,6 @@ function ClaimList(props) {
     onSubmit: (values) => {
       setIsDisapprovedOpen(false);
       getAllClaims();
-      const storedActiveIndex = localStorage.getItem("activeIndex");
-      // console.log(values);
       setShowdata(false);
       setActiveIndex(null);
       setTimeout(function () {
@@ -1173,8 +1176,8 @@ function ClaimList(props) {
                           <Input
                             name="contractId"
                             type="text"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            className="!text-[14px] !bg-White-Smoke"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                             label=""
                             placeholder="Contract ID"
                             {...formik1.getFieldProps("contractId")}
@@ -1184,8 +1187,8 @@ function ClaimList(props) {
                           <Input
                             name="claimId"
                             type="text"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            className="!text-[14px] !bg-White-Smoke"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                             label=""
                             placeholder="Claim ID"
                             {...formik1.getFieldProps("claimId")}
@@ -1197,8 +1200,8 @@ function ClaimList(props) {
                             label=""
                             options={Claimstatus}
                             OptionName="Claim Status"
-                            className="!text-[14px] !bg-[#f7f7f7]"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                            className="!text-[14px] !bg-White-Smoke"
+                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                             onChange={handleSelectChange2}
                             value={formik1.values.claimStatus}
                           />
@@ -1259,7 +1262,7 @@ function ClaimList(props) {
                         setActiveIndex={handleSetActiveIndex}
                         title={
                           <>
-                            <Grid className="border-Gray28 border !gap-2 bg-[#fff] rounded-t-[22px]">
+                            <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
                               <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
                                 <p className="font-semibold leading-5 text-lg">
                                   {" "}
@@ -1328,7 +1331,7 @@ function ClaimList(props) {
                                   )}
                               </div>
                             </Grid>
-                            <Grid className="!gap-0 bg-grayf9 !grid-cols-5 border-Gray28 border-x">
+                            <Grid className="!gap-0 bg-grayf9 !grid-cols-4 border-Gray28 border-x">
                               <div className="col-span-1 flex ">
                                 <img
                                   src={productName}
@@ -1341,21 +1344,6 @@ function ClaimList(props) {
                                   </p>
                                   <p className="text-[#333333] text-sm font-semibold">
                                     {res?.contracts?.productName}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="col-span-1 flex ">
-                                <img
-                                  src={productName}
-                                  className="self-center h-[50px] w-[50px] ml-3"
-                                  alt="productName"
-                                />
-                                <div className="py-4 pl-3 self-center">
-                                  <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                    Product Name
-                                  </p>
-                                  <p className="text-[#333333] text-sm font-semibold">
-                                    {res?.contracts?.pName}
                                   </p>
                                 </div>
                               </div>
@@ -1415,7 +1403,7 @@ function ClaimList(props) {
                                 <>
                                   <div className="col-span-2 bg-[#333333] border-r border-b border-Gray28">
                                     <div className="py-4 pl-3">
-                                      <p className="text-[#fff] text-sm font-Regular">
+                                      <p className="text-white text-sm font-Regular">
                                         Service Type
                                       </p>
                                       <p className="text-light-green text-base font-semibold">
@@ -1425,7 +1413,7 @@ function ClaimList(props) {
                                   </div>
                                   <div className="col-span-8 bg-[#333333] border-r border-b border-Gray28">
                                     <div className="py-4 pl-3">
-                                      <p className="text-[#fff] text-sm font-Regular">
+                                      <p className="text-white text-sm font-Regular">
                                         Description
                                       </p>
                                       <p className="text-light-green text-base font-semibold">
@@ -1435,7 +1423,7 @@ function ClaimList(props) {
                                   </div>
                                   <div className="col-span-2 bg-[#333333] border-b border-Gray28">
                                     <div className="py-4 pl-3">
-                                      <p className="text-[#fff] text-sm font-Regular">
+                                      <p className="text-white text-sm font-Regular">
                                         Price
                                       </p>
                                       <p className="text-light-green text-base font-semibold">
@@ -1952,7 +1940,7 @@ function ClaimList(props) {
                                       <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
                                         <div className="col-span-3"></div>
                                         {/* <Button
-                                      className="!bg-[#fff] col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
+                                      className="!bg-white col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
                                       onClick={handleToggle}
                                     >
                                       <img
@@ -1964,7 +1952,7 @@ function ClaimList(props) {
                                     </Button> */}
                                         {res.receiptImage != null && (
                                           <Button
-                                            className="!bg-[#fff] col-span-9 !rounded-[11px] !text-light-black !text-[13px] flex"
+                                            className="!bg-white col-span-9 !rounded-[11px] !text-light-black !text-[13px] flex"
                                             onClick={() => {
                                               downloadAttachments(
                                                 res.receiptImage
@@ -2046,7 +2034,7 @@ function ClaimList(props) {
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
         <Button
           onClick={closeReject}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -2089,7 +2077,7 @@ function ClaimList(props) {
               <div className="relative my-4">
                 <label
                   htmlFor="reason"
-                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                 >
                   Enter Your Reason <span className="text-red-500">*</span>
                 </label>
@@ -2144,7 +2132,7 @@ function ClaimList(props) {
       <Modal isOpen={isViewOpen} onClose={closeView}>
         <Button
           onClick={closeView}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -2361,7 +2349,7 @@ function ClaimList(props) {
       <Modal isOpen={isEditOpen} onClose={closeEdit} className="!w-[1100px]">
         <Button
           onClick={closeEdit}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -2402,7 +2390,7 @@ function ClaimList(props) {
                               label="Service Type"
                               options={serviceType1}
                               required={true}
-                              className="!bg-[#fff]"
+                              className="!bg-white"
                               disabled={true} // or you can keep it as formik?.values?.repairParts[index]?.value
                               placeholder=""
                               maxLength={"30"}
@@ -2433,7 +2421,7 @@ function ClaimList(props) {
                                   : serviceType
                               }
                               required={true}
-                              className="!bg-[#fff]"
+                              className="!bg-white"
                               disabled={
                                 formik?.values?.repairParts[index]?.value
                               }
@@ -2474,7 +2462,7 @@ function ClaimList(props) {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.repairParts[index].description}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             className1="w-full !p-2 border rounded-md"
                           />
                           {formik.touched.repairParts &&
@@ -2501,7 +2489,7 @@ function ClaimList(props) {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.repairParts[index].price}
-                            className="!bg-[#fff]"
+                            className="!bg-white"
                             className1="w-full !p-2 border rounded-md"
                           />
                           {formik.touched.repairParts &&
@@ -2515,9 +2503,9 @@ function ClaimList(props) {
                         </div>
 
                         {index > 0 && (
-                          <div className="col-span-1 self-center bg-[#EBEBEB] rounded-[4px] flex justify-center">
+                          <div className="col-span-1 self-center bg-Smoke rounded-[4px] flex justify-center">
                             <div
-                              className="flex h-full bg-[#EBEBEB] justify-center cursor-pointer"
+                              className="flex h-full bg-Smoke justify-center cursor-pointer"
                               onClick={() => handleRemove(index)}
                             >
                               <img
@@ -2566,7 +2554,7 @@ function ClaimList(props) {
                 <div className="relative">
                   <label
                     htmlFor="description"
-                    className="absolute text-base text-[#999] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                    className="absolute text-base text-[#999] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                   >
                     Note
                   </label>
@@ -2611,7 +2599,7 @@ function ClaimList(props) {
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
           onClick={closeDisapproved}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
             src={Cross}
@@ -2626,7 +2614,7 @@ function ClaimList(props) {
                 <Input
                   type="text"
                   name="contractId"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Contract ID"
                   placeholder=""
                   {...formik1.getFieldProps("contractId")}
@@ -2636,7 +2624,7 @@ function ClaimList(props) {
                 <Input
                   name="claimId"
                   type="text"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Claim ID"
                   placeholder=""
                   {...formik1.getFieldProps("claimId")}
@@ -2647,7 +2635,7 @@ function ClaimList(props) {
                 <Input
                   type="text"
                   name="orderId"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Order ID"
                   placeholder=""
                   {...formik1.getFieldProps("orderId")}
@@ -2657,7 +2645,7 @@ function ClaimList(props) {
                 <Input
                   type="text"
                   name="venderOrder"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Dealer P.O. #."
                   placeholder=""
                   {...formik1.getFieldProps("venderOrder")}
@@ -2667,7 +2655,7 @@ function ClaimList(props) {
                 <Input
                   type="text"
                   name="serial"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Serial #"
                   placeholder=""
                   {...formik1.getFieldProps("serial")}
@@ -2677,7 +2665,7 @@ function ClaimList(props) {
                 <Input
                   type="text"
                   name="productName"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Product SKU"
                   placeholder=""
                   {...formik1.getFieldProps("productName")}
@@ -2687,7 +2675,7 @@ function ClaimList(props) {
                 <Input
                   type="text"
                   name="pName"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Product Name"
                   placeholder=""
                   {...formik1.getFieldProps("pName")}
@@ -2698,7 +2686,7 @@ function ClaimList(props) {
                   <Input
                     type="text"
                     name="dealerName"
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                     label="Dealer Name"
                     placeholder=""
                     {...formik1.getFieldProps("dealerName")}
@@ -2710,7 +2698,7 @@ function ClaimList(props) {
                 <Input
                   type="text"
                   name="customerName"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Customer Name"
                   placeholder=""
                   {...formik1.getFieldProps("customerName")}
@@ -2720,7 +2708,7 @@ function ClaimList(props) {
                 <Input
                   type="text"
                   name="servicerName"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   label="Servicer Name"
                   placeholder=""
                   {...formik1.getFieldProps("servicerName")}
@@ -2731,7 +2719,7 @@ function ClaimList(props) {
                   name="claimStatus"
                   label="Claim Status"
                   options={Claimstatus}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   onChange={handleSelectChange2}
                   value={formik1.values.claimStatus}
                 />
@@ -2741,7 +2729,7 @@ function ClaimList(props) {
                   options={customerValue}
                   name="customerStatusValue"
                   label="Customer Status"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   onChange={handleSelectChange2}
                   value={formik1.values.customerStatusValue}
                 />
@@ -2751,7 +2739,7 @@ function ClaimList(props) {
                   options={repairValue}
                   name="repairStatus"
                   label="Repair Status"
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   onChange={handleSelectChange2}
                   value={formik1.values.repairStatus}
                 />
