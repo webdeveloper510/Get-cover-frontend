@@ -724,7 +724,7 @@ function ResellerDetails() {
                 </div>
                 <div className="col-span-3 text-end">
                   <Button
-                    className="border !border-[#535456] !text-sm !font-Regular"
+                    className="border !border-Bright-Grey !text-sm !font-Regular"
                     onClick={openModal}
                   >
                     Edit
@@ -734,7 +734,7 @@ function ResellerDetails() {
               <div className="flex my-4">
                 <img
                   src={address}
-                  className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                  className="mr-3 bg-Onyx rounded-[14px] my-auto"
                   alt="Address"
                 />
                 <div>
@@ -759,7 +759,7 @@ function ResellerDetails() {
                 <div className="relative">
                   <img
                     src={DealerIcons}
-                    className="mr-3 bg-[#383838] rounded-[14px]"
+                    className="mr-3 bg-Onyx rounded-[14px]"
                     alt="DealerIcons"
                   />
                   <Link
@@ -768,7 +768,7 @@ function ResellerDetails() {
                     {" "}
                     <img
                       src={DealerList}
-                      className="mr-3 bg-[#383838] cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                      className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
                       alt="DealerList"
                     />{" "}
                   </Link>
@@ -785,7 +785,7 @@ function ResellerDetails() {
               <div className="flex mb-4">
                 <img
                   src={name}
-                  className="mr-3 bg-[#383838] rounded-[14px]"
+                  className="mr-3 bg-Onyx rounded-[14px]"
                   alt="Name"
                 />
                 <div>
@@ -798,7 +798,7 @@ function ResellerDetails() {
               <div className="flex mb-4">
                 <img
                   src={email}
-                  className="mr-3 bg-[#383838] rounded-[14px]"
+                  className="mr-3 bg-Onyx rounded-[14px]"
                   alt="email"
                 />
                 <div className="w-[80%]">
@@ -813,7 +813,7 @@ function ResellerDetails() {
               <div className="flex mb-4">
                 <img
                   src={phone}
-                  className="mr-3 bg-[#383838] rounded-[14px]"
+                  className="mr-3 bg-Onyx rounded-[14px]"
                   alt="name"
                 />
                 <div>
@@ -1143,7 +1143,7 @@ function ResellerDetails() {
               <div className="col-span-4">
                 <Button
                   type="button"
-                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
                   onClick={closeModal}
                 >
                   Cancel
@@ -1186,7 +1186,7 @@ function ResellerDetails() {
               <div className="col-span-4">
                 <Button
                   type="button"
-                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
                   onClick={closeModal1}
                 >
                   Cancel
@@ -1361,7 +1361,7 @@ function ResellerDetails() {
               <div className="col-span-4">
                 <Button
                   type="button"
-                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
                   onClick={closeUserModal}
                 >
                   Cancel

@@ -1055,7 +1055,7 @@ function CustomerUser() {
               Yes
             </Button>
             <Button
-              className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
               onClick={() => closeModal1()}
             >
               No
@@ -1205,7 +1205,7 @@ function CustomerUser() {
             <Grid className="!grid-cols-5 my-5  px-8">
               <div className="col-span-2">
                 <Button
-                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
                   onClick={() => closeModal2()}
                 >
                   Cancel
@@ -1372,7 +1372,7 @@ function CustomerUser() {
             <Grid className="!grid-cols-5 my-5  px-8">
               <div className="col-span-2">
                 <Button
-                  className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
                   onClick={() => closeUserModal()}
                 >
                   Cancel

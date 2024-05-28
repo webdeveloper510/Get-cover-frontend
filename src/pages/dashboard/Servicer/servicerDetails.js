@@ -567,7 +567,7 @@ function ServicerDetails() {
                 </div>
                 <div className="col-span-3 text-end">
                   <Button
-                    className="border !border-[#535456] !text-sm !font-Regular"
+                    className="border !border-Bright-Grey !text-sm !font-Regular"
                     onClick={openModal}
                   >
                     Edit
@@ -577,7 +577,7 @@ function ServicerDetails() {
               <div className="flex my-4">
                 <img
                   src={address}
-                  className="mr-3 bg-[#383838] rounded-[14px] my-auto"
+                  className="mr-3 bg-Onyx rounded-[14px] my-auto"
                   alt="Address"
                 />
                 <div>
@@ -595,14 +595,14 @@ function ServicerDetails() {
               {/* <div className="flex my-4">
               <img
                 src={Bank}
-                className="mr-3 bg-[#383838] rounded-[14px] self-start mt-3"
+                className="mr-3 bg-Onyx rounded-[14px] self-start mt-3"
                 alt="Bank"
               />
               <div>
                 <p className="text-sm text-neutral-grey font-Regular mt-3">
                   Bank Details
                 </p>
-                <div className="bg-[#383838] border border-[#D1D9E24D] rounded-lg px-2.5 py-2 mt-1">
+                <div className="bg-Onyx border border-[#D1D9E24D] rounded-lg px-2.5 py-2 mt-1">
                   <Grid className="!gap-1">
                     <div className="col-span-6">
                       <p className="text-[10px] text-neutral-grey font-Regular">
@@ -649,7 +649,7 @@ function ServicerDetails() {
               <div className="flex mb-4">
                 <img
                   src={name}
-                  className="mr-3 bg-[#383838] rounded-[14px]"
+                  className="mr-3 bg-Onyx rounded-[14px]"
                   alt="Name"
                 />
                 <div>
@@ -662,7 +662,7 @@ function ServicerDetails() {
               <div className="flex mb-4">
                 <img
                   src={email}
-                  className="mr-3 bg-[#383838] rounded-[14px]"
+                  className="mr-3 bg-Onyx rounded-[14px]"
                   alt="email"
                 />
                 <div>
@@ -677,7 +677,7 @@ function ServicerDetails() {
               <div className="flex mb-4">
                 <img
                   src={phone}
-                  className="mr-3 bg-[#383838] rounded-[14px]"
+                  className="mr-3 bg-Onyx rounded-[14px]"
                   alt="name"
                 />
                 <div>
@@ -931,7 +931,7 @@ function ServicerDetails() {
                 <div className="col-span-4">
                   <Button
                     type="button"
-                    className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
                     onClick={closeUserModal}
                   >
                     Cancel
@@ -1133,7 +1133,7 @@ function ServicerDetails() {
                 <div className="col-span-4">
                   <Button
                     type="button"
-                    className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
                     onClick={closeModal}
                   >
                     Cancel
@@ -1173,7 +1173,7 @@ function ServicerDetails() {
                 <div className="col-span-4">
                   <Button
                     type="button"
-                    className="border w-full !border-[#535456] !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
                     onClick={closeModal1}
                   >
                     Cancel
