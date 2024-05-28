@@ -1298,6 +1298,11 @@ function DealerDetails() {
                         )}
                       </div>
                     </div>
+                     {formik.errors.termCondition && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.termCondition}
+                            </div>
+                          )}
                     {/* <input
                       type="file"
                       name="term"

@@ -206,10 +206,10 @@ function PdfGenerator(props, className) {
                 </tr>
                 </tbody>
                 </table>
+                ${data.billDetail.billTo === "Custom" ? `
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                     <tbody>
-                ${data.billDetail.billTo === "Custom" && `
-                <tr>
+                    <tr>
                 <td style="text-align: left; width: 50%;">
                 <h4 style="margin: 0; padding: 0;"><b>Billing Details: </b></h4>
                 <h4 style="margin: 0; padding: 0;"><b> ${
@@ -225,10 +225,10 @@ function PdfGenerator(props, className) {
                     ) } |` : ''}
                        ${data?.billDetail?.detail?.email !== ''  ? `${data?.billDetail?.detail?.email}` : '' }   </small>
             </td>
-                </tr> `}
+                </tr> 
                
             </tbody>
-        </table>
+        </table> ` :  `  `}
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
         <tbody>
             <tr>

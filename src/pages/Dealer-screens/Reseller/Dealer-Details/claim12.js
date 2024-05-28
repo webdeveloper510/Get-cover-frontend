@@ -1036,7 +1036,7 @@ const downloadImage = (file) => {
                   <Grid className="!gap-1">
                     <div className="col-span-8 self-center">
                       <Grid className="!gap-2">
-                        <div className="col-span-4 self-center">
+                        <div className="col-span-6 self-center">
                           <Input
                             name="contractId"
                             type="text"
@@ -1047,7 +1047,7 @@ const downloadImage = (file) => {
                             {...formik1.getFieldProps("contractId")}
                           />
                         </div>
-                        <div className="col-span-4 self-center">
+                        <div className="col-span-6 self-center">
                           <Input
                             name="claimId"
                             type="text"
@@ -1058,7 +1058,7 @@ const downloadImage = (file) => {
                             {...formik1.getFieldProps("claimId")}
                           />
                         </div>
-                        <div className="col-span-4 self-center">
+                        {/* <div className="col-span-4 self-center">
                           <SelectSearch
                             name="claimStatus"
                             label=""
@@ -1069,7 +1069,7 @@ const downloadImage = (file) => {
                             onChange={handleSelectChange2}
                             value={formik1.values.claimStatus}
                           />
-                        </div>
+                        </div> */}
                         {/* <div className="col-span-3 self-center">
                           <SelectSearch
                             name="repairStatus"
