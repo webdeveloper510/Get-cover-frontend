@@ -338,7 +338,8 @@ const downloadImage = (file) => {
     console.log(res);
     setClaimList(res);
     setTotalRecords(res?.totalCount);
-
+    localStorage.removeItem("activeIndex");
+    setActiveIndex(null);
     setLoaderType(false);
     setTimeout(function () {
       setShowdata(true);

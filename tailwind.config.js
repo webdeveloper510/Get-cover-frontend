@@ -20,6 +20,7 @@ module.exports = {
         'White-Smoke' : '#f7f7f7',
         'Smoke' : '#EBEBEB',
         'Granite-Gray' : '#5f5f5f',
+        'red' : '#ff0000',
       },
       padding: {
         '10p': '10px',
@@ -35,6 +36,7 @@ module.exports = {
         'White-Smoke' : '#f7f7f7',
         'Smoke' : '#EBEBEB',
         'Granite-Gray' : '#5f5f5f',
+        'red' : '#ff0000',
       },
       backgroundImage : {
         'hero-pattern': "url('/src/assets/images/Bg.png')",
