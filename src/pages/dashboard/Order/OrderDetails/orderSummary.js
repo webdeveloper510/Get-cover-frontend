@@ -164,17 +164,16 @@ function OrderSummary(props) {
                             </p>
                           </div>
                         </div>
-                        {res?.adh === '' ? <></> : 
                          <div className="col-span-3 border border-Light-Grey">
                          <div className="py-4 pl-3">
                            <p className="text-[#5D6E66] text-sm font-Regular">
                              ADH (Waiting Days)
                            </p>
                            <p className="text-[#333333] text-base font-semibold">
-                             {res?.adh}
+                             {res?.adh === "" ? 0 : res?.adh}
                            </p>
                          </div>
-                       </div>}
+                       </div>
                        
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
