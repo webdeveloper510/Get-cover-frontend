@@ -278,7 +278,7 @@ function OrderDetails() {
                   <p className="text-sm text-neutral-grey font-Regular mt-2">
                     Dealer Purchase Order
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base text-white font-semibold leading-5 break-words w-[92%]">
                     {orderDetails.venderOrder}
                   </p>
                 </div>
