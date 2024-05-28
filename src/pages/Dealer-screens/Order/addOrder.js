@@ -605,7 +605,12 @@ function DealerAddOrder() {
       let arr = [];
       let arr1 = [];
       values.productsArray.map((data, index) => {
-        const value = categoryList.find((val) => val.value === data.categoryId);
+        const value = categoryList
+          .map((val) => ({
+            ...val,
+            data: val.data.filter((res) => res.value === data.categoryId),
+          }))
+          .filter((value) => value.data.length > 0)[0].data[0];
         arr.push(value ? value.label : "");
         const value1 = productNameOptions
           .map((val) => ({
@@ -615,7 +620,7 @@ function DealerAddOrder() {
           .filter((value) => value.data.length > 0)[0].data[0];
         arr1.push(value1 ? value1.label : "");
       });
-      console.log("categoryList", categoryList);
+      console.log("categoryList", arr);
       setCategoryName(arr);
       setPriceBookName(arr1);
       setTimeout(() => {
