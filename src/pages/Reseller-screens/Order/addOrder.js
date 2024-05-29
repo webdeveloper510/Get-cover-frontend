@@ -33,7 +33,10 @@ import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import { RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
-import { editOrderforDealerPortal, editOrderforResellerPortal } from "../../../services/dealerServices/orderListServices";
+import {
+  editOrderforDealerPortal,
+  editOrderforResellerPortal,
+} from "../../../services/dealerServices/orderListServices";
 import {
   getCustomerListForResellerPortal,
   getServiceCoverageDetails,
@@ -213,13 +216,13 @@ function ResellerAddOrder() {
       formik.setFieldValue("customerId", customerId);
       getCustomerList({});
       getServicerList({});
-      getCategoryList(
-        {
-          priceBookId: "",
-          priceCatId: "",
-        },
-        0
-      );
+      // getCategoryList(
+      //   {
+      //     priceBookId: "",
+      //     priceCatId: "",
+      //   },
+      //   0
+      // );
     } else if (
       orderId == undefined &&
       resellerId == undefined &&
@@ -227,13 +230,13 @@ function ResellerAddOrder() {
     ) {
       getServicerList();
       getCustomerList();
-      getCategoryList(
-        {
-          priceBookId: "",
-          priceCatId: "",
-        },
-        0
-      );
+      // getCategoryList(
+      //   {
+      //     priceBookId: "",
+      //     priceCatId: "",
+      //   },
+      //   0
+      // );
     }
     getTermListData();
     getServiceCoverage();
@@ -245,7 +248,16 @@ function ResellerAddOrder() {
     getCustomerList({});
     getServicerList({});
     result?.result?.productsArray?.forEach((product, index) => {
-      getCategoryList({}, index);
+      getCategoryList(
+        {
+          priceBookId: product.priceBookId,
+          priceCatId: product.categoryId,
+          term: product.term,
+          pName: product.pName,
+          coverageType: result?.result?.coverageType,
+        },
+        index
+      );
       if (product.orderFile.name != "") {
         setFileValues((prevFileValues) => {
           const newArray = [...prevFileValues];
@@ -726,6 +738,9 @@ function ResellerAddOrder() {
       {
         priceBookId: "",
         priceCatId: "",
+        pName: "",
+        term: "",
+        coverageType: formikStep2?.values?.coverageType,
       },
       formikStep3.values.productsArray.length
     );
@@ -759,6 +774,7 @@ function ResellerAddOrder() {
   };
 
   const handleSelectChange2 = async (name, selectedValue) => {
+    console.log(name);
     if (name.includes("categoryId")) {
       const match = name.match(/\[(\d+)\]/);
       formikStep3.setFieldValue(
@@ -784,7 +800,10 @@ function ResellerAddOrder() {
         getCategoryList(
           {
             priceCatId: selectedValue,
-            priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
+            pName: "",
+            term: "",
+            priceBookId: "",
+            coverageType: formikStep2?.values?.coverageType,
           },
           match[1]
         );
@@ -799,6 +818,15 @@ function ResellerAddOrder() {
         {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: selectedValue,
+          coverageType: formikStep2?.values?.coverageType,
+          pName:
+            selectedValue == ""
+              ? ""
+              : formikStep3.values.productsArray[match[1]].pName,
+          term:
+            selectedValue == ""
+              ? ""
+              : formikStep3.values.productsArray[match[1]].term,
         },
         match[1]
       );
@@ -854,6 +882,36 @@ function ResellerAddOrder() {
       );
       formikStep3.setFieldValue(`productsArray[${match[1]}].term`, data.term);
     }
+    if (name.includes("term")) {
+      const match = name.match(/\[(\d+)\]/);
+      // updateProductFields(selectedValue);
+      getCategoryList(
+        {
+          priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
+          priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
+          pName: formikStep3.values.productsArray[match[1]].pName,
+          term: selectedValue,
+          coverageType: formikStep2?.values?.coverageType,
+        },
+        match[1]
+      );
+
+      // console.log(name,selectedValue)
+    }
+    if (name.includes("pName")) {
+      const match = name.match(/\[(\d+)\]/);
+      // updateProductFields(selectedValue);
+      getCategoryList(
+        {
+          priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
+          priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
+          pName: selectedValue,
+          term: formikStep3.values.productsArray[match[1]].term,
+          coverageType: formikStep2?.values?.coverageType,
+        },
+        match[1]
+      );
+    }
     formikStep3.setFieldValue(name, selectedValue);
   };
 
@@ -902,6 +960,19 @@ function ResellerAddOrder() {
   }, [formikStep3.values.productsArray]);
 
   const handleSelectChange1 = (name, value) => {
+    if (name == "coverageType") {
+      getCategoryList(
+        {
+          priceBookId: "",
+          priceCatId: "",
+          pName: "",
+          term: "",
+          coverageType: value,
+        },
+        0
+      );
+      formikStep3.resetForm();
+    }
     formikStep2.setFieldValue(name, value);
   };
 
@@ -958,7 +1029,16 @@ function ResellerAddOrder() {
           `productsArray[${index}].categoryId`,
           result.result.selectedCategory._id
         );
-        getCategoryList({}, index);
+        getCategoryList(
+          {
+            priceBookId: data.priceBookId,
+            priceCatId: result.result.selectedCategory._id,
+            coverageType: formikStep2?.values?.coverageType,
+            term: data.term,
+            pName: data.pName,
+          },
+          index
+        );
       }
       console.log(result.result);
       setCategoryList(
@@ -1029,7 +1109,7 @@ function ResellerAddOrder() {
               <Grid>
                 <div className="col-span-6">
                   <Grid>
-                  <div className="col-span-12">
+                    <div className="col-span-12">
                       {/* <Select */}
                       <SelectBoxWIthSerach
                         label="Customer Name"
@@ -1071,24 +1151,23 @@ function ResellerAddOrder() {
                         onBlur={formik.handleBlur}
                       />
                     </div>
-                    
 
-                     <div className="col-span-6">
-                    <Select
-                      label="Bill Address"
-                      name="billTo"
-                      placeholder=""
-                      className="!bg-white"
-                      required={true}
-                      onChange={handleSelectChange}
-                      options={BillTo}
-                      value={formik.values.billTo}
-                      onBlur={formik.handleBlur}
-                      error={formik.touched.billTo && formik.errors.billTo}
-                    />
-                  </div>
-                 
-                 {/* <div className="col-span-6">
+                    <div className="col-span-6">
+                      <Select
+                        label="Bill Address"
+                        name="billTo"
+                        placeholder=""
+                        className="!bg-white"
+                        required={true}
+                        onChange={handleSelectChange}
+                        options={BillTo}
+                        value={formik.values.billTo}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.billTo && formik.errors.billTo}
+                      />
+                    </div>
+
+                    {/* <div className="col-span-6">
                   <Select
                       label="Reseller Name"
                       name="resellerId"
@@ -1129,66 +1208,64 @@ function ResellerAddOrder() {
                   </div> */}
                   </Grid>
                 </div>
-                
               </Grid>
               {formik.values.billTo === "custom" && (
-                  <div>
-                    <p className="text-2xl font-bold my-4">Bill Details : </p>
-                    <Grid>
-                      <div className="col-span-4">
-                        <Input
-                          name="name"
-                          label="Name"
-                          type="text"
-                          className="bg-white"
-                          required={true}
-                          placeholder=""
-                        />
-                        {formik.touched.name &&
-                          formik.errors.name && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.name}
-                            </div>
-                          )}
-                      </div>
-                      <div className="col-span-4">
-                        <Input
-                          name="email"
-                          label="Email"
-                          className="bg-white"
-                          type="email"
-                          // required={true}
-                          placeholder=""
-                        />
-                      </div>
-                      <div className="col-span-4">
-                        <Input
-                          name="phone"
-                          label="Phone Number"
-                          className="bg-white"
-                          type="number"
-                          placeholder=""
-                        />
-                        {formik.touched.phoneNumber &&
-                          formik.errors.phoneNumber && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.phoneNumber}
-                            </div>
-                          )}
-                      </div>
-                      <div className="col-span-12">
-                        <Input
-                          name="address"
-                          label="Address"
-                          className="bg-white"
-                          type="text"
-                          required={true}
-                          placeholder=""
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                )}
+                <div>
+                  <p className="text-2xl font-bold my-4">Bill Details : </p>
+                  <Grid>
+                    <div className="col-span-4">
+                      <Input
+                        name="name"
+                        label="Name"
+                        type="text"
+                        className="bg-white"
+                        required={true}
+                        placeholder=""
+                      />
+                      {formik.touched.name && formik.errors.name && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.name}
+                        </div>
+                      )}
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        name="email"
+                        label="Email"
+                        className="bg-white"
+                        type="email"
+                        // required={true}
+                        placeholder=""
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        name="phone"
+                        label="Phone Number"
+                        className="bg-white"
+                        type="number"
+                        placeholder=""
+                      />
+                      {formik.touched.phoneNumber &&
+                        formik.errors.phoneNumber && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formik.errors.phoneNumber}
+                          </div>
+                        )}
+                    </div>
+                    <div className="col-span-12">
+                      <Input
+                        name="address"
+                        label="Address"
+                        className="bg-white"
+                        type="text"
+                        required={true}
+                        placeholder=""
+                      />
+                    </div>
+                  </Grid>
+                </div>
+              )}
             </div>
             <div className="flex">
               <Button
@@ -1382,89 +1459,85 @@ function ResellerAddOrder() {
                           )}
                       </div>
                       <div className="col-span-6">
-                          <Select
-                            name={`productsArray[${index}].priceBookId`}
-                            label="Product SKU"
-                            options={productNameOptions[index]?.data}
-                            required={true}
-                            className="!bg-white"
-                            placeholder=""
-                            value={
-                              formikStep3.values.productsArray[index]
-                                .priceBookId
-                            }
-                            onBlur={formikStep3.handleBlur}
-                            onChange={handleSelectChange2}
-                            index={index}
-                            error={
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray[index]
-                                .priceBookId
-                            }
-                          />
-                          {formikStep3.touched.productsArray &&
-                            formikStep3.touched.productsArray[index] &&
-                            formikStep3.touched.productsArray[index]
-                              .priceBookId && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formikStep3.errors.productsArray &&
-                                  formikStep3.errors.productsArray[index] &&
-                                  formikStep3.errors.productsArray[index]
-                                    .priceBookId}
-                              </div>
-                            )}
+                        <Select
+                          name={`productsArray[${index}].priceBookId`}
+                          label="Product SKU"
+                          options={productNameOptions[index]?.data}
+                          required={true}
+                          className="!bg-white"
+                          placeholder=""
+                          value={
+                            formikStep3.values.productsArray[index].priceBookId
+                          }
+                          onBlur={formikStep3.handleBlur}
+                          onChange={handleSelectChange2}
+                          index={index}
+                          error={
+                            formikStep3.values.productsArray &&
+                            formikStep3.values.productsArray[index] &&
+                            formikStep3.values.productsArray &&
+                            formikStep3.values.productsArray[index] &&
+                            formikStep3.values.productsArray[index].priceBookId
+                          }
+                        />
+                        {formikStep3.touched.productsArray &&
+                          formikStep3.touched.productsArray[index] &&
+                          formikStep3.touched.productsArray[index]
+                            .priceBookId && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formikStep3.errors.productsArray &&
+                                formikStep3.errors.productsArray[index] &&
+                                formikStep3.errors.productsArray[index]
+                                  .priceBookId}
+                            </div>
+                          )}
                       </div>
                       <div className="col-span-6">
-                          <Select
-                            name={`productsArray[${index}].priceBookId`}
-                            label="Product Name"
-                            options={productNameOptions[index]?.data}
-                            required={true}
-                            className="!bg-white"
-                            placeholder=""
-                            value={
-                              formikStep3.values.productsArray[index]
-                                .priceBookId
-                            }
-                            onBlur={formikStep3.handleBlur}
-                            onChange={handleSelectChange2}
-                            index={index}
-                            error={
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray[index]
-                                .priceBookId
-                            }
-                          />
-                          {formikStep3.touched.productsArray &&
-                            formikStep3.touched.productsArray[index] &&
-                            formikStep3.touched.productsArray[index]
-                              .priceBookId && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formikStep3.errors.productsArray &&
-                                  formikStep3.errors.productsArray[index] &&
-                                  formikStep3.errors.productsArray[index]
-                                    .priceBookId}
-                              </div>
-                            )}
+                        <Select
+                          name={`productsArray[${index}].priceBookId`}
+                          label="Product Name"
+                          options={productNameOptions[index]?.data}
+                          required={true}
+                          className="!bg-white"
+                          placeholder=""
+                          value={
+                            formikStep3.values.productsArray[index].priceBookId
+                          }
+                          onBlur={formikStep3.handleBlur}
+                          onChange={handleSelectChange2}
+                          index={index}
+                          error={
+                            formikStep3.values.productsArray &&
+                            formikStep3.values.productsArray[index] &&
+                            formikStep3.values.productsArray &&
+                            formikStep3.values.productsArray[index] &&
+                            formikStep3.values.productsArray[index].priceBookId
+                          }
+                        />
+                        {formikStep3.touched.productsArray &&
+                          formikStep3.touched.productsArray[index] &&
+                          formikStep3.touched.productsArray[index]
+                            .priceBookId && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formikStep3.errors.productsArray &&
+                                formikStep3.errors.productsArray[index] &&
+                                formikStep3.errors.productsArray[index]
+                                  .priceBookId}
+                            </div>
+                          )}
                       </div>
                       <div className="col-span-6">
-                          <Select
-                            label="Terms"
-                            name={`productsArray[${index}].term`}
-                            placeholder=""
-                            onChange={handleSelectChange2}
-                            className="!bg-white"
-                            options={termList}
-                            value={formikStep3.values.productsArray[index].term}
-                            onBlur={formikStep3.handleBlur}
-                          />
-                          {/* {formikStep3.touched.productsArray &&
+                        <Select
+                          label="Terms"
+                          name={`productsArray[${index}].term`}
+                          placeholder=""
+                          onChange={handleSelectChange2}
+                          className="!bg-white"
+                          options={termList}
+                          value={formikStep3.values.productsArray[index].term}
+                          onBlur={formikStep3.handleBlur}
+                        />
+                        {/* {formikStep3.touched.productsArray &&
                             formikStep3.touched.productsArray[index] &&
                             formikStep3.touched.productsArray[index]
                               .priceBookId && (
@@ -1499,7 +1572,7 @@ function ResellerAddOrder() {
                           label="ADH (Waiting Days)"
                           name={`productsArray[${index}].adh`}
                           placeholder=""
-                          onChange={handleSelectChange2}
+                          onChange={formikStep3.handleChange}
                           className="!bg-white"
                           // options={termList}
                           // disabled={true}

@@ -26,6 +26,7 @@ import {
   editUserDetailsbyToken,
   getSuperAdminMembers,
   getUserDetailsbyToken,
+  sendNotifications,
 } from "../../../services/extraServices";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
@@ -107,8 +108,14 @@ function Account() {
       const userDetails = await getSuperAdminMembers();
       console.log(userDetails?.loginMember, "---------------->>>>>>>>>>>>");
       setIsPrimary(userDetails.loginMember.isPrimary);
-      const { firstName, lastName, email, phoneNumber, position } =
-        userDetails.loginMember;
+      const {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        position,
+        notificationTo,
+      } = userDetails.loginMember;
 
       setInitialValues({
         firstName,
@@ -117,8 +124,16 @@ function Account() {
         phoneNumber,
         position,
       });
+
+      const transformedData = notificationTo.map((email) => ({
+        id: email,
+        text: email,
+      }));
+      setTags(transformedData);
+      const emailStrings = transformedData.map((item) => item.id);
+
+      formikEmail.setFieldValue("notificationTo", emailStrings);
       setEmail(userDetails?.loginMember.email);
-      console.log(userDetails.result);
 
       setUserDetails(userDetails.result);
     } catch (error) {
@@ -411,6 +426,35 @@ function Account() {
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
+  const formikEmail = useFormik({
+    initialValues: {
+      notificationTo: [],
+    },
+    validationSchema: Yup.object({
+      notificationTo: Yup.array()
+        .of(
+          Yup.string()
+            .email("Invalid email address")
+            .required("Email is required")
+        )
+        .min(1, "At least one email is required"),
+    }),
+    onSubmit: async (values) => {
+      try {
+        setLoading(true);
+        const result = await sendNotifications(values);
+        console.log(result);
+        if (result.code == 200) {
+          fetchUserMembers();
+        } else {
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    },
+  });
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
       .transform((originalValue) => originalValue.trim())
@@ -429,36 +473,40 @@ function Account() {
     space: 32,
     enter: 13,
   };
-  const delimiters = [KeyCodes.comma, KeyCodes.enter, KeyCodes.space];
-  const handleDelete = (i) => {
-    const updatedTags = [...tags];
-    updatedTags.splice(i, 1);
-    setTags(updatedTags);
-    formik.setFieldValue(
-      "email",
-      updatedTags.map((tag) => tag.text)
-    );
-  };
-  const handleAddition = (tag) => {
-    const updatedTags = [...tags, tag];
-    setTags(updatedTags);
-    formik.setFieldValue(
-      "email",
-      updatedTags.map((tag) => tag.text)
-    );
-  };
-  const handleDrag = (tag, currPos, newPos) => {
-    const newTags = tags.slice();
+  const delimiters = [188, 13]; // comma and enter
 
+  const handleDelete = (i) => {
+    const newTags = tags.slice(0);
+    newTags.splice(i, 1);
+    setTags(newTags);
+    formikEmail.setFieldValue(
+      "notificationTo",
+      newTags.map((tag) => tag.text)
+    );
+  };
+
+  const handleAddition = (tag) => {
+    const newTags = [...tags, tag];
+    setTags(newTags);
+    formikEmail.setFieldValue(
+      "notificationTo",
+      newTags.map((tag) => tag.text)
+    );
+  };
+
+  const handleDrag = (tag, currPos, newPos) => {
+    const newTags = tags.slice(0);
     newTags.splice(currPos, 1);
     newTags.splice(newPos, 0, tag);
-
-    // re-render
     setTags(newTags);
+    formikEmail.setFieldValue(
+      "notificationTo",
+      newTags.map((tag) => tag.text)
+    );
   };
 
   const handleTagClick = (index) => {
-    console.log("The tag at index " + index + " was clicked");
+    console.log(`Tag at index ${index} was clicked`);
   };
 
   const columns = [
@@ -869,6 +917,57 @@ function Account() {
                   )}
                 </Formik>
                 <div className="col-span-12">
+                  <form onSubmit={formikEmail.handleSubmit}>
+                    <p className="text-xl font-semibold mb-4">
+                      Send Notification
+                    </p>
+                    <div className="relative">
+                      <label
+                        htmlFor="email"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Send Notification to
+                      </label>
+                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer">
+                        <ReactTags
+                          tags={tags}
+                          delimiters={delimiters}
+                          handleDelete={handleDelete}
+                          handleAddition={handleAddition}
+                          handleDrag={handleDrag}
+                          handleTagClick={handleTagClick}
+                          inputFieldPosition="bottom"
+                          editable
+                          placeholder=""
+                        />
+                      </div>
+                    </div>
+                    {formikEmail.errors.notificationTo &&
+                      formikEmail.touched.notificationTo && (
+                        <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
+                          {Array.isArray(formikEmail.errors.notificationTo) ? (
+                            formikEmail.errors.notificationTo.map(
+                              (error, index) => (
+                                <span key={index}>
+                                  {index > 0 && " "}
+                                  <span className="font-semibold">{error}</span>
+                                </span>
+                              )
+                            )
+                          ) : (
+                            <span className="font-semibold">
+                              {formikEmail.errors.notificationTo}
+                            </span>
+                          )}
+                        </p>
+                      )}
+
+                    <div className="col-span-12 text-right">
+                      <Button type="submit">Save</Button>
+                    </div>
+                  </form>
+                </div>
+                {/* <div className="col-span-12">
                   <p className="text-xl font-semibold mb-4">
                     Send Notification
                   </p>
@@ -911,7 +1010,7 @@ function Account() {
                 </div>
                 <div className="col-span-12 text-right">
                   <Button type="submit">Save</Button>
-                </div>
+                </div> */}
               </Grid>
             </>
 
