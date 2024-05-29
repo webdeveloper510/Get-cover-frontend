@@ -466,12 +466,27 @@ function ContractList(props) {
                                     Eligibility
                                   </p>
                                   {res?.eligibilty === false ?
-                                  <CommonTooltip place="left" id="tooltip-default" content={"Contract is not Active state"}>
+                                  <>
+                                  {res.status === "Waiting" || res.status === "Expired" ?  <CommonTooltip place="left" id="tooltip-default" content={"Contract is not Active state"}>
                                   <p className="text-[#333333] cursor-pointer text-base font-semibold">
                                     
                                     Not Eligible 
                                   </p>
-                                  </CommonTooltip> : 
+                                  </CommonTooltip>  :  
+                                   <CommonTooltip place="left" id="tooltip-default" content={`Contract is Active on ${new Date(
+                                    res.minDate
+                                  ).toLocaleDateString("en-US", {
+                                    month: "2-digit",
+                                    day: "2-digit",
+                                    year: "numeric",
+                                  })}`}>
+                                   <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                     
+                                     Not Eligible 
+                                   </p>
+                                   </CommonTooltip>}
+                                  </>
+                                  : 
                                    <p className="text-[#333333] text-base font-semibold">
                                   Eligible
                                </p> }
@@ -1046,12 +1061,26 @@ function ContractList(props) {
                             Eligibility
                           </p>
                           {contractDetails?.eligibilty === false ? 
-                          <CommonTooltip place="top" id="tooltip-default" content={contractDetails?.order?.[0]?.productsArray?.[0]
-                                ?.description}>
+                           <>
+                           {contractDetails.status == 'Waiting' || contractDetails.status === "Expired" ?  <CommonTooltip place="top" id="tooltip-default" content={'Contract is not Active state'}>
                             <p className="text-[#333333] cursor-pointer text-base font-semibold">
                             Not Eligible
                             </p>
-                          </CommonTooltip> : 
+                          </CommonTooltip>  :  
+                            <CommonTooltip place="top" id="tooltip-default" content={`Contract is Active on ${new Date(
+                              contractDetails?.minDate
+                           ).toLocaleDateString("en-US", {
+                             month: "2-digit",
+                             day: "2-digit",
+                             year: "numeric",
+                           })}`}>
+                            <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                              
+                              Not Eligible 
+                            </p>
+                            </CommonTooltip>}
+                           </>
+                          : 
                           <p className="text-[#333333] text-base font-semibold">
                              Eligible 
                           </p>

@@ -452,7 +452,7 @@ function DealerAddOrder() {
       servicerId: "",
       customerId: "",
       resellerId: "",
-      billTo: "Self",
+      billTo: "Dealer",
       name: "",
       email: "",
       phoneNumber: "",
@@ -1137,7 +1137,7 @@ function DealerAddOrder() {
     console.log(name, value, "onchange------------------->>");
     if (name == "resellerId") {
       if (value == "") {
-        formik.setFieldValue("billTo", "Self");
+        formik.setFieldValue("billTo", "Dealer");
       }
       getCustomerList({
         resellerId: value,
