@@ -237,7 +237,7 @@ function ServicerList(props) {
           },
           {
             name: "Phone #",
-            selector: (row) => formatPhoneNumber(row.phoneNumber),
+            selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
             sortable: true,
           },
           {
@@ -271,7 +271,7 @@ function ServicerList(props) {
           },
           {
             name: "Phone #",
-            selector: (row) => row.phoneNumber,
+            selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
             sortable: true,
           },
           {

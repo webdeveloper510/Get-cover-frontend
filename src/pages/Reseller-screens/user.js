@@ -390,7 +390,7 @@ function ResellerUser() {
     },
     {
       name: "Phone Number",
-      selector: (row) => formatPhoneNumber(row.phoneNumber),
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
       // sortable: true,
     },
     {
@@ -508,7 +508,7 @@ function ResellerUser() {
     },
     {
       name: "Phone Number",
-      selector: (row) => formatPhoneNumber(row.phoneNumber),
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
       // sortable: true,
     },
     {
