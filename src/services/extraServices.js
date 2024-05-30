@@ -1,7 +1,7 @@
 import axios from "axios";
 
 //delacring the base url of the api
-const url = process.env.REACT_APP_API_KEY_LOCAL
+const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 const getAccessToken = () => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -169,13 +169,22 @@ export const addSuperAdminMembers = async (data) => {
 export const getSuperAdminMembers = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(
-      `${url}/user/getMembers`,
-      data,
-      {
-        headers,
-      }
-    );
+    const response = await axios.post(`${url}/user/getMembers`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const sendNotifications = async (data, id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(`${url}/user/updateUser/${id}`, data, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {
