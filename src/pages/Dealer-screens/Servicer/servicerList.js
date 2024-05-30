@@ -124,13 +124,13 @@ function DealerServicerList() {
     },
     {
       name: "# of Claims",
-      selector: (row) => 0,
+      selector: (row) => row.claimCount,
       sortable: true,
       minWidth: "150px",
     },
     {
       name: "Total Claims Value",
-      selector: (row) => "$0.00",
+      selector: (row) => `$${row.totalClaimAmount}`,
       sortable: true,
       minWidth: "180px",
     },

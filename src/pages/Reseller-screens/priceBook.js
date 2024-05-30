@@ -147,7 +147,14 @@ function ResellerPriceBook(props) {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
-    priceBookData({});
+    priceBookData({name: "",
+    status: "",
+    pName:"",
+    category: "",
+    coverageType:"",
+    priceType: "",
+    term: "",
+    range:"",});
   };
 
   const priceBookData = async (data = { name: "",

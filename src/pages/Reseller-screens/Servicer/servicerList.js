@@ -111,7 +111,7 @@ function ResellerServicerList() {
     },
     {
       name: "Total Claims Value",
-      selector: (row) => `$${row?.claimValue?.totalAmount}`,
+      selector: (row) => `$${row?.claimValue?.totalAmount ?? parseInt(0)}`,
       sortable: true,
       minWidth: "180px",
     }

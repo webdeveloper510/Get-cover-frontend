@@ -53,6 +53,7 @@ function ResellerCustomerDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
+  const [createMainAccount, setCreateMainAccount] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [customerDetail, setCustomerDetail] = useState({});
   const [loading, setLoading] = useState(false);
@@ -266,6 +267,10 @@ function ResellerCustomerDetails() {
     console.log(customerId);
     const result = await getCustomerDetailsById(customerId);
     setCustomerDetail(result.result);
+    setCreateMainAccount(result.result.userAccount);
+    setCreateAccountOption(
+      result.result.primary.status === false ? "no" : "yes"
+    );
     console.log(result.result);
     setInitialFormValues({
       username: result?.result?.meta?.username,
@@ -319,7 +324,16 @@ function ResellerCustomerDetails() {
       ),
     },
   ];
-
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
@@ -515,7 +529,7 @@ function ResellerCustomerDetails() {
               <Grid className="mt-5">
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">0</p>
+                    <p className="text-white text-lg !font-[600]">{customerDetail?.orderData?.[0]?.noOfOrders}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Orders
                     </p>
@@ -523,7 +537,7 @@ function ResellerCustomerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-white text-lg  !font-[600]">${formatOrderValue(customerDetail?.orderData?.[0]?.orderAmount ?? parseInt(0))}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Orders
                     </p>
@@ -531,7 +545,7 @@ function ResellerCustomerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">0</p>
+                    <p className="text-white text-lg !font-[600]">{customerDetail?.claimData?.numberOfClaims}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
@@ -539,7 +553,10 @@ function ResellerCustomerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-white text-lg  !font-[600]">${formatOrderValue(
+                        customerDetail?.claimData?.valueClaim ?? parseInt(0)
+                      )}
+                     </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>
@@ -904,6 +921,27 @@ function ResellerCustomerDetails() {
                     error={formik.touched.country && formik.errors.country}
                     disabled
                   />
+                </div>
+                <div className="col-span-12">
+                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                    Do you want to create an account?
+                    <RadioButton
+                      id="yes-create-account"
+                      label="Yes"
+                      value="yes"
+                      disabled={createMainAccount === false}
+                      checked={createAccountOption === "yes"}
+                      onChange={handleRadioChange}
+                    />
+                    <RadioButton
+                      id="no-create-account"
+                      label="No"
+                      value="no"
+                      disabled={createMainAccount === false}
+                      checked={createAccountOption === "no"}
+                      onChange={handleRadioChange}
+                    />
+                  </p>
                 </div>
                 <div className="col-span-4">
                   <Button
