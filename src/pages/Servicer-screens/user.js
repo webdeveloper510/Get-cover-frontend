@@ -26,7 +26,7 @@ import {
 import Select from "../../common/select";
 import terms from "../../assets/images/Dealer/Address.svg";
 import dealer from "../../assets/images/Dealer/Name.svg";
-import { getCustomerUsersById } from "../../services/customerServices";
+import { getCustomerUsersById, getSevicerDetailPortal, getUsersSevicerPortal } from "../../services/customerServices";
 import { useMyContext } from "../../context/context";
 import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
@@ -59,12 +59,19 @@ function ServicerUser() {
   });
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
-
+  
   const getUserList = async () => {
-    const result = await getCustomerUsersById("", {});
+    const result = await getUsersSevicerPortal({});
     console.log(result.result);
     setUserList(result.result);
   };
+
+  const getUserDetail = async () => {
+    const result = await getSevicerDetailPortal({});
+    console.log(result.result);
+    // setUserList(result.result);
+  };
+
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       // Close the dropdown if the click is outside of it
@@ -84,6 +91,7 @@ function ServicerUser() {
   }, []);
 
   useEffect(() => {
+    getUserDetail()
     setLoading(true);
     let intervalId;
 
@@ -526,7 +534,7 @@ function ServicerUser() {
               <div className="col-span-2"></div>
             </Grid>
           </div>
-          <div className="px-8 pb-4 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+          {/* <div className="px-8 pb-4 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
               <p className='text-xl font-semibold mb-5'>My Details</p>
               <Grid>
                 <div className="col-span-4">
@@ -553,7 +561,7 @@ function ServicerUser() {
                   <Button> Save Changes</Button>
                 </div>
               </Grid>
-          </div>
+          </div> */}
           <div className="px-8 pb-4 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
               <p className='text-xl font-semibold mb-5'>Change Password</p>
               <Grid>

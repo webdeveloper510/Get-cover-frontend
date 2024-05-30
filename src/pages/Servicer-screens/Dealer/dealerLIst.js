@@ -14,6 +14,7 @@ import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.sv
 import {
   changeDealerStatus,
   getDealersList,
+  getDealersListServicerPortal,
 } from "../../../services/dealerServices";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Loader from "../../../assets/images/Loader.gif";
@@ -66,7 +67,7 @@ function ServicerDealerList() {
   };
   const getDealerList = async () => {
     setLoading(true);
-    const result = await getDealersList({});
+    const result = await getDealersListServicerPortal({});
     console.log(result.data);
     setDealerList(result.data);
     setLoading(false);
@@ -134,7 +135,16 @@ function ServicerDealerList() {
       <p>No records found.</p>
     </div>
   );
-
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+  
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+  
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  }; 
   const columns = [
     {
       name: "ID",
@@ -156,7 +166,7 @@ function ServicerDealerList() {
     },
     {
       name: "Phone #",
-      selector: (row) => row?.phoneNumber,
+      selector: (row) => "+1 " + formatPhoneNumber(row?.phoneNumber),
       sortable: true,
     },
     {
@@ -171,73 +181,73 @@ function ServicerDealerList() {
       minWidth: "auto", // Set a custom minimum width
       maxWidth: "170px", // Set a custom maximum width
     },
-    {
-      name: "Status",
-      selector: (row) => row.dealerData.accountStatus,
-      sortable: true,
-      cell: (row) => (
-        <div className="relative">
-          <div
-            className={` ${
-              row.dealerData.accountStatus === true
-                ? "bg-[#6BD133]"
-                : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-          ></div>
-          <select
-            value={
-              row.dealerData.accountStatus === true ? "active" : "inactive"
-            }
-            onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-          >
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-        </div>
-      ),
-    },
-    {
-      name: "Action",
-      minWidth: "auto",
-      maxWidth: "90px",
-      cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
-        return (
-          <div className="relative">
-            <div onClick={() => setSelectedAction(row.dealerData.unique_key)}>
-              <img
-                src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
-                alt="Active Icon"
-              />
-            </div>
-            {selectedAction === row.dealerData.unique_key && (
-              <div
-                ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-3 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
-              >
-                {/* <img
-                  src={arrowImage}
-                  className={`absolute  object-contain left-1/2 w-[12px] ${
-                    index % 10 === 9 ? "bottom-[-5px] rotate-180" : "top-[-5px]"
-                  } `}
-                  alt="up arror"
-                /> */}
-                <Link
-                  to={`/dealerDetails/${row?.dealerData._id}`}
-                  className="text-center py-1 px-2"
-                >
-                  <img src={view} className="w-4 h-4 mr-2" />  View
-                </Link>
-              </div>
-            )}
-          </div>
-        );
-      },
-    },
+    // {
+    //   name: "Status",
+    //   selector: (row) => row.dealerData.accountStatus,
+    //   sortable: true,
+    //   cell: (row) => (
+    //     <div className="relative">
+    //       <div
+    //         className={` ${
+    //           row.dealerData.accountStatus === true
+    //             ? "bg-[#6BD133]"
+    //             : "bg-[#FF4747]"
+    //         } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+    //       ></div>
+    //       <select
+    //         value={
+    //           row.dealerData.accountStatus === true ? "active" : "inactive"
+    //         }
+    //         onChange={(e) => handleStatusChange(row, e.target.value)}
+    //         className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+    //       >
+    //         <option value="active">Active</option>
+    //         <option value="inactive">Inactive</option>
+    //       </select>
+    //     </div>
+    //   ),
+    // },
+    // {
+    //   name: "Action",
+    //   minWidth: "auto",
+    //   maxWidth: "90px",
+    //   cell: (row, index) => {
+    //     // console.log(index, index % 10 == 9)
+    //     return (
+    //       <div className="relative">
+    //         <div onClick={() => setSelectedAction(row.dealerData.unique_key)}>
+    //           <img
+    //             src={ActiveIcon}
+    //             className="cursor-pointer	w-[35px]"
+    //             alt="Active Icon"
+    //           />
+    //         </div>
+    //         {selectedAction === row.dealerData.unique_key && (
+    //           <div
+    //             ref={dropdownRef}
+    //             className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-3 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+    //               index
+    //             )}`}
+    //           >
+    //             {/* <img
+    //               src={arrowImage}
+    //               className={`absolute  object-contain left-1/2 w-[12px] ${
+    //                 index % 10 === 9 ? "bottom-[-5px] rotate-180" : "top-[-5px]"
+    //               } `}
+    //               alt="up arror"
+    //             /> */}
+    //             <Link
+    //               to={`/dealerDetails/${row?.dealerData._id}`}
+    //               className="text-center py-1 px-2"
+    //             >
+    //               <img src={view} className="w-4 h-4 mr-2" />  View
+    //             </Link>
+    //           </div>
+    //         )}
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
 
   return (

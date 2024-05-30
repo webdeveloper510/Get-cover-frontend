@@ -895,6 +895,7 @@ function ResellerCustomerDetails() {
                     name="country"
                     label="Country"
                     required={true}
+                    className="!bg-white"
                     placeholder=""
                     value={formik.values.country}
                     onChange={formik.handleChange}

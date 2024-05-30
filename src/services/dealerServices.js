@@ -79,6 +79,21 @@ export const getDealersList = async (data) => {
   }
 };
 
+export const getDealersListServicerPortal = async (data) => {
+  console.log(data);
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(`${url}/servicerPortal/getServicerDealers`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getDealersDetailsByid = async (id) => {
   const headers = createHeaders();
 

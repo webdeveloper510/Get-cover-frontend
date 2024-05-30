@@ -199,6 +199,39 @@ export const getCustomerUsersById = async (id, data) => {
     throw error;
   }
 };
+export const getUsersSevicerPortal = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/servicerPortal/getServicerUsers`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getSevicerDetailPortal = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/servicerPortal/getServicerDetail`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getCustomerUsersByIdCustomerPortal = async (id, data) => {
   const headers = createHeaders();
   try {

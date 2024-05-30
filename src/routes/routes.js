@@ -172,7 +172,7 @@ const routes = [
       {
         path: "/dashboard",
         element: (
-          <PrivateRoute element={<Dashboard />} exact path="/dashboard" />
+          <PrivateRoute element={<Dashboard />} role={'admin'} exact path="/dashboard" />
         ),
       },
 
@@ -180,64 +180,65 @@ const routes = [
         path: "/notifications",
         index: true,
         element: (
-          <PrivateRoute element={<Notification />} path="/notifications" />
+          <PrivateRoute element={<Notification />} role={'admin'} path="/notifications" />
         ),
       },
       {
         path: "/editContract/:id",
         index: true,
-        element: <PrivateRoute element={<EditContract />} />,
+        element: <PrivateRoute element={<EditContract />} role={'admin'} />,
       },
       {
         path: "/orderDetails/:orderId",
         index: true,
-        element: <PrivateRoute element={<OrderDetails />} />,
+        element: <PrivateRoute element={<OrderDetails />} role={'admin'} />,
       },
       {
         path: "/servicerDetails/:servicerId",
         index: true,
-        element: <PrivateRoute element={<ServicerDetails />} />,
+        element: <PrivateRoute element={<ServicerDetails />} role={'admin'} />,
       },
       {
         path: "/resellerDetails/:resellerId",
         index: true,
-        element: <PrivateRoute element={<ResellerDetails />} />,
+        element: <PrivateRoute element={<ResellerDetails />} role={'admin'} />,
       },
       {
         path: "/dealerDetails/:id",
         index: true,
-        element: <PrivateRoute element={<DealerDetails />} />,
+        element: <PrivateRoute element={<DealerDetails />} role={'admin'} />,
       },
 
       {
         path: "/addDealer/:id?",
-        element: <PrivateRoute element={<Dealer />} />,
+        element: <PrivateRoute element={<Dealer />} role={'admin'} />,
       },
       {
         path: "/addCustomer/:dealerValueId?/:typeofUser?",
-        element: <PrivateRoute element={<AddCustomer />} />,
+        element: <PrivateRoute element={<AddCustomer />} role={'admin'} />,
       },
       {
         path: "/addDealerBook/:dealerIdValue?",
-        element: <PrivateRoute element={<AddDealerBook />} />,
+        element: <PrivateRoute element={<AddDealerBook />}  role={'admin'} />,
       },
       {
         path: "/addOrderforReseller/:resellerId?/:dealerValue?",
-        element: <PrivateRoute element={<AddOrder />} />,
+        element: <PrivateRoute element={<AddOrder />} role={'admin'} />,
       },
       {
         path: "/addOrderforCustomer/:customerId?/:dealerValue?/:resellerId?",
-        element: <PrivateRoute element={<AddOrder />} />,
+        element: <PrivateRoute element={<AddOrder />} role={'admin'} />,
       },
       {
         path: "/editDealerBook/:id/:dealerIdValue?",
-        element: <PrivateRoute element={<AddDealerBook />} />,
+        element: <PrivateRoute element={<AddDealerBook />} role={'admin'} />,
       },
       {
         path: "/addCompanyPriceBook",
         element: (
           <PrivateRoute
             element={<AddCompanyPriceBook />}
+            role={'admin'}
             path="/addCompanyPriceBook"
           />
         ),
@@ -251,35 +252,37 @@ const routes = [
         element: (
           <PrivateRoute
             element={<UploadDealerBook />}
+            role={'admin'}
             path="/uploadDealerBook"
           />
         ),
       },
       {
         path: "/addCategory",
-        element: <PrivateRoute element={<AddCategory />} path="/addCategory" />,
+        element: <PrivateRoute element={<AddCategory />} role={'admin'} path="/addCategory" />,
       },
       {
         path: "/editCategory/:id",
-        element: <AddCategory />,
+        element: <PrivateRoute element={<AddCategory />} role={'admin'} />,
       },
       {
         path: "/dealerList",
-        element: <PrivateRoute element={<DealerList />} />,
+        element: <PrivateRoute element={<DealerList />} role={'admin'} />,
       },
       {
         path: "/dealerPriceList/:dealerName?",
-        element: <PrivateRoute element={<DealerPriceList />} />,
+        element: <PrivateRoute element={<DealerPriceList />} role={'admin'} />,
       },
       {
         path: "/category",
-        element: <PrivateRoute element={<Category />} path="/category" />,
+        element: <PrivateRoute element={<Category />} role={'admin'} path="/category" />,
       },
       {
         path: "/companyPriceBook",
         element: (
           <PrivateRoute
             element={<CompanyPriceBook />}
+            role={'admin'}
             path="/companyPriceBook"
           />
         ),
@@ -287,99 +290,100 @@ const routes = [
       {
         path: "/newDealerList",
         element: (
-          <PrivateRoute element={<NewDealerList />} path="/newDealerList" />
+          <PrivateRoute element={<NewDealerList />} role={'admin'} path="/newDealerList" />
         ),
       },
       {
         path: "/customerList",
         element: (
-          <PrivateRoute element={<CustomerList />} path="/customerList" />
+          <PrivateRoute element={<CustomerList />} role={'admin'} path="/customerList" />
         ),
       },
       {
         path: "/addServicer/:id?",
-        element: <PrivateRoute element={<AddServicer />} />,
+        element: <PrivateRoute element={<AddServicer />} role={'admin'} />,
       },
       {
         path: "/servicerList",
         element: (
-          <PrivateRoute element={<ServicerList />} path="/servicerList" />
+          <PrivateRoute element={<ServicerList />} role={'admin'} path="/servicerList" />
         ),
       },
       {
         path: "/customerDetails/:customerId",
         index: true,
-        element: <PrivateRoute element={<CustomerDetails />} />,
+        element: <PrivateRoute element={<CustomerDetails />} role={'admin'} />,
       },
       {
         path: "/servicerRequestList",
         element: (
           <PrivateRoute
             element={<RequestServicer />}
+            role={'admin'}
             path="/servicerRequestList"
           />
         ),
       },
       {
         path: "/addOrder/:dealerId?",
-        element: <PrivateRoute element={<AddOrder />} />,
+        element: <PrivateRoute element={<AddOrder />} role={'admin'} />,
       },
       {
         path: "/editOrder/:orderId",
-        element: <PrivateRoute element={<AddOrder />} />,
+        element: <PrivateRoute element={<AddOrder />} role={'admin'} />,
       },
       {
         path: "/editOrder/:orderId?/:customerId?/customer",
-        element: <PrivateRoute element={<AddOrder />} />,
+        element: <PrivateRoute element={<AddOrder />} role={'admin'} />,
       },
       {
         path: "/editOrder/:orderId?/:dealerId?/dealer",
-        element: <PrivateRoute element={<AddOrder />} />,
+        element: <PrivateRoute element={<AddOrder />} role={'admin'} />,
       },
       {
         path: "/editOrder/:orderId?/:resellerId?/reseller",
-        element: <PrivateRoute element={<AddOrder />} />,
+        element: <PrivateRoute element={<AddOrder />} role={'admin'} />,
       },
       {
         path: "/orderList",
-        element: <PrivateRoute element={<OrderList />} path="/orderList" />,
+        element: <PrivateRoute element={<OrderList />} role={'admin'} path="/orderList" />,
       },
       {
         path: "/contractList",
         element: (
-          <PrivateRoute element={<ContractList />} path="/contractList" />
+          <PrivateRoute element={<ContractList />} role={'admin'} path="/contractList" />
         ),
       },
       {
         path: "/claimList",
-        element: <PrivateRoute element={<ClaimList />} path="/claimList" />,
+        element: <PrivateRoute element={<ClaimList />} role={'admin'} path="/claimList" />,
       },
 
       {
         path: "/addClaim",
-        element: <PrivateRoute element={<AddClaim />} path="/addClaim" />,
+        element: <PrivateRoute element={<AddClaim />} role={'admin'} path="/addClaim" />,
       },
       {
         path: "/customer/addClaim/:username",
-        element: <PrivateRoute element={<AddClaim />} />,
+        element: <PrivateRoute element={<AddClaim />} role={'admin'} />,
       },
       {
         path: "/resellerList",
         element: (
-          <PrivateRoute element={<ResellerList />} path="/resellerList" />
+          <PrivateRoute element={<ResellerList />} role={'admin'} path="/resellerList" />
         ),
       },
       {
         path: "/addReseller/:dealerValueId?",
-        element: <PrivateRoute element={<AddReseller />} />,
+        element: <PrivateRoute element={<AddReseller />} role={'admin'} />,
       },
       {
         path: "/addBulkClaim",
-        element: <PrivateRoute element={<AddBulkClaim />} />,
+        element: <PrivateRoute element={<AddBulkClaim />} role={'admin'} />,
       },
       {
         path: "/sale",
-        element: <PrivateRoute element={<Sale />} path="/sale" />,
+        element: <PrivateRoute element={<Sale />} role={'admin'} path="/sale" />,
       },
       {
         path: "/claims",
@@ -388,50 +392,52 @@ const routes = [
       {
         path: "/archiveOrder",
         element: (
-          <PrivateRoute element={<ArchiveOrderList />} path="/archiveOrder" />
+          <PrivateRoute element={<ArchiveOrderList />} role={'admin'} path="/archiveOrder" />
         ),
       },
       {
         path: "/manageAccount",
-        element: <PrivateRoute element={<Account />} path="/manageAccount" />,
+        element: <PrivateRoute element={<Account />} role={'admin'} path="/manageAccount" />,
       },
 
       // Dealer Routs ---------------------------------------------------------------
 
       {
         path: "/dealer/orderDetails/:orderId",
-        element: <PrivateRoute element={<DealerOrderDetails />} />,
+        element: <PrivateRoute element={<DealerOrderDetails />} role={'dealer'} />,
       },
       {
         path: "/dealer/addOrderforReseller/:resellerId?",
-        element: <PrivateRoute element={<DealerAddOrder />} />,
+        element: <PrivateRoute element={<DealerAddOrder />} role={'dealer'} />,
       },
       {
         path: "/dealer/addOrderforCustomer/:customerId?/:resellerId?",
-        element: <PrivateRoute element={<DealerAddOrder />} />,
+        element: <PrivateRoute element={<DealerAddOrder />} role={'dealer'} />,
       },
       {
         path: "/dealer/dashboard",
         element: (
           <PrivateRoute
             element={<DealerDashboard />}
+            role={'dealer'}
             path="/dealer/dashboard"
           />
         ),
       },
       {
         path: "/dealer/user",
-        element: <PrivateRoute element={<DealerUser />} path="/dealer/user" />,
+        element: <PrivateRoute element={<DealerUser />} role={'dealer'} path="/dealer/user" />,
       },
       {
         path: "/dealer/addCustomer/:resellerId?/:typeofUser?",
-        element: <PrivateRoute element={<DealerAddCustomer />} />,
+        element: <PrivateRoute element={<DealerAddCustomer />} role={'dealer'} />,
       },
       {
         path: "/dealer/customerList",
         element: (
           <PrivateRoute
             element={<DealerCustomerList />}
+            role={'dealer'}
             path="/dealer/customerList"
           />
         ),
@@ -441,6 +447,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ArchiveOrderList />}
+            role={'dealer'}
             path="/dealer/archiveOrder"
           />
         ),
@@ -450,18 +457,19 @@ const routes = [
         element: (
           <PrivateRoute
             element={<DealerContractList />}
+            role={'dealer'}
             path="/dealer/contractList"
           />
         ),
       },
       {
         path: "/dealer/editOrder/:orderId?/:typeValue?",
-        element: <PrivateRoute element={<DealerAddOrder />} />,
+        element: <PrivateRoute element={<DealerAddOrder />} role={'dealer'} />,
       },
       {
         path: "/dealer/addOrder",
         element: (
-          <PrivateRoute element={<DealerAddOrder />} path="/dealer/addOrder" />
+          <PrivateRoute element={<DealerAddOrder />} role={'dealer'} path="/dealer/addOrder" />
         ),
       },
       {
@@ -469,6 +477,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<DealerOrderList />}
+            role={'dealer'}
             path="/dealer/orderList"
           />
         ),
@@ -478,6 +487,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<DealerAddReseller />}
+            role={'dealer'}
             path="/dealer/addReseller"
           />
         ),
@@ -487,6 +497,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<DealerResellerList />}
+            role={'dealer'}
             path="/dealer/resellerList"
           />
         ),
@@ -496,6 +507,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<DealerAddServicer />}
+            role={'dealer'}
             path="/dealer/addServicer"
           />
         ),
@@ -505,6 +517,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<DealerServicerList />}
+            role={'dealer'}
             path="/dealer/servicerList"
           />
         ),
@@ -512,26 +525,28 @@ const routes = [
       {
         path: "/dealer/resellerDetails/:resellerId",
         index: true,
-        element: <PrivateRoute element={<DealerResellerDetails />} />,
+        element: <PrivateRoute element={<DealerResellerDetails />} role={'dealer'} />,
       },
       {
         path: "/dealer/servicerDetails",
         element: (
           <PrivateRoute
             element={<DealerServicerDetails />}
+            role={'dealer'}
             path="/dealer/servicerDetails"
           />
         ),
       },
       {
         path: "/dealer/customerDetails/:customerId",
-        element: <PrivateRoute element={<DealerCustomerDetails />} />,
+        element: <PrivateRoute element={<DealerCustomerDetails />} role={'dealer'} />,
       },
       {
         path: "/dealer/priceBook",
         element: (
           <PrivateRoute
             element={<DealerPriceBook />}
+            role={'dealer'}
             path="/dealer/priceBook"
           />
         ),
@@ -539,23 +554,23 @@ const routes = [
       {
         path: "/dealer/contract",
         element: (
-          <PrivateRoute element={<DealerContract />} path="/dealer/contract" />
+          <PrivateRoute element={<DealerContract />} role={'dealer'} path="/dealer/contract" />
         ),
       },
       {
         path: "/dealer/sale",
-        element: <PrivateRoute element={<DealerSale />} path="/dealer/sale" />,
+        element: <PrivateRoute element={<DealerSale />} role={'dealer'} path="/dealer/sale" />,
       },
       {
         path: "/dealer/claim",
         element: (
-          <PrivateRoute element={<DealerClaims />} path="/dealer/claim" />
+          <PrivateRoute element={<DealerClaims />} role={'dealer'} path="/dealer/claim" />
         ),
       },
       {
         path: "/dealer/claimList",
         element: (
-          <PrivateRoute element={<ClaimList12 />} path="/dealer/claimList" />
+          <PrivateRoute element={<ClaimList12 />} role={'dealer'} path="/dealer/claimList" />
         ),
       },
       {
@@ -563,6 +578,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ClaimList />}
+            role={'dealer'}
             path="/dealer/unPaidClaimList"
           />
         ),
@@ -570,12 +586,12 @@ const routes = [
       {
         path: "/dealer/paidClaimList",
         element: (
-          <PrivateRoute element={<ClaimList />} path="/dealer/paidClaimList" />
+          <PrivateRoute element={<ClaimList />} role={'dealer'} path="/dealer/paidClaimList" />
         ),
       },
       {
         path: "/dealer/addClaim/:username?",
-        element: <PrivateRoute element={<AddClaim />} />,
+        element: <PrivateRoute element={<AddClaim />} role={'dealer'} />,
       },
       {
         path: "/dealer/addBulkClaim",
@@ -583,6 +599,7 @@ const routes = [
           <PrivateRoute
             element={<AddBulkClaim />}
             path="/dealer/addBulkClaim"
+            role={'dealer'}
           />
         ),
       },
@@ -592,6 +609,7 @@ const routes = [
           <PrivateRoute
             element={<CustomerAddDealerBook />}
             path="/dealer/addPriceBook"
+            role={'dealer'}
           />
         ),
       },
@@ -601,7 +619,7 @@ const routes = [
       {
         path: "/servicer/user",
         element: (
-          <PrivateRoute element={<ServicerUser />} path="/servicer/user" />
+          <PrivateRoute element={<ServicerUser />}  role={'servicer'} path="/servicer/user" />
         ),
       },
       {
@@ -609,6 +627,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ServicerDashboard />}
+            role={'servicer'}
             path="/servicer/dashboard"
           />
         ),
@@ -618,6 +637,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ServicerDealerList />}
+            role={'servicer'}
             path="/servicer/dealerList"
           />
         ),
@@ -627,6 +647,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ServicerClaimList />}
+            role={'servicer'}
             path="/servicer/claimList"
           />
         ),
@@ -634,18 +655,19 @@ const routes = [
       {
         path: "/servicer/claims",
         element: (
-          <PrivateRoute element={<ServicerClaims />} path="/servicer/claims" />
+          <PrivateRoute element={<ServicerClaims />}  role={'servicer'} path="/servicer/claims" />
         ),
       },
       {
         path: "/servicer/addClaim",
-        element: <PrivateRoute element={<ServicerAddClaim />} />,
+        element: <PrivateRoute element={<ServicerAddClaim />}  role={'servicer'} />,
       },
       {
         path: "/servicer/addBulkClaim",
         element: (
           <PrivateRoute
             element={<ServicerAddBulkClaim />}
+            role={'servicer'}
             path="/servicer/claimList"
           />
         ),
@@ -658,6 +680,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ResellerDashboard />}
+            role={'reseller'}
             path="/reseller/dashboard"
           />
         ),
@@ -665,7 +688,7 @@ const routes = [
       {
         path: "/reseller/user",
         element: (
-          <PrivateRoute element={<ResellerUser />} path="/reseller/user" />
+          <PrivateRoute element={<ResellerUser />} role={'reseller'} path="/reseller/user" />
         ),
       },
       {
@@ -673,6 +696,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ResellerAddCustomer />}
+            role={'reseller'}
             path="/reseller/addCustomer"
           />
         ),
@@ -682,6 +706,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ResellerCustomerList />}
+            role={'reseller'}
             path="/reseller/customerList"
           />
         ),
@@ -691,23 +716,25 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ContractList />}
+            role={'reseller'}
             path="/reseller/contractList"
           />
         ),
       },
       {
         path: "/reseller/addOrder",
-        element: <PrivateRoute element={<ResellerAddOrder />} />,
+        element: <PrivateRoute element={<ResellerAddOrder />} role={'reseller'} />,
       },
       {
         path: "/reseller/editOrder/:orderId?",
-        element: <PrivateRoute element={<ResellerAddOrder />} />,
+        element: <PrivateRoute element={<ResellerAddOrder />} role={'reseller'} />,
       },
       {
         path: "/reseller/orderList",
         element: (
           <PrivateRoute
             element={<ResellerOrderList />}
+            role={'reseller'}
             path="/reseller/orderList"
           />
         ),
@@ -717,6 +744,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ResellerAddServicer />}
+            role={'reseller'}
             path="/reseller/addServicer"
           />
         ),
@@ -726,6 +754,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ResellerServicerList />}
+            role={'reseller'}
             path="/reseller/servicerList"
           />
         ),
@@ -735,19 +764,21 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ResellerServicerDetails />}
+            role={'reseller'}
             path="/reseller/servicerDetails"
           />
         ),
       },
       {
         path: "/reseller/customerDetails/:customerId",
-        element: <PrivateRoute element={<ResellerCustomerDetails />} />,
+        element: <PrivateRoute element={<ResellerCustomerDetails />} role={'reseller'} />,
       },
       {
         path: "/reseller/priceBook",
         element: (
           <PrivateRoute
             element={<ResellerPriceBook />}
+            role={'reseller'}
             path="/reseller/priceBook"
           />
         ),
@@ -757,6 +788,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ResellerContractList />}
+            role={'reseller'}
             path="/reseller/contract"
           />
         ),
@@ -764,28 +796,28 @@ const routes = [
       {
         path: "/reseller/sale",
         element: (
-          <PrivateRoute element={<ResellerSale />} path="/reseller/sale" />
+          <PrivateRoute element={<ResellerSale />} role={'reseller'} path="/reseller/sale" />
         ),
       },
       {
         path: "/reseller/claim",
-        element: <PrivateRoute element={<ClaimList />} />,
+        element: <PrivateRoute element={<ClaimList />} role={'reseller'} />,
       },
       {
         path: "/reseller/claimList",
-        element: <PrivateRoute element={<ClaimList />} />,
+        element: <PrivateRoute element={<ClaimList />} role={'reseller'} />,
       },
       {
         path: "/reseller/addClaim/:username?",
-        element: <PrivateRoute element={<AddClaim />} />,
+        element: <PrivateRoute element={<AddClaim />} role={'reseller'} />,
       },
       {
         path: "/reseller/addBulkClaim",
-        element: <PrivateRoute element={<ResellerAddBulkClaim />} />,
+        element: <PrivateRoute element={<ResellerAddBulkClaim />} role={'reseller'} />,
       },
       {
         path: "/reseller/orderDetails/:orderId",
-        element: <PrivateRoute element={<DealerOrderDetails />} />,
+        element: <PrivateRoute element={<DealerOrderDetails />} role={'reseller'} />,
       },
       {
         path: "*",
@@ -797,7 +829,8 @@ const routes = [
         path: "/customer/dashboard",
         element: (
           <PrivateRoute
-            element={<CustomerDashboard />}
+            element={<CustomerDashboard /> }
+            role={'customer'}
             path="/customer/dashboard"
           />
         ),
@@ -805,7 +838,7 @@ const routes = [
       {
         path: "/customer/user",
         element: (
-          <PrivateRoute element={<CustomerUser />} path="/customer/user" />
+          <PrivateRoute element={<CustomerUser />}  role={'customer'} path="/customer/user" />
         ),
       },
       {
@@ -813,19 +846,21 @@ const routes = [
         element: (
           <PrivateRoute
             element={<CustomerAddClaim />}
+            role={'customer'}
             path="/customer/addClaim"
           />
         ),
       },
       {
         path: "/customer/claimList",
-        element: <PrivateRoute element={<ClaimList />} />,
+        element: <PrivateRoute element={<ClaimList />}  role={'customer'} />,
       },
       {
         path: "/customer/addBulkClaim",
         element: (
           <PrivateRoute
             element={<CustomerAddBulkClaim />}
+            role={'customer'}
             path="/customer/addBulkClaim"
           />
         ),
@@ -835,6 +870,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<CustomerContractList />}
+            role={'customer'}
             path="/customer/contractList"
           />
         ),
@@ -844,6 +880,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<CustomerOrderList />}
+            role={'customer'}
             path="/customer/orderList"
           />
         ),
@@ -853,13 +890,14 @@ const routes = [
         element: (
           <PrivateRoute
             element={<CustomerAddOrder />}
+            role={'customer'}
             path="/customer/addOrder"
           />
         ),
       },
       {
         path: "/customer/orderDetails/:orderId",
-        element: <PrivateRoute element={<CustomerOrderDetails />} />,
+        element: <PrivateRoute element={<CustomerOrderDetails />} role={'customer'} />,
       },
     ],
   },

@@ -150,7 +150,14 @@ function ResellerPriceBook(props) {
     priceBookData({});
   };
 
-  const priceBookData = async (data = {}) => {
+  const priceBookData = async (data = { name: "",
+  status: "",
+  pName:"",
+  category: "",
+  coverageType:"",
+  priceType: "",
+  term: "",
+  range:"",}) => {
     setLoading(true);
     
     const result = await getResellerPortalPriceBook(data);
