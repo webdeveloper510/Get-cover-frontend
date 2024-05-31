@@ -13,7 +13,7 @@ function OrderSummary(props) {
   
   const baseUrl = apiUrl();
 
-  console.log(props.data);
+  console.log(props.shown);
   const [showTooltip, setShowTooltip] = useState(false);
 
 const handleDownloadClick = (file, apiUrlData) => {
@@ -144,7 +144,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-3 border border-Light-Grey">
+                        {props.shown === false && <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               ADH (Waiting Days)
@@ -153,7 +153,8 @@ const handleDownloadClick = (file, apiUrlData) => {
                               {res?.adh === "" ? 0 : res?.adh}
                             </p>
                           </div>
-                        </div>
+                        </div>}
+                        
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">

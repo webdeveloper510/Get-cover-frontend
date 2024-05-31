@@ -166,7 +166,7 @@ function OrderDetails() {
       icons: orderSummary,
       Activeicons: orderActive,
       content: activeTab === "Order Summary" && (
-        <OrderSummary data={orderDetails.productsArray} />
+        <OrderSummary data={orderDetails.productsArray} shown={orderDetails.coverageType === "Breakdown"} />
       ),
     },
     {

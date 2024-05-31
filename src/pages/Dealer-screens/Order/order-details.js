@@ -89,7 +89,7 @@ function OrderDetails() {
       label: "Order Summary",
       icons: orderSummary,
       Activeicons: orderActive,
-      content: <OrderSummary data={orderDetails.productsArray} />,
+      content: <OrderSummary data={orderDetails.productsArray} shown={orderDetails.coverageType === "Breakdown"} />,
     },
     {
       id: "Contracts",
