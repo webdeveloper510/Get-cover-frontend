@@ -1062,7 +1062,7 @@ function ContractList(props) {
                           </p>
                           {contractDetails?.eligibilty === false ? 
                            <>
-                           {contractDetails.status == 'Waiting' || contractDetails.status === "Expired" ?  <CommonTooltip place="top" id="tooltip-default" content={'Contract is not Active state'}>
+                           {contractDetails.status == 'Waiting' || contractDetails.status === "Expired" ?  <CommonTooltip place="top" id="tooltip-default" content={'Contract is not Active state'}> 
                             <p className="text-[#333333] cursor-pointer text-base font-semibold">
                             Not Eligible
                             </p>

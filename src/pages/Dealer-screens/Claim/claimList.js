@@ -288,6 +288,7 @@ function ClaimList(props) {
   const [activeTab, setActiveTab] = useState("All Claims");
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
+    handleFilterIconClick()
   };
   // console.log(coverage, "---------------------->>>>>");
   const editClaimRejectedValue = (claimId, data) => {
@@ -438,6 +439,8 @@ function ClaimList(props) {
       } else {
         await getAllClaims(page, rowsPerPage);
       }
+      setActiveIndex(null);
+      localStorage.removeItem("activeIndex");
       setTimeout(function () {
         setShowdata(true);
       }, 1000);
@@ -946,8 +949,8 @@ function ClaimList(props) {
   }, []);
 
   useEffect(() => {
-    if (props.activeTab == "Claims") {
-      // getAllClaims();
+    if (activeTab === "All Claims") {
+      getAllClaims();
     }
   }, [props]);
 

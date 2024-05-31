@@ -1435,6 +1435,7 @@ function ResellerAddOrder() {
                           value={
                             formikStep3.values.productsArray[index].categoryId
                           }
+                          
                           onBlur={formikStep3.handleBlur}
                           onChange={handleSelectChange2}
                           index={index}
@@ -1468,6 +1469,10 @@ function ResellerAddOrder() {
                           placeholder=""
                           value={
                             formikStep3.values.productsArray[index].priceBookId
+                          }
+                          disabled={
+                            formikStep3.values.productsArray[index]
+                              .categoryId == ""
                           }
                           onBlur={formikStep3.handleBlur}
                           onChange={handleSelectChange2}
@@ -1503,6 +1508,10 @@ function ResellerAddOrder() {
                           value={
                             formikStep3.values.productsArray[index].priceBookId
                           }
+                          disabled={
+                            formikStep3.values.productsArray[index]
+                              .categoryId == ""
+                          }
                           onBlur={formikStep3.handleBlur}
                           onChange={handleSelectChange2}
                           index={index}
@@ -1533,6 +1542,10 @@ function ResellerAddOrder() {
                           placeholder=""
                           onChange={handleSelectChange2}
                           className="!bg-white"
+                          disabled={
+                            formikStep3.values.productsArray[index]
+                              .categoryId == ""
+                          }
                           options={termList}
                           value={formikStep3.values.productsArray[index].term}
                           onBlur={formikStep3.handleBlur}

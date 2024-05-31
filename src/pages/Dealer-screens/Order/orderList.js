@@ -96,15 +96,17 @@ function OrderList() {
   }, [isModalOpen1, timer]);
 
   const openModal1 = () => {
+    closeArchive();
     console.log(orderId);
     if (message == "Would you like to Archive it?") {
-      archiveOrders(orderId).then((res) => {
-        setPrimaryMessage("Archive Order Successfully");
-        setSecondaryMessage("You have successfully archive the order");
-        // console.log(res);
-        setTimer(3);
-        setIsModalOpen1(true);
-      });
+      setLoadingOrder(true);
+        archiveOrders(orderId).then((res) => {
+          setLoadingOrder(false);
+          setPrimaryMessage("Archive Order Successfully");
+          setSecondaryMessage("You have successfully archive the order");
+          setTimer(3);
+          setIsModalOpen1(true);
+        });
     } else {
       markPaid(orderId).then((res) => {
         if (res.code == 200) {
@@ -137,8 +139,7 @@ function OrderList() {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      getOrderList(values);
-
+       getOrderList(values);
       console.log(values);
     },
   });
@@ -158,8 +159,9 @@ function OrderList() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
+  
   const [loading, setLoading] = useState(false);
+  const [loadingOrder, setLoadingOrder] = useState(false);
 
   const status = [
     { label: "Active", value: "Active" },
@@ -362,7 +364,15 @@ function OrderList() {
 
   return (
     <>
-      <div className="mb-8 ml-3">
+    {loadingOrder ?  <>
+              <div className="h-[100vh] fixed z-[999999] bg-[#333333c7] backdrop-blur-xl top-0 left-0 w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#fff" />
+                </div>
+              </div>
+     </> :
+    
+    <div className="mb-8 ml-3">
         <Headbar />
 
         <div className="flex mt-2">
@@ -391,7 +401,6 @@ function OrderList() {
             </span>{" "}
           </Link>
         </Button>
-
         <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-3 self-center">
@@ -501,6 +510,9 @@ function OrderList() {
           </div>
         </div>
       </div>
+    }
+      
+
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <Button
           onClick={() => {
@@ -678,6 +690,7 @@ function OrderList() {
           </div>
         </form>
       </Modal>
+
     </>
   );
 } 
