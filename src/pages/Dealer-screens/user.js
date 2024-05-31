@@ -444,9 +444,17 @@ function DealerUser() {
 
   const filterUserDetails = async (value) => {
     try {
-      setLoading1(true);
+      // setLoading1(true);
       const res = await getSuperAdminMembers(value);
       setUserList(res.result);
+      let local  = JSON.parse(localStorage.getItem('userDetails'));
+      // localStorage.removeItem('userDetails')
+      local.userInfo = {
+        lastName: res?.loginMember?.lastName,
+        firstName: res?.loginMember?.firstName,
+      }
+      localStorage.setItem('userDetails',JSON.stringify(local))
+      console.log(local, '---------------')
     } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {

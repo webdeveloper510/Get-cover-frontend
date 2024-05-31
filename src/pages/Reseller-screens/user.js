@@ -324,6 +324,14 @@ function ResellerUser() {
       setLoading(true);
       const res = await getUsersByIdresellerPortal("", data);
       setUserList(res.data);
+      console.log(res, '---------------')
+      let local  = JSON.parse(localStorage.getItem('userDetails'));
+      // localStorage.removeItem('userDetails')
+      local.userInfo = {
+        lastName: res?.data?.[0]?.lastName,
+        firstName: res?.data?.[0]?.firstName,
+      }
+      localStorage.setItem('userDetails',JSON.stringify(local))
     } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
@@ -667,6 +675,7 @@ function ResellerUser() {
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
+        
         SetPrimaryText("User Edited Successfully ");
         SetSecondaryText("user edited successfully ");
         // setFirstMessage("User Edited Successfully ");

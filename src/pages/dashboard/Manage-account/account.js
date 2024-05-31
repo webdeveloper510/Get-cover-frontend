@@ -106,7 +106,7 @@ function Account() {
 
     try {
       const userDetails = await getSuperAdminMembers();
-      console.log(userDetails?.loginMember, "---------------->>>>>>>>>>>>");
+      // console.log(userDetails?.loginMember, "---------------->>>>>>>>>>>>");
       setIsPrimary(userDetails.loginMember.isPrimary);
       const {
         firstName,
@@ -232,9 +232,9 @@ function Account() {
   // };
 
   const editUser = async (id) => {
-    console.log(id);
+    // console.log(id);
     const result = await userDetailsById(id);
-    console.log(result.result.status);
+    // console.log(result.result.status);
     SetIsprimary(result.result.isPrimary);
     setMainStatus(result.mainStatus);
     setInitialFormValues({
@@ -245,6 +245,7 @@ function Account() {
       position: result?.result?.position,
       status: result?.result?.status,
     });
+  
     setIsUserModalOpen(false);
     openModal2();
     fetchUserMembers();
@@ -252,7 +253,7 @@ function Account() {
 
   const deleteUser = async () => {
     const result = await deleteUserByUserId(deleteId);
-    console.log(result);
+    // console.log(result);
     if (result.code === 200) {
       setIsModalOpen12(true);
     }
@@ -266,7 +267,8 @@ function Account() {
   };
 
   const handleStatusChange = async (row, newStatus) => {
-    console.log(row);
+    // console.log(row);
+
     try {
       setMemberList((userData) => {
         return userData.map((user) => {
@@ -285,7 +287,7 @@ function Account() {
         status: newStatus === "active" ? true : false,
       });
 
-      console.log(result);
+      // console.log(result);
     } catch (error) {
       console.error("Error in handleStatusChange:", error);
     }
@@ -327,10 +329,10 @@ function Account() {
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
-      console.log("Form values:", values);
+      // console.log("Form values:", values);
 
       const result = await addSuperAdminMembers(values);
-      console.log(result);
+      // console.log(result);
       if (result.code == 200) {
         // setLoading(false);
         setFirstMessage("User Added Successfully ");
@@ -373,10 +375,10 @@ function Account() {
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
-      console.log("Form values:", values);
+      // console.log("Form values:", values);
       setLoading(true);
       const result = await updateUserDetailsById(values);
-      console.log(result);
+      // console.log(result);
       if (result.code == 200) {
         // setLoading(false);
         setFirstMessage("User Edited Successfully ");
@@ -398,7 +400,7 @@ function Account() {
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
-    console.log(values);
+    // console.log(values);
     passwordChange(values);
     setSubmitting(false);
   };
@@ -422,7 +424,7 @@ function Account() {
 
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
-    console.log(selectedValue);
+    // console.log(selectedValue);
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
@@ -443,7 +445,7 @@ function Account() {
       try {
         setLoading(true);
         const result = await sendNotifications(values);
-        console.log(result);
+        // console.log(result);
         if (result.code == 200) {
           fetchUserMembers();
         } else {
@@ -705,6 +707,7 @@ function Account() {
       console.log(res);
       await fetchUserDetails();
       fetchUserMembers();
+     
     } catch (error) {
       console.error("Error updating user details:", error);
     }
@@ -718,11 +721,18 @@ function Account() {
   }, []);
 
   const fetchUserMembers = async () => {
-    setLoading(true);
     try {
       const members = await getSuperAdminMembers();
       console.log(members, "111111111111111111111111111111");
       setMemberList(members.result);
+      let local  = JSON.parse(localStorage.getItem('userDetails'));
+      // localStorage.removeItem('userDetails')
+      local.userInfo = {
+        lastName: members?.loginMember?.lastName,
+        firstName: members?.loginMember?.firstName,
+      }
+      localStorage.setItem('userDetails',JSON.stringify(local))
+      console.log(local, '---------------')
     } catch (error) {
       setLoading(false);
       console.error("Error fetching user members:", error);
