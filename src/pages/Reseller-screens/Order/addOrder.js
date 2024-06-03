@@ -127,17 +127,17 @@ function ResellerAddOrder() {
   //   }
   // }, [location]);
   const getTermListData = async () => {
-    try {
-      const res = await getTermList();
-      setTermList(
-        res.result.terms.map((item) => ({
-          label: item.terms + " Months",
-          value: item.terms,
-        }))
-      );
-    } catch (error) {
-      console.error("Error fetching category list:", error);
-    }
+    // try {
+    //   const res = await getTermList();
+    //   setTermList(
+    //     res.result.terms.map((item) => ({
+    //       label: item.terms + " Months",
+    //       value: item.terms,
+    //     }))
+    //   );
+    // } catch (error) {
+    //   console.error("Error fetching category list:", error);
+    // }
   };
 
   const getServicerList = async (data) => {
@@ -284,6 +284,7 @@ function ResellerAddOrder() {
       ...formikStep3.values,
       productsArray: result?.result?.productsArray?.map((product, index) => ({
         categoryId: product.categoryId || "",
+        pName: product.pName || "",
         priceBookId: product.priceBookId || "",
         unitPrice: product.unitPrice || null,
         noOfProducts: product.noOfProducts || "",
@@ -416,7 +417,9 @@ function ResellerAddOrder() {
           rangeEnd: "",
           checkNumberProducts: "",
           fileValue: "",
+          pName: "",
           orderFile: {},
+          adh: 0,
         },
       ],
     },
@@ -834,7 +837,7 @@ function ResellerAddOrder() {
       //   `productsArray[${match[1]}].QuantityPricing`,
       //   data.quantityPriceDetail
       // );
-      const updatedQuantityPricing = data.quantityPriceDetail.map(
+      const updatedQuantityPricing = data?.quantityPriceDetail?.map(
         (item, index) => {
           const updatedItem = {
             ...item,
@@ -857,30 +860,30 @@ function ResellerAddOrder() {
       formikStep3.setFieldValue(`productsArray[${match[1]}].noOfProducts`, "");
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].priceType`,
-        data.priceType
+        data?.priceType
       );
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].priceType`,
-        data.priceType
-      );
+      // formikStep3.setFieldValue(
+      //   `productsArray[${match[1]}].priceType`,
+      //   data?.priceType
+      // );
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].description`,
-        data.description
+        data?.description
       );
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].rangeEnd`,
-        data.rangeEnd
+        data?.rangeEnd
       );
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].rangeStart`,
-        data.rangeStart
+        data?.rangeStart
       );
 
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].unitPrice`,
-        data.wholesalePrice
+        data?.wholesalePrice
       );
-      formikStep3.setFieldValue(`productsArray[${match[1]}].term`, data.term);
+      formikStep3.setFieldValue(`productsArray[${match[1]}].term`, data?.term);
     }
     if (name.includes("term")) {
       const match = name.match(/\[(\d+)\]/);
@@ -1047,6 +1050,7 @@ function ResellerAddOrder() {
           value: item._id,
         }))
       );
+      setTermList(result.result?.terms);
       if (formikStep3.values.productsArray.length !== 0) {
         console.log(
           "formikStep3.values.productsArray.length",
@@ -1435,7 +1439,6 @@ function ResellerAddOrder() {
                           value={
                             formikStep3.values.productsArray[index].categoryId
                           }
-                          
                           onBlur={formikStep3.handleBlur}
                           onChange={handleSelectChange2}
                           index={index}
@@ -1580,19 +1583,48 @@ function ResellerAddOrder() {
                           }}
                         />
                       </div>
-                      <div className="col-span-4">
-                        <Input
-                          label="ADH (Waiting Days)"
-                          name={`productsArray[${index}].adh`}
-                          placeholder=""
-                          onChange={formikStep3.handleChange}
-                          className="!bg-white"
-                          // options={termList}
-                          // disabled={true}
-                          value={formikStep3.values.productsArray[index].adh}
-                          onBlur={formikStep3.handleBlur}
-                        />
-                      </div>
+                      {formikStep2.values.coverageType === "Breakdown" ? (
+                        <></>
+                      ) : (
+                        <div className="col-span-4">
+                          <Input
+                            type="tel"
+                            name={`productsArray[${index}].adh`}
+                            className="!bg-white"
+                            label="ADH (Waiting Days)"
+                            placeholder=""
+                            value={
+                              formikStep3.values.productsArray[index].adh || 0
+                            }
+                            onChange={(e) => {
+                              const { name, value } = e.target;
+                              const trimmedValue = value.trim();
+                              const intValue = trimmedValue.replace(
+                                /[^0-9]/g,
+                                ""
+                              );
+                              const newValue =
+                                intValue !== ""
+                                  ? intValue.startsWith("0")
+                                    ? intValue.replace(/^0+/, "") || "0"
+                                    : intValue
+                                  : "0";
+
+                              formikStep3.handleChange({
+                                target: {
+                                  name,
+                                  value: newValue,
+                                },
+                              });
+                            }}
+                            onBlur={formikStep3.handleBlur}
+                            // disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+                      )}
                       <div className="col-span-4">
                         <Input
                           type="text"

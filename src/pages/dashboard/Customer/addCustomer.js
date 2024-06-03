@@ -272,9 +272,9 @@ function AddCustomer() {
       getResellerList(dealerValueId);
     } else {
       getDealerListData();
-      getDealerDetails(dealerValueId);
     }
     getDealerDetailsByValue(dealerValueId);
+    getDealerDetails(dealerValueId);
   }, [dealerValueId]);
 
   const getDealerDetailsByValue = async (id) => {
@@ -283,7 +283,7 @@ function AddCustomer() {
     console.log("data", data);
     setUserAccount(data.userAccount);
     if (!data.userAccount && data.userAccount != undefined) {
-      setCreateAccountOption("no");
+      // setCreateAccountOption("no");
       const updatedMembers = formik.values.members.map((service) => ({
         ...service,
         status: false,
@@ -292,7 +292,7 @@ function AddCustomer() {
       formik.setFieldValue("members", updatedMembers);
       formik.setFieldValue("status", false);
     } else {
-      setCreateAccountOption("yes");
+      // setCreateAccountOption("yes");
       formik.setFieldValue("status", true);
     }
   };
@@ -304,10 +304,11 @@ function AddCustomer() {
     getResellerList(data.result._id);
     formik.setFieldValue("resellerName", id);
     setUserAccount(data?.result?.userAccount);
-    console.log("here", data);
+    console.log("here", data?.result?.userAccount);
 
-    if (!data?.result?.userAccount && data?.result?.userAccount != undefined) {
+    if (!data?.result?.userAccount) {
       setCreateAccountOption("no");
+      setUserAccount(data?.result?.userAccount);
       const updatedMembers = formik.values.members.map((service) => ({
         ...service,
         status: false,
@@ -316,6 +317,7 @@ function AddCustomer() {
       formik.setFieldValue("members", updatedMembers);
       formik.setFieldValue("status", false);
     } else {
+      setUserAccount(data?.result?.userAccount);
       setCreateAccountOption("yes");
       formik.setFieldValue("status", true);
     }
