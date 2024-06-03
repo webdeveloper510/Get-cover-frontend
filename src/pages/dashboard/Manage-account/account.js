@@ -972,7 +972,7 @@ function Account() {
                         </p>
                       )}
 
-                    <div className="col-span-12 text-right">
+                    <div className="col-span-12 text-right mt-5">
                       <Button type="submit">Save</Button>
                     </div>
                   </form>

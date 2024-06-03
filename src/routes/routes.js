@@ -382,12 +382,12 @@ const routes = [
         element: <PrivateRoute element={<AddBulkClaim />} role={'admin'} />,
       },
       {
-        path: "/sale",
-        element: <PrivateRoute element={<Sale />} role={'admin'} path="/sale" />,
+        path: "/Reporting/sale",
+        element: <PrivateRoute element={<Sale />} role={'admin'} path="/Reporting/sale" />,
       },
       {
-        path: "/claims",
-        element: <PrivateRoute element={<Claims />} path="/claims" />,
+        path: "/Reporting/claims",
+        element: <PrivateRoute element={<Claims />} path="/Reporting/claims" />,
       },
       {
         path: "/archiveOrder",

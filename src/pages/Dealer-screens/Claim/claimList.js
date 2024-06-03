@@ -112,7 +112,7 @@ function ClaimList(props) {
   const [claimDetail, setClaimDetail] = useState({});
   const [error, setError] = useState("");
   const [userType, setUserType] = useState("");
-  const [selfServicer, setSelfServicer] = useState("");
+  const [selfServicer, setSelfServicer] = useState(false);
   const [showdata, setShowdata] = useState(false);
   const [customerStatus, setCustomerStatus] = useState({
     status: "",
@@ -1554,7 +1554,7 @@ function ClaimList(props) {
                                             
                                             ) : (
                                               <>
-                                                {  res?.trackingType == "" ? (
+                                                {  res?.trackingType == "" || selfServicer ? (
                                                   <> 
                                                   {claimStatus.status ==
                                                     "Rejected" ||
@@ -1648,7 +1648,7 @@ function ClaimList(props) {
                                                     {claimStatus.status ==
                                                       "Rejected" ||
                                                     claimStatus.status ==
-                                                      "Completed" ? (
+                                                      "Completed" || selfServicer ? (
                                                       <></>
                                                     ) : (
                                                       <img

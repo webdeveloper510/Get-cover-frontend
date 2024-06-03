@@ -164,6 +164,7 @@ function ContractList(props) {
     contractId: "",
     dealerName: "",
     customerName: "",
+    resellerName:"",
     servicerName: "",
     manufacture: "",
     status: "",
@@ -581,16 +582,16 @@ function ContractList(props) {
                   {props.orderId == null ? (
                     <>
                       {" "}
-                      {/* <div className="col-span-6">
+                      <div className="col-span-6">
                           <Input
                             type="text"
-                            name="dealerName"
+                            name="resellerName"
                             className="!bg-white"
-                            label="Dealer Name"
-                            {...formik.getFieldProps("dealerName")}
+                            label="Reseller Name"
+                            {...formik.getFieldProps("resellerName")}
                             placeholder=""
                           />
-                        </div> */}
+                        </div>
                       <div className="col-span-6">
                         <Input
                           type="text"

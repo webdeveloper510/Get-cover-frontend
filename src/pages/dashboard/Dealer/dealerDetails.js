@@ -370,17 +370,23 @@ function DealerDetails() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append("file", file);
-    const result = uploadTermsandCondition(formData).then((res) => {
-      // console.log(res?.file);
-      formik.setFieldValue("termCondition", {
-        fileName: res?.file?.filename,
-        name: res?.file?.originalname,
-        size: res?.file?.size,
+    const maxSize = 10048576; // 10MB in bytes
+    if (file.size > maxSize) {
+      formik.setFieldError("termCondition", "File is too large. Please upload a file smaller than 10MB.");
+      console.log("Selected file:", file);
+      
+    } else {
+      const formData = new FormData();
+      formData.append("file", file);
+      const result = uploadTermsandCondition(formData).then((res) => {
+        // console.log(res?.file);
+        formik.setFieldValue("termCondition", {
+          fileName: res?.file?.filename,
+          name: res?.file?.originalname,
+          size: res?.file?.size,
+        });
       });
-    });
-    if (file != undefined) {
+       if (file != undefined) {
       setSelectedFile2(file);
     } else {
       setSelectedFile2({
@@ -389,6 +395,10 @@ function DealerDetails() {
         size: "",
       });
     }
+    }
+    
+  
+   
 
     console.log("Selected file:================", file);
   };

@@ -1396,7 +1396,10 @@ function ResellerAddOrder() {
                 key={index}
                 className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative"
               >
-                <p className="text-2xl font-bold mb-4">Add Product</p>
+                 <div className="flex justify-between w-[66%]">
+                      <p className="text-2xl font-bold mb-4">Add Product</p> 
+                      <Button className='text-sm !font-light h-[36px] self-center'  >Reset</Button>
+                 </div>
                 <div className="absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 ">
                   {index === 0 ? (
                     <Button
