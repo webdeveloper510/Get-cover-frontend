@@ -28,13 +28,20 @@ import {
   changePrimaryByUserIdCustomerPortal,
 } from "../../services/userServices";
 import Select from "../../common/select";
-import { getCustomerUsersByIdCustomerPortal, getUserDetailsByIdResellerPortal, getUsersByIdresellerPortal } from "../../services/customerServices";
+import {
+  getCustomerUsersByIdCustomerPortal,
+  getUserDetailsByIdResellerPortal,
+  getUsersByIdresellerPortal,
+} from "../../services/customerServices";
 import { useMyContext } from "../../context/context";
 import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
 import RadioButton from "../../common/radio";
 import Tabs from "../../common/tabs";
-import { addSuperAdminMembers, changePasswordbyToken } from "../../services/extraServices";
+import {
+  addSuperAdminMembers,
+  changePasswordbyToken,
+} from "../../services/extraServices";
 import make from "../../assets/images/star.png";
 import edit from "../../assets/images/edit-text.png";
 import delete1 from "../../assets/images/delete.png";
@@ -95,7 +102,6 @@ function ResellerUser() {
     const result = await getUsersByIdresellerPortal();
     console.log(result.data);
     setUserList(result.data);
-    
   };
   const getCustomerDetails = async () => {
     setLoading1(true);
@@ -294,7 +300,7 @@ function ResellerUser() {
     console.log(id);
     const result = await userDetailsById(id);
     console.log(result.result.status);
-    
+
     setMainStatus(result.mainStatus);
     setInitialFormValues({
       id: id,
@@ -324,14 +330,14 @@ function ResellerUser() {
       setLoading(true);
       const res = await getUsersByIdresellerPortal("", data);
       setUserList(res.data);
-      console.log(res, '---------------')
-      let local  = JSON.parse(localStorage.getItem('userDetails'));
+      console.log(res, "---------------");
+      let local = JSON.parse(localStorage.getItem("userDetails"));
       // localStorage.removeItem('userDetails')
       local.userInfo = {
         lastName: res?.data?.[0]?.lastName,
         firstName: res?.data?.[0]?.firstName,
-      }
-      localStorage.setItem('userDetails',JSON.stringify(local))
+      };
+      localStorage.setItem("userDetails", JSON.stringify(local));
     } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
@@ -354,27 +360,26 @@ function ResellerUser() {
       firstName: Yup.string(),
       email: Yup.string(),
       phone: Yup.string().nullable(), // ensure that the phone number consists of only digits
-   
     }),
     onSubmit: async (values) => {
       if (values.phone && values.phone.includes("-")) {
-        values.phone = values.phone.replace(/-/g, '');
+        values.phone = values.phone.replace(/-/g, "");
       }
       filterUserDetails(values);
     },
   });
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
-  
+
   const columns = [
     {
       name: "Name",
@@ -451,41 +456,41 @@ function ResellerUser() {
               />
             </div>
             {selectedAction === row.email && (
-               <div
-               ref={dropdownRef}
-               className={`absolute z-[9999] ${
-                 !row?.isPrimary ? "w-[140px]" : "w-[80px]"
-               } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                 index
-               )}`}
-             >
-               {!row?.isPrimary && row.status && (
-                 <div
-                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
-                   onClick={() => makeUserPrimary(row)}
-                 >
-                  <img src={make} className="w-4 h-4 mr-2" />{" "}
-                   <span className="self-center"> Make Primary </span>
-                 </div>
-               )}
+              <div
+                ref={dropdownRef}
+                className={`absolute z-[9999] ${
+                  !row?.isPrimary ? "w-[140px]" : "w-[80px]"
+                } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  index
+                )}`}
+              >
+                {!row?.isPrimary && row.status && (
+                  <div
+                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
+                    onClick={() => makeUserPrimary(row)}
+                  >
+                    <img src={make} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center"> Make Primary </span>
+                  </div>
+                )}
 
-               <div
-                 className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
-                 onClick={() => editUser(row._id)}
-               >
+                <div
+                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
+                  onClick={() => editUser(row._id)}
+                >
                   <img src={edit} className="w-4 h-4 mr-2" />{" "}
-                 <span className="self-center">Edit </span>
-               </div>
-               {!row?.isPrimary && (
-                 <div
-                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                   onClick={() => openModal1(row._id)}
-                 >
-                  <img src={delete1} className="w-4 h-4 mr-2" />{" "}
-                   <span className="self-center">Delete</span>
-                 </div>
-               )}
-             </div>
+                  <span className="self-center">Edit </span>
+                </div>
+                {!row?.isPrimary && (
+                  <div
+                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                    onClick={() => openModal1(row._id)}
+                  >
+                    <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center">Delete</span>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         );
@@ -571,12 +576,12 @@ function ResellerUser() {
         setFirstMessage("Edit  Successfully ");
         setSecondMessage("User Password edited  successfully ");
         SetIsModalOpen(true);
-        setTimer(3); }
-        else {
-          setFirstMessage("Error");
-          setSecondMessage(res.message);
-          setIsPasswordOpen(true);
-        }
+        setTimer(3);
+      } else {
+        setFirstMessage("Error");
+        setSecondMessage(res.message);
+        setIsPasswordOpen(true);
+      }
     } catch (error) {
       console.error("Error changing password:", error);
     } finally {
@@ -636,7 +641,7 @@ function ResellerUser() {
         setTimer(3);
         SetPrimaryText("User Add Successfully ");
         SetSecondaryText("user Add successfully ");
-       
+
         SetIsModalOpen(true);
         setIsUserModalOpen(false);
         getUserList();
@@ -675,7 +680,7 @@ function ResellerUser() {
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
-        
+
         SetPrimaryText("User Edited Successfully ");
         SetSecondaryText("user edited successfully ");
         // setFirstMessage("User Edited Successfully ");
@@ -687,212 +692,223 @@ function ResellerUser() {
         setLoading(false);
       }
       closeModal2();
-     
     },
   });
 
   return (
     <>
-       {loading1   ? (
-       <div className=" h-[500px] w-full flex py-5">
-       <div className="self-center mx-auto">
-         <RotateLoader color="#333" />
-       </div>
-     </div>
-      ) : (
-      <div className="my-8">
-        <Headbar />
-        <div className="flex mt-2">
-          <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">
-              Manage Users
-            </p>
-            <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-                {" "}
-                Users{" "}
-              </li>
-            </ul>
+      {loading1 ? (
+        <div className=" h-[500px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
           </div>
         </div>
-
-        <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
-        <div className="bg-Edit bg-cover px-8 py-4 rounded-[30px]">
-            <Grid>
-              <div className="col-span-2 text-left">
-                <p className="text-base text-white font-semibold my-3">
+      ) : (
+        <div className="my-8">
+          <Headbar />
+          <div className="flex mt-2">
+            <div className="pl-3">
+              <p className="font-bold text-[36px] leading-9	mb-[3px]">
+                Manage Users
+              </p>
+              <ul className="flex self-center">
+                <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                   {" "}
-                  Dealer Details
-                </p>
-              </div>
-              <div className="col-span-10 self-center">
-                <hr />
-              </div>
-            </Grid>
-            <Grid className="mx-8 mx-auto ">
-              <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
-              <div className="col-span-3 border-r border-[#4e4e4e]">
-                <div className="flex">
-                  <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
-                    <img src={dealer} alt="dealer" />
-                  </div>
-                  <div className="self-center w-[80%]" >
-                    <p className="text-white text-base font-medium leading-5	">
-                      Account Name
-                    </p>
-                    <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                      {details?.dealer?.name}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-span-5">
-                <div className="flex justify-center">
-                  <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
-                    <img src={terms} className="" alt="terms" />
-                  </div>
-                  <div className="self-center">
-                    <p className="text-white text-base font-medium leading-5">
-                      Address
-                    </p>
-                    <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                    {details?.dealer?.street} {", "}{details?.dealer?.city}{", "}{details?.dealer?.state}{" "}{details?.dealer?.zip}
-                    {", "}{details?.dealer?.country}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-span-2"></div>
-            </Grid>
-            <Grid className="mt-5">
-              
-              <div className="col-span-2 text-left">
-                <p className="text-base text-white font-semibold">
-                  {" "}
-                  My Details
-                </p>
-              </div>
-              <div className="col-span-10 self-center">
-                <hr />
-              </div>
-            </Grid>
-
-            <Grid className="mx-8 mx-auto mt-4">
-              <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
-              <div className="col-span-3 border-r border-[#4e4e4e]">
-                <div className="flex">
-                  <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
-                    <img src={dealer} alt="dealer" />
-                  </div>
-                  <div className="self-center w-[80%]">
-                    <p className="text-white text-base font-medium leading-5	">
-                      Account Name
-                    </p>
-                    <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                    {details?.name}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-span-5">
-                <div className="flex justify-center">
-                  <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
-                    <img src={terms} className="" alt="terms" />
-                  </div>
-                  <div className="self-center">
-                    <p className="text-white text-base font-medium leading-5">
-                      Address
-                    </p>
-                    <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                    {details?.street} {", "}{details?.city}{", "}{details?.state}{" "}{details?.zip}
-                    {", "}{details?.country}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-span-2"></div>
-            </Grid>
+                  Users{" "}
+                </li>
+              </ul>
+            </div>
           </div>
+
           <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
-              <p className='text-xl font-semibold mb-5'>Change Password</p>
+            <div className="bg-Edit bg-cover px-8 py-4 rounded-[30px]">
+              <Grid>
+                <div className="col-span-2 text-left">
+                  <p className="text-base text-white font-semibold my-3">
+                    {" "}
+                    Dealer Details
+                  </p>
+                </div>
+                <div className="col-span-10 self-center">
+                  <hr />
+                </div>
+              </Grid>
+              <Grid className="mx-8 mx-auto ">
+                <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
+                <div className="col-span-3 border-r border-[#4e4e4e]">
+                  <div className="flex">
+                    <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
+                      <img src={dealer} alt="dealer" />
+                    </div>
+                    <div className="self-center w-[80%]">
+                      <p className="text-white text-base font-medium leading-5	">
+                        Account Name
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {details?.dealer?.name}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-5">
+                  <div className="flex justify-center">
+                    <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
+                      <img src={terms} className="" alt="terms" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-white text-base font-medium leading-5">
+                        Address
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                        {details?.dealer?.street} {", "}
+                        {details?.dealer?.city}
+                        {", "}
+                        {details?.dealer?.state} {details?.dealer?.zip}
+                        {", "}
+                        {details?.dealer?.country}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-2"></div>
+              </Grid>
+              <Grid className="mt-5">
+                <div className="col-span-2 text-left">
+                  <p className="text-base text-white font-semibold">
+                    {" "}
+                    My Details
+                  </p>
+                </div>
+                <div className="col-span-10 self-center">
+                  <hr />
+                </div>
+              </Grid>
+
+              <Grid className="mx-8 mx-auto mt-4">
+                <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
+                <div className="col-span-3 border-r border-[#4e4e4e]">
+                  <div className="flex">
+                    <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
+                      <img src={dealer} alt="dealer" />
+                    </div>
+                    <div className="self-center w-[80%]">
+                      <p className="text-white text-base font-medium leading-5	">
+                        Account Name
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        {details?.name}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-5">
+                  <div className="flex justify-center">
+                    <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
+                      <img src={terms} className="" alt="terms" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-white text-base font-medium leading-5">
+                        Address
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                        {details?.street} {", "}
+                        {details?.city}
+                        {", "}
+                        {details?.state} {details?.zip}
+                        {", "}
+                        {details?.country}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-2"></div>
+              </Grid>
+            </div>
+            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+              <p className="text-xl font-semibold mb-5">Change Password</p>
               <form onSubmit={passwordChnageForm.handleSubmit}>
-                      <Grid>
-                        <div className="col-span-4">
-                          <PasswordInput
-                            type="password"
-                            name="oldPassword"
-                            label="Old Password"
-                            value={passwordChnageForm.values.oldPassword}
-                            onChange={passwordChnageForm.handleChange}
-                            onBlur={passwordChnageForm.handleBlur}
-                            isPassword
-                            className="!bg-white"
-                          />
-                          {passwordChnageForm.touched.oldPassword &&
-                            passwordChnageForm.errors.oldPassword && (
-                              <div className="text-red-500">
-                                {passwordChnageForm.errors.oldPassword}
-                              </div>
-                            )}
+                <Grid>
+                  <div className="col-span-4">
+                    <PasswordInput
+                      type="password"
+                      name="oldPassword"
+                      label="Old Password"
+                      value={passwordChnageForm.values.oldPassword}
+                      onChange={passwordChnageForm.handleChange}
+                      onBlur={passwordChnageForm.handleBlur}
+                      isPassword
+                      className="!bg-white"
+                    />
+                    {passwordChnageForm.touched.oldPassword &&
+                      passwordChnageForm.errors.oldPassword && (
+                        <div className="text-red-500">
+                          {passwordChnageForm.errors.oldPassword}
                         </div>
+                      )}
+                  </div>
 
-                        <div className="col-span-4">
-                          <PasswordInput
-                            type="password"
-                            name="newPassword"
-                            label="New Password"
-                            isPassword
-                            className="!bg-white"
-                            value={passwordChnageForm.values.newPassword}
-                            onChange={passwordChnageForm.handleChange}
-                            onBlur={passwordChnageForm.handleBlur}
-                          />
-                          {passwordChnageForm.touched.newPassword &&
-                            passwordChnageForm.errors.newPassword && (
-                              <div className="text-red-500">
-                                {passwordChnageForm.errors.newPassword}
-                              </div>
-                            )}
+                  <div className="col-span-4">
+                    <PasswordInput
+                      type="password"
+                      name="newPassword"
+                      label="New Password"
+                      isPassword
+                      className="!bg-white"
+                      value={passwordChnageForm.values.newPassword}
+                      onChange={passwordChnageForm.handleChange}
+                      onBlur={passwordChnageForm.handleBlur}
+                    />
+                    {passwordChnageForm.touched.newPassword &&
+                      passwordChnageForm.errors.newPassword && (
+                        <div className="text-red-500">
+                          {passwordChnageForm.errors.newPassword}
                         </div>
-                        <div className="col-span-4">
-                          <PasswordInput
-                            type="password"
-                            name="confirmPassword"
-                            label="Confirm Password"
-                            isPassword
-                            className="!bg-white"
-                            value={passwordChnageForm.values.confirmPassword}
-                            onChange={passwordChnageForm.handleChange}
-                            onBlur={passwordChnageForm.handleBlur}
-                          />
-                          {passwordChnageForm.touched.confirmPassword &&
-                            passwordChnageForm.errors.confirmPassword && (
-                              <div className="text-red-500">
-                                {passwordChnageForm.errors.confirmPassword}
-                              </div>
-                            )}
+                      )}
+                  </div>
+                  <div className="col-span-4">
+                    <PasswordInput
+                      type="password"
+                      name="confirmPassword"
+                      label="Confirm Password"
+                      isPassword
+                      className="!bg-white"
+                      value={passwordChnageForm.values.confirmPassword}
+                      onChange={passwordChnageForm.handleChange}
+                      onBlur={passwordChnageForm.handleBlur}
+                    />
+                    {passwordChnageForm.touched.confirmPassword &&
+                      passwordChnageForm.errors.confirmPassword && (
+                        <div className="text-red-500">
+                          {passwordChnageForm.errors.confirmPassword}
                         </div>
-                      </Grid>
-                      <div className="mt-4 text-right">
-                        <Button type="submit">Change Password</Button>
-                      </div>
-                  </form>
+                      )}
+                  </div>
+                </Grid>
+                <div className="mt-4 text-right">
+                  <Button type="submit">Change Password</Button>
+                </div>
+              </form>
             </div>
 
-          {loading ? (
-          <div className=" h-[400px] w-full flex py-5">
-            <div className="self-center mx-auto">
-              <RotateLoader color="#333" />
-            </div>
-          </div>
-        ) : ( 
-          <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
-          {isprimary &&  <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-            <Button onClick={() => openUserModal()}> + Add Member</Button>
-          </div>}
-        
-          <p className="text-xl font-semibold mb-3">Users List</p>
-          {/* <Grid className="!p-[2px] !pt-[14px] !pb-0">
+            {loading ? (
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            ) : (
+              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+                {isprimary && (
+                  <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                    <Button onClick={() => openUserModal()}>
+                      {" "}
+                      + Add Member
+                    </Button>
+                  </div>
+                )}
+
+                <p className="text-xl font-semibold mb-3">Users List</p>
+                {/* <Grid className="!p-[2px] !pt-[14px] !pb-0">
             <div className="col-span-3 self-center"></div>
             <div className="col-span-9">
               <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
@@ -989,410 +1005,423 @@ function ResellerUser() {
               </div>
             </div>
           </Grid> */}
-          <DataTable
-            columns={isprimary ? columns : columns12}
-            data={userList}
-            highlightOnHover
-            sortIcon={
-              <>
-                {" "}
-                <img src={shorting} className="ml-2" alt="shorting" />{" "}
-              </>
-            }
-            noDataComponent={<CustomNoDataComponent />}
-          />
+                <DataTable
+                  columns={isprimary ? columns : columns12}
+                  data={userList}
+                  highlightOnHover
+                  sortIcon={
+                    <>
+                      {" "}
+                      <img
+                        src={shorting}
+                        className="ml-2"
+                        alt="shorting"
+                      />{" "}
+                    </>
+                  }
+                  noDataComponent={<CustomNoDataComponent />}
+                />
+              </div>
+            )}
+          </div>
         </div>
-        )}
-      </div>
-    </div>
-)}
+      )}
 
-{/* Modal Primary Popop */}
-<Modal isOpen={isModalOpen} onClose={closeModal}>
-<div className="text-center py-3">
-  <img src={Primary} alt="email Image" className="mx-auto" />
-  <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-    {primaryText}
-  </p>
-  <p className="text-neutral-grey text-base font-medium mt-4">
-    {secondaryText} <br />
-    Redirecting Back to User List in {timer} Seconds
-  </p>
-</div>
-</Modal>
+      {/* Modal Primary Popop */}
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            {firstMessage}
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+            {secondMessage} <br />
+            Redirecting Back to User List in {timer} Seconds
+          </p>
+        </div>
+      </Modal>
 
-{/* Modal Delete Popop */}
-<Modal isOpen={isModalOpen1} onClose={closeModal1}>
-<div className="text-center py-3">
-  <img src={assign} alt="email Image" className="mx-auto" />
-  <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
-    Would you like to delete it?
-  </p>
-  <Grid className="!grid-cols-4 my-5 ">
-    <div className="col-span-1"></div>
-    <Button
-      onClick={() => {
-        deleteUser();
-      }}
-    >
-      Yes
-    </Button>
-    <Button
-      className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
-      onClick={() => closeModal1()}
-    >
-      No
-    </Button>
-    <div className="col-span-1"></div>
-  </Grid>
-</div>
-</Modal>
+      {/* Modal Delete Popop */}
+      <Modal isOpen={isModalOpen1} onClose={closeModal1}>
+        <div className="text-center py-3">
+          <img src={assign} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+            Would you like to delete it?
+          </p>
+          <Grid className="!grid-cols-4 my-5 ">
+            <div className="col-span-1"></div>
+            <Button
+              onClick={() => {
+                deleteUser();
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              onClick={() => closeModal1()}
+            >
+              No
+            </Button>
+            <div className="col-span-1"></div>
+          </Grid>
+        </div>
+      </Modal>
 
-{/* Modal Delete Msg Popop */}
-<Modal isOpen={isModalOpen12} onClose={closeModal12}>
-<div className="text-center py-3">
-  <img src={deleteUser10} alt="email Image" className="mx-auto" />
-  <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
-    Deleted Successfully
-  </p>
-  <p className="text-neutral-grey text-base font-medium mt-2">
-    You have successfully deleted this user.
-  </p>
-  <p className="text-neutral-grey text-base font-medium mt-2">
-    Redirecting Back to User List in {timer} seconds
-  </p>
-</div>
-</Modal>
+      {/* Modal Delete Msg Popop */}
+      <Modal isOpen={isModalOpen12} onClose={closeModal12}>
+        <div className="text-center py-3">
+          <img src={deleteUser10} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+            Deleted Successfully
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            You have successfully deleted this user.
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting Back to User List in {timer} seconds
+          </p>
+        </div>
+      </Modal>
 
-<Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
-<div className=" py-3">
-  <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
-    Add New User
-  </p>
-  <form className="mt-8" onSubmit={userValues.handleSubmit}>
-    <Grid className="px-8">
-      <div className="col-span-6">
-        <Input
-          type="text"
-          name="firstName"
-          label="First Name"
-          required={true}
-          className="!bg-white"
-          placeholder=""
-          maxLength={"30"}
-          value={userValues.values.firstName}
-          onBlur={userValues.handleBlur}
-          onChange={userValues.handleChange}
-          error={userValues.touched.firstName && userValues.errors.firstName}
-        />
-        {userValues.touched.firstName && userValues.errors.firstName && (
-          <div className="text-red-500 text-sm pl-2 pt-2">
-            {userValues.errors.firstName}
-          </div>
-        )}
-      </div>
-      <div className="col-span-6">
-        <Input
-          type="text"
-          name="lastName"
-          label="Last Name"
-          required={true}
-          placeholder=""
-          className="!bg-white"
-          maxLength={"30"}
-          value={userValues.values.lastName}
-          onBlur={userValues.handleBlur}
-          onChange={userValues.handleChange}
-          error={userValues.touched.lastName && userValues.errors.lastName}
-        />
-        {userValues.touched.lastName && userValues.errors.lastName && (
-          <div className="text-red-500 text-sm pl-2 pt-2">
-            {userValues.errors.lastName}
-          </div>
-        )}
-      </div>
-      <div className="col-span-6">
-        <Input
-          type="email"
-          name="email"
-          label="Email"
-          className="!bg-white"
-          required={true}
-          placeholder=""
-          maxLength={"30"}
-          value={userValues.values.email}
-          onBlur={userValues.handleBlur}
-          onChange={userValues.handleChange}
-          error={userValues.touched.email && userValues.errors.email}
-        />
-        {/* {userValues.touched.position && userValues.errors.position && (
+      <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
+        <div className=" py-3">
+          <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            Add New User
+          </p>
+          <form className="mt-8" onSubmit={userValues.handleSubmit}>
+            <Grid className="px-8">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="firstName"
+                  label="First Name"
+                  required={true}
+                  className="!bg-white"
+                  placeholder=""
+                  maxLength={"30"}
+                  value={userValues.values.firstName}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={
+                    userValues.touched.firstName && userValues.errors.firstName
+                  }
+                />
+                {userValues.touched.firstName &&
+                  userValues.errors.firstName && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {userValues.errors.firstName}
+                    </div>
+                  )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="lastName"
+                  label="Last Name"
+                  required={true}
+                  placeholder=""
+                  className="!bg-white"
+                  maxLength={"30"}
+                  value={userValues.values.lastName}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={
+                    userValues.touched.lastName && userValues.errors.lastName
+                  }
+                />
+                {userValues.touched.lastName && userValues.errors.lastName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {userValues.errors.lastName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="email"
+                  name="email"
+                  label="Email"
+                  className="!bg-white"
+                  required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={userValues.values.email}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={userValues.touched.email && userValues.errors.email}
+                />
+                {/* {userValues.touched.position && userValues.errors.position && (
         <div className="text-red-500 text-sm pl-2 pt-2">
           {userValues.errors.position}
         </div>
       )} */}
-      </div>
-      <div className="col-span-6">
-        <Input
-          type="tel"
-          name="phoneNumber"
-          label="Phone"
-          required={true}
-          className="!bg-white"
-          placeholder=""
-          value={userValues.values.phoneNumber}
-          onChange={(e) => {
-            const sanitizedValue = e.target.value.replace(
-              /[^0-9]/g,
-              ""
-            );
-            console.log(sanitizedValue);
-            userValues.handleChange({
-              target: {
-                name: "phoneNumber",
-                value: sanitizedValue,
-              },
-            });
-          }}
-          onBlur={userValues.handleBlur}
-          onWheelCapture={(e) => {
-            e.preventDefault();
-          }}
-          minLength={"10"}
-          maxLength={"10"}
-          error={
-            userValues.touched.phoneNumber && userValues.errors.phoneNumber
-          }
-        />
-        {(userValues.touched.phoneNumber || userValues.submitCount > 0) &&
-          userValues.errors.phoneNumber && (
-            <div className="text-red-500 text-sm pl-2 pt-2">
-              {userValues.errors.phoneNumber}
-            </div>
-          )}
-      </div>
-      <div className="col-span-6">
-        <Input
-          type="text"
-          name="position"
-          label="Position"
-          className="!bg-white"
-          // required={true}
-          placeholder=""
-          maxLength={"30"}
-          value={userValues.values.position}
-          onBlur={userValues.handleBlur}
-          onChange={userValues.handleChange}
-          error={userValues.touched.position && userValues.errors.position}
-        />
-        {/* {userValues.touched.position && userValues.errors.position && (
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="tel"
+                  name="phoneNumber"
+                  label="Phone"
+                  required={true}
+                  className="!bg-white"
+                  placeholder=""
+                  value={userValues.values.phoneNumber}
+                  onChange={(e) => {
+                    const sanitizedValue = e.target.value.replace(
+                      /[^0-9]/g,
+                      ""
+                    );
+                    console.log(sanitizedValue);
+                    userValues.handleChange({
+                      target: {
+                        name: "phoneNumber",
+                        value: sanitizedValue,
+                      },
+                    });
+                  }}
+                  onBlur={userValues.handleBlur}
+                  onWheelCapture={(e) => {
+                    e.preventDefault();
+                  }}
+                  minLength={"10"}
+                  maxLength={"10"}
+                  error={
+                    userValues.touched.phoneNumber &&
+                    userValues.errors.phoneNumber
+                  }
+                />
+                {(userValues.touched.phoneNumber ||
+                  userValues.submitCount > 0) &&
+                  userValues.errors.phoneNumber && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {userValues.errors.phoneNumber}
+                    </div>
+                  )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="position"
+                  label="Position"
+                  className="!bg-white"
+                  // required={true}
+                  placeholder=""
+                  maxLength={"30"}
+                  value={userValues.values.position}
+                  onBlur={userValues.handleBlur}
+                  onChange={userValues.handleChange}
+                  error={
+                    userValues.touched.position && userValues.errors.position
+                  }
+                />
+                {/* {userValues.touched.position && userValues.errors.position && (
         <div className="text-red-500 text-sm pl-2 pt-2">
           {userValues.errors.position}
         </div>
       )} */}
-      </div>
-      <div className="col-span-6">
-        <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-          Do you want to create an account?
-          <RadioButton
-            id="yes-create-account"
-            label="Yes"
-            value="yes"
-            checked={createAccountOption === "yes"}
-            onChange={handleRadioChange}
-          />
-          <RadioButton
-            id="no-create-account"
-            label="No"
-            value="no"
-            checked={createAccountOption === "no"}
-            onChange={handleRadioChange}
-          />
-        </p>
-      </div>
-    </Grid>
-    <Grid className="!grid-cols-5 my-5  px-8">
-      <div className="col-span-2">
+              </div>
+              <div className="col-span-6">
+                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  Do you want to create an account?
+                  <RadioButton
+                    id="yes-create-account"
+                    label="Yes"
+                    value="yes"
+                    checked={createAccountOption === "yes"}
+                    onChange={handleRadioChange}
+                  />
+                  <RadioButton
+                    id="no-create-account"
+                    label="No"
+                    value="no"
+                    checked={createAccountOption === "no"}
+                    onChange={handleRadioChange}
+                  />
+                </p>
+              </div>
+            </Grid>
+            <Grid className="!grid-cols-5 my-5  px-8">
+              <div className="col-span-2">
+                <Button
+                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={() => closeUserModal()}
+                >
+                  Cancel
+                </Button>
+              </div>
+
+              <div className="col-span-3">
+                <Button type="submit" className="w-full">
+                  Submit
+                </Button>
+              </div>
+            </Grid>
+          </form>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isModalOpen2} onClose={closeModal2}>
+        <div className=" py-3">
+          <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            Edit User
+          </p>
+          <form className="mt-8" onSubmit={formik1.handleSubmit}>
+            <Grid className="px-8">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="firstName"
+                  label="First Name"
+                  required={true}
+                  className="!bg-white"
+                  placeholder=""
+                  maxLength={"30"}
+                  value={formik1.values.firstName}
+                  onBlur={formik1.handleBlur}
+                  onChange={formik1.handleChange}
+                  error={formik1.touched.firstName && formik1.errors.firstName}
+                />
+                {formik1.touched.firstName && formik1.errors.firstName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik1.errors.firstName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="lastName"
+                  label="Last Name"
+                  required={true}
+                  placeholder=""
+                  className="!bg-white"
+                  maxLength={"30"}
+                  value={formik1.values.lastName}
+                  onBlur={formik1.handleBlur}
+                  onChange={formik1.handleChange}
+                  error={formik1.touched.lastName && formik1.errors.lastName}
+                />
+                {formik1.touched.lastName && formik1.errors.lastName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik1.errors.lastName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="position"
+                  label="Position"
+                  className="!bg-white"
+                  placeholder=""
+                  maxLength={"30"}
+                  value={formik1.values.position}
+                  onBlur={formik1.handleBlur}
+                  onChange={formik1.handleChange}
+                  error={formik1.touched.position && formik1.errors.position}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="tel"
+                  name="phoneNumber"
+                  label="Phone #"
+                  required={true}
+                  className="!bg-white"
+                  placeholder=""
+                  value={formik1.values.phoneNumber}
+                  onChange={(e) => {
+                    const sanitizedValue = e.target.value.replace(
+                      /[^0-9]/g,
+                      ""
+                    );
+                    console.log(sanitizedValue);
+                    formik1.handleChange({
+                      target: {
+                        name: "phoneNumber",
+                        value: sanitizedValue,
+                      },
+                    });
+                  }}
+                  onBlur={formik1.handleBlur}
+                  onWheelCapture={(e) => {
+                    e.preventDefault();
+                  }}
+                  minLength={"10"}
+                  maxLength={"10"}
+                  error={
+                    formik1.touched.phoneNumber && formik1.errors.phoneNumber
+                  }
+                />
+                {(formik1.touched.phoneNumber || formik1.submitCount > 0) &&
+                  formik1.errors.phoneNumber && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik1.errors.phoneNumber}
+                    </div>
+                  )}
+              </div>
+              <div className="col-span-6">
+                <Select
+                  label="Status"
+                  required={true}
+                  name="status"
+                  placeholder=""
+                  onChange={handleSelectChange}
+                  disabled={isprimary}
+                  className="!bg-white"
+                  options={status}
+                  value={formik1.values.status}
+                  onBlur={formik1.handleBlur}
+                  error={formik1.touched.status && formik1.errors.status}
+                />
+                {formik1.touched.status && formik1.errors.status && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik1.errors.status}
+                  </div>
+                )}
+              </div>
+            </Grid>
+            <Grid className="!grid-cols-5 my-5  px-8">
+              <div className="col-span-2">
+                <Button
+                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={() => closeModal2()}
+                >
+                  Cancel
+                </Button>
+              </div>
+
+              <div className="col-span-3">
+                <Button type="submit" className="w-full">
+                  Submit
+                </Button>
+              </div>
+            </Grid>
+          </form>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isPasswordOpen} onClose={closePassword}>
         <Button
-          className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
-          onClick={() => closeUserModal()}
+          onClick={closePassword}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
-          Cancel
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
         </Button>
-      </div>
-
-      <div className="col-span-3">
-        <Button type="submit" className="w-full">
-          Submit
-        </Button>
-      </div>
-    </Grid>
-  </form>
-</div>
-</Modal>
-
-<Modal isOpen={isModalOpen2} onClose={closeModal2}>
-<div className=" py-3">
-  <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
-    Edit User
-  </p>
-  <form className="mt-8" onSubmit={formik1.handleSubmit}>
-    <Grid className="px-8">
-      <div className="col-span-6">
-        <Input
-          type="text"
-          name="firstName"
-          label="First Name"
-          required={true}
-          className="!bg-white"
-          placeholder=""
-          maxLength={"30"}
-          value={formik1.values.firstName}
-          onBlur={formik1.handleBlur}
-          onChange={formik1.handleChange}
-          error={formik1.touched.firstName && formik1.errors.firstName}
-        />
-        {formik1.touched.firstName && formik1.errors.firstName && (
-          <div className="text-red-500 text-sm pl-2 pt-2">
-            {formik1.errors.firstName}
-          </div>
-        )}
-      </div>
-      <div className="col-span-6">
-        <Input
-          type="text"
-          name="lastName"
-          label="Last Name"
-          required={true}
-          placeholder=""
-          className="!bg-white"
-          maxLength={"30"}
-          value={formik1.values.lastName}
-          onBlur={formik1.handleBlur}
-          onChange={formik1.handleChange}
-          error={formik1.touched.lastName && formik1.errors.lastName}
-        />
-        {formik1.touched.lastName && formik1.errors.lastName && (
-          <div className="text-red-500 text-sm pl-2 pt-2">
-            {formik1.errors.lastName}
-          </div>
-        )}
-      </div>
-      <div className="col-span-6">
-        <Input
-          type="text"
-          name="position"
-          label="Position"
-          className="!bg-white"
-          placeholder=""
-          maxLength={"30"}
-          value={formik1.values.position}
-          onBlur={formik1.handleBlur}
-          onChange={formik1.handleChange}
-          error={formik1.touched.position && formik1.errors.position}
-        />
-      </div>
-      <div className="col-span-6">
-        <Input
-          type="tel"
-          name="phoneNumber"
-          label="Phone #"
-          required={true}
-          className="!bg-white"
-          placeholder=""
-          value={formik1.values.phoneNumber}
-          onChange={(e) => {
-            const sanitizedValue = e.target.value.replace(
-              /[^0-9]/g,
-              ""
-            );
-            console.log(sanitizedValue);
-            formik1.handleChange({
-              target: {
-                name: "phoneNumber",
-                value: sanitizedValue,
-              },
-            });
-          }}
-          onBlur={formik1.handleBlur}
-          onWheelCapture={(e) => {
-            e.preventDefault();
-          }}
-          minLength={"10"}
-          maxLength={"10"}
-          error={
-            formik1.touched.phoneNumber && formik1.errors.phoneNumber
-          }
-        />
-        {(formik1.touched.phoneNumber || formik1.submitCount > 0) &&
-          formik1.errors.phoneNumber && (
-            <div className="text-red-500 text-sm pl-2 pt-2">
-              {formik1.errors.phoneNumber}
-            </div>
-          )}
-      </div>
-      <div className="col-span-6">
-        <Select
-          label="Status"
-          required={true}
-          name="status"
-          placeholder=""
-          onChange={handleSelectChange}
-          disabled={isprimary}
-          className="!bg-white"
-          options={status}
-          value={formik1.values.status}
-          onBlur={formik1.handleBlur}
-          error={formik1.touched.status && formik1.errors.status}
-        />
-        {formik1.touched.status && formik1.errors.status && (
-          <div className="text-red-500 text-sm pl-2 pt-2">
-            {formik1.errors.status}
-          </div>
-        )}
-      </div>
-    </Grid>
-    <Grid className="!grid-cols-5 my-5  px-8">
-      <div className="col-span-2">
-        <Button
-          className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
-          onClick={() => closeModal2()}
-        >
-          Cancel
-        </Button>
-      </div>
-
-      <div className="col-span-3">
-        <Button type="submit" className="w-full">
-          Submit
-        </Button>
-      </div>
-    </Grid>
-  </form>
-</div>
-</Modal>
-
-<Modal isOpen={isPasswordOpen} onClose={closePassword}>
-<Button
-  onClick={closePassword}
-  className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
->
-  <img
-    src={Cross}
-    className="w-full h-full text-black rounded-full p-0"
-  />
-</Button>
-<div className="text-center py-3">
-  <img src={deleteUser123} alt="email Image" className="mx-auto" />
-  <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-    {firstMessage}
-  </p>
-  <p className="text-neutral-grey text-base font-medium mt-4">
-    {secondMessage} 
-  </p>
-</div>
-</Modal>
-</>
-);
+        <div className="text-center py-3">
+          <img src={deleteUser123} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            {firstMessage}
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+            {secondMessage}
+          </p>
+        </div>
+      </Modal>
+    </>
+  );
 }
 
 export default ResellerUser;
