@@ -76,11 +76,6 @@ function ResellerAddOrder() {
   useEffect(() => {
     if (orderId || resellerId || customerId) {
       setLoading1(true);
-
-      // const timer = setTimeout(() => {
-      //   setLoading1(false);
-      // }, 3000);
-
       return () => clearTimeout(timer);
     }
   }, [orderId, resellerId, customerId]);
@@ -1097,6 +1092,10 @@ function ResellerAddOrder() {
     { label: "Custom", value: "custom" },
   ];
 
+  const handleInputClickReset = () => {
+    formikStep3.resetForm();
+  };
+
   const renderStep1 = () => {
     return (
       <>
@@ -1402,7 +1401,7 @@ function ResellerAddOrder() {
               >
                  <div className="flex justify-between w-[66%]">
                       <p className="text-2xl font-bold mb-4">Add Product</p> 
-                      <Button className='text-sm !font-light h-[36px] self-center'  >Reset</Button>
+                      <Button className='text-sm !py-0 !font-light h-[30px] self-center' onClick={handleInputClickReset}>Reset</Button>
                  </div>
                 <div className="absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 ">
                   {index === 0 ? (

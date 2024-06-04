@@ -1314,7 +1314,9 @@ function DealerAddOrder() {
       // setLoading1(false);
     }
   };
-
+  const handleInputClickReset = () => {
+    formikStep3.resetForm();
+  };
   const renderStep1 = () => {
     return (
       <>
@@ -1643,7 +1645,7 @@ function DealerAddOrder() {
                    <div className="flex justify-between w-[66%]">
 
                   <p className="text-2xl font-bold mb-4">Add Product</p> 
-                  <Button className='text-sm !font-light h-[36px] self-center'  >Reset</Button>
+                  <Button className='text-sm !font-light h-[36px] self-center' onClick={handleInputClickReset}  >Reset</Button>
                   </div>
                   <div className="absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 ">
                     {index === 0 ? (

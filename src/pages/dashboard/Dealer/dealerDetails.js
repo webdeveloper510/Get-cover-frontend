@@ -233,7 +233,7 @@ function DealerDetails() {
 
   const modalOpen1 = () => {
     getServicerList();
-    setActiveTab("Servicer123");
+    setActiveTab("Servicer");
     setIsModalOpen1(true);
   };
 

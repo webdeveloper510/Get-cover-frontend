@@ -153,7 +153,7 @@ function ServicerDetails() {
   }, [modalOpen, timer]);
 
   const openUserModal = () => {
-    setActiveTab("Users123");
+    setActiveTab("Users");
     setIsUserModalOpen(true);
   };
   const closeModal10 = () => {

@@ -435,7 +435,7 @@ function ResellerDetails() {
     },
   });
   const openUserModal = () => {
-    setActiveTab("Users123");
+    setActiveTab("Users");
     userValues.resetForm();
     setIsUserModalOpen(true);
   };
