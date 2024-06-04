@@ -344,7 +344,7 @@ function OrderDetails() {
                   </p>
                 </div>
               </div>
-              {userDetails?.resellerData?.name == null ? (
+              {userDetails?.resellerData?.name == null  ? (
                 <></>
               ) : (
                 <>
@@ -409,6 +409,7 @@ function OrderDetails() {
                     alt="Name"
                   />
                   {userDetails?.servicerData?.name == null ||
+                  userDetails?.servicerData?.status == false ||
                   userDetails?.servicerData?.resellerId != null ||
                   userDetails?.servicerData?.dealerId != null ? (
                     <></>
@@ -428,7 +429,7 @@ function OrderDetails() {
                       Servicer Name
                     </p>
                     <p className="text-base text-white font-semibold ">
-                      {userDetails?.servicerData?.name}
+                     {userDetails?.servicerData?.status == true && userDetails?.servicerData?.name}
                     </p>
                   </div>
                   <div className="self-center">

@@ -450,7 +450,7 @@ function ContractList(props) {
                                      Not Eligible 
                                    </p>
                                    </CommonTooltip> : 
-                                   <CommonTooltip place="left" id="tooltip-default" content={`Contract is Active on ${new Date(
+                                   <CommonTooltip place="left" id="tooltip-default" content={`Contract is Eligible on ${new Date(
                                     res?.minDate
                                   ).toLocaleDateString("en-US", {
                                     month: "2-digit",
@@ -914,7 +914,7 @@ function ContractList(props) {
                           Not Eligible 
                         </p>
                         </CommonTooltip> : 
-                        <CommonTooltip place="top" id="tooltip-default" content={`Contract is Active on ${new Date(
+                        <CommonTooltip place="top" id="tooltip-default" content={`Contract is Eligible on ${new Date(
                           contractDetails?.minDate
                        ).toLocaleDateString("en-US", {
                          month: "2-digit",
