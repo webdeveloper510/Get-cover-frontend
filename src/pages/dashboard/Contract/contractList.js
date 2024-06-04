@@ -619,7 +619,7 @@ function ContractList(props) {
                       ) : (
                         <>
                           {props.flag === "reseller" ||
-                          location.pathname.includes("/reseller") ? (
+                          location.pathname.includes("/reseller") || location.pathname.includes("/reseller/") ? (
                             <>
                               {/* Hide dealerName and resellerName for reseller */}
                               <div className="col-span-6">

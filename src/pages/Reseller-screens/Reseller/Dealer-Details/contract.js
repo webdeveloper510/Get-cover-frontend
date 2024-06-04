@@ -21,6 +21,7 @@ import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
 import { useFormik } from "formik";
 import Select from "../../../../common/select";
+import CommonTooltip from "../../../../common/toolTip";
 function ContractList(props) {
   console.log(props, "-------------------->>>");
   const [showTooltip, setShowTooltip] = useState(false);
@@ -294,7 +295,7 @@ function ContractList(props) {
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
                                   Dealer P.O. # :{" "}
-                                  <b> {res?.ordervenderOrder} </b>
+                                  <b> {res?.venderOrder} </b>
                                 </p>
                               </div>
                               <div className="col-span-1 self-center justify-end">
@@ -358,11 +359,31 @@ function ContractList(props) {
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Eligibility
                                   </p>
-                                  <p className="text-[#333333] text-base font-semibold">
-                                  {res?.eligibilty === true
-                                  ? "Eligible"
-                                  : "Not Eligible "}
+                                  {res?.eligibilty === false ?
+                                  <>
+                                  {res.status === "Waiting" || res.status === "Expired" ?  <CommonTooltip place="left" id="tooltip-default" content={"Contract is not Active state"}>
+                                  <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                    
+                                    Not Eligible 
                                   </p>
+                                  </CommonTooltip>  :  
+                                   <CommonTooltip place="left" id="tooltip-default" content={`Contract is Eligible on ${new Date(
+                                    res.minDate
+                                  ).toLocaleDateString("en-US", {
+                                    month: "2-digit",
+                                    day: "2-digit",
+                                    year: "numeric",
+                                  })}`}>
+                                   <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                     
+                                     Not Eligible 
+                                   </p>
+                                   </CommonTooltip>}
+                                  </>
+                                  : 
+                                   <p className="text-[#333333] text-base font-semibold">
+                                  Eligible
+                               </p> }
                                 </div>
                               </div>
                             </Grid>
@@ -483,22 +504,35 @@ function ContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Eligibility
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        
-                        {singleContract?.eligibilty === true
+                      {singleContract?.eligibilty === false ? 
+                           <>
+                           {singleContract.status == 'Waiting' || singleContract.status === "Expired" ?  <CommonTooltip place="top" id="tooltip-default" content={'Contract is not Active state'}> 
+                            <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                            Not Eligible
+                            </p>
+                          </CommonTooltip>  :  
+                            <CommonTooltip place="top" id="tooltip-default" content={`Contract is Eligible on ${new Date(
+                              singleContract?.minDate
+                           ).toLocaleDateString("en-US", {
+                             month: "2-digit",
+                             day: "2-digit",
+                             year: "numeric",
+                           })}`}>
+                            <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                              
+                              Not Eligible 
+                            </p>
+                            </CommonTooltip>}
+                           </>
+                          : 
+                          <p className="text-[#333333] text-base font-semibold">
+                             Eligible 
+                          </p>
+                           }
+                        {/* {singleContract?.eligibilty === true
                                   ? "Eligible"
                                   : "Not Eligible "}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Reseller Name
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {singleContract?.order?.[0]?.reseller?.[0]?.name}
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
@@ -654,7 +688,7 @@ function ContractList(props) {
                     ""
                   )}
 
-                  <div className="col-span-1 border border-Light-Grey rounded-es-xl">
+                  <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage Start Date
@@ -670,7 +704,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
+                  <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage End Date

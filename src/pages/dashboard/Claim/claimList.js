@@ -940,7 +940,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     if (props.activeTab == "Claims") {
-      // getAllClaims();
+      getAllClaims();
     }
   }, [props]);
 
