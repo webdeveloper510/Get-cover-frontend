@@ -1583,6 +1583,9 @@ function ResellerAddOrder() {
                           }}
                         />
                       </div>
+                      {formikStep2.values.coverageType === "Breakdown" ? (
+                          <></>
+                        ) : (
                       <div className="col-span-4">
                         <Input
                           label="ADH (Waiting Days)"
@@ -1595,7 +1598,7 @@ function ResellerAddOrder() {
                           value={formikStep3.values.productsArray[index].adh}
                           onBlur={formikStep3.handleBlur}
                         />
-                      </div>
+                      </div> )}
                       <div className="col-span-4">
                         <Input
                           type="text"

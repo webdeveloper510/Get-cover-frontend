@@ -37,6 +37,7 @@ function ServicerUser() {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
+  const [userDetails, setUserDetails] = useState([]);
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
@@ -67,9 +68,9 @@ function ServicerUser() {
   };
 
   const getUserDetail = async () => {
-    const result = await getSevicerDetailPortal({});
-    console.log(result.result);
-    // setUserList(result.result);
+    const result = await getSevicerDetailPortal();
+    console.log(result.message);
+    setUserDetails(result.message);
   };
 
   const handleClickOutside = (event) => {
@@ -80,6 +81,7 @@ function ServicerUser() {
   };
   useEffect(() => {
     getUserList();
+    getUserDetail();
   }, []);
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -511,7 +513,7 @@ function ServicerUser() {
                       Account Name
                     </p>
                     <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                      Nikhil Reseller
+                     {userDetails?.meta?.name}
                     </p>
                   </div>
                 </div>
@@ -526,7 +528,9 @@ function ServicerUser() {
                       Address
                     </p>
                     <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                      Hno 353, Kurali, Georgia 140101, USA
+                    {userDetails?.meta?.street}, {userDetails?.meta?.city},{" "}
+                          {userDetails?.meta?.state} {userDetails?.meta?.zip},{" "}
+                          {userDetails?.meta?.country}
                     </p>
                   </div>
                 </div>
@@ -606,7 +610,7 @@ function ServicerUser() {
             <Grid className="!p-[2px] !pt-[14px] !pb-0">
               <div className="col-span-5 self-center"></div>
               <div className="col-span-7">
-                <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                {/* <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <form className="" onSubmit={formikUSerFilter.handleSubmit}>
                     <Grid className="!grid-cols-11">
                       <div className="col-span-3 self-center">
@@ -684,7 +688,7 @@ function ServicerUser() {
                       </div>
                     </Grid>
                   </form>
-                </div>
+                </div> */}
               </div>
             </Grid>
             <DataTable
