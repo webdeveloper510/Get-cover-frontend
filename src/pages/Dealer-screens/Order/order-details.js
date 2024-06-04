@@ -311,9 +311,12 @@ function OrderDetails() {
                       <p className="text-sm text-neutral-grey font-Regular">
                         Servicer Name
                       </p>
-                      <p className="text-base text-white font-semibold ">
-                        {userDetails?.servicerData?.name}
-                      </p>
+                      <p className="text-base text-white font-semibold">
+                      {userDetails?.servicerData?.status
+                        ? userDetails?.servicerData?.name
+                        : ""}
+                    </p>
+                
                     </div>
                   </div>
                 </>

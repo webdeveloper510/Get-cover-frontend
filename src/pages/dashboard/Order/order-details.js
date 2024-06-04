@@ -127,17 +127,17 @@ function OrderDetails() {
     }
     const result = await orderDetailsById(orderId);
     setUserDetails(result.orderUserData);
-    setOrderTandC(result.result.termCondition)
+    setOrderTandC(result.result.termCondition);
     formik.setFieldValue("servicerId", result.result.servicerId);
     const filteredServicer = result.servicers.filter(
-      (data) => data.status === true || "Approved" 
+      (data) => data.status === true || "Approved"
     );
 
     let arr = filteredServicer.map((data) => ({
       label: data.name,
       value: data._id,
     }));
-    console.log(result.servicers, '--------->>>>>>>');
+    console.log(result.servicers, "--------->>>>>>>");
     setServicerList(arr);
     setOrderDetails(result.result);
     let data = {
@@ -166,7 +166,10 @@ function OrderDetails() {
       icons: orderSummary,
       Activeicons: orderActive,
       content: activeTab === "Order Summary" && (
-        <OrderSummary data={orderDetails.productsArray} shown={orderDetails.coverageType === "Breakdown"} />
+        <OrderSummary
+          data={orderDetails.productsArray}
+          shown={orderDetails.coverageType === "Breakdown"}
+        />
       ),
     },
     {
@@ -188,15 +191,17 @@ function OrderDetails() {
     const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
 
     fetch(url, {
-        headers: baseUrl.headers 
+      headers: baseUrl.headers,
     })
-    .then((response) => {
+      .then((response) => {
         if (!response.ok) {
-            throw new Error(`Failed to fetch the file. Status: ${response.status}`);
+          throw new Error(
+            `Failed to fetch the file. Status: ${response.status}`
+          );
         }
         return response.blob();
-    })
-    .then((blob) => {
+      })
+      .then((blob) => {
         const blobUrl = URL.createObjectURL(blob);
 
         const anchor = document.createElement("a");
@@ -206,11 +211,11 @@ function OrderDetails() {
         anchor.click();
         document.body.removeChild(anchor);
         URL.revokeObjectURL(blobUrl);
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.error("Error fetching the file:", error);
-    });
-};
+      });
+  };
 
   return (
     <>
@@ -410,7 +415,8 @@ function OrderDetails() {
                   />
                   {userDetails?.servicerData?.name == null ||
                   userDetails?.servicerData?.resellerId != null ||
-                  userDetails?.servicerData?.dealerId != null ? (
+                  userDetails?.servicerData?.dealerId != null ||
+                  userDetails?.servicerData?.status != true ? (
                     <></>
                   ) : (
                     <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
@@ -418,17 +424,20 @@ function OrderDetails() {
                         src={DealerList}
                         className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
                         alt="DealerList"
-                      />{" "}
+                      />
                     </Link>
                   )}
                 </div>
+
                 <div className="flex justify-between w-[85%] ml-auto">
                   <div>
                     <p className="text-sm text-neutral-grey font-Regular">
                       Servicer Name
                     </p>
-                    <p className="text-base text-white font-semibold ">
-                      {userDetails?.servicerData?.name}
+                    <p className="text-base text-white font-semibold">
+                      {userDetails?.servicerData?.status
+                        ? userDetails?.servicerData?.name
+                        : ""}
                     </p>
                   </div>
                   <div className="self-center">
@@ -459,17 +468,19 @@ function OrderDetails() {
                   </Button>
                 </div>
                 <div className="col-span-6">
-                  {orderTandC?.fileName == '' ? <></> : (
-                  <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
-                    <span className="self-center">
-                      {" "}
-                      <FileDownloader
-                        data={orderId}
-                        setLoading={setLoading1}
-                        apiUrlData={baseUrl}
-                      />
-                    </span>
-                  </Button>
+                  {orderTandC?.fileName == "" ? (
+                    <></>
+                  ) : (
+                    <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
+                      <span className="self-center">
+                        {" "}
+                        <FileDownloader
+                          data={orderId}
+                          setLoading={setLoading1}
+                          apiUrlData={baseUrl}
+                        />
+                      </span>
+                    </Button>
                   )}
                 </div>
               </Grid>
