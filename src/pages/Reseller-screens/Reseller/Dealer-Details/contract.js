@@ -535,7 +535,7 @@ function ContractList(props) {
                       </p> */}
                     </div>
                   </div>
-                  <div className="col-span-1 border border-Light-Grey">
+                  {/* <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Customer Name
@@ -544,7 +544,7 @@ function ContractList(props) {
                         {singleContract?.order?.[0]?.customer?.[0]?.username}
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">

@@ -299,10 +299,21 @@ function ResellerAddOrder() {
         fileValue: "",
       })),
     });
-
+    console.log();
     orderDetail(result.result);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
     formik.setFieldValue("customerId", result?.result?.customerId);
+    formik.setFieldValue("billTo", result?.result?.billDetail?.billTo);
+    formik.setFieldValue(
+      "address",
+      result?.result?.billDetail?.detail?.address
+    );
+    formik.setFieldValue("email", result?.result?.billDetail?.detail?.email);
+    formik.setFieldValue("name", result?.result?.billDetail?.detail?.name);
+    formik.setFieldValue(
+      "phoneNumber",
+      result?.result?.billDetail?.detail?.phoneNumber
+    );
 
     formikStep2.setFieldValue(
       "dealerPurchaseOrder",
@@ -337,7 +348,7 @@ function ResellerAddOrder() {
     initialValues: {
       servicerId: "",
       customerId: "",
-      billTo: "reseller",
+      billTo: "Reseller",
       name: "",
       email: "",
       phoneNumber: "",
@@ -1085,11 +1096,11 @@ function ResellerAddOrder() {
   };
 
   const BillTo = [
-    { label: "Dealer", value: "dealer" },
+    { label: "Dealer", value: "Dealer" },
     ...(formik.values.resellerId !== ""
-      ? [{ label: "Self", value: "reseller" }]
+      ? [{ label: "Self", value: "Reseller" }]
       : []),
-    { label: "Custom", value: "custom" },
+    { label: "Custom", value: "Custom" },
   ];
 
   const handleInputClickReset = () => {
@@ -1212,18 +1223,22 @@ function ResellerAddOrder() {
                   </Grid>
                 </div>
               </Grid>
-              {formik.values.billTo === "custom" && (
+              {formik.values.billTo === "Custom" && (
                 <div>
-                  <p className="text-2xl font-bold my-4">Bill Details : </p>
+                  <p className="text-2xl font-bold mb-4">Bill Details : </p>
                   <Grid>
                     <div className="col-span-4">
                       <Input
-                        name="name"
-                        label="Name"
                         type="text"
-                        className="bg-white"
+                        name="name"
+                        className="!bg-white"
+                        label="Name"
                         required={true}
                         placeholder=""
+                        value={formik.values.name}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        error={formik.touched.name && formik.errors.name}
                       />
                       {formik.touched.name && formik.errors.name && (
                         <div className="text-red-500 text-sm pl-2 pt-2">
@@ -1231,23 +1246,49 @@ function ResellerAddOrder() {
                         </div>
                       )}
                     </div>
+
                     <div className="col-span-4">
                       <Input
-                        name="email"
-                        label="Email"
-                        className="bg-white"
                         type="email"
+                        name="email"
+                        className="!bg-white"
+                        label="Email"
                         // required={true}
                         placeholder=""
+                        value={formik.values.email}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        error={formik.touched.email && formik.errors.email}
                       />
                     </div>
                     <div className="col-span-4">
                       <Input
-                        name="phone"
-                        label="Phone Number"
-                        className="bg-white"
-                        type="number"
+                        type="tel"
+                        name="phoneNumber"
+                        label="Phone"
+                        // required={true}
+                        className="!bg-white"
                         placeholder=""
+                        value={formik.values.phoneNumber}
+                        onChange={(e) => {
+                          const sanitizedValue = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                          formik.handleChange({
+                            target: {
+                              name: "phoneNumber",
+                              value: sanitizedValue,
+                            },
+                          });
+                        }}
+                        onBlur={formik.handleBlur}
+                        minLength={"10"}
+                        maxLength={"10"}
+                        error={
+                          formik.touched.phoneNumber &&
+                          formik.errors.phoneNumber
+                        }
                       />
                       {formik.touched.phoneNumber &&
                         formik.errors.phoneNumber && (
@@ -1256,14 +1297,19 @@ function ResellerAddOrder() {
                           </div>
                         )}
                     </div>
-                    <div className="col-span-12">
+
+                    <div className="col-span-8">
                       <Input
-                        name="address"
-                        label="Address"
-                        className="bg-white"
                         type="text"
+                        name="address"
+                        className="!bg-white"
+                        label="Address"
                         required={true}
                         placeholder=""
+                        value={formik.values.address}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        error={formik.touched.address && formik.errors.address}
                       />
                     </div>
                   </Grid>
@@ -1327,7 +1373,11 @@ function ResellerAddOrder() {
                     label="Service Coverage"
                     name="serviceCoverageType"
                     placeholder=""
+                    disabled={type == "Edit"}
                     className="!bg-white"
+                    className1={`${
+                      type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
+                    }`}
                     required={true}
                     onChange={handleSelectChange1}
                     options={serviceCoverage}
@@ -1350,8 +1400,16 @@ function ResellerAddOrder() {
                     label="Coverage Type"
                     name="coverageType"
                     placeholder=""
-                    className="!bg-white"
+                    className={`${
+                      type == "Edit"
+                        ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                        : "!bg-white"
+                    }`}
+                    className1={`${
+                      type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
+                    }`}
                     required={true}
+                    disabled={type == "Edit"}
                     onChange={handleSelectChange1}
                     options={coverage}
                     value={formikStep2.values.coverageType}
@@ -1399,10 +1457,15 @@ function ResellerAddOrder() {
                 key={index}
                 className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative"
               >
-                 <div className="flex justify-between w-[66%]">
-                      <p className="text-2xl font-bold mb-4">Add Product</p> 
-                      <Button className='text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]' onClick={handleInputClickReset}>Reset</Button>
-                 </div>
+                <div className="flex justify-between w-[66%]">
+                  <p className="text-2xl font-bold mb-4">Add Product</p>
+                  <Button
+                    className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                    onClick={handleInputClickReset}
+                  >
+                    Reset
+                  </Button>
+                </div>
                 <div className="absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 ">
                   {index === 0 ? (
                     <Button

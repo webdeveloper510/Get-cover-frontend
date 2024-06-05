@@ -357,12 +357,10 @@ function ClaimList(props) {
     }
   };
 
-  const getAllClaims = async (page = 1, rowsPerPage,loader) => {
-   if(loader) {
-    setLoaderType(false);
-   } else ( 
-    setLoaderType(true)
-  );
+  const getAllClaims = async (page = 1, rowsPerPage, loader) => {
+    if (loader) {
+      setLoaderType(false);
+    } else setLoaderType(true);
     setPageValue(page);
     let data = {
       page,
@@ -375,13 +373,9 @@ function ClaimList(props) {
       getClaimListPromise = getClaimListForDealer(props.id, data);
     } else if (props.flag === "servicer") {
       getClaimListPromise = getClaimListForServicer(props.id, data);
-    } else if (
-      props.flag === "reseller"
-    ) {
+    } else if (props.flag === "reseller") {
       getClaimListPromise = getClaimListForReseller(props.id, data);
-    } else if (
-      window.location.pathname.includes("/reseller/claimList")
-    ) {
+    } else if (window.location.pathname.includes("/reseller/claimList")) {
       getClaimListPromise = getClaimListForResellerPortal(props.id, data);
     } else if (props.flag === "customer") {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
@@ -427,13 +421,13 @@ function ClaimList(props) {
       }
 
       setLoading(false);
-      
+
       setTimeout(function () {
         setShowdata(true);
       }, 1000);
     } finally {
       localStorage.removeItem("activeIndex");
-        setActiveIndex(null);
+      setActiveIndex(null);
       setLoading(false);
       setTimeout(function () {
         setShowdata(true);
@@ -600,17 +594,18 @@ function ClaimList(props) {
   };
 
   const openView = (claim) => {
+    let typeValue = "Admin";
     const isValidReseller = !!claim?.contracts.orders.resellerId;
     const selfServicer = claim?.selfServicer;
     const isAdminView = window.location.pathname.includes("/dealer/claimList");
-    const isResellerPath = window.location.pathname.includes(
-      "/reseller/claimList"
-    );
+    const isResellerPath =
+      window.location.pathname.includes("/reseller/claimList") ||
+      window.location.pathname.includes("/reseller/customerDetails");
     const isCustomerPath = window.location.pathname.includes(
       "/customer/claimList"
     );
 
-    let typeValue = "Admin";
+    console.log("isResellerPath", isResellerPath);
 
     if (!isAdminView && !isResellerPath && !isCustomerPath) {
       typeValue = "Admin";
@@ -774,7 +769,8 @@ function ClaimList(props) {
         ? "Dealer"
         : pathname.includes("/customer/claimList")
         ? "Customer"
-        : pathname.includes("/reseller/claimList")
+        : pathname.includes("/reseller/claimList") ||
+          pathname.includes("/reseller/customerDetails")
         ? "Reseller"
         : pathname.includes("/servicer/claimList")
         ? "Servicer"
@@ -896,8 +892,8 @@ function ClaimList(props) {
       // console.log("Selected tracking type:", values);
       addClaimsRepairParts(claimList.result[activeIndex]._id, values).then(
         (res) => {
-           getAllClaims(undefined,undefined,true);
-          setActiveIndex(activeIndex)
+          getAllClaims(undefined, undefined, true);
+          setActiveIndex(activeIndex);
           setTrackerView(false);
           Shipment.resetForm();
         }
@@ -1305,6 +1301,9 @@ function ClaimList(props) {
                                   ) &&
                                   !location.pathname.includes(
                                     "/dealer/claimList"
+                                  ) &&
+                                  !location.pathname.includes(
+                                    "/reseller/customerDetails/"
                                   ) && (
                                     <img
                                       src={Edit}
@@ -1484,9 +1483,14 @@ function ClaimList(props) {
                                         ) &&
                                         !location.pathname.includes(
                                           "/reseller/claimList"
+                                        ) &&
+                                        !location.pathname.includes(
+                                          "/reseller/customerDetails/"
                                         )) ||
                                       claimList.result[activeIndex]
-                                        ?.selfServicer ? (
+                                        ?.selfServicer ||
+                                      claimList?.result[activeIndex]
+                                        ?.selfResellerServicer ? (
                                         <Select
                                           name="servicer"
                                           label=""
@@ -1507,12 +1511,16 @@ function ClaimList(props) {
                                       )}
                                     </p>
 
-                                    {!location.pathname.includes(
+                                    {(!location.pathname.includes(
                                       "customer/claimList"
                                     ) &&
                                       !location.pathname.includes(
                                         "/reseller/claimList"
-                                      ) && (
+                                      ) &&
+                                      !location.pathname.includes(
+                                        "/reseller/customerDetails/"
+                                      ))  ||     claimList?.result[activeIndex]
+                                      ?.selfResellerServicer && (
                                         <>
                                           <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                             <span className="self-center mr-8">
@@ -2174,7 +2182,7 @@ function ClaimList(props) {
                           <Grid>
                             <div className="col-span-6">
                               <p className="text-xl font-semibold">
-                                {msg?.commentBy?.firstName} {'  '}
+                                {msg?.commentBy?.firstName} {"  "}
                                 {msg?.commentBy?.lastName}
                                 <span className="text-[12px] pl-1">
                                   ({msg.commentBy.roles.role})

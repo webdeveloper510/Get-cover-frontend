@@ -147,7 +147,7 @@ function AddClaim() {
 
   const handleImageChange = (e) => {
     const files = e.target.files;
-    console.log(files, "------------")
+    console.log(files, "------------");
 
     if (files) {
       const newFiles = Array.from(files)
@@ -162,7 +162,7 @@ function AddClaim() {
       formikStep2.setFieldValue("images", updatedImages);
       formikStep2.setFieldValue("file", updatedImages.file);
       setImages(updatedImages);
-      console.log(updatedImages, "------------")
+      console.log(updatedImages, "------------");
       uploadEvidence(updatedImages);
     }
   };
@@ -283,10 +283,10 @@ function AddClaim() {
       setContractDetails(row.result);
       getServicerList(
         {
-          dealerId: row.result.order[0].dealerId,
-          resellerId: row.result.order[0].resellerId,
+          dealerId: row?.result?.order[0]?.dealerId,
+          resellerId: row?.result?.order[0]?.resellerId,
         },
-        row.result.order[0].servicerId
+        row.result?.order[0]?.servicerId
       );
       setLoading2(false);
     });
@@ -328,10 +328,10 @@ function AddClaim() {
       setContractDetails(res.result);
       getServicerList(
         {
-          dealerId: res.result.order[0].dealerId,
-          resellerId: res.result.order[0].resellerId,
+          dealerId: res?.result?.order[0]?.dealerId,
+          resellerId: res?.result?.order[0]?.resellerId,
         },
-        res.result.order[0].servicerId
+        res?.result?.order[0]?.servicerId
       );
     });
     const timer = setTimeout(() => {
@@ -721,7 +721,7 @@ function AddClaim() {
                           </p>
                         </div>
                       </div>
-                    )}  
+                    )}
                     {contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? (
                       ""
                     ) : (
@@ -1159,7 +1159,7 @@ function AddClaim() {
                 <Grid className="bg-[#333333] !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
                   <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                     <p className="text-white py-2 font-Regular">
-                      Contract ID : <b> {contractDetail.unique_key} </b>
+                      Contract ID : <b> {contractDetail?.unique_key} </b>
                     </p>
                   </div>
                   <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
@@ -1235,10 +1235,11 @@ function AddClaim() {
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
                         {/* ${contractDetail?.productValue} */}$
-                        {contractDetail.productValue === undefined
+                        {contractDetail?.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              Number(contractDetail.productValue) ?? parseInt(0)
+                              Number(contractDetail?.productValue) ??
+                                parseInt(0)
                             )}
                       </p>
                     </div>
@@ -1294,7 +1295,7 @@ function AddClaim() {
                         Status
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                        {contractDetail.status}
+                        {contractDetail?.status}
                       </p>
                     </div>
                   </div>
@@ -1382,10 +1383,10 @@ function AddClaim() {
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
                         $
-                        {contractDetail.claimAmount === undefined
+                        {contractDetail?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              Number(contractDetail.claimAmount) ?? parseInt(0)
+                              Number(contractDetail?.claimAmount) ?? parseInt(0)
                             )}
                       </p>
                     </div>
@@ -1465,53 +1466,53 @@ function AddClaim() {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Labour Warranty Start Date
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                           { new Date(
-                              contractDetail?.labourWarranty
-                            ).toLocaleDateString("en-US", {
-                              month: "2-digit",
-                              day: "2-digit",
-                              year: "numeric",
-                            })}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-span-1 border border-Light-Grey ">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Part Warranty Start Date
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                            { new Date(
-                              contractDetail?.partsWarranty
-                            ).toLocaleDateString("en-US", {
-                              month: "2-digit",
-                              day: "2-digit",
-                              year: "numeric",
-                            })}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-span-1 border border-Light-Grey ">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Purchase Date
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                          {new Date(
-                              contractDetail?.purchaseDate
-                            ).toLocaleDateString("en-US", {
-                              month: "2-digit",
-                              day: "2-digit",
-                              year: "numeric",
-                            })}
-                          </p>
-                        </div>
-                      </div>
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Labour Warranty Start Date
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {new Date(
+                          contractDetail?.labourWarranty
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-1 border border-Light-Grey ">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Part Warranty Start Date
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {new Date(
+                          contractDetail?.partsWarranty
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-1 border border-Light-Grey ">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Purchase Date
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {new Date(
+                          contractDetail?.purchaseDate
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
                   {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
                   "Quantity Pricing" ? (
                     <>

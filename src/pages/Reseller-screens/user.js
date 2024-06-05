@@ -69,7 +69,7 @@ function ResellerUser() {
   const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
   const [loading1, setLoading1] = useState(false);
-
+  const [loading2, setLoading2] = useState(false);
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({
     lastName: "",
@@ -683,8 +683,7 @@ function ResellerUser() {
 
         SetPrimaryText("User Edited Successfully ");
         SetSecondaryText("user edited successfully ");
-        // setFirstMessage("User Edited Successfully ");
-        // setSecondMessage("user edited successfully ");
+      
         openModal();
         setTimer(3);
         filterUserDetails();
@@ -1032,10 +1031,10 @@ function ResellerUser() {
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-            {firstMessage}
+            {primaryText}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-4">
-            {secondMessage} <br />
+            {secondaryText} <br />
             Redirecting Back to User List in {timer} Seconds
           </p>
         </div>

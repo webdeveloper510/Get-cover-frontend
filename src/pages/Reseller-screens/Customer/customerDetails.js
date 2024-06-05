@@ -61,6 +61,7 @@ function ResellerCustomerDetails() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [createAccount, setCreateAccount] = useState(false);
   const [timer, setTimer] = useState(3);
   const { customerId } = useParams();
   const [initialFormValues, setInitialFormValues] = useState({
@@ -125,6 +126,7 @@ function ResellerCustomerDetails() {
     setModalOpen(false);
   };
   const closeUserModal = () => {
+    setActiveTab("Users");
     setIsUserModalOpen(false);
     userValues.resetForm();
   };
@@ -194,6 +196,11 @@ function ResellerCustomerDetails() {
     setCreateAccountOption(selectedValue);
   };
 
+  const handleAccountChange = (event) => {
+    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
+    setCreateAccount(valueAsBoolean);
+    formik.setFieldValue("isAccountCreate", valueAsBoolean);
+  };
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
   };
@@ -244,6 +251,7 @@ function ResellerCustomerDetails() {
   });
   const openUserModal = () => {
     setIsUserModalOpen(true);
+    setActiveTab("usersss");
   };
   useEffect(() => {
     customerDetails();
@@ -255,9 +263,9 @@ function ResellerCustomerDetails() {
         localStorage.getItem("Users");
         openUserModal();
         break;
-        case "Claims":
-          navigate(`/reseller/addClaim/${customerDetail?.meta?.username}`);
-          break;
+      case "Claims":
+        navigate(`/reseller/addClaim/${customerDetail?.meta?.username}`);
+        break;
       default:
         console.log("Invalid data, no navigation");
     }
@@ -267,10 +275,10 @@ function ResellerCustomerDetails() {
     console.log(customerId);
     const result = await getCustomerDetailsById(customerId);
     setCustomerDetail(result.result);
+    setCreateAccount(result.result.meta.isAccountCreate);
     setCreateMainAccount(result.result.userAccount);
-    setCreateAccountOption(
-      result.result.primary.status === false ? "no" : "yes"
-    );
+    setCreateAccountOption(result.result.userAccount ? "yes" : "no");
+
     console.log(result.result);
     setInitialFormValues({
       username: result?.result?.meta?.username,
@@ -293,21 +301,27 @@ function ResellerCustomerDetails() {
       label: "Order",
       icons: Order,
       Activeicons: OrderActive,
-      content: <OrderList  flag={"customer"} id={customerId} activeTab={activeTab}/>,
+      content: (
+        <OrderList flag={"customer"} id={customerId} activeTab={activeTab} />
+      ),
     },
     {
       id: "Contracts",
       label: "Contracts",
       icons: Dealer,
       Activeicons: DealerActive,
-      content: <ContractList flag={"customer"} id={customerId} activeTab={activeTab} />,
+      content: (
+        <ContractList flag={"customer"} id={customerId} activeTab={activeTab} />
+      ),
     },
     {
       id: "Claims",
       label: "Claims",
       icons: Claim,
       Activeicons: ClaimActive,
-      content: <ClaimList id={customerId} flag={"customer"} activeTab={activeTab} />,
+      content: (
+        <ClaimList id={customerId} flag={"customer"} activeTab={activeTab} />
+      ),
     },
     {
       id: "Users",
@@ -529,7 +543,9 @@ function ResellerCustomerDetails() {
               <Grid className="mt-5">
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">{customerDetail?.orderData?.[0]?.noOfOrders}</p>
+                    <p className="text-white text-lg !font-[600]">
+                      {customerDetail?.orderData?.[0]?.noOfOrders}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Orders
                     </p>
@@ -537,7 +553,13 @@ function ResellerCustomerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">${formatOrderValue(customerDetail?.orderData?.[0]?.orderAmount ?? parseInt(0))}</p>
+                    <p className="text-white text-lg  !font-[600]">
+                      $
+                      {formatOrderValue(
+                        customerDetail?.orderData?.[0]?.orderAmount ??
+                          parseInt(0)
+                      )}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Orders
                     </p>
@@ -545,7 +567,9 @@ function ResellerCustomerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">{customerDetail?.claimData?.numberOfClaims}</p>
+                    <p className="text-white text-lg !font-[600]">
+                      {customerDetail?.claimData?.numberOfClaims}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
@@ -553,10 +577,12 @@ function ResellerCustomerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">${formatOrderValue(
+                    <p className="text-white text-lg  !font-[600]">
+                      $
+                      {formatOrderValue(
                         customerDetail?.claimData?.valueClaim ?? parseInt(0)
                       )}
-                     </p>
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>
@@ -768,6 +794,7 @@ function ResellerCustomerDetails() {
                       id="yes-create-account"
                       label="Yes"
                       value="yes"
+                      disabled={createMainAccount == false}
                       checked={createAccountOption === "yes"}
                       onChange={handleRadioChange}
                     />
@@ -775,6 +802,7 @@ function ResellerCustomerDetails() {
                       id="no-create-account"
                       label="No"
                       value="no"
+                      disabled={createMainAccount == false}
                       checked={createAccountOption === "no"}
                       onChange={handleRadioChange}
                     />
@@ -928,18 +956,24 @@ function ResellerCustomerDetails() {
                     <RadioButton
                       id="yes-create-account"
                       label="Yes"
-                      value="yes"
-                      disabled={createMainAccount === false}
-                      checked={createAccountOption === "yes"}
-                      onChange={handleRadioChange}
+                      value={true}
+                      disabled={
+                        !createMainAccount &&
+                        !customerDetail?.meta?.isAccountCreate
+                      }
+                      checked={createAccount === true}
+                      onChange={handleAccountChange}
                     />
                     <RadioButton
                       id="no-create-account"
                       label="No"
-                      value="no"
-                      disabled={createMainAccount === false}
-                      checked={createAccountOption === "no"}
-                      onChange={handleRadioChange}
+                      value={false}
+                      checked={createAccount === false}
+                      disabled={
+                        !createMainAccount &&
+                        !customerDetail?.meta?.isAccountCreate
+                      }
+                      onChange={handleAccountChange}
                     />
                   </p>
                 </div>

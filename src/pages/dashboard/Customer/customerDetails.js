@@ -990,7 +990,10 @@ function CustomerDetails() {
                       id="yes-create-account"
                       label="Yes"
                       value={true}
-                      disabled={!isAccountCreate && !customerDetail?.meta?.isAccountCreate}
+                      disabled={
+                        !isAccountCreate &&
+                        !customerDetail?.meta?.isAccountCreate
+                      }
                       checked={createAccount === true}
                       onChange={handleAccountChange}
                     />
@@ -999,7 +1002,10 @@ function CustomerDetails() {
                       label="No"
                       value={false}
                       checked={createAccount === false}
-                       disabled={!isAccountCreate && !customerDetail?.meta?.isAccountCreate}
+                      disabled={
+                        !isAccountCreate &&
+                        !customerDetail?.meta?.isAccountCreate
+                      }
                       onChange={handleAccountChange}
                     />
                   </p>
