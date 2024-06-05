@@ -1472,6 +1472,18 @@ function ClaimList(props) {
                                         )}{" "}
                                       </span>
                                     </p>
+                                    {location.pathname.includes(
+                                          "/reseller/claimList"
+                                        )
+                                      ? <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                      {" "}
+                                      <span className="self-center mr-4">
+                                        Servicer Name :{" "}
+                                      </span>
+                                      
+                                        {res?.servicerData?.name}
+                                    </p>
+                                    : 
                                     <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                       {" "}
                                       <span className="self-center mr-4">
@@ -1490,7 +1502,7 @@ function ClaimList(props) {
                                       claimList.result[activeIndex]
                                         ?.selfServicer ||
                                       claimList?.result[activeIndex]
-                                        ?.selfResellerServicer ? (
+                                        ?.selfResellerServicer  ? (
                                         <Select
                                           name="servicer"
                                           label=""
@@ -1510,6 +1522,8 @@ function ClaimList(props) {
                                         <>{res?.servicerData?.name}</>
                                       )}
                                     </p>
+                                    }
+                                   
 
                                     {(!location.pathname.includes(
                                       "customer/claimList"
