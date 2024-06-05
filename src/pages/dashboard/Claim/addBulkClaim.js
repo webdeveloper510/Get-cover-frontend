@@ -44,7 +44,6 @@ function AddBulkClaim() {
       }
     });
     formik.setFieldValue(name, selectedValue);
-    
   };
 
   useEffect(() => {
@@ -54,11 +53,19 @@ function AddBulkClaim() {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
     }
-
     if (timer === 0) {
       closeModal();
-      navigate(`/claimList`);
+      if (window.location.href.includes("/dealer/addBulkClaim")) {
+        navigate(`/dealer/claimList`);
+      } else if (window.location.href.includes("/reseller/addBulkClaim")) {
+        navigate(`/reseller/claimList`);
+      } else if (window.location.href.includes("/customer/addBulkClaim")) {
+        navigate(`/customer/claimList`);
+      } else {
+        navigate(`/claimList`);
+      }
     }
+
     return () => {
       clearInterval(intervalId);
     };
@@ -127,10 +134,7 @@ function AddBulkClaim() {
     },
     validationSchema: Yup.object({
       email: Yup.array()
-        .of(
-          Yup.string()
-            .matches(emailValidationRegex, "Invalid email address")
-        )
+        .of(Yup.string().matches(emailValidationRegex, "Invalid email address"))
         .min(1, "At least one email is required"),
       file: Yup.mixed().test("file", "CSV file is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
@@ -142,7 +146,7 @@ function AddBulkClaim() {
       const formData = new FormData();
       formData.append("email", JSON.stringify(values.email));
       formData.append("file", values.file);
-      formik.setFieldTouched("file",false)
+      formik.setFieldTouched("file", false);
       var data = { formData };
       console.log(formData);
 
@@ -245,11 +249,10 @@ function AddBulkClaim() {
                   </div>
                   {formik.errors.email && (
                     <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
-                    
                       {formik.errors.email &&
                         (Array.isArray(formik.errors.email)
                           ? formik.errors.email.map((error, index) => (
-                            <span key={index}>
+                              <span key={index}>
                                 {index > 0 && " "}
                                 <span className="font-semibold"> {error} </span>
                               </span>
@@ -274,8 +277,11 @@ function AddBulkClaim() {
                   />
                   {formik.touched.file && formik.errors.file && (
                     <p className="text-red-500 text-sm pl-2 mt-3 mb-5	">
-                      <span className="font-semibold">  {formik.errors.file} </span>
-                    </p> 
+                      <span className="font-semibold">
+                        {" "}
+                        {formik.errors.file}{" "}
+                      </span>
+                    </p>
                   )}
                   <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
                     Please click on file option and make a copy. Upload the list
@@ -318,7 +324,6 @@ function AddBulkClaim() {
           </p>
         </div>
       </Modal>
-
     </div>
   );
 }

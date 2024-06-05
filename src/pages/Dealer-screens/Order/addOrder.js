@@ -1642,10 +1642,14 @@ function DealerAddOrder() {
                   key={index}
                   className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative"
                 >
-                   <div className="flex justify-between w-[66%]">
-
-                  <p className="text-2xl font-bold mb-4">Add Product</p> 
-                  <Button className='text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]' onClick={handleInputClickReset}  >Reset</Button>
+                  <div className="flex justify-between w-[66%]">
+                    <p className="text-2xl font-bold mb-4">Add Product</p>
+                    <Button
+                      className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                      onClick={handleInputClickReset}
+                    >
+                      Reset
+                    </Button>
                   </div>
                   <div className="absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 ">
                     {index === 0 ? (
@@ -2665,6 +2669,8 @@ function DealerAddOrder() {
                 </div>
                 <div className="col-span-12"></div>
               </Grid>
+              {error && <p className="text-red-500">{error}</p>}
+
             </div>
 
             <Button

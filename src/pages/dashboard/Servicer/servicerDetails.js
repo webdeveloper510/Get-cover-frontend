@@ -30,7 +30,10 @@ import Modal from "../../../common/model";
 import Input from "../../../common/input";
 import Select from "../../../common/select";
 import DealerDetailList from "../Dealer/Dealer-Details/dealer";
-import { getUserListByDealerId } from "../../../services/userServices";
+import {
+  checkUserToken,
+  getUserListByDealerId,
+} from "../../../services/userServices";
 import RadioButton from "../../../common/radio";
 import { useFormik } from "formik";
 import DataTable from "react-data-table-component";
@@ -91,7 +94,7 @@ function ServicerDetails() {
     state: "",
     country: "USA",
     oldName: "",
-    isAccountCreate : createAccount,
+    isAccountCreate: createAccount,
   });
   const state = cityData;
   // const { flag } = useMyContext();
@@ -121,8 +124,25 @@ function ServicerDetails() {
   };
   useEffect(() => {
     localStorage.setItem("servicer", activeTab);
+    checkTokenExpiry();
   }, [activeTab]);
 
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200);
+      if (response.code == 200) {
+        return;
+      } else {
+        navigate(`/`);
+        localStorage.removeItem("userDetails");
+      }
+    } catch (error) {
+      navigate(`/`);
+      localStorage.removeItem("userDetails");
+    } finally {
+    }
+  };
   useEffect(() => {
     getUserList();
   }, []);
@@ -240,11 +260,7 @@ function ServicerDetails() {
       icons: Claim,
       Activeicons: ClaimActive,
       content: activeTab === "Claims" && (
-        <ClaimList
-          id={servicerId}
-          flag="servicer"
-          activeTab={activeTab}
-        />
+        <ClaimList id={servicerId} flag="servicer" activeTab={activeTab} />
       ),
     },
     {
@@ -265,12 +281,8 @@ function ServicerDetails() {
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content:  (
-        <UserList
-          flag={"servicer"}
-          id={servicerId}
-          activeTab={activeTab}
-        />
+      content: (
+        <UserList flag={"servicer"} id={servicerId} activeTab={activeTab} />
       ),
     },
     {
@@ -278,24 +290,21 @@ function ServicerDetails() {
       label: "Unpaid Claims",
       icons: Unpaid,
       Activeicons: UnpaidActive,
-      content: activeTab === "Unpaid Claims" && <ClaimList12
-      id={servicerId}
-      flag="servicer"
-      activeTab={activeTab}
-       />,
+      content: activeTab === "Unpaid Claims" && (
+        <ClaimList12 id={servicerId} flag="servicer" activeTab={activeTab} />
+      ),
     },
     {
       id: "Paid Claims",
       label: "Paid Claims",
       icons: Paid,
       Activeicons: ActivePaid,
-      content: activeTab === "Paid Claims" && <ClaimList12
-      id={servicerId}
-      flag="servicer"
-      activeTab={activeTab}  />,
+      content: activeTab === "Paid Claims" && (
+        <ClaimList12 id={servicerId} flag="servicer" activeTab={activeTab} />
+      ),
     },
   ];
-  
+
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
   };
@@ -367,14 +376,15 @@ function ServicerDetails() {
     formik.setFieldValue("isAccountCreate", valueAsBoolean);
   };
 
-
   const servicerDetail = async () => {
     setLoading(true);
     const res = await getServicerDetailsByServicerId(servicerId);
     setServicerDetails(res.message);
     console.log(res.message);
-    setCreateAccount(res?.message?.meta?.isAccountCreate)
-    setCreateAccountOption(res?.message?.meta?.isAccountCreate === false ? "no" : "yes")
+    setCreateAccount(res?.message?.meta?.isAccountCreate);
+    setCreateAccountOption(
+      res?.message?.meta?.isAccountCreate === false ? "no" : "yes"
+    );
     setInitialFormValues({
       name: res?.message?.meta?.name,
       oldName: res?.message?.meta?.name,
@@ -384,7 +394,7 @@ function ServicerDetails() {
       zip: res?.message?.meta?.zip,
       state: res?.message?.meta?.state,
       country: "USA",
-      isAccountCreate:res?.message?.meta?.isAccountCreate
+      isAccountCreate: res?.message?.meta?.isAccountCreate,
     });
     setLoading(false);
   };
@@ -428,7 +438,6 @@ function ServicerDetails() {
         setModalOpen(true);
         setFirstMessage("New Users Added Successfully");
         setSecondMessage("New User Added Successfully");
-     
       } else {
         console.log(result);
         if (result.code === 401) {
@@ -506,7 +515,7 @@ function ServicerDetails() {
   const navigate = useNavigate();
   const handleGOBack = () => {
     localStorage.removeItem("servicer");
-    navigate('/servicerList');
+    navigate("/servicerList");
   };
   const serviceData = async () => {
     // const result =await
@@ -525,7 +534,7 @@ function ServicerDetails() {
 
         <div className="flex">
           <Link
-            to={'/servicerList'}
+            to={"/servicerList"}
             className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
           >
             <img
@@ -540,10 +549,10 @@ function ServicerDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={'/servicerList'}>Servicer / </Link>{" "}
+                <Link to={"/servicerList"}>Servicer / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={'/servicerList'}> Servicer List / </Link>{" "}
+                <Link to={"/servicerList"}> Servicer List / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                 {" "}
@@ -692,7 +701,9 @@ function ServicerDetails() {
               <Grid className="mt-5">
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">{servicerDetails?.claimData?.numberOfClaims ?? 0}</p>
+                    <p className="text-white text-lg !font-[600]">
+                      {servicerDetails?.claimData?.numberOfClaims ?? 0}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
@@ -700,11 +711,12 @@ function ServicerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$
+                    <p className="text-white text-lg  !font-[600]">
+                      $
                       {formatOrderValue(
-                        servicerDetails?.claimData?.valueClaim ??
-                          parseInt(0)
-                      )}</p>
+                        servicerDetails?.claimData?.valueClaim ?? parseInt(0)
+                      )}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>
@@ -749,21 +761,26 @@ function ServicerDetails() {
                 </div>
               </div>
               <div className="col-span-3">
-              {activeTab !== "Unpaid Claims" && activeTab !== "Paid Claims" && activeTab !== "Claims" ? (
-                <Button
-                  onClick={() => routeToPage(activeTab)}
-                  className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
-                >
-                  {" "}
-                  <img
-                    src={AddItem}
-                    className="self-center"
-                    alt="AddItem"
-                  />{" "}
-                  <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
-                    Add {activeTab}
-                  </span>{" "}
-                </Button>) : (<></>) }
+                {activeTab !== "Unpaid Claims" &&
+                activeTab !== "Paid Claims" &&
+                activeTab !== "Claims" ? (
+                  <Button
+                    onClick={() => routeToPage(activeTab)}
+                    className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
+                  >
+                    {" "}
+                    <img
+                      src={AddItem}
+                      className="self-center"
+                      alt="AddItem"
+                    />{" "}
+                    <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
+                      Add {activeTab}
+                    </span>{" "}
+                  </Button>
+                ) : (
+                  <></>
+                )}
               </div>
             </Grid>
 
@@ -1102,7 +1119,7 @@ function ServicerDetails() {
                     label="Country"
                     required={true}
                     placeholder=""
-                    className='!bg-[white]'
+                    className="!bg-[white]"
                     value={formik.values.country}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -1112,23 +1129,23 @@ function ServicerDetails() {
                   />
                 </div>
                 <div className="col-span-12">
-              <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
-                  Do you want to create an account?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value={true}
-                    checked={createAccount === true}
-                    onChange={handleAccountChange}
-                  />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value={false}
-                    checked={createAccount === false}
-                    onChange={handleAccountChange}
-                  />
-                </p>
+                  <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
+                    Do you want to create an account?
+                    <RadioButton
+                      id="yes-create-account"
+                      label="Yes"
+                      value={true}
+                      checked={createAccount === true}
+                      onChange={handleAccountChange}
+                    />
+                    <RadioButton
+                      id="no-create-account"
+                      label="No"
+                      value={false}
+                      checked={createAccount === false}
+                      onChange={handleAccountChange}
+                    />
+                  </p>
                 </div>
                 <div className="col-span-4">
                   <Button

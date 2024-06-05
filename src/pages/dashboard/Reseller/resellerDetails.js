@@ -50,7 +50,10 @@ import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
 import RadioButton from "../../../common/radio";
 import DealerIcons from "../../../assets/images/icons/DealerIcons.svg";
-import { getUserListByDealerId } from "../../../services/userServices";
+import {
+  checkUserToken,
+  getUserListByDealerId,
+} from "../../../services/userServices";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
 import { getServicerListForDealer } from "../../../services/servicerServices";
@@ -221,6 +224,7 @@ function ResellerDetails() {
   const carouselRef = useRef(null);
   useEffect(() => {
     localStorage.setItem("Resellermenu", activeTab);
+    checkTokenExpiry();
     if (
       activeTab === "Users" ||
       activeTab === "PriceBook" ||
@@ -233,6 +237,22 @@ function ResellerDetails() {
     }
   }, [activeTab, carouselRef]);
 
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200);
+      if (response.code == 200) {
+        return;
+      } else {
+        navigate(`/`);
+        localStorage.removeItem("userDetails");
+      }
+    } catch (error) {
+      navigate(`/`);
+      localStorage.removeItem("userDetails");
+    } finally {
+    }
+  };
   const resellerDetails = async (showLoader) => {
     if (!showLoader) {
       setLoading(true);

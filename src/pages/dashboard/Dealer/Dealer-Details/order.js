@@ -94,6 +94,7 @@ function OrderList(props) {
     console.log(result);
   };
   const openModal = (id) => {
+    SetOrderId(id);
     processOrders(id).then((res) => {
       setProcessOrderErrors(res.result);
       SetErrorList(res.result);
@@ -342,9 +343,7 @@ function OrderList(props) {
                       </div>
                     )}
                     <div className="border-b">
-                    <PdfGenerator
-                        data={row._id}
-                        setLoading={setLoading}/>
+                      <PdfGenerator data={row._id} setLoading={setLoading} />
                     </div>
                     <div
                       className="text-left py-1 px-2 flex cursor-pointer hover:font-semibold"
@@ -362,7 +361,7 @@ function OrderList(props) {
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
                     {/* <div className="border-b"> */}
-                      <PdfGenerator setLoading={setLoading} data={row._id} />
+                    <PdfGenerator setLoading={setLoading} data={row._id} />
                     {/* </div> */}
 
                     {/* <DocMakeOrderContainer
@@ -558,7 +557,7 @@ function OrderList(props) {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <Button
           onClick={() => {
-            navigate(`/editOrder/${orderList._id}/${props.id}/${props.flag}`);
+            navigate(`/editOrder/${orderId}/${props.id}/${props.flag}`);
           }}
           className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
@@ -579,9 +578,12 @@ function OrderList(props) {
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
-            <span className="text-light-black">Error </span></p>
-            <p className="text-neutral-grey text-base font-medium mt-2"> {errorLine} : <br/>
-              {errorList}
+            <span className="text-light-black">Error </span>
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            {" "}
+            {errorLine} : <br />
+            {errorList}
           </p>
         </div>
       </Modal>

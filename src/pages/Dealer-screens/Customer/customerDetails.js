@@ -328,8 +328,25 @@ function CustomerDetails() {
   };
   useEffect(() => {
     localStorage.setItem("customer", activeTab);
+    checkTokenExpiry();
   }, [activeTab]);
 
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200);
+      if (response.code == 200) {
+        return;
+      } else {
+        navigate(`/`);
+        localStorage.removeItem("userDetails");
+      }
+    } catch (error) {
+      navigate(`/`);
+      localStorage.removeItem("userDetails");
+    } finally {
+    }
+  };
   const tabs = [
     {
       id: "Order",
@@ -388,7 +405,7 @@ function CustomerDetails() {
       });
     }
   };
- 
+
   return (
     <>
       {loading && (
@@ -577,7 +594,9 @@ function CustomerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">{customerDetail?.claimData?.numberOfClaims}</p>
+                    <p className="text-white text-lg !font-[600]">
+                      {customerDetail?.claimData?.numberOfClaims}
+                    </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Claims
                     </p>
@@ -797,8 +816,11 @@ function CustomerDetails() {
                       id="yes-create-account"
                       label="Yes"
                       value={true}
-                      checked={createAccount === true }
-                      disabled={createMainAccount === false || createAccountOption === 'no'}
+                      checked={createAccount === true}
+                      disabled={
+                        createMainAccount === false ||
+                        createAccountOption === "no"
+                      }
                       onChange={handleAccountChange}
                     />
                     <RadioButton
@@ -806,7 +828,10 @@ function CustomerDetails() {
                       label="No"
                       value={false}
                       checked={createAccount === false}
-                      disabled={createMainAccount === false || createAccountOption === 'no'}
+                      disabled={
+                        createMainAccount === false ||
+                        createAccountOption === "no"
+                      }
                       onChange={handleAccountChange}
                     />
                   </p>
