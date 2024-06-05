@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.c49b5c8b.css",
-    "main.js": "/static/js/main.033b2242.js",
+    "main.css": "/static/css/main.02b800ae.css",
+    "main.js": "/static/js/main.0d28a9c2.js",
     "static/js/703.9ed85247.chunk.js": "/static/js/703.9ed85247.chunk.js",
     "static/js/198.e1b2539e.chunk.js": "/static/js/198.e1b2539e.chunk.js",
     "static/js/787.c7997b7d.chunk.js": "/static/js/787.c7997b7d.chunk.js",
@@ -149,6 +149,8 @@
     "static/media/claim.svg": "/static/media/claim.d33290289acdfbd6b60fb692d3bb8b66.svg",
     "static/media/activeClaim.svg": "/static/media/activeClaim.5a21fe81cf725bcec84c95e491333fb7.svg",
     "static/media/check.svg": "/static/media/check.65286e30fe24e4c18e3d195deececc33.svg",
+    "static/media/Readed.svg": "/static/media/Readed.a5778d7952e25c51853363205c57aede.svg",
+    "static/media/Unread.svg": "/static/media/Unread.76d78f00955941481992b12034b54563.svg",
     "static/media/dealerList.svg": "/static/media/dealerList.391fc60b5d83c0cf5b19f0a55d628a54.svg",
     "static/media/CrossButton.svg": "/static/media/CrossButton.ecb5e863761211c69de3b1ad24d75099.svg",
     "static/media/arrows.svg": "/static/media/arrows.ff0e614a7927de42b322390bb99375fd.svg",
@@ -169,14 +171,14 @@
     "static/media/Drop.svg": "/static/media/Drop.4e59ffc91c1abe493e11059f0fb734b3.svg",
     "static/media/DropActive.svg": "/static/media/DropActive.1afa81418e97447d9eaee9da4bb3a255.svg",
     "static/media/dropwhite.svg": "/static/media/dropwhite.c8ae50a08ad52f32dd37ffec22fa9500.svg",
-    "main.c49b5c8b.css.map": "/static/css/main.c49b5c8b.css.map",
-    "main.033b2242.js.map": "/static/js/main.033b2242.js.map",
+    "main.02b800ae.css.map": "/static/css/main.02b800ae.css.map",
+    "main.0d28a9c2.js.map": "/static/js/main.0d28a9c2.js.map",
     "703.9ed85247.chunk.js.map": "/static/js/703.9ed85247.chunk.js.map",
     "198.e1b2539e.chunk.js.map": "/static/js/198.e1b2539e.chunk.js.map",
     "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c49b5c8b.css",
-    "static/js/main.033b2242.js"
+    "static/css/main.02b800ae.css",
+    "static/js/main.0d28a9c2.js"
   ]
 }
