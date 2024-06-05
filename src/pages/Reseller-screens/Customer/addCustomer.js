@@ -23,6 +23,7 @@ import {
 import {
   addNewCustomer,
   addNewCustomerResellerPortal,
+  getUserDetailsByIdResellerPortal,
 } from "../../../services/customerServices";
 import Cross from "../../../assets/images/Cross.png";
 import {
@@ -37,15 +38,19 @@ function ResellerAddCustomer() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [createAccountOption, setCreateAccountOption] = useState('yes');
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
-  const [dealerList, setDealerList] = useState([]);
-  const [resellerList, setResellerList] = useState([]);
+  const [details, setDetails] = useState([]);
   const navigate = useNavigate();
   const { dealerValueId, typeofUser } = useParams();
   console.log(dealerValueId, typeofUser);
-
+  const getCustomerDetails = async () => {
+    const result = await getUserDetailsByIdResellerPortal();
+    setDetails(result.result);
+    setCreateAccountOption(result.result.dealer.userAccount == true ? 'yes' : 'no');
+  };
   useEffect(() => {
+    getCustomerDetails();
     if (dealerValueId || typeofUser) {
       setLoading(true);
 
@@ -636,6 +641,7 @@ function ResellerAddCustomer() {
                           id="yes"
                           label="Yes"
                           value="yes"
+                          disabled={details.dealer?.userAccount == false}
                           checked={createAccountOption === "yes"}
                           onChange={handleRadioChange}
                         />
@@ -643,6 +649,7 @@ function ResellerAddCustomer() {
                           id="no"
                           label="No"
                           value="no"
+                          disabled={details.dealer?.userAccount == false}
                           checked={createAccountOption === "no"}
                           onChange={handleRadioChange}
                         />

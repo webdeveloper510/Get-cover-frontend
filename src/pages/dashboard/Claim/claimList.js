@@ -1314,7 +1314,7 @@ function ClaimList(props) {
                                   )}
 
                                 {userType !== "admin" &&
-                                  res.selfServicer &&
+                                  res.selfServicer && 
                                   res?.claimStatus?.[0]?.status === "Open" &&
                                   !location.pathname.includes(
                                     "customer/claimList"
