@@ -712,7 +712,7 @@ function AddClaim() {
                         </p>
                       </div>
                     </div>
-                    {location.pathname.includes("dealer/addClaim") ? null : (
+                    {window.location.pathname.includes("/reseller/addClaim") || location.pathname.includes("dealer/addClaim") ? null : (
                       <div className="col-span-3">
                         <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                           <p className="text-sm m-0 p-0">Dealer Name</p>
@@ -722,7 +722,7 @@ function AddClaim() {
                         </div>
                       </div>
                     )}
-                    {contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? (
+                    {window.location.pathname.includes("/reseller/addClaim") || contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? (
                       ""
                     ) : (
                       <div className="col-span-3">
