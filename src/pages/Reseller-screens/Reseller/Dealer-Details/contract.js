@@ -571,24 +571,7 @@ function ContractList(props) {
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Claim Amount
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                      ${
-                           singleContract?.claimAmount === undefined
-                            ? parseInt(0).toLocaleString(2)
-                            : formatOrderValue(
-                              singleContract?.claimAmount ??
-                                  parseInt(0)
-                              )}
-                      </p>
-                    </div>
-                  </div>
-                 
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Name
+                        Product SKU
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
                         {singleContract?.productName}
@@ -596,6 +579,30 @@ function ContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Product Name
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {singleContract?.pName}
+                      </p>
+                    </div>
+                  </div>
+                 
+                  <div className="col-span-1 border border-Light-Grey">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Price Type
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {
+                          singleContract?.order?.[0]?.productsArray?.[0]
+                            ?.priceType
+                        }
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-2 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Description
@@ -611,37 +618,49 @@ function ContractList(props) {
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Price Type
+                        Eligibility
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {
-                          singleContract?.order?.[0]?.productsArray?.[0]
-                            ?.priceType
-                        }
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Condition
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {singleContract.condition}
-                      </p>
+                      {singleContract?.eligibilty === false ?
+                      <>
+                       {singleContract.status == 'Waiting' || singleContract.status === "Expired" ?  
+                        <CommonTooltip place="top" id="tooltip-default" content="Contract is not Active state">
+                        <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                          
+                          Not Eligible 
+                        </p>
+                        </CommonTooltip> : 
+                        <CommonTooltip place="top" id="tooltip-default" content={`Contract is Eligible on ${new Date(
+                          singleContract?.minDate
+                       ).toLocaleDateString("en-US", {
+                         month: "2-digit",
+                         day: "2-digit",
+                         year: "numeric",
+                       })} `}>
+                          <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                            
+                            Not Eligible 
+                          </p>
+                        </CommonTooltip>
+                        } 
+                       </>
+                                 : 
+                                   <p className="text-[#333333] text-base font-semibold">
+                                  Eligible
+                               </p> }
+                     
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Retail Price
+                        Claim Amount
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
                         $
-                        {singleContract.productValue === undefined
+                        {singleContract?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              singleContract.productValue ?? parseInt(0)
+                              singleContract?.claimAmount ?? parseInt(0)
                             )}
                       </p>
                     </div>
@@ -660,8 +679,9 @@ function ContractList(props) {
                               ?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  singleContract?.order?.[0]?.productsArray?.[0]
-                                    ?.rangeStart ?? parseInt(0)
+                                  singleContract?.order?.[0]
+                                    ?.productsArray?.[0]?.rangeStart ??
+                                    parseInt(0)
                                 )}
                           </p>
                         </div>
@@ -677,8 +697,9 @@ function ContractList(props) {
                               ?.rangeEnd === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  singleContract?.order?.[0]?.productsArray?.[0]
-                                    ?.rangeEnd ?? parseInt(0)
+                                  singleContract?.order?.[0]
+                                    ?.productsArray?.[0]?.rangeEnd ??
+                                    parseInt(0)
                                 )}{" "}
                           </p>
                         </div>
@@ -720,6 +741,54 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
+                  <div className="col-span-1 border border-Light-Grey ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Labour Warranty Start Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                           { new Date(
+                              singleContract?.labourWarranty
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-Light-Grey ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Part Warranty Start Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            { new Date(
+                              singleContract?.partsWarranty
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="col-span-1 border border-Light-Grey ">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Purchase Date
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                          {new Date(
+                              singleContract?.purchaseDate
+                            ).toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </p>
+                        </div>
+                      </div>
                   {singleContract?.order?.[0]?.productsArray?.[0]?.priceType ==
                   "Quantity Pricing" ? (
                     <>
@@ -729,9 +798,9 @@ function ContractList(props) {
                             <th colSpan={"3"}>Quantity Pricing List </th>
                           </tr>
                           <tr className="border bg-[#9999]">
-                            <th>Name</th>
-                            <th> Quantity Per Unit</th>
-                            <th> Quantity</th>
+                            <th className="w-1/3">Name</th>
+                            <th className="w-1/3"> Quantity Per Unit</th>
+                            <th className="w-1/3"> Quantity</th>
                           </tr>
                           {singleContract?.order?.[0].productsArray?.[0]
                             ?.QuantityPricing.length !== 0 &&

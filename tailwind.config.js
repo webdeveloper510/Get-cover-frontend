@@ -56,6 +56,7 @@ module.exports = {
         '3xl': '0 4px 84px rgba(0, 0, 0, 0.25)',
         '4xl': '0px 0px 100px rgba(0, 0, 0, 0.15)',
         '5xl': '0px 4.979px 29.872px rgba(0, 0, 0, 0.25)',
+        'header' : '0px 7px 14px 0px #00000014'
         
       },
       boxShadow: {

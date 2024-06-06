@@ -193,7 +193,7 @@ function ResellerOrderDetails() {
                   </p>
                 </div>
               </div> */}
-              <div className="flex mb-4">
+              {/* <div className="flex mb-4">
                 <div className="relative">
                   <img
                     src={Name}
@@ -207,7 +207,7 @@ function ResellerOrderDetails() {
                       className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
                       alt="DealerList"
                     />{" "}
-                  </Link> */}
+                  </Link> 
                 </div>
                 <div>
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -217,7 +217,7 @@ function ResellerOrderDetails() {
                     Edward Wilson
                   </p>
                 </div>
-              </div>
+              </div> */}
               <div className="flex mb-4">
                 <div className="relative">
                   <img

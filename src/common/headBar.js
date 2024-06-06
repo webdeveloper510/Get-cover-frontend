@@ -9,6 +9,7 @@ import ProfileImage from "../assets/images/icons/Profile.svg";
 import Down from "../assets/images/icons/Drop.svg";
 import {
   getNotifications,
+  getNotificationsCount,
   getSuperAdminMembers,
   updateNotifications,
 } from "../services/extraServices";
@@ -40,10 +41,11 @@ function Headbar({ className = "" }) {
     navigate("/");
   };
 
+  
   const getNotificationsData = () => {
     let ArrayData = [];
-    getNotifications().then((response) => {
-      setNotificationList(response.result.notification);
+    getNotificationsCount().then((response) => {
+      setNotificationList(response.count);
       // response.result.notification.map((data) => {
       //   if (!data.notificationData.status) {
       //     ArrayData.push(data);
@@ -143,11 +145,11 @@ function Headbar({ className = "" }) {
                       alt="NotificationImage"
                     />
                     {userData.role == "Super Admin" &&
-                      lengthofNotifications !== 0 && (
+                      notificationList !== 0 && (
                         <p className="text-[11px] right-[-8px] font-semibold -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[0px] text-center border-2 border-[#333333]">
-                          {lengthofNotifications > 9
+                          {notificationList > 9
                             ? "9+"
-                            : lengthofNotifications}
+                            : notificationList}
                         </p>
                       )}
                   </Link>

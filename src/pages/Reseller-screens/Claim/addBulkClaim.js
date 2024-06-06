@@ -263,7 +263,7 @@ function ResellerAddBulkClaim() {
                       className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-1 left-2 px-1 -translate-y-4 scale-75 bg-white text-[#5D6E66] "
                     >
                       Email Confirmations
-                      <span className="text-red-500">*</span>
+                      {/* <span className="text-red-500">*</span> */}
                     </label>
                   </div>
                   {formik.errors.email && (
@@ -292,7 +292,7 @@ function ResellerAddBulkClaim() {
                     onFileSelect={(file) => formik.setFieldValue("file", file)}
                   />
                   {formik.touched.file && formik.errors.file && (
-                    <p className="text-red-500 text-[10px] mt-1 font-medium">
+                    <p className="text-red-500 text-sm mt-1 font-medium">
                       {formik.errors.file}
                     </p>
                   )}

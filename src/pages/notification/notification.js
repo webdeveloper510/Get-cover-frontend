@@ -24,29 +24,46 @@ function Notification() {
     setLoading(true);
     getNotificationsData();
   }, []);
-  const updateNotification = async (type) => {
-    console.log(type);
-    updateNotifications(type).then((res) => {
+  const updateNotification = async (id, type) => {
+    console.log(id,type);
+    updateNotifications(id).then((res) => {
       if (res) {
-        type === "dealer"
-          ? navigate("/newDealerList")
-          : navigate("/servicerRequestList");
+        if(type === "dealer") {
+          navigate("/newDealerList")
+        } else if (type === "servicer")
+          navigate("/servicerRequestList")
+          else if (type === "Customer") {
+            navigate("/customerList")
+          }
+            else if (type === "Order") {
+              navigate("/orderList")
+            }
+            else if (type === "claim") {
+              navigate("/claimList")
+            }
+            else if (type === "pricebook") {
+              navigate("/dealerPriceList")
+            }
+          else {
+            navigate("/contractList")
+            
+          }
       }
     });
   };
 
   const getNotificationsData = () => {
     getNotifications().then((response) => {
-      setNotificationList(response.result?.notification);
+      setNotificationList(response.result);
       console.log(response.result?.notification);
       setLoading(false);
     });
   };
   
   return (
-    <div className="py-8 pl-3 relative overflow-x-hidden min-h-screen bg-grayf9">
+    <div className=" relative overflow-x-hidden min-h-screen bg-grayf9">
       <Headbar />
-      <div className="flex">
+      <div className="flex bg-white dropShadow-header py-[22px] px-[18px]">
         <Link
           to={"/"}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
@@ -73,71 +90,13 @@ function Notification() {
         </div>
       </div>
           
-      <div className="mt-2 overflow-y-scroll min-h-[80vh] h-[80vh] pr-2">
-        <div className="flex justify-end mb-3">
-           <Button className='!text-light-black !bg-[#1B1D2126]'>Mark all as read</Button>
+      <div className="mt-2 overflow-y-scroll w-[750px] bg-white p-3 rounded-[20px] min-h-[80vh] h-[80vh] pr-2 mx-auto">
+        <div className="flex justify-between mb-3">
+          <p className="font-semibold text-[25px] leading-9 mb-[3px]">
+            Notifications
+          </p>
+          <Button className='!text-light-black !bg-[#1B1D2126]'>Mark all as read</Button>
         </div>
-
-        
-        {/* Unread Box */}
-        <Grid className="border-2 p-2 rounded-xl mb-3 bg-[#D9D9D9] relative">
-           <div className="col-span-1 self-center">
-            <img src={unRead} alt="read"/>
-           </div>
-           <div className="col-span-9 self-center">
-            <p className="text-light-black text-xl font-semibold">New Registration: Finibus Bonorum et Malorum</p>
-            <p className="text-base text-neutral-grey font-Regular">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. </p>
-           </div>
-           <div className="col-span-2 self-center">
-              <div className="">
-                    <div className="flex mr-10 font-Regular">
-                      <img src={date} className="mr-2" alt="date" />
-                      <p>
-                        <b> Date : </b>{" "}
-                        24 Nov 2023
-                      </p>
-                    </div>
-                    <div className="flex font-Regular">
-                      <img src={time} className="mr-2" alt="Time" />
-                      <p>
-                        <b> Time : </b>{" "}
-                        9:30 AM
-                      </p>
-                    </div>
-              </div>
-              <div className="bg-light-black absolute right-0 top-0 text-[12px] px-[13px] py-[5px] rounded-tr-[12px]">
-                <p className="text-white">New</p>
-              </div>
-           </div>
-        </Grid>
-        {/* read Box */}
-        <Grid className="border-2 p-2 rounded-xl bg-white relative">
-           <div className="col-span-1 self-center">
-            <img src={Read} alt="read"/>
-           </div>
-           <div className="col-span-9 self-center">
-            <p className="text-light-black text-xl font-semibold">New Registration: Finibus Bonorum et Malorum</p>
-            <p className="text-base text-neutral-grey font-Regular">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. </p>
-           </div>
-           <div className="col-span-2 self-center">
-              <div className="">
-                    <div className="flex mr-10 font-Regular">
-                      <img src={date} className="mr-2" alt="date" />
-                      <p>
-                        <b> Date : </b>{" "}
-                        24 Nov 2023
-                      </p>
-                    </div>
-                    <div className="flex font-Regular">
-                      <img src={time} className="mr-2" alt="Time" />
-                      <p>
-                        <b> Time : </b>{" "}
-                        9:30 AM
-                      </p>
-                    </div>
-              </div>
-           </div>
-        </Grid>
 
 
         {loading ? (
@@ -152,50 +111,65 @@ function Notification() {
               notificationList?.map((data, key) => (
                 <div
                   key={key}
-                  className="border border-[#D9D9D9] rounded-[25px] my-3 px-6 py-8 mr-4"
+                  className=""
                   onClick={() =>
-                    updateNotification(data?.notificationData?.flag)
+                    updateNotification(data?._id, data.flag)
                   }
                   style={{ cursor: "pointer" }}
                 >
-                  <p
-                    className={`${
-                      data.notificationData?.status !== true
-                        ? "font-semibold text-lg"
-                        : "font-Regular text-lg"
-                    } `}
-                  >
-                    {data?.notificationData?.title}: {data?.name}
-                  </p>
-                  <p
-                    className={`${
-                      data.notificationData?.status !== true
-                        ? "mb-6 text-base text-neutral-grey font-semibold"
-                        : "mb-6 text-base text-neutral-grey font-Regular"
-                    }  `}
-                  >
-                    {data?.notificationData?.description}
-                  </p>
-                  <div className="flex">
-                    <div className="flex mr-10 font-Regular">
-                      <img src={date} className="mr-2" alt="date" />
-                      <p>
-                        <b> Date : </b>{" "}
-                        {new Date(
-                          data.notificationData?.createdAt
-                        ).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <div className="flex font-Regular">
-                      <img src={time} className="mr-2" alt="Time" />
-                      <p>
-                        <b> Time : </b>{" "}
-                        {new Date(
-                          data.notificationData.createdAt
-                        ).toLocaleTimeString()}
-                      </p>
-                    </div>
-                  </div>
+                  { data?.isRead !== true ?        
+                      <Grid className="border-2 p-2 rounded-xl mb-3 bg-white border-[#a5a5a585] relative">
+                        <div className="col-span-1 self-center">
+                          <img src={unRead} alt="read"/>
+                        </div>
+                        <div className="col-span-11 self-center">
+                          <p className="text-light-black text-base font-semibold">{data?.title}: {data?.flag}</p>
+                          <p className="text-sm text-neutral-grey font-Regular">{data?.description}</p>
+                          <div className="flex justify-end">
+                          <p className="mr-3 flex text-sm">  <img src={date} className="mr-2" alt="date" /> {new Date(
+                                        data?.createdAt
+                                      ).toLocaleDateString()} </p>
+
+                          <p className="flex text-sm"> <img src={time} className="mr-2" alt="Time" /> {new Date(
+                                        data.createdAt
+                                      ).toLocaleTimeString()} </p>
+                          </div>
+                        </div>
+                        
+                      </Grid> 
+                      :   
+                       <Grid className="border-2 p-2 rounded-xl mb-3 bg-white relative">
+                          <div className="col-span-1 self-center">
+                            <img src={Read} alt="read"/>
+                          </div>
+                          <div className="col-span-8 self-center">
+                            <p className="text-light-black text-xl font-semibold">{data?.title}: {data?.name}</p>
+                            <p className="text-base text-neutral-grey font-Regular">{data?.description} </p>
+                          </div>
+                          <div className="col-span-3 self-center">
+                              <div className="">
+                                    <div className="flex mr-10 font-Regular">
+                                      <img src={date} className="mr-2" alt="date" />
+                                      <p>
+                                        <b> Date : </b>{" "}
+                                        {new Date(
+                                          data?.createdAt
+                                        ).toLocaleDateString()}
+                                      </p>
+                                    </div>
+                                    <div className="flex font-Regular">
+                                      <img src={time} className="mr-2" alt="Time" />
+                                      <p>
+                                        <b> Time : </b>{" "}
+                                        {new Date(
+                                          data.createdAt
+                                        ).toLocaleTimeString()}
+                                      </p>
+                                    </div>
+                              </div>
+                          </div>
+                       </Grid>}
+         
                 </div>
               ))
             ) : (

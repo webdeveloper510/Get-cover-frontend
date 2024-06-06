@@ -11,6 +11,7 @@ import edit from "../../../assets/images/edit-text.png";
 import remove from "../../../assets/images/delete.png";
 import mark from "../../../assets/images/pay.png";
 import process from "../../../assets/images/return.png";
+import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import unassign from "../../../assets/images/Unassign.png";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from "../../../common/headBar";
@@ -21,7 +22,7 @@ import DataTable from "react-data-table-component";
 import Primary from "../../../assets/images/SetPrimary.png";
 import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
-import { getOrdersForResellerPortal } from "../../../services/orderServices";
+import { archiveOrders, getOrdersForResellerPortal, markPaid, processOrders } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import PdfGenerator from "../../pdfViewer";
@@ -31,13 +32,26 @@ import * as Yup from "yup";
 function ResellerOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState("");
+  const [markLoader, setMarkLoader] = useState(false);
   const [timer, setTimer] = useState(3);
+  const [orderId, SetOrderId] = useState("");
   const [orderList, setOrderList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [primaryMessage, setPrimaryMessage] = useState("");
+  const [secondaryMessage, setSecondaryMessage] = useState("");
+  const [loadingOrder, setLoadingOrder] = useState(false);
+  const [errorLine, SetErrorLine] = useState(
+    "Order can not be process to the following reasons"
+  );
+  const [errorList, SetErrorList] = useState([]);
+  const [orderType, SetOrderType] = useState("");
+  const [data, setData] = useState(null);
   const dropdownRef = useRef(null);
+  const [processOrderErrors, setProcessOrderErrors] = useState([]);
   const navigate = useNavigate();
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
@@ -47,24 +61,59 @@ function ResellerOrderList() {
     setIsDisapprovedOpen(true);
   };
 
-  const openArchive = () => {
+  const openArchive = (id) => {
+    setMessage("Would you like to Archive it?");
+    SetOrderId(id);
     setIsArchiveOpen(true);
   };
-
+  useEffect(() => {
+    let intervalId;
+    if (isModalOpen1 && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    if (timer === 0) {
+      closeArchive();
+      getOrderList();
+      closeModal1();
+    }
+    return () => clearInterval(intervalId);
+  }, [isModalOpen1, timer]);
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
 
   const openModal1 = () => {
-    setIsModalOpen1(true);
+    closeArchive();
+    console.log(orderId);
+      setLoadingOrder(true);
+        archiveOrders(orderId).then((res) => {
+          setLoadingOrder(false);
+          setPrimaryMessage("Archive Order Successfully");
+          setSecondaryMessage("You have successfully archive the order");
+          setTimer(3);
+          setIsModalOpen1(true);
+        });
+    
   };
 
   const closeArchive = () => {
     setIsArchiveOpen(false);
   };
-  const openModal = () => {
+  const openModal = async (id) => {
+    setData(id);
     setIsModalOpen(true);
-  };
+
+    processOrders(id).then((res) => {
+      SetErrorLine("Order can not be process to the following reasons");
+      SetOrderType("Process");
+      setSelectedAction(null);
+      setProcessOrderErrors(res.result);
+      SetErrorList(res.result);
+      // console.log(res.result);
+  })
+};
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -242,13 +291,13 @@ function ResellerOrderList() {
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
-                    {/* <div
+                    <div
                       className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       <img src={process} className="w-4 h-4 mr-2" /> Process
                       Order
-                    </div> */}
+                    </div>
                     <div className="border-b">
                       <PdfGenerator
                         data={row._id}
@@ -266,7 +315,7 @@ function ResellerOrderList() {
                 ) : (
                   <>
                     <Link
-                      to={`/dealer/orderDetails/${row._id}`}
+                      to={`/reseller/orderDetails/${row._id}`}
                       className="text-left py-1 px-2 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
@@ -290,6 +339,13 @@ function ResellerOrderList() {
 
   return (
     <>
+     {loadingOrder ?  <>
+              <div className="h-[100vh] fixed z-[999999] bg-[#333333c7] backdrop-blur-xl top-0 left-0 w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#fff" />
+                </div>
+              </div>
+     </> :
       <div className="mb-8 ml-3">
         <Headbar />
 
@@ -427,26 +483,45 @@ function ResellerOrderList() {
             )}
           </div>
         </div>
-      </div>
+      </div> }
       <Modal isOpen={isModalOpen} onClose={closeModal}>
+      {orderType == "Process" ? (
+          <Button
+            onClick={() => {
+              navigate(`/reseller/editOrder/${data}`);
+            }}
+            className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+          >
+            <img
+              src={Edit}
+              className="w-full h-full text-black rounded-full p-0"
+            />
+          </Button>
+        ) : null}
+        <Button
+          onClick={closeModal}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
-            <span className="text-light-black"> Order Processed </span>{" "}
-            Successfully
+            <span className="text-light-black">Error</span>{" "}
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
-            Order Processed Successfully
-          </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            Redirecting you on Order List Page {timer} seconds.
+            {errorLine} : <br />
+            <span>{errorList} . </span>
           </p>
         </div>
       </Modal>
 
-      {/* <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
+      <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
         <div className="text-center py-3">
           <img src={unassign} alt="email Image" className="mx-auto my-4" />
           <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
@@ -464,8 +539,8 @@ function ResellerOrderList() {
             <div className="col-span-1"></div>
           </Grid>
         </div>
-      </Modal> */}
-      {/* 
+      </Modal>
+      
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
@@ -479,7 +554,7 @@ function ResellerOrderList() {
             Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>
-      </Modal> */}
+      </Modal>
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button

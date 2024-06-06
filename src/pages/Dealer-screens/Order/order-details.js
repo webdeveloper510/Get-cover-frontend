@@ -211,7 +211,7 @@ function OrderDetails() {
                 </p>
                 <hr className="self-center border-[#999999] w-[70%]" />
               </div>
-              {userDetails?.resellerData?.name == null ? (
+              {userDetails?.resellerData?.name == null || window.location.pathname.includes("/reseller") ? (
                 <></>
               ) : (
                 <>
