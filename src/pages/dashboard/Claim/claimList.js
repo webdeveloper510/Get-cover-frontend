@@ -839,9 +839,7 @@ function ClaimList(props) {
         value: res?._id,
       }));
 
-      console.log(claimList?.result[
-        activeIndex
-      ]?.contracts?.allServicer);
+      console.log(claimList?.result[activeIndex]?.contracts?.allServicer);
       setServicerList(filterServicer);
       if (
         filterServicer.length !== 0 &&
@@ -1308,17 +1306,12 @@ function ClaimList(props) {
                                 />
                                 {userType === "admin" &&
                                   res?.claimStatus?.[0]?.status === "Open" &&
+                                  res.selfServicer &&
                                   !location.pathname.includes(
                                     "customer/claimList"
                                   ) &&
                                   !location.pathname.includes(
-                                    "/reseller/claimList"
-                                  ) &&
-                                  !location.pathname.includes(
                                     "/dealer/claimList"
-                                  ) &&
-                                  !location.pathname.includes(
-                                    "/reseller/customerDetails/"
                                   ) && (
                                     <img
                                       src={Edit}
@@ -1521,7 +1514,8 @@ function ClaimList(props) {
                                             disabled={
                                               claimStatus.status ===
                                                 "Rejected" ||
-                                              claimStatus.status === "Completed" ||
+                                              claimStatus.status ===
+                                                "Completed" ||
                                               location.pathname.includes(
                                                 "/reseller/customerDetails"
                                               )
