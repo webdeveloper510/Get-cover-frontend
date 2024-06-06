@@ -51,18 +51,19 @@ function Notification() {
       }
     });
   };
+  const [activeTab, setActiveTab] = useState('all');
 
   const getNotificationsData = () => {
-    getNotifications().then((response) => {
+    getNotifications({ readFlag: activeTab === 'all' ? true : false }).then((response) => {
       setNotificationList(response.result);
       console.log(response.result?.notification);
       setLoading(false);
     });
   };
-  const [activeTab, setActiveTab] = useState('all');
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+    getNotificationsData();
   };
   return (
     <div className=" relative overflow-x-hidden min-h-screen bg-grayf9">

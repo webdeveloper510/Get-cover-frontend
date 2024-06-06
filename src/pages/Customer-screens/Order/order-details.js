@@ -24,6 +24,7 @@ import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
 import { getOrderDetailCustomer } from "../../../services/orderServices";
 import ContractList from "../../dashboard/Contract/contractList";
+import FileDownloader from "../../termAndCondition";
 
 function CustomerOrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -116,8 +117,8 @@ function CustomerOrderDetails() {
         </div>
 
         <Grid className="!grid-cols-4 mt-5">
-          <div className="col-span-1 max-h-[84vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover h-[100vh]  p-5 rounded-[20px]">
+          <div className="col-span-1 max-h-[80vh] overflow-y-scroll">
+            <div className=" bg-Dealer-details bg-cover h-[80vh]  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -180,6 +181,20 @@ function CustomerOrderDetails() {
                   </p>
                 </div>
               </div>
+
+              {orderList?.fileName == "" ? (
+                    <></>
+                  ) : (
+                    <Button className="!bg-white !text-light-black w-full justify-center mt-[10%] !text-sm border flex cursor-pointer hover:font-semibold">
+                      <span className="self-center">
+                        {" "}
+                        <FileDownloader
+                          data={orderId}
+                          setLoading={setLoading}
+                        />
+                      </span>
+                    </Button>
+                  )}
             </div>
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">

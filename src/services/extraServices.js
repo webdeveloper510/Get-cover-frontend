@@ -19,12 +19,13 @@ const createHeaders = () => {
   }
 };
 
-export const getNotifications = async () => {
+export const getNotifications = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `${url}/user/getAllNotifications
        `,
+       data,
       {
         headers,
       }
