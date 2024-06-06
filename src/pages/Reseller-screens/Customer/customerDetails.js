@@ -6,8 +6,6 @@ import Button from "../../../common/button";
 
 // Media Import
 import BackImage from "../../../assets/images/icons/backArrow.svg";
-import DealerIcons from "../../../assets/images/icons/DealerIcons.svg";
-import DealerList from "../../../assets/images/icons/dealerList.svg";
 import address from "../../../assets/images/Dealer/Address.svg";
 import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
@@ -37,6 +35,7 @@ import * as Yup from "yup";
 import { cityData } from "../../../stateCityJson";
 import {
   addUserToCustomer,
+  checkUserToken,
   getUserListByDealerId,
 } from "../../../services/userServices";
 import RadioButton from "../../../common/radio";
@@ -294,7 +293,25 @@ function ResellerCustomerDetails() {
   };
   useEffect(() => {
     localStorage.setItem("customer", activeTab);
+    checkTokenExpiry();
   }, [activeTab]);
+
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200);
+      if (response.code == 200) {
+        return;
+      } else {
+        navigate(`/`);
+        localStorage.removeItem("userDetails");
+      }
+    } catch (error) {
+      navigate(`/`);
+      localStorage.removeItem("userDetails");
+    } finally {
+    }
+  };
   const tabs = [
     {
       id: "Order",

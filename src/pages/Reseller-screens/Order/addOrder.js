@@ -2484,6 +2484,7 @@ function ResellerAddOrder() {
                 </div>
                 <div className="col-span-12"></div>
               </Grid>
+              {error && <p className="text-red-500">{error}</p>}
             </div>
 
             <Button

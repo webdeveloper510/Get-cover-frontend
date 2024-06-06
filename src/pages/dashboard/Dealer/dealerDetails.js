@@ -52,6 +52,7 @@ import DataTable from "react-data-table-component";
 import RadioButton from "../../../common/radio";
 import {
   addUserByDealerId,
+  checkUserToken,
   getUserListByDealerId,
 } from "../../../services/userServices";
 import Primary from "../../../assets/images/SetPrimary.png";
@@ -372,9 +373,11 @@ function DealerDetails() {
     const file = event.target.files[0];
     const maxSize = 10048576; // 10MB in bytes
     if (file.size > maxSize) {
-      formik.setFieldError("termCondition", "File is too large. Please upload a file smaller than 10MB.");
+      formik.setFieldError(
+        "termCondition",
+        "File is too large. Please upload a file smaller than 10MB."
+      );
       console.log("Selected file:", file);
-      
     } else {
       const formData = new FormData();
       formData.append("file", file);
@@ -386,19 +389,16 @@ function DealerDetails() {
           size: res?.file?.size,
         });
       });
-       if (file != undefined) {
-      setSelectedFile2(file);
-    } else {
-      setSelectedFile2({
-        fileName: "",
-        name: "",
-        size: "",
-      });
+      if (file != undefined) {
+        setSelectedFile2(file);
+      } else {
+        setSelectedFile2({
+          fileName: "",
+          name: "",
+          size: "",
+        });
+      }
     }
-    }
-    
-  
-   
 
     console.log("Selected file:================", file);
   };
@@ -515,6 +515,7 @@ function DealerDetails() {
   };
 
   useEffect(() => {
+    checkTokenExpiry();
     localStorage.setItem("menu", activeTab);
 
     console.log("-------------", createServicerAccountOption);
@@ -545,6 +546,22 @@ function DealerDetails() {
     }
   }, [activeTab, carouselRef, createServicerAccountOption]);
 
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200);
+      if (response.code == 200) {
+        return;
+      } else {
+        navigate(`/`);
+        localStorage.removeItem("userDetails");
+      }
+    } catch (error) {
+      navigate(`/`);
+      localStorage.removeItem("userDetails");
+    } finally {
+    }
+  };
   const columns = [
     {
       name: "Servicer ID",
@@ -1308,11 +1325,11 @@ function DealerDetails() {
                         )}
                       </div>
                     </div>
-                     {formik.errors.termCondition && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.termCondition}
-                            </div>
-                          )}
+                    {formik.errors.termCondition && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.termCondition}
+                      </div>
+                    )}
                     {/* <input
                       type="file"
                       name="term"

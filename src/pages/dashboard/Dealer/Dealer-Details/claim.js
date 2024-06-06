@@ -22,7 +22,6 @@ import model from "../../../../assets/images/icons/ProductModel.svg";
 import serial from "../../../../assets/images/icons/ProductSerial.svg";
 import Money from "../../../../assets/images/icons/money.svg";
 import Manufacturer from "../../../../assets/images/icons/ProductManufacturer.svg";
-import Edit from "../../../../assets/images/icons/editIcon.svg";
 import download from "../../../../assets/images/download.png";
 import disapproved from "../../../../assets/images/Disapproved.png";
 import chat from "../../../../assets/images/icons/chatIcon.svg";
@@ -41,11 +40,6 @@ import {
   addUploadCommentImage,
   editClaimServicerValue,
   editClaimStatus,
-  getClaimList,
-  getClaimListForCustomer,
-  getClaimListForDealer,
-  getClaimListForReseller,
-  getClaimListForServicer,
   getClaimMessages,
   getClaimUnpaid,
   getPaidClaims,
@@ -57,8 +51,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../../pagination";
-import SelectSearch from "../../../../common/selectSearch";
-import Checkbox from "../../../../common/checkbox";
+
 import request from "../../../../assets/images/request.png";
 import { apiUrl } from "../../../../services/authServices";
 
