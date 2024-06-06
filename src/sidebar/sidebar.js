@@ -683,6 +683,12 @@ function SideBar() {
           image: Dropdown2,
           active: SeacondActive,
         },
+        {
+          name: "Archive Order List",
+          url: "/reseller/archiveOrder",
+          image: Dropdown2,
+          active: ForthActive,
+        },
       ],
     },
     {

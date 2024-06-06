@@ -21,7 +21,7 @@ import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getArchiveOrdersForDealerPortal } from "../../../services/dealerServices/orderListServices";
+import { getArchiveOrdersForDealerPortal, getArchiveOrdersForResellerPortal } from "../../../services/dealerServices/orderListServices";
 
 function ArchiveOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -122,10 +122,11 @@ function ArchiveOrderList() {
   const getOrderList = async (data = {}) => {
     closeDisapproved();
     setLoading(true);
-    const result =
-      location.pathname.includes("/dealer/archiveOrder") == true
-        ? await getArchiveOrdersForDealerPortal(data)
-        : await getArchiveOrders(data);
+    const result = location.pathname.includes("/dealer/archiveOrder")
+  ? await getArchiveOrdersForDealerPortal(data)
+  : location.pathname.includes("/reseller/archiveOrder")
+  ? await getArchiveOrdersForResellerPortal(data)
+  : await getArchiveOrders(data);
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);

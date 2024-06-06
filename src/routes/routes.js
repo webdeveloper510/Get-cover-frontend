@@ -96,6 +96,7 @@ import CustomerAddDealerBook from "../pages/Dealer-screens/Price-Book/addDealerB
 import ResellerOrderDetails from "../pages/Reseller-screens/Order/order-details";
 import DealerOrderDetails from "../pages/Dealer-screens/Order/order-details";
 import ClaimList12 from "../pages/Dealer-screens/Claim/claimList";
+import ResellerClaimList from "../pages/Reseller-screens/Claim/claimList";
 // import DealerArchiveOrderList from "../pages/Dealer-screens/Order/order-archive";
 
 const routes = [
@@ -871,6 +872,16 @@ const routes = [
         ),
       },
       {
+        path: "/reseller/archiveOrder",
+        element: (
+          <PrivateRoute
+            element={<ArchiveOrderList />}
+            role={"reseller"}
+            path="/reseller/archiveOrder"
+          />
+        ),
+      },
+      {
         path: "/reseller/addServicer",
         element: (
           <PrivateRoute
@@ -945,7 +956,7 @@ const routes = [
       },
       {
         path: "/reseller/claimList",
-        element: <PrivateRoute element={<ClaimList />} role={"reseller"} />,
+        element: <PrivateRoute element={<ResellerClaimList />} role={"reseller"} />,
       },
       {
         path: "/reseller/addClaim/:username?",
