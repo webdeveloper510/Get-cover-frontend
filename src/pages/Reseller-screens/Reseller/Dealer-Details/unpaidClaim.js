@@ -116,8 +116,8 @@ function ClaimList12(props) {
   const baseUrl = apiUrl();
 
   useEffect(() => {
-    if (location.pathname.includes("/dealer")) {
-      setUserType("dealer");
+    if (location.pathname.includes("/reseller")) {
+      setUserType("reseller");
     } else {
       setUserType("admin"); // Reset userType if condition doesn't match
     }

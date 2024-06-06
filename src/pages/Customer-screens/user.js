@@ -296,8 +296,8 @@ function CustomerUser() {
   const editUser = async (id) => {
     console.log(id);
     const result = await userDetailsById(id);
-    console.log(result.result.status);
-
+    console.log(result.result);
+   
     setMainStatus(result.mainStatus);
     setInitialFormValues({
       id: id,
@@ -319,6 +319,7 @@ function CustomerUser() {
       SetSecondaryText("We have successfully made this user primary");
       toggleFlag();
       openModal();
+      getCustomerDetails();
     }
   };
 
@@ -327,6 +328,13 @@ function CustomerUser() {
       setLoading(true);
       const res = await getCustomerUsersByIdCustomerPortal("", data);
       setUserList(res.result);
+      let local = JSON.parse(localStorage.getItem("userDetails"));
+      // localStorage.removeItem('userDetails')
+      local.userInfo = {
+        lastName: res?.result?.[0]?.lastName,
+        firstName: res?.result?.[0]?.firstName,
+      };
+      localStorage.setItem("userDetails", JSON.stringify(local));
     } catch (error) {
       console.error("Error fetching category list:", error);
     } finally {
@@ -1052,10 +1060,10 @@ function CustomerUser() {
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-            {firstMessage}
+          {primaryText}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-4">
-            {secondMessage} <br />
+            {secondaryText} <br />
             Redirecting Back to User List in {timer} Seconds
           </p>
         </div>

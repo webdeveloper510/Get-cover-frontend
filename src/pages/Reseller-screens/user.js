@@ -323,6 +323,7 @@ function ResellerUser() {
       toggleFlag();
       openModal();
     }
+    getCustomerDetails();
   };
 
   const filterUserDetails = async (data) => {
