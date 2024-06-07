@@ -20,10 +20,6 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   document.title = "Get Cover | Login";
-  // }, []);
-
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,50}$/i;
 
   const formik = useFormik({

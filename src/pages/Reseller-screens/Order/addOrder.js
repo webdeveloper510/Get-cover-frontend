@@ -54,7 +54,7 @@ function ResellerAddOrder() {
   const [servicerData, setServicerData] = useState([]);
   const [customerList, setCustomerList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-  const [resellerList, setResllerList] = useState([]);
+  const [productList, setProductList] = useState([]);
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -1050,41 +1050,51 @@ function ResellerAddOrder() {
         );
       }
       console.log(result.result);
-      setCategoryList(
-        result.result?.priceCategories.map((item) => ({
-          label: item.name,
-          value: item._id,
-        }))
-      );
+
       setTermList(result.result?.terms);
       if (formikStep3.values.productsArray.length !== 0) {
-        console.log(
-          "formikStep3.values.productsArray.length",
-          formikStep3.values.productsArray.length
-        );
-        for (let i = 0; i < index + 1; i++) {
-          console.log(i, index);
-          setProductNameOptions((prevOptions) => {
+        const updateOptions = (stateSetter, data) => {
+          stateSetter((prevOptions) => {
             const newOptions = [...prevOptions];
-            console.log(newOptions);
-
-            newOptions[index] = {
-              data: result.result?.priceBooks.map((item) => ({
-                label: item.name,
-                value: item._id,
-                description: item.description,
-                term: item.term,
-                priceType: item.priceType,
-                quantityPriceDetail: item.quantityPriceDetail,
-                wholesalePrice: item?.retailPrice?.toFixed(2),
-                status: item.status,
-                rangeStart: item?.rangeStart?.toFixed(2),
-                rangeEnd: item?.rangeEnd?.toFixed(2),
-              })),
-            };
+            newOptions[index] = { data };
             return newOptions;
           });
-        }
+        };
+
+        const priceBooksData = result.result?.priceBooks.map((item) => ({
+          label: item.name,
+          value: item._id,
+          description: item.description,
+          term: item.term,
+          priceType: item.priceType,
+          adh: item.adh,
+          quantityPriceDetail: item.quantityPriceDetail,
+          wholesalePrice: item?.retailPrice?.toFixed(2),
+          status: item.status,
+          pName: item.pName,
+          rangeStart: item?.rangeStart?.toFixed(2),
+          rangeEnd: item?.rangeEnd?.toFixed(2),
+        }));
+
+        // setCategoryList(
+        const category = result.result?.priceCategories.map((item) => ({
+          label: item.name,
+          value: item._id,
+        }));
+        // );
+        const termsData = result.result?.terms.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }));
+
+        const productListData = result.result?.productName.map((item) => ({
+          label: item.pName,
+          value: item.pName,
+        }));
+        updateOptions(setCategoryList, category);
+        updateOptions(setProductNameOptions, priceBooksData);
+        updateOptions(setTermList, termsData);
+        updateOptions(setProductList, productListData);
       }
     } catch (error) {
       setLoading3(false);
@@ -1497,7 +1507,7 @@ function ResellerAddOrder() {
                         <Select
                           name={`productsArray[${index}].categoryId`}
                           label="Product Category"
-                          options={categoryList}
+                          options={categoryList[index]?.data}
                           required={true}
                           className="!bg-white"
                           placeholder=""
@@ -1569,7 +1579,7 @@ function ResellerAddOrder() {
                         <Select
                           name={`productsArray[${index}].priceBookId`}
                           label="Product Name"
-                          options={productNameOptions[index]?.data}
+                          options={productList[index]?.data}
                           required={true}
                           className="!bg-white"
                           placeholder=""
@@ -1614,7 +1624,7 @@ function ResellerAddOrder() {
                             formikStep3.values.productsArray[index]
                               .categoryId == ""
                           }
-                          options={termList}
+                          options={termList[index]?.data}
                           value={formikStep3.values.productsArray[index].term}
                           onBlur={formikStep3.handleBlur}
                         />

@@ -115,14 +115,19 @@ function AddClaim() {
 
     if (timer === 0) {
       closeCreate();
-      if (window.location.pathname.includes("/dealer/addClaim")) {
-        navigate("/dealer/claimList");
-      } else if (window.location.pathname.includes("/reseller/addClaim")) {
-        navigate("/reseller/claimList");
-      } else {
-        navigate("/claimList");
+      const path = window.location.pathname;
+      let navigatePath = "/claimList";
+
+      if (path.includes("/dealer/addClaim")) {
+        navigatePath = "/dealer/claimList";
+      } else if (path.includes("/reseller/addClaim")) {
+        navigatePath = "/reseller/claimList";
+      } else if (path.includes("/customer/addClaim")) {
+        navigatePath = "/customer/claimList";
       }
+      navigate(navigatePath);
     }
+
     return () => {
       clearInterval(intervalId);
     };
@@ -408,17 +413,20 @@ function AddClaim() {
                         </div>
                       ) : null}
                     </div>
-                    <div className="col-span-4">
-                      <Input
-                        label="Customer Name"
-                        name="customerName"
-                        placeholder=""
-                        className="!bg-white"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.customerName}
-                      />
-                    </div>
+                    {!location.pathname.includes("/customer/addClaim") && (
+                      <div className="col-span-4">
+                        <Input
+                          label="Customer Name"
+                          name="customerName"
+                          placeholder=""
+                          className="!bg-white"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.customerName}
+                        />
+                      </div>
+                    )}
+
                     <div className="col-span-4">
                       <Input
                         label="Serial Number"
@@ -712,7 +720,8 @@ function AddClaim() {
                         </p>
                       </div>
                     </div>
-                    {window.location.pathname.includes("/reseller/addClaim") || location.pathname.includes("dealer/addClaim") ? null : (
+                    {window.location.pathname.includes("/reseller/addClaim") ||
+                    location.pathname.includes("dealer/addClaim") ? null : (
                       <div className="col-span-3">
                         <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                           <p className="text-sm m-0 p-0">Dealer Name</p>
@@ -722,7 +731,8 @@ function AddClaim() {
                         </div>
                       </div>
                     )}
-                    {window.location.pathname.includes("/reseller/addClaim") || contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? (
+                    {window.location.pathname.includes("/reseller/addClaim") ||
+                    contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? (
                       ""
                     ) : (
                       <div className="col-span-3">
@@ -829,6 +839,9 @@ function AddClaim() {
                             ) ||
                             window.location.pathname.includes(
                               "/reseller/addClaim"
+                            ) ||
+                            window.location.pathname.includes(
+                              "/customer/addClaim"
                             )
                           }
                         />

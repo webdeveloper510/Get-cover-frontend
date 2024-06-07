@@ -989,13 +989,7 @@ const routes = [
       },
       {
         path: "/customer/addClaim",
-        element: (
-          <PrivateRoute
-            element={<CustomerAddClaim />}
-            role={"customer"}
-            path="/customer/addClaim"
-          />
-        ),
+        element: <PrivateRoute element={<AddClaim />} role={"customer"} />,
       },
       {
         path: "/customer/claimList",
