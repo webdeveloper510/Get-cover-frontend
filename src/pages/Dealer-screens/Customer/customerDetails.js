@@ -985,7 +985,10 @@ function CustomerDetails() {
                       id="yes-create-account"
                       label="Yes"
                       value="yes"
-                      disabled={createMainAccount === false}
+                      disabled={
+                        !createMainAccount &&
+                        !customerDetail?.meta?.isAccountCreate
+                      }
                       checked={createAccountOption === "yes"}
                       onChange={handleRadioChange}
                     />
@@ -993,7 +996,10 @@ function CustomerDetails() {
                       id="no-create-account"
                       label="No"
                       value="no"
-                      disabled={createMainAccount === false}
+                      disabled={
+                        !createMainAccount &&
+                        !customerDetail?.meta?.isAccountCreate
+                      }
                       checked={createAccountOption === "no"}
                       onChange={handleRadioChange}
                     />

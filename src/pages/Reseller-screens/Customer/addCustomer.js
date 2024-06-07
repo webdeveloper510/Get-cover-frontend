@@ -38,7 +38,7 @@ function ResellerAddCustomer() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [createAccountOption, setCreateAccountOption] = useState('yes');
+  const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [details, setDetails] = useState([]);
   const navigate = useNavigate();
@@ -47,7 +47,12 @@ function ResellerAddCustomer() {
   const getCustomerDetails = async () => {
     const result = await getUserDetailsByIdResellerPortal();
     setDetails(result.result);
-    setCreateAccountOption(result.result.dealer.userAccount == true ? 'yes' : 'no');
+    setCreateAccountOption(
+      result.result.dealer.userAccount === true &&
+        result.result.dealer?.accountStatus === true
+        ? "yes"
+        : "no"
+    );
   };
   useEffect(() => {
     getCustomerDetails();
@@ -641,7 +646,10 @@ function ResellerAddCustomer() {
                           id="yes"
                           label="Yes"
                           value="yes"
-                          disabled={details.dealer?.userAccount == false}
+                          disabled={
+                            details.dealer?.userAccount == false ||
+                            details.dealer?.accountStatus == false
+                          }
                           checked={createAccountOption === "yes"}
                           onChange={handleRadioChange}
                         />
@@ -649,7 +657,10 @@ function ResellerAddCustomer() {
                           id="no"
                           label="No"
                           value="no"
-                          disabled={details.dealer?.userAccount == false}
+                          disabled={
+                            details.dealer?.userAccount == false ||
+                            details.dealer?.accountStatus == false
+                          }
                           checked={createAccountOption === "no"}
                           onChange={handleRadioChange}
                         />

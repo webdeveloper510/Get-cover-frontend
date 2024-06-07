@@ -38,6 +38,7 @@ function UserList(props) {
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
+  const [dealerStatus, setDealerStatus] = useState(true);
 
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
@@ -57,27 +58,32 @@ function UserList(props) {
   const [loading, setLoading] = useState(false);
 
   const getUserList = async () => {
-    console.log(props.flag);
+    setLoading(true);
     if (props.flag == "customer") {
       const result = await getCustomerUsersById(props.id, {});
       console.log(result.result);
+      setDealerStatus(result.isAccountCreate);
       setUserList(result.result);
     } else if (props.flag == "servicer") {
       const result = await getServicerUsersById(props.id, {});
       console.log(result);
       setServiceStatus(result.servicerStatus);
+      setDealerStatus(result.isAccountCreate);
       setUserList(result.result);
     } else if (props.flag == "reseller") {
       const result = await getResellerUsersById(props.id, {});
       console.log(result);
+      setDealerStatus(result.isAccountCreate);
       // setServiceStatus(result.servicerStatus);
       setUserList(result.data);
     } else {
       const result = await getUserListByDealerId(props.id, {});
       console.log(result.result);
+      setDealerStatus(result.isAccountCreate);
       setServiceStatus(result.dealerStatus);
       setUserList(result.result);
     }
+    setLoading(false);
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -304,13 +310,13 @@ function UserList(props) {
     }
   };
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
   const handleFilterIconClick = () => {
@@ -377,7 +383,7 @@ function UserList(props) {
             } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
-            disabled={row.isPrimary || !servicerStatus}
+            disabled={row.isPrimary || !servicerStatus || !dealerStatus}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"

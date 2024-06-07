@@ -42,7 +42,7 @@ function UserList(props) {
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
-  const [dealerStatus, setDealerStatus] = useState(true);
+  const [dealerStatus, setDealerStatus] = useState(true); 
 
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
