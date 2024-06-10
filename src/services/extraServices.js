@@ -54,12 +54,12 @@ export const getNotificationsCount = async () => {
   }
 };
 
-export const updateNotifications = async (type) => {
+export const updateNotifications = async (id) => {
   const headers = createHeaders();
   console.log(headers);
   try {
     const response = await axios.get(
-      `${url}/user/notificationStatusUpdate/${type}
+      `${url}/user/readNotification/${id}
        `,
       {
         headers,

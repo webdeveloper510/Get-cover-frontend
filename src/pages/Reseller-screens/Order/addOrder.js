@@ -73,6 +73,7 @@ function ResellerAddOrder() {
   const [serviceCoverage, setServiceCoverage] = useState([]);
   const [coverage, setCoverage] = useState([]);
 
+
   useEffect(() => {
     if (orderId || resellerId || customerId) {
       setLoading1(true);
@@ -164,14 +165,11 @@ function ResellerAddOrder() {
 
     if (timer === 0) {
       closeModal();
-      navigate("/reseller/orderList");
-      // if (customerId) {
-      //   navigate(`/dealer/customerDetails/${customerId}`);
-      // } else if (resellerId) {
-      //   navigate(`/dealer/resellerDetails/${resellerId}`);
-      // } else {
-      //   navigate("/dealer/orderList");
-      // }
+      if (customerId) {
+        navigate(`/reseller/customerDetails/${customerId}`);
+      }  else {
+        navigate("/reseller/orderList");
+      }
     }
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
@@ -1096,7 +1094,6 @@ function ResellerAddOrder() {
   };
 
   const BillTo = [
-    { label: "Dealer", value: "Dealer" },
     ...(formik.values.resellerId !== ""
       ? [{ label: "Self", value: "Reseller" }]
       : []),

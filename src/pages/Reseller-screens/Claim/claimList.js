@@ -2024,7 +2024,7 @@ function ResellerClaimList(props) {
         )}
         <div
           className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey bg-white flex ${
-            createServicerAccountOption ? "w-[45%]" : "w-[20%]"
+            createServicerAccountOption ? "w-[45%]" : "w-[16%]"
           }`}
         >
           {tabs.map((tab) => (

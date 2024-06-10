@@ -856,6 +856,12 @@ const routes = [
         ),
       },
       {
+        path: "/reseller/addOrder/:customerId",
+        element: (
+          <PrivateRoute element={<ResellerAddOrder />} role={"reseller"} />
+        ),
+      },
+      {
         path: "/reseller/editOrder/:orderId?",
         element: (
           <PrivateRoute element={<ResellerAddOrder />} role={"reseller"} />

@@ -633,12 +633,12 @@ function ClaimList(props) {
     setSendto(
       [
         {
-          label:
-            !isAdminView && !isResellerPath && !isCustomerPath
-              ? "Admin (To Self)"
-              : "Admin ",
-          value: "Admin",
-        },
+        label:
+          !isAdminView && !isResellerPath && !isCustomerPath
+            ? "Admin (To Self)"
+            : "Admin ",
+        value: "Admin",
+      },
         {
           label:
             isAdminView && !isResellerPath && !isCustomerPath

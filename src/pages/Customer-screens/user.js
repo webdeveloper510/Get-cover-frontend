@@ -106,6 +106,7 @@ function CustomerUser() {
     console.log(result.result);
     setDetails(result.result);
     SetIsprimary(result.loginMember.isPrimary);
+    setServiceStatus(result.loginMember.status)
     setLoading1(false);
   };
   const handleClickOutside = (event) => {

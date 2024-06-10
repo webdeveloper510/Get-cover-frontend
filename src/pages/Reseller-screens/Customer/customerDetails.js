@@ -258,6 +258,11 @@ function ResellerCustomerDetails() {
   const routeToPage = (data) => {
     // console.log(data, id.id);
     switch (data) {
+      case "Order":
+        navigate(
+          `/reseller/addOrder/${customerId}`
+        );
+        break;
       case "Users":
         localStorage.getItem("Users");
         openUserModal();

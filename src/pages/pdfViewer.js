@@ -318,7 +318,7 @@ function PdfGenerator(props, className) {
           </tr>
         </tfoot>
       </table>
-      <table style="width: 70%; border-collapse: collapse; margin-bottom: 20px; margin-top:40px; text-align:left">
+      <table style="width: 80%; border-collapse: collapse; margin-bottom: 20px; margin-top:40px; text-align:left">
       <tbody>
          <tr>
           <th >
@@ -338,10 +338,6 @@ function PdfGenerator(props, className) {
          <tr>
           <th>Account Number:  </th>
           <td><b>12405759</b> (OPERATING ACCT) <br/> <b>12405767 </b> (ESCROW TRUST ACCT) </td>
-         </tr>
-         <tr>
-          <th>Routing number for ACH/ Direct Deposit: </th>
-          <th>122043602</th>
          </tr>
          <tr>
           <th>Routing number wire transfers:  </th>
