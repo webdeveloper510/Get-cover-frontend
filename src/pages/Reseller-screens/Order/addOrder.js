@@ -1183,6 +1183,7 @@ function ResellerAddOrder() {
                         placeholder=""
                         className="!bg-white"
                         required={true}
+                        disabled={order?.billDetail?.billTo == "Dealer"}
                         onChange={handleSelectChange}
                         options={BillTo}
                         value={formik.values.billTo}
