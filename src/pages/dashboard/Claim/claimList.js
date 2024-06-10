@@ -359,14 +359,19 @@ function ClaimList(props) {
   };
 
   const handleAddClaim = () => {
-    if (window.location.pathname.includes("/dealer/claimList")) {
-      navigate("/dealer/addClaim");
-    } else if (window.location.pathname.includes("/reseller/claimList")) {
-      navigate("/reseller/addClaim");
-    } else {
-      navigate("/addClaim");
+    const path = window.location.pathname;
+    let newPath = "/addClaim";
+    if (path.includes("/dealer/claimList")) {
+      newPath = "/dealer/addClaim";
+    } else if (path.includes("/reseller/claimList")) {
+      newPath = "/reseller/addClaim";
+    } else if (path.includes("/customer/claimList")) {
+      newPath = "/customer/addClaim";
     }
+  
+    navigate(newPath);
   };
+  
 
   const getAllClaims = async (page = 1, rowsPerPage, loader) => {
     if (loader) {
