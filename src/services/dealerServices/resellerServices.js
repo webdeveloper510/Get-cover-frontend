@@ -63,3 +63,16 @@ export const getDashboardDetailsforResellerPortal = async () => {
     throw error;
   }
 };
+
+export const getDashboardDetailsforServicerPortal = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/servicerPortal/getDashboardData`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

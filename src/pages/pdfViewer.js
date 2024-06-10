@@ -215,7 +215,7 @@ function PdfGenerator(props, className) {
                 <h4 style="margin: 0; padding: 0;"><b> ${
                   data?.billDetail?.detail?.name
                 } </b></h4>
-                <small style="margin: 0; padding: 0;">Address ${
+                <small style="margin: 0; padding: 0;">Address : ${
                  data?.billDetail?.detail?.address} <br/>
                    
                     </small>

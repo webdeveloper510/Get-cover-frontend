@@ -6,21 +6,37 @@ import BarChart from "../../common/barChart";
 import drop from '../../assets/images/icons/dropwhite.svg'
 import Button from "../../common/button";
 import DateInput from "../../common/dateInput";
+import { getDashboardDetailsforServicerPortal } from "../../services/dealerServices/resellerServices";
+import { RotateLoader } from "react-spinners";
 function ServicerDashboard() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isRangeOpen, setIsRangeOpen] = useState(false);
-  const [item, setItem] = useState({
-    requested_order_ship_date: '2024-01-25', 
-  });
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const [loading, setLoading] = useState(false);
+  const [dashboardDetail, setDashboardDetails] = useState({});
+  const dashboardDetails = async () => {
+    try {
+      setLoading(true);
+      const result = await getDashboardDetailsforServicerPortal();
+      console.log(result);
+      setDashboardDetails(result.result);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
   };
-const toggleRange = () => {
-  setIsRangeOpen(!isRangeOpen);
-};
+
   useEffect(() => {
-    console.log("yes");
-  });
+    dashboardDetails();
+  }, []);
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   return (
     <>
       <div className="mb-8 ml-3">
@@ -30,22 +46,41 @@ const toggleRange = () => {
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Dashboard</p>
           </div>
         </div>
+        {loading ? (
+                    <div className=" h-[400px] w-full flex py-5">
+                        <div className="self-center mx-auto">
+                        <RotateLoader color="#333" />
+                        </div>
+                    </div>
+                    ) : (
         <div className="mt-5">
           <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12">
             <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
-              <p className="text-2xl font-bold">6,359</p>
+              <p className="text-2xl font-bold">{dashboardDetail?.claimData?.numberOfClaims}</p>
               <p className="text-neutral-grey text-sm">Total Number of Claims</p>
             </div>
             <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
-              <p className="text-2xl font-bold">$96,359.00</p>
+              <p className="text-2xl font-bold">${dashboardDetail?.claimData?.valueClaim === undefined
+                                ? parseInt(0).toLocaleString(2)
+                                : formatOrderValue(
+                                    dashboardDetail?.claimData?.valueClaim ?? parseInt(0)
+                                )}</p>
               <p className="text-neutral-grey text-sm">Total Value of Claims</p>
             </div>
             <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
-              <p className="text-2xl font-bold">$65,859.00</p>
+              <p className="text-2xl font-bold">${dashboardDetail?.claimData?.paidClaimValue === undefined
+                                ? parseInt(0).toLocaleString(2)
+                                : formatOrderValue(
+                                    dashboardDetail?.claimData?.paidClaimValue ?? parseInt(0)
+                                )}</p>
               <p className="text-neutral-grey text-sm">Total Value of Paid Claims</p>
             </div>
             <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
-              <p className="text-2xl font-bold">$35,859.00</p>
+              <p className="text-2xl font-bold">${dashboardDetail?.claimData?.unPaidClaimValue === undefined
+                                ? parseInt(0).toLocaleString(2)
+                                : formatOrderValue(
+                                    dashboardDetail?.claimData?.unPaidClaimValue ?? parseInt(0)
+                                )}</p>
               <p className="text-neutral-grey text-sm">Total Value of Unpaid Claims</p>
             </div>
           </Grid>
@@ -133,6 +168,7 @@ const toggleRange = () => {
             </div>
           </Grid> */}
         </div>
+                    )}
       </div>
     </>
   );

@@ -26,6 +26,9 @@ import {
 import Select from "../../common/select";
 import terms from "../../assets/images/Dealer/Address.svg";
 import dealer from "../../assets/images/Dealer/Name.svg";
+import make from "../../assets/images/star.png";
+import edit from "../../assets/images/edit-text.png";
+import delete1 from "../../assets/images/delete.png";
 import { getCustomerUsersById, getSevicerDetailPortal, getUsersSevicerPortal } from "../../services/customerServices";
 import { useMyContext } from "../../context/context";
 import AddItem from "../../assets/images/icons/addItem.svg";
@@ -39,6 +42,7 @@ function ServicerUser() {
   const [userList, setUserList] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
   const [isModalOpen, SetIsModalOpen] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
@@ -58,6 +62,29 @@ function ServicerUser() {
     status: true,
     id: "",
   });
+  const closeUserModal = () => {
+    setIsUserModalOpen(false);
+    setInitialFormValues({
+      lastName: "",
+      firstName: "",
+      phoneNumber: "",
+      position: "",
+      status: true,
+      id: "",
+    });
+  };
+
+  const openUserModal = () => {
+    setInitialFormValues({
+      lastName: "",
+      firstName: "",
+      phoneNumber: "",
+      position: "",
+      status: true,
+      id: "",
+    });
+    setIsUserModalOpen(true);
+  };
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
   
@@ -69,8 +96,9 @@ function ServicerUser() {
 
   const getUserDetail = async () => {
     const result = await getSevicerDetailPortal();
-    console.log(result.message);
+    console.log(result.message.isPrimary);
     setUserDetails(result.message);
+    SetIsprimary(result.message.isPrimary)
   };
 
   const handleClickOutside = (event) => {
@@ -239,7 +267,44 @@ function ServicerUser() {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
   };
+  const formik1 = useFormik({
+    initialValues: initialFormValues,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .required("Required")
+        .transform((originalValue) => originalValue.trim())
+        .max(30, "Must be exactly 30 characters"),
+      lastName: Yup.string()
+        .required("Required")
+        .transform((originalValue) => originalValue.trim())
+        .max(30, "Must be exactly 30 characters"),
+      phoneNumber: Yup.string()
+        .required("Required")
+        .min(10, "Must be at least 10 characters")
+        .max(10, "Must be exactly 10 characters")
+        .matches(/^[0-9]+$/, "Must contain only digits"),
+      status: Yup.boolean().required("Required"),
+    }),
+    onSubmit: async (values) => {
+      setLoading(true);
+      const result = await updateUserDetailsById(values);
+      console.log(result);
+      if (result.code == 200) {
+        setLoading(false);
 
+        SetPrimaryText("User Edited Successfully ");
+        SetSecondaryText("user edited successfully ");
+      
+        openModal();
+        setTimer(3);
+        filterUserDetails();
+      } else {
+        setLoading(false);
+      }
+      closeModal2();
+    },
+  });
   const deleteUser = async () => {
     const result = await deleteUserByUserId(deleteId);
     console.log(result);
@@ -276,6 +341,8 @@ function ServicerUser() {
       SetSecondaryText("We have successfully made this user primary");
       toggleFlag();
       openModal();
+      getUserList();
+      getUserDetail();
     }
   };
 
@@ -373,7 +440,7 @@ function ServicerUser() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div
+            {isprimary && <div
               onClick={() =>
                 setSelectedAction(
                   selectedAction === row.email ? null : row.email
@@ -385,37 +452,41 @@ function ServicerUser() {
                 className="cursor-pointer	w-[35px]"
                 alt="Active Icon"
               />
-            </div>
+            </div>}
+            
             {selectedAction === row.email && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${
-                  !row.isPrimary ? "w-[120px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  !row?.isPrimary ? "w-[140px]" : "w-[80px]"
+                } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
-                {!row.isPrimary && row.status && (
+                {!row?.isPrimary && row.status && (
                   <div
-                    className="text-center py-2 cursor-pointer border-b"
+                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
                     onClick={() => makeUserPrimary(row)}
                   >
-                    Make Primary
+                    <img src={make} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center"> Make Primary </span>
                   </div>
                 )}
 
                 <div
-                  className="text-center py-2 cursor-pointer border-b"
+                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
                   onClick={() => editUser(row._id)}
                 >
-                  Edit
+                  <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                  <span className="self-center">Edit </span>
                 </div>
-                {!row.isPrimary && (
+                {!row?.isPrimary && (
                   <div
-                    className="text-center text-red-500 py-2 cursor-pointer"
+                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                     onClick={() => openModal1(row._id)}
                   >
-                    Delete
+                    <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center">Delete</span>
                   </div>
                 )}
               </div>
@@ -603,9 +674,10 @@ function ServicerUser() {
           </div>
         ) : (
           <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
-            <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-              <Button onClick={() => openModal2()}> + Add Member</Button>
-            </div>
+            {isprimary &&  <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+              <Button onClick={() => openUserModal()}> + Add Member</Button>
+            </div>}
+           
             <p className="text-xl font-semibold mb-3">Users List</p>
             <Grid className="!p-[2px] !pt-[14px] !pb-0">
               <div className="col-span-5 self-center"></div>
@@ -767,7 +839,7 @@ function ServicerUser() {
       </Modal>
 
       {/* Modal Edit Popop */}
-      <Modal isOpen={isModalOpen2} onClose={closeModal2}>
+      <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
         <div className=" py-3">
           <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
             Add New User
@@ -911,6 +983,147 @@ function ServicerUser() {
                     // onChange={handleRadioChange}
                   />
                 </p>
+              </div>
+            </Grid>
+            <Grid className="!grid-cols-5 my-5  px-8">
+              <div className="col-span-2">
+                <Button
+                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={() => closeUserModal()}
+                >
+                  Cancel
+                </Button>
+              </div>
+
+              <div className="col-span-3">
+                <Button type="submit" className="w-full">
+                  Submit
+                </Button>
+              </div>
+            </Grid>
+          </form>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isModalOpen2} onClose={closeModal2}>
+        <div className=" py-3">
+          <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            Edit User
+          </p>
+          <form className="mt-8" onSubmit={formik1.handleSubmit}>
+            <Grid className="px-8">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="firstName"
+                  label="First Name"
+                  required={true}
+                  className="!bg-white"
+                  placeholder=""
+                  maxLength={"30"}
+                  value={formik1.values.firstName}
+                  onBlur={formik1.handleBlur}
+                  onChange={formik1.handleChange}
+                  error={formik1.touched.firstName && formik1.errors.firstName}
+                />
+                {formik1.touched.firstName && formik1.errors.firstName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik1.errors.firstName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="lastName"
+                  label="Last Name"
+                  required={true}
+                  placeholder=""
+                  className="!bg-white"
+                  maxLength={"30"}
+                  value={formik1.values.lastName}
+                  onBlur={formik1.handleBlur}
+                  onChange={formik1.handleChange}
+                  error={formik1.touched.lastName && formik1.errors.lastName}
+                />
+                {formik1.touched.lastName && formik1.errors.lastName && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik1.errors.lastName}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="position"
+                  label="Position"
+                  className="!bg-white"
+                  placeholder=""
+                  maxLength={"30"}
+                  value={formik1.values.position}
+                  onBlur={formik1.handleBlur}
+                  onChange={formik1.handleChange}
+                  error={formik1.touched.position && formik1.errors.position}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="tel"
+                  name="phoneNumber"
+                  label="Phone #"
+                  required={true}
+                  className="!bg-white"
+                  placeholder=""
+                  value={formik1.values.phoneNumber}
+                  onChange={(e) => {
+                    const sanitizedValue = e.target.value.replace(
+                      /[^0-9]/g,
+                      ""
+                    );
+                    console.log(sanitizedValue);
+                    formik1.handleChange({
+                      target: {
+                        name: "phoneNumber",
+                        value: sanitizedValue,
+                      },
+                    });
+                  }}
+                  onBlur={formik1.handleBlur}
+                  onWheelCapture={(e) => {
+                    e.preventDefault();
+                  }}
+                  minLength={"10"}
+                  maxLength={"10"}
+                  error={
+                    formik1.touched.phoneNumber && formik1.errors.phoneNumber
+                  }
+                />
+                {(formik1.touched.phoneNumber || formik1.submitCount > 0) &&
+                  formik1.errors.phoneNumber && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik1.errors.phoneNumber}
+                    </div>
+                  )}
+              </div>
+              <div className="col-span-6">
+                <Select
+                  label="Status"
+                  required={true}
+                  name="status"
+                  placeholder=""
+                  onChange={handleSelectChange}
+                  disabled={isprimary}
+                  className="!bg-white"
+                  options={status}
+                  value={formik1.values.status}
+                  onBlur={formik1.handleBlur}
+                  error={formik1.touched.status && formik1.errors.status}
+                />
+                {formik1.touched.status && formik1.errors.status && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {formik1.errors.status}
+                  </div>
+                )}
               </div>
             </Grid>
             <Grid className="!grid-cols-5 my-5  px-8">

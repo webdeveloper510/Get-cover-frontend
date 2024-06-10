@@ -179,7 +179,7 @@ export const getArchiveOrdersForResellerPortal = async (data) => {
   console.log(headers);
   try {
     const response = await axios.post(
-      `${url}/resellerPortal/getDealerArchievedOrders`,
+      `${url}/resellerPortal/getArchieveOrder`,
       data,
       {
         headers,
