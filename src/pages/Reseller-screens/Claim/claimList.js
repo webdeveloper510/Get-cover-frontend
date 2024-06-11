@@ -97,7 +97,7 @@ function ResellerClaimList(props) {
   const [serviceType, setServiceType] = useState([]);
   const [serviceType1, setServiceType1] = useState([
     { label: "Parts", value: "Parts" },
-    { label: "Labour", value: "Labour" },
+    { label: "Labor ", value: "Labour" },
     { label: "Shipping", value: "Shipping" },
   ]);
 
@@ -531,20 +531,20 @@ function ResellerClaimList(props) {
         case "Labour":
           return shipping
             ? [
-                { label: "Labour", value: "Labour" },
+                { label: "Labor ", value: "Labour" },
                 { label: "Shipping", value: "Shipping" },
               ]
-            : [{ label: "Labour", value: "Labour" }];
+            : [{ label: "Labor ", value: "Labour" }];
         default:
           return shipping
             ? [
                 { label: "Parts", value: "Parts" },
-                { label: "Labour", value: "Labour" },
+                { label: "Labor ", value: "Labour" },
                 { label: "Shipping", value: "Shipping" },
               ]
             : [
                 { label: "Parts", value: "Parts" },
-                { label: "Labour", value: "Labour" },
+                { label: "Labor ", value: "Labour" },
               ];
       }
     };

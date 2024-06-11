@@ -799,8 +799,8 @@ function DealerDetails() {
 
   const serviceCoverage = [
     { label: "Parts", value: "Parts" },
-    { label: "Labour", value: "Labour" },
-    { label: "Parts & Labour", value: "Parts & Labour" },
+    { label: "Labor ", value: "Labour" },
+    { label: "Parts & Labor ", value: "Parts & Labour" },
   ];
   return (
     <>

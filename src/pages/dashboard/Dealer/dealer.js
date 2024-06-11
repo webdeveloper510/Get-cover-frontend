@@ -424,8 +424,8 @@ function Dealer() {
 
   const serviceCoverage = [
     { label: "Parts", value: "Parts" },
-    { label: "Labour", value: "Labour" },
-    { label: "Parts & Labour", value: "Parts & Labour" },
+    { label: "Labor ", value: "Labour" },
+    { label: "Parts & Labor ", value: "Parts & Labour" },
   ];
   const handleSelectChange1 = (name, value) => {
     formik.setFieldValue(name, value);

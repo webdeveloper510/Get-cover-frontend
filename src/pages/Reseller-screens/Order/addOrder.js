@@ -1011,12 +1011,12 @@ function ResellerAddOrder() {
       case "Parts & Labour":
         setServiceCoverage([
           { label: "Parts", value: "Parts" },
-          { label: "Labour", value: "Labour" },
-          { label: "Parts & Labour", value: "Parts & Labour" },
+          { label: "Labor ", value: "Labour" },
+          { label: "Parts & Labor ", value: "Parts & Labour" },
         ]);
         break;
       case "Labour":
-        setServiceCoverage([{ label: "Labour", value: "Labour" }]);
+        setServiceCoverage([{ label: "Labor ", value: "Labour" }]);
         break;
       case "Parts":
         setServiceCoverage([{ label: "Parts", value: "Parts" }]);

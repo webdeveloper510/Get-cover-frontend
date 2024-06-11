@@ -32,7 +32,7 @@ import upload from "../../../../assets/images/icons/upload.svg";
 import Select from "../../../../common/select";
 import Cross from "../../../../assets/images/Cross.png";
 import Headbar from "../../../../common/headBar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Modal from "../../../../common/model";
 import CollapsibleDiv from "../../../../common/collapsibleDiv";
 import {
@@ -61,6 +61,7 @@ import SelectSearch from "../../../../common/selectSearch";
 import Checkbox from "../../../../common/checkbox";
 import request from "../../../../assets/images/request.png";
 import { apiUrl } from "../../../../services/authServices";
+import { checkUserToken } from "../../../../services/userServices";
 
 function ClaimList12(props) {
   const location = useLocation();
@@ -114,7 +115,7 @@ function ClaimList12(props) {
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const baseUrl = apiUrl();
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (location.pathname.includes("/dealer")) {
       setUserType("dealer");
@@ -131,7 +132,31 @@ function ClaimList12(props) {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+  useEffect(() => {
+    checkTokenExpiry();
+  }, []);
 
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200);
+      if (response.code == 200) {
+        // setIsLoggedIn(true);
+        // fetchUserDetails();
+      } else {
+        // setIsLoggedIn(false);
+        localStorage.removeItem("userDetails");
+        navigate(`/`);
+      }
+    } catch (error) {
+      console.error("Error validating token:", error);
+      // setIsLoggedIn(false);
+      navigate(`/`);
+      localStorage.removeItem("userDetails");
+    } finally {
+      // setIsLoading(false);
+    }
+  };
   useEffect(() => {
     scrollToBottom();
   }, [messageList]); // Assuming messageList is the dependency that triggers data loading
@@ -463,13 +488,13 @@ const downloadImage = (file) => {
           ];
         case "Labour":
           return [
-            { label: "Labour", value: "Labour" },
+            { label: "Labor ", value: "Labour" },
             { label: "Shipping", value: "Shipping" },
           ];
         default:
           return [
             { label: "Parts", value: "Parts" },
-            { label: "Labour", value: "Labour" },
+            { label: "Labor ", value: "Labour" },
             { label: "Shipping", value: "Shipping" },
           ];
       }

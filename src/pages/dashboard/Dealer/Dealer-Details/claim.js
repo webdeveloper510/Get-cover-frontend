@@ -31,7 +31,7 @@ import upload from "../../../../assets/images/icons/upload.svg";
 import Select from "../../../../common/select";
 import Cross from "../../../../assets/images/Cross.png";
 import Headbar from "../../../../common/headBar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Modal from "../../../../common/model";
 import CollapsibleDiv from "../../../../common/collapsibleDiv";
 import {
@@ -54,6 +54,7 @@ import CustomPagination from "../../../pagination";
 
 import request from "../../../../assets/images/request.png";
 import { apiUrl } from "../../../../services/authServices";
+import { checkUserToken } from "../../../../services/userServices";
 
 function ClaimList(props) {
   const location = useLocation();
@@ -175,7 +176,7 @@ const downloadImage = (file) => {
       clearInterval(intervalId);
     };
   }, [isAttachmentsOpen,isSuccessOpen, timer]);
-
+  const navigate = useNavigate();
   const handleSelectChange2 = (selectedValue, value) => {
     formik1.setFieldValue(selectedValue, value);
     console.log(selectedValue, value);
@@ -245,6 +246,32 @@ const downloadImage = (file) => {
         default:
           updateAndCallAPI(setClaimType);
       }
+    }
+  };
+  useEffect(() => {
+    checkTokenExpiry();
+  }, []);
+
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200);
+      if (response.code == 200) {
+        // setIsLoggedIn(true);
+        // getNotificationsData();
+        // fetchUserDetails();
+      } else {
+        // setIsLoggedIn(false);
+        localStorage.removeItem("userDetails");
+        navigate(`/`);
+      }
+    } catch (error) {
+      console.error("Error validating token:", error);
+      // setIsLoggedIn(false);
+      navigate(`/`);
+      localStorage.removeItem("userDetails");
+    } finally {
+      // setIsLoading(false);
     }
   };
 
@@ -454,13 +481,13 @@ const downloadImage = (file) => {
           ];
         case "Labour":
           return [
-            { label: "Labour", value: "Labour" },
+            { label: "Labor ", value: "Labour" },
             { label: "Shipping", value: "Shipping" },
           ];
         default:
           return [
             { label: "Parts", value: "Parts" },
-            { label: "Labour", value: "Labour" },
+            { label: "Labor ", value: "Labour" },
             { label: "Shipping", value: "Shipping" },
           ];
       }
@@ -1051,30 +1078,6 @@ const downloadImage = (file) => {
                             {...formik1.getFieldProps("claimId")}
                           />
                         </div>
-                        {/* <div className="col-span-4 self-center">
-                          <SelectSearch
-                            name="claimStatus"
-                            label=""
-                            options={Claimstatus}
-                            OptionName="Claim Status"
-                            className="!text-[14px] !bg-White-Smoke"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                            onChange={handleSelectChange2}
-                            value={formik1.values.claimStatus}
-                          />
-                        </div> */}
-                        {/* <div className="col-span-3 self-center">
-                          <SelectSearch
-                            name="repairStatus"
-                            className="!text-[14px] !bg-White-Smoke"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                            label=""
-                            OptionName="Repair Status"
-                            options={repairValue}
-                            onChange={handleSelectChange2}
-                            value={formik1.values.repairStatus}
-                          />
-                        </div> */}
                       </Grid>
                     </div>
                     <div className="col-span-4 self-center flex justify-center">
@@ -1116,12 +1119,12 @@ const downloadImage = (file) => {
             <>
             {props.activeTab == "Unpaid Claims" && (<>
               {!isCheckBox &&  <div className="text-right mt-8">
-                      <Button
-                          className="mx-3 !text-[14px] !py-[4px]"
-                          onClick={() => setIsCheckbox(true)}
-                        >
+                <Button
+                    className="mx-3 !text-[14px] !py-[4px]"
+                    onClick={() => setIsCheckbox(true)}
+                    >
                           Pay Now
-                        </Button>
+              </Button>
             </div>}
              </> ) }
             </>
@@ -1171,7 +1174,6 @@ const downloadImage = (file) => {
                  {claimList?.result &&
                    claimList?.result?.length !== 0 &&
                    claimList?.result?.map((res, index) => {
-                     // console.log(res);
                      return (
                        <CollapsibleDiv
                          index={index}
@@ -1180,7 +1182,6 @@ const downloadImage = (file) => {
                          setActiveIndex={setActiveIndex}
                          title={
                            <>
-                             {" "}
                              <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
                                <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
                                  <p className="font-semibold leading-5 text-lg">
@@ -1309,7 +1310,7 @@ const downloadImage = (file) => {
                                    </p>
                                  </div>
                                </div>
-                             </Grid>{" "}
+                             </Grid>
                            </>
                          }
                        >
@@ -1366,83 +1367,114 @@ const downloadImage = (file) => {
                              <Grid className="">
                                <div className="col-span-4 py-4 pl-1 ">
                                  <div className="bg-Eclipse py-2 px-2">
-                                   <p className="text-light-green mb-3 text-[11px] font-Regular ">
-                                     Customer Name :{" "}
-                                     <span className="font-semibold text-white">
-                                       {" "}
-                                       {
-                                         res?.contracts?.orders?.customer
-                                           ?.username
-                                       }{" "}
-                                     </span>
-                                   </p>
-                                   <p className="text-light-green text-[11px] mb-3 font-Regular">
-                                     Claim Cost :{" "}
-                                     <span className="font-semibold text-white ml-3">
-                                       {" "}
-                                       ${calculateTotalCost(
-                                         res.repairParts
-                                       )}{" "}
-                                     </span>
-                                   </p>
-                                   <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                     {" "}
-                                     <span className="self-center mr-4">
-                                       Servicer Name :{" "}
-                                     </span>
-                                     {userType != "dealer" ? (
-                                       <Select
-                                         name="servicer"
-                                         label=""
-                                         value={servicer}
-                                         disabled={
-                                           claimStatus.status == "Rejected" ||
-                                           claimStatus.status == "Completed"
-                                         }
-                                         onChange={handleSelectChange}
-                                         white
-                                         className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                         classBox="w-[55%]"
-                                         options={servicerList}
-                                       />
-                                     ) : (
-                                       <>{res?.servicerData?.name}</>
-                                     )}
-                                   </p>
- 
-                                   {userType == "admin" && (
-                                     <>
-                                       <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                         <span className="self-center mr-8">
-                                           Claim Type :
-                                         </span>
-                                         <Select
-                                           name="claimType"
-                                           label=""
-                                           value={claimType.bdAdh}
-                                           onChange={handleSelectChange}
-                                           white
-                                           options={claim}
-                                           className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                           classBox="w-[55%]"
-                                         />
-                                       </p>
-                                       <p className="text-light-green mb-2 text-[11px] font-Regular flex self-center">
-                                         <span className="self-center  mr-3">
-                                           Damage Code :
-                                         </span>
-                                         <Select
-                                           name="claimType"
-                                           label=""
-                                           white
-                                           options={state}
-                                           className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                           classBox="w-[55%]"
-                                         />
-                                       </p>
-                                     </>
+                                    <p className="text-light-green mb-3 text-[11px] font-Regular ">
+                                      Customer Name :{" "}
+                                      <span className="font-semibold text-white">
+                                        {" "}
+                                        {
+                                          res?.contracts?.orders?.customer
+                                            ?.username
+                                        }{" "}
+                                      </span>
+                                    </p>
+                                    <p className="text-light-green text-[11px] mb-3 font-Regular">
+                                      Claim Cost :{" "}
+                                      <span className="font-semibold text-white ml-3">
+                                        {" "}
+                                        ${calculateTotalCost(
+                                          res.repairParts
+                                        )}{" "}
+                                      </span>
+                                    </p>
+                                    <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                      {" "}
+                                      <span className="self-center mr-4">
+                                        Servicer Name :{" "}
+                                      </span>
+                                      {userType != "dealer" ? (
+                                        <Select
+                                          name="servicer"
+                                          label=""
+                                          value={servicer}
+                                          disabled={
+                                            claimStatus.status == "Rejected" ||
+                                            claimStatus.status == "Completed"
+                                          }
+                                          onChange={handleSelectChange}
+                                          white
+                                          className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[55%]"
+                                          options={servicerList}
+                                        />
+                                      ) : (
+                                        <>{res?.servicerData?.name}</>
+                                      )}
+                                    </p>
+                                    <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                      <span className="self-center mr-8">
+                                        {" "}
+                                        Claim Type :
+                                      </span>
+                                      <Select
+                                        name="claimType"
+                                        label=""
+                                        value={claimType}
+                                        onChange={handleSelectChange}
+                                        white
+                                        disabled={
+                                          claimStatus.status === "Rejected" ||
+                                          claimStatus.status === "Completed"
+                                        }
+                                        options={claim}
+                                        OptionName="Claim Type"
+                                        className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                        classBox="w-[55%]"
+                                      />
+                                    </p>
+                                    <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                      <span className="self-center w-[75px]  mr-[1rem]">
+                                        Shipment :
+                                      </span>
+                                      
+                                          {res?.trackingType == "" ? <></> : (
+                                            <>
+                                            <div className="flex w-[65%] justify-between">
+                                              {res?.trackingType == "ups" && (
+                                                <a
+                                                  className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                  href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`}
+                                                  target="_blank"
+                                                >
+                                                  UPS Tracker
+                                                </a>
+                                              )}
+
+                                              {res?.trackingType == "usps" && (
+                                                <a
+                                                  className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                  href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
+                                                  target="_blank"
+                                                >
+                                                  USPS Tracker
+                                                </a>
+                                              )}
+
+                                              {res?.trackingType == "fedx" && (
+                                                <a
+                                                  className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                  href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
+                                                  target="_blank"
+                                                >
+                                                  FedX Tracker
+                                                </a>
+                                              )}
+                                              
+                                            </div>
+                                   </>
                                    )}
-                                 </div>
+                                   </p>
+                                   
+                                </div>
                                </div>
                                <div className="col-span-4 pt-4">
                                  <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">

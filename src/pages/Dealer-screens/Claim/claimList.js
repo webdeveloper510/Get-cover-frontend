@@ -65,7 +65,7 @@ import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 import ClaimActive from "../../../assets/images/Dealer/Claim-active.svg";
 import Claim from "../../../assets/images/Dealer/Claim.svg";
 import ClaimList12 from "../Reseller/Dealer-Details/claim12";
-import { UserDetailAccount } from "../../../services/userServices";
+import { UserDetailAccount, checkUserToken } from "../../../services/userServices";
 
 function ClaimList(props) {
   // console.log(props);
@@ -96,7 +96,7 @@ function ClaimList(props) {
   const [serviceType, setServiceType] = useState([]);
   const [serviceType1, setServiceType1] = useState([
     { label: "Parts", value: "Parts" },
-    { label: "Labour", value: "Labour" },
+    { label: "Labor ", value: "Labour" },
     { label: "Shipping", value: "Shipping" },
   ]);
 
@@ -374,7 +374,31 @@ function ClaimList(props) {
       navigate("/addClaim");
     }
   };
+  useEffect(() => {
+    checkTokenExpiry();
+  }, []);
 
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200);
+      if (response.code == 200) {
+        // setIsLoggedIn(true);
+        // fetchUserDetails();
+      } else {
+        // setIsLoggedIn(false);
+        localStorage.removeItem("userDetails");
+        navigate(`/`);
+      }
+    } catch (error) {
+      console.error("Error validating token:", error);
+      // setIsLoggedIn(false);
+      navigate(`/`);
+      localStorage.removeItem("userDetails");
+    } finally {
+      // setIsLoading(false);
+    }
+  };
   const getAllClaims = async (page = 1, rowsPerPage) => {
     setLoaderType(true);
     setPageValue(page);
@@ -546,20 +570,20 @@ function ClaimList(props) {
         case "Labour":
           return shipping
             ? [
-                { label: "Labour", value: "Labour" },
+                { label: "Labor ", value: "Labour" },
                 { label: "Shipping", value: "Shipping" },
               ]
-            : [{ label: "Labour", value: "Labour" }];
+            : [{ label: "Labor ", value: "Labour" }];
         default:
           return shipping
             ? [
                 { label: "Parts", value: "Parts" },
-                { label: "Labour", value: "Labour" },
+                { label: "Labor ", value: "Labour" },
                 { label: "Shipping", value: "Shipping" },
               ]
             : [
                 { label: "Parts", value: "Parts" },
-                { label: "Labour", value: "Labour" },
+                { label: "Labor ", value: "Labour" },
               ];
       }
     };

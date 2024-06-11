@@ -389,8 +389,8 @@ function AddOrder() {
       // Add the same service coverage options for edit
       serviceCoverage = [
         { label: "Parts", value: "Parts" },
-        { label: "Labour", value: "Labour" },
-        { label: "Parts & Labour", value: "Parts & Labour" },
+        { label: "Labor ", value: "Labour" },
+        { label: "Parts & Labor ", value: "Parts & Labour" },
       ];
     } else {
       switch (result?.result?.coverageType) {
@@ -416,12 +416,12 @@ function AddOrder() {
         case "Parts & Labour":
           serviceCoverage = [
             { label: "Parts", value: "Parts" },
-            { label: "Labour", value: "Labour" },
-            { label: "Parts & Labour", value: "Parts & Labour" },
+            { label: "Labor ", value: "Labour" },
+            { label: "Parts & Labor ", value: "Parts & Labour" },
           ];
           break;
         case "Labour":
-          serviceCoverage = [{ label: "Labour", value: "Labour" }];
+          serviceCoverage = [{ label: "Labor ", value: "Labour" }];
           break;
         case "Parts":
           serviceCoverage = [{ label: "Parts", value: "Parts" }];

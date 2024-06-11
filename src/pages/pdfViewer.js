@@ -91,9 +91,7 @@ function PdfGenerator(props, className) {
                     <td style="text-align: left; width: 50%;">
                         <img src=${logo} style="margin-bottom: 20px; width:200px"/>
                         <h1 style="margin: 0; padding: 0; font-size:20px"><b>Get Cover </b></h1>
-                        <p style="margin: 0; padding: 0;">13th Street <br/>
-                        47 W 13th St, New York,<br/>
-                        NY 10011, USA</p>
+                        <p style="margin: 0; padding: 0;">9701 Wilshire Blvd <br/> | Suite 930 | Beverly Hills,<br/> CA 90212 </p>
                     </td>
                     <td style=" width: 50%;">
                         <table style="width: 100%; border-collapse: collapse;">
@@ -189,6 +187,9 @@ function PdfGenerator(props, className) {
                   data?.customerName?.username
                 } </b></h4>
                 <small style="margin: 0; padding: 0;">Address: ${
+                      data?.customerUserData?.firstName
+                    } ${data?.customerUserData?.lastName} <br/>
+                     ${
                   data?.customerName?.street
                 }, ${data?.customerName?.city} ,${data?.customerName?.state} , ${
                         data?.customerName?.zip
@@ -337,7 +338,7 @@ function PdfGenerator(props, className) {
          </tr>
          <tr>
           <th>Account Number:  </th>
-          <td><b>12405759</b> (OPERATING ACCT) <br/> <b>12405767 </b> (ESCROW TRUST ACCT) </td>
+          <td><b>12405759</b> (OPERATING ACCT) </td>
          </tr>
          <tr>
           <th>Routing number wire transfers:  </th>

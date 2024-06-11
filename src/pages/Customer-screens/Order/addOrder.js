@@ -956,8 +956,8 @@ function CustomerAddOrder() {
 
   const serviceCoverage = [
     { label: "Parts", value: "Parts" },
-    { label: "Labour", value: "Labour" },
-    { label: "Parts & Labour", value: "Parts & Labour" },
+    { label: "labor", value: "Labour" },
+    { label: "Parts & labor", value: "Parts & Labour" },
   ];
 
   const getCategoryList = async (value, data, index) => {

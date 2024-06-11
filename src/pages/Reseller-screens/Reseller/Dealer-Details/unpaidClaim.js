@@ -463,13 +463,13 @@ const downloadImage = (file) => {
           ];
         case "Labour":
           return [
-            { label: "Labour", value: "Labour" },
+            { label: "Labor ", value: "Labour" },
             { label: "Shipping", value: "Shipping" },
           ];
         default:
           return [
             { label: "Parts", value: "Parts" },
-            { label: "Labour", value: "Labour" },
+            { label: "Labor ", value: "Labour" },
             { label: "Shipping", value: "Shipping" },
           ];
       }
