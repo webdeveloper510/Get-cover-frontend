@@ -25,6 +25,7 @@ import PdfMake from "../../pdfMakeOrder";
 import { getOrderDetailCustomer } from "../../../services/orderServices";
 import ContractList from "../../dashboard/Contract/contractList";
 import FileDownloader from "../../termAndCondition";
+import CustomerOrderSummary from "./OrderDetails/orderSummary";
 
 function CustomerOrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -56,6 +57,13 @@ function CustomerOrderDetails() {
   }, [orderId]);
 
   const tabs = [
+    {
+      id: "Order Summary",
+      label: "Order Summary",
+      icons: orderSummary,
+      Activeicons: orderActive,
+      content: <CustomerOrderSummary data={orderList?.productsArray} shown={orderList?.coverageType === "Breakdown"} />,
+    },
     {
       id: "Contracts",
       label: "Contracts",
@@ -201,7 +209,7 @@ function CustomerOrderDetails() {
             <Grid className="">
               <div className="col-span-4">
                 <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
-                  <Grid className="!grid-cols-1 !gap-1">
+                  <Grid className="!grid-cols-2 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button

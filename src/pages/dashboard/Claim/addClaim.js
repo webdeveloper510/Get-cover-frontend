@@ -461,6 +461,7 @@ function AddClaim() {
                         value={formik.values.venderOrder}
                       />
                     </div>
+                    {location.pathname.includes("/customer/addClaim") && <div className="col-span-4"></div>}
 
                     <div
                       className={`col-span-4 self-end justify-end flex ${

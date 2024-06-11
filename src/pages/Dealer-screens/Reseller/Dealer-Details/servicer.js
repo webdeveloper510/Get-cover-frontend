@@ -276,12 +276,12 @@ function ServicerList(props) {
           },
           {
             name: "# of Claims",
-            selector: (row) => 0,
+            selector: (row) => row.claimNumber ,
             sortable: true,
           },
           {
             name: "Total Claims Value",
-            selector: (row) => "$0.00",
+            selector: (row) => "$" + row.claimValue,
             sortable: true,
           },
 

@@ -92,7 +92,16 @@ function DealerServicerList() {
       getServicerList(values);
     },
   });
-
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
@@ -124,13 +133,15 @@ function DealerServicerList() {
     },
     {
       name: "# of Claims",
-      selector: (row) => row.claimNumber,
+      selector: (row) => row?.claimNumber?.noOfOrders,
       sortable: true,
       minWidth: "150px",
     },
     {
       name: "Total Claims Value",
-      selector: (row) => `$${row.claimValue}`,
+      selector: (row) => `$${row?.claimValue?.totalAmount === undefined
+          ? parseInt(0).toFixed(2)
+          : formatOrderValue(row?.claimValue?.totalAmount ?? parseInt(0))}`,
       sortable: true,
       minWidth: "180px",
     },

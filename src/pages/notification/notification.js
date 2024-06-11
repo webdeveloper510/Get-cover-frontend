@@ -54,6 +54,7 @@ function Notification() {
   const [activeTab, setActiveTab] = useState('all');
 
   const getNotificationsData = () => {
+    setLoading(true);
     getNotifications({ readFlag: activeTab === 'all' ? true : false }).then((response) => {
       setNotificationList(response.result);
       console.log(response.result?.notification);
@@ -121,7 +122,7 @@ function Notification() {
 
 
         {loading ? (
-          <div className=" fixed top-0 h-screen bg-[#cfcfcf8f] left-0 w-full flex py-5">
+          <div className="h-[500px] bg-[#fff] left-0 w-full flex py-5">
             <div className="self-center mx-auto">
               <RotateLoader color="#333" />
             </div>
