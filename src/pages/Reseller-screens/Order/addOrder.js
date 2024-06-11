@@ -1575,14 +1575,14 @@ function ResellerAddOrder() {
                       </div>
                       <div className="col-span-6">
                         <Select
-                          name={`productsArray[${index}].priceBookId`}
+                          name={`productsArray[${index}].pName`}
                           label="Product Name"
                           options={productList[index]?.data}
                           required={true}
                           className="!bg-white"
                           placeholder=""
                           value={
-                            formikStep3.values.productsArray[index].priceBookId
+                            formikStep3.values.productsArray[index].pName
                           }
                           disabled={
                             formikStep3.values.productsArray[index]
@@ -1596,18 +1596,18 @@ function ResellerAddOrder() {
                             formikStep3.values.productsArray[index] &&
                             formikStep3.values.productsArray &&
                             formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray[index].priceBookId
+                            formikStep3.values.productsArray[index].pName
                           }
                         />
                         {formikStep3.touched.productsArray &&
                           formikStep3.touched.productsArray[index] &&
                           formikStep3.touched.productsArray[index]
-                            .priceBookId && (
+                            .pName && (
                             <div className="text-red-500 text-sm pl-2 pt-2">
                               {formikStep3.errors.productsArray &&
                                 formikStep3.errors.productsArray[index] &&
                                 formikStep3.errors.productsArray[index]
-                                  .priceBookId}
+                                  .pName}
                             </div>
                           )}
                       </div>
@@ -2255,26 +2255,28 @@ function ResellerAddOrder() {
                           Product Details
                         </p>
                         <div className="bg-grayf9 border-Light-Grey border rounded-xl ">
-                          <Grid className="border-b px-4">
-                            <div className="col-span-3 py-4 border-r">
+                          <Grid className="border-b ">
+                            <div className="col-span-4 py-4 border-r pl-4">
                               <p className="text-[12px]">Product Category</p>
                               <p className="font-bold text-sm">
                                 {categoryName[index]}
                               </p>
                             </div>
-                            <div className="col-span-3 py-4 border-r">
-                              <p className="text-[12px]">Product Name</p>
-                              <p className="font-bold text-sm">
-                                {priceBookName[index]}
-                              </p>
-                            </div>
-                            <div className="col-span-3 py-4 border-r">
+                            <div className="col-span-4 py-4 border-r">
                               <p className="text-[12px]">Product SKU</p>
                               <p className="font-bold text-sm">
                                 {priceBookName[index]}
                               </p>
                             </div>
-                            <div className="col-span-3 py-4">
+                            <div className="col-span-4 py-4 pr-4">
+                              <p className="text-[12px]">Product Name</p>
+                              <p className="font-bold text-sm">
+                                {priceBookName[index]}
+                              </p>
+                            </div>
+                            </Grid>
+                            <Grid className="border-b ">
+                            <div className="col-span-12 py-4 px-4">
                               <p className="text-[12px]">Product Description</p>
                               <p className="font-bold text-sm">
                                 {data.description}
