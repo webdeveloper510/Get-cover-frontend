@@ -281,7 +281,11 @@ function ResellerCustomerDetails() {
     setCustomerDetail(result.result);
     setCreateAccount(result.result.meta.isAccountCreate);
     setCreateMainAccount(result.result.userAccount);
-    setCreateAccountOption(result.result.userAccount ? "yes" : "no");
+    if (result.result.userAccount && result.result.meta.isAccountCreate) {
+      setCreateAccountOption("yes");
+    } else {
+      setCreateAccountOption("no");
+    }
 
     console.log(result.result);
     setInitialFormValues({
@@ -816,7 +820,9 @@ function ResellerCustomerDetails() {
                       id="yes-create-account"
                       label="Yes"
                       value="yes"
-                      disabled={createMainAccount == false}
+                      disabled={
+                        createMainAccount == false || createAccount == false
+                      }
                       checked={createAccountOption === "yes"}
                       onChange={handleRadioChange}
                     />
@@ -824,7 +830,9 @@ function ResellerCustomerDetails() {
                       id="no-create-account"
                       label="No"
                       value="no"
-                      disabled={createMainAccount == false}
+                      disabled={
+                        createMainAccount == false || createAccount == false
+                      }
                       checked={createAccountOption === "no"}
                       onChange={handleRadioChange}
                     />
