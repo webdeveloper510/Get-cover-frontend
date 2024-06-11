@@ -186,7 +186,7 @@ function CompanyPriceBook() {
       maxWidth: "80px",
     },
     {
-      name: "Price Type",
+      name: (<div>Price <br/>Type </div>),
       selector: (row) => row.priceType,
       sortable: true,
       minWidth: "auto",
@@ -200,7 +200,7 @@ function CompanyPriceBook() {
       maxWidth: "300px",
     },
     {
-      name: "Product SKU",
+      name: (<div>Product <br/> SKU</div>),
       selector: (row) => row.name,
       sortable: true,
     },

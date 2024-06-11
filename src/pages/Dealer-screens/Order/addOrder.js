@@ -1131,7 +1131,9 @@ function DealerAddOrder() {
     }
     formikStep2.setFieldValue(name, value);
   };
-
+  const handleInputClickResetStep1 = () => {
+    formik.resetForm();
+  };
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
     console.log(name, value, "onchange------------------->>");
@@ -1329,9 +1331,18 @@ function DealerAddOrder() {
         ) : (
           <form onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
-              <p className="text-2xl font-bold mb-4">Order Details</p>
+              
               <Grid>
                 <div className="col-span-8">
+                <div className="flex justify-between w-[66%]">
+                <p className="text-2xl font-bold mb-4">Order Details</p>
+                    <Button
+                      className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                      onClick={handleInputClickResetStep1}
+                    >
+                      Reset
+                    </Button>
+                  </div>
                   <Grid>
                     <div className="col-span-6">
                       <SelectBoxWIthSerach

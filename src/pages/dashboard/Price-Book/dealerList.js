@@ -203,7 +203,10 @@ function DealerPriceList() {
       });
     }
   };
-
+  const splitLettersWithBreaks = (name) => {
+    if (!name) return '';
+    return name.split('').join('<br>');
+  };
   const columns = [
     {
       name: "ID",
@@ -213,13 +216,28 @@ function DealerPriceList() {
       maxWidth: "70px",
     },
     {
-      name: "Name",
+      name: (
+        <div>
+          Dealer
+          <br />
+          Name
+        </div>
+      ),
       selector: (row) => row.dealer[0]?.name,
       sortable: true,
       minWidth: "100px",
+      
+      style: {
+        whiteSpace: 'pre-wrap',
+        textAlign: 'center'
+      }
     },
     {
-      name: "Product SKU",
+      name: ( <div>
+              Product
+              <br />
+              SKU
+            </div>),
       selector: (row) => row.priceBooks[0]?.name,
       sortable: true,
       minWidth: "150px",
@@ -237,18 +255,18 @@ function DealerPriceList() {
       minWidth: "90px",
     },
     {
-      name: "Wholesale Cost",
-      selector: (row) => `$${ row?.wholesalePrice === undefined
-      ? parseInt(0).toLocaleString(2)
-      : formatOrderValue(row?.wholesalePrice ?? parseInt(0))} ` ,
+      name: (<div>Wholesale <br/> Cost </div>),
+      selector: (row) => `$${row?.wholesalePrice === undefined
+        ? parseInt(0).toLocaleString(2)
+        : formatOrderValue(row?.wholesalePrice ?? parseInt(0))} `,
       sortable: true,
       minWidth: "160px",
     },
     {
-      name: "Retail Cost",
-      selector: (row) => `$${ row?.retailPrice === undefined
+      name: (<div>Retail<br/>Cost</div>) ,
+      selector: (row) => `$${row?.retailPrice === undefined
         ? parseInt(0).toLocaleString(2)
-        : formatOrderValue(row?.retailPrice ?? parseInt(0))} ` ,
+        : formatOrderValue(row?.retailPrice ?? parseInt(0))} `,
       sortable: true,
       minWidth: "120px",
     },
@@ -259,9 +277,7 @@ function DealerPriceList() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"} absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
@@ -293,7 +309,7 @@ function DealerPriceList() {
             >
               <img
                 src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
+                className="cursor-pointer w-[35px]"
                 alt="Active Icon"
               />
             </div>
@@ -307,14 +323,14 @@ function DealerPriceList() {
                 <div
                   onClick={() => editScreen(row)}
                   className="text-left cursor-pointer border-b flex hover:font-semibold py-1 px-2"
-                  >
-                   <img src={edit} className="w-4 h-4 mr-2"/> Edit
+                >
+                  <img src={edit} className="w-4 h-4 mr-2" /> Edit
                 </div>
                 <div
                   onClick={() => openView(row._id)}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                  >
-                   <img src={view} className="w-4 h-4 mr-2"/> View
+                >
+                  <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
               </div>
             )}
@@ -323,6 +339,7 @@ function DealerPriceList() {
       },
     },
   ];
+  
 
   const [isViewOpen, setIsViewOpen] = useState(false);
 
