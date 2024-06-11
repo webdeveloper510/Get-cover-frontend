@@ -1112,8 +1112,39 @@ function ResellerAddOrder() {
     { label: "Custom", value: "Custom" },
   ];
 
-  const handleInputClickReset = () => {
-    formikStep3.resetForm();
+  const handleInputClickReset = (index) => {
+    const updatedProductsArray = formikStep3.values.productsArray.map(
+      (product, i) => {
+        if (i === index) {
+          setFileValues((prevFileValues) => {
+            const newArray = [...prevFileValues];
+            newArray[index] = null;
+            console.log(newArray);
+            return newArray;
+          });
+          const newProduct = { ...product };
+          Object.keys(newProduct).forEach((key) => {
+            if (key === "unitPrice" || key === "price") {
+              newProduct[key] = 0; // Resetting to 0
+            } else if (Array.isArray(newProduct[key])) {
+              newProduct[key] = [];
+            } else if (
+              typeof newProduct[key] === "object" &&
+              newProduct[key] !== null
+            ) {
+              newProduct[key] = {};
+            } else {
+              newProduct[key] = "";
+            }
+          });
+          return newProduct;
+        }
+
+        return product;
+      }
+    );
+
+    formikStep3.setFieldValue("productsArray", updatedProductsArray);
   };
 
   const renderStep1 = () => {
@@ -1480,7 +1511,9 @@ function ResellerAddOrder() {
                   <p className="text-2xl font-bold mb-4">Add Product</p>
                   <Button
                     className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
-                    onClick={handleInputClickReset}
+                    onClick={() => {
+                      handleInputClickReset(index);
+                    }}
                   >
                     Reset
                   </Button>
