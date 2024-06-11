@@ -490,9 +490,9 @@ function AddClaim() {
                           <thead className="bg-grayf9">
                             <tr className=" border-b-[1px]">
                               <th className="font-semibold">Contract ID</th>
-                              <th className="font-semibold !py-3">
+                              {!location.pathname.includes("/customer/addClaim") && <th className="font-semibold !py-3">
                                 Customer Name
-                              </th>
+                              </th>}
                               <th className="font-semibold">Serial #</th>
                               <th className="font-semibold">Order #</th>
                               <th className="font-semibold">Dealer P.O. #</th>
@@ -507,7 +507,7 @@ function AddClaim() {
                                   className="text-[13px] text-[#626662] font-[400] border-b-[1px]"
                                 >
                                   <td className="py-3">{res.unique_key}</td>
-                                  <td>{res.order.customers.username}</td>
+                                  {!location.pathname.includes("/customer/addClaim") && <td>{res.order.customers.username}</td> }
                                   <td>{res.serial}</td>
                                   <td>{res.order.unique_key}</td>
                                   <td>{res.order.venderOrder}</td>
