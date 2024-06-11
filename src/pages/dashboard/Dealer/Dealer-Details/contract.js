@@ -295,6 +295,19 @@ function ContractList(props) {
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Eligibility
                                   </p>
+                                  {res?.eligibilty === false ?
+                                  <>
+                                   
+                                   <CommonTooltip place="left" id={`tooltip-${index}`} content={res?.reason}>
+                                   <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                     
+                                     Not Eligible 
+                                   </p>
+                                   </CommonTooltip> 
+                                  </> : 
+                                   <p className="text-[#333333] text-base font-semibold">
+                                  Eligible
+                               </p> }
                                   <p className="text-[#333333] text-base font-semibold">
                                     {res.eligibilty}
                                   </p>
@@ -416,9 +429,22 @@ function ContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Eligibility
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      {singleContract?.eligibilty === false ?
+                                  <>
+                                   
+                                   <CommonTooltip place="left" id={`tooltip`} content={singleContract?.reason}>
+                                   <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                     
+                                     Not Eligible 
+                                   </p>
+                                   </CommonTooltip> 
+                                  </> : 
+                                   <p className="text-[#333333] text-base font-semibold">
+                                  Eligible
+                               </p> }
+                      {/* <p className="text-[#333333] text-base font-semibold">
                         {singleContract?.eligibilty}
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
