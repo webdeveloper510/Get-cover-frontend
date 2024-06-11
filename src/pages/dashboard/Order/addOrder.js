@@ -1596,9 +1596,41 @@ function AddOrder() {
       setLoading(false);
     }
   };
-  const handleInputClickReset = () => {
-    formikStep3.resetForm();
+  const handleInputClickReset = (index) => {
+    const updatedProductsArray = formikStep3.values.productsArray.map(
+      (product, i) => {
+        if (i === index) {
+          setFileValues((prevFileValues) => {
+            const newArray = [...prevFileValues];
+            newArray[index] = null;
+            console.log(newArray);
+            return newArray;
+          });
+          const newProduct = { ...product };
+          Object.keys(newProduct).forEach((key) => {
+            if (key === "unitPrice" || key === "price") {
+              newProduct[key] = 0; // Resetting to 0
+            } else if (Array.isArray(newProduct[key])) {
+              newProduct[key] = [];
+            } else if (
+              typeof newProduct[key] === "object" &&
+              newProduct[key] !== null
+            ) {
+              newProduct[key] = {};
+            } else {
+              newProduct[key] = "";
+            }
+          });
+          return newProduct;
+        }
+
+        return product;
+      }
+    );
+
+    formikStep3.setFieldValue("productsArray", updatedProductsArray);
   };
+
   const calculatePendingAmount = (paidAmount) => {
     const totalAmount = calculateTotalAmount(formikStep3.values.productsArray);
 
@@ -1960,7 +1992,7 @@ function AddOrder() {
       </>
     );
   };
-  
+
   const renderStep3 = () => {
     return (
       <>
@@ -1978,9 +2010,15 @@ function AddOrder() {
                 className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative"
               >
                 <div className="flex justify-between w-[66%]">
-
-                <p className="text-2xl font-bold mb-4">Add Product</p> 
-                <Button className='text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]' onClick={handleInputClickReset}  >Reset</Button>
+                  <p className="text-2xl font-bold mb-4">Add Product</p>
+                  <Button
+                    className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                    onClick={() => {
+                      handleInputClickReset(index);
+                    }}
+                  >
+                    Reset
+                  </Button>
                 </div>
                 <div className="absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 ">
                   {index === 0 ? (
@@ -3112,7 +3150,7 @@ function AddOrder() {
                     />
                   </p>
                 </div>
-              </Grid> 
+              </Grid>
               {error && <p className="text-red-500">{error}</p>}
             </div>
 
@@ -3232,7 +3270,6 @@ function AddOrder() {
           >
             Add Product
           </p>
-          
         </div>
         <hr
           className={`w-[150px]  ${
