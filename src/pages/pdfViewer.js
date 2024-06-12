@@ -338,10 +338,10 @@ function PdfGenerator(props, className) {
          </tr>
          <tr>
           <th>Account Number:  </th>
-          <td><b>12405759</b> (OPERATING ACCT) </td>
+          <td><b>12405759</b></td>
          </tr>
          <tr>
-          <th>Routing number wire transfers:  </th>
+          <th>Routing Numbers :  </th>
           <th>122043602</th>
          </tr>
       </tbody>

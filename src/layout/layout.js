@@ -35,7 +35,7 @@ function Layout() {
         Location.pathname !== "/dealer/customerDetails/" + customerId &&
         Location.pathname !== "/reseller/customerDetails/" + customerId &&
         Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
-        Location.pathname !== "/notifications" &&
+        // Location.pathname !== "/notifications" &&  
         Location.pathname !== "/reseller/orderDetails/" + orderId &&
         Location.pathname !== "/customer/orderDetails/" + orderId &&
         Location.pathname !== "/dealer/orderDetails/" + orderId
@@ -51,7 +51,7 @@ function Layout() {
       Location.pathname !== "/dealer/customerDetails/" + customerId &&
       Location.pathname !== "/reseller/customerDetails/" + customerId &&
       Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
-      Location.pathname !== "/notifications" &&
+      // Location.pathname !== "/notifications" &&
       Location.pathname !== "/reseller/orderDetails/" + orderId &&
       Location.pathname !== "/customer/orderDetails/" + orderId &&
       Location.pathname !== "/dealer/orderDetails/" + orderId ? (
@@ -73,7 +73,7 @@ function Layout() {
           Location.pathname !== "/orderDetails/" + orderId &&
           Location.pathname !== "/reseller/customerDetails/" + customerId &&
           Location.pathname !== "/resellerDetails/" + resellerId &&
-          Location.pathname !== "/notifications" &&
+          // Location.pathname !== "/notifications" &&
           Location.pathname !== "/reseller/orderDetails/"+ orderId &&
           Location.pathname !== "/customer/orderDetails/" + orderId &&
           Location.pathname !== "/dealer/orderDetails/" + orderId

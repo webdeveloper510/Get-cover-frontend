@@ -55,7 +55,7 @@ function Notification() {
 
   const getNotificationsData = () => {
     setLoading(true);
-    getNotifications({ readFlag: activeTab === 'all' ? true : false }).then((response) => {
+    getNotifications({ readFlag: activeTab === 'unread' ? false : '' }).then((response) => {
       setNotificationList(response.result);
       console.log(response.result?.notification);
       setLoading(false);
@@ -69,34 +69,9 @@ function Notification() {
   return (
     <div className=" relative overflow-x-hidden min-h-screen bg-grayf9">
       <Headbar />
-      <div className="flex bg-white drop-shadow-header py-[22px] px-[18px]">
-        <Link
-          to={"/"}
-          className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
-        >
-          <img
-            src={BackImage}
-            className="m-auto my-auto self-center bg-white"
-            alt="BackImage"
-          />
-        </Link>
-        <div className="pl-3">
-          <p className="font-semibold text-[36px] leading-9 mb-[3px]">
-            Notifications
-          </p>
-          <ul className="flex self-center">
-            {/* <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Servicer </Link> /{" "}
-            </li> */}
-            <li className="text-sm text-neutral-grey font-semibold pt-[1px]">
-              {" "}
-              Notifications{" "}
-            </li>
-          </ul>
-        </div>
-      </div>
+      
           
-      <div className="mt-2 overflow-y-scroll w-[750px] bg-white p-3  rounded-[20px] min-h-[80vh] h-[80vh] pr-2 mx-auto">
+      <div className="mt-[8%] overflow-y-scroll bg-white p-3  rounded-[20px] min-h-[80vh] h-[80vh] pr-2 mx-auto">
         <div className="flex justify-between mb-3">
           <div>
           <p className="font-semibold text-[25px] leading-9 mb-[3px]">
@@ -142,13 +117,14 @@ function Notification() {
                 >
                   { data?.isRead !== true ?        
                       <Grid className="border-2 p-2 rounded-xl mb-3 bg-white border-[#a5a5a585] relative">
-                        <div className="col-span-1 self-center">
-                          <img src={unRead} alt="read"/>
-                        </div>
-                        <div className="col-span-11 self-center">
+                     
+                        <div className="col-span-9 self-center flex w-full justify-space">
                           <p className="text-light-black text-base font-semibold">{data?.title}: {data?.flag}</p>
                           <p className="text-sm text-neutral-grey font-Regular">{data?.description}</p>
-                          <div className="flex justify-end">
+                        
+                        </div>
+                        <div className="col-span-3">
+                        <div className="flex justify-end">
                           <p className="mr-3 flex text-sm">  <img src={date} className="mr-2" alt="date" /> {new Date(
                                         data?.createdAt
                                       ).toLocaleDateString()} </p>

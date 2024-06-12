@@ -482,6 +482,7 @@ function CustomerDetails() {
                     Address
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
+                    {customerDetail?.meta?.city} {", "}
                     {customerDetail?.meta?.street} {", "}
                     {customerDetail?.meta?.state}
                     {", "}

@@ -76,6 +76,7 @@ function ClaimList(props) {
   const [role, setRole] = useState(null);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [isComplete, setIsComplete] = useState(false);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -608,6 +609,11 @@ function ClaimList(props) {
   const closeAttachments = () => {
     setIsAttachmentsOpen(false);
   };
+
+  const closeComplete = () => {
+    setIsComplete(false);
+  };
+
 
   const openView = (claim) => {
     let typeValue = "Admin";
@@ -2613,6 +2619,24 @@ function ClaimList(props) {
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Claim Page {timer} seconds.
           </p>
+        </div>
+      </Modal>
+      <Modal isOpen={isComplete} onClose={closeComplete}>
+        <div className="py-1 text-center">
+          <img src={AddDealer} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+            Are you 
+            <span className="text-light-black"> sure ? </span>
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            You want to complete this  Claim ?
+          </p>
+          <div className="mt-3">
+                <Button type="submit">Yes</Button>
+                <Button className="!bg-white !text-black" onClick={closeComplete}>
+                  No
+                </Button>
+              </div>
         </div>
       </Modal>
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>

@@ -1221,6 +1221,12 @@ function AddOrder() {
       }));
     };
 
+    setNumberOfOrders((prevFileValues) => {
+      const newArray = [...prevFileValues];
+      newArray.splice(productIndex, 1);
+      return newArray;
+    });
+
     const updateProductFields = (selectedValue) => {
       const data = productNameOptions[productIndex]?.data.find(
         (value) => value.value === selectedValue
@@ -1271,21 +1277,14 @@ function AddOrder() {
         );
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].term`,
-          data.term
+          data?.term
         );
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].pName`,
-          data.pName
+          data?.pName
         );
       }
     };
-
-    setNumberOfOrders((prevFileValues) => {
-      const newArray = [...prevFileValues];
-      newArray.splice(productIndex, 1);
-      return newArray;
-    });
-
     if (name.includes("categoryId")) {
       clearProductFields();
       formikStep3.setFieldValue(
