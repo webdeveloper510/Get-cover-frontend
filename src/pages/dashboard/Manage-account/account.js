@@ -98,6 +98,8 @@ function Account() {
 
   useEffect(() => {
     fetchUserDetails();
+  }, []);
+  useEffect(() => {
     fetchUserMembers();
   }, []);
 

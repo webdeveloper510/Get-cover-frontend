@@ -1343,7 +1343,7 @@ function ClaimList(props) {
                                   ) &&
                                   !location.pathname.includes(
                                     "/dealer/claimList"
-                                  ) && (
+                                  ) &&  (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"

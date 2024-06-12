@@ -766,7 +766,9 @@ function CustomerUser() {
                 </div>
                 <div className="col-span-2"></div>
               </Grid>
-              <Grid>
+              {details?.resellerId1 !== null && 
+              <>
+               <Grid>
                 <div className="col-span-2 text-left">
                   <p className="text-base text-white font-semibold my-3">
                     {" "}
@@ -816,6 +818,10 @@ function CustomerUser() {
                 </div>
                 <div className="col-span-2"></div>
               </Grid>
+              </>
+             }
+              
+              
               <Grid className="mt-5">
                 <div className="col-span-2 text-left">
                   <p className="text-base text-white font-semibold">

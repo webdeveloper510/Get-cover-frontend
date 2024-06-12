@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.f02271ab.css",
-    "main.js": "/static/js/main.50d29943.js",
+    "main.css": "/static/css/main.9bc755e6.css",
+    "main.js": "/static/js/main.dd334e40.js",
     "static/js/703.9ed85247.chunk.js": "/static/js/703.9ed85247.chunk.js",
     "static/js/198.e1b2539e.chunk.js": "/static/js/198.e1b2539e.chunk.js",
     "static/js/787.c7997b7d.chunk.js": "/static/js/787.c7997b7d.chunk.js",
@@ -149,13 +149,12 @@
     "static/media/claim.svg": "/static/media/claim.d33290289acdfbd6b60fb692d3bb8b66.svg",
     "static/media/activeClaim.svg": "/static/media/activeClaim.5a21fe81cf725bcec84c95e491333fb7.svg",
     "static/media/check.svg": "/static/media/check.65286e30fe24e4c18e3d195deececc33.svg",
-    "static/media/Readed.svg": "/static/media/Readed.a5778d7952e25c51853363205c57aede.svg",
-    "static/media/Unread.svg": "/static/media/Unread.76d78f00955941481992b12034b54563.svg",
     "static/media/dealerList.svg": "/static/media/dealerList.391fc60b5d83c0cf5b19f0a55d628a54.svg",
     "static/media/CrossButton.svg": "/static/media/CrossButton.ecb5e863761211c69de3b1ad24d75099.svg",
     "static/media/arrows.svg": "/static/media/arrows.ff0e614a7927de42b322390bb99375fd.svg",
     "static/media/Wholesale.svg": "/static/media/Wholesale.5a2a1e4184c9838587bff3b30ce033b6.svg",
     "static/media/activeWholesale.svg": "/static/media/activeWholesale.3ad3c050d01d484473b59592172bef28.svg",
+    "static/media/Msg-Black.svg": "/static/media/Msg-Black.e93f98a5c807d65b3b7ba7b647e97dae.svg",
     "static/media/contract-head.svg": "/static/media/contract-head.5a404bc839b148f298e6.svg",
     "static/media/250active.svg": "/static/media/250active.99f7fa59bf1c5b91b773839fa5bfa6a7.svg",
     "static/media/dropdown-2.svg": "/static/media/dropdown-2.71d351b296493450905ecbdcd7d1f720.svg",
@@ -171,14 +170,16 @@
     "static/media/Drop.svg": "/static/media/Drop.4e59ffc91c1abe493e11059f0fb734b3.svg",
     "static/media/DropActive.svg": "/static/media/DropActive.1afa81418e97447d9eaee9da4bb3a255.svg",
     "static/media/dropwhite.svg": "/static/media/dropwhite.c8ae50a08ad52f32dd37ffec22fa9500.svg",
-    "main.f02271ab.css.map": "/static/css/main.f02271ab.css.map",
-    "main.50d29943.js.map": "/static/js/main.50d29943.js.map",
+    "static/media/ReadDot.svg": "/static/media/ReadDot.c65e057055a0a0c0ecac5ddbe04cc527.svg",
+    "static/media/UnReadDot.svg": "/static/media/UnReadDot.65733458a2fc953ae2a7c51759ccae32.svg",
+    "main.9bc755e6.css.map": "/static/css/main.9bc755e6.css.map",
+    "main.dd334e40.js.map": "/static/js/main.dd334e40.js.map",
     "703.9ed85247.chunk.js.map": "/static/js/703.9ed85247.chunk.js.map",
     "198.e1b2539e.chunk.js.map": "/static/js/198.e1b2539e.chunk.js.map",
     "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f02271ab.css",
-    "static/js/main.50d29943.js"
+    "static/css/main.9bc755e6.css",
+    "static/js/main.dd334e40.js"
   ]
 }

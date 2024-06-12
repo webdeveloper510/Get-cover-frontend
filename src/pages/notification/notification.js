@@ -3,8 +3,10 @@ import Headbar from "../../common/headBar";
 import BackImage from "../../assets/images/icons/backArrow.svg";
 import date from "../../assets/images/icons/date.svg";
 import Loader from "../../assets/images/Loader.gif";
-import unRead from "../../assets/images/Unread.svg";
-import Read from "../../assets/images/Readed.svg";
+import unRead from "../../assets/images/Msg-Black.svg";
+import Read from "../../assets/images/Msg-white.png";
+import unReadDot from "../../assets/images/UnReadDot.svg";
+import ReadDot from "../../assets/images/ReadDot.svg";
 import time from "../../assets/images/icons/time.svg";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -71,7 +73,7 @@ function Notification() {
       <Headbar />
       
           
-      <div className="mt-[8%] overflow-y-scroll bg-white p-3  rounded-[20px] min-h-[80vh] h-[80vh] pr-2 mx-auto">
+      <div className="mt-[8%]  bg-white p-3  rounded-[20px] pr-2 mx-auto">
         <div className="flex justify-between mb-3">
           <div>
           <p className="font-semibold text-[25px] leading-9 mb-[3px]">
@@ -79,13 +81,13 @@ function Notification() {
           </p>
             <div className="flex">
             <button
-          className={`tab-button ${activeTab === 'all' ? 'active mr-3 bg-light-black text-white font-semibold py-1 px-4 rounded' : 'border-b-light-black border-b-2 mr-3 text-light-black font-semibold py-1 px-4 text-sm rounded'} `}
+          className={`tab-button ${activeTab === 'all' ? 'active mr-3 bg-[#DDDDDE] text-light-black font-semibold py-1 px-4 rounded' : ' border-b-2 mr-3 text-light-black font-semibold py-1 px-4 text-sm rounded'} `}
           onClick={() => handleTabClick('all')}
         >
           All
         </button>
         <button
-          className={`tab-button ${activeTab === 'unread' ? 'active mr-3 bg-light-black text-white font-semibold py-1 px-4 rounded' : 'border-b-light-black border-b-2 text-light-black font-semibold py-1 px-4 text-sm rounded'} `}
+          className={`tab-button ${activeTab === 'unread' ? 'active mr-3 bg-[#DDDDDE] text-light-black font-semibold py-1 px-4 rounded' : ' border-b-2 text-light-black font-semibold py-1 px-4 text-sm rounded'} `}
           onClick={() => handleTabClick('unread')}
         >
           Unread
@@ -104,7 +106,7 @@ function Notification() {
           </div>
         ) : (
           <>
-           <div className="tab-content">
+           <div className="tab-content  overflow-y-scroll min-h-[70vh] h-[70vh]">
         {activeTab === 'all' && <div> {notificationList?.length !== 0 ? (
               notificationList?.map((data, key) => (
                 <div
@@ -116,42 +118,44 @@ function Notification() {
                   style={{ cursor: "pointer" }}
                 >
                   { data?.isRead !== true ?        
-                      <Grid className="border-2 p-2 rounded-xl mb-3 bg-white border-[#a5a5a585] relative">
+                      <Grid className="border-[1px] p-2 border-[#D1D1D2] bg-[#E8E8E9] relative">
                      
-                        <div className="col-span-9 self-center flex w-full justify-space">
+                        <div className="col-span-9 self-center flex w-full">
+                          <img src={unReadDot} className="mr-2 w-3 h-3 my-auto" alt="Time" />
+                          <img src={unRead} className="mr-2 w-6 h-6" alt="Time" />
                           <p className="text-light-black text-base font-semibold">{data?.title}: {data?.flag}</p>
-                          <p className="text-sm text-neutral-grey font-Regular">{data?.description}</p>
+                          <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">{data?.description}</p>
                         
                         </div>
                         <div className="col-span-3">
-                        <div className="flex justify-end">
-                          <p className="mr-3 flex text-sm">  <img src={date} className="mr-2" alt="date" /> {new Date(
-                                        data?.createdAt
-                                      ).toLocaleDateString()} </p>
-
-                          <p className="flex text-sm"> <img src={time} className="mr-2" alt="Time" /> {new Date(
+                          <div className="flex justify-end">
+                        <p className="flex text-sm mr-3"> <img src={time} className="mr-2" alt="Time" /> {new Date(
                                         data.createdAt
                                       ).toLocaleTimeString()} </p>
+                          <p className="mr-3 flex text-sm">  <img src={date} className="mr-2" alt="date" /> {new Date( data?.createdAt ).toLocaleDateString()} </p>
+
+                          
                           </div>
                         </div>
                         
                       </Grid> 
                       :   
-                       <Grid className="border-0 p-2 rounded-xl mb-3 bg-white relative">
-                          <div className="col-span-1 self-center">
-                            <img src={Read} alt="read"/>
-                          </div>
-                        <div className="col-span-11 self-center">
+                       <Grid className="border-[1px] p-2 border-[#D1D1D2] bg-white relative">
+                        <div className="col-span-9 self-center flex w-full">
+                          <img src={ReadDot} className="mr-2 w-3 h-3 my-auto" alt="Time" />
+                          <img src={Read} className="mr-2 w-6 h-6" alt="Time" />
                           <p className="text-light-black text-base font-semibold">{data?.title}: {data?.flag}</p>
-                          <p className="text-sm text-neutral-grey font-Regular">{data?.description}</p>
+                          <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">{data?.description}</p>
+                        
+                        </div>
+                        <div className="col-span-3">
                           <div className="flex justify-end">
-                          <p className="mr-3 flex text-sm">  <img src={date} className="mr-2" alt="date" /> {new Date(
-                                        data?.createdAt
-                                      ).toLocaleDateString()} </p>
-
-                          <p className="flex text-sm"> <img src={time} className="mr-2" alt="Time" /> {new Date(
+                        <p className="flex text-sm mr-3"> <img src={time} className="mr-2" alt="Time" /> {new Date(
                                         data.createdAt
                                       ).toLocaleTimeString()} </p>
+                          <p className="mr-3 flex text-sm">  <img src={date} className="mr-2" alt="date" /> {new Date( data?.createdAt ).toLocaleDateString()} </p>
+
+                          
                           </div>
                         </div>
                        </Grid>}
@@ -173,27 +177,27 @@ function Notification() {
                   }
                   style={{ cursor: "pointer" }}
                 >       
-                      <Grid className="border-2 p-2 rounded-xl mb-3 bg-white border-[#a5a5a585] relative">
-                        <div className="col-span-1 self-center">
-                          <img src={unRead} alt="read"/>
-                        </div>
-                        <div className="col-span-11 self-center">
-                          <p className="text-light-black text-base font-semibold">{data?.title}: {data?.flag}</p>
-                          <p className="text-sm text-neutral-grey font-Regular">{data?.description}</p>
-                          <div className="flex justify-end">
-                          <p className="mr-3 flex text-sm">  <img src={date} className="mr-2" alt="date" /> {new Date(
-                                        data?.createdAt
-                                      ).toLocaleDateString()} </p>
+                     <Grid className="border-[1px] p-2 border-[#D1D1D2] bg-[#E8E8E9] relative">
+                     
+                     <div className="col-span-9 self-center flex w-full">
+                       <img src={unReadDot} className="mr-2 w-3 h-3 my-auto" alt="Time" />
+                       <img src={unRead} className="mr-2 w-6 h-6" alt="Time" />
+                       <p className="text-light-black text-base font-semibold">{data?.title}: {data?.flag}</p>
+                       <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">{data?.description}</p>
+                     
+                     </div>
+                     <div className="col-span-3">
+                       <div className="flex justify-end">
+                     <p className="flex text-sm mr-3"> <img src={time} className="mr-2" alt="Time" /> {new Date(
+                                     data.createdAt
+                                   ).toLocaleTimeString()} </p>
+                       <p className="mr-3 flex text-sm">  <img src={date} className="mr-2" alt="date" /> {new Date( data?.createdAt ).toLocaleDateString()} </p>
 
-                          <p className="flex text-sm"> <img src={time} className="mr-2" alt="Time" /> {new Date(
-                                        data.createdAt
-                                      ).toLocaleTimeString()} </p>
-                          </div>
-                        </div>
-                        
-                      </Grid> 
-                    
-         
+                       
+                       </div>
+                     </div>
+                     
+                   </Grid> 
                 </div>
               ))
             ) : (

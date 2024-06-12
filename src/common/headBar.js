@@ -83,10 +83,13 @@ function Headbar({ className = "" }) {
     }
   };
 
-  // console.log(
-  //   localStorage.getItem("userDetails"),
-  //   "---------------->>>>>>>>>>>>"
-  // );
+  const truncateString = (str, num) => {
+    if (str.length > num) {
+      return str.slice(0, num) + '...';
+    } else {
+      return str;
+    }
+  };
   const userData = JSON.parse(localStorage.getItem("userDetails"));
   const firstName = userData.userInfo.firstName;
   const fetchUserDetails = async () => {
@@ -127,13 +130,10 @@ function Headbar({ className = "" }) {
           className={` md:right-[0%] xl:right-[0%] s:relative md:absolute xl:absolute s:top-[-12px] s:right-[20%]  md:top-[24px]  xl:top-[24px]  ${className}`}
         >
           <div className="col-span-4"></div>
-          <div className="col-span-2"></div>
-          <div className="col-span-6 ml-auto ">
+          <div className="col-span-1"></div>
+          <div className="col-span-7 ml-auto ">
             <Grid className="border-2 w-[250px] bg-white ms-auto border-Light-Grey border-r-0 flex self-center py-2 pl-4 rounded-s-xl">
               <div className="col-span-4  flex self-center justify-around border-r-2 border-Light-Grey">
-                {/* <div>
-                <img src={SearchImage} className='cursor-pointer' alt="SearchImage" />
-              </div> */}
                 <div className="s:hidden md:block xl:block">
                   <Link
                     to={userData.role == "Super Admin" ? "/notifications" : "#"}
@@ -154,14 +154,10 @@ function Headbar({ className = "" }) {
                       )}
                   </Link>
                 </div>
-                {/* <div>
-                <img src={SettingImage} className='cursor-pointer' alt="SettingImage" />
-              </div> */}
               </div>
               <div className="col-span-8 self-center flex justify-around">
-                {/* <img src={ProfileImage} alt='ProfileImage'/> */}
                 <p className="text-light-black font-semibold text-base self-center">
-                  {firstName}
+                  {truncateString(firstName, 12)}
                 </p>
                 <div className="self-center relative" onClick={handleLogOut}>
                   <img src={Logout} className="cursor-pointer" alt="Logout" />

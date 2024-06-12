@@ -21,6 +21,7 @@ import * as Yup from "yup";
 import CustomPagination from "../../pagination";
 import { getAllContractsForCustomerPortal, getContractByIdCustomerPortal } from "../../../services/dealerServices/orderListServices";
 import { useFormik } from "formik";
+import CommonTooltip from "../../../common/toolTip";
 function CustomerContractList(props) {
   const [contractDetails, setContractDetails] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
@@ -378,12 +379,19 @@ function CustomerContractList(props) {
                               <p className="text-[#5D6E66] text-sm font-Regular">
                                 Eligibility
                               </p>
-                              <p className="text-[#333333] text-base font-semibold">
-                              
-                                {res?.eligibilty === true
-                              ? "Eligible"
-                              : "Not Eligible "}
-                              </p>
+                              {res?.eligibilty === false ?
+                                  <>
+                                  <CommonTooltip place="left" id={`tooltip-${index}`} content={res?.reason}>
+                                    <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                      
+                                      Not Eligible 
+                                    </p>
+                                  </CommonTooltip> 
+                                  </>
+                                  : 
+                                   <p className="text-[#333333] text-base font-semibold">
+                                  Eligible
+                               </p> }
                             </div>
                           </div>
                         </Grid>
@@ -763,11 +771,24 @@ function CustomerContractList(props) {
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Eligibility
                           </p>
-                          <p className="text-[#333333] text-base font-semibold">
+                          {/* <p className="text-[#333333] text-base font-semibold">
                             {contractDetails?.eligibilty === true
                               ? "Eligible"
                               : "Not Eligible "}
-                          </p>
+                          </p> */}
+                          {contractDetails?.eligibilty === false ?
+                                  <>
+                                  <CommonTooltip place="left" id={`tooltip`} content={contractDetails?.reason}>
+                                    <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                      
+                                      Not Eligible 
+                                    </p>
+                                  </CommonTooltip> 
+                                  </>
+                                  : 
+                                   <p className="text-[#333333] text-base font-semibold">
+                                  Eligible
+                               </p> }
                         </div>
                       </div>
                       <div className="col-span-1 border border-Light-Grey rounded-es-xl">
