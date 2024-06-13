@@ -664,42 +664,6 @@ function CustomerContractList(props) {
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
-                            Dealer Name
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                            {
-                              contractDetails?.order?.[0]?.customer?.[0]
-                                ?.dealerName
-                            }
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Reseller Name
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                            {contractDetails?.order?.[0]?.reseller?.[0]?.name}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Customer Name
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                            {
-                              contractDetails?.order?.[0]?.customer?.[0]
-                                ?.username
-                            }
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
                             Servicer Name
                           </p>
                           <p className="text-[#333333] text-base font-semibold">
@@ -791,7 +755,7 @@ function CustomerContractList(props) {
                                </p> }
                         </div>
                       </div>
-                      <div className="col-span-1 border border-Light-Grey rounded-es-xl">
+                      <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Claim Amount

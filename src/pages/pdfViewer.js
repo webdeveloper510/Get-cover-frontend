@@ -98,7 +98,7 @@ function PdfGenerator(props, className) {
                     <td style="text-align: left; width: 50%;">
                         <img src=${logo} style="margin-bottom: 20px; width:200px"/>
                         <h1 style="margin: 0; padding: 0; font-size:20px"><b>Get Cover </b></h1>
-                        <p style="margin: 0; padding: 0;">9701 Wilshire Blvd <br/> | Suite 930 | Beverly Hills,<br/> CA 90212 </p>
+                        <p style="margin: 0; padding: 0;">9701 Wilshire Blvd., Suite 930 <br/> Beverly Hills, CA 90212 </p>
                     </td>
                     <td style=" width: 50%;">
                         <table style="width: 100%; border-collapse: collapse;">
@@ -147,19 +147,19 @@ function PdfGenerator(props, className) {
                         <h4 style="margin: 0; padding: 0;"><b> ${
                           data?.dealerName?.name
                         } </b></h4>
-                        <small style="margin: 0; padding: 0;">${data.billDetail.billTo === "Dealer" ? " <b> Bill To:</b>" : 'Address :' } ${
+                        <p style="margin: 0; padding: 0;">${data.billDetail.billTo === "Dealer" ? " <b> Bill To:</b>" : 'Address :' } ${
                           data?.username?.firstName
                         } 
                          ${data?.username?.lastName} <br/>
-                          ${data?.dealerName?.street} ,
-                          ${data?.dealerName?.city} ,
-                          ${data?.dealerName?.state} ,
+                          ${data?.dealerName?.street}, 
+                          ${data?.dealerName?.city}, 
+                          ${data?.dealerName?.state},
                           ${data?.dealerName?.zip} <br/>
                            
-                            </small>
-                            <small> +1 ${formatPhoneNumber(
+                            </p>
+                            <p> +1 ${formatPhoneNumber(
                               data?.username?.phoneNumber
-                            )} | ${data?.username?.email}  </small>
+                            )} | ${data?.username?.email}  </p>
                     </td>
                     ${
                       data?.resellerId != null
@@ -168,18 +168,18 @@ function PdfGenerator(props, className) {
                     <h4 style="margin: 0; padding: 0;"><b>${
                       data?.resellerName?.name ?? ""
                     }</b></h4>
-                    <small style="margin: 0; padding: 0;">${data.billDetail.billTo === "Reseller"? " <b> Bill To:</b>" : 'Address :' } ${
+                    <p style="margin: 0; padding: 0;">${data.billDetail.billTo === "Reseller"? " <b> Bill To:</b>" : 'Address :' } ${
                       data?.resellerUsername?.firstName
                     } ${data?.resellerUsername?.lastName} <br/>
-                      ${data?.resellerName?.street ?? ""} ,
-                      ${data?.resellerName?.city ?? ""}, 
-                      ${data?.resellerName?.state ?? ""} ,
+                      ${data?.resellerName?.street ?? ""}, 
+                      ${data?.resellerName?.city ?? ""},  
+                      ${data?.resellerName?.state ?? ""}, 
                       ${data?.resellerName?.zip ?? ""} <br/>
                      
-                    </small>
-                    <small> +1 ${formatPhoneNumber(
+                    </p>
+                    <p> +1 ${formatPhoneNumber(
                       data?.resellerUsername?.phoneNumber
-                    )} | ${data?.resellerUsername?.email}  </small>
+                    )} | ${data?.resellerUsername?.email}  </p>
                   </td> `
                         : ""
                     }
@@ -193,19 +193,19 @@ function PdfGenerator(props, className) {
                 <h4 style="margin: 0; padding: 0;"><b> ${
                   data?.customerName?.username
                 } </b></h4>
-                <small style="margin: 0; padding: 0;">Address: ${
+                <p style="margin: 0; padding: 0;">Address: ${
                       data?.customerUserData?.firstName
                     } ${data?.customerUserData?.lastName} <br/>
                      ${
                   data?.customerName?.street
-                }, ${data?.customerName?.city} ,${data?.customerName?.state} , ${
+                }, ${data?.customerName?.city}, ${data?.customerName?.state}, ${
                         data?.customerName?.zip
                       } <br/>
                    
-                    </small>
-                    <small> +1 ${formatPhoneNumber(
+                    </p>
+                    <p> +1 ${formatPhoneNumber(
                       data?.customerUserData?.phoneNumber
-                    )} | ${data?.customerUserData?.email}  </small>
+                    )} | ${data?.customerUserData?.email}  </p>
             </td>
             `
                     : ""
@@ -223,15 +223,15 @@ function PdfGenerator(props, className) {
                 <h4 style="margin: 0; padding: 0;"><b> ${
                   data?.billDetail?.detail?.name
                 } </b></h4>
-                <small style="margin: 0; padding: 0;">Address : ${
+                <p style="margin: 0; padding: 0;">Address : ${
                  data?.billDetail?.detail?.address} <br/>
                    
-                    </small>
-                    <small>
+                    </p>
+                    <p>
                     ${data?.billDetail?.detail?.phoneNumber !== ''  ? `+1 ${formatPhoneNumber(
                       data?.billDetail?.detail?.phoneNumber
                     ) } |` : ''}
-                       ${data?.billDetail?.detail?.email !== ''  ? `${data?.billDetail?.detail?.email}` : '' }   </small>
+                       ${data?.billDetail?.detail?.email !== ''  ? `${data?.billDetail?.detail?.email}` : '' }   </p>
             </td>
                 </tr> 
                
