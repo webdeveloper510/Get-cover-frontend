@@ -283,7 +283,7 @@ function AddCustomer() {
     console.log("data", data);
     setUserAccount(data.userAccount);
     if (!data.userAccount && data.userAccount != undefined) {
-      // setCreateAccountOption("no");
+      setCreateAccountOption("no");
       const updatedMembers = formik.values.members.map((service) => ({
         ...service,
         status: false,
@@ -292,7 +292,7 @@ function AddCustomer() {
       formik.setFieldValue("members", updatedMembers);
       formik.setFieldValue("status", false);
     } else {
-      // setCreateAccountOption("yes");
+      setCreateAccountOption("yes");
       formik.setFieldValue("status", true);
     }
   };
@@ -301,10 +301,9 @@ function AddCustomer() {
     const data = await getDealerDetailsId(id);
     // console.log("data", data.result);
     formik.setFieldValue("dealerName", data.result._id);
-    getResellerList(data.result._id);
+    getResellerList(data?.result?._id);
     formik.setFieldValue("resellerName", id);
     setUserAccount(data?.result?.userAccount);
-    console.log("here", data?.result?.userAccount);
 
     if (!data?.result?.userAccount) {
       setCreateAccountOption("no");
@@ -779,7 +778,7 @@ function AddCustomer() {
                     <div className="col-span-6 self-center">
                       <p className="text-light-black flex text-[13px]  font-semibold self-center">
                         {" "}
-                        Do you want to create an account?
+                        Do you want to create an account123?
                         <RadioButton
                           id="yes"
                           label="Yes"
