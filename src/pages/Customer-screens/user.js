@@ -61,6 +61,7 @@ function CustomerUser() {
   const [deleteId, setDeleteId] = useState("");
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [userStatus, setUserStatus] = useState(true);
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
   const [timer, setTimer] = useState(3);
@@ -103,10 +104,12 @@ function CustomerUser() {
   const getCustomerDetails = async () => {
     setLoading1(true);
     const result = await getCustomerDetailsByIdCustomerPortal();
-    console.log(result.result);
+    console.log(result.result.dealer.userAccount);
+    setUserStatus(result.result.dealer.userAccount);
+    setCreateAccountOption(result.result.dealer.userAccount ? "yes" : "no");
     setDetails(result.result);
     SetIsprimary(result.loginMember.isPrimary);
-    setServiceStatus(result.loginMember.status)
+    setServiceStatus(result.loginMember.status);
     setLoading1(false);
   };
   const handleClickOutside = (event) => {
@@ -298,7 +301,7 @@ function CustomerUser() {
     console.log(id);
     const result = await userDetailsById(id);
     console.log(result.result);
-   
+
     setMainStatus(result.mainStatus);
     setInitialFormValues({
       id: id,
@@ -766,62 +769,61 @@ function CustomerUser() {
                 </div>
                 <div className="col-span-2"></div>
               </Grid>
-              {details?.resellerId1 !== null && 
-              <>
-               <Grid>
-                <div className="col-span-2 text-left">
-                  <p className="text-base text-white font-semibold my-3">
-                    {" "}
-                    Reseller Details
-                  </p>
-                </div>
-                <div className="col-span-10 self-center">
-                  <hr />
-                </div>
-              </Grid>
-              <Grid className="mx-8 mx-auto ">
-                <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
-                <div className="col-span-3 border-r border-[#4e4e4e]">
-                  <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
-                      <img src={dealer} alt="dealer" />
-                    </div>
-                    <div className="self-center w-[80%]">
-                      <p className="text-white text-base font-medium leading-5	">
-                        Account Name
-                      </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                        {details?.reseller?.name}
+              {details?.resellerId1 !== null && (
+                <>
+                  <Grid>
+                    <div className="col-span-2 text-left">
+                      <p className="text-base text-white font-semibold my-3">
+                        {" "}
+                        Reseller Details
                       </p>
                     </div>
-                  </div>
-                </div>
-                <div className="col-span-5">
-                  <div className="flex justify-center">
-                    <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
-                      <img src={terms} className="" alt="terms" />
+                    <div className="col-span-10 self-center">
+                      <hr />
                     </div>
-                    <div className="self-center ">
-                      <p className="text-white text-base font-medium leading-5">
-                        Address
-                      </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                        {details?.reseller?.street} {", "}
-                        {details?.reseller?.city}
-                        {", "}
-                        {details?.reseller?.state} {details?.reseller?.zip}
-                        {", "}
-                        {details?.reseller?.country}
-                      </p>
+                  </Grid>
+                  <Grid className="mx-8 mx-auto ">
+                    <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
+                    <div className="col-span-3 border-r border-[#4e4e4e]">
+                      <div className="flex">
+                        <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
+                          <img src={dealer} alt="dealer" />
+                        </div>
+                        <div className="self-center w-[80%]">
+                          <p className="text-white text-base font-medium leading-5	">
+                            Account Name
+                          </p>
+                          <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                            {details?.reseller?.name}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="col-span-2"></div>
-              </Grid>
-              </>
-             }
-              
-              
+                    <div className="col-span-5">
+                      <div className="flex justify-center">
+                        <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
+                          <img src={terms} className="" alt="terms" />
+                        </div>
+                        <div className="self-center ">
+                          <p className="text-white text-base font-medium leading-5">
+                            Address
+                          </p>
+                          <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                            {details?.reseller?.street} {", "}
+                            {details?.reseller?.city}
+                            {", "}
+                            {details?.reseller?.state} {details?.reseller?.zip}
+                            {", "}
+                            {details?.reseller?.country}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-span-2"></div>
+                  </Grid>
+                </>
+              )}
+
               <Grid className="mt-5">
                 <div className="col-span-2 text-left">
                   <p className="text-base text-white font-semibold">
@@ -1067,7 +1069,7 @@ function CustomerUser() {
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
-          {primaryText}
+            {primaryText}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-4">
             {secondaryText} <br />
@@ -1403,6 +1405,7 @@ function CustomerUser() {
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
+                    disabled={!userStatus}
                     checked={createAccountOption === "yes"}
                     onChange={handleRadioChange}
                   />
@@ -1410,6 +1413,7 @@ function CustomerUser() {
                     id="no-create-account"
                     label="No"
                     value="no"
+                    disabled={!userStatus}
                     checked={createAccountOption === "no"}
                     onChange={handleRadioChange}
                   />
