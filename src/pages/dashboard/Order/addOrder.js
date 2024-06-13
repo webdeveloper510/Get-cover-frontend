@@ -1600,7 +1600,10 @@ function AddOrder() {
     const currentValues = formik.values;
     const newValues = { ...formik.initialValues };
 
-    if ((dealerId && dealerValue) || window.location.pathname.includes("/editOrder")) {
+    if (
+      (dealerId && dealerValue) ||
+      window.location.pathname.includes("/editOrder")
+    ) {
       newValues.dealerId = currentValues.dealerId;
       newValues.dealerId = currentValues.dealerValue;
     }
