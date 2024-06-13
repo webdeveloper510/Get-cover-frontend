@@ -348,8 +348,8 @@ function ResellerDetails() {
         resellerDetails(true);
         // dealerData();
         setIsModalOpen(false);
-        setFirstMessage("Edited Successfully");
-        setSecondMessage("Dealer edited Successfully");
+        setFirstMessage("Updated Successfully");
+        setSecondMessage("Dealer updated Successfully");
         setTimer(3);
 
         setMessage("Dealer updated Successfully");

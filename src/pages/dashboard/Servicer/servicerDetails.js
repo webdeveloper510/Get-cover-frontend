@@ -499,8 +499,8 @@ function ServicerDetails() {
         servicerDetail();
         setIsModalOpen(false);
         setTimer(3);
-        setFirstMessage("Edited Successfully");
-        setSecondMessage("Servicer edited Successfully");
+        setFirstMessage("Updated Successfully");
+        setSecondMessage("Servicer Updated Successfully");
 
         // setMessage("Dealer updated Successfully");
       } else if (result.message == "Servicer already exist with this name") {

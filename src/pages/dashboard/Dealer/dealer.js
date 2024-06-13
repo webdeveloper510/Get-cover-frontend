@@ -10,7 +10,8 @@ import * as Yup from "yup";
 // Media Include
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
 import disapprove from "../../../assets/images/Disapproved.png";
-import Cross from "../../../assets/images/Cross_Button.png";
+import Cross from "../../../assets/images/Cross.png";
+import Cross1 from "../../../assets/images/Cross_Button.png";
 import Button from "../../../common/button";
 import csvFile from "../../../assets/images/icons/csvFile.svg";
 import RadioButton from "../../../common/radio";
@@ -973,7 +974,7 @@ function Dealer() {
                                 className="absolute -right-2 -top-2 mx-auto mb-3"
                               >
                                 <img
-                                  src={Cross}
+                                  src={Cross1}
                                   className="w-6 h-6"
                                   alt="Dropbox"
                                 />
@@ -1852,7 +1853,7 @@ function Dealer() {
           ) : (
             <>
               <img src={disapprove} alt="email Image" className="mx-auto" />
-              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+              <p className="text-3xl mb-0 mt-4 font-semibold text-light-black">
                 Error
               </p>
               <p className="text-neutral-grey text-base font-medium mt-2">

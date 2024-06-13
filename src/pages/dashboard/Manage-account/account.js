@@ -383,8 +383,8 @@ function Account() {
       // console.log(result);
       if (result.code == 200) {
         // setLoading(false);
-        setFirstMessage("User Edited Successfully ");
-        setSecondMessage("user edited successfully ");
+        setFirstMessage("User Updated Successfully ");
+        setSecondMessage("user updated successfully ");
         setModalOpen();
         setTimer(3);
         fetchUserMembers();
@@ -750,8 +750,8 @@ function Account() {
     try {
       const res = await changePasswordbyToken(value);
       if (res.code == 200) {
-        setFirstMessage("Edit  Successfully ");
-        setSecondMessage("User Password edited  successfully ");
+        setFirstMessage("Updated  Successfully ");
+        setSecondMessage("User Password Updated  successfully ");
         setModalOpen(true);
         setTimer(3);
       } else {

@@ -574,8 +574,8 @@ function ResellerUser() {
       const res = await changePasswordbyToken(value);
       console.log(res);
       if (res.code == 200) {
-        setFirstMessage("Edit  Successfully ");
-        setSecondMessage("User Password edited  successfully ");
+        setFirstMessage("Updated  Successfully ");
+        setSecondMessage("User Password updated  successfully ");
         SetIsModalOpen(true);
         setTimer(3);
       } else {
@@ -682,8 +682,8 @@ function ResellerUser() {
       if (result.code == 200) {
         setLoading(false);
 
-        SetPrimaryText("User Edited Successfully ");
-        SetSecondaryText("user edited successfully ");
+        SetPrimaryText("User Updated Successfully ");
+        SetSecondaryText("user updated successfully ");
       
         openModal();
         setTimer(3);

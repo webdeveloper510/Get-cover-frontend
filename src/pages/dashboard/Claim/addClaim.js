@@ -712,51 +712,7 @@ function AddClaim() {
             <form onSubmit={formikStep2.handleSubmit}>
               <Grid>
                 <div className="col-span-12">
-                  <Grid>
-                    <div className="col-span-3">
-                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                        <p className="text-sm m-0 p-0">Contract ID</p>
-                        <p className="font-semibold">
-                          {contractDetail?.unique_key}
-                        </p>
-                      </div>
-                    </div>
-                    {window.location.pathname.includes("/reseller/addClaim") ||
-                    location.pathname.includes("dealer/addClaim") ? null : (
-                      <div className="col-span-3">
-                        <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                          <p className="text-sm m-0 p-0">Dealer Name</p>
-                          <p className="font-semibold">
-                            {contractDetail?.order?.[0]?.dealer?.[0]?.name}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                    {window.location.pathname.includes("/reseller/addClaim") ||
-                    contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? (
-                      ""
-                    ) : (
-                      <div className="col-span-3">
-                        <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                          <p className="text-sm m-0 p-0">Reseller Name</p>
-                          <p className="font-semibold">
-                            {" "}
-                            {contractDetail?.order?.[0]?.reseller?.[0]?.name}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="col-span-3">
-                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                        <p className="text-sm m-0 p-0">Customer Name</p>
-                        <p className="font-semibold">
-                          {" "}
-                          {contractDetail?.order?.[0]?.customer?.[0]?.username}
-                        </p>
-                      </div>
-                    </div>
-                  </Grid>
+                 
                   <Grid className="!grid-cols-8 mt-3">
                     <div className="col-span-2">
                       <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
@@ -810,6 +766,51 @@ function AddClaim() {
                         <p className="font-semibold">
                           {" "}
                           {contractDetail?.condition}
+                        </p>
+                      </div>
+                    </div>
+                  </Grid>
+                  <Grid>
+                    <div className="col-span-3">
+                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                        <p className="text-sm m-0 p-0">Contract ID</p>
+                        <p className="font-semibold">
+                          {contractDetail?.unique_key}
+                        </p>
+                      </div>
+                    </div>
+                    {window.location.pathname.includes("/reseller/addClaim") ||
+                    location.pathname.includes("dealer/addClaim") ? null : (
+                      <div className="col-span-3">
+                        <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                          <p className="text-sm m-0 p-0">Dealer Name</p>
+                          <p className="font-semibold">
+                            {contractDetail?.order?.[0]?.dealer?.[0]?.name}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    {window.location.pathname.includes("/reseller/addClaim") ||
+                    contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? (
+                      ""
+                    ) : (
+                      <div className="col-span-3">
+                        <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                          <p className="text-sm m-0 p-0">Reseller Name</p>
+                          <p className="font-semibold">
+                            {" "}
+                            {contractDetail?.order?.[0]?.reseller?.[0]?.name}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="col-span-3">
+                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                        <p className="text-sm m-0 p-0">Customer Name</p>
+                        <p className="font-semibold">
+                          {" "}
+                          {contractDetail?.order?.[0]?.customer?.[0]?.username}
                         </p>
                       </div>
                     </div>

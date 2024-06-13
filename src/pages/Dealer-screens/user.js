@@ -286,8 +286,8 @@ function DealerUser() {
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
-        SetPrimaryText("User Edited Successfully ");
-        SetSecondaryText("user edited successfully ");
+        SetPrimaryText("User Updated Successfully ");
+        SetSecondaryText("user Updated successfully ");
         openModal();
         toggleFlag();
         setTimer(3);
@@ -347,10 +347,10 @@ function DealerUser() {
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
-        SetPrimaryText("User Edited Successfully ");
-        SetSecondaryText("user edited successfully ");
-        // setFirstMessage("User Edited Successfully ");
-        // setSecondMessage("user edited successfully ");
+        SetPrimaryText("User Updated Successfully ");
+        SetSecondaryText("user updated successfully ");
+        // setFirstMessage("User Updated Successfully ");
+        // setSecondMessage("user Updated successfully ");
         openModal();
         setTimer(3);
         filterUserDetails();
@@ -677,8 +677,8 @@ function DealerUser() {
       const res = await changePasswordbyToken(value);
       console.log(res);
       if (res.code == 200) {
-        SetPrimaryText("Edit Password Successfully ");
-        SetSecondaryText("User Password edited  successfully ");
+        SetPrimaryText("Updated Password Successfully ");
+        SetSecondaryText("User Password Updated  successfully ");
         openModal();
         toggleFlag();
         setTimer(3);

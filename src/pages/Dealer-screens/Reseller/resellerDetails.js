@@ -339,8 +339,8 @@ function DealerResellerDetails() {
         setModalOpen(true);
         resellerDetails(true);
         setIsModalOpen(false);
-        setFirstMessage("Edited Successfully");
-        setSecondMessage("Dealer edited Successfully");
+        setFirstMessage("Updated Successfully");
+        setSecondMessage("Dealer updated Successfully");
         setTimer(3);
         getUserList();
 

@@ -227,8 +227,8 @@ function UserList(props) {
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
-        SetPrimaryText("User Edited Successfully ");
-        SetSecondaryText("user edited successfully ");
+        SetPrimaryText("User Updated Successfully ");
+        SetSecondaryText("user updated successfully ");
         openModal();
         toggleFlag();
         setTimer(3);

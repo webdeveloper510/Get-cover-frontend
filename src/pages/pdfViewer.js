@@ -41,6 +41,7 @@ function PdfGenerator(props, className) {
   };
   const [data, setData] = useState({});
   console.log("props", props);
+
   const convertToPDF = async () => {
     setLoading(true);
     const result = await orderDetailsById(props.data);
@@ -59,7 +60,7 @@ function PdfGenerator(props, className) {
     const opt = {
       margin: 0,
       filename: `${value.unique_key}-Invoice.pdf`,
-      image: { type: "jpeg", quality: 0.1 },
+      image: { type: "jpeg", quality: 1 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
@@ -84,7 +85,13 @@ function PdfGenerator(props, className) {
   };
   const generateHTML = (data) => {
     return `
-      <div style="max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+      <style>
+      * {
+        text-shadow: none !important;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
+      <div style="max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px;">
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
             <tbody>
                 <tr>
@@ -208,7 +215,7 @@ function PdfGenerator(props, className) {
                 </tbody>
                 </table>
                 ${data.billDetail.billTo === "Custom" ? `
-                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;text-shadow: none !important;outline: none;">
                     <tbody>
                     <tr>
                 <td style="text-align: left; width: 50%;">
@@ -230,7 +237,7 @@ function PdfGenerator(props, className) {
                
             </tbody>
         </table> ` :  `  `}
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;text-shadow: none !important;outline: none;">
         <tbody>
             <tr>
             <td colspan="2">
@@ -319,7 +326,7 @@ function PdfGenerator(props, className) {
           </tr>
         </tfoot>
       </table>
-      <table style="width: 80%; border-collapse: collapse; margin-bottom: 20px; margin-top:40px; text-align:left">
+      <table style="width: 80%; border-collapse: collapse; margin-bottom: 20px; margin-top:40px; text-align:left;text-shadow: none !important;outline: none;">
       <tbody>
          <tr>
           <th >
@@ -338,11 +345,11 @@ function PdfGenerator(props, className) {
          </tr>
          <tr>
           <th>Account Number:  </th>
-          <td><b>12405759</b></td>
+          <td>12405759</td>
          </tr>
          <tr>
-          <th>Routing Numbers :  </th>
-          <th>122043602</th>
+          <th>Routing Number :  </th>
+          <td>122043602</td>
          </tr>
       </tbody>
       </table>
