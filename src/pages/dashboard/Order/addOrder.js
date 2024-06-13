@@ -1595,9 +1595,36 @@ function AddOrder() {
       setLoading(false);
     }
   };
+
   const handleInputClickResetStep1 = () => {
-    formik.resetForm();
+    const currentValues = formik.values;
+    const newValues = { ...formik.initialValues };
+
+    if (dealerId && dealerValue) {
+      newValues.dealerId = currentValues.dealerId;
+      newValues.dealerValue = currentValues.dealerValue;
+    }
+
+    if (resellerId) {
+      Object.assign(newValues, {
+        dealerId: currentValues.dealerId,
+        dealerValue: currentValues.dealerValue,
+        resellerId: currentValues.resellerId,
+      });
+    }
+
+    if (customerId) {
+      Object.assign(newValues, {
+        dealerId: currentValues.dealerId,
+        dealerValue: currentValues.dealerValue,
+        resellerId: currentValues.resellerId,
+        customerId: currentValues.customerId,
+      });
+    }
+
+    formik.resetForm({ values: newValues });
   };
+
   const handleInputClickReset = (index) => {
     const updatedProductsArray = formikStep3.values.productsArray.map(
       (product, i) => {
@@ -1653,13 +1680,17 @@ function AddOrder() {
           <>
             <form onSubmit={formik.handleSubmit}>
               <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
-                
                 <Grid>
                   <div className="col-span-8">
-                  <div className="flex justify-between w-full">
-                <p className="text-2xl font-bold mb-4">Order Details</p>
-                <Button className='text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]' onClick={handleInputClickResetStep1}  >Reset</Button>
-                </div>
+                    <div className="flex justify-between w-full">
+                      <p className="text-2xl font-bold mb-4">Order Details</p>
+                      <Button
+                        className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                        onClick={handleInputClickResetStep1}
+                      >
+                        Reset
+                      </Button>
+                    </div>
                     <Grid>
                       <div className="col-span-4">
                         <SelectBoxWIthSerach
