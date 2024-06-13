@@ -369,10 +369,9 @@ function ClaimList(props) {
     } else if (path.includes("/customer/claimList")) {
       newPath = "/customer/addClaim";
     }
-  
+
     navigate(newPath);
   };
-  
 
   const getAllClaims = async (page = 1, rowsPerPage, loader) => {
     if (loader) {
@@ -614,7 +613,6 @@ function ClaimList(props) {
     setIsComplete(false);
   };
 
-
   const openView = (claim) => {
     let typeValue = "Admin";
     const isValidReseller = !!claim?.contracts.orders.resellerId;
@@ -644,12 +642,12 @@ function ClaimList(props) {
     setSendto(
       [
         {
-        label:
-          !isAdminView && !isResellerPath && !isCustomerPath
-            ? "Admin (To Self)"
-            : "Admin ",
-        value: "Admin",
-      },
+          label:
+            !isAdminView && !isResellerPath && !isCustomerPath
+              ? "Admin (To Self)"
+              : "Admin ",
+          value: "Admin",
+        },
         {
           label:
             isAdminView && !isResellerPath && !isCustomerPath
@@ -1315,15 +1313,8 @@ function ClaimList(props) {
                                   onClick={() => openView(res)}
                                   alt="chat"
                                 />
-                                {userType === "admin" &&
-                                  res?.claimStatus?.[0]?.status === "Open" &&
-                                  res.selfServicer &&
-                                  !location.pathname.includes(
-                                    "customer/claimList"
-                                  ) &&
-                                  !location.pathname.includes(
-                                    "/dealer/claimList"
-                                  ) && (
+                                {role === "Super Admin" &&
+                                  res?.claimStatus?.[0]?.status === "Open" && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1332,7 +1323,7 @@ function ClaimList(props) {
                                     />
                                   )}
 
-                                {userType !== "admin" &&
+                                {role != "Super Admin" &&
                                   res.selfServicer &&
                                   res?.claimStatus?.[0]?.status === "Open" &&
                                   !location.pathname.includes(
@@ -1343,7 +1334,7 @@ function ClaimList(props) {
                                   ) &&
                                   !location.pathname.includes(
                                     "/dealer/claimList"
-                                  ) &&  (
+                                  ) && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -2625,18 +2616,18 @@ function ClaimList(props) {
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            Are you 
+            Are you
             <span className="text-light-black"> sure ? </span>
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
-            You want to complete this  Claim ?
+            You want to complete this Claim ?
           </p>
           <div className="mt-3">
-                <Button type="submit">Yes</Button>
-                <Button className="!bg-white !text-black" onClick={closeComplete}>
-                  No
-                </Button>
-              </div>
+            <Button type="submit">Yes</Button>
+            <Button className="!bg-white !text-black" onClick={closeComplete}>
+              No
+            </Button>
+          </div>
         </div>
       </Modal>
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
