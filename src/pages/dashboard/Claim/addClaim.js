@@ -713,7 +713,7 @@ function AddClaim() {
               <Grid>
                 <div className="col-span-12">
                  
-                  <Grid className="!grid-cols-8 mt-3">
+                  <Grid className="!grid-cols-8 my-3">
                     <div className="col-span-2">
                       <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                         <p className="text-sm m-0 p-0">Model</p>
