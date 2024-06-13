@@ -585,8 +585,8 @@ function AddOrder() {
             additionalNotes: product.additionalNotes || "",
             QuantityPricing: product.QuantityPricing || [],
             pName: product.pName || "",
-            rangeStart: product.rangeStart || "",
-            rangeEnd: product.rangeEnd || "",
+            rangeStart: product.rangeStart || 0,
+            rangeEnd: product.rangeEnd || 0,
             checkNumberProducts: product.checkNumberProducts || "",
             orderFile: product.orderFile || "",
             fileValue: "",
@@ -1600,7 +1600,10 @@ function AddOrder() {
     const currentValues = formik.values;
     const newValues = { ...formik.initialValues };
 
-    if ((dealerId && dealerValue) || window.location.pathname.includes("/editOrder")) {
+    if (
+      (dealerId && dealerValue) ||
+      window.location.pathname.includes("/editOrder")
+    ) {
       newValues.dealerId = currentValues.dealerId;
       newValues.dealerId = currentValues.dealerValue;
     }
