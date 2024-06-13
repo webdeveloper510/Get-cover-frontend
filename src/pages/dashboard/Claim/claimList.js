@@ -1498,17 +1498,7 @@ function ClaimList(props) {
                                         <span className="self-center mr-4">
                                           Servicer Name :{" "}
                                         </span>
-                                        {(userType !== "dealer" &&
-                                          !location.pathname.includes(
-                                            "customer/claimList"
-                                          ) &&
-                                          !location.pathname.includes(
-                                            "/reseller/claimList"
-                                          )) ||
-                                        claimList.result[activeIndex]
-                                          ?.selfServicer ||
-                                        claimList?.result[activeIndex]
-                                          ?.selfResellerServicer ? (
+                                        {role == "Super Admin" ? (
                                           <Select
                                             name="servicer"
                                             label=""
