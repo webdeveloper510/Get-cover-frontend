@@ -1066,7 +1066,32 @@ function ResellerAddOrder() {
     }
   };
   const handleInputClickResetStep1 = () => {
-    formik.resetForm();
+    const currentValues = formik.values;
+    const newValues = { ...formik.initialValues };
+
+    // if (dealerId && dealerValue) {
+    //   newValues.dealerId = currentValues.dealerId;
+    //   newValues.dealerValue = currentValues.dealerValue;
+    // }
+
+    if (resellerId) {
+      Object.assign(newValues, {
+        dealerId: currentValues.dealerId,
+        dealerValue: currentValues.dealerValue,
+        resellerId: currentValues.resellerId,
+      });
+    }
+
+    if (customerId) {
+      Object.assign(newValues, {
+        dealerId: currentValues.dealerId,
+        dealerValue: currentValues.dealerValue,
+        resellerId: currentValues.resellerId,
+        customerId: currentValues.customerId,
+      });
+    }
+
+    formik.resetForm({ values: newValues });
   };
   const getCategoryList = async (data, index) => {
     console.log(data);
