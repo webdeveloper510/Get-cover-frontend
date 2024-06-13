@@ -121,8 +121,8 @@ function Notification() {
                       <Grid className="border-[1px] p-2 border-[#D1D1D2] bg-[#E8E8E9] relative">
                      
                         <div className="col-span-9 self-center flex w-full">
-                          <img src={unReadDot} className="mr-2 w-3 h-3 my-auto" alt="Time" />
-                          <img src={unRead} className="mr-2 w-6 h-6" alt="Time" />
+                          <img src={unReadDot} className="mr-2 w-[10px] h-[10px] my-auto" alt="Time" />
+                          <img src={unRead} className="mr-2 w-[18px] h-[24px]" alt="Time" />
                           <p className="text-light-black text-base font-semibold">{data?.title}: {data?.flag}</p>
                           <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">{data?.description}</p>
                         
@@ -142,8 +142,8 @@ function Notification() {
                       :   
                        <Grid className="border-[1px] p-2 border-[#D1D1D2] bg-white relative">
                         <div className="col-span-9 self-center flex w-full">
-                          <img src={ReadDot} className="mr-2 w-3 h-3 my-auto" alt="Time" />
-                          <img src={Read} className="mr-2 w-6 h-6" alt="Time" />
+                          <img src={ReadDot} className="mr-2 w-[10px] h-[10px] my-auto" alt="Time" />
+                          <img src={Read} className="mr-2 w-[18px] h-[24px]" alt="Time" />
                           <p className="text-light-black text-base font-semibold">{data?.title}: {data?.flag}</p>
                           <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">{data?.description}</p>
                         
@@ -180,8 +180,8 @@ function Notification() {
                      <Grid className="border-[1px] p-2 border-[#D1D1D2] bg-[#E8E8E9] relative">
                      
                      <div className="col-span-9 self-center flex w-full">
-                       <img src={unReadDot} className="mr-2 w-3 h-3 my-auto" alt="Time" />
-                       <img src={unRead} className="mr-2 w-6 h-6" alt="Time" />
+                       <img src={unReadDot} className="mr-2 w-[10px] h-[10px] my-auto" alt="Time" />
+                       <img src={unRead} className="mr-2 w-[18px] h-[24px]" alt="Time" />
                        <p className="text-light-black text-base font-semibold">{data?.title}: {data?.flag}</p>
                        <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">{data?.description}</p>
                      

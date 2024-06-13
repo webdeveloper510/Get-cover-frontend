@@ -33,7 +33,10 @@ function DealerCustomerList() {
     formik.setFieldValue(name, value);
   };
 
-  const getCustomer = async (value = {}) => {
+  const getCustomer = async (value = {name: "",
+    email: "",
+    resellerName: "",
+    phone: "",}) => {
     try {
       setLoading(true);
       const result = await getDealerCustomers(value);
@@ -124,7 +127,12 @@ function DealerCustomerList() {
       maxWidth: "70px",
     },
     {
-      name: "Name",
+      name: (<div>Reseller <br/> Name </div>),
+      selector: (row) => row?.resellerInfo?.name,
+      sortable: true,
+    },
+    {
+      name: (<div>Customer <br/> Name </div>),
       selector: (row) => row.customerData.username,
       sortable: true,
     },
@@ -144,7 +152,7 @@ function DealerCustomerList() {
       sortable: true,
     },
     {
-      name: "Order Value",
+      name: (<div>Order <br/> Value </div>),
       selector: (row) =>
         `$${
           row?.order?.orderAmount === undefined
