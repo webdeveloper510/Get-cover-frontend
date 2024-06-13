@@ -140,8 +140,6 @@ function CustomerDetails() {
     const result = await getUserListByCustomerId({}, customerId);
     console.log(result, "----------");
     setRefreshUserList(result.result);
-
-    setCreateAccountOption(result.isAccountCreate ? "yes" : "no");
   };
   const userValues = useFormik({
     initialValues: initialUserFormValues,
@@ -848,7 +846,7 @@ function CustomerDetails() {
                       id="yes-create-account"
                       label="Yes"
                       value="yes"
-                      disabled={createAccount == false}
+                      disabled={isAccountCreate == false}
                       checked={createAccountOption === "yes"}
                       onChange={handleRadioChange}
                     />
@@ -856,7 +854,7 @@ function CustomerDetails() {
                       id="no-create-account"
                       label="No"
                       value="no"
-                      disabled={createAccount == false}
+                      disabled={isAccountCreate == false}
                       checked={createAccountOption === "no"}
                       onChange={handleRadioChange}
                     />
