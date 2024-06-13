@@ -78,6 +78,7 @@ function ClaimList(props) {
   const [pageValue, setPageValue] = useState(1);
   const [loaderType, setLoaderType] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [modelLoading, setModelLoading] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [role, setRole] = useState(null);
@@ -220,6 +221,7 @@ function ClaimList(props) {
   };
 
   const handleSelectChange = (selectedValue, value) => {
+    setLoading1(true);
     if (selectedValue === "claimStatus") {
       if (value === "Rejected") {
         setIsRejectOpen(true);
@@ -284,6 +286,11 @@ function ClaimList(props) {
           console.error("here");
       }
     }
+    console.log(loading1, '0-------------')
+    setTimeout(() => {
+      setLoading1(false);
+    }, 3000);
+
   };
   const [activeTab, setActiveTab] = useState("All Claims");
   const handleTabClick = (tabId) => {
@@ -1376,7 +1383,13 @@ function ClaimList(props) {
                       >
                         {/* {showdata && ( */}
                         <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x">
-                          {res?.repairParts.length > 0 &&
+                        {loading1 ? <div className="col-span-12 h-[200px] rounded-b-[22px] border-Gray28 border-x bg-[#333333] w-full flex py-5">
+                            <div className="self-center mx-auto">
+                              <RotateLoader color="#fff" />
+                            </div>
+                          </div>  : 
+                           <>
+                           {res?.repairParts.length > 0 &&
                             res?.repairParts.map((part, index) => (
                               <>
                                 <div className="col-span-2 bg-[#333333] border-r border-b border-Gray28">
@@ -1961,6 +1974,7 @@ function ClaimList(props) {
                               </div>
                             )}
                           </div>
+                          </> }
                         </Grid>
                         {/* )} */}
                       </CollapsibleDiv>

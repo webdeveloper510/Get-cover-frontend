@@ -393,8 +393,8 @@ function DealerAddOrder() {
         priceType: product.priceType || "",
         additionalNotes: product.additionalNotes || "",
         QuantityPricing: product.QuantityPricing || [],
-        rangeStart: product.rangeStart || "",
-        rangeEnd: product.rangeEnd || "",
+        rangeStart: product.rangeStart || 0,
+        rangeEnd: product.rangeEnd || 0,
         checkNumberProducts: product.checkNumberProducts || "",
         orderFile: product.orderFile || "",
         fileValue: "",
@@ -1135,9 +1135,9 @@ function DealerAddOrder() {
     const currentValues = formik.values;
     const newValues = { ...formik.initialValues };
 
-    // if (dealerId && dealerValue) {
+    // if ((dealerId && dealerValue) || window.location.pathname.includes("/editOrder")) {
     //   newValues.dealerId = currentValues.dealerId;
-    //   newValues.dealerValue = currentValues.dealerValue;
+    //   newValues.dealerId = currentValues.dealerValue;
     // }
 
     if (resellerId) {
@@ -1159,6 +1159,7 @@ function DealerAddOrder() {
 
     formik.resetForm({ values: newValues });
   };
+
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
     console.log(name, value, "onchange------------------->>");
