@@ -1432,7 +1432,7 @@ function ClaimList(props) {
                                             Service Type
                                           </p>
                                           <p className="text-light-green text-base font-semibold">
-                                            {part.serviceType}
+                                            {part.serviceType == "Labour" ? "labor" : part.serviceType }
                                           </p>
                                         </div>
                                       </div>
