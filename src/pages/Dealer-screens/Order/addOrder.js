@@ -1045,8 +1045,8 @@ function DealerAddOrder() {
         {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
-          pName: formikStep3.values.productsArray[match[1]].pName,
           term: selectedValue,
+          pName: formikStep3.values.productsArray[match[1]].pName,
           coverageType: formikStep2?.values?.coverageType,
         },
         match[1]
