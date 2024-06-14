@@ -1340,7 +1340,7 @@ function AddOrder() {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId:
             formikStep3.values.productsArray[productIndex].priceBookId,
-          pName: formikStep3.values.productsArray[productIndex].pName,
+           pName: formikStep3.values.productsArray[match[1]].pName == undefined ? '':formikStep3.values.productsArray[match[1]].pName,
           term: selectedValue,
           coverageType: formikStep2?.values?.coverageType,
         },
@@ -1599,16 +1599,17 @@ function AddOrder() {
   const handleInputClickResetStep1 = () => {
     const currentValues = formik.values;
     const newValues = { ...formik.initialValues };
-
+console.log('  window.location.pathname.includes("/editOrder")',  window.location.pathname.includes("/editOrder"))
     if (
       (dealerId && dealerValue) ||
       window.location.pathname.includes("/editOrder")
     ) {
+      console.log('formik.values',formik.values)
       newValues.dealerId = currentValues.dealerId;
-      newValues.dealerId = currentValues.dealerValue;
+
     }
 
-    if (resellerId) {
+   else if (resellerId) {
       Object.assign(newValues, {
         dealerId: currentValues.dealerId,
         dealerValue: currentValues.dealerValue,
@@ -1616,7 +1617,7 @@ function AddOrder() {
       });
     }
 
-    if (customerId) {
+    else if (customerId) {
       Object.assign(newValues, {
         dealerId: currentValues.dealerId,
         dealerValue: currentValues.dealerValue,
@@ -1625,6 +1626,11 @@ function AddOrder() {
       });
     }
 
+    else{
+      setCustomerList([])
+      setResllerList([])
+      setServicerData([])
+    }
     formik.resetForm({ values: newValues });
   };
 

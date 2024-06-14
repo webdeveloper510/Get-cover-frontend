@@ -126,14 +126,15 @@ function DealerCustomerList() {
       minWidth: "auto",
       maxWidth: "70px",
     },
-    {
-      name: (<div>Reseller <br/> Name </div>),
-      selector: (row) => row?.resellerInfo?.name,
-      sortable: true,
-    },
+   
     {
       name: (<div>Customer <br/> Name </div>),
       selector: (row) => row.customerData.username,
+      sortable: true,
+    },
+    {
+      name: (<div>Reseller <br/> Name </div>),
+      selector: (row) => row?.resellerInfo?.name,
       sortable: true,
     },
     {

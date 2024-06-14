@@ -56,6 +56,8 @@ function Account() {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [memberList, setMemberList] = useState([]);
+  const [editLoading, setEditLoading] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [email, setEmail] = useState("");
@@ -95,16 +97,21 @@ function Account() {
     });
     userValues.resetForm();
   };
-
   useEffect(() => {
+    setLoading(true);
     fetchUserDetails();
+    setTimeout(() => {
+      fetchUserMembers();
+    }, 2000);
   }, []);
+  
   useEffect(() => {
-    fetchUserMembers();
+    
   }, []);
+
 
   const fetchUserDetails = async () => {
-    setLoading(true);
+    
 
     try {
       const userDetails = await getSuperAdminMembers();
@@ -139,10 +146,10 @@ function Account() {
 
       setUserDetails(userDetails.result);
     } catch (error) {
-      setLoading(false);
+      // setLoading(false);
       console.error("Error fetching user details:", error);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -333,10 +340,10 @@ function Account() {
     onSubmit: async (values) => {
       // console.log("Form values:", values);
 
+      setAddLoading(true);
       const result = await addSuperAdminMembers(values);
-      // console.log(result);
       if (result.code == 200) {
-        // setLoading(false);
+        setAddLoading(false);
         setFirstMessage("User Added Successfully ");
         setSecondMessage("user added successfully ");
         setModalOpen(true);
@@ -345,7 +352,7 @@ function Account() {
         setIsUserModalOpen(false);
         userValues.resetForm();
       } else {
-        // setLoading(false);
+        setAddLoading(false);
         if (result.code === 401) {
           userValues.setFieldError("email", "Email already in use");
         }
@@ -378,18 +385,19 @@ function Account() {
     }),
     onSubmit: async (values) => {
       // console.log("Form values:", values);
-      setLoading(true);
+      setEditLoading(true);
       const result = await updateUserDetailsById(values);
       // console.log(result);
       if (result.code == 200) {
         // setLoading(false);
+        setEditLoading(false);
         setFirstMessage("User Updated Successfully ");
         setSecondMessage("user updated successfully ");
-        setModalOpen();
+        setModalOpen(true);
         setTimer(3);
         fetchUserMembers();
       } else {
-        setLoading(false);
+        setEditLoading(false);
       }
       closeModal2();
     },
@@ -1124,6 +1132,13 @@ function Account() {
       )}
 
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
+      {addLoading ? 
+        <div className="h-[400px] w-full flex py-5">
+        <div className="self-center mx-auto">
+          <RotateLoader color="#333" />
+        </div>
+      </div>
+         : 
         <div className=" py-3">
           <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
             Add New User
@@ -1286,147 +1301,156 @@ function Account() {
             </Grid>
           </form>
         </div>
+}
       </Modal>
 
       <Modal isOpen={isModalOpen2} onClose={closeModal2}>
-        <div className=" py-3">
-          <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
-            Edit User
-          </p>
-          <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <Grid className="px-8">
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="firstName"
-                  label="First Name"
-                  required={true}
-                  className="!bg-white"
-                  placeholder=""
-                  maxLength={"30"}
-                  value={formik.values.firstName}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.firstName && formik.errors.firstName}
-                />
-                {formik.touched.firstName && formik.errors.firstName && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.firstName}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="lastName"
-                  label="Last Name"
-                  required={true}
-                  placeholder=""
-                  className="!bg-white"
-                  maxLength={"30"}
-                  value={formik.values.lastName}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.lastName && formik.errors.lastName}
-                />
-                {formik.touched.lastName && formik.errors.lastName && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.lastName}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="position"
-                  label="Position"
-                  className="!bg-white"
-                  placeholder=""
-                  maxLength={"30"}
-                  value={formik.values.position}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.position && formik.errors.position}
-                />
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="tel"
-                  name="phoneNumber"
-                  label="Mobile Number"
-                  required={true}
-                  className="!bg-white"
-                  placeholder=""
-                  value={formik.values.phoneNumber}
-                  onChange={(e) => {
-                    const sanitizedValue = e.target.value.replace(
-                      /[^0-9]/g,
-                      ""
-                    );
-                    console.log(sanitizedValue);
-                    formik.handleChange({
-                      target: {
-                        name: "phoneNumber",
-                        value: sanitizedValue,
-                      },
-                    });
-                  }}
-                  onBlur={formik.handleBlur}
-                  onWheelCapture={(e) => {
-                    e.preventDefault();
-                  }}
-                  minLength={"10"}
-                  maxLength={"10"}
-                  error={
-                    formik.touched.phoneNumber && formik.errors.phoneNumber
-                  }
-                />
-                {(formik.touched.phoneNumber || formik.submitCount > 0) &&
-                  formik.errors.phoneNumber && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.phoneNumber}
-                    </div>
-                  )}
-              </div>
-              <div className="col-span-6">
-                <Select
-                  label="Status"
-                  required={true}
-                  name="status"
-                  placeholder=""
-                  onChange={handleSelectChange}
-                  disabled={isprimary}
-                  className="!bg-white"
-                  options={status}
-                  value={formik.values.status}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.status && formik.errors.status}
-                />
-                {formik.touched.status && formik.errors.status && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.status}
-                  </div>
-                )}
-              </div>
-            </Grid>
-            <Grid className="!grid-cols-5 my-5  px-8">
-              <div className="col-span-2">
-                <Button
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                  onClick={() => closeModal2()}
-                >
-                  Cancel
-                </Button>
-              </div>
-
-              <div className="col-span-3">
-                <Button type="submit" className="w-full">
-                  Submit
-                </Button>
-              </div>
-            </Grid>
-          </form>
+        {editLoading ? 
+        <div className="h-[400px] w-full flex py-5">
+        <div className="self-center mx-auto">
+          <RotateLoader color="#333" />
         </div>
+      </div>
+         : 
+         <div className=" py-3">
+         <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+           Edit User
+         </p>
+         <form className="mt-8" onSubmit={formik.handleSubmit}>
+           <Grid className="px-8">
+             <div className="col-span-6">
+               <Input
+                 type="text"
+                 name="firstName"
+                 label="First Name"
+                 required={true}
+                 className="!bg-white"
+                 placeholder=""
+                 maxLength={"30"}
+                 value={formik.values.firstName}
+                 onBlur={formik.handleBlur}
+                 onChange={formik.handleChange}
+                 error={formik.touched.firstName && formik.errors.firstName}
+               />
+               {formik.touched.firstName && formik.errors.firstName && (
+                 <div className="text-red-500 text-sm pl-2 pt-2">
+                   {formik.errors.firstName}
+                 </div>
+               )}
+             </div>
+             <div className="col-span-6">
+               <Input
+                 type="text"
+                 name="lastName"
+                 label="Last Name"
+                 required={true}
+                 placeholder=""
+                 className="!bg-white"
+                 maxLength={"30"}
+                 value={formik.values.lastName}
+                 onBlur={formik.handleBlur}
+                 onChange={formik.handleChange}
+                 error={formik.touched.lastName && formik.errors.lastName}
+               />
+               {formik.touched.lastName && formik.errors.lastName && (
+                 <div className="text-red-500 text-sm pl-2 pt-2">
+                   {formik.errors.lastName}
+                 </div>
+               )}
+             </div>
+             <div className="col-span-6">
+               <Input
+                 type="text"
+                 name="position"
+                 label="Position"
+                 className="!bg-white"
+                 placeholder=""
+                 maxLength={"30"}
+                 value={formik.values.position}
+                 onBlur={formik.handleBlur}
+                 onChange={formik.handleChange}
+                 error={formik.touched.position && formik.errors.position}
+               />
+             </div>
+             <div className="col-span-6">
+               <Input
+                 type="tel"
+                 name="phoneNumber"
+                 label="Mobile Number"
+                 required={true}
+                 className="!bg-white"
+                 placeholder=""
+                 value={formik.values.phoneNumber}
+                 onChange={(e) => {
+                   const sanitizedValue = e.target.value.replace(
+                     /[^0-9]/g,
+                     ""
+                   );
+                   console.log(sanitizedValue);
+                   formik.handleChange({
+                     target: {
+                       name: "phoneNumber",
+                       value: sanitizedValue,
+                     },
+                   });
+                 }}
+                 onBlur={formik.handleBlur}
+                 onWheelCapture={(e) => {
+                   e.preventDefault();
+                 }}
+                 minLength={"10"}
+                 maxLength={"10"}
+                 error={
+                   formik.touched.phoneNumber && formik.errors.phoneNumber
+                 }
+               />
+               {(formik.touched.phoneNumber || formik.submitCount > 0) &&
+                 formik.errors.phoneNumber && (
+                   <div className="text-red-500 text-sm pl-2 pt-2">
+                     {formik.errors.phoneNumber}
+                   </div>
+                 )}
+             </div>
+             <div className="col-span-6">
+               <Select
+                 label="Status"
+                 required={true}
+                 name="status"
+                 placeholder=""
+                 onChange={handleSelectChange}
+                 disabled={isprimary}
+                 className="!bg-white"
+                 options={status}
+                 value={formik.values.status}
+                 onBlur={formik.handleBlur}
+                 error={formik.touched.status && formik.errors.status}
+               />
+               {formik.touched.status && formik.errors.status && (
+                 <div className="text-red-500 text-sm pl-2 pt-2">
+                   {formik.errors.status}
+                 </div>
+               )}
+             </div>
+           </Grid>
+           <Grid className="!grid-cols-5 my-5  px-8">
+             <div className="col-span-2">
+               <Button
+                 className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                 onClick={() => closeModal2()}
+               >
+                 Cancel
+               </Button>
+             </div>
+
+             <div className="col-span-3">
+               <Button type="submit" className="w-full">
+                 Submit
+               </Button>
+             </div>
+           </Grid>
+         </form>
+       </div>}
+       
       </Modal>
 
       <Modal isOpen={modalOpen} onClose={closeModal10}>

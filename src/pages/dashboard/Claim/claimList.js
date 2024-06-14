@@ -2382,6 +2382,7 @@ function ClaimList(props) {
           </form>
         </div>
       </Modal>
+
       <Modal isOpen={isEditOpen} onClose={closeEdit} className="!w-[1100px]">
         <Button
           onClick={closeEdit}
@@ -2617,6 +2618,7 @@ function ClaimList(props) {
           )}
         </div>
       </Modal>
+
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
@@ -2632,6 +2634,7 @@ function ClaimList(props) {
           </p>
         </div>
       </Modal>
+
       <Modal isOpen={isComplete} onClose={closeComplete}>
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
@@ -2650,6 +2653,7 @@ function ClaimList(props) {
           </div>
         </div>
       </Modal>
+      
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
           onClick={closeDisapproved}

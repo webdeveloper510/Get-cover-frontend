@@ -1276,7 +1276,7 @@ function ResellerClaimList(props) {
                                   )}
                               </div>
                             </Grid>
-                            <Grid className="!gap-0 bg-grayf9 !grid-cols-5 border-Gray28 border-x">
+                            <Grid className="!gap-0 bg-grayf9 !grid-cols-4 border-Gray28 border-x">
                               <div className="col-span-1 flex ">
                                 <img
                                   src={productName}
@@ -1292,7 +1292,7 @@ function ResellerClaimList(props) {
                                   </p>
                                 </div>
                               </div>
-                              <div className="col-span-2 flex">
+                              <div className="col-span-1 flex">
                                 <img
                                   src={Manufacturer}
                                   className="self-center h-[50px] w-[50px] ml-3"

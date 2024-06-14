@@ -1040,13 +1040,14 @@ function DealerAddOrder() {
     }
     if (name.includes("term")) {
       const match = name.match(/\[(\d+)\]/);
+      console.log('formikStep3.values.productsArray[match[1]].pName',formikStep3.values.productsArray[match[1]].pName)
       // updateProductFields(selectedValue);
       getCategoryList(
         {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
           term: selectedValue,
-          pName: formikStep3.values.productsArray[match[1]].pName,
+          pName: formikStep3.values.productsArray[match[1]].pName == undefined ? '':formikStep3.values.productsArray[match[1]].pName,
           coverageType: formikStep2?.values?.coverageType,
         },
         match[1]

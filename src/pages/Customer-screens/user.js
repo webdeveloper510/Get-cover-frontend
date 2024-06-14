@@ -53,6 +53,8 @@ function CustomerUser() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
   const [details, setDetails] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
@@ -260,11 +262,11 @@ function CustomerUser() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      setLoading(true);
+      setAddLoading(true);
       const result = await addUserToCustomerPortal(values);
       console.log(result);
       if (result.code == 200) {
-        setLoading(false);
+        setAddLoading(false);
         SetPrimaryText("User Added Successfully ");
         SetSecondaryText("user Added successfully ");
         openModal();
@@ -272,7 +274,7 @@ function CustomerUser() {
         setTimer(3);
         getUserList();
       } else {
-        setLoading(false);
+        setAddLoading(false);
       }
       closeModal2();
     },
@@ -387,11 +389,11 @@ function CustomerUser() {
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
-      setLoading(true);
+      setEditLoading(true);
       const result = await updateUserDetailsById(values);
       console.log(result);
       if (result.code == 200) {
-        setLoading(false);
+        setEditLoading(false);
         SetPrimaryText("User Updated Successfully ");
         SetSecondaryText("user updated successfully ");
         // setFirstMessage("User Edited Successfully ");
@@ -400,7 +402,7 @@ function CustomerUser() {
         setTimer(3);
         filterUserDetails();
       } else {
-        setLoading(false);
+        setEditLoading(false);
       }
       closeModal2();
     },
@@ -1122,6 +1124,13 @@ function CustomerUser() {
       </Modal>
 
       <Modal isOpen={isModalOpen2} onClose={closeModal2}>
+      {editLoading ? 
+        <div className="h-[400px] w-full flex py-5">
+        <div className="self-center mx-auto">
+          <RotateLoader color="#333" />
+        </div>
+      </div>
+         : 
         <div className=" py-3">
           <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
             Edit User
@@ -1260,10 +1269,18 @@ function CustomerUser() {
             </Grid>
           </form>
         </div>
+}
       </Modal>
 
       {/* Modal Edit Popop */}
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
+      {addLoading ? 
+        <div className="h-[400px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div>
+         : 
         <div className=" py-3">
           <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
             Add New User
@@ -1438,6 +1455,7 @@ function CustomerUser() {
             </Grid>
           </form>
         </div>
+      }
       </Modal>
       <Modal isOpen={isPasswordOpen} onClose={closePassword}>
         <Button

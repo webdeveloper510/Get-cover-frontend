@@ -61,6 +61,8 @@ function DealerUser() {
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
+  const [addLoading, setAddLoading] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
@@ -280,12 +282,12 @@ function DealerUser() {
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
+      setEditLoading(true);
       console.log("Form values:", values);
-      setLoading(true);
       const result = await userDetailsById(values);
       console.log(result);
       if (result.code == 200) {
-        setLoading(false);
+        setEditLoading(false);
         SetPrimaryText("User Updated Successfully ");
         SetSecondaryText("user Updated successfully ");
         openModal();
@@ -293,11 +295,11 @@ function DealerUser() {
         setTimer(3);
         getUserList();
       } else {
-        setLoading(false);
         SetPrimaryText("Error ");
         SetSecondaryText(result.message);
         SetIsModalOpen(true);
         setTimer(3);
+        setEditLoading(false);
       }
       closeModal2();
     },
@@ -386,11 +388,11 @@ function DealerUser() {
     }),
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      setLoading(true);
+      setAddLoading(true);
       const result = await addSuperAdminMembers(values);
       console.log(result);
       if (result.code == 200) {
-        setLoading(false);
+        setAddLoading(false);
         setTimer(3);
         SetPrimaryText("User Add Successfully ");
         SetSecondaryText("user Add successfully ");
@@ -401,12 +403,12 @@ function DealerUser() {
         getUserList();
         userValues.resetForm();
       } else {
-        setLoading(false);
+        setAddLoading(false);
         if (result.code === 401) {
           userValues.setFieldError("email", "Email already in use");
         }
         // closeUserModal()
-        setLoading(false)
+        // setLoading(false)
       }
       closeModal2();
     },
@@ -1058,6 +1060,13 @@ function DealerUser() {
 
       {/* Modal Edit Popop */}
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
+      {addLoading ? 
+        <div className="h-[400px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div>
+         : 
         <div className=" py-3">
           <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
             Add New User
@@ -1230,9 +1239,17 @@ function DealerUser() {
             </Grid>
           </form>
         </div>
+        }
       </Modal>
 
       <Modal isOpen={isModalOpen2} onClose={closeModal2}>
+      {editLoading ? 
+        <div className="h-[400px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div>
+         : 
         <div className=" py-3">
           <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
             Edit User
@@ -1371,6 +1388,7 @@ function DealerUser() {
             </Grid>
           </form>
         </div>
+}
       </Modal>
 
       <Modal isOpen={isPasswordOpen} onClose={closePassword}>

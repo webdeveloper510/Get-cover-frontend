@@ -933,7 +933,7 @@ function ResellerAddOrder() {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId:
             formikStep3.values.productsArray[productIndex].priceBookId,
-          pName: formikStep3.values.productsArray[productIndex].pName,
+            pName: formikStep3.values.productsArray[match[1]].pName == undefined ? '':formikStep3.values.productsArray[match[1]].pName,
           term: selectedValue,
           coverageType: formikStep2?.values?.coverageType,
         },
