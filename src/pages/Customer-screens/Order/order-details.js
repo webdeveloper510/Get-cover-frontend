@@ -33,7 +33,7 @@ function CustomerOrderDetails() {
   const { orderId } = useParams();
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("orderMenu");
-    return storedTab ? storedTab : "Contracts";
+    return storedTab ? storedTab : "Order Summary";
   };
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab

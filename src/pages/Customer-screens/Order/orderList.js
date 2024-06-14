@@ -186,6 +186,7 @@ function CustomerOrderList() {
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md bottom-1`}
+                onClick={() => localStorage.removeItem("orderMenu")}
               >
                 
                 <div className="text-center py-1 cursor-pointer">
