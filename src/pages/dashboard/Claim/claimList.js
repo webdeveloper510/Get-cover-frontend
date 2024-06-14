@@ -140,11 +140,7 @@ function ClaimList(props) {
   useEffect(() => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
     setRole(userDetails.role);
-    if (location.pathname.includes("/dealer/")) {
-      setUserType("dealer");
-    } else {
-      setUserType("admin"); // Reset userType if condition doesn't match
-    }
+ 
   }, [location.pathname]);
   const dropdownRef = useRef(null);
   const handleToggleDropdown = (value) => {

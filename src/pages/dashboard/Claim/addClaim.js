@@ -63,6 +63,7 @@ function AddClaim() {
   const [timer, setTimer] = useState(3);
   const [currentStep, setCurrentStep] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [role, setRole] = useState(null);
   const [currentRowsPerPage, setCurrentRowsPerPage] = useState(10);
   const [contractList, setContractList] = useState([]);
   const [price, setPrice] = useState(null);
@@ -93,6 +94,8 @@ function AddClaim() {
   };
 
   useEffect(() => {
+    const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+    setRole(userDetails.role);
     document.addEventListener("click", handleClickOutside);
 
     return () => {
@@ -236,7 +239,6 @@ function AddClaim() {
   });
 
   useEffect(() => {
-    console.log();
     if (username) {
       formik.setFieldValue("customerName", `${username}`);
     }
@@ -461,7 +463,9 @@ function AddClaim() {
                         value={formik.values.venderOrder}
                       />
                     </div>
-                    {location.pathname.includes("/customer/addClaim") && <div className="col-span-4"></div>}
+                    {location.pathname.includes("/customer/addClaim") && (
+                      <div className="col-span-4"></div>
+                    )}
 
                     <div
                       className={`col-span-4 self-end justify-end flex ${
@@ -490,9 +494,13 @@ function AddClaim() {
                           <thead className="bg-grayf9">
                             <tr className=" border-b-[1px]">
                               <th className="font-semibold">Contract ID</th>
-                              {!location.pathname.includes("/customer/addClaim") && <th className="font-semibold !py-3">
-                                Customer Name
-                              </th>}
+                              {!location.pathname.includes(
+                                "/customer/addClaim"
+                              ) && (
+                                <th className="font-semibold !py-3">
+                                  Customer Name
+                                </th>
+                              )}
                               <th className="font-semibold">Serial #</th>
                               <th className="font-semibold">Order #</th>
                               <th className="font-semibold">Dealer P.O. #</th>
@@ -507,7 +515,9 @@ function AddClaim() {
                                   className="text-[13px] text-[#626662] font-[400] border-b-[1px]"
                                 >
                                   <td className="py-3">{res.unique_key}</td>
-                                  {!location.pathname.includes("/customer/addClaim") && <td>{res.order.customers.username}</td> }
+                                  {!location.pathname.includes(
+                                    "/customer/addClaim"
+                                  ) && <td>{res.order.customers.username}</td>}
                                   <td>{res.serial}</td>
                                   <td>{res.order.unique_key}</td>
                                   <td>{res.order.venderOrder}</td>
@@ -712,7 +722,6 @@ function AddClaim() {
             <form onSubmit={formikStep2.handleSubmit}>
               <Grid>
                 <div className="col-span-12">
-                 
                   <Grid className="!grid-cols-8 my-3">
                     <div className="col-span-2">
                       <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
@@ -779,21 +788,21 @@ function AddClaim() {
                         </p>
                       </div>
                     </div>
-                    {window.location.pathname.includes("/reseller/addClaim") ||
-                    location.pathname.includes("dealer/addClaim") ? null : (
-                      <div className="col-span-3">
-                        <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                          <p className="text-sm m-0 p-0">Dealer Name</p>
-                          <p className="font-semibold">
-                            {contractDetail?.order?.[0]?.dealer?.[0]?.name}
-                          </p>
+
+                    {role !== "Reseller" &&
+                      role !== "Customer" &&
+                      role !== "Dealer" && (
+                        <div className="col-span-3">
+                          <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                            <p className="text-sm m-0 p-0">Dealer Name</p>
+                            <p className="font-semibold">
+                              {contractDetail?.order?.[0]?.dealer?.[0]?.name}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                    {window.location.pathname.includes("/reseller/addClaim") ||
-                    contractDetail?.order?.[0]?.reseller?.[0]?.name == null ? (
-                      ""
-                    ) : (
+                      )}
+
+                    {role !== "Reseller" && role !== "Customer" && (
                       <div className="col-span-3">
                         <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
                           <p className="text-sm m-0 p-0">Reseller Name</p>
@@ -805,15 +814,20 @@ function AddClaim() {
                       </div>
                     )}
 
-                    <div className="col-span-3">
-                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                        <p className="text-sm m-0 p-0">Customer Name</p>
-                        <p className="font-semibold">
-                          {" "}
-                          {contractDetail?.order?.[0]?.customer?.[0]?.username}
-                        </p>
+                    {role !== "Customer" && (
+                      <div className="col-span-3">
+                        <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                          <p className="text-sm m-0 p-0">Customer Name</p>
+                          <p className="font-semibold">
+                            {" "}
+                            {
+                              contractDetail?.order?.[0]?.customer?.[0]
+                                ?.username
+                            }
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </Grid>
                 </div>
               </Grid>
@@ -1259,41 +1273,48 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
-                  {location.pathname.includes("/dealer/addClaim") !== true ? (
+
+                  {role !== "Reseller" &&
+                    role !== "Customer" &&
+                    role !== "Dealer" && (
+                      <div className="col-span-1 border border-Light-Grey">
+                        <div className="py-4 pl-3">
+                          <p className="text-[#5D6E66] text-sm font-Regular">
+                            Dealer Name
+                          </p>
+                          <p className="text-[#333333] text-base font-semibold">
+                            {contractDetail?.order?.[0]?.dealer?.[0]?.name}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                  {role !== "Reseller" && role !== "Customer" && (
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 pl-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
-                          Dealer Name
+                          Reseller Name
                         </p>
                         <p className="text-[#333333] text-base font-semibold">
-                          {contractDetail?.order?.[0]?.dealer?.[0]?.name}
+                          {contractDetail?.order?.[0]?.reseller?.[0]?.name}
                         </p>
                       </div>
                     </div>
-                  ) : (
-                    ""
                   )}
 
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Reseller Name
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {contractDetail?.order?.[0]?.reseller?.[0]?.name}
-                      </p>
+                  {role !== "Customer" && (
+                    <div className="col-span-1 border border-Light-Grey">
+                      <div className="py-4 pl-3">
+                        <p className="text-[#5D6E66] text-sm font-Regular">
+                          Customer Name
+                        </p>
+                        <p className="text-[#333333] text-base font-semibold">
+                          {contractDetail?.order?.[0]?.customer?.[0]?.username}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Customer Name
-                      </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {contractDetail?.order?.[0]?.customer?.[0]?.username}
-                      </p>
-                    </div>
-                  </div>
+                  )}
+
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
