@@ -836,7 +836,7 @@ function ContractList(props) {
                       <p className="text-[#333333] text-base font-semibold">
                         {
                           contractDetails?.order?.[0]?.productsArray?.[0]
-                            ?.priceType
+                          ?.priceBook?.[0].category.name
                         }
                       </p>
                     </div>

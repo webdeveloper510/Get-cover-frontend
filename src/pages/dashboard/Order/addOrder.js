@@ -1967,7 +1967,7 @@ function AddOrder() {
                     placeholder=""
                     className="!bg-white"
                     className1={`${
-                      type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
+                      type == "Edit" ? "!bg-gradient-to-t from-[#f2f2f2] to-white" : "!bg-white"
                     }`}
                     required={true}
                     onChange={handleSelectChange1}
@@ -2841,7 +2841,11 @@ function AddOrder() {
                     <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Service Coverage</p>
                       <p className="font-bold text-sm">
-                        {formikStep2.values.serviceCoverageType}
+                      {formikStep2.values.serviceCoverageType === "Labour" 
+                      ? "Labor" 
+                      : formikStep2.values.serviceCoverageType === "Parts & Labour" 
+                      ? "Parts & Labor" 
+                      : formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
                     <div className="col-span-5 py-4">
@@ -3360,13 +3364,13 @@ function AddOrder() {
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            {type == "Edit" ? "Edit" : "Added"} Order
+            {type == "Edit" ? "Update" : "Add"} Order
             <span className="text-light-black"> Successfully </span>
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
             <b> {type == "Edit" ? "" : "New Order"} </b>{" "}
-            {type == "Edit" ? "Edited" : "Added"} Successfully
+            {type == "Edit" ? "Updated" : "Added"} Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.

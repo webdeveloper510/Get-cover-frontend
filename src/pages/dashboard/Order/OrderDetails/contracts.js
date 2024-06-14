@@ -466,8 +466,8 @@ function Contracts(props) {
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
                         {
-                          singleContract?.order?.[0]?.productsArray?.[0]
-                            ?.priceType
+                            singleContract?.order?.[0]?.productsArray?.[0]
+                            ?.priceBook?.[0].category.name
                         }
                       </p>
                     </div>

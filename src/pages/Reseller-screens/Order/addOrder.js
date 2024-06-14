@@ -1050,12 +1050,12 @@ function ResellerAddOrder() {
       case "Parts & Labour":
         setServiceCoverage([
           { label: "Parts", value: "Parts" },
-          { label: "Labor ", value: "Labour" },
+          { label: "Labor ", value: "Labor" },
           { label: "Parts & Labor ", value: "Parts & Labour" },
         ]);
         break;
       case "Labour":
-        setServiceCoverage([{ label: "Labor ", value: "Labour" }]);
+        setServiceCoverage([{ label: "Labor ", value: "Labor" }]);
         break;
       case "Parts":
         setServiceCoverage([{ label: "Parts", value: "Parts" }]);
@@ -2354,7 +2354,11 @@ function ResellerAddOrder() {
                     <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Service Coverage</p>
                       <p className="font-bold text-sm">
-                        {formikStep2.values.serviceCoverageType}
+                      {formikStep2.values.serviceCoverageType === "Labour" 
+                    ? "Labor" 
+                    : formikStep2.values.serviceCoverageType === "Parts & Labour" 
+                    ? "Parts & Labor" 
+                    : formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
                     <div className="col-span-5 py-4">
@@ -2775,13 +2779,13 @@ function ResellerAddOrder() {
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            {type == "Edit" ? "Edit" : "Added"} Order
+            {type == "Edit" ? "Update" : "Added"} Order
             <span className="text-light-black"> Successfully </span>
           </p>
 
           <p className="text-neutral-grey text-base font-medium mt-2">
             <b> {type == "Order " ? "" : "New Order"} </b>{" "}
-            {type == "Edit" ? "Edited" : "Added"} Successfully
+            {type == "Edit" ? "Updated" : "Added"} Successfully
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.

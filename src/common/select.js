@@ -60,7 +60,7 @@ const Select = ({
           {options?.length != 0 &&
             options?.map((option) => (
               <option key={option?.value} value={option?.value}>
-                {option.label}
+                { option.label == 'Labour' ? 'Labor' : option.label}
               </option>
             ))}
         </select>
