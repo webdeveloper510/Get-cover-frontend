@@ -312,9 +312,17 @@ function CustomerDetails() {
 
     setIsStatus(result.result.dealerStatus);
     console.log(result.result.meta.isAccountCreate, " --------- ????????");
-    setCreateAccount(result.result.meta.isAccountCreate);
+    setCreateAccount(
+      result.result.meta.isAccountCreate && result.result.userAccount
+        ? true
+        : false
+    );
     setIsAccountCreate(result.result.userAccount);
-    setCreateAccountOption(result.result.userAccount ? "yes" : "no");
+    setCreateAccountOption(
+      result.result.userAccount && result.result.meta.isAccountCreate
+        ? "yes"
+        : "no"
+    );
     setInitialFormValues({
       username: result?.result?.meta?.username,
       oldName: result?.result?.meta?.username,
@@ -856,7 +864,10 @@ function CustomerDetails() {
                       id="yes-create-account"
                       label="Yes"
                       value="yes"
-                      disabled={isAccountCreate == false}
+                      disabled={
+                        !customerDetail?.userAccount ||
+                        !customerDetail?.meta?.isAccountCreate
+                      }
                       checked={createAccountOption === "yes"}
                       onChange={handleRadioChange}
                     />
@@ -864,7 +875,10 @@ function CustomerDetails() {
                       id="no-create-account"
                       label="No"
                       value="no"
-                      disabled={isAccountCreate == false}
+                      disabled={
+                        !customerDetail?.userAccount ||
+                        !customerDetail?.meta?.isAccountCreate
+                      }
                       checked={createAccountOption === "no"}
                       onChange={handleRadioChange}
                     />
@@ -1021,7 +1035,7 @@ function CustomerDetails() {
                       label="Yes"
                       value={true}
                       disabled={
-                        !isAccountCreate &&
+                        !customerDetail?.userAccount &&
                         !customerDetail?.meta?.isAccountCreate
                       }
                       checked={createAccount === true}
@@ -1033,7 +1047,7 @@ function CustomerDetails() {
                       value={false}
                       checked={createAccount === false}
                       disabled={
-                        !isAccountCreate &&
+                        !customerDetail?.userAccount &&
                         !customerDetail?.meta?.isAccountCreate
                       }
                       onChange={handleAccountChange}
