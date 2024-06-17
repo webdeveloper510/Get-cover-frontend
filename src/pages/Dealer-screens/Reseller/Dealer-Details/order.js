@@ -65,6 +65,7 @@ function OrderList(props) {
   };
 
   const openModal = (id) => {
+    SetOrderId(id);
     processOrders(id).then((res) => {
       setProcessOrderErrors(res.result);
       SetErrorList(res.result);
@@ -504,10 +505,8 @@ function OrderList(props) {
       </Modal>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-      <Button
-        // onClick={() =>
-        //   navigate(`/dealer/editOrder/${props.id}/${props.flag}`)
-        // }
+        <Button
+          onClick={() => navigate(`/dealer/editOrder/${orderId}/${props.flag}`)}
           className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
