@@ -51,7 +51,7 @@ function Headbar({ className = "" }) {
       //     ArrayData.push(data);
       //   }
       // });
-      localStorage.setItem("lengthofNotifications", ArrayData.length);
+      localStorage.setItem("lengthofNotifications", ArrayData?.length);
     });
   };
   const lengthofNotifications = localStorage.getItem("lengthofNotifications");
@@ -84,7 +84,7 @@ function Headbar({ className = "" }) {
   };
 
   const truncateString = (str, num) => {
-    if (str.length > num) {
+    if (str?.length > num) {
       return str.slice(0, num) + '...';
     } else {
       return str;

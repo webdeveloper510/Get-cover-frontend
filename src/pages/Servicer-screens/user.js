@@ -7,6 +7,7 @@ import Primary from "../../assets/images/SetPrimary.png";
 import deleteUser10 from "../../assets/images/deleteUser.svg";
 import assign from "../../assets/images/Unassign.png";
 import Search from "../../assets/images/icons/SearchIcon.svg";
+import deleteUser123 from "../../assets/images/Disapproved.png";
 import clearFilter from "../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import shorting from "../../assets/images/icons/shorting.svg";
 import Grid from "../../common/grid";
@@ -14,6 +15,7 @@ import Input from "../../common/input";
 import DataTable from "react-data-table-component";
 import { RotateLoader } from "react-spinners";
 import Modal from "../../common/model";
+import Cross from "../../assets/images/Cross.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -22,6 +24,7 @@ import {
   getUserListByDealerId,
   userDetailsById,
   updateUserDetailsById,
+  addUserToCustomerPortal,
 } from "../../services/userServices";
 import Select from "../../common/select";
 import terms from "../../assets/images/Dealer/Address.svg";
@@ -35,6 +38,8 @@ import AddItem from "../../assets/images/icons/addItem.svg";
 import Headbar from "../../common/headBar";
 import RadioButton from "../../common/radio";
 import Tabs from "../../common/tabs";
+import { addSuperAdminMembers, changePasswordbyToken } from "../../services/extraServices";
+import PasswordInput from "../../common/passwordInput";
 
 function ServicerUser() {
   const { toggleFlag } = useMyContext();
@@ -47,19 +52,21 @@ function ServicerUser() {
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
-
+  const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [firstMessage, setFirstMessage] = useState("");
+  const [secondMessage, setSecondMessage] = useState("");
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
   const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
-
+  const [isPasswordOpen, setIsPasswordOpen] = useState(false);
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({
     lastName: "",
     firstName: "",
     phoneNumber: "",
     position: "",
-    status: true,
+    status: createAccountOption == 'yes' ? true : false,
     id: "",
   });
   const closeUserModal = () => {
@@ -73,6 +80,15 @@ function ServicerUser() {
       id: "",
     });
   };
+
+
+  const handleRadioChange = (event) => {
+    const selectedValue = event.target.value;
+    console.log(selectedValue);
+    formik.setFieldValue("status", selectedValue === "yes" ? true : false);
+    setCreateAccountOption(selectedValue);
+  };
+
 
   const openUserModal = () => {
     setInitialFormValues({
@@ -96,9 +112,16 @@ function ServicerUser() {
 
   const getUserDetail = async () => {
     const result = await getSevicerDetailPortal();
-    console.log(result.message.isPrimary);
+    console.log(result.message);
     setUserDetails(result.message);
-    SetIsprimary(result.message.isPrimary)
+    SetIsprimary(result.message.isPrimary);
+    let local = JSON.parse(localStorage.getItem("userDetails"));
+    // localStorage.removeItem('userDetails')
+    local.userInfo = {
+      lastName: result?.message?.lastName,
+      firstName: result?.message?.firstName,
+    };
+    localStorage.setItem("userDetails", JSON.stringify(local));
   };
 
   const handleClickOutside = (event) => {
@@ -125,7 +148,7 @@ function ServicerUser() {
     setLoading(true);
     let intervalId;
 
-    if ((isModalOpen || (isModalOpen12 && timer > 0)) && timer > 0) {
+    if ((isModalOpen || isPasswordOpen || (isModalOpen12 && timer > 0)) && timer > 0) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
@@ -155,6 +178,55 @@ function ServicerUser() {
     SetIsModalOpen(false);
   };
 
+  const initialValues2 = {
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  };
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log(values);
+    passwordChange(values);
+    setSubmitting(false);
+  };
+  const passwordChnageForm = useFormik({
+    initialValues: initialValues2,
+    validationSchema: Yup.object({
+      oldPassword: Yup.string().required("Required"),
+      newPassword: Yup.string().required("Required"),
+      confirmPassword: Yup.string()
+        .required("Required")
+        .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
+    }),
+    onSubmit: handleSubmit,
+  });
+
+
+
+  const passwordChange = async (value) => {
+    setLoading(true);
+    delete value.confirmPassword;
+
+    try {
+      const res = await changePasswordbyToken(value);
+      console.log(res);
+      if (res.code == 200) {
+        setFirstMessage("Updated  Successfully ");
+        setSecondMessage("User Password updated  successfully ");
+        setIsPasswordOpen(true);
+        passwordChnageForm.resetForm();
+        setTimer(3);
+      } else {
+        setFirstMessage("Error");
+        setSecondMessage(res.message);
+        setIsPasswordOpen(true);
+      }
+    } catch (error) {
+      console.error("Error changing password:", error);
+    } finally {
+      setLoading(false);
+    }
+    console.log(value);
+  };
   const openModal = () => {
     SetIsModalOpen(true);
     getUserList();
@@ -215,6 +287,7 @@ function ServicerUser() {
       console.error("Error in handleStatusChange:", error);
     }
   };
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -225,6 +298,10 @@ function ServicerUser() {
       lastName: Yup.string()
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
+      email: Yup.string()
+        .required("Required")
+        .matches(emailValidationRegex, "Invalid email address")
+        .transform((originalValue) => originalValue.trim()),
       phoneNumber: Yup.string()
         .required("Required")
         .min(10, "Must be at least 10 characters")
@@ -235,38 +312,27 @@ function ServicerUser() {
     onSubmit: async (values) => {
       console.log("Form values:", values);
       setLoading(true);
-      const result = await updateUserDetailsById(values);
+      const result = await addSuperAdminMembers(values);
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
         SetPrimaryText("User Updated Successfully ");
         SetSecondaryText("user updated successfully ");
-        openModal();
+        SetIsModalOpen(true);
         toggleFlag();
-        // setIsModalOpen3(true);
-
-        // setError(result.message);
+        setIsUserModalOpen(false);
         setTimer(3);
         getUserList();
       } else {
         setLoading(false);
-        // setError(false);
-        // setIsModalOpen(true);
-        // setTimer(3);
+        if (result.code === 401) {
+          formik.setFieldError("email", "Email already in use");
+        }
+        SetIsModalOpen(true);
       }
       closeModal2();
     },
   });
-
-  const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = userList.length - index <= 10000;
-    return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
-  };
-
-  const paginationOptions = {
-    rowsPerPageText: "Rows per page:",
-    rangeSeparatorText: "of",
-  };
   const formik1 = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -314,6 +380,11 @@ function ServicerUser() {
       // closeModal1();
     }
   };
+
+  const closePassword = () => {
+    setIsPasswordOpen(false);
+  };
+
   const editUser = async (id) => {
     console.log(id);
     const result = await userDetailsById(id);
@@ -459,9 +530,7 @@ function ServicerUser() {
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${
                   !row?.isPrimary ? "w-[140px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
+                } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md`}
               >
                 {!row?.isPrimary && row.status && (
                   <div
@@ -503,40 +572,10 @@ function ServicerUser() {
     </div>
   );
 
-  const tabsData = [
-    {
-      id: 1,
-      label: "Details",
-      content: (
-        <>
-       
-        </>
-      ),
-    },
-    {
-      id: 2,
-      label: "My Account",
-      content: (
-        <>
-         
-        </>
-      ),
-    },
-    {
-      id: 3,
-      label: "Change Password",
-      content: (
-        <>
-        
-        </>
-      ),
-    },
-  ];
-
   return (
     <>
       {loading && (
-        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
+        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl left-0 top-0  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#fff" />
           </div>
@@ -639,32 +678,68 @@ function ServicerUser() {
           </div> */}
           <div className="px-8 pb-4 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
               <p className='text-xl font-semibold mb-5'>Change Password</p>
-              <Grid>
-                <div className="col-span-4">
-                  <Input
-                    type="password"
-                    label="Old Password"
-                    className="!bg-white"
-                  />
+              <form onSubmit={passwordChnageForm.handleSubmit}>
+                <Grid>
+                  <div className="col-span-4">
+                    <PasswordInput
+                      type="password"
+                      name="oldPassword"
+                      label="Old Password"
+                      value={passwordChnageForm.values.oldPassword}
+                      onChange={passwordChnageForm.handleChange}
+                      onBlur={passwordChnageForm.handleBlur}
+                      isPassword
+                      className="!bg-white"
+                    />
+                    {passwordChnageForm.touched.oldPassword &&
+                      passwordChnageForm.errors.oldPassword && (
+                        <div className="text-red-500">
+                          {passwordChnageForm.errors.oldPassword}
+                        </div>
+                      )}
+                  </div>
+
+                  <div className="col-span-4">
+                    <PasswordInput
+                      type="password"
+                      name="newPassword"
+                      label="New Password"
+                      isPassword
+                      className="!bg-white"
+                      value={passwordChnageForm.values.newPassword}
+                      onChange={passwordChnageForm.handleChange}
+                      onBlur={passwordChnageForm.handleBlur}
+                    />
+                    {passwordChnageForm.touched.newPassword &&
+                      passwordChnageForm.errors.newPassword && (
+                        <div className="text-red-500">
+                          {passwordChnageForm.errors.newPassword}
+                        </div>
+                      )}
+                  </div>
+                  <div className="col-span-4">
+                    <PasswordInput
+                      type="password"
+                      name="confirmPassword"
+                      label="Confirm Password"
+                      isPassword
+                      className="!bg-white"
+                      value={passwordChnageForm.values.confirmPassword}
+                      onChange={passwordChnageForm.handleChange}
+                      onBlur={passwordChnageForm.handleBlur}
+                    />
+                    {passwordChnageForm.touched.confirmPassword &&
+                      passwordChnageForm.errors.confirmPassword && (
+                        <div className="text-red-500">
+                          {passwordChnageForm.errors.confirmPassword}
+                        </div>
+                      )}
+                  </div>
+                </Grid>
+                <div className="mt-4 text-right">
+                  <Button type="submit">Change Password</Button>
                 </div>
-                <div className="col-span-4">
-                  <Input
-                    type="password"
-                    label="New Password"
-                    className="!bg-white"
-                  />
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    type="password"
-                    label="Confirm Password"
-                    className="!bg-white"
-                  />
-                </div>
-              </Grid>
-              <div className="mt-4 text-right">
-                <Button>Change Password</Button>
-              </div>
+              </form>
           </div>
           {loading ? (
           <div className=" h-[400px] w-full flex py-5">
@@ -888,23 +963,23 @@ function ServicerUser() {
               </div>
               <div className="col-span-6">
                 <Input
-                  type="text"
+                  type="email"
                   name="email"
                   label="Email"
                   className="!bg-white"
                   required={true}
                   placeholder=""
                   maxLength={"30"}
-                  value={formik.values.position}
+                  value={formik.values.email}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  error={formik.touched.position && formik.errors.position}
+                  error={formik.touched.email && formik.errors.email}
                 />
-                {/* {formik.touched.position && formik.errors.position && (
+                {formik.touched.email && formik.errors.email && (
                 <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.position}
+                  {formik.errors.email}
                 </div>
-              )} */}
+              )}
               </div>
               <div className="col-span-6">
                 <Input
@@ -972,15 +1047,15 @@ function ServicerUser() {
                     id="yes-create-account"
                     label="Yes"
                     value="yes"
-                    // checked={createAccountOption === "yes"}
-                    // onChange={handleRadioChange}
+                    checked={createAccountOption === "yes"}
+                    onChange={handleRadioChange}
                   />
                   <RadioButton
                     id="no-create-account"
                     label="No"
                     value="no"
-                    // checked={createAccountOption === "no"}
-                    // onChange={handleRadioChange}
+                    checked={createAccountOption === "no"}
+                    onChange={handleRadioChange}
                   />
                 </p>
               </div>
@@ -1143,6 +1218,27 @@ function ServicerUser() {
               </div>
             </Grid>
           </form>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isPasswordOpen} onClose={closePassword}>
+        <Button
+          onClick={closePassword}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={deleteUser123} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            {firstMessage}
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-4">
+            {secondMessage}
+          </p>
         </div>
       </Modal>
     </>
