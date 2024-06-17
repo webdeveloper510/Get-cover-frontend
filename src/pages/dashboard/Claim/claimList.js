@@ -1475,16 +1475,19 @@ function ClaimList(props) {
                                   <Grid className="!gap-2">
                                     <div className="col-span-4 py-4 pl-1 ">
                                       <div className="bg-Eclipse py-2 px-2">
-                                        <p className="text-light-green mb-3 text-[11px] font-Regular ">
-                                          Customer Name :{" "}
-                                          <span className="font-semibold text-white">
-                                            {" "}
-                                            {
-                                              res?.contracts?.orders?.customer
-                                                ?.username
-                                            }{" "}
-                                          </span>
-                                        </p>
+                                        {!location.pathname.includes(
+                                    "customer/claimList"
+                                  ) && <p className="text-light-green mb-3 text-[11px] font-Regular ">
+                                  Customer Name :{" "}
+                                  <span className="font-semibold text-white">
+                                    {" "}
+                                    {
+                                      res?.contracts?.orders?.customer
+                                        ?.username
+                                    }{" "}
+                                  </span>
+                                </p>}
+                                        
                                         <p className="text-light-green text-[11px] mb-3 font-Regular">
                                           Claim Cost :{" "}
                                           <span className="font-semibold text-white ml-3">

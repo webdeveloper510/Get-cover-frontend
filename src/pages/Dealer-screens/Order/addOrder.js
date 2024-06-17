@@ -1071,6 +1071,9 @@ function DealerAddOrder() {
     }
     formikStep3.setFieldValue(name, selectedValue);
   };
+  const handleReload = () => {
+    window.location.reload();
+  };
 
   useEffect(() => {
     for (let i = 0; i < formikStep3.values.productsArray.length; i++) {
@@ -1396,7 +1399,7 @@ function DealerAddOrder() {
                 <p className="text-2xl font-bold mb-4">Order Details</p>
                     <Button
                       className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
-                      onClick={handleInputClickResetStep1}
+                      onClick={handleReload}
                     >
                       Reset
                     </Button>
