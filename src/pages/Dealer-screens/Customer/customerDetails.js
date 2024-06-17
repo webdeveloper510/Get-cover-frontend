@@ -128,6 +128,7 @@ function CustomerDetails() {
   };
   const closeUserModal = () => {
     setActiveTab("Users");
+    localStorage.setItem("isPopupOpen", "false");
     setIsUserModalOpen(false);
 
     userValues.resetForm();
@@ -268,8 +269,15 @@ function CustomerDetails() {
   });
   const openUserModal = () => {
     setActiveTab("Users123");
+    localStorage.setItem("isPopupOpen", "true");
     setIsUserModalOpen(true);
   };
+  useEffect(() => {
+    const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+    if (isPopupOpen) {
+      setActiveTab("Users");
+    }
+  }, []);
   useEffect(() => {
     customerDetails();
   }, [customerId, flag]);

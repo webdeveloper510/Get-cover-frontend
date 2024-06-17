@@ -134,6 +134,7 @@ function CustomerDetails() {
   const closeUserModal = () => {
     setIsUserModalOpen(false);
     setActiveTab("Users");
+    localStorage.setItem("isPopupOpen", "false");
     userValues.resetForm();
   };
   const getUserList = async () => {
@@ -253,8 +254,17 @@ function CustomerDetails() {
   });
   const openUserModal = () => {
     setActiveTab("Users123");
+    localStorage.setItem("isPopupOpen", "true");
     setIsUserModalOpen(true);
   };
+
+  useEffect(() => {
+    const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+    if (isPopupOpen) {
+      setActiveTab("Users");
+    }
+  }, []);
+
   useEffect(() => {
     customerDetails();
   }, [customerId, flag]);

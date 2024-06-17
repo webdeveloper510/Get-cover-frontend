@@ -205,6 +205,7 @@ function DealerResellerDetails() {
   const closeUserModal = () => {
     setIsUserModalOpen(false);
     setActiveTab("Users");
+    localStorage.setItem("isPopupOpen", "false");
     setCreateAccountOption("yes");
     userValues.resetForm();
   };
@@ -218,6 +219,14 @@ function DealerResellerDetails() {
     resellerDetails();
     getServicerList();
   }, [id.resellerId, flag]);
+
+  useEffect(() => {
+    const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+    if (isPopupOpen) {
+      setActiveTab("Users");
+    }
+  }, []);
+
   useEffect(() => {
     localStorage.setItem("Resellermenu", activeTab);
     checkTokenExpiry();
@@ -445,6 +454,7 @@ function DealerResellerDetails() {
   const openUserModal = () => {
     userValues.resetForm();
     setActiveTab("Users123");
+    localStorage.setItem("isPopupOpen", "true");
     setIsUserModalOpen(true);
   };
   const columns = [

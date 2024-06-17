@@ -241,6 +241,7 @@ function DealerDetails() {
   const closeUserModal = () => {
     setIsUserModalOpen(false);
     setActiveTab("Users");
+    localStorage.setItem("isPopupOpen", "false");
     userValues.resetForm();
   };
 
@@ -511,9 +512,15 @@ function DealerDetails() {
   const openUserModal = () => {
     userValues.resetForm();
     setActiveTab("Users123");
+    localStorage.setItem("isPopupOpen", "true");
     setIsUserModalOpen(true);
   };
-
+  useEffect(() => {
+    const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+    if (isPopupOpen) {
+      setActiveTab("Users");
+    }
+  }, []);
   useEffect(() => {
     checkTokenExpiry();
     localStorage.setItem("menu", activeTab);
