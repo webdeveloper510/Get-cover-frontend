@@ -37,6 +37,23 @@ export const getNotifications = async (data) => {
   }
 };
 
+export const getNotificationMarks = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/user/readAllNotification
+       `,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getNotificationsCount = async () => {
   const headers = createHeaders();
   try {

@@ -11,6 +11,7 @@ import time from "../../assets/images/icons/time.svg";
 import { Link, useNavigate } from "react-router-dom";
 
 import {
+  getNotificationMarks,
   getNotifications,
   updateNotifications,
 } from "../../services/extraServices";
@@ -25,6 +26,7 @@ function Notification() {
   useEffect(() => {
     setLoading(true);
     getNotificationsData();
+    
   }, []);
   const updateNotification = async (id, type) => {
     console.log(id,type);
@@ -64,6 +66,17 @@ function Notification() {
     });
   };
 
+  const getNotificationMark = () => {
+    setLoading(true);
+    getNotificationMarks().then((response) => {
+      // setNotificationList(response.result);
+      console.log(response.result?.notification);
+      setLoading(false);
+      getNotificationsData();
+    });
+  };
+  
+
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     getNotificationsData();
@@ -94,7 +107,7 @@ function Notification() {
         </button>
             </div>
           </div>
-          <Button className='!text-light-black !bg-[#1B1D2126] self-center'>Mark all as read</Button>
+          <Button className='!text-light-black !bg-[#1B1D2126] self-center' onClick={()=> getNotificationMark()}>Mark all as read</Button>
         </div>
 
 
