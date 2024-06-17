@@ -305,6 +305,14 @@ function ResellerDetails() {
   const openModal = () => {
     setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+    if (isPopupOpen) {
+      setActiveTab("Users");
+    }
+  }, []);
+
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
   const handleSelectChange = async (name, value) => {

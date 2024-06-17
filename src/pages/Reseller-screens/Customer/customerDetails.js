@@ -251,7 +251,16 @@ function ResellerCustomerDetails() {
   const openUserModal = () => {
     setIsUserModalOpen(true);
     setActiveTab("usersss");
-  };
+    localStorage.setItem("isPopupOpen", "true");
+
+};
+
+useEffect(() => {
+  const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+  if (isPopupOpen) {
+    setActiveTab("Users");
+  }
+}, []);
   useEffect(() => {
     customerDetails();
   }, [customerId, flag]);

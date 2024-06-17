@@ -97,6 +97,14 @@ function CustomerDetails() {
     setIsModalOpen(false);
     formik.resetForm();
   };
+
+  useEffect(() => {
+    const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+    if (isPopupOpen) {
+      setActiveTab("Users");
+    }
+  }, []);
+  
   useEffect(() => {
     setLoading(true);
     let intervalId;

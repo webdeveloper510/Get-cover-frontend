@@ -224,7 +224,7 @@ function CustomerOrderList() {
     validationSchema,
     onSubmit: (values) => {
       getOrderList(values);
-
+      closeDisapproved();
       console.log(values);
     },
   });
@@ -422,26 +422,29 @@ function CustomerOrderList() {
         </Button>
         <div className="py-3">
           <p className="text-center text-3xl font-semibold ">Advance Search</p>
+          <form onSubmit={formik.handleSubmit}>
           <Grid className="mt-5 px-6">
             <div className="col-span-6">
               <Input
                 type="text"
-                name="Order ID"
+                id="orderId"
                 className="!bg-white"
                 label="Order ID"
                 placeholder=""
+                {...formik.getFieldProps("orderId")}
               />
             </div>
             <div className="col-span-6">
               <Input
-                type="text"
-                name="Dealer P.O. #"
-                className="!bg-white"
-                label="Dealer P.O. #"
-                placeholder=""
+                 type="text"
+                 id="venderOrder"
+                 className="!bg-white"
+                 label="Dealer P.O. No."
+                 placeholder=""
+                 {...formik.getFieldProps("venderOrder")}
               />
             </div>
-            <div className="col-span-6">
+            {/* <div className="col-span-6">
               <Input
                 type="text"
                 name="Serial No."
@@ -449,32 +452,37 @@ function CustomerOrderList() {
                 label="Serial #"
                 placeholder=""
               />
-            </div>
+            </div> */}
 
             
             <div className="col-span-6">
               <Input
-                type="text"
-                name="Servicer Name"
-                className="!bg-white"
-                label="Servicer Name"
-                placeholder=""
+                 type="text"
+                 id="servicerName"
+                 className="!bg-white"
+                 label="Servicer Name"
+                 placeholder=""
+                 {...formik.getFieldProps("servicerName")}
               />
             </div>
 
             <div className="col-span-6">
               <Select
-                name="Status"
+                id="status"
                 label="Status"
+                name="status"
                 options={status}
                 className="!bg-white"
                 placeholder=""
+                value={formik.values.status}
+                onChange={handleSelectChange}
               />
             </div>
             <div className="col-span-12">
-              <Button className={"w-full"}>Search</Button>
+              <Button className={"w-full"} type='submit'>Search</Button>
             </div>
           </Grid>
+          </form>
         </div>
       </Modal>
     </>
