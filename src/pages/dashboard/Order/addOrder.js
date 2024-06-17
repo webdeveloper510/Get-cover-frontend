@@ -1344,7 +1344,10 @@ function AddOrder() {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId:
             formikStep3.values.productsArray[productIndex].priceBookId,
-           pName: formikStep3.values.productsArray[match[1]].pName == undefined ? '':formikStep3.values.productsArray[match[1]].pName,
+          pName:
+            formikStep3.values.productsArray[match[1]].pName == undefined
+              ? ""
+              : formikStep3.values.productsArray[match[1]].pName,
           term: selectedValue,
           coverageType: formikStep2?.values?.coverageType,
         },
@@ -1603,37 +1606,29 @@ function AddOrder() {
   const handleInputClickResetStep1 = () => {
     const currentValues = formik.values;
     const newValues = { ...formik.initialValues };
-console.log('  window.location.pathname.includes("/editOrder")',  window.location.pathname.includes("/editOrder"))
     if (
       (dealerId && dealerValue) ||
       window.location.pathname.includes("/editOrder")
     ) {
-      console.log('formik.values',formik.values)
+      console.log("formik.values", formik.values);
       newValues.dealerId = currentValues.dealerId;
-
-    }
-
-   else if (resellerId) {
+    } else if (resellerId) {
       Object.assign(newValues, {
         dealerId: currentValues.dealerId,
         dealerValue: currentValues.dealerValue,
         resellerId: currentValues.resellerId,
       });
-    }
-
-    else if (customerId) {
+    } else if (customerId) {
       Object.assign(newValues, {
         dealerId: currentValues.dealerId,
         dealerValue: currentValues.dealerValue,
         resellerId: currentValues.resellerId,
         customerId: currentValues.customerId,
       });
-    }
-
-    else{
-      setCustomerList([])
-      setResllerList([])
-      setServicerData([])
+    } else {
+      setCustomerList([]);
+      setResllerList([]);
+      setServicerData([]);
     }
     formik.resetForm({ values: newValues });
   };
@@ -1648,7 +1643,12 @@ console.log('  window.location.pathname.includes("/editOrder")',  window.locatio
             console.log(newArray);
             return newArray;
           });
-          const newProduct = { ...product };
+
+          const newProduct = {
+            ...product,
+            coverageStartDate: "2025-06-12T00:00:00.000Z",
+            coverageEndDate: null,
+          };
           Object.keys(newProduct).forEach((key) => {
             if (key === "unitPrice" || key === "price") {
               newProduct[key] = 0; // Resetting to 0
@@ -1669,6 +1669,7 @@ console.log('  window.location.pathname.includes("/editOrder")',  window.locatio
         return product;
       }
     );
+    console.log("updatedProductsArray", updatedProductsArray);
 
     formikStep3.setFieldValue("productsArray", updatedProductsArray);
   };
@@ -1977,7 +1978,9 @@ console.log('  window.location.pathname.includes("/editOrder")',  window.locatio
                     placeholder=""
                     className="!bg-white"
                     className1={`${
-                      type == "Edit" ? "!bg-gradient-to-t from-[#f2f2f2] to-white" : "!bg-white"
+                      type == "Edit"
+                        ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                        : "!bg-white"
                     }`}
                     required={true}
                     onChange={handleSelectChange1}
@@ -2344,6 +2347,7 @@ console.log('  window.location.pathname.includes("/editOrder")',  window.locatio
                           }
                           onChange={(e) => {
                             formikStep3.handleChange(e);
+                            console.log("e.target.value", e.target.value);
                             const selectedDate = new Date(e.target.value);
                             selectedDate.setDate(selectedDate.getDate() + 1);
 
@@ -2851,11 +2855,12 @@ console.log('  window.location.pathname.includes("/editOrder")',  window.locatio
                     <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Service Coverage</p>
                       <p className="font-bold text-sm">
-                      {formikStep2.values.serviceCoverageType === "Labour" 
-                      ? "Labor" 
-                      : formikStep2.values.serviceCoverageType === "Parts & Labour" 
-                      ? "Parts & Labor" 
-                      : formikStep2.values.serviceCoverageType}
+                        {formikStep2.values.serviceCoverageType === "Labour"
+                          ? "Labor"
+                          : formikStep2.values.serviceCoverageType ===
+                            "Parts & Labour"
+                          ? "Parts & Labor"
+                          : formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
                     <div className="col-span-5 py-4">

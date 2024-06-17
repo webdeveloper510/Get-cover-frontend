@@ -209,7 +209,6 @@ function CustomerDetails() {
     const result = await getUserListByCustomerId({}, customerId);
     console.log(result.result, "----------");
     setRefreshUserList(result.result);
-    setCreateAccount(result.isAccountCreate);
   };
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
@@ -278,9 +277,11 @@ function CustomerDetails() {
       setActiveTab("Users");
     }
   }, []);
+
   useEffect(() => {
     customerDetails();
   }, [customerId, flag]);
+
   const routeToPage = (data) => {
     console.log(
       `/dealer/addOrderforCustomer/${customerId}/${customerDetail?.meta?.resellerId}`
@@ -322,6 +323,12 @@ function CustomerDetails() {
     setCreateAccountOption(
       result.result.primary.status === false ? "no" : "yes"
     );
+    setCreateAccount(
+      result.result.meta.isAccountCreate && result.result.userAccount
+        ? true
+        : false
+    );
+
     console.log(result.result.primary.status, "??????????????");
     setInitialFormValues({
       username: result?.result?.meta?.username,
@@ -827,8 +834,8 @@ function CustomerDetails() {
                       value={true}
                       checked={createAccount === true}
                       disabled={
-                        createMainAccount === false ||
-                        createAccountOption === "no"
+                        !customerDetail?.userAccount ||
+                        !customerDetail?.meta?.isAccountCreate
                       }
                       onChange={handleAccountChange}
                     />
@@ -838,8 +845,8 @@ function CustomerDetails() {
                       value={false}
                       checked={createAccount === false}
                       disabled={
-                        createMainAccount === false ||
-                        createAccountOption === "no"
+                        !customerDetail?.userAccount ||
+                        !customerDetail?.meta?.isAccountCreate
                       }
                       onChange={handleAccountChange}
                     />
@@ -995,7 +1002,7 @@ function CustomerDetails() {
                       label="Yes"
                       value="yes"
                       disabled={
-                        !createMainAccount &&
+                        !customerDetail?.userAccount &&
                         !customerDetail?.meta?.isAccountCreate
                       }
                       checked={createAccountOption === "yes"}
@@ -1006,7 +1013,7 @@ function CustomerDetails() {
                       label="No"
                       value="no"
                       disabled={
-                        !createMainAccount &&
+                        !customerDetail?.userAccount &&
                         !customerDetail?.meta?.isAccountCreate
                       }
                       checked={createAccountOption === "no"}
