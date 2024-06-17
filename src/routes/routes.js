@@ -97,6 +97,7 @@ import ResellerOrderDetails from "../pages/Reseller-screens/Order/order-details"
 import DealerOrderDetails from "../pages/Dealer-screens/Order/order-details";
 import ClaimList12 from "../pages/Dealer-screens/Claim/claimList";
 import ResellerClaimList from "../pages/Reseller-screens/Claim/claimList";
+import AllList from "../pages/Servicer-screens/Reporting/claims";
 // import DealerArchiveOrderList from "../pages/Dealer-screens/Order/order-archive";
 
 const routes = [
@@ -764,7 +765,7 @@ const routes = [
         path: "/servicer/claimList",
         element: (
           <PrivateRoute
-            element={<ClaimList />}
+            element={<AllList />}
             role={"servicer"}
             path="/servicer/claimList"
           />

@@ -121,33 +121,30 @@ function CustomerOrderList() {
 
   const columns = [
     {
-      name: "ID",
+      name: "Order ID",
       selector: (row) => row?.unique_key,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "140px",
     },
     {
       name: "Dealer P.O #",
       selector: (row) => row.venderOrder,
       sortable: true,
-      minWidth: "180px",
     },
-    {
-      name: "Dealer Name",
-      selector: (row) => row.dealerName.name,
-      sortable: true,
-    },
-    {
-      name: "Reseller Name",
-      selector: (row) => row.resellerName.name,
-      sortable: true,
-    },
+    // {
+    //   name: "Dealer Name",
+    //   selector: (row) => row.dealerName.name,
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Reseller Name",
+    //   selector: (row) => row.resellerName.name,
+    //   sortable: true,
+    // },
     {
       name: "# of Contract",
       selector: (row) => (row?.noOfProducts == null ? 0 : row.noOfProducts.toLocaleString(2)),
       sortable: true,
-      minWidth: "150px",
     },
     {
       name: "Status",
@@ -267,7 +264,7 @@ function CustomerOrderList() {
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
-                        placeholder="ID"
+                        placeholder="Order ID"
                         {...formik.getFieldProps("orderId")}
                       />
                     </div>
@@ -278,7 +275,7 @@ function CustomerOrderList() {
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
-                        placeholder="Dealer Order No."
+                        placeholder="Dealer P.O #"
                         {...formik.getFieldProps("venderOrder")}
                       />
                     </div>
@@ -454,15 +451,7 @@ function CustomerOrderList() {
               />
             </div>
 
-            <div className="col-span-6">
-              <Input
-                type="text"
-                name="Customer Name"
-                className="!bg-white"
-                label="Customer Name"
-                placeholder=""
-              />
-            </div>
+            
             <div className="col-span-6">
               <Input
                 type="text"
