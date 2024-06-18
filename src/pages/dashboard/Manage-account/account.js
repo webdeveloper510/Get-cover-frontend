@@ -762,15 +762,17 @@ function Account() {
         setSecondMessage("User Password Updated  successfully ");
         setModalOpen(true);
         setTimer(3);
+        passwordChnageForm.resetForm()
       } else {
         setFirstMessage("Error");
         setSecondMessage(res.message);
         setIsPasswordOpen(true);
+        passwordChnageForm.resetForm()
       }
     } catch (error) {
       console.error("Error changing password:", error);
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
 
     console.log(value);

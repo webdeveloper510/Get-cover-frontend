@@ -135,7 +135,7 @@ function AddBulkClaim() {
     validationSchema: Yup.object({
       email: Yup.array()
         .of(Yup.string().matches(emailValidationRegex, "Invalid email address"))
-        .min(1, "At least one email is required"),
+,
       file: Yup.mixed().test("file", "CSV file is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
       }),

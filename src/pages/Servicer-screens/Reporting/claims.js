@@ -667,32 +667,20 @@ function AllList(props) {
     setSendto(
       [
         {
-          label:
-            !isAdminView && !isResellerPath && !isCustomerPath
-              ? "Admin (To Self)"
-              : "Admin ",
+          label:"Admin ",
           value: "Admin",
         },
         {
-          label:
-            isAdminView && !isResellerPath && !isCustomerPath
-              ? "Dealer (To Self)"
-              : "Dealer ",
+          label: "Dealer ",
           value: "Dealer",
         },
         isValidReseller && {
-          label:
-            !isAdminView && isResellerPath && !isCustomerPath
-              ? "Reseller (To Self)"
-              : "Reseller",
+          label:"Reseller",
           value: "Reseller",
         },
-        !selfServicer ? { label: "Servicer", value: "Servicer" } : null,
+         { label: "Servicer (To Self)", value: "Servicer" } ,
         {
-          label:
-            !isAdminView && !isResellerPath && isCustomerPath
-              ? "Customer (To Self)"
-              : "Customer",
+          label:"Customer",
           value: "Customer",
         },
       ].filter(Boolean)
@@ -1174,7 +1162,7 @@ function AllList(props) {
       icons: Claim,
       Activeicons: ClaimActive,
       content: (
-        <div className="bg-white my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
+        <div className="bg-white my-4 pb-4 border-[1px] mt-6 border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
             <div className="col-span-2 self-center">
               <p className="text-xl font-semibold">Claims List</p>
@@ -1461,39 +1449,7 @@ function AllList(props) {
                                   </p>
                                  
 
-                                  {!location.pathname.includes(
-                                    "customer/claimList"
-                                  ) &&
-                                    !location.pathname.includes(
-                                      "/reseller/claimList"
-                                    ) &&
-                                    !location.pathname.includes(
-                                      "/dealer/claimList"
-                                    ) && (
-                                      <>
-                                        <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                          <span className="self-center mr-8">
-                                            Claim Type :
-                                          </span>
-                                          <Select
-                                            name="claimType"
-                                            label=""
-                                            value={claimType}
-                                            onChange={handleSelectChange}
-                                            white
-                                            disabled={
-                                              claimStatus.status ==
-                                                "Rejected" ||
-                                              claimStatus.status == "Completed"
-                                            }
-                                            options={claim}
-                                            OptionName="Claim Type"
-                                            className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                            classBox="w-[55%]"
-                                          />
-                                        </p>
-                                      </>
-                                    )}
+                                  
                                   <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                     <span className="self-center w-[75px]  mr-[1rem]">
                                       Shipment :
@@ -1989,7 +1945,7 @@ function AllList(props) {
             <Headbar />
             <div className="flex mt-2">
               <div className="pl-3">
-                <p className="font-bold text-[36px] leading-9 mb-[3px]">
+                <p className="font-bold text-[36px] leading-9 mb-[20px]">
                   Claim
                 </p>
                 <ul className="flex self-center">

@@ -250,7 +250,8 @@ function ClaimList(props) {
         );
       };
       updateAndCallAPI(setClaimType);
-    } else if (selectedValue === "servicer") {
+    }
+     else if (selectedValue === "servicer") {
       console.log(loading1, "------3--------------");
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
@@ -301,8 +302,6 @@ function ClaimList(props) {
     if (res.code === 200) {
       const resultData = res.result || {};
       const updatedClaimListCopy = { ...claimList };
-      // console.log(resultData, updatedClaimListCopy.result[activeIndex][name]);
-
       if (updatedClaimListCopy.result) {
         updatedClaimListCopy.result[activeIndex][name] = resultData[`${name}`];
         updatedClaimListCopy.result[activeIndex][`reason`] = resultData.reason;
@@ -328,7 +327,6 @@ function ClaimList(props) {
   };
 
   const editClaimServicer = (claimId, statusType, statusValue) => {
-    setLoaderType(true);
     let data = {
       servicerId: statusValue,
     };
@@ -336,12 +334,15 @@ function ClaimList(props) {
     editClaimServicerValue(claimId, data)
       .then((res) => {
         setServicer(res.result.servicerId);
-        getAllClaims(pageValue, recordsPerPage);
+        const updatedClaimListCopy = { ...claimList };
+        if (updatedClaimListCopy.result) {
+            updatedClaimListCopy.result[activeIndex]['servicerId'] =res.result.servicerId;
+        }
+        setClaimList(updatedClaimListCopy);
+       
       })
       .catch((error) => {
         console.error("Error occurred while editing claim servicer:", error);
-
-        setLoaderType(false);
       });
   };
 
@@ -405,7 +406,6 @@ function ClaimList(props) {
 
     getClaimListPromise
       .then((res) => {
-        // console.log(res);
         localStorage.removeItem("activeIndex");
         setActiveIndex(null);
         if (res) {
@@ -1918,7 +1918,9 @@ function ClaimList(props) {
                                  </>} */}
                                         {(role == "Super Admin" ||
                                           claimList.result[activeIndex]
-                                            ?.selfServicer) && (
+                                            ?.selfServicer) && !location.pathname.includes(
+                                              "customer/claimList"
+                                            )  && (
                                           <>
                                             {claimStatus.status == "Rejected" ||
                                             claimStatus.status ==

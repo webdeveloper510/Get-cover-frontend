@@ -183,12 +183,54 @@ function ServicerUser() {
     newPassword: "",
     confirmPassword: "",
   };
-  const handleSubmit = (values, { setSubmitting }) => {
+  
+  const handleSubmit = async (values, { setSubmitting, resetForm  }) => {
     console.log(values);
-    passwordChange(values);
+    const success = await passwordChange(values);
     setSubmitting(false);
+    if (success) {
+      resetForm({
+        values: {
+          oldPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        },
+      });
+    }
   };
-  const passwordChnageForm = useFormik({
+  
+  const passwordChange = async (values) => {
+    setLoading(true);
+    const { confirmPassword, ...passwordValues } = values;
+  
+    try {
+      const res = await changePasswordbyToken(passwordValues);
+      console.log(res);
+      if (res.code === 200) {
+        SetPrimaryText("Updated Successfully");
+        SetSecondaryText("User Password updated successfully");
+        SetIsModalOpen(true);
+        passwordChangeForm.resetForm()
+        setTimer(3);
+      } else {
+        SetPrimaryText("Error");
+        SetSecondaryText(res.message);
+        SetIsModalOpen(true);
+        passwordChangeForm.resetForm()
+      }
+    } catch (error) {
+      console.error("Error changing password:", error);
+    } finally {
+      setLoading(false);
+      passwordChangeForm.resetForm()
+      setInitialFormValues('oldPassword', '')
+      setInitialFormValues('newPassword', '')
+      setInitialFormValues('confirmPassword', '')
+    }
+    console.log(passwordValues);
+  };
+  
+  const passwordChangeForm = useFormik({
     initialValues: initialValues2,
     validationSchema: Yup.object({
       oldPassword: Yup.string().required("Required"),
@@ -200,33 +242,7 @@ function ServicerUser() {
     onSubmit: handleSubmit,
   });
 
-
-
-  const passwordChange = async (value) => {
-    setLoading(true);
-    delete value.confirmPassword;
-
-    try {
-      const res = await changePasswordbyToken(value);
-      console.log(res);
-      if (res.code == 200) {
-        setFirstMessage("Updated  Successfully ");
-        setSecondMessage("User Password updated  successfully ");
-        setIsPasswordOpen(true);
-        passwordChnageForm.resetForm();
-        setTimer(3);
-      } else {
-        setFirstMessage("Error");
-        setSecondMessage(res.message);
-        setIsPasswordOpen(true);
-      }
-    } catch (error) {
-      console.error("Error changing password:", error);
-    } finally {
-      setLoading(false);
-    }
-    console.log(value);
-  };
+  
   const openModal = () => {
     SetIsModalOpen(true);
     getUserList();
@@ -566,6 +582,123 @@ function ServicerUser() {
     },
   ];
 
+  const columns1 = [
+    {
+      name: "Name",
+      selector: "name",
+      sortable: true,
+      cell: (row) => (
+        <div className="flex relative">
+          {row.isPrimary && (
+            <img src={star} alt="" className="absolute -left-3 top-0" />
+          )}
+          <span className="self-center pt-2 ml-3">
+            {row.firstName} {row.lastName}
+          </span>
+        </div>
+      ),
+    },
+    {
+      name: "Email Address",
+      selector: (row) => row.email,
+      sortable: true,
+    },
+    {
+      name: "Phone Number",
+      selector: (row) => row.phoneNumber,
+      sortable: true,
+    },
+    {
+      name: "Position",
+      selector: (row) => row.position,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      sortable: true,
+      cell: (row) => (
+        <div className="relative">
+          <div
+            className={` ${
+              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+          ></div>
+          <select
+            disabled={true}
+            value={row.status === true ? "active" : "inactive"}
+            onChange={(e) => handleStatusChange(row, e.target.value)}
+            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      ),
+    },
+    {
+      name: "Action",
+      minWidth: "auto", // Set a custom minimum width
+      maxWidth: "90px", // Set a custom maximum width
+      cell: (row, index) => {
+        // console.log(index, index % 10 == 9)
+        return (
+          <div className="relative">
+            {isprimary && <div
+              onClick={() =>
+                setSelectedAction(
+                  selectedAction === row.email ? null : row.email
+                )
+              }
+            >
+              <img
+                src={ActiveIcon}
+                className="cursor-pointer	w-[35px]"
+                alt="Active Icon"
+              />
+            </div>}
+            
+            {selectedAction === row.email && (
+              <div
+                ref={dropdownRef}
+                className={`absolute z-[9999] ${
+                  !row?.isPrimary ? "w-[140px]" : "w-[80px]"
+                } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md`}
+              >
+                {!row?.isPrimary && row.status && (
+                  <div
+                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
+                    onClick={() => makeUserPrimary(row)}
+                  >
+                    <img src={make} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center"> Make Primary </span>
+                  </div>
+                )}
+
+                <div
+                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
+                  onClick={() => editUser(row._id)}
+                >
+                  <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                  <span className="self-center">Edit </span>
+                </div>
+                {!row?.isPrimary && (
+                  <div
+                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                    onClick={() => openModal1(row._id)}
+                  >
+                    <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center">Delete</span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      },
+    },
+  ];
+
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
       <p>No records found.</p>
@@ -678,23 +811,23 @@ function ServicerUser() {
           </div> */}
           <div className="px-8 pb-4 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
               <p className='text-xl font-semibold mb-5'>Change Password</p>
-              <form onSubmit={passwordChnageForm.handleSubmit}>
+              <form onSubmit={passwordChangeForm.handleSubmit}>
                 <Grid>
                   <div className="col-span-4">
                     <PasswordInput
                       type="password"
                       name="oldPassword"
                       label="Old Password"
-                      value={passwordChnageForm.values.oldPassword}
-                      onChange={passwordChnageForm.handleChange}
-                      onBlur={passwordChnageForm.handleBlur}
+                      value={passwordChangeForm.values.oldPassword}
+                      onChange={passwordChangeForm.handleChange}
+                      onBlur={passwordChangeForm.handleBlur}
                       isPassword
                       className="!bg-white"
                     />
-                    {passwordChnageForm.touched.oldPassword &&
-                      passwordChnageForm.errors.oldPassword && (
+                    {passwordChangeForm.touched.oldPassword &&
+                      passwordChangeForm.errors.oldPassword && (
                         <div className="text-red-500">
-                          {passwordChnageForm.errors.oldPassword}
+                          {passwordChangeForm.errors.oldPassword}
                         </div>
                       )}
                   </div>
@@ -706,14 +839,14 @@ function ServicerUser() {
                       label="New Password"
                       isPassword
                       className="!bg-white"
-                      value={passwordChnageForm.values.newPassword}
-                      onChange={passwordChnageForm.handleChange}
-                      onBlur={passwordChnageForm.handleBlur}
+                      value={passwordChangeForm.values.newPassword}
+                      onChange={passwordChangeForm.handleChange}
+                      onBlur={passwordChangeForm.handleBlur}
                     />
-                    {passwordChnageForm.touched.newPassword &&
-                      passwordChnageForm.errors.newPassword && (
+                    {passwordChangeForm.touched.newPassword &&
+                      passwordChangeForm.errors.newPassword && (
                         <div className="text-red-500">
-                          {passwordChnageForm.errors.newPassword}
+                          {passwordChangeForm.errors.newPassword}
                         </div>
                       )}
                   </div>
@@ -724,14 +857,14 @@ function ServicerUser() {
                       label="Confirm Password"
                       isPassword
                       className="!bg-white"
-                      value={passwordChnageForm.values.confirmPassword}
-                      onChange={passwordChnageForm.handleChange}
-                      onBlur={passwordChnageForm.handleBlur}
+                      value={passwordChangeForm.values.confirmPassword}
+                      onChange={passwordChangeForm.handleChange}
+                      onBlur={passwordChangeForm.handleBlur}
                     />
-                    {passwordChnageForm.touched.confirmPassword &&
-                      passwordChnageForm.errors.confirmPassword && (
+                    {passwordChangeForm.touched.confirmPassword &&
+                      passwordChangeForm.errors.confirmPassword && (
                         <div className="text-red-500">
-                          {passwordChnageForm.errors.confirmPassword}
+                          {passwordChangeForm.errors.confirmPassword}
                         </div>
                       )}
                   </div>
@@ -839,7 +972,7 @@ function ServicerUser() {
               </div>
             </Grid>
             <DataTable
-              columns={columns}
+              columns={isprimary ? columns : columns1}
               data={userList}
               highlightOnHover
               sortIcon={
@@ -1185,6 +1318,7 @@ function ServicerUser() {
                   label="Status"
                   required={true}
                   name="status"
+                  id='status'
                   placeholder=""
                   onChange={handleSelectChange}
                   disabled={isprimary}

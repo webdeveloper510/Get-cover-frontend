@@ -127,9 +127,8 @@ function ServicerAddBulkClaim() {
         .of(
           Yup.string()
             .matches(emailValidationRegex, "Invalid email address")
-            .required("Required")
-        )
-        .required("At least one email is required"),
+            
+        ),
       file: Yup.mixed().test("file", "CSV file is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
       }),

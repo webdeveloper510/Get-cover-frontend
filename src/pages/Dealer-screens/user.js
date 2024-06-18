@@ -772,8 +772,8 @@ function DealerUser() {
                   <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
                   <div className="col-span-3 border-r border-[#4e4e4e]">
                     <div className="flex">
-                      <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
-                        <img src={dealer} alt="dealer" />
+                    <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
+                        <img src={dealer} className="" alt="dealer" width={50} height={50}/>
                       </div>
                       <div className="self-center">
                         <p className="text-white text-base font-medium leading-5	">
@@ -788,7 +788,7 @@ function DealerUser() {
                   <div className="col-span-5">
                     <div className="flex justify-center">
                       <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
-                        <img src={terms} className="" alt="terms" />
+                        <img src={terms} className="" alt="terms" width={50} height={50}/>
                       </div>
                       <div className="self-center">
                         <p className="text-white text-base font-medium leading-5">
