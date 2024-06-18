@@ -686,6 +686,7 @@ function PriceBookList(props) {
                 columns={columns}
                 data={priceBookList}
                 highlightOnHover
+                draggableColumns={false} 
                 sortIcon={
                   <>
                     <img src={shorting} className="ml-2" alt="shorting" />

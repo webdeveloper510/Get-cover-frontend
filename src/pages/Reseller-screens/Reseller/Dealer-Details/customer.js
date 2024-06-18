@@ -295,8 +295,7 @@ function CustomerList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable
-                columns={columns}
+              <DataTable draggableColumns={false}  columns={columns}
                 data={customerList}
                 highlightOnHover
                 sortIcon={

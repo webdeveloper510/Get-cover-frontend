@@ -402,6 +402,7 @@ function DealerList() {
                 columns={columns}
                 data={dealerList}
                 highlightOnHover
+                draggableColumns={false} 
                 sortIcon={
                   <>
                     {" "}

@@ -369,6 +369,7 @@ function Reseller(props) {
                 columns={columns}
                 data={resellerList}
                 highlightOnHover
+                draggableColumns={false} 
                 sortIcon={
                   <>
                     {" "}

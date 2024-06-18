@@ -395,6 +395,7 @@ function NewDealerList() {
                 columns={columns}
                 data={pendingDealerList}
                 highlightOnHover
+                draggableColumns={false} 
                 sortIcon={
                   <>
                     {" "}

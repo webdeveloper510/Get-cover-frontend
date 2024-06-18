@@ -314,8 +314,7 @@ function Category() {
                 </div>
               </div>
             ) : (
-              <DataTable
-                columns={columns}
+              <DataTable draggableColumns={false}  columns={columns}
                 data={categoryList}
                 highlightOnHover
                 sortIcon={

@@ -1230,8 +1230,7 @@ function ResellerDetails() {
               Assign Servicer
             </p>
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
-              <DataTable
-                columns={columns}
+              <DataTable draggableColumns={false}  columns={columns}
                 data={servicerList}
                 highlightOnHover
                 sortIcon={

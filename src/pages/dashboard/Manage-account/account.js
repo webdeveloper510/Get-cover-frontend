@@ -1119,8 +1119,7 @@ function Account() {
                 Other Super admin details
               </p>
 
-              <DataTable
-                columns={isPrimary ? columns : columns1}
+              <DataTable draggableColumns={false}  columns={isPrimary ? columns : columns1}
                 data={memberList}
                 highlightOnHover
                 sortIcon={

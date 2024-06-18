@@ -490,6 +490,7 @@ function OrderList(props) {
               <DataTable
                 columns={columns}
                 data={orderList}
+                draggableColumns={false} 
                 highlightOnHover
                 sortIcon={
                   <>

@@ -351,6 +351,7 @@ function CustomerOrderList() {
                 paginationPerPage={10}
                 noDataComponent={<CustomNoDataComponent />}
                 paginationComponentOptions={paginationOptions}
+                draggableColumns={false} 
                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
               />
             )}

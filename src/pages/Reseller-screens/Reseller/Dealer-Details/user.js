@@ -559,8 +559,7 @@ function UserList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable
-                columns={columns}
+              <DataTable draggableColumns={false}  columns={columns}
                 data={userList}
                 highlightOnHover
                 sortIcon={

@@ -341,6 +341,7 @@ function CustomerList(props) {
               <DataTable
                 columns={columns}
                 data={customerList}
+                draggableColumns={false} 
                 highlightOnHover
                 sortIcon={
                   <>

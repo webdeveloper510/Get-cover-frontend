@@ -1470,6 +1470,7 @@ function DealerDetails() {
                 columns={columns}
                 data={servicerList}
                 highlightOnHover
+                draggableColumns={false} 
                 sortIcon={
                   <>
                     {" "}

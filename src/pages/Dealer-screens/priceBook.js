@@ -421,8 +421,7 @@ function DealerPriceBook(props) {
                 </div>
               </div>
             ) : (
-              <DataTable
-                columns={columns}
+              <DataTable draggableColumns={false}  columns={columns}
                 data={priceBookList}
                 highlightOnHover
                 sortIcon={

@@ -1399,7 +1399,7 @@ function DealerAddOrder() {
                 <p className="text-2xl font-bold mb-4">Order Details</p>
                     <Button
                       className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
-                      onClick={handleReload}
+                      onClick={handleInputClickResetStep1}
                     >
                       Reset
                     </Button>

@@ -434,6 +434,7 @@ function DealerDetailList(props) {
             ) : (
               <DataTable
                 columns={columns}
+                draggableColumns={false} 
                 data={servicerDealersList}
                 highlightOnHover
                 sortIcon={
