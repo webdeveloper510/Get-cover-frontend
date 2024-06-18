@@ -16,6 +16,7 @@ import { cityData } from "../../../stateCityJson";
 import All from "./Claim-Tab/all";
 import PaidClaim from "./Claim-Tab/paidClaim";
 import UnpaidClaim from "./Claim-Tab/unpaidClaim";
+import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 
 function Claims() {
   const getInitialActiveTab = () => {
@@ -132,7 +133,7 @@ function Claims() {
               <div className="col-span-3"></div>
               <div
                 className="col-span-2 self-center">
-                <Select
+                <SelectBoxWithSearch
                  label=""
                  name="state"
                  placeholder=""
@@ -142,7 +143,7 @@ function Claims() {
               </div>
               <div
                 className="col-span-2 self-center">
-                <Select
+                <SelectBoxWithSearch
                  label=""
                  name="state"
                  placeholder=""

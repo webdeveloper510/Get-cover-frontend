@@ -180,12 +180,12 @@ function ServicerDealerList() {
       sortable: true,
     },
     {
-      name: "# of Order",
+      name: "# of Claim",
       selector: (row) => row?.ordersData?.noOfOrders,
       sortable: true,
     },
     {
-      name: "Orders Values",
+      name: "Claims Values",
       selector: (row) => `$${
         row?.ordersData?.orderAmount === undefined
             ? parseInt(0).toLocaleString(2)

@@ -239,12 +239,12 @@ function DealerDetailList(props) {
       sortable: true,
     },
     {
-      name: "# of Orders",
+      name: "# of Claim",
       selector: (row) => 0,
       sortable: true,
     },
     {
-      name: "Order Values",
+      name: "Claims Values",
       selector: (row) => `$${
         row?.orders?.orderData === undefined
           ? parseInt(0).toLocaleString(2)

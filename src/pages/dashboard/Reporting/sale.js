@@ -30,6 +30,7 @@ import Fronting from "./Sale-Tab/fronting";
 import Broker from "./Sale-Tab/broker";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 function Sale() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("SaleMenu");
@@ -227,10 +228,10 @@ function Sale() {
               </div>
               <div
                 className="col-span-3 self-center pl-3">
-                <Select
+                <SelectBoxWithSearch
                  label=""
                  name="state"
-                 placeholder=""
+                 placeholder="Dealer Name"
                  className="!bg-white"
                  options={state}
                   />
