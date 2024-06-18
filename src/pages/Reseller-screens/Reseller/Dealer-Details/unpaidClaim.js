@@ -32,7 +32,7 @@ import upload from "../../../../assets/images/icons/upload.svg";
 import Select from "../../../../common/select";
 import Cross from "../../../../assets/images/Cross.png";
 import Headbar from "../../../../common/headBar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Modal from "../../../../common/model";
 import CollapsibleDiv from "../../../../common/collapsibleDiv";
 import {
@@ -61,6 +61,7 @@ import SelectSearch from "../../../../common/selectSearch";
 import Checkbox from "../../../../common/checkbox";
 import request from "../../../../assets/images/request.png";
 import { apiUrl } from "../../../../services/authServices";
+import { checkUserToken } from "../../../../services/userServices";
 
 function ClaimList12(props) {
   const location = useLocation();
@@ -254,7 +255,31 @@ const downloadImage = (file) => {
       }
     }
   };
-
+  useEffect(() => {
+    checkTokenExpiry();
+  }, []);
+  const navigate = useNavigate();
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200);
+      if (response.code == 200) {
+        // setIsLoggedIn(true);
+        // fetchUserDetails();
+      } else {
+        // setIsLoggedIn(false);
+        localStorage.removeItem("userDetails");
+        navigate(`/`);
+      }
+    } catch (error) {
+      console.error("Error validating token:", error);
+      // setIsLoggedIn(false);
+      navigate(`/`);
+      localStorage.removeItem("userDetails");
+    } finally {
+      // setIsLoading(false);
+    }
+  };
   const editClaimRejectedValue = (claimId, data) => {
     editClaimStatus(claimId, data).then((res) => {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);

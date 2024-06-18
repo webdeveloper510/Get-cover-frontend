@@ -1370,7 +1370,7 @@ function AllList(props) {
                       >
                         {/* {showdata && ( */}
                         <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x">
-                        {loading1 ? <div className="col-span-12 h-[200px] rounded-b-[22px] border-Gray28 border-x bg-[#333333] w-full flex py-5">
+                        {loading1 ? <div className="col-span-12 h-[400px] rounded-b-[22px] border-Gray28 border-x bg-[#333333] w-full flex py-5">
                             <div className="self-center mx-auto">
                               <RotateLoader color="#fff" />
                             </div>
@@ -1945,10 +1945,10 @@ function AllList(props) {
             <Headbar />
             <div className="flex mt-2">
               <div className="pl-3">
-                <p className="font-bold text-[36px] leading-9 mb-[20px]">
+                <p className="font-bold text-[36px] leading-9 mb-[3px]">
                   Claim
                 </p>
-                <ul className="flex self-center">
+                <ul className="flex self-center  mb-[20px]">
                   <li className="text-sm text-neutral-grey font-Regular">
                     <Link to={"/"}>Claim </Link> /
                   </li>
@@ -1972,7 +1972,7 @@ function AllList(props) {
           </>
         )}
         <div
-          className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey bg-white flex 
+          className={` rounded-[30px] px-2 py-3 border-[1px] mt-3 border-Light-Grey bg-white flex 
             w-[45%]`}
         >
           {tabs.map((tab) => (

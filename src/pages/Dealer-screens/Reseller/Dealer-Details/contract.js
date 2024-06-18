@@ -21,6 +21,7 @@ import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
 import { useFormik } from "formik";
 import Select from "../../../../common/select";
+import CommonTooltip from "../../../../common/toolTip";
 function ContractList(props) {
   console.log(props, "-------------------->>>");
   const [showTooltip, setShowTooltip] = useState(false);
@@ -275,7 +276,7 @@ function ContractList(props) {
               ) : (
                 <>
                   {contractList &&
-                    contractList.map((res) => {
+                    contractList.map((res, index) => {
                       console.log(res);
                       return (
                         <div className="px-3 mt-5">
@@ -357,11 +358,19 @@ function ContractList(props) {
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Eligibility
                                   </p>
-                                  <p className="text-[#333333] text-base font-semibold">
-                                    {res?.eligibilty === true
-                                      ? "Eligible"
-                                      : "Not Eligible "}
-                                  </p>
+                                  {res?.eligibilty === false ?
+                                  <>
+                                  <CommonTooltip place="left" id={`tooltip-${index}`} content={res?.reason}>
+                                    <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                      
+                                      Not Eligible 
+                                    </p>
+                                  </CommonTooltip> 
+                                  </>
+                                  : 
+                                   <p className="text-[#333333] text-base font-semibold">
+                                  Eligible
+                               </p> }
                                 </div>
                               </div>
                             </Grid>
@@ -482,11 +491,19 @@ function ContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Eligibility
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
-                        {singleContract?.eligibilty === true
-                          ? "Eligible"
-                          : "Not Eligible "}
-                      </p>
+                      {singleContract?.eligibilty === false ? 
+                           <>
+                             <CommonTooltip place="top" id="tooltip-default" content={singleContract?.reason}> 
+                            <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                            Not Eligible
+                            </p>
+                          </CommonTooltip>
+                           </>
+                          : 
+                          <p className="text-[#333333] text-base font-semibold">
+                             Eligible 
+                          </p>
+                           }
                     </div>
                   </div>
 

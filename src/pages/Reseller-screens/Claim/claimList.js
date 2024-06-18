@@ -66,7 +66,7 @@ import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 import ClaimActive from "../../../assets/images/Dealer/Claim-active.svg";
 import Claim from "../../../assets/images/Dealer/Claim.svg";
 import ClaimList12 from "../Reseller/Dealer-Details/unpaidClaim";
-import { UserDetailAccount } from "../../../services/userServices";
+import { UserDetailAccount, checkUserToken } from "../../../services/userServices";
 
 function ResellerClaimList(props) {
   // console.log(props);
@@ -943,7 +943,31 @@ function ResellerClaimList(props) {
       getAllClaims();
     }
   }, [props]);
+  useEffect(() => {
+    checkTokenExpiry();
+  }, []);
 
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200);
+      if (response.code == 200) {
+        // setIsLoggedIn(true);
+        // fetchUserDetails();
+      } else {
+        // setIsLoggedIn(false);
+        localStorage.removeItem("userDetails");
+        navigate(`/`);
+      }
+    } catch (error) {
+      console.error("Error validating token:", error);
+      // setIsLoggedIn(false);
+      navigate(`/`);
+      localStorage.removeItem("userDetails");
+    } finally {
+      // setIsLoading(false);
+    }
+  };
   const tracker = [
     { label: "UPS", value: "ups" },
     { label: "USPS", value: "usps" },
@@ -1343,7 +1367,7 @@ function ResellerClaimList(props) {
                       >
                         {/* {showdata && ( */}
                         <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x">
-                        {loading1 ? <div className="col-span-12 h-[200px] rounded-b-[22px] border-Gray28 border-x bg-[#333333] w-full flex py-5">
+                        {loading1 ? <div className="col-span-12 h-[400px] rounded-b-[22px] border-Gray28 border-x bg-[#333333] w-full flex py-5">
                             <div className="self-center mx-auto">
                               <RotateLoader color="#fff" />
                             </div>

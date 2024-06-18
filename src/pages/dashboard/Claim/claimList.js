@@ -1416,7 +1416,7 @@ function ClaimList(props) {
                         {showdata && (
                           <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x">
                             {loading1 ? (
-                              <div className="col-span-12 h-[200px] rounded-b-[22px] border-Gray28 border-x bg-[#333333] w-full flex py-5">
+                              <div className="col-span-12 h-[400px] rounded-b-[22px] border-Gray28 border-x bg-[#333333] w-full flex py-5">
                                 <div className="self-center mx-auto">
                                   <RotateLoader color="#fff" />
                                 </div>

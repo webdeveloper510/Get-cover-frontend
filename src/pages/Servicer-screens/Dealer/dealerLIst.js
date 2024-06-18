@@ -145,6 +145,16 @@ function ServicerDealerList() {
   
     return phoneNumber; // Return original phone number if it couldn't be formatted
   }; 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
   const columns = [
     {
       name: "ID",
@@ -170,13 +180,17 @@ function ServicerDealerList() {
       sortable: true,
     },
     {
-      name: "# of Claims",
-      selector: (row) => 0,
+      name: "# of Order",
+      selector: (row) => row?.ordersData?.noOfOrders,
       sortable: true,
     },
     {
-      name: "Claims Values",
-      selector: (row) => "$0.00",
+      name: "Orders Values",
+      selector: (row) => `$${
+        row?.ordersData?.orderAmount === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.ordersData?.orderAmount ?? parseInt(0))
+        }`,
       sortable: true,
       minWidth: "auto", // Set a custom minimum width
       maxWidth: "170px", // Set a custom maximum width
