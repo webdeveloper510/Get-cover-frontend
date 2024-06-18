@@ -130,25 +130,28 @@ function Claims() {
                   </Grid>
                 </div>
               </div>
-              <div className="col-span-3"></div>
               <div
-                className="col-span-2 self-center">
+                className="col-span-1 self-center"></div>
+              <div
+                className="col-span-3 self-center">
                 <SelectBoxWithSearch
                  label=""
                  name="state"
                  placeholder=""
                  className="!bg-white"
                  options={state}
+                 pName={'Enter Dealer Name'}
                   />
               </div>
               <div
-                className="col-span-2 self-center">
+                className="col-span-3 self-center">
                 <SelectBoxWithSearch
                  label=""
                  name="state"
                  placeholder=""
                  className="!bg-white"
                  options={state}
+                 pName={'Enter Reseller Name'}
                   />
               </div>
             </Grid>

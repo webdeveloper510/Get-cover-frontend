@@ -234,6 +234,7 @@ function Sale() {
                  placeholder="Dealer Name"
                  className="!bg-white"
                  options={state}
+                 pName={'Enter Dealer Name'}
                   />
               </div>
             </Grid>

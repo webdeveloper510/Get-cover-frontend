@@ -7,6 +7,7 @@ const SelectBoxWithSearch = ({
   onChange,
   required,
   className,
+  pName,
   options,
   className1,
   name,
@@ -80,7 +81,7 @@ const SelectBoxWithSearch = ({
         className={`!w-full SearchSelect ${className1}`}
         isDisabled={isDisabled}
         defaultValue={localDefaultValue}
-        placeholder="Search..."
+        placeholder={pName == '' ? 'Search...' : pName }
       />
       <label
         className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-grayf9 left-2 px-1 -translate-y-4 !hover:bg-grayf9 scale-75 ${className} text-[#5D6E66]`}
