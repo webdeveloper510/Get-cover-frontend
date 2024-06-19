@@ -55,6 +55,7 @@ function CustomerUser() {
   const [isprimary, SetIsprimary] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
+  const [active, setActive] = useState(true);
   const [mainStatus, setMainStatus] = useState(true);
   const [details, setDetails] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
@@ -86,16 +87,16 @@ function CustomerUser() {
       firstName: "",
       phoneNumber: "",
       position: "",
-      status: true,
+      status:  true,
       id: "",
     });
   };
-  // console.log("toggleFlag", toggleFlag);
+   console.log("toggleFlag", createAccountOption );
   const [loading, setLoading] = useState(false);
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
-    console.log(selectedValue);
-    formik.setFieldValue("status", selectedValue === "yes" ? true : false);
+    console.log(selectedValue === "yes" ? true : false);
+    userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
   const getUserList = async () => {
@@ -174,7 +175,7 @@ function CustomerUser() {
 
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const handleSelectChange = async (name, value) => {
-    formik.setFieldValue(name, value);
+    formik1.setFieldValue(name, value);
   };
   const closeModal1 = () => {
     setIsModalOpen1(false);
@@ -274,6 +275,10 @@ function CustomerUser() {
         setTimer(3);
         getUserList();
       } else {
+        if (result.code === 401) {
+          formik.setFieldError("email", "Email already in use");
+        }
+        SetIsModalOpen(true);
         setAddLoading(false);
       }
       closeModal2();
@@ -303,7 +308,7 @@ function CustomerUser() {
     console.log(id);
     const result = await userDetailsById(id);
     console.log(result.result);
-
+    setActive(result.result.isPrimary)
     setMainStatus(result.mainStatus);
     setInitialFormValues({
       id: id,
@@ -449,11 +454,13 @@ function CustomerUser() {
       name: "Position",
       selector: (row) => row.position,
       sortable: true,
+      reorder : false,
     },
     {
       name: "Status",
       selector: (row) => row.status,
       sortable: true,
+      reorder : false,
       cell: (row) => (
         <div className="relative">
           <div
@@ -680,16 +687,15 @@ function CustomerUser() {
         setTimer(3);
         SetPrimaryText("User Add Successfully ");
         SetSecondaryText("user Add successfully ");
-
         SetIsModalOpen(true);
         setIsUserModalOpen(false);
         getUserList();
       } else {
         setLoading(false);
+        SetIsModalOpen(true);
         if (result.code === 401) {
           userValues.setFieldError("email", "Email already in use");
         }
-        SetIsModalOpen(true);
       }
       closeModal2();
     },
@@ -1237,7 +1243,7 @@ function CustomerUser() {
                   name="status"
                   placeholder=""
                   onChange={handleSelectChange}
-                  disabled={isprimary}
+                  disabled={active}
                   className="!bg-white"
                   options={status}
                   value={formik1.values.status}

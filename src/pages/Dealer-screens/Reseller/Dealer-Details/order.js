@@ -211,7 +211,7 @@ function OrderList(props) {
 
   const columns = [
     {
-      name: "ID",
+      name: "Order ID",
       selector: (row) => row.unique_key,
       sortable: true,
       minWidth: "auto", // Set a custom minimum width
@@ -383,7 +383,7 @@ function OrderList(props) {
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
-                        placeholder="ID"
+                        placeholder="Order ID"
                         {...formik.getFieldProps("orderId")}
                       />
                     </div>

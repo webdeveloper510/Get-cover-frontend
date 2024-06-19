@@ -341,6 +341,7 @@ function CustomerOrderList() {
                 columns={columns}
                 data={orderList}
                 highlightOnHover
+                reorder={'no'}
                 sortIcon={
                   <>
                     {" "}

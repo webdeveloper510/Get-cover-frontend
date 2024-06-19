@@ -205,7 +205,7 @@ function ResellerOrderList() {
 
   const columns = [
     {
-      name: "ID",
+      name: "Order ID",
       selector: (row) => row?.unique_key,
       sortable: true,
       minWidth: "auto",
@@ -392,7 +392,7 @@ function ResellerOrderList() {
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
-                        placeholder="ID"
+                        placeholder="Order ID"
                         {...formik.getFieldProps("orderId")}
                       />
                     </div>
@@ -403,7 +403,7 @@ function ResellerOrderList() {
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
-                        placeholder="Dealer Order No."
+                        placeholder="Dealer P.O #"
                         {...formik.getFieldProps("venderOrder")}
                       />
                     </div>

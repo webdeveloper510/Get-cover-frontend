@@ -209,7 +209,7 @@ function OrderList(props) {
 
   const columns = [
     {
-      name: "ID",
+      name: "Order ID",
       selector: (row) => row.unique_key,
       sortable: true,
       minWidth: "auto", // Set a custom minimum width

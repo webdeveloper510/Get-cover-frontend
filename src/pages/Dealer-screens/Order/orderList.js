@@ -228,9 +228,10 @@ function OrderList() {
 
   const columns = [
     {
-      name: "ID",
+      name: "Order ID",
       selector: (row) => row?.unique_key,
       sortable: true,
+      reorder : false,
       minWidth: "auto",
       maxWidth: "123px",
     },
@@ -238,18 +239,21 @@ function OrderList() {
       name: "Dealer P.O #",
       selector: (row) => row.venderOrder,
       sortable: true,
+      reorder : false,
       minWidth: "180px",
     },
     {
       name: "Customer",
       selector: (row) => row.customerName.username,
       sortable: true,
+      reorder : false,
     },
     {
       name: "# Contracts",
       selector: (row) =>
         row?.noOfProducts == null ? 0 : row.noOfProducts.toLocaleString(0),
       sortable: true,
+      reorder : false,
       minWidth: "100px",
     },
     {
@@ -261,6 +265,7 @@ function OrderList() {
             : formatOrderValue(row?.orderAmount)
         }`,
       sortable: true,
+      reorder : false,
       minWidth: "150px",
     },
     {
@@ -276,6 +281,7 @@ function OrderList() {
         </div>
       ),
       sortable: true,
+      reorder : false,
     },
     {
       name: "Action",
@@ -417,7 +423,7 @@ function OrderList() {
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
-                        placeholder="ID"
+                        placeholder="Order ID"
                         {...formik.getFieldProps("orderId")}
                       />
                     </div>
@@ -428,7 +434,7 @@ function OrderList() {
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
-                        placeholder="Dealer Order No."
+                        placeholder="Dealer P.O. #"
                         {...formik.getFieldProps("venderOrder")}
                       />
                     </div>
@@ -490,9 +496,10 @@ function OrderList() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable  columns={columns}
                 data={orderList}
                 highlightOnHover
+                // reorder={false}
                 sortIcon={
                   <>
                     {" "}
