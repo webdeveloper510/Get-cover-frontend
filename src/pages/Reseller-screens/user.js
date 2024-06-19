@@ -76,7 +76,7 @@ function ResellerUser() {
     firstName: "",
     phoneNumber: "",
     position: "",
-    status: true,
+    status: createAccountOption == 'yes' ? true : false,
     id: "",
   });
   const closeUserModal = () => {
@@ -95,7 +95,7 @@ function ResellerUser() {
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     console.log(selectedValue);
-    formik.setFieldValue("status", selectedValue === "yes" ? true : false);
+    userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
   const getUserList = async () => {
@@ -300,7 +300,7 @@ function ResellerUser() {
     console.log(id);
     const result = await userDetailsById(id);
     console.log(result.result.status);
-
+    SetIsprimary(result.result.isPrimary);
     setMainStatus(result.mainStatus);
     setInitialFormValues({
       id: id,
@@ -1150,11 +1150,11 @@ function ResellerUser() {
                   onChange={userValues.handleChange}
                   error={userValues.touched.email && userValues.errors.email}
                 />
-                {/* {userValues.touched.position && userValues.errors.position && (
-        <div className="text-red-500 text-sm pl-2 pt-2">
-          {userValues.errors.position}
-        </div>
-      )} */}
+                {userValues.touched.email && userValues.errors.email && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {userValues.errors.email}
+                  </div>
+                )}
               </div>
               <div className="col-span-6">
                 <Input
