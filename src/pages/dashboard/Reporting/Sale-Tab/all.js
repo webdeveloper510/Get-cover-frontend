@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "../../../../common/grid";
 import Administration from "../../../../assets/images/Reporting/Breakdown.svg";
 import Fronting from "../../../../assets/images/Reporting/Fronting.svg";
@@ -10,6 +10,7 @@ import SelectedDateRangeComponent from "../../../../common/dateFilter";
 import Modal from "../../../../common/model";
 import Cross from "../../../../assets/images/Cross.png";
 import LineChart from "../../../../common/lineChart";
+import { getAllSales } from "../../../../services/reportingServices";
 
 function All() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +18,8 @@ function All() {
     startDate: new Date(),
     endDate: new Date(),
   });
+  const [graphData, setGraphData] = useState([]);
+  const [totalFees, setTotalFees] = useState({});
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -27,7 +30,51 @@ function All() {
   };
 
   const handleApply = () => {
+    const { startDate, endDate } = selectedRange;
+
+    const startDateStr = startDate.toISOString().split("T")[0];
+    const endDateStr = endDate.toISOString().split("T")[0];
+    const diffTime = Math.abs(endDate - startDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    let flag = "daily";
+    if (diffDays > 1) {
+      flag = "weekly";
+    }
+
+    let data = {
+      filterFlag: "All",
+      startDate: startDateStr,
+      endDate: endDateStr,
+      dealerId: null,
+      priceBookId: null,
+      flag: flag,
+    };
+
+    getDatasetAtEvent(data);
     setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    getDatasetAtEvent({
+      startDate: selectedRange.startDate.toISOString().split("T")[0],
+      endDate: selectedRange.endDate.toISOString().split("T")[0],
+      filterFlag: "All",
+      dealerId: null,
+      priceBookId: null,
+      flag: "daily",
+    });
+  }, []);
+
+  const getDatasetAtEvent = async (data) => {
+    try {
+      const res = await getAllSales(data);
+      setGraphData(res.result.graphData);
+      setTotalFees(res.result.totalFees);
+      console.log(res);
+    } catch (error) {
+      console.error("Error fetching sales data:", error);
+    }
   };
 
   const handleRangeChange = (ranges) => {
@@ -49,9 +96,9 @@ function All() {
                   Total sales
                   <span className="text-sm font-normal"> Monthly </span>
                 </p>
-                <p className="text-sm">
+                {/* <p className="text-sm">
                   {`Selected Range: ${selectedRange.startDate.toLocaleDateString()} - ${selectedRange.endDate.toLocaleDateString()}`}
-                </p>
+                </p> */}
               </div>
               <div className="col-span-9 self-center">
                 <Grid className="!grid-cols-9 !gap-1">
@@ -68,7 +115,7 @@ function All() {
               </div>
             </Grid>
 
-            <LineChart />
+            <LineChart graphData={graphData} />
           </div>
         </div>
       </Grid>
