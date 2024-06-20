@@ -35,13 +35,13 @@ function CustomerList(props) {
   };
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
@@ -76,7 +76,7 @@ function CustomerList(props) {
     },
     {
       name: "Phone #",
-      selector: (row) =>  "+1 " + formatPhoneNumber(row.phoneNumber),
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -122,14 +122,14 @@ function CustomerList(props) {
               >
                 <div
                   onClick={() => {
-                      navigate(`/customerDetails/${row.customerData._id}`);
+                    navigate(`/customerDetails/${row.customerData._id}`);
                     localStorage.setItem("menu", "Customer");
+                    localStorage.setItem("customer", "Orders");
                   }}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                  >
-                   <img src={view} className="w-4 h-4 mr-2"/> 
-                  
-                    View
+                >
+                  <img src={view} className="w-4 h-4 mr-2" />
+                  View
                 </div>
               </div>
             )}
@@ -138,7 +138,6 @@ function CustomerList(props) {
       },
     },
   ];
-  
 
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
@@ -341,7 +340,7 @@ function CustomerList(props) {
               <DataTable
                 columns={columns}
                 data={customerList}
-                draggableColumns={false} 
+                draggableColumns={false}
                 highlightOnHover
                 sortIcon={
                   <>

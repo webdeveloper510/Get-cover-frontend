@@ -86,13 +86,6 @@ function Sale() {
   };
   return (
     <>
-      {/* {loading && (
-        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#fff" />
-          </div>
-        </div>
-      )} */}
       <div className="pb-8 mt-2 px-3 relative overflow-x-hidden bg-grayf9">
         <Headbar />
 
@@ -115,7 +108,7 @@ function Sale() {
 
         <Grid className="!grid-cols-3">
           <div className="col-span-3">
-            <Grid className="mt-10">
+            <Grid className="mt-10 grid-cols-9 !gap-0">
               <div className="col-span-3 relative">
                 <div
                   className={` rounded-[30px] px-2 py-3 border-[1px] flex border-Light-Grey`}
@@ -148,7 +141,7 @@ function Sale() {
                   ))}
                 </div>
               </div>
-              <div className="col-span-3 self-center pl-3">
+              <div className="col-span-2 self-center pl-3">
                 <SelectBoxWithSearch
                   label=""
                   name="state"
@@ -158,17 +151,17 @@ function Sale() {
                   pName={"Enter Dealer Name"}
                 />
               </div>
-              <div className="col-span-3 self-center pl-3">
+              <div className="col-span-2 self-center pl-3">
                 <SelectBoxWithSearch
                   label=""
                   name="state"
                   placeholder="Category Name"
                   className="!bg-white"
                   options={state}
-                  pName={"Enter Category Name"}
+                  pName={"Enter Category"}
                 />
               </div>
-              <div className="col-span-3 self-center pl-3">
+              <div className="col-span-2 self-center pl-3">
                 <SelectBoxWithSearch
                   label=""
                   name="state"

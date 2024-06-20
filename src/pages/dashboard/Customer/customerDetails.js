@@ -104,7 +104,7 @@ function CustomerDetails() {
       setActiveTab("Users");
     }
   }, []);
-  
+
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -320,11 +320,7 @@ function CustomerDetails() {
 
     setIsStatus(result.result.dealerStatus);
     console.log(result.result.meta.isAccountCreate, " --------- ????????");
-    setCreateAccount(
-      result.result.meta.isAccountCreate && result.result.userAccount
-        ? true
-        : false
-    );
+    setCreateAccount(result.result.meta.isAccountCreate);
     setIsAccountCreate(result.result.userAccount);
     setCreateAccountOption(
       result.result.userAccount && result.result.meta.isAccountCreate

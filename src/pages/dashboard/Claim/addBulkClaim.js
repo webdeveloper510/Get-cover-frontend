@@ -18,13 +18,6 @@ import { RotateLoader } from "react-spinners";
 import DealerList from "../Dealer/dealerList";
 import Button from "../../../common/button";
 import { uploadClaimInBulk } from "../../../services/claimServices";
-const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-const KeyCodes = {
-  comma: 188,
-  space: 32,
-  enter: 13,
-};
-const delimiters = [KeyCodes.comma, KeyCodes.enter, KeyCodes.space];
 
 function AddBulkClaim() {
   const [selectFile, setSelectFileValue] = useState(null);
@@ -36,7 +29,6 @@ function AddBulkClaim() {
   const [timer, setTimer] = useState(3);
   const [dealerName, setDealerName] = useState("");
   const navigate = useNavigate();
-  const [invalidTags, setInvalidTags] = useState([]);
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -82,40 +74,38 @@ function AddBulkClaim() {
   useEffect(() => {
     getDealerDetails();
   }, []);
-
+  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  const KeyCodes = {
+    comma: 188,
+    space: 32,
+    enter: 13,
+  };
+  const delimiters = [KeyCodes.comma, KeyCodes.enter, KeyCodes.space];
   const handleDelete = (i) => {
-    const updatedTags = tags.filter((tag, index) => index !== i);
-    const updatedInvalidTags = invalidTags.filter((_, index) => index !== i);
-
+    const updatedTags = [...tags];
+    updatedTags.splice(i, 1);
     setTags(updatedTags);
-    setInvalidTags(updatedInvalidTags);
     formik.setFieldValue(
       "email",
       updatedTags.map((tag) => tag.text)
     );
   };
-
   const handleAddition = (tag) => {
-    const isValid = emailValidationRegex.test(tag.text);
-    setTags([...tags, tag]);
-    setInvalidTags([...invalidTags, !isValid]);
+    const updatedTags = [...tags, tag];
+    setTags(updatedTags);
     formik.setFieldValue(
       "email",
-      [...tags, tag].map((tag) => tag.text)
+      updatedTags.map((tag) => tag.text)
     );
   };
-
   const handleDrag = (tag, currPos, newPos) => {
     const newTags = tags.slice();
+
     newTags.splice(currPos, 1);
     newTags.splice(newPos, 0, tag);
 
-    const newInvalidTags = invalidTags.slice();
-    const [movedTagValidity] = newInvalidTags.splice(currPos, 1);
-    newInvalidTags.splice(newPos, 0, movedTagValidity);
-
+    // re-render
     setTags(newTags);
-    setInvalidTags(newInvalidTags);
   };
 
   const getDealerDetails = async () => {
@@ -193,22 +183,7 @@ function AddBulkClaim() {
       "_blank"
     );
   };
-  const TagComponent = ({ tag, onDelete, isInvalid }) => (
-    <span
-      style={{
-        backgroundColor: isInvalid ? "red" : "lightgrey",
-        color: "white",
-        padding: "5px",
-        margin: "3px",
-        borderRadius: "3px",
-      }}
-    >
-      {tag.text}
-      <button onClick={onDelete} style={{ marginLeft: "5px" }}>
-        x
-      </button>
-    </span>
-  );
+
   return (
     <div className="mb-8 ml-3">
       <Headbar />
@@ -264,12 +239,6 @@ function AddBulkClaim() {
                       autocomplete
                       editable
                       placeholder=""
-                      tagComponent={(props) => (
-                        <TagComponent
-                          {...props}
-                          isInvalid={invalidTags[props.index]}
-                        />
-                      )}
                     />
                     <label
                       htmlFor="email"
@@ -303,10 +272,11 @@ function AddBulkClaim() {
                     }
                     value={formik.values.file}
                     onFileSelect={(file) => {
+                      setError("");
                       formik.setFieldValue("file", file);
                     }}
                   />
-                  {formik.touched.file && formik.errors.file && (
+                  {formik.touched.file && (
                     <p className="text-red-500 text-sm pl-2 mt-3 mb-5	">
                       <span className="font-semibold">
                         {" "}

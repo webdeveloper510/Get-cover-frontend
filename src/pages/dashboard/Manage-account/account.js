@@ -104,15 +104,10 @@ function Account() {
       fetchUserMembers();
     }, 2000);
   }, []);
-  
-  useEffect(() => {
-    
-  }, []);
 
+  useEffect(() => {}, []);
 
   const fetchUserDetails = async () => {
-    
-
     try {
       const userDetails = await getSuperAdminMembers();
       // console.log(userDetails?.loginMember, "---------------->>>>>>>>>>>>");
@@ -254,7 +249,7 @@ function Account() {
       position: result?.result?.position,
       status: result?.result?.status,
     });
-  
+
     setIsUserModalOpen(false);
     openModal2();
     fetchUserMembers();
@@ -717,7 +712,6 @@ function Account() {
       console.log(res);
       await fetchUserDetails();
       fetchUserMembers();
-     
     } catch (error) {
       console.error("Error updating user details:", error);
     }
@@ -735,14 +729,14 @@ function Account() {
       const members = await getSuperAdminMembers();
       console.log(members, "111111111111111111111111111111");
       setMemberList(members.result);
-      let local  = JSON.parse(localStorage.getItem('userDetails'));
+      let local = JSON.parse(localStorage.getItem("userDetails"));
       // localStorage.removeItem('userDetails')
       local.userInfo = {
         lastName: members?.loginMember?.lastName,
         firstName: members?.loginMember?.firstName,
-      }
-      localStorage.setItem('userDetails',JSON.stringify(local))
-      console.log(local, '---------------')
+      };
+      localStorage.setItem("userDetails", JSON.stringify(local));
+      console.log(local, "---------------");
     } catch (error) {
       setLoading(false);
       console.error("Error fetching user members:", error);
@@ -762,12 +756,12 @@ function Account() {
         setSecondMessage("User Password Updated  successfully ");
         setModalOpen(true);
         setTimer(3);
-        passwordChnageForm.resetForm()
+        passwordChnageForm.resetForm();
       } else {
         setFirstMessage("Error");
         setSecondMessage(res.message);
         setIsPasswordOpen(true);
-        passwordChnageForm.resetForm()
+        passwordChnageForm.resetForm();
       }
     } catch (error) {
       console.error("Error changing password:", error);
@@ -1119,7 +1113,9 @@ function Account() {
                 Other Super admin details
               </p>
 
-              <DataTable draggableColumns={false}  columns={isPrimary ? columns : columns1}
+              <DataTable
+                draggableColumns={false}
+                columns={isPrimary ? columns : columns1}
                 data={memberList}
                 highlightOnHover
                 sortIcon={
@@ -1133,325 +1129,327 @@ function Account() {
       )}
 
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
-      {addLoading ? 
-        <div className="h-[400px] w-full flex py-5">
-        <div className="self-center mx-auto">
-          <RotateLoader color="#333" />
-        </div>
-      </div>
-         : 
-        <div className=" py-3">
-          <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
-            Add New User
-          </p>
-          <form onSubmit={userValues.handleSubmit}>
-            <Grid className="px-8">
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="firstName"
-                  label="First Name"
-                  required={true}
-                  placeholder=""
-                  className="!bg-white"
-                  maxLength={"30"}
-                  value={userValues.values.firstName}
-                  onBlur={userValues.handleBlur}
-                  onChange={userValues.handleChange}
-                  error={
-                    userValues.touched.firstName && userValues.errors.firstName
-                  }
-                />
-                {userValues.touched.firstName &&
-                  userValues.errors.firstName && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {userValues.errors.firstName}
-                    </div>
-                  )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="lastName"
-                  label="Last Name"
-                  required={true}
-                  placeholder=""
-                  className="!bg-white"
-                  maxLength={"30"}
-                  value={userValues.values.lastName}
-                  onBlur={userValues.handleBlur}
-                  onChange={userValues.handleChange}
-                  error={
-                    userValues.touched.lastName && userValues.errors.lastName
-                  }
-                />
-                {userValues.touched.lastName && userValues.errors.lastName && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {userValues.errors.lastName}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="email"
-                  name="email"
-                  label="Email"
-                  placeholder=""
-                  className="!bg-white"
-                  required={true}
-                  value={userValues.values.email}
-                  onBlur={userValues.handleBlur}
-                  onChange={userValues.handleChange}
-                  error={userValues.touched.email && userValues.errors.email}
-                />
-                {userValues.touched.email && userValues.errors.email && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {userValues.errors.email}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="tel"
-                  name="phoneNumber"
-                  label="Phone"
-                  required={true}
-                  className="!bg-white"
-                  placeholder=""
-                  value={userValues.values.phoneNumber}
-                  onChange={(e) => {
-                    const sanitizedValue = e.target.value.replace(
-                      /[^0-9]/g,
-                      ""
-                    );
-                    console.log(sanitizedValue);
-                    userValues.handleChange({
-                      target: {
-                        name: "phoneNumber",
-                        value: sanitizedValue,
-                      },
-                    });
-                  }}
-                  onBlur={userValues.handleBlur}
-                  minLength={"10"}
-                  maxLength={"10"}
-                  error={
-                    userValues.touched.phoneNumber &&
-                    userValues.errors.phoneNumber
-                  }
-                />
-                {(userValues.touched.phoneNumber ||
-                  userValues.submitCount > 0) &&
-                  userValues.errors.phoneNumber && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {userValues.errors.phoneNumber}
-                    </div>
-                  )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="position"
-                  label="Position"
-                  className="!bg-white"
-                  placeholder=""
-                  maxLength={"50"}
-                  value={userValues.values.position}
-                  onBlur={userValues.handleBlur}
-                  onChange={userValues.handleChange}
-                  error={
-                    userValues.touched.position && userValues.errors.position
-                  }
-                />
-              </div>
-              <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
-                  Do you want to create an account?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value="yes"
-                    checked={createAccountOption === "yes"}
-                    onChange={handleRadioChange}
-                  />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value="no"
-                    checked={createAccountOption === "no"}
-                    onChange={handleRadioChange}
-                  />
-                </p>
-              </div>
-            </Grid>
-            <Grid className="drop-shadow-5xl px-8">
-              <div className="col-span-4">
-                <Button
-                  type="button"
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                  onClick={closeUserModal}
-                >
-                  Cancel
-                </Button>
-              </div>
-              <div className="col-span-8">
-                <Button type="submit" className="w-full">
-                  Submit
-                </Button>
-              </div>
-            </Grid>
-          </form>
-        </div>
-}
-      </Modal>
-
-      <Modal isOpen={isModalOpen2} onClose={closeModal2}>
-        {editLoading ? 
+        {addLoading ? (
           <div className="h-[400px] w-full flex py-5">
             <div className="self-center mx-auto">
               <RotateLoader color="#333" />
             </div>
           </div>
-         : 
+        ) : (
           <div className=" py-3">
-          <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
-            Edit User
-          </p>
-          <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <Grid className="px-8">
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="firstName"
-                  label="First Name"
-                  required={true}
-                  className="!bg-white"
-                  placeholder=""
-                  maxLength={"30"}
-                  value={formik.values.firstName}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.firstName && formik.errors.firstName}
-                />
-                {formik.touched.firstName && formik.errors.firstName && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.firstName}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="lastName"
-                  label="Last Name"
-                  required={true}
-                  placeholder=""
-                  className="!bg-white"
-                  maxLength={"30"}
-                  value={formik.values.lastName}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.lastName && formik.errors.lastName}
-                />
-                {formik.touched.lastName && formik.errors.lastName && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.lastName}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="position"
-                  label="Position"
-                  className="!bg-white"
-                  placeholder=""
-                  maxLength={"30"}
-                  value={formik.values.position}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  error={formik.touched.position && formik.errors.position}
-                />
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="tel"
-                  name="phoneNumber"
-                  label="Mobile Number"
-                  required={true}
-                  className="!bg-white"
-                  placeholder=""
-                  value={formik.values.phoneNumber}
-                  onChange={(e) => {
-                    const sanitizedValue = e.target.value.replace(
-                      /[^0-9]/g,
-                      ""
-                    );
-                    console.log(sanitizedValue);
-                    formik.handleChange({
-                      target: {
-                        name: "phoneNumber",
-                        value: sanitizedValue,
-                      },
-                    });
-                  }}
-                  onBlur={formik.handleBlur}
-                  onWheelCapture={(e) => {
-                    e.preventDefault();
-                  }}
-                  minLength={"10"}
-                  maxLength={"10"}
-                  error={
-                    formik.touched.phoneNumber && formik.errors.phoneNumber
-                  }
-                />
-                {(formik.touched.phoneNumber || formik.submitCount > 0) &&
-                  formik.errors.phoneNumber && (
+            <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+              Add New User
+            </p>
+            <form onSubmit={userValues.handleSubmit}>
+              <Grid className="px-8">
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="firstName"
+                    label="First Name"
+                    required={true}
+                    placeholder=""
+                    className="!bg-white"
+                    maxLength={"30"}
+                    value={userValues.values.firstName}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={
+                      userValues.touched.firstName &&
+                      userValues.errors.firstName
+                    }
+                  />
+                  {userValues.touched.firstName &&
+                    userValues.errors.firstName && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {userValues.errors.firstName}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="lastName"
+                    label="Last Name"
+                    required={true}
+                    placeholder=""
+                    className="!bg-white"
+                    maxLength={"30"}
+                    value={userValues.values.lastName}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={
+                      userValues.touched.lastName && userValues.errors.lastName
+                    }
+                  />
+                  {userValues.touched.lastName &&
+                    userValues.errors.lastName && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {userValues.errors.lastName}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="email"
+                    name="email"
+                    label="Email"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                    value={userValues.values.email}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={userValues.touched.email && userValues.errors.email}
+                  />
+                  {userValues.touched.email && userValues.errors.email && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.phoneNumber}
+                      {userValues.errors.email}
                     </div>
                   )}
-              </div>
-              <div className="col-span-6">
-                <Select
-                  label="Status"
-                  required={true}
-                  name="status"
-                  placeholder=""
-                  onChange={handleSelectChange}
-                  disabled={isprimary}
-                  className="!bg-white"
-                  options={status}
-                  value={formik.values.status}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.status && formik.errors.status}
-                />
-                {formik.touched.status && formik.errors.status && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {formik.errors.status}
-                  </div>
-                )}
-              </div>
-            </Grid>
-            <Grid className="!grid-cols-5 my-5  px-8">
-              <div className="col-span-2">
-                <Button
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                  onClick={() => closeModal2()}
-                >
-                  Cancel
-                </Button>
-              </div>
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="tel"
+                    name="phoneNumber"
+                    label="Phone"
+                    required={true}
+                    className="!bg-white"
+                    placeholder=""
+                    value={userValues.values.phoneNumber}
+                    onChange={(e) => {
+                      const sanitizedValue = e.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
+                      console.log(sanitizedValue);
+                      userValues.handleChange({
+                        target: {
+                          name: "phoneNumber",
+                          value: sanitizedValue,
+                        },
+                      });
+                    }}
+                    onBlur={userValues.handleBlur}
+                    minLength={"10"}
+                    maxLength={"10"}
+                    error={
+                      userValues.touched.phoneNumber &&
+                      userValues.errors.phoneNumber
+                    }
+                  />
+                  {(userValues.touched.phoneNumber ||
+                    userValues.submitCount > 0) &&
+                    userValues.errors.phoneNumber && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {userValues.errors.phoneNumber}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="position"
+                    label="Position"
+                    className="!bg-white"
+                    placeholder=""
+                    maxLength={"50"}
+                    value={userValues.values.position}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={
+                      userValues.touched.position && userValues.errors.position
+                    }
+                  />
+                </div>
+                <div className="col-span-6">
+                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                    Do you want to create an account?
+                    <RadioButton
+                      id="yes-create-account"
+                      label="Yes"
+                      value="yes"
+                      checked={createAccountOption === "yes"}
+                      onChange={handleRadioChange}
+                    />
+                    <RadioButton
+                      id="no-create-account"
+                      label="No"
+                      value="no"
+                      checked={createAccountOption === "no"}
+                      onChange={handleRadioChange}
+                    />
+                  </p>
+                </div>
+              </Grid>
+              <Grid className="drop-shadow-5xl px-8">
+                <div className="col-span-4">
+                  <Button
+                    type="button"
+                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    onClick={closeUserModal}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <div className="col-span-8">
+                  <Button type="submit" className="w-full">
+                    Submit
+                  </Button>
+                </div>
+              </Grid>
+            </form>
+          </div>
+        )}
+      </Modal>
 
-              <div className="col-span-3">
-                <Button type="submit" className="w-full">
-                  Submit
-                </Button>
-              </div>
-            </Grid>
-          </form>
-          </div>}
-       
+      <Modal isOpen={isModalOpen2} onClose={closeModal2}>
+        {editLoading ? (
+          <div className="h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div>
+        ) : (
+          <div className=" py-3">
+            <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+              Edit User
+            </p>
+            <form className="mt-8" onSubmit={formik.handleSubmit}>
+              <Grid className="px-8">
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="firstName"
+                    label="First Name"
+                    required={true}
+                    className="!bg-white"
+                    placeholder=""
+                    maxLength={"30"}
+                    value={formik.values.firstName}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    error={formik.touched.firstName && formik.errors.firstName}
+                  />
+                  {formik.touched.firstName && formik.errors.firstName && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.firstName}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="lastName"
+                    label="Last Name"
+                    required={true}
+                    placeholder=""
+                    className="!bg-white"
+                    maxLength={"30"}
+                    value={formik.values.lastName}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    error={formik.touched.lastName && formik.errors.lastName}
+                  />
+                  {formik.touched.lastName && formik.errors.lastName && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.lastName}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="position"
+                    label="Position"
+                    className="!bg-white"
+                    placeholder=""
+                    maxLength={"30"}
+                    value={formik.values.position}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    error={formik.touched.position && formik.errors.position}
+                  />
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="tel"
+                    name="phoneNumber"
+                    label="Mobile Number"
+                    required={true}
+                    className="!bg-white"
+                    placeholder=""
+                    value={formik.values.phoneNumber}
+                    onChange={(e) => {
+                      const sanitizedValue = e.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
+                      console.log(sanitizedValue);
+                      formik.handleChange({
+                        target: {
+                          name: "phoneNumber",
+                          value: sanitizedValue,
+                        },
+                      });
+                    }}
+                    onBlur={formik.handleBlur}
+                    onWheelCapture={(e) => {
+                      e.preventDefault();
+                    }}
+                    minLength={"10"}
+                    maxLength={"10"}
+                    error={
+                      formik.touched.phoneNumber && formik.errors.phoneNumber
+                    }
+                  />
+                  {(formik.touched.phoneNumber || formik.submitCount > 0) &&
+                    formik.errors.phoneNumber && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.phoneNumber}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-6">
+                  <Select
+                    label="Status"
+                    required={true}
+                    name="status"
+                    placeholder=""
+                    onChange={handleSelectChange}
+                    disabled={isprimary}
+                    className="!bg-white"
+                    options={status}
+                    value={formik.values.status}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.status && formik.errors.status}
+                  />
+                  {formik.touched.status && formik.errors.status && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.status}
+                    </div>
+                  )}
+                </div>
+              </Grid>
+              <Grid className="!grid-cols-5 my-5  px-8">
+                <div className="col-span-2">
+                  <Button
+                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    onClick={() => closeModal2()}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+
+                <div className="col-span-3">
+                  <Button type="submit" className="w-full">
+                    Submit
+                  </Button>
+                </div>
+              </Grid>
+            </form>
+          </div>
+        )}
       </Modal>
 
       <Modal isOpen={modalOpen} onClose={closeModal10}>

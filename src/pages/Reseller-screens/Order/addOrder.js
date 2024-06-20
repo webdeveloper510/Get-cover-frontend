@@ -73,7 +73,6 @@ function ResellerAddOrder() {
   const [serviceCoverage, setServiceCoverage] = useState([]);
   const [coverage, setCoverage] = useState([]);
 
-
   useEffect(() => {
     if (orderId || resellerId || customerId) {
       setLoading1(true);
@@ -151,7 +150,9 @@ function ResellerAddOrder() {
       console.error("An error occurred while fetching servicer list:", error);
       setLoading1(false);
     } finally {
-      // setLoading1(false);
+      if (orderId == undefined) {
+        setLoading(false);
+      }
     }
   };
 
@@ -167,7 +168,7 @@ function ResellerAddOrder() {
       closeModal();
       if (customerId) {
         navigate(`/reseller/customerDetails/${customerId}`);
-      }  else {
+      } else {
         navigate("/reseller/orderList");
       }
     }
@@ -277,7 +278,7 @@ function ResellerAddOrder() {
         additionalNotes: product.additionalNotes || "",
         QuantityPricing: product.QuantityPricing || [],
         rangeStart: product.rangeStart || 0,
-            rangeEnd: product.rangeEnd || 0,
+        rangeEnd: product.rangeEnd || 0,
         checkNumberProducts: product.checkNumberProducts || "",
         orderFile: product.orderFile || "",
         fileValue: "",
@@ -933,7 +934,10 @@ function ResellerAddOrder() {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId:
             formikStep3.values.productsArray[productIndex].priceBookId,
-            pName: formikStep3.values.productsArray[match[1]].pName == undefined ? '':formikStep3.values.productsArray[match[1]].pName,
+          pName:
+            formikStep3.values.productsArray[match[1]].pName == undefined
+              ? ""
+              : formikStep3.values.productsArray[match[1]].pName,
           term: selectedValue,
           coverageType: formikStep2?.values?.coverageType,
         },
@@ -1225,18 +1229,17 @@ function ResellerAddOrder() {
         ) : (
           <form onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
-              
               <Grid>
                 <div className="col-span-6">
-                <div className="flex justify-between">
-                <p className="text-2xl font-bold mb-4">Order Details</p>
-                  <Button
-                    className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
-                    onClick={handleInputClickResetStep1}
-                  >
-                    Reset
-                  </Button>
-                </div>
+                  <div className="flex justify-between">
+                    <p className="text-2xl font-bold mb-4">Order Details</p>
+                    <Button
+                      className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                      onClick={handleInputClickResetStep1}
+                    >
+                      Reset
+                    </Button>
+                  </div>
                   <Grid>
                     <div className="col-span-12">
                       {/* <Select */}
@@ -2354,11 +2357,12 @@ function ResellerAddOrder() {
                     <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Service Coverage</p>
                       <p className="font-bold text-sm">
-                      {formikStep2.values.serviceCoverageType === "Labour" 
-                    ? "Labor" 
-                    : formikStep2.values.serviceCoverageType === "Parts & Labour" 
-                    ? "Parts & Labor" 
-                    : formikStep2.values.serviceCoverageType}
+                        {formikStep2.values.serviceCoverageType === "Labour"
+                          ? "Labor"
+                          : formikStep2.values.serviceCoverageType ===
+                            "Parts & Labour"
+                          ? "Parts & Labor"
+                          : formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
                     <div className="col-span-5 py-4">
@@ -2384,7 +2388,7 @@ function ResellerAddOrder() {
                                 {categoryName[index]}
                               </p>
                             </div>
-                           
+
                             <div className="col-span-4 py-4 border-r">
                               <p className="text-[12px]">Product SKU</p>
                               <p className="font-bold text-sm">
@@ -2395,9 +2399,8 @@ function ResellerAddOrder() {
                               <p className="text-[12px]">Product Name</p>
                               <p className="font-bold text-sm">{data.pName}</p>
                             </div>
-                            
-                            </Grid>
-                            <Grid className="border-b ">
+                          </Grid>
+                          <Grid className="border-b ">
                             <div className="col-span-12 py-4 px-4">
                               <p className="text-[12px]">Product Description</p>
                               <p className="font-bold text-sm">
