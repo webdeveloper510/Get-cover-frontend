@@ -44,64 +44,22 @@ function Sale() {
     localStorage.setItem("SaleMenu", activeTab);
   }, [activeTab]);
 
-
-
   const tabs = [
     {
       id: "All",
       label: "All",
       icons: all,
-      className:'col-span-1',
+      className: "col-span-1",
       Activeicons: AllActive,
       content: <All />,
     },
     {
       id: "Wholesale",
       label: "Wholesale",
-      className:'col-span-2',
+      className: "col-span-2",
       icons: wholesale,
       Activeicons: WholesaleActive,
       content: <WholeSale />,
-    },
-    {
-      id: "Administration Fees",
-      label: "Administration Fees",
-      icons: breakdown,
-      className:'col-span-3',
-      Activeicons: BreakdownActive,
-      content: <Breakdown />,
-    },
-    {
-      id: "Fronting Fees",
-      label: "Fronting Fees",
-      icons: fronting,
-      className:'col-span-2',
-      Activeicons: FrontingActive,
-      content: <Fronting />,
-    },
-    {
-      id: "Re-insurance Fees",
-      label: "Re-insurance Fees",
-      icons: insurance,
-      className:'col-span-3',
-      Activeicons: insuranceActive,
-      content: <ReInsurance />,
-    },
-    {
-      id: "Reserves Future Claims",
-      label: "Reserves Future Claims",
-      icons: reserves,
-      className:'col-span-3',
-      Activeicons: ReservesActive,
-      content: <Reserves />,
-    },
-    {
-      id: "Broker Fees",
-      label: "Broker Fees",
-      icons: broker,
-      className:'col-span-2',
-      Activeicons: BrokerActive,
-      content: <Broker />,
     },
   ];
 
@@ -113,18 +71,18 @@ function Sale() {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 4,
-      slidesToSlide: 3 // optional, default to 1.
+      slidesToSlide: 3, // optional, default to 1.
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
       items: 4,
-      slidesToSlide: 3 // optional, default to 1.
+      slidesToSlide: 3, // optional, default to 1.
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
       items: 1,
-      slidesToSlide: 1 // optional, default to 1.
-    }
+      slidesToSlide: 1, // optional, default to 1.
+    },
   };
   return (
     <>
@@ -141,7 +99,7 @@ function Sale() {
         <div className="flex">
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
-             Reporting
+              Reporting
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
@@ -156,86 +114,69 @@ function Sale() {
         </div>
 
         <Grid className="!grid-cols-3">
-
           <div className="col-span-3">
             <Grid className="mt-10">
-              
-              <div className="col-span-9 relative">
-              <div
-                  className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey`}
+              <div className="col-span-3 relative">
+                <div
+                  className={` rounded-[30px] px-2 py-3 border-[1px] flex border-Light-Grey`}
                   ref={containerRef}
                   // onTransitionEnd={handleTransitionEnd}
                 >
-                  <Carousel  className="!gap-1"
-                    ssr={true}
-                    // ref={carouselRef}
-                    responsive={responsive}
-                    containerClass="carousel">
                   {tabs.map((tab) => (
-                      <Button
+                    <Button
                       className={`flex self-center w-[190px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
                         activeTab === tab.id
                           ? "!bg-[#2A2A2A] !text-white"
                           : "!bg-grayf9 !text-black"
                       }`}
                       onClick={() => handleTabClick(tab.id)}
-                    > <img
-                    src={
-                      activeTab === tab.id ? tab.Activeicons : tab.icons
-                    }
-                    className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
-                    alt={tab.label}
-                  />
-                  <span
-                    className={`ml-1 py-1 text-[12px] font-normal ${
-                      activeTab === tab.id ? "text-white" : "text-black"
-                    }`}
-                  >{tab.label} </span></Button>
-                      ))}
-                    </Carousel>
-                    </div>
-                {/* <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
-                  <Grid className="!gap-1 !grid-cols-11">
-                    {tabs.map((tab) => (
-                      <div className={tab.className} key={tab.id}>
-                        <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                            activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-grayf9 !text-black"
-                          }`}
-                          onClick={() => handleTabClick(tab.id)}
-                        >
-                          <img
-                            src={
-                              activeTab === tab.id ? tab.Activeicons : tab.icons
-                            }
-                            className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
-                            alt={tab.label}
-                          />
-                          <span
-                            className={`ml-1 py-1 text-[12px] font-normal ${
-                              activeTab === tab.id ? "text-white" : "text-black"
-                            }`}
-                          >
-                            {tab.label}
-                          </span>
-                        </Button>
-                      </div>
-                    ))}
-                  </Grid>
-                </div> */}
+                    >
+                      {" "}
+                      <img
+                        src={activeTab === tab.id ? tab.Activeicons : tab.icons}
+                        className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
+                        alt={tab.label}
+                      />
+                      <span
+                        className={`ml-1 py-1 text-[12px] font-normal ${
+                          activeTab === tab.id ? "text-white" : "text-black"
+                        }`}
+                      >
+                        {tab.label}{" "}
+                      </span>
+                    </Button>
+                  ))}
+                </div>
               </div>
-              <div
-                className="col-span-3 self-center pl-3">
+              <div className="col-span-3 self-center pl-3">
                 <SelectBoxWithSearch
-                 label=""
-                 name="state"
-                 placeholder="Dealer Name"
-                 className="!bg-white"
-                 options={state}
-                 pName={'Enter Dealer Name'}
-                  />
+                  label=""
+                  name="state"
+                  placeholder="Dealer Name"
+                  className="!bg-white"
+                  options={state}
+                  pName={"Enter Dealer Name"}
+                />
+              </div>
+              <div className="col-span-3 self-center pl-3">
+                <SelectBoxWithSearch
+                  label=""
+                  name="state"
+                  placeholder="Category Name"
+                  className="!bg-white"
+                  options={state}
+                  pName={"Enter Category Name"}
+                />
+              </div>
+              <div className="col-span-3 self-center pl-3">
+                <SelectBoxWithSearch
+                  label=""
+                  name="state"
+                  placeholder="Product SKU"
+                  className="!bg-white"
+                  options={state}
+                  pName={"Enter Product SKU"}
+                />
               </div>
             </Grid>
 
@@ -254,4 +195,4 @@ function Sale() {
   );
 }
 
-export default Sale
+export default Sale;

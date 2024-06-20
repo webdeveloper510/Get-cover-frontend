@@ -43,7 +43,7 @@ function All() {
     }
 
     let data = {
-      filterFlag: "All",
+      // filterFlag: "All",
       startDate: startDateStr,
       endDate: endDateStr,
       dealerId: "",
