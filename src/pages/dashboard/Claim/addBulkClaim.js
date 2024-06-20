@@ -18,6 +18,13 @@ import { RotateLoader } from "react-spinners";
 import DealerList from "../Dealer/dealerList";
 import Button from "../../../common/button";
 import { uploadClaimInBulk } from "../../../services/claimServices";
+const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+const KeyCodes = {
+  comma: 188,
+  space: 32,
+  enter: 13,
+};
+const delimiters = [KeyCodes.comma, KeyCodes.enter, KeyCodes.space];
 
 function AddBulkClaim() {
   const [selectFile, setSelectFileValue] = useState(null);
@@ -29,6 +36,7 @@ function AddBulkClaim() {
   const [timer, setTimer] = useState(3);
   const [dealerName, setDealerName] = useState("");
   const navigate = useNavigate();
+  const [invalidTags, setInvalidTags] = useState([]);
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -74,38 +82,40 @@ function AddBulkClaim() {
   useEffect(() => {
     getDealerDetails();
   }, []);
-  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-  const KeyCodes = {
-    comma: 188,
-    space: 32,
-    enter: 13,
-  };
-  const delimiters = [KeyCodes.comma, KeyCodes.enter, KeyCodes.space];
+
   const handleDelete = (i) => {
-    const updatedTags = [...tags];
-    updatedTags.splice(i, 1);
+    const updatedTags = tags.filter((tag, index) => index !== i);
+    const updatedInvalidTags = invalidTags.filter((_, index) => index !== i);
+
     setTags(updatedTags);
+    setInvalidTags(updatedInvalidTags);
     formik.setFieldValue(
       "email",
       updatedTags.map((tag) => tag.text)
     );
   };
+
   const handleAddition = (tag) => {
-    const updatedTags = [...tags, tag];
-    setTags(updatedTags);
+    const isValid = emailValidationRegex.test(tag.text);
+    setTags([...tags, tag]);
+    setInvalidTags([...invalidTags, !isValid]);
     formik.setFieldValue(
       "email",
-      updatedTags.map((tag) => tag.text)
+      [...tags, tag].map((tag) => tag.text)
     );
   };
+
   const handleDrag = (tag, currPos, newPos) => {
     const newTags = tags.slice();
-
     newTags.splice(currPos, 1);
     newTags.splice(newPos, 0, tag);
 
-    // re-render
+    const newInvalidTags = invalidTags.slice();
+    const [movedTagValidity] = newInvalidTags.splice(currPos, 1);
+    newInvalidTags.splice(newPos, 0, movedTagValidity);
+
     setTags(newTags);
+    setInvalidTags(newInvalidTags);
   };
 
   const getDealerDetails = async () => {
@@ -133,9 +143,9 @@ function AddBulkClaim() {
       file: null,
     },
     validationSchema: Yup.object({
-      email: Yup.array()
-        .of(Yup.string().matches(emailValidationRegex, "Invalid email address"))
-,
+      email: Yup.array().of(
+        Yup.string().matches(emailValidationRegex, "Invalid email address")
+      ),
       file: Yup.mixed().test("file", "CSV file is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
       }),
@@ -183,7 +193,22 @@ function AddBulkClaim() {
       "_blank"
     );
   };
-
+  const TagComponent = ({ tag, onDelete, isInvalid }) => (
+    <span
+      style={{
+        backgroundColor: isInvalid ? "red" : "lightgrey",
+        color: "white",
+        padding: "5px",
+        margin: "3px",
+        borderRadius: "3px",
+      }}
+    >
+      {tag.text}
+      <button onClick={onDelete} style={{ marginLeft: "5px" }}>
+        x
+      </button>
+    </span>
+  );
   return (
     <div className="mb-8 ml-3">
       <Headbar />
@@ -239,6 +264,12 @@ function AddBulkClaim() {
                       autocomplete
                       editable
                       placeholder=""
+                      tagComponent={(props) => (
+                        <TagComponent
+                          {...props}
+                          isInvalid={invalidTags[props.index]}
+                        />
+                      )}
                     />
                     <label
                       htmlFor="email"

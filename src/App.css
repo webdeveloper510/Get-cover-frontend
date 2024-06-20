@@ -11,6 +11,21 @@
 .rdrInputRange {
   display: none !important;
 }
+.tag-invalid {
+  background-color: red;
+  color: white;
+  padding: 5px;
+  margin: 3px;
+  border-radius: 3px;
+}
+
+.tag-valid {
+  background-color: lightgrey;
+  color: white;
+  padding: 5px;
+  margin: 3px;
+  border-radius: 3px;
+}
 
 .SearchSelect.css-b62m3t-container {
   font-size: 16px !important;

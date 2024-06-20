@@ -76,7 +76,7 @@ function ServicerUser() {
       firstName: "",
       phoneNumber: "",
       position: "",
-      status: true,
+      status: createAccountOption == 'yes' ? true : false,
       id: "",
     });
   };
@@ -96,7 +96,7 @@ function ServicerUser() {
       firstName: "",
       phoneNumber: "",
       position: "",
-      status: true,
+      status: createAccountOption == 'yes' ? true : false,
       id: "",
     });
     setIsUserModalOpen(true);

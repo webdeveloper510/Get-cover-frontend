@@ -46,8 +46,8 @@ function All() {
       filterFlag: "All",
       startDate: startDateStr,
       endDate: endDateStr,
-      dealerId: null,
-      priceBookId: null,
+      dealerId: "",
+      priceBookId: "",
       flag: flag,
     };
 
@@ -59,9 +59,9 @@ function All() {
     getDatasetAtEvent({
       startDate: selectedRange.startDate.toISOString().split("T")[0],
       endDate: selectedRange.endDate.toISOString().split("T")[0],
-      filterFlag: "All",
-      dealerId: null,
-      priceBookId: null,
+      // filterFlag: "All",
+      dealerId: "",
+      priceBookId: "",
       flag: "daily",
     });
   }, []);
@@ -146,14 +146,18 @@ function All() {
             <div className="bg-white h-full px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
-                <p className="text-2xl font-bold">$5M</p>
-                <p className="text-sm text-neutral-grey font-bold self-center">
-                  Administration <br /> Fees
-                </p>
+                  <p className="text-2xl font-bold">$5M</p>
+                  <p className="text-sm text-neutral-grey font-bold self-center">
+                    Administration <br /> Fees
+                  </p>
                 </div>
-              <div>
-                <img src={Administration} alt="Administration" />
-              </div>
+                <div>
+                  <img
+                    src={Administration}
+                    className="w-[55px]"
+                    alt="Administration"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -161,30 +165,18 @@ function All() {
             <div className="bg-white h-full px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
-                <p className="text-2xl font-bold">$232,159</p>
-                <p className="text-sm font-bold text-neutral-grey self-center">
-                  Fronting <br /> Fees
-                </p>
+                  <p className="text-2xl font-bold">$232,159</p>
+                  <p className="text-sm font-bold text-neutral-grey self-center">
+                    Fronting <br /> Fees
+                  </p>
                 </div>
                 <div>
-              <img src={Fronting} alt="Administration" />
-              </div>
-              </div>
-              
-            </div>
-          </div>
-          <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
-            <div className="bg-white h-full px-2">
-              <div className="flex w-full justify-between mb-4">
-                <div>
-                <p className="text-2xl font-bold">$1.5M</p>
-                <p className="text-sm font-bold text-neutral-grey self-center">
-                  Re-insurance <br /> Fees
-                </p>
+                  <img
+                    src={Fronting}
+                    className="w-[55px]"
+                    alt="Administration"
+                  />
                 </div>
-              <div>
-                <img src={insurance} alt="Administration" />
-              </div>
               </div>
             </div>
           </div>
@@ -192,28 +184,51 @@ function All() {
             <div className="bg-white h-full px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
-                <p className="text-2xl font-bold">$123,259</p>
-                <p className="text-sm font-bold text-neutral-grey self-center">
-                  Reserves Future <br /> Claims
-                </p>
+                  <p className="text-2xl font-bold">$1.5M</p>
+                  <p className="text-sm font-bold text-neutral-grey self-center">
+                    Re-insurance <br /> Fees
+                  </p>
                 </div>
-              <div>
-                <img src={Reserves} alt="Administration" />
+                <div>
+                  <img
+                    src={insurance}
+                    className="w-[55px]"
+                    alt="Administration"
+                  />
+                </div>
               </div>
+            </div>
+          </div>
+          <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
+            <div className="bg-white h-full px-2">
+              <div className="flex w-full justify-between mb-4">
+                <div>
+                  <p className="text-2xl font-bold">$123,259</p>
+                  <p className="text-sm font-bold text-neutral-grey self-center">
+                    Reserves Future <br /> Claims
+                  </p>
+                </div>
+                <div>
+                  <img
+                    src={Reserves}
+                    className="w-[55px]"
+                    alt="Administration"
+                  />
+                </div>
               </div>
             </div>
           </div>
           <div className="col-span-1 h-full px-2">
             <div className="flex w-full justify-between mb-4">
               <div>
-              <p className="text-2xl font-bold">$1.55M</p>
-              <p className="text-sm font-bold text-neutral-grey self-center">
-                Broker <br /> Fees
-              </p>
+                <p className="text-2xl font-bold">$1.55M</p>
+                <p className="text-sm font-bold text-neutral-grey self-center">
+                  Broker <br /> Fees
+                </p>
               </div>
-            <div>
-              <img src={Broker} alt="Administration" />
-            </div>
+              <div>
+                <img src={Broker} className="w-[55px]" alt="Administration" />
+              </div>
             </div>
           </div>
         </Grid>

@@ -77,7 +77,7 @@ function CustomerUser() {
     firstName: "",
     phoneNumber: "",
     position: "",
-    status: true,
+    status: createAccountOption == 'yes' ? true : false ,
     id: "",
   });
   const closeUserModal = () => {
@@ -87,7 +87,7 @@ function CustomerUser() {
       firstName: "",
       phoneNumber: "",
       position: "",
-      status:  true,
+      status:  createAccountOption == 'yes' ? true : false ,
       id: "",
     });
   };
@@ -109,7 +109,7 @@ function CustomerUser() {
     const result = await getCustomerDetailsByIdCustomerPortal();
     console.log(result.result.dealer.userAccount);
     setUserStatus(result.result.dealer.userAccount);
-    setCreateAccountOption(result.result.dealer.userAccount ? "yes" : "no");
+    setCreateAccountOption(result.result.dealer.userAccount == true ? "yes" : "no");
     setDetails(result.result);
     SetIsprimary(result.loginMember.isPrimary);
     setServiceStatus(result.loginMember.status);
@@ -202,7 +202,7 @@ function CustomerUser() {
       firstName: "",
       phoneNumber: "",
       position: "",
-      status: true,
+      status: createAccountOption == 'yes' ? true : false ,
       id: "",
     });
     setIsUserModalOpen(true);

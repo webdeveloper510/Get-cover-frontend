@@ -515,7 +515,7 @@ function DealerDetails() {
     localStorage.setItem("isPopupOpen", "true");
     setIsUserModalOpen(true);
   };
-  
+
   useEffect(() => {
     const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
     if (isPopupOpen) {
@@ -1470,7 +1470,7 @@ function DealerDetails() {
                 columns={columns}
                 data={servicerList}
                 highlightOnHover
-                draggableColumns={false} 
+                draggableColumns={false}
                 sortIcon={
                   <>
                     {" "}

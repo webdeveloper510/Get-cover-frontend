@@ -56,6 +56,7 @@ function ResellerUser() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
+  const [active, SetActive] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
   const [details, setDetails] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
@@ -76,7 +77,7 @@ function ResellerUser() {
     firstName: "",
     phoneNumber: "",
     position: "",
-    status: createAccountOption == 'yes' ? true : false,
+    status: createAccountOption == "yes" ? true : false,
     id: "",
   });
   const closeUserModal = () => {
@@ -86,7 +87,7 @@ function ResellerUser() {
       firstName: "",
       phoneNumber: "",
       position: "",
-      status: true,
+      status: createAccountOption == "yes" ? true : false,
       id: "",
     });
   };
@@ -171,7 +172,7 @@ function ResellerUser() {
 
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const handleSelectChange = async (name, value) => {
-    formik.setFieldValue(name, value);
+    formik1.setFieldValue(name, value);
   };
   const closeModal1 = () => {
     setIsModalOpen1(false);
@@ -198,7 +199,7 @@ function ResellerUser() {
       firstName: "",
       phoneNumber: "",
       position: "",
-      status: true,
+      status: createAccountOption == "yes" ? true : false,
       id: "",
     });
     setIsUserModalOpen(true);
@@ -300,7 +301,7 @@ function ResellerUser() {
     console.log(id);
     const result = await userDetailsById(id);
     console.log(result.result.status);
-    SetIsprimary(result.result.isPrimary);
+    SetActive(result.result.isPrimary);
     setMainStatus(result.mainStatus);
     setInitialFormValues({
       id: id,
@@ -684,7 +685,7 @@ function ResellerUser() {
 
         SetPrimaryText("User Updated Successfully ");
         SetSecondaryText("user updated successfully ");
-      
+
         openModal();
         setTimer(3);
         filterUserDetails();
@@ -906,105 +907,7 @@ function ResellerUser() {
                     </Button>
                   </div>
                 )}
-
                 <p className="text-xl font-semibold mb-3">Users List</p>
-                {/* <Grid className="!p-[2px] !pt-[14px] !pb-0">
-            <div className="col-span-3 self-center"></div>
-            <div className="col-span-9">
-              <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
-                <form className="" onSubmit={formikUSerFilter.handleSubmit}>
-                  <Grid className="!grid-cols-9">
-                    <div className="col-span-2 self-center">
-                      <Input
-                        name="firstName"
-                        type="text"
-                        className="!text-[14px] !bg-White-Smoke"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                        label=""
-                        placeholder="First Name"
-                        value={formikUSerFilter.values.firstName}
-                        onBlur={formikUSerFilter.handleBlur}
-                        onChange={formikUSerFilter.handleChange}
-                      />
-                    </div>
-                    <div className="col-span-2 self-center">
-                      <Input
-                        name="lastName"
-                        type="text"
-                        className="!text-[14px] !bg-White-Smoke"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                        label=""
-                        placeholder="Last Name"
-                        value={formikUSerFilter.values.lastName}
-                        onBlur={formikUSerFilter.handleBlur}
-                        onChange={formikUSerFilter.handleChange}
-                      />
-                    </div>
-                    <div className="col-span-2 self-center">
-                      <Input
-                        name="email"
-                        type="text"
-                        className="!text-[14px] !bg-White-Smoke"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                        label=""
-                        placeholder="Email"
-                        value={formikUSerFilter.values.email}
-                        onBlur={formikUSerFilter.handleBlur}
-                        onChange={formikUSerFilter.handleChange}
-                      />
-                    </div>
-                    <div className="col-span-2 self-center">
-                      <Input
-                        name="phone"
-                        type="text"
-                        className="!text-[14px] !bg-White-Smoke"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                        label=""
-                        placeholder="Phone"
-                        value={formikUSerFilter.values.phone}
-                        onBlur={formikUSerFilter.handleBlur}
-                        onChange={(e) => {
-                          const sanitizedValue = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          );
-                          console.log(sanitizedValue);
-                          formikUSerFilter.handleChange({
-                            target: {
-                              name: "phone",
-                              value: sanitizedValue,
-                            },
-                          });
-                        }}
-                      />
-                    </div>
-                    <div className="col-span-1 self-center flex justify-center">
-                      <Button type="submit" className="!p-0">
-                        <img
-                          src={Search}
-                          className="cursor-pointer "
-                          alt="Search"
-                        />
-                      </Button>
-                      <Button
-                        type="submit"
-                        onClick={() => {
-                          handleFilterIconClick();
-                        }}
-                        className="!bg-transparent !p-0"
-                      >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
-                        />
-                      </Button>
-                    </div>
-                  </Grid>
-                </form>
-              </div>
-            </div>
-          </Grid> */}
                 <DataTable
                   columns={isprimary ? columns : columns12}
                   data={userList}
@@ -1366,7 +1269,7 @@ function ResellerUser() {
                   name="status"
                   placeholder=""
                   onChange={handleSelectChange}
-                  disabled={isprimary}
+                  disabled={active}
                   className="!bg-white"
                   options={status}
                   value={formik1.values.status}
