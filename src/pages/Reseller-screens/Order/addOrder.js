@@ -121,19 +121,6 @@ function ResellerAddOrder() {
   //     formik4.resetForm();
   //   }
   // }, [location]);
-  const getTermListData = async () => {
-    // try {
-    //   const res = await getTermList();
-    //   setTermList(
-    //     res.result.terms.map((item) => ({
-    //       label: item.terms + " Months",
-    //       value: item.terms,
-    //     }))
-    //   );
-    // } catch (error) {
-    //   console.error("Error fetching category list:", error);
-    // }
-  };
 
   const getServicerList = async (data) => {
     setLoading1(true);
@@ -194,7 +181,7 @@ function ResellerAddOrder() {
       console.error("Error occurred while fetching customer list:", error);
       setLoading1(false);
     } finally {
-      setLoading1(false);
+      // setLoading1(false);
     }
   };
 
@@ -218,7 +205,6 @@ function ResellerAddOrder() {
       getServicerList();
       getCustomerList();
     }
-    getTermListData();
     getServiceCoverage();
   }, [orderId, resellerId, customerId]);
 
@@ -274,6 +260,7 @@ function ResellerAddOrder() {
         coverageEndDate: product.coverageEndDate || "",
         description: product.description || "",
         term: product.term || "",
+        adh: product.adh || 0,
         priceType: product.priceType || "",
         additionalNotes: product.additionalNotes || "",
         QuantityPricing: product.QuantityPricing || [],
@@ -419,6 +406,7 @@ function ResellerAddOrder() {
         Yup.object().shape({
           categoryId: Yup.string().required("Required"),
           priceBookId: Yup.string().required("Required"),
+          term: Yup.string().required("Required"),
           // file: Yup.string().required("Valid File is required"),
           unitPrice: Yup.number()
             .typeError("Required")
@@ -1031,43 +1019,66 @@ function ResellerAddOrder() {
     console.log(name, value, "onchange------------------->>");
   };
 
-  const getServiceCoverage = async (value) => {
+  const getServiceCoverage = async (value, type = "Add") => {
     const result = await getServiceCoverageDetails(value);
+    let coverage = [];
+    let serviceCoverage = [];
 
-    switch (result?.result?.coverageType) {
-      case "Breakdown & Accidental":
-        setCoverage([
-          { label: "Breakdown", value: "Breakdown" },
-          { label: "Accidental", value: "Accidental" },
-          { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-        ]);
-        break;
-      case "Breakdown":
-        setCoverage([{ label: "Breakdown", value: "Breakdown" }]);
-        break;
-      default:
-        setCoverage([{ label: "Accidental", value: "Accidental" }]);
-        break;
+    if (type == "Edit") {
+      coverage = [
+        { label: "Breakdown", value: "Breakdown" },
+        { label: "Accidental", value: "Accidental" },
+        { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
+      ];
+
+      serviceCoverage = [
+        { label: "Parts", value: "Parts" },
+        { label: "Labor ", value: "Labor" },
+        { label: "Parts & Labor ", value: "Parts & Labor" },
+      ];
+    } else {
+      switch (result?.result?.coverageType) {
+        case "Breakdown & Accidental":
+          coverage = [
+            { label: "Breakdown", value: "Breakdown" },
+            { label: "Accidental", value: "Accidental" },
+            {
+              label: "Breakdown & Accidental",
+              value: "Breakdown & Accidental",
+            },
+          ];
+          break;
+        case "Breakdown":
+          coverage = [{ label: "Breakdown", value: "Breakdown" }];
+          break;
+        default:
+          coverage = [{ label: "Accidental", value: "Accidental" }];
+          break;
+      }
+
+      switch (result?.result?.serviceCoverageType) {
+        case "Parts & Labour":
+          serviceCoverage = [
+            { label: "Parts", value: "Parts" },
+            { label: "Labor ", value: "Labour" },
+            { label: "Parts & Labor ", value: "Parts & Labor" },
+          ];
+          break;
+        case "Labour":
+          serviceCoverage = [{ label: "Labor ", value: "Labour" }];
+          break;
+        case "Parts":
+          serviceCoverage = [{ label: "Parts", value: "Parts" }];
+          break;
+        default:
+          serviceCoverage = [{ label: "Parts", value: "Parts" }];
+          break;
+      }
     }
 
-    switch (result?.result?.serviceCoverageType) {
-      case "Parts & Labour":
-        setServiceCoverage([
-          { label: "Parts", value: "Parts" },
-          { label: "Labor ", value: "Labor" },
-          { label: "Parts & Labor ", value: "Parts & Labour" },
-        ]);
-        break;
-      case "Labour":
-        setServiceCoverage([{ label: "Labor ", value: "Labor" }]);
-        break;
-      case "Parts":
-        setServiceCoverage([{ label: "Parts", value: "Parts" }]);
-        break;
-      default:
-        setServiceCoverage([{ label: "Parts", value: "Parts" }]);
-        break;
-    }
+    console.log(coverage, serviceCoverage, type);
+    setCoverage(coverage);
+    setServiceCoverage(serviceCoverage);
   };
   const handleInputClickResetStep1 = () => {
     const currentValues = formik.values;
@@ -1215,6 +1226,16 @@ function ResellerAddOrder() {
     );
 
     formikStep3.setFieldValue("productsArray", updatedProductsArray);
+    getCategoryList(
+      {
+        priceBookId: "",
+        priceCatId: "",
+        pName: "",
+        term: "",
+        coverageType: formikStep2?.values?.coverageType,
+      },
+      index
+    );
   };
 
   const renderStep1 = () => {
@@ -1492,8 +1513,8 @@ function ResellerAddOrder() {
                     label="Service Coverage"
                     name="serviceCoverageType"
                     placeholder=""
-                    disabled={type == "Edit"}
                     className="!bg-white"
+                    disabled={type == "Edit"}
                     className1={`${
                       type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
                     }`}
@@ -1874,7 +1895,6 @@ function ResellerAddOrder() {
                             formikStep3.values.productsArray[index].noOfProducts
                           }
                           onChange={(e) => {
-                            formikStep3.handleChange(e);
                             const unitPrice =
                               formikStep3.values.productsArray[index].unitPrice;
                             const enteredValue = parseFloat(e.target.value);
@@ -1889,30 +1909,21 @@ function ResellerAddOrder() {
                               `productsArray[${index}].price`,
                               calculatedPrice.toFixed(2)
                             );
+                            formikStep3.handleChange(e);
                           }}
                           onBlur={formikStep3.handleBlur}
                           onWheelCapture={(e) => {
                             e.preventDefault();
                           }}
-                          error={
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray[index].noOfProducts
-                          }
                         />
-                        {formikStep3.touched.productsArray &&
-                          formikStep3.touched.productsArray[index] &&
-                          formikStep3.touched.productsArray[index]
-                            .noOfProducts && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formikStep3.errors.productsArray &&
-                                formikStep3.errors.productsArray[index] &&
-                                formikStep3.errors.productsArray[index]
-                                  .noOfProducts}
-                            </div>
-                          )}
+                        {
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formikStep3.errors.productsArray &&
+                              formikStep3.errors.productsArray[index] &&
+                              formikStep3.errors.productsArray[index]
+                                .noOfProducts}
+                          </div>
+                        }
                       </div>
                       <div className="col-span-4">
                         <Input

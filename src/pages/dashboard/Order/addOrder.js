@@ -448,11 +448,12 @@ function AddOrder() {
         is: (status) => status === "PartlyPaid",
         then: (schema) =>
           schema
-            .moreThan(0, "Paid amount cannot be less than One")
             .max(
               calculateTotalAmount(formikStep3.values.productsArray),
               "Paid amount cannot be more than the total amount"
             )
+            .moreThan(0, "Paid amount cannot be less than One")
+
             .required("Paid Amount is required"),
         otherwise: (schema) => schema.notRequired(),
       }),
@@ -1068,17 +1069,20 @@ function AddOrder() {
     selectedDate.setDate(selectedDate.getDate() + 1);
 
     const gmtDate = selectedDate.toISOString();
-    formikStep3.setFieldValue(`productsArray[${index}].coverageStartDate`, gmtDate);
+    formikStep3.setFieldValue(
+      `productsArray[${index}].coverageStartDate`,
+      gmtDate
+    );
 
     const termInMonths = formikStep3.values.productsArray[index].term || 0;
     const newEndDate = addMonths(selectedDate, termInMonths);
     const formattedEndDate = newEndDate.toISOString();
 
-    formikStep3.setFieldValue(`productsArray[${index}].coverageEndDate`, formattedEndDate);
+    formikStep3.setFieldValue(
+      `productsArray[${index}].coverageEndDate`,
+      formattedEndDate
+    );
   };
-
-
-
 
   const handlePaymentStatusChange = (e) => {
     const newPaymentStatus = e.target.value;
@@ -1090,7 +1094,9 @@ function AddOrder() {
       );
     } else if (newPaymentStatus === "Paid") {
       if (type === "Edit") {
-        formik4.setFieldValue("paidAmount", order.dueAmount);
+        order.dueAmount == 0
+          ? formik4.setFieldValue("paidAmount", order.orderAmount)
+          : formik4.setFieldValue("paidAmount", order.dueAmount);
         formik4.setFieldValue("pendingAmount", 0.0);
       } else {
         formik4.setFieldValue(
@@ -1120,8 +1126,6 @@ function AddOrder() {
         );
       }
     }
-    formik4.handleChange(e);
-    formik4.setFieldError("paidAmount", "100");
   };
 
   useEffect(() => {
@@ -1665,7 +1669,7 @@ function AddOrder() {
           const newProduct = {
             ...product,
             coverageStartDate: "",
-            coverageEndDate: '',
+            coverageEndDate: "",
           };
           Object.keys(newProduct).forEach((key) => {
             if (key === "unitPrice" || key === "price") {
@@ -1684,12 +1688,21 @@ function AddOrder() {
           return newProduct;
         }
 
-        // return {product,i} ;
+        return product;
       }
     );
-    console.log("updatedProductsArray", updatedProductsArray);
-
     formikStep3.setFieldValue("productsArray", updatedProductsArray);
+    getCategoryList(
+      formik.values.dealerId,
+      {
+        priceBookId: "",
+        priceCatId: "",
+        pName: "",
+        term: "",
+        coverageType: formikStep2?.values?.coverageType,
+      },
+      index
+    );
   };
   const calculatePendingAmount = (paidAmount) => {
     const totalAmount = calculateTotalAmount(formikStep3.values.productsArray);
@@ -2342,43 +2355,49 @@ function AddOrder() {
                         />
                       </div>
                       <div className="col-span-4">
-      <Input
-        type="date"
-        name={`productsArray[${index}].coverageStartDate`}
-        className="!bg-white"
-        label="Coverage Start Date"
-        placeholder=""
-        readOnly
-        value={
-          formikStep3.values.productsArray[index].coverageStartDate === ''
-            ? formikStep3.values.productsArray[index].coverageStartDate
-            : format(
-                new Date(
-                  formikStep3.values.productsArray[index].coverageStartDate
-                ),
-                'MM/dd/yyyy'
-              )
-        }
-        onChange={(e) => handleDateChange(e, index)}
-        onBlur={formikStep3.handleBlur}
-        error={
-          formikStep3.errors.productsArray &&
-          formikStep3.errors.productsArray[index] &&
-          formikStep3.errors.productsArray[index].coverageStartDate
-        }
-      />
-   
-      {formikStep3.touched.productsArray &&
-        formikStep3.touched.productsArray[index] &&
-        formikStep3.touched.productsArray[index].coverageStartDate && (
-        <div className="text-red-500 text-sm pl-2 pt-2">
-          {formikStep3.errors.productsArray &&
-            formikStep3.errors.productsArray[index] &&
-            formikStep3.errors.productsArray[index].coverageStartDate}
-        </div>
-      )}
-    </div>
-  
+                        <Input
+                          type="date"
+                          name={`productsArray[${index}].coverageStartDate`}
+                          className="!bg-white"
+                          label="Coverage Start Date"
+                          placeholder=""
+                          readOnly
+                          value={
+                            formikStep3.values.productsArray[index]
+                              .coverageStartDate === ""
+                              ? formikStep3.values.productsArray[index]
+                                  .coverageStartDate
+                              : format(
+                                  new Date(
+                                    formikStep3.values.productsArray[
+                                      index
+                                    ].coverageStartDate
+                                  ),
+                                  "MM/dd/yyyy"
+                                )
+                          }
+                          onChange={(e) => handleDateChange(e, index)}
+                          onBlur={formikStep3.handleBlur}
+                          error={
+                            formikStep3.errors.productsArray &&
+                            formikStep3.errors.productsArray[index] &&
+                            formikStep3.errors.productsArray[index]
+                              .coverageStartDate
+                          }
+                        />
+
+                        {formikStep3.touched.productsArray &&
+                          formikStep3.touched.productsArray[index] &&
+                          formikStep3.touched.productsArray[index]
+                            .coverageStartDate && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formikStep3.errors.productsArray &&
+                                formikStep3.errors.productsArray[index] &&
+                                formikStep3.errors.productsArray[index]
+                                  .coverageStartDate}
+                            </div>
+                          )}
+                      </div>
                       <div className="col-span-4">
                         <Input
                           type="text"
@@ -2415,7 +2434,6 @@ function AddOrder() {
                             formikStep3.values.productsArray[index].noOfProducts
                           }
                           onChange={(e) => {
-                            formikStep3.handleChange(e);
                             const unitPrice =
                               formikStep3.values.productsArray[index].unitPrice;
                             const enteredValue = parseFloat(e.target.value);
@@ -2430,6 +2448,7 @@ function AddOrder() {
                               `productsArray[${index}].price`,
                               calculatedPrice.toFixed(2)
                             );
+                            formikStep3.handleChange(e);
                           }}
                           onBlur={formikStep3.handleBlur}
                           onWheelCapture={(e) => {
@@ -3099,7 +3118,11 @@ function AddOrder() {
                       <select
                         name="paymentStatus"
                         className="text-[12px] bg-[transparent] border-l w-full border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold "
-                        onChange={handlePaymentStatusChange}
+                        onChange={(e) => {
+                          handlePaymentStatusChange(e);
+                          formik4.handleChange(e);
+                        }}
+                        // onChange={handlePaymentStatusChange}
                         onBlur={formik4.handleBlur}
                         value={formik4.values.paymentStatus}
                         error={formik4.errors.paymentStatus}
@@ -3127,18 +3150,17 @@ function AddOrder() {
                               disabled={formik4.values.paymentStatus === "Paid"}
                               placeholder=""
                               onChange={(e) => {
-                                formik4.handleChange(e);
                                 calculatePendingAmount(e.target.value);
+                                formik4.handleChange(e);
                               }}
                               onBlur={formik4.handleBlur}
                               value={formik4.values.paidAmount}
                             />
-                            {formik4.errors.paidAmount &&
-                              formik4.touched.paidAmount && (
-                                <div className="text-red-500">
-                                  {formik4.errors.paidAmount}
-                                </div>
-                              )}
+                            {formik4.errors.paidAmount && (
+                              <div className="text-red-500">
+                                {formik4.errors.paidAmount}
+                              </div>
+                            )}
                           </div>
                         }
 

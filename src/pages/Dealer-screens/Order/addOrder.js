@@ -558,6 +558,7 @@ function DealerAddOrder() {
           categoryId: Yup.string().required("Required"),
           priceBookId: Yup.string().required("Required"),
           pName: Yup.string().required("Required"),
+          term: Yup.string().required("Required"),
           // file: Yup.string().required("Valid File is required"),
           unitPrice: Yup.number()
             .typeError("Required")
@@ -1040,14 +1041,20 @@ function DealerAddOrder() {
     }
     if (name.includes("term")) {
       const match = name.match(/\[(\d+)\]/);
-      console.log('formikStep3.values.productsArray[match[1]].pName',formikStep3.values.productsArray[match[1]].pName)
+      console.log(
+        "formikStep3.values.productsArray[match[1]].pName",
+        formikStep3.values.productsArray[match[1]].pName
+      );
       // updateProductFields(selectedValue);
       getCategoryList(
         {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
           term: selectedValue,
-          pName: formikStep3.values.productsArray[match[1]].pName == undefined ? '':formikStep3.values.productsArray[match[1]].pName,
+          pName:
+            formikStep3.values.productsArray[match[1]].pName == undefined
+              ? ""
+              : formikStep3.values.productsArray[match[1]].pName,
           coverageType: formikStep2?.values?.coverageType,
         },
         match[1]
@@ -1379,6 +1386,16 @@ function DealerAddOrder() {
     );
 
     formikStep3.setFieldValue("productsArray", updatedProductsArray);
+    getCategoryList(
+      {
+        priceBookId: "",
+        priceCatId: "",
+        pName: "",
+        term: "",
+        coverageType: formikStep2?.values?.coverageType,
+      },
+      index
+    );
   };
   const renderStep1 = () => {
     return (
@@ -1392,11 +1409,10 @@ function DealerAddOrder() {
         ) : (
           <form onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
-              
               <Grid>
                 <div className="col-span-8">
-                <div className="flex justify-between">
-                <p className="text-2xl font-bold mb-4">Order Details</p>
+                  <div className="flex justify-between">
+                    <p className="text-2xl font-bold mb-4">Order Details</p>
                     <Button
                       className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
                       onClick={handleInputClickResetStep1}
@@ -1996,7 +2012,6 @@ function DealerAddOrder() {
                                 .noOfProducts
                             }
                             onChange={(e) => {
-                              formikStep3.handleChange(e);
                               const unitPrice =
                                 formikStep3.values.productsArray[index]
                                   .unitPrice;
@@ -2012,6 +2027,7 @@ function DealerAddOrder() {
                                 `productsArray[${index}].price`,
                                 calculatedPrice.toFixed(2)
                               );
+                              formikStep3.handleChange(e);
                             }}
                             onBlur={formikStep3.handleBlur}
                             onWheelCapture={(e) => {
@@ -2487,10 +2503,11 @@ function DealerAddOrder() {
                     <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Service Coverage</p>
                       <p className="font-bold text-sm">
-                      {formikStep2.values.serviceCoverageType === "Labour" 
-                          ? "Labor" 
-                          : formikStep2.values.serviceCoverageType === "Parts & Labour" 
-                          ? "Parts & Labor" 
+                        {formikStep2.values.serviceCoverageType === "Labour"
+                          ? "Labor"
+                          : formikStep2.values.serviceCoverageType ===
+                            "Parts & Labour"
+                          ? "Parts & Labor"
                           : formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
@@ -2748,7 +2765,6 @@ function DealerAddOrder() {
                 <div className="col-span-12"></div>
               </Grid>
               {error && <p className="text-red-500">{error}</p>}
-
             </div>
 
             <Button

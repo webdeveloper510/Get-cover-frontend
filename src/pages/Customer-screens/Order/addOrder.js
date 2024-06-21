@@ -190,36 +190,44 @@ function CustomerAddOrder() {
     getTermListData();
   }, []);
   const orderDetails = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const result = await orderDetailsById(orderId);
       console.log(result.result);
-  
+
       if (result && result.result) {
-        const { dealerId, resellerId, servicerId, customerId, venderOrder, serviceCoverageType, coverageType } = result.result;
-  
+        const {
+          dealerId,
+          resellerId,
+          servicerId,
+          customerId,
+          venderOrder,
+          serviceCoverageType,
+          coverageType,
+        } = result.result;
+
         getResellerList(dealerId);
         getCustomerList({ dealerId, resellerId });
         getServicerList({ dealerId, resellerId });
         orderDetail(result.result);
-  
+
         formik.setFieldValue("dealerId", dealerId);
         formik.setFieldValue("servicerId", servicerId);
         formik.setFieldValue("customerId", customerId);
         formik.setFieldValue("resellerId", resellerId);
-  
+
         formikStep2.setFieldValue("dealerPurchaseOrder", venderOrder);
         formikStep2.setFieldValue("serviceCoverageType", serviceCoverageType);
         formikStep2.setFieldValue("coverageType", coverageType);
       } else {
-        console.error('Result or result.result is undefined');
+        console.error("Result or result.result is undefined");
       }
     } catch (error) {
-      setLoading(false)
-      console.error('Error fetching order details:', error);
-    } 
+      setLoading(false);
+      console.error("Error fetching order details:", error);
+    }
   };
-  
+
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -1461,7 +1469,6 @@ function CustomerAddOrder() {
                           formikStep3.values.productsArray[index].noOfProducts
                         }
                         onChange={(e) => {
-                          formikStep3.handleChange(e);
                           const unitPrice =
                             formikStep3.values.productsArray[index].unitPrice;
                           const enteredValue = parseFloat(e.target.value);
@@ -1476,6 +1483,7 @@ function CustomerAddOrder() {
                             `productsArray[${index}].price`,
                             calculatedPrice.toFixed(2)
                           );
+                          formikStep3.handleChange(e);
                         }}
                         onBlur={formikStep3.handleBlur}
                         onWheelCapture={(e) => {
@@ -2110,7 +2118,7 @@ function CustomerAddOrder() {
 
               <Grid className="mt-5">
                 <div className="col-span-4 pt-2">
-                <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
+                  <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
                     Do you want to sent notifications ?
                     <RadioButton
                       id="yes-create-account"
@@ -2186,9 +2194,7 @@ function CustomerAddOrder() {
                     ${calculateTotalAmount(formikStep3.values.productsArray)}
                   </p>
                 </div>
-                <div className="col-span-12">
-               
-                </div>
+                <div className="col-span-12"></div>
               </Grid>
             </div>
 

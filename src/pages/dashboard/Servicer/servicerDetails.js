@@ -173,7 +173,8 @@ function ServicerDetails() {
   }, [modalOpen, timer]);
 
   const openUserModal = () => {
-    setActiveTab("Users");
+    setActiveTab("Users123");
+    localStorage.setItem("isPopupOpen", "true");
     setIsUserModalOpen(true);
   };
   const closeModal10 = () => {
@@ -188,6 +189,7 @@ function ServicerDetails() {
   const closeUserModal = () => {
     setIsUserModalOpen(false);
     setActiveTab("Users");
+    localStorage.setItem("isPopupOpen", "false");
     userValues.resetForm();
   };
   const getUserList = async () => {
@@ -195,6 +197,13 @@ function ServicerDetails() {
     console.log(result.result, "----------");
     setRefreshUserList(result.result);
   };
+  useEffect(() => {
+    const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+    if (isPopupOpen) {
+      setActiveTab("Users");
+    }
+  }, []);
+
   const handleSelectChange1 = (label, value) => {
     setSelectedProduct(value);
   };

@@ -249,15 +249,22 @@ function AddBulkClaim() {
                   </div>
                   {formik.errors.email && (
                     <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
-                      {formik.errors.email &&
-                        (Array.isArray(formik.errors.email)
-                          ? formik.errors.email.map((error, index) => (
+                      {(() => {
+                        const uniqueErrors = new Set();
+                        return formik.errors.email.map((error, index) => {
+                          if (!uniqueErrors.has(error)) {
+                            uniqueErrors.add(error);
+
+                            return (
                               <span key={index}>
-                                {index > 0 && " "}
+                                {index > 0 && " "}{" "}
                                 <span className="font-semibold"> {error} </span>
                               </span>
-                            ))
-                          : formik.errors.email)}
+                            );
+                          }
+                          return null;
+                        });
+                      })()}
                     </p>
                   )}
                 </div>

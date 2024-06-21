@@ -441,7 +441,7 @@ function Account() {
       notificationTo: Yup.array()
         .of(
           Yup.string()
-            .email("Invalid email address")
+            .matches(emailValidationRegex, "Invalid email address")
             .required("Email is required")
         )
         .min(1, "At least one email is required"),
@@ -948,35 +948,43 @@ function Account() {
                         <ReactTags
                           tags={tags}
                           delimiters={delimiters}
+                          name="email"
                           handleDelete={handleDelete}
                           handleAddition={handleAddition}
                           handleDrag={handleDrag}
                           handleTagClick={handleTagClick}
                           inputFieldPosition="bottom"
+                          autocomplete
                           editable
                           placeholder=""
                         />
                       </div>
                     </div>
-                    {formikEmail.errors.notificationTo &&
-                      formikEmail.touched.notificationTo && (
-                        <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
-                          {Array.isArray(formikEmail.errors.notificationTo) ? (
-                            formikEmail.errors.notificationTo.map(
-                              (error, index) => (
-                                <span key={index}>
-                                  {index > 0 && " "}
-                                  <span className="font-semibold">{error}</span>
-                                </span>
-                              )
-                            )
-                          ) : (
-                            <span className="font-semibold">
-                              {formikEmail.errors.notificationTo}
-                            </span>
-                          )}
-                        </p>
-                      )}
+                    {formikEmail.errors.notificationTo && (
+                      <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
+                        {(() => {
+                          const uniqueErrors = new Set();
+                          return formikEmail.errors.notificationTo.map(
+                            (error, index) => {
+                              if (!uniqueErrors.has(error)) {
+                                uniqueErrors.add(error);
+
+                                return (
+                                  <span key={index}>
+                                    {index > 0 && " "}{" "}
+                                    <span className="font-semibold">
+                                      {" "}
+                                      {error}{" "}
+                                    </span>
+                                  </span>
+                                );
+                              }
+                              return null;
+                            }
+                          );
+                        })()}
+                      </p>
+                    )}
 
                     <div className="col-span-12 text-right mt-5">
                       <Button type="submit">Save</Button>
