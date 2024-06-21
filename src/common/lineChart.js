@@ -20,13 +20,6 @@ const LineChart = ({ graphData }) => {
       borderWidth: 2,
     },
     {
-      label: "Total Orders",
-      data: graphData.map((data) => data.total_orders),
-      fill: false,
-      borderColor: "rgba(54,162,235,1)",
-      borderWidth: 2,
-    },
-    {
       label: "Total Broker Fee",
       data: graphData.map((data) => data.total_broker_fee),
       fill: false,
@@ -61,13 +54,13 @@ const LineChart = ({ graphData }) => {
       borderColor: "rgba(255,159,64,1)",
       borderWidth: 2,
     },
-    {
-      label: "Total Retail Price",
-      data: graphData.map((data) => data.total_retail_price),
-      fill: false,
-      borderColor: "rgba(255,99,71,1)",
-      borderWidth: 2,
-    },
+    // {
+    //   label: "Total Retail Price",
+    //   data: graphData.map((data) => data.total_retail_price),
+    //   fill: false,
+    //   borderColor: "rgba(255,99,71,1)",
+    //   borderWidth: 2,
+    // },
   ];
 
   const data = {

@@ -2003,7 +2003,7 @@ function ResellerAddOrder() {
                           }
                         />
                         {formikStep3.touched.productsArray &&
-                          formikStep3.touched.productsArray[index] &&
+                           formikStep3.touched.productsArray[index] &&
                           formikStep3.touched.productsArray[index]
                             .coverageStartDate && (
                             <div className="text-red-500 text-sm pl-2 pt-2">
