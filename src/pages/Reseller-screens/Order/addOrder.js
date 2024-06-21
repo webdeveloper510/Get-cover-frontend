@@ -137,6 +137,7 @@ function ResellerAddOrder() {
       console.error("An error occurred while fetching servicer list:", error);
       setLoading1(false);
     } finally {
+      setLoading1(false);
       if (orderId == undefined) {
         setLoading(false);
       }
@@ -161,7 +162,12 @@ function ResellerAddOrder() {
     }
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
-
+  console.log(
+    loading,
+    loading1,
+    loading3,
+    "----------------------loading ----------------"
+  );
   const getCustomerList = async (data) => {
     let arr = [];
     try {

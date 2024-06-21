@@ -29,6 +29,17 @@ function All() {
     setIsModalOpen(true);
   };
 
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
+
   const handleApply = () => {
     const { startDate, endDate } = selectedRange;
 
@@ -48,6 +59,7 @@ function All() {
       endDate: endDateStr,
       dealerId: "",
       priceBookId: "",
+      categoryId: "",
       flag: flag,
     };
 
@@ -62,6 +74,7 @@ function All() {
       // filterFlag: "All",
       dealerId: "",
       priceBookId: "",
+      categoryId: "",
       flag: "daily",
     });
   }, []);
@@ -146,7 +159,14 @@ function All() {
             <div className="bg-white h-full px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
-                  <p className="text-2xl font-bold">$5M</p>
+                  <p className="text-2xl font-bold">
+                    $
+                    {totalFees?.total_admin_fee === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                          totalFees?.total_admin_fee ?? parseInt(0)
+                        )}
+                  </p>
                   <p className="text-sm text-neutral-grey font-bold self-center">
                     Administration <br /> Fees
                   </p>
@@ -165,7 +185,14 @@ function All() {
             <div className="bg-white h-full px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
-                  <p className="text-2xl font-bold">$232,159</p>
+                  <p className="text-2xl font-bold">
+                    $
+                    {totalFees?.total_fronting_fee === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                          totalFees?.total_fronting_fee ?? parseInt(0)
+                        )}
+                  </p>
                   <p className="text-sm font-bold text-neutral-grey self-center">
                     Fronting <br /> Fees
                   </p>
@@ -184,7 +211,14 @@ function All() {
             <div className="bg-white h-full px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
-                  <p className="text-2xl font-bold">$1.5M</p>
+                  <p className="text-2xl font-bold">
+                    $
+                    {totalFees?.total_reinsurance_fee === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                          totalFees?.total_reinsurance_fee ?? parseInt(0)
+                        )}
+                  </p>
                   <p className="text-sm font-bold text-neutral-grey self-center">
                     Re-insurance <br /> Fees
                   </p>
@@ -203,7 +237,14 @@ function All() {
             <div className="bg-white h-full px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
-                  <p className="text-2xl font-bold">$123,259</p>
+                  <p className="text-2xl font-bold">
+                    $
+                    {totalFees?.total_reserve_future_fee === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                          totalFees?.total_reserve_future_fee ?? parseInt(0)
+                        )}
+                  </p>
                   <p className="text-sm font-bold text-neutral-grey self-center">
                     Reserves Future <br /> Claims
                   </p>
@@ -221,7 +262,14 @@ function All() {
           <div className="col-span-1 h-full px-2">
             <div className="flex w-full justify-between mb-4">
               <div>
-                <p className="text-2xl font-bold">$1.55M</p>
+                <p className="text-2xl font-bold">
+                  $
+                  {totalFees?.total_broker_fee === undefined
+                    ? parseInt(0).toLocaleString(2)
+                    : formatOrderValue(
+                        totalFees?.total_broker_fee ?? parseInt(0)
+                      )}
+                </p>
                 <p className="text-sm font-bold text-neutral-grey self-center">
                   Broker <br /> Fees
                 </p>

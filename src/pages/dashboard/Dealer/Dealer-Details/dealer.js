@@ -77,22 +77,22 @@ function DealerDetailList(props) {
   };
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
   useEffect(() => {
-    if (props.flag && props.activeTab==='Dealer') {
+    if (props.flag && props.activeTab === "Dealer") {
       servicerDealers();
     }
   }, [props?.flag]);
-  
+
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -230,26 +230,31 @@ function DealerDetailList(props) {
     },
     {
       name: "Email",
-      selector: (row) => row.email,
+      selector: (row) => row.dealerData.userData.email,
       sortable: true,
     },
     {
       name: "# Phone",
-      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
+      selector: (row) =>
+        "+1 " + formatPhoneNumber(row.dealerData.userData.phoneNumber),
       sortable: true,
     },
     {
       name: "# of Claim",
-      selector: (row) => 0,
+      selector: (row) =>
+        row?.dealerData?.claimsData?.numberOfClaims === undefined
+          ? 0
+          : row?.dealerData?.claimsData?.numberOfClaims,
       sortable: true,
     },
     {
       name: "Claims Values",
-      selector: (row) => `$${
-        row?.orders?.orderData === undefined
-          ? parseInt(0).toLocaleString(2)
-          :  formatOrderValue(row?.orders?.orderData) 
-      }`,
+      selector: (row) =>
+        `$${
+          row?.dealerData?.claimsData?.totalAmount === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.dealerData?.claimsData?.totalAmount)
+        }`,
       sortable: true,
     },
     // {
@@ -434,7 +439,7 @@ function DealerDetailList(props) {
             ) : (
               <DataTable
                 columns={columns}
-                draggableColumns={false} 
+                draggableColumns={false}
                 data={servicerDealersList}
                 highlightOnHover
                 sortIcon={
