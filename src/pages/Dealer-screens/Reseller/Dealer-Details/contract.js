@@ -34,6 +34,7 @@ function ContractList(props) {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [singleContract, setSingleContract] = useState([]);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
+  const [value, setValue] = useState(null);
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
@@ -59,7 +60,15 @@ function ContractList(props) {
     setTotalRecords(result?.totalCount);
     setLoading(false);
   };
+  const Eligible = [
+    { label: "Eligible", value: true },
+    { label: "Not Eligible", value: false },
+  ];
 
+  const handleSelectChange2 = (label, value) => {
+    formik.setFieldValue("eligibilty", value);
+    setValue(value);
+  };
   useEffect(() => {
     if (props.activeTab === "Contracts") {
       getContracts();
@@ -170,6 +179,7 @@ function ContractList(props) {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
+    setValue("");
     console.log(formik.values);
     setSelectedProduct("");
     // getContract();
@@ -358,19 +368,23 @@ function ContractList(props) {
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Eligibility
                                   </p>
-                                  {res?.eligibilty === false ?
-                                  <>
-                                  <CommonTooltip place="left" id={`tooltip-${index}`} content={res?.reason}>
-                                    <p className="text-[#333333] cursor-pointer text-base font-semibold">
-                                      
-                                      Not Eligible 
+                                  {res?.eligibilty === false ? (
+                                    <>
+                                      <CommonTooltip
+                                        place="left"
+                                        id={`tooltip-${index}`}
+                                        content={res?.reason}
+                                      >
+                                        <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                          Not Eligible
+                                        </p>
+                                      </CommonTooltip>
+                                    </>
+                                  ) : (
+                                    <p className="text-[#333333] text-base font-semibold">
+                                      Eligible
                                     </p>
-                                  </CommonTooltip> 
-                                  </>
-                                  : 
-                                   <p className="text-[#333333] text-base font-semibold">
-                                  Eligible
-                               </p> }
+                                  )}
                                 </div>
                               </div>
                             </Grid>
@@ -491,19 +505,23 @@ function ContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Eligibility
                       </p>
-                      {singleContract?.eligibilty === false ? 
-                           <>
-                             <CommonTooltip place="top" id="tooltip-default" content={singleContract?.reason}> 
+                      {singleContract?.eligibilty === false ? (
+                        <>
+                          <CommonTooltip
+                            place="top"
+                            id="tooltip-default"
+                            content={singleContract?.reason}
+                          >
                             <p className="text-[#333333] cursor-pointer text-base font-semibold">
-                            Not Eligible
+                              Not Eligible
                             </p>
                           </CommonTooltip>
-                           </>
-                          : 
-                          <p className="text-[#333333] text-base font-semibold">
-                             Eligible 
-                          </p>
-                           }
+                        </>
+                      ) : (
+                        <p className="text-[#333333] text-base font-semibold">
+                          Eligible
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -549,7 +567,7 @@ function ContractList(props) {
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
                         {
-                            singleContract?.order?.[0]?.productsArray?.[0]
+                          singleContract?.order?.[0]?.productsArray?.[0]
                             ?.priceBook?.[0].category.name
                         }
                       </p>
@@ -887,16 +905,18 @@ function ContractList(props) {
                             placeholder=""
                           />
                         </div> */}
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="customerName"
-                      className="!bg-white"
-                      label="Customer Name"
-                      {...formik.getFieldProps("customerName")}
-                      placeholder=""
-                    />
-                  </div>
+                  {!window.location.pathname.includes("/customerDetails") && (
+                    <div className="col-span-6">
+                      <Input
+                        type="text"
+                        name="customerName"
+                        className="!bg-white"
+                        label="Customer Name"
+                        {...formik.getFieldProps("customerName")}
+                        placeholder=""
+                      />
+                    </div>
+                  )}
                   <div className="col-span-6">
                     <Input
                       type="text"
@@ -942,6 +962,18 @@ function ContractList(props) {
                   className="!text-[14px] !bg-white"
                   selectedValue={selectedProduct}
                   onChange={handleSelectChange1}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  label="Eligibility"
+                  options={Eligible}
+                  color="text-Black-Russian opacity-50"
+                  value={value}
+                  // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                  className="!text-[14px] !bg-white"
+                  selectedValue={value}
+                  onChange={handleSelectChange2}
                 />
               </div>
               <div className="col-span-12">

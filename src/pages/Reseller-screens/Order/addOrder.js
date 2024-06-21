@@ -162,12 +162,7 @@ function ResellerAddOrder() {
     }
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
-  console.log(
-    loading,
-    loading1,
-    loading3,
-    "----------------------loading ----------------"
-  );
+
   const getCustomerList = async (data) => {
     let arr = [];
     try {
@@ -423,15 +418,12 @@ function ResellerAddOrder() {
             .required("Required")
             .integer("value should be an integer")
             .min(0, "value cannot be negative"),
-          // additionalNotes: Yup.string().required("Required"),
           QuantityPricing: Yup.array().when("priceType", {
             is: (value) => value === "Quantity Pricing",
             then: (schema) => {
               return schema
                 .of(
                   Yup.object().shape({
-                    // name: Yup.string().required("Required"),
-                    // quantity: Yup.number().required("Required"),
                     value: Yup.number(),
                     enterQuantity: Yup.number()
                       .typeError("Required")
@@ -586,6 +578,7 @@ function ResellerAddOrder() {
     formikStep3.setFieldValue(`productsArray[${index}].orderFile`, {});
   };
   const handleFileSelect = (event, index) => {
+    setLoading3(true);
     console.log(index);
     const file = event.target.files[0];
 
@@ -614,6 +607,9 @@ function ResellerAddOrder() {
         return newArray;
       });
     }
+    setTimeout(() => {
+      setLoading3(false);
+    }, 1000);
   };
 
   const checkFileError = async (file, index) => {
@@ -1729,6 +1725,7 @@ function ResellerAddOrder() {
                               .categoryId == ""
                           }
                           className="!bg-white"
+                          required={true}
                           options={productList[index]?.data}
                           value={formikStep3.values.productsArray[index].pName}
                           onBlur={formikStep3.handleBlur}
