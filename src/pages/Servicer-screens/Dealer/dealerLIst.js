@@ -24,7 +24,7 @@ import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import axios from "axios";
 
-const url = process.env.REACT_APP_API_KEY_LOCAL
+const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 function ServicerDealerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -136,15 +136,15 @@ function ServicerDealerList() {
     </div>
   );
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  }; 
+  };
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -158,42 +158,44 @@ function ServicerDealerList() {
   const columns = [
     {
       name: "ID",
-      selector: (row) => row?.dealerData.unique_key,
+      selector: (row) => row.dealerData.unique_key,
       sortable: true,
-      minWidth: "auto",
-      maxWidth: "70px",
+      minWidth: "auto", // Set a custom minimum width
+      maxWidth: "70px", // Set a custom maximum width
     },
     {
-      name: "Name",
-      selector: (row) => row?.dealerData.name,
+      name: "Dealer Name",
+      selector: (row) => row.dealerData.name,
       sortable: true,
     },
     {
       name: "Email",
-      selector: (row) => row?.email,
+      selector: (row) => row.dealerData.userData.email,
       sortable: true,
-      minWidth: "220px",
     },
     {
-      name: "Phone #",
-      selector: (row) => "+1 " + formatPhoneNumber(row?.phoneNumber),
+      name: "# Phone",
+      selector: (row) =>
+        "+1 " + formatPhoneNumber(row.dealerData.userData.phoneNumber),
       sortable: true,
     },
     {
       name: "# of Claim",
-      selector: (row) => row?.ordersData?.noOfOrders,
+      selector: (row) =>
+        row?.dealerData?.claimsData?.[0]?.numberOfClaims === undefined
+          ? 0
+          : row?.dealerData?.claimsData?.[0]?.numberOfClaims,
       sortable: true,
     },
     {
       name: "Claims Values",
-      selector: (row) => `$${
-        row?.ordersData?.orderAmount === undefined
+      selector: (row) =>
+        `$${
+          row?.dealerData?.claimsData?.[0]?.totalAmount === undefined
             ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.ordersData?.orderAmount ?? parseInt(0))
+            : formatOrderValue(row?.dealerData?.claimsData?.[0]?.totalAmount)
         }`,
       sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "170px", // Set a custom maximum width
     },
     // {
     //   name: "Status",
@@ -386,7 +388,9 @@ function ServicerDealerList() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable
+                draggableColumns={false}
+                columns={columns}
                 data={dealerList}
                 highlightOnHover
                 sortIcon={
