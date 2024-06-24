@@ -15,7 +15,7 @@ import { getAllSales } from "../../../../services/reportingServices";
 function All({ activeTab }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState({
-    startDate: new Date(new Date().setDate(new Date().getDate() - 14)), // 2 weeks ago
+    startDate: new Date(new Date().setDate(new Date().getDate() - 14)), 
     endDate: new Date(),
   });
   const [graphData, setGraphData] = useState([]);
@@ -49,7 +49,8 @@ function All({ activeTab }) {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     let flag = "daily";
-    if (diffDays > 30) {
+    console.log(diffDays < 30);
+    if (diffDays < 30) {
       flag = "daily";
     } else {
       flag = "weekly";
@@ -82,18 +83,31 @@ function All({ activeTab }) {
   const getDatasetAtEvent = async (data) => {
     try {
       const res = await getAllSales(data);
-      console.log(res.result.graphData);
-      setGraphData(res.result.graphData);
+
+      let filteredGraphData;
+      if (activeTab === "Amount") {
+        filteredGraphData = res.result.graphData.map((item) => {
+          const { total_orders, ...rest } = item;
+          return rest;
+        });
+      } else {
+        filteredGraphData = res.result.graphData.map((item) => {
+          return { weekStart: item.weekStart, total_orders: item.total_orders };
+        });
+      }
+      console.log(filteredGraphData);
+      setGraphData(filteredGraphData);
       setTotalFees(res.result.totalFees);
-      console.log(res);
     } catch (error) {
       console.error("Error fetching sales data:", error);
     }
   };
+
   const isValidDateRange = (startDate, endDate) => {
-    const oneYear = 365 * 24 * 60 * 60 * 1000; // milliseconds in a year
+    const oneYear = 365 * 24 * 60 * 60 * 1000; 
     return endDate - startDate <= oneYear;
   };
+
   const handleRangeChange = (ranges) => {
     const { startDate, endDate } = ranges.selection;
 

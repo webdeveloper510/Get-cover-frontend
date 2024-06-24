@@ -31,3 +31,4 @@ export const getAllSales = async (data) => {
     throw error;
   }
 };
+
