@@ -108,8 +108,10 @@ function ServicerUser() {
   };
   // console.log("toggleFlag", toggleFlag);
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
 
   const getUserList = async () => {
+    setLoading1(true);
     const result = await getUsersSevicerPortal({});
     console.log(result.result);
     setUserList(result.result);
@@ -127,6 +129,7 @@ function ServicerUser() {
       firstName: result?.message?.firstName,
     };
     localStorage.setItem("userDetails", JSON.stringify(local));
+    setLoading1(false);
   };
 
   const handleClickOutside = (event) => {
@@ -704,13 +707,14 @@ function ServicerUser() {
 
   return (
     <>
-      {loading && (
-        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl left-0 top-0  h-screen w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#fff" />
+      {loading ||
+        (loading1 && (
+          <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl left-0 top-0  h-screen w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#fff" />
+            </div>
           </div>
-        </div>
-      )}
+        ))}
       <div className="my-8">
         <Headbar />
         <div className="flex mt-2">

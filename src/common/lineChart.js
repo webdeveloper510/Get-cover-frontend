@@ -13,61 +13,61 @@ const LineChart = ({ graphData }) => {
 
   const datasets = [
     {
-      label: "Total Order Amount",
+      label: "Order Amount",
       data: graphData.map((data) => data.total_order_amount),
       fill: false,
       borderColor: "rgba(75,192,192,1)",
       borderWidth: 2,
     },
     {
-      label: "Total Orders",
+      label: " Orders",
       data: graphData.map((data) => data.total_orders),
       fill: false,
       borderColor: "rgba(54,162,235,1)",
       borderWidth: 2,
     },
     {
-      label: "Total Broker Fee",
+      label: "Broker Fee",
       data: graphData.map((data) => data.total_broker_fee),
       fill: false,
       borderColor: "rgba(255,99,132,1)",
       borderWidth: 2,
     },
     {
-      label: "Total Admin Fee",
+      label: "Admin Fee",
       data: graphData.map((data) => data.total_admin_fee),
       fill: false,
       borderColor: "rgba(255,206,86,1)",
       borderWidth: 2,
     },
     {
-      label: "Total Fronting Fee",
+      label: "Fronting Fee",
       data: graphData.map((data) => data.total_fronting_fee),
       fill: false,
       borderColor: "rgba(75,192,192,1)",
       borderWidth: 2,
     },
     {
-      label: "Total Reserve Future Fee",
+      label: "Reserve Future Fee",
       data: graphData.map((data) => data.total_reserve_future_fee),
       fill: false,
       borderColor: "rgba(153,102,255,1)",
       borderWidth: 2,
     },
     {
-      label: "Total Reinsurance Fee",
+      label: "Reinsurance Fee",
       data: graphData.map((data) => data.total_reinsurance_fee),
       fill: false,
       borderColor: "rgba(255,159,64,1)",
       borderWidth: 2,
     },
-    {
-      label: "Total Retail Price",
-      data: graphData.map((data) => data.total_retail_price),
-      fill: false,
-      borderColor: "rgba(255,99,71,1)",
-      borderWidth: 2,
-    },
+    // {
+    //   label: "Retail Price",
+    //   data: graphData.map((data) => data.total_retail_price),
+    //   fill: false,
+    //   borderColor: "rgba(255,99,71,1)",
+    //   borderWidth: 2,
+    // },
   ];
 
   const data = {

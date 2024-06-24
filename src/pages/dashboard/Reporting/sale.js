@@ -34,7 +34,7 @@ import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 function Sale() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("SaleMenu");
-    return storedTab ? storedTab : "All";
+    return storedTab ? storedTab : "Amount";
   };
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
@@ -46,16 +46,16 @@ function Sale() {
 
   const tabs = [
     {
-      id: "All",
-      label: "All",
+      id: "Amount",
+      label: "Amount",
       icons: all,
       className: "col-span-1",
       Activeicons: AllActive,
       content: <All />,
     },
     {
-      id: "Wholesale",
-      label: "Wholesale",
+      id: "Number",
+      label: "Number",
       className: "col-span-2",
       icons: wholesale,
       Activeicons: WholesaleActive,
@@ -108,7 +108,45 @@ function Sale() {
 
         <Grid className="!grid-cols-3">
           <div className="col-span-3">
-            <Grid className="mt-10 grid-cols-9 !gap-0">
+            <Grid className="mt-5 grid-cols-7 !gap-0">
+              <div className="col-span-2 self-center pl-3">
+                <SelectBoxWithSearch
+                  label=""
+                  name="state"
+                  placeholder="Dealer Name"
+                  className="!bg-white"
+                  options={state}
+                  pName={"Enter Dealer Name"}
+                />
+              </div>
+              <div className="col-span-2 self-center pl-3">
+                <SelectBoxWithSearch
+                  label=""
+                  name="state"
+                  placeholder="Category Name"
+                  className="!bg-white"
+                  options={state}
+                  pName={"Enter Category"}
+                />
+              </div>
+              <div className="col-span-2 self-center pl-3">
+                <SelectBoxWithSearch
+                  label=""
+                  name="state"
+                  placeholder="Product SKU"
+                  className1="!pt-1 !pb-1 !text-[13px]"
+                  className="!text-[14px] !bg-White-Smoke"
+                  options={state}
+                  pName={"Enter Product SKU"}
+                />
+              </div>
+              <div className="col-span-1 self-center mx-auto pl-3">
+                <Button>Submit</Button>
+              </div>
+            </Grid>
+          </div>
+          <div className="col-span-3">
+            <Grid className=" grid-cols-9 !gap-0">
               <div className="col-span-3 relative">
                 <div
                   className={` rounded-[30px] px-2 py-3 border-[1px] flex border-Light-Grey`}
@@ -140,36 +178,6 @@ function Sale() {
                     </Button>
                   ))}
                 </div>
-              </div>
-              <div className="col-span-2 self-center pl-3">
-                <SelectBoxWithSearch
-                  label=""
-                  name="state"
-                  placeholder="Dealer Name"
-                  className="!bg-white"
-                  options={state}
-                  pName={"Enter Dealer Name"}
-                />
-              </div>
-              <div className="col-span-2 self-center pl-3">
-                <SelectBoxWithSearch
-                  label=""
-                  name="state"
-                  placeholder="Category Name"
-                  className="!bg-white"
-                  options={state}
-                  pName={"Enter Category"}
-                />
-              </div>
-              <div className="col-span-2 self-center pl-3">
-                <SelectBoxWithSearch
-                  label=""
-                  name="state"
-                  placeholder="Product SKU"
-                  className="!bg-white"
-                  options={state}
-                  pName={"Enter Product SKU"}
-                />
               </div>
             </Grid>
 

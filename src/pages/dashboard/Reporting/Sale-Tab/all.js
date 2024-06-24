@@ -107,7 +107,7 @@ function All() {
               <div className="col-span-3 self-center">
                 <p className="text-xl font-bold">
                   Total sales
-                  <span className="text-sm font-normal"> Monthly </span>
+                  {/* <span className="text-sm font-normal"> Monthly </span> */}
                 </p>
                 {/* <p className="text-sm">
                   {`Selected Range: ${selectedRange.startDate.toLocaleDateString()} - ${selectedRange.endDate.toLocaleDateString()}`}
