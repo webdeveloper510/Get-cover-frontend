@@ -1,14 +1,15 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 
-const LineChart = ({ graphData }) => {
-  console.log(graphData);
+const LineChart = ({ graphData, flag }) => {
   if (!graphData || graphData.length === 0) {
     return <div>No data available for the selected range.</div>;
   }
 
   const labels = graphData.map((data) =>
-    new Date(data.weekStart).toLocaleDateString()
+    flag === "daily"
+      ? new Date(data.date).toLocaleDateString()
+      : new Date(data.weekStart).toLocaleDateString()
   );
 
   const datasets = [
@@ -70,18 +71,14 @@ const LineChart = ({ graphData }) => {
 
   const options = {
     scales: {
-      x: [
-        {
-          type: "category",
-        },
-      ],
-      y: [
-        {
-          type: "linear",
-          position: "left",
-          beginAtZero: true,
-        },
-      ],
+      x: {
+        type: "category",
+      },
+      y: {
+        type: "linear",
+        position: "left",
+        beginAtZero: true,
+      },
     },
     plugins: {
       legend: {
