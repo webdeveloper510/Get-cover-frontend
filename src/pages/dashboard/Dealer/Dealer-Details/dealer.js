@@ -242,18 +242,18 @@ function DealerDetailList(props) {
     {
       name: "# of Claim",
       selector: (row) =>
-        row?.dealerData?.claimsData?.numberOfClaims === undefined
+        row?.dealerData?.claimsData?.[0]?.numberOfClaims === undefined
           ? 0
-          : row?.dealerData?.claimsData?.numberOfClaims,
+          : row?.dealerData?.claimsData?.[0]?.numberOfClaims,
       sortable: true,
     },
     {
       name: "Claims Values",
       selector: (row) =>
         `$${
-          row?.dealerData?.claimsData?.totalAmount === undefined
+          row?.dealerData?.claimsData?.[0]?.totalAmount === undefined
             ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.dealerData?.claimsData?.totalAmount)
+            : formatOrderValue(row?.dealerData?.claimsData?.[0]?.totalAmount)
         }`,
       sortable: true,
     },
