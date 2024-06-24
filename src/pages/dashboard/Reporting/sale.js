@@ -1,45 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Grid from "../../../common/grid";
 import Button from "../../../common/button";
-
-// Media Import
 import AllActive from "../../../assets/images/Reporting/icons/Activeall.svg";
 import all from "../../../assets/images/Reporting/icons/all.svg";
 import WholesaleActive from "../../../assets/images/Reporting/icons/activeWholesale.svg";
 import wholesale from "../../../assets/images/Reporting/icons/Wholesale.svg";
-import BreakdownActive from "../../../assets/images/Reporting/icons/activeAdministration.svg";
-import breakdown from "../../../assets/images/Reporting/icons/Administration.svg";
-import FrontingActive from "../../../assets/images/Reporting/icons/activeFrontingFees.svg";
-import fronting from "../../../assets/images/Reporting/icons/frontingFees.svg";
-import insuranceActive from "../../../assets/images/Reporting/icons/activeRe-insurance.svg";
-import insurance from "../../../assets/images/Reporting/icons/Re-insurance.svg";
-import ReservesActive from "../../../assets/images/Reporting/icons/activeReservesFutureClaims.svg";
-import reserves from "../../../assets/images/Reporting/icons/ReservesFutureClaims.svg";
-import BrokerActive from "../../../assets/images/Reporting/icons/activeBroker.svg";
-import broker from "../../../assets/images/Reporting/icons/Broker.svg";
-import Select from "../../../common/select";
+import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import { cityData } from "../../../stateCityJson";
 import All from "./Sale-Tab/all";
-import WholeSale from "./Sale-Tab/wholeSale";
-import Breakdown from "./Sale-Tab/breakdown";
-import Reserves from "./Sale-Tab/reserves";
-import ReInsurance from "./Sale-Tab/reInsurance";
-import Fronting from "./Sale-Tab/fronting";
-import Broker from "./Sale-Tab/broker";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
-import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
+
 function Sale() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("SaleMenu");
     return storedTab ? storedTab : "Amount";
   };
-  const id = useParams();
+
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const state = cityData;
   const containerRef = useRef(null);
+
   useEffect(() => {
     localStorage.setItem("SaleMenu", activeTab);
   }, [activeTab]);
@@ -49,17 +30,13 @@ function Sale() {
       id: "Amount",
       label: "Amount",
       icons: all,
-      className: "col-span-1",
       Activeicons: AllActive,
-      content: <All />,
     },
     {
       id: "Number",
       label: "Number",
-      className: "col-span-2",
       icons: wholesale,
       Activeicons: WholesaleActive,
-      content: <WholeSale />,
     },
   ];
 
@@ -67,28 +44,10 @@ function Sale() {
     setActiveTab(tabId);
   };
 
-  const responsive = {
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 4,
-      slidesToSlide: 3, // optional, default to 1.
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 4,
-      slidesToSlide: 3, // optional, default to 1.
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-      slidesToSlide: 1, // optional, default to 1.
-    },
-  };
   return (
     <>
       <div className="pb-8 mt-2 px-3 relative overflow-x-hidden bg-grayf9">
         <Headbar />
-
         <div className="flex">
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
@@ -96,16 +55,14 @@ function Sale() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Reporting / </Link>{" "}
+                <Link to={"/"}>Reporting / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-                {" "}
                 Sale ({activeTab})
               </li>
             </ul>
           </div>
         </div>
-
         <Grid className="!grid-cols-3">
           <div className="col-span-3">
             <Grid className="mt-5 grid-cols-7 !gap-0">
@@ -149,12 +106,12 @@ function Sale() {
             <Grid className=" grid-cols-9 !gap-0">
               <div className="col-span-3 relative">
                 <div
-                  className={` rounded-[30px] px-2 py-3 border-[1px] flex border-Light-Grey`}
+                  className={`rounded-[30px] px-2 py-3 border-[1px] flex border-Light-Grey`}
                   ref={containerRef}
-                  // onTransitionEnd={handleTransitionEnd}
                 >
                   {tabs.map((tab) => (
                     <Button
+                      key={tab.id}
                       className={`flex self-center w-[190px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
                         activeTab === tab.id
                           ? "!bg-[#2A2A2A] !text-white"
@@ -162,7 +119,6 @@ function Sale() {
                       }`}
                       onClick={() => handleTabClick(tab.id)}
                     >
-                      {" "}
                       <img
                         src={activeTab === tab.id ? tab.Activeicons : tab.icons}
                         className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
@@ -173,22 +129,14 @@ function Sale() {
                           activeTab === tab.id ? "text-white" : "text-black"
                         }`}
                       >
-                        {tab.label}{" "}
+                        {tab.label}
                       </span>
                     </Button>
                   ))}
                 </div>
               </div>
             </Grid>
-
-            {tabs.map((tab) => (
-              <div
-                key={tab.id}
-                className={`${activeTab !== tab.id ? "hidden" : ""}`}
-              >
-                {tab.content}
-              </div>
-            ))}
+            <All activeTab={activeTab} />
           </div>
         </Grid>
       </div>
