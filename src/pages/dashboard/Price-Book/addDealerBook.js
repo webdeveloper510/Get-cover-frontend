@@ -10,10 +10,14 @@ import Loader from "../../../assets/images/Loader.gif";
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Button from "../../../common/button";
 import Modal from "../../../common/model";
-import Wholesale from "../../../assets/images/icons/wholePrice.svg";
-import product from "../../../assets/images/icons/productName.svg";
-import category1 from "../../../assets/images/icons/productCat.svg";
-import dealer from "../../../assets/images/icons/dealerName.svg";
+import Wholesale from "../../../assets/images/priceBook/Wholesale.svg";
+import product from "../../../assets/images/priceBook/ProductN.svg";
+import productS from "../../../assets/images/priceBook/ProductS.svg";
+import Description from "../../../assets/images/priceBook/Description.svg";
+import Coverage from "../../../assets/images/priceBook/CoverageT.svg";
+import priceType from "../../../assets/images/priceBook/PriceT.svg";
+import category1 from "../../../assets/images/priceBook/ProductC.svg";
+import dealer from "../../../assets/images/priceBook/Dealer.png";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import {
   addDealerPriceBook,
@@ -54,7 +58,6 @@ function AddDealerBook() {
     }
     dealerList();
   }, []);
-
 
   const dealerDetailById = async (id) => {
     setLoader(true);
@@ -102,7 +105,7 @@ function AddDealerBook() {
       console.error("Error fetching dealer list:", error);
     }
   };
- 
+
   useEffect(() => {
     let intervalId;
     if (isModalOpen && timer > 0) {
@@ -234,16 +237,16 @@ function AddDealerBook() {
       priceBook: Yup.string().trim().required("Required"),
       dealerId: Yup.string().trim().required("Required"),
       categoryId: Yup.string().trim().required("Required"),
-        pName: Yup.string().trim().required("Required"),
+      pName: Yup.string().trim().required("Required"),
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
-       setLoader(true);
-   
+      setLoader(true);
+
       values.brokerFee = (values.retailPrice - values.wholesalePrice).toFixed(
         2
       );
-       delete values.pName;
+      delete values.pName;
       const result = id
         ? await editDealerPriceBook(id, values)
         : await addDealerPriceBook(values);
@@ -328,12 +331,8 @@ function AddDealerBook() {
               <Grid className="mx-8 mx-auto ">
                 <div className="col-span-4 self-center ">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img
-                        src={Wholesale}
-                        className="w-6 h-6"
-                        alt="Wholesale"
-                      />
+                    <div className="self-center mr-4">
+                      <img src={Wholesale} alt="Wholesale" />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-base font-medium leading-5	">
@@ -347,8 +346,8 @@ function AddDealerBook() {
                 </div>
                 <div className="col-span-4 ">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={category1} className="w-6 h-6" alt="category" />
+                    <div className="self-center mr-4">
+                      <img src={category1} alt="category" />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-base font-medium leading-5	">
@@ -362,8 +361,8 @@ function AddDealerBook() {
                 </div>
                 <div className="col-span-4">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={dealer} className="w-6 h-6" alt="dealer" />
+                    <div className="self-center mr-4">
+                      <img src={dealer} alt="dealer" />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-base font-medium leading-5	">
@@ -377,8 +376,8 @@ function AddDealerBook() {
                 </div>
                 <div className="col-span-4 ">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={product} className="w-6 h-6" alt="product" />
+                    <div className="self-center mr-4">
+                      <img src={product} alt="product" />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-lg font-medium leading-5	">
@@ -392,8 +391,8 @@ function AddDealerBook() {
                 </div>
                 <div className="col-span-4 ">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={product} className="w-6 h-6" alt="product" />
+                    <div className="self-center mr-4">
+                      <img src={productS} alt="product" />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-lg font-medium leading-5	">
@@ -405,11 +404,11 @@ function AddDealerBook() {
                     </div>
                   </div>
                 </div>
-               
+
                 <div className="col-span-4">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={product} className="w-6 h-6" alt="product" />
+                    <div className="self-center mr-4">
+                      <img src={priceType} alt="product" />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-lg font-medium leading-5	">
@@ -423,8 +422,8 @@ function AddDealerBook() {
                 </div>
                 <div className="col-span-4">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={product} className="w-6 h-6" alt="product" />
+                    <div className="self-center mr-4">
+                      <img src={Coverage} alt="product" />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-lg font-medium leading-5	">
@@ -438,8 +437,8 @@ function AddDealerBook() {
                 </div>
                 <div className="col-span-8">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={product} className="w-6 h-6" alt="product" />
+                    <div className="self-center mr-4">
+                      <img src={Description} alt="product" />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-lg font-medium leading-5	">
