@@ -398,6 +398,8 @@ function DealerAddOrder() {
         checkNumberProducts: product.checkNumberProducts || "",
         orderFile: product.orderFile || "",
         fileValue: "",
+        priceBookDetails: product?.priceBookDetail || {},
+        dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
       })),
     });
 
@@ -549,6 +551,8 @@ function DealerAddOrder() {
           checkNumberProducts: "",
           fileValue: "",
           orderFile: {},
+          priceBookDetails: {},
+          dealerPriceBookDetails: {},
         },
       ],
     },
@@ -621,7 +625,19 @@ function DealerAddOrder() {
           .filter((value) => value.data.length > 0)[0].data[0];
         arr1.push(value1 ? value1.label : "");
       });
-      console.log("categoryList", arr);
+      productNameOptions.forEach((item, index) => {
+        item.data.forEach((subItem) => {
+          console.log(subItem, index);
+          formikStep3.setFieldValue(
+            `productsArray[${index}].priceBookDetails`,
+            subItem.priceBookDetails
+          );
+          formikStep3.setFieldValue(
+            `productsArray[${index}].dealerPriceBookDetails`,
+            subItem.dealerPriceBookDetails
+          );
+        });
+      });
       setCategoryName(arr);
       setPriceBookName(arr1);
       setTimeout(() => {
@@ -1309,6 +1325,8 @@ function DealerAddOrder() {
             return newOptions;
           });
         };
+        const priceBookDetails = result?.result?.priceBookDetail;
+        const dealerPriceBookDetails = result?.result?.dealerPriceBookDetail;
 
         const priceBooksData = result.result?.priceBooks.map((item) => ({
           label: item.name,
@@ -1323,6 +1341,8 @@ function DealerAddOrder() {
           pName: item.pName,
           rangeStart: item?.rangeStart?.toFixed(2),
           rangeEnd: item?.rangeEnd?.toFixed(2),
+          priceBookDetails: priceBookDetails,
+          dealerPriceBookDetails: dealerPriceBookDetails,
         }));
 
         // setCategoryList(

@@ -595,6 +595,8 @@ function AddOrder() {
             checkNumberProducts: product.checkNumberProducts || "",
             orderFile: product.orderFile || "",
             fileValue: "",
+            priceBookDetails: product?.priceBookDetail || {},
+            dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
           })),
         });
 
@@ -766,6 +768,8 @@ function AddOrder() {
           checkNumberProducts: "",
           orderFile: {},
           fileValue: "",
+          priceBookDetails: {},
+          dealerPriceBookDetails: {},
         },
       ],
     },
@@ -820,7 +824,7 @@ function AddOrder() {
       checkMultipleEmailCheck(values);
       let arr = [];
       let arr1 = [];
-
+      console.log(productNameOptions);
       values.productsArray.map((data, index) => {
         const value = categoryList
           .map((val) => ({
@@ -837,6 +841,20 @@ function AddOrder() {
           }))
           .filter((value) => value.data.length > 0)[0].data[0];
         arr1.push(value1 ? value1.label : "");
+      });
+
+      productNameOptions.forEach((item, index) => {
+        item.data.forEach((subItem) => {
+          console.log(subItem, index);
+          formikStep3.setFieldValue(
+            `productsArray[${index}].priceBookDetails`,
+            subItem.priceBookDetails
+          );
+          formikStep3.setFieldValue(
+            `productsArray[${index}].dealerPriceBookDetails`,
+            subItem.dealerPriceBookDetails
+          );
+        });
       });
 
       setCategoryName(arr);
@@ -1263,7 +1281,6 @@ function AddOrder() {
           `productsArray[${productIndex}].noOfProducts`,
           ""
         );
-        console.log(data);
         // Update QuantityPricing
         const updatedQuantityPricing = updateQuantityPricing(
           data.quantityPriceDetail
@@ -1309,6 +1326,7 @@ function AddOrder() {
           `productsArray[${productIndex}].pName`,
           data?.pName
         );
+        console.log(data);
       }
     };
     if (name.includes("categoryId")) {
@@ -1555,10 +1573,12 @@ function AddOrder() {
 
       const result = await getCategoryAndPriceBooks(value, data);
       if (data.priceBookId !== "" && data.priceCatId === "") {
+        console.log("result.result", result.result);
         formikStep3.setFieldValue(
           `productsArray[${index}].categoryId`,
           result.result.selectedCategory._id
         );
+
         getCategoryList(
           formik.values?.dealerId,
           {
@@ -1581,6 +1601,9 @@ function AddOrder() {
           });
         };
 
+        const priceBookDetails = result?.result?.priceBookDetail;
+        const dealerPriceBookDetails = result?.result?.dealerPriceBookDetail;
+        
         const priceBooksData = result.result?.priceBooks.map((item) => ({
           label: item.name,
           value: item._id,
@@ -1594,6 +1617,8 @@ function AddOrder() {
           pName: item.pName,
           rangeStart: item?.rangeStart?.toFixed(2),
           rangeEnd: item?.rangeEnd?.toFixed(2),
+          priceBookDetails: priceBookDetails,
+          dealerPriceBookDetails: dealerPriceBookDetails,
         }));
 
         // setCategoryList(
