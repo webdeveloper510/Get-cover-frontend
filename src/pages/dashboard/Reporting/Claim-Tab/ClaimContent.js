@@ -69,58 +69,85 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
       alert("Date range cannot exceed one year.");
     }
   };
+  const handleRangeChange = (ranges) => {
+    const { startDate, endDate } = ranges.selection;
 
+    if (isValidDateRange(startDate, endDate)) {
+      setSelectedRange({
+        startDate: startDate > new Date() ? new Date() : startDate,
+        endDate: endDate > new Date() ? new Date() : endDate,
+      });
+    } else {
+      alert("Date range cannot exceed one year.");
+    }
+  };
   return (
     <>
-      <div className="col-span-4 self-center pl-3">
-        <Button
-          className="!bg-white border-[1px] text-[#2A2A2A] font-normal py-2 w-full border-Light-Grey"
-          onClick={openModal}
-        >
-          {`${selectedRange.startDate.toISOString().split("T")[0]} to ${
-            selectedRange.endDate.toISOString().split("T")[0]
-          }`}
-        </Button>
-        <Modal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          title="Date Range Filter"
-          className="rounded-[20px]"
-          mainClassName="rounded-[20px]"
-          crossIcon={Cross}
-        >
-          <SelectedDateRangeComponent
-            selectedRange={selectedRange}
-            handleDateChange={handleDateChange}
-          />
-          <Button
-            className="border-[#2A2A2A] !text-[#2A2A2A] border-[1px] mt-8"
-            onClick={handleApply}
-          >
-            Apply
-          </Button>
-        </Modal>
-      </div>
-      <Grid className="!gap-4 mt-4">
-        <div className="col-span-5 bg-white rounded-[24px] p-3 border-[1px] border-Light-Grey">
-          <Grid className="!gap-4">
-            <div className="col-span-5 mb-2">
-              <h3 className="text-base font-semibold">
-                {activeTab === "Amount"
-                  ? "Claims Amount Data"
-                  : "Claims Count Data"}
-              </h3>
-            </div>
-            <div className="col-span-5">
-              <LineChart
-                data={graphData}
-                xAxisKey="date"
-                lineKey={activeTab === "Amount" ? "amount" : "count"}
-              />
-            </div>
-          </Grid>
+      <Grid className="mt-3">
+        <div className="col-span-12">
+          <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+            <Grid className="!gap-4">
+              <div className="col-span-5 mb-2">
+                <h3 className="text-base font-semibold">
+                  {activeTab === "Amount"
+                    ? "Claims Amount Data"
+                    : "Claims Count Data"}
+                </h3>
+              </div>
+              <div className="col-span-7 justify-end flex">
+                <p className="pr-4 self-center">
+                  {`${selectedRange.startDate.toISOString().split("T")[0]} to ${
+                    selectedRange.endDate.toISOString().split("T")[0]
+                  }`}{" "}
+                </p>
+                <Button
+                  className="!bg-white border-[1px] text-[#2A2A2A] font-normal py-2 border-Light-Grey"
+                  onClick={openModal}
+                >
+                  Date Filter
+                </Button>
+              </div>
+              <div className="col-span-12">
+                <LineChart
+                  data={graphData}
+                  xAxisKey="date"
+                  lineKey={activeTab === "Amount" ? "amount" : "count"}
+                />
+              </div>
+            </Grid>
+          </div>
         </div>
       </Grid>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title="Date Range Filter"
+        className="rounded-[20px] w-[72vw]"
+        mainClassName="rounded-[20px] w-[72vw]"
+        crossIcon={Cross}
+      >
+        <Button
+          onClick={closeModal}
+          className="absolute right-[-13px] z-10 top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <SelectedDateRangeComponent
+          selectedRange={selectedRange}
+          onRangeChange={handleRangeChange}
+          onApply={handleApply}
+        />
+        <div className="flex justify-end mb-4">
+          <Button onClick={closeModal} className="mr-3">
+            Cancel
+          </Button>
+          <Button onClick={handleApply}>Apply</Button>
+        </div>
+      </Modal>
     </>
   );
 }

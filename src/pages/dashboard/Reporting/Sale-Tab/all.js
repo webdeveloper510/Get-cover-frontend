@@ -123,7 +123,7 @@ function All({ activeTab }) {
         endDate: endDate > new Date() ? new Date() : endDate,
       });
     } else {
-      alert("Selected date range should not exceed 365 days.");
+      alert("Date range cannot exceed one year.");
     }
   };
 
