@@ -11,8 +11,8 @@ import wholesale from "../../../assets/images/AciveCount.svg";
 import WholesaleActive from "../../../assets/images/Count.svg";
 
 import { cityData } from "../../../stateCityJson";
-import All from "./Claim-Tab/all";
-import PaidClaim from "./Claim-Tab/paidClaim";
+import All from "./Claim-Tab/amount";
+import PaidClaim from "./Claim-Tab/count";
 
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import { MultiSelect } from "react-multi-select-component";
@@ -24,7 +24,7 @@ function Claims() {
   };
   const [selected, setSelected] = useState([]);
   const id = useParams();
-  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); 
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const state = cityData;
 
   useEffect(() => {

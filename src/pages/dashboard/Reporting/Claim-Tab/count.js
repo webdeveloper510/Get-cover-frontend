@@ -15,8 +15,7 @@ import BarChart from "../../../../common/barChart";
 import LineChart from "../../../../common/lineChart";
 import Modal from "../../../../common/model";
 import SelectedDateRangeComponent from "../../../../common/dateFilter";
-
-function All() {
+function PaidClaim() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [graphData, setGraphData] = useState([]);
   const [selectedRange, setSelectedRange] = useState({
@@ -88,6 +87,7 @@ function All() {
       alert("Selected date range should not exceed 365 days.");
     }
   };
+
   return (
     <>
       <Grid className="mt-3">
@@ -95,7 +95,7 @@ function All() {
           <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
             <Grid className="!gap-1">
               <div className="col-span-6 self-center">
-                <p className="text-xl font-bold">Total Claims</p>
+                <p className="text-xl font-bold">Total Claims Count</p>
               </div>
               <div className="col-span-6 self-center flex ml-auto">
                 <p className="text-sm self-center mr-5">
@@ -141,4 +141,4 @@ function All() {
   );
 }
 
-export default All;
+export default PaidClaim;
