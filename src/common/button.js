@@ -1,10 +1,11 @@
-import React from 'react';
+import React from "react";
 
-const Button = ({ onClick, type, children, className }) => {
+const Button = ({ onClick, type, children, className, disabled }) => {
   return (
     <button
       onClick={onClick}
-      type={type || 'button'}
+      type={type || "button"}
+      disabled={disabled}
       className={`bg-light-black text-white font-semibold py-2 px-4 rounded ${className}`}
     >
       {children}

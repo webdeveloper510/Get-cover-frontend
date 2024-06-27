@@ -37,6 +37,7 @@ function ContractList(props) {
   console.log(props);
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
+  const [disable, setDisable] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -63,11 +64,13 @@ function ContractList(props) {
   };
 
   const getContractDetails = async (data) => {
+    setDisable(true);
     setLoading(true);
     const result = await getContractValues(data);
     setContractDetails(result.result);
     setLoading(false);
     console.log("by ID -------------------", result);
+    setDisable(false);
   };
 
   // useEffect(() => {
@@ -94,6 +97,7 @@ function ContractList(props) {
   };
 
   const getContract = async (orderId = null, page = 1, rowsPerPage = 10) => {
+    setDisable(true);
     setLoading(true);
     setPageValue(page);
     let data = {
@@ -124,6 +128,7 @@ function ContractList(props) {
       console.error("Error fetching contracts:", error);
     } finally {
       setLoading(false);
+      setDisable(false);
     }
   };
 
@@ -307,7 +312,7 @@ function ContractList(props) {
                     )}
 
                     <div className="col-span-1 self-center flex justify-center">
-                      <Button type="submit" className="!p-0">
+                      <Button type="submit" disabled={disable} className="!p-0">
                         <img
                           src={Search}
                           className="cursor-pointer "
@@ -316,6 +321,7 @@ function ContractList(props) {
                       </Button>
                       <Button
                         type="submit"
+                        disabled={disable}
                         className="!bg-transparent !p-0"
                         onClick={() => {
                           handleFilterIconClick();
@@ -335,6 +341,7 @@ function ContractList(props) {
                     >
                       <Button
                         className="!text-[13px]"
+                        disabled={disable}
                         onClick={() => openDisapproved()}
                       >
                         Advance Search
@@ -465,19 +472,23 @@ function ContractList(props) {
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Eligibility
                                   </p>
-                                  {res?.eligibilty === false ?
-                                  <>
-                                  <CommonTooltip place="left" id={`tooltip-${index}`} content={res?.reason}>
-                                    <p className="text-[#333333] cursor-pointer text-base font-semibold">
-                                      
-                                      Not Eligible 
+                                  {res?.eligibilty === false ? (
+                                    <>
+                                      <CommonTooltip
+                                        place="left"
+                                        id={`tooltip-${index}`}
+                                        content={res?.reason}
+                                      >
+                                        <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                          Not Eligible
+                                        </p>
+                                      </CommonTooltip>
+                                    </>
+                                  ) : (
+                                    <p className="text-[#333333] text-base font-semibold">
+                                      Eligible
                                     </p>
-                                  </CommonTooltip> 
-                                  </>
-                                  : 
-                                   <p className="text-[#333333] text-base font-semibold">
-                                  Eligible
-                               </p> }
+                                  )}
                                 </div>
                               </div>
                             </Grid>
@@ -494,13 +505,16 @@ function ContractList(props) {
                 <p>No records found</p>
               </div>
             ) : (
-              <CustomPagination
-                totalRecords={totalRecords}
-                page={pageValue}
-                rowsPerPageOptions={[10, 20, 50, 100]}
-                onPageChange={handlePageChange}
-                setRecordsPerPage={setRecordsPerPage}
-              />
+              <>
+                <CustomPagination
+                  totalRecords={totalRecords}
+                  page={pageValue}
+                  className={loading ? "opacity-0	" : "opacity-100"}
+                  rowsPerPageOptions={[10, 20, 50, 100]}
+                  onPageChange={handlePageChange}
+                  setRecordsPerPage={setRecordsPerPage}
+                />
+              </>
             )}
           </div>
           {/* )} */}
@@ -607,7 +621,8 @@ function ContractList(props) {
                       ) : (
                         <>
                           {props.flag === "reseller" ||
-                          location.pathname.includes("/reseller") || location.pathname.includes("/reseller/") ? (
+                          location.pathname.includes("/reseller") ||
+                          location.pathname.includes("/reseller/") ? (
                             <>
                               {/* Hide dealerName and resellerName for reseller */}
                               <div className="col-span-6">
@@ -1048,19 +1063,23 @@ function ContractList(props) {
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Eligibility
                           </p>
-                          {contractDetails?.eligibilty === false ? 
-                           <>
-                             <CommonTooltip place="top" id="tooltip-default" content={contractDetails?.reason}> 
-                            <p className="text-[#333333] cursor-pointer text-base font-semibold">
-                            Not Eligible
+                          {contractDetails?.eligibilty === false ? (
+                            <>
+                              <CommonTooltip
+                                place="top"
+                                id="tooltip-default"
+                                content={contractDetails?.reason}
+                              >
+                                <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                  Not Eligible
+                                </p>
+                              </CommonTooltip>
+                            </>
+                          ) : (
+                            <p className="text-[#333333] text-base font-semibold">
+                              Eligible
                             </p>
-                          </CommonTooltip>
-                           </>
-                          : 
-                          <p className="text-[#333333] text-base font-semibold">
-                             Eligible 
-                          </p>
-                           }
+                          )}
                         </div>
                       </div>
                       <div className="col-span-1 border border-Light-Grey">

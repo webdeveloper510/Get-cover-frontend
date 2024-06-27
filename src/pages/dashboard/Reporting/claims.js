@@ -5,10 +5,10 @@ import Grid from "../../../common/grid";
 import Button from "../../../common/button";
 
 // Media Import
-import AllActive from "../../../assets/images/Reporting/icons/Activeall.svg";
-import all from "../../../assets/images/Reporting/icons/all.svg";
-import WholesaleActive from "../../../assets/images/Reporting/icons/activeWholesale.svg";
-import wholesale from "../../../assets/images/Reporting/icons/Wholesale.svg";
+import all from "../../../assets/images/AciveAmount.svg";
+import AllActive from "../../../assets/images/Amount.svg";
+import wholesale from "../../../assets/images/AciveCount.svg";
+import WholesaleActive from "../../../assets/images/Count.svg";
 import BreakdownActive from "../../../assets/images/Reporting/icons/activeAdministration.svg";
 import breakdown from "../../../assets/images/Reporting/icons/Administration.svg";
 import Select from "../../../common/select";
@@ -17,12 +17,14 @@ import All from "./Claim-Tab/all";
 import PaidClaim from "./Claim-Tab/paidClaim";
 import UnpaidClaim from "./Claim-Tab/unpaidClaim";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
+import { MultiSelect } from "react-multi-select-component";
 
 function Claims() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("ClaimMenu");
-    return storedTab ? storedTab : "All";
+    return storedTab ? storedTab : "Amount";
   };
+  const [selected, setSelected] = useState([]);
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const state = cityData;
@@ -30,34 +32,34 @@ function Claims() {
   useEffect(() => {
     localStorage.setItem("ClaimMenu", activeTab);
   }, [activeTab]);
-
-
-
+  const options = [
+    { label: "Grapes ", value: "grapes" },
+    { label: "Mango ", value: "mango" },
+    { label: "Strawberry ", value: "strawberry" },
+    { label: "Watermelon ", value: "watermelon" },
+    { label: "Pear ", value: "pear" },
+    { label: "Apple ", value: "apple" },
+    { label: "Tangerine ", value: "tangerine" },
+    { label: "Pineapple ", value: "pineapple" },
+    { label: "Peach ", value: "peach" },
+  ];
   const tabs = [
     {
-      id: "All",
-      label: "All",
+      id: "Amount",
+      label: "Amount",
       icons: all,
-      className:'col-span-3',
+      className: "col-span-6",
       Activeicons: AllActive,
       content: <All />,
     },
     {
-      id: "Paid Claims",
-      label: "Paid Claims",
-      className:'col-span-4',
+      id: "Count",
+      label: "Count",
+      className: "col-span-6",
       icons: wholesale,
       Activeicons: WholesaleActive,
       content: <PaidClaim />,
     },
-    {
-      id: "Unpaid Claims",
-      label: "Unpaid Claims",
-      icons: breakdown,
-      className:'col-span-5',
-      Activeicons: BreakdownActive,
-      content: <UnpaidClaim />,
-    }
   ];
 
   const handleTabClick = (tabId) => {
@@ -78,7 +80,7 @@ function Claims() {
         <div className="flex">
           <div className="pl-3 mb-4">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
-             Reporting
+              Reporting
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
@@ -93,10 +95,59 @@ function Claims() {
             </ul>
           </div>
         </div>
-
+        <Grid className="mt-5 grid-cols-9 !gap-0">
+          <div className="col-span-2 self-center pl-3">
+            <SelectBoxWithSearch
+              label=""
+              name="state"
+              placeholder="Dealer Name"
+              className="!bg-white"
+              className1="filter"
+              options={state}
+              pName={"Enter Dealer Name"}
+            />
+          </div>
+          <div className="col-span-2 self-center pl-3">
+            <SelectBoxWithSearch
+              label=""
+              name="state"
+              placeholder="Servicer Name"
+              className="!bg-white "
+              className1="filter"
+              options={state}
+              pName={"Enter Servicer Name"}
+            />
+          </div>
+          <div className="col-span-2 self-center pl-3">
+            <SelectBoxWithSearch
+              label=""
+              name="state"
+              placeholder="Category Name"
+              className="!bg-white "
+              className1="filter"
+              options={state}
+              pName={"Enter Category Name"}
+            />
+          </div>
+          <div className="col-span-2 self-center pl-3">
+            <MultiSelect
+              options={options}
+              value={selected}
+              onChange={setSelected}
+              labelledBy="Select"
+              overrideStrings={{
+                selectSomeItems: "Select Product SKU",
+              }}
+              className="SearchSelect css-b62m3t-container p-[0.425rem]"
+            />
+          </div>
+          <div className="col-span-1 self-center mx-auto pl-3">
+            <Button>Filter</Button>
+          </div>
+        </Grid>
         <Grid className="!grid-cols-3">
           <div className="col-span-3">
-            <Grid className="mt-10">
+            <Grid className="mt-2">
               <div className="col-span-5">
                 <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!gap-1">
@@ -130,30 +181,7 @@ function Claims() {
                   </Grid>
                 </div>
               </div>
-              <div
-                className="col-span-1 self-center"></div>
-              <div
-                className="col-span-3 self-center">
-                <SelectBoxWithSearch
-                 label=""
-                 name="state"
-                 placeholder=""
-                 className="!bg-white"
-                 options={state}
-                 pName={'Enter Dealer Name'}
-                  />
-              </div>
-              <div
-                className="col-span-3 self-center">
-                <SelectBoxWithSearch
-                 label=""
-                 name="state"
-                 placeholder=""
-                 className="!bg-white"
-                 options={state}
-                 pName={'Enter Reseller Name'}
-                  />
-              </div>
+              <div className="col-span-1 self-center"></div>
             </Grid>
 
             {tabs.map((tab) => (
@@ -171,5 +199,4 @@ function Claims() {
   );
 }
 
-
-export default Claims
+export default Claims;

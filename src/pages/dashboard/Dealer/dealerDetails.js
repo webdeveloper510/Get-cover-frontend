@@ -890,7 +890,7 @@ function DealerDetails() {
                   <p className="text-base text-white font-semibold leading-5">
                     {dealerDetails?.dealerData?.street},{" "}
                     {dealerDetails?.dealerData?.city},{" "}
-                    {dealerDetails?.dealerData?.state}{" "}
+                    {dealerDetails?.dealerData?.state},{" "}
                     {dealerDetails?.dealerData?.zip}, USA
                   </p>
                 </div>

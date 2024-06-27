@@ -16,7 +16,8 @@ import terms from "../../../assets/images/icons/terms.svg";
 import dealer from "../../../assets/images/icons/dealerName.svg";
 import coverageIcon from "../../../assets/images/icons/servicerNumber.svg";
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
-
+import product from "../../../assets/images/priceBook/ProductN.svg";
+import productS from "../../../assets/images/priceBook/ProductS.svg";
 import {
   addCompanyPricBook,
   editCompanyList,
@@ -42,20 +43,18 @@ function AddCompanyPriceBook() {
   const navigate = useNavigate();
   console.log(id);
 
-
   const pricetype = [
     { label: "Regular Pricing", value: "Regular Pricing" },
     { label: "Flat Pricing", value: "Flat Pricing" },
     { label: "Quantity Pricing", value: "Quantity Pricing" },
   ];
 
-
   const formik = useFormik({
     initialValues: {
       priceCatId: "",
       name: "",
       description: "",
-      pName:"",
+      pName: "",
       coverageType: "",
       term: "",
       frontingFee: "",
@@ -66,15 +65,18 @@ function AddCompanyPriceBook() {
       priceType: "Regular Pricing",
       rangeStart: "",
       rangeEnd: "",
-      quantityPriceDetail: [{
-        name: "",
-        quantity: ""
-      }
-      ]
+      quantityPriceDetail: [
+        {
+          name: "",
+          quantity: "",
+        },
+      ],
     },
     validationSchema: Yup.object({
       priceCatId: Yup.string().required("Required"),
-      name: Yup.string().required("Required").transform((originalValue) => originalValue.trim()),
+      name: Yup.string()
+        .required("Required")
+        .transform((originalValue) => originalValue.trim()),
       description: Yup.string().required("Required"),
       term: Yup.number().required("Required"),
       frontingFee: Yup.number()
@@ -104,88 +106,106 @@ function AddCompanyPriceBook() {
         value !== "Flat Pricing"
           ? Yup.number().notRequired()
           : Yup.number()
-            .typeError("Required")
-            .required("Required")
-            .nullable()
-            .min(0, "Range Start cannot be negative"),
-            rangeEnd: value !== "Flat Pricing"
-            ? Yup.number().notRequired()
-            : Yup.number()
+              .typeError("Required")
+              .required("Required")
+              .nullable()
+              .min(0, "Range Start cannot be negative"),
+      rangeEnd:
+        value !== "Flat Pricing"
+          ? Yup.number().notRequired()
+          : Yup.number()
               .typeError("Required")
               .required("Required")
               .nullable()
               .min(0, "Range End cannot be negative")
-              .test('endRange', 'End Range should be greater than start range', function (value) {
-                const { rangeStart } = this.parent;
-                return value > rangeStart;
-              }),
+              .test(
+                "endRange",
+                "End Range should be greater than start range",
+                function (value) {
+                  const { rangeStart } = this.parent;
+                  return value > rangeStart;
+                }
+              ),
 
       quantityPriceDetail:
         value !== "Quantity Pricing"
           ? Yup.array().notRequired()
           : Yup.array().of(
-            Yup.object().shape({
-              name: Yup.string().required("Required").transform((originalValue) => originalValue.trim()),
-              quantity: Yup.number()
-                .typeError("Required")
-                .integer("Quantity must be an integer")
-                .required("Required")
-                .nullable()
-                .min(1, "quantity cannot be less then One"),
-            })
-          )
-
+              Yup.object().shape({
+                name: Yup.string()
+                  .required("Required")
+                  .transform((originalValue) => originalValue.trim()),
+                quantity: Yup.number()
+                  .typeError("Required")
+                  .integer("Quantity must be an integer")
+                  .required("Required")
+                  .nullable()
+                  .min(1, "quantity cannot be less then One"),
+              })
+            ),
     }),
 
     onSubmit: async (values) => {
-      if(value !='Flat Pricing'){
-        delete values.rangeStart
-        delete values.rangeEnd
-        }
+      if (value != "Flat Pricing") {
+        delete values.rangeStart;
+        delete values.rangeEnd;
+      }
       let result;
-      let checkErrors = false
+      let checkErrors = false;
       try {
-        console.log(values, value)
+        console.log(values, value);
         setLoader(true);
         if (id) {
           if (value == "Quantity Pricing") {
             formik.values.quantityPriceDetail.forEach((item, index) => {
               console.log(item);
               try {
-                Yup.object().shape({
-                  name: Yup.string().required("Required").transform((originalValue) => originalValue.replace(/\s+/g, ' ').trim()),
-                  quantity: Yup.number()
-                    .typeError("Required")
-                    .required("Required")
-                    .test('is-positive', 'Required', (value) => value != null && value >= 1),
-                }).validateSync(item, { abortEarly: true });
+                Yup.object()
+                  .shape({
+                    name: Yup.string()
+                      .required("Required")
+                      .transform((originalValue) =>
+                        originalValue.replace(/\s+/g, " ").trim()
+                      ),
+                    quantity: Yup.number()
+                      .typeError("Required")
+                      .required("Required")
+                      .test(
+                        "is-positive",
+                        "Required",
+                        (value) => value != null && value >= 1
+                      ),
+                  })
+                  .validateSync(item, { abortEarly: true });
               } catch (error) {
                 console.log(error.errors);
                 checkErrors = true;
 
                 if (item.name === "") {
-                  formik.setFieldError(`quantityPriceDetail[${index}].name`, "Required");
+                  formik.setFieldError(
+                    `quantityPriceDetail[${index}].name`,
+                    "Required"
+                  );
                 }
                 if (item.quantity == null || item.quantity < 1) {
-                  formik.setFieldError(`quantityPriceDetail[${index}].quantity`, "Quantity must be greater than or equal to 1");
+                  formik.setFieldError(
+                    `quantityPriceDetail[${index}].quantity`,
+                    "Quantity must be greater than or equal to 1"
+                  );
                   console.log(error.errors);
                 }
               }
             });
-
           }
 
-          console.log(checkErrors)
+          console.log(checkErrors);
 
           if (checkErrors) {
-            return false
-
-          }
-          else {
-            console.log('here')
+            return false;
+          } else {
+            console.log("here");
             result = await editCompanyList(id, values);
           }
-
         } else {
           result = await addCompanyPricBook(values);
         }
@@ -213,11 +233,11 @@ function AddCompanyPriceBook() {
   const handleAddQuantity = () => {
     const quantityPriceDetail = {
       name: "",
-      quantity: ""
+      quantity: "",
     };
     formik.setFieldValue("quantityPriceDetail", [
       ...formik.values.quantityPriceDetail,
-      quantityPriceDetail
+      quantityPriceDetail,
     ]);
   };
   const handleDeleteQuantity = (index) => {
@@ -269,17 +289,15 @@ function AddCompanyPriceBook() {
           const result = await getCompanyPriceBookById(id);
           setDetailsById(result.result);
           if (isMounted) {
-            console.log(result.result.rangeEnd)
+            console.log(result.result.rangeEnd);
             if (result.result.startRange !== "") {
               formik.setValues({
-                startRange: result.result.startRange
-              })
-            }
-            else {
-
+                startRange: result.result.startRange,
+              });
+            } else {
             }
             setDetailsById(result.result);
-            setValue(result.result.priceType)
+            setValue(result.result.priceType);
             formik.setValues({
               priceCatId: result.result.category._id,
               name: result.result.name,
@@ -291,11 +309,11 @@ function AddCompanyPriceBook() {
               reserveFutureFee: result?.result?.reserveFutureFee?.toFixed(2),
               adminFee: result?.result?.adminFee?.toFixed(2),
               status: result.result.status,
-              coverageType:result.result.coverageType,
+              coverageType: result.result.coverageType,
               priceType: result.result.priceType,
               rangeStart: result?.result?.rangeStart?.toFixed(2),
               rangeEnd: result?.result?.rangeEnd?.toFixed(2),
-              quantityPriceDetail: result?.result?.quantityPriceDetail
+              quantityPriceDetail: result?.result?.quantityPriceDetail,
             });
 
             setLoader(false);
@@ -348,7 +366,6 @@ function AddCompanyPriceBook() {
   };
 
   const getCategoryListActiveData11 = async () => {
-    
     try {
       const res = await getCategoryListActiveData();
       console.log(res.result);
@@ -371,7 +388,7 @@ function AddCompanyPriceBook() {
     setIsModalOpen(false);
   };
   const handleSelectChange = (name, selectedValue) => {
-    console.log(name)
+    console.log(name);
     if (name === "priceCatId") {
       const data = categoryList.find((value) => {
         if (value.status == false) {
@@ -382,8 +399,8 @@ function AddCompanyPriceBook() {
       setinActive(data.status);
     }
     if (name === "priceType") {
-      console.log(selectedValue)
-      setValue(selectedValue)
+      console.log(selectedValue);
+      setValue(selectedValue);
     }
     formik.setFieldValue(name, selectedValue);
   };
@@ -458,10 +475,10 @@ function AddCompanyPriceBook() {
           {type == "Edit" && (
             <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
               <Grid className="mx-8 mx-auto !grid-cols-12">
-              <div className="col-span-3 border-r border-[#4e4e4e]">
+                <div className="col-span-3 border-r border-[#4e4e4e]">
                   <div className="flex justify-center">
-                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={dealer} className="w-6 h-6" alt="dealer" />
+                    <div className="self-center mr-4">
+                      <img src={productS} alt="dealer" />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-base font-medium leading-5	">
@@ -475,8 +492,8 @@ function AddCompanyPriceBook() {
                 </div>
                 <div className="col-span-3 border-r border-[#4e4e4e]">
                   <div className="flex justify-center">
-                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={dealer} className="w-6 h-6" alt="dealer" />
+                    <div className="self-center mr-4">
+                      <img src={product} alt="dealer" />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-base font-medium leading-5	">
@@ -510,7 +527,7 @@ function AddCompanyPriceBook() {
                     </div>
                     <div className="self-center">
                       <p className="text-white text-base font-medium leading-5">
-                      Coverage Type
+                        Coverage Type
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
                         {detailsById?.coverageType}
@@ -533,8 +550,9 @@ function AddCompanyPriceBook() {
                 </p>
               )}
               <Grid
-                className={`${type == "Edit" ? "!grid-cols-2" : "!grid-cols-4"
-                  } `}
+                className={`${
+                  type == "Edit" ? "!grid-cols-2" : "!grid-cols-4"
+                } `}
               >
                 <div className="col-span-1">
                   <Select
@@ -557,9 +575,7 @@ function AddCompanyPriceBook() {
                       ).value || ""
                     }
                     onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.priceType && formik.errors.priceType
-                    }
+                    error={formik.touched.priceType && formik.errors.priceType}
                   />
                   {formik.touched.priceType && formik.errors.priceType && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
@@ -599,50 +615,48 @@ function AddCompanyPriceBook() {
                   <></>
                 ) : (
                   <>
-                  <div className="col-span-1">
-                    <Input
-                      type="text"
-                      name="name"
-                      className="!bg-white"
-                      label="Product SKU "
-                      placeholder=""
-                      required={true}
-                      maxLength={50}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.name}
-                      disabled={type === "Edit"}
-                    />
-                    {formik.touched.name && formik.errors.name && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.name}
-                      </div>
-                    )}
-                  </div>
-                  <div className="col-span-1">
-                  <Input
-                    type="text"
-                    name="pName"
-                    className="!bg-white"
-                    label="Product Name "
-                    placeholder=""
-                    required={true}
-                    maxLength={50}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.pName}
-                    disabled={type === "Edit"}
-                  />
-                  {formik.touched.pName && formik.errors.pName && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.pName}
+                    <div className="col-span-1">
+                      <Input
+                        type="text"
+                        name="name"
+                        className="!bg-white"
+                        label="Product SKU "
+                        placeholder=""
+                        required={true}
+                        maxLength={50}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.name}
+                        disabled={type === "Edit"}
+                      />
+                      {formik.touched.name && formik.errors.name && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.name}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                </>
+                    <div className="col-span-1">
+                      <Input
+                        type="text"
+                        name="pName"
+                        className="!bg-white"
+                        label="Product Name "
+                        placeholder=""
+                        required={true}
+                        maxLength={50}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.pName}
+                        disabled={type === "Edit"}
+                      />
+                      {formik.touched.pName && formik.errors.pName && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.pName}
+                        </div>
+                      )}
+                    </div>
+                  </>
                 )}
-                  
-                
               </Grid>
               <Grid className="!grid-cols-4 mt-5">
                 <div className="col-span-1">
@@ -775,35 +789,40 @@ function AddCompanyPriceBook() {
                   )}
                 </div>
                 {type == "Edit" ? (
-                          <></>) : 
-                        <div className="col-span-1">
-                        <Select
-                            label="Coverage Type "
-                            name="coverageType"
-                            placeholder=""
-                            onChange={handleSelectChange}
-                            required={true}
-                            className="!bg-white"
-                            options={coverage}
-                            value={
-                              (
-                                coverage.find(
-                                  (option) => option.value === formik.values.coverageType
-                                ) || {}
-                              ).value || ""
-                            }
-                            onBlur={formik.handleBlur}
-                            error={
-                              formik.touched.coverageType && formik.errors.coverageType
-                            }
-                          />
+                  <></>
+                ) : (
+                  <div className="col-span-1">
+                    <Select
+                      label="Coverage Type "
+                      name="coverageType"
+                      placeholder=""
+                      onChange={handleSelectChange}
+                      required={true}
+                      className="!bg-white"
+                      options={coverage}
+                      value={
+                        (
+                          coverage.find(
+                            (option) =>
+                              option.value === formik.values.coverageType
+                          ) || {}
+                        ).value || ""
+                      }
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.coverageType &&
+                        formik.errors.coverageType
+                      }
+                    />
 
-                          {formik.touched.coverageType && formik.errors.coverageType && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.coverageType}
-                            </div>
-                          )}
-                        </div> }
+                    {formik.touched.coverageType &&
+                      formik.errors.coverageType && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.coverageType}
+                        </div>
+                      )}
+                  </div>
+                )}
                 {type == "Edit" ? (
                   <></>
                 ) : (
@@ -930,7 +949,10 @@ function AddCompanyPriceBook() {
                   <>
                     {formik.values.quantityPriceDetail.map((dealer, index) => {
                       return (
-                        <div key={index} className="bg-grayf9 p-4 relative mt-8 rounded-xl">
+                        <div
+                          key={index}
+                          className="bg-grayf9 p-4 relative mt-8 rounded-xl"
+                        >
                           <div className="bg-white rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
                             {index == 0 ? (
                               <Button
@@ -966,7 +988,10 @@ function AddCompanyPriceBook() {
                                   label="Name"
                                   required={true}
                                   placeholder=""
-                                  value={formik.values.quantityPriceDetail?.[index]?.name || ''}
+                                  value={
+                                    formik.values.quantityPriceDetail?.[index]
+                                      ?.name || ""
+                                  }
                                   onChange={formik.handleChange}
                                   onBlur={formik.handleBlur}
                                   onWheelCapture={(e) => e.preventDefault()}
@@ -974,13 +999,20 @@ function AddCompanyPriceBook() {
                                     formik.touched.quantityPriceDetail &&
                                     formik.touched.quantityPriceDetail[index] &&
                                     formik.errors.quantityPriceDetail &&
-                                    formik.errors.quantityPriceDetail[index]?.name
+                                    formik.errors.quantityPriceDetail[index]
+                                      ?.name
                                   }
                                 />
-                                {formik.touched.quantityPriceDetail && formik.touched.quantityPriceDetail[index] &&
-                                  formik.errors.quantityPriceDetail && formik.errors.quantityPriceDetail[index]?.name && (
+                                {formik.touched.quantityPriceDetail &&
+                                  formik.touched.quantityPriceDetail[index] &&
+                                  formik.errors.quantityPriceDetail &&
+                                  formik.errors.quantityPriceDetail[index]
+                                    ?.name && (
                                     <div className="text-red-500 text-sm pl-2 pt-2">
-                                      {formik.errors.quantityPriceDetail[index]?.name}
+                                      {
+                                        formik.errors.quantityPriceDetail[index]
+                                          ?.name
+                                      }
                                     </div>
                                   )}
                               </div>
@@ -995,7 +1027,10 @@ function AddCompanyPriceBook() {
                                   maxDecimalPlaces={2}
                                   required={true}
                                   placeholder=""
-                                  value={formik.values.quantityPriceDetail?.[index]?.quantity || ''}
+                                  value={
+                                    formik.values.quantityPriceDetail?.[index]
+                                      ?.quantity || ""
+                                  }
                                   onChange={formik.handleChange}
                                   onBlur={formik.handleBlur}
                                   onWheelCapture={(e) => e.preventDefault()}
@@ -1003,29 +1038,40 @@ function AddCompanyPriceBook() {
                                     formik.touched.quantityPriceDetail &&
                                     formik.touched.quantityPriceDetail[index] &&
                                     formik.errors.quantityPriceDetail &&
-                                    formik.errors.quantityPriceDetail[index]?.quantity
+                                    formik.errors.quantityPriceDetail[index]
+                                      ?.quantity
                                   }
                                 />
-                                {formik.touched.quantityPriceDetail && formik.touched.quantityPriceDetail[index] &&
-                                  formik.errors.quantityPriceDetail && formik.errors.quantityPriceDetail[index]?.quantity && (
+                                {formik.touched.quantityPriceDetail &&
+                                  formik.touched.quantityPriceDetail[index] &&
+                                  formik.errors.quantityPriceDetail &&
+                                  formik.errors.quantityPriceDetail[index]
+                                    ?.quantity && (
                                     <div className="text-red-500 text-sm pl-2 pt-2">
-                                      {formik.errors.quantityPriceDetail[index]?.quantity}
+                                      {
+                                        formik.errors.quantityPriceDetail[index]
+                                          ?.quantity
+                                      }
                                     </div>
                                   )}
                               </div>
                             </Grid>
                           </div>
                         </div>
-                      )
+                      );
                     })}
                   </>
                 )}
               </Grid>
               <p className="mt-8 font-semibold text-lg">
-                Total Amount: <span> ${
-          totalAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(totalAmount ?? parseInt(0))}</span>
+                Total Amount:{" "}
+                <span>
+                  {" "}
+                  $
+                  {totalAmount === undefined
+                    ? parseInt(0).toLocaleString(2)
+                    : formatOrderValue(totalAmount ?? parseInt(0))}
+                </span>
               </p>
               <Button
                 type="submit"
